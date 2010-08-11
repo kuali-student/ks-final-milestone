@@ -5,26 +5,35 @@ import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.lum.program.client.configuration.base.Configuration;
+import org.kuali.student.lum.program.client.configuration.base.ConfigurationManager;
+import org.kuali.student.lum.program.client.properties.ProgramProperties;
+
+import java.util.ArrayList;
 
 /**
  * @author Igor
  */
-public abstract class AbstractProgramConfigurer extends Configurer {
+public abstract class AbstractProgramConfigurer<T extends Configurer> extends Configurer {
 
-    public abstract void configure(ProgramController programViewController);
+    private ProgramController viewController;
 
-    @Override
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
-        return super.addField(section, fieldKey, messageKey);
+    protected ConfigurationManager<T> programSectionConfigManager;
+
+    public void configure(ProgramController viewController) {
+        this.viewController = viewController;
+        configureProgramSections();
     }
 
-    @Override
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
-        return super.addField(section, fieldKey, messageKey, widget);
-    }
-
-    @Override
-    public FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey) {
-        return super.addReadOnlyField(section, fieldKey, messageKey);
+    /**
+     * Configures menu for Program Sections and Sections itself
+     */
+    private void configureProgramSections() {
+        String programSectionLabel = ProgramProperties.get().program_menu_sections();
+        viewController.addMenu(programSectionLabel);
+        ArrayList<Configuration<T>> configurations = programSectionConfigManager.getConfigurations();
+        for (Configuration<T> configuration : configurations) {
+            viewController.addMenuItem(programSectionLabel, configuration.getView());
+        }
     }
 }

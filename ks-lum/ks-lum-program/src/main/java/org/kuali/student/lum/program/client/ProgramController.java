@@ -10,11 +10,12 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
+import org.kuali.student.lum.program.client.view.ProgramViewConfigurer;
 
 /**
  * @author Igor
  */
-public class ProgramController  extends MenuSectionController {
+public class ProgramController extends MenuSectionController {
 
     protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
@@ -23,6 +24,8 @@ public class ProgramController  extends MenuSectionController {
     protected final DataModel programModel = new DataModel();
 
     protected WorkQueue modelRequestQueue;
+
+    protected AbstractProgramConfigurer configurer;
 
     public ProgramController() {
         super("");
@@ -76,7 +79,7 @@ public class ProgramController  extends MenuSectionController {
     }
 
     @Override
-    public void beforeShow(final Callback<Boolean> onReadyCallback){
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
         init(new Callback<Boolean>() {
 
             @Override
@@ -128,7 +131,6 @@ public class ProgramController  extends MenuSectionController {
     }
 
     protected void init(DataModelDefinition modelDefinition) {
-        AbstractProgramConfigurer configurer = GWT.create(ProgramConfigurer.class);
         configurer.setModelDefinition(modelDefinition);
         if (null == programModel.getRoot()) {
             programModel.setRoot(new Data());
@@ -141,10 +143,9 @@ public class ProgramController  extends MenuSectionController {
     @Override
     public void setViewContext(ViewContext viewContext) {
         super.setViewContext(viewContext);
-        if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
+        if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
             viewContext.setPermissionType(PermissionType.OPEN);
-        }
-        else{
+        } else {
             viewContext.setPermissionType(PermissionType.INITIATE);
         }
     }

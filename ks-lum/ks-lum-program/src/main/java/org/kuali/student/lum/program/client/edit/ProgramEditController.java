@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client;
+package org.kuali.student.lum.program.client.edit;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,6 +8,9 @@ import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.lum.program.client.AbstractCallback;
+import org.kuali.student.lum.program.client.ProgramController;
+import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -20,6 +23,7 @@ public class ProgramEditController extends ProgramController {
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
 
     public ProgramEditController() {
+        configurer = GWT.create(ProgramEditConfigurer.class);
         initHandlers();
     }
 

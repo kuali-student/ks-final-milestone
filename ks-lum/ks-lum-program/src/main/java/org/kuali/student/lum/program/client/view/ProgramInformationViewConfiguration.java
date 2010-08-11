@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.configuration;
+package org.kuali.student.lum.program.client.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
@@ -7,7 +7,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.lum.program.client.ProgramConfigurer;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.configuration.base.AbstractConfiguration;
@@ -16,20 +15,13 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class ProgramInformationConfiguration extends AbstractConfiguration<ProgramConfigurer> {
+public class ProgramInformationViewConfiguration extends AbstractConfiguration<ProgramViewConfigurer> {
 
     private VerticalSectionView showViewSection;
 
-    private VerticalSectionView editView;
-
-    public ProgramInformationConfiguration() {
-    }
-
     @Override
     public View getView() {
-        if (showViewSection == null) {
-            createShowView();
-        }
+        createShowView();
         return showViewSection;
     }
 

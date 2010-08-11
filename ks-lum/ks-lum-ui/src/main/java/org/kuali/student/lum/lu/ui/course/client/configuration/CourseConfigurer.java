@@ -823,19 +823,19 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     // TODO - when DOL is pushed farther down into LOBuilder,
     // revert these 5 methods to returning void again.
-    protected FieldDescriptor addField(Section section, String fieldKey) {
+    public FieldDescriptor addField(Section section, String fieldKey) {
         return addField(section, fieldKey, null, null, null);
     }
-    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
         return addField(section, fieldKey, messageKey, null, null);
     }
-    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
         return addField(section, fieldKey, messageKey, widget, null);
     }
-    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
         return addField(section, fieldKey, messageKey, null, parentPath);
     }
-    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
+    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
 

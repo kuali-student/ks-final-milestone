@@ -10,7 +10,8 @@ import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
-import org.kuali.student.lum.program.client.ProgramViewController;
+import org.kuali.student.lum.program.client.edit.ProgramEditController;
+import org.kuali.student.lum.program.client.view.ProgramViewController;
 
 public class CurriculumHomeController extends LayoutController {
 
@@ -95,7 +96,7 @@ public class CurriculumHomeController extends LayoutController {
 
     private LayoutController getProgramEditController() {
         if (programEditController == null) {
-            programEditController = new ProgramViewController();
+            programEditController = new ProgramEditController();
         }
         return programEditController;
     }
