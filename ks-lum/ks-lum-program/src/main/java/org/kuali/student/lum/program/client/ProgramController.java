@@ -24,16 +24,24 @@ public class ProgramController extends MenuSectionController {
 
     protected AbstractProgramConfigurer configurer;
 
+    /**
+     * Constructor.
+     *
+     * @param programModel
+     */
     public ProgramController(DataModel programModel) {
         super("");
         this.programModel = programModel;
         setViewContext(new ViewContext());
-        initialize();
+        initializeModel();
     }
 
-    private void initialize() {
-        super.setDefaultModelId(ProgramConstants.PROGRAM_MODEL_ID);
-        super.registerModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelProvider<DataModel>() {
+    /**
+     * Initialized model of the controller.
+     */
+    private void initializeModel() {
+        setDefaultModelId(ProgramConstants.PROGRAM_MODEL_ID);
+        registerModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelProvider<DataModel>() {
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
                 if (programModel.getRoot() == null || programModel.getRoot().size() == 0) {
@@ -45,12 +53,18 @@ public class ProgramController extends MenuSectionController {
         });
     }
 
+    /**
+     * Loads data model from the server.
+     *
+     * @param callback we have to invoke this callback when model is loaded or failed.
+     */
     private void loadModel(final ModelRequestCallback<DataModel> callback) {
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);
+                callback.onRequestFail(caught);
             }
 
             @Override
@@ -62,6 +76,11 @@ public class ProgramController extends MenuSectionController {
         });
     }
 
+    /**
+     * Got invoked by framework before showing the view of the controller.
+     *
+     * @param onReadyCallback
+     */
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
         if (!initialized) {
@@ -75,6 +94,11 @@ public class ProgramController extends MenuSectionController {
         }
     }
 
+    /**
+     * Loads metadata from the server.
+     *
+     * @param onReadyCallback
+     */
     protected void loadMetadata(final Callback<Boolean> onReadyCallback) {
         String idType = null;
         String viewContextId = null;
@@ -105,9 +129,6 @@ public class ProgramController extends MenuSectionController {
 
     protected void configureView() {
         configurer.setModelDefinition(programModel.getDefinition());
-        if (null == programModel.getRoot()) {
-            programModel.setRoot(new Data());
-        }
         configurer.configure(this);
         this.setContentTitle("Programs");
         initialized = true;
@@ -123,6 +144,11 @@ public class ProgramController extends MenuSectionController {
         }
     }
 
+    /**
+     * Called when metadata is loaded.
+     *
+     * @param onReadyCallback
+     */
     private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
         configureView();
         initialized = true;
