@@ -43,10 +43,10 @@
   <property name="value" value="regex:[A-Z]*"/>
  </bean>
  <bean id="lineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.,\-;:&#34;'&amp;%$#@!\t ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;/\-;:&#34;'&amp;%$#@!\t ]*"/>
  </bean>
  <bean id="multiLineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.,\-;:&#34;'&amp;%$#@!\t\n\r ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;/\-;:&#34;'&amp;%$#@!\t\n\r ]*"/>
  </bean>
 
  <bean id="customEditorConfigurer"
