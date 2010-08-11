@@ -118,7 +118,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     public static final String WORKFLOW_DOC_TYPE					= "CluCreditCourseProposal";
     public static final String PROPOSAL_ID_PATH                     = "/proposalId";
-    public static final String PROPOSAL_TITLE_PATH                  = "/courseTitle";
+    public static final String PROPOSAL_TITLE_PATH                  = "/proposalTitle";
     public static final String COURSE_TITLE_PATH                    = "/courseTitle";
 
     //Override paths for course and proposal so they are root
@@ -459,7 +459,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 		VerticalSection studentRegistrationOptionsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY), WITH_DIVIDER);
 
 		addField(studentRegistrationOptionsSection, COURSE + "/" + PASS_FAIL, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY)));
-        addField(studentRegistrationOptionsSection, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
+        addField(studentRegistrationOptionsSection, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_AUDIT_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
 		
         return studentRegistrationOptionsSection;
 	}
@@ -1010,7 +1010,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             sb.append(model.get("transcriptTitle"));
         } else {
             sb.append("New Course: ");
-            sb.append(model.get(getProposalTitlePath()));
+            sb.append(model.get(getCourseTitlePath()));
         }
 
         return sb.toString();
