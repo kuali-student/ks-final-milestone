@@ -427,7 +427,6 @@
         <constructor-arg value="${ks.lum.orchestration.dictionaryContextLocations}"/>
         <constructor-arg>
             <list>
-                <ref bean="luClient"/>
                 <ref bean="commentClient"/>
             </list>
         </constructor-arg>

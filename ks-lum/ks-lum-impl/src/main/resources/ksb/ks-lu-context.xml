@@ -143,8 +143,9 @@
     <bean id="luServiceImpl" class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionary"/>
-        <property name="validator" ref="serviceValidator"/>
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validator" ref="pocServiceValidator"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
