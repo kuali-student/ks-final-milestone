@@ -143,38 +143,42 @@ public class ProgramAssemblerUtils {
             Method method;
             Class[] parms;
             Object[] value;
-            if (clu.getOfficialIdentifier().getShortName() != null) {
-                parms = new Class[]{String.class};
-                method = o.getClass().getMethod("setShortTitle", parms);
-                value = new Object[]{clu.getOfficialIdentifier().getShortName()};
-                method.invoke(o, value);
-            }
-            if (clu.getOfficialIdentifier().getLongName() != null) {
-                parms =  new Class[]{String.class};
-                method = o.getClass().getMethod("setLongTitle", parms);
-                value = new Object[]{clu.getOfficialIdentifier().getLongName()};
-                method.invoke(o, value);
-            }
-            if (clu.getOfficialIdentifier().getCode() != null) {
-                parms =  new Class[]{String.class};
-                method = o.getClass().getMethod("setCode", parms);
-                value = new Object[]{clu.getOfficialIdentifier().getCode()};
-                method.invoke(o, value);
-
-            }
-
-            for (CluIdentifierInfo cluIdInfo : clu.getAlternateIdentifiers()) {
-                String idInfoType = cluIdInfo.getType();
-                if (ProgramAssemblerConstants.TRANSCRIPT.equals(idInfoType)) {
-                    parms =  new Class[]{String.class};
-                    method = o.getClass().getMethod("setTranscriptTitle", parms);
-                    value = new Object[]{cluIdInfo.getShortName()};
+            if (clu.getOfficialIdentifier() != null) {
+                  if (clu.getOfficialIdentifier().getShortName() != null) {
+                    parms = new Class[]{String.class};
+                    method = o.getClass().getMethod("setShortTitle", parms);
+                    value = new Object[]{clu.getOfficialIdentifier().getShortName()};
                     method.invoke(o, value);
-                } else if (ProgramAssemblerConstants.DIPLOMA.equals(idInfoType)) {
+                }
+                if (clu.getOfficialIdentifier().getLongName() != null) {
                     parms =  new Class[]{String.class};
-                    method = o.getClass().getMethod("setDiplomaTitle", parms);
-                    value = new Object[]{cluIdInfo.getShortName()};
+                    method = o.getClass().getMethod("setLongTitle", parms);
+                    value = new Object[]{clu.getOfficialIdentifier().getLongName()};
                     method.invoke(o, value);
+                }
+                if (clu.getOfficialIdentifier().getCode() != null) {
+                    parms =  new Class[]{String.class};
+                    method = o.getClass().getMethod("setCode", parms);
+                    value = new Object[]{clu.getOfficialIdentifier().getCode()};
+                    method.invoke(o, value);
+                }
+            }
+
+
+            if (clu.getAlternateIdentifiers() != null) {
+                for (CluIdentifierInfo cluIdInfo : clu.getAlternateIdentifiers()) {
+                    String idInfoType = cluIdInfo.getType();
+                    if (ProgramAssemblerConstants.TRANSCRIPT.equals(idInfoType)) {
+                        parms =  new Class[]{String.class};
+                        method = o.getClass().getMethod("setTranscriptTitle", parms);
+                        value = new Object[]{cluIdInfo.getShortName()};
+                        method.invoke(o, value);
+                    } else if (ProgramAssemblerConstants.DIPLOMA.equals(idInfoType)) {
+                        parms =  new Class[]{String.class};
+                        method = o.getClass().getMethod("setDiplomaTitle", parms);
+                        value = new Object[]{cluIdInfo.getShortName()};
+                        method.invoke(o, value);
+                    }
                 }
             }
         }
@@ -290,7 +294,7 @@ public class ProgramAssemblerUtils {
         return resultOptions;
     }
 
-    public Object assembleDates(CluInfo clu, Object o) throws AssemblyException {
+    public Object assembleAtps(CluInfo clu, Object o) throws AssemblyException {
 
         Method method;
         Class[] parms;
@@ -321,12 +325,12 @@ public class ProgramAssemblerUtils {
                 value = new Object[]{clu.getNextReviewPeriod()};
                 method.invoke(o, value);
             }
-            if (clu.getEffectiveDate() != null) {
-                parms = new Class[]{Date.class};
-                method = o.getClass().getMethod("setEffectiveDate", parms);
-                value = new Object[]{clu.getEffectiveDate()};
-                method.invoke(o, value);
-            }
+//            if (clu.getEffectiveDate() != null) {
+//                parms = new Class[]{Date.class};
+//                method = o.getClass().getMethod("setEffectiveDate", parms);
+//                value = new Object[]{clu.getEffectiveDate()};
+//                method.invoke(o, value);
+//            }
         }
         catch (IllegalAccessException   e){
             throw new AssemblyException("Error assembling program dates", e);
@@ -425,7 +429,8 @@ public class ProgramAssemblerUtils {
         method.invoke(o, value);
     }
 
-        private RichTextInfo assembleCatalogDescr(String cluId) throws AssemblyException {
+    //TODO assembleCatalogDescr
+    private RichTextInfo assembleCatalogDescr(String cluId) throws AssemblyException {
 //        RichTextInfo returnInfo = new RichTextInfo();
 //        try {
 //            List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(cluId);

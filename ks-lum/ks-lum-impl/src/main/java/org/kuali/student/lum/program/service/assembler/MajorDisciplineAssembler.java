@@ -61,7 +61,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.assembleBasics(clu, mdInfo);
         programAssemblerUtils.assembleIdentifiers(clu, mdInfo);
         programAssemblerUtils.assembleOrgs(clu, mdInfo);
-        programAssemblerUtils.assembleDates(clu, mdInfo);
+        programAssemblerUtils.assembleAtps(clu, mdInfo);
         programAssemblerUtils.assembleLuCodes(clu, mdInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
         programAssemblerUtils.assembleRequirements(clu, mdInfo);
@@ -77,6 +77,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setPublishedInstructors(clu.getInstructors());
         mdInfo.setCampusLocations(clu.getCampusLocations());        
         mdInfo.setAccreditingAgencies(clu.getAccreditations());
+        mdInfo.setEffectiveDate(clu.getEffectiveDate());
 
        return mdInfo;
     }

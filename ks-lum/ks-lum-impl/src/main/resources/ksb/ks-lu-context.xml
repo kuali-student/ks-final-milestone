@@ -551,6 +551,8 @@
     <bean id="coreProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CoreProgramAssembler">
         <property name="programService" ref="programServiceImpl"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>                
     </bean>
 
     <bean id="programVariationAssembler"

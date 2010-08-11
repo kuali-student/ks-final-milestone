@@ -24,6 +24,7 @@ import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 /**
  * @author KS
@@ -33,6 +34,10 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
 
     ProgramService programService;
+    private ProgramAssemblerUtils programAssemblerUtils;
+    private CluAssemblerUtils cluAssemblerUtils;
+
+
 
     @Override
     public CoreProgramInfo assemble(CluInfo clu, CoreProgramInfo coreProgram, boolean shallowBuild) throws AssemblyException {
@@ -41,16 +46,15 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 
         // Copy all the data from the clu to the coreprogram
 
-        // TODO - when requirements methods have been implemented
-        // ProgramRequirementInfo reqInfo = programService.getProgramRequirement(clu.getId());
-        // List<String> reqStrs = new ArrayList<String>();
-        // reqStrs.add(reqInfo.getId());
-        // cpInfo.setProgramRequirements(reqStrs);
-        cpInfo.setId(clu.getId());
-        cpInfo.setAttributes(clu.getAttributes());
-        cpInfo.setMetaInfo(clu.getMetaInfo());
-        cpInfo.setType(clu.getType());
-        cpInfo.setState(clu.getState());
+        programAssemblerUtils.assembleBasics(clu, cpInfo);
+        programAssemblerUtils.assembleIdentifiers(clu, cpInfo);
+        programAssemblerUtils.assembleOrgs(clu, cpInfo);
+        programAssemblerUtils.assembleAtps(clu, cpInfo);
+        programAssemblerUtils.assembleRequirements(clu, cpInfo);
+        programAssemblerUtils.assemblePublicationInfo(clu, cpInfo);
+
+        cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+
         return cpInfo;
     }
 
@@ -62,5 +66,13 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     // Spring setter
     public void setProgramService(ProgramService programService) {
         this.programService = programService;
+    }
+
+    public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
+        this.programAssemblerUtils = programAssemblerUtils;
+    }
+
+    public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
+        this.cluAssemblerUtils = cluAssemblerUtils;
     }
 }
