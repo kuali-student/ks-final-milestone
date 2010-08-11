@@ -180,11 +180,11 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
             addnew.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     setValue(getValue()); 
-                    appendLO("");
-                    appendLO("");
-                    appendLO("");
-                    appendLO("");
-                    appendLO("");
+                    appendLO(".");
+                    appendLO(".");
+                    appendLO(".");
+                    appendLO(".");
+                    appendLO(".");
                     reDraw();
                 }
             });
