@@ -3,20 +3,20 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.ModelDefinition;
 
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class Configurer {
-    protected DataModelDefinition modelDefinition;
+    protected ModelDefinition modelDefinition;
     protected String type = "";
     protected String state = "";
     protected String groupName = "";
 //    public abstract void configure(ConfigurableLayout layout);
-    public void setModelDefinition(DataModelDefinition modelDefinition){
+    public void setModelDefinition(ModelDefinition modelDefinition){
         this.modelDefinition = modelDefinition;
     }
 

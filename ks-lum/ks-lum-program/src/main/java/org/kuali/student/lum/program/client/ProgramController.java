@@ -22,8 +22,6 @@ public class ProgramController extends MenuSectionController {
 
     protected final DataModel programModel;
 
-    protected WorkQueue modelRequestQueue;
-
     protected AbstractProgramConfigurer configurer;
 
     public ProgramController(DataModel programModel) {
@@ -36,31 +34,18 @@ public class ProgramController extends MenuSectionController {
     private void initialize() {
         super.setDefaultModelId(ProgramConstants.PROGRAM_MODEL_ID);
         super.registerModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelProvider<DataModel>() {
-
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-                if (modelRequestQueue == null) {
-                    modelRequestQueue = new WorkQueue();
+                if (programModel.getRoot() == null || programModel.getRoot().size() == 0) {
+                    loadModel(callback);
+                } else {
+                    callback.onModelReady(programModel);
                 }
-
-                WorkQueue.WorkItem workItem = new WorkQueue.WorkItem() {
-                    @Override
-                    public void exec(Callback<Boolean> workCompleteCallback) {
-                        if (programModel.getRoot() == null || programModel.getRoot().size() == 0) {
-                            initModel(callback, workCompleteCallback);
-                        } else {
-                            callback.onModelReady(programModel);
-                            workCompleteCallback.exec(true);
-                        }
-                    }
-
-                };
-                modelRequestQueue.submit(workItem);
             }
         });
     }
 
-    private void initModel(final ModelRequestCallback<DataModel> callback, final Callback<Boolean> workCompleteCallback) {
+    private void loadModel(final ModelRequestCallback<DataModel> callback) {
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
@@ -73,65 +58,53 @@ public class ProgramController extends MenuSectionController {
                 super.onSuccess(result);
                 programModel.setRoot(result);
                 callback.onModelReady(programModel);
-                workCompleteCallback.exec(true);
             }
         });
     }
 
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
-        init(new Callback<Boolean>() {
+        if (!initialized) {
+            if (programModel.getDefinition() == null) {
+                loadMetadata(onReadyCallback);
+            } else {
+                afterMetadataLoaded(onReadyCallback);
+            }
+        } else {
+            onReadyCallback.exec(true);
+        }
+    }
+
+    protected void loadMetadata(final Callback<Boolean> onReadyCallback) {
+        String idType = null;
+        String viewContextId = null;
+        if (getViewContext().getIdType() != null) {
+            idType = getViewContext().getIdType().toString();
+            viewContextId = getViewContext().getId();
+            if (getViewContext().getIdType() == ViewContext.IdType.COPY_OF_OBJECT_ID) {
+                viewContextId = null;
+            }
+        }
+        programRemoteService.getMetadata(idType, viewContextId, new AbstractCallback<Metadata>() {
 
             @Override
-            public void exec(Boolean result) {
-                if (result) {
-                    showDefaultView(onReadyCallback);
-                } else {
-                    onReadyCallback.exec(false);
-                }
+            public void onSuccess(Metadata result) {
+                super.onSuccess(result);
+                DataModelDefinition def = new DataModelDefinition(result);
+                programModel.setDefinition(def);
+                afterMetadataLoaded(onReadyCallback);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+                super.onFailure(caught);
+                onReadyCallback.exec(false);
             }
         });
     }
 
-
-    protected void init(final Callback<Boolean> onReadyCallback) {
-        if (initialized) {
-            onReadyCallback.exec(true);
-        } else {
-            String idType = null;
-            String viewContextId = null;
-            if (getViewContext().getIdType() != null) {
-                idType = getViewContext().getIdType().toString();
-                viewContextId = getViewContext().getId();
-                if (getViewContext().getIdType() == ViewContext.IdType.COPY_OF_OBJECT_ID) {
-                    viewContextId = null;
-                }
-            }
-
-            programRemoteService.getMetadata(idType, viewContextId, new AbstractCallback<Metadata>() {
-
-                @Override
-                public void onSuccess(Metadata result) {
-                    super.onSuccess(result);
-                    DataModelDefinition def = new DataModelDefinition(result);
-                    programModel.setDefinition(def);
-                    init(def);
-                    initialized = true;
-                    onReadyCallback.exec(true);
-                }
-
-                @Override
-                public void onFailure(Throwable caught) {
-                    super.onFailure(caught);
-                    onReadyCallback.exec(false);
-
-                }
-            });
-        }
-    }
-
-    protected void init(DataModelDefinition modelDefinition) {
-        configurer.setModelDefinition(modelDefinition);
+    protected void configureView() {
+        configurer.setModelDefinition(programModel.getDefinition());
         if (null == programModel.getRoot()) {
             programModel.setRoot(new Data());
         }
@@ -148,5 +121,11 @@ public class ProgramController extends MenuSectionController {
         } else {
             viewContext.setPermissionType(PermissionType.INITIATE);
         }
+    }
+
+    private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
+        configureView();
+        initialized = true;
+        showDefaultView(onReadyCallback);
     }
 }

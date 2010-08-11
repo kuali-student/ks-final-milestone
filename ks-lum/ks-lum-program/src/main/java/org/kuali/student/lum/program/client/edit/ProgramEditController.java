@@ -67,11 +67,11 @@ public class ProgramEditController extends ProgramController {
     }
 
     @Override
-    protected void init(DataModelDefinition modelDefinition) {
+    protected void configureView() {
         if (!initialized) {
             addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, saveButton);
             addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, cancelButton);
         }
-        super.init(modelDefinition);
+        super.configureView();
     }
 }
