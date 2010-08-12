@@ -15,6 +15,10 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * These are the constants that are used in the programs.
  * 
@@ -36,6 +40,8 @@ public class ProgramAssemblerConstants {
 	public static final String[] CREDENTIAL_PROGRAM = { BACCALAUREATE_PROGRAM,
 								MASTERS_PROGRAM, PROFESSIONAL_PROGRAM, DOCTORAL_PROGRAM,
 								UNDERGRADUATE_CERTIFICATE, GRADUATE_CERTIFICATE };
+
+    public static final Set<String> CREDENTIAL_PROGRAM_TYPES = new TreeSet<String>(Arrays.asList(CREDENTIAL_PROGRAM));
 
 	public static final String MAJOR_DISCIPLINE = "kuali.lu.type.MajorDiscipline";
 	public static final String PROGRAM_VARIATION = "kuali.lu.type.Variation";

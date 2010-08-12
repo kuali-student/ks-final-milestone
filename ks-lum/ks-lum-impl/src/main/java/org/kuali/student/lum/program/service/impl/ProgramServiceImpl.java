@@ -214,14 +214,7 @@ public class ProgramServiceImpl implements ProgramService {
         try {
             CluInfo clu = luService.getClu(credentialProgramId);
             
-            boolean isCredentialProgram = false;
-            for(String cluType : ProgramAssemblerConstants.CREDENTIAL_PROGRAM){
-            	if(cluType.equals(clu.getType())){
-            		isCredentialProgram = true;
-            		break;
-            	}
-            }
-            if ( ! isCredentialProgram ) {
+            if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getType()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
             

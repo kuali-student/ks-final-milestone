@@ -15,6 +15,12 @@
 
 package org.kuali.student.lum.program.service.assembler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -26,13 +32,6 @@ import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class ProgramAssemblerUtils {
 
@@ -50,9 +49,15 @@ public class ProgramAssemblerUtils {
 
             if (clu.getType() != null) {
                 parms = new Class[]{String.class};
-                method = o.getClass().getMethod("setType", parms);
-                value = new Object[]{clu.getType()};
-                method.invoke(o, value);
+                try {
+                    method = o.getClass().getMethod("setType", parms);
+                    if (null != method) {
+                        value = new Object[]{clu.getType()};
+                        method.invoke(o, value);
+                    }
+                } catch (NoSuchMethodException nsme) {
+                    // CredentialProgramInfo has "credentialprogramType" rather than "type"
+                }
             }
 
             if (clu.getState() != null) {
@@ -144,37 +149,35 @@ public class ProgramAssemblerUtils {
             Class[] parms;
             Object[] value;
             if (clu.getOfficialIdentifier() != null) {
-                  if (clu.getOfficialIdentifier().getShortName() != null) {
+                if (clu.getOfficialIdentifier().getShortName() != null) {
                     parms = new Class[]{String.class};
                     method = o.getClass().getMethod("setShortTitle", parms);
                     value = new Object[]{clu.getOfficialIdentifier().getShortName()};
                     method.invoke(o, value);
                 }
                 if (clu.getOfficialIdentifier().getLongName() != null) {
-                    parms =  new Class[]{String.class};
+                    parms = new Class[]{String.class};
                     method = o.getClass().getMethod("setLongTitle", parms);
                     value = new Object[]{clu.getOfficialIdentifier().getLongName()};
                     method.invoke(o, value);
                 }
                 if (clu.getOfficialIdentifier().getCode() != null) {
-                    parms =  new Class[]{String.class};
+                    parms = new Class[]{String.class};
                     method = o.getClass().getMethod("setCode", parms);
                     value = new Object[]{clu.getOfficialIdentifier().getCode()};
                     method.invoke(o, value);
                 }
             }
-
-
             if (clu.getAlternateIdentifiers() != null) {
                 for (CluIdentifierInfo cluIdInfo : clu.getAlternateIdentifiers()) {
                     String idInfoType = cluIdInfo.getType();
                     if (ProgramAssemblerConstants.TRANSCRIPT.equals(idInfoType)) {
-                        parms =  new Class[]{String.class};
+                        parms = new Class[]{String.class};
                         method = o.getClass().getMethod("setTranscriptTitle", parms);
                         value = new Object[]{cluIdInfo.getShortName()};
                         method.invoke(o, value);
                     } else if (ProgramAssemblerConstants.DIPLOMA.equals(idInfoType)) {
-                        parms =  new Class[]{String.class};
+                        parms = new Class[]{String.class};
                         method = o.getClass().getMethod("setDiplomaTitle", parms);
                         value = new Object[]{cluIdInfo.getShortName()};
                         method.invoke(o, value);
@@ -331,7 +334,7 @@ public class ProgramAssemblerUtils {
 //                value = new Object[]{clu.getEffectiveDate()};
 //                method.invoke(o, value);
 //            }
-        }
+            }
         catch (IllegalAccessException   e){
             throw new AssemblyException("Error assembling program dates", e);
         }
@@ -430,7 +433,7 @@ public class ProgramAssemblerUtils {
     }
 
     //TODO assembleCatalogDescr
-    private RichTextInfo assembleCatalogDescr(String cluId) throws AssemblyException {
+        private RichTextInfo assembleCatalogDescr(String cluId) throws AssemblyException {
 //        RichTextInfo returnInfo = new RichTextInfo();
 //        try {
 //            List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(cluId);

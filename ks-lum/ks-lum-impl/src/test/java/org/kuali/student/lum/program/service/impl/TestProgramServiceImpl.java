@@ -5,10 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -470,13 +466,17 @@ public class TestProgramServiceImpl {
 	}
     
     @Test
-    @Ignore
     public void testGetBaccCredentialProgram(){
     	String credentialProgramId = "D02DBBD3-20E2-410D-AB52-1BD6D362748B";
     	CredentialProgramInfo credentialProgramInfo = null;
     	try{
     		credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
-    		assertNotNull(credentialProgramInfo);
+            assertNotNull(credentialProgramInfo);
+            assertEquals("BS", credentialProgramInfo.getCode());
+            assertEquals("B.S.", credentialProgramInfo.getShortTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
     		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
 
 	    } catch (Exception e) {

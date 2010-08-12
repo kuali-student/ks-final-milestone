@@ -165,7 +165,7 @@ insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('4ef2aad6-dfbc-4ea0-
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('ee0a76ec-002d-4e38-9934-202154b7ebab', null, 'Boundary value problems for elliptic partial differential equations via operator-theoretic methods. Hilbert spaces of functions. Duality, weak convergence. Sobolev spaces. Spectral theory of compact operators. Eigenfunction expansions.')
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('baa98141-3fd9-45f9-8e1b-afca879cd618', null, 'The students participate in a vertically integrated (undergraduate, graduate and/or postdoctoral, faculty) research group. Format varies, but includes regular meetings, readings and presentations of material. See graduate program''s online syllabus or contact the graduate program director for more information.')
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('cf94f50b-3313-4f1d-a654-acfb751f7f07', null, 'Lectures, experimental courses, and other special subjects in the fields of animal sciences and veterinary medicine.')
-insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('9623C41C-AE72-473A-A1AC-6874C433967D', null, 'Bachelor of Arts')
+insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('9623C41C-AE72-473A-A1AC-6874C433967D', null, 'Bachelor of Science')
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('8B7DF2EA-A0E0-4CA6-B524-5554D3194C92', null, 'Anthropology Major')
 
 // CluIdentifier

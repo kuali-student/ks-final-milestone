@@ -10,22 +10,42 @@ import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 
 public class CredentialProgramAssembler implements BOAssembler<CredentialProgramInfo, CluInfo>{
 	final static Logger LOG = Logger.getLogger(CredentialProgramAssembler.class);
+    private ProgramAssemblerUtils programAssemblerUtils;
 
 	@Override
-	public CredentialProgramInfo assemble(CluInfo baseDTO,
-			CredentialProgramInfo businessDTO, boolean shallowBuild)
-			throws AssemblyException {
-		// TODO Auto-generated method stub
-		return null;
+    public CredentialProgramInfo assemble(CluInfo clu,
+                                          CredentialProgramInfo credentialProgram,
+                                          boolean shallowBuild)
+	            throws AssemblyException {
+
+        CredentialProgramInfo cpInfo = (null != credentialProgram) ? credentialProgram : new CredentialProgramInfo();
+
+        // Copy all the data from the clu to the credential program
+        if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getType()) ) {
+            throw new AssemblyException("CredentialProgramAssembler.assemble() called for Clu of incorrect type: " + clu.getType());
+        }
+        cpInfo.setCredentialProgramType(clu.getType());
+        programAssemblerUtils.assembleBasics(clu, cpInfo);
+        programAssemblerUtils.assembleIdentifiers(clu, cpInfo);
+        if (null != clu.getOfficialIdentifier().getLevel()) {
+            cpInfo.setProgramLevel(clu.getOfficialIdentifier().getLevel());
+        }
+        programAssemblerUtils.assembleOrgs(clu, cpInfo);
+        programAssemblerUtils.assembleLuCodes(clu, cpInfo);
+        programAssemblerUtils.assemblePublicationInfo(clu, cpInfo);
+        programAssemblerUtils.assembleRequirements(clu, cpInfo);
+
+        return cpInfo;
 	}
 
-	@Override
+    @Override
 	public BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> disassemble(
 			CredentialProgramInfo businessDTO, NodeOperation operation)
 			throws AssemblyException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	
+    public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
+        this.programAssemblerUtils = programAssemblerUtils;
+    }
 }
