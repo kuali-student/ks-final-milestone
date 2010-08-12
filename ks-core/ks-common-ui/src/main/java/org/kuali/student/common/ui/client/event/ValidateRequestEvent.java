@@ -16,9 +16,10 @@
 package org.kuali.student.common.ui.client.event;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
 
-public class ValidateRequestEvent extends UncheckedApplicationEvent<ValidateRequestHandler> {
+public class ValidateRequestEvent extends ApplicationEvent<ValidateRequestHandler> {
     public static final Type<ValidateRequestHandler> TYPE = new Type<ValidateRequestHandler>();
     private FieldDescriptor fieldDescriptor;
     private boolean validateSingleField = false;

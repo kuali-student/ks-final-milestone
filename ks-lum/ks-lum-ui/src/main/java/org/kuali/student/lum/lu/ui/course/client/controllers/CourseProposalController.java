@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
@@ -34,6 +35,7 @@ import org.kuali.student.common.ui.client.event.SubmitProposalHandler;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
+import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -428,12 +430,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
                     	if(isSectionValid){
                             if (startSectionRequired()){
                                 showStartPopup(NO_OP_CALLBACK);
+                                saveActionEvent.doActionComplete();
                             }
                             else{
 	                            saveProposalClu(saveActionEvent);
                             }
                     	}
                     	else{
+                    		saveActionEvent.doActionComplete();
                     		Window.alert("Save failed.  Please check fields for errors.");
                     	}
 
@@ -443,6 +447,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
             @Override
             public void onRequestFail(Throwable cause) {
+            	saveActionEvent.doActionComplete();
                 GWT.log("Unable to retrieve model for validation and save", cause);
             }
 
@@ -497,6 +502,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                  saveWindow.setWidget(buttonGroup);
                	 saveMessage.setText("Save Failed!  Please try again. ");
                  buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+                 saveActionEvent.doActionComplete();
 			}
 
         };
@@ -511,7 +517,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 	if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
                 		isValid(result.getValidationResults(), false, true);
                 	    saveActionEvent.setGotoNextView(false);
-                	    saveActionEvent.setSaveSuccessful(false);
                	    	if (saveActionEvent.isAcknowledgeRequired()){
 	                        saveMessage.setText("Save Unsuccessful. There were validation errors.");
 	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
@@ -520,6 +525,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	                        saveActionEvent.doActionComplete();
 	                    }
                 	}else{
+                		saveActionEvent.setSaveSuccessful(true);
 	    				cluProposalModel.setRoot(result.getValue());
 	    	            View currentView = getCurrentView();
 	    				if (currentView instanceof SectionView){
@@ -537,7 +543,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				context.setId((String)cluProposalModel.get("proposal/id"));
 	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
 	    				workflowUtil.refresh();
-	    				saveActionEvent.setSaveSuccessful(true);
+	    				
 	    				setProposalHeaderTitle();
 	    				setLastUpdated();
 	    				HistoryManager.logHistoryChange();
@@ -671,15 +677,23 @@ public class CourseProposalController extends MenuEditableSectionController impl
 							public void exec(YesNoCancelEnum result) {
 								switch(result){
 									case YES:
-										SaveActionEvent e = new SaveActionEvent();
-										fireApplicationEvent(e);
-										if(e.isSaveSuccessful()){
-											okToChange.exec(true);
-										}
-										else{
-											okToChange.exec(false);
-										}
 										dialog.hide();
+										final SaveActionEvent e = new SaveActionEvent();
+										e.setActionCompleteCallback(new ActionCompleteCallback(){
+
+											@Override
+											public void onActionComplete(
+													ActionEvent action) {
+												if(e.isSaveSuccessful()){
+													okToChange.exec(true);
+												}
+												else{
+													okToChange.exec(false);
+												}
+											}
+											
+										});
+										fireApplicationEvent(e);
 										break;
 									case NO:
 										//Force a model request from server
