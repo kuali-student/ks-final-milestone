@@ -412,7 +412,7 @@ insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID)  values ('0d8c42bc-77ba-450e-ae0e-eecd76fae779', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'activated', null, null, null, null, '63e3270d-4bb8-4e97-9fa8-2f8be03cf053', null,  'kuali.lu.type.CreditCourse', 'ac9d68c7-999c-4c5d-805d-342051e060d6', 'INSTR-1')
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID)  values ('D02DBBD3-20E2-410D-AB52-1BD6D362748B', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, '9623C41C-AE72-473A-A1AC-6874C433967D', null,  'kuali.lu.type.credential.Baccalaureate', '4AB05FEB-B550-4DB6-9F65-97A74372A137', 'INSTR-1')
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, EXP_FIRST_ATP) values ('D4EA77DD-B492-4554-B104-863E42C5F8B7', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, '8B7DF2EA-A0E0-4CA6-B524-5554D3194C92', null,  'kuali.lu.type.MajorDiscipline', '918040DF-964B-46F0-AEF9-F8DB92B07A41', 'INSTR-1', 'start_term')
-insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID)  values ('00F5F8C5-FFF1-4C8B-92FC-789B891E0849', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, null, null,  'kuali.lu.type.CoreProgram', null, 'INSTR-1')
+insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, EXP_FIRST_ATP)  values ('00F5F8C5-FFF1-4C8B-92FC-789B891E0849', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, '8B7DF2EA-A0E0-4CA6-B524-5554D3194C92', null,  'kuali.lu.type.CoreProgram', '4AB05FEB-B550-4DB6-9F65-97A74372A137', 'INSTR-1', 'start_term')
 
 //Lui
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-1', 'CLU-1', 'ATP-1', 'MENG 329 section 101', 50, {ts '2000-01-01 00:00:00.0'}, {ts '2000-06-01 00:00:00.0'}, 'Approved', 1)
@@ -569,6 +569,10 @@ insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-8','43',0
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-9','44',0, 'kuali.adminOrg.type.FinancialResourcesUnit');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-10','46',0, 'kuali.adminOrg.type.FinancialControlUnit');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-11','47',0, 'kuali.adminOrg.type.FinancialControlUnit');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CORE-COD','48',0, 'kuali.adminOrg.type.ContentOwnerDivision');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CORE-COU','49',0, 'kuali.adminOrg.type.ContentOwnerUnit');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CORE-SOD','50',0, 'kuali.adminOrg.type.StudentOversightDivision');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CORE-SOU','51',0, 'kuali.adminOrg.type.StudentOversightUnit');
 
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('MAJOR-1', 'D4EA77DD-B492-4554-B104-863E42C5F8B7' );
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('MAJOR-2', 'D4EA77DD-B492-4554-B104-863E42C5F8B7' );
@@ -581,6 +585,10 @@ insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('MAJOR-8', 'D4E
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('MAJOR-9', 'D4EA77DD-B492-4554-B104-863E42C5F8B7' );
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('MAJOR-10', 'D4EA77DD-B492-4554-B104-863E42C5F8B7' );
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('MAJOR-11', 'D4EA77DD-B492-4554-B104-863E42C5F8B7' );
+insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CORE-COD', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849' );
+insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CORE-COU', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849' );
+insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CORE-SOD', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849' );
+insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CORE-SOU', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849' );
 
 insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-1', 'NORTH','D4EA77DD-B492-4554-B104-863E42C5F8B7');
 insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-2', 'SOUTH','D4EA77DD-B492-4554-B104-863E42C5F8B7');
@@ -593,14 +601,19 @@ insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, 
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-3', 'D4EA77DD-B492-4554-B104-863E42C5F8B7', 'Hegis code', 'kuali.lu.code.HEGIS', 'HEGISCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-4', 'D4EA77DD-B492-4554-B104-863E42C5F8B7', 'Univ Classification code', 'kuali.lu.code.UniversityClassification', 'UNIVERSITYCLASSIFICATIONCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-5', 'D4EA77DD-B492-4554-B104-863E42C5F8B7', 'Selective Enrl code', 'kuali.lu.code.SelectiveEnrollment', 'SELECTIVEENROLLMENTCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('CORE-1', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849', 'Univ Classification code', 'kuali.lu.code.UniversityClassification', 'UNIVERSITYCLASSIFICATIONCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('MAJOR-1', 'ANTH', '', '', '', '', 'TRANSCRIPT-TITLE', null, 'kuali.lu.type.program.identifier.transcript', null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('MAJOR-2', 'ANTH', '', '', '', '', 'DIPLOMA-TITLE', null, 'kuali.lu.type.program.identifier.diploma', null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('CORE-1', 'BS', '', '', '', '', 'TRANSCRIPT-TITLE', null, 'kuali.lu.type.program.identifier.transcript', null)
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('D4EA77DD-B492-4554-B104-863E42C5F8B7','MAJOR-1');
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('D4EA77DD-B492-4554-B104-863E42C5F8B7','MAJOR-2');
+insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('00F5F8C5-FFF1-4C8B-92FC-789B891E0849','CORE-1');
 
 insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('MAJOR-1', 'CAKES', 'JAM TART', 'D4EA77DD-B492-4554-B104-863E42C5F8B7')
 insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('MAJOR-2', 'COOKIES', 'GINGER GEM', 'D4EA77DD-B492-4554-B104-863E42C5F8B7')
+insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('CORE-1', 'CAKES', 'JAM TART', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849')
+insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('CORE-2', 'COOKIES', 'GINGER GEM', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849')
 
 insert into kslu_clu_accred (ID,CREATEID,CREATETIME,VERSIONIND, eff_dt, org_id) values ('MAJOR-1', 'admin', {ts '2010-08-05 10:00:00.0'}, 0,  {ts '2010-08-05 10:00:00.0'} , '23' )
 insert into kslu_clu_JN_ACCRED (CLU_ID, CLU_ACCRED_ID) values ('D4EA77DD-B492-4554-B104-863E42C5F8B7', 'MAJOR-1')
@@ -611,4 +624,5 @@ INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_
 insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('MAJOR-1', 'CREATEID', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'active', 'D4EA77DD-B492-4554-B104-863E42C5F8B7', 'kuali.lu.lu.relation.type.hasVariationProgram', 'D02DBBD3-20E2-410D-AB52-1BD6D362748B' );
 
  update KSLU_CLU set ATP_DUR_TYP_KEY= 'kuali.atp.duration.Week', TM_QUANTITY= 100, LAST_ADMIT_ATP= 'end_admit_term', LAST_ATP = 'end_term', NEXT_REVIEW_PRD = 'kuali.atp.SU2009-2010S1', clu_intsty_type = 'kuali.atp.duration.full',  ref_url='http://www.google.ca' where ID = 'D4EA77DD-B492-4554-B104-863E42C5F8B7';
+ update KSLU_CLU set LAST_ADMIT_ATP= 'end_admit_term', LAST_ATP = 'end_term',ref_url='http://www.google.ca' where ID = '00F5F8C5-FFF1-4C8B-92FC-789B891E0849';
 
