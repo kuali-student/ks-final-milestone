@@ -270,7 +270,7 @@ insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, 
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('ddaf48f6-15a1-4c6f-90ef-3bcde235769c', 'AMST851', 'AMST', '800', '851', 'Interpretation of Cultural Landscapes', 'INTERP CULTRL LNDSCAPES', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('9caa02ff-4b4a-4caa-94da-d81113fcbb5f', 'AMST856', 'AMST', '800', '856', 'Museum Research Seminar', 'MUSEUM RSRCH SEMINAR', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('cca4eb70-c4af-4f14-894f-d89b6810605c', 'AMST857', 'AMST', '800', '857', 'Museum Scholarship Practicum', 'MUSEUM SCHLRSHP PRACT', null, null, null)
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('4AB05FEB-B550-4DB6-9F65-97A74372A137', 'BS', '', '', '', 'Bachelor of Science', 'B.S.', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('4AB05FEB-B550-4DB6-9F65-97A74372A137', 'BS', '', 'kuali.lu.program.level.UnderGraduate', '', 'Bachelor of Science', 'B.S.', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('918040DF-964B-46F0-AEF9-F8DB92B07A41', 'ANTH', '', '', '', 'Anthropology', 'Anthro', null, null, null)
 
 
@@ -556,7 +556,7 @@ insert into KSLU_CLU_ACCT_JN_AFFIL_ORG (clu_acct_id, affil_org_id) values ('993a
 update KSLU_CLU set PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_FIRST_ATP = 'kuali.atp.season.Summer', FEE_ID = '99de7877-b443-4a47-bb18-1d668b73f583', ACCT_ID='993a091e-d720-4c0b-944d-4ea133cbe7ec', ATP_DUR_TYP_KEY = 'kuali.atp.duration.Week', TM_QUANTITY = 10, clu_intsty_qty = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
 // End of test data for View Course
 
-// Test data for Get Major
+// Test data for MajorDiscipline
 
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-1','31',0, 'kuali.adminOrg.type.CurriculumOversightDivision');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-2','32',0, 'kuali.adminOrg.type.StudentOversightDivision');
@@ -573,6 +573,8 @@ insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CORE-COD','48',
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CORE-COU','49',0, 'kuali.adminOrg.type.ContentOwnerUnit');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CORE-SOD','50',0, 'kuali.adminOrg.type.StudentOversightDivision');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CORE-SOU','51',0, 'kuali.adminOrg.type.StudentOversightUnit');
+// for CredentialProgram
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('CRED-INST-1','52',0, 'kuali.adminOrg.type.Institution');
 
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('MAJOR-1', 'D4EA77DD-B492-4554-B104-863E42C5F8B7' );
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('MAJOR-2', 'D4EA77DD-B492-4554-B104-863E42C5F8B7' );
@@ -589,6 +591,7 @@ insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CORE-COD', '00
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CORE-COU', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849' );
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CORE-SOD', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849' );
 insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CORE-SOU', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849' );
+insert into KSLU_CLU_JN_ADMIN_ORG (ADMIN_ORG_ID, clu_id) values ('CRED-INST-1', 'D02DBBD3-20E2-410D-AB52-1BD6D362748B' );
 
 insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-1', 'NORTH','D4EA77DD-B492-4554-B104-863E42C5F8B7');
 insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-2', 'SOUTH','D4EA77DD-B492-4554-B104-863E42C5F8B7');

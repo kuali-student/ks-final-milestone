@@ -478,6 +478,8 @@ public class TestProgramServiceImpl {
             assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
             assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
     		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
+            assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
+            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
 
 	    } catch (Exception e) {
 	    	e.printStackTrace();

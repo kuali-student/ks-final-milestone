@@ -5,6 +5,7 @@ import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 
@@ -31,8 +32,12 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
             cpInfo.setProgramLevel(clu.getOfficialIdentifier().getLevel());
         }
         programAssemblerUtils.assembleOrgs(clu, cpInfo);
+        for (AdminOrgInfo org : clu.getAdminOrgs()) {
+            if (ProgramAssemblerConstants.INSTITUTION.equals(org.getType())) {
+                cpInfo.setInstitution(org);
+            }
+        }
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);
 
         return cpInfo;

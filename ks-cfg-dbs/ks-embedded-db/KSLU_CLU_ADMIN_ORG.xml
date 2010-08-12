@@ -14,5 +14,5 @@
     <KSLU_CLU_ADMIN_ORG ID="MAJOR-9" ORG_ID="44" IS_PR="0" TYPE="kuali.adminOrg.type.FinancialResourcesUnit"/>
     <KSLU_CLU_ADMIN_ORG ID="MAJOR-10" ORG_ID="46" IS_PR="0" TYPE="kuali.adminOrg.type.FinancialControlUnit"/>
     <KSLU_CLU_ADMIN_ORG ID="MAJOR-11" ORG_ID="47" IS_PR="0" TYPE="kuali.adminOrg.type.FinancialControlUnit"/>
-    
+    <KSLU_CLU_ADMIN_ORG ID="CRED-INST-1" ORG_ID="52" IS_PR="0" TYPE="kuali.adminOrg.type.Institution"/>
 </dataset>
