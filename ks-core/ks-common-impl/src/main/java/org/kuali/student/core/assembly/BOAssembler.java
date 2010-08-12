@@ -31,6 +31,8 @@ import org.kuali.student.core.assembly.data.AssemblyException;
  * E -> Business DTO e.g. CourseInfo
  * T -> Base DTO e.g. CluInfo
  * 
+ * It is a good practice to propagate state from the parent objects through to the children
+ * 
  * @author Kuali Student Team
  * 
  */
