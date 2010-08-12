@@ -15,10 +15,6 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
@@ -27,8 +23,6 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
@@ -37,6 +31,10 @@ import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author KS
@@ -47,6 +45,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
     private LuService luService;
     private CluAssemblerUtils cluAssemblerUtils;
+    private ProgramAssemblerUtils programAssemblerUtils;
 
     @Override
     public ProgramVariationInfo assemble(CluInfo clu, ProgramVariationInfo majorDiscipline, boolean shallowBuild) throws AssemblyException {
@@ -132,11 +131,13 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		clu.setOfficialIdentifier(identifier);
 		
 		disassembleLuCode(clu, variation);
-		
-		BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
-				clu.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
-		result.getChildNodes().add(resultOptions);
-		
+
+        if (variation.getResultOptions() != null) {
+            BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
+                    clu.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
+            result.getChildNodes().add(resultOptions);
+        }
+
 		clu.setExpectedFirstAtp(variation.getStartTerm());
 		clu.setLastAtp(variation.getEndTerm());
 		clu.setLastAdmitAtp(variation.getEndProgramEntryTerm());
@@ -147,21 +148,24 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 		clu.setDescr(variation.getDescr());
 		
 		//TODO: catalogDescr
-	
-        try {
-    		List<BaseDTOAssemblyNode<?, ?>> loResults;
-    		loResults = cluAssemblerUtils.disassembleLos(clu.getId(), variation.getState(), variation.getLearningObjectives(), operation);
-            result.getChildNodes().addAll(loResults);
-        } catch (DoesNotExistException e) {
-        } catch (Exception e) {
-            throw new AssemblyException("Error while disassembling los", e);
+        if (variation.getLearningObjectives() != null) {
+            try {
+                List<BaseDTOAssemblyNode<?, ?>> loResults;
+                loResults = cluAssemblerUtils.disassembleLos(clu.getId(), variation.getState(), variation.getLearningObjectives(), operation);
+                result.getChildNodes().addAll(loResults);
+            } catch (DoesNotExistException e) {
+            } catch (Exception e) {
+                throw new AssemblyException("Error while disassembling los", e);
+            }
+
         }
-        
+	
+
 		clu.setCampusLocations(variation.getCampusLocations());
 		
 		//TODO: programRequirements
 		
-		cluAssemblerUtils.disassembleAdminOrg(clu, variation);
+		programAssemblerUtils.disassembleAdminOrgs(clu, variation, operation);
 		
 		// Add the Clu to the result
 		result.setNodeData(clu);
@@ -293,5 +297,9 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     
     public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
         this.cluAssemblerUtils = cluAssemblerUtils;
+    }
+
+    public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
+        this.programAssemblerUtils = programAssemblerUtils;
     }
 }

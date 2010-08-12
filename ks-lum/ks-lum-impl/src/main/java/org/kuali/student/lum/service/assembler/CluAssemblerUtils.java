@@ -15,15 +15,6 @@
  */
 package org.kuali.student.lum.service.assembler;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
@@ -36,14 +27,17 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.LoAssembler;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * This is a description of what this class does - jimt don't forget to fill this in. 
@@ -72,139 +66,6 @@ public class CluAssemblerUtils {
         return loInfos;
     }
 
-    public void disassembleAdminOrg(CluInfo clu, Object t){
-    	List<AdminOrgInfo> dcos = getAdminOrgs("getDivisionsContentOwner", t);
-    	if(dcos != null && dcos.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:dcos){
-    			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> dsos = getAdminOrgs("getDivisionsStudentOversight", t);
-    	if(dsos != null && dsos.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:dsos){
-    			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> dds = getAdminOrgs("getDivisionsDeployment", t);
-		if(dds != null && dds.size() > 0){
-			List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-			for (AdminOrgInfo org : dds) {
-				if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)){
-					orgs.add(org);
-				}
-			}
-			clu.getAdminOrgs().addAll(orgs);
-		}
-
-    	List<AdminOrgInfo> dfrs = getAdminOrgs("getDivisionsFinancialResources", t);
-    	if(dfrs != null && dfrs.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:dfrs){
-    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-
-    	List<AdminOrgInfo> dfcs = getAdminOrgs("getDivisionsFinancialControl", t);
-    	if(dfcs != null && dfcs.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:dfcs){
-    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> ucos = getAdminOrgs("getUnitsContentOwner", t);
-    	if(ucos != null && ucos.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:ucos){
-    			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> usos = getAdminOrgs("getUnitsStudentOversight", t);
-    	if(usos != null && usos.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:usos){
-    			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> uds = getAdminOrgs("getUnitsDeployment", t);
-    	if(uds != null && uds.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:uds){
-    			if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> ufrs = getAdminOrgs("getUnitsFinancialResources", t);
-    	if(ufrs != null && ufrs.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:ufrs){
-    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> ufcs = getAdminOrgs("getUnitsFinancialControl", t);
-    	if(ufcs != null && ufcs.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:ufcs){
-    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-    }
-
-    @SuppressWarnings("unchecked")
-	private List<AdminOrgInfo> getAdminOrgs(String prop, Object t){
-		try
-		{
-			 Class<?> clazz = t.getClass();
-			 Method method = clazz.getMethod(prop, null);
-			 List<AdminOrgInfo> output = (List<AdminOrgInfo>)method.invoke(t, null);
-			 return output;
-		}
-		catch (IllegalAccessException   ex){
-			return null;
-		}
-		catch (InvocationTargetException  ex){
-			return null;
-		}
-		catch (NoSuchMethodException ex)
-		{
-			 return null;
-		}
-    }
 
     public List<String> assembleCluResults(String courseResultType, List<CluResultInfo> cluResults) throws AssemblyException{
 		if(courseResultType==null){
@@ -347,8 +208,7 @@ public class CluAssemblerUtils {
                 CluLoRelationInfo relation = new CluLoRelationInfo();
                 relation.setCluId(cluId);
                 relation.setLoId(loNode.getNodeData().getId());
-                relation
-                        .setType(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
+                relation.setType(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
                 relation.setState(cluState);
 
                 BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(

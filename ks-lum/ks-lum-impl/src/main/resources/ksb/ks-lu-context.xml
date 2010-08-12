@@ -561,11 +561,13 @@
           class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
         <property name="luService" ref="luClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luClient"/>
+        <property name="loService" ref="loClient"/>
     </bean>
 
     <bean id="programServiceImpl"

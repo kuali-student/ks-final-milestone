@@ -1,13 +1,5 @@
 package org.kuali.student.lum.program.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +23,14 @@ import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:program-test-context.xml"})
@@ -60,12 +60,20 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore public void testCreateMajorDiscipline() {
-		MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
-        MajorDisciplineInfo majorDisciplineInfo = null;
+    @Ignore
+    public void testCreateMajorDiscipline() {
+		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
+        MajorDisciplineInfo major;
         try {
-            assertNotNull(majorDisciplineInfo = generator.getMajorDisciplineInfoTestData());
-            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
+            assertNotNull(major = mdGenerator.getMajorDisciplineInfoTestData());
+
+//            major.setLearningObjectives(null);
+//            major.setResultOptions(null);
+//            for (ProgramVariationInfo variationInfo : major.getVariations()) {
+//                variationInfo.setLearningObjectives(null);
+//                variationInfo.setResultOptions(null);
+//            }
+            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(major);
             assertNotNull(createdMD);
             assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());

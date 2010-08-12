@@ -507,6 +507,7 @@ insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-12', '
 INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.gradeCourseResult', 'Final learning result for an LU. A stereotypical usage is the final grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Final Grade')
 INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.creditCourseResult', 'Final learning result for an LU. A stereotypical usage is the course credits.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Final Credits')
 INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.certificate', 'Final learning result for a Major.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Certificate')
+INSERT INTO KSLU_CLU_RSLT_TYP (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultType.degree', 'A Degree result .', {ts '2000-01-01 00:00:00.0'}, {ts '2020-12-31 00:00:00.0'}, 'Degree')
 
 // CLU <-> CLU join
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID) values ('3142b5bb-899a-4f59-8022-cf9b411040c0', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture')
@@ -558,12 +559,12 @@ update KSLU_CLU set PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_F
 
 // Test data for MajorDiscipline
 
-insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-1','31',0, 'kuali.adminOrg.type.CurriculumOversightDivision');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-1','31',0, 'kuali.adminOrg.type.ContentOwnerDivision');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-2','32',0, 'kuali.adminOrg.type.StudentOversightDivision');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-3','33',0, 'kuali.adminOrg.type.DeploymentDivision');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-4','34',0, 'kuali.adminOrg.type.FinancialResourcesDivision');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-5','36',0, 'kuali.adminOrg.type.FinancialControlDivision');
-insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-6','41',0, 'kuali.adminOrg.type.CurriculumOversightUnit');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-6','41',0, 'kuali.adminOrg.type.ContentOwnerUnit');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-7','42',0, 'kuali.adminOrg.type.StudentOversightUnit');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-8','43',0, 'kuali.adminOrg.type.DeploymentUnit');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type) values ('MAJOR-9','44',0, 'kuali.adminOrg.type.FinancialResourcesUnit');

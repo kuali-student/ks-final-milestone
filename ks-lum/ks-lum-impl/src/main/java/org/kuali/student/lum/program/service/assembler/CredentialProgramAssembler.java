@@ -31,7 +31,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         if (null != clu.getOfficialIdentifier().getLevel()) {
             cpInfo.setProgramLevel(clu.getOfficialIdentifier().getLevel());
         }
-        programAssemblerUtils.assembleOrgs(clu, cpInfo);
+        programAssemblerUtils.assembleAdminOrgs(clu, cpInfo);
         for (AdminOrgInfo org : clu.getAdminOrgs()) {
             if (ProgramAssemblerConstants.INSTITUTION.equals(org.getType())) {
                 cpInfo.setInstitution(org);

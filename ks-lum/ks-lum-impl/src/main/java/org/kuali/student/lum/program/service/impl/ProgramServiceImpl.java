@@ -1,8 +1,5 @@
 package org.kuali.student.lum.program.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
@@ -43,6 +40,9 @@ import org.kuali.student.lum.program.service.assembler.CredentialProgramAssemble
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional(rollbackFor = {Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
@@ -123,8 +123,8 @@ public class ProgramServiceImpl implements ProgramService {
         try {
             return processMajorDisciplineInfo(majorDisciplineInfo, NodeOperation.CREATE);
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling Major Discipline", e);
-            throw new OperationFailedException("Error disassembling Major Discipline");
+            LOG.error("Error creating Major Discipline", e);
+            throw new OperationFailedException("Error creating Major Discipline");
         }
     }
 

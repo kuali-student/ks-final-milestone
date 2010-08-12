@@ -16,7 +16,6 @@
 package org.kuali.student.lum.program.service.assembler;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
@@ -25,7 +24,7 @@ import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -60,7 +59,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         // Copy all the data from the clu to the majordiscipline
         programAssemblerUtils.assembleBasics(clu, mdInfo);
         programAssemblerUtils.assembleIdentifiers(clu, mdInfo);
-        programAssemblerUtils.assembleOrgs(clu, mdInfo);
+        programAssemblerUtils.assembleAdminOrgs(clu, mdInfo);
         programAssemblerUtils.assembleAtps(clu, mdInfo);
         programAssemblerUtils.assembleLuCodes(clu, mdInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
@@ -165,104 +164,141 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
         } 
         
+        programAssemblerUtils.disassembleBasics(clu, major, operation);
+        if (major.getId() == null)
+            major.setId(clu.getId());
+        programAssemblerUtils.disassembleLuCodes(clu, major, operation);
+        programAssemblerUtils.disassembleAdminOrgs(clu, major, operation);
+        programAssemblerUtils.disassembleAtps(clu, major, operation);
+        programAssemblerUtils.disassembleIdentifiers(clu, major, operation);
+        programAssemblerUtils.disassemblePublicationInfo(clu, major, operation);
+
+
+        if (major.getVariations() != null && !major.getVariations().isEmpty()) {
+            disassembleVariations(major, operation, result);
+        }
+        if (major.getOrgCoreProgram() != null ) {
+            disassembleCoreProgram(major, operation, result);
+        }
+        if (major.getCredentialProgramId() != null) {
+            disassembleCredentialProgram(major, operation, result);
+        }
+
+        if (major.getResultOptions() != null) {
+            disassembleResultOptions(major, operation, result);           
+        }
+
+        if (major.getLearningObjectives() != null) {
+            disassembleLearningObjectives(major, operation, result);
+        }
+
         AmountInfo intensity = new AmountInfo();
         intensity.setUnitType(major.getIntensity());
 		clu.setIntensity(intensity);
         clu.setStdDuration(major.getStdDuration());
-        clu.setReferenceURL(major.getReferenceURL());
         clu.setInstructors(major.getPublishedInstructors());
 
-        if (major.getVariations() != null && !major.getVariations().isEmpty()) {
-            disassembleVariations(major, clu, operation, result);
-        }
-
-        disassembleCodes(clu, major);
-
-        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
-                clu.getId(), major.getState(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
-        result.getChildNodes().add(resultOptions);
-
-        clu.setExpectedFirstAtp(major.getStartTerm());
-        clu.setLastAtp(major.getEndTerm());
-        clu.setLastAdmitAtp(major.getEndProgramEntryTerm());
         clu.setNextReviewPeriod(major.getNextReviewPeriod());
         clu.setEffectiveDate(major.getEffectiveDate());
 
-        disassembleIdentifiers(clu, major);
- 
-        clu.setDescr(major.getDescr());
-//        disassembleCatalogDescr(major, clu);
-
-        //TODO catalog publication targets
-
-        try {
-    		List<BaseDTOAssemblyNode<?, ?>> loResults;
-    		loResults = cluAssemblerUtils.disassembleLos(clu.getId(), major.getState(),  major.getLearningObjectives(), operation);
-            result.getChildNodes().addAll(loResults);
-        } catch (DoesNotExistException e) {
-        } catch (Exception e) {
-            throw new AssemblyException("Error while disassembling los", e);
-        }
 
         clu.setCampusLocations(major.getCampusLocations());
 
-        //TODO orgCoreProgram
         //TODO programRequirements
 //        clu.setAccreditations(major.getAccreditingAgencies());
-//        disassembleOrgs(major, clu);
 
-        clu.setAttributes(major.getAttributes());
 
-        clu.setMetaInfo(major.getMetaInfo());
-        clu.setType(major.getType());
-        clu.setState(major.getState());
-        clu.setId(UUIDHelper.genStringUUID(major.getId()));
-        if (null == major.getId()) {
-            major.setId(clu.getId());
-        }
 
 		// Add the Clu to the result
 		result.setNodeData(clu);
 		result.setOperation(operation);
 		result.setBusinessDTORef(major);
 
-	    
     	return result;
     }
 
-    private void disassembleVariations(MajorDisciplineInfo major, CluInfo clu, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
+    private void disassembleLearningObjectives(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
+        try {
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(major.getId(), major.getState(),  major.getLearningObjectives(), operation);
+            if (loResults != null) {
+                result.getChildNodes().addAll(loResults);
+            }
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Error while disassembling los", e);
+        }
+    }
+
+    private void disassembleResultOptions(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
+        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
+                major.getId(), major.getState(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
+        if (resultOptions != null) {
+            result.getChildNodes().add(resultOptions);           
+        }
+    }
+
+    private void disassembleCredentialProgram(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
+        List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
+        CluInfo credentialClu = null;
+
+        // id
+        try {
+            credentialClu = luService.getClu(major.getCredentialProgramId());
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Credential Clu does not exist for " + major.getCredentialProgramId());
+        }
+
+        //TODO check for update and delete
+
+        // Create the relationship and add it as well
+        CluCluRelationInfo relation = new CluCluRelationInfo();
+        relation.setCluId(major.getId());
+        relation.setRelatedCluId(credentialClu.getId());// this
+        // should
+        // already
+        // be set even if
+        // it's a create
+        relation.setType(ProgramAssemblerConstants.HAS_CORE_PROGRAM);
+        relation.setState(major.getState());
+
+        BaseDTOAssemblyNode<MajorDisciplineInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<MajorDisciplineInfo, CluCluRelationInfo>(
+                null);
+        relationNode.setNodeData(relation);
+        relationNode.setOperation(NodeOperation.CREATE);
+
+        results.add(relationNode);
+
+        result.getChildNodes().addAll(results);
+
+
+    }
+
+    private void disassembleVariations(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
 
         for (ProgramVariationInfo variation : major.getVariations()) {
             BaseDTOAssemblyNode<?,?> variationResults;
             try {
                 variationResults = programVariationAssembler.disassemble(variation, operation);
-                result.getChildNodes().add(variationResults);
+                if (variationResults != null) {
+                    result.getChildNodes().add(variationResults);
+                }
             } catch (Exception e) {
                 throw new AssemblyException("Error while disassembling Variation", e);
             }
         }
     }
 
-    private void disassembleIdentifiers(CluInfo clu, MajorDisciplineInfo major) {
-        CluIdentifierInfo id1 = new CluIdentifierInfo();
-        id1.setCode(major.getCode());
-        id1.setLongName(major.getLongTitle());
-        id1.setShortName(major.getShortTitle());
-        clu.setOfficialIdentifier(id1);
+    private void disassembleCoreProgram(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
 
-        if (major.getTranscriptTitle() != null ) {
-            CluIdentifierInfo id2 = new CluIdentifierInfo();
-            id2.setCode(major.getCode());
-            id2.setShortName(major.getTranscriptTitle());
-            id2.setType(ProgramAssemblerConstants.TRANSCRIPT);
-            clu.getAlternateIdentifiers().add(id1);
-        }
-        if (major.getDiplomaTitle() != null ) {
-            CluIdentifierInfo id2 = new CluIdentifierInfo();
-            id2.setCode(major.getCode());
-            id2.setShortName(major.getDiplomaTitle());
-            id2.setType(ProgramAssemblerConstants.DIPLOMA);
-            clu.getAlternateIdentifiers().add(id1);
+        BaseDTOAssemblyNode<?,?> coreResults;
+        try {
+            coreResults = coreProgramAssembler.disassemble(major.getOrgCoreProgram(), operation);
+            if (coreResults != null) {
+                result.getChildNodes().add(coreResults);
+            }
+        } catch (Exception e) {
+            throw new AssemblyException("Error while disassembling Core program", e);
         }
     }
 
