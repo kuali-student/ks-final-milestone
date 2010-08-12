@@ -102,14 +102,16 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
         if (!selectedItems.contains(id)){
             for (int i=0; i < layout.getRowCount(); i++){
                 for (int j=0; j < layout.getCellCount(i); j++){
-                    KSRadioButton radiobutton = (KSRadioButton)layout.getWidget(i, j);
-                    if (radiobutton.getFormValue().equals(id)){
-                    	selectedItems.clear();
-                        this.selectedItems.add(id);
-                        radiobutton.setValue(true);
-                        fireChangeEvent(false);
-                        break;
-                    }
+                	if(layout.getWidget(i, j) instanceof KSRadioButton){
+                		KSRadioButton radiobutton = (KSRadioButton)layout.getWidget(i, j);
+	                    if (radiobutton.getFormValue().equals(id)){
+	                    	selectedItems.clear();
+	                        this.selectedItems.add(id);
+	                        radiobutton.setValue(true);
+	                        fireChangeEvent(false);
+	                        break;
+	                    }
+                	}
                 }
             }
         }
