@@ -34,7 +34,6 @@ import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
-import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
@@ -68,7 +67,6 @@ import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.entity.AffiliatedOrg;
 import org.kuali.student.lum.lu.entity.Clu;
-import org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg;
 import org.kuali.student.lum.lu.entity.CluAccounting;
 import org.kuali.student.lum.lu.entity.CluAccreditation;
 import org.kuali.student.lum.lu.entity.CluAdminOrg;
@@ -472,7 +470,9 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setDesc(toRichTextInfo(entity.getDesc()));
 		dto.setCluId(entity.getClu().getId());
 		CluResultTypeInfo type = toCluResultTypeInfo(entity.getCluResultType());
-		dto.setType(type.getId());
+		if(type!=null){
+			dto.setType(type.getId());
+		}
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;

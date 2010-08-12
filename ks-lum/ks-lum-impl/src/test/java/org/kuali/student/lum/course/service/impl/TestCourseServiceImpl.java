@@ -458,10 +458,10 @@ public class TestCourseServiceImpl {
             }
             // Check in LuService if the attributes are mapped properly
             
-            CourseInfo rInfo = courseService.getCourse(cInfo.getId());
+            //CourseInfo rInfo = courseService.getCourse(cInfo.getId());
             
-            assertEquals("GRD", rInfo.getAttributes().get("finalExamStatus"));
-            assertEquals("Some123description", rInfo.getAttributes().get("altFinalExamStatusDescr"));
+            assertEquals("GRD", cInfo.getAttributes().get("finalExamStatus"));
+            assertEquals("Some123description", cInfo.getAttributes().get("altFinalExamStatusDescr"));
 
         } catch (Exception e) {
             System.out.println ("caught exception: " + e.getClass ().getName ());
