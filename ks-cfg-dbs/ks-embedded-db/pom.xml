@@ -16,8 +16,7 @@
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
-            <!-- Override the attach-sources execution --> 
-            <!-- Don't need sources attached -->
+            <!-- Override the attach-sources execution as we don't need sources attached -->
             <id>attach-sources</id>
             <phase>none</phase>
           </execution>
@@ -28,8 +27,6 @@
         <artifactId>maven-impex-plugin</artifactId>
         <version>1.0.1-SNAPSHOT</version>
         <configuration>
-          <username>KSNOMERGE</username>
-          <password>KSNOMERGE</password>
           <url>jdbc:oracle:thin:@localhost:1521:XE</url>
         </configuration>
         <dependencies>
