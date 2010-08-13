@@ -854,6 +854,10 @@ public class ImportMojo extends AbstractMojo {
 	 * @throws MojoExecutionException
 	 */
 	protected void updateCredentials() throws MojoExecutionException {
+		if (settingsKey == null) {
+			// Use the JDBC url as a key into settings.xml by default
+			settingsKey = getUrl();
+		}
 		Server server = settings.getServer(settingsKey);
 		updateUsername(server);
 		updatePassword(server);
@@ -881,6 +885,7 @@ public class ImportMojo extends AbstractMojo {
 	}
 
 	protected void updateUsername(Server server) {
+		getLog().info("username='" + getUsername() + '"');
 		// They already gave us a password, don't mess with it
 		if (getUsername() != null) {
 			return;
@@ -899,6 +904,7 @@ public class ImportMojo extends AbstractMojo {
 		}
 		// If it is null convert it to the empty string
 		setUsername(convertNullToEmpty(getUsername()));
+		getLog().info("username='" + getUsername() + '"');
 	}
 
 	protected String trimArtifactId(String artifactId) {
