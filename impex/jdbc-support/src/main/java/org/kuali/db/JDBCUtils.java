@@ -31,7 +31,7 @@ public class JDBCUtils {
 	 *            jdbc url
 	 * @return DatabaseConfig
 	 */
-	public JDBCConfiguration getDatabaseConfig(String url) {
+	public JDBCConfiguration getDatabaseConfiguration(String url) {
 		Validate.isTrue(isNotEmpty(url));
 
 		for (JDBCConfiguration jdbcConfig : jdbcConfigs) {
@@ -88,7 +88,7 @@ public class JDBCUtils {
 		// TODO This next line is nasty, but it works for nearly every postgresql server.
 		// If we have to add another exception to this for another database server, then I highly recommend refactoring
 		// this to a more elegant solution.
-		if (POSTGRESQL.equals(getDatabaseConfig(url).getType())) {
+		if (POSTGRESQL.equals(getDatabaseConfiguration(url).getType())) {
 			baseUrl += "/postgres";
 		}
 
