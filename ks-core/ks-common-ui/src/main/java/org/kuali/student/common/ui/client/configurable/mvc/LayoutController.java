@@ -55,13 +55,13 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	protected Map<Enum<?>, View> viewMap = new LinkedHashMap<Enum<?>, View>();
 	protected Map<String, Enum<?>> viewEnumMap = new HashMap<String, Enum<?>>();
 	protected Enum<?> defaultView;
-	
+
 	protected String name;
 	protected Enum<?> viewType;
 
     protected View startPopupView;
     protected KSLightBox startViewWindow;
-	
+
     public LayoutController(String controllerId){
         super(controllerId);
         //Global section update Event handling
@@ -80,10 +80,10 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 					public void onModelReady(DataModel model) {
 						event.getSection().updateModel(model);
 						event.getSection().updateWidgetData(model);
-						
+
 					}
 				});
-				
+
 			}
 		});
 		//Global validation Event handling
@@ -127,7 +127,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
         });
     }
-    
+
     private void validate(DataModel model, final ValidateRequestEvent event) {
     	if(event.validateSingleField()){
     		model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
@@ -149,10 +149,10 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
             });
     	}
     }
-    
+
     public ErrorLevel checkForErrors(List<ValidationResultInfo> list){
 		ErrorLevel errorLevel = ErrorLevel.OK;
-		
+
 		for(ValidationResultInfo vr: list){
 			if(vr.getErrorLevel().getLevel() > errorLevel.getLevel()){
 				errorLevel = vr.getErrorLevel();
@@ -161,11 +161,11 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 				break;
 			}
 		}
-    	
+
     	return errorLevel;
-    	
+
     }
-    
+
     public static LayoutController findParentLayout(Widget w){
         LayoutController result = null;
         while (true) {
@@ -181,11 +181,11 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
                 break;
             }
             w = w.getParent();
-            
+
         }
         return result;
     }
-    
+
 	public void addStartViewPopup(final View view){
 	    startPopupView = view;
 	    if(startViewWindow == null){
@@ -223,15 +223,18 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	    }
 	    startViewWindow.setWidget(panel);
 	}
-	
+
     public boolean isStartViewShowing(){
+        if(startViewWindow == null){
+            return false;
+        }
     	return startViewWindow.isShowing();
     }
 
     public View getStartPopupView(){
         return startPopupView;
     }
-    
+
     public void showStartPopup(final Callback<Boolean> onReadyCallback){
         startPopupView.beforeShow(new Callback<Boolean>() {
 			@Override
@@ -246,7 +249,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 
     /*New methods*/
-	
+
 	public void addView(View view){
 		viewMap.put(view.getViewEnum(), view);
 		viewEnumMap.put(view.getViewEnum().toString(), view.getViewEnum());
@@ -257,20 +260,20 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 			((ToolView) view).setController(this);
 		}
 	}
-	
+
 	public <V extends Enum<?>> void setDefaultView(V viewType){
 		this.defaultView = viewType;
 	}
-	
+
 	public abstract void updateModel();
-	
+
 	public void updateModelFromView(Enum<?> viewType){
 		View v = viewMap.get(viewType);
 		if(v != null){
 			v.updateModel();
 		}
 	}
-	
+
 	public void updateModelFromCurrentView(){
 		this.getCurrentView().updateModel();
 	}
@@ -294,7 +297,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 	@Override
 	public void showDefaultView(Callback<Boolean> onReadyCallback) {
-		if(!viewMap.isEmpty()){		
+		if(!viewMap.isEmpty()){
 			if(defaultView == null){
 				showView(viewMap.entrySet().iterator().next().getKey(), onReadyCallback);
 			}
@@ -302,9 +305,9 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 				showView(defaultView, onReadyCallback);
 			}
 		}
-		
+
 	}
-	
+
 	/**
  	 * Check to see if current/all section(s) is valid (ie. does not contain any errors)
  	 *
@@ -315,7 +318,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly){
 		return isValid(validationResults, checkCurrentSectionOnly, true);
 	}
-	
+
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly, boolean allFields){
 		boolean isValid = true;
 
@@ -371,7 +374,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 		return (status != ErrorLevel.ERROR);
 	}
-	
+
 	@Override
 	public void beforeViewChange(Callback<Boolean> okToChange) {
 		if(this.getCurrentView() instanceof Controller){
@@ -416,19 +419,19 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	public Enum<?> getViewEnum() {
 		return viewType;
 	}
-	
+
 	public void setViewEnum(Enum<?> viewType){
 		this.viewType= viewType;
 	}
-	
+
 	public void setName(String name){
 		this.name = name;
 	}
-	
+
 	public void setController(Controller controller){
 		parentController = controller;
 	}
-	
+
 	@Override
 	public void collectBreadcrumbNames(List<String> names) {
 		names.add(this.getName());
@@ -436,7 +439,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 			this.getCurrentView().collectBreadcrumbNames(names);
 		}
 	}
-	
+
 	@Override
 	public void clear() {
 		
