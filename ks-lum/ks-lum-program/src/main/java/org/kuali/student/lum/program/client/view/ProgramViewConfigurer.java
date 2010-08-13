@@ -2,7 +2,6 @@ package org.kuali.student.lum.program.client.view;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
-import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.configuration.*;
 import org.kuali.student.lum.program.client.configuration.base.Configuration;
 import org.kuali.student.lum.program.client.configuration.base.ConfigurationManager;
@@ -21,7 +20,7 @@ public class ProgramViewConfigurer extends AbstractProgramConfigurer<ProgramView
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(SpecializationsConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(RequirementsConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(ManagingBodiesConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(CatalogInformationConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<EditableConfiguration<ProgramViewConfigurer>>create(CatalogInformationViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(LearningObjectivesConfiguration.class));
     }
 }

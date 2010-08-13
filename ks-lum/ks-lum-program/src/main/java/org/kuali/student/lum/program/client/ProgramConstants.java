@@ -43,5 +43,8 @@ public class ProgramConstants {
     public static final String CATALOG_DESCRIPTION = "catalogDescr";
     public static final String CORE_FACULTY_MEMBERS = "publishedInstructors";
     public static final String PUBLICATION_TARGETS = "catalogPublicationTargets";
+    public static final String FULL_PART_TIME = "intensity";
+    public static final String DURATION = "stdDuration";
+    public static final String MORE_INFORMATION = "referenceURL";
 
 }
