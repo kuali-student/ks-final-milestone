@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
+import static org.apache.commons.io.FileUtils.*;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * Converts Ant impex data XML files into maven-impex-plugin data XML filse
+ * Converts Ant impex data XML files into maven-impex-plugin data XML files
  * 
  * @goal morphdata
  * @phase generate-sources
@@ -21,73 +21,65 @@ public class MorphDataMojo extends MorpherMojo {
 	/**
 	 * The directory in which the morphed XML will be generated.
 	 * 
-	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/generated-impex/data"
+	 * @parameter expression="${newDataOutputDir}" default-value="${project.build.directory}/generated-impex/xml"
 	 * @required
 	 */
-	private File outputDir;
+	private File newDataOutputDir;
 
 	/**
 	 * The directory containing the source (non-morphed) data XML files
 	 * 
-	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/impex/data"
+	 * @parameter expression="${oldDataXMLDir}" default-value="${basedir}/src/main/impex"
 	 * @required
 	 */
-	private File dataXMLDir;
+	private File oldDataXMLDir;
 
 	/**
 	 * The default set of files in that directory to include (ant style notation)
 	 * 
-	 * @parameter expression="${dataXMLIncludes}" default-value="*.xml"
+	 * @parameter expression="${oldDataXMLIncludes}" default-value="*.xml"
 	 * @required
 	 */
-	private String dataXMLIncludes;
+	private String oldDataXMLIncludes;
 
 	/**
 	 * The default set of files in that directory to exclude (ant style notation)
 	 * 
-	 * @parameter expression="${dataXMLExcludes}"
+	 * @parameter expression="${oldDataXMLExcludes}" default-value="*schema.xml"
 	 */
-	private String dataXMLExcludes;
-
-	@Override
-	public void execute() throws MojoExecutionException {
-		if (skipMojo()) {
-			return;
-		}
-		getLog().info("------------------------------------------------------------------------");
-		getLog().info("Converting data XML files");
-		getLog().info("------------------------------------------------------------------------");
-		doIO();
-	}
+	private String oldDataXMLExcludes;
 
 	protected String[] getFiles() throws IOException {
 		DirectoryScanner ds = new DirectoryScanner();
-		ds.setIncludes(new String[] { getDataXMLIncludes() });
-		if (getDataXMLExcludes() != null) {
-			ds.setExcludes(new String[] { getDataXMLExcludes() });
+		ds.setIncludes(new String[] { getOldDataXMLIncludes() });
+		if (getOldDataXMLExcludes() != null) {
+			ds.setExcludes(new String[] { getOldDataXMLExcludes() });
 		}
-		ds.setBasedir(getDataXMLDir());
+		ds.setBasedir(getOldDataXMLDir());
 		ds.scan();
 		return ds.getIncludedFiles();
 	}
 
-	protected void doIO() throws MojoExecutionException {
+	protected void executeMorph() throws MojoExecutionException {
+		getLog().info("------------------------------------------------------------------------");
+		getLog().info("Converting data XML files");
+		getLog().info("------------------------------------------------------------------------");
 		try {
 			String[] files = getFiles();
 			getLog().info("Located " + files.length + " data XML files to morph");
-			String inputPath = getDataXMLDir().getAbsolutePath();
-			FileUtils.forceMkdir(getOutputDir());
+			String inputPath = getOldDataXMLDir().getAbsolutePath();
+			forceMkdir(getNewDataOutputDir());
 			List<String> input = new ArrayList<String>();
 			List<String> output = new ArrayList<String>();
 			for (String file : files) {
 				input.add(inputPath + FS + file);
-				output.add(getOutputDir() + FS + file);
+				output.add(getNewDataOutputDir() + FS + file);
 			}
 			for (int i = 0; i < input.size(); i++) {
 				String filename = input.get(i);
-				String contents = FileUtils.readFileToString(new File(filename), getEncoding());
+				String contents = readFileToString(new File(filename), getEncoding());
 				contents = getMorphedContents(contents);
-				FileUtils.writeStringToFile(new File(output.get(i)), contents, getEncoding());
+				writeStringToFile(new File(output.get(i)), contents, getEncoding());
 			}
 		} catch (IOException e) {
 			throw new MojoExecutionException("Unexpected error", e);
@@ -98,35 +90,35 @@ public class MorphDataMojo extends MorpherMojo {
 		return StringUtils.replace(contents, "\"data.dtd\"", '"' + getProject().getArtifactId() + "-data.dtd\"");
 	}
 
-	public String getDataXMLIncludes() {
-		return dataXMLIncludes;
+	public File getNewDataOutputDir() {
+		return newDataOutputDir;
 	}
 
-	public void setDataXMLIncludes(String dataXMLIncludes) {
-		this.dataXMLIncludes = dataXMLIncludes;
+	public void setNewDataOutputDir(File newDataOutputDir) {
+		this.newDataOutputDir = newDataOutputDir;
 	}
 
-	public String getDataXMLExcludes() {
-		return dataXMLExcludes;
+	public File getOldDataXMLDir() {
+		return oldDataXMLDir;
 	}
 
-	public void setDataXMLExcludes(String dataXMLExcludes) {
-		this.dataXMLExcludes = dataXMLExcludes;
+	public void setOldDataXMLDir(File oldDataXMLDir) {
+		this.oldDataXMLDir = oldDataXMLDir;
 	}
 
-	public File getDataXMLDir() {
-		return dataXMLDir;
+	public String getOldDataXMLIncludes() {
+		return oldDataXMLIncludes;
 	}
 
-	public void setDataXMLDir(File dataXMLDir) {
-		this.dataXMLDir = dataXMLDir;
+	public void setOldDataXMLIncludes(String oldDataXMLIncludes) {
+		this.oldDataXMLIncludes = oldDataXMLIncludes;
 	}
 
-	public File getOutputDir() {
-		return outputDir;
+	public String getOldDataXMLExcludes() {
+		return oldDataXMLExcludes;
 	}
 
-	public void setOutputDir(File outputDir) {
-		this.outputDir = outputDir;
+	public void setOldDataXMLExcludes(String oldDataXMLExcludes) {
+		this.oldDataXMLExcludes = oldDataXMLExcludes;
 	}
 }

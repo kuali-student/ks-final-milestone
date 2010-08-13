@@ -3,12 +3,12 @@ package org.apache.torque.mojo;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
+import static org.apache.commons.io.FileUtils.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Convert Ant impex data XML files into maven-impex-plugin data XML filse
+ * Convert an Ant impex schema XML file into a maven-impex-plugin schema XML file
  * 
  * @goal morphschema
  * @phase generate-sources
@@ -45,37 +45,28 @@ public class MorphSchemaMojo extends MorpherMojo {
 	 */
 	private File oldSchemaXMLFile;
 
-	/**
-	 * The directory in which the SQL will be generated.
-	 * 
-	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/generated-impex"
-	 * @required
-	 */
-	private File outputDir;
-
-	@Override
-	public void execute() throws MojoExecutionException {
-		if (skipMojo()) {
-			return;
-		}
+	protected void executeMorph() throws MojoExecutionException {
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Converting schema XML file");
 		getLog().info("------------------------------------------------------------------------");
-		doIO();
-	}
-
-	protected void doIO() throws MojoExecutionException {
 		try {
-			String oldContents = FileUtils.readFileToString(oldSchemaXMLFile, getEncoding());
-			if (!isMorphNeeded(oldContents)) {
-				getLog().info("No morphing needed");
-				return;
-			}
-			if (!isAntImpexSchemaXML(oldContents)) {
+			// Read the "old" schema XML file into a string
+			String contents = readFileToString(oldSchemaXMLFile, getEncoding());
+
+			// Check it to see if it was created by Ant
+			if (!isAntImpexSchemaXML(contents)) {
 				getLog().warn("Unable to determine if this is an export from Ant Impex");
 			}
-			String newContents = morph(oldContents, getProject().getArtifactId());
-			FileUtils.writeStringToFile(newSchemaXMLFile, newContents, getEncoding());
+
+			// May not need to morph
+			if (isMorphNeeded(contents)) {
+				contents = morph(contents, getProject().getArtifactId());
+			} else {
+				getLog().info("No morphing needed");
+			}
+
+			// Write the schema to the file system
+			writeStringToFile(newSchemaXMLFile, contents, getEncoding());
 		} catch (IOException e) {
 			throw new MojoExecutionException("Error doing file system IO", e);
 		}
@@ -141,13 +132,5 @@ public class MorphSchemaMojo extends MorpherMojo {
 
 	public void setOldSchemaXMLFile(File oldSchemaXMLFile) {
 		this.oldSchemaXMLFile = oldSchemaXMLFile;
-	}
-
-	public File getOutputDir() {
-		return outputDir;
-	}
-
-	public void setOutputDir(File outputDir) {
-		this.outputDir = outputDir;
 	}
 }

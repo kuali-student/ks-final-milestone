@@ -1,6 +1,7 @@
 package org.apache.torque.mojo;
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 
 /**
@@ -39,6 +40,16 @@ public abstract class MorpherMojo extends AbstractMojo {
 	 * @readonly
 	 */
 	private MavenProject project;
+
+	@Override
+	public void execute() throws MojoExecutionException {
+		if (skipMojo()) {
+			return;
+		}
+		executeMorph();
+	}
+
+	protected abstract void executeMorph() throws MojoExecutionException;
 
 	/**
 	 * <p>
