@@ -153,15 +153,15 @@ public class TestProgramServiceImpl {
 //            assertTrue(major.getLearningObjectives().size() ==1);
 //            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
 
-//			assertNotNull(core.getDivisionsContentOwner());
-//			assertTrue(core.getDivisionsContentOwner().size() == 1);
-//			assertEquals(core.getDivisionsContentOwner().get(0).getId(), "CORE-COD");
+			assertNotNull(core.getDivisionsContentOwner());
+			assertTrue(core.getDivisionsContentOwner().size() == 1);
+			assertEquals(core.getDivisionsContentOwner().get(0).getId(), "CORE-COD");
 			assertNotNull(core.getDivisionsStudentOversight());
 			assertTrue(core.getDivisionsStudentOversight().size() == 1);
 			assertEquals(core.getDivisionsStudentOversight().get(0).getId(), "CORE-SOD");
-//			assertNotNull(core.getUnitsContentOwner());
-//			assertTrue(core.getUnitsContentOwner().size() == 1);
-//			assertEquals(core.getUnitsContentOwner().get(0).getId(), "CORE-COU");
+			assertNotNull(core.getUnitsContentOwner());
+			assertTrue(core.getUnitsContentOwner().size() == 1);
+			assertEquals(core.getUnitsContentOwner().get(0).getId(), "CORE-COU");
 			assertNotNull(core.getUnitsStudentOversight());
 			assertTrue(core.getUnitsStudentOversight().size() == 1);
 			assertEquals(core.getUnitsStudentOversight().get(0).getId(), "CORE-SOU");
@@ -342,33 +342,17 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testGetVariationsByMajorDisciplineId(){
     	MajorDisciplineInfo majorDisciplineInfo = null;
+    	
         try {
-			MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
-//			majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
-
 			majorDisciplineInfo = programService.getMajorDiscipline("D4EA77DD-B492-4554-B104-863E42C5F8B7");
 			assertNotNull(majorDisciplineInfo);
 
 			List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("D4EA77DD-B492-4554-B104-863E42C5F8B7");
 			assertNotNull(pvInfos);
 			assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
-
-			/*MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
-			assertNotNull(createdMD);
-
-			// get it fresh from database
-			MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(createdMD.getId());
-			assertNotNull(retrievedMD);
-
-			// get program variations
-			List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId(retrievedMD.getId());
-			assertNotNull(pvInfos);
-			assertEquals(pvInfos.size(), retrievedMD.getVariations().size());
-			assertEquals(pvInfos, retrievedMD.getVariations());*/
-
+						
         } catch (Exception e) {
         	e.printStackTrace();
             fail(e.getMessage());
