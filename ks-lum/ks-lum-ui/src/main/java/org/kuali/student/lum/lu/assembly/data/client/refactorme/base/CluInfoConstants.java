@@ -19,11 +19,12 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 public interface CluInfoConstants
 {
+    public static final String CLU_INFO = "cluInfo";
 	public static final String OFFICIAL_IDENTIFIER = "officialIdentifier";
 	public static final String ALTERNATE_IDENTIFIERS = "alternateIdentifiers";
 	public static final String ACADEMIC_SUBJECT_ORGS = "academicSubjectOrgs";
 	public static final String STUDY_SUBJECT_AREA = "studySubjectArea";
-	public static final String DESC = "desc";
+    public static final String DESCR = "descr";
 	public static final String CAMPUS_LOCATIONS = "campusLocations";
 	public static final String ACCREDITATIONS = "accreditations";
 	public static final String PRIMARY_ADMIN_ORG = "primaryAdminOrg";

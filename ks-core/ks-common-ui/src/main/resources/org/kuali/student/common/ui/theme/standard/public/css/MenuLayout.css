@@ -1,3 +1,6 @@
+.ks-menu-layout{
+	white-space: nowrap;
+}
 .ks-menu-layout-menu{
 }
 
@@ -7,8 +10,11 @@
 }
 
 .ks-menu-layout-rightColumn{
-	float: left;
 	padding-left: 20px;
+	display: inline-block;
+	white-space: normal;
+	zoom:1; 
+	\*display: inline;
 }
 
 .ks-menu-layout-special-menu-item-panel{
@@ -97,4 +103,13 @@
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Selected{
 	background-color: #708992;
+}
+
+.content-warning{
+	font-weight: bold;
+    color: #FEAB3E;
+}
+
+.content-info{
+    color: black;
 }

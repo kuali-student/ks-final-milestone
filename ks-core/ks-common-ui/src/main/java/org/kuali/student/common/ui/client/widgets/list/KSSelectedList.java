@@ -26,8 +26,8 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.HasWidgetReadyCallback;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
-import org.kuali.student.common.ui.client.util.Elements;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
+import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -41,30 +41,25 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.StringKey;
 import org.kuali.student.core.assembly.data.Data.Value;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasName;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget {
+public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers, HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget {
     private static final String VALUE = "value";
     private static final String DISPLAY = "display";
     
     private String name;
     private boolean initialized;
     private VerticalFlowPanel mainPanel;
-    private FlowPanel pickerPanel;
+    private HorizontalPanel pickerPanel;
     private KSPicker picker;
     private KSButton addItemButton;
     private KSListPanel valuesPanel;
@@ -84,7 +79,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         mainPanel = new VerticalFlowPanel();
         initWidget(mainPanel);
         if(config.canEdit) {
-            pickerPanel = new FlowPanel();
+            pickerPanel = new HorizontalPanel();
             pickerPanel.addStyleName("ks-selected-list-picker");
             addItemButton = new KSButton("add to list");
             addItemButton.setEnabled(false);
@@ -178,7 +173,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         if(fireChangeListeners) {
             selectionChanged();
         }
-        if(config.canEdit) {
+        if(config.canEdit && fireChangeListeners) {
             item.setHighlighted(true);
             new Timer() {
                 @Override
@@ -186,6 +181,9 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                     item.setHighlighted(false);
                 }
             }.schedule(5000);
+        }
+        else{
+        	item.removeHighlight();
         }
     }
 
@@ -345,7 +343,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
     public void setValue(String id, String translation) {
         clear();
         if(id != null && translation != null) {
-            addItem(createItem(id, translation));
+            addItem(createItem(id, translation), false);
         }
     }
 
@@ -354,8 +352,13 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         clear();
         if(translations != null) {
             for(Entry<String, String> e : translations.entrySet()) {
-                addItem(createItem(e.getKey(), e.getValue()));
+                addItem(createItem(e.getKey(), e.getValue()), false);
             }
         }
     }
+
+	@Override
+	public Widget getInputWidget() {
+		return picker.getInputWidget();
+	}
 }

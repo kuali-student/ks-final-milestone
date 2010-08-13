@@ -594,6 +594,19 @@ public interface StatementService extends DictionaryService, SearchService {
     public StatementTreeViewInfo getStatementTreeView(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
     /**
+     * Retrieves a view of a statement by its identifier with its referenced statements and requirement components expanded and translated
+     * @param statementId statement identifier
+	 * @param nlUsageTypeKey Natural language usage type identifier
+	 * @param language Translation language
+     * @return view of statement information with the referenced statements and requirement components expanded
+     * @throws DoesNotExistException statement not found
+     * @throws InvalidParameterException invalid statementId
+     * @throws MissingParameterException statementId not specified
+     * @throws OperationFailedException unable to complete request
+     */
+    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    /**
      * Updates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else
      * @param statementId identifier of the statement to be updated
      * @param statementTreeViewInfo The StatementTreeInfo to be updated

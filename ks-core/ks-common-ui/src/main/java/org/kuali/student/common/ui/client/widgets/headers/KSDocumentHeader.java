@@ -42,8 +42,8 @@ public class KSDocumentHeader extends Composite {
     	}
     	w.getElement().setAttribute("style", "float: left");
     }
-    public void setInfo(String info){
-    	infoLabel.setText(info);
+    
+    public HTML getInfoLabel(){
+    	return infoLabel;
     }
-   
 }

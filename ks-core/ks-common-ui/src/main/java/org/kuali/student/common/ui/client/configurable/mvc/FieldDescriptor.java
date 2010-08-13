@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityC
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
@@ -39,8 +40,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class FieldDescriptor {
-    private String fieldKey;
-    private Metadata metadata;
+    protected String fieldKey;
+    protected Metadata metadata;
     @SuppressWarnings("unchecked")
 	private ModelWidgetBinding modelWidgetBinding;
     private Callback<Boolean> validationRequestCallback;
@@ -65,16 +66,16 @@ public class FieldDescriptor {
     	if(messageKey == null){
     		messageKey = new MessageKeyInfo("");
     	}
+    	addStyleToWidget(fieldWidget);
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     	setupField();
     }
-
-    public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Widget fieldWidget){
-    	this.fieldKey = fieldKey;
-    	if(messageKey == null){
-    		messageKey = new MessageKeyInfo("");
+    
+    protected void addStyleToWidget(Widget w){
+    	if(fieldKey != null && !fieldKey.isEmpty() && w != null){
+    		String style = this.fieldKey.replaceAll("/", "-");
+    		w.addStyleName(style);
     	}
-    	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     }
 
     private void setupField(){
@@ -82,6 +83,10 @@ public class FieldDescriptor {
 	    	fieldElement.setRequired(MetadataInterrogator.isRequired(metadata));
 	    	//TODO setup the constraint text here
     	}
+    }
+    
+    public void showLabel(boolean show){
+    	fieldElement.showLabel(show);
     }
 
     public FieldElement getFieldElement(){
@@ -109,17 +114,11 @@ public class FieldDescriptor {
     		// backwards compatibility for old ModelDTO code
 	    	// for now, default to textbox if not specified
 	    	Widget result = new KSTextBox();
-	    	if(fieldKey != null){
-	    		String style = this.fieldKey.replaceAll("/", "-");
-	    		result.addStyleName(style);
-	    	}
+	    	addStyleToWidget(result);
 	    	return result;
     	} else {
     		Widget result = DefaultWidgetFactory.getInstance().getWidget(this);
-	    	if(fieldKey != null && !fieldKey.isEmpty()){
-	    		String style = this.fieldKey.replaceAll("/", "-");
-	    		result.addStyleName(style);
-	    	}
+    		addStyleToWidget(result);
     		return result;
     	}
     }
@@ -128,9 +127,11 @@ public class FieldDescriptor {
         if(modelWidgetBinding == null){
             if(fieldElement.getFieldWidget() instanceof RichTextEditor){
             	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.RichTextBinding.INSTANCE;
-            }else if(fieldElement.getFieldWidget() instanceof MultiplicityComposite){
+            } else if (fieldElement.getFieldWidget() instanceof KSCheckBox){
+            	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasValueBinding.INSTANCE;
+            } else if(fieldElement.getFieldWidget() instanceof MultiplicityComposite){
         		modelWidgetBinding = MultiplicityCompositeBinding.INSTANCE;
-        	}else if (fieldElement.getFieldWidget()instanceof HasText) {
+        	} else if (fieldElement.getFieldWidget()instanceof HasText) {
         	    modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasTextBinding.INSTANCE;
             } else if (fieldElement.getFieldWidget() instanceof KSSelectItemWidgetAbstract){
                 modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.SelectItemWidgetBinding.INSTANCE;
@@ -138,7 +139,7 @@ public class FieldDescriptor {
             	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding.INSTANCE;
             } else if (fieldElement.getFieldWidget() instanceof HasValue){
             	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasValueBinding.INSTANCE;
-            }
+            } 
         }
         return modelWidgetBinding;
     }

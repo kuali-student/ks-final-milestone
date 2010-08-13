@@ -71,6 +71,8 @@ public class SearchPanel extends Composite{
     private SearchResultsTable table;
     public static enum SearchStyle{ADVANCED, CUSTOM}; 
     private ActionCancelGroup actionCancelButtons;
+
+    private String actionLabel = getMessage("search");  //set default action label
     private boolean resultsSelected = false;
     
     //Search data
@@ -106,7 +108,7 @@ public class SearchPanel extends Composite{
 
     public void setupButtons() {
         if (actionCancelButtons != null) {
-            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("search"));
+            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
             actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
                 @Override
                public void exec(ButtonEnum result) {
@@ -167,6 +169,7 @@ public class SearchPanel extends Composite{
         layout.add(resultsTablePanel); 
         
         resultsSelected = false;
+        actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
     }
 
     private Widget createSearchParamPanel(LookupMetadata meta){
@@ -700,7 +703,7 @@ public class SearchPanel extends Composite{
                         @Override
                         public void onClick(ClickEvent event) {
                             resultsTablePanel.setVisible(false);
-                            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("search"));
+                            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
                             resultsSelected = false;
                         }});
                     SearchPanel.this.layout.insert(modifySearchPanel, 0);
@@ -742,5 +745,15 @@ public class SearchPanel extends Composite{
     
     public void addActionCompleteCallback(Callback<Boolean> callback){
         actionCompletedCallbacks.add(callback);
-    }  
+    }
+
+    public String getActionLabel() {
+        return actionLabel;
+    }
+
+    public void setActionLabel(String actionLabel) {
+        if ((actionLabel != null) && (actionLabel.trim().length() > 0)) {
+            this.actionLabel = actionLabel;
+        }
+    }
 }

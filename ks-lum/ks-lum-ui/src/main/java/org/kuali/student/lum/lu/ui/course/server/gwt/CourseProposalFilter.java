@@ -4,9 +4,7 @@ import java.util.Map;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.transform.AbstractDataFilter;
-import org.kuali.student.core.assembly.transform.MetadataFilter;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 
@@ -16,7 +14,7 @@ import org.kuali.student.core.proposal.service.ProposalService;
  * @author Will
  *
  */
-public class CourseProposalFilter extends AbstractDataFilter implements MetadataFilter{
+public class CourseProposalFilter extends AbstractDataFilter{
 
 	public static final String PROPOSAL_REFERENCE_TYPE		= "kuali.proposal.referenceType.clu";
     public static final String PROPOSAL_TYPE_CREATE_COURSE	= "kuali.proposal.type.course.create";
@@ -69,24 +67,6 @@ public class CourseProposalFilter extends AbstractDataFilter implements Metadata
 		}
 	}
 
-	
-	/**
-	 * This is adding proposal and proposal rationale fields to course object as dynamic attributes, will
-	 * need to add to dictionary when dynamic attributes are checked.
-	 */
-	@Override
-	public void applyMetadataFilter(String dtoName, Metadata metadata,
-			Map<String, String> filterProperties) {
-		Map<String, Metadata> properties = metadata.getProperties();
-		
-		Metadata propMetadata = new Metadata();
-		propMetadata.setDataType(DataType.STRING);
-		
-//		properties.put("proposalId", propMetadata);
-//		properties.put("proposalRationale", propMetadata);
-	}
-
-	
 	public void setProposalService(ProposalService proposalService) {
 		this.proposalService = proposalService;
 	}

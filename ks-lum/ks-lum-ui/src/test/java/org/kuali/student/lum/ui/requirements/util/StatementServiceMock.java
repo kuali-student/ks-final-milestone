@@ -341,6 +341,11 @@ public class StatementServiceMock implements StatementService {
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return null;
 	}
+
+	public StatementTreeViewInfo getStatementTreeViewForNlUsageType(String statementId, String nlUsageTypeKey, String language)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
     
 
     //from before the service contract change:

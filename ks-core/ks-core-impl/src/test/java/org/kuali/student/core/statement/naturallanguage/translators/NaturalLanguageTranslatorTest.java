@@ -120,16 +120,12 @@ public class NaturalLanguageTranslatorTest {
 		messageBuilderMap.put("de", deMsgBuilder);
 		messageBuilderMap.put("jp", jpMsgBuilder);
 		
-		englishMessageBuilder = new NaturalLanguageMessageBuilder(/*"en",*/ messageBuilderMap);
-		germanMessageBuilder = new NaturalLanguageMessageBuilder(/*"de",*/ messageBuilderMap);
-		japaneseMessageBuilder = new NaturalLanguageMessageBuilder(/*"jp",*/ messageBuilderMap);
+		englishMessageBuilder = new NaturalLanguageMessageBuilder(messageBuilderMap);
+		germanMessageBuilder = new NaturalLanguageMessageBuilder(messageBuilderMap);
+		japaneseMessageBuilder = new NaturalLanguageMessageBuilder(messageBuilderMap);
     }
     
     private void createTranslator() {
-    	englishTranslator.setLanguage("en");
-    	germanTranslator.setLanguage("de");
-    	japaneseTranslator.setLanguage("jp");
-    	
     	ContextRegistry<Context<ReqComponent>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
 //    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = NaturalLanguageUtil.getStatementContextRegistry(luService);
 
@@ -185,6 +181,17 @@ public class NaturalLanguageTranslatorTest {
 	}
 
 	@Test
+	public void testTranslateReqComponent_EnglishGerman() throws DoesNotExistException, OperationFailedException {
+		String nlUsageTypeKey = "KUALI.RULEEDIT";
+		List<ReqComponentField> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", this.cluSetId1);
+		reqComponent.setReqComponentFields(fieldList);
+		
+		String text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey, "de");
+
+		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", text);
+	}
+
+	@Test
 	public void testTranslateReqComponent_German() throws DoesNotExistException, OperationFailedException {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
 		List<ReqComponentField> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", this.cluSetId1);
@@ -192,20 +199,6 @@ public class NaturalLanguageTranslatorTest {
 		
 		String text = germanTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 
-		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", text);
-	}
-
-	@Test
-	public void testTranslateReqComponent_EnglishGerman() throws DoesNotExistException, OperationFailedException {
-		String nlUsageTypeKey = "KUALI.RULEEDIT";
-		List<ReqComponentField> fieldList = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", this.cluSetId1);		
-		reqComponent.setReqComponentFields(fieldList);
-		String text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
-
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", text);
-		englishTranslator.setLanguage("de");
-
-		text = englishTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
 		Assert.assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", text);
 	}
 
@@ -256,11 +249,9 @@ public class NaturalLanguageTranslatorTest {
 		String naturalLanguage = englishTranslator.translateStatement(luStatement, "KUALI.RULEEDIT");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 
-		englishTranslator.setLanguage("de");
-		naturalLanguage = englishTranslator.translateStatement(luStatement, "KUALI.RULEEDIT");
+		naturalLanguage = englishTranslator.translateStatement(luStatement, "KUALI.RULEEDIT", "de");
 		assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180 oder Student muss abgeschlossen 2 von MATH 152, MATH 221, MATH 180", naturalLanguage);
 
-		englishTranslator.setLanguage("en");
 		naturalLanguage = englishTranslator.translateStatement(luStatement, "KUALI.RULEEDIT");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}

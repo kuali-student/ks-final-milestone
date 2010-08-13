@@ -16,7 +16,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.widgets.field.layout.layouts.TableFieldLayout;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.HorizontalLayout;
 
 /**
  * This class uses TableFieldLayout to build a section with fields on the right and field labels on the left .
@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.layouts.TableFiel
  *
  */
 public class HorizontalSection extends BaseSection{
-	
 	public HorizontalSection(){
 		init();
 	}
@@ -36,7 +35,12 @@ public class HorizontalSection extends BaseSection{
 	}
 
 	private void init() {
-		layout = new TableFieldLayout();
+		layout = new HorizontalLayout();
 		this.add(layout);
 	}
+	
+	public void nextRow(){
+		((HorizontalLayout)layout).nextRow();
+	}
+
 }

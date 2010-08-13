@@ -45,7 +45,7 @@
 	<!--Constraints Declarations		-->
 	<bean id="constraint.date.time" parent="constraint">
 		<property name="id" value="date.time" />
-		<property name="messageId" value="kuali.msg.validation.date.time" />
+		<!--<property name="messageId" value="kuali.msg.validation.date.time" />-->
 		<property name="desc" value="Date-Time" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="19" />
@@ -62,8 +62,9 @@
 	</bean>
 	<bean id="constraint.single" parent="constraint">
 		<property name="id" value="single" />
+		<!-- 
 		<property name="messageId"
-			value="kuali.msg.validation.single&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+			value="kuali.msg.validation.single&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" /> -->
 		<property name="desc" value="Single valued (non-repeating)" />
 		<property name="serverSide" value="false" />
 		<property name="maxOccurs" value="1" />
@@ -71,7 +72,7 @@
 	</bean>
 		<bean id="constraint.not.used" parent="constraint">
 		<property name="id" value="not.used" />
-		<property name="messageId" value="kuali.msg.validation.not.used" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.used" />-->
 		<property name="desc" value="Not Used" />
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="0" />
@@ -87,7 +88,7 @@
 	</bean>
 	<bean id="constraint.required" parent="constraint">
 		<property name="id" value="required" />
-		<property name="messageId" value="kuali.msg.validation.required" />
+		<!--<property name="messageId" value="kuali.msg.validation.required" />-->
 		<property name="desc" value="Required" />
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="1" />
@@ -101,7 +102,7 @@
 	</bean>
 	<bean id="constraint.cross.greaterthan.effective.date" parent="constraint">
 		<property name="id" value="cross.greaterthan.effective.date"/>
-		<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>
+		<!--<property name="messageId" value="kuali.msg.validation.date.less.than.effective"/>-->
 		<property name="desc" value="Must be empty or a date greater than the entity's effective date"/>
 		
 		<!-- This is a hack, since we don't have a well defined way to handle cross field constraints. -->
@@ -559,6 +560,7 @@
 		<property name="fields">
 			<list>
 				<ref bean="orgPersonRelationInfo.id" />
+				<ref bean="orgPersonRelationInfo.state" />
 				<ref bean="orgPersonRelationInfo.effectiveDate" />
 				<ref bean="orgPersonRelationInfo.expirationDate" />
 				<ref bean="orgPersonRelationInfo.orgId" />
@@ -580,6 +582,19 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="orgPersonRelationInfo.state" parent="dataFieldDescriptor">
+		<property name="name" value="state" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata"
+			value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="Active" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>		
 	<bean id="orgPersonRelationInfo.effectiveDate" parent="dataFieldDescriptor">
 		<property name="name" value="effectiveDate" />
 		<property name="writeAccess" value="ALWAYS" />

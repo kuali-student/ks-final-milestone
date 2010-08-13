@@ -15,6 +15,10 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * These are the constants that are used in the programs.
  * 
@@ -29,14 +33,20 @@ public class ProgramAssemblerConstants {
 	public static final String BACCALAUREATE_PROGRAM = "kuali.lu.type.credential.Baccalaureate";
 	public static final String MASTERS_PROGRAM = "kuali.lu.type.credential.Masters";
 	public static final String PROFESSIONAL_PROGRAM = "kuali.lu.type.credential.Professional";
-	public static final String DOCOTORAL_PROGRAM = "kuali.lu.type.credential.Doctoral";
+    public static final String DOCTORAL_PROGRAM = "kuali.lu.type.credential.Doctoral";
 	public static final String UNDERGRADUATE_CERTIFICATE = "kuali.lu.type.credential.UndergraduateCertificate";
 	public static final String GRADUATE_CERTIFICATE = "kuali.lu.type.credential.GraduateCertificate";
 
 	public static final String[] CREDENTIAL_PROGRAM = { BACCALAUREATE_PROGRAM,
-			MASTERS_PROGRAM, PROFESSIONAL_PROGRAM, DOCOTORAL_PROGRAM,
-			UNDERGRADUATE_CERTIFICATE, GRADUATE_CERTIFICATE };
+								MASTERS_PROGRAM, PROFESSIONAL_PROGRAM, DOCTORAL_PROGRAM,
+								UNDERGRADUATE_CERTIFICATE, GRADUATE_CERTIFICATE };
 
+	// used for testing credentialProgramType
+    public static final Set<String> CREDENTIAL_PROGRAM_TYPES = new TreeSet<String>(Arrays.asList(CREDENTIAL_PROGRAM));
+
+	public static final String UNDERGRAD_PROGRAM_LEVEL = "kuali.lu.program.level.UnderGraduate";
+	public static final String GRADUATE_PROGRAM_LEVEL = "kuali.lu.program.level.Graduate";
+	
 	public static final String MAJOR_DISCIPLINE = "kuali.lu.type.MajorDiscipline";
 	public static final String PROGRAM_VARIATION = "kuali.lu.type.Variation";
 	public static final String MINOR_DISCIPLINE = "kuali.lu.type.MinorDiscipline";
@@ -74,4 +84,26 @@ public class ProgramAssemblerConstants {
 	// publication types
 	public static final String CATALOG = "kuali,lu.publication.Catalog";
 
+    // adminorg types
+	public static final String CONTENT_OWNER_DIVISION = "kuali.adminOrg.type.ContentOwnerDivision";
+    public static final String CURRICULUM_OVERSIGHT_DIVISION = "kuali.adminOrg.type.CurriculumOversightDivision";
+    public static final String STUDENT_OVERSIGHT_DIVISION = "kuali.adminOrg.type.StudentOversightDivision";
+    public static final String DEPLOYMENT_DIVISION = "kuali.adminOrg.type.DeploymentDivision";
+    public static final String FINANCIAL_RESOURCES_DIVISION = "kuali.adminOrg.type.FinancialResourcesDivision";
+    public static final String FINANCIAL_OVERSIGHT_DIVISION = "kuali.adminOrg.type.FinancialOversightDivision";
+    public static final String FINANCIAL_CONTROL_DIVISION = "kuali.adminOrg.type.FinancialControlDivision";
+    public static final String CURRICULUM_OVERSIGHT_UNIT = "kuali.adminOrg.type.CurriculumOversightUnit";
+    public static final String STUDENT_OVERSIGHT_UNIT = "kuali.adminOrg.type.StudentOversightUnit";
+    public static final String DEPLOYMENT_UNIT = "kuali.adminOrg.type.DeploymentUnit";
+    public static final String FINANCIAL_RESOURCES_UNIT = "kuali.adminOrg.type.FinancialResourcesUnit";
+    public static final String FINANCIAL_CONTROL_UNIT = "kuali.adminOrg.type.FinancialControlUnit";
+    public static final String INSTITUTION = "kuali.adminOrg.type.Institution";
+    public static final String CONTENT_OWNER_UNIT = "kuali.adminOrg.type.ContentOwnerUnit";
+    public static final String FINANCIAL_OVERSIGHT_UNIT = "kuali.adminOrg.type.FinancialOversightUnit";
+
+    // cluResult Types
+    public static final String DEGREE_RESULTS = "kuali.resultType.degree";
+    public static final String CERTIFICATE_RESULTS = "kuali.resultType.certificate";
+    public static final String ANNOTATION_RESULTS = "kuali.resultType.annotation";
+    public static final String COMPLETION_RESULTS = "kuali.resultType.completion";
 }

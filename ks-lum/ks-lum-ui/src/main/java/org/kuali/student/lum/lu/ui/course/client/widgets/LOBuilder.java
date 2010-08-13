@@ -57,7 +57,6 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
     
     VerticalPanel main = new VerticalPanel();
     HorizontalPanel searchMainPanel = new HorizontalPanel();
-    SimplePanel searchSpacerPanel = new SimplePanel();
     KSPicker searchWindow;  
     VerticalPanel loPanel = new VerticalPanel();
 
@@ -85,8 +84,6 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
                 loList.addSelectedLOs(selection);
             }                    
         });
-        searchSpacerPanel.add(new KSLabel(""));
-        searchMainPanel.add(searchSpacerPanel);
         searchMainPanel.add(searchWindow);            
 
         //adding search icon - should this be part of search link? coordinate with UX
@@ -100,7 +97,6 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         loPanel.add(loList);
 
         //searchImage.addStyleName("KS-LOBuilder-Search-Image");
-        searchSpacerPanel.addStyleName("KS-LOBuilder-Spacer-Panel");
         searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
         loPanel.addStyleName("KS-LOBuilder-LO-Panel");
         instructions.addStyleName("KS-LOBuilder-Instructions");
@@ -198,7 +194,11 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
             });
             
             List<String> list = new ArrayList<String>();
-            list.add("");
+            list.add(".");
+            list.add(".");
+            list.add(".");
+            list.add(".");
+            list.add(".");
             addSelectedLOs(list);
         }
 

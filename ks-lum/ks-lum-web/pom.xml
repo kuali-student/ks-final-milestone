@@ -8,14 +8,13 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>1.1.0-poc-M7-SNAPSHOT</version>
+        <version>1.1.0-M8-SNAPSHOT</version>
     </parent>
     <properties>
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
     </properties>
     <build>
         <plugins>
-            <!--  Use KS version of codehaus gwt plugin, until compilation required patch accepted -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>

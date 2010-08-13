@@ -10,8 +10,16 @@ import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderExc
 /**
  * This class creates success messages for boolean binary tree nodes.
  *
- * Default display has each operator and message on its own single line.
+ * Default display is a single line message (e.g. A OR (B AND (C OR D))).  
+ * To display as multiple lines where each operator and message is on its own line.
+ * set the following:
+ * <pre>
+ * INDENT_CHAR = ' '
+ * INDENT_NUMBER_OF_SPACES = 4
+ * BOOLEAN_OPERATOR_PREFIX = "\n"
+ * BOOLEAN_OPERATOR_SUFFIX = "\n"
  * Example:
+ * </pre>
  * <pre>
  *    MATH101
  * OR
@@ -21,26 +29,18 @@ import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderExc
  *        OR
  *            MATH401))
  * </pre>
- * To display as a single line message (e.g. A OR (B AND (C OR D))), 
- * set the following:
- * <pre>
- * INDENT_CHAR = '\0'
- * INDENT_NUMBER_OF_SPACES = 0
- * BOOLEAN_OPERATOR_PREFIX = " "
- * BOOLEAN_OPERATOR_SUFFIX = " "
- * </pre>
  */
 public class SimpleBooleanMessageBuilder implements MessageTreeBuilder {
 	// Default indentation character
-	private final static char INDENT_CHAR = ' ';
+	private final static char INDENT_CHAR = 0;
 	// Default number of spaces to indent
-	private final static int INDENT_NUMBER_OF_SPACES = 4;
+	private final static int INDENT_NUMBER_OF_SPACES = 0;
 	// Default indentation string
 	private final static String INDENT_STRING = getString(INDENT_NUMBER_OF_SPACES, INDENT_CHAR);
 	// Default boolean operator prefix string
-	private final static String BOOLEAN_OPERATOR_PREFIX = "\n";
+	private final static String BOOLEAN_OPERATOR_PREFIX = " ";
 	// Default boolean operator suffix string
-	private final static String BOOLEAN_OPERATOR_SUFFIX = "\n";
+	private final static String BOOLEAN_OPERATOR_SUFFIX = " ";
 
 	// Indentation character
 	private int indentCharacter = INDENT_CHAR;

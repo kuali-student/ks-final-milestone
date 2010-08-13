@@ -71,6 +71,7 @@ class OutlineManagerToolbar extends HorizontalPanel {
 		moveUpButton.sinkEvents(Event.ONMOUSEOUT);
 		moveUpButton.addStyleName("KS-LOMoveUpButton");
 		moveDownButton.addStyleName("KS-LOMoveDownButton");
+		deleteButton.setText("Delete");
 		deleteButton.addStyleName("KS-LODeleteButton");
 		indentButton.addStyleName("KS-LOIndentButton");
 		outdentButton.addStyleName("KS-LOOutdentButton"); 

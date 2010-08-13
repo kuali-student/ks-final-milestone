@@ -34,9 +34,10 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
+import org.kuali.student.lum.lu.dto.LuTypeInfo;
+import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.HonorsProgramInfo;
-import org.kuali.student.lum.program.dto.LuTypeInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
@@ -164,9 +165,22 @@ public interface ProgramService extends DictionaryService, SearchService{
     public List<String> getHonorsByCredentialProgramType(@WebParam(name="programType")String programType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
+     * Retrieves a Core Program
+     * @param coreProgramId Unique Id of the Core Program. Maps to cluId
+     * @return the Core Program
+     * @throws DoesNotExistException Program Requirement does not exist
+     * @throws InvalidParameterException invalid Program Requirement
+     * @throws MissingParameterException missing Program Requirement
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public CoreProgramInfo getCoreProgram(@WebParam(name="coreProgramId")String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    /** 
      * Retrieves a ProgramRequirement
      * @param programRequirementId Unique Id of the ProgramRequirement. Maps to cluId
-     * @return the created Program Requirement
+     * @return the Program Requirement
      * @throws DoesNotExistException Program Requirement does not exist
      * @throws InvalidParameterException invalid Program Requirement
      * @throws MissingParameterException missing Program Requirement
@@ -375,6 +389,57 @@ public interface ProgramService extends DictionaryService, SearchService{
 	 */
     public List<ValidationResultInfo> validateHonorsProgram(@WebParam(name="validationType")String validationType, @WebParam(name="honorsProgramInfo")HonorsProgramInfo honorsProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /** 
+     * Creates a Core Program
+     * @param coreProgramInfo coreProgramInfo
+     * @return the created Core Program
+     * @throws AlreadyExistsException The Core Program already exists
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws InvalidParameterException invalid Core Program
+     * @throws MissingParameterException missing Core Program
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public CoreProgramInfo createCoreProgram(@WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Updates a Core Program
+     * @param coreProgramInfo coreProgramInfo
+     * @return updated Core Program
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException Core Program not found
+     * @throws InvalidParameterException invalid Core Program
+     * @throws MissingParameterException missing Core Program
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public CoreProgramInfo updateCoreProgram(@WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Deletes a Core Program
+     * @param coreProgramId identifier for coreProgramId.Maps to cluId
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Core Program does not exist
+     * @throws InvalidParameterException invalid coreProgramId
+     * @throws MissingParameterException invalid coreProgramId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteCoreProgram(@WebParam(name="coreProgramId")String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Validates a Core Program against its data dictionary
+     * @param validationType identifier of the extent of validation
+     * @param coreProgramInfo Core Program information to be tested
+     * @return results from performing the validation
+     * @throws InvalidParameterException invalid validationTypeKey, cluInfo
+     * @throws MissingParameterException missing validationTypeKey, cluInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateCoreProgram(@WebParam(name="validationType")String validationType, @WebParam(name="coreProgramInfo")CoreProgramInfo coreProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    
     /** 
      * Creates a Program Requirement
      * @param programRequirementInfo programRequirementInfo

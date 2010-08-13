@@ -126,6 +126,12 @@ public class LUConstants {
     public static final String ADMIN_ORG_LABEL_KEY = "cluAdminOrg";
     public static final String ALT_ADMIN_ORG_LABEL_KEY = "cluAltAdminOrg";
 
+    // Active Dates Labels
+    public static final String START_TERM_LABEL_KEY = "cluStartTerm";
+    public static final String END_TERM_LABEL_KEY = "cluEndTerm";
+    public static final String PILOT_COURSE_LABEL_KEY = "cluPilotCourse";
+    public static final String PILOT_COURSE_TEXT_LABEL_KEY = "cluPilotCourseText";
+    
     //Logistics labels
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
     public static final String INSTRUCTORS_LABEL_KEY = "cluInstructors";
@@ -138,8 +144,16 @@ public class LUConstants {
     
     // Learning Results Labels
     public static final String LEARNING_RESULTS_LABEL_KEY = "cluLearningResults";
+    public static final String LEARNING_RESULTS_GRADES_ASSESSMENTS_LABEL_KEY = "cluLearningResultGradesAssessments";
+    public static final String LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY = "cluLearningResultStudentRegistration";
     public static final String LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluLearningResultAssessmentScale";
+    public static final String LEARNING_RESULT_OUTCOMES_LABEL_KEY = "cluLearningResultOutcomes";
+    public static final String LEARNING_RESULT_FINAL_EXAM_LABEL_KEY = "cluLearningResultFinalExam";
     public static final String ADD_LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY = "cluAddLearningResultAssessmentScale";
+	public static final String LEARNING_RESULT_AUDIT_LABEL_KEY = "cluLearningResultAudit";
+	public static final String LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY = "cluLearningResultAuditText";
+	public static final String LEARNING_RESULT_PASS_FAIL_LABEL_KEY = "cluLearningResultPassFail";
+	public static final String LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY = "cluLearningResultPassFailText";
     public static final String ADD_LEARNING_RESULT_OUTCOME_LABEL_KEY = "cluAddLearningResultOutcome";
     public static final String LEARNING_RESULT_OUTCOME_LABEL_KEY = "cluLearningResultOutcome";
     public static final String LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY = "cluLearningResultOutcomeType";
@@ -185,10 +199,14 @@ public class LUConstants {
     public static final String CL_V_J_LABEL_KEY = "cluCrossListedVersionJoin";
     public static final String JOINT_OFFER_ITEM_LABEL_KEY = "cluJointOfferItem";
     public static final String JOINT_OFFERINGS_LABEL_KEY = "cluJointOfferings";
+    public static final String JOINT_OFFERINGS_SECTION_TITLE_LABEL_KEY = "cluJointOfferingsSectionTitle";
     public static final String JOINT_OFFERINGS_ALT_LABEL_KEY = "cluJointOfferingsAlt";
     public static final String EVALUATION_TYPE_LABEL_KEY = "cluEvaluationType";
     public static final String TERM_LITERAL_LABEL_KEY = "cluTermLiteral";
     public static final String DURATION_LITERAL_LABEL_KEY = "cluDurationLiteral";
+    public static final String FINAL_EXAM_LABEL_KEY = "cluFinalExam";
+    public static final String FINAL_EXAM_STATUS_LABEL_KEY = "cluFinalExamStatus";
+    public static final String FINAL_EXAM_RATIONALE_LABEL_KEY = "cluFinalExamRationale";
 
     public static final String VERSION_CODE_LABEL_KEY = "cluVersionCode";
     public static final String VERSION_CODES_LABEL_KEY = "cluVersionCodes";
@@ -284,6 +302,8 @@ public class LUConstants {
     public static final String ORGANIZATION = "cluOrganization";
     public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
     public static final String PERCENTAGE = "cluPercentage";
+
+
 
 }
 

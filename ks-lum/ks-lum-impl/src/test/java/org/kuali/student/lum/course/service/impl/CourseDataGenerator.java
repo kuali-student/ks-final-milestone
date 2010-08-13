@@ -16,6 +16,7 @@ import java.util.Random;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 
+
 /**
  * Use this class to generate test data for a course
  * (it may need improvements for creating real relationships for more complex data elements)
@@ -27,11 +28,13 @@ public class CourseDataGenerator {
 							CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE, /* CourseAssemblerConstants.COURSE_ACTIVITY_WEBDISCUSS_TYPE, */ // not in DB
 							CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE };
 	public static String subjectAreas[] = { "GEOG", "COMP", "BIOL", "ENGL", "SOCY" };
+	public static String loCategories[] = {"category-1","category-2"};
 	Random generator = new Random();
 
 	public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException{
 		CourseInfo testData = generateTestData(CourseInfo.class, 0, 0,null);
 		testData.getAttributes().put("proposalTitle", "proposalTitle-1");
+		testData.getAttributes().put("proposalRationale", "proposalRationale");
 		return testData;
 	}
 
@@ -129,6 +132,9 @@ public class CourseDataGenerator {
 	private String getStringValue(String name, String parentPropertyName,
 			Integer propertyIndex) {
 		if("id".equals(name)){
+			if("loCategoryInfoList".equals(parentPropertyName)){
+				return loCategories[propertyIndex%loCategories.length];
+			}
 			return null;
 		}
 		if("type".equals(name)){
@@ -154,7 +160,13 @@ public class CourseDataGenerator {
 				return "kuali.lu.relation.type.co-located";
 			}
 			if("variations".equals(parentPropertyName)){
-				return "kuali.lu.type.CreditCourse.identifier.version";
+				return "kuali.lu.type.CreditCourse.identifier.variation";
+			}
+			if("administeringOrgs".equals(parentPropertyName)){
+				return "kuali.adminOrg.type.Administration";
+			}
+			if("curriculumOversightOrgs".equals(parentPropertyName)){
+				return "kuali.adminOrg.type.CurriculumOversight";
 			}
 			
 			throw new RuntimeException("Code what to do with this type");
@@ -176,7 +188,13 @@ public class CourseDataGenerator {
 		}
 		if("duration".equals(parentPropertyName)&&"timeQuantity".equals(name)){
 			return propertyIndex.toString();
-		} 
+		}
+  if("outOfClassHours".equals(parentPropertyName)&&"unitType".equals(name)){
+			return "kuali.atp.duration.Week";
+		}
+ 	if("outOfClassHours".equals(parentPropertyName)&&"unitQuantity".equals(name)){
+			return propertyIndex.toString();
+		}
         if("courseNumberSuffix".equals(name)){
             return "323";
         } 
@@ -185,6 +203,10 @@ public class CourseDataGenerator {
         }
 		if("campusLocations".equals(parentPropertyName)){
 			return campusLocations[propertyIndex%2];
+		}
+  // TODO: make it return A, B, C...
+		if ("variationCode".equals(name)) {
+			return "A";
 		}
 		//Default
 		return name+"-"+propertyIndex;

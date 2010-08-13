@@ -27,9 +27,10 @@ import java.util.Map.Entry;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.validator.old.Validator;
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.entity.Amount;
 import org.kuali.student.core.entity.TimeAmount;
@@ -54,7 +55,6 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
-import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -81,7 +81,6 @@ import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
-import org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg;
 import org.kuali.student.lum.lu.entity.CluAccounting;
 import org.kuali.student.lum.lu.entity.CluAccountingAttribute;
 import org.kuali.student.lum.lu.entity.CluAccreditation;
@@ -135,6 +134,7 @@ public class LuServiceImpl implements LuService {
 	private SearchManager searchManager;
 	private DictionaryService dictionaryServiceDelegate;
 	private Validator validator;
+	private ValidatorFactory validatorFactory;
 
 	public void setSearchManager(SearchManager searchManager) {
 		this.searchManager = searchManager;
@@ -477,13 +477,8 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(relatedCluId, "relatedCluId");
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 
-		List<Clu> clus = luDao.getClusByRelation(relatedCluId,
-				luLuRelationTypeKey);
-		List<String> ids = new ArrayList<String>(clus.size());
-		for (Clu clu : clus) {
-			ids.add(clu.getId());
-		}
-		return ids;
+        List<String> cluIds = luDao.getCluIdsByRelatedCluId(relatedCluId, luLuRelationTypeKey);
+        return cluIds;
 	}
 
 	@Override
@@ -963,7 +958,12 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluInfo, "cluInfo");
 
-		return validator.validateTypeStateObject(cluInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure);
+        
+        return validationResults;
 	}
 
 	@Override
@@ -997,29 +997,18 @@ public class LuServiceImpl implements LuService {
 		    }
 		}
 
-		if (cluInfo.getPrimaryAdminOrg() != null) {
-			CluAdminOrg primaryAdminOrg = new CluAdminOrg();
-			BeanUtils.copyProperties(cluInfo.getPrimaryAdminOrg(),
-					primaryAdminOrg, new String[] { "attributes" });
-			primaryAdminOrg.setAttributes(LuServiceAssembler
-					.toGenericAttributes(CluAdminOrgAttribute.class, cluInfo
-							.getPrimaryAdminOrg().getAttributes(),
-							primaryAdminOrg, luDao));
-			clu.setPrimaryAdminOrg(primaryAdminOrg);
+		if (clu.getAdminOrgs() == null) {
+			clu.setAdminOrgs(new ArrayList<CluAdminOrg>(0));
 		}
-
-		if (clu.getAlternateAdminOrgs() == null) {
-			clu.setAlternateAdminOrgs(new ArrayList<CluAdminOrg>(0));
-		}
-		List<CluAdminOrg> alternateOrgs = clu.getAlternateAdminOrgs();
-		for (AdminOrgInfo orgInfo : cluInfo.getAlternateAdminOrgs()) {
+		List<CluAdminOrg> adminOrgs = clu.getAdminOrgs();
+		for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
 			CluAdminOrg instructor = new CluAdminOrg();
 			BeanUtils.copyProperties(orgInfo, instructor,
 					new String[] { "attributes" });
 			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
 					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
 					instructor, luDao));
-			alternateOrgs.add(instructor);
+			adminOrgs.add(instructor);
 		}
 
 		if (cluInfo.getPrimaryInstructor() != null) {
@@ -1106,18 +1095,6 @@ public class LuServiceImpl implements LuService {
 		clu.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
 
-		if (clu.getAcademicSubjectOrgs() == null) {
-			clu.setAcademicSubjectOrgs(new ArrayList<CluAcademicSubjectOrg>());
-		}
-		List<CluAcademicSubjectOrg> subjectOrgs = clu.getAcademicSubjectOrgs();
-		for (AcademicSubjectOrgInfo org : cluInfo.getAcademicSubjectOrgs()) {
-            if (org.getOrgId() != null && !org.getOrgId().isEmpty()) {
-                CluAcademicSubjectOrg subjOrg = new CluAcademicSubjectOrg();
-                subjOrg.setOrgId(org.getOrgId());
-                subjOrg.setClu(clu);
-                subjectOrgs.add(subjOrg);
-            }
-		}
 
 		if (cluInfo.getIntensity() != null) {
 			clu.setIntensity(LuServiceAssembler
@@ -1154,9 +1131,9 @@ public class LuServiceImpl implements LuService {
 				"officialIdentifier", "alternateIdentifiers", "descr",
 				"luCodes", "primaryInstructor", "instructors", "stdDuration",
 				"offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-				"metaInfo", "academicSubjectOrgs", "intensity",
-				"campusLocations", "accreditations", "primaryAdminOrg",
-				"alternateAdminOrgs" });
+				"metaInfo", "intensity",
+				"campusLocations", "accreditations",
+				"adminOrgs" });
 
 		luDao.create(clu);
 
@@ -1354,6 +1331,7 @@ public class LuServiceImpl implements LuService {
 			}
 		} else if (clu.getFee() != null) {
 			luDao.delete(clu.getFee());
+			clu.setFee(null);
 		}
 
 		if (cluInfo.getAccountingInfo() != null) {
@@ -1385,34 +1363,6 @@ public class LuServiceImpl implements LuService {
 					.copyProperties(cluInfo.getIntensity(), clu.getIntensity());
 		} else if (clu.getIntensity() != null) {
 			luDao.delete(clu.getIntensity());
-		}
-
-		// Update the list of academicSubjectOrgs
-		// Get a map of Id->object of all the currently persisted objects in the
-		// list
-		Map<String, CluAcademicSubjectOrg> oldOrgMap = new HashMap<String, CluAcademicSubjectOrg>();
-		for (CluAcademicSubjectOrg subjOrg : clu.getAcademicSubjectOrgs()) {
-			oldOrgMap.put(subjOrg.getOrgId(), subjOrg);
-		}
-		clu.getAcademicSubjectOrgs().clear();
-
-		// Loop through the new list, if the item exists already update and
-		// remove from the list
-		// otherwise create a new entry
-		for (AcademicSubjectOrgInfo org : cluInfo.getAcademicSubjectOrgs()) {
-			CluAcademicSubjectOrg subjOrg = oldOrgMap.remove(org.getOrgId());
-			if (subjOrg == null) {
-				subjOrg = new CluAcademicSubjectOrg();
-			}
-			// Do Copy
-			subjOrg.setOrgId(org.getOrgId());
-			subjOrg.setClu(clu);
-			clu.getAcademicSubjectOrgs().add(subjOrg);
-		}
-
-		// Now delete anything left over
-		for (Entry<String, CluAcademicSubjectOrg> entry : oldOrgMap.entrySet()) {
-			luDao.delete(entry.getValue());
 		}
 
 		// Update the list of campusLocations
@@ -1479,61 +1429,49 @@ public class LuServiceImpl implements LuService {
 			luDao.delete(entry.getValue());
 		}
 
-		// Update the primary admin org
-		if (cluInfo.getPrimaryAdminOrg() != null) {
-			if (clu.getPrimaryAdminOrg() == null) {
-				clu.setPrimaryAdminOrg(new CluAdminOrg());
-			}
-			BeanUtils.copyProperties(cluInfo.getPrimaryAdminOrg(), clu
-					.getPrimaryAdminOrg(), new String[] { "attributes" });
-			clu.getPrimaryAdminOrg().setAttributes(
-					LuServiceAssembler.toGenericAttributes(
-							CluAdminOrgAttribute.class, cluInfo
-									.getPrimaryAdminOrg().getAttributes(), clu
-									.getPrimaryAdminOrg(), luDao));
-		} else if (clu.getPrimaryAdminOrg() != null) {
-			luDao.delete(clu.getPrimaryAdminOrg());
-		}
-
 		// Update the List of alternate admin orgs
 		// Get a map of Id->object of all the currently persisted objects in the
 		// list
 		Map<String, CluAdminOrg> oldAdminOrgsMap = new HashMap<String, CluAdminOrg>();
-		for (CluAdminOrg cluOrg : clu.getAlternateAdminOrgs()) {
+		for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
 			oldAdminOrgsMap.put(cluOrg.getOrgId(), cluOrg);
 		}
-		clu.getAlternateAdminOrgs().clear();
+		
+		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
+			luDao.delete(entry.getValue());
+		}
+		clu.setAdminOrgs(new ArrayList<CluAdminOrg>());
 
 		// Loop through the new list, if the item exists already update and
 		// remove from the list
 		// otherwise create a new entry
-		for (AdminOrgInfo orgInfo : cluInfo.getAlternateAdminOrgs()) {
-			CluAdminOrg cluOrg = oldAdminOrgsMap.remove(orgInfo.getOrgId());
+		for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
+			CluAdminOrg cluOrg = new CluAdminOrg();
 			if (cluOrg == null) {
 				cluOrg = new CluAdminOrg();
 			}
 			// Do Copy
 			BeanUtils.copyProperties(orgInfo, cluOrg,
-					new String[] { "attributes" });
+					new String[] { "attributes","id" });
 			cluOrg.setAttributes(LuServiceAssembler.toGenericAttributes(
 					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
 					cluOrg, luDao));
-			clu.getAlternateAdminOrgs().add(cluOrg);
+			clu.getAdminOrgs().add(cluOrg);
 		}
 
 		// Now delete anything left over
-		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
-			luDao.delete(entry.getValue());
-		}
+//		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
+//			luDao.delete(entry.getValue());
+//		}
 
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
 				"officialIdentifier", "alternateIdentifiers", "descr",
 				"luCodes", "primaryInstructor", "instructors", "stdDuration",
 				"offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-				"metaInfo", "academicSubjectOrgs", "intensity",
-				"campusLocations", "accreditations", "primaryAdminOrg",
-				"alternateAdminOrgs" });
+				"metaInfo","intensity",
+				"campusLocations", "accreditations",
+				"adminOrgs" });
 		Clu updated = null;
 		try {
 			updated = luDao.update(clu);
@@ -1580,7 +1518,12 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
-		return validator.validateTypeStateObject(cluCluRelationInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluCluRelationInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure);
+        
+        return validationResults;
 	}
 
 	@Override
@@ -1702,8 +1645,12 @@ public class LuServiceImpl implements LuService {
 
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
-
-		return validator.validateTypeStateObject(cluPublicationInfo, getObjectStructure("cluPlublicationInfo"));
+		
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluPublicationInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure);
+        return validationResults;
 	}
 
 	@Override
@@ -1742,7 +1689,11 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
-		return validator.validateTypeStateObject(cluResultInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluResultInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure);
+        return validationResults;
 	}
 
 	@Override
@@ -1900,7 +1851,11 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 
-		return validator.validateTypeStateObject(cluLoRelationInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluLoRelationInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluLoRelation.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure);
+        return validationResults;
 	}
 
 	@Override
@@ -2038,7 +1993,11 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
-		return validator.validateTypeStateObject(cluSetInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluSetInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluSetInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure);
+        return validationResults;
 	}
 
 	@Override
@@ -2372,7 +2331,11 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(luiInfo, "luiInfo");
 
-		return validator.validateTypeStateObject(luiInfo, getObjectStructure("luiInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(LuiInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure);
+        return validationResults;
 	}
 
 	@Override
@@ -2483,7 +2446,11 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
 
-		return validator.validateTypeStateObject(luiLuiRelationInfo, getObjectStructure("luiLuiRelationInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(LuiLuiRelation.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure);
+        return validationResults;
 	}
 
 	@Override
@@ -2722,7 +2689,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public ObjectStructure getObjectStructure(String objectTypeKey) {
+	public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
 		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
 	}
 
@@ -2821,4 +2788,12 @@ public class LuServiceImpl implements LuService {
 
 		return statusInfo;
 	}
+
+	public ValidatorFactory getValidatorFactory() {
+		return validatorFactory;
+	}
+
+	public void setValidatorFactory(ValidatorFactory validatorFactory) {
+		this.validatorFactory = validatorFactory;
+	}	
 }

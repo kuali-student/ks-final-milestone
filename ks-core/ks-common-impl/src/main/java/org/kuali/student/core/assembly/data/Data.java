@@ -655,7 +655,9 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (final Entry<Key, Value> e : map.entrySet()) {
             if (recurse && e.getValue().getType().equals(Data.class)) {
                 Data value = e.getValue().get();
-                value = value.copy();
+                if(value != null){
+                	value = value.copy();
+                }
                 target.map.put(e.getKey(), new DataValue(value));
             } else {
                 target.map.put(e.getKey(), e.getValue());
@@ -713,6 +715,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
     	HashMap<Key, Value> propertyMap = new HashMap<Key, Value>(map);
 //    	propertyMap.remove("_runtimeData");
     	propertyMap.remove(new StringKey("_runtimeData"));
+
         final Iterator<Map.Entry<Key, Value>> impl = propertyMap.entrySet().iterator();
 
         return new Iterator<Property>() {
@@ -1042,7 +1045,10 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         dataString.append("{");
         for (Iterator itr = this.iterator(); itr.hasNext();) {
             Property p = (Property) itr.next();
-            dataString.append(p.getKey() + "=" + p.getValue() + ", ");
+            dataString.append(p.getKey() + "=" + p.getValue());
+            if(itr.hasNext()){
+            	dataString.append(", ");
+            }
         }
         dataString.append("}");
 
