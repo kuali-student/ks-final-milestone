@@ -149,7 +149,8 @@ public class DictionaryFormatter
                new Dictionary2BeanComparer (clazz, os).compare ();
   if (discrepancies.size () > 0)
   {
-   builder.append ("h" + (level + 1) + ". " + discrepancies.size () + " discrepancie(s) found in "
+   builder.append ("h" + (level + 1) + ". " + discrepancies.size ()
+                   + " discrepancie(s) found in "
                    + calcSimpleName (name));
    builder.append (rowSeperator);
    builder.append (formatAsString (discrepancies));
@@ -274,8 +275,10 @@ public class DictionaryFormatter
   {
    return name;
   }
-  String simpleName  = calcSimpleName (name);
-  String fieldName = calcSimpleName (name.substring (0, name.length () - simpleName.length () - 1));
+  String simpleName = calcSimpleName (name);
+  String fieldName = calcSimpleName (name.substring (0, name.length ()
+                                                        - simpleName.length ()
+                                                        - 1));
   return fieldName + "." + simpleName;
  }
 
@@ -355,8 +358,10 @@ public class DictionaryFormatter
   String and = "";
   builder.append ("\\\\");
   builder.append ("\n");
-  builder.append ("Implemented using search:");
-  builder.append (lc.getSearchTypeId ());
+  builder.append ("Implemented using search: ");
+  String searchPage = calcWikiSearchPage (lc.getSearchTypeId ());
+  builder.append ("[" + lc.getSearchTypeId () + "|" + searchPage + "#"
+                  + lc.getSearchTypeId () + "]");
   List<CommonLookupParam> configuredParameters = filterConfiguredParams (
     lc.getParams ());
   if (configuredParameters.size () > 0)
@@ -389,6 +394,54 @@ public class DictionaryFormatter
    }
   }
   return builder.toString ();
+ }
+ private static final String PAGE_PREFIX = "Formatted View of ";
+ private static final String PAGE_SUFFIX = " Searches";
+
+ private String calcWikiSearchPage (String searchType)
+ {
+  return PAGE_PREFIX + calcWikigPageAbbrev (searchType) + PAGE_SUFFIX;
+ }
+
+ private String calcWikigPageAbbrev (String searchType)
+ {
+  if (searchType == null)
+  {
+   return null;
+  }
+  if (searchType.equals ("enumeration.management.search"))
+  {
+   return "EM";
+  }
+  if (searchType.startsWith ("lu."))
+  {
+   return "LU";
+  }
+  if (searchType.startsWith ("cluset."))
+  {
+   return "LU";
+  }
+  if (searchType.startsWith ("lo."))
+  {
+   return "LO";
+  }
+  if (searchType.startsWith ("lrc."))
+  {
+   return "LRC";
+  }
+  if (searchType.startsWith ("comment."))
+  {
+   return "Comment";
+  }
+  if (searchType.startsWith ("org."))
+  {
+   return "Organization";
+  }
+if (searchType.startsWith ("atp."))
+  {
+   return "ATP";
+  }
+  throw new IllegalArgumentException ("Unknown type of search: " + searchType);
  }
 
  private List<CommonLookupParam> filterConfiguredParams (

@@ -19,7 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class DictionaryTesterHelper
 {
 
- private String fileName;
+ private String outputFileName;
  private File file;
  private OutputStream os;
  private PrintStream out;
@@ -27,17 +27,17 @@ public class DictionaryTesterHelper
  private String dictFileName;
  private boolean processSubstructures = false;
 
- public DictionaryTesterHelper (String fileName,
+ public DictionaryTesterHelper (String outputFileName,
                                 Set<Class<?>> startingClasses,
                                 String dictFileName,
                                 boolean processSubstructures)
  {
-  this.fileName = fileName;
+  this.outputFileName = outputFileName;
   this.startingClasses = startingClasses;
   this.dictFileName = dictFileName;
   this.processSubstructures = processSubstructures;
   // get printstream from file
-  this.file = new File (this.fileName);
+  this.file = new File (this.outputFileName);
   try
   {
    os = new FileOutputStream (file, false);
