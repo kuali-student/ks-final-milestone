@@ -685,25 +685,32 @@ public class ImportMojo extends AbstractMojo {
 		String schema = project.getArtifactId();
 		return "classpath:" + schema + "-schema.xml";
 	}
-	
+
 	protected boolean defaultSchemaExists() {
 		DefaultResourceLoader loader = new DefaultResourceLoader();
 		Resource resource = loader.getResource(getDefaultSchemaLocation());
 		return resource.exists();
 	}
-		
-		
+
 	protected void addDefaultSchema() {
-		if (getSchemas() != null) {
+		// They supplied a list of schemas. Only update schemas in their list
+		if (getSchemas() != null && getSchemas().size() > 0) {
 			return;
 		}
+		// The default schema does not exist
 		if (!defaultSchemaExists()) {
 			return;
 		}
+		// We are not importing a schema
 		if (!isImportSchema()) {
 			return;
 		}
-		List<String> schemas = new ArrayList<String>();
+		// Add the default schema to the list
+
+		List<String> schemas = getSchemas();
+		if (schemas == null) {
+			schemas = new ArrayList<String>();
+		}
 		schemas.add(getDefaultSchemaLocation());
 		setSchemas(schemas);
 	}
@@ -713,7 +720,7 @@ public class ImportMojo extends AbstractMojo {
 		if (getSchemas() == null) {
 			return;
 		}
-		
+
 		try {
 			List<Database> databases = new Utils().getDatabases(getSchemas(), getTargetDatabase());
 			for (String schemaXMLResource : getSchemas()) {
