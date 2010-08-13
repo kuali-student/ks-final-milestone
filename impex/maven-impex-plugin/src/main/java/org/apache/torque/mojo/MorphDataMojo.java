@@ -9,6 +9,8 @@ import static org.apache.commons.io.FileUtils.*;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
+import org.kuali.core.db.torque.PrettyPrint;
+import org.kuali.core.db.torque.Utils;
 
 /**
  * Converts Ant impex data XML files into maven-impex-plugin data XML files
@@ -61,12 +63,11 @@ public class MorphDataMojo extends MorpherMojo {
 	}
 
 	protected void executeMorph() throws MojoExecutionException {
-		getLog().info("------------------------------------------------------------------------");
-		getLog().info("Converting data XML files");
-		getLog().info("------------------------------------------------------------------------");
+		Utils utils = new Utils();
 		try {
 			String[] files = getFiles();
-			getLog().info("Located " + files.length + " data XML files to morph");
+			PrettyPrint pp = new PrettyPrint("[INFO] Converting " + files.length + " data XML files");
+			utils.left(pp);
 			String inputPath = getOldDataXMLDir().getAbsolutePath();
 			forceMkdir(getNewDataOutputDir());
 			List<String> input = new ArrayList<String>();
@@ -81,6 +82,7 @@ public class MorphDataMojo extends MorpherMojo {
 				contents = getMorphedContents(contents);
 				writeStringToFile(new File(output.get(i)), contents, getEncoding());
 			}
+			utils.right(pp);
 		} catch (IOException e) {
 			throw new MojoExecutionException("Unexpected error", e);
 		}
