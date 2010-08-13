@@ -124,8 +124,10 @@ public class BaseAssembler {
 	public static <T extends TypeInfo, S extends Type<?>> List<T> toGenericTypeInfoList(
 			Class<T> typeInfoClass, List<S> typeEntities) {
 		List<T> typeInfoList = new ArrayList<T>();
-		for (S typeEntity : typeEntities) {
-			typeInfoList.add(toGenericTypeInfo(typeInfoClass, typeEntity));
+		if(typeEntities!=null){
+			for (S typeEntity : typeEntities) {
+				typeInfoList.add(toGenericTypeInfo(typeInfoClass, typeEntity));
+			}
 		}
 		return typeInfoList;
 	}

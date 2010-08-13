@@ -32,43 +32,39 @@ public class VerticalFieldLayout extends FieldLayout{
 	
 	protected FlowPanel verticalLayout = new FlowPanel();
 	private SpanPanel buttonArea = new SpanPanel();
-	private FlowPanel top = new FlowPanel();
 	
 	public VerticalFieldLayout(){
 		super();
-		top.add(verticalLayout);
-		top.add(buttonArea);
-		this.add(top);
 		hasValidation = true;
-		verticalLayout.setStyleName("ks-form-module");
+		init();
 	}
 	
 	public VerticalFieldLayout(boolean hasValidation){
 		super();
 		this.hasValidation = hasValidation;
-		top.add(verticalLayout);
-		top.add(buttonArea);
-		this.add(top);
-		verticalLayout.setStyleName("ks-form-module");
+		init();
 	}
 	
 	public VerticalFieldLayout(SectionTitle title){
 		super();
 		this.setLayoutTitle(title);
-		top.add(verticalLayout);
-		top.add(buttonArea);
-		this.add(top);
-		hasValidation = true;
-		verticalLayout.setStyleName("ks-form-module");
+		this.hasValidation = true;
+		init();
 	}
 	
 	public VerticalFieldLayout(SectionTitle title, boolean hasValidation){
 		super();
 		this.setLayoutTitle(title);
-		top.add(verticalLayout);
-		top.add(buttonArea);
-		this.add(top);
 		this.hasValidation = hasValidation;
+		init();
+	}
+	
+	private void init(){
+		instructions.setVisible(false);
+		this.add(verticalLayout);
+		verticalLayout.add(instructions);
+		verticalLayout.add(message);
+		this.add(buttonArea);
 		verticalLayout.setStyleName("ks-form-module");
 	}
 	

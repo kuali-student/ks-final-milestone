@@ -24,7 +24,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.naturallanguage.AbstractContext;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
+import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypeKeys;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 
@@ -32,17 +32,12 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 	private final static Map<String, CluSetInfo> cluSetMap = new HashMap<String, CluSetInfo>();
 
 	/**
-	 * <code>clu</code> token (key) references a Clu object to be used in a template 
-	 * e.g. 'Course: $clu.getOfficialIdentifier().getLongName()'
+	 * Template tokens (keys).
 	 */
-	protected final static String CLU_TOKEN = "clu";
-	/**
-	 * <code>cluSet</code> token (key) references a Clu set object to be used in a template
-	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()' 
-	 */
-	protected final static String CLU_SET_TOKEN = "cluSet";
+	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
+	protected final static String OPERATOR_TOKEN = "relationalOperator";
 
-	/*
+	/**
 	 * Constructor.
 	 */
 	public AbstractLuContext() {
@@ -138,11 +133,11 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public CluSetInfo getCluSet(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	CluSetInfo cluSet = null;
-    	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getKey())) {
-        	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getKey());
+    	if(map.containsKey(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+        	String cluIds = map.get(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
         	cluSet = getClusAsCluSet(cluIds);
-        } else if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getKey())) {
-        	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+        } else if(map.containsKey(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())) {
+        	String cluSetId = map.get(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
             cluSet = getCluSet(cluSetId);
         }
     	return cluSet;
@@ -156,8 +151,9 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
+        Map<String, Object> contextMap = super.createContextMap(reqComponent);
+		contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
+        contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey()));
         return contextMap;
     }
 }

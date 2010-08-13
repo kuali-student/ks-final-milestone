@@ -28,6 +28,7 @@
 
    	<bean parent="enCommon" p:id="confirm"		p:value="Confirm"/>
    	<bean parent="enCommon" p:id="cancel"		p:value="Cancel"/>
+   	<bean parent="enCommon" p:id="edit"		p:value="Edit"/>
    	<bean parent="enCommon" p:id="wait"			p:value="Please wait..."/>
    	<bean parent="enCommon" p:id="yes"			p:value="Yes"/>
   	<bean parent="enCommon" p:id="no"			p:value="No"/>
@@ -40,6 +41,7 @@
    	<bean parent="enCommon" p:id="go"		p:value="Go"/>
    	<bean parent="enCommon" p:id="create"		p:value="Create"/>
    	<bean parent="enCommon" p:id="search"		p:value="Search"/>
+   	<bean parent="enCommon" p:id="select"		p:value="Select"/>   	
    	<bean parent="enCommon" p:id="fieldDeletionTitle"		p:value="Remove Fields"/>
    	<bean parent="enCommon" p:id="fieldDeletionConfirmMessage"		p:value="Changing your selection may remove associated fields, are you sure?"/>
 
@@ -142,9 +144,8 @@
     <bean parent="enValidation" p:id="validation.mustBeInteger"		p:value="Must be numeric"/>
     <bean parent="enValidation" p:id="validation.mustBeLong"		p:value="Must be numeric"/>
     <bean parent="enValidation" p:id="validation.occurs"		p:value="Invalid number of occurrences."/>
-
-
-
-
+    <bean parent="enValidation" p:id="validation.validChars.alphanumericHyphenPeriod" p:value="Can only contain alpha-numeric characters, hyphens and periods."/>
+    <bean parent="enValidation" p:id="validation.validChars.numeric" p:value="Can only contain numeric characters."/>
+    <bean parent="enValidation" p:id="validation.validChars.digits" p:value="Can only contain digits."/>
 
 </beans>

@@ -41,6 +41,9 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     @XmlElement
     private String descr;
 
+    @XmlAttribute
+    private String type;
+
     @XmlElement
     private String value;
 
@@ -51,7 +54,7 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     @XmlElement
     private MetaInfo metaInfo;
 
-    @XmlAttribute(name="key")
+    @XmlAttribute
     private String id;
 
     /**
@@ -66,7 +69,18 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The code value.
+     * The code's type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * The code's value.
      */
     public String getValue() {
         return value;
@@ -79,6 +93,7 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+    @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -86,6 +101,7 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
         return attributes;
     }
 
+    @Override
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
@@ -104,10 +120,12 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     /**
      * Unique identifier for an LU code record.
      */
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

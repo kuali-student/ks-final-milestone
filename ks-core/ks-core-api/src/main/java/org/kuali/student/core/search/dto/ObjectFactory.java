@@ -17,7 +17,7 @@ package org.kuali.student.core.search.dto;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
 
 /**
  * This object contains factory methods for each Java content interface and Java

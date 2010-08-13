@@ -3,20 +3,20 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.ModelDefinition;
 
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class Configurer {
-    protected DataModelDefinition modelDefinition;
+    protected ModelDefinition modelDefinition;
     protected String type = "";
     protected String state = "";
     protected String groupName = "";
 //    public abstract void configure(ConfigurableLayout layout);
-    public void setModelDefinition(DataModelDefinition modelDefinition){
+    public void setModelDefinition(ModelDefinition modelDefinition){
         this.modelDefinition = modelDefinition;
     }
 
@@ -50,24 +50,49 @@ public abstract class Configurer {
 
     // TODO - when DOL is pushed farther down into LOBuilder,
     // revert these 5 methods to returning void again.
-    protected FieldDescriptor addField(Section section, String fieldKey) {
+    public FieldDescriptor addField(Section section, String fieldKey) {
         return addField(section, fieldKey, null, null, null);
     }    
-    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
         return addField(section, fieldKey, messageKey, null, null);
     }
-    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
         return addField(section, fieldKey, messageKey, widget, null);
     }
-    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
         return addField(section, fieldKey, messageKey, null, parentPath);
     }
     
-    protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
+    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
 
         FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+        if (widget != null) {
+            fd.setFieldWidget(widget);
+        }
+        section.addField(fd);
+        return fd;
+    }
+    
+    public FieldDescriptor addReadOnlyField(Section section, String fieldKey) {
+        return addReadOnlyField(section, fieldKey, null, null, null);
+    }    
+    public FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey) {
+        return addReadOnlyField(section, fieldKey, messageKey, null, null);
+    }
+    public FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+        return addReadOnlyField(section, fieldKey, messageKey, widget, null);
+    }
+    public FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
+        return addReadOnlyField(section, fieldKey, messageKey, null, parentPath);
+    }
+    
+    public FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+
+        FieldDescriptor fd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
         if (widget != null) {
             fd.setFieldWidget(widget);
         }

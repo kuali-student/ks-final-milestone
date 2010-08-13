@@ -71,11 +71,13 @@ public class Metadata implements Serializable {
         }
     }
     private String name;
+    private String labelKey;
     private WriteAccess writeAccess;
     
     private boolean canUnmask = false;
     private boolean canView = true;
     private boolean canEdit = true;
+    private boolean dynamic = false;
     
     private boolean onChangeRefreshMetadata;
 
@@ -210,7 +212,7 @@ public class Metadata implements Serializable {
     		for (ConstraintMetadata constraint:constraints){
     			if (!"single".equals(constraint.getId()) && 
     				!"optional".equals(constraint.getId()) &&
-    				!constraint.getServerSide()){
+    				!constraint.isServerSide()){
     				metadataConstraints.add(constraint);
     			}
     		}
@@ -336,4 +338,20 @@ public class Metadata implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+	public boolean isDynamic() {
+		return dynamic;
+	}
+
+	public void setDynamic(boolean dynamic) {
+		this.dynamic = dynamic;
+	}
+
+	public String getLabelKey() {
+		return labelKey;
+	}
+
+	public void setLabelKey(String labelKey) {
+		this.labelKey = labelKey;
+	}
 }

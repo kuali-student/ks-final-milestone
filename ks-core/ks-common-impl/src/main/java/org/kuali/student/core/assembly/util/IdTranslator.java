@@ -28,7 +28,7 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.search.service.impl.SearchDispatcher;
+import org.kuali.student.core.search.service.SearchDispatcher;
 
 /**
  * Builds and issues SearchRequests parameterized with the information from LookupMetadata and the provided ID

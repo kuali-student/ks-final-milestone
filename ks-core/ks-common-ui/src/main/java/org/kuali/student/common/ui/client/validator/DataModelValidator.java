@@ -55,7 +55,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.common.validator.DateParser;
+import org.kuali.student.common.validator.old.DateParser;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -112,8 +112,6 @@ public class DataModelValidator {
 		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 		if(fd != null && fd.getMetadata() != null && fd.getFieldKey() != null){
 			doValidate(model, fd.getMetadata(), QueryPath.parse(fd.getFieldKey()), results);	
-		}else{
-			return validate(model);
 		}
 				
 		return results;
@@ -183,10 +181,15 @@ public class DataModelValidator {
         list.add(v);
     }
     
+    
     private void addError(List<ValidationResultInfo> list, QueryPath element, ValidationMessageKeys msgKey){
+    	addError(list, element, msgKey.getKey());
+    }
+    
+    private void addError(List<ValidationResultInfo> list, QueryPath element, String msgKey){
         ValidationResultInfo v = new ValidationResultInfo();
         v.setElement(element.toString());
-        v.setError(Application.getApplicationContext().getMessage(msgKey.getKey()));       
+        v.setError(Application.getApplicationContext().getMessage(msgKey));       
         list.add(v);
     }
     
@@ -214,7 +217,7 @@ public class DataModelValidator {
 			
 			if (s.isEmpty() && isRequired(meta)) {
 				addError(results, element, REQUIRED);
-			} else {
+			} else if(!s.isEmpty()) {
 				int len = s.length();
 				Integer minLength = getLargestMinLength(meta);
 				Integer maxLength = getSmallestMaxLength(meta);
@@ -245,14 +248,22 @@ public class DataModelValidator {
 							if (validChars.startsWith("regex:")) {
 								validChars = validChars.substring(6);
 								if (!s.matches(validChars)) {
-									addError(results, element, VALID_CHARS);
+									if(cons.getValidCharsMessageId() != null ){
+										addError(results, element, cons.getValidCharsMessageId());
+									}else{
+										addError(results, element, VALID_CHARS);	
+									}
 									failed = true;
 									break;
 								}
 							} else {
 								for (char c : s.toCharArray()) {
 									if (!validChars.contains(String.valueOf(c))) {
-										addError(results, element, VALID_CHARS);
+										if(cons.getValidCharsMessageId() != null ){
+											addError(results, element, cons.getValidCharsMessageId());
+										}else{
+											addError(results, element, VALID_CHARS);	
+										}
 										failed = true;
 										break;
 									}

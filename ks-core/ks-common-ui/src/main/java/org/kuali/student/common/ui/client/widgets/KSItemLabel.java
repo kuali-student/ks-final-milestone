@@ -37,6 +37,7 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
     private Data data;
     private List<Callback<Value>> valueChangeCallbacks =
         new ArrayList<Callback<Value>>();
+    private String deletedKey;
     
     public KSItemLabel(boolean canEdit, DataHelper dataParser) {
         init(canEdit, dataParser);
@@ -83,6 +84,7 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
 
     @Override
     public void setValue(Value value) {
+        deletedKey = null;
         if (value == null) {
             this.data = null;
         } else {
@@ -132,18 +134,27 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
 //        selectedValues.remove(this);
 //        removedValues.add(this);
 //        valuesPanel.remove(this);
+        deletedKey = dataHelper.getKey(data);
         data = null;
         redraw();
         callHandlers();
         CloseEvent.fire(this, this);
+    }
+    
+    public String getDeletedKey() {
+        return deletedKey;
     }
 
     public void setHighlighted(boolean highlighted) {
         if (highlighted) {
             Elements.fadeIn(panel.getElementById(backgroundId), 250, 100, new Elements.EmptyFadeCallback());
         } else {
-            Elements.fadeOut(panel.getElementById(backgroundId), 500, 0, new Elements.EmptyFadeCallback());   
+            Elements.fadeOut(panel.getElementById(backgroundId), 1000, 0, new Elements.EmptyFadeCallback());   
         }
+    }
+    
+    public void removeHighlight(){
+    	Elements.setOpacity(panel.getElementById(backgroundId), 0);
     }
 
     @Override

@@ -174,6 +174,10 @@ div.ks-selected-list-picker {
 	display: inline;
 }
 
+.ks-selected-list-picker .gwt-SuggestBox {
+	margin-right:10px;
+}
+
 ul.ks-selected-list {
 	margin: 0;
 	padding: 0;

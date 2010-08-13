@@ -23,3 +23,8 @@
 	margin: 2px;
 	border: 1px solid #4583D5;
 }
+
+.watermark-text{
+	color: #989898;
+	font-style: italic;
+}

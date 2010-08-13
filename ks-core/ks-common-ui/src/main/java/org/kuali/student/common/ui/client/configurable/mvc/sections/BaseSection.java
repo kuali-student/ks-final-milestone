@@ -23,7 +23,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.ValidationEventBindingImpl;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -32,6 +35,9 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Key;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -46,6 +52,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	protected ArrayList<FieldDescriptor> fields = new ArrayList<FieldDescriptor>();
 	protected LayoutController layoutController = null;
 	protected boolean isValidationEnabled = true;
+	protected boolean isDirty = false;
 
 	@Override
 	public String addField(final FieldDescriptor fieldDescriptor) {
@@ -70,6 +77,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
                         			@Override
                         			public void onModelReady(DataModel model) {
                         				validateField(fieldDescriptor, model);
+                        				
                         			}
 
                         			@Override
@@ -110,11 +118,49 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
 		if(fieldDescriptor.getFieldKey() != null){
 			mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
+			dirtyCheckField(fieldDescriptor, model);
 			ValidateRequestEvent e = new ValidateRequestEvent();
 			e.setFieldDescriptor(fieldDescriptor);
+			e.setValidateSingleField(true);
 			LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
 		}
 	}
+	
+	private void dirtyCheckField(FieldDescriptor fieldDescriptor, DataModel model){
+        QueryPath fieldPath = QueryPath.parse(fieldDescriptor.getFieldKey());
+		QueryPath qPathDirty = fieldPath.subPath(0, fieldPath.size() - 1);
+	    qPathDirty.add(ModelWidgetBindingSupport.RUNTIME_ROOT);
+	    qPathDirty.add(ModelWidgetBindingSupport.DIRTY_PATH);
+	    qPathDirty.add(fieldPath.get(fieldPath.size()-1));
+	    Boolean dirty = false;
+	    
+	    if(ensureDirtyFlagPath(model.getRoot(), qPathDirty)){
+	    	dirty = model.get(qPathDirty);
+	    }
+	    if(dirty){
+	    	isDirty = true;
+	    	fieldDescriptor.setDirty(true);
+	    }
+	}
+	
+    protected boolean ensureDirtyFlagPath(Data root, QueryPath path) {
+        Data current = root;
+        boolean containsFlag = false;
+        for (int i = 0; i < path.size(); i++) {
+            Key key = path.get(i);
+            if(i == path.size() - 1){
+            	containsFlag = current.containsKey(key);
+            	break;
+            }
+            Data d = current.get(key);
+            if (d == null) {
+                containsFlag = false;
+                break;
+            }
+            current = d;
+        }
+        return containsFlag;
+    }
 
 	@Override
 	public String addSection(Section section) {
@@ -130,7 +176,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		layout.removeLayoutElement(section.getLayout());
 	}
 
-	private void clearValidation() {
+	protected void clearValidation() {
 		layout.clearValidation();
 
 	}
@@ -155,10 +201,12 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	public List<Section> getSections() {
 		return sections;
 	}
-
+	
 	@Override
-	public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {
-		this.clearValidation();
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation){
+		if(clearAllValidation){
+			this.clearValidation();
+		}
 		ErrorLevel status = ErrorLevel.OK;
 
 		if (isValidationEnabled){
@@ -166,11 +214,11 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			for(FieldDescriptor f: this.fields){
 
 				if(f.hasHadFocus()){
-					System.out.println("Processing field " + f.getFieldKey());
+					//System.out.println("Processing field " + f.getFieldKey());
 					for(ValidationResultInfo vr: results){
 						if(vr.getElement().equals(f.getFieldKey())){
-							System.out.println("Checking validation on field " + f.getFieldKey());
 							FieldElement element = f.getFieldElement();
+							//System.out.println("Checking validation on field " + f.getFieldKey());
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
 								if(fieldStatus == ErrorLevel.ERROR){
@@ -185,23 +233,38 @@ public abstract class BaseSection extends SpanPanel implements Section{
 					}
 				}
 
-				if(f.getFieldWidget() instanceof MultiplicityComposite){
+				if(f.getFieldWidget() instanceof MultiplicityComposite ){
 					MultiplicityComposite mc = (MultiplicityComposite) f.getFieldWidget();
 
 					//possibly return error state from processValidationResults to give composite title bar a separate color
 	            	for(MultiplicityItem item: mc.getItems()){
 	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
-	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results);
+	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearAllValidation);
 							if(fieldStatus.getLevel() > status.getLevel()){
 								status = fieldStatus;
 							}
 	            		}
 	            	}
 				}
+				//TODO Can we do this without checking for instanceof  MG??
+				if(f.getFieldWidget() instanceof MultiplicityGroup ){
+					MultiplicityGroup mg = (MultiplicityGroup) f.getFieldWidget();
+
+					//possibly return error state from processValidationResults to give composite title bar a separate color
+	            	for(MultiplicityGroupItem item: mg.getItems()){
+	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
+	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearAllValidation);
+							if(fieldStatus.getLevel() > status.getLevel()){
+								status = fieldStatus;
+							}
+	            		}
+	            	}
+				}
+			
 			}
 
 	        for(Section s: sections){
-	            ErrorLevel subsectionStatus = s.processValidationResults(results);
+	            ErrorLevel subsectionStatus = s.processValidationResults(results,clearAllValidation);
 	            if(subsectionStatus.getLevel() > status.getLevel()){
 	            	status = subsectionStatus;
 	            }
@@ -209,6 +272,11 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		}
 
         return status;
+	}
+
+	@Override
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {
+		return processValidationResults(results, true);
 	}
 
 	@Override
@@ -270,6 +338,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 
     @Override
     public void resetFieldInteractionFlags() {
+    	this.isDirty = false;
         for(FieldDescriptor f: fields){
             f.setDirty(false);
             f.setHasHadFocus(false);
@@ -279,6 +348,18 @@ public abstract class BaseSection extends SpanPanel implements Section{
             s.resetFieldInteractionFlags();
         }
 
+    }
+    
+    @Override
+    public void resetDirtyFlags() {
+    	this.isDirty = false;
+        for(FieldDescriptor f: fields){
+            f.setDirty(false);
+        }
+
+        for(Section s: sections){
+            s.resetDirtyFlags();
+        }
     }
 
 
@@ -371,4 +452,42 @@ public abstract class BaseSection extends SpanPanel implements Section{
 
 	}
 
+	public boolean isDirty(){
+		if(!this.isDirty){
+			//Check child sections for dirtyness
+			for(Section s: sections){
+				if(s.isDirty()){
+					isDirty = true;
+					break;
+				}
+			}
+		}
+		return isDirty;
+	}
+	
+	/**
+	 * Do not use this method for adding sections, fields, or widgets to sections
+	 */
+	@Override
+	public void add(Widget w) {
+		super.add(w);
+	}
+	
+	@Override
+	public void addStyleName(String style) {
+		layout.addStyleName(style);
+	}
+	
+	@Override
+	public void setStyleName(String style) {
+		layout.setStyleName(style);
+	}
+	
+	public void setInstructions(String html){
+		layout.setInstructions(html);
+	}
+	
+	public void setHelp(String html){
+		layout.setHelp(html);
+	}
 }

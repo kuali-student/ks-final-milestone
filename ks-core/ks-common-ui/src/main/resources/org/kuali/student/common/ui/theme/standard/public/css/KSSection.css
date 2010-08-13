@@ -48,15 +48,16 @@ h1.ks-layout-header{
 h2.ks-layout-header{
 	font-size: 2em;
 	color: #940b07;
-	margin-bottom: 0.75em;
+	padding-bottom: 2px;
+    margin-bottom: 2px;
 }
 
 h3.ks-layout-header{
 	font-size: 1.5em;
     color: #000;
     font-weight: normal;
-    padding-bottom: 4px;
-    margin-bottom: 0em;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
 }
 
 h4.ks-layout-header{
@@ -360,12 +361,14 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 		color: #444;
 		height: 1%;
 		margin-bottom: 1em;
+		clear: both;
 	}
 }
 
 .ks-form-module {
 		color: #444;
 		margin-bottom: 1em;
+		clear: both;
 }
 
 @if user.agent ie6 ie7 ie8 ie{  
@@ -647,23 +650,23 @@ legend.invalid{color: red;}
 
 /*** Page: Sub Navigation ***/
 
-.ks-page-sub-navigation-container {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-container {
 	margin: 0 20px;
 	height: 1%;
 }
 
-.ks-page-sub-navigation {
+.ks-page-sub-navigation-container .ks-page-sub-navigation {
 	border-bottom: solid 1px #ccc;
 	padding: 15px 0;
 }
 
-.ks-page-sub-navigation-menu {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu {
 	float:left;
 	margin-right: 35px;
 	color: #666;
 }
 
-.ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
 	font-size: 0.916em;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -674,11 +677,11 @@ legend.invalid{color: red;}
 
 }
 
-.ks-page-sub-navigation-menu ul {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu ul {
 	margin: 0;
 }
 
-.ks-page-sub-navigation-menu li {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu li {
 	list-style: none;
 	line-height: 1.3em;
 }
@@ -867,4 +870,22 @@ a.ks-button-secondary-small:hover {
 
 .ks-button-right-margin{
 	margin-right: 1em;
+}
+
+.ks-header-edit-link{
+	font-size: .6em; padding-left: 1em;
+}
+
+.horizontal-component{
+	width: 50%;
+	float: left;
+}
+
+.accessibility-hidden{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
 }

@@ -20,9 +20,9 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.common.validator.old.Validator;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -38,7 +38,7 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.statement.dao.StatementDao;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
@@ -73,6 +73,7 @@ public class StatementServiceImpl implements StatementService {
     private DictionaryService dictionaryServiceDelegate;
     private StatementAssembler statementAssembler;
     private Validator validator;
+    // private StatementTreeViewAssembler statementTreeViewAssembler;
 
     public Validator getValidator() {
 		return validator;
@@ -225,19 +226,9 @@ public class StatementServiceImpl implements StatementService {
 		// test usage type key exists
 		getNlUsageType(nlUsageTypeKey);
 
-		String lang = this.naturalLanguageTranslator.getLanguage();
-		try {
-			if(language != null) {
-				this.naturalLanguageTranslator.setLanguage(language);
-			}
-//			ReqComponentInfo reqComponentInfo = this.statementDao.getReqComponent(reqComponentId);
-//			CustomReqComponentInfo customReq = this.dtoAdapter.toCustomReqComponentInfo(reqComponentInfo);
-			ReqComponent reqComponent = this.statementDao.fetch(ReqComponent.class, reqComponentId);
-			String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponent, nlUsageTypeKey);
-			return nl;
-		} finally {
-			this.naturalLanguageTranslator.setLanguage(lang);
-		}
+		ReqComponent reqComponent = this.statementDao.fetch(ReqComponent.class, reqComponentId);
+		String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponent, nlUsageTypeKey, language);
+		return nl;
 	}
 
 	/**
@@ -271,20 +262,9 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 
-		String lang = this.naturalLanguageTranslator.getLanguage();
-		try {
-			if(language != null) {
-				this.naturalLanguageTranslator.setLanguage(language);
-			}
-//			LuStatementInfo luStatementInfo = this.luService.getLuStatement(luStatementId);
-//			checkCluExistsInLuStatementInfo(cluId, luStatementInfo);
-//			CustomLuStatementInfo customInfo = dtoAdapter.toCustomLuStatementInfo(luStatementInfo);
-			Statement statement = this.statementDao.fetch(Statement.class, statementId);
-			String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey);
-			return nl;
-		} finally {
-			this.naturalLanguageTranslator.setLanguage(lang);
-		}
+		Statement statement = this.statementDao.fetch(Statement.class, statementId);
+		String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey, language);
+		return nl;
 	}
 
     public String getNaturalLanguageForRefStatementRelation(final String refStatementRelationId, final String nlUsageTypeKey, final String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -292,18 +272,10 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 
-		String lang = this.naturalLanguageTranslator.getLanguage();
-		try {
-			if(language != null) {
-				this.naturalLanguageTranslator.setLanguage(language);
-			}
-			RefStatementRelation refStatementRelation = this.statementDao.fetch(RefStatementRelation.class, refStatementRelationId);
-			Statement statement = refStatementRelation.getStatement();
-			String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey);
-			return nl;
-		} finally {
-			this.naturalLanguageTranslator.setLanguage(lang);
-		}
+		RefStatementRelation refStatementRelation = this.statementDao.fetch(RefStatementRelation.class, refStatementRelationId);
+		Statement statement = refStatementRelation.getStatement();
+		String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey, language);
+		return nl;
 	}
 
 	@Override
@@ -313,25 +285,18 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 
-		String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
 			// test usage type key exists
 			getNlUsageType(nlUsageTypeKey);
 
-			if(language != null) {
-				this.naturalLanguageTranslator.setLanguage(language);
-			}
-
 			ReqComponent req = statementAssembler.toReqComponentRelation(false, reqComponentInfo);
 
-			String nl = this.naturalLanguageTranslator.translateReqComponent(req, nlUsageTypeKey);
+			String nl = this.naturalLanguageTranslator.translateReqComponent(req, nlUsageTypeKey, language);
 			return nl;
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException("Requirement component translation failed: " + e.getMessage());
 		} catch (VersionMismatchException e) {
 			throw new OperationFailedException("Requirement component translation failed: " + e.getMessage());
-		} finally {
-			this.naturalLanguageTranslator.setLanguage(lang);
 		}
 	}
 
@@ -342,22 +307,15 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 
-		String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
-			if(language != null) {
-				this.naturalLanguageTranslator.setLanguage(language);
-			}
-
 			Statement statement = statementAssembler.toStatement(statementTreeViewInfo);
 
-			String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey);
+			String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey, language);
 			return nl;
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException("Statement tree view translation failed: " + e.getMessage());
 		} catch (VersionMismatchException e) {
 			throw new OperationFailedException("Statement tree view translation failed: " + e.getMessage());
-		} finally {
-			this.naturalLanguageTranslator.setLanguage(lang);
 		}
 	}
 
@@ -421,7 +379,7 @@ public class StatementServiceImpl implements StatementService {
 
         reqComp = statementDao.create(reqComp);
 
-        return statementAssembler.toReqComponentInfo(reqComp);
+        return statementAssembler.toReqComponentInfo(reqComp, null, null);
     }
 
     @Override
@@ -482,7 +440,7 @@ public class StatementServiceImpl implements StatementService {
 
     @Override
     public ReqComponentInfo getReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return statementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId));
+        return statementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId), null, null);
     }
 
     @Override
@@ -490,7 +448,7 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(reqComponentTypeKey, "reqComponentTypeKey");
 
         List<ReqComponent> reqComponents = statementDao.getReqComponentsByType(reqComponentTypeKey);
-        return statementAssembler.toReqComponentInfos(reqComponents);
+        return statementAssembler.toReqComponentInfos(reqComponents, null, null);
     }
 
     @Override
@@ -690,7 +648,7 @@ public class StatementServiceImpl implements StatementService {
         ReqComponent updatedReqComp = statementDao.update(reqComp);
 
         //Copy back to an reqComponentInfo and return
-        ReqComponentInfo updReqCompInfo = statementAssembler.toReqComponentInfo(updatedReqComp);
+        ReqComponentInfo updReqCompInfo = statementAssembler.toReqComponentInfo(updatedReqComp, null, null);
         return updReqCompInfo;
     }
 
@@ -754,12 +712,43 @@ public class StatementServiceImpl implements StatementService {
     @Override
     public StatementTreeViewInfo getStatementTreeView(final String statementId)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	checkForNullOrEmptyParameter("statementId", statementId);
+
+    	return getStatementTreeView(statementId, null, null);
+    }
+
+    @Override
+    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, final String language)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	checkForNullOrEmptyParameter("statementId", statementId);
+    	checkForNullOrEmptyParameter("nlUsageTypeKey", nlUsageTypeKey);
+    	checkForNullOrEmptyParameter("language", language);
+
+    	return getStatementTreeView(statementId, nlUsageTypeKey, language);
+    }
+
+    private StatementTreeViewInfo getStatementTreeView(final String statementId, final String nlUsageTypeKey, final String language)
+    	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         StatementTreeViewInfo statementTreeViewInfo = null;
         StatementInfo statementInfo = getStatement(statementId);
         if (statementInfo == null) return null;
         statementTreeViewInfo = new StatementTreeViewInfo();
-        getStatementTreeViewHelper(statementInfo, statementTreeViewInfo);
+        getStatementTreeViewHelper(statementInfo, statementTreeViewInfo, nlUsageTypeKey, language);
         return statementTreeViewInfo;
+
+
+    	/*
+    	Map<String, String> configuration = new HashMap<String, String>();
+    	configuration.put("USAGE_TYPE_KEY", nlUsageTypeKey);
+    	configuration.put("NL_KEY", language);
+    	StatementTreeViewInfo result = new StatementTreeViewInfo();
+    	try {
+			statementTreeViewAssembler.assemble(getStatement(statementId), result, false, configuration);
+			return result;
+    	} catch (AssemblyException e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+		*/
     }
 
 
@@ -772,13 +761,14 @@ public class StatementServiceImpl implements StatementService {
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-    private List<ReqComponentInfo> getReqComponentInfos(final StatementInfo statementInfo)
+    private List<ReqComponentInfo> getReqComponentInfos(final StatementInfo statementInfo, final String nlUsageTypeKey, final String language)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ReqComponentInfo> reqComponentInfos = new ArrayList<ReqComponentInfo>();
         if (statementInfo == null) return null;
         if (statementInfo.getReqComponentIds() != null) {
             for (String reqComponentId : statementInfo.getReqComponentIds()) {
-                ReqComponentInfo reqCompInfo = getReqComponent(reqComponentId);
+                //ReqComponentInfo reqCompInfo = getReqComponent(reqComponentId);
+            	ReqComponentInfo reqCompInfo = statementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId), nlUsageTypeKey, language);
                 reqComponentInfos.add(reqCompInfo);
             }
         }
@@ -797,26 +787,41 @@ public class StatementServiceImpl implements StatementService {
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-    private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo)
+    private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo,
+    		final String nlUsageTypeKey, final String language)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         if (statementInfo == null) return;
 
         statementAssembler.copyValues(statementTreeViewInfo, statementInfo);
-        statementTreeViewInfo.setReqComponents(getReqComponentInfos(statementInfo));
+        statementTreeViewInfo.setReqComponents(getReqComponentInfos(statementInfo, nlUsageTypeKey, language));
         // get statements recursively and convert them into statementTreeViewInfo
         if (statementInfo.getStatementIds() != null) {
             for (String statementId : statementInfo.getStatementIds()) {
                 StatementInfo subStatement = getStatement(statementId);
+
                 List<StatementTreeViewInfo> statements =
-                    (statementTreeViewInfo.getStatements() == null)?
-                            new ArrayList<StatementTreeViewInfo>() : statementTreeViewInfo.getStatements();
+                    (statementTreeViewInfo.getStatements() == null) ? new ArrayList<StatementTreeViewInfo>() : statementTreeViewInfo.getStatements();
                 StatementTreeViewInfo subStatementTreeViewInfo = new StatementTreeViewInfo();
+    	        String nl = translateStatement(statementId, nlUsageTypeKey, language);
+                subStatementTreeViewInfo.setNaturalLanguageTranslation(nl);
+
                 // recursive call to get subStatementTreeViewInfo
-                getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo);
+                getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo, nlUsageTypeKey, language);
                 statements.add(subStatementTreeViewInfo);
                 statementTreeViewInfo.setStatements(statements);
             }
         }
+        String nl = translateStatement(statementTreeViewInfo.getId(), nlUsageTypeKey, language);
+        statementTreeViewInfo.setNaturalLanguageTranslation(nl);
+    }
+
+    private String translateStatement(String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
+        Statement stmt = this.statementDao.fetch(Statement.class, statementId);
+        if(nlUsageTypeKey != null && language != null) {
+	        String nl = this.naturalLanguageTranslator.translateStatement(stmt, nlUsageTypeKey);
+	        return nl;
+        }
+        return null;
     }
 
     @Override
@@ -845,12 +850,28 @@ public class StatementServiceImpl implements StatementService {
         StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
 
         return test;
+
+
+    	/*
+    	statementTreeViewInfo.setId(statementId);
+    	NodeOperation operation;
+    	if (statementId == null) {
+    		operation = NodeOperation.CREATE;
+    	} else {
+    		operation = NodeOperation.UPDATE;
+    	}
+    	try {
+			statementTreeViewAssembler.disassemble(statementTreeViewInfo, operation);
+		} catch (AssemblyException e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+
+        StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
+
+        return test;
+        */
     }
 
-    /**
-     *
-     * @return a list of relationships in the first list but not in the second
-     */
     private List<String> notIn(
             StatementTreeViewInfo oldTree,
             StatementTreeViewInfo newTree) {
@@ -974,6 +995,10 @@ public class StatementServiceImpl implements StatementService {
         }
     }
 
+    /**
+     *
+     * @return a list of relationships in the first list but not in the second
+     */
 	@Override
 	public RefStatementRelationTypeInfo getRefStatementRelationType(final String refStatementRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in.
@@ -100,7 +101,22 @@ public class SectionTitle extends ComplexPanel {
 
     public void setText(String text){
     	this.getElement().setInnerText(text);
+    	
     }
+    
+    public void setHTML(String html){
+    	this.getElement().setInnerHTML(html);
+    }
+    
+	  /**
+	   * Adds a new child widget to the panel.
+	   * 
+	   * @param w the widget to be added
+	   */
+	  @Override
+	  public void add(Widget w) {
+	    add(w, getElement());
+	  }
 }
 
 

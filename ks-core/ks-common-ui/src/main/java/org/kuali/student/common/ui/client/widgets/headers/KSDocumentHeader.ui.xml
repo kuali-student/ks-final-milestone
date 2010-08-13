@@ -3,32 +3,36 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:ks="urn:import:org.kuali.student.common.ui.client.widgets.field.layout.element">
 	<ui:style>
-		.headerLabel {
+		.title h2{
 			font-weight: bold;
+			margin-bottom: 0;
 			font-size: 20px;
 		}
 		
 		.info{
-		    float: right;
-		    color: #FEAB3E;
+		   	overflow: auto;
+		   	text-align: right;
 		}
+		
+		.container{
+		   	width: 600px;
+		   	border-bottom: 1px solid #d7d7d7;
+		   	margin-bottom: 1.5em;
+		   	padding-bottom: 5px;
+		}
+		
 	</ui:style>
-	<g:HTMLPanel>
+	<g:HTMLPanel styleName='{style.container}'>
 		<div>
-			<g:HTML ui:field='headerHTML' styleName='{style.headerLabel}'>
+			<g:HTML ui:field='headerHTML' styleName='{style.title}'>
 			</g:HTML>
 		</div>
- 	    <table width='100%'>
- 	    <tr>
- 	        <td width='60%'>
+ 	    <div>
 			<ks:SpanPanel ui:field='widgetPanel'>
 			</ks:SpanPanel>
-			</td>
-			<td >
 			<g:HTML ui:field='infoLabel' styleName='{style.info}'>
 			</g:HTML>
-			</td>
-			</tr>			
-		</table>
+		</div>
+		<div style="clear: both"/>
 	</g:HTMLPanel>
 </ui:UiBinder> 

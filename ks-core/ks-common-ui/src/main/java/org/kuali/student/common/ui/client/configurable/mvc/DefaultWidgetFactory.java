@@ -31,6 +31,8 @@ public abstract class DefaultWidgetFactory {
 	
 	public abstract Widget getWidget(Metadata meta);
 	
+	public abstract Widget getReadOnlyWidget(Metadata meta);
+	
 	public abstract Widget getWidget(LookupParamMetadata meta);
 	
 }

@@ -67,6 +67,7 @@
 
     <bean id="courseListContext" class="org.kuali.student.core.statement.config.context.lu.CourseListContextImpl" />
     <bean id="gradeCheckContext" class="org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl" />
+    <bean id="creditContext" class="org.kuali.student.core.statement.config.context.lu.CreditContextImpl" />
 
     <!--bean id="contextRegistryLuStatement"
         class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
@@ -86,29 +87,19 @@
             <map>
                 <!-- Pre-Req Contexts-->
                 <entry key="kuali.reqCompType.courseList.none">
-                    <list>
-	                    <ref local="courseListContext"/>
-	                </list>
+                    <ref local="courseListContext"/>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.all">
-                    <list>
-	                    <ref local="courseListContext"/>
-                    </list>
+                    <ref local="courseListContext"/>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.nof">
-                    <list>
-	                    <ref local="courseListContext"/>
-                    </list>
+                    <ref local="courseListContext"/>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.1of1">
-                    <list>
-	                    <ref local="courseListContext"/>
-                    </list>
+                    <ref local="courseListContext"/>
                 </entry>
                 <entry key="kuali.reqCompType.courseList.1of2">
-                    <list>
-	                    <ref local="courseListContext"/>
-                    </list>
+                    <ref local="courseListContext"/>
                 </entry>
                 <entry key="kuali.reqCompType.gradecheck">
                     <list>
@@ -116,99 +107,115 @@
                         <ref local="gradeCheckContext"/>
                     </list>
                 </entry>
-                <!-- Co-Req Contexts -->
-                <entry key="kuali.reqCompType.courseList.coreq.all">
+                <entry key="kuali.reqCompType.grdCondCourseList">
                     <list>
-	                    <ref local="courseListContext"/>
+                        <ref local="courseListContext"/>
+                        <ref local="creditContext"/>
                     </list>
                 </entry>
+                <!-- Co-Req Contexts -->
+                <entry key="kuali.reqCompType.courseList.coreq.all">
+                    <ref local="courseListContext"/>
+                </entry>
                 <entry key="kuali.reqCompType.courseList.coreq.oneof">
-                    <list>
-	                    <ref local="courseListContext"/>
-                    </list>
+                    <ref local="courseListContext"/>
                 </entry>
             </map>
         </constructor-arg>
     </bean>
 
-    <bean id="booleanOperatorLanguageMap"
-    	class="org.springframework.beans.factory.config.MapFactoryBean">
-    	<property name="sourceMap">
-    		<map>
-    			<entry key="en">
-    				<bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
-    				    <constructor-arg index="0" value="and" />
-                        <constructor-arg index="1" value="or" />
-    				</bean>
-    			</entry>
+    <bean id="messageBuilderMap"
+        class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="sourceMap">
+            <map>
+                <entry key="en">
+                    <bean class="org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl">
+                        <constructor-arg index="0" value="en" />
+                        <constructor-arg index="1">
+						    <bean class="org.kuali.student.common.messagebuilder.impl.SimpleBooleanMessageBuilder">
+                                <!-- Uses default formatting of messages and operator on a single line -->
+				                <constructor-arg index="0" value="and" />
+				                <constructor-arg index="1" value="or" />
+						    </bean>
+                        </constructor-arg>
+                    </bean>
+                </entry>
                 <entry key="dk">
-                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
-                        <constructor-arg index="0" value="og" />
-                        <constructor-arg index="1" value="eller" />
+                    <bean class="org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl">
+                        <constructor-arg index="0" value="de" />
+                        <constructor-arg index="1">
+		                    <bean class="org.kuali.student.common.messagebuilder.impl.SimpleBooleanMessageBuilder">
+                                <constructor-arg index="0" value="og" />
+                                <constructor-arg index="1" value="eller" />
+                                <!-- Format message to have each messages and operators indented and on separate lines -->
+                                <property name="indentCharacter" value="32"/>
+                                <property name="indentNumberOfSpaces" value="4"/>
+                                <property name="indentString" value="    "/>
+                                <property name="booleanOperatorPrefix" value="\n"/>
+                                <property name="booleanOperatorSuffix" value="\n"/>
+		                    </bean>
+                        </constructor-arg>
                     </bean>
                 </entry>
                 <entry key="de">
-                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
-                        <constructor-arg index="0" value="und" />
-                        <constructor-arg index="1" value="oder" />
-                    </bean>
-                </entry>
-                <entry key="fr">
-                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
-                        <constructor-arg index="0" value="et" />
-                        <constructor-arg index="1" value="ou" />
+                    <bean class="org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl">
+                        <constructor-arg index="0" value="de" />
+                        <constructor-arg index="1">
+		                    <bean class="org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder">
+                                <constructor-arg index="0" value="und" />
+                                <constructor-arg index="1" value="oder" />
+		                    </bean>
+                        </constructor-arg>
                     </bean>
                 </entry>
                 <entry key="jp">
-                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
-                        <constructor-arg index="0" value="および" />
-                        <constructor-arg index="1" value="または" />
+                    <bean class="org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl">
+                        <constructor-arg index="0" value="jp" />
+                        <constructor-arg index="1">
+		                    <bean class="org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder">
+                                <constructor-arg index="0" value="および" />
+                                <constructor-arg index="1" value="または" />
+		                    </bean>
+                        </constructor-arg>
                     </bean>
                 </entry>
-                <entry key="zh">
-                    <bean class="org.kuali.student.common.messagebuilder.impl.BooleanOperators">
-                        <constructor-arg index="0" value="和" />
-                        <constructor-arg index="1" value="或" />
-                    </bean>
-                </entry>
-    		</map>
-    	</property>
+            </map>
+        </property>
     </bean>
 
     <bean id="naturalLanguageMessageBuilder"
         class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
-        <constructor-arg index="0" value="en" />
-        <constructor-arg index="1" ref="booleanOperatorLanguageMap" />
+        <constructor-arg index="0" ref="messageBuilderMap" />
     </bean>
 
     <bean id="reqComponentTranslator"
         class="org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator">
         <property name="contextRegistry" ref="contextRegistryReqComponent" />
-        <!--property name="language" value="en" /-->
+        <property name="language" value="en" />
     </bean>
 
     <bean id="statementTranslator"
         class="org.kuali.student.core.statement.naturallanguage.translators.StatementTranslator">
-        <!--property name="contextRegistry" ref="contextRegistryLuStatement" /-->
+        <!--property name="contextRegistry" ref="contextRegistryStatement" /-->
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
-        <!--property name="language" value="en" /-->
+        <property name="language" value="en" />
     </bean>
 
     <bean id="naturalLanguageTranslator"
         class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
-        <property name="language" value="en" />
     </bean>
 
-    <bean id="statementTestDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl" autowire-candidate="false">
+    <bean id="statementTestDictionary" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl" autowire-candidate="false">
         <constructor-arg index="0" value="classpath:statement-dictionary-config.xml" />
     </bean>
 
     <bean id="statementAssembler"
         class="org.kuali.student.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="StatementDaoImpl"/>
+        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>
 
     <bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
@@ -219,7 +226,7 @@
         </property>
     </bean>
 
-    <bean id="serviceValidator" class="org.kuali.student.common.validator.Validator">
+    <bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
         <property name="messageService" ref="ks.messageServiceMock"/>
     </bean>
 

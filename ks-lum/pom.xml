@@ -3,13 +3,13 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-M8-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.lum</groupId>
   <artifactId>ks-lum</artifactId>
   <packaging>pom</packaging>
   <name>KS LUM</name>
-  <description>KS Learning Unit Management POM</description>
+  <description>KS Learning Unit Management</description>
   <profiles>
     <profile>
       <id>default</id>
@@ -22,6 +22,7 @@
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
         <module>ks-lum-web</module>
+        <module>ks-lum-program</module>
       </modules>
     </profile>
     <profile>
@@ -31,6 +32,7 @@
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
+        <module>ks-lum-program</module>
       </modules>
     </profile>
     <profile>
@@ -40,6 +42,7 @@
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
+        <module>ks-lum-program</module>
       </modules>
     </profile>
     <profile>
@@ -49,6 +52,7 @@
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
+        <module>ks-lum-program</module>
       </modules>
     </profile>
     <profile>
@@ -58,6 +62,7 @@
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
+        <module>ks-lum-program</module>
       </modules>
     </profile>
     <profile>
@@ -67,6 +72,7 @@
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
+        <module>ks-lum-program</module>
       </modules>
     </profile>
   </profiles>
@@ -83,34 +89,4 @@
       </snapshots>
     </repository>
   </repositories>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${javadoc.plugin.version}</version>
-        <configuration>
-          <maxmemory>256m</maxmemory>
-          <aggregate>true</aggregate>
-          <show>private</show>
-          <source>1.6</source>
-          <links>
-            <link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
-            <link>http://java.sun.com/javase/6/docs/api/</link>
-            <link>http://java.sun.com/javaee/5/docs/api/</link>
-            <link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
-            <link>http://student.kuali.org/site/core/${project.version}/apidocs/</link>
-            <link>http://rice.kuali.org/docs/${kuali.rice.version}/site/apidocs/</link>
-          </links>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>javadoc</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
 </project>

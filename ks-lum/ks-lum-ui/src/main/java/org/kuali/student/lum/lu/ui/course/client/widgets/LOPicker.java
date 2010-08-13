@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.List;
 
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -31,6 +32,7 @@ import com.google.gwt.user.client.ui.TextArea;
 public class LOPicker extends HorizontalPanel{ 
     TextArea loTextArea = new TextArea();
     LOCategoryBuilder loCategoryBuilder;
+    Data metaInfoData; // temporary storage of metaInfo data this is needed when LO is updated
     public LOPicker(String messageGroup, String type, String state, String loRepoKey) {
         super();
         loCategoryBuilder = new LOCategoryBuilder(messageGroup, type, state, loRepoKey);
@@ -50,6 +52,12 @@ public class LOPicker extends HorizontalPanel{
     }
     public void setLOText(String value){
         loTextArea.setText(value);
+    }
+    public Data getMetaInfoData() {
+        return metaInfoData;
+    }
+    public void setMetaInfoData(Data metaInfoData) {
+        this.metaInfoData = metaInfoData;
     }
     
 }

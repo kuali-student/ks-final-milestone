@@ -18,7 +18,15 @@ package org.kuali.student.core.statement.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.core.statement.dao.StatementDao;
+import org.kuali.student.core.statement.dto.AbstractStatementInfo;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
@@ -43,21 +51,20 @@ import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementAttribute;
 import org.kuali.student.core.statement.entity.StatementRichText;
 import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.service.impl.BaseAssembler;
+import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslator;
 import org.springframework.beans.BeanUtils;
 
 public class StatementAssembler extends BaseAssembler {
 
 	private StatementDao statementDao;
-	
+	private NaturalLanguageTranslator naturalLanguageTranslator;
+
 	public void setStatementDao(StatementDao dao) {
 		this.statementDao = dao;
+	}
+
+	public void setNaturalLanguageTranslator(final NaturalLanguageTranslator translator) {
+		this.naturalLanguageTranslator = translator;
 	}
 
 	public List<RefStatementRelationInfo> toRefStatementRelationInfos(List<RefStatementRelation> entities) {
@@ -67,10 +74,10 @@ public class StatementAssembler extends BaseAssembler {
 		}
 		return list;
 	}
-	
+
 	public RefStatementRelationInfo toRefStatementRelationInfo(RefStatementRelation entity) {
 		RefStatementRelationInfo dto = new RefStatementRelationInfo();
-		
+
         BeanUtils.copyProperties(entity, dto, new String[]{
         		"refStatementRelationType", "statement", "attributes", "metaInfo"});
 
@@ -80,7 +87,7 @@ public class StatementAssembler extends BaseAssembler {
         dto.setStatementId(entity.getStatement().getId());
         dto.setType(entity.getRefStatementRelationType().getId());
         //dto.setRefObjectTypeKey(entity.getRefStatementRelationType().getObjectSubTypeList().get(0).g)
-        
+
         return dto;
 	}
 
@@ -91,19 +98,19 @@ public class StatementAssembler extends BaseAssembler {
 		}
 		return list;
 	}
-	
+
 	public RefStatementRelationTypeInfo toRefStatementRelationTypeInfo(RefStatementRelationType entity) {
 		RefStatementRelationTypeInfo dto = new RefStatementRelationTypeInfo();
-		
+
         BeanUtils.copyProperties(entity, dto, new String[]{
         		"attributes", "metaInfo", "objectSubTypeList", "statementTypeList"});
-        
+
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setDesc(entity.getDescr());
-        
+
         return dto;
 	}
-	
+
 	public List<String> toRefObjectSubTypeIds(ObjectType objectType) {
 		List<String> ids = new ArrayList<String>();
 		for(ObjectSubType objectSubType : objectType.getObjectSubTypes()) {
@@ -111,12 +118,12 @@ public class StatementAssembler extends BaseAssembler {
 		}
 		return ids;
 	}
-	
+
 	public NlUsageTypeInfo toNlUsageTypeInfo(NlUsageType entity) throws OperationFailedException {
 		NlUsageTypeInfo info = toGenericTypeInfo(NlUsageTypeInfo.class, entity);
 		return info;
 	}
-	
+
 	public List<NlUsageTypeInfo> toNlUsageTypeInfos(List<NlUsageType> entities) throws OperationFailedException {
 		List<NlUsageTypeInfo> infoList = new ArrayList<NlUsageTypeInfo>();
 		for(NlUsageType entity : entities) {
@@ -124,9 +131,9 @@ public class StatementAssembler extends BaseAssembler {
 			infoList.add(info);
 		}
 		return infoList;
-	}	
-	
-    public ReqComponent toReqComponentRelation(boolean isUpdate, ReqComponentInfo reqCompInfo) 
+	}
+
+    public ReqComponent toReqComponentRelation(boolean isUpdate, ReqComponentInfo reqCompInfo)
     		throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
         ReqComponent reqComp;
         if (isUpdate) {
@@ -163,24 +170,23 @@ public class StatementAssembler extends BaseAssembler {
             reqCompFieldList.add(reqCompField);
         }
         reqComp.setReqComponentFields(reqCompFieldList);
-        
+
         reqComp.setDescr(toRichText(StatementRichText.class, reqCompInfo.getDesc()));
-        
+
         return reqComp;
     }
-    
-    public List<ReqComponentInfo> toReqComponentInfos(
-            List<ReqComponent> entities) {
+
+    public List<ReqComponentInfo> toReqComponentInfos(List<ReqComponent> entities, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
         List<ReqComponentInfo> dtos = new ArrayList<ReqComponentInfo>(
                 entities.size());
         for (ReqComponent entity : entities) {
-            dtos.add(toReqComponentInfo(entity));
+            dtos.add(toReqComponentInfo(entity, nlUsageTypeKey, language));
         }
         return dtos;
 
     }
 
-    public ReqComponentInfo toReqComponentInfo(ReqComponent entity) {
+    public ReqComponentInfo toReqComponentInfo(ReqComponent entity, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
         ReqComponentInfo dto = new ReqComponentInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[] {
@@ -191,9 +197,13 @@ public class StatementAssembler extends BaseAssembler {
         dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setDesc(toRichTextInfo(entity.getDescr()));
+        if(nlUsageTypeKey != null && language != null) {
+	        String nl = this.naturalLanguageTranslator.translateReqComponent(entity, nlUsageTypeKey);
+	        dto.setNaturalLanguageTranslation(nl);
+        }
         return dto;
     }
-    
+
     public List<ReqComponentTypeInfo> toReqComponentTypeInfos(List<ReqComponentType> entities) {
         List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(entities.size());
         for (ReqComponentType entity : entities) {
@@ -209,7 +219,7 @@ public class StatementAssembler extends BaseAssembler {
         dto.setDescr(entity.getDescr());
         return dto;
     }
-    
+
     public List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
             List<ReqComponentFieldType> entities) {
         List<ReqCompFieldTypeInfo> dtos = new ArrayList<ReqCompFieldTypeInfo>(
@@ -255,7 +265,7 @@ public class StatementAssembler extends BaseAssembler {
         return dto;
     }
 
-    public RefStatementRelation toRefStatementRelation(boolean isUpdate, RefStatementRelationInfo refStatementRelationInfo) 
+    public RefStatementRelation toRefStatementRelation(boolean isUpdate, RefStatementRelationInfo refStatementRelationInfo)
     		throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
     	RefStatementRelation refStatement;
         if (isUpdate) {
@@ -269,13 +279,13 @@ public class StatementAssembler extends BaseAssembler {
         } else {
             refStatement = new RefStatementRelation();
         }
-    	
+
         BeanUtils.copyProperties(refStatementRelationInfo, refStatement, new String[]{
         		"attributes", "metaInfo", "type", "statementId"});
 
         // make sure refObjectType exist
         this.statementDao.fetch(ObjectType.class, refStatementRelationInfo.getRefObjectTypeKey());
-        
+
         // Copy generic attributes
         refStatement.setAttributes(toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), refStatement, this.statementDao));
         RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationInfo.getType());
@@ -283,7 +293,7 @@ public class StatementAssembler extends BaseAssembler {
         refStatement.setRefStatementRelationType(type);
         Statement statement = this.statementDao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
         refStatement.setStatement(statement);
-        
+
         return refStatement;
     }
 
@@ -301,8 +311,8 @@ public class StatementAssembler extends BaseAssembler {
             stmt = new Statement();
         }
 
-        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"cluIds", "statementIds", 
-                "reqComponentIds", "attributes", "metaInfo", "type", 
+        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"cluIds", "statementIds",
+                "reqComponentIds", "attributes", "metaInfo", "type",
                 "parent", "children", "requiredComponents", "statementType"});
 
         // Copy generic attributes
@@ -348,15 +358,15 @@ public class StatementAssembler extends BaseAssembler {
             reqCompList.add(reqComp);
         }
         stmt.setRequiredComponents(reqCompList);
-        
+
         // TODO populate the parent of the Statement here
 //        if(stmtInfo.getParentId() != null) {
 //            Statement parent = dao.fetch(Statement.class, stmtInfo.getParentId());
 //            stmt.setParent(parent);
 //        }
-        
+
         stmt.setDescr(toRichText(StatementRichText.class, stmtInfo.getDesc()));
-        
+
         return stmt;
     }
 
@@ -388,7 +398,7 @@ public class StatementAssembler extends BaseAssembler {
         dto.setDesc(toRichTextInfo(entity.getDescr()));
         return dto;
     }
-    
+
     public List<StatementInfo> toStatementInfos(
             List<Statement> entities) {
         List<StatementInfo> dtos = new ArrayList<StatementInfo>(entities
@@ -408,7 +418,7 @@ public class StatementAssembler extends BaseAssembler {
     	}
     	return list;
     }
-    
+
     public StatementTypeInfo toStatementTypeInfo(StatementType entity) {
         if(entity==null){
             return null;
@@ -428,26 +438,20 @@ public class StatementAssembler extends BaseAssembler {
             stmtIds.add(stmtType.getId());
         }
         stmtTypeInfo.setAllowedStatementTypes(stmtIds);
-        
+
         // statement type header is no longer defined in specification
 //        stmtTypeInfo.setHeaders(toStatementTypeHeaderTemplateInfos(entity.getHeaders()));
-        
+
         stmtTypeInfo.setDescr(entity.getDescr());
-        
+
         return stmtTypeInfo;
     }
-    
+
     public StatementInfo toStatementInfo(final StatementTreeViewInfo statementTreeViewInfo) {
         StatementInfo statementInfo = null;
         if (statementTreeViewInfo == null) return null;
         statementInfo = new StatementInfo();
-        statementInfo.setAttributes(statementTreeViewInfo.getAttributes());
-        statementInfo.setDesc(statementTreeViewInfo.getDesc());
-        statementInfo.setId(statementTreeViewInfo.getId());
-        statementInfo.setMetaInfo(statementTreeViewInfo.getMetaInfo());
-        statementInfo.setName(statementTreeViewInfo.getName());
-        statementInfo.setOperator(statementTreeViewInfo.getOperator());
-        statementInfo.setParentId(statementTreeViewInfo.getParentId());
+        copyValues(statementInfo, statementTreeViewInfo);
         // goes through the list of reqComponents in statementTreeViewInfo and extract the reqComponent ids
         if (statementTreeViewInfo.getReqComponents() != null) {
             List<String> reqCompIds = new ArrayList<String>(7);
@@ -468,36 +472,37 @@ public class StatementAssembler extends BaseAssembler {
         statementInfo.setType(statementTreeViewInfo.getType());
         return statementInfo;
     }
-    
+
     /**
      * copies the values in statementInfo into statementTreeViewInfo.  Only the values of the root statement will
      * be affected.
-     * @param statementTreeViewInfo
-     * @param statementInfo
+     * @param toStatementInfo
+     * @param fromStatementInfo
      */
-    public void copyValues(final StatementTreeViewInfo statementTreeViewInfo, StatementInfo statementInfo) {
-        statementTreeViewInfo.setAttributes(statementInfo.getAttributes());
-        statementTreeViewInfo.setDesc(statementInfo.getDesc());
-        statementTreeViewInfo.setId(statementInfo.getId());
-        statementTreeViewInfo.setMetaInfo(statementInfo.getMetaInfo());
-        statementTreeViewInfo.setName(statementInfo.getName());
-        statementTreeViewInfo.setOperator(statementInfo.getOperator());
-        statementTreeViewInfo.setState(statementInfo.getState());
-        statementTreeViewInfo.setType(statementInfo.getType());
+    public void copyValues(final AbstractStatementInfo toStatementInfo, AbstractStatementInfo fromStatementInfo) {
+        toStatementInfo.setAttributes(fromStatementInfo.getAttributes());
+        toStatementInfo.setDesc(fromStatementInfo.getDesc());
+        toStatementInfo.setId(fromStatementInfo.getId());
+        toStatementInfo.setMetaInfo(fromStatementInfo.getMetaInfo());
+        toStatementInfo.setName(fromStatementInfo.getName());
+        toStatementInfo.setOperator(fromStatementInfo.getOperator());
+        toStatementInfo.setState(fromStatementInfo.getState());
+        toStatementInfo.setType(fromStatementInfo.getType());
+        toStatementInfo.setParentId(fromStatementInfo.getParentId());
     }
-    
+
     public Statement toStatement(final StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
     	return toCustomLuStatementInfo(statementTreeViewInfo);
     }
 
 	/**
 	 * <p>Converts a {@link LuNlStatementInfo} into a {@link CustomReqComponentInfo}.</p>
-	 * <p>Note: LuNlStatementInfo has no id since it is only used for 
+	 * <p>Note: LuNlStatementInfo has no id since it is only used for
 	 * on-the-fly translations and is not persisted.</p>
-	 * 
+	 *
 	 * @param statementInfo LuNlStatementInfo to convert
 	 * @return A custom LU statement
-	 * @throws VersionMismatchException 
+	 * @throws VersionMismatchException
 	 * @throws Exception If conversion fails
 	 */
 	public Statement toCustomLuStatementInfo(final StatementTreeViewInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
@@ -509,7 +514,7 @@ public class StatementAssembler extends BaseAssembler {
         //stmt.setLuStatementType(stmtType);
 		StatementType type = this.statementDao.fetch(StatementType.class, statementInfo.getType());
 		stmt.setStatementType(type);
-        
+
         if(statementInfo.getStatements() == null || statementInfo.getStatements().isEmpty()) {
         	setReqComponentType(statementInfo.getReqComponents());
         	List<ReqComponent> customReqList = toReqComponents(statementInfo.getReqComponents());
@@ -527,16 +532,16 @@ public class StatementAssembler extends BaseAssembler {
 		}
 	}
 
-	private void setReqComponentType(ReqComponentInfo req) 
+	private void setReqComponentType(ReqComponentInfo req)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		if(req.getRequiredComponentType() == null) {
-			//TODO: Fix with LuService RC1.4 changes			
+			//TODO: Fix with LuService RC1.4 changes
 			ReqComponentType type = this.statementDao.fetch(ReqComponentType.class, req.getType());
 			req.setRequiredComponentType(toReqComponentTypeInfo(type));
 		}
 	}
-	
-	private void createStatement(final StatementTreeViewInfo stmtInfo, Statement rootLuStatement) 
+
+	private void createStatement(final StatementTreeViewInfo stmtInfo, Statement rootLuStatement)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		for(StatementTreeViewInfo luNlStmt : stmtInfo.getStatements()) {
 			Statement stmt = new Statement();
@@ -544,7 +549,7 @@ public class StatementAssembler extends BaseAssembler {
 	        stmt.setParent(rootLuStatement);
 	        stmt.setOperator(luNlStmt.getOperator());
 			if(luNlStmt.getType() != null) {
-				//TODO: Fix with LuService RC1.4 changes				
+				//TODO: Fix with LuService RC1.4 changes
 		        //stmt.setLuStatementType(this.luService.getLuStatementType(luNlStmt.getStatementTypeId()));
 				StatementType type = this.statementDao.fetch(StatementType.class, luNlStmt.getType());
 				stmt.setStatementType(type);
@@ -564,7 +569,7 @@ public class StatementAssembler extends BaseAssembler {
 	        }
 	    }
 	}
-	
+
 	private List<ReqComponent> toReqComponents(List<ReqComponentInfo> reqComponentInfoList) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
 		List<ReqComponent> list = new ArrayList<ReqComponent>();
 		for(ReqComponentInfo info : reqComponentInfoList) {

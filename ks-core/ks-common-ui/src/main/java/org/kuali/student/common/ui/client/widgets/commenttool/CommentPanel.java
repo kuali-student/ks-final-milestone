@@ -27,7 +27,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
@@ -672,16 +671,6 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
         	editActions.setVisible(show);
         }
 
-    }
-
-    @Override
-    public void collectHistory(HistoryStackFrame frame) {
-        // do nothing
-    }
-
-    @Override
-    public void onHistoryEvent(HistoryStackFrame frame) {
-        // do nothing
     }
 
 	@Override

@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.messagebuilder.MessageBuilder;
+import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.booleanmessage.BooleanMessage;
 import org.kuali.student.common.messagebuilder.booleanmessage.MessageContainer;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanFunctionResult;
@@ -35,7 +36,9 @@ public class MessageBuilderImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new MessageBuilderImpl();
+		BooleanOperators bo = new BooleanOperators();
+		MessageTreeBuilder tnmBuilder = new SuccessFailureMessageBuilder(bo);
+		builder = new MessageBuilderImpl("en", tnmBuilder);
 	}
 
 	@Test

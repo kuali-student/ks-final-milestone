@@ -15,6 +15,8 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -22,9 +24,9 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
 
 
 public abstract class SectionView extends BaseSection implements View{
@@ -34,20 +36,6 @@ public abstract class SectionView extends BaseSection implements View{
 
     private Enum<?> viewEnum;
     private String viewName;
-
-    /**
-     * Constructs a new view with an associated controller and view name
-     *
-     * @param controller
-     *            the controller associated with the view
-     * @param name
-     *            the view name
-     */
-    public SectionView(LayoutController controller, Enum<?> viewEnum, String viewName) {
-    	super.setLayoutController(controller);
-        this.viewEnum = viewEnum;
-        this.viewName = viewName;
-    }
 
     public SectionView(Enum<?> viewEnum, String viewName) {
         this.viewEnum = viewEnum;
@@ -59,6 +47,7 @@ public abstract class SectionView extends BaseSection implements View{
      *
      * @return
      */
+    @Override
     public Enum<?> getViewEnum() {
         return viewEnum;
     }
@@ -69,8 +58,26 @@ public abstract class SectionView extends BaseSection implements View{
      */
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
-    	this.resetFieldInteractionFlags();
-    	onReadyCallback.exec(true);
+    	
+    	super.clearValidation();
+        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert("Failed to get model: " + getName());
+                onReadyCallback.exec(false);
+            }
+
+            @Override
+            public void onModelReady(DataModel m) {
+                model = m;
+                updateWidgetData(m);
+                resetFieldInteractionFlags();
+                onReadyCallback.exec(true);
+            }
+            
+        });
+       
     }
 
 	/**
@@ -81,8 +88,6 @@ public abstract class SectionView extends BaseSection implements View{
      */
     @Override
     public boolean beforeHide() {
-    	//This update model call was added due to KSCOR-162
-    	this.updateModel();
         return true;
     }
 
@@ -114,16 +119,6 @@ public abstract class SectionView extends BaseSection implements View{
     	}
     }
 
-    @Override
-    public void collectHistory(HistoryStackFrame frame) {
-        // do nothing
-    }
-
-    @Override
-    public void onHistoryEvent(HistoryStackFrame frame) {
-        // do nothing
-    }
-
 	public void updateView() {
         getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
             @Override
@@ -146,5 +141,23 @@ public abstract class SectionView extends BaseSection implements View{
 		this.model = m;
          updateWidgetData(m);
 	}
+	
+    public Widget asWidget(){
+    	return this.getLayout();
+    }
 
+	@Override
+	public String collectHistory(String historyStack) {
+		return null;
+	}
+
+	@Override
+	public void onHistoryEvent(String historyStack) {
+		
+	}
+	
+	@Override
+	public void collectBreadcrumbNames(List<String> names) {
+		names.add(this.getName());
+	}
 }

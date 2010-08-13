@@ -6,12 +6,17 @@
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0-M8-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gwtx</groupId>
+      <artifactId>gwtx</artifactId>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   <build>
@@ -20,28 +25,28 @@
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-java2ws-plugin</artifactId>
         <executions>
-          <!-- removed until needed
-					<execution>
-						<id>role-type-wsdl</id>
-						<phase>process-classes</phase>
-						<configuration>
-							<className>
-								org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService
-							</className>
-							<serviceName>QHRoleTypeService</serviceName>
-						</configuration>
-						<goals>
-							<goal>java2ws</goal>
-						</goals>
-					</execution>
+                    <!-- removed until needed
+                    <execution>
+                        <id>role-type-wsdl</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>
+                                org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService
+                            </className>
+                            <serviceName>QHRoleTypeService</serviceName>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
                     -->
           <execution>
             <id>organization-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.core.organization.service.OrganizationService </className>
+              <className>org.kuali.student.core.organization.service.OrganizationService</className>
               <serviceName>OrganizationService</serviceName>
-              <targetNameSpace> http://student.kuali.org/wsdl/organization</targetNameSpace>
+              <targetNameSpace>http://student.kuali.org/wsdl/organization</targetNameSpace>
             </configuration>
             <goals>
               <goal>java2ws</goal>
@@ -51,9 +56,9 @@
             <id>enumerationmanagement-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService </className>
+              <className>org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService </className>
               <serviceName>EnumerationManagementService</serviceName>
-              <targetNameSpace>http://student.kuali.org/wsdl/EnumerationManagementService</targetNameSpace>
+              <targetNameSpace>http://student.kuali.org/wsdl/EnumerationManagementService </targetNameSpace>
             </configuration>
             <goals>
               <goal>java2ws</goal>
@@ -63,7 +68,7 @@
             <id>atp-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.core.atp.service.AtpService </className>
+              <className>org.kuali.student.core.atp.service.AtpService</className>
               <serviceName>AtpService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/atp</targetNameSpace>
             </configuration>
@@ -75,7 +80,7 @@
             <id>messages-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.core.messages.service.MessageService </className>
+              <className>org.kuali.student.core.messages.service.MessageService</className>
               <serviceName>MessageService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/messages</targetNameSpace>
             </configuration>
@@ -87,7 +92,7 @@
             <id>document-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.core.document.service.DocumentService </className>
+              <className>org.kuali.student.core.document.service.DocumentService</className>
               <serviceName>DocumentService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/document</targetNameSpace>
             </configuration>
@@ -99,7 +104,7 @@
             <id>comment-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.core.comment.service.CommentService </className>
+              <className>org.kuali.student.core.comment.service.CommentService</className>
               <serviceName>CommentService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/comment</targetNameSpace>
             </configuration>
@@ -111,7 +116,7 @@
             <id>proposal-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.core.proposal.service.ProposalService </className>
+              <className>org.kuali.student.core.proposal.service.ProposalService</className>
               <serviceName>ProposalService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/proposal</targetNameSpace>
             </configuration>
@@ -123,7 +128,7 @@
             <id>statement-wsdl</id>
             <phase>process-classes</phase>
             <configuration>
-              <className> org.kuali.student.core.statement.service.StatementService </className>
+              <className>org.kuali.student.core.statement.service.StatementService</className>
               <serviceName>StatementService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/statement</targetNameSpace>
             </configuration>

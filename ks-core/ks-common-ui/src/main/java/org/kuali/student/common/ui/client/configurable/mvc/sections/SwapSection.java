@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.event.SectionUpdateEvent;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
@@ -68,6 +67,16 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 						dialog.show();
 					}
 					else if(!SwapSection.this.selectableWidget.getSelectedItems().containsAll(lastSelection)){
+//						List<String> selected  = SwapSection.this.selectableWidget.getSelectedItems();
+//						for(int i = 0; i < selected.size(); i++){
+//							String key = selected.get(i);
+//							Section section = swapSectionMap.get(key);
+//							if(section!=null){
+//								if(section.getLayout().isVisible()){
+//									dialog.show();
+//								}
+//							}
+//						}
 						dialog.show();
 					}
 					else{

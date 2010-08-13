@@ -133,10 +133,12 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                 }
             }
             else if(isDeleted(orgPersonHelper.getData())){
+            	OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
+            	long t = new java.util.Date().getTime();
+            	orgPersonRelationInfo.setExpirationDate(new java.sql.Date(t)); 
                 try{
-                    if(orgPersonHelper.getId()!=null){
-                        StatusInfo  result = orgService.removeOrgPersonRelation(orgPersonHelper.getId());
-                    }
+                    OrgPersonRelationInfo result = orgService.updateOrgPersonRelation(orgPersonHelper.getId(), orgPersonRelationInfo);
+                    addVersionIndicator(orgPersonHelper.getData(), OrgPersonRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
                 	LOG.error(e);
@@ -163,22 +165,23 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
     
     private OrgPersonRelationInfo buildOrgPersonRelationInfo(OrgPersonHelper orgPersonHelper){
         OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();
-        orgPersonRelationInfo.setOrgId(orgPersonHelper.getOrgId());
+        orgPersonRelationInfo.setOrgId(orgPersonHelper.getOrgId());      
         orgPersonRelationInfo.setPersonId(orgPersonHelper.getPersonId());
         orgPersonRelationInfo.setType(orgPersonHelper.getTypeKey());
         orgPersonRelationInfo.setEffectiveDate(orgPersonHelper.getEffectiveDate());
         orgPersonRelationInfo.setExpirationDate(orgPersonHelper.getExpirationDate());
-        
+        if (orgPersonHelper.getState()!=null)
+        	orgPersonRelationInfo.setState(orgPersonHelper.getState());
+        else
+        	orgPersonHelper.setState("Active");
+        	
+       
         if (isModified(orgPersonHelper.getData())) {
-            if (isUpdated(orgPersonHelper.getData())) {
+            if (isUpdated(orgPersonHelper.getData())||isDeleted(orgPersonHelper.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
                 orgPersonRelationInfo.setMetaInfo(metaInfo);
                 orgPersonRelationInfo.setId(orgPersonHelper.getId());
             }
-            else if (isDeleted(orgPersonHelper.getData())) {
-            }
-            else if (isCreated(orgPersonHelper.getData())) {
-            } 
         }
         if(orgPersonRelationInfo.getMetaInfo()!=null){
             orgPersonRelationInfo.getMetaInfo().setVersionInd(getVersionIndicator(orgPersonHelper.getData()));

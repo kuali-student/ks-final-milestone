@@ -23,7 +23,7 @@ import org.kuali.student.core.statement.config.context.lu.CluInfo;
 import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
-import org.kuali.student.core.statement.config.context.lu.GradeConditionCourseListContextImpl;
+import org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
@@ -31,7 +31,7 @@ import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentFieldTypes;
+import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypeKeys;
 
 /**
  * Utility class to support testing.
@@ -136,7 +136,7 @@ public class NaturalLanguageUtil {
     }
 	
     public static ReqComponent createReqComponent(String reqComponentType, List<ReqComponentField> fieldList) {
-    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.CATALOG", reqComponentType);
+    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.RULEEDIT", reqComponentType);
 		
 		ReqComponent reqComp = new ReqComponent();
 		reqComp.setReqComponentFields(fieldList);
@@ -149,19 +149,19 @@ public class NaturalLanguageUtil {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setId("1");
-		field1.setKey(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setKey(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setId("2");
-		field2.setKey(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setKey(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
 		field2.setValue(operator);
 		fieldList.add(field2);
 				
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setId("3");
-		field3.setKey(ReqComponentFieldTypes.CLUSET_KEY.getKey());
+		field3.setKey(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
 		field3.setValue(target);
 		fieldList.add(field3);
 		
@@ -172,19 +172,19 @@ public class NaturalLanguageUtil {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setId("4");
-		field1.setKey(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setKey(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setId("5");
-		field2.setKey(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setKey(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setId("6");
-		field3.setKey(ReqComponentFieldTypes.CLU_KEY.getKey());
+		field3.setKey(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
 		field3.setValue(cluIds);
 		fieldList.add(field3);
 		
@@ -194,12 +194,12 @@ public class NaturalLanguageUtil {
     public static List<ReqComponentField> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getKey());
+		field1.setId(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getKey());
+		field2.setId(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
@@ -244,12 +244,12 @@ public class NaturalLanguageUtil {
 //		List<StatementTypeHeaderTemplate> headerList = new ArrayList<StatementTypeHeaderTemplate>();
 //		StatementTypeHeaderTemplate header1 = new StatementTypeHeaderTemplate();
 //		header1.setLanguage("en");
-//		header1.setNlUsageTypeKey("KUALI.CATALOG");
+//		header1.setNlUsageTypeKey("KUALI.RULEEDIT");
 //		header1.setTemplate("Requirement for $clu.getOfficialIdentifier().getLongName(): ");
 //		headerList.add(header1);
 //		StatementTypeHeaderTemplate header2 = new StatementTypeHeaderTemplate();
 //		header2.setLanguage("de");
-//		header2.setNlUsageTypeKey("KUALI.CATALOG");
+//		header2.setNlUsageTypeKey("KUALI.RULEEDIT");
 //		header2.setTemplate("Voraussetzung fur die $clu.getOfficialIdentifier().getLongName(): ");
 //		headerList.add(header2);
 //		
@@ -269,10 +269,11 @@ public class NaturalLanguageUtil {
     	contextRegistry.add("kuali.reqCompType.courseList.nof", courseListContext);
     	contextRegistry.add("kuali.reqCompType.courseList.1of2", courseListContext);
 
-    	GradeConditionCourseListContextImpl.setCluInfo(cluList);
-    	GradeConditionCourseListContextImpl.setCluSetInfo(cluSetList);
-    	GradeConditionCourseListContextImpl gradeConditionCourseListContext = new GradeConditionCourseListContextImpl();
+    	CreditContextImpl.setCluInfo(cluList);
+    	CreditContextImpl.setCluSetInfo(cluSetList);
+    	CreditContextImpl gradeConditionCourseListContext = new CreditContextImpl();
     	contextRegistry.add("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
+    	contextRegistry.add("kuali.reqCompType.grdCondCourseList", courseListContext);
     	
     	GradeCheckContextImpl.setCluInfo(cluList);
     	GradeCheckContextImpl.setCluSetInfo(cluSetList);

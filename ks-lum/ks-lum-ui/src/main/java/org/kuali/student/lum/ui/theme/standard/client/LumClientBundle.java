@@ -16,26 +16,36 @@
 package org.kuali.student.lum.ui.theme.standard.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.libideas.resources.client.CssResource;
-import com.google.gwt.libideas.resources.client.ImageResource;
-import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
 
-public interface LumClientBundle extends ImmutableResourceBundle{
+import com.google.gwt.resources.client.ClientBundleWithLookup;
+import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.ImageResource;
+
+public interface LumClientBundle extends ClientBundleWithLookup{
 	public static final LumClientBundle INSTANCE =  GWT.create(LumClientBundle.class);
 
-	@Resource("org/kuali/student/lum/ui/theme/standard/public/css/LumLandingPage.css")
+	@Source("org/kuali/student/lum/ui/theme/standard/public/css/LumLandingPage.css")
+	@CssResource.NotStrict
 	public CssResource lumLandingPageCss();
 	
-	@Resource("org/kuali/student/lum/ui/theme/standard/public/css/LumMain.css")
+	@Source("org/kuali/student/lum/ui/theme/standard/public/css/LumMain.css")
+	@CssResource.NotStrict
 	public CssResource lumMainCss();
-    
-	@Resource("org/kuali/student/lum/ui/theme/standard/public/images/gradcap-1.png")
+
+	@Source("org/kuali/student/lum/ui/theme/standard/public/css/Course.css")
+	@CssResource.NotStrict
+	public CssResource courseCss();
+	
+	@Source("org/kuali/student/lum/ui/theme/standard/public/images/gradcap-1.png")
+	@CssResource.NotStrict
 	public ImageResource curriculumManagementImage();
 	
-	@Resource("org/kuali/student/lum/ui/theme/standard/public/images/gear.png")
+	@Source("org/kuali/student/lum/ui/theme/standard/public/images/gear.png")
+	@CssResource.NotStrict
 	public ImageResource analyzeCurriculumImage();
 	
-	@Resource("org/kuali/student/lum/ui/theme/standard/public/images/plus-circle.png")
+	@Source("org/kuali/student/lum/ui/theme/standard/public/images/plus-circle.png")
+	@CssResource.NotStrict
 	public ImageResource proposeCurriculumImage();
 
 }
