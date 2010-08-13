@@ -25,12 +25,14 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -692,9 +694,19 @@ public class ImportMojo extends AbstractMojo {
 		return resource.exists();
 	}
 
+	protected boolean isNullOrEmpty(Collection<?> c) {
+		if (c == null) {
+			return true;
+		}
+		if (c.size() == 0) {
+			return true;
+		}
+		return false;
+	}
+
 	protected void addDefaultSchema() {
 		// They supplied a list of schemas. Only update schemas in their list
-		if (getSchemas() != null && getSchemas().size() > 0) {
+		if (!isNullOrEmpty(getSchemas())) {
 			return;
 		}
 		// The default schema does not exist
@@ -717,7 +729,7 @@ public class ImportMojo extends AbstractMojo {
 
 	protected void addSchemaXMLResourcesToTransactions() throws MojoExecutionException {
 		addDefaultSchema();
-		if (getSchemas() == null) {
+		if (isNullOrEmpty(getSchemas())) {
 			return;
 		}
 
