@@ -8,6 +8,7 @@
   </parent>
   <artifactId>jdbc-support</artifactId>
   <name>JDBC Support Utilities</name>
+  <description>Various utility methods for JDBC</description>
   <dependencies>
     <dependency>
       <groupId>commons-lang</groupId>
