@@ -32,7 +32,6 @@ import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -717,8 +716,8 @@ public class ImportMojo extends AbstractMojo {
 		if (!isImportSchema()) {
 			return;
 		}
-		// Add the default schema to the list
 
+		// Add the default schema to the list
 		List<String> schemas = getSchemas();
 		if (schemas == null) {
 			schemas = new ArrayList<String>();
