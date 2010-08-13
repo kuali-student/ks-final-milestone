@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
@@ -24,12 +25,14 @@
     </repository>
   </repositories>
   <modules>
+    <module>ks-embedded-db</module>
+    <!-- 
     <module>ks-core-db</module>
     <module>ks-lum-db</module>
     <module>ks-rice-db</module>
-    <module>ks-embedded-db</module>
     <module>ks-rice-client-db</module>
     <module>ks-rice-server-db</module>
+     -->
   </modules>
   <build>
     <resources>
@@ -56,7 +59,7 @@
         <artifactId>maven-impex-plugin</artifactId>
         <version>1.0.1-SNAPSHOT</version>
         <configuration>
-          <dataXMLDir>${project.build.directory}/generated-impex/data</dataXMLDir>
+          <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}-schema.xml</schemaXMLFile>
         </configuration>
@@ -67,10 +70,6 @@
               <goal>morphschema</goal>
               <goal>morphdata</goal>
             </goals>
-            <configuration>
-              <dataXMLDir>${basedir}/src/main/impex</dataXMLDir>
-              <dataXMLExcludes>schema.xml</dataXMLExcludes>
-            </configuration>
           </execution>
           <execution>
             <id>generate-oracle-sql</id>
