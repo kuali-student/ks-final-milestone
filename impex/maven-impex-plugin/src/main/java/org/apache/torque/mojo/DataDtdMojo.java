@@ -18,7 +18,8 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	/**
 	 * The directory in which the DTD will be generated
 	 * 
-	 * @parameter property="outputDir" expression="${outputDir}" default-value="${project.build.directory}/data/impex"
+	 * @parameter property="outputDir" expression="${outputDir}"
+	 *            default-value="${project.build.directory}/generated-impex/dtd"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy1;

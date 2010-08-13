@@ -19,7 +19,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	 * The directory in which the SQL will be generated.
 	 * 
 	 * @parameter property="outputDir" expression="${outputDir}"
-	 *            default-value="${project.build.directory}/generated-sql/impex"
+	 *            default-value="${project.build.directory}/generated-sql/sql"
 	 * @required
 	 */
 	@SuppressWarnings("unused")
@@ -63,7 +63,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The directory containing data XML files
 	 * 
-	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/impex/data"
+	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/impex"
 	 * @required
 	 */
 	private File dataXMLDir;
@@ -79,14 +79,14 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The default set of files in that directory to exclude (ant style notation)
 	 * 
-	 * @parameter expression="${dataXMLExcludes}"
+	 * @parameter expression="${dataXMLExcludes}" default-value="*schema.xml"
 	 */
 	private String dataXMLExcludes;
 
 	/**
 	 * The DTD for the data XML files
 	 * 
-	 * @parameter expression="${dataDTD}" default-value="${project.build.directory}/data/impex"
+	 * @parameter expression="${dataDTD}" default-value="${project.build.directory}/generated-impex/dtd"
 	 * @required
 	 */
 	private File dataDTDDir;
