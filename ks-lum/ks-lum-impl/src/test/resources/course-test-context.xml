@@ -340,7 +340,7 @@
         <property name="statementDao" ref="statementDao"/>
     </bean>
 
-    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.assembly.StatementTreeViewAssembler" lazy-init="true">
+    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler" lazy-init="true">
         <property name="statementService" ref="statementService"/>
    </bean>
 

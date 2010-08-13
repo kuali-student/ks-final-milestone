@@ -515,7 +515,7 @@
                          value="classpath:lu-search-config.xml"/>
     </bean>
 
-    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.assembly.StatementTreeViewAssembler">
+    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
         <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
