@@ -44,7 +44,7 @@ import org.apache.torque.engine.database.model.Table;
 import org.codehaus.plexus.util.FileUtils;
 import org.kuali.core.db.torque.Utils;
 import org.kuali.db.DatabaseType;
-import org.kuali.db.JDBCConfig;
+import org.kuali.db.JDBCConfiguration;
 import org.kuali.db.JDBCUtils;
 import org.kuali.db.SQLExecutor;
 import org.kuali.db.Transaction;
@@ -546,8 +546,8 @@ public class ImportMojo extends AbstractMojo {
 	 * JDBC url
 	 */
 	protected void updateConfiguration() {
-		JDBCConfig config = jdbcUtils.getDatabaseConfig(url);
-		if (config.equals(JDBCConfig.UNKNOWN_CONFIG)) {
+		JDBCConfiguration config = jdbcUtils.getDatabaseConfig(url);
+		if (config.equals(JDBCConfiguration.UNKNOWN_CONFIG)) {
 			return;
 		}
 

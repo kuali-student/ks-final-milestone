@@ -3,14 +3,14 @@ package org.kuali.db;
 /**
  * A pojo containing JDBC related configuration information. eg JDBC drivers, url fragments and type
  */
-public class JDBCConfig {
-	public static final JDBCConfig UNKNOWN_CONFIG = new JDBCConfig(DatabaseType.UNKNOWN);
+public class JDBCConfiguration {
+	public static final JDBCConfiguration UNKNOWN_CONFIG = new JDBCConfiguration(DatabaseType.UNKNOWN);
 
-	public JDBCConfig() {
+	public JDBCConfiguration() {
 		this(null);
 	}
 
-	public JDBCConfig(DatabaseType type) {
+	public JDBCConfiguration(DatabaseType type) {
 		super();
 		this.type = type;
 	}
