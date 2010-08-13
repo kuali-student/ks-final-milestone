@@ -546,7 +546,7 @@ public class ImportMojo extends AbstractMojo {
 	 * JDBC url
 	 */
 	protected void updateConfiguration() {
-		JDBCConfiguration config = jdbcUtils.getDatabaseConfig(url);
+		JDBCConfiguration config = jdbcUtils.getDatabaseConfiguration(url);
 		if (config.equals(JDBCConfiguration.UNKNOWN_CONFIG)) {
 			return;
 		}
