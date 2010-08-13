@@ -1,11 +1,10 @@
 package org.kuali.db;
 
-public class ConsoleOutputTest {
+import junit.framework.TestCase;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+public class ConsoleOutputTest extends TestCase {
+
+	public void test1() {
 		try {
 			char backspaceChar = '\b';
 			String backspace = backspaceChar + "";
