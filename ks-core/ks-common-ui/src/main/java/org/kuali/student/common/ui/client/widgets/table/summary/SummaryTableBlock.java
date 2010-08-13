@@ -3,14 +3,16 @@ package org.kuali.student.common.ui.client.widgets.table.summary;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 
-public class SummaryTableSection {
-    private boolean isEditable = false;
+public class SummaryTableBlock {
     private String title = "";
-    private List<SectionRow> sectionRowList = new ArrayList<SectionRow>();
+    private List<SummaryTableRow> sectionRowList = new ArrayList<SummaryTableRow>();
     private ClickHandler editEventHandler;
     
+
     public void addEditingHandler(ClickHandler clickHandler){
         this.editEventHandler = clickHandler;
     }
@@ -18,16 +20,11 @@ public class SummaryTableSection {
         return editEventHandler;
     }
     
-    public List<SectionRow> getSectionRowList(){
+    public List<SummaryTableRow> getSectionRowList(){
         return sectionRowList;
     }
-    public boolean isEditable() {
-        return isEditable;
-    }
-    public void setEditable(boolean isEditable) {
-        this.isEditable = isEditable;
-    }
-    public void add(SectionRow aRow){
+
+    protected void add(SummaryTableRow aRow){
         sectionRowList.add(aRow);
     }
     public void clear(){
