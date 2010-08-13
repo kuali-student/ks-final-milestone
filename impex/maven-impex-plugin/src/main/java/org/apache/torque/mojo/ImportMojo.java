@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -680,10 +681,39 @@ public class ImportMojo extends AbstractMojo {
 		}
 	}
 
+	protected String getDefaultSchemaLocation() {
+		String schema = project.getArtifactId();
+		return "classpath:" + schema + "-schema.xml";
+	}
+	
+	protected boolean defaultSchemaExists() {
+		DefaultResourceLoader loader = new DefaultResourceLoader();
+		Resource resource = loader.getResource(getDefaultSchemaLocation());
+		return resource.exists();
+	}
+		
+		
+	protected void addDefaultSchema() {
+		if (getSchemas() != null) {
+			return;
+		}
+		if (!defaultSchemaExists()) {
+			return;
+		}
+		if (!isImportSchema()) {
+			return;
+		}
+		List<String> schemas = new ArrayList<String>();
+		schemas.add(getDefaultSchemaLocation());
+		setSchemas(schemas);
+	}
+
 	protected void addSchemaXMLResourcesToTransactions() throws MojoExecutionException {
+		addDefaultSchema();
 		if (getSchemas() == null) {
 			return;
 		}
+		
 		try {
 			List<Database> databases = new Utils().getDatabases(getSchemas(), getTargetDatabase());
 			for (String schemaXMLResource : getSchemas()) {
@@ -700,11 +730,15 @@ public class ImportMojo extends AbstractMojo {
 	protected void handleDatabase(Database database) {
 		DefaultResourceLoader loader = new DefaultResourceLoader();
 
+		if (isImportSchema()) {
+			String schemaSQL = "classpath:sql/" + getTargetDatabase() + "/" + database.getName() + "-schema.sql";
+			createTransaction().setResourceLocation(schemaSQL);
+		}
 		if (isImportData()) {
 			List<?> tables = database.getTables();
 			for (Object object : tables) {
 				Table table = (Table) object;
-				String location = "classpath:impex/" + getTargetDatabase() + "/" + table.getName() + ".sql";
+				String location = "classpath:sql/" + getTargetDatabase() + "/" + table.getName() + ".sql";
 				Resource resource = loader.getResource(location);
 				if (!resource.exists()) {
 					getLog().debug("Skipping " + location + " because it does not exist");
@@ -715,12 +749,8 @@ public class ImportMojo extends AbstractMojo {
 				}
 			}
 		}
-		if (isImportSchema()) {
-			String schemaSQL = "classpath:impex/" + getTargetDatabase() + "/" + database.getName() + "-schema.sql";
-			createTransaction().setResourceLocation(schemaSQL);
-		}
 		if (isImportSchemaConstraints()) {
-			String schemaConstraintsSQL = "classpath:impex/" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
+			String schemaConstraintsSQL = "classpath:sql/" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
 			createTransaction().setResourceLocation(schemaConstraintsSQL);
 		}
 	}
