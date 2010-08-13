@@ -50,11 +50,14 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	protected static final String KUALI_ORG_DIVISION   			  = "kuali.org.Division";
 	protected static final String KUALI_ORG_PROGRAM    			  = "kuali.org.Program";
 
+	// below string MUST match org.kuali.student.core.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
+
 	protected OrganizationService orgService;
 
 	private static final String ORG_RESOLVER_CONFIG =
 									"<resolverConfig>" +
-										"<baseXPathExpression>/documentContent/applicationContent/cluProposalDocInfo</baseXPathExpression>" +
+										"<baseXPathExpression>/documentContent/applicationContent/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME + "</baseXPathExpression>" +
 										"<qualifier name=\"" + KualiStudentKimAttributes.QUALIFICATION_ORG_ID +  "\">" +
 											"<xPathExpression>./orgId</xPathExpression>" + 
 										"</qualifier>" +
