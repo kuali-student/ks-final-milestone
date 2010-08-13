@@ -6,8 +6,7 @@ public class ConsoleOutputTest extends TestCase {
 
 	public void test1() {
 		try {
-			char backspaceChar = '\b';
-			String backspace = backspaceChar + "";
+			String backspace = '\b' + "";
 			System.out.println("foo" + backspace);
 			System.out.print('\b');
 		} catch (Exception e) {
