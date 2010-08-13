@@ -106,7 +106,7 @@ public class ImportMojo extends AbstractMojo {
 	 * out and if the artifactId ends in "-db" the trailing "-db" is trimmed off.
 	 * 
 	 * @since 1.0
-	 * @parameter expression="${trimArtifactId}" default-value="true"
+	 * @parameter expression="${trimArtifactId}" default-value="false"
 	 */
 	private boolean trimArtifactId;
 
