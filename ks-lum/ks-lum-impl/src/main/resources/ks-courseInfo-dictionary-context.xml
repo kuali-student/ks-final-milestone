@@ -41,11 +41,11 @@
     <ref bean="courseInfo.transcriptTitle" />
     <ref bean="courseInfo.type" />
     <ref bean="courseInfo.variations" />
+    <ref bean="courseInfo.pilotCourse" />
+    <ref bean="courseInfo.specialTopicsCourse" />
     <!-- Dynamic Attributes -->
     <ref bean="courseInfo.finalExamStatus" />
     <ref bean="courseInfo.finalExamRationale"/>
-    <ref bean="courseInfo.pilotCourse" />
-    <ref bean="courseInfo.specialTopicsCourse" />
     <ref bean="courseInfo.outOfClassHours" />
     <ref bean="courseInfo.proposalId"/>
     <ref bean="courseInfo.proposalRationale"/>
@@ -639,13 +639,11 @@
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
   <property name="defaultValue" value="false" />
-  <property name="dynamic" value="true"/>
  </bean>
  <bean id="courseInfo.specialTopicsCourse" parent="baseBoolean">
   <property name="name" value="specialTopicsCourse" />
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
-  <property name="dynamic" value="true"/>
  </bean>
 
  <!--example of how to use dyanamic attributes to define a complex type-->
