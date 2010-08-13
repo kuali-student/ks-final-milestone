@@ -17,15 +17,15 @@ public class DatabaseUtilsTest extends TestCase {
 
 	@SuppressWarnings("unchecked")
 	public void test1() {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext(JDBCUtils.KUALI_JDBC_CONTEXT);
-		List<JDBCConfiguration> databaseConfigs = (List<JDBCConfiguration>) ctx.getBean("jdbcConfigs");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext(JDBCUtils.JDBC_CONTEXT);
+		List<JDBCConfiguration> databaseConfigs = (List<JDBCConfiguration>) ctx.getBean(JDBCUtils.JDBC_CONFIGURATIONS);
 		assertNotNull(databaseConfigs);
 	}
 
 	@SuppressWarnings("unchecked")
 	public void test2() {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext(JDBCUtils.KUALI_JDBC_CONTEXT);
-		List<JDBCConfiguration> databaseConfigs = (List<JDBCConfiguration>) ctx.getBean("jdbcConfigs");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext(JDBCUtils.JDBC_CONTEXT);
+		List<JDBCConfiguration> databaseConfigs = (List<JDBCConfiguration>) ctx.getBean(JDBCUtils.JDBC_CONFIGURATIONS);
 		assertNotNull(databaseConfigs);
 		DatabaseType[] typesArray = DatabaseType.values();
 

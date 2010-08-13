@@ -17,11 +17,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Various JDBC related utility methods
  */
 public class JDBCUtils {
-	public static final String KUALI_JDBC_CONTEXT = "org/kuali/db/kuali-jdbc-context.xml";
-	ApplicationContext context = new ClassPathXmlApplicationContext(KUALI_JDBC_CONTEXT);
+	public static final String JDBC_CONTEXT = "org/kuali/db/jdbc-context.xml";
+	public static final String JDBC_CONFIGURATIONS = "jdbcConfigurations";
+	ApplicationContext context = new ClassPathXmlApplicationContext(JDBC_CONTEXT);
 
 	@SuppressWarnings("unchecked")
-	List<JDBCConfiguration> jdbcConfigs = (List<JDBCConfiguration>) context.getBean("jdbcConfigs");
+	List<JDBCConfiguration> jdbcConfigs = (List<JDBCConfiguration>) context.getBean(JDBC_CONFIGURATIONS);
 
 	/**
 	 * Given a JDBC url, attempt to locate the corresponding JDBCConfig object
