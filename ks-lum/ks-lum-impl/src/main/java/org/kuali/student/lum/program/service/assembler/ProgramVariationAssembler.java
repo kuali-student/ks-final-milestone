@@ -48,42 +48,25 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     private ProgramAssemblerUtils programAssemblerUtils;
 
     @Override
-    public ProgramVariationInfo assemble(CluInfo clu, ProgramVariationInfo majorDiscipline, boolean shallowBuild) throws AssemblyException {
+    public ProgramVariationInfo assemble(CluInfo clu, ProgramVariationInfo programVariation, boolean shallowBuild) throws AssemblyException {
 
-        ProgramVariationInfo pvInfo = (null != majorDiscipline) ? majorDiscipline : new ProgramVariationInfo();
+        ProgramVariationInfo pvInfo = (null != programVariation) ? programVariation : new ProgramVariationInfo();
 
         // Copy all the data from the clu to the programvariation
-        pvInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
-        pvInfo.setReferenceURL((null != clu.getReferenceURL()) ? clu.getReferenceURL() : null);
-
-        pvInfo.setCode(clu.getOfficialIdentifier().getCode());
-        List<LuCodeInfo> luCodes = clu.getLuCodes();
-        for (LuCodeInfo codeInfo : luCodes) {
-            if (ProgramAssemblerConstants.CIP_2000.equals(codeInfo.getId())) {
-                pvInfo.setCip2000Code(codeInfo.getValue());
-            } else if (ProgramAssemblerConstants.CIP_2010.equals(codeInfo.getId())) {
-                pvInfo.setCip2010Code(codeInfo.getValue());
-            } else if (ProgramAssemblerConstants.HEGIS.equals(codeInfo.getId())) {
-                pvInfo.setHegisCode(codeInfo.getValue());
-            } else if (ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION.equals(codeInfo.getId())) {
-                pvInfo.setUniversityClassification(codeInfo.getValue());
-            } else if (ProgramAssemblerConstants.SELECTIVE_ENROLLMENT.equals(codeInfo.getId())) {
-                pvInfo.setSelectiveEnrollmentCode(codeInfo.getValue());
-            }
-        }
-        List<String> resultStrs = new ArrayList<String>();
-        try {
-            List<CluResultInfo> rInfos = luService.getCluResultByClu(clu.getId());
-            for (CluResultInfo rInfo : rInfos) {
-                for (ResultOptionInfo optionInfo : rInfo.getResultOptions()) {
-                    resultStrs.add(optionInfo.getDesc().getPlain());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            pvInfo.setResultOptions(resultStrs);
-        }
+        programAssemblerUtils.assembleBasics(clu, pvInfo);
+        programAssemblerUtils.assembleIdentifiers(clu, pvInfo);
+        programAssemblerUtils.assembleAdminOrgs(clu, pvInfo);
+        programAssemblerUtils.assembleAtps(clu, pvInfo);
+        programAssemblerUtils.assembleLuCodes(clu, pvInfo);
+        programAssemblerUtils.assemblePublicationInfo(clu, pvInfo);
+        programAssemblerUtils.assembleRequirements(clu, pvInfo);
         
+        pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.DEGREE_RESULTS));
+        pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+
+        pvInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
+        pvInfo.setCampusLocations(clu.getCampusLocations());  
+        pvInfo.setEffectiveDate(clu.getEffectiveDate());
 
         return pvInfo;
     }
