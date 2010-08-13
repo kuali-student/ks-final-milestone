@@ -32,6 +32,7 @@ import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -91,6 +92,23 @@ public class ImportMojo extends AbstractMojo {
 	 * @required
 	 */
 	private String targetDatabase;
+
+	/**
+	 * If no username/password is supplied, use the artifact id of the project as the username/password
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${useArtifactIdForCredentials}" default-value="false"
+	 */
+	private boolean useArtifactIdForCredentials;
+
+	/**
+	 * If useArtifactIdForCredentials is true, and trim artifactId is true, any hyphens in the artifact id are trimmed
+	 * out and if the artifactId ends in "-db" the trailing "-db" is trimmed off.
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${trimArtifactId}" default-value="true"
+	 */
+	private boolean trimArtifactId;
 
 	/**
 	 * Database username. If not given, it will be looked up through <code>settings.xml</code>'s server with
@@ -603,6 +621,7 @@ public class ImportMojo extends AbstractMojo {
 
 		updateConfiguration();
 		validateConfiguration();
+		updateCredentials();
 
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Executing " + getTargetDatabase() + " SQL");
@@ -619,8 +638,6 @@ public class ImportMojo extends AbstractMojo {
 		successfulStatements = 0;
 
 		totalStatements = 0;
-
-		loadUserInfoFromSettings();
 
 		addCommandToTransactions();
 
@@ -823,39 +840,70 @@ public class ImportMojo extends AbstractMojo {
 		}
 	}
 
+	protected String convertNullToEmpty(String s) {
+		if (s == null) {
+			return "";
+		} else {
+			return s;
+		}
+	}
+
 	/**
-	 * Load username password from settings if user has not set them in JVM properties
+	 * Load username/password from settings.xml if user has not set them in JVM properties
 	 * 
 	 * @throws MojoExecutionException
 	 */
-	private void loadUserInfoFromSettings() throws MojoExecutionException {
-		if (this.settingsKey == null) {
-			this.settingsKey = getUrl();
+	protected void updateCredentials() throws MojoExecutionException {
+		Server server = settings.getServer(settingsKey);
+		updateUsername(server);
+		updatePassword(server);
+	}
+
+	protected void updatePassword(Server server) {
+		// They already gave us a password, don't mess with it
+		if (getPassword() != null) {
+			return;
 		}
-
-		if ((getUsername() == null || getPassword() == null) && (settings != null)) {
-			Server server = this.settings.getServer(this.settingsKey);
-
-			if (server != null) {
-				if (getUsername() == null) {
-					setUsername(server.getUsername());
-				}
-
-				if (getPassword() == null) {
-					setPassword(server.getPassword());
-				}
+		if (server != null) {
+			// We've successfully located a server in settings.xml, use the password from that
+			setPassword(server.getPassword());
+		} else if (useArtifactIdForCredentials) {
+			// No password was explicitly set, no server was located in settings.xml and they've asked for the password
+			// to default to the artifact id
+			if (isTrimArtifactId()) {
+				setPassword(trimArtifactId(project.getArtifactId()));
+			} else {
+				setPassword(project.getArtifactId());
 			}
 		}
+		// If it is null convert it to the empty string
+		setPassword(convertNullToEmpty(getPassword()));
+	}
 
-		if (getUsername() == null) {
-			// allow emtpy username
-			setUsername("");
+	protected void updateUsername(Server server) {
+		// They already gave us a password, don't mess with it
+		if (getUsername() != null) {
+			return;
 		}
+		if (server != null) {
+			// We've successfully located a server in settings.xml, use the username from that
+			setUsername(server.getUsername());
+		} else if (useArtifactIdForCredentials) {
+			// No password was explicitly set, no server was located in settings.xml and they've asked for the username
+			// to default to the artifact id
+			if (isTrimArtifactId()) {
+				setUsername(trimArtifactId(project.getArtifactId()));
+			} else {
+				setUsername(project.getArtifactId());
+			}
+		}
+		// If it is null convert it to the empty string
+		setUsername(convertNullToEmpty(getUsername()));
+	}
 
-		if (getPassword() == null) {
-			// allow emtpy password
-			setPassword("");
-		}
+	protected String trimArtifactId(String artifactId) {
+		String s = StringUtils.remove(artifactId, "-db");
+		return StringUtils.remove(s, "-");
 	}
 
 	/**
@@ -1156,5 +1204,21 @@ public class ImportMojo extends AbstractMojo {
 
 	public void setSchemas(List<String> schemas) {
 		this.schemas = schemas;
+	}
+
+	public boolean isUseArtifactIdForCredentials() {
+		return useArtifactIdForCredentials;
+	}
+
+	public void setUseArtifactIdForCredentials(boolean useArtifactIdForCredentials) {
+		this.useArtifactIdForCredentials = useArtifactIdForCredentials;
+	}
+
+	public boolean isTrimArtifactId() {
+		return trimArtifactId;
+	}
+
+	public void setTrimArtifactId(boolean trimArtifactId) {
+		this.trimArtifactId = trimArtifactId;
 	}
 }
