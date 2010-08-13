@@ -341,17 +341,16 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler" lazy-init="true">
-        <property name="statementService" ref="statementService"/>
+        <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
 	<bean id="statementServiceImpl"
 		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
-        <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
         <property name="dictionaryServiceDelegate" ref="lumDictionary" />
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
-        <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/>
+        <property name="statementAssembler" ref="statementAssembler"/>
 	</bean>
 
 	<!-- Learning Objective service config -->
