@@ -95,14 +95,6 @@ public class ProgramAssemblerUtils {
                 value = new Object[]{clu.getId()};
                 method.invoke(o, value);
             }
-
-            if (clu.getDescr() != null) {
-                parms = new Class[]{RichTextInfo.class};
-                method = o.getClass().getMethod("setDescr", parms);
-                value = new Object[]{clu.getDescr()};
-                method.invoke(o, value);
-            }
-
 		}
 		catch (IllegalAccessException   e){
             throw new AssemblyException("Error assembling program basics", e);
@@ -630,14 +622,15 @@ public class ProgramAssemblerUtils {
                 method.invoke(o, value);
             }
 
+            //TODO assemble catalogDescr
 
             RichTextInfo description = assembleCatalogDescr(clu.getId());
-            if (description != null) {
-                parms = new Class[]{RichTextInfo.class};
-                method = o.getClass().getMethod("setCatalogDescr", parms);
-                value = new Object[]{description};
-                method.invoke(o, value);
-            }
+//            if (description != null) {
+//                parms = new Class[]{RichTextInfo.class};
+//                method = o.getClass().getMethod("setCatalogDescr", parms);
+//                value = new Object[]{description};
+//                method.invoke(o, value);
+//            }
 //TODO        mdInfo.setCatalogPublicationTargets(clu.getPublicationInfo());
 
         }
@@ -666,14 +659,11 @@ public class ProgramAssemblerUtils {
             value = (String)method.invoke(o, null);
             clu.setReferenceURL(value);
 
-            method = o.getClass().getMethod("getCatalogDescr", null);
-            RichTextInfo descr = (RichTextInfo)method.invoke(o, null);
-            clu.setDescr(descr);
+            //TODO diasassembleCatalogDescr
+//            method = o.getClass().getMethod("getCatalogDescr", null);
+//            RichTextInfo descr = (RichTextInfo)method.invoke(o, null);
+//            clu.setDescr(descr);
 
-            method = o.getClass().getMethod("getDescr", null);
-            RichTextInfo desc = (RichTextInfo)method.invoke(o, null);
-            clu.setDescr(desc);
-            
 //TODO        clu.setPublicationInfo(major.getCatalogPublicationTargets());        
 
         }
@@ -766,7 +756,7 @@ public class ProgramAssemblerUtils {
     }
 
     //TODO assembleCatalogDescr
-        private RichTextInfo assembleCatalogDescr(String cluId) throws AssemblyException {
+    private RichTextInfo assembleCatalogDescr(String cluId) throws AssemblyException {
 //        RichTextInfo returnInfo = new RichTextInfo();
 //        try {
 //            List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(cluId);
@@ -786,7 +776,7 @@ public class ProgramAssemblerUtils {
     }
 
     //TODO disassembleCatalogDescr
-        private CluInfo disassembleCatalogDescr(String cluId) throws AssemblyException {
+     private CluInfo disassembleCatalogDescr(String cluId) throws AssemblyException {
 //        RichTextInfo returnInfo = new RichTextInfo();
 //        try {
 //            List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(cluId);

@@ -26,6 +26,8 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
             throw new AssemblyException("CredentialProgramAssembler.assemble() called for Clu of incorrect type: " + clu.getType());
         }
         cpInfo.setCredentialProgramType(clu.getType());
+        cpInfo.setDescr(clu.getDescr());
+
         programAssemblerUtils.assembleBasics(clu, cpInfo);
         programAssemblerUtils.assembleIdentifiers(clu, cpInfo);
         if (null != clu.getOfficialIdentifier().getLevel()) {

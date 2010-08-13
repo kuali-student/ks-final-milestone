@@ -77,6 +77,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setCampusLocations(clu.getCampusLocations());        
         mdInfo.setAccreditingAgencies(clu.getAccreditations());
         mdInfo.setEffectiveDate(clu.getEffectiveDate());
+        mdInfo.setDescr(clu.getDescr());
 
        return mdInfo;
     }
@@ -201,8 +202,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         clu.setNextReviewPeriod(major.getNextReviewPeriod());
         clu.setEffectiveDate(major.getEffectiveDate());
 
-
         clu.setCampusLocations(major.getCampusLocations());
+        clu.setDescr(major.getDescr());
 
         //TODO programRequirements
 //        clu.setAccreditations(major.getAccreditingAgencies());
