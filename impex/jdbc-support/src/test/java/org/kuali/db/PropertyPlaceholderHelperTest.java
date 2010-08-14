@@ -4,15 +4,10 @@ import static org.junit.Assert.*;
 
 import java.util.Properties;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.PropertyPlaceholderHelper;
 
 public class PropertyPlaceholderHelperTest {
-
-	@Before
-	public void setUp() throws Exception {
-	}
 
 	@Test
 	public void replacePlaceholders() {
