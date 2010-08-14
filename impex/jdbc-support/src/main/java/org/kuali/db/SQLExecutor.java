@@ -112,7 +112,7 @@ public class SQLExecutor {
 		event.setSuccessfulStatements(successfulStatements);
 		event.setUpdateCountTotal(updateCountTotal);
 		for (DatabaseListener listener : listeners) {
-			listener.beforeExecuteSQL(event);
+			listener.afterExecuteSQL(event);
 		}
 	}
 
