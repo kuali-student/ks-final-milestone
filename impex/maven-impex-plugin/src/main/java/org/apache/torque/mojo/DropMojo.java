@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
-import org.kuali.db.DropDatabase;
 import org.kuali.db.OracleDropDatabaseImpl;
 
 /**
