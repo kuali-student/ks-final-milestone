@@ -17,6 +17,7 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.commons.lang.StringEscapeUtils;
+
 import static org.apache.commons.io.IOUtils.*;
 import static org.kuali.db.JDBCUtils.*;
 
@@ -40,20 +41,20 @@ public class SQLExecutor {
 	 */
 	public static final String ON_ERROR_CONTINUE = "continue";
 
-	boolean keepFormat;
-	String delimiterType;
-	String delimiter;
-	boolean printResultSet;
-	String onError;
-	boolean showheaders;
-	String outputDelimiter;
+	boolean keepFormat = true;
+	String delimiterType = "row";
+	String delimiter = "/";
+	boolean printResultSet = false;;
+	String onError = ON_ERROR_ABORT;
+	boolean showheaders = true;
+	String outputDelimiter = ",";
 	int totalStatements;
 	int successfulStatements;
 	Connection conn;
 	Statement statement;
-	boolean autocommit;
-	boolean escapeProcessing;
-	boolean append;
+	boolean autocommit = false;
+	boolean escapeProcessing = true;
+	boolean append = false;
 	List<DatabaseListener> listeners = new ArrayList<DatabaseListener>();
 
 	public void addListener(DatabaseListener listener) {

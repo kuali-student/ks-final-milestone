@@ -1,11 +1,17 @@
 package org.apache.torque.mojo;
 
+import java.sql.SQLException;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.kuali.db.DropDatabase;
+import org.kuali.db.OracleDropDatabaseImpl;
 
 /**
  * Drops a database
+ * 
+ * @goal drop
  */
 public class DropMojo extends AbstractMojo {
 	protected static final String FS = System.getProperty("file.separator");
@@ -45,6 +51,13 @@ public class DropMojo extends AbstractMojo {
 	public void execute() throws MojoExecutionException {
 		if (skipMojo()) {
 			return;
+		}
+		OracleDropDatabaseImpl drop = new OracleDropDatabaseImpl();
+		drop.setEncoding(getEncoding());
+		try {
+			drop.drop();
+		} catch (SQLException e) {
+			throw new MojoExecutionException("Error dropping the database", e);
 		}
 	}
 

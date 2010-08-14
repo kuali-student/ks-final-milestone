@@ -21,7 +21,10 @@ public class OracleDropDatabaseImpl extends AbstractDropDatabaseImpl {
 			Resource resource = loader.getResource(location);
 			String sql = IOUtils.toString(resource.getInputStream(), getEncoding());
 			PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}");
-			sql = helper.replacePlaceholders(sql, getDefaultOracleProperties());
+			Properties properties = getDefaultOracleProperties();
+			properties.put("schema", "KSEMBEDDED");
+			sql = helper.replacePlaceholders(sql, properties);
+			System.out.println(sql);
 			SQLExecutor executor = new SQLExecutor();
 			Connection connection = getConnection();
 			executor.setConn(connection);
@@ -49,7 +52,7 @@ public class OracleDropDatabaseImpl extends AbstractDropDatabaseImpl {
 			throw new SQLException("Failure loading driver: " + jdbcConfiguration.getDriver(), e);
 		}
 
-		String url = "";
+		String url = "jdbc:oracle:thin:@localhost:1521:XE";
 
 		Connection conn = driverInstance.connect(url, info);
 
