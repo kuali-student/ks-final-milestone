@@ -1,5 +1,7 @@
 package org.kuali.db;
 
+import static org.junit.Assert.*;
+
 import java.util.Properties;
 
 import org.junit.Before;
@@ -19,6 +21,6 @@ public class PropertyPlaceholderHelperTest {
 		String value = "DROP USER ${schema} CASCADE;";
 		PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}");
 		value = helper.replacePlaceholders(value, properties);
-		System.out.println(value);
+		assertEquals(value, "DROP USER KSEMBEDDED CASCADE;");
 	}
 }
