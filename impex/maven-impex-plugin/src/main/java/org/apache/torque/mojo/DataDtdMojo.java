@@ -137,4 +137,12 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	public void setSchemaXMLFile(String xmlFile) {
 		this.schemaXMLFile = xmlFile;
 	}
+
+	@Override
+	public void execute() throws MojoExecutionException {
+		getLog().info("-----------------------------------------------------------------");
+		getLog().info("Generating database DTD");
+		getLog().info("-----------------------------------------------------------------");
+		super.execute();
+	}
 }
