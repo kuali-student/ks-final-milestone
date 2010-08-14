@@ -74,10 +74,15 @@
             </goals>
           </execution>
           <execution>
+            <id>generate-data-dtd</id>
+            <goals>
+              <goal>datadtd</goal>
+            </goals>
+          </execution>
+          <execution>
             <id>generate-oracle-sql</id>
             <goals>
               <goal>schemasql</goal>
-              <goal>datadtd</goal>
               <goal>datasql</goal>
             </goals>
             <configuration>
@@ -88,7 +93,6 @@
             <id>generate-mysql-sql</id>
             <goals>
               <goal>schemasql</goal>
-              <goal>datadtd</goal>
               <goal>datasql</goal>
             </goals>
             <configuration>
