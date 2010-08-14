@@ -1,7 +1,0 @@
-<module>
-	<inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
-	<inherits name='org.kuali.student.common.assembly.Assembly'/>
-	<inherits name='org.kuali.student.core.organization.assembly.data.OrgData' />
-
-	<entry-point class='org.kuali.student.core.organization.ui.client.view.OrgEntryPoint'/>  
-</module>
