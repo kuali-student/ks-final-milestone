@@ -25,11 +25,25 @@ public class JDBCUtils {
 	List<JDBCConfiguration> jdbcConfigs = (List<JDBCConfiguration>) context.getBean(JDBC_CONFIGURATIONS);
 
 	/**
+	 * Given a database type, return the corresponding JDBC configuration
+	 * 
+	 * @return JDBCConfiguration
+	 */
+
+	public JDBCConfiguration getDatabaseConfiguration(DatabaseType type) {
+		for (JDBCConfiguration jdbcConfig : jdbcConfigs) {
+			if (jdbcConfig.getType().equals(type)) {
+				return jdbcConfig;
+			}
+		}
+		return JDBCConfiguration.UNKNOWN_CONFIG;
+	}
+
+	/**
 	 * Given a JDBC url, attempt to locate the corresponding JDBCConfig object
 	 * 
 	 * @param url
-	 *            jdbc url
-	 * @return DatabaseConfig
+	 * @return JDBCConfiguration
 	 */
 	public JDBCConfiguration getDatabaseConfiguration(String url) {
 		Validate.isTrue(isNotEmpty(url));

@@ -4,7 +4,7 @@
 BEGIN 
   EXECUTE IMMEDIATE 'DROP USER ${schema} CASCADE'; 
 EXCEPTION WHEN OTHERS THEN 
- IF SQLCODE != -01918 THEN
+ IF SQLCODE != ${oracle.error.sqlcode.userDoesNotExist} THEN
    RAISE;
  END IF;
 END;

@@ -127,6 +127,18 @@ public class SQLExecutor {
 		fireMessageLogged(message, MessagePriority.ERROR);
 	}
 
+	public void runSql(String sql) throws SQLException {
+		Transaction transaction = new Transaction();
+		transaction.setSqlCommand(sql);
+		runTransaction(transaction);
+	}
+
+	public void runTransaction(Transaction transaction) throws SQLException {
+		Vector<Transaction> transactions = new Vector<Transaction>();
+		transactions.add(transaction);
+		runTransactions(transactions);
+	}
+
 	public void runTransactions(Vector<Transaction> transactions) throws SQLException {
 		try {
 			statement = conn.createStatement();
@@ -250,7 +262,7 @@ public class SQLExecutor {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void runStatements(Reader reader, PrintStream out) throws SQLException, IOException {
+	protected void runStatements(Reader reader, PrintStream out) throws SQLException, IOException {
 		String line;
 
 		StringBuffer sql = new StringBuffer();

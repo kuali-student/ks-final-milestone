@@ -885,8 +885,7 @@ public class ImportMojo extends AbstractMojo {
 	}
 
 	protected void updateUsername(Server server) {
-		getLog().info("username='" + getUsername() + '"');
-		// They already gave us a password, don't mess with it
+		// Username is already set, don't mess with it
 		if (getUsername() != null) {
 			return;
 		}
@@ -894,7 +893,7 @@ public class ImportMojo extends AbstractMojo {
 			// We've successfully located a server in settings.xml, use the username from that
 			setUsername(server.getUsername());
 		} else if (useArtifactIdForCredentials) {
-			// No password was explicitly set, no server was located in settings.xml and they've asked for the username
+			// No username was explicitly set, no server was located in settings.xml and they've asked for the username
 			// to default to the artifact id
 			if (isTrimArtifactId()) {
 				setUsername(trimArtifactId(project.getArtifactId()));
@@ -904,7 +903,6 @@ public class ImportMojo extends AbstractMojo {
 		}
 		// If it is null convert it to the empty string
 		setUsername(convertNullToEmpty(getUsername()));
-		getLog().info("username='" + getUsername() + '"');
 	}
 
 	protected String trimArtifactId(String artifactId) {
