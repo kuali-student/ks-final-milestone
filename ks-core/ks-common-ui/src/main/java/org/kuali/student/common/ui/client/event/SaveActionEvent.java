@@ -30,8 +30,14 @@ public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements H
     private ActionState actionState;
     private String message = "Saving";
     private boolean acknowledgeRequired = true;
+    private boolean gotoNextView = false;
+    private boolean saveSuccessful = false;
     
     public SaveActionEvent(){
+    }
+    
+    public SaveActionEvent(boolean gotoNextView){
+    	this.gotoNextView = gotoNextView;
     }
     
     public SaveActionEvent(String message){
@@ -72,5 +78,21 @@ public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements H
     public void setAcknowledgeRequired(boolean acknowledgeRequired) {
         this.acknowledgeRequired = acknowledgeRequired;
     }
+    
+    public boolean gotoNextView(){
+    	return gotoNextView;
+    }
+
+	public void setGotoNextView(boolean gotoNextView) {
+		this.gotoNextView = gotoNextView;
+	}
+
+	public void setSaveSuccessful(boolean saveSuccessful) {
+		this.saveSuccessful = saveSuccessful;
+	}
+
+	public boolean isSaveSuccessful() {
+		return saveSuccessful;
+	}
     
 }

@@ -50,11 +50,14 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	protected static final String KUALI_ORG_DIVISION   			  = "kuali.org.Division";
 	protected static final String KUALI_ORG_PROGRAM    			  = "kuali.org.Program";
 
+	// below string MUST match org.kuali.student.core.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
+
 	protected OrganizationService orgService;
 
 	private static final String ORG_RESOLVER_CONFIG =
 									"<resolverConfig>" +
-										"<baseXPathExpression>/documentContent/applicationContent/cluProposalDocInfo</baseXPathExpression>" +
+										"<baseXPathExpression>/documentContent/applicationContent/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME + "</baseXPathExpression>" +
 										"<qualifier name=\"" + KualiStudentKimAttributes.QUALIFICATION_ORG_ID +  "\">" +
 											"<xPathExpression>./orgId</xPathExpression>" + 
 										"</qualifier>" +
@@ -110,7 +113,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	}
 	
 	protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-		SearchResult result = null;
+		List<SearchResultRow> results = null;
 		if (null != orgId) {
 			List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
 			SearchParam qpRelType = new SearchParam();
@@ -132,13 +135,14 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
 	        searchRequest.setParams(queryParamValues);
 			try {
-				result = getOrganizationService().search(searchRequest);
+				SearchResult result = getOrganizationService().search(searchRequest);
+				results = result.getRows();
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
 				throw new RuntimeException(e);
 			}
 		}
-		return result.getRows();
+		return results;
 	}
 
 	protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results,

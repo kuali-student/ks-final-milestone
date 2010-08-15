@@ -9,6 +9,6 @@ import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
  *
  */
 public interface Configurer {
-	public void configure(ConfigurableLayout layot);
+	public void configure(ConfigurableLayout layout);
 	public void setModelDefinition(DataModelDefinition modelDefinition);
 }

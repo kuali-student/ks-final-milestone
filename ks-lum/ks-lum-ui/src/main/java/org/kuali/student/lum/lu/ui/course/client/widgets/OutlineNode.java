@@ -15,10 +15,10 @@
 
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
+import org.kuali.student.core.assembly.data.Data;
+
 public class OutlineNode<T> {
     int indentLevel = 0;
-
-    boolean isCurrentNode = false;
 
     T userObject;
 
@@ -26,6 +26,8 @@ public class OutlineNode<T> {
     
     // TODO M4 - some way to subclass OutlineNode? 
     private Object opaque;
+
+	private Data metaInfo;
 
     public void setModel(OutlineNodeModel<T> model) {
       outlineModel = model;
@@ -65,5 +67,12 @@ public class OutlineNode<T> {
 
 	public Object getOpaque() {
 		return opaque;
+	}
+
+	public void setMetaInfo(Data metaInfo) {
+		this.metaInfo=metaInfo;
+	}
+	public Data getMetaInfo() {
+		return metaInfo;
 	}
   }

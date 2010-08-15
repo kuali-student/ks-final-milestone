@@ -16,48 +16,52 @@
 package org.kuali.student.common.validator;
 
 import java.util.Date;
-import java.util.List;
 
-import org.kuali.student.core.dictionary.dto.Field;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.dto.State;
-import org.kuali.student.core.dictionary.dto.Type;
+import org.kuali.student.core.dictionary.dto.DataType;
+import org.kuali.student.core.dictionary.dto.FieldDefinition;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 
 public class ValidatorUtils {
 
 	public static boolean compareValues(Object value1, Object value2,
-			String dataType, String operator, DateParser dateParser) {
+			DataType dataType, String operator, boolean isCaseSensitive, DateParser dateParser) {
 
 		boolean result = false;
 		Integer compareResult = null;
 
 		// Convert objects into appropriate data types
 		if (null != dataType) {
-			if ("string".equalsIgnoreCase(dataType)) {
-				String v1 = getString(value1);
+			if (DataType.STRING.equals(dataType)) {
+			    String v1 = getString(value1);
 				String v2 = getString(value2);
+
+				if(!isCaseSensitive) {
+				    v1 = v1.toUpperCase();
+				    v2 = v2.toUpperCase();
+				}
+				
 				compareResult = v1.compareTo(v2);
-			} else if ("integer".equalsIgnoreCase(dataType)) {
+			} else if (DataType.INTEGER.equals(dataType)) {
 				Integer v1 = getInteger(value1);
 				Integer v2 = getInteger(value2);
 				compareResult = v1.compareTo(v2);
-			} else if ("long".equalsIgnoreCase(dataType)) {
+			} else if (DataType.LONG.equals(dataType)) {
 				Long v1 = getLong(value1);
 				Long v2 = getLong(value2);
 				compareResult = v1.compareTo(v2);
-			} else if ("double".equalsIgnoreCase(dataType)) {
+			} else if (DataType.DOUBLE.equals(dataType)) {
 				Double v1 = getDouble(value1);
 				Double v2 = getDouble(value2);
 				compareResult = v1.compareTo(v2);
-			} else if ("float".equalsIgnoreCase(dataType)) {
+			} else if (DataType.FLOAT.equals(dataType)) {
 				Float v1 = getFloat(value1);
 				Float v2 = getFloat(value2);
 				compareResult = v1.compareTo(v2);
-			} else if ("boolean".equalsIgnoreCase(dataType)) {
+			} else if (DataType.BOOLEAN.equals(dataType)) {
 				Boolean v1 = getBoolean(value1);
 				Boolean v2 = getBoolean(value2);
 				compareResult = v1.compareTo(v2);
-			} else if ("date".equalsIgnoreCase(dataType)) {
+			} else if (DataType.DATE.equals(dataType)) {
 				Date v1 = getDate(value1, dateParser);
 				Date v2 = getDate(value2, dateParser);
 				compareResult = v1.compareTo(v2);
@@ -181,35 +185,40 @@ public class ValidatorUtils {
 	/**
 	 * Traverses the dictionary ObjectStructure to find the field with the match
 	 * key, type and state
-	 * 
+	 * The key has to relative to the current object structure that is being traversed.
+	 * example: current object structure is ActivityInfo and if we want to lookup 
+	 * the academicSubjectorgId, then <property name="fieldPath" value="academicSubjectOrgs.orgId"/>
+	 * The current object structure starts from the field on which the constraint is applied on.
+	 * If we want to address fields outside of this object structure we ll need to pass in the
+	 * dictionary context.
 	 * @param key
 	 * @param type
 	 * @param state
 	 * @param objStructure
 	 * @return
 	 */
-	public static Field getField(String key, ObjectStructure objStructure,
-			String type, String state) {
-		List<Type> typeList = objStructure.getType();
-
-		for (Type t : typeList) {
-			if (t.getKey().equalsIgnoreCase(type)) {
-				List<State> stateList = t.getState();
-				for (State s : stateList) {
-					if (s.getKey().equalsIgnoreCase(state)) {
-						List<Field> fieldList = s.getField();
-						for (Field f : fieldList) {
-							if (f.getKey().equals(key)) {
-								return f;
-							}
-						}
+	public static FieldDefinition getField(String key, ObjectStructureDefinition objStructure) {
+		String[] lookupPathTokens = getPathTokens(key);
+		for(int i = 0; i < lookupPathTokens.length; i++) {
+			for (FieldDefinition f : objStructure.getAttributes()) {
+				if (f.getName().equals(lookupPathTokens[i])) {
+					if(i==lookupPathTokens.length-1){
+						return f;
 					}
+					else{
+						objStructure = f.getDataObjectStructure();
+						break;
+					}
+					
 				}
 			}
-		}
-
+		 }
 		return null;
 	}
+	
+    private static String[] getPathTokens(String fieldPath) {
+        return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
+    }
 
 }
 

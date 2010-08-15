@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,9 +63,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @JoinTable(name = "KSLU_CLU_JN_CLU_IDENT", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_CLU_ID"))
     private List<CluIdentifier> alternateIdentifiers;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
-    private List<CluAcademicSubjectOrg> academicSubjectOrgs;
-
     @Column(name = "STDY_SUBJ_AREA")
     private String studySubjectArea;
     
@@ -79,13 +77,10 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @JoinTable(name = "KSLU_CLU_JN_ACCRED", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ACCRED_ID"))
     private List<CluAccreditation> accreditations;
     
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="PRI_ADMIN_ORG_ID")
-    private CluAdminOrg primaryAdminOrg;
     
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSLU_CLU_JN_ALT_ADMIN_ORG", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_ORG_ID"))
-    private List<CluAdminOrg> alternateAdminOrgs;
+    @JoinTable(name = "KSLU_CLU_JN_ADMIN_ORG", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ADMIN_ORG_ID"))
+    private List<CluAdminOrg> adminOrgs;
     
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="PRI_INSTR_ID")
@@ -97,6 +92,12 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
         
     @Column(name = "EXP_FIRST_ATP")
     private String expectedFirstAtp;
+
+    @Column(name = "LAST_ATP")
+    private String lastAtp;
+
+    @Column(name = "LAST_ADMIT_ATP")
+    private String lastAdmitAtp;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -188,9 +189,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
     @Override
     public List<CluAttribute> getAttributes() {
-//        if (attributes == null) {
-//            attributes = new ArrayList<CluAttribute>();
-//        }
         return attributes;
     }
 
@@ -208,9 +206,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<CluIdentifier> getAlternateIdentifiers() {
-//        if (alternateIdentifiers == null) {
-//            alternateIdentifiers = new ArrayList<CluIdentifier>();
-//        }
         return alternateIdentifiers;
     }
 
@@ -235,9 +230,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<CluInstructor> getInstructors() {
-//        if (instructors == null) {
-//            instructors = new ArrayList<CluInstructor>();
-//        }
         return instructors;
     }
 
@@ -286,9 +278,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<LuCode> getLuCodes() {
-//        if (luCodes == null) {
-//            luCodes = new ArrayList<LuCode>();
-//        }
         return luCodes;
     }
 
@@ -313,9 +302,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
      }
 
      public List<CluAtpTypeKey> getOfferedAtpTypes() {
-//         if (offeredAtpTypes == null) {
-//             offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
-//         }
          return offeredAtpTypes;
      }
 
@@ -388,21 +374,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
           this.primaryInstructor = primaryInstructor;
       }
 
-      public List<CluAcademicSubjectOrg> getAcademicSubjectOrgs() {
-//          if (academicSubjectOrgs == null) {
-//              academicSubjectOrgs = new ArrayList<CluAcademicSubjectOrg>();
-//          }
-          return academicSubjectOrgs;
-      }
-
-      public void setAcademicSubjectOrgs(List<CluAcademicSubjectOrg> academicSubjectOrgs) {
-          this.academicSubjectOrgs = academicSubjectOrgs;
-      }
-
       public List<CluCampusLocation> getCampusLocations() {
-//          if (campusLocationList == null) {
-//              campusLocationList = new ArrayList<CluCampusLocation>();
-//          }
           return campusLocations;
       }
 
@@ -419,9 +391,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       }
 
       public List<CluAccreditation> getAccreditations() {
-//          if (accreditationList == null) {
-//              accreditationList = new ArrayList<CluAccreditation>();
-//          }
           return accreditations;
       }
 
@@ -429,23 +398,16 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
           this.accreditations = accreditations;
       }
 
-      public CluAdminOrg getPrimaryAdminOrg() {
-          return primaryAdminOrg;
+
+      public List<CluAdminOrg> getAdminOrgs() {
+          if (adminOrgs == null) {
+              adminOrgs = new ArrayList<CluAdminOrg>();
+          }
+          return adminOrgs;
       }
 
-      public void setPrimaryAdminOrg(CluAdminOrg primaryAdminOrg) {
-          this.primaryAdminOrg = primaryAdminOrg;
-      }
-
-      public List<CluAdminOrg> getAlternateAdminOrgs() {
-//          if (alternateAdminOrgs == null) {
-//              alternateAdminOrgs = new ArrayList<CluAdminOrg>();
-//          }
-          return alternateAdminOrgs;
-      }
-
-      public void setAlternateAdminOrgs(List<CluAdminOrg> alternateAdminOrgs) {
-          this.alternateAdminOrgs = alternateAdminOrgs;
+      public void setAdminOrgs(List<CluAdminOrg> adminOrgs) {
+          this.adminOrgs = adminOrgs;
       }
 
 	public String getExpectedFirstAtp() {
@@ -455,4 +417,20 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	public void setExpectedFirstAtp(String expectedFirstAtp) {
 		this.expectedFirstAtp = expectedFirstAtp;
 	}      
+
+	public String getLastAtp() {
+		return lastAtp;
+}
+
+	public void setLastAtp(String lastAtp) {
+		this.lastAtp = lastAtp;
+	}
+
+    public String getLastAdmitAtp() {
+        return lastAdmitAtp;
+    }
+
+    public void setLastAdmitAtp(String lastAdmitAtp) {
+        this.lastAdmitAtp = lastAdmitAtp;
+    }
 }

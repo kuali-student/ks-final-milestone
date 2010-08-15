@@ -28,7 +28,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,7 +59,7 @@ public class CluResult extends MetaEntity  {
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "CLU_ID")
 	private Clu clu;
 
@@ -68,7 +67,7 @@ public class CluResult extends MetaEntity  {
 	@JoinTable(name = "KSLU_CLURES_JN_RESOPT", joinColumns = @JoinColumn(name = "CLU_RES_ID"), inverseJoinColumns = @JoinColumn(name = "RES_OPT_ID"))
 	private List<ResultOption> resultOptions;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @ManyToOne
 	@JoinColumn(name="TYPE_KEY_ID")
 	private CluResultType cluResultType;
 

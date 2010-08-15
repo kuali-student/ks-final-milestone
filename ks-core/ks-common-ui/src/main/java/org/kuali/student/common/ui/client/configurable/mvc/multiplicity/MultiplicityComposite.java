@@ -21,7 +21,6 @@ import java.util.Set;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -35,6 +34,10 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  *
+ */
+
+/**
+ * @deprecated
  */
 public abstract class MultiplicityComposite extends Composite {
 

@@ -74,7 +74,7 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
     public List<Document> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException {
         List<Document> documents = new ArrayList<Document>();
         for (String documentId : documentIdList) {
-            Document document = new Document();
+            Document document;
             document = fetch(Document.class, documentId);
             documents.add(document);
         }

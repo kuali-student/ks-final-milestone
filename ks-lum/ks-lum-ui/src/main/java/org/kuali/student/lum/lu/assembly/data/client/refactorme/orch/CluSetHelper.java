@@ -20,8 +20,6 @@ import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInfoHelper.Properties;
 
 public class CluSetHelper {
 
@@ -34,11 +32,19 @@ public class CluSetHelper {
         DESCRIPTION ("description"),
         EFFECTIVE_DATE ("effectiveDate"),
         EXPIRATION_DATE ("expirationDate"),
-        CLUS ("clus"),
+        APPROVED_CLUS ("approvedClus"),
+        PROPOSED_CLUS ("proposedClus"),
+        // This is the union of APPROVED_CLUS, and PROPOSED_CLUS
+        ALL_CLUS ("allClus"),
+        CLUSETS ("clusets"),
+        CLU_SET_RANGE ("clusetRange"),
+        CLU_SET_RANGE_VIEW_DETAILS ("cluSetRangeViewDetails"),
         META_INFO ("metaInfo"),
         NAME ("name"),
         STATE ("state"),
-        TYPE ("type");
+        TYPE ("type"),
+        REUSABLE ("reusable"),
+        REFERENCEABLE ("referenceable");
 
         private final String key;
 
@@ -52,30 +58,30 @@ public class CluSetHelper {
         }
     }
     private Data data;
-    
+
     public CluSetHelper(Data data) {
         this.data = data;
     }
-    
+
     public static CluSetHelper wrap(Data data) {
         if (data == null) {
             return null;
         }
         return new CluSetHelper(data);
     }
-    
+
     public Data getData() {
         return this.data;
     }
-    
+
     public void setId(String value) {
         data.set(Properties.ID.getKey(), value);
     }
-    
+
     public String getId() {
         return (String) data.get(Properties.ID.getKey());
     }
-    
+
     public void setOrganization(String value) {
         data.set(Properties.ORGANIZATION.getKey(), value);
     }
@@ -103,7 +109,7 @@ public class CluSetHelper {
     public Date getExpirationDate() {
         return (Date) data.get(Properties.EXPIRATION_DATE.getKey());
     }
-    
+
     public void setMetaInfo (MetaInfoHelper value) {
         data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
     }
@@ -132,16 +138,101 @@ public class CluSetHelper {
         return (String) data.get(Properties.TYPE.getKey());
     }
 
-    public void setClus(Data value) {
-        data.set(Properties.CLUS.getKey(), value);
-    }
-    public Data getClus() {
-        Data clusData = data.get(Properties.CLUS.getKey());
-        if (clusData == null) {
-            clusData = new Data();
-            setClus(clusData);
+    public void setReusable(Boolean reusable) {
+        Boolean newValue = reusable;
+        if (reusable == null) {
+            newValue = new Boolean(false);
         }
-        return clusData;
+        data.set(Properties.REUSABLE.getKey(), newValue);
+    }
+    public Boolean getReusable() {
+        Boolean reUsable = (Boolean) data.get(Properties.REUSABLE.getKey());
+        if (reUsable == null) {
+            reUsable = new Boolean(false);
+        }
+        return reUsable;
+    }
+
+    public void setReferenceable(Boolean referenceable) {
+        Boolean newValue = referenceable;
+        if (referenceable == null) {
+            newValue = new Boolean(false);
+        }
+        data.set(Properties.REFERENCEABLE.getKey(), newValue);
+    }
+    public Boolean getReferenceable() {
+        Boolean referenceable = (Boolean) data.get(Properties.REFERENCEABLE.getKey());
+        if (referenceable == null) {
+            referenceable = new Boolean(false);
+        }
+        return referenceable;
+    }
+
+    public void setApprovedClus(Data value) {
+        data.set(Properties.APPROVED_CLUS.getKey(), value);
+    }
+    public Data getApprovedClus() {
+        Data approvedClusData = data.get(Properties.APPROVED_CLUS.getKey());
+        if (approvedClusData == null) {
+            approvedClusData = new Data();
+            setApprovedClus(approvedClusData);
+        }
+        return approvedClusData;
+    }
+    public void setProposedClus(Data value) {
+        data.set(Properties.PROPOSED_CLUS.getKey(), value);
+    }
+    public Data getProposedClus() {
+        Data proposedClusData = data.get(Properties.PROPOSED_CLUS.getKey());
+        if (proposedClusData == null) {
+            proposedClusData = new Data();
+            setProposedClus(proposedClusData);
+        }
+        return proposedClusData;
+    }
+    public void setAllClus(Data value) {
+        data.set(Properties.ALL_CLUS.getKey(), value);
+    }
+    public Data getAllClus() {
+        Data allClusData = data.get(Properties.ALL_CLUS.getKey());
+        if (allClusData == null) {
+            allClusData = new Data();
+            setAllClus(allClusData);
+        }
+        return allClusData;
+    }
+    public void setCluSets(Data value) {
+        data.set(Properties.CLUSETS.getKey(), value);
+    }
+    public Data getCluSets() {
+        Data cluSetData = data.get(Properties.CLUSETS.getKey());
+        if (cluSetData == null) {
+            cluSetData = new Data();
+            setCluSets(cluSetData);
+        }
+        return cluSetData;
+    }
+    public void setCluRangeParams(Data value) {
+        data.set(Properties.CLU_SET_RANGE.getKey(), value);
+    }
+    public CluSetRangeHelper getCluRangeParams() {
+        Data cluRangeParamsData = data.get(Properties.CLU_SET_RANGE.getKey());
+        if (cluRangeParamsData == null) {
+            cluRangeParamsData = new Data();
+            setCluRangeParams(cluRangeParamsData);
+        }
+        return new CluSetRangeHelper(cluRangeParamsData);
+    }
+    public void setCluRangeViewDetails(Data value) {
+        data.set(Properties.CLU_SET_RANGE_VIEW_DETAILS.getKey(), value);
+    }
+    public Data getCluRangeViewDetails() {
+        Data cluSetRangeViewDetailsData = data.get(Properties.CLU_SET_RANGE_VIEW_DETAILS.getKey());
+        if (cluSetRangeViewDetailsData == null) {
+            cluSetRangeViewDetailsData = new Data();
+            setCluRangeViewDetails(cluSetRangeViewDetailsData);
+        }
+        return cluSetRangeViewDetailsData;
     }
 
 }

@@ -47,7 +47,6 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

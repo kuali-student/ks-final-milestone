@@ -27,4 +27,6 @@ public class StudentIdentityConstants {
 	public static final String QUALIFICATION_KEW_OBJECT_ID     = "kualiStudentObjectWorkflowId";
 	public static final String QUALIFICATION_KEW_OBJECT_TYPE   = "kualiStudentObjectWorkflowType";
 
+	// this must be equal to Rice constants KimAttributes
+	public static final String QUALIFICATION_KEW_DOCUMENT_ID   = "documentNumber";
 }

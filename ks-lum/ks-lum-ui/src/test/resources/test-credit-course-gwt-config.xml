@@ -41,7 +41,7 @@
 	</bean>
 
 	<bean id="CluProposalRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.old.CreditCourseProposalRpcGwtServlet">
 		<property name="assembler" ref="creditCourseProposalAssemblerFilterManager"/>
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
@@ -74,7 +74,7 @@
 
 
 	<!-- Metadata lookup service -->
-	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl">
         <constructor-arg value="classpath:lum-orchestration-dictionary.xml" />
         <constructor-arg>
         	<list>
@@ -113,7 +113,7 @@
 	</bean>
 
 	<bean id="CourseRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.old.CourseRpcGwtServlet">
 		<property name="assembler" ref="courseAssemblerFilterManager"/>
 	</bean>
 
@@ -156,11 +156,6 @@
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.AtpRpcGwtServlet">
 		<property name="service" ref="atpClient" />
 	</bean>
-
-    <bean id="personRpcGwtServlet"
-        class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
-        <property name="service" ref="personSearchClient" />
-    </bean>
 
 	<bean id="LoRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoRpcGwtServlet">
@@ -210,7 +205,7 @@
 
 	<bean id="statementServiceClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/StatementService?wsdl"/>
-		<property name="serviceEndpointInterface" value="org.kuali.student.brms.statement.service.StatementService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/statement}StatementService" />
 	</bean>
 

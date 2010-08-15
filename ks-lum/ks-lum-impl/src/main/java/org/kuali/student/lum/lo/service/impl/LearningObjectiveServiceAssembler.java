@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;

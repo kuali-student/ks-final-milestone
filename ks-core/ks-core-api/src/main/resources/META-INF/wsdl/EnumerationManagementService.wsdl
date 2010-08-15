@@ -1,18 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="EnumerationManagementService" targetNamespace="http://student.kuali.org/wsdl/enumerationmanagement" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/enumerationmanagement" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization">
-    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
-    <xs:element name="search" type="tns:search"/>
-    <xs:element name="searchResponse" type="tns:searchResponse"/>
-    <xs:complexType name="search">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:complexType name="OperationFailedException">
         <xs:sequence>
-            <xs:element minOccurs="0" name="arg0" type="ns1:searchRequest"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="searchResponse">
+    <xs:complexType name="DoesNotExistException">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:searchResult"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/enumerationmanagement" xmlns:tns="http://student.kuali.org/wsdl/EnumerationManagementService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/EnumerationManagementService">
+    <xs:import namespace="http://student.kuali.org/wsdl/enumerationmanagement"/>
+    <xs:element name="addEnumeratedValue" type="tns:addEnumeratedValue"/>
+    <xs:element name="addEnumeratedValueResponse" type="tns:addEnumeratedValueResponse"/>
+    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
+    <xs:element name="getEnumerationMeta" type="tns:getEnumerationMeta"/>
+    <xs:element name="getEnumerationMetaResponse" type="tns:getEnumerationMetaResponse"/>
+    <xs:element name="getEnumerationMetas" type="tns:getEnumerationMetas"/>
+    <xs:element name="getEnumerationMetasResponse" type="tns:getEnumerationMetasResponse"/>
+    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
+    <xs:element name="removeEnumeratedValue" type="tns:removeEnumeratedValue"/>
+    <xs:element name="removeEnumeratedValueResponse" type="tns:removeEnumeratedValueResponse"/>
+    <xs:element name="updateEnumeratedValue" type="tns:updateEnumeratedValue"/>
+    <xs:element name="updateEnumeratedValueResponse" type="tns:updateEnumeratedValueResponse"/>
+    <xs:complexType name="addEnumeratedValue">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="enumeratedValue" type="ns1:enumeratedValueInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addEnumeratedValueResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:enumeratedValueInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEnumeration">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextType" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEnumerationResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:enumeratedValueInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateEnumeratedValue">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="code" type="xs:string"/>
+            <xs:element minOccurs="0" name="enumeratedValue" type="ns1:enumeratedValueInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateEnumeratedValueResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:enumeratedValueInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEnumerationMeta">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEnumerationMetaResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:enumerationMetaInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeEnumeratedValue">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="code" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeEnumeratedValueResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getEnumerationMetas">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getEnumerationMetasResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:enumerationMetaInfo"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
@@ -34,8 +137,6 @@
     <xs:element name="getSearchTypesByResult" type="tns:getSearchTypesByResult"/>
     <xs:element name="getSearchTypesByResultResponse" type="tns:getSearchTypesByResultResponse"/>
     <xs:element name="getSearchTypesResponse" type="tns:getSearchTypesResponse"/>
-    <xs:element name="searchForResults" type="tns:searchForResults"/>
-    <xs:element name="searchForResultsResponse" type="tns:searchForResultsResponse"/>
     <xs:complexType name="getSearchCriteriaType">
         <xs:sequence>
             <xs:element form="unqualified" minOccurs="0" name="searchCriteriaTypeKey" type="xs:string"/>
@@ -182,35 +283,6 @@
             <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="searchForResults">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="queryParamValues" type="tns:queryParamValue"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="queryParamValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchForResultsResponse">
-        <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:result"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="result">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="resultCell">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
     <xs:complexType name="getSearchTypes">
         <xs:sequence/>
     </xs:complexType>
@@ -248,242 +320,6 @@
             <xs:enumeration value="DESC"/>
         </xs:restriction>
     </xs:simpleType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/search" xmlns:ns1="http://student.kuali.org/wsdl/exceptions" xmlns:ns2="http://student.kuali.org/wsdl/EnumerationManagementService" xmlns:ns3="http://student.kuali.org/wsdl/organization" xmlns:tns="http://student.kuali.org/wsdl/enumerationmanagement" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerationmanagement">
-    <xs:complexType name="jaxbAttributeList">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="Attribute">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="enumeratedValueInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="code" type="xs:string"/>
-            <xs:element minOccurs="0" name="abbrevValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="sortKey" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="contexts" type="tns:enumContextValueInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="enumContextValueInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="type" type="xs:string"/>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="enumerationMetaInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="enumeratedValueFields" type="tns:enumeratedValueFieldInfo"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="contextDescriptors" type="tns:enumContextInfo"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="enumeratedValueFieldInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptorInfo"/>
-            <xs:element minOccurs="0" name="key" type="xs:string"/>
-            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fieldDescriptorInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
-            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="validChars" type="xs:string"/>
-            <xs:element minOccurs="0" name="invalidChars" type="xs:string"/>
-            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="enumFieldView" type="tns:enumFieldViewInfo"/>
-            <xs:element minOccurs="0" name="readOnly" type="xs:boolean"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="enumFieldViewInfo">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="contextDescriptors" type="tns:enumContextInfo"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="enumContextInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="contextValueDescriptor" type="tns:fieldDescriptorInfo"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="statusInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:element name="getSearchCriteriaType" nillable="true" type="ns0:getSearchCriteriaType"/>
-    <xs:element name="getSearchCriteriaTypeResponse" nillable="true" type="ns0:getSearchCriteriaTypeResponse"/>
-    <xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
-    <xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
-    <xs:element name="addEnumeratedValue" nillable="true" type="ns2:addEnumeratedValue"/>
-    <xs:element name="addEnumeratedValueResponse" nillable="true" type="ns2:addEnumeratedValueResponse"/>
-    <xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
-    <xs:element name="AlreadyExistsException" nillable="true" type="ns1:AlreadyExistsException"/>
-    <xs:element name="getSearchTypesByResult" nillable="true" type="ns0:getSearchTypesByResult"/>
-    <xs:element name="getSearchTypesByResultResponse" nillable="true" type="ns0:getSearchTypesByResultResponse"/>
-    <xs:element name="getEnumeration" nillable="true" type="ns2:getEnumeration"/>
-    <xs:element name="getEnumerationResponse" nillable="true" type="ns2:getEnumerationResponse"/>
-    <xs:element name="search" nillable="true" type="ns3:search"/>
-    <xs:element name="searchResponse" nillable="true" type="ns3:searchResponse"/>
-    <xs:element name="getSearchResultType" nillable="true" type="ns0:getSearchResultType"/>
-    <xs:element name="getSearchResultTypeResponse" nillable="true" type="ns0:getSearchResultTypeResponse"/>
-    <xs:element name="getSearchResultTypes" nillable="true" type="ns0:getSearchResultTypes"/>
-    <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns0:getSearchResultTypesResponse"/>
-    <xs:element name="updateEnumeratedValue" nillable="true" type="ns2:updateEnumeratedValue"/>
-    <xs:element name="updateEnumeratedValueResponse" nillable="true" type="ns2:updateEnumeratedValueResponse"/>
-    <xs:element name="getEnumerationMeta" nillable="true" type="ns2:getEnumerationMeta"/>
-    <xs:element name="getEnumerationMetaResponse" nillable="true" type="ns2:getEnumerationMetaResponse"/>
-    <xs:element name="getSearchCriteriaTypes" nillable="true" type="ns0:getSearchCriteriaTypes"/>
-    <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns0:getSearchCriteriaTypesResponse"/>
-    <xs:element name="getSearchType" nillable="true" type="ns0:getSearchType"/>
-    <xs:element name="getSearchTypeResponse" nillable="true" type="ns0:getSearchTypeResponse"/>
-    <xs:element name="removeEnumeratedValue" nillable="true" type="ns2:removeEnumeratedValue"/>
-    <xs:element name="removeEnumeratedValueResponse" nillable="true" type="ns2:removeEnumeratedValueResponse"/>
-    <xs:element name="searchForResults" nillable="true" type="ns0:searchForResults"/>
-    <xs:element name="searchForResultsResponse" nillable="true" type="ns0:searchForResultsResponse"/>
-    <xs:element name="getSearchTypes" nillable="true" type="ns0:getSearchTypes"/>
-    <xs:element name="getSearchTypesResponse" nillable="true" type="ns0:getSearchTypesResponse"/>
-    <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns0:getSearchTypesByCriteria"/>
-    <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns0:getSearchTypesByCriteriaResponse"/>
-    <xs:element name="getEnumerationMetas" nillable="true" type="ns2:getEnumerationMetas"/>
-    <xs:element name="getEnumerationMetasResponse" nillable="true" type="ns2:getEnumerationMetasResponse"/>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/enumerationmanagement" xmlns:tns="http://student.kuali.org/wsdl/EnumerationManagementService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/EnumerationManagementService">
-    <xs:import namespace="http://student.kuali.org/wsdl/enumerationmanagement"/>
-    <xs:element name="addEnumeratedValue" type="tns:addEnumeratedValue"/>
-    <xs:element name="addEnumeratedValueResponse" type="tns:addEnumeratedValueResponse"/>
-    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
-    <xs:element name="getEnumerationMeta" type="tns:getEnumerationMeta"/>
-    <xs:element name="getEnumerationMetaResponse" type="tns:getEnumerationMetaResponse"/>
-    <xs:element name="getEnumerationMetas" type="tns:getEnumerationMetas"/>
-    <xs:element name="getEnumerationMetasResponse" type="tns:getEnumerationMetasResponse"/>
-    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
-    <xs:element name="removeEnumeratedValue" type="tns:removeEnumeratedValue"/>
-    <xs:element name="removeEnumeratedValueResponse" type="tns:removeEnumeratedValueResponse"/>
-    <xs:element name="updateEnumeratedValue" type="tns:updateEnumeratedValue"/>
-    <xs:element name="updateEnumeratedValueResponse" type="tns:updateEnumeratedValueResponse"/>
-    <xs:complexType name="addEnumeratedValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="enumeratedValue" type="ns1:enumeratedValueInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="addEnumeratedValueResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:enumeratedValueInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getEnumeration">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextType" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getEnumerationResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:enumeratedValueInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateEnumeratedValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="code" type="xs:string"/>
-            <xs:element minOccurs="0" name="enumeratedValue" type="ns1:enumeratedValueInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateEnumeratedValueResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:enumeratedValueInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getEnumerationMeta">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getEnumerationMetaResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:enumerationMetaInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeEnumeratedValue">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="code" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="removeEnumeratedValueResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getEnumerationMetas">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getEnumerationMetasResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:enumerationMetaInfo"/>
-        </xs:sequence>
-    </xs:complexType>
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/enumerationmanagement" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
     <xs:import namespace="http://student.kuali.org/wsdl/enumerationmanagement"/>
@@ -630,6 +466,137 @@
         <xs:attribute name="max" type="xs:int"/>
     </xs:complexType>
 </xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/organization" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization">
+    <xs:import namespace="http://student.kuali.org/wsdl/search"/>
+    <xs:element name="search" type="tns:search"/>
+    <xs:element name="searchResponse" type="tns:searchResponse"/>
+    <xs:complexType name="search">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="ns1:searchRequest"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:searchResult"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/search" xmlns:ns1="http://student.kuali.org/wsdl/exceptions" xmlns:ns2="http://student.kuali.org/wsdl/EnumerationManagementService" xmlns:ns3="http://student.kuali.org/wsdl/organization" xmlns:tns="http://student.kuali.org/wsdl/enumerationmanagement" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerationmanagement">
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="enumeratedValueInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="code" type="xs:string"/>
+            <xs:element minOccurs="0" name="abbrevValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="sortKey" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="contexts" type="tns:enumContextValueInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="enumContextValueInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="enumerationMetaInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="enumeratedValueFields" type="tns:enumeratedValueFieldInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="contextDescriptors" type="tns:enumContextInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="enumeratedValueFieldInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptorInfo"/>
+            <xs:element minOccurs="0" name="key" type="xs:string"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fieldDescriptorInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
+            <xs:element minOccurs="0" name="validChars" type="xs:string"/>
+            <xs:element minOccurs="0" name="invalidChars" type="xs:string"/>
+            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="enumFieldView" type="tns:enumFieldViewInfo"/>
+            <xs:element minOccurs="0" name="readOnly" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="enumFieldViewInfo">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="contextDescriptors" type="tns:enumContextInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="enumContextInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="contextValueDescriptor" type="tns:fieldDescriptorInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="statusInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="getSearchCriteriaType" nillable="true" type="ns0:getSearchCriteriaType"/>
+    <xs:element name="getSearchCriteriaTypeResponse" nillable="true" type="ns0:getSearchCriteriaTypeResponse"/>
+    <xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
+    <xs:element name="addEnumeratedValue" nillable="true" type="ns2:addEnumeratedValue"/>
+    <xs:element name="addEnumeratedValueResponse" nillable="true" type="ns2:addEnumeratedValueResponse"/>
+    <xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
+    <xs:element name="AlreadyExistsException" nillable="true" type="ns1:AlreadyExistsException"/>
+    <xs:element name="getSearchTypesByResult" nillable="true" type="ns0:getSearchTypesByResult"/>
+    <xs:element name="getSearchTypesByResultResponse" nillable="true" type="ns0:getSearchTypesByResultResponse"/>
+    <xs:element name="getEnumeration" nillable="true" type="ns2:getEnumeration"/>
+    <xs:element name="getEnumerationResponse" nillable="true" type="ns2:getEnumerationResponse"/>
+    <xs:element name="search" nillable="true" type="ns3:search"/>
+    <xs:element name="searchResponse" nillable="true" type="ns3:searchResponse"/>
+    <xs:element name="getSearchResultType" nillable="true" type="ns0:getSearchResultType"/>
+    <xs:element name="getSearchResultTypeResponse" nillable="true" type="ns0:getSearchResultTypeResponse"/>
+    <xs:element name="getSearchResultTypes" nillable="true" type="ns0:getSearchResultTypes"/>
+    <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns0:getSearchResultTypesResponse"/>
+    <xs:element name="updateEnumeratedValue" nillable="true" type="ns2:updateEnumeratedValue"/>
+    <xs:element name="updateEnumeratedValueResponse" nillable="true" type="ns2:updateEnumeratedValueResponse"/>
+    <xs:element name="getEnumerationMeta" nillable="true" type="ns2:getEnumerationMeta"/>
+    <xs:element name="getEnumerationMetaResponse" nillable="true" type="ns2:getEnumerationMetaResponse"/>
+    <xs:element name="getSearchCriteriaTypes" nillable="true" type="ns0:getSearchCriteriaTypes"/>
+    <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns0:getSearchCriteriaTypesResponse"/>
+    <xs:element name="getSearchType" nillable="true" type="ns0:getSearchType"/>
+    <xs:element name="getSearchTypeResponse" nillable="true" type="ns0:getSearchTypeResponse"/>
+    <xs:element name="removeEnumeratedValue" nillable="true" type="ns2:removeEnumeratedValue"/>
+    <xs:element name="removeEnumeratedValueResponse" nillable="true" type="ns2:removeEnumeratedValueResponse"/>
+    <xs:element name="getSearchTypes" nillable="true" type="ns0:getSearchTypes"/>
+    <xs:element name="getSearchTypesResponse" nillable="true" type="ns0:getSearchTypesResponse"/>
+    <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns0:getSearchTypesByCriteria"/>
+    <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns0:getSearchTypesByCriteriaResponse"/>
+    <xs:element name="getEnumerationMetas" nillable="true" type="ns2:getEnumerationMetas"/>
+    <xs:element name="getEnumerationMetasResponse" nillable="true" type="ns2:getEnumerationMetasResponse"/>
+</xs:schema>
   </wsdl:types>
   <wsdl:message name="getSearchResultTypes">
     <wsdl:part name="parameters" element="tns:getSearchResultTypes">
@@ -645,10 +612,6 @@
   </wsdl:message>
   <wsdl:message name="getSearchCriteriaTypesResponse">
     <wsdl:part name="parameters" element="tns:getSearchCriteriaTypesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForResults">
-    <wsdl:part name="parameters" element="tns:searchForResults">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getEnumerationMetasResponse">
@@ -709,10 +672,6 @@
   </wsdl:message>
   <wsdl:message name="AlreadyExistsException">
     <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchForResultsResponse">
-    <wsdl:part name="parameters" element="tns:searchForResultsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeEnumeratedValue">
@@ -928,22 +887,6 @@
       <wsdl:input name="removeEnumeratedValue" message="tns:removeEnumeratedValue">
     </wsdl:input>
       <wsdl:output name="removeEnumeratedValueResponse" message="tns:removeEnumeratedValueResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForResults">
-      <wsdl:input name="searchForResults" message="tns:searchForResults">
-    </wsdl:input>
-      <wsdl:output name="searchForResultsResponse" message="tns:searchForResultsResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -1205,30 +1148,6 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="removeEnumeratedValueResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException">
-        <soap:fault name="PermissionDeniedException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchForResults">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="searchForResults">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="searchForResultsResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">

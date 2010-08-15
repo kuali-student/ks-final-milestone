@@ -15,22 +15,17 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import java.io.StringWriter;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
 import org.apache.log4j.Logger;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
-import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 
 public class CreditCourseProposalRpcGwtServlet extends
@@ -38,24 +33,43 @@ public class CreditCourseProposalRpcGwtServlet extends
 		CreditCourseProposalRpcService {
 
 	private static final long serialVersionUID = 1L;
-	final Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
-    private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
-	private static final String DEFAULT_METADATA_STATE = "draft";
-	private static final String DEFAULT_METADATA_TYPE = null;
+	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
 
-	private ModifyCreditCourseProposalManager modifyCourseManager;
+	private static final String DEFAULT_METADATA_STATE = "draft";
+
+	private ModifyCreditCourseProposalManager modifyCourseManager;	
+	private CourseService courseService;
+	private ProposalService proposalService;
 	
+
 	@Override
-	public DataSaveResult submitDocumentWithData(Data data) throws OperationFailedException{
-	    
-	    CreditCourseHelper course = null;
-	    CreditCourseProposalHelper helper = CreditCourseProposalHelper.wrap(data);
-        course = CreditCourseHelper.wrap(helper.getCourse().getData());               
-	    course.setState(LUConstants.LU_STATE_SUBMITTED);
-        
-	    return super.submitDocumentWithData(data);
+	protected Object get(String id) throws Exception {
+		CourseInfo courseInfo;
+		try {
+			courseInfo = courseService.getCourse(id);
+		} catch (DoesNotExistException dne) {
+			//This could be a proposal id
+			ProposalInfo proposalInfo = proposalService.getProposal(id);
+			String courseId = proposalInfo.getProposalReference().get(0);
+			courseInfo = courseService.getCourse(courseId);
+			LOG.info("Course not found for key " + id + ". Course loaded from proposal instead.");
+		}		
+		
+		return courseInfo; 
 	}
-	
+
+	@Override
+	protected Object save(Object dto) throws Exception {
+		CourseInfo courseInfo = (CourseInfo)dto;
+		
+		if (courseInfo.getId() == null){
+			courseInfo = courseService.createCourse(courseInfo);
+		} else {
+			courseInfo = courseService.updateCourse(courseInfo);
+		}
+		return courseInfo;
+	}
+
 	@Override
 	public Data getNewProposalWithCopyOfClu(String dataId) throws OperationFailedException {
 		try {
@@ -66,73 +80,38 @@ public class CreditCourseProposalRpcGwtServlet extends
 		}
 	}
 	
-    @Override
-	protected String deriveAppIdFromData(Data data) {
-		CreditCourseProposalHelper cluProposal = CreditCourseProposalHelper.wrap(data);
-		if(cluProposal!=null&&cluProposal.getProposal()!=null){
-			return cluProposal.getProposal().getId();
-		}
-		return null;
-	}
-
-	@Override
-	protected String deriveDocContentFromData(Data data) {
-    	try{
-    		CreditCourseProposalHelper cluProposal = CreditCourseProposalHelper.wrap(data);
-    		
-    		CluProposalDocInfo docContent = new CluProposalDocInfo();
-    		
-    		if(null == cluProposal.getCourse()){
-    			throw new OperationFailedException("CluInfo must be set.");
-    		}
-    		
-    		String cluId = cluProposal.getCourse().getId()==null?"":cluProposal.getCourse().getId(); 
-    		String adminOrg = cluProposal.getCourse().getDepartment()==null?"":cluProposal.getCourse().getDepartment(); 
-    		String proposalId = cluProposal.getProposal().getId()==null?"":cluProposal.getProposal().getId();
-    		
-    		docContent.setCluId(cluId);
-            docContent.setOrgId(adminOrg);
-            docContent.setProposalId(proposalId);
-            
-    		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
-    		Marshaller marshaller = context.createMarshaller();
-            StringWriter writer = new StringWriter();
-    		marshaller.marshal(docContent, writer);
-    		return writer.toString();
-
-    	} catch(Exception e) {
-    		LOG.error("Error creating Document content for Clu. ", e);
-    	}
-    	return null;
-	}
-
 	@Override
 	protected String getDefaultMetaDataState() {
 		return DEFAULT_METADATA_STATE;
 	}
 
 	@Override
-	protected String getDefaultMetaDataType() {
-		return DEFAULT_METADATA_TYPE;
-	}
-
-	@Override
 	protected String getDefaultWorkflowDocumentType() {
-		return WF_TYPE_CLU_DOCUMENT;
+		return "CluCreditCourseProposal";
 	}
-
 
 	@Override
 	protected boolean checkDocumentLevelPermissions() {
 		return true;
 	}
 
-	public ModifyCreditCourseProposalManager getModifyCourseManager() {
-		return modifyCourseManager;
+	@Override
+	protected Class<?> getDtoClass() {
+		return CourseInfo.class;
 	}
 
 	public void setModifyCourseManager(
 			ModifyCreditCourseProposalManager modifyCourseManager) {
 		this.modifyCourseManager = modifyCourseManager;
 	}
+
+	public void setCourseService(CourseService courseService) {
+		this.courseService = courseService;
+	}
+
+	public void setProposalService(ProposalService proposalService) {
+		this.proposalService = proposalService;
+	}
+
+	
 }

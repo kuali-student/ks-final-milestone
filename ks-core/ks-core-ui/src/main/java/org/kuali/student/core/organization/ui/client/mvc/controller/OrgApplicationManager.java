@@ -15,6 +15,8 @@
 
 package org.kuali.student.core.organization.ui.client.mvc.controller;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
@@ -22,8 +24,6 @@ import org.kuali.student.common.ui.client.mvc.View;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
-
-
 
 
 public class OrgApplicationManager extends Controller{
@@ -44,11 +44,7 @@ public class OrgApplicationManager extends Controller{
     protected <V extends Enum<?>> View getView(V viewType) {
         switch ((ORGViews) viewType) {
             case CREATE_ORG:
-//                initBlankCluProposalView(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE);
                 initOrgView();
-                //FIXME: This is a quick fix, need better way to reset view
-                orgProposalController.showDefaultView(NO_OP_CALLBACK);  
-
                 return createOrgView;
             default:
                 return null;
@@ -57,8 +53,7 @@ public class OrgApplicationManager extends Controller{
     }
 
     @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        
+    public Class<? extends Enum<?>> getViewsEnum() {        
         return ORGViews.class;
     }
     
@@ -88,9 +83,14 @@ public class OrgApplicationManager extends Controller{
     
     private View initOrgView(){
         orgProposalController = new OrgProposalController();
-        createOrgView = new DelegatingViewComposite(OrgApplicationManager.this,orgProposalController);
+        createOrgView = new DelegatingViewComposite(OrgApplicationManager.this,orgProposalController, ORGViews.CREATE_ORG);
         return createOrgView;
         
     }
+
+	@Override
+	public void collectBreadcrumbNames(List<String> names) {
+		// TODO Need to revisit for Org possibly
+	}
 
 }

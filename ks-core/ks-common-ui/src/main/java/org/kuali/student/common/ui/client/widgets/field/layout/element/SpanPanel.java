@@ -57,4 +57,9 @@ public class SpanPanel extends ComplexPanel{
 	  public void setText(String text){
 		  this.getElement().setInnerText(text);
 	  }
+	  
+	  public void setHTML(String html){
+		  this.getElement().setInnerHTML(html);
+	  }
+
 }

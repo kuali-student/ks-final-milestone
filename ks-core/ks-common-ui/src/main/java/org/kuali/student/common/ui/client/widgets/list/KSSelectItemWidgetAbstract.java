@@ -63,8 +63,8 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
         return addHandler(selectionHandler,SelectionChangeEvent.getType());
     }   	
 	
-	protected void fireChangeEvent(){
-	    SelectionChangeEvent.fire(this);
+	protected void fireChangeEvent(boolean userInitiated){
+	    SelectionChangeEvent.fire(this, userInitiated);
 	}
 	
 	/**

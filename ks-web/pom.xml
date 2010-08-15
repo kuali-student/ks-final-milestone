@@ -1,76 +1,60 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>org.kuali.student.web</groupId>
-	<artifactId>ks-web</artifactId>
-	<packaging>pom</packaging>
-    
-    <name>KS Web</name>
-    <description>Project for building KS Reference Wars</description>
-    
-    <url>http://student.kuali.org/site/web/${project.version}</url>
-    
-	<parent>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-core</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
-	</parent>
-    
-	<modules>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student.web</groupId>
+  <artifactId>ks-web</artifactId>
+  <packaging>pom</packaging>
+  <name>KS Web</name>
+  <description>Project for building KS Reference Wars</description>
+  <parent>
+    <groupId>org.kuali.student</groupId>
+    <artifactId>student</artifactId>
+    <version>1.1.0-M8-SNAPSHOT</version>
+  </parent>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
         <module>ks-embedded</module>
-		<module>ks-standalone</module>
-		<module>ks-rice</module>
-	</modules>
-    
-    <properties>
-        <derby.version>10.4.2.0</derby.version>
-        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
-        <ks-lum.version>1.0.0-SNAPSHOT</ks-lum.version>
-        <ks-brms.version>1.0.0-SNAPSHOT</ks-brms.version>
-    </properties>
-    
-    <scm>
-      <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/ks-web</connection>
-      <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.0.x/ks-web</developerConnection>
-    </scm>
-    
-    <distributionManagement>
-        <site>
-            <id>ks.site</id>
-            <url>scp://student.kuali.org:/opt/www/student/site/web/${project.version}</url>
-        </site>
-    </distributionManagement>
-    
-    <repositories>
+        <module>ks-standalone</module>
+        <module>ks-rice</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>skip-all-wars</id>
+      <modules>
+      </modules>
+    </profile>
+    <profile>
+      <id>standalone-only-wars</id>
+      <modules>
+        <module>ks-standalone</module>
+        <module>ks-rice</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>embedded-only-war</id>
+      <modules>
+        <module>ks-embedded</module>
+      </modules>
+    </profile>
+  </profiles>
+  <properties>
+    <derby.version>10.4.2.0</derby.version>
+  </properties>
+  <repositories>
     <repository>
-      <id>kuali.s3.release</id>
-      <url>http://maven.kuali.org/release</url>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
-    <repository>
-      <id>kuali.s3.snapshot</id>
-      <url>http://maven.kuali.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-        <repository>
-            <id>kuali.release</id>
-            <url>https://test.kuali.org/maven</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>kuali.snapshot</id>
-            <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
-    
+  </repositories>
 </project>

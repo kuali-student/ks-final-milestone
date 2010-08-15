@@ -21,16 +21,20 @@ import java.util.List;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ClearBreak;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement.TopMargin;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement.LineNum;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GroupFieldLayout extends FieldLayout{
+	private SpanPanel top = new SpanPanel();
 	private FlowPanel layout = new FlowPanel();
 	private FlowPanel fieldContainer = new FlowPanel();
 	private FlowPanel fieldsPanel = new FlowPanel();
+	private SpanPanel buttonArea = new SpanPanel();
 	private ValidationMessagePanel validationPanel = new ValidationMessagePanel();
 	private List<FieldElement> currentLine = new ArrayList<FieldElement>();
 	private int lineCount = 0;
@@ -102,8 +106,9 @@ public class GroupFieldLayout extends FieldLayout{
 			fieldsPanel.addStyleName("clearfix");
 		}
 		
-		
-		this.initWidget(layout);
+		top.add(layout);
+		top.add(buttonArea);
+		this.add(top);
 		
 	}
 	
@@ -124,19 +129,19 @@ public class GroupFieldLayout extends FieldLayout{
 			lineHasTitles = true;
 		}
 		
-		if(field.getDescriptionText() != null && !field.getDescriptionText().equals("")){
+		if(field.getInstructionText() != null && !field.getInstructionText().equals("")){
 			lineHasDescriptions = true;
 		}
 		
 		for(FieldElement f: currentLine){
 			if(lineHasTitles && lineHasDescriptions){
-				f.setTopMargin(TopMargin.TRIPLE);
+				f.setTitleDescLineHeight(LineNum.TRIPLE);
 			}
 			else if(lineHasTitles || lineHasDescriptions){
-				f.setTopMargin(TopMargin.DOUBLE);
+				f.setTitleDescLineHeight(LineNum.DOUBLE);
 			}
 			else{
-				f.setTopMargin(TopMargin.SINGLE);
+				f.setTitleDescLineHeight(LineNum.SINGLE);
 			}
 		}
         
@@ -149,7 +154,7 @@ public class GroupFieldLayout extends FieldLayout{
 	@Override
 	public void addLayoutToLayout(FieldLayout fieldLayout) {
 		layout.add(fieldLayout);
-		
+		fieldLayout.setParentLayout(this);
 	}
 
 	@Override
@@ -183,7 +188,12 @@ public class GroupFieldLayout extends FieldLayout{
 		}
 		this.layoutTitle = layoutTitle;
 		layout.insert(layoutTitle, 0);
-		layoutTitle.addStyleName("ks-heading-page-section");
+		layoutTitle.addStyleName("ks-layout-header");
+	}
+
+	@Override
+	public void addButtonLayoutToLayout(ButtonLayout buttonLayout) {
+		buttonArea.add(buttonLayout);
 	}
 
 }

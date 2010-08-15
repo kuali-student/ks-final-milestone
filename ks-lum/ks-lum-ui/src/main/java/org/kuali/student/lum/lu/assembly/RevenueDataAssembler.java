@@ -62,7 +62,7 @@ public class RevenueDataAssembler implements Assembler<Data, List<CluFeeRecordIn
 		for (CluFeeRecordInfo feeRecord : input) {
 			if (FeeInfoConstants.REVENUE.equals(feeRecord.getFeeType())) {
 				
-				for (AffiliatedOrgInfo orgInfo : feeRecord.getAffiliatedOrgInfoList()) {
+				for (AffiliatedOrgInfo orgInfo : feeRecord.getAffiliatedOrgs()) {
 					AffiliatedOrgInfoHelper orgInfoHelper = AffiliatedOrgInfoHelper.wrap(new Data());
 					// TODO - what shold this really be set to, especially if not already set
 					// is there some ripple-down in our architecture that would handle this?
@@ -141,10 +141,10 @@ public class RevenueDataAssembler implements Assembler<Data, List<CluFeeRecordIn
 				}
 			}
 			if (orgInfos.size() > 0) {
-				if (null == feeRecordInfo.getAffiliatedOrgInfoList()) {
-					feeRecordInfo.setAffiliatedOrgInfoList(new ArrayList<AffiliatedOrgInfo>());
+				if (null == feeRecordInfo.getAffiliatedOrgs()) {
+					feeRecordInfo.setAffiliatedOrgs(new ArrayList<AffiliatedOrgInfo>());
 				}
-				feeRecordInfo.getAffiliatedOrgInfoList().addAll(orgInfos);
+				feeRecordInfo.getAffiliatedOrgs().addAll(orgInfos);
 			}
 			feeRecords.add(feeRecordInfo);
 		/*

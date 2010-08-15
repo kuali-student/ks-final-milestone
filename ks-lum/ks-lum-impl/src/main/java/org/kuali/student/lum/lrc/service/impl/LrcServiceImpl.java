@@ -33,7 +33,7 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
@@ -74,8 +74,6 @@ public class LrcServiceImpl implements LrcService {
 			String compareGradeKey, String compareScaleKey)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-//		return null;
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
@@ -417,8 +415,6 @@ public class LrcServiceImpl implements LrcService {
 	public List<GradeInfo> translateGrade(String gradeKey, String scaleKey,
 			String translateScaleKey) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-//		return null;
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 

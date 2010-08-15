@@ -44,6 +44,7 @@ import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
 import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
 import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
@@ -64,7 +65,7 @@ import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/LU+Service+v1.0-rc4">LUService</>
  *
  */
-@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu") // TODO CHECK THESE VALUES
+@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuService extends DictionaryService, SearchService { 
     /** 
@@ -575,6 +576,20 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public CluSetInfo getCluSetInfo(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /** 
+     * Retrieve information on a CLU set and its sub clu set fully expanded.
+     * @param cluSetId Identifier of the CLU set
+     * @return The retrieved CLU set tree view information
+     * @throws DoesNotExistException cluSet not found
+     * @throws InvalidParameterException invalid cluSetId
+     * @throws MissingParameterException missing cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public CluSetTreeViewInfo getCluSetTreeView(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /** 
      * Retrieve information on CLU sets from a list of cluSet Ids.
      * @param cluSetIdList List of identifiers of CLU sets
@@ -599,6 +614,19 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public List<String> getCluSetIdsFromCluSet(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /** 
+     * Check if the given CluSet is dynamic
+     * @param cluSetId Identifier of the CLU set
+     * @return The retrieved list of CLU Set Ids within the specified CLU set
+     * @throws DoesNotExistException cluSet not found
+     * @throws InvalidParameterException invalid cluSetId
+     * @throws MissingParameterException missing cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public Boolean isCluSetDynamic(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
     /** 
      * Retrieves the list of CLUs in a CLU set. This only retrieves the direct members.
      * @param cluSetId Identifier of the CLU set

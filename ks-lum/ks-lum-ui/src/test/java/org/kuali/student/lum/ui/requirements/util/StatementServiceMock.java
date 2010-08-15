@@ -19,16 +19,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
-import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.brms.statement.dto.RefStatementRelationTypeInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.brms.statement.dto.StatementTypeInfo;
-import org.kuali.student.brms.statement.service.StatementService;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -203,16 +203,6 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return false;
-    }
-
-    @Override
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return false;
-    }
-
-    @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;
     }
@@ -348,6 +338,11 @@ public class StatementServiceMock implements StatementService {
 
 	@Override
 	public List<ValidationResultInfo> validateRefStatementRelation(String validationType, RefStatementRelationInfo refStatementRelationInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	public StatementTreeViewInfo getStatementTreeViewForNlUsageType(String statementId, String nlUsageTypeKey, String language)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return null;
 	}

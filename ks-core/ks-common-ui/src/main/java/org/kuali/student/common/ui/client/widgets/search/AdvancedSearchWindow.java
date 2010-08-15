@@ -15,80 +15,79 @@
 
 package org.kuali.student.common.ui.client.widgets.search;
 
-import java.util.ArrayList;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.core.search.dto.SearchRequest;
+
 import java.util.List;
 
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-
 public class AdvancedSearchWindow {
-	private KSLightBox dialog = new KSLightBox();
-	private KSLabel titleBar = null;
-	private List<Callback<List<SelectedResults>>> callbacks = new ArrayList<Callback<List<SelectedResults>>>();
+    
+    private VerticalFlowPanel layout = new VerticalFlowPanel();
+	private KSLightBox dialog;
 	private SearchPanel searchPanel;
-	private VerticalFlowPanel layout = new VerticalFlowPanel();
- 
-	public static enum Style {
-        PRIMARY("KS-Advanced-Search-Window");
-
-        private String style;
-
-        private Style(String style) {
-            this.style = style;
-        }
-
-        public String getStyle() {
-            return style;
-        }
-    };
-
-
-    private ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
-
-        @Override
-        public void exec(ConfirmCancelEnum result) {
-            switch(result){
-                case CONFIRM:
-                    List<SelectedResults> selectedItems = searchPanel.getSelectedValues();
-                    for(Callback<List<SelectedResults>> callback: callbacks){
-                    	callback.exec(selectedItems);
-                    }
-                    dialog.hide();
-                    break;
-                case CANCEL:
-                    dialog.hide();
-                    break;
-            }
-        }
-    });
-	
-	public AdvancedSearchWindow(String fieldMessageKey, SearchPanel panel){
-	    layout.addStyleName(Style.PRIMARY.getStyle());
-		searchPanel = panel;
-		//TODO use messages here
-		titleBar = new KSLabel(fieldMessageKey);
-		titleBar.addStyleName("KS-Advanced-Search-Header-Label");
 		
-		layout.add(titleBar);
+	private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SearchCancelEnum.SEARCH, ButtonEnumerations.SearchCancelEnum.CANCEL);   
+
+    public List<SelectedResults> getSelectedValues() {
+        return searchPanel.getSelectedValues();
+    }
+
+    public SearchRequest getSearchRequest() {
+        return searchPanel.getSearchRequest();
+    }
+    
+    public String getSelectedLookupName() {
+        return searchPanel.getSelectedLookupName();
+    }
+
+	public AdvancedSearchWindow(String title, SearchPanel panel){
+	    
+	    actionCancelButtons.addStyleName("KS-Advanced-Search-Buttons");
+	    addCancelCompleteCallback(null);
+        searchPanel = panel;
+        searchPanel.setActionCancelButtonGroup(actionCancelButtons);
+        searchPanel.setupButtons();
+        
+	    dialog = new KSLightBox(title);	    
+	    layout.addStyleName("KS-Advanced-Search-Window");
 		layout.add(panel);
-		layout.add(buttonPanel);
-		dialog.setWidget(layout);
+		layout.add(actionCancelButtons);
+		//dialog.setWidget(layout);
+		dialog.setSize(600,400);
 	}
 	
-	public void addSelectionCompleteCallback(Callback<List<SelectedResults>> callback){
-		callbacks.add(callback);
-	}
-	
-	public void show(){
-		searchPanel.setupSearch();
-		dialog.show();
-	}
-	
-	public void hide(){	
-		dialog.hide();
-	}
+    public void show(){
+        searchPanel.setupSearch();
+        dialog.setWidget(layout);
+        dialog.setSize(500, 500);
+        dialog.show();
+    }
+
+    public void hide(){
+        dialog.hide();
+    }
+    
+    public void addCancelCompleteCallback(final Callback<Boolean> callback){
+        //actionCompletedCallbacks.add(callback);
+        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
+             @Override
+            public void exec(ButtonEnum result) {
+                 if (result == ButtonEnumerations.SearchCancelEnum.CANCEL) {
+                     if (callback != null) {
+                         callback.exec(true);   
+                     }
+                     dialog.hide();
+                 }
+            }
+        });
+    }    
+    
+    public void addActionCompleteCallback(Callback<Boolean> callback){
+        searchPanel.addActionCompleteCallback(callback);
+    }    
 }
