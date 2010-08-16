@@ -1,5 +1,13 @@
 package org.kuali.student.lum.program.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,14 +31,6 @@ import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:program-test-context.xml"})
@@ -472,7 +472,9 @@ public class TestProgramServiceImpl {
     		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
             assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
             assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
-
+            assertNotNull(credentialProgramInfo.getCoreProgramIds());
+            assertEquals(1, credentialProgramInfo.getCoreProgramIds().size());
+            assertEquals("00F5F8C5-FFF1-4C8B-92FC-789B891E0849", credentialProgramInfo.getCoreProgramIds().get(0));
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	        fail(e.getMessage());
