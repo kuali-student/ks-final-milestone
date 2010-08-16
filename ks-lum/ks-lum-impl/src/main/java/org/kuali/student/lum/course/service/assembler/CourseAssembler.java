@@ -179,16 +179,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		//Special topics code
 		course.setSpecialTopicsCourse(false);
 		for(LuCodeInfo luCode : clu.getLuCodes()){
-			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getValue())){
-				course.setSpecialTopicsCourse(true);
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getType())){
+				course.setSpecialTopicsCourse(Boolean.parseBoolean(luCode.getValue()));
 				break;
 			}
 		}
 		//Pilot Course code
 		course.setPilotCourse(false);
 		for(LuCodeInfo luCode : clu.getLuCodes()){
-			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getValue())){
-				course.setPilotCourse(true);
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getType())){
+				course.setPilotCourse(Boolean.parseBoolean(luCode.getValue()));
 				break;
 			}
 		}
