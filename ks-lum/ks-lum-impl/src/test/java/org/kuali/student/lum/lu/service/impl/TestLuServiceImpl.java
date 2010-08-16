@@ -2274,7 +2274,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-        assertEquals(106, createdCluSet.getCluIds().size());
+        assertEquals(107, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
