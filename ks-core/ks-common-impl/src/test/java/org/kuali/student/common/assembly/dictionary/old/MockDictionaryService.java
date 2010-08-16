@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.assembly.dictionary;
+package org.kuali.student.common.assembly.dictionary.old;
 
 import java.util.List;
 
