@@ -120,7 +120,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 				        	ViewContext tempContext = new ViewContext();
 				        	if(view instanceof LayoutController){
 				        		tempContext = ((LayoutController) view).getViewContext();
-				        	}
+				        	}                 
 				        	else{
 				        		tempContext = view.getController().getViewContext();
 				        	}

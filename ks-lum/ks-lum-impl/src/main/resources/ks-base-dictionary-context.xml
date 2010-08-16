@@ -43,10 +43,10 @@
   <property name="value" value="regex:[A-Z]*"/>
  </bean>
  <bean id="lineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.,\-;:&#34;'&amp;%$#@!\t ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;/\-;:&#34;'&amp;%$#@!\t ]*"/>
  </bean>
  <bean id="multiLineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.,\-;:&#34;'&amp;%$#@!\t\n\r ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;/\-;:&#34;'&amp;%$#@!\t\n\r ]*"/>
  </bean>
 
  <bean id="customEditorConfigurer"
@@ -185,15 +185,24 @@
  <bean id="baseKualiPersonId" parent="baseKualiId" abstract="true">
   <!--TODO: Add a lookup to make sure the Org Id is a valid person -->
  </bean>
- <bean id="baseKualiOrgIdRequired" parent="baseKualiId" abstract="true">
+ <bean id="baseKualiOrgIdRequired" parent="baseKualiOrgId" abstract="true">
   <property name="minOccurs" value="1" />
  </bean>
- <bean id="baseKualiCluIdRequired" parent="baseKualiId" abstract="true">
+ <bean id="baseKualiCluIdRequired" parent="baseKualiCluId" abstract="true">
   <property name="minOccurs" value="1" />
  </bean>
- <bean id="baseKualiPersonIdRequired" parent="baseKualiId" abstract="true">
+ <bean id="baseKualiPersonIdRequired" parent="baseKualiPersonId" abstract="true">
   <property name="minOccurs" value="1" /> 
  </bean>
+ <bean id="baseKualiOrgIdRepeating" parent="baseKualiOrgId" abstract="true">
+  <property name="maxOccurs" value="unbounded" /> 
+ </bean>
+ <bean id="baseKualiCluIdRepeating" parent="baseKualiCluId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiPersonIdRepeating" parent="baseKualiPersonId" abstract="true">
+  <property name="maxOccurs" value="unbounded" /> 
+ </bean> 
  <bean id="baseDateRequired" parent="baseDate">
   <property name="minOccurs" value="1" />
  </bean>

@@ -10,7 +10,7 @@ import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementController;
-import org.kuali.student.lum.program.client.ProgramViewController;
+import org.kuali.student.lum.program.client.ProgramManager;
 
 public class CurriculumHomeController extends LayoutController {
 
@@ -23,8 +23,7 @@ public class CurriculumHomeController extends LayoutController {
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
-    private LayoutController programViewController;
-    private LayoutController programEditController;
+    private ProgramManager programManager = new ProgramManager();
 
     public enum LUMViews {
         DEFAULT,
@@ -51,7 +50,7 @@ public class CurriculumHomeController extends LayoutController {
     }
 
     @Override
-    protected <V extends Enum<?>> View getView(V viewType) {
+    public <V extends Enum<?>> View getView(V viewType) {
         //this is done so the views can have delayed loading
         switch ((LUMViews) viewType) {
             case DEFAULT:
@@ -61,9 +60,9 @@ public class CurriculumHomeController extends LayoutController {
             case VIEW_COURSE:
                 return getViewCourseController();
             case PROGRAM_VIEW:
-                return getProgramViewController();
+                return programManager.getProgramViewController();
             case PROGRAM_EDIT:
-                return getProgramEditController();
+                return programManager.getProgramEditController();
             case CLU_SETS:
                 return getCluSetsController();
             case COURSE_CATALOG:
@@ -84,20 +83,6 @@ public class CurriculumHomeController extends LayoutController {
             viewCourseController = new ViewCourseController();
         }
         return this.viewCourseController;
-    }
-
-    private LayoutController getProgramViewController() {
-        if (programViewController == null) {
-            programViewController = new ProgramViewController();
-        }
-        return programViewController;
-    }
-
-    private LayoutController getProgramEditController() {
-        if (programEditController == null) {
-            programEditController = new ProgramViewController();
-        }
-        return programEditController;
     }
 
     private LayoutController getCluSetsController() {

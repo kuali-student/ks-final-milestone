@@ -257,8 +257,7 @@
  <bean id="cluInfo.type" parent="cluInfo.type-parent" />
 
  <!-- RichTextInfo-->
- <bean id="org.kuali.student.core.dto.RichTextInfo-parent"
-       abstract="true" parent="objectStructureDefinition">
+ <bean id="org.kuali.student.core.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
   <property name="name" value="org.kuali.student.core.dto.RichTextInfo" />
   <property name="attributes">
    <list>

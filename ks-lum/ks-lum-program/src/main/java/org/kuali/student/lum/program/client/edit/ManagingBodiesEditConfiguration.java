@@ -1,8 +1,7 @@
-package org.kuali.student.lum.program.client.configuration;
+package org.kuali.student.lum.program.client.edit;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.lum.program.client.ProgramConfigurer;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.configuration.base.AbstractConfiguration;
@@ -11,9 +10,18 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class RequirementsConfiguration extends AbstractConfiguration<ProgramConfigurer> {
+public class ManagingBodiesEditConfiguration extends AbstractConfiguration<ProgramEditConfigurer> {
+
+    private VerticalSectionView mainView;
+
     @Override
     public View getView() {
-        return new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, ProgramProperties.get().program_menu_sections_requirements(), ProgramConstants.PROGRAM_MODEL_ID);
+        createView();
+        return mainView;
     }
+
+    public void createView() {
+        mainView = new VerticalSectionView(ProgramSections.MANAGE_BODIES_EDIT, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID);
+    }
+
 }

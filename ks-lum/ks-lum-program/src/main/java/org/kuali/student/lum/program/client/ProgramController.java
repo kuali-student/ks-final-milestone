@@ -14,55 +14,57 @@ import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 /**
  * @author Igor
  */
-public class ProgramController  extends MenuSectionController {
+public class ProgramController extends MenuSectionController {
 
     protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
     protected boolean initialized = false;
 
-    protected final DataModel programModel = new DataModel();
+    protected final DataModel programModel;
 
-    protected WorkQueue modelRequestQueue;
+    protected AbstractProgramConfigurer configurer;
 
-    public ProgramController() {
+    /**
+     * Constructor.
+     *
+     * @param programModel
+     */
+    public ProgramController(DataModel programModel) {
         super("");
+        this.programModel = programModel;
         setViewContext(new ViewContext());
-        initialize();
+        initializeModel();
     }
 
-    private void initialize() {
-        super.setDefaultModelId(ProgramConstants.PROGRAM_MODEL_ID);
-        super.registerModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelProvider<DataModel>() {
-
+    /**
+     * Initialized model of the controller.
+     */
+    private void initializeModel() {
+        setDefaultModelId(ProgramConstants.PROGRAM_MODEL_ID);
+        registerModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelProvider<DataModel>() {
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-                if (modelRequestQueue == null) {
-                    modelRequestQueue = new WorkQueue();
+                if (programModel.getRoot() == null || programModel.getRoot().size() == 0) {
+                    loadModel(callback);
+                } else {
+                    callback.onModelReady(programModel);
                 }
-
-                WorkQueue.WorkItem workItem = new WorkQueue.WorkItem() {
-                    @Override
-                    public void exec(Callback<Boolean> workCompleteCallback) {
-                        if (programModel.getRoot() == null || programModel.getRoot().size() == 0) {
-                            initModel(callback, workCompleteCallback);
-                        } else {
-                            callback.onModelReady(programModel);
-                            workCompleteCallback.exec(true);
-                        }
-                    }
-
-                };
-                modelRequestQueue.submit(workItem);
             }
         });
     }
 
-    private void initModel(final ModelRequestCallback<DataModel> callback, final Callback<Boolean> workCompleteCallback) {
+    /**
+     * Loads data model from the server.
+     *
+     * @param callback we have to invoke this callback when model is loaded or failed.
+     */
+    private void loadModel(final ModelRequestCallback<DataModel> callback) {
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
             public void onFailure(Throwable caught) {
                 super.onFailure(caught);
+                callback.onRequestFail(caught);
             }
 
             @Override
@@ -70,69 +72,63 @@ public class ProgramController  extends MenuSectionController {
                 super.onSuccess(result);
                 programModel.setRoot(result);
                 callback.onModelReady(programModel);
-                workCompleteCallback.exec(true);
             }
         });
     }
 
+    /**
+     * Got invoked by framework before showing the view of the controller.
+     *
+     * @param onReadyCallback
+     */
     @Override
-    public void beforeShow(final Callback<Boolean> onReadyCallback){
-        init(new Callback<Boolean>() {
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
+        if (!initialized) {
+            if (programModel.getDefinition() == null) {
+                loadMetadata(onReadyCallback);
+            } else {
+                afterMetadataLoaded(onReadyCallback);
+            }
+        } else {
+            onReadyCallback.exec(true);
+        }
+    }
+
+    /**
+     * Loads metadata from the server.
+     *
+     * @param onReadyCallback
+     */
+    protected void loadMetadata(final Callback<Boolean> onReadyCallback) {
+        String idType = null;
+        String viewContextId = null;
+        if (getViewContext().getIdType() != null) {
+            idType = getViewContext().getIdType().toString();
+            viewContextId = getViewContext().getId();
+            if (getViewContext().getIdType() == ViewContext.IdType.COPY_OF_OBJECT_ID) {
+                viewContextId = null;
+            }
+        }
+        programRemoteService.getMetadata(idType, viewContextId, new AbstractCallback<Metadata>() {
 
             @Override
-            public void exec(Boolean result) {
-                if (result) {
-                    showDefaultView(onReadyCallback);
-                } else {
-                    onReadyCallback.exec(false);
-                }
+            public void onSuccess(Metadata result) {
+                super.onSuccess(result);
+                DataModelDefinition def = new DataModelDefinition(result);
+                programModel.setDefinition(def);
+                afterMetadataLoaded(onReadyCallback);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+                super.onFailure(caught);
+                onReadyCallback.exec(false);
             }
         });
     }
 
-
-    protected void init(final Callback<Boolean> onReadyCallback) {
-        if (initialized) {
-            onReadyCallback.exec(true);
-        } else {
-            String idType = null;
-            String viewContextId = null;
-            if (getViewContext().getIdType() != null) {
-                idType = getViewContext().getIdType().toString();
-                viewContextId = getViewContext().getId();
-                if (getViewContext().getIdType() == ViewContext.IdType.COPY_OF_OBJECT_ID) {
-                    viewContextId = null;
-                }
-            }
-
-            programRemoteService.getMetadata(idType, viewContextId, new AbstractCallback<Metadata>() {
-
-                @Override
-                public void onSuccess(Metadata result) {
-                    super.onSuccess(result);
-                    DataModelDefinition def = new DataModelDefinition(result);
-                    programModel.setDefinition(def);
-                    init(def);
-                    initialized = true;
-                    onReadyCallback.exec(true);
-                }
-
-                @Override
-                public void onFailure(Throwable caught) {
-                    super.onFailure(caught);
-                    onReadyCallback.exec(false);
-
-                }
-            });
-        }
-    }
-
-    protected void init(DataModelDefinition modelDefinition) {
-        AbstractProgramConfigurer configurer = GWT.create(ProgramConfigurer.class);
-        configurer.setModelDefinition(modelDefinition);
-        if (null == programModel.getRoot()) {
-            programModel.setRoot(new Data());
-        }
+    protected void configureView() {
+        configurer.setModelDefinition(programModel.getDefinition());
         configurer.configure(this);
         this.setContentTitle("Programs");
         initialized = true;
@@ -141,11 +137,21 @@ public class ProgramController  extends MenuSectionController {
     @Override
     public void setViewContext(ViewContext viewContext) {
         super.setViewContext(viewContext);
-        if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
+        if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
             viewContext.setPermissionType(PermissionType.OPEN);
-        }
-        else{
+        } else {
             viewContext.setPermissionType(PermissionType.INITIATE);
         }
+    }
+
+    /**
+     * Called when metadata is loaded.
+     *
+     * @param onReadyCallback
+     */
+    private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
+        configureView();
+        initialized = true;
+        showDefaultView(onReadyCallback);
     }
 }

@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client;
+package org.kuali.student.lum.program.client.edit;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,6 +8,9 @@ import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.lum.program.client.AbstractCallback;
+import org.kuali.student.lum.program.client.ProgramController;
+import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -19,7 +22,9 @@ public class ProgramEditController extends ProgramController {
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
 
-    public ProgramEditController() {
+    public ProgramEditController(DataModel programModel) {
+        super(programModel);
+        configurer = GWT.create(ProgramEditConfigurer.class);
         initHandlers();
     }
 
@@ -62,11 +67,11 @@ public class ProgramEditController extends ProgramController {
     }
 
     @Override
-    protected void init(DataModelDefinition modelDefinition) {
+    protected void configureView() {
         if (!initialized) {
             addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, saveButton);
             addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, cancelButton);
         }
-        super.init(modelDefinition);
+        super.configureView();
     }
 }

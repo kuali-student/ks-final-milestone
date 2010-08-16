@@ -12,7 +12,7 @@ public class ProgramConstants {
     public static final String PROGRAM_LEVEL = "programLevel";
     public static final String CREDENTIAL_PROGRAM = "";
     public static final String PROGRAM_CLASSIFICATION = "universityClassification";
-    public static final String DEGREE_TYPE = "";
+    public static final String DEGREE_TYPE = "degreeType";
 
     //Dates
     public static final String START_TERM = "startTerm";
@@ -36,12 +36,23 @@ public class ProgramConstants {
     public static final String INSTITUTION = "institution";
 
     //Managing Bodies
+    public static final String CURRICULUM_OVERSIGHT_DIVISION = "divisionsContentOwner";
+    public static final String CURRICULUM_OVERSIGHT_UNIT = "unitsContentOwner";
     public static final String STUDENT_OVERSIGHT_DIVISION = "divisionsStudentOversight";
     public static final String STUDENT_OVERSIGHT_UNIT = "unitsStudentOversight";
+    public static final String DEPLOYMENT_DIVISION = "divisionsDeployment";
+    public static final String DEPLOYMENT_UNIT = "unitsDeployment";
+    public static final String FINANCIAL_RESOURCES_DIVISION = "divisionsFinancialResources";
+    public static final String FINANCIAL_RESOURCES_UNIT = "unitsFinancialResources";
+    public static final String FINANCIAL_CONTROL_DIVISION = "divisionsFinancialControl";
+    public static final String FINANCIAL_CONTROL_UNIT = "unitsFinancialControl";
 
     //Program Description and Catalog Details
     public static final String CATALOG_DESCRIPTION = "catalogDescr";
     public static final String CORE_FACULTY_MEMBERS = "publishedInstructors";
     public static final String PUBLICATION_TARGETS = "catalogPublicationTargets";
+    public static final String FULL_PART_TIME = "intensity";
+    public static final String DURATION = "stdDuration";
+    public static final String MORE_INFORMATION = "referenceURL";
 
 }

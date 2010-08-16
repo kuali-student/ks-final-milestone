@@ -58,6 +58,8 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -543,6 +545,16 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
          private VerticalPanel main = new VerticalPanel();
          protected List<LoCategoryInfo> categories = new ArrayList<LoCategoryInfo>();
          
+         final CloseHandler<KSItemLabel> deleteHandler = new CloseHandler<KSItemLabel>() {
+             @Override
+            public void onClose(CloseEvent<KSItemLabel> event) {
+                 KSItemLabel itemLabel = event.getTarget();
+                 String itemText = itemLabel.getDeletedKey();
+                 categoryList.removeItem(itemText);
+                 categoryList.redraw();
+            }
+         };
+
          public LOCategoryListNew() {
              listPanel = new VerticalPanel();
              main.add(listPanel);
@@ -588,8 +600,23 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                  KSItemLabel newItemLabel = new KSItemLabel(true, new CategoryDataParser());
                  Data categoryData = CategoryDataUtil.toData(categories.get(i));
                  newItemLabel.setValue(new DataValue(categoryData));
+                 newItemLabel.addCloseHandler(deleteHandler);
                  
                  listPanel.add(newItemLabel);
+//               String name = categories.get(i).getName();
+//               String typeKey = categories.get(i).getType();
+//               // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
+//               String typeName = "ERROR: uninitialized categoryTypeMap";
+//               if (null != categoryTypeMap) {
+//                   typeName = categoryTypeMap.get(typeKey).getName();
+//               } 
+//               categoryTable.setWidget(row, col++, new KSLabel(name + CATEGORY_TYPE_SEPARATOR + typeName));
+//               KSLabel deleteLabel = new KSLabel("[x]");
+//               deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
+//               deleteLabel.addClickHandler(deleteHandler);
+//               categoryTable.setWidget(row, col++, deleteLabel);
+//               row++;
+//               col = 0;                                
              }
          }
 
@@ -762,17 +789,23 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
          @Override
          public String getKey(Data data) {
-             return CategoryDataUtil.toLoCategoryInfo(data).getId();
+             return parse(data);
          }
 
          @Override
          public String parse(Data data) {
-             LoCategoryInfo loCategoryInfo = CategoryDataUtil.toLoCategoryInfo(data);
-             String typeName = "ERROR: uninitialized categoryTypeMap";
-             if (null != categoryTypeMap) {
-                 typeName = categoryTypeMap.get(loCategoryInfo.getType()).getName();
+             String result = null;
+             if (data != null) {
+                 LoCategoryInfo loCategoryInfo = CategoryDataUtil.toLoCategoryInfo(data);
+                 String typeName = "ERROR: uninitialized categoryTypeMap";
+                 if (null != categoryTypeMap) {
+                     typeName = categoryTypeMap.get(loCategoryInfo.getType()).getName();
+                 }
+                 result = loCategoryInfo.getName() + 
+                 LOCategoryBuilder.LOCategoryListNew.CATEGORY_TYPE_SEPARATOR + typeName;
+             } else {
+                 result = "";
              }
-             String result = loCategoryInfo.getName() + " - " + typeName;
              return result;
          }
           
