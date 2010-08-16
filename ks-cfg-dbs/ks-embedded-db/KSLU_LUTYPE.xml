@@ -38,4 +38,6 @@
         NAME="Major" TYPE_DESC="A Major Discipline" TYPE_KEY="kuali.lu.type.MajorDiscipline"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Specialization" TYPE_DESC="Specialization of a Major Discipline" TYPE_KEY="kuali.lu.type.Variation"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Core" TYPE_DESC="Program containing core requirements" TYPE_KEY="kuali.lu.type.CoreProgram"/>
 </dataset>

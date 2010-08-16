@@ -1073,4 +1073,17 @@
         LAST_ADMIT_ATP="kuali.atp.SU2010-2011" LAST_ATP="kuali.atp.SU2010-2011"
         NEXT_REVIEW_PRD="kuali.atp.SU2009-2010S1" CLU_INTSTY_TYPE = "kuali.atp.duration.full"
         REF_URL="http://www.google.ca" />
+    <KSLU_CLU CAN_CREATE_LUI="0" CREATETIME="20090507120530"
+        DEF_ENRL_EST="0" DEF_MAX_ENRL="0" EFF_DT="20050101000000"
+        HAS_EARLY_DROP_DEDLN="0" EXP_FIRST_ATP="kuali.atp.SU2009-2010S1"
+        ID="00f5f8c5-fff1-4c8b-92fc-789b891e0849" IS_ENRL="0"
+        IS_HAZR_DISBLD_STU="0" LUTYPE_ID="kuali.lu.type.CoreProgram"
+        OFFIC_CLU_ID="4ab05feb-b550-4db6-9f65-97a74372a137"
+        PRI_ADMIN_ORG_ID="ADMIN-ORG-2" PRI_INSTR_ID="INSTR-1"
+        RT_DESCR_ID="8b7df2ea-a0e0-4ca6-b524-5554d3194c92"
+        ST="active" UPDATETIME="20090507120530" VERSIONIND="1"
+        ATP_DUR_TYP_KEY= "kuali.atp.duration.Week" TM_QUANTITY= "100"
+        LAST_ADMIT_ATP="kuali.atp.SU2010-2011" LAST_ATP="kuali.atp.SU2010-2011"
+        NEXT_REVIEW_PRD="kuali.atp.SU2009-2010S1" CLU_INTSTY_TYPE = "kuali.atp.duration.full"
+        REF_URL="http://www.slashdot.org" />
 </dataset>
