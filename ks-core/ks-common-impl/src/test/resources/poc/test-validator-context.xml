@@ -43,6 +43,31 @@
 		<property name="dataType" value="DOUBLE" />
 		<property name="exclusiveMin" value="1.0" />
 		<property name="inclusiveMax" value="4.0" />
+		<property name="caseConstraint">
+	  		<bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+	   			<property name="operator" value="EQUALS"/>
+	   			<property name="fieldPath" value="state"/>
+	   			<property name="caseSensitive" value="false"/>
+	   			<property name="whenConstraint">
+	    			<list>
+	     				<bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+	      					<property name="values">
+	       						<list>
+	        						<value>SUBMITTED</value>
+	        						<value>ACTIVE</value>
+	        						<value>RETIRED</value>
+	       						</list>
+	      					</property>
+	      					<property name="constraint">
+	       						<bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+	       							<property name="minOccurs" value="1"/>
+	       						</bean>
+	      					</property>
+	     				</bean>
+	    			</list>
+	   			</property>
+	  		</bean>
+		</property>	
 	</bean>
 
 	<bean id="addrStruct"

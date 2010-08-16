@@ -103,6 +103,8 @@ public class Metadata implements Serializable {
     
     @XmlElement(name="constraint")
     @XmlElementWrapper
+    //TODO: When all dictionaries have been updated, this needs to be changed to a single value object.
+    //No need for it to be a list with new dictionary structure. 
     private List<ConstraintMetadata> constraints;
     
     @XmlElement(name="lookupMetadata")
