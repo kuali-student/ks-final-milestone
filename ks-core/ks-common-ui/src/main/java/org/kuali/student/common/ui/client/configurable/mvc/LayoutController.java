@@ -24,10 +24,22 @@ import java.util.Map.Entry;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.event.*;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.event.ActionEvent;
+import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.event.SectionUpdateEvent;
+import org.kuali.student.common.ui.client.event.SectionUpdateHandler;
+import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
+import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
+import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -43,13 +55,13 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	protected Map<Enum<?>, View> viewMap = new LinkedHashMap<Enum<?>, View>();
 	protected Map<String, Enum<?>> viewEnumMap = new HashMap<String, Enum<?>>();
 	protected Enum<?> defaultView;
-
+	
 	protected String name;
 	protected Enum<?> viewType;
 
     protected View startPopupView;
     protected KSLightBox startViewWindow;
-
+	
     public LayoutController(String controllerId){
         super(controllerId);
         //Global section update Event handling
@@ -68,10 +80,10 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 					public void onModelReady(DataModel model) {
 						event.getSection().updateModel(model);
 						event.getSection().updateWidgetData(model);
-
+						
 					}
 				});
-
+				
 			}
 		});
 		//Global validation Event handling
@@ -115,16 +127,28 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
         });
     }
-
+    
     private void validate(DataModel model, final ValidateRequestEvent event) {
     	if(event.validateSingleField()){
     		model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
                 @Override
                 public void exec(List<ValidationResultInfo> result) {
                 	if(event.getFieldDescriptor() != null){
-                		event.getFieldDescriptor().getFieldElement().clearValidationPanel();
+                		//We dont need to traverse since it is single field, so don't do isValid call here
+                		//instead add the error messages directly
+                		FieldElement element = event.getFieldDescriptor().getFieldElement();
+                		if(element != null){
+	                		element.clearValidationPanel();
+	                		for(int i = 0; i < result.size(); i++){
+	                    		ValidationResultInfo vr = result.get(i);
+	                    		if(vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) 
+	                    				&& event.getFieldDescriptor().hasHadFocus()){
+	    							element.processValidationResult(vr);
+	                    		}
+	                    	}
+                		}
                 	}
-                	isValid(result, true, false);
+                	
                 }
     		});
     	}
@@ -137,10 +161,10 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
             });
     	}
     }
-
+    
     public ErrorLevel checkForErrors(List<ValidationResultInfo> list){
 		ErrorLevel errorLevel = ErrorLevel.OK;
-
+		
 		for(ValidationResultInfo vr: list){
 			if(vr.getErrorLevel().getLevel() > errorLevel.getLevel()){
 				errorLevel = vr.getErrorLevel();
@@ -149,11 +173,11 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 				break;
 			}
 		}
-
+    	
     	return errorLevel;
-
+    	
     }
-
+    
     public static LayoutController findParentLayout(Widget w){
         LayoutController result = null;
         while (true) {
@@ -169,11 +193,11 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
                 break;
             }
             w = w.getParent();
-
+            
         }
         return result;
     }
-
+    
 	public void addStartViewPopup(final View view){
 	    startPopupView = view;
 	    if(startViewWindow == null){
@@ -211,7 +235,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	    }
 	    startViewWindow.setWidget(panel);
 	}
-
+	
     public boolean isStartViewShowing(){
         if(startViewWindow == null){
             return false;
@@ -222,7 +246,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     public View getStartPopupView(){
         return startPopupView;
     }
-
+    
     public void showStartPopup(final Callback<Boolean> onReadyCallback){
         startPopupView.beforeShow(new Callback<Boolean>() {
 			@Override
@@ -237,7 +261,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 
     /*New methods*/
-
+	
 	public void addView(View view){
 		viewMap.put(view.getViewEnum(), view);
 		viewEnumMap.put(view.getViewEnum().toString(), view.getViewEnum());
@@ -248,20 +272,20 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 			((ToolView) view).setController(this);
 		}
 	}
-
+	
 	public <V extends Enum<?>> void setDefaultView(V viewType){
 		this.defaultView = viewType;
 	}
-
+	
 	public abstract void updateModel();
-
+	
 	public void updateModelFromView(Enum<?> viewType){
 		View v = viewMap.get(viewType);
 		if(v != null){
 			v.updateModel();
 		}
 	}
-
+	
 	public void updateModelFromCurrentView(){
 		this.getCurrentView().updateModel();
 	}
@@ -284,18 +308,30 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	}
 
 	@Override
-	public void showDefaultView(Callback<Boolean> onReadyCallback) {
-		if(!viewMap.isEmpty()){
+	public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+		HistoryManager.setLogNavigationHistory(false);
+		//turn of history support for default showing until view is ready
+		if(defaultView != null){
+			showView(defaultView, onReadyCallback);
+		}
+		else if(!viewMap.isEmpty()){		
 			if(defaultView == null){
 				showView(viewMap.entrySet().iterator().next().getKey(), onReadyCallback);
-			}
-			else{
-				showView(defaultView, onReadyCallback);
-			}
+			}	
 		}
-
+		
 	}
-
+	
+	public void showFirstView(Callback<Boolean> onReadyCallback){
+		HistoryManager.setLogNavigationHistory(false);
+		if(!viewMap.isEmpty()){	
+			showView(viewMap.entrySet().iterator().next().getKey(), onReadyCallback);
+		}
+		else{
+			showDefaultView(onReadyCallback);
+		}
+	}
+	
 	/**
  	 * Check to see if current/all section(s) is valid (ie. does not contain any errors)
  	 *
@@ -306,7 +342,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly){
 		return isValid(validationResults, checkCurrentSectionOnly, true);
 	}
-
+	
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly, boolean allFields){
 		boolean isValid = true;
 
@@ -362,7 +398,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 		return (status != ErrorLevel.ERROR);
 	}
-
+	
 	@Override
 	public void beforeViewChange(Callback<Boolean> okToChange) {
 		if(this.getCurrentView() instanceof Controller){
@@ -407,19 +443,19 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	public Enum<?> getViewEnum() {
 		return viewType;
 	}
-
+	
 	public void setViewEnum(Enum<?> viewType){
 		this.viewType= viewType;
 	}
-
+	
 	public void setName(String name){
 		this.name = name;
 	}
-
+	
 	public void setController(Controller controller){
 		parentController = controller;
 	}
-
+	
 	@Override
 	public void collectBreadcrumbNames(List<String> names) {
 		names.add(this.getName());
@@ -427,7 +463,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 			this.getCurrentView().collectBreadcrumbNames(names);
 		}
 	}
-
+	
 	@Override
 	public void clear() {
 		

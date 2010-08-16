@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel.ListType;
@@ -81,7 +82,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         if(config.canEdit) {
             pickerPanel = new HorizontalPanel();
             pickerPanel.addStyleName("ks-selected-list-picker");
-            addItemButton = new KSButton("add to list");
+            addItemButton = new KSButton("Add to list", ButtonStyle.PRIMARY_SMALL);
             addItemButton.setEnabled(false);
             picker = new KSPicker(config);
             picker.setAdvancedSearchCallback(createAdvancedSearchCallback());

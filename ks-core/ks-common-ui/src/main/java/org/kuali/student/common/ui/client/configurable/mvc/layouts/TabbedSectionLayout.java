@@ -315,7 +315,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
             loaded = true;
         }
 
-        showView(defaultView, onReadyCallback);
+        super.showDefaultView(onReadyCallback);
 	}
 
 	@Override

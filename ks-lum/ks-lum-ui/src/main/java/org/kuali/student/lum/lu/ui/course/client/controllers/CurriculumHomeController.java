@@ -115,13 +115,6 @@ public class CurriculumHomeController extends LayoutController {
     }
 
     @Override
-    public void showDefaultView(Callback<Boolean> onReadyCallback) {
-        HistoryManager.setLogNavigationHistory(false);
-        this.showView(LUMViews.DEFAULT);
-        HistoryManager.setLogNavigationHistory(true);
-    }
-
-    @Override
     public void updateModel() {
         // No model needed here
     }

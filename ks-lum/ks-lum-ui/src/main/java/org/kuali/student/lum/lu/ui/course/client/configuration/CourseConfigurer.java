@@ -170,7 +170,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             //Summary
             ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
             layout.addSpecialMenuItem(summaryConfigurer.generateSummarySection(layout.getWfUtilities()), "Review and Submit");
-
+            layout.setDefaultView(CourseSections.SUMMARY);
             //Tools
             String tools = "Tools";
             layout.addMenu(tools);
