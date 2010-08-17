@@ -22,6 +22,7 @@ public class SQLGenerator {
 	Properties properties;
 	String url;
 	DatabaseCommand command;
+	String prefix = "classpath:org/kuali/db/";
 
 	public SQLGenerator() {
 		this(null, null, null);
@@ -34,13 +35,19 @@ public class SQLGenerator {
 		this.command = command;
 	}
 
+	protected String getSQLLocation() {
+		return getLocation("/" + getPackageFriendlyName(command.toString()) + ".sql");
+	}
+
 	public String getSQL() throws IOException {
-		JDBCConfiguration jdbcConfiguration = jdbcUtils.getDatabaseConfiguration(url);
-		DatabaseType type = jdbcConfiguration.getType();
-		String location = "classpath:org/kuali/db/" + getPackageFriendlyName(type.toString()) + "/" + getPackageFriendlyName(command.toString()) + ".sql";
+		String location = getSQLLocation();
 		Resource resource = loader.getResource(location);
 		String sql = IOUtils.toString(resource.getInputStream(), getEncoding());
-		sql = helper.replacePlaceholders(sql, getCustomProperties(type));
+		Properties customProperties = getCustomProperties();
+		if (properties != null) {
+			customProperties.putAll(properties);
+		}
+		sql = helper.replacePlaceholders(sql, customProperties);
 		return sql;
 	}
 
@@ -48,21 +55,27 @@ public class SQLGenerator {
 		return s.toLowerCase().replace("_", "");
 	}
 
-	protected Properties getCustomProperties(DatabaseType type) {
+	protected String getLocation(String suffix) {
+		JDBCConfiguration jdbcConfiguration = jdbcUtils.getDatabaseConfiguration(url);
+		DatabaseType type = jdbcConfiguration.getType();
 		String packageFriendlyName = getPackageFriendlyName(type.toString());
-		String location = "classpath:org/kuali/db/" + packageFriendlyName + "/custom.properties";
+		String location = prefix + packageFriendlyName + suffix;
+		return location;
+	}
+
+	protected String getCustomPropertiesLocation() {
+		return getLocation("/custom.properties");
+	}
+
+	protected Properties getCustomProperties() throws IOException {
+		String location = getCustomPropertiesLocation();
 		Reader input = null;
 		try {
 			Resource resource = loader.getResource(location);
 			input = new InputStreamReader(resource.getInputStream(), getEncoding());
 			Properties p = new Properties();
 			p.load(input);
-			if (properties != null) {
-				p.putAll(properties);
-			}
 			return p;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		} finally {
 			IOUtils.closeQuietly(input);
 		}
@@ -98,6 +111,38 @@ public class SQLGenerator {
 
 	public void setCommand(DatabaseCommand command) {
 		this.command = command;
+	}
+
+	public PropertyPlaceholderHelper getHelper() {
+		return helper;
+	}
+
+	public void setHelper(PropertyPlaceholderHelper helper) {
+		this.helper = helper;
+	}
+
+	public JDBCUtils getJdbcUtils() {
+		return jdbcUtils;
+	}
+
+	public void setJdbcUtils(JDBCUtils jdbcUtils) {
+		this.jdbcUtils = jdbcUtils;
+	}
+
+	public DefaultResourceLoader getLoader() {
+		return loader;
+	}
+
+	public void setLoader(DefaultResourceLoader loader) {
+		this.loader = loader;
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
 }

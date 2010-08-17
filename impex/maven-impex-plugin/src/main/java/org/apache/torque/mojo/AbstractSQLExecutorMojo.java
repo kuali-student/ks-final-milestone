@@ -336,7 +336,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		// default implementation does nothing
 	}
 
-	protected Properties getProperties() {
+	protected Properties getContextProperties() {
 		Properties properties = new Properties();
 		Map<String, String> environment = System.getenv();
 		for (String key : environment.keySet()) {
