@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import static org.junit.Assert.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +74,7 @@ public class SearchConfigTesterHelper
   List<String> errors = validator.validate ();
   if (errors.size () > 0)
   {
-   fail (searchConfigFileName + " failed search config validation:\n"
+   throw new RuntimeException (searchConfigFileName + " failed search config validation:\n"
          + this.formatAsString (errors));
   }
 
