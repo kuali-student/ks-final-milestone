@@ -67,8 +67,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
     @Override
     public BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> disassemble(ProgramVariationInfo variation, NodeOperation operation) throws AssemblyException {
-    	BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo>(
-				this);
+    	BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo>(this);
     	
     	if (variation == null) {
 			// FIXME Unsure now if this is an exception or just return null or
