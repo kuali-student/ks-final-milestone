@@ -34,37 +34,37 @@ public class DropMojo extends AbstractSQLExecutorMojo {
 	DatabaseCommand command;
 
 	/**
-	 * The schema to drop
+	 * The database to drop
 	 * 
-	 * @parameter expression="${schema}"
+	 * @parameter expression="${database}"
 	 * @required
 	 */
-	String schema;
+	String database;
 
 	protected void updateConfiguration() {
 		super.updateConfiguration();
-		if (schema != null) {
+		if (database != null) {
 			return;
 		}
 		if (!useArtifactIdForCredentials) {
 			return;
 		}
 		if (trimArtifactId) {
-			schema = trimArtifactId(project.getArtifactId());
+			database = trimArtifactId(project.getArtifactId());
 		} else {
-			schema = project.getArtifactId();
+			database = project.getArtifactId();
 		}
 	}
 
 	protected void validateConfiguration() throws MojoExecutionException {
 		super.validateConfiguration();
-		Validate.isTrue(!StringUtils.isEmpty(schema));
+		Validate.isTrue(!StringUtils.isEmpty(database));
 	}
 
 	@Override
 	protected void configureTransactions() throws MojoExecutionException {
 		Properties properties = getContextProperties();
-		properties.put("schema", getSchema());
+		properties.put("database", getDatabase());
 		SQLGenerator generator = new SQLGenerator(properties, url, command);
 		try {
 			generator.setEncoding(getEncoding());
@@ -77,12 +77,12 @@ public class DropMojo extends AbstractSQLExecutorMojo {
 		}
 	}
 
-	public String getSchema() {
-		return schema;
+	public String getDatabase() {
+		return database;
 	}
 
-	public void setSchema(String schema) {
-		this.schema = schema;
+	public void setDatabase(String schema) {
+		this.database = schema;
 	}
 
 	public DatabaseCommand getCommand() {
