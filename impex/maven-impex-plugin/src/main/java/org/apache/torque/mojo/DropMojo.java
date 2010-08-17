@@ -1,13 +1,12 @@
 package org.apache.torque.mojo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.kuali.db.DatabaseCommand;
+import org.kuali.db.DefaultSQLGenerator;
+import org.kuali.db.Transaction;
 
 /**
  * Drops a database
@@ -15,6 +14,14 @@ import org.apache.maven.plugin.MojoExecutionException;
  * @goal drop
  */
 public class DropMojo extends AbstractSQLExecutorMojo {
+
+	/**
+	 * The database command to execute
+	 * 
+	 * @parameter expression="${command}" default-value="DROP"
+	 * @required
+	 */
+	DatabaseCommand command;
 
 	/**
 	 * The schema to drop
@@ -26,27 +33,37 @@ public class DropMojo extends AbstractSQLExecutorMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException {
-		Properties properties = new Properties();
-		Map<String, String> environment = System.getenv();
-		for (String key : environment.keySet()) {
-			// properties.put("env." + key, environment.get(key));
-		}
-		// properties.putAll(project.getProperties());
-		// properties.putAll(System.getProperties());
+	}
+
+	public String getSchema() {
+		return schema;
+	}
+
+	public void setSchema(String schema) {
+		this.schema = schema;
+	}
+
+	@Override
+	protected void configureTransactions() throws MojoExecutionException {
+		Properties properties = getProperties();
+		properties.put("schema", getSchema());
+		DefaultSQLGenerator generator = new DefaultSQLGenerator(properties, url, command);
 		try {
-			Map<?, ?> props = BeanUtils.describe(project);
-			for (Object key : props.keySet()) {
-				getLog().info(key + "=" + props.get(key));
-			}
-		} catch (Exception e) {
-			throw new MojoExecutionException("Error copying properties", e);
+			String sql = generator.getSQL();
+			Transaction t = new Transaction();
+			t.addText(sql);
+			transactions.add(t);
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error generating SQL", e);
 		}
-		List<String> list = new ArrayList<String>();
-		list.addAll(properties.stringPropertyNames());
-		Collections.sort(list);
-		for (String s : list) {
-			getLog().info(s + "=" + properties.getProperty(s));
-		}
+	}
+
+	public DatabaseCommand getCommand() {
+		return command;
+	}
+
+	public void setCommand(DatabaseCommand command) {
+		this.command = command;
 	}
 
 }

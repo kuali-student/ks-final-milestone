@@ -25,6 +25,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -332,7 +333,18 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	boolean connectionError = false;
 
 	protected void configureTransactions() throws MojoExecutionException {
+		// default implementation does nothing
+	}
 
+	protected Properties getProperties() {
+		Properties properties = new Properties();
+		Map<String, String> environment = System.getenv();
+		for (String key : environment.keySet()) {
+			properties.put("env." + key, environment.get(key));
+		}
+		properties.putAll(project.getProperties());
+		properties.putAll(System.getProperties());
+		return properties;
 	}
 
 	/**
@@ -353,14 +365,13 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 
 		conn = getConnection();
 
-		// There was an error obtaining a connection
-		// Do not fail the build with a MojoExecutionException
-		// But this mojo will do nothing further
 		if (connectionError && skipOnConnectionError) {
+			// There was an error obtaining a connection
+			// Do not fail the build but don't do anything more
 			return;
 		}
 
-		// Make sure our counters are zero'd out
+		// Make sure our counters are zeroed out
 		successfulStatements = 0;
 		totalStatements = 0;
 
