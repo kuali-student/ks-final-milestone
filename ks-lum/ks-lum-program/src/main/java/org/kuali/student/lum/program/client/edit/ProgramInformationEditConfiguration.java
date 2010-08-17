@@ -27,16 +27,24 @@ public class ProgramInformationEditConfiguration extends AbstractConfiguration<P
     private void createView() {
         mainView = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
         HorizontalSection horizontalSection = new HorizontalSection();
-        VerticalSection leftSection = new VerticalSection();
-        leftSection.addSection(createKeyProgramInformationSection());
-        leftSection.addSection(createProgramTitleSection());
-        leftSection.addSection(createDatesSection());
-        leftSection.addSection(createOtherInformationSection());
-        VerticalSection rightSection = new VerticalSection();
-        rightSection.addSection(createReadOnlySection());
-        horizontalSection.addSection(leftSection);
-        horizontalSection.addSection(rightSection);
+        horizontalSection.addSection(createLeftSection());
+        horizontalSection.addSection(createRightSection());
         mainView.addSection(horizontalSection);
+    }
+
+    private VerticalSection createLeftSection() {
+        VerticalSection section = new VerticalSection();
+        section.addSection(createKeyProgramInformationSection());
+        section.addSection(createProgramTitleSection());
+        section.addSection(createDatesSection());
+        section.addSection(createOtherInformationSection());
+        return section;
+    }
+
+    private VerticalSection createRightSection() {
+        VerticalSection section = new VerticalSection();
+        section.addSection(createReadOnlySection());
+        return section;
     }
 
     private VerticalSection createKeyProgramInformationSection() {

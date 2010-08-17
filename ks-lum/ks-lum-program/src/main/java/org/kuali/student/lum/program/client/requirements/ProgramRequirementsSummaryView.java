@@ -1,9 +1,11 @@
 package org.kuali.student.lum.program.client.requirements;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -25,12 +27,9 @@ import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
@@ -53,8 +52,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         statementRpcServiceAsync.getStatementTypesForStatementType("kuali.luStatementType.program", new AsyncCallback<List<StatementTypeInfo>>() {
             @Override
             public void onFailure(Throwable caught) {
-	            Window.alert(caught.getMessage());
-	            GWT.log("getStatementTypes failed", caught);
+                Window.alert(caught.getMessage());
+                GWT.log("getStatementTypes failed", caught);
             }
 
             @Override
@@ -68,10 +67,13 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                         ProgramRequirementInfo tempProgramInfo = new ProgramRequirementInfo();
                         RichTextInfo text = new RichTextInfo();
                         text.setPlain("These are classes or sequences that a student must have completed in order to register" +
-                                                    " in the course. For example, students must have completed 3 classes with a specific GPA.");
+                                " in the course. For example, students must have completed 3 classes with a specific GPA.");
                         tempProgramInfo.setDescr(text);
                         tempProgramInfo.setShortTitle("Expected Total Credits: 50 - 60");
-                        tempProgramInfo.setStatement(parentController.getTestStatement());
+                        //TODO: null pointer exception
+                        if (parentController != null) {
+                            tempProgramInfo.setStatement(parentController.getTestStatement());
+                        }
                         tempRulesList.add(tempProgramInfo);
                         rules.put(stmtType, tempRulesList);
                     }
@@ -120,7 +122,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         SectionTitle title = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
         title.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
         layout.add(title);
-        
+
         //show rules for each program rule type
         Boolean firstHeader = true;
         for (StatementTypeInfo stmtInfo : rules.keySet()) {
@@ -142,8 +144,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         if (!isReadOnly) {
             String addRuleText = ProgramProperties.get().programRequirements_summaryViewPageAddRule().replace("<*>", ruleType);
             KSButton addCompletionReqBtn = new KSButton(addRuleText, KSButtonAbstract.ButtonStyle.FORM_SMALL);
-            addCompletionReqBtn.addClickHandler(new ClickHandler(){
-            public void onClick(ClickEvent event) {
+            addCompletionReqBtn.addClickHandler(new ClickHandler() {
+                public void onClick(ClickEvent event) {
                     showAddRequirementDialog(ruleType);
                 }
             });
@@ -167,26 +169,26 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         String addRuleText = ProgramProperties.get().programRequirements_summaryViewPageAddRule().replace("<*>", ruleType.toLowerCase());
         final KSLightBox dialog = new KSLightBox(addRuleText);
-	    ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.AddCancelEnum.ADD, ButtonEnumerations.AddCancelEnum.CANCEL);        
+        ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.AddCancelEnum.ADD, ButtonEnumerations.AddCancelEnum.CANCEL);
 
-        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-             @Override
+        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
+            @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
-                 if (result == ButtonEnumerations.SearchCancelEnum.CANCEL) {
-                     dialog.hide();
-                 } else {
-                     displayRules();
-                 }
+                if (result == ButtonEnumerations.SearchCancelEnum.CANCEL) {
+                    dialog.hide();
+                } else {
+                    displayRules();
+                }
             }
         });
 
         //TODO need proper dialog here
         VerticalFlowPanel layout = new VerticalFlowPanel();
         //layout.addStyleName("KS-Advanced-Search-Window");
-		layout.add(new KSLabel("TEST"));
-		layout.add(actionCancelButtons);
+        layout.add(new KSLabel("TEST"));
+        layout.add(actionCancelButtons);
 
-      //  dialog.setSize(600,400);
+        //  dialog.setSize(600,400);
         dialog.setWidget(layout);
         dialog.show();
     }
@@ -196,26 +198,26 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         RuleSummaryDisplayWidget ruleSummaryViewWidget =
                 new RuleSummaryDisplayWidget(ruleType, ruleInfo.getShortTitle(), ruleInfo.getDescr().getPlain(), ruleInfo.getStatement(), isReadOnly);
 
-        ruleSummaryViewWidget.addAddRuleButtonClickHandler(new ClickHandler(){
+        ruleSummaryViewWidget.addAddRuleButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                ((ProgramRequirementsManageView)parentController.getView(RequirementsViewController.ProgramRequirementsViews.MANAGE)).setRuleTree(null);
+                ((ProgramRequirementsManageView) parentController.getView(RequirementsViewController.ProgramRequirementsViews.MANAGE)).setRuleTree(null);
                 parentController.showView(RequirementsViewController.ProgramRequirementsViews.MANAGE);
             }
         });
 
-        ruleSummaryViewWidget.addEditButtonClickHandler(new ClickHandler(){
+        ruleSummaryViewWidget.addEditButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                ((ProgramRequirementsManageView)parentController.getView(RequirementsViewController.ProgramRequirementsViews.MANAGE)).setRuleTree(ruleInfo.getStatement());
+                ((ProgramRequirementsManageView) parentController.getView(RequirementsViewController.ProgramRequirementsViews.MANAGE)).setRuleTree(ruleInfo.getStatement());
                 parentController.showView(RequirementsViewController.ProgramRequirementsViews.MANAGE);
             }
         });
 
-        ruleSummaryViewWidget.addDeleteButtonClickHandler(new ClickHandler(){
+        ruleSummaryViewWidget.addDeleteButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog(
                         ProgramProperties.get().programRequirements_summaryViewPageDeleteRuleDialogTitle(),
                         ProgramProperties.get().programRequirements_summaryViewPageDeleteRuleDialogMsg());
-                dialog.getConfirmButton().addClickHandler(new ClickHandler(){
+                dialog.getConfirmButton().addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         //TODO how to delete rule...
