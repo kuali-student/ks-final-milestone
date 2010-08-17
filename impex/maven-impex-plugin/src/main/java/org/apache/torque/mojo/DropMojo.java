@@ -1,107 +1,52 @@
 package org.apache.torque.mojo;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
-import org.apache.maven.plugin.AbstractMojo;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
-import org.kuali.db.OracleDropDatabaseImpl;
 
 /**
  * Drops a database
  * 
  * @goal drop
  */
-public class DropMojo extends AbstractMojo {
-	protected static final String FS = System.getProperty("file.separator");
+public class DropMojo extends AbstractSQLExecutorMojo {
 
 	/**
-	 * When <code>true</code>, skip the execution.
+	 * The schema to drop
 	 * 
-	 * @since 1.0
-	 * @parameter default-value="false"
-	 */
-	private boolean skip;
-
-	/**
-	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
-	 * usually.
-	 * 
-	 * @parameter expression="${forceMorpherExecution}" default-value=false
+	 * @parameter expression="${schema}"
 	 * @required
 	 */
-	private boolean forceMojoExecution;
-
-	/**
-	 * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
-	 */
-	private String encoding;
-
-	/**
-	 * The Maven project this plugin runs in.
-	 * 
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 */
-	private MavenProject project;
+	String schema;
 
 	@Override
 	public void execute() throws MojoExecutionException {
-		if (skipMojo()) {
-			return;
+		Properties properties = new Properties();
+		Map<String, String> environment = System.getenv();
+		for (String key : environment.keySet()) {
+			// properties.put("env." + key, environment.get(key));
 		}
-		OracleDropDatabaseImpl drop = new OracleDropDatabaseImpl();
-		drop.setEncoding(getEncoding());
+		// properties.putAll(project.getProperties());
+		// properties.putAll(System.getProperties());
 		try {
-			drop.drop();
-		} catch (SQLException e) {
-			throw new MojoExecutionException("Error dropping the database", e);
+			Map<?, ?> props = BeanUtils.describe(project);
+			for (Object key : props.keySet()) {
+				getLog().info(key + "=" + props.get(key));
+			}
+		} catch (Exception e) {
+			throw new MojoExecutionException("Error copying properties", e);
 		}
-	}
-
-	/**
-	 * <p>
-	 * Determine if the mojo execution should get skipped.
-	 * </p>
-	 * This is the case if:
-	 * <ul>
-	 * <li>{@link #skip} is <code>true</code></li>
-	 * <li>if the mojo gets executed on a project with packaging type 'pom' and {@link #forceMojoExecution} is
-	 * <code>false</code></li>
-	 * </ul>
-	 * 
-	 * @return <code>true</code> if the mojo execution should be skipped.
-	 */
-	protected boolean skipMojo() {
-		if (skip) {
-			getLog().info("Skip morpher execution");
-			return true;
+		List<String> list = new ArrayList<String>();
+		list.addAll(properties.stringPropertyNames());
+		Collections.sort(list);
+		for (String s : list) {
+			getLog().info(s + "=" + properties.getProperty(s));
 		}
-
-		if (!forceMojoExecution && project != null && "pom".equals(project.getPackaging())) {
-			getLog().info("Skipping execution for project with packaging type 'pom'");
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns the maven project.
-	 * 
-	 * @return The maven project where this plugin runs in.
-	 */
-	public MavenProject getProject() {
-		return project;
-	}
-
-	public String getEncoding() {
-		return encoding;
-	}
-
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
 	}
 
 }
