@@ -41,6 +41,7 @@ public class SQLExecutor {
 	 */
 	public static final String ON_ERROR_CONTINUE = "continue";
 
+	Vector<Transaction> transactions;
 	boolean keepFormat = true;
 	String delimiterType = "row";
 	String delimiter = "/";
@@ -54,6 +55,8 @@ public class SQLExecutor {
 	Statement statement;
 	boolean autocommit = false;
 	boolean escapeProcessing = true;
+	boolean skipOnConnectionError;
+	boolean connectionError;
 	boolean append = false;
 	List<DatabaseListener> listeners = new ArrayList<DatabaseListener>();
 
@@ -128,19 +131,19 @@ public class SQLExecutor {
 		fireMessageLogged(message, MessagePriority.ERROR);
 	}
 
-	public void runSql(String sql) throws SQLException {
+	public void executeSql(String sql) throws SQLException {
 		Transaction transaction = new Transaction();
 		transaction.setSqlCommand(sql);
-		runTransaction(transaction);
+		executeTransaction(transaction);
 	}
 
-	public void runTransaction(Transaction transaction) throws SQLException {
-		Vector<Transaction> transactions = new Vector<Transaction>();
+	public void executeTransaction(Transaction transaction) throws SQLException {
+		this.transactions = new Vector<Transaction>();
 		transactions.add(transaction);
-		runTransactions(transactions);
+		execute();
 	}
 
-	public void runTransactions(Vector<Transaction> transactions) throws SQLException {
+	public void execute() throws SQLException {
 		try {
 			statement = conn.createStatement();
 			statement.setEscapeProcessing(escapeProcessing);
@@ -494,5 +497,37 @@ public class SQLExecutor {
 
 	public void setAppend(boolean append) {
 		this.append = append;
+	}
+
+	public boolean isSkipOnConnectionError() {
+		return skipOnConnectionError;
+	}
+
+	public void setSkipOnConnectionError(boolean skipOnConnectionError) {
+		this.skipOnConnectionError = skipOnConnectionError;
+	}
+
+	public boolean isConnectionError() {
+		return connectionError;
+	}
+
+	public void setConnectionError(boolean connectionError) {
+		this.connectionError = connectionError;
+	}
+
+	public List<DatabaseListener> getListeners() {
+		return listeners;
+	}
+
+	public void setListeners(List<DatabaseListener> listeners) {
+		this.listeners = listeners;
+	}
+
+	public Vector<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(Vector<Transaction> transactions) {
+		this.transactions = transactions;
 	}
 }
