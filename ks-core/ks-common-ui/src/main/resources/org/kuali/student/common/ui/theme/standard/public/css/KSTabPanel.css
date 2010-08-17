@@ -233,7 +233,8 @@
 .KS-TabPanel-Small .KS-TabPanel-Tab-Left{
 	font-size: 14px;
 	text-align: center;
-	width: 9em;
+	padding-left: 2em;
+	padding-right: 2em;
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Right-Panel{
