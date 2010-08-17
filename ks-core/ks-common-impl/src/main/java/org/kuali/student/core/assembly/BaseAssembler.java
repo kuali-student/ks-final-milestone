@@ -34,6 +34,7 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
+@Deprecated
 public abstract class BaseAssembler<TargetType, SourceType> implements Assembler<TargetType, SourceType> {
     protected final Logger LOG = Logger.getLogger(getClass());
 

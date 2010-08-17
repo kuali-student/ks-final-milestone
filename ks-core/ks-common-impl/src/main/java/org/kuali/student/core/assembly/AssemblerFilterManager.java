@@ -32,7 +32,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-
+@Deprecated
 public class AssemblerFilterManager<TargetType, SourceType> implements Assembler<TargetType, SourceType> {
 
 	private List<AssemblerFilter<TargetType, SourceType>> filters = new ArrayList<AssemblerFilter<TargetType, SourceType>>();
