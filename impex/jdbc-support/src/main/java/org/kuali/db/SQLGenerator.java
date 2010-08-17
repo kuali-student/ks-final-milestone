@@ -14,7 +14,7 @@ import org.springframework.util.PropertyPlaceholderHelper;
  * 
  *
  */
-public class DefaultSQLGenerator {
+public class SQLGenerator {
 	PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}");
 	JDBCUtils jdbcUtils = new JDBCUtils();
 	DefaultResourceLoader loader = new DefaultResourceLoader();
@@ -23,11 +23,11 @@ public class DefaultSQLGenerator {
 	String url;
 	DatabaseCommand command;
 
-	public DefaultSQLGenerator() {
+	public SQLGenerator() {
 		this(null, null, null);
 	}
 
-	public DefaultSQLGenerator(Properties properties, String url, DatabaseCommand command) {
+	public SQLGenerator(Properties properties, String url, DatabaseCommand command) {
 		super();
 		this.properties = properties;
 		this.url = url;

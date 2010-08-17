@@ -18,10 +18,6 @@ public class JDBCConfiguration {
 	DatabaseType type;
 	String urlFragment;
 	String driver;
-	String customProperties;
-	String dropSql;
-	String createSql;
-
 	public DatabaseType getType() {
 		return type;
 	}
@@ -44,29 +40,5 @@ public class JDBCConfiguration {
 
 	public void setDriver(String driver) {
 		this.driver = driver;
-	}
-
-	public String getCustomProperties() {
-		return customProperties;
-	}
-
-	public void setCustomProperties(String customProperties) {
-		this.customProperties = customProperties;
-	}
-
-	public String getDropSql() {
-		return dropSql;
-	}
-
-	public void setDropSql(String dropSql) {
-		this.dropSql = dropSql;
-	}
-
-	public String getCreateSql() {
-		return createSql;
-	}
-
-	public void setCreateSql(String createSql) {
-		this.createSql = createSql;
 	}
 }
