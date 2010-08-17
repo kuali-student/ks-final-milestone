@@ -1673,4 +1673,8 @@
 		</property>
 	</bean>
 
+    <bean id="majorDisciplineInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.divisionsContentOwner" />
+	</bean>
+
 </beans>

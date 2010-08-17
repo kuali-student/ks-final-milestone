@@ -1,6 +1,7 @@
 package org.kuali.student.lum.program.client.edit;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -25,10 +26,17 @@ public class ProgramInformationEditConfiguration extends AbstractConfiguration<P
 
     private void createView() {
         mainView = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
-        mainView.addSection(createKeyProgramInformationSection());
-        mainView.addSection(createProgramTitleSection());
-        mainView.addSection(createDatesSection());
-        mainView.addSection(createOtherInformationSection());
+        HorizontalSection horizontalSection = new HorizontalSection();
+        VerticalSection leftSection = new VerticalSection();
+        leftSection.addSection(createKeyProgramInformationSection());
+        leftSection.addSection(createProgramTitleSection());
+        leftSection.addSection(createDatesSection());
+        leftSection.addSection(createOtherInformationSection());
+        VerticalSection rightSection = new VerticalSection();
+        rightSection.addSection(createReadOnlySection());
+        horizontalSection.addSection(leftSection);
+        horizontalSection.addSection(rightSection);
+        mainView.addSection(horizontalSection);
     }
 
     private VerticalSection createKeyProgramInformationSection() {
@@ -53,7 +61,7 @@ public class ProgramInformationEditConfiguration extends AbstractConfiguration<P
         configurer.addField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
         configurer.addField(section, ProgramConstants.ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
         configurer.addField(section, ProgramConstants.ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
-        configurer.addField(section, ProgramConstants.ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
+        configurer.addField(section, ProgramConstants.END_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
         configurer.addField(section, ProgramConstants.APPROVAL_DATE, new MessageKeyInfo(ProgramProperties.get().programInformation_approvalDate()));
         return section;
     }
@@ -63,6 +71,14 @@ public class ProgramInformationEditConfiguration extends AbstractConfiguration<P
         configurer.addField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()));
         configurer.addField(section, ProgramConstants.CIP_2000, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2000()));
         configurer.addField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()));
+        return section;
+    }
+
+    private VerticalSection createReadOnlySection() {
+        VerticalSection section = new VerticalSection();
+        configurer.addReadOnlyField(section, ProgramConstants.INSTITUTION, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
+        configurer.addReadOnlyField(section, ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
         return section;
     }
 }

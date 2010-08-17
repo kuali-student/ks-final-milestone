@@ -65,7 +65,7 @@ public class ProgramInformationViewConfiguration extends AbstractConfiguration<P
         configurer.addReadOnlyField(section, ProgramConstants.ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
         configurer.addReadOnlyField(section, ProgramConstants.ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
         configurer.addReadOnlyField(section, ProgramConstants.END_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
-        configurer.addReadOnlyField(section, ProgramConstants.APPROVAL_DATE, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.APPROVAL_DATE, new MessageKeyInfo(ProgramProperties.get().programInformation_approvalDate()));
         return section;
     }
 
