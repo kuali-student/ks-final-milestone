@@ -15,14 +15,19 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
@@ -33,7 +38,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
 
-    ProgramService programService;
+    private LuService luService;
     private ProgramAssemblerUtils programAssemblerUtils;
     private CluAssemblerUtils cluAssemblerUtils;
 
@@ -45,27 +50,78 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         CoreProgramInfo cpInfo = (null != coreProgram) ? coreProgram : new CoreProgramInfo();
 
         // Copy all the data from the clu to the coreprogram
-
         programAssemblerUtils.assembleBasics(clu, cpInfo);
         programAssemblerUtils.assembleIdentifiers(clu, cpInfo);
         programAssemblerUtils.assembleAdminOrgs(clu, cpInfo);
         programAssemblerUtils.assembleAtps(clu, cpInfo);
+        programAssemblerUtils.assembleLuCodes(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, cpInfo);
 
         cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
 
+        cpInfo.setDescr(clu.getDescr());
+        
         return cpInfo;
     }
 
     @Override
-    public BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> disassemble(CoreProgramInfo businessDTO, NodeOperation operation) throws AssemblyException {
-        return null;
+    public BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> disassemble(CoreProgramInfo core, NodeOperation operation) throws AssemblyException {
+    	BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> result = new BaseDTOAssemblyNode<CoreProgramInfo, CluInfo>(this);
+    	
+    	if (core == null) {
+			// FIXME Unsure now if this is an exception or just return null or
+			// empty assemblyNode
+		    LOG.error("CoreProgram to disassemble is null!");
+			throw new AssemblyException("CoreProgram can not be null");
+		}
+
+		CluInfo clu;
+		try {
+			clu = (NodeOperation.UPDATE == operation) ? luService.getClu(core.getId()) : new CluInfo();
+        } catch (Exception e) {
+			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
+        } 
+        
+        programAssemblerUtils.disassembleBasics(clu, core, operation);
+        if (core.getId() == null)
+        	core.setId(clu.getId());
+        programAssemblerUtils.disassembleIdentifiers(clu, core, operation);
+        programAssemblerUtils.disassembleAdminOrgs(clu, core, operation);
+        programAssemblerUtils.disassembleAtps(clu, core, operation);    
+        programAssemblerUtils.disassembleLuCodes(clu, core, operation);
+        programAssemblerUtils.disassemblePublicationInfo(clu, core, operation);
+        programAssemblerUtils.disassembleRequirements(clu, core, operation);
+        
+        if (core.getLearningObjectives() != null) {
+            disassembleLearningObjectives(core, operation, result);
+        }
+        
+        clu.setDescr(core.getDescr());
+        
+		// Add the Clu to the result
+		result.setNodeData(clu);
+		result.setOperation(operation);
+		result.setBusinessDTORef(core);
+		return result;
+
     }
 
+    private void disassembleLearningObjectives(CoreProgramInfo core, NodeOperation operation, BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> result) throws AssemblyException {
+        try {
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(core.getId(), core.getState(),  core.getLearningObjectives(), operation);
+            if (loResults != null) {
+                result.getChildNodes().addAll(loResults);
+            }
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Error while disassembling los", e);
+        }
+    }
+    
     // Spring setter
-    public void setProgramService(ProgramService programService) {
-        this.programService = programService;
+    public void setLuService(LuService luService) {
+        this.luService = luService;
     }
 
     public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
