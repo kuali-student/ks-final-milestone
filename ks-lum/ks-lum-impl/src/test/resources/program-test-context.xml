@@ -506,6 +506,7 @@
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luServiceImpl"/>
+        <property name="loService" ref="loServiceImpl"/>
     </bean>
 
     <bean id="cluAssemblerUtils"

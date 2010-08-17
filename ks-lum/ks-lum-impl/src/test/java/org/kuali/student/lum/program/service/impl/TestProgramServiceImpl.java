@@ -60,13 +60,13 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testCreateMajorDiscipline() {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo major;
         try {
             assertNotNull(major = mdGenerator.getMajorDisciplineInfoTestData());
 
+//            major.setVariations(null);
 //            major.setLearningObjectives(null);
 //            major.setResultOptions(null);
 //            for (ProgramVariationInfo variationInfo : major.getVariations()) {
@@ -74,9 +74,162 @@ public class TestProgramServiceImpl {
 //                variationInfo.setResultOptions(null);
 //            }
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(major);
+
             assertNotNull(createdMD);
+
+            assertNotNull(createdMD.getId());
+
+            assertNotNull(createdMD.getState());
             assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
+            
+            assertNotNull(createdMD.getType());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
+
+            assertNotNull(createdMD.getIntensity());
+            assertEquals("intensity-test", createdMD.getIntensity());
+            assertNotNull(createdMD.getReferenceURL());
+            assertEquals("referenceURL-test", createdMD.getReferenceURL());
+
+            assertEquals(2, createdMD.getPublishedInstructors().size());
+            assertEquals("personId-test", createdMD.getPublishedInstructors().get(0).getPersonId());
+
+            assertNotNull(createdMD.getCredentialProgramId());
+            assertEquals("00F5F8C5-FFF1-4C8B-92FC-789B891E0849", createdMD.getCredentialProgramId());
+
+            assertNotNull(createdMD.getVariations());
+            assertTrue(createdMD.getVariations().size() == 2);
+            assertNotNull(createdMD.getVariations().get(0).getId());
+            assertNotNull(createdMD.getVariations().get(1).getId());
+            assertEquals("kuali.lu.type.Variation", createdMD.getVariations().get(0).getType());
+            assertEquals("kuali.lu.type.Variation", createdMD.getVariations().get(1).getType());
+
+            assertNotNull(createdMD.getCode());
+//TODO            assertEquals("ANTH", createdMD.getCode());
+
+            assertNotNull(createdMD.getCip2000Code());
+            assertEquals(createdMD.getCip2000Code(), "cip2000Code-test");
+            assertNotNull(createdMD.getCip2010Code());
+            assertEquals(createdMD.getCip2010Code(), "cip2010Code-test");
+            assertNotNull(createdMD.getHegisCode());
+            assertEquals(createdMD.getHegisCode(), "hegisCode-test");
+            assertNotNull(createdMD.getUniversityClassification());
+            assertEquals(createdMD.getUniversityClassification(), "universityClassification-test");
+            assertNotNull(createdMD.getSelectiveEnrollmentCode());
+            assertEquals(createdMD.getSelectiveEnrollmentCode(), "selectiveEnrollmentCode-test");
+
+            assertNotNull(createdMD.getResultOptions());
+            assertTrue(createdMD.getResultOptions().size() == 2);
+            assertEquals("resultOptions-test", createdMD.getResultOptions().get(0));
+
+            assertNotNull(createdMD.getStdDuration());
+            assertEquals("atpDurationTypeKey-test", createdMD.getStdDuration().getAtpDurationTypeKey());
+            assertEquals(new Integer(63), createdMD.getStdDuration().getTimeQuantity());
+
+            assertNotNull(createdMD.getStartTerm());
+            assertEquals("startTerm-test", createdMD.getStartTerm());
+            assertNotNull(createdMD.getEndTerm());
+            assertEquals("endTerm-test", createdMD.getEndTerm());
+            assertNotNull(createdMD.getEndProgramEntryTerm());
+            assertEquals("endProgramEntryTerm-test", createdMD.getEndProgramEntryTerm());
+            assertNotNull(createdMD.getNextReviewPeriod());
+            assertEquals("nextReviewPeriod-test", createdMD.getNextReviewPeriod());
+
+            assertNotNull(createdMD.getEffectiveDate());
+            //TODO effectiveDate
+//            Calendar effectiveDate = GregorianCalendar.getInstance();
+//            effectiveDate.set(1984, 7, 1, 0, 0, 0);
+//            Date testDate = new Date(effectiveDate.getTimeInMillis());
+//            assertTrue(createdMD.getEffectiveDate().compareTo(testDate) == 0);
+
+            assertNotNull(createdMD.getShortTitle());
+            assertEquals("shortTitle-test", createdMD.getShortTitle());
+            assertNotNull(createdMD.getLongTitle());
+            assertEquals("longTitle-test", createdMD.getLongTitle());
+            assertNotNull(createdMD.getTranscriptTitle());
+            assertEquals(createdMD.getTranscriptTitle(), "transcriptTitle-test");
+            assertNotNull(createdMD.getDiplomaTitle());
+            assertEquals(createdMD.getDiplomaTitle(), "diplomaTitle-test");
+            assertNotNull(createdMD.getDescr());
+            assertEquals("plain-test", createdMD.getDescr().getPlain());
+            assertEquals("formatted-test", createdMD.getDescr().getFormatted());
+
+            //TODO catalog pub targets
+
+            assertNotNull(createdMD.getCatalogDescr());
+            assertEquals("plain-test", createdMD.getCatalogDescr().getPlain());
+            assertEquals("formatted-test", createdMD.getCatalogDescr().getFormatted());
+
+            assertNotNull(createdMD.getCatalogPublicationTargets());
+            assertTrue(createdMD.getCatalogPublicationTargets().size() == 2);
+            assertEquals("catalogPublicationTargets-test", createdMD.getCatalogPublicationTargets().get(0));
+
+            assertNotNull(createdMD.getLearningObjectives());
+            assertTrue(createdMD.getLearningObjectives().size() == 2);
+            assertEquals("plain-test", createdMD.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
+
+            assertNotNull(createdMD.getCampusLocations());
+            assertTrue(createdMD.getCampusLocations().size() == 2);
+            assertEquals("SOUTH", createdMD.getCampusLocations().get(0));
+            assertEquals("NORTH", createdMD.getCampusLocations().get(1));
+
+            assertNotNull(createdMD.getOrgCoreProgram());
+            assertEquals("default.temp.type", createdMD.getOrgCoreProgram().getType());
+// TODO           assertEquals("00F5F8C5-FFF1-4C8B-92FC-789B891E0849", createdMD.getOrgCoreProgram().getId());
+            //TODO progr requirements
+
+            assertNotNull(createdMD.getProgramRequirements());
+            assertTrue(createdMD.getProgramRequirements().size() == 2);
+            assertEquals("programRequirements-test", createdMD.getProgramRequirements().get(0));
+
+            assertNotNull(createdMD.getAccreditingAgencies());
+            assertTrue(createdMD.getAccreditingAgencies().size() == 2);
+            assertEquals("orgId-test", createdMD.getAccreditingAgencies().get(0).getOrgId());
+
+            assertNotNull(createdMD.getDivisionsContentOwner());
+            assertTrue(createdMD.getDivisionsContentOwner().size() == 4);
+            assertEquals(createdMD.getDivisionsContentOwner().get(0).getType(), "kuali.adminOrg.type.ContentOwnerDivision");
+            assertNotNull(createdMD.getDivisionsStudentOversight());
+            assertTrue(createdMD.getDivisionsStudentOversight().size() == 4);
+            assertEquals(createdMD.getDivisionsStudentOversight().get(0).getType(), "kuali.adminOrg.type.StudentOversightDivision");
+            assertNotNull(createdMD.getDivisionsDeployment());
+            assertTrue(createdMD.getDivisionsDeployment().size() == 2);
+            assertEquals(createdMD.getDivisionsDeployment().get(0).getType(), "default.temp.type");
+            assertNotNull(createdMD.getDivisionsFinancialResources());
+            assertTrue(createdMD.getDivisionsFinancialResources().size() == 2);
+            assertEquals(createdMD.getDivisionsFinancialResources().get(0).getType(), "default.temp.type");
+            assertNotNull(createdMD.getDivisionsFinancialControl());
+            assertTrue(createdMD.getDivisionsFinancialControl().size() == 2);
+            assertEquals(createdMD.getDivisionsFinancialControl().get(0).getType(), "default.temp.type");
+
+            assertNotNull(createdMD.getUnitsContentOwner());
+            assertTrue(createdMD.getUnitsContentOwner().size() == 4);
+            assertEquals(createdMD.getUnitsContentOwner().get(0).getType(), "kuali.adminOrg.type.ContentOwnerUnit");
+            assertNotNull(createdMD.getUnitsStudentOversight());
+            assertTrue(createdMD.getUnitsStudentOversight().size() == 4);
+            assertEquals(createdMD.getUnitsStudentOversight().get(1).getType(), "kuali.adminOrg.type.StudentOversightUnit");
+            assertNotNull(createdMD.getUnitsDeployment());
+            assertTrue(createdMD.getUnitsDeployment().size() == 2);
+            assertEquals(createdMD.getUnitsDeployment().get(0).getType(), "default.temp.type");
+            assertNotNull(createdMD.getUnitsFinancialResources());
+            assertTrue(createdMD.getUnitsFinancialResources().size() == 2);
+            assertEquals(createdMD.getUnitsFinancialResources().get(0).getType(), "default.temp.type");
+            assertNotNull(createdMD.getUnitsFinancialControl());
+            assertTrue(createdMD.getUnitsFinancialControl().size() == 2);
+            assertEquals(createdMD.getUnitsFinancialControl().get(0).getType(), "default.temp.type");
+
+            assertNotNull(createdMD.getAttributes());
+            assertTrue(createdMD.getAttributes().size() ==2);
+            assertEquals("attributes-1", createdMD.getAttributes().get("attributes-1"));
+            assertEquals("attributes-2", createdMD.getAttributes().get("attributes-2"));
+
+            assertNotNull(createdMD.getMetaInfo());
+            assertEquals("0", createdMD.getMetaInfo().getVersionInd());
+           //TODO createTime
+//            Calendar createTime = GregorianCalendar.getInstance();
+//            createTime.set(2009, 4, 7, 12, 5, 36);
+//            testDate = new Date(createTime.getTimeInMillis());
+//            assertTrue(createdMD.getEffectiveDate().compareTo(testDate) == 0);
+
         } catch (Exception e) {
             fail(e.getMessage());
         }

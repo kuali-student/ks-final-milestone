@@ -65,12 +65,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
         programAssemblerUtils.assembleRequirements(clu, mdInfo);
 
-        mdInfo.setCredentialProgramId(programAssemblerUtils.assembleCredentialProgramIDs(clu.getId(), ProgramAssemblerConstants.HAS_MAJOR_PROGRAM));
-        mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
-        mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
-        mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
-        mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
-
         mdInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         mdInfo.setStdDuration(clu.getStdDuration());
         mdInfo.setPublishedInstructors(clu.getInstructors());
@@ -79,6 +73,14 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setEffectiveDate(clu.getEffectiveDate());
         mdInfo.setDescr(clu.getDescr());
 
+        if (!shallowBuild) {
+            mdInfo.setCredentialProgramId(programAssemblerUtils.assembleCredentialProgramIDs(clu.getId(), ProgramAssemblerConstants.HAS_MAJOR_PROGRAM));
+            mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
+            mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+            mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
+            mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
+        }
+        
        return mdInfo;
     }
 
@@ -154,7 +156,9 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 		    LOG.error("Major for  disassemble is null!");
 			throw new AssemblyException("Major cannot be null");
 		}
-    	
+
+        //TODO   IDs for objects w/o ids
+
 		BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result = new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>(
 				this);
 		
@@ -184,11 +188,9 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         if (major.getCredentialProgramId() != null) {
             disassembleCredentialProgram(major, operation, result);
         }
-
         if (major.getResultOptions() != null) {
-            disassembleResultOptions(major, operation, result);           
+            disassembleResultOptions(major, operation, result);
         }
-
         if (major.getLearningObjectives() != null) {
             disassembleLearningObjectives(major, operation, result);
         }
@@ -206,9 +208,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         clu.setDescr(major.getDescr());
 
         //TODO programRequirements
-//        clu.setAccreditations(major.getAccreditingAgencies());
-
-
+        clu.setAccreditations(major.getAccreditingAgencies());
 
 		// Add the Clu to the result
 		result.setNodeData(clu);
