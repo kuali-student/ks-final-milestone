@@ -101,7 +101,7 @@ public class DictionaryTesterHelper
   out.println ("DO NOT UPDATE MANUALLY!");
   out.println ("");
   out.print ("This page represents a formatted view of [" + dictFileName
-             + "|https://test.kuali.org/svn/student/trunk/ks-lum/ks-lum-impl/src/main/resources/"
+             + "|https://test.kuali.org/svn/student/trunk/ks-core/ks-core-impl/src/main/resources/"
              + dictFileName + "]");
   out.println (
     " and is compared to following DTOs and thier sub-DTO's for discrepancies:");
