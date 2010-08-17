@@ -1,5 +1,5 @@
 -- Create a user, give them a password and set a quota for the default tablespace
-CREATE USER ${oracle.username} 
+CREATE USER ${database} 
 IDENTIFIED BY ${oracle.password} 
 DEFAULT TABLESPACE ${oracle.tablespace.default} 
 TEMPORARY TABLESPACE ${oracle.tablespace.temporary} 
@@ -15,5 +15,5 @@ GRANT CREATE PROCEDURE
   , CREATE TRIGGER
   , CREATE TYPE
   , CREATE VIEW 
-TO ${oracle.username}
+TO ${database}
 /
