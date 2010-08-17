@@ -156,6 +156,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
             //Course Content
                 layout.addMenuItem(sections, generateCourseInfoSection());
+                layout.addMenuItem(sections, generateGovernanceSection());
                 layout.addMenuItem(sections, generateCourseLogisticsSection());
                 layout.addMenuItem(sections, generateLearningObjectivesSection());
 
@@ -163,7 +164,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 //TODO layout.addMenuItem(sections, generateCourseRequisitesSection());
 
             //Administrative
-                layout.addMenuItem(sections, generateGovernanceSection());
                 layout.addMenuItem(sections, generateActiveDatesSection());
                 //TODO layout.addMenuItem(sections, generateFinancialsSection());
         }
