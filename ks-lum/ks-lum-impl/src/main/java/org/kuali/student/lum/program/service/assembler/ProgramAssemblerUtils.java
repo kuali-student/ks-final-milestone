@@ -488,25 +488,25 @@ public class ProgramAssemblerUtils {
 
         //TODO check for existing admin orgs for type for UPDATE op
     	List<AdminOrgInfo> orgs  = getAdminOrgsFromProgram(t, "getDivisionsContentOwner");
-  		clu.getAdminOrgs().addAll(orgs);
+  		if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getDivisionsStudentOversight");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getDivisionsDeployment");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getDivisionsFinancialResources");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getDivisionsFinancialControl");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getUnitsContentOwner");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getUnitsStudentOversight");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getUnitsDeployment");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getUnitsFinancialResources");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
     	orgs = getAdminOrgsFromProgram(t, "getUnitsFinancialControl");
-   		clu.getAdminOrgs().addAll(orgs);
+    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
 
         return clu;
 
