@@ -34,6 +34,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -397,15 +398,20 @@ public class ProgramAssemblerUtils {
          }
         //TODO check for existing LuCodes of same type    for UPDATE op
          LuCodeInfo code = buildLuCodeFromProgram(o, "getCip2000Code", ProgramAssemblerConstants.CIP_2000);
-         clu.getLuCodes().add(code);
+         if (code != null)
+             clu.getLuCodes().add(code);
          code = buildLuCodeFromProgram( o, "getCip2010Code", ProgramAssemblerConstants.CIP_2010);
-         clu.getLuCodes().add(code);
+         if (code != null)
+             clu.getLuCodes().add(code);
          code = buildLuCodeFromProgram( o, "getHegisCode", ProgramAssemblerConstants.HEGIS);
-         clu.getLuCodes().add(code);
+         if (code != null)
+             clu.getLuCodes().add(code);
          code = buildLuCodeFromProgram( o, "getUniversityClassification", ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION);
-         clu.getLuCodes().add(code);
+         if (code != null)
+             clu.getLuCodes().add(code);
          code = buildLuCodeFromProgram( o, "getSelectiveEnrollmentCode", ProgramAssemblerConstants.SELECTIVE_ENROLLMENT);
-         clu.getLuCodes().add(code);
+         if (code != null)
+             clu.getLuCodes().add(code);
 
         return clu;
 
@@ -835,6 +841,7 @@ public class ProgramAssemblerUtils {
                 code = new LuCodeInfo();
                 code.setType(codeType);
                 code.setValue(value);
+                code.setAttributes(new HashMap<String, String>());
             }
 
         } catch (NoSuchMethodException e) {

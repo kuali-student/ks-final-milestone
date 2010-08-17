@@ -173,7 +173,7 @@ public class TestProgramServiceImpl {
             assertEquals("NORTH", createdMD.getCampusLocations().get(1));
 
             assertNotNull(createdMD.getOrgCoreProgram());
-            assertEquals("default.temp.type", createdMD.getOrgCoreProgram().getType());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdMD.getOrgCoreProgram().getType());
 // TODO           assertEquals("00F5F8C5-FFF1-4C8B-92FC-789B891E0849", createdMD.getOrgCoreProgram().getId());
             //TODO progr requirements
 
@@ -187,35 +187,35 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getDivisionsContentOwner());
             assertTrue(createdMD.getDivisionsContentOwner().size() == 4);
-            assertEquals(createdMD.getDivisionsContentOwner().get(0).getType(), "kuali.adminOrg.type.ContentOwnerDivision");
+            assertEquals(createdMD.getDivisionsContentOwner().get(0).getType(), ProgramAssemblerConstants.CONTENT_OWNER_DIVISION);
             assertNotNull(createdMD.getDivisionsStudentOversight());
             assertTrue(createdMD.getDivisionsStudentOversight().size() == 4);
-            assertEquals(createdMD.getDivisionsStudentOversight().get(0).getType(), "kuali.adminOrg.type.StudentOversightDivision");
+            assertEquals(createdMD.getDivisionsStudentOversight().get(0).getType(), ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION);
             assertNotNull(createdMD.getDivisionsDeployment());
-            assertTrue(createdMD.getDivisionsDeployment().size() == 2);
-            assertEquals(createdMD.getDivisionsDeployment().get(0).getType(), "default.temp.type");
+            assertTrue(createdMD.getDivisionsDeployment().size() == 4);
+            assertEquals(createdMD.getDivisionsDeployment().get(0).getType(), ProgramAssemblerConstants.DEPLOYMENT_DIVISION);
             assertNotNull(createdMD.getDivisionsFinancialResources());
-            assertTrue(createdMD.getDivisionsFinancialResources().size() == 2);
-            assertEquals(createdMD.getDivisionsFinancialResources().get(0).getType(), "default.temp.type");
+            assertTrue(createdMD.getDivisionsFinancialResources().size() == 4);
+            assertEquals(createdMD.getDivisionsFinancialResources().get(0).getType(), ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION);
             assertNotNull(createdMD.getDivisionsFinancialControl());
-            assertTrue(createdMD.getDivisionsFinancialControl().size() == 2);
-            assertEquals(createdMD.getDivisionsFinancialControl().get(0).getType(), "default.temp.type");
+            assertTrue(createdMD.getDivisionsFinancialControl().size() == 4);
+            assertEquals(createdMD.getDivisionsFinancialControl().get(0).getType(), ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION);
 
             assertNotNull(createdMD.getUnitsContentOwner());
             assertTrue(createdMD.getUnitsContentOwner().size() == 4);
-            assertEquals(createdMD.getUnitsContentOwner().get(0).getType(), "kuali.adminOrg.type.ContentOwnerUnit");
+            assertEquals(createdMD.getUnitsContentOwner().get(0).getType(), ProgramAssemblerConstants.CONTENT_OWNER_UNIT);
             assertNotNull(createdMD.getUnitsStudentOversight());
             assertTrue(createdMD.getUnitsStudentOversight().size() == 4);
-            assertEquals(createdMD.getUnitsStudentOversight().get(1).getType(), "kuali.adminOrg.type.StudentOversightUnit");
+            assertEquals(createdMD.getUnitsStudentOversight().get(1).getType(), ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT);
             assertNotNull(createdMD.getUnitsDeployment());
-            assertTrue(createdMD.getUnitsDeployment().size() == 2);
-            assertEquals(createdMD.getUnitsDeployment().get(0).getType(), "default.temp.type");
+            assertTrue(createdMD.getUnitsDeployment().size() == 4);
+            assertEquals(createdMD.getUnitsDeployment().get(0).getType(), ProgramAssemblerConstants.DEPLOYMENT_UNIT);
             assertNotNull(createdMD.getUnitsFinancialResources());
-            assertTrue(createdMD.getUnitsFinancialResources().size() == 2);
-            assertEquals(createdMD.getUnitsFinancialResources().get(0).getType(), "default.temp.type");
+            assertTrue(createdMD.getUnitsFinancialResources().size() == 4);
+            assertEquals(createdMD.getUnitsFinancialResources().get(0).getType(), ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT);
             assertNotNull(createdMD.getUnitsFinancialControl());
-            assertTrue(createdMD.getUnitsFinancialControl().size() == 2);
-            assertEquals(createdMD.getUnitsFinancialControl().get(0).getType(), "default.temp.type");
+            assertTrue(createdMD.getUnitsFinancialControl().size() == 4);
+            assertEquals(createdMD.getUnitsFinancialControl().get(0).getType(), ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT);
 
             assertNotNull(createdMD.getAttributes());
             assertTrue(createdMD.getAttributes().size() ==2);
