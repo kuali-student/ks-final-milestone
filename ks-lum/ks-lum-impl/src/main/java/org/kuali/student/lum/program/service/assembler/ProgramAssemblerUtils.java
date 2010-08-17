@@ -16,12 +16,14 @@
 package org.kuali.student.lum.program.service.assembler;
 
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
@@ -127,13 +129,15 @@ public class ProgramAssemblerUtils {
          Object[] value;
 
          try 	{
-             //TODO Special logic to handle credentialProgramType field of credentialProgramInfo? Or can we just rename the field as <type>?
 
+             try {
+                 method = o.getClass().getMethod("getType", null);
+                 String type = (String)method.invoke(o, null);
+                 clu.setType(type);
 
-
-             method = o.getClass().getMethod("getType", null);
-             String type = (String)method.invoke(o, null);
-             clu.setType(type);
+             } catch (NoSuchMethodException nsme) {
+                 // CredentialProgramInfo has "credentialprogramType" rather than "type"
+             }
 
              method = o.getClass().getMethod("getId", null);
              String id = (String)method.invoke(o, null);
@@ -152,14 +156,9 @@ public class ProgramAssemblerUtils {
              clu.setAttributes(attr);
 
          }
-         catch (IllegalAccessException   e){
-             throw new AssemblyException("Error disassembling program basics", e);
-         }
-         catch (InvocationTargetException e){
-             throw new AssemblyException("Error disassembling program basics", e);
-         }
-         catch (NoSuchMethodException e)
-         {
+         catch (IllegalAccessException   e){               }
+         catch (InvocationTargetException e){             }
+         catch (NoSuchMethodException e)            {
              throw new AssemblyException("Error disassembling program basics", e);
          }
 
@@ -397,15 +396,15 @@ public class ProgramAssemblerUtils {
              clu.setLuCodes(new ArrayList<LuCodeInfo>());
          }
         //TODO check for existing LuCodes of same type    for UPDATE op
-         LuCodeInfo code = buildLuCodeFromProgram(clu, o, "getCip2000Code", ProgramAssemblerConstants.CIP_2000);
+         LuCodeInfo code = buildLuCodeFromProgram(o, "getCip2000Code", ProgramAssemblerConstants.CIP_2000);
          clu.getLuCodes().add(code);
-         code = buildLuCodeFromProgram(clu, o, "getCip2010Code", ProgramAssemblerConstants.CIP_2010);
+         code = buildLuCodeFromProgram( o, "getCip2010Code", ProgramAssemblerConstants.CIP_2010);
          clu.getLuCodes().add(code);
-         code = buildLuCodeFromProgram(clu, o, "getHegisCode", ProgramAssemblerConstants.HEGIS);
+         code = buildLuCodeFromProgram( o, "getHegisCode", ProgramAssemblerConstants.HEGIS);
          clu.getLuCodes().add(code);
-         code = buildLuCodeFromProgram(clu, o, "getUniversityClassification", ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION);
+         code = buildLuCodeFromProgram( o, "getUniversityClassification", ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION);
          clu.getLuCodes().add(code);
-         code = buildLuCodeFromProgram(clu, o, "getSelectiveEnrollmentCode", ProgramAssemblerConstants.SELECTIVE_ENROLLMENT);
+         code = buildLuCodeFromProgram( o, "getSelectiveEnrollmentCode", ProgramAssemblerConstants.SELECTIVE_ENROLLMENT);
          clu.getLuCodes().add(code);
 
         return clu;
@@ -525,7 +524,6 @@ public class ProgramAssemblerUtils {
         try{
             List<CluResultInfo> cluResults = luService.getCluResultByClu(cluId);
 
-            //TODO Just one result type here?
             resultOptions = cluAssemblerUtils.assembleCluResults(resultType, cluResults);
 
         } catch (DoesNotExistException e){
@@ -633,14 +631,9 @@ public class ProgramAssemblerUtils {
             clu.setLastAdmitAtp(value);
 
         }
-        catch (IllegalAccessException   e){
-            throw new AssemblyException("Error disassembling program basics", e);
-        }
-        catch (InvocationTargetException e){
-            throw new AssemblyException("Error disassembling program basics", e);
-        }
-        catch (NoSuchMethodException e)
-        {
+        catch (IllegalAccessException   e){          }
+        catch (InvocationTargetException e){         }
+        catch (NoSuchMethodException e)             {
             throw new AssemblyException("Error disassembling program basics", e);
         }
 
@@ -755,12 +748,12 @@ public class ProgramAssemblerUtils {
         } catch (Exception e) {
             throw new AssemblyException(e);
         }
-        // Can a MajorDiscipline have more than one Credential Program?
+        // Can a Program have more than one Credential Program?
         // TODO - do we need to validate that?
         if (null == credentialProgramIDs || credentialProgramIDs.size() == 0) {
-            throw new AssemblyException("MajorDiscipline with ID == " + cluId + " has no Credential Program associated with it.");
+            throw new AssemblyException("Program with ID == " + cluId + " has no Credential Program associated with it.");
         } else if (credentialProgramIDs.size() > 1) {
-            throw new AssemblyException("MajorDiscipline with ID == " + cluId + " has more than one Credential Program associated with it.");
+            throw new AssemblyException("Program with ID == " + cluId + " has more than one Credential Program associated with it.");
         }
 
         if (credentialProgramIDs == null || credentialProgramIDs.isEmpty()) {
@@ -771,13 +764,67 @@ public class ProgramAssemblerUtils {
         }
     }
 
-    //TODO     disassembleCredentialProgramId
-    public CluInfo disassembleCredentialProgramId(CluInfo clu, Object o, NodeOperation operation) throws AssemblyException {
 
-        return clu;
+    /**
+     * Copy credential program id value from program to clu
+     *
+     * @param clu
+     * @param o
+     * @param operation
+     * @return
+     * @throws AssemblyException
+     */
+     public List<BaseDTOAssemblyNode<?,?>>  disassembleCredentialProgram(Object o, NodeOperation operation, String relationType) throws AssemblyException {
+
+        List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
+        CluInfo credentialClu = null;
+
+        Method  method = null;
+        String cluId = null;
+        String credentialId = null;
+        String state = null;
+        try {
+            method = o.getClass().getMethod("getCredentialProgramId", null);
+            credentialId = (String)method.invoke(o, null);
+
+            method = o.getClass().getMethod("getId", null);
+            cluId = (String)method.invoke(o, null);
+
+            method = o.getClass().getMethod("getState", null);
+            state = (String)method.invoke(o, null);
+
+        } catch (NoSuchMethodException e) {
+        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException e) {
+            throw new AssemblyException("Error disassembling program credential", e);
+        }
+
+        try {
+            credentialClu = luService.getClu(credentialId);
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Credential Clu does not exist for " + credentialId);
+        }
+
+        //TODO checks for update and delete
+
+        CluCluRelationInfo relation = new CluCluRelationInfo();
+        relation.setCluId(cluId);
+        relation.setRelatedCluId(credentialId);
+        relation.setType(relationType);
+        relation.setState(state);
+
+        BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+                null);
+        relationNode.setNodeData(relation);
+        relationNode.setOperation(NodeOperation.CREATE);
+
+        results.add(relationNode);
+
+        return results;
     }
 
-    private LuCodeInfo buildLuCodeFromProgram(CluInfo clu, Object o, String methodName, String codeType) throws AssemblyException {
+    private LuCodeInfo buildLuCodeFromProgram(Object o, String methodName, String codeType) throws AssemblyException {
 
         LuCodeInfo code = null;
         try {
@@ -793,7 +840,6 @@ public class ProgramAssemblerUtils {
         } catch (NoSuchMethodException e) {
             //ignore - this program type doesn't have this method
         } catch (InvocationTargetException e) {
-            throw new AssemblyException("Error while disassembling program LU codes", e);
         } catch (IllegalAccessException e) {
             throw new AssemblyException("Error while disassembling program LU codes", e);
         }

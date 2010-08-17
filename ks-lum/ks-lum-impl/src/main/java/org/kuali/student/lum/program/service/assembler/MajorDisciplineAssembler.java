@@ -239,40 +239,16 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     private void disassembleCredentialProgram(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
-        List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
-        CluInfo credentialClu = null;
 
-        // id
+        List<BaseDTOAssemblyNode<?,?>> credentialResults;
         try {
-            credentialClu = luService.getClu(major.getCredentialProgramId());
-        } catch (DoesNotExistException e) {
+            credentialResults = programAssemblerUtils.disassembleCredentialProgram(major, operation, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM);
+            if (credentialResults != null) {
+                result.getChildNodes().addAll(credentialResults);
+            }
         } catch (Exception e) {
-            throw new AssemblyException("Credential Clu does not exist for " + major.getCredentialProgramId());
+            throw new AssemblyException("Error while disassembling Credential program", e);
         }
-
-        //TODO check for update and delete
-
-        // Create the relationship and add it as well
-        CluCluRelationInfo relation = new CluCluRelationInfo();
-        relation.setCluId(major.getId());
-        relation.setRelatedCluId(credentialClu.getId());// this
-        // should
-        // already
-        // be set even if
-        // it's a create
-        relation.setType(ProgramAssemblerConstants.HAS_CORE_PROGRAM);
-        relation.setState(major.getState());
-
-        BaseDTOAssemblyNode<MajorDisciplineInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<MajorDisciplineInfo, CluCluRelationInfo>(
-                null);
-        relationNode.setNodeData(relation);
-        relationNode.setOperation(NodeOperation.CREATE);
-
-        results.add(relationNode);
-
-        result.getChildNodes().addAll(results);
-
-
     }
 
     private void disassembleVariations(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
