@@ -24,8 +24,8 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.common.ui.client.widgets.rules.Token;
 import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.common.ui.client.widgets.table.Token;
 
 import com.google.gwt.core.client.GWT;
 
@@ -35,23 +35,14 @@ public class StatementVO extends Token implements Serializable {
     private StatementInfo statementInfo;
     private List<ReqComponentVO> reqComponentVOs = new ArrayList<ReqComponentVO>();
     private List<StatementVO> statementVOs = new ArrayList<StatementVO>();
-    private boolean checkBoxOn;
-    
-    public StatementVO() {        
+
+    public StatementVO() {
     }
-    
-    public StatementVO(StatementInfo statementInfo) {        
+
+    public StatementVO(StatementInfo statementInfo) {
         setStatementInfo(statementInfo);
     }        
     
-    public boolean isCheckBoxOn() {
-        return checkBoxOn;
-    }
-
-    public void setCheckBoxOn(boolean checkBoxOn) {
-        this.checkBoxOn = checkBoxOn;
-    }
-
     public void printTree(Node node) {        
         int level = 0;
         ReqComponentVO content;
@@ -99,13 +90,10 @@ public class StatementVO extends Token implements Serializable {
         return result;
     }
     
-    private StatementVO doGetEnclosingStatementVO(StatementVO statementVO, 
-            ReqComponentVO reqComponentVO) {
+    private StatementVO doGetEnclosingStatementVO(StatementVO statementVO, ReqComponentVO reqComponentVO) {
         StatementVO result = null;
-        List<StatementVO> statementVOs =
-            (statementVO == null)? null : statementVO.getStatementVOs();
-        List<ReqComponentVO> reqComponentVOs =
-            (statementVO == null)? null : statementVO.getReqComponentVOs();
+        List<StatementVO> statementVOs = (statementVO == null)? null : statementVO.getStatementVOs();
+        List<ReqComponentVO> reqComponentVOs = (statementVO == null)? null : statementVO.getReqComponentVOs();
         
         if (statementVOs != null && !statementVOs.isEmpty()) {
             for (StatementVO subStatementVO : statementVOs) {
@@ -295,6 +283,7 @@ public class StatementVO extends Token implements Serializable {
 
     public void setStatementInfo(StatementInfo statementInfo) {
         this.statementInfo = statementInfo;
+        this.setType(statementInfo.getOperator() == StatementOperatorTypeKey.OR ? Token.Or : Token.And);
     }    
     
     public List<ReqComponentVO> getReqComponentVOs() {
@@ -564,12 +553,7 @@ public class StatementVO extends Token implements Serializable {
         }
         return selectedReqComponentVOs;
     }
-    
-    /**
-     * 
-     * @param statementVO
-     * @return
-     */
+
     public int getNestingDepth() {
         return doGetNestingDepth(this);
     }

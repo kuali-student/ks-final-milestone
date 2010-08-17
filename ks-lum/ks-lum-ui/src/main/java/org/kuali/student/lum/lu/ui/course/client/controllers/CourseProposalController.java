@@ -105,8 +105,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
     private WorkflowUtilities workflowUtil;
 
 	private boolean initialized = false;
+	private boolean isNew = false;
 
 	private static final String UPDATED_KEY = "metaInfo/updateTime";
+	private String proposalIdPath = "";
 
 	private DateFormat df = DateFormat.getInstance();
 
@@ -262,8 +264,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void init(DataModelDefinition modelDefinition){
     	CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
-
-        workflowUtil = new WorkflowUtilities(this,cfg.getWorkflowDocumentType(),cfg.getProposalIdPath(), createOnWorkflowSubmitSuccessHandler());
+    	proposalIdPath = cfg.getProposalIdPath();
+        workflowUtil = new WorkflowUtilities(this,cfg.getWorkflowDocumentType(), proposalIdPath, createOnWorkflowSubmitSuccessHandler());
         workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
         workflowUtil.requestAndSetupModel();
 
@@ -400,6 +402,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         cluProposalModel.setRoot(new LuData());
+        isNew = true;
         setProposalHeaderTitle();
         setLastUpdated();
         callback.onModelReady(cluProposalModel);
@@ -526,6 +529,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	                    }
                 	}else{
                 		saveActionEvent.setSaveSuccessful(true);
+                		isNew = false;
 	    				cluProposalModel.setRoot(result.getValue());
 	    	            View currentView = getCurrentView();
 	    				if (currentView instanceof SectionView){
@@ -540,7 +544,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	                        saveActionEvent.doActionComplete();
 	                    }
 	    				ViewContext context = CourseProposalController.this.getViewContext();
-	    				context.setId((String)cluProposalModel.get("proposal/id"));
+	    				context.setId((String)cluProposalModel.get(proposalIdPath));
 	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
 	    				workflowUtil.refresh();
 	    				
@@ -571,18 +575,18 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
-		init(new Callback<Boolean>() {
-
-			@Override
-			public void exec(Boolean result) {
-				if (result) {
-					showDefaultView(onReadyCallback);
-				} else {
-					onReadyCallback.exec(false);
-				}
-			}
-		});
+		init(onReadyCallback);
 	}
+    
+   @Override
+   public void showDefaultView(Callback<Boolean> onReadyCallback) {
+	   if(isNew){
+		   super.showFirstView(onReadyCallback);
+	   }
+	   else{
+		   super.showDefaultView(onReadyCallback);
+	   }
+   }
 
 	@Override
     public void setParentController(Controller controller) {

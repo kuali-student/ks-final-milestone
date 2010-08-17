@@ -30,6 +30,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
 
 @WebService(endpointInterface = "org.kuali.student.core.dictionary.service.DictionaryService", serviceName = "DictionaryService", portName = "DictionaryService", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
+@Deprecated
 public class DictionaryServiceSpringImpl implements DictionaryService {
 
 	private String[] dictionaryContext;

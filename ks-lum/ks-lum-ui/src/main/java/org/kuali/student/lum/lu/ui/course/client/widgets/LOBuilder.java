@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -194,16 +195,16 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
             });
             
             List<String> list = new ArrayList<String>();
-            list.add(".");
-            list.add(".");
-            list.add(".");
-            list.add(".");
-            list.add(".");
+            list.add("");
+            list.add("");
+            list.add("");
+            list.add("");
+            list.add("");
             addSelectedLOs(list);
         }
 
         public List<OutlineNode<LOPicker>> getValue() {
-        	return outlineModel.getOutlineNodes();
+            return outlineModel.getOutlineNodes();
         }
         
         public void setValue(List<OutlineNode<LOPicker>> value) {

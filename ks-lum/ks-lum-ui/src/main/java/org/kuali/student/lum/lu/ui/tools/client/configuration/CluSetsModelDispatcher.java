@@ -41,7 +41,7 @@ public class CluSetsModelDispatcher extends LayoutController implements Configur
     }
 
     @Override
-    protected <V extends Enum<?>> View getView(V viewType) {
+    public <V extends Enum<?>> View getView(V viewType) {
         return null;
     }
 

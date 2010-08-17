@@ -41,11 +41,11 @@
     <ref bean="courseInfo.transcriptTitle" />
     <ref bean="courseInfo.type" />
     <ref bean="courseInfo.variations" />
+    <ref bean="courseInfo.pilotCourse" />
+    <ref bean="courseInfo.specialTopicsCourse" />
     <!-- Dynamic Attributes -->
     <ref bean="courseInfo.finalExamStatus" />
     <ref bean="courseInfo.finalExamRationale"/>
-    <ref bean="courseInfo.pilotCourse" />
-    <ref bean="courseInfo.specialTopicsCourse" />
     <ref bean="courseInfo.outOfClassHours" />
     <ref bean="courseInfo.proposalId"/>
     <ref bean="courseInfo.proposalRationale"/>
@@ -65,6 +65,30 @@
 
 	<bean id="courseInfo.curriculumOversightOrgs-parent" abstract="true" parent="baseKualiCluIdRepeating">
 		<property name="name" value="curriculumOversightOrgs" />
+	 <property name="caseConstraint">
+	  <bean parent="caseConstraint">
+	   <property name="operator" value="EQUALS"/>
+	   <property name="fieldPath" value="state"/>
+	   <property name="caseSensitive" value="false"/>
+	   <property name="whenConstraint">
+	    <list>
+	     <bean parent="whenConstraint">
+	      <property name="values">
+	       <list>
+	        <value>SUBMITTED</value>
+	        <value>ACTIVE</value>
+	        <value>RETIRED</value>
+	       </list>
+	      </property>
+	      <property name="constraint">
+	       <bean parent="baseComplexRequired"/>
+	      </property>
+	     </bean>
+	    </list>
+	   </property>
+	  </bean>
+	 </property>
+		
 	</bean>
 	<bean id="courseInfo.curriculumOversightOrgs" parent="courseInfo.curriculumOversightOrgs-parent" />
 
@@ -639,13 +663,11 @@
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
   <property name="defaultValue" value="false" />
-  <property name="dynamic" value="true"/>
  </bean>
  <bean id="courseInfo.specialTopicsCourse" parent="baseBoolean">
   <property name="name" value="specialTopicsCourse" />
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
-  <property name="dynamic" value="true"/>
  </bean>
 
  <!--example of how to use dyanamic attributes to define a complex type-->

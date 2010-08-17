@@ -144,6 +144,12 @@
                 <entry key="Lrc">
                     <value>classpath:ks-lrc.sql</value>
                 </entry>
+                <entry key="Statement">
+                    <list>
+                        <value>classpath:ks-statement.sql</value>
+                        <value>classpath:ks-statement-data.sql</value>
+                    </list>
+                </entry>
             </map>
         </property>
     </bean>
@@ -341,6 +347,7 @@
         <property name="searchManager" ref="statementSearchManager" />
         <property name="dictionaryServiceDelegate" ref="lumDictionary" />
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
+        <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
     </bean>
 
     <!-- Learning Objective service config -->
@@ -450,8 +457,16 @@
         </constructor-arg>
     </bean>
 
+    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
+        <property name="statementService" ref="statementServiceImpl"/>
+   </bean>
+
     <bean name="programRequirementAssembler" class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
-        <!--<property name="statementService" ref="statementServiceImpl"/>-->
+        <property name="statementService" ref="statementServiceImpl"/>
+        <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/>
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="loAssembler" ref="loAssembler"/>
+        <property name="loService" ref="loServiceImpl"/>
     </bean>
 
     <bean id="majorDisciplineAssembler"
@@ -466,8 +481,9 @@
  	<bean id="credentialProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+        <property name="luService" ref="luServiceImpl"/>
     </bean>
-    
+
     <bean id="programVariationAssembler"
           class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
         <property name="luService" ref="luServiceImpl"/>
@@ -479,7 +495,7 @@
           class="org.kuali.student.lum.program.service.assembler.CoreProgramAssembler">
         <property name="programService" ref="programService"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
-        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>        
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="loAssembler"
@@ -490,6 +506,7 @@
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luServiceImpl"/>
+        <property name="loService" ref="loServiceImpl"/>
     </bean>
 
     <bean id="cluAssemblerUtils"
@@ -511,7 +528,7 @@
         <property name="validator" ref="businessServiceValidator"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker" />
-        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler" />
+        <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
     </bean>

@@ -527,4 +527,76 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Title Transcript")
   @Key("programInformation.titleTranscript")
   String programInformation_titleTranscript();
+
+  /**
+   * Translated "No <*> currently exist for this program".
+   *
+   * @return translated "No <*> currently exist for this program"
+   */
+  @DefaultMessage("No <*> currently exist for this program")
+  @Key("programRequirements.summaryViewPageNoRule")
+  String programRequirements_summaryViewPageNoRule();
+
+  /**
+   * Translated "Delete Rule".
+   *
+   * @return translated "Delete Rule"
+   */
+  @DefaultMessage("Delete Rule")
+  @Key("programRequirements.summaryViewPageDeleteRuleDialogTitle")
+  String programRequirements_summaryViewPageDeleteRuleDialogTitle();
+
+  /**
+   * Translated "Are you sure you want to delete this rule?".
+   *
+   * @return translated "Are you sure you want to delete this rule?"
+   */
+  @DefaultMessage("Are you sure you want to delete this rule?")
+  @Key("programRequirements.summaryViewPageDeleteRuleDialogMsg")
+  String programRequirements_summaryViewPageDeleteRuleDialogMsg();
+
+  /**
+   * Translated "Add a <*>".
+   *
+   * @return translated "Add a <*>"
+   */
+  @DefaultMessage("Add a <*>")
+  @Key("programRequirements.summaryViewPageAddRule")
+  String programRequirements_summaryViewPageAddRule();
+
+  /**
+   * Translated "Add a <*> Rule".
+   *
+   * @return translated "Add a <*> Rule"
+   */
+  @DefaultMessage("Add a <*> Rule")
+  @Key("programRequirements.manageViewPageTitle")  
+  String programRequirements_manageViewPageTitle();
+
+  /**
+   * Translated "Step 1: Build and Add Rules".
+   *
+   * @return translated "Step 1: Build and Add Rules"
+   */
+  @DefaultMessage("Step 1: Build and Add Rules")
+  @Key("programRequirements.manageViewPageStep1Title")
+  String programRequirements_manageViewPageStep1Title();
+
+  /**
+   * Translated "Step 2: Combine Rules with Logic".
+   *
+   * @return translated "Step 2: Combine Rules with Logic"
+   */
+  @DefaultMessage("Step 2: Combine Rules with Logic")
+  @Key("programRequirements.manageViewPageStep2Title")
+  String programRequirements_manageViewPageStep2Title();
+
+  /**
+   * Translated "Program Requirements".
+   *
+   * @return translated "Program Requirements"
+   */
+  @DefaultMessage("Program Requirements")
+  @Key("programRequirements.summaryViewPageTitle")
+  String programRequirements_summaryViewPageTitle();
 }

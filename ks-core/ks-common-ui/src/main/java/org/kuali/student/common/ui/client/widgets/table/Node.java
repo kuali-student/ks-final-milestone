@@ -17,6 +17,8 @@ package org.kuali.student.common.ui.client.widgets.table;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.student.common.ui.client.widgets.rules.Token;
 /**
  * A generic tree node. 
  * */

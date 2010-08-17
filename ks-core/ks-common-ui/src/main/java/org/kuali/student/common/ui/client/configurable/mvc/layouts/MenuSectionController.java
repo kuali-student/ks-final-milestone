@@ -14,14 +14,12 @@ import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPane
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
 import org.kuali.student.common.ui.client.widgets.panels.collapsable.VerticalCollapsableDrawer;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MenuSectionController extends LayoutController implements ContentNavLayoutController{
@@ -143,6 +141,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
         }
     }
 
+    /* Adds 'name' of the menu above menu items. This menu name has no view */
     public void addMenu(String title){
         if(title != null && !title.equals("")){
             KSMenuItemData item = new KSMenuItemData(title);
@@ -184,7 +183,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
     @Override
     public void addMenuItem(String parentMenu, final View view){
         super.addView(view);
-        KSMenuItemData parentItem =null;
+        KSMenuItemData parentItem = null;
         for(int i = 0; i < topLevelMenuItems.size(); i++){
             if(topLevelMenuItems.get(i).getLabel().equals(parentMenu)){
                 parentItem = topLevelMenuItems.get(i);

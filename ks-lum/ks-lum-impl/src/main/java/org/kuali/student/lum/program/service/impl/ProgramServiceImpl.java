@@ -293,51 +293,56 @@ public class ProgramServiceImpl implements ProgramService {
 //		} catch (Exception e) {
 //			return null;
 //		}
-    }
+	}
 
-    @Override
-    public List<String> getMajorIdsByCredentialProgramType(String programType)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<String> getMajorIdsByCredentialProgramType(String programType)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public MinorDisciplineInfo getMinorDiscipline(String minorDisciplineId)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public MinorDisciplineInfo getMinorDiscipline(String minorDisciplineId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<String> getMinorsByCredentialProgramType(String programType)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<String> getMinorsByCredentialProgramType(String programType)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public ProgramRequirementInfo getProgramRequirement(String programRequirementId) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+	@Override
+	public ProgramRequirementInfo getProgramRequirement(String programRequirementId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
 
-        checkForMissingParameter(programRequirementId, "programRequirementId");
+		checkForMissingParameter(programRequirementId, "programRequirementId");
 
 		CluInfo cluInfo = luService.getClu(programRequirementId);
 
-        // TODO Auto-generated method stub
-        return null;
-    }
+		try {
+			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(cluInfo, null, false);
+			return progReqInfo;
+		} catch (AssemblyException e) {
+            LOG.error("Error assembling program requirement", e);
+            throw new OperationFailedException("Error assembling program requirement");
+		}
+	}
 
-    @Override
-    public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
-            String majorDisciplineId) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+	@Override
+	public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
+			String majorDisciplineId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
     	List<ProgramVariationInfo> pvInfos = new ArrayList<ProgramVariationInfo>();
 
     	try {
@@ -591,20 +596,6 @@ public class ProgramServiceImpl implements ProgramService {
             throws MissingParameterException {
         if (param == null) {
             throw new MissingParameterException(paramName + " can not be null");
-        }
-    }
-
-    /**
-     * @param param
-     * @param paramName
-     * @throws MissingParameterException
-     */
-    @SuppressWarnings("unused")
-    // TODO - will we be using this?
-    private void checkForEmptyList(Object param, String paramName)
-            throws MissingParameterException {
-        if (param != null && param instanceof List<?> && ((List<?>) param).size() == 0) {
-            throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }
 

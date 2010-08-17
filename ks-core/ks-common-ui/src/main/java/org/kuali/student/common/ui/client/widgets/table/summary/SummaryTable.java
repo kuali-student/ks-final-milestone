@@ -25,7 +25,8 @@ public class SummaryTable  extends FlexTable{
         this.model = model;
         doLayout();
     }
-    private void doLayout(){
+    public void doLayout(){
+        rowIndex = 0;
         super.setText(rowIndex, 1, model.getContentColumnHeader1());
         super.setText(rowIndex, 2, model.getContentColumnHeader2());
         getFlexCellFormatter().setStyleName(rowIndex,1, "columnTitle");
@@ -33,7 +34,7 @@ public class SummaryTable  extends FlexTable{
         
         
         rowIndex++;
-        for(SummaryTableSection section: model.getSectionList()){
+        for(SummaryTableBlock section: model.getSectionList()){
            addSection(section);
         }
         
@@ -51,7 +52,7 @@ public class SummaryTable  extends FlexTable{
         this.getCellFormatter().setStyleName(rowMap.get(rowKey).intValue(),cellIndex,"");
         
     }
-    private void addSection(SummaryTableSection section){
+    private void addSection(SummaryTableBlock section){
         getFlexCellFormatter().setStyleName(rowIndex,0, "sectionTitleRow");
         getFlexCellFormatter().setColSpan(rowIndex, 0, 3); 
         HorizontalPanel sectionTitlePanel = new HorizontalPanel();
@@ -59,7 +60,7 @@ public class SummaryTable  extends FlexTable{
         sectionTitle.setStyleName("sectionTitle");
         sectionTitlePanel.add(sectionTitle);
     
-        if(section.isEditable()){
+        if(model.isEditable()){
             Anchor sectionEditLink = new Anchor("edit");
             sectionEditLink.setStyleName("sectionEditLink");
             if(section.getEditingHandler() != null){
@@ -70,12 +71,12 @@ public class SummaryTable  extends FlexTable{
         setWidget(rowIndex,0, sectionTitlePanel);
         rowIndex++;
         
-        for(SectionRow row: section.getSectionRowList()){
+        for(SummaryTableRow row: section.getSectionRowList()){
             addSectionRow(row);
         }
         
     }
-    private void addSectionRow(SectionRow row){
+    private void addSectionRow(SummaryTableRow row){
         setText(rowIndex,0, row.getTitle());
         getFlexCellFormatter().setStyleName(rowIndex,0, "rowTitle");
         setWidget(rowIndex,1, row.getCell1());

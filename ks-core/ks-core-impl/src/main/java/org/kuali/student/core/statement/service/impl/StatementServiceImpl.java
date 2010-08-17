@@ -73,6 +73,7 @@ public class StatementServiceImpl implements StatementService {
     private DictionaryService dictionaryServiceDelegate;
     private StatementAssembler statementAssembler;
     private Validator validator;
+    // private StatementTreeViewAssembler statementTreeViewAssembler;
 
     public Validator getValidator() {
 		return validator;
@@ -712,12 +713,12 @@ public class StatementServiceImpl implements StatementService {
     public StatementTreeViewInfo getStatementTreeView(final String statementId)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
-    	
+
     	return getStatementTreeView(statementId, null, null);
     }
-    
+
     @Override
-    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, final String language) 
+    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, final String language)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
     	checkForNullOrEmptyParameter("nlUsageTypeKey", nlUsageTypeKey);
@@ -734,6 +735,20 @@ public class StatementServiceImpl implements StatementService {
         statementTreeViewInfo = new StatementTreeViewInfo();
         getStatementTreeViewHelper(statementInfo, statementTreeViewInfo, nlUsageTypeKey, language);
         return statementTreeViewInfo;
+
+
+    	/*
+    	Map<String, String> configuration = new HashMap<String, String>();
+    	configuration.put("USAGE_TYPE_KEY", nlUsageTypeKey);
+    	configuration.put("NL_KEY", language);
+    	StatementTreeViewInfo result = new StatementTreeViewInfo();
+    	try {
+			statementTreeViewAssembler.assemble(getStatement(statementId), result, false, configuration);
+			return result;
+    	} catch (AssemblyException e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+		*/
     }
 
 
@@ -772,7 +787,7 @@ public class StatementServiceImpl implements StatementService {
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-    private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo, 
+    private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo,
     		final String nlUsageTypeKey, final String language)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         if (statementInfo == null) return;
@@ -783,7 +798,7 @@ public class StatementServiceImpl implements StatementService {
         if (statementInfo.getStatementIds() != null) {
             for (String statementId : statementInfo.getStatementIds()) {
                 StatementInfo subStatement = getStatement(statementId);
-                
+
                 List<StatementTreeViewInfo> statements =
                     (statementTreeViewInfo.getStatements() == null) ? new ArrayList<StatementTreeViewInfo>() : statementTreeViewInfo.getStatements();
                 StatementTreeViewInfo subStatementTreeViewInfo = new StatementTreeViewInfo();
@@ -799,7 +814,7 @@ public class StatementServiceImpl implements StatementService {
         String nl = translateStatement(statementTreeViewInfo.getId(), nlUsageTypeKey, language);
         statementTreeViewInfo.setNaturalLanguageTranslation(nl);
     }
-    
+
     private String translateStatement(String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
         Statement stmt = this.statementDao.fetch(Statement.class, statementId);
         if(nlUsageTypeKey != null && language != null) {
@@ -835,12 +850,28 @@ public class StatementServiceImpl implements StatementService {
         StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
 
         return test;
+
+
+    	/*
+    	statementTreeViewInfo.setId(statementId);
+    	NodeOperation operation;
+    	if (statementId == null) {
+    		operation = NodeOperation.CREATE;
+    	} else {
+    		operation = NodeOperation.UPDATE;
+    	}
+    	try {
+			statementTreeViewAssembler.disassemble(statementTreeViewInfo, operation);
+		} catch (AssemblyException e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+
+        StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
+
+        return test;
+        */
     }
 
-    /**
-     *
-     * @return a list of relationships in the first list but not in the second
-     */
     private List<String> notIn(
             StatementTreeViewInfo oldTree,
             StatementTreeViewInfo newTree) {
@@ -964,6 +995,10 @@ public class StatementServiceImpl implements StatementService {
         }
     }
 
+    /**
+     *
+     * @return a list of relationships in the first list but not in the second
+     */
 	@Override
 	public RefStatementRelationTypeInfo getRefStatementRelationType(final String refStatementRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

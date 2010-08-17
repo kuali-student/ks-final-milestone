@@ -24,19 +24,15 @@ public class ProgramInformationViewConfiguration extends AbstractConfiguration<P
         createShowView();
         return showViewSection;
     }
-    
+
     private void createShowView() {
         showViewSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
         HorizontalSection section = new HorizontalSection();
-        TableSection identifyingDetailsSection = createIdentifyingDetailsSection();
-        TableSection programTitleSection = createProgramTitleSection();
-        TableSection datesSection = createDatesSection();
-        TableSection otherInformationSection = createOtherInformationSection();
-        section.addSection(identifyingDetailsSection);
-        section.addSection(programTitleSection);
+        section.addSection(createIdentifyingDetailsSection());
+        section.addSection(createProgramTitleSection());
         section.nextRow();
-        section.addSection(datesSection);
-        section.addSection(otherInformationSection);
+        section.addSection(createDatesSection());
+        section.addSection(createOtherInformationSection());
         showViewSection.addSection(section);
     }
 
@@ -65,7 +61,7 @@ public class ProgramInformationViewConfiguration extends AbstractConfiguration<P
         configurer.addReadOnlyField(section, ProgramConstants.ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
         configurer.addReadOnlyField(section, ProgramConstants.ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
         configurer.addReadOnlyField(section, ProgramConstants.END_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
-        configurer.addReadOnlyField(section, ProgramConstants.APPROVAL_DATE, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.APPROVAL_DATE, new MessageKeyInfo(ProgramProperties.get().programInformation_approvalDate()));
         return section;
     }
 

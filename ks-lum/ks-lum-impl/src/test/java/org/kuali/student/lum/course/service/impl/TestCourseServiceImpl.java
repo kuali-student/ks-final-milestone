@@ -184,8 +184,8 @@ public class TestCourseServiceImpl {
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-37"));
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-38"));
             
-            assertTrue(createdCourse.isSpecialTopicsCourse());
-            assertTrue(createdCourse.isPilotCourse());
+            assertEquals(createdCourse.isPilotCourse(),cInfo.isPilotCourse());
+            assertEquals(createdCourse.isSpecialTopicsCourse(), cInfo.isSpecialTopicsCourse());
             
             // TODO - check variotions
         } catch (Exception e) {

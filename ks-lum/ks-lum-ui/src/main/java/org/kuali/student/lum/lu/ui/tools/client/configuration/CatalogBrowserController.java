@@ -108,10 +108,9 @@ public class CatalogBrowserController extends TabbedSectionLayout
 	public Class<? extends Enum<?>> getViewsEnum (){
 		return CatalogBrowserConfigurer.Sections.class;
 	}
-
+	
 	@Override
-	public void showDefaultView (final Callback<Boolean> onReadyCallback)
-	{
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
 		dataModel.setRoot(new Data ());
 		init (new Callback<Boolean> ()	{
 
@@ -119,22 +118,13 @@ public class CatalogBrowserController extends TabbedSectionLayout
 			public void exec (Boolean result)
 			{
 				if (result)	{
-					doShowDefaultView (onReadyCallback);
+					showDefaultView (onReadyCallback);
 				} else	{
 					onReadyCallback.exec (false);
 				}
 			}
 
 		});
-	}
-	
-	@Override
-	public void beforeShow(Callback<Boolean> onReadyCallback) {
-		showDefaultView(onReadyCallback);
-	}
-
-	private void doShowDefaultView (final Callback<Boolean> onReadyCallback) {
-		super.showDefaultView (onReadyCallback);
 	}
 
 	@Override

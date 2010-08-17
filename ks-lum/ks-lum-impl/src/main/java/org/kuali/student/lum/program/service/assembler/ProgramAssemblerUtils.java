@@ -207,6 +207,14 @@ public class ProgramAssemblerUtils {
     }
 
 
+    /**
+     * Copy identifier values from clu to program
+     *
+     * @param clu
+     * @param o
+     * @return
+     * @throws AssemblyException
+     */
     public Object assembleIdentifiers(CluInfo clu, Object o) throws AssemblyException {
 
         try    {
@@ -265,6 +273,15 @@ public class ProgramAssemblerUtils {
     }
 
 
+    /**
+     * Copy identifier values from program to clu
+     *
+     * @param clu
+     * @param o
+     * @param operation
+     * @return
+     * @throws AssemblyException
+     */
     public CluInfo disassembleIdentifiers(CluInfo clu, Object o, NodeOperation operation) throws AssemblyException {
 
         Method method;
@@ -368,6 +385,7 @@ public class ProgramAssemblerUtils {
 
     /**
      * Copy Lu Codes from program to clu
+     *
      * @param clu
      * @param o
      * @param operation
@@ -394,6 +412,14 @@ public class ProgramAssemblerUtils {
 
     }
 
+    /**
+     * Copy AdminOrg values from clu to program
+     *
+     * @param clu
+     * @param o
+     * @return
+     * @throws AssemblyException
+     */
     public Object assembleAdminOrgs(CluInfo clu, Object o) throws AssemblyException {
 
         try {
@@ -448,7 +474,7 @@ public class ProgramAssemblerUtils {
 
 
     /**
-     * Copy values from program to clu
+     * Copy AdminOrg values from program to clu
      *
      * @param clu
      * @param t
@@ -486,6 +512,14 @@ public class ProgramAssemblerUtils {
 
     }
 
+    /**
+     * Copy result option values from clu to program
+     *
+     * @param cluId
+     * @param resultType
+     * @return
+     * @throws AssemblyException
+     */
     public List<String> assembleResultOptions(String cluId, String resultType) throws AssemblyException {
         List<String> resultOptions = null;
         try{
@@ -503,6 +537,14 @@ public class ProgramAssemblerUtils {
 
 
     //TODO disassembleResultOptions
+    /**
+     *  Copy result options from program to clu
+     *
+     * @param clu
+     * @param t
+     * @param operation
+     * @return
+     */
     public CluInfo disassembleResultOptions(CluInfo clu, Object t, NodeOperation operation){
 
         return clu;
@@ -510,7 +552,7 @@ public class ProgramAssemblerUtils {
     }
 
     /**
-     * Copy data from clu to program
+     * Copy atp values  from clu to program
      *
      * @param clu
      * @param o
@@ -564,7 +606,7 @@ public class ProgramAssemblerUtils {
 
 
     /**
-     * Copy data from Program to clu
+     * Copy atp values from Program to clu
      *
      * @param clu
      * @param o
@@ -607,6 +649,14 @@ public class ProgramAssemblerUtils {
 
     }
 
+    /**
+     * Copy publication values from clu to program
+     *
+     * @param clu
+     * @param o
+     * @return
+     * @throws AssemblyException
+     */
     public Object assemblePublicationInfo(CluInfo clu, Object o) throws AssemblyException {
 
         Method method;
@@ -649,6 +699,15 @@ public class ProgramAssemblerUtils {
         return o;
     }
 
+    /**
+     * Copy publication values from program to clu
+     *
+     * @param clu
+     * @param o
+     * @param operation
+     * @return
+     * @throws AssemblyException
+     */
     public CluInfo disassemblePublicationInfo(CluInfo clu, Object o, NodeOperation operation) throws AssemblyException {
 
         Method method;
@@ -681,6 +740,14 @@ public class ProgramAssemblerUtils {
 
     }
 
+    /**
+     * Retrieve credential program ids for clu 
+     *
+     * @param cluId
+     * @param credentialType
+     * @return
+     * @throws AssemblyException
+     */
     public String assembleCredentialProgramIDs(String cluId, String credentialType) throws AssemblyException {
         List<String> credentialProgramIDs = null;
         try {

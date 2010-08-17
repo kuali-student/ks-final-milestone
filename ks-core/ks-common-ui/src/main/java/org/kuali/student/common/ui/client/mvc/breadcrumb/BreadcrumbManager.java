@@ -24,6 +24,16 @@ public class BreadcrumbManager extends Composite{
 	private static ComplexPanel panel = new SpanPanel();
 	private static boolean panelEmpty = true;
 	
+	private static class BreadcrumbData{
+		private String name;
+		private String path;
+		public BreadcrumbData(String name, String path) {
+			super();
+			this.name = name;
+			this.path = path;
+		}
+	}
+	
 	public static void bind(Controller controller){
 		root = controller;
 	}
@@ -36,17 +46,32 @@ public class BreadcrumbManager extends Composite{
 		root.collectBreadcrumbNames(names);
 		
 		String[] arr = HistoryManager.splitHistoryStack(historyStack);
+		List<BreadcrumbData> breadcrumbs = new ArrayList<BreadcrumbData>();
 		if(arr.length == names.size()){
-			//account for applicationController - skip first item from both
 			String path = "";
+			//account for applicationController - skip first item from both
 			for(int i = 1; i < names.size(); i++){
 				path = path + "/" + arr[i];
 				String name = names.get(i);
+				//Views with empty names do not appear on the breadcrumbs
 				if(name != null && !name.isEmpty()){
-					createLink(name, path);
+					breadcrumbs.add(new BreadcrumbData(name, path));
 				}
 			}
 		}
+		
+		for(int i = 0; i < breadcrumbs.size(); i++){
+			if(i < breadcrumbs.size() - 1){
+				createLink(breadcrumbs.get(i).name, breadcrumbs.get(i).path);
+			}
+			else{
+				createLabel(breadcrumbs.get(i).name);
+			}
+		}
+	}
+	
+	private static void createLabel(String name){
+		addToPanel(new InlineLabel(name));
 	}
 	
 	private static void createLink(String name, final String viewPath){
