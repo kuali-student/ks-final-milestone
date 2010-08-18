@@ -18,7 +18,6 @@ package org.kuali.student.core.statement.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 public class StatementTreeViewInfo extends AbstractStatementInfo {
@@ -31,10 +30,10 @@ public class StatementTreeViewInfo extends AbstractStatementInfo {
     private List<ReqComponentInfo> reqComponents;
 
     /**
-     * <code>naturalLanguageTranslation</code> attribute is a read-only
-     * attribute which is generated on-the-fly and should not be persisted.
+     * <code>naturalLanguageTranslation</code> element is a read-only
+     * element which is generated on-the-fly and should not be persisted.
      */
-    @XmlAttribute
+    @XmlElement
     private String naturalLanguageTranslation;
 
 
