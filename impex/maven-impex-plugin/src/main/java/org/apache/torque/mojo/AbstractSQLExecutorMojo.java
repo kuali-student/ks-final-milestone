@@ -532,7 +532,11 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * Attempt to automatically detect the correct JDBC driver and database type (oracle, mysql, h2, derby, etc) given a
 	 * JDBC url
 	 */
-	protected void updateConfiguration() {
+	protected void updateConfiguration() throws MojoExecutionException {
+		if (isEmpty(url)) {
+			throw new MojoExecutionException("Must specify a jdbc url");
+		}
+
 		JDBCConfiguration config = jdbcUtils.getDatabaseConfiguration(url);
 		if (config.equals(JDBCConfiguration.UNKNOWN_CONFIG)) {
 			return;

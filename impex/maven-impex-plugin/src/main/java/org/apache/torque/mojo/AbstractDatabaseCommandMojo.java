@@ -46,7 +46,7 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 	 */
 	String databasePassword;
 
-	protected void updateConfiguration() {
+	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();
 		if (!isEmpty(database)) {
 			return;
