@@ -32,9 +32,9 @@ public class Dictionary2BeanComparer
                                ObjectStructureDefinition osBean)
  {
   List<String> discrepancies = new ArrayList ();
-  compareAddDiscrepancy (discrepancies, "Java Object Name", osBean.getName (), osDict.getName ());
-  compareAddDiscrepancy (discrepancies, "hasMetaData", osBean.isHasMetaData (), osDict.isHasMetaData ());
-  compareAddDiscrepancy (discrepancies, "BusinessObjectClass", osBean.getBusinessObjectClass (), osDict.getBusinessObjectClass ());
+  compareAddDiscrepancy (discrepancies, "Java Object Name", osDict.getName (), osBean.getName ());
+  compareAddDiscrepancy (discrepancies, "hasMetaData", osDict.isHasMetaData (), osBean.isHasMetaData ());
+  compareAddDiscrepancy (discrepancies, "BusinessObjectClass", osDict.getBusinessObjectClass (), osBean.getBusinessObjectClass ());
   for (FieldDefinition fdDict : osDict.getAttributes ())
   {
    FieldDefinition fdBean = findField (fdDict.getName (), osBean);
@@ -73,6 +73,16 @@ public class Dictionary2BeanComparer
   return null;
  }
 
+ private void compareAddDiscrepancy (List<String> discrepancies, String field, boolean value1,
+                               boolean value2)
+ {
+  String discrep = compare (field, value1, value2);
+  if (discrep != null)
+  {
+   discrepancies.add (discrep);
+  }
+ }
+
  private void compareAddDiscrepancy (List<String> discrepancies, String field, Object value1,
                                Object value2)
  {
@@ -81,6 +91,25 @@ public class Dictionary2BeanComparer
   {
    discrepancies.add (discrep);
   }
+ }
+
+  private String compare (String field, boolean value1, boolean value2)
+ {
+  if (value1)
+  {
+   if (value2)
+   {
+    return null;
+   }
+  }
+  if ( ! value1)
+  {
+   if ( ! value2)
+   {
+    return null;
+   }
+  }
+  return field + " inconsistent: dict=[" + value1 + "], bean=[" + value2 + "]";
  }
 
  private String compare (String field, Object value1, Object value2)

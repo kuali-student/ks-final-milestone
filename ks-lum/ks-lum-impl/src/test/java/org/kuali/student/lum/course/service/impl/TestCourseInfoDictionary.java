@@ -31,7 +31,7 @@ public class TestCourseInfoDictionary
  {
   Set<Class<?>> startingClasses = new LinkedHashSet ();
   startingClasses.add (CourseInfo.class);
-  startingClasses.add (StatementTreeViewInfo.class);
+//  startingClasses.add (StatementTreeViewInfo.class);
   String contextFile = "ks-courseInfo-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
   DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,

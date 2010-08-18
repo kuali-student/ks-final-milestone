@@ -24,7 +24,10 @@
     <ref bean="courseInfo.duration" />
     <ref bean="courseInfo.effectiveDate" />
     <ref bean="courseInfo.expirationDate" />
+    <ref bean="courseInfo.feeJustification" />
     <ref bean="courseInfo.fees" />
+    <ref bean="courseInfo.revenues" />
+    <ref bean="courseInfo.expenditure" />
     <ref bean="courseInfo.startTerm" />
     <ref bean="courseInfo.endTerm" />
     <ref bean="courseInfo.formats" />
@@ -205,7 +208,6 @@
     <ref bean="courseInfo.descr.plain" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="courseInfo.descr.RichTextInfo" parent="courseInfo.descr.RichTextInfo-parent" />
 
@@ -237,12 +239,55 @@
  </bean>
  <bean id="courseInfo.expirationDate" parent="courseInfo.expirationDate-parent" />
 
+<bean id="courseInfo.feeJustification-parent" abstract="true" parent="cluInfo.descr">
+  <property name="name" value="feeJustification" />
+  <property name="dataObjectStructure" ref="courseInfo.feeJustification.RichTextInfo" />
+ </bean>
+ <bean id="courseInfo.feeJustification" parent="courseInfo.feeJustification-parent" />
+
+ <!-- courseInfo.feeJustification.RichTextInfo-parent-->
+ <bean id="courseInfo.feeJustification.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+  <property name="attributes">
+   <list>
+    <ref bean="courseInfo.feeJustification.formatted" />
+    <ref bean="courseInfo.feeJustification.plain" />
+   </list>
+  </property>
+ </bean>
+ <bean id="courseInfo.feeJustification.RichTextInfo" parent="courseInfo.feeJustification.RichTextInfo-parent" />
+
+ <bean id="courseInfo.feeJustification.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="formatted" />
+  <property name="maxLength" value="500" />
+ </bean>
+ <bean id="courseInfo.feeJustification.formatted" parent="courseInfo.feeJustification.formatted-parent" />
+
+ <bean id="courseInfo.feeJustification.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+  <property name="name" value="plain" />
+  <property name="maxLength" value="500" />
+ </bean>
+ <bean id="courseInfo.feeJustification.plain" parent="courseInfo.feeJustification.plain-parent" />
+
  <bean id="courseInfo.fees-parent" abstract="true" parent="baseComplex">
   <property name="name" value="fees" />
   <property name="maxOccurs" value="unbounded" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseFeeInfo" />
  </bean>
  <bean id="courseInfo.fees" parent="courseInfo.fees-parent" />
+
+<bean id="courseInfo.revenues-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="revenues" />
+  <property name="maxOccurs" value="unbounded" />
+  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseRevenueInfo" />
+ </bean>
+ <bean id="courseInfo.revenues" parent="courseInfo.revenues-parent" />
+
+<bean id="courseInfo.expenditure-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="expenditure" />
+  <property name="maxOccurs" value="1" />
+  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseExpenditureInfo" />
+ </bean>
+ <bean id="courseInfo.expenditure" parent="courseInfo.expenditure-parent" />
 
  <bean id="courseInfo.startTerm-parent" abstract="true" parent="cluInfo.expectedFirstAtp-parent">
   <property name="name" value="startTerm" />
@@ -373,6 +418,51 @@
 </bean>
 <bean id="courseFeeInfo.rateType" parent="courseFeeInfo.rateType-parent"/>
 
+ <!-- CourseRevenueInfo-->
+ <bean id="org.kuali.student.lum.course.dto.CourseRevenueInfo-parent" abstract="true" parent="objectStructureDefinition">
+ <property name="name" value="org.kuali.student.lum.course.dto.CourseRevenueInfo"/>
+ <property name="attributes">
+ <list>
+ <ref bean="courseRevenueInfo.feeType"/>
+ <ref bean="courseRevenueInfo.affiliatedOrgs"/>
+ <ref bean="courseRevenueInfo.id"/>
+ </list>
+ </property>
+ <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.lum.course.dto.CourseRevenueInfo" parent="org.kuali.student.lum.course.dto.CourseRevenueInfo-parent"/>
+
+ <bean id="courseRevenueInfo.feeType-parent" abstract="true" parent="cluFeeRecordInfo.feeType">
+ <property name="name" value="feeType"/>
+ <property name="defaultValue" value="kuali.lu.fee.type.revenue"/>
+ </bean>
+ <bean id="courseRevenueInfo.feeType" parent="courseRevenueInfo.feeType-parent"/>
+
+ <bean id="courseRevenueInfo.affiliatedOrgs-parent" abstract="true" parent="cluFeeRecordInfo.affiliatedOrgs">
+ <property name="name" value="affiliatedOrgs"/>
+ </bean>
+ <bean id="courseRevenueInfo.affiliatedOrgs" parent="courseRevenueInfo.affiliatedOrgs-parent"/>
+
+ <bean id="courseRevenueInfo.id-parent" abstract="true" parent="cluFeeRecordInfo.id">
+ <property name="name" value="id"/>
+ </bean>
+ <bean id="courseRevenueInfo.id" parent="courseRevenueInfo.id-parent"/>
+
+ <!-- CourseExpenditureInfo-->
+ <bean id="org.kuali.student.lum.course.dto.CourseExpenditureInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.lum.course.dto.CourseExpenditureInfo"/>
+  <property name="attributes">
+  <list>
+  <ref bean="courseExpenditureInfo.affiliatedOrgs"/>
+  </list>
+  </property>
+ </bean>
+ <bean id="org.kuali.student.lum.course.dto.CourseExpenditureInfo" parent="org.kuali.student.lum.course.dto.CourseExpenditureInfo-parent"/>
+
+ <bean id="courseExpenditureInfo.affiliatedOrgs-parent" abstract="true" parent="cluFeeRecordInfo.affiliatedOrgs">
+ <property name="name" value="affiliatedOrgs"/>
+ </bean>
+ <bean id="courseExpenditureInfo.affiliatedOrgs" parent="courseExpenditureInfo.affiliatedOrgs-parent"/>
 
  <!-- CourseVariationInfo-->
  <bean id="org.kuali.student.lum.course.dto.CourseVariationInfo-parent"
@@ -389,7 +479,6 @@
     <ref bean="courseVariationInfo.variationTitle" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.course.dto.CourseVariationInfo"
        parent="org.kuali.student.lum.course.dto.CourseVariationInfo-parent" />
@@ -442,7 +531,6 @@
     <ref bean="courseCrossListingInfo.type" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.course.dto.CourseCrossListingInfo"
        parent="org.kuali.student.lum.course.dto.CourseCrossListingInfo-parent" />
@@ -490,7 +578,6 @@
     <ref bean="courseJointInfo.type" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.course.dto.CourseJointInfo"
        parent="org.kuali.student.lum.course.dto.CourseJointInfo-parent" />
@@ -819,7 +906,7 @@
 
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey-parent" abstract="true" parent="currencyAmountInfo.currencyTypeKey-parent">
   <property name="name" value="currencyTypeKey" />
-  <property name="defaultValue" value="kuali.currency.type.usdollars.whole" />
+  <property name="defaultValue" value="kuali.currency.type.usdollars.cents" />
  </bean>
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey-parent" />
 

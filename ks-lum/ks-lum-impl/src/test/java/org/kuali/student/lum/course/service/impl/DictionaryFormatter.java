@@ -86,6 +86,11 @@ public class DictionaryFormatter
   builder.append ("{anchor:" + name + "}");
   builder.append (rowSeperator);
   builder.append ("The DTO for these fields is " + os.getName ());
+  if (os.isHasMetaData ())
+  {
+   builder.append (rowSeperator);
+   builder.append ("This DTO has metadata");
+  }
   builder.append (rowSeperator);
   builder.append (colSeperator);
   builder.append (colSeperator);
