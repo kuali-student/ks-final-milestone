@@ -531,13 +531,12 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	protected String getEmptyURLErrorMessage() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n\n");
-		sb.append("No url was supplied.");
-		sb.append("\n");
-		sb.append("You can specify a url in the plugin configuration or provide it as a system property.");
-		sb.append("\n");
-		sb.append("-Durl=jdbc:oracle:thin:@localhost:1521:XE (oracle)");
-		sb.append("-Durl=jdbc:mysql://localhost:3306/<database> (mysql)");
-		sb.append("\n\n.");
+		sb.append("No url was supplied.\n");
+		sb.append("You can specify a url in the plugin configuration or provide it as a system property.\n\n");
+		sb.append("For example:\n\n");
+		sb.append("-Durl=jdbc:oracle:thin:@localhost:1521:XE (oracle)\n");
+		sb.append("-Durl=jdbc:mysql://localhost:3306/<database> (mysql)\n");
+		sb.append("\n.");
 		return sb.toString();
 	}
 
