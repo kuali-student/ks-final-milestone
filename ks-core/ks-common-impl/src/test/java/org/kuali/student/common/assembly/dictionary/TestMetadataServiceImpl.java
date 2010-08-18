@@ -14,7 +14,7 @@ import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 
 public class TestMetadataServiceImpl {
 
-	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:poc/test-validator-context.xml");
+	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:test-validator-context.xml");
     
     
     @Test
