@@ -137,7 +137,7 @@ public class DictionaryFormatter
    builder.append (colSeperator);
    builder.append (calcRepeating (fd));
    builder.append (colSeperator);
-   builder.append (calcValidChars (fd));
+   builder.append (calcValidCharsMinMax (fd));
    builder.append (colSeperator);
    builder.append (calcLookup (fd));
    builder.append (colSeperator);
@@ -395,6 +395,40 @@ public class DictionaryFormatter
   }
   return builder.toString ();
  }
+
+ private String calcValidCharsMinMax (FieldDefinition fd)
+ {
+  String validChars = calcValidChars (fd);
+  String minMax = calcMinMax (fd);
+  String and = " and ";
+  if (validChars.trim ().equals (""))
+  {
+   return minMax;
+  }
+  if (minMax.trim ().equals (""))
+  {
+   return validChars;
+  }
+  return validChars + "\\\\\n" + minMax;
+ }
+
+ private String calcMinMax (FieldDefinition fd)
+ {
+  if (fd.getExclusiveMin () == null)
+  {
+   if (fd.getInclusiveMax () == null)
+   {
+    return " ";
+   }
+   return "Must be <= " + fd.getInclusiveMax ();
+  }
+  if (fd.getInclusiveMax () == null)
+  {
+   return "Must be > " + fd.getExclusiveMin ();
+  }
+  return "Must be > " + fd.getExclusiveMin () + " and < "
+         + fd.getInclusiveMax ();
+ }
  private static final String PAGE_PREFIX = "Formatted View of ";
  private static final String PAGE_SUFFIX = " Searches";
 
@@ -437,7 +471,7 @@ public class DictionaryFormatter
   {
    return "Organization";
   }
-if (searchType.startsWith ("atp."))
+  if (searchType.startsWith ("atp."))
   {
    return "ATP";
   }

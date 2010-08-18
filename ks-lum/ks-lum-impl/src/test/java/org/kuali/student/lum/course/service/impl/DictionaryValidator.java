@@ -1,11 +1,14 @@
 package org.kuali.student.lum.course.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.kuali.student.common.validator.ServerDateParser;
+import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.dictionary.dto.CaseConstraint;
 import org.kuali.student.core.dictionary.dto.DataType;
 
@@ -117,12 +120,16 @@ public class DictionaryValidator
      if (alreadyValidated.add (fd.getDataObjectStructure ()))
      {
       errors.addAll (new DictionaryValidator (fd.getDataObjectStructure (),
-                                             alreadyValidated,
-                                             processSubStructures).validate ());
+                                              alreadyValidated,
+                                              processSubStructures).validate ());
      }
     }
    }
   }
+  validateConversion (errors, fd.getName (), "defaultValue", fd.getDataType (), fd.getDefaultValue ());
+  validateConversion (errors, fd.getName (), "exclusiveMin", fd.getDataType (), fd.getExclusiveMin ());
+  validateConversion (errors, fd.getName (), "inclusiveMax", fd.getDataType (), fd.getInclusiveMax ());
+  //TODO: Cross compare to make sure min is not greater than max and that default value is valid itself
   if (fd.getMaxLength () != null)
   {
    try
@@ -160,6 +167,119 @@ public class DictionaryValidator
   {
    errors.add ("field " + fd.getName () + " has a " + validation
                + " but it cannot be specified on a complex type");
+  }
+ }
+
+ private Object validateConversion (List<String> errors, String fieldName,
+                                    String propertyName, DataType dataType,
+                                    Object value)
+ {
+  if (value == null)
+  {
+   return null;
+  }
+  switch (dataType)
+  {
+   case STRING:
+    return value.toString ().trim ();
+//    case DATE, TRUNCATED_DATE, BOOLEAN, INTEGER, FLOAT, DOUBLE, LONG, COMPLEX
+   case LONG:
+    try
+    {
+     return ValidatorUtils.getLong (value);
+    }
+    catch (NumberFormatException ex)
+    {
+     errors.add (
+       "field " + fieldName
+       + " has a " + propertyName
+       + " that cannot be converted into a long integer");
+    }
+    return null;
+   case INTEGER:
+    try
+    {
+     return ValidatorUtils.getInteger (value);
+    }
+    catch (NumberFormatException ex)
+    {
+     errors.add (
+       "field " + fieldName
+       + " has a " + propertyName + " that cannot be converted into an integer");
+    }
+    return null;
+   case FLOAT:
+    try
+    {
+     return ValidatorUtils.getFloat (value);
+    }
+    catch (NumberFormatException ex)
+    {
+     errors.add (
+       "field " + fieldName
+       + " has a " + propertyName
+       + " that cannot be converted into a floating point value");
+    }
+    return null;
+   case DOUBLE:
+    try
+    {
+     return ValidatorUtils.getFloat (value);
+    }
+    catch (NumberFormatException ex)
+    {
+     errors.add (
+       "field " + fieldName
+       + " has a " + propertyName
+       + " that cannot be converted into a double sized floating point value");
+    }
+    return null;
+   case BOOLEAN:
+    if (value instanceof Boolean)
+    {
+     return ((Boolean) value).booleanValue ();
+    }
+    if (value instanceof String)
+    {
+     if (((String) value).trim ().equalsIgnoreCase ("true"))
+     {
+      return true;
+     }
+     if (((String) value).trim ().equalsIgnoreCase ("false"))
+     {
+      return true;
+     }
+    }
+    errors.add (
+      "field " + fieldName
+      + " has a " + propertyName
+      + " that cannot be converted into a boolean true/false");
+    return null;
+   case DATE:
+   case TRUNCATED_DATE:
+    if (value instanceof Date)
+    {
+     return (Date) value;
+    }
+    try
+    {
+     // TODO: make the date parser configurable like the validator is
+     return new ServerDateParser ().parseDate (value.toString ());
+    }
+    catch (Exception e)
+    {
+     errors.add (
+       "field " + fieldName
+       + " has a " + propertyName
+       + " that cannot be converted into a date");
+    }
+    return null;
+   default:
+     errors.add (
+       "field " + fieldName
+       + " has a " + propertyName
+       + " that cannot be converted into an unknown/unhandled data type");
+    return null;
   }
  }
 

@@ -354,7 +354,7 @@
 
  <bean id="courseFeeInfo.feeAmounts-parent" abstract="true" parent="cluFeeRecordInfo.feeAmounts">
  <property name="name" value="feeAmounts"/>
- <property name="dataObjectStructure" ref="org.kuali.student.core.dto.CurrencyAmountInfo"/>
+ <property name="dataObjectStructure" ref="courseFeeInfo.feeAmounts.CurrencyAmountInfo"/>
  </bean>
  <bean id="courseFeeInfo.feeAmounts" parent="courseFeeInfo.feeAmounts-parent"/>
 
@@ -792,4 +792,39 @@
   <property name="name" value="clusetRange" />
  </bean>
  <bean id="cluset.clusetRange" parent="cluset.clusetRange-parent" />
+
+
+  <!-- courseFeeInfo.feeAmounts.CurrencyAmountInfo-->
+ <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent"
+       abstract="true" parent="objectStructureDefinition">
+  <property name="name"
+            value="org.kuali.student.core.dto.CurrencyAmountInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyQuantity" />
+    <ref bean="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey" />
+    <ref bean="courseFeeInfo.feeAmounts.currencyAmountInfo.id" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="true" />
+ </bean>
+ <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo" parent="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent" />
+
+ <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyQuantity-parent" abstract="true" parent="currencyAmountInfo.currencyQuantity-parent">
+  <property name="name" value="currencyQuantity" />
+  <property name="exclusiveMin" value="0" />
+  <property name="inclusiveMax" value="10000" />
+ </bean>
+ <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyQuantity" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyQuantity-parent" />
+
+ <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey-parent" abstract="true" parent="currencyAmountInfo.currencyTypeKey-parent">
+  <property name="name" value="currencyTypeKey" />
+  <property name="defaultValue" value="kuali.currency.type.usdollars.whole" />
+ </bean>
+ <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey-parent" />
+
+<bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" abstract="true" parent="currencyAmountInfo.id-parent">
+  <property name="name" value="id" />
+ </bean>
+ <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
 </beans>
