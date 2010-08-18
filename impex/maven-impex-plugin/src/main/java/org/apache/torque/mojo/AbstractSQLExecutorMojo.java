@@ -528,13 +528,26 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		}
 	}
 
+	protected String getEmptyURLErrorMessage() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n\n");
+		sb.append("No url was supplied.");
+		sb.append("\n");
+		sb.append("You can specify a url in the plugin configuration or provide it as a system property.");
+		sb.append("\n");
+		sb.append("-Durl=jdbc:oracle:thin:@localhost:1521:XE (oracle)");
+		sb.append("-Durl=jdbc:mysql://localhost:3306/<database> (mysql)");
+		sb.append("\n\n.");
+		return sb.toString();
+	}
+
 	/**
 	 * Attempt to automatically detect the correct JDBC driver and database type (oracle, mysql, h2, derby, etc) given a
 	 * JDBC url
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		if (isEmpty(url)) {
-			throw new MojoExecutionException("\n\nNo url was supplied.\nYou can provide a url using -Durl=jdbc:oracle:thin:@localhost:1521:XE\n\n.");
+			throw new MojoExecutionException(getEmptyURLErrorMessage());
 		}
 
 		JDBCConfiguration config = jdbcUtils.getDatabaseConfiguration(url);
@@ -560,7 +573,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		}
 
 		if (isBlank(url)) {
-			throw new MojoExecutionException("No database url. Specify one in the plugin configuration.");
+			throw new MojoExecutionException(getEmptyURLErrorMessage());
 		}
 
 		try {
