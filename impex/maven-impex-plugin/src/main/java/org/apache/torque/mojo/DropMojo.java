@@ -3,12 +3,12 @@ package org.apache.torque.mojo;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.db.DatabaseCommand;
 import org.kuali.db.SQLGenerator;
 import org.kuali.db.Transaction;
+
+import static org.apache.commons.lang.StringUtils.*;
 
 /**
  * Drops a database
@@ -20,10 +20,10 @@ public class DropMojo extends AbstractSQLExecutorMojo {
 	/**
 	 * If true, use the artifactId as the schema to drop. See also the trimArtifactId setting
 	 * 
-	 * @parameter expression="${useArtifactIdForSchema}" default-value="true"
+	 * @parameter expression="${useArtifactIdForDatabaseName}" default-value="true"
 	 * @required
 	 */
-	boolean useArtifactIdForSchema;
+	boolean useArtifactIdForDatabaseName;
 
 	/**
 	 * The database command to execute
@@ -43,10 +43,10 @@ public class DropMojo extends AbstractSQLExecutorMojo {
 
 	protected void updateConfiguration() {
 		super.updateConfiguration();
-		if (database != null) {
+		if (!isEmpty(database)) {
 			return;
 		}
-		if (!useArtifactIdForCredentials) {
+		if (!useArtifactIdForDatabaseName) {
 			return;
 		}
 		if (trimArtifactId) {
@@ -58,7 +58,13 @@ public class DropMojo extends AbstractSQLExecutorMojo {
 
 	protected void validateConfiguration() throws MojoExecutionException {
 		super.validateConfiguration();
-		Validate.isTrue(!StringUtils.isEmpty(database));
+		if (isEmpty(database)) {
+			throw new MojoExecutionException("Must specify a database to drop!");
+		}
+
+		if (isEmpty(username) || isEmpty(password)) {
+			throw new MojoExecutionException("username and password must be specified to drop a database");
+		}
 	}
 
 	@Override

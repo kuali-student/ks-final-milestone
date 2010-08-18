@@ -84,11 +84,11 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	boolean useArtifactIdForCredentials;
 
 	/**
-	 * If useArtifactIdForCredentials is true, and trim artifactId is true, any hyphens in the artifact id are trimmed
-	 * out and if the artifactId ends in "-db" the trailing "-db" is trimmed off.
+	 * If trim artifactId is true, any hyphens in the artifact id are trimmed out and if the artifactId ends in "-db"
+	 * the trailing "-db" is trimmed off.
 	 * 
 	 * @since 1.0
-	 * @parameter expression="${trimArtifactId}" default-value="false"
+	 * @parameter expression="${trimArtifactId}" default-value="true"
 	 */
 	boolean trimArtifactId;
 
@@ -359,9 +359,8 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		}
 
 		updateConfiguration();
-		validateConfiguration();
 		updateCredentials();
-		configureTransactions();
+		validateConfiguration();
 
 		conn = getConnection();
 
@@ -370,6 +369,9 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 			// Do not fail the build but don't do anything more
 			return;
 		}
+
+		// Configure the transactions we will be running
+		configureTransactions();
 
 		// Make sure our counters are zeroed out
 		successfulStatements = 0;
@@ -573,7 +575,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * 
 	 * @throws MojoExecutionException
 	 */
-	protected void updateCredentials() throws MojoExecutionException {
+	protected void updateCredentials() {
 		if (settingsKey == null) {
 			// Use the JDBC url as a key into settings.xml by default
 			settingsKey = getUrl();
