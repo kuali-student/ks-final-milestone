@@ -84,7 +84,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 .SummaryTable-EvenRow{background-color:  #FAFAFA;}
 .SummaryTable-OddRow{background-color: #F0F0F0;}
 */
-
+@Deprecated
 public class ViewCourseProposalSummaryConfigurer implements
         CreditCourseProposalConstants, CreditCourseProposalInfoConstants,
         CreditCourseConstants, CreditCourseFormatConstants,
