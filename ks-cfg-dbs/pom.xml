@@ -62,7 +62,6 @@
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}-schema.xml</schemaXMLFile>
-          <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
           <trimArtifactId>true</trimArtifactId>
         </configuration>
         <executions>
