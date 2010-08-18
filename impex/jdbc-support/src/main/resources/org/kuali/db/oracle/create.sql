@@ -1,6 +1,6 @@
 -- Create a user, give them a password and set a quota for the default tablespace
 CREATE USER ${database} 
-IDENTIFIED BY ${oracle.password} 
+IDENTIFIED BY ${databasePassword} 
 DEFAULT TABLESPACE ${oracle.tablespace.default} 
 TEMPORARY TABLESPACE ${oracle.tablespace.temporary} 
 QUOTA ${oracle.tablespace.default.quota} ON ${oracle.tablespace.default}
