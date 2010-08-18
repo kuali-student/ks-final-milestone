@@ -332,6 +332,14 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 */
 	boolean connectionError = false;
 
+	protected String getTrimmedArtifactId() {
+		if (trimArtifactId) {
+			return trimArtifactId(project.getArtifactId());
+		} else {
+			return project.getArtifactId();
+		}
+	}
+
 	protected void configureTransactions() throws MojoExecutionException {
 		// default implementation does nothing
 	}

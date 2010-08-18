@@ -3,16 +3,16 @@ package org.apache.torque.mojo;
 import org.kuali.db.DatabaseCommand;
 
 /**
- * Drops a database
+ * Creates a database
  * 
- * @goal drop
+ * @goal create
  */
-public class DropMojo extends AbstractDatabaseCommandMojo {
+public class CreateMojo extends AbstractDatabaseCommandMojo {
 
 	/**
 	 * The database command to execute
 	 * 
-	 * @parameter expression="${command}" default-value="DROP"
+	 * @parameter expression="${command}" default-value="CREATE"
 	 * @required
 	 */
 	DatabaseCommand command;
