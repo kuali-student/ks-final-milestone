@@ -54,6 +54,9 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	Utils utils = new Utils();
 	JDBCUtils jdbcUtils = new JDBCUtils();
 
+	public static final String DRIVER_INFO_PROPERTIES_USER = "user";
+	public static final String DRIVER_INFO_PROPERTIES_PASSWORD = "password";
+
 	/**
 	 * Call {@link #setOrderFile(String)} with this value to sort in ascendant order the sql files.
 	 */
@@ -126,6 +129,15 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * @parameter expression="${driverProperties}" default-value = ""
 	 */
 	String driverProperties;
+
+	/**
+	 * If set to true the password being used to connect to the database will be displayed in log messages. Default is
+	 * false
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${showPassword}" default-value = "false"
+	 */
+	boolean showPassword;
 
 	/**
 	 * @parameter expression="${settings}"
@@ -640,6 +652,44 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		return StringUtils.remove(s, "-");
 	}
 
+	protected Properties getInfo() throws MojoExecutionException {
+		Properties info = new Properties();
+		info.put(DRIVER_INFO_PROPERTIES_USER, getUsername());
+
+		if (!enableAnonymousPassword) {
+			info.put(DRIVER_INFO_PROPERTIES_PASSWORD, getPassword());
+		}
+
+		info.putAll(getDriverProperties());
+		return info;
+	}
+
+	protected Driver getDriverInstance() throws MojoExecutionException {
+		try {
+			Class<?> dc = Class.forName(getDriver());
+			return (Driver) dc.newInstance();
+		} catch (ClassNotFoundException e) {
+			throw new MojoExecutionException("Driver class not found: " + getDriver(), e);
+		} catch (Exception e) {
+			throw new MojoExecutionException("Failure loading driver: " + getDriver(), e);
+		}
+	}
+
+	protected void showConnectionInfo(Properties properties) {
+		getLog().info("---------------------------");
+		getLog().info("JDBC Connection Information");
+		getLog().info("---------------------------");
+		getLog().info("URL: " + getUrl());
+		getLog().info("Username: " + properties.getProperty(DRIVER_INFO_PROPERTIES_USER));
+		if (isShowPassword()) {
+			getLog().info("Password: " + properties.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD));
+		} else {
+			getLog().info("Password: *******");
+		}
+		getLog().info("Driver: " + getDriver());
+		getLog().info("---------------------------");
+	}
+
 	/**
 	 * Creates a new Connection as using the driver, url, userid and password specified.
 	 * 
@@ -653,31 +703,11 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * 
 	 */
 	protected Connection getConnection() throws MojoExecutionException {
-		getLog().info("URL: " + getUrl());
-		getLog().info("Username: " + getUsername());
-		getLog().info("Driver: " + getDriver());
-		Properties info = new Properties();
-		info.put("user", getUsername());
-
-		if (!enableAnonymousPassword) {
-			info.put("password", getPassword());
-		}
-
-		info.putAll(this.getDriverProperties());
-
-		Driver driverInstance = null;
-
-		try {
-			Class<?> dc = Class.forName(getDriver());
-			driverInstance = (Driver) dc.newInstance();
-		} catch (ClassNotFoundException e) {
-			throw new MojoExecutionException("Driver class not found: " + getDriver(), e);
-		} catch (Exception e) {
-			throw new MojoExecutionException("Failure loading driver: " + getDriver(), e);
-		}
-
+		Properties info = getInfo();
 		Connection conn = null;
 		try {
+			Driver driverInstance = getDriverInstance();
+			showConnectionInfo(info);
 			conn = driverInstance.connect(getUrl(), info);
 
 			if (conn == null) {
@@ -709,19 +739,18 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	protected Properties getDriverProperties() throws MojoExecutionException {
 		Properties properties = new Properties();
 
-		if (!isEmpty(this.driverProperties)) {
-			String[] tokens = split(this.driverProperties, ",");
-			for (int i = 0; i < tokens.length; ++i) {
-				String[] keyValueTokens = split(tokens[i].trim(), "=");
-				if (keyValueTokens.length != 2) {
-					throw new MojoExecutionException("Invalid JDBC Driver properties: " + this.driverProperties);
-				}
-
-				properties.setProperty(keyValueTokens[0], keyValueTokens[1]);
-
-			}
+		if (isEmpty(this.driverProperties)) {
+			return properties;
 		}
 
+		String[] tokens = split(this.driverProperties, ",");
+		for (int i = 0; i < tokens.length; ++i) {
+			String[] keyValueTokens = split(tokens[i].trim(), "=");
+			if (keyValueTokens.length != 2) {
+				throw new MojoExecutionException("Invalid JDBC Driver properties: " + this.driverProperties);
+			}
+			properties.setProperty(keyValueTokens[0], keyValueTokens[1]);
+		}
 		return properties;
 	}
 
@@ -921,5 +950,13 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 
 	public MavenFileFilter getFileFilter() {
 		return fileFilter;
+	}
+
+	public boolean isShowPassword() {
+		return showPassword;
+	}
+
+	public void setShowPassword(boolean showPassword) {
+		this.showPassword = showPassword;
 	}
 }

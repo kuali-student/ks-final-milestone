@@ -4,6 +4,7 @@ import org.kuali.core.db.torque.PrettyPrint;
 import org.kuali.core.db.torque.Utils;
 import org.kuali.db.DatabaseEvent;
 import org.kuali.db.DatabaseListener;
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 
 /**
@@ -47,7 +48,11 @@ public class MojoDatabaseListener implements DatabaseListener {
 
 	@Override
 	public void beginTransaction(DatabaseEvent event) {
-		prettyPrint = new PrettyPrint("[INFO] " + event.getTransaction().getResourceLocation());
+		String message = event.getTransaction().getResourceLocation();
+		if (!StringUtils.isEmpty(event.getTransaction().getSqlCommand())) {
+			message = "Executing SQL";
+		}
+		prettyPrint = new PrettyPrint("[INFO] " + message);
 		utils.left(prettyPrint);
 	}
 

@@ -22,35 +22,44 @@ import static org.apache.commons.lang.StringUtils.*;
 public class Transaction implements Comparable<Transaction> {
 	List<DatabaseListener> listeners = new ArrayList<DatabaseListener>();
 	String resourceLocation;
-	String sqlCommand = "";
+	String sqlCommand;
 	String encoding;
 
 	/**
      *
      */
 	public void addText(String sql) {
-		this.sqlCommand += sql;
+		if (sqlCommand == null) {
+			sqlCommand = sql;
+		} else {
+			sqlCommand += sql;
+		}
 	}
 
 	public Reader getReader() throws IOException {
 		// The SQL for this transaction is contained in a String
-		if (sqlCommand.length() != 0) {
+		if (!isEmpty(sqlCommand)) {
 			return new StringReader(sqlCommand);
 		}
-		// The SQL for this location is contained in a Resource
-		if (resourceLocation != null) {
-			File file = new File(resourceLocation);
-			if (file.exists()) {
-				// The SQL is in a file on the local file system
-				return getReader(new FileInputStream(file));
-			} else {
-				// The SQL is in a location addressable as a Resource
-				ResourceLoader loader = new DefaultResourceLoader();
-				Resource resource = loader.getResource(resourceLocation);
-				return getReader(resource.getInputStream());
-			}
+
+		// If both sqlCommand and resourceLocation are blank, we can't continue
+		if (isEmpty(resourceLocation)) {
+			throw new IOException("Unable to locate the SQL for this transaction");
 		}
-		throw new IOException("Unable to locate the SQL for this transaction");
+
+		// First check the file system
+		File file = new File(resourceLocation);
+		if (file.exists()) {
+			return getReader(new FileInputStream(file));
+		}
+
+		// Next check Resource locations
+		ResourceLoader loader = new DefaultResourceLoader();
+		Resource resource = loader.getResource(resourceLocation);
+		if (!resource.exists()) {
+			throw new IOException("Unable to locate the SQL for this transaction");
+		}
+		return getReader(resource.getInputStream());
 	}
 
 	protected Reader getReader(InputStream in) throws IOException {
