@@ -534,7 +534,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		if (isEmpty(url)) {
-			throw new MojoExecutionException("Must specify a jdbc url");
+			throw new MojoExecutionException("\n\nNo url was supplied.\nYou can provide a url using -Durl=jdbc:oracle:thin:@localhost:1521:XE\n\n.");
 		}
 
 		JDBCConfiguration config = jdbcUtils.getDatabaseConfiguration(url);
