@@ -89,7 +89,7 @@ public class MajorDisciplineDataGenerator {
 			}else if(String.class.equals(pt)){
 				value = getStringValue(pd.getName(),parentPropertyName, propertyIndex, false);
 			}else{
-                System.out.println("Property:" + pd.getDisplayName() + " :" + clazz.getName());
+//                System.out.println("Property:" + pd.getDisplayName() + " :" + clazz.getName());
 			    value = generateTestData(pt,propertyIndex,sameClassNestLevel,pd.getName(), false);
 
 			}

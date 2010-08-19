@@ -60,6 +60,300 @@ public class TestProgramServiceImpl {
         assertEquals("STRING", metadata.getDataType().name());
     }
 
+
+    @Test
+    @Ignore
+    public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1");
+        assertNotNull(progReqInfo);
+    }
+
+    @Test(expected = MissingParameterException.class)
+    public void testGetProgramRequirement_nullId() throws Exception {
+        programService.getProgramRequirement(null);
+    }
+
+    @Test(expected = DoesNotExistException.class)
+    public void testGetProgramRequirement_badId() throws Exception {
+        programService.getProgramRequirement("CLU-XXX ");
+    }
+
+    @Test
+    public void testGetCoreProgram() {
+        CoreProgramInfo core = null;
+        try {
+            try {
+                core = programService.getCoreProgram("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+                fail("Should have received DoesNotExistException");
+            } catch (DoesNotExistException dnee) {
+                String expectedExceptionMessage = "Specified CLU is not a CoreProgram";
+                assertEquals("Expected DoesNotExistException has incorrect message:", expectedExceptionMessage, dnee.getMessage());
+            }
+            core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
+
+            assertNotNull(core);
+
+            assertNotNull(core.getReferenceURL());
+            assertEquals("http://www.google.ca", core.getReferenceURL());
+//            assertNotNull(major.getUniversityClassification());
+//            assertEquals(major.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
+            assertNotNull(core.getStartTerm());
+            assertEquals("start_term", core.getStartTerm());
+            assertNotNull(core.getEndTerm());
+            assertEquals("end_term", core.getEndTerm());
+            assertNotNull(core.getEndProgramEntryTerm());
+            assertEquals("end_admit_term", core.getEndProgramEntryTerm());
+            assertNotNull(core.getCode());
+            assertEquals("BS", core.getCode());
+            assertNotNull(core.getShortTitle());
+            assertEquals("B.S.", core.getShortTitle());
+            assertNotNull(core.getLongTitle());
+            assertEquals("Bachelor of Science", core.getLongTitle());
+            assertNotNull(core.getTranscriptTitle());
+            assertEquals(core.getTranscriptTitle(), "TRANSCRIPT-TITLE");
+
+            //TODO: add descr in test db
+//            assertNotNull(core.getDescr());
+//            assertEquals("Anthropology Major", core.getDescr().getPlain());
+//
+//            //TODO catalog descr
+//            //TODO catalog pub targets
+             //TODO: add lo in test db
+//            assertNotNull(major.getLearningObjectives());
+//            assertTrue(major.getLearningObjectives().size() ==1);
+//            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
+
+            assertNotNull(core.getDivisionsContentOwner());
+            assertTrue(core.getDivisionsContentOwner().size() == 1);
+            assertEquals(core.getDivisionsContentOwner().get(0).getId(), "CORE-COD");
+            assertNotNull(core.getDivisionsStudentOversight());
+            assertTrue(core.getDivisionsStudentOversight().size() == 1);
+            assertEquals(core.getDivisionsStudentOversight().get(0).getId(), "CORE-SOD");
+            assertNotNull(core.getUnitsContentOwner());
+            assertTrue(core.getUnitsContentOwner().size() == 1);
+            assertEquals(core.getUnitsContentOwner().get(0).getId(), "CORE-COU");
+            assertNotNull(core.getUnitsStudentOversight());
+            assertTrue(core.getUnitsStudentOversight().size() == 1);
+            assertEquals(core.getUnitsStudentOversight().get(0).getId(), "CORE-SOU");
+
+            assertNotNull(core.getAttributes());
+            assertTrue(core.getAttributes().size() ==2);
+            assertEquals("GINGER GEM", core.getAttributes().get("COOKIES"));
+            assertEquals("JAM TART", core.getAttributes().get("CAKES"));
+
+            assertNotNull(core.getMetaInfo());
+            assertEquals("1", core.getMetaInfo().getVersionInd());
+            assertNotNull(core.getType());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
+            assertNotNull(core.getState());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
+            assertNotNull(core.getId());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", core.getId());
+          } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+    }
+    @Test
+    public void testGetMajorDiscipline() {
+        MajorDisciplineInfo major = null;
+        try {
+//        	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
+            // MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
+            try {
+                major = programService.getMajorDiscipline("0d8c42bc-77ba-450e-ae0e-eecd76fae779");
+                fail("Should have received DoesNotExistException");
+            } catch (DoesNotExistException dnee) {
+                String expectedExceptionMessage = "Specified CLU is not a Major Discipline";
+                assertEquals("Expected DoesNotExistException has incorrect message:", expectedExceptionMessage, dnee.getMessage());
+            }
+            major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+
+            assertNotNull(major);
+
+            assertNotNull(major.getIntensity());
+            assertEquals("kuali.atp.duration.full", major.getIntensity());
+            assertNotNull(major.getReferenceURL());
+            assertEquals("http://www.google.ca", major.getReferenceURL());
+            assertEquals(1, major.getPublishedInstructors().size());
+
+            assertEquals("INSTR-1", major.getPublishedInstructors().get(0).getPersonId());
+            assertNotNull(major.getCredentialProgramId());
+            assertEquals("d02dbbd3-20e2-410d-ab52-1bd6d362748b", major.getCredentialProgramId());
+
+            assertNotNull(major.getVariations());
+            assertTrue(major.getVariations().size() == 1);
+            assertEquals("BS", major.getVariations().get(0).getCode());
+
+            assertNotNull(major.getCode());
+            assertEquals("ANTH", major.getCode());
+            assertNotNull(major.getCip2000Code());
+            assertEquals( "CIP2000CODE", major.getCip2000Code());
+            assertNotNull(major.getCip2010Code());
+            assertEquals("CIP2010CODE", major.getCip2010Code());
+            assertNotNull(major.getHegisCode());
+            assertEquals("HEGISCODE", major.getHegisCode());
+            assertNotNull(major.getUniversityClassification());
+            assertEquals("UNIVERSITYCLASSIFICATIONCODE", major.getUniversityClassification());
+            assertNotNull(major.getSelectiveEnrollmentCode());
+            assertEquals("SELECTIVEENROLLMENTCODE", major.getSelectiveEnrollmentCode());
+
+            assertNotNull(major.getResultOptions());
+            assertTrue(major.getResultOptions().size() == 1);
+            assertEquals("kuali.certificateType.degree", major.getResultOptions().get(0));
+
+            assertNotNull(major.getStdDuration());
+            assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
+            assertEquals(new Integer(100), major.getStdDuration().getTimeQuantity());
+            assertNotNull(major.getStartTerm());
+            assertEquals("start_term", major.getStartTerm());
+            assertNotNull(major.getEndTerm());
+            assertEquals("end_term", major.getEndTerm());
+            assertNotNull(major.getEndProgramEntryTerm());
+            assertEquals("end_admit_term", major.getEndProgramEntryTerm());
+
+            assertNotNull(major.getNextReviewPeriod());
+            assertEquals("kuali.atp.SU2009-2010S1", major.getNextReviewPeriod());
+
+            assertNotNull(major.getEffectiveDate());
+            //TODO effectiveDate
+//            Calendar effectiveDate = GregorianCalendar.getInstance();
+//            effectiveDate.set(1984, 7, 1, 0, 0, 0);
+//            Date testDate = new Date(effectiveDate.getTimeInMillis());
+//            assertTrue(major.getEffectiveDate().compareTo(testDate) == 0);
+
+            assertNotNull(major.getShortTitle());
+            assertEquals("Anthro", major.getShortTitle());
+            assertNotNull(major.getLongTitle());
+            assertEquals("Anthropology", major.getLongTitle());
+            assertNotNull(major.getTranscriptTitle());
+            assertEquals("TRANSCRIPT-TITLE", major.getTranscriptTitle());
+            assertNotNull(major.getDiplomaTitle());
+            assertEquals("DIPLOMA-TITLE", major.getDiplomaTitle() );
+            assertNotNull(major.getDescr());
+            assertEquals("Anthropology Major", major.getDescr().getPlain());
+
+            //TODO catalog descr
+            //TODO catalog pub targets
+
+            assertNotNull(major.getLearningObjectives());
+            assertTrue(major.getLearningObjectives().size() ==1);
+            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
+            assertNotNull(major.getCampusLocations());
+            assertTrue(major.getCampusLocations().size() == 2);
+            assertEquals("NORTH", major.getCampusLocations().get(0));
+            assertEquals("SOUTH", major.getCampusLocations().get(1));
+
+            assertNotNull(major.getOrgCoreProgram());
+            assertEquals("kuali.lu.type.CoreProgram", major.getOrgCoreProgram().getType());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", major.getOrgCoreProgram().getId());
+            //TODO progr requirements
+
+            assertNotNull(major.getAccreditingAgencies());
+            assertTrue(major.getAccreditingAgencies().size() == 1);
+            assertEquals("23", major.getAccreditingAgencies().get(0).getOrgId());
+            assertNotNull(major.getDivisionsContentOwner());
+            assertTrue(major.getDivisionsContentOwner().size() == 1);
+            assertEquals(major.getDivisionsContentOwner().get(0).getId(), "MAJOR-1");
+            assertNotNull(major.getDivisionsStudentOversight());
+            assertTrue(major.getDivisionsStudentOversight().size() == 1);
+            assertEquals(major.getDivisionsStudentOversight().get(0).getId(), "MAJOR-2");
+            assertNotNull(major.getDivisionsDeployment());
+            assertTrue(major.getDivisionsDeployment().size() == 1);
+            assertEquals(major.getDivisionsDeployment().get(0).getId(), "MAJOR-3");
+            assertNotNull(major.getDivisionsFinancialResources());
+            assertTrue(major.getDivisionsFinancialResources().size() == 1);
+            assertEquals(major.getDivisionsFinancialResources().get(0).getId(), "MAJOR-4");
+            assertNotNull(major.getDivisionsFinancialControl());
+            assertTrue(major.getDivisionsFinancialControl().size() == 1);
+            assertEquals(major.getDivisionsFinancialControl().get(0).getId(), "MAJOR-5");
+
+            assertNotNull(major.getUnitsContentOwner());
+            assertTrue(major.getUnitsContentOwner().size() == 1);
+            assertEquals(major.getUnitsContentOwner().get(0).getId(), "MAJOR-6");
+            assertNotNull(major.getUnitsStudentOversight());
+            assertTrue(major.getUnitsStudentOversight().size() == 1);
+            assertEquals(major.getUnitsStudentOversight().get(0).getId(), "MAJOR-7");
+            assertNotNull(major.getUnitsDeployment());
+            assertTrue(major.getUnitsDeployment().size() == 1);
+            assertEquals(major.getUnitsDeployment().get(0).getId(), "MAJOR-8");
+            assertNotNull(major.getUnitsFinancialResources());
+            assertTrue(major.getUnitsFinancialResources().size() == 1);
+            assertEquals(major.getUnitsFinancialResources().get(0).getId(), "MAJOR-9");
+            assertNotNull(major.getUnitsFinancialControl());
+            assertTrue(major.getUnitsFinancialControl().size() == 2);
+            assertEquals(major.getUnitsFinancialControl().get(0).getId(), "MAJOR-10");
+            assertEquals(major.getUnitsFinancialControl().get(1).getId(), "MAJOR-11");
+            assertNotNull(major.getAttributes());
+            assertTrue(major.getAttributes().size() ==2);
+            assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
+            assertEquals("JAM TART", major.getAttributes().get("CAKES"));
+
+            assertNotNull(major.getMetaInfo());
+            assertEquals("1", major.getMetaInfo().getVersionInd());
+           //TODO createTime
+//            Calendar createTime = GregorianCalendar.getInstance();
+//            createTime.set(2009, 4, 7, 12, 5, 36);
+//            testDate = new Date(createTime.getTimeInMillis());
+//            assertTrue(major.getEffectiveDate().compareTo(testDate) == 0);
+
+            assertNotNull(major.getType());
+            assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, major.getType());
+            assertNotNull(major.getState());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, major.getState());
+            assertNotNull(major.getId());
+            assertEquals("d4ea77dd-b492-4554-b104-863e42c5f8b7", major.getId());
+
+
+          } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetVariationsByMajorDisciplineId(){
+        MajorDisciplineInfo majorDisciplineInfo = null;
+
+        try {
+            majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(majorDisciplineInfo);
+
+            List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(pvInfos);
+            assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetBaccCredentialProgram(){
+
+    	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
+    	CredentialProgramInfo credentialProgramInfo = null;
+    	try{
+    		credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
+            assertNotNull(credentialProgramInfo);
+            assertEquals("BS", credentialProgramInfo.getCode());
+            assertEquals("B.S.", credentialProgramInfo.getShortTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
+    		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
+            assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
+            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
+            assertNotNull(credentialProgramInfo.getCoreProgramIds());
+            assertEquals(1, credentialProgramInfo.getCoreProgramIds().size());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", credentialProgramInfo.getCoreProgramIds().get(0));
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        fail(e.getMessage());
+	    }
+    }
+
     @Test
     public void testCreateMajorDiscipline() {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
@@ -238,274 +532,6 @@ public class TestProgramServiceImpl {
 		assertNotNull(createdInfo);
 	}
 
-	@Test
-	@Ignore
-	public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1");
-		assertNotNull(progReqInfo);
-	}
-
-	@Test(expected = MissingParameterException.class)
-	public void testGetProgramRequirement_nullId() throws Exception {
-		programService.getProgramRequirement(null);
-	}
-
-	@Test(expected = DoesNotExistException.class)
-	public void testGetProgramRequirement_badId() throws Exception {
-		programService.getProgramRequirement("CLU-XXX ");
-	}
-
-    @Test
-    public void testGetCoreProgram() {
-        CoreProgramInfo core = null;
-        try {
-            try {
-                core = programService.getCoreProgram("d4ea77dd-b492-4554-b104-863e42c5f8b7");
-                fail("Should have received DoesNotExistException");
-            } catch (DoesNotExistException dnee) {
-                String expectedExceptionMessage = "Specified CLU is not a CoreProgram";
-                assertEquals("Expected DoesNotExistException has incorrect message:", expectedExceptionMessage, dnee.getMessage());
-            }
-            core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
-
-            assertNotNull(core);
-
-            assertNotNull(core.getReferenceURL());
-            assertEquals("http://www.google.ca", core.getReferenceURL());
-//            assertNotNull(major.getUniversityClassification());
-//            assertEquals(major.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
-            assertNotNull(core.getStartTerm());
-            assertEquals("start_term", core.getStartTerm());
-            assertNotNull(core.getEndTerm());
-            assertEquals("end_term", core.getEndTerm());
-            assertNotNull(core.getEndProgramEntryTerm());
-            assertEquals("end_admit_term", core.getEndProgramEntryTerm());
-            assertNotNull(core.getCode());
-            assertEquals("BS", core.getCode());
-            assertNotNull(core.getShortTitle());
-            assertEquals("B.S.", core.getShortTitle());
-            assertNotNull(core.getLongTitle());
-            assertEquals("Bachelor of Science", core.getLongTitle());
-            assertNotNull(core.getTranscriptTitle());
-            assertEquals(core.getTranscriptTitle(), "TRANSCRIPT-TITLE");
-
-            //TODO: add descr in test db
-//            assertNotNull(core.getDescr());
-//            assertEquals("Anthropology Major", core.getDescr().getPlain());
-//
-//            //TODO catalog descr
-//            //TODO catalog pub targets
-             //TODO: add lo in test db
-//            assertNotNull(major.getLearningObjectives());
-//            assertTrue(major.getLearningObjectives().size() ==1);
-//            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
-
-			assertNotNull(core.getDivisionsContentOwner());
-			assertTrue(core.getDivisionsContentOwner().size() == 1);
-			assertEquals(core.getDivisionsContentOwner().get(0).getId(), "CORE-COD");
-			assertNotNull(core.getDivisionsStudentOversight());
-			assertTrue(core.getDivisionsStudentOversight().size() == 1);
-			assertEquals(core.getDivisionsStudentOversight().get(0).getId(), "CORE-SOD");
-			assertNotNull(core.getUnitsContentOwner());
-			assertTrue(core.getUnitsContentOwner().size() == 1);
-			assertEquals(core.getUnitsContentOwner().get(0).getId(), "CORE-COU");
-			assertNotNull(core.getUnitsStudentOversight());
-			assertTrue(core.getUnitsStudentOversight().size() == 1);
-			assertEquals(core.getUnitsStudentOversight().get(0).getId(), "CORE-SOU");
-
-			assertNotNull(core.getAttributes());
-			assertTrue(core.getAttributes().size() ==2);
-			assertEquals("GINGER GEM", core.getAttributes().get("COOKIES"));
-			assertEquals("JAM TART", core.getAttributes().get("CAKES"));
-
-			assertNotNull(core.getMetaInfo());
-			assertEquals("1", core.getMetaInfo().getVersionInd());
-			assertNotNull(core.getType());
-			assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
-			assertNotNull(core.getState());
-			assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
-			assertNotNull(core.getId());
-			assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", core.getId());
-          } catch (Exception e) {
-        	e.printStackTrace();
-            fail(e.getMessage());
-        }
-	}
-    @Test
-    public void testGetMajorDiscipline() {
-        MajorDisciplineInfo major = null;
-        try {
-//        	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
-            // MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
-            try {
-                major = programService.getMajorDiscipline("0d8c42bc-77ba-450e-ae0e-eecd76fae779");
-                fail("Should have received DoesNotExistException");
-            } catch (DoesNotExistException dnee) {
-                String expectedExceptionMessage = "Specified CLU is not a Major Discipline";
-                assertEquals("Expected DoesNotExistException has incorrect message:", expectedExceptionMessage, dnee.getMessage());
-            }
-            major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
-
-            assertNotNull(major);
-
-            assertNotNull(major.getIntensity());
-            assertEquals("kuali.atp.duration.full", major.getIntensity());
-            assertNotNull(major.getReferenceURL());
-            assertEquals("http://www.google.ca", major.getReferenceURL());
-            assertEquals(1, major.getPublishedInstructors().size());
-
-            assertEquals("INSTR-1", major.getPublishedInstructors().get(0).getPersonId());
-            assertNotNull(major.getCredentialProgramId());
-            assertEquals("d02dbbd3-20e2-410d-ab52-1bd6d362748b", major.getCredentialProgramId());
-
-            assertNotNull(major.getVariations());
-            assertTrue(major.getVariations().size() == 1);
-            assertEquals("BS", major.getVariations().get(0).getCode());
-
-            assertNotNull(major.getCode());
-            assertEquals("ANTH", major.getCode());
-            assertNotNull(major.getCip2000Code());
-            assertEquals( "CIP2000CODE", major.getCip2000Code());
-            assertNotNull(major.getCip2010Code());
-            assertEquals("CIP2010CODE", major.getCip2010Code());
-            assertNotNull(major.getHegisCode());
-            assertEquals("HEGISCODE", major.getHegisCode());
-            assertNotNull(major.getUniversityClassification());
-            assertEquals("UNIVERSITYCLASSIFICATIONCODE", major.getUniversityClassification());
-            assertNotNull(major.getSelectiveEnrollmentCode());
-            assertEquals("SELECTIVEENROLLMENTCODE", major.getSelectiveEnrollmentCode());
-
-            assertNotNull(major.getResultOptions());
-            assertTrue(major.getResultOptions().size() == 1);
-            assertEquals("kuali.certificateType.degree", major.getResultOptions().get(0));
-
-            assertNotNull(major.getStdDuration());
-            assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
-            assertEquals(new Integer(100), major.getStdDuration().getTimeQuantity());
-            assertNotNull(major.getStartTerm());
-            assertEquals("start_term", major.getStartTerm());
-            assertNotNull(major.getEndTerm());
-            assertEquals("end_term", major.getEndTerm());
-            assertNotNull(major.getEndProgramEntryTerm());
-            assertEquals("end_admit_term", major.getEndProgramEntryTerm());
-
-            assertNotNull(major.getNextReviewPeriod());
-            assertEquals("kuali.atp.SU2009-2010S1", major.getNextReviewPeriod());
-
-            assertNotNull(major.getEffectiveDate());
-            //TODO effectiveDate
-//            Calendar effectiveDate = GregorianCalendar.getInstance();
-//            effectiveDate.set(1984, 7, 1, 0, 0, 0);
-//            Date testDate = new Date(effectiveDate.getTimeInMillis());
-//            assertTrue(major.getEffectiveDate().compareTo(testDate) == 0);
-
-            assertNotNull(major.getShortTitle());
-            assertEquals("Anthro", major.getShortTitle());
-            assertNotNull(major.getLongTitle());
-            assertEquals("Anthropology", major.getLongTitle());
-            assertNotNull(major.getTranscriptTitle());
-            assertEquals("TRANSCRIPT-TITLE", major.getTranscriptTitle());
-            assertNotNull(major.getDiplomaTitle());
-            assertEquals("DIPLOMA-TITLE", major.getDiplomaTitle() );
-            assertNotNull(major.getDescr());
-            assertEquals("Anthropology Major", major.getDescr().getPlain());
-
-            //TODO catalog descr
-            //TODO catalog pub targets
-
-            assertNotNull(major.getLearningObjectives());
-            assertTrue(major.getLearningObjectives().size() ==1);
-            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
-            assertNotNull(major.getCampusLocations());
-            assertTrue(major.getCampusLocations().size() == 2);
-            assertEquals("NORTH", major.getCampusLocations().get(0));
-            assertEquals("SOUTH", major.getCampusLocations().get(1));
-
-            assertNotNull(major.getOrgCoreProgram());
-            assertEquals("kuali.lu.type.CoreProgram", major.getOrgCoreProgram().getType());
-            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", major.getOrgCoreProgram().getId());
-            //TODO progr requirements
-
-            assertNotNull(major.getAccreditingAgencies());
-            assertTrue(major.getAccreditingAgencies().size() == 1);
-            assertEquals("23", major.getAccreditingAgencies().get(0).getOrgId());
-            assertNotNull(major.getDivisionsContentOwner());
-            assertTrue(major.getDivisionsContentOwner().size() == 1);
-            assertEquals(major.getDivisionsContentOwner().get(0).getId(), "MAJOR-1");
-            assertNotNull(major.getDivisionsStudentOversight());
-            assertTrue(major.getDivisionsStudentOversight().size() == 1);
-            assertEquals(major.getDivisionsStudentOversight().get(0).getId(), "MAJOR-2");
-            assertNotNull(major.getDivisionsDeployment());
-            assertTrue(major.getDivisionsDeployment().size() == 1);
-            assertEquals(major.getDivisionsDeployment().get(0).getId(), "MAJOR-3");
-            assertNotNull(major.getDivisionsFinancialResources());
-            assertTrue(major.getDivisionsFinancialResources().size() == 1);
-            assertEquals(major.getDivisionsFinancialResources().get(0).getId(), "MAJOR-4");
-            assertNotNull(major.getDivisionsFinancialControl());
-            assertTrue(major.getDivisionsFinancialControl().size() == 1);
-            assertEquals(major.getDivisionsFinancialControl().get(0).getId(), "MAJOR-5");
-
-            assertNotNull(major.getUnitsContentOwner());
-            assertTrue(major.getUnitsContentOwner().size() == 1);
-            assertEquals(major.getUnitsContentOwner().get(0).getId(), "MAJOR-6");
-            assertNotNull(major.getUnitsStudentOversight());
-            assertTrue(major.getUnitsStudentOversight().size() == 1);
-            assertEquals(major.getUnitsStudentOversight().get(0).getId(), "MAJOR-7");
-            assertNotNull(major.getUnitsDeployment());
-            assertTrue(major.getUnitsDeployment().size() == 1);
-            assertEquals(major.getUnitsDeployment().get(0).getId(), "MAJOR-8");
-            assertNotNull(major.getUnitsFinancialResources());
-            assertTrue(major.getUnitsFinancialResources().size() == 1);
-            assertEquals(major.getUnitsFinancialResources().get(0).getId(), "MAJOR-9");
-            assertNotNull(major.getUnitsFinancialControl());
-            assertTrue(major.getUnitsFinancialControl().size() == 2);
-            assertEquals(major.getUnitsFinancialControl().get(0).getId(), "MAJOR-10");
-            assertEquals(major.getUnitsFinancialControl().get(1).getId(), "MAJOR-11");
-            assertNotNull(major.getAttributes());
-            assertTrue(major.getAttributes().size() ==2);
-            assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
-            assertEquals("JAM TART", major.getAttributes().get("CAKES"));
-
-            assertNotNull(major.getMetaInfo());
-            assertEquals("1", major.getMetaInfo().getVersionInd());
-           //TODO createTime
-//            Calendar createTime = GregorianCalendar.getInstance();
-//            createTime.set(2009, 4, 7, 12, 5, 36);
-//            testDate = new Date(createTime.getTimeInMillis());
-//            assertTrue(major.getEffectiveDate().compareTo(testDate) == 0);
-
-            assertNotNull(major.getType());
-            assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, major.getType());
-            assertNotNull(major.getState());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, major.getState());
-            assertNotNull(major.getId());
-            assertEquals("d4ea77dd-b492-4554-b104-863e42c5f8b7", major.getId());
-
-
-          } catch (Exception e) {
-        	e.printStackTrace();
-            fail(e.getMessage());
-        }
-    }
-
-    @Test
-    public void testGetVariationsByMajorDisciplineId(){
-    	MajorDisciplineInfo majorDisciplineInfo = null;
-
-        try {
-			majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
-			assertNotNull(majorDisciplineInfo);
-
-			List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("d4ea77dd-b492-4554-b104-863e42c5f8b7");
-			assertNotNull(pvInfos);
-			assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
-
-        } catch (Exception e) {
-        	e.printStackTrace();
-            fail(e.getMessage());
-        }
-    }
-
     @Test
     @Ignore public void testDeleteMajorDiscipline() {
         try {
@@ -631,32 +657,6 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
 	}
-
-    @Test
-    @Ignore
-    public void testGetBaccCredentialProgram(){
-        //TODO  HMJ - reactivate this test!!
-    	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
-    	CredentialProgramInfo credentialProgramInfo = null;
-    	try{
-    		credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
-            assertNotNull(credentialProgramInfo);
-            assertEquals("BS", credentialProgramInfo.getCode());
-            assertEquals("B.S.", credentialProgramInfo.getShortTitle());
-            assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
-            assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
-    		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
-            assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
-            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
-            assertNotNull(credentialProgramInfo.getCoreProgramIds());
-            assertEquals(1, credentialProgramInfo.getCoreProgramIds().size());
-            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", credentialProgramInfo.getCoreProgramIds().get(0));
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	        fail(e.getMessage());
-	    }
-    }
 
     @Test
     @Ignore public void testDeleteBaccCredentialProgram() {
