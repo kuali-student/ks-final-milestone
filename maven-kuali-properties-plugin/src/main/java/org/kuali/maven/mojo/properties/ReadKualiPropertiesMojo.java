@@ -134,19 +134,14 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		while (itr.hasNext()) {
 			String location = itr.next();
 			if (!exists(location)) {
+				getLog().warn(location + " does not exist");
 				itr.remove();
 			}
 		}
 		if (locationsList.size() == 0) {
 			return;
 		}
-		for (String location : locationsList) {
-			getLog().info(location);
-		}
-		Properties baseProps = new Properties();
-		baseProps.putAll(project.getProperties());
-		baseProps.putAll(System.getProperties());
-		JAXBConfigImpl config = new JAXBConfigImpl(locationsList, baseProps);
+		JAXBConfigImpl config = new JAXBConfigImpl(locationsList, project.getProperties());
 		config.setSystemOverride(isSystemOverride());
 		try {
 			config.parseConfig();
