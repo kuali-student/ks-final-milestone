@@ -6,11 +6,15 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.config.JAXBConfigImpl;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -43,10 +47,10 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 	String[] locations;
 
 	/**
-	 * If set to true then system properties will always be checked first, disregarding any values in the properties
-	 * files. The default is false.
+	 * If set to true then system properties will always be used, disregarding values in the properties files. The
+	 * default is true.
 	 * 
-	 * @parameter expression="${systemOverride}" default-value="false"
+	 * @parameter expression="${systemOverride}" default-value="true"
 	 */
 	boolean systemOverride;
 
@@ -109,12 +113,29 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		return list;
 	}
 
+	protected boolean exists(String location) {
+		File file = new File(location);
+		if (file.exists()) {
+			return true;
+		}
+		ResourceLoader loader = new DefaultResourceLoader();
+		Resource resource = loader.getResource(location);
+		return resource.exists();
+	}
+
 	public void execute() throws MojoExecutionException {
 		MavenLogAppender.startPluginLog(this);
 		if (skipMojo()) {
 			return;
 		}
 		List<String> locationsList = getList();
+		Iterator<String> itr = locationsList.iterator();
+		while (itr.hasNext()) {
+			String location = itr.next();
+			if (!exists(location)) {
+				itr.remove();
+			}
+		}
 		if (locationsList.size() == 0) {
 			return;
 		}
@@ -141,7 +162,8 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		for (String s : list) {
 			getLog().info(s);
 		}
-		config.getProperty("funky");
+		String s = config.getProperty("funky");
+		getLog().info("funky=" + s);
 		MavenLogAppender.endPluginLog(this);
 	}
 
