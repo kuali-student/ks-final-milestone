@@ -426,7 +426,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     public SectionView generateCourseLogisticsSection() {
         VerticalSectionView section = initSectionView(CourseSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY);
-
+        section.setInstructions(getLabel(LUConstants.LOGISTICS_LABEL_KEY+"-instruct")+"<br><br>");
+        
         section.addSection(generateSchedulingSection());
         section.addSection(generateDurationSection());
         section.addSection(generateLearningResultsSection());
@@ -437,7 +438,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     private Section generateLearningResultsSection() {
         VerticalSection learningResults = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
-
+        learningResults.setInstructions(getLabel(LUConstants.LEARNING_RESULTS_LABEL_KEY+"-instruct")+"<br><br><br>");
+        
         learningResults.addSection(generateGradesAssessmentsSection());
         learningResults.addSection(generateStudentRegistrationOptionsSection());
         learningResults.addSection(generateFinalExamSection());
@@ -458,8 +460,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 	private Section generateStudentRegistrationOptionsSection() {
 		VerticalSection studentRegistrationOptionsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY), WITH_DIVIDER);
 
-		addField(studentRegistrationOptionsSection, COURSE + "/" + PASS_FAIL, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY)));
         addField(studentRegistrationOptionsSection, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_AUDIT_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
+		addField(studentRegistrationOptionsSection, COURSE + "/" + PASS_FAIL, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY)));
 		
         return studentRegistrationOptionsSection;
 	}
@@ -491,9 +493,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     
     protected VerticalSection generateDurationSection() {
 	    VerticalSection duration = initSection(getH3Title(LUConstants.DURATION_LITERAL_LABEL_KEY), WITH_DIVIDER);
+	    duration.setInstructions(getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY+"-instruct"));
 	    GroupSection duration_group = new GroupSection();
-	    addField(duration_group, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
 	    addField(duration_group, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY));
+	    addField(duration_group, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_QUANTITY_LABEL_KEY)); 
 	    
 	    duration.addSection(duration_group);
 	    return duration;
@@ -503,12 +506,17 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     	VerticalSection finalExam = initSection(getH3Title(LUConstants.FINAL_EXAM_LABEL_KEY), WITH_DIVIDER);
     	GroupSection finalExam_group = new GroupSection();
     	GroupSection finalExamRationale_group = new GroupSection();
+    	GroupSection finalExamRationale_group2 = new GroupSection();
+    	
     	FieldDescriptor field =  addField(finalExam_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM , generateMessageInfo(LUConstants.FINAL_EXAM_STATUS_LABEL_KEY));
     	KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract)(((KSPicker)field.getFieldWidget()).getInputWidget());
     	addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));	
+    	addField(finalExamRationale_group2, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));	
     	SwapSection swapSection = new SwapSection(picker);
     	swapSection.addSection(finalExamRationale_group, "ALT");
+     	swapSection.addSection(finalExamRationale_group2, "None");
     	finalExam.addSection(finalExam_group);
+    	
     	finalExam.addSection(swapSection);
     	return finalExam;
     }
