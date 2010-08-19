@@ -250,6 +250,10 @@ public class MetadataServiceImpl {
     protected ObjectStructureDefinition getObjectStructure(String objectKey){
         DictionaryService dictionaryService = dictionaryServiceMap.get(objectKey);
         
+        if (dictionaryService == null){
+        	throw new RuntimeException("Dictionary service not provided for objectKey=[" + objectKey+"].");
+        }
+        
         return dictionaryService.getObjectStructure(objectKey);
     }
     

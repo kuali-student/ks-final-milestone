@@ -96,6 +96,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			Metadata metadata = transformationManager.getMetadata(getDtoClass().getName(), filterProperties); 
 			return metadata;
 		} catch (Exception e) {
+			LOG.error("Could not get metadata ", e);
 			throw new RuntimeException("Failed to get metadata");
 		}		
 	}
