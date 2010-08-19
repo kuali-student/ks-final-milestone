@@ -588,26 +588,17 @@ public class RuleComponentEditorView extends ViewComposite {
         	if(clusetDetails != null)
         		clusetDetails.updateModel(cluProposalModel);
         	
-        	Data input = cluProposalModel.getRoot();
-        	CreditCourseProposalHelper root = CreditCourseProposalHelper.wrap(input);
-        	 if (root.getCourse() == null) {
-        		 Window.alert("Please fill out Course Information.");
-				 return;
-        	 }
-        	 
-        	CreditCourseHelper course =CreditCourseHelper.wrap(root.getCourse().getData());  
-			
-			if(course.getCourseTitle() == null || course.getCourseTitle().trim().isEmpty()){
+        	String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
+			if(courseTitle == null || courseTitle.trim().isEmpty()){
 				 Window.alert("Course Title can't be empty.");
 				 return;
 			}
 			
 			final CluSetHelper cluSet = CluSetHelper.wrap((Data)cluProposalModel.get("cluset"));
-			cluSet.setName(course.getCourseTitle());
-			//cluSet.setName("test_li");
-			cluSet.setDescription(course.getId());
-			cluSet.setEffectiveDate(course.getEffectiveDate());
-			cluSet.setExpirationDate(course.getExpirationDate());
+			cluSet.setName(courseTitle);
+//			cluSet.setDescription(course.getId());
+//			cluSet.setEffectiveDate(course.getEffectiveDate());
+//			cluSet.setExpirationDate(course.getExpirationDate());
 			cluSet.setReusable(new Boolean(false));
 			cluSet.setReferenceable(new Boolean(false));
 
