@@ -15,24 +15,15 @@
 
 package org.kuali.student.lum.lrc.entity;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.util.UUIDHelper;
 
 /*
  * Copyright 2009 The Kuali Foundation
@@ -52,132 +43,50 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name="KSLU_LRC_RESULT_VALUE")
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="SUBTYPE")
-
-public abstract class ResultValue extends MetaEntity {
+public class ResultValue {
     @Id
     @Column(name = "ID")
     private String id;
 
-    @Column(name = "NAME")
-    private String name;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LrcRichText descr;
-
     @Column(name = "VALUE")
     private String value;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFF_DT")
-    private Date effectiveDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
-    private Date expirationDate;
-
-    @ManyToMany(mappedBy="resultValues")
-    private List<ResultComponent> resultComponents;
-
+    @ManyToOne
+    @JoinColumn(name = "RSLT_COMP_ID")
+    private ResultComponent resultComponent;
+    
     /**
-     * @return the id
+     * AutoGenerate the Id
      */
-    public String getId() {
-        return id;
+    @PrePersist
+    public void prePersist() {
+        this.id = UUIDHelper.genStringUUID(this.id);
     }
+    
+	public String getId() {
+		return id;
+	}
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    /**
-     * @return the descr
-     */
-    public LrcRichText getDescr() {
-        return descr;
-    }
+	public ResultComponent getResultComponent() {
+		return resultComponent;
+	}
 
-    /**
-     * @param descr the descr to set
-     */
-    public void setDescr(LrcRichText descr) {
-        this.descr = descr;
-    }
+	public void setResultComponent(ResultComponent resultComponent) {
+		this.resultComponent = resultComponent;
+	}
 
-    /**
-     * @return the value
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * @param value the value to set
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * @return the effectiveDate
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    /**
-     * @param effectiveDate the effectiveDate to set
-     */
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    /**
-     * @return the expirationDate
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    /**
-     * @param expirationDate the expirationDate to set
-     */
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    /**
-     * @return the resultComponents
-     */
-    public List<ResultComponent> getResultComponents() {
-        return resultComponents;
-    }
-
-    /**
-     * @param resultComponents the resultComponents to set
-     */
-    public void setResultComponents(List<ResultComponent> resultComponents) {
-        this.resultComponents = resultComponents;
-    }
 
 
 }

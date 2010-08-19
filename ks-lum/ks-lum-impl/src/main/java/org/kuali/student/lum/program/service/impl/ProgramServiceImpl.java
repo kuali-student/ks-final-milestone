@@ -44,7 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Transactional(rollbackFor = {Throwable.class})
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
     final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 

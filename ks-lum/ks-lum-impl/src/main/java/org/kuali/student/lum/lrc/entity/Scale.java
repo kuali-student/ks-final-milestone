@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lrc.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -130,9 +129,6 @@ public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
 
     @Override
     public List<ScaleAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<ScaleAttribute>(0);
-        }
         return attributes;
     }
 

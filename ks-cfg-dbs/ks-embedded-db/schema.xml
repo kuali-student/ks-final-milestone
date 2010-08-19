@@ -4192,116 +4192,6 @@
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LRC_CREDENTIAL">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_CREDENTIAL_TYPE" name="FKD8DA5767D73C7504">
-            <reference foreign="TYPE_KEY" local="TYPE"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_LRC_RESULT_VALUE" name="FKD8DA576781BF0176">
-            <reference foreign="ID" local="ID"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_LRC_CREDENTIAL_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_CREDENTIAL" name="FKCA20BBC924E48D23">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_LRC_CREDENTIAL_TYPE">
-        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSLU_LRC_CREDENTIAL_TYPE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_CREDENTIAL_TYPE" name="FK1F25F4FEDD59D87D">
-            <reference foreign="TYPE_KEY" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_LRC_CREDIT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RESULT_VALUE" name="FK78012A0981BF0176">
-            <reference foreign="ID" local="ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_LRC_CREDIT_TYPE" name="FK78012A0925E0CB26">
-            <reference foreign="TYPE_KEY" local="TYPE"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_LRC_CREDIT_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_CREDIT" name="FK20DE3E671ADD4445">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_LRC_CREDIT_TYPE">
-        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSLU_LRC_CREDIT_TYPE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_CREDIT_TYPE" name="FK5A2765202BFE2E9F">
-            <reference foreign="TYPE_KEY" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_LRC_GRADE">
-        <column name="RANK" size="255" type="VARCHAR"/>
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="SCALE_KEY" size="255" type="VARCHAR"/>
-        <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RESULT_VALUE" name="FKA9409AA781BF0176">
-            <reference foreign="ID" local="ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_LRC_SCALE" name="FKA9409AA74F89CD7B">
-            <reference foreign="ID" local="SCALE_KEY"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_LRC_GRADE_TYPE" name="FKA9409AA75555B5B2">
-            <reference foreign="TYPE_KEY" local="TYPE"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_LRC_GRADE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_GRADE" name="FKB628089C52554D1">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_LRC_GRADE_TYPE">
-        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSLU_LRC_GRADE_TYPE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_GRADE_TYPE" name="FK3C01283E5B73192B">
-            <reference foreign="TYPE_KEY" local="OWNER"/>
-        </foreign-key>
-    </table>
     <table name="KSLU_LRC_RESCOMP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
@@ -4337,9 +4227,6 @@
         <foreign-key foreignTable="KSLU_LRC_RESCOMP" name="FK294993ACA2C1D284">
             <reference foreign="ID" local="COMPONENT_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSLU_LRC_RESULT_VALUE" name="FK294993AC154ACCD8">
-            <reference foreign="ID" local="RESULT_ID"/>
-        </foreign-key>
     </table>
     <table name="KSLU_LRC_RESCOMP_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4347,7 +4234,6 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="VALUE_TYPE" size="255" type="VARCHAR"/>
     </table>
     <table name="KSLU_LRC_RESCOMP_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4360,18 +4246,10 @@
     </table>
     <table name="KSLU_LRC_RESULT_VALUE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
-        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RICH_TEXT_T" name="FK4C076DBF7A849F63">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
+        <column name="RSLT_COMP_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_LRC_RESCOMP" name="FK4C076DBF138ECC7C">
+            <reference foreign="ID" local="RSLT_COMP_ID"/>
         </foreign-key>
     </table>
     <table name="KSLU_LRC_RICH_TEXT_T">

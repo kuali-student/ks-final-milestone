@@ -87,7 +87,7 @@
 		init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
 		<property name="forceShutdown" value="true" />
 		<property name="startupTransactionService" value="true" />
-		<property name="transactionTimeout" value="60" />
+		<property name="transactionTimeout" value="300" />
 	</bean>
 
 	<bean id="AtomikosUsrTx"
@@ -446,6 +446,7 @@
 		<property name="statementService" ref="statementServiceImpl"/>
 		<property name="atpService" ref="atpServiceImpl"/>
 		<property name="orgService" ref="orgServiceImpl"/>
+		<property name="lrcService" ref="lrcServiceImpl"/>
 	</bean>
 
 	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
@@ -453,6 +454,7 @@
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
 		<property name="luService" ref="luServiceImpl"/>
 		<property name="loService" ref="loServiceImpl"/>
+		<property name="lrcService" ref="lrcServiceImpl"/>
 		<property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="loAssembler" ref="loAssembler"/>
 	</bean>
@@ -565,6 +567,13 @@
 						<bean class="org.kuali.student.lum.lo.entity.LoLoRelationType" p:id="kuali.lo.relation.type.includes" />
 						<ref bean="loCategoryType.skillarea"/>
 						<ref bean="loCatRepo"/>
+					</list>
+				</entry>
+				<entry key-ref="lrcEntityManager">
+					<list>
+						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.fixed"/>
+						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.range"/>
+						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.multiple"/>
 					</list>
 				</entry>
 			</map>

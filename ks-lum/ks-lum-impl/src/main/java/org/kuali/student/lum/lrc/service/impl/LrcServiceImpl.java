@@ -44,12 +44,6 @@ import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.dto.ScaleInfo;
-import org.kuali.student.lum.lrc.entity.Credential;
-import org.kuali.student.lum.lrc.entity.CredentialType;
-import org.kuali.student.lum.lrc.entity.Credit;
-import org.kuali.student.lum.lrc.entity.CreditType;
-import org.kuali.student.lum.lrc.entity.Grade;
-import org.kuali.student.lum.lrc.entity.GradeType;
 import org.kuali.student.lum.lrc.entity.ResultComponent;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 import org.kuali.student.lum.lrc.entity.Scale;
@@ -61,7 +55,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.lum.lrc.service.LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LrcServiceImpl implements LrcService {
 	private LrcDao lrcDao;
     private SearchManager searchManager;
@@ -117,10 +111,7 @@ public class LrcServiceImpl implements LrcService {
 	public CredentialInfo getCredential(String credentialKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	      checkForMissingParameter(credentialKey, "credentialKey");
-	      Credential credential = lrcDao.fetch(Credential.class, credentialKey);
-
-	      return LrcServiceAssembler.toCredentialInfo(credential);
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -131,12 +122,7 @@ public class LrcServiceImpl implements LrcService {
 			String credentialTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-        checkForMissingParameter(credentialTypeKey, "credentialTypeKey");
-        List<String> credentialIds = lrcDao.getCredentialIdsByCredentialType(credentialTypeKey);
-        if (credentialIds.isEmpty()) {
-            throw new DoesNotExistException(credentialTypeKey);
-        }
-        return credentialIds;
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -146,10 +132,7 @@ public class LrcServiceImpl implements LrcService {
 	public CredentialTypeInfo getCredentialType(String credentialTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-        checkForMissingParameter(credentialTypeKey, "credentialTypeKey");
-        CredentialType credentialType = lrcDao.fetch(CredentialType.class, credentialTypeKey);
-
-        return LrcServiceAssembler.toCredentialTypeInfo(credentialType);
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -158,8 +141,7 @@ public class LrcServiceImpl implements LrcService {
 	@Override
 	public List<CredentialTypeInfo> getCredentialTypes()
 			throws OperationFailedException {
-        List<CredentialType> entities = lrcDao.find(CredentialType.class);
-        return LrcServiceAssembler.toCredentialTypeInfos(entities);
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -170,13 +152,7 @@ public class LrcServiceImpl implements LrcService {
 			List<String> credentialKeyList) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-        checkForMissingParameter(credentialKeyList, "credentialKeyList");
-        checkForEmptyList(credentialKeyList, "credentialKeyList");
-        List<Credential> credentials = lrcDao.getCredentialsByIdList(credentialKeyList);
-        if (credentials.isEmpty()) {
-            throw new DoesNotExistException();
-        }
-        return LrcServiceAssembler.toCredentialInfos(credentials);
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -186,10 +162,7 @@ public class LrcServiceImpl implements LrcService {
 	public CreditInfo getCredit(String creditKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		checkForMissingParameter(creditKey, "creditKey");
-		Credit credit = lrcDao.fetch(Credit.class, creditKey);
-
-		return LrcServiceAssembler.toCreditInfo(credit);
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -199,12 +172,7 @@ public class LrcServiceImpl implements LrcService {
 	public List<String> getCreditKeysByCreditType(String creditTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(creditTypeKey, "creditTypeKey");
-		List<String> creditIds = lrcDao.getCreditIdsByCreditType(creditTypeKey);
-		if (creditIds.isEmpty()) {
-		    throw new DoesNotExistException(creditTypeKey);
-		}
-		return creditIds;
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -214,10 +182,7 @@ public class LrcServiceImpl implements LrcService {
 	public CreditTypeInfo getCreditType(String creditTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		checkForMissingParameter(creditTypeKey, "creditTypeKey");
-        CreditType creditType = lrcDao.fetch(CreditType.class, creditTypeKey);
-
-        return LrcServiceAssembler.toCreditTypeInfo(creditType);
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -226,8 +191,7 @@ public class LrcServiceImpl implements LrcService {
 	@Override
 	public List<CreditTypeInfo> getCreditTypes()
 			throws OperationFailedException {
-		List<CreditType> entities = lrcDao.find(CreditType.class);
-		return LrcServiceAssembler.toCreditTypeInfos(entities);
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -237,13 +201,7 @@ public class LrcServiceImpl implements LrcService {
 	public List<CreditInfo> getCreditsByKeyList(List<String> creditKeyList)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(creditKeyList, "creditKeyList");
-	    checkForEmptyList(creditKeyList, "creditKeyList");
-		List<Credit> credits = lrcDao.getCreditsByIdList(creditKeyList);
-		if (credits.isEmpty()) {
-		    throw new DoesNotExistException();
-		}
-		return LrcServiceAssembler.toCreditInfos(credits);
+		throw new UnsupportedOperationException();
 	}
 
     /* (non-Javadoc)
@@ -253,10 +211,7 @@ public class LrcServiceImpl implements LrcService {
     public GradeInfo getGrade(String gradeKey) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        checkForMissingParameter(gradeKey, "gradeKey");
-        Grade grade = lrcDao.fetch(Grade.class, gradeKey);
-
-        return LrcServiceAssembler.toGradeInfo(grade);
+		throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -266,12 +221,7 @@ public class LrcServiceImpl implements LrcService {
     public List<String> getGradeKeysByGradeType(String gradeTypeKey)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        checkForMissingParameter(gradeTypeKey, "gradeTypeKey");
-        List<String> gradeIds = lrcDao.getGradeIdsByGradeType(gradeTypeKey);
-        if (gradeIds.isEmpty()) {
-            throw new DoesNotExistException(gradeTypeKey);
-        }
-        return gradeIds;
+		throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -281,10 +231,7 @@ public class LrcServiceImpl implements LrcService {
     public GradeTypeInfo getGradeType(String gradeTypeKey)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        checkForMissingParameter(gradeTypeKey, "gradeTypeKey");
-        GradeType gradeType = lrcDao.fetch(GradeType.class, gradeTypeKey);
-
-        return LrcServiceAssembler.toGradeTypeInfo(gradeType);
+		throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -292,8 +239,7 @@ public class LrcServiceImpl implements LrcService {
      */
     @Override
     public List<GradeTypeInfo> getGradeTypes() throws OperationFailedException {
-        List<GradeType> entities = lrcDao.find(GradeType.class);
-        return LrcServiceAssembler.toGradeTypeInfos(entities);
+		throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -303,13 +249,7 @@ public class LrcServiceImpl implements LrcService {
     public List<GradeInfo> getGradesByKeyList(List<String> gradeKeyList)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        checkForMissingParameter(gradeKeyList, "gradeKeyList");
-        checkForEmptyList(gradeKeyList, "gradeKeyList");
-        List<Grade> grades = lrcDao.getGradesByIdList(gradeKeyList);
-        if (grades.isEmpty()) {
-            throw new DoesNotExistException();
-        }
-        return LrcServiceAssembler.toGradeInfos(grades);
+		throw new UnsupportedOperationException();
     }
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByScale(java.lang.String)
@@ -318,13 +258,7 @@ public class LrcServiceImpl implements LrcService {
 	public List<GradeInfo> getGradesByScale(String scale)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-        checkForMissingParameter(scale, "scale");
-        List<Grade> grades = lrcDao.getGradesByScale(scale);
-        if (grades.isEmpty()) {
-            throw new DoesNotExistException(scale);
-        }
-
-        return LrcServiceAssembler.toGradeInfos(grades);
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -469,19 +403,6 @@ public class LrcServiceImpl implements LrcService {
             throw new MissingParameterException(paramName + " can not be null");
         }
     }
-
-    /**
-     * @param param
-     * @param paramName
-     * @throws MissingParameterException
-     */
-    private void checkForEmptyList(Object param, String paramName)
-            throws MissingParameterException {
-        if (param != null && param instanceof List<?> && ((List<?>)param).size() == 0) {
-            throw new MissingParameterException(paramName + " can not be an empty list");
-        }
-    }
-    
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(

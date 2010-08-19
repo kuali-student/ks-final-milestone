@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Kuali Student Team
  */
-@Transactional(rollbackFor = { Throwable.class })
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseServiceImpl implements CourseService {
     final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
 
@@ -70,6 +70,9 @@ public class CourseServiceImpl implements CourseService {
         } catch (AssemblyException e) {
             LOG.error("Error disassembling course", e);
             throw new OperationFailedException("Error disassembling course");
+        } catch (Exception e){
+        	LOG.error("Error disassembling course", e);
+        	throw new OperationFailedException("Error disassembling course");
         }
     }
 

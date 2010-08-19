@@ -125,7 +125,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
-@Transactional(rollbackFor = { Throwable.class })
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LuServiceImpl implements LuService {
 
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);

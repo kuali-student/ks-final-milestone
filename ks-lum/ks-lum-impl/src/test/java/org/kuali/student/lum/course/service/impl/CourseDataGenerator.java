@@ -15,6 +15,7 @@ import java.util.Random;
 
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 
 
 /**
@@ -35,6 +36,12 @@ public class CourseDataGenerator {
 		CourseInfo testData = generateTestData(CourseInfo.class, 0, 0,null);
 		testData.getAttributes().put("proposalTitle", "proposalTitle-1");
 		testData.getAttributes().put("proposalRationale", "proposalRationale");
+		
+		for(ResultComponentInfo resultComponent:testData.getCreditOptions()){
+			resultComponent.getAttributes().put("minCreditValue", "2");
+			resultComponent.getAttributes().put("maxCreditValue", "5");
+			resultComponent.getAttributes().put("fixedCreditValue", "11");
+		}
 		return testData;
 	}
 
@@ -168,8 +175,13 @@ public class CourseDataGenerator {
 			if("curriculumOversightOrgs".equals(parentPropertyName)){
 				return "kuali.adminOrg.type.CurriculumOversight";
 			}
-			
-			throw new RuntimeException("Code what to do with this type");
+			if("creditOptions".equals(parentPropertyName)){
+				return CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
+			}
+			throw new RuntimeException("Code what to do with this type. Parent:"+parentPropertyName);
+		}
+		if("resultValueIds".equals(name)){
+			return String.valueOf(propertyIndex);
 		}
 		if("activityType".equals(name)){
 			return activities[generator.nextInt(activities.length)];
