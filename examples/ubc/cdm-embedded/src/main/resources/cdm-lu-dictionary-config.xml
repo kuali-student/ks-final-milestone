@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+	<!-- Uncomment to test overriding constraints for services
+		<dict:constraint key="available.course.numbers" id="constraint.available.course.numbers" serverSide="true">
+			<dict:minLength>2</dict:minLength>
+			<dict:maxLength>2</dict:maxLength>
+			<dict:validChars>
+			<dict:value>regex:[8-9]*</dict:value>
+			</dict:validChars>
+			<dict:lookup search="kuali.enum.type.availableNumbers">
+			<dict:lookupKey field="(none)" mapsTo="(none)"/>
+			</dict:lookup>
+		</dict:constraint>    
+		
+	<dict:constraint key="single" id="constraint.single" serverSide="false">
+		<dict:minOccurs>2</dict:minOccurs>
+		<dict:maxOccurs>2</dict:maxOccurs>
+	</dict:constraint>		
+	 -->	
+		
+</beans>
