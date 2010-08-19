@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * The read-properties goal reads property files and stores the properties as project properties. It serves as an
@@ -116,6 +117,9 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		if (locationsList.size() == 0) {
 			return;
 		}
+		for (String location : locationsList) {
+			getLog().info(location);
+		}
 		JAXBConfigImpl config = new JAXBConfigImpl(locationsList, ConfigContext.getCurrentContextConfig());
 		config.setSystemOverride(isSystemOverride());
 		try {
@@ -124,6 +128,10 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 			throw new MojoExecutionException("Error parsing config", e);
 		}
 		ConfigContext.init(config);
+		Properties properties = config.getProperties();
+		for (String s : properties.stringPropertyNames()) {
+			getLog().info(s);
+		}
 	}
 
 	public File[] getFiles() {
