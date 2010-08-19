@@ -81,12 +81,12 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 	 */
 	protected boolean skipMojo() {
 		if (skip) {
-			getLog().info("Skip sql execution");
+			getLog().info("Skip execution");
 			return true;
 		}
 
 		if (!forceMojoExecution && project != null && "pom".equals(project.getPackaging())) {
-			getLog().info("Skipping sql execution for project with packaging type 'pom'");
+			getLog().info("Skipping execution for project with packaging type 'pom'");
 			return true;
 		}
 
