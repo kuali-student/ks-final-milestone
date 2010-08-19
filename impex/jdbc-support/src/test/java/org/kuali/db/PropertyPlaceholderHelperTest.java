@@ -39,7 +39,7 @@ public class PropertyPlaceholderHelperTest {
 	@Test
 	public void configContext() throws IOException {
 		System.setProperty("additional.config.locations", "C:/temp/mergelog/nomerge/ks-config.xml");
-		JAXBConfigImpl config = new JAXBConfigImpl("C:/eclipse/workspaces/workspace4/impex/jdbc-support/src/test/resources/standalone-config.xml", ConfigContext.getCurrentContextConfig());
+		JAXBConfigImpl config = new JAXBConfigImpl("classpath:standalone-config.xml", ConfigContext.getCurrentContextConfig());
 		config.setSystemOverride(true);
 		config.parseConfig();
 		ConfigContext.init(config);

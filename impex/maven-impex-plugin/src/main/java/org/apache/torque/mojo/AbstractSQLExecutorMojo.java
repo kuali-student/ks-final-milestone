@@ -169,7 +169,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
 	 * usually.
 	 * 
-	 * @parameter expression="${forceOpenJpaExecution}" default-value=false
+	 * @parameter expression="${forceMojoExecution}" default-value=false
 	 * @required
 	 */
 	boolean forceMojoExecution;
