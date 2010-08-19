@@ -232,11 +232,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections();
 
   /**
-   * Translated "Catalog Information".
+   * Translated "Description and Catalog Information".
    * 
-   * @return translated "Catalog Information"
+   * @return translated "Description and Catalog Information"
    */
-  @DefaultMessage("Catalog Information")
+  @DefaultMessage("Description and Catalog Information")
   @Key("program.menu.sections.catalogInfo")
   String program_menu_sections_catalogInfo();
 
@@ -250,31 +250,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_learningObjectives();
 
   /**
-   * Translated "Learning Results".
+   * Translated "Program Managing Bodies".
    * 
-   * @return translated "Learning Results"
+   * @return translated "Program Managing Bodies"
    */
-  @DefaultMessage("Learning Results")
-  @Key("program.menu.sections.learningResults")
-  String program_menu_sections_learningResults();
-
-  /**
-   * Translated "Managing Bodies".
-   * 
-   * @return translated "Managing Bodies"
-   */
-  @DefaultMessage("Managing Bodies")
+  @DefaultMessage("Program Managing Bodies")
   @Key("program.menu.sections.managingBodies")
   String program_menu_sections_managingBodies();
-
-  /**
-   * Translated "Program Description".
-   * 
-   * @return translated "Program Description"
-   */
-  @DefaultMessage("Program Description")
-  @Key("program.menu.sections.programDescription")
-  String program_menu_sections_programDescription();
 
   /**
    * Translated "Key Program Information".
@@ -529,53 +511,8 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programInformation_titleTranscript();
 
   /**
-   * Translated "No <*> currently exist for this program".
-   *
-   * @return translated "No <*> currently exist for this program"
-   */
-  @DefaultMessage("No <*> currently exist for this program")
-  @Key("programRequirements.summaryViewPageNoRule")
-  String programRequirements_summaryViewPageNoRule();
-
-  /**
-   * Translated "Delete Rule".
-   *
-   * @return translated "Delete Rule"
-   */
-  @DefaultMessage("Delete Rule")
-  @Key("programRequirements.summaryViewPageDeleteRuleDialogTitle")
-  String programRequirements_summaryViewPageDeleteRuleDialogTitle();
-
-  /**
-   * Translated "Are you sure you want to delete this rule?".
-   *
-   * @return translated "Are you sure you want to delete this rule?"
-   */
-  @DefaultMessage("Are you sure you want to delete this rule?")
-  @Key("programRequirements.summaryViewPageDeleteRuleDialogMsg")
-  String programRequirements_summaryViewPageDeleteRuleDialogMsg();
-
-  /**
-   * Translated "Add a <*>".
-   *
-   * @return translated "Add a <*>"
-   */
-  @DefaultMessage("Add a <*>")
-  @Key("programRequirements.summaryViewPageAddRule")
-  String programRequirements_summaryViewPageAddRule();
-
-  /**
-   * Translated "Add a <*> Rule".
-   *
-   * @return translated "Add a <*> Rule"
-   */
-  @DefaultMessage("Add a <*> Rule")
-  @Key("programRequirements.manageViewPageTitle")  
-  String programRequirements_manageViewPageTitle();
-
-  /**
    * Translated "Step 1: Build and Add Rules".
-   *
+   * 
    * @return translated "Step 1: Build and Add Rules"
    */
   @DefaultMessage("Step 1: Build and Add Rules")
@@ -584,7 +521,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
 
   /**
    * Translated "Step 2: Combine Rules with Logic".
-   *
+   * 
    * @return translated "Step 2: Combine Rules with Logic"
    */
   @DefaultMessage("Step 2: Combine Rules with Logic")
@@ -592,8 +529,53 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programRequirements_manageViewPageStep2Title();
 
   /**
+   * Translated "Add a <*> Rule".
+   * 
+   * @return translated "Add a <*> Rule"
+   */
+  @DefaultMessage("Add a <*> Rule")
+  @Key("programRequirements.manageViewPageTitle")
+  String programRequirements_manageViewPageTitle();
+
+  /**
+   * Translated "Add a <*>".
+   * 
+   * @return translated "Add a <*>"
+   */
+  @DefaultMessage("Add a <*>")
+  @Key("programRequirements.summaryViewPageAddRule")
+  String programRequirements_summaryViewPageAddRule();
+
+  /**
+   * Translated "Are you sure you want to delete this rule?".
+   * 
+   * @return translated "Are you sure you want to delete this rule?"
+   */
+  @DefaultMessage("Are you sure you want to delete this rule?")
+  @Key("programRequirements.summaryViewPageDeleteRuleDialogMsg")
+  String programRequirements_summaryViewPageDeleteRuleDialogMsg();
+
+  /**
+   * Translated "Delete Rule".
+   * 
+   * @return translated "Delete Rule"
+   */
+  @DefaultMessage("Delete Rule")
+  @Key("programRequirements.summaryViewPageDeleteRuleDialogTitle")
+  String programRequirements_summaryViewPageDeleteRuleDialogTitle();
+
+  /**
+   * Translated "No <*> currently exist for this program".
+   * 
+   * @return translated "No <*> currently exist for this program"
+   */
+  @DefaultMessage("No <*> currently exist for this program")
+  @Key("programRequirements.summaryViewPageNoRule")
+  String programRequirements_summaryViewPageNoRule();
+
+  /**
    * Translated "Program Requirements".
-   *
+   * 
    * @return translated "Program Requirements"
    */
   @DefaultMessage("Program Requirements")
