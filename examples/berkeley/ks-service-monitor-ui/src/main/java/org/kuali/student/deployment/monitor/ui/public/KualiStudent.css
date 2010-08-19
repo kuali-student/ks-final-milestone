@@ -1,0 +1,931 @@
+@CHARSET "UTF-8";
+
+BODY
+{
+	FONT-FAMILY: Arial;
+	BACKGROUND: #FFFFFF;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+
+.KS-Center-Content-Panel {
+	position: relative;
+	margin: 10px 10px 10px 10px;
+	height: 90%;
+	width: 90%;
+	vertical-align: top;
+	horizontal-align: left; 
+}
+.KS-Center-Content-Panel-Contents {
+	vertical-align: top;
+	horizontal-align: left; 
+}
+
+
+/*  Globals Styles 
+  */ /* for hidable panel*/
+
+
+/* for info status bar*/
+.info {
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	z-index: 99999999;
+	background-color: #fbf4f7;
+	margin: 5px 5px 5px 5px;
+	width: 300px;
+	bottom: 30px;
+	position: absolute;
+}
+
+.info-titleLabel {
+	color: #000000;
+	font: bold 14px tahoma, arial, verdana, sans-serif;
+	margin: 5px 5px 5px 5px;
+}
+
+.info-content {
+	color: #000000;
+	font: 12px tahoma, arial, verdana, sans-serif;
+	margin: 5px 5px 5px 5px;
+}
+
+/*  Error/Warning/Notification  */
+.KS-Search-Message
+{
+	font-size: 14px;
+	margin: 3px 0px 6px 0px;
+}
+
+.KS-Error {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	font: bold;
+	color: red;
+}
+
+.KS-Warning {
+	font: bold;
+	color: orange;
+}
+
+/*  Header/Footer  */
+
+.KS-DisclosureHeader {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #ffffff;
+	float: left;
+	FONT-WEIGHT: bold;
+	text-align: left;
+    background #7c1d3a;
+    height: 18px;
+	width: 100%;
+}
+
+.KS-Header {
+	height: 50px;
+	width: 100%;
+}
+
+.KS-Header-TopRow {
+	height: 37px;
+	width: 100%;
+	background: #d5cbcb;
+}
+
+.KS-Header-TopLeft {
+	background: #d5cbcb;
+	height: 37px;
+	width: 100px;
+}
+
+.KS-Header-TopRight {
+	width: 100%;
+	background: #d5cbcb;
+	color: #d5cbcb;
+	height: 37px;
+	
+}
+.KS-Header-SearchWidget {
+	position: absolute;
+	right: 0px;
+	top: 10px;
+}
+	
+.KS-Header-SearchButton {
+	font-family: arial;
+	color : #7c1d3a;
+	font-size : 8pt;
+	font-weight : bold;
+	height: 17px;
+}
+
+
+
+
+.KS-Header-BarText
+{
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #ffffff;
+	text-align: right;
+	FONT-WEIGHT: bold;
+	background: #7c1d3a;
+	height: 15px;
+	width: 100%;
+	horizontal-align:right
+}
+
+
+.KS-Header-LinkPanel {
+	float: right;
+}
+
+.KS-Header-Links {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: white;
+	FONT-WEIGHT: bold;
+	background: #7c1d3a;
+	horizontal-align:right;
+	padding-left: 5px;
+	padding-right: 5px;
+	cursor: pointer;
+}
+
+
+
+.KS-DateTimeText
+{
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #000000;
+	text-align: right;
+	FONT-WEIGHT: bold;
+	width: 100%;
+
+}
+
+
+.KS-Header-CurrentSelection-Panel {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #ffffff;
+	text-align: left;
+	FONT-WEIGHT: bold;
+    background #7c1d3a;
+}
+.KS-Header-CurrentSelection-Text {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 12;
+	COLOR: #7c1d3a;
+	FONT-FAMILY: arial; 
+	FONT-WEIGHT: bold;
+	text-align: right;
+}
+.KS-Header-CurrentSelection-Label {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 12;
+	COLOR: #7c1d3a;
+	FONT-FAMILY: arial; 
+	FONT-WEIGHT: bold;
+	text-align: left;
+}
+
+	
+
+
+.KS-Footer { /*position:absolute;  bottom: 0px; */
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	/* z-index:10; */ /* Prevent certain problems with form controls */
+}
+
+.KS-Status-Panel {
+	height: 30px
+}
+
+.KS-LoginComposite {
+	/*margin-left: 150px*/
+	position: absolute;
+	left: 25%;
+	top: 30%;
+}
+
+.KS-Login-Instructions {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #000000;
+	text-align: center;
+	FONT-WEIGHT: bold;
+}
+
+.KS-Advanced-Person-Search-Button {
+	margin-left: 3px;
+	padding-bottom: 4px;
+}
+
+KS-CreatePerson-Sectionbar {
+	width: 80%;
+	height: 18;
+	color: #FFFFFF;
+	horizontal-align: left;
+}
+
+.KS-PersonIdentity-Panel {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #000000;
+	text-align: left;
+	FONT-WEIGHT: bold;
+
+}
+
+
+
+.KS-FieldText
+{
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #000000;
+	text-align: left;
+	FONT-WEIGHT: bold;
+
+}
+.KS-PersonDetails-Widget {
+    FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #000000;
+	text-align: left;
+	FONT-WEIGHT: bold;
+
+}
+
+.KS-CreatePerson-Widget {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #000000;
+	text-align: left;
+	FONT-WEIGHT: bold;
+
+}
+
+.KS-PersonSearchResult-Panel {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #000000;
+	text-align: left;
+	FONT-WEIGHT: bold;
+
+}
+
+/*  PersonInfo Person Details Widget Name Info
+  */
+.KS-Current-Person
+{
+	margin: 5px 0px 10px 0px;
+	font-size: 12;
+}
+  
+.KS-CRUD-Panel {
+	color: a94646
+}
+
+.KS-Button-Padding{
+	margin: 3px 3px 3px 3px;
+}
+
+.KS-Cancel-Button {
+	font-family: Minion Pro;
+	color: #a94646;
+	font-size: 12px;
+	font-weight: bold;
+	border: 1px solid #a94646;
+	height: 21px;
+}
+
+.KS-Edit-Button {
+	font-family: Minion Pro;
+	color: #a94646;
+	font-size: 12px;
+	font-weight: bold;
+	border: 1px solid #a94646;
+	height: 21px;}
+
+.KS-Delete-Button {
+	font-family: Minion Pro;
+	color: #a94646;
+	font-size: 12px;
+	font-weight: bold;
+	border: 1px solid #a94646;
+	height: 21px;}
+
+.KS-Save-Button {
+	font-family: Minion Pro;
+	color: #a94646;
+	font-size: 14px;
+	font-weight: bold;
+	border: 1px solid #a94646;
+	height: 21px;}
+
+.KS-NameInfo-Panel {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #ffffff;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;
+ 
+}
+
+.KS-NameInfo-Panel .header td {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #ffffff;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;
+    background-color: #7c1d3a;
+    text-decoration: none;
+	
+}
+.KS-givenName-EditLabel {
+	FONT-SIZE: 11;
+	COLOR: #000000;
+	FONT-FAMILY: arial;
+	FONT-WEIGHT: none;
+}
+
+.KS-middleName-EditLabel {
+	color: #383636
+}
+
+.KS-surName-EditLabel {
+	color: #383636
+}
+
+.KS-suffix-EditLabel {
+	color: #383636
+}
+
+.KS-nonStandardName-EditLabel {
+	color: #383636
+}
+
+.KS-personTitle-EditLabel {
+	color: #383636
+}
+
+.KS-isPreferredName-CheckBox {
+	color: #383636
+}
+
+.KS-givenName-Label {
+	color: #383636
+}
+
+.KS-middleName-Label {
+	color: #383636
+}
+
+.KS-surName-Label {
+	color: #383636
+}
+
+.KS-suffix-Label {
+	color: #383636
+}
+
+.KS-nonStandardName-Label {
+	color: #383636
+}
+
+.KS-personTitle-Label {
+	color: #383636
+}
+
+.KS-isPreferredName-Label {
+	color: #383636
+}
+
+.KS-givenName-Value-Label {
+	color: #383636
+}
+
+.KS-givenName-Value-TextBox {
+	color: #383636
+}
+
+.KS-middleName-Value-Label {
+	color: #383636
+}
+
+.KS-middleName-Value-TextBox {
+	color: #383636
+}
+
+.KS-surName-Value-Label {
+	color: #383636
+}
+
+.KS-surName-Value-TextBox {
+	color: #383636
+}
+
+.KS-suffix-Value-Label {
+	color: #383636
+}
+
+.KS-suffix-Value-TextBox {
+	color: #383636
+}
+
+.KS-nonStandardName-Value-Label {
+	color: #383636
+}
+
+.KS-nonStandardName-Value-TextBox {
+	color: #383636
+}
+
+.KS-personTitle-Value-Label {
+	color: #383636
+}
+
+.KS-personTitle-Value-TextBox {
+	color: #383636
+}
+
+/*  PersonInfo Person Details Widget Biographic Details Info
+  */
+
+
+.KS-DOB-TextBox {
+	color: #383636
+}
+
+.KS-DOB-Label {
+	color: #383636
+}
+
+.KS-PersonId-TextBox {
+	color: #383636
+}
+
+.KS-PersonId-Label {
+	color: #383636
+}
+
+.KS-Gender-SearchListBox {
+	color: #383636
+}
+
+.KS-Gender-Label {
+	color: #383636
+}
+
+/*  PersonInfo Person Details Widget Citizenship Info
+  */
+
+
+.KS-CitzInfo-Panel {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #ffffff;
+	text-align: left;
+	FONT-WEIGHT: bold;
+	height: 24px;
+	margin:0px 0px 0px 0px ;
+	padding:0px 0px 0px 0px ; 
+}
+.KS-CitzInfo-Panel .header {
+	background: #7c1d3a;
+	height: 24px;
+	margin:0px 0px 0px 0px ;
+	padding:0px 0px 0px 0px ;
+	text-align: left;	
+}
+
+.KS-CitzInfo-Panel .header td{
+	border: 0px solid gold;
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #FFFFFF;
+	horizontal-align: left;
+	text-align: left;
+	FONT-WEIGHT: bold;
+    background-color: #7c1d3a;
+    border-collapse: collapse;
+	height: 15px;
+	min-height: 15px;
+	margin:0px 0px 0px 0px ;
+	padding:0px 0px 0px 0px ;
+	text-decoration: none;	
+}
+
+.KS-CitzInfo-Panel .header a:visited,a:hover {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #ffffff;
+	text-align: left;
+	FONT-WEIGHT: bold;
+	background: #7c1d3a;
+	height: 24px;
+	width: 100%;
+	horizontal-align:right;
+	text-decoration: none;
+}
+
+
+
+.KS-BioInfo-Panel {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #ffffff;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;
+	height: 24px;
+ 
+}
+.KS-BioInfo-Panel .header td {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #ffffff;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;
+    background-color: #7c1d3a;
+    text-decoration: none;
+    height: 24px;
+	
+}
+
+
+.KS-CountryOfCitizenshipCode-SearchListBox {
+	color: #383636
+}
+
+.KS-CitizenStatusCode-SearchListBox {
+	color: #383636
+}
+
+.KS-EffectiveDate-Panel {
+	color: #383636
+}
+
+.KS-EffectiveStartDate-TextBox {
+	color: #383636
+}
+
+.KS-EffectiveEndDate-TextBox {
+	color: #383636
+}
+
+.KS-CountryOfCitizenshipCode-Label {
+	color: #383636
+}
+
+.KS-CitizenStatusCode-Label {
+	color: #383636
+}
+
+.KS-CitizenEffectiveTo-Label {
+	color: #383636
+}
+
+.KS-CitizenEffective-Label {
+	color: #383636
+}
+
+/*  PersonInfo Person Details Widget Admin Info
+  */
+.KS-AdminInfo-Panel {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #ffffff;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;
+ 	height: 24px;
+}
+
+.KS-AdminInfo-Panel .header td {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #ffffff;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;
+    background-color: #7c1d3a;
+    text-decoration: none;	
+    height: 24px;
+}
+
+.KS-CreateUserComment-Widget {
+	color: #383636
+}
+
+.KS-UpdateComments-Widget {
+	color: #383636
+}
+
+.KS-CreateComment-Label {
+	color: #383636
+}
+
+.KS-UpdateComments-Label {
+	color: #383636
+}
+
+.KS-CreateComment-Label {
+	color: #383636
+}
+
+.KS-CreateUserComment-Label {
+	color: #383636
+}
+
+/*  PersonInfo Search
+  */
+.KS-PersonAdvancedSearch-Panel {
+	horizontal-align: left;
+	color: #383636
+}
+
+.KS-Citizenship-Label {
+	color: #383636
+}
+
+.KS-Citizenship-ListBox {
+	color: #383636
+}
+
+/*  Course Search
+  */
+.KS-CourseTitle-Label {
+	color: #383636
+}
+
+.KS-CourseTitle-TextBox {
+	color: #383636
+}
+
+.KS-CourseNumber-Label {
+	color: #383636
+}
+
+.KS-CourseNumber-TextBox {
+	color: #383636
+}
+
+.KS-CourseInstructor-Label {
+	color: #383636
+}
+
+.KS-CourseInstructor-TextBox {
+	color: #383636
+}
+
+/* Calendar DatePicker*/
+.goog-date-picker .grid {
+	border: 1px solid black;
+	padding: 4px 4px 4px 4px;
+}
+
+.goog-date-picker .grid td {
+	border: 1px solid black;
+	padding: 2px 2px 2px 2px;
+}
+
+.goog-date-picker .selected {
+	background: #99CCFF
+}
+
+a,a:visited,a:hover {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #ffffff;
+	text-align: left;
+	FONT-WEIGHT: bold;
+	background: #7c1d3a;
+	height: 24px;
+	width: 100%;
+	horizontal-align:right;
+	text-decoration: none;
+	text-align: left; 
+	cursor: pointer;
+	cursor: pointer;
+}
+
+
+
+
+.KS-Popup-Help {
+	background-color: #C3D9FF;
+	border: 3px solid #009;
+}
+
+.hidablePanelTitleButtonHide-up {
+	height: 15px;
+	width: 15px;
+	max-height: 15px;
+	max-width: 15px;
+	cursor: pointer;
+	background: transparent url(images/HideLight.PNG);
+}
+
+.hidablePanelTitleButtonHide-up-hovering {
+	height: 15px;
+	width: 15px;
+	max-height: 15px;
+	max-width: 15px;	
+	cursor: pointer;
+	background: transparent url(images/HideDark.PNG);
+}
+
+.hidablePanelTitleButtonHide-down {
+	height: 15px;
+	width: 15px;
+    max-height: 15px;
+	max-width: 15px;
+	cursor: pointer;
+	background: transparent url(images/HideDark.PNG);
+}
+
+.hidablePanelTitleButtonHide-down-hovering {
+	height: 15px;
+	width: 15px;
+	max-height: 15px;
+	max-width: 15px;	
+	cursor: pointer;
+	background: transparent url(images/HideDark.PNG);
+}
+
+.hidablePanelTitleButtonUnhide-up {
+	height: 15;
+	width: 15;
+	cursor: pointer;
+	background: transparent url(images/UnhideLight.PNG);
+}
+
+.hidablePanelTitleButtonUnhide-up-hovering {
+	height: 15;
+	width: 15;
+	cursor: pointer;
+	background: transparent url(images/UnhideDark.PNG);
+}
+
+.hidablePanelTitleButtonUnhide-down {
+	height: 15;
+	width: 15;
+	cursor: pointer;
+	background: transparent url(images/UnhideDark.PNG);
+}
+
+.hidablePanelTitleButtonUnhide-down-hovering {
+	height: 15;
+	width: 15;
+	cursor: pointer;
+	background: transparent url(images/UnhideDark.PNG);
+}
+
+.hidablePanel-Title { /* padding:5px 5px 5px 5px; */
+	line-height: 15px;
+	background: #7c1d3a;
+	font-style: arial;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.hidablePanel-TitleText {
+	color: white;
+	font-style: arial;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.hidablePanel {
+	margin: 3px 3px 3px 3px;
+	border-left: 1px solid #ae1c27;
+	border-right: 1px solid #ae1c27;
+	border-bottom: 1px solid #ae1c27;
+	border-top: 1px solid #ae1c27;
+}
+.enrollHidable{
+   float: left;
+}
+.enrollCenter{
+	float: left;
+}
+.CourseDetailsRegPanel {
+	position: relative;
+	margin-top: 5px;
+	margin-left: 10px;
+	horizontal-align: left;
+}
+
+.AdminStudentTabWrapper {
+	vertical-align: top;
+	horizontal-align: left; 
+}
+
+.CourseAdvancedSearchPanel {
+	position: relative;
+	margin-top: 5px;
+	margin-left: 10px;
+	horizontal-align: left;
+}
+
+.PersonAdvancedSearchPanel  {
+	float: left;
+}
+
+.PersonSearchResultPanel  {
+	position: relative;
+	margin-top: 5px;
+	margin-left: 10px;
+	horizontal-align: left;
+	float: left;
+}
+
+.LuCourseTree {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #000000;
+	background: #ffffff;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;
+	height: 280px;
+	width: 160px;
+	margin:0px 0px 0px 0px ;
+	padding:0px 0px 0px 0px ; 
+}
+
+/* Users usually should override styles in gwt-Tree*/
+.gwt-FastTree {
+  
+}
+
+.gwt-FastTreeItem .open,.gwt-FastTreeItem .closed,.gwt-FastTreeItem .leaf {
+  padding: 3px;
+  padding-left: 18px;
+  padding-right: 5px;
+  white-space: nowrap;
+  cursor: default;
+  position: relative;
+  padding-left: 18px;
+}
+
+.gwt-FastTreeItem .open,.gwt-FastTreeItem .closed {
+  color: black;
+  font-size: 110%;
+}
+
+.gwt-FastTreeItem .leaf {
+  color: black;
+  font-size: 90%;
+}
+
+.gwt-FastTreeItem .children {
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.gwt-FastTreeItem .open {
+  background: url('images/treeOpen.gif') no-repeat center left;
+}
+
+.gwt-FastTreeItem .closed {
+  background: url('images/treeClosed.gif') no-repeat center left;
+}
+
+.gwt-FastTree {
+  position: relative;
+  background-color: white;
+}
+
+.gwt-FastTree .gwt-FastTreeItem {
+  
+}
+
+.gwt-FastTree .gwt-TreeItem-selected {
+  
+}
+
+.gwt-FastTree .selection-bar {
+  background: #e3e8f3 url('data:image/gif;base64,R0lGODlhAQBAAMQAAMPe+sHd+r7b+bva+bnY+LbW+LPV97HT967S9qvQ9qjO9abN9aPL9KDK9J7I85vG85jF8pbD8pPC8ZLB8f///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEHABQALAAAAAABAEAAAAUXIAAIAkEYBoIoCsM4DgRJdG3feK7vUggAOw==') repeat-x;
+  border: 1px solid black;
+  font-size: 0;
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+
+
+.KS-TabBarItem { 
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 12;
+	COLOR: #FFFFFF;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;	
+}
