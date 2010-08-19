@@ -26,9 +26,6 @@
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
         <version>1.0.1-SNAPSHOT</version>
-        <configuration>
-          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
-        </configuration>
         <dependencies>
           <dependency>
             <groupId>org.kuali.student.db</groupId>
