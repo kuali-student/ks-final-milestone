@@ -143,7 +143,7 @@
     <bean id="luServiceImpl" class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
         <property name="validator" ref="pocServiceValidator"/>
     </bean>
@@ -410,7 +410,7 @@
         <property name="luService" ref="luClient"/>
         <property name="courseAssembler" ref="courseAssembler"/>
         <property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="validator" ref="pocServiceValidator"/>
         <property name="validatorFactory" ref="validatorFactory"/>
     </bean>
@@ -477,7 +477,7 @@
         <property name="luService" ref="luClient"/>
     </bean>
 
-    <bean id="dictionaryService"
+    <bean id="lumDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
             <list>
@@ -586,7 +586,7 @@
         <property name="luService" ref="luClient"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="searchManager" ref="programSearchManager"/>
-        <property name="dictionaryService" ref="dictionaryService"/>
+        <property name="dictionaryService" ref="lumDictionaryService"/>
         <property name="validator" ref="pocServiceValidator"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker"/>
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>

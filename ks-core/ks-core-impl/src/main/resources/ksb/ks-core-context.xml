@@ -251,7 +251,7 @@
         <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
     </bean>
 
-    <bean id="dictionaryService"
+    <bean id="coreDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
             <list>
@@ -381,7 +381,7 @@
     <bean name="proposalServiceImpl"
         class="org.kuali.student.core.proposal.service.impl.ProposalServiceImpl">
         <property name="proposalDao" ref="proposalDao"/>
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="searchManager" ref="proposalSearchManager"/>
 	</bean>
 
