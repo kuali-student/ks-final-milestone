@@ -14,32 +14,42 @@
  */
 
 /* Program Requirements */
-.KS-Program-Requirements-Section-header{
+.KS-Program-Requirements-Section-header {
     color: #940B07;
 }
 
 /* Program Summary View */
-.KS-Program-Requirements-Summary-Rule-Type-First-Header{
+.KS-Program-Requirements-Summary-Rule-Type-First-Header {
     padding-top: 20px;
 }
 
-.KS-Program-Requirements-Summary-Rule-Type-Header{
+.KS-Program-Requirements-Summary-Rule-Type-Header {
     padding-top: 40px;
 }
 
-.KS-Program-Requirements-Summary-No-Rule-Text{
-    padding-top: 20px;    
+.KS-Program-Requirements-Summary-No-Rule-Text {
+    padding-top: 20px;
 }
 
 /* Program Manage View */
-.KS-Program-Requirements-Manage-Step-header1{
+.KS-Program-Requirements-Manage-Step-header1 {
     width: 650px;
-    margin-top:20px;
+    margin-top: 20px;
     border-bottom: 1px solid #d7d7d7;
 }
 
-.KS-Program-Requirements-Manage-Step-header2{
+.KS-Program-Requirements-Manage-Step-header2 {
     width: 650px;
-    margin-top:50px;
+    margin-top: 50px;
     border-bottom: 1px solid #d7d7d7;
+}
+
+.proramController {
+}
+
+.programTableSection {
+}
+
+.programTableSection .ks-table-plain td {
+    border-bottom: none;
 }

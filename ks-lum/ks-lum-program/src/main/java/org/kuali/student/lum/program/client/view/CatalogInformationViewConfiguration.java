@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramWidgetFactory;
 import org.kuali.student.lum.program.client.configuration.base.AbstractConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -24,7 +25,7 @@ public class CatalogInformationViewConfiguration extends AbstractConfiguration<P
 
     private void createShowView() {
         mainSection = new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, ProgramProperties.get().program_menu_sections_catalogInfo(), ProgramConstants.PROGRAM_MODEL_ID);
-        TableSection section = new TableSection();
+        TableSection section = ProgramWidgetFactory.createTableSection();
         configurer.addReadOnlyField(section, ProgramConstants.DESCRIPTION + "/plain", new MessageKeyInfo(ProgramProperties.get().catalogInformation_descr()));
         configurer.addReadOnlyField(section, ProgramConstants.CATALOG_DESCRIPTION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogDescr()));
         configurer.addReadOnlyField(section, ProgramConstants.CORE_FACULTY_MEMBERS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_publishedInstructors()));

@@ -34,6 +34,7 @@ public class ProgramController extends MenuSectionController {
         this.programModel = programModel;
         setViewContext(new ViewContext());
         initializeModel();
+        addStyleName("programController");
     }
 
     /**
