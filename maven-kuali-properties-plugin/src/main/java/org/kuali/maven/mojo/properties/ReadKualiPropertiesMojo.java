@@ -10,12 +10,12 @@ import org.kuali.rice.core.config.JAXBConfigImpl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
 /**
- * The read-properties goal reads property files and stores the properties as project properties. It serves as an
- * alternate to specifying properties in pom.xml.
+ * The read-properties goal reads property files in the Kuali format and stores them as project properties.
  * 
  * @goal read-properties
  */
@@ -110,6 +110,7 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 	}
 
 	public void execute() throws MojoExecutionException {
+		MavenLogAppender.startPluginLog(this);
 		if (skipMojo()) {
 			return;
 		}
@@ -120,7 +121,10 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		for (String location : locationsList) {
 			getLog().info(location);
 		}
-		JAXBConfigImpl config = new JAXBConfigImpl(locationsList, ConfigContext.getCurrentContextConfig());
+		Properties baseProps = new Properties();
+		baseProps.putAll(project.getProperties());
+		baseProps.putAll(System.getProperties());
+		JAXBConfigImpl config = new JAXBConfigImpl(locationsList, baseProps);
 		config.setSystemOverride(isSystemOverride());
 		try {
 			config.parseConfig();
@@ -129,9 +133,16 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		}
 		ConfigContext.init(config);
 		Properties properties = config.getProperties();
+		List<String> list = new ArrayList<String>();
 		for (String s : properties.stringPropertyNames()) {
+			list.add(s + "=" + properties.getProperty(s));
+		}
+		Collections.sort(list);
+		for (String s : list) {
 			getLog().info(s);
 		}
+		config.getProperty("funky");
+		MavenLogAppender.endPluginLog(this);
 	}
 
 	public File[] getFiles() {
