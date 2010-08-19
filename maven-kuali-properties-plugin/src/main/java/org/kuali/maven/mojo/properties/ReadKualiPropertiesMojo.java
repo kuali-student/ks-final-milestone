@@ -13,10 +13,8 @@ import org.springframework.core.io.ResourceLoader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * The read-properties goal reads property files in the Kuali format and stores them as project properties.
@@ -149,17 +147,7 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 			throw new MojoExecutionException("Error parsing config", e);
 		}
 		ConfigContext.init(config);
-		Properties properties = config.getProperties();
-		List<String> list = new ArrayList<String>();
-		for (String s : properties.stringPropertyNames()) {
-			list.add(s + "=" + properties.getProperty(s));
-		}
-		Collections.sort(list);
-		for (String s : list) {
-			getLog().info(s);
-		}
-		String s = config.getProperty("funky");
-		getLog().info("funky=" + s);
+		project.getProperties().putAll(config.getProperties());
 		MavenLogAppender.endPluginLog(this);
 	}
 
