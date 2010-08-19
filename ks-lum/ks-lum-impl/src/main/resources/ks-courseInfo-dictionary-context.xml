@@ -4,6 +4,7 @@
        http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
  <import resource="classpath:ks-cluInfo-dictionary-context.xml" />
  <import resource="classpath:ks-loInfo-dictionary-context.xml" />
+ <import resource="classpath:ks-lrc-dictionary-context.xml" />
 
  <!-- CourseInfo-->
  <bean id="org.kuali.student.lum.course.dto.CourseInfo-parent"
@@ -130,10 +131,11 @@
  </bean>
  <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
 
- <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
- <property name="name" value="creditOptions"/>
- </bean>
- <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
+<bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseComplexRepeating">
+<property name="name" value="creditOptions"/>
+<property name="dataObjectStructure" ref="org.kuali.student.lum.lrc.dto.ResultComponentInfo"/>
+</bean>
+<bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
 
  <bean id="courseInfo.gradingOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
  <property name="name" value="gradingOptions"/>

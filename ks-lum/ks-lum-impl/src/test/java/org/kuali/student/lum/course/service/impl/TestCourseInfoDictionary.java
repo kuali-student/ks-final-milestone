@@ -78,13 +78,13 @@ public class TestCourseInfoDictionary
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (2, validationResults.size ());
+  assertEquals (0, validationResults.size ());
 
   System.out.println ("testCourseDescrRequiredBasedOnState");
   info.setState ("DRAFT");
   info.setDescr (null);
   validationResults = val.validateObject (info, os);
-  assertEquals (2, validationResults.size ());
+  assertEquals (0, validationResults.size ());
 
   info.setState ("ACTIVE");
   info.setDescr (null);
@@ -93,7 +93,7 @@ public class TestCourseInfoDictionary
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (3, validationResults.size ());
+  assertEquals (1, validationResults.size ());
 
   System.out.println ("test validation on dynamic attributes");
   info.getAttributes ().put ("finalExamStatus", "123");
@@ -102,7 +102,7 @@ public class TestCourseInfoDictionary
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-  assertEquals (4, validationResults.size ());
+  assertEquals (2, validationResults.size ());
 
   LoDisplayInfo loInfo = new LoDisplayInfo ();
   LoCategoryInfo loCatInfo = new LoCategoryInfo ();
@@ -120,7 +120,7 @@ public class TestCourseInfoDictionary
   }
   assertTrue (rtInfo.getPlain ().matches (
     "[A-Za-z0-9.\\\\\\-;:&#34;,'&amp;%$#@!\t\n\r ]*"));
-  assertEquals (4, validationResults.size ());
+  assertEquals (2, validationResults.size ());
 
  }
 }
