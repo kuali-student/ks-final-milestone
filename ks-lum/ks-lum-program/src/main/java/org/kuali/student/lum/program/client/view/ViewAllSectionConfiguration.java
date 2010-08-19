@@ -4,7 +4,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.configuration.base.AbstractConfiguration;
+import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
 
 /**
  * @author Igor

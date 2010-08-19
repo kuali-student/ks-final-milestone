@@ -2,8 +2,8 @@ package org.kuali.student.lum.program.client.edit;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
-import org.kuali.student.lum.program.client.configuration.base.Configuration;
-import org.kuali.student.lum.program.client.configuration.base.ConfigurationManager;
+import org.kuali.student.lum.program.client.framework.Configuration;
+import org.kuali.student.lum.program.client.framework.ConfigurationManager;
 
 /**
  * @author Igor

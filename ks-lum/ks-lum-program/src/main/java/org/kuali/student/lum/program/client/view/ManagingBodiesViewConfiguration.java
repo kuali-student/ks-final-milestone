@@ -1,14 +1,13 @@
 package org.kuali.student.lum.program.client.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.configuration.base.AbstractConfiguration;
+import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**

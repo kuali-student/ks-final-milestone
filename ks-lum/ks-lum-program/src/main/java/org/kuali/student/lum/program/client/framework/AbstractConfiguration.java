@@ -1,9 +1,9 @@
-package org.kuali.student.lum.program.client.configuration.base;
+package org.kuali.student.lum.program.client.framework;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 
 /**
- * Skeletal implementation of {@link org.kuali.student.lum.program.client.configuration.base.Configuration}
+ * Skeletal implementation of {@link Configuration}
  *
  * @author Igor
  */

@@ -1,6 +1,7 @@
-package org.kuali.student.lum.program.client.configuration.base;
+package org.kuali.student.lum.program.client.framework;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.lum.program.client.framework.Configuration;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client;
+package org.kuali.student.lum.program.client.framework;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;

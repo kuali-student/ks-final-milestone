@@ -5,7 +5,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.configuration.base.AbstractConfiguration;
+import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 
