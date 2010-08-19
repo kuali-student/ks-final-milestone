@@ -61,8 +61,12 @@ public class WorkflowFilter extends AbstractDTOFilter {
 		//get a user name
         String username = properties.get(WORKFLOW_USER);
         	        
-        //Setting the app id to the id of data object
-        String appId = getObjectId(data);
+        //Setting the app id to proposal id or the id of data object        
+        String appId = properties.get(MetadataFilter.METADATA_ID_VALUE); 
+        if (appId == null){
+        	appId = getObjectId(data);
+        }
+        
 
         //Lookup the workflowId from the object id
         DocumentDetailDTO docDetail;
@@ -74,8 +78,12 @@ public class WorkflowFilter extends AbstractDTOFilter {
         	
 		if (docDetail == null) {
 			//No workflow details found, create a new workflow document
-			String docTitle = getDocumentTitle(data);
-            docTitle = docTitle==null ? "Unnamed":docTitle;
+			String docTitle = "Unnamed"; 
+			if (properties.get(ProposalFilter.PROPOSAL_NAME) != null){
+				docTitle = properties.get(ProposalFilter.PROPOSAL_NAME);
+			} else if (getDocumentTitle(data) != null){
+				docTitle = getDocumentTitle(data);
+			}
             
             LOG.info("Creating Workflow Document.");
             DocumentResponse docResponse = simpleDocService.create(username, appId, getDocumentType(), docTitle);

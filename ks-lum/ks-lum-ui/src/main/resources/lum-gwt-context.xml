@@ -370,8 +370,11 @@
         <constructor-arg ref="idTranslator"/>
     </bean>
 
-    <bean id="courseProposalFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseProposalFilter">
+    <bean id="courseProposalFilter" class="org.kuali.student.core.assembly.transform.ProposalFilter">
         <property name="proposalService" ref="proposalClient"/>
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="proposalType" value="kuali.proposal.type.course.create"/>
+        <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
     </bean>
 
     <bean id="parentWorkflowFilter" class="org.kuali.student.core.assembly.transform.WorkflowFilter" abstract="true">
@@ -382,13 +385,10 @@
     <bean id="courseWorkflowFilter" parent="parentWorkflowFilter">
     	<property name="dtoClass" value="org.kuali.student.lum.course.dto.CourseInfo"/>
     	<property name="docType" value="CluCreditCourseProposal"/>
-    	<property name="docTitlePath" value="proposalTitle"/>
-    	<property name="objectIdPath" value="proposalId"/>
     	<property name="docFieldPaths">
     		<map>
     			<entry key="cluId" value="id"/>
     			<entry key="orgId" value="curriculumOversightOrgs[0]"/>
-    			<entry key="proposalId" value="proposalId"/>
     		</map>
     	</property>    	
     </bean>
@@ -450,6 +450,7 @@
         <constructor-arg>
             <list>
                 <ref bean="courseClient"/>
+                <ref bean="proposalClient"/>
             </list>
         </constructor-arg>
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>

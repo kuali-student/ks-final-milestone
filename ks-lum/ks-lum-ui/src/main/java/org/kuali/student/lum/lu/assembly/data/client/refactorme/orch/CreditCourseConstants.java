@@ -29,7 +29,6 @@ public interface CreditCourseConstants
 	public static final String FINAL_EXAM_RATIONALE = "finalExamRationale";
 	public static final String TRANSCRIPT_TITLE = "transcriptTitle";
 	public static final String COURSE_TITLE = "courseTitle";
-	public static final String PROPOSAL_TITLE = "proposalTitle";
 	public static final String DESCRIPTION = "description";
 	public static final String PROPOSAL_DESCRIPTION = "descr";
 	public static final String DEPARTMENT = "department";

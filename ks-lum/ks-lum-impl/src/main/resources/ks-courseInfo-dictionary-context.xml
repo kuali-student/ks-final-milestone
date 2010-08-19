@@ -51,9 +51,6 @@
     <ref bean="courseInfo.finalExamStatus" />
     <ref bean="courseInfo.finalExamRationale"/>
     <ref bean="courseInfo.outOfClassHours" />
-    <ref bean="courseInfo.proposalId"/>
-    <ref bean="courseInfo.proposalRationale"/>
-    <ref bean="courseInfo.proposalTitle" />
     <!-- Searches -->
     <ref bean="search.cluset" />
     <ref bean="search.findCourse" />
@@ -794,27 +791,6 @@
   <property name="maxOccurs" value="1" />
   <property name="maxLength" value="250" />
   <property name="validChars" ref="alphanumericHyphenPeriod"/>
- </bean>
- <bean id="courseInfo.proposalId" parent="baseString">
-  <property name="name" value="proposalId" />
-  <property name="minOccurs" value="0" />
-  <property name="maxOccurs" value="1" />
-  <!-- Maybe a lookup constraint to restrict the values -->
-  <property name="dynamic" value="true"/>
- </bean>
- <bean id="courseInfo.proposalRationale" parent="baseString">
-  <property name="name" value="proposalRationale" />
-  <property name="minOccurs" value="1" />
-  <property name="maxOccurs" value="1" />
-  <!-- Maybe a lookup constraint to restrict the values -->
-  <property name="dynamic" value="true"/>
- </bean>
- <bean id="courseInfo.proposalTitle" parent="baseString">
-  <property name="name" value="proposalTitle" />
-  <property name="minOccurs" value="0" />
-  <property name="maxLength" value="60"/>
-  <!-- Maybe a lookup constraint to restrict the values -->
-  <property name="dynamic" value="true"/>
  </bean>
 
  <!-- Searches -->

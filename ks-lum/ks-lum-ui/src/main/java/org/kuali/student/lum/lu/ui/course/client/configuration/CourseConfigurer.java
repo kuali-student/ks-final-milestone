@@ -118,8 +118,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected boolean NO_DIVIDER = false;
 
     public static final String WORKFLOW_DOC_TYPE					= "CluCreditCourseProposal";
-    public static final String PROPOSAL_ID_PATH                     = "/proposalId";
-    public static final String PROPOSAL_TITLE_PATH                  = "/proposalTitle";
+    public static final String PROPOSAL_ID_PATH                     = "proposal/id";
+    public static final String PROPOSAL_TITLE_PATH                  = "proposal/name";
     public static final String COURSE_TITLE_PATH                    = "/courseTitle";
 
     //Override paths for course and proposal so they are root
@@ -227,7 +227,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public void addCluStartSection(WorkflowEnhancedController layout){
         VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 
-        addField(section, PROPOSAL_TITLE, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
         
         //addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
         layout.addStartViewPopup(section);
@@ -286,7 +286,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     public SectionView generateCourseInfoSection(){
         VerticalSectionView section = initSectionView(CourseSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
-        addField(section, PROPOSAL_TITLE, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
+        addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUConstants.COURSE_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + TRANSCRIPT_TITLE, generateMessageInfo(LUConstants.SHORT_TITLE_LABEL_KEY));
         section.addSection(generateCourseNumberSection());
@@ -420,7 +420,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         //FIXME [KSCOR-225] Temporary fix til we have a real rich text editor
         //addField(description, COURSE + "/" + DESCRIPTION, null);
         addField(description, COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY));
-        addField(description, "proposalRationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+        addField(description, "proposal/rationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
         return description;
     }
 
