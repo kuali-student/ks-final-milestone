@@ -11,6 +11,9 @@
   <packaging>pom</packaging>
   <name>KS Databases</name>
   <description>Kuali Student Databases</description>
+  <properties>
+    <funky>chunky</funky>
+  </properties>
   <repositories>
     <repository>
       <id>kuali.nexus</id>
@@ -53,6 +56,17 @@
             <phase>none</phase>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.kuali</groupId>
+        <artifactId>maven-kuali-properties-plugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <configuration>
+          <locations>
+            <param>${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
+            <param>${additional.config.locations}</param>
+          </locations>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
