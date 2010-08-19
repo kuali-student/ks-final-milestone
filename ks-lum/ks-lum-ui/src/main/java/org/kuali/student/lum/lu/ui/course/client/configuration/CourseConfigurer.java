@@ -1189,7 +1189,7 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
     }
     
     private List<OutlineNode<LOPicker>> stripeOutEmptyInput(List<OutlineNode<LOPicker>> input) {
-        List<OutlineNode<LOPicker>> value = null;
+        List<OutlineNode<LOPicker>> value = new ArrayList<OutlineNode<LOPicker>>();
         boolean allEmptyNodes = true;
         if (input != null) {
             for (OutlineNode<LOPicker> node : input) {
@@ -1200,7 +1200,7 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
                         identLevel > 0 ||
                         categories != null && !categories.isEmpty()) {
                     allEmptyNodes = false;
-                    break;
+                    value.add(node);
                 }
             }
         }
