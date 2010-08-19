@@ -258,7 +258,7 @@ public class ButtonEnumerations {
         return CANCEL;
     }
     };
-    
+
     public static enum SearchCancelEnum implements ButtonEnum{SEARCH, CANCEL;
 
         @Override
@@ -269,7 +269,7 @@ public class ButtonEnumerations {
                 case CANCEL:
                     return context.getMessage("cancel");
             }
-            return null;  
+            return null;
         }
     	@Override
         public ButtonStyle getStyle() {
@@ -288,6 +288,39 @@ public class ButtonEnumerations {
         @Override
         public ButtonEnum getCancelType() {
             return CANCEL;
-        }    	    	
+        }
+    };
+
+
+    public static enum AddCancelEnum implements ButtonEnum{ADD, CANCEL;
+
+        @Override
+        public String getText() {
+            switch(this){
+                case ADD:
+                    return context.getMessage("Add");
+                case CANCEL:
+                    return context.getMessage("Cancel");
+            }
+            return null;
+        }
+    	@Override
+        public ButtonStyle getStyle() {
+            switch(this){
+            case ADD:
+                return ButtonStyle.PRIMARY;
+            case CANCEL:
+                return ButtonStyle.DEFAULT_ANCHOR;
+            }
+            return ButtonStyle.PRIMARY;
+        }
+        @Override
+        public ButtonEnum getActionType() {
+            return ADD;
+        }
+        @Override
+        public ButtonEnum getCancelType() {
+            return CANCEL;
+        }
     };
 }

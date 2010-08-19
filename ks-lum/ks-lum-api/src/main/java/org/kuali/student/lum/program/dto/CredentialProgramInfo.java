@@ -69,7 +69,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     private String universityClassification;
 
     @XmlElement
-    private String institution;
+    private AdminOrgInfo institution;
     
     @XmlElement
     private List<String> resultOptions;
@@ -148,6 +148,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+    @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -155,6 +156,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
         return attributes;
     }
 
+    @Override
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
@@ -195,10 +197,12 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * Unique identifier for an Credential Program. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
      */
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -272,11 +276,11 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * Institution owning the program.  
      */
-    public String getInstitution() {
+    public AdminOrgInfo getInstitution() {
         return institution;
     }
 
-    public void setInstitution(String institution) {
+    public void setInstitution(AdminOrgInfo institution) {
         this.institution = institution;
     }
 

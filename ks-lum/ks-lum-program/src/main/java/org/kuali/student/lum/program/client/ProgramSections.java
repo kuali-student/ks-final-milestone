@@ -17,5 +17,6 @@ public enum ProgramSections {
     CATALOG_INFO_EDIT,
     LEARNING_OBJECTIVES_VIEW,
     LEARNING_OBJECTIVES_EDIT,
+    VIEW_ALL,
     EMPTY
 }

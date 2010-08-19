@@ -215,58 +215,9 @@ public class CluSetsManagementController extends TabbedSectionLayout {
                 viewSearchCluSetModelRequestQueue.submit(workItem);                
             }
         });
-
-        super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
-
-            @Override
-            public void onValidateRequest(ValidateRequestEvent event) {
-            	FieldDescriptor originatingField = event.getFieldDescriptor();
-            	String modelId = null;
-            	if (originatingField != null) {
-            		modelId = originatingField.getModelId();
-            	}
-            	if (modelId == null) {
-            		requestModel(new ModelRequestCallback<DataModel>() {
-            			@Override
-            			public void onModelReady(DataModel model) {
-            				validateModel(model);
-            			}
-
-            			@Override
-            			public void onRequestFail(Throwable cause) {
-            				GWT.log("Unable to retrieve model for validation", cause);
-            			}
-
-            		});
-            	} else {
-            		requestModel(modelId, new ModelRequestCallback<DataModel>() {
-            			@Override
-            			public void onModelReady(DataModel model) {
-            				validateModel(model);
-            			}
-
-            			@Override
-            			public void onRequestFail(Throwable cause) {
-            				GWT.log("Unable to retrieve model for validation", cause);
-            			}
-
-            		});
-            	}
-            }
-
-        });
     }
     
-    private void validateModel(DataModel model) {
-		model.validate(new Callback<List<ValidationResultInfo>>() {
-			@Override
-			public void exec(List<ValidationResultInfo> result) {
-				ValidateResultEvent e = new ValidateResultEvent();
-				e.setValidationResult(result);
-				fireApplicationEvent(e);
-			}
-		});
-    }
+
 
     private KSButton getQuitButton(){
         return new KSButton("Quit", new ClickHandler(){

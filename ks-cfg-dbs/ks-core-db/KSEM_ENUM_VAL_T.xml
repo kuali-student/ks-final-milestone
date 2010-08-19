@@ -81,10 +81,16 @@
         ID="32" SORT_KEY="32" VAL="Social Work"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="North" CD="NORTH"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
-        EXPIR_DT="20000101000000" ID="33" SORT_KEY="31" VAL="North Campus"/>
+        EXPIR_DT="20000101000000" ID="33" SORT_KEY="31" VAL="North"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="South" CD="SOUTH"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
-        EXPIR_DT="20000101000000" ID="34" SORT_KEY="32" VAL="South Campus"/>
+        EXPIR_DT="20000101000000" ID="34" SORT_KEY="32" VAL="South"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="Extended" CD="EXTENDED"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
+        EXPIR_DT="20000101000000" ID="64" SORT_KEY="64" VAL="Extended"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="All" CD="ALL"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
+        EXPIR_DT="20000101000000" ID="65" SORT_KEY="65" VAL="All"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="per day" CD="kuali.atp.duration.day"
         EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.duration"
         EXPIR_DT="20000101000000" ID="35" SORT_KEY="35" VAL="per day"/>

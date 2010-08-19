@@ -75,6 +75,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -118,7 +119,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     public static final String WORKFLOW_DOC_TYPE					= "CluCreditCourseProposal";
     public static final String PROPOSAL_ID_PATH                     = "/proposalId";
-    public static final String PROPOSAL_TITLE_PATH                  = "/courseTitle";
+    public static final String PROPOSAL_TITLE_PATH                  = "/proposalTitle";
     public static final String COURSE_TITLE_PATH                    = "/courseTitle";
 
     //Override paths for course and proposal so they are root
@@ -155,6 +156,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
             //Course Content
                 layout.addMenuItem(sections, generateCourseInfoSection());
+                layout.addMenuItem(sections, generateGovernanceSection());
                 layout.addMenuItem(sections, generateCourseLogisticsSection());
                 layout.addMenuItem(sections, generateLearningObjectivesSection());
 
@@ -162,14 +164,13 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 //TODO layout.addMenuItem(sections, generateCourseRequisitesSection());
 
             //Administrative
-                layout.addMenuItem(sections, generateGovernanceSection());
                 layout.addMenuItem(sections, generateActiveDatesSection());
                 //TODO layout.addMenuItem(sections, generateFinancialsSection());
         }
             //Summary
             ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
             layout.addSpecialMenuItem(summaryConfigurer.generateSummarySection(layout.getWfUtilities()), "Review and Submit");
-
+            layout.setDefaultView(CourseSections.SUMMARY);
             //Tools
             String tools = "Tools";
             layout.addMenu(tools);
@@ -236,7 +237,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     /**
      * Adds a section for adding or modifying rules associated with a given course (program).
      *
-     * @param layout - a content pane to which this section is added to
      * @return
      */
     protected SectionView generateCourseRequisitesSection() {
@@ -277,9 +277,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected SectionView generateGovernanceSection(){
         VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 
-        addField(section, COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
-        addField(section, COURSE + "/" + CAMPUS_LOCATIONS, generateMessageInfo(LUConstants.CAMPUS_LOCATION_LABEL_KEY));
-        addField(section, COURSE + "/" + ADMIN_ORGS, generateMessageInfo(LUConstants.ADMIN_ORG_LABEL_KEY));
+        addFieldWithOverrideMinOccurs(section, COURSE + "/" + CAMPUS_LOCATIONS, generateMessageInfo(LUConstants.CAMPUS_LOCATION_LABEL_KEY), null, null, "1");
+        addFieldWithOverrideMinOccurs(section, COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), null, null, "1");
+        addFieldWithOverrideMinOccurs(section, COURSE + "/" + ADMIN_ORGS, generateMessageInfo(LUConstants.ADMIN_ORG_LABEL_KEY), null, null, "1");
 
         return section;
     }
@@ -459,7 +459,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 		VerticalSection studentRegistrationOptionsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY), WITH_DIVIDER);
 
 		addField(studentRegistrationOptionsSection, COURSE + "/" + PASS_FAIL, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_PASS_FAIL_TEXT_LABEL_KEY)));
-        addField(studentRegistrationOptionsSection, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
+        addField(studentRegistrationOptionsSection, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_AUDIT_LABEL_KEY),new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
 		
         return studentRegistrationOptionsSection;
 	}
@@ -821,6 +821,30 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return SectionTitle.generateH5Title(getLabel(labelKey));
     }
 
+    protected FieldDescriptor addFieldWithOverrideMinOccurs(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath, String minOccursOverride) {
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+
+        if (minOccursOverride != null) {
+            List<ConstraintMetadata> constraints = meta.getConstraints();
+            ConstraintMetadata constraint = null;
+            if (constraints == null) {
+                constraint = new ConstraintMetadata();
+                constraints = new ArrayList<ConstraintMetadata>();
+                constraints.add(constraint);
+            } else {
+                constraint = constraints.get(0);
+            }
+            constraint.setMinOccurs(Integer.valueOf(minOccursOverride));
+        }
+        FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+        if (widget != null) {
+            fd.setFieldWidget(widget);
+        }
+        section.addField(fd);
+        return fd;
+    }
+    
     // TODO - when DOL is pushed farther down into LOBuilder,
     // revert these 5 methods to returning void again.
     public FieldDescriptor addField(Section section, String fieldKey) {
@@ -1010,7 +1034,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             sb.append(model.get("transcriptTitle"));
         } else {
             sb.append("New Course: ");
-            sb.append(model.get(getProposalTitlePath()));
+            sb.append(model.get(getCourseTitlePath()));
         }
 
         return sb.toString();
@@ -1125,8 +1149,9 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         Data losData = new Data();
         Map<Integer, Data> parentStore = new HashMap<Integer, Data>();
         int sequence = 0; // the ordering information of DisplayInfo
-        if (builder.getValue() != null) {
-            for (OutlineNode<LOPicker> node : builder.getValue()) {
+        List<OutlineNode<LOPicker>> value = stripeOutEmptyInput(builder.getValue());
+        if (value != null) {
+            for (OutlineNode<LOPicker> node : value) {
                 if (node.getIndentLevel() == 0) {
                     Data item = createLoDisplayInfoData(node, sequence);
                     parentStore.put(new Integer(0), item);
@@ -1161,6 +1186,28 @@ class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         if (loOutlineNodes != null && !loOutlineNodes.isEmpty()) {
             builder.setValue(loOutlineNodes);
         }
+    }
+    
+    private List<OutlineNode<LOPicker>> stripeOutEmptyInput(List<OutlineNode<LOPicker>> input) {
+        List<OutlineNode<LOPicker>> value = new ArrayList<OutlineNode<LOPicker>>();
+        boolean allEmptyNodes = true;
+        if (input != null) {
+            for (OutlineNode<LOPicker> node : input) {
+                String desc = node.getUserObject().getLOText();
+                int identLevel = node.getIndentLevel();
+                List<LoCategoryInfo> categories = node.getUserObject().getLoCategories();
+                if (desc != null && desc.trim().length() > 0 ||
+                        identLevel > 0 ||
+                        categories != null && !categories.isEmpty()) {
+                    allEmptyNodes = false;
+                    value.add(node);
+                }
+            }
+        }
+        if (allEmptyNodes) {
+            value = null;
+        }
+        return value;
     }
     
     private void dataToOutlineNodes(Data data, List<OutlineNode<LOPicker>> loOutlineNodes, int identLevel) {

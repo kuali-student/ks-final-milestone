@@ -87,9 +87,11 @@
 	<bean parent="enCourse" p:id="cluFullView" p:value="Proposal Details" />
 	<bean parent="enCourse" p:id="cluGovernance" p:value="Governance" />
 	<bean parent="enCourse" p:id="cluCurriculumOversight" p:value="Curriculum Oversight" />
+	<bean parent="enCourse" p:id="cluCurriculumOversight-instruct" p:value="This is the organization(s) responsible for the content of the program. This selection will determine &lt;/br&gt;the workflow/approval process for this proposal." />
 	<bean parent="enCourse" p:id="cluCampusLocation" p:value="Campus Locations" />
 	<bean parent="enCourse" p:id="cluAdminOrgs" p:value="Administering Organizations" />
 	<bean parent="enCourse" p:id="cluAdminOrg" p:value="Administering Organization" />
+	<bean parent="enCourse" p:id="cluAdminOrg-instruct" p:value="List the organization(s) that can administer, or offer, this course. In most cases this will be the same &lt;/br&gt;as the Curriculum Oversight organization, but additional and/or alternate organizations can also be &lt;/br&gt;listed as administering organizations." />
 	<bean parent="enCourse" p:id="cluAltAdminOrg"
 		p:value="Alternate Administering Organization" />
 	<bean parent="enCourse" p:id="cluLogistics" p:value="Course Logistics" />

@@ -6,6 +6,8 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.util.Elements;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Value;
@@ -29,14 +31,15 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
     private final String removeLinkId = HTMLPanel.createUniqueId();
     private final String backgroundId = HTMLPanel.createUniqueId();
     private final String PANEL_CONTENT_OPEN = "<span id='" + contentId + "'></span>";
-    private final String PANEL_CONTENT_REMOVE_LINK = "<a href='javascript:return false;' title='Remove' class='ks-selected-list-value-remove' id='" + removeLinkId + "'></a>"; 
+    private final String PANEL_CONTENT_REMOVE_LINK = "<span class='ks-selected-list-value-remove' id='" + removeLinkId + "'></span>"; 
     private final String PANEL_CONTENT_BACKGROUND = "<div id='" + backgroundId + "' class='ks-selected-list-value-container'></div>"; 
     private HTMLPanel panel;
-
+    private AbbrButton delete = new AbbrButton(AbbrButtonType.DELETE);
     private DataHelper dataHelper;
     private Data data;
     private List<Callback<Value>> valueChangeCallbacks =
         new ArrayList<Callback<Value>>();
+    private String deletedKey;
     
     public KSItemLabel(boolean canEdit, DataHelper dataParser) {
         init(canEdit, dataParser);
@@ -48,6 +51,7 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
         panel.getElement().setId(id);
         this.dataHelper = dataParser;
         if(canEdit) {
+        	panel.add(delete, removeLinkId);
             initHandlers();
         }
         String labelText = "";
@@ -83,6 +87,7 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
 
     @Override
     public void setValue(Value value) {
+        deletedKey = null;
         if (value == null) {
             this.data = null;
         } else {
@@ -115,16 +120,13 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
     }
 
     private void initHandlers() {
-        DOM.sinkEvents(panel.getElementById(removeLinkId), Event.ONCLICK);
-        addDomHandler(new ClickHandler() {
+        //DOM.sinkEvents(panel.getElementById(removeLinkId), Event.ONCLICK);
+        delete.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Element e = Element.as(event.getNativeEvent().getEventTarget());
-                if (e.equals(panel.getElementById(removeLinkId))) {
-                    doRemove();
-                }
+            	doRemove();
             }
-        }, ClickEvent.getType());
+        });
     }
 
     private void doRemove() {
@@ -132,18 +134,27 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
 //        selectedValues.remove(this);
 //        removedValues.add(this);
 //        valuesPanel.remove(this);
+        deletedKey = dataHelper.getKey(data);
         data = null;
         redraw();
         callHandlers();
         CloseEvent.fire(this, this);
+    }
+    
+    public String getDeletedKey() {
+        return deletedKey;
     }
 
     public void setHighlighted(boolean highlighted) {
         if (highlighted) {
             Elements.fadeIn(panel.getElementById(backgroundId), 250, 100, new Elements.EmptyFadeCallback());
         } else {
-            Elements.fadeOut(panel.getElementById(backgroundId), 500, 0, new Elements.EmptyFadeCallback());   
+            Elements.fadeOut(panel.getElementById(backgroundId), 1000, 0, new Elements.EmptyFadeCallback());   
         }
+    }
+    
+    public void removeHighlight(){
+    	Elements.setOpacity(panel.getElementById(backgroundId), 0);
     }
 
     @Override

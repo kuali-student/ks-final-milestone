@@ -1673,4 +1673,45 @@
 		</property>
 	</bean>
 
+    <bean id="majorDisciplineInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.divisionsContentOwner" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.unitsContentOwner" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.unitsContentOwner" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.divisionsStudentOversight" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.unitsStudentOversight" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.divisionsDeployment" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.divisionsDeployment" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.unitsDeployment" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.unitsDeployment" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.divisionsFinancialResources" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.divisionsFinancialResources" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.unitsFinancialResources" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.unitsFinancialResources" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.divisionsFinancialControl" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.divisionsFinancialControl" />
+	</bean>
+	
+	 <bean id="majorDisciplineInfo.unitsFinancialControl" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.unitsFinancialControl" />
+	</bean>
+	
+
 </beans>

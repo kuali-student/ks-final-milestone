@@ -1,7 +1,8 @@
 package org.kuali.student.lum.program.service.impl;
 
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.SampCustomValidator;
@@ -25,12 +26,17 @@ public class TestProgramInfoDictionary
  @Test
  public void testLoadProgramInfoDictionary ()
  {
-  List<Class<?>> startingClasses = new ArrayList ();
+  Set<Class<?>> startingClasses = new LinkedHashSet ();
   startingClasses.add (MajorDisciplineInfo.class);
   startingClasses.add (MinorDisciplineInfo.class);
   String contextFile = "ks-programInfo-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
-  new DictionaryTesterHelper (outFile, startingClasses, contextFile + ".xml").doTest ();
+  DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,
+                                                              startingClasses,
+                                                              contextFile
+                                                              + ".xml",
+                                                              true);
+  helper.doTest ();
  }
 
  @Test

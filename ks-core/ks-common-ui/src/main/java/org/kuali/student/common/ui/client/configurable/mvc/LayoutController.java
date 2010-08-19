@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,16 +28,18 @@ import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SectionUpdateEvent;
 import org.kuali.student.common.ui.client.event.SectionUpdateHandler;
-import org.kuali.student.common.ui.client.event.ValidateResultEvent;
-import org.kuali.student.common.ui.client.event.ValidateResultHandler;
+import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
+import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -63,13 +64,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	
     public LayoutController(String controllerId){
         super(controllerId);
-		addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
-            @Override
-            public void onValidateResult(ValidateResultEvent event) {
-               List<ValidationResultInfo> list = event.getValidationResult();
-               LayoutController.this.processValidationResults(list);
-            }
-        });
+        //Global section update Event handling
 		addApplicationEventHandler(SectionUpdateEvent.TYPE, new SectionUpdateHandler(){
 
 			@Override
@@ -79,7 +74,6 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 					@Override
 					public void onRequestFail(Throwable cause) {
 						GWT.log("Unable to retrieve model for section update", cause);
-						
 					}
 
 					@Override
@@ -92,16 +86,80 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 				
 			}
 		});
+		//Global validation Event handling
+        addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
+
+            @Override
+            public void onValidateRequest(final ValidateRequestEvent event) {
+            	FieldDescriptor originatingField = event.getFieldDescriptor();
+            	String modelId = null;
+            	if (originatingField != null) {
+            		modelId = originatingField.getModelId();
+            	}
+            	if (modelId == null) {
+            		requestModel(new ModelRequestCallback<DataModel>() {
+            			@Override
+            			public void onModelReady(DataModel model) {
+            				validate(model, event);
+            			}
+
+            			@Override
+            			public void onRequestFail(Throwable cause) {
+            				GWT.log("Unable to retrieve model for validation", cause);
+            			}
+
+            		});
+            	} else {
+            		requestModel(modelId, new ModelRequestCallback<DataModel>() {
+            			@Override
+            			public void onModelReady(DataModel model) {
+            				validate(model, event);
+            			}
+
+            			@Override
+            			public void onRequestFail(Throwable cause) {
+            				GWT.log("Unable to retrieve model for validation", cause);
+            			}
+
+            		});
+            	}
+            }
+
+        });
     }
     
-    public void processValidationResults(List<ValidationResultInfo> list){
-    	//Collection<View> sections = sectionViewMap.values();
-    	Collection<View> sections = viewMap.values();
-        for(View v: sections){
-     	   if(v instanceof org.kuali.student.common.ui.client.configurable.mvc.views.SectionView){
-     		   ((org.kuali.student.common.ui.client.configurable.mvc.views.SectionView) v).processValidationResults(list);
-     	   }
-        }
+    private void validate(DataModel model, final ValidateRequestEvent event) {
+    	if(event.validateSingleField()){
+    		model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
+                @Override
+                public void exec(List<ValidationResultInfo> result) {
+                	if(event.getFieldDescriptor() != null){
+                		//We dont need to traverse since it is single field, so don't do isValid call here
+                		//instead add the error messages directly
+                		FieldElement element = event.getFieldDescriptor().getFieldElement();
+                		if(element != null){
+	                		element.clearValidationPanel();
+	                		for(int i = 0; i < result.size(); i++){
+	                    		ValidationResultInfo vr = result.get(i);
+	                    		if(vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) 
+	                    				&& event.getFieldDescriptor().hasHadFocus()){
+	    							element.processValidationResult(vr);
+	                    		}
+	                    	}
+                		}
+                	}
+                	
+                }
+    		});
+    	}
+    	else{
+            model.validate(new Callback<List<ValidationResultInfo>>() {
+                @Override
+                public void exec(List<ValidationResultInfo> result) {
+                    isValid(result, false, true);
+                }
+            });
+    	}
     }
     
     public ErrorLevel checkForErrors(List<ValidationResultInfo> list){
@@ -179,6 +237,9 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	}
 	
     public boolean isStartViewShowing(){
+        if(startViewWindow == null){
+            return false;
+        }
     	return startViewWindow.isShowing();
     }
 
@@ -231,7 +292,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 
 	@Override
-	protected <V extends Enum<?>> View getView(V viewType) {
+	public <V extends Enum<?>> View getView(V viewType) {
 		return viewMap.get(viewType);
 	}
 
@@ -247,16 +308,28 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	}
 
 	@Override
-	public void showDefaultView(Callback<Boolean> onReadyCallback) {
-		if(!viewMap.isEmpty()){		
+	public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+		HistoryManager.setLogNavigationHistory(false);
+		//turn of history support for default showing until view is ready
+		if(defaultView != null){
+			showView(defaultView, onReadyCallback);
+		}
+		else if(!viewMap.isEmpty()){		
 			if(defaultView == null){
 				showView(viewMap.entrySet().iterator().next().getKey(), onReadyCallback);
-			}
-			else{
-				showView(defaultView, onReadyCallback);
-			}
+			}	
 		}
 		
+	}
+	
+	public void showFirstView(Callback<Boolean> onReadyCallback){
+		HistoryManager.setLogNavigationHistory(false);
+		if(!viewMap.isEmpty()){	
+			showView(viewMap.entrySet().iterator().next().getKey(), onReadyCallback);
+		}
+		else{
+			showDefaultView(onReadyCallback);
+		}
 	}
 	
 	/**
@@ -267,33 +340,42 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	 * @return true if the specified sections (all or current) has any validation errors
 	 */
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly){
+		return isValid(validationResults, checkCurrentSectionOnly, true);
+	}
+	
+	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly, boolean allFields){
 		boolean isValid = true;
 
 		if (checkCurrentSectionOnly){
 			//Check for validation errors on the currently displayed section only
-	    	//if(this.isStartSectionShowing()){
-	    		//isValid = isValid(validationResults, getStartSection());
-	    	//} else {
-	    		View v = getCurrentView();
-	        	if(v instanceof Section){
-	        		isValid = isValid(validationResults, (Section)v);
-	        	//}
+	    	View v = getCurrentView();
+	        if(v instanceof Section){
+	        	isValid = isValid(validationResults, (Section)v, allFields);
 	    	}
+	     	if(this.isStartViewShowing()){
+	     		if(startPopupView instanceof Section){
+	     			isValid = isValid(validationResults, ((Section) startPopupView), allFields) && isValid;
+	     		}
+	     	}
 		} else {
 			//Check for validation errors on all sections
-			//container.clearMessages();
 			String errorSections = "";
 			StringBuilder errorSectionsbuffer = new StringBuilder();
 			errorSectionsbuffer.append(errorSections);
 			for (Entry<Enum<?>, View> entry:viewMap.entrySet()) {
 				View v = entry.getValue();
 				if (v instanceof Section){
-					if (!isValid(validationResults, (Section)v)){
+					if (!isValid(validationResults, (Section)v, allFields)){
 						isValid = false;
 						errorSectionsbuffer.append(((SectionView)v).getName() + ", ");
 					}
 				}
 			}
+	     	if(this.isStartViewShowing()){
+	     		if(startPopupView instanceof Section){
+	     			isValid = isValid(validationResults, ((Section) startPopupView), allFields) && isValid;
+	     		}
+	     	}
 			errorSections = errorSectionsbuffer.toString();
 			if (!errorSections.isEmpty()){
 				errorSections = errorSections.substring(0, errorSections.length()-2);
@@ -304,9 +386,15 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		return isValid;
 	}
 
-	private boolean isValid(List<ValidationResultInfo> validationResults, Section section){
-		section.setFieldHasHadFocusFlags(true);
-		ErrorLevel status = section.processValidationResults(validationResults);
+	private boolean isValid(List<ValidationResultInfo> validationResults, Section section, boolean allFields){
+		ErrorLevel status;
+		if(allFields){
+			section.setFieldHasHadFocusFlags(true);
+			status = section.processValidationResults(validationResults);
+		}
+		else{
+			status = section.processValidationResults(validationResults, false);
+		}
 
 		return (status != ErrorLevel.ERROR);
 	}

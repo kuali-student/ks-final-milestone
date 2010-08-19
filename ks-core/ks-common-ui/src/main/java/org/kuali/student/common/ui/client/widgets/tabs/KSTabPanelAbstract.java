@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.tabs;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSImage;
+import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPanelStyle;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -51,5 +52,7 @@ public abstract class KSTabPanelAbstract extends Composite {
     public abstract String getSelectedTabKey();
 
     public abstract boolean hasTabKey(String key);
+    
+    public abstract void setTabPanelStyle(TabPanelStyle style);
 
 }

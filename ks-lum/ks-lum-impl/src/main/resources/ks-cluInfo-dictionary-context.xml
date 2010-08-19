@@ -257,8 +257,7 @@
  <bean id="cluInfo.type" parent="cluInfo.type-parent" />
 
  <!-- RichTextInfo-->
- <bean id="org.kuali.student.core.dto.RichTextInfo-parent"
-       abstract="true" parent="objectStructureDefinition">
+ <bean id="org.kuali.student.core.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
   <property name="name" value="org.kuali.student.core.dto.RichTextInfo" />
   <property name="attributes">
    <list>
@@ -266,7 +265,6 @@
     <ref bean="richTextInfo.plain" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.core.dto.RichTextInfo" parent="org.kuali.student.core.dto.RichTextInfo-parent" />
 
@@ -290,7 +288,6 @@
     <ref bean="academicSubjectOrgInfo.orgId" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo"
        parent="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo-parent" />
@@ -440,7 +437,6 @@
     <ref bean="affiliatedOrgInfo.percentage" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" parent="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo-parent" />
 
@@ -481,7 +477,6 @@
     <ref bean="amountInfo.unitType" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.core.dto.AmountInfo" parent="org.kuali.student.core.dto.AmountInfo-parent" />
 
@@ -567,7 +562,6 @@
     <ref bean="cluIdentifierInfo.variation" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.lu.dto.CluIdentifierInfo" parent="org.kuali.student.lum.lu.dto.CluIdentifierInfo-parent" />
 
@@ -637,7 +631,6 @@
     <ref bean="cluAccountingInfo.id" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.lu.dto.CluAccountingInfo" parent="org.kuali.student.lum.lu.dto.CluAccountingInfo-parent" />
 
@@ -701,7 +694,6 @@
     <ref bean="timeAmountInfo.timeQuantity" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.core.dto.TimeAmountInfo" parent="org.kuali.student.core.dto.TimeAmountInfo-parent" />
 
@@ -739,7 +731,6 @@
     <ref bean="cluInstructorInfo.personInfoOverride"/>
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo" parent="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent" />
 

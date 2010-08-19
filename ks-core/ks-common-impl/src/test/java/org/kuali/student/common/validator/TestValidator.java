@@ -26,7 +26,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 public class TestValidator {
 	DefaultValidatorImpl val = null;
 	ValidatorFactory valFactory = new ValidatorFactory();
-	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:poc/test-validator-context.xml");
+	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:test-validator-context.xml");
 	
 	@Before
 	public void init() {

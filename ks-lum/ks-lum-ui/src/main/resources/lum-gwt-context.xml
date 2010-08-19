@@ -44,6 +44,9 @@
                         key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/RequirementsRpcService">
                     <ref bean="requirementsServiceGwtController"/>
                 </entry>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/statementRpcService">
+                    <ref bean="statementServiceGwtController"/>		    
+                </entry>
                 <entry
                         key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService">
                     <ref bean="LuRpcGwtServletController"/>
@@ -148,8 +151,12 @@
     <bean id="requirementsServiceGwtController"
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="requirementsRpcGwtServlet"/>
-        <property name="servletInstance"
-                  ref="requirementsRpcGwtServlet"/>
+        <property name="servletInstance" ref="requirementsRpcGwtServlet"/>
+    </bean>
+
+    <bean id="statementServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="StatementRpcGwtServlet"/>
+        <property name="servletInstance" ref="statementRpcServlet"/>
     </bean>
 
     <bean id="LuRpcGwtServletController"
@@ -278,6 +285,8 @@
     </bean>
 
     <!-- GWT Servlets -->
+
+    <!--Course Servlet Declaration-->    
     <bean id="requirementsRpcGwtServlet"
           class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
         <property name="service" ref="luClient"/>
@@ -317,6 +326,11 @@
     </bean>
 
     <!--Program Servlet Declaration-->
+    <bean id="statementRpcServlet" class="org.kuali.student.lum.program.server.StatementRpcServlet">
+        <property name="service" ref="luClient"/>
+        <property name="statementService" ref="statementServiceClient"/>
+    </bean>
+
     <bean id="programRpcServlet" class="org.kuali.student.lum.program.server.ProgramRpcServlet">
         <property name="transformationManager" ref="programTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
@@ -427,7 +441,6 @@
         <constructor-arg value="${ks.lum.orchestration.dictionaryContextLocations}"/>
         <constructor-arg>
             <list>
-                <ref bean="luClient"/>
                 <ref bean="commentClient"/>
             </list>
         </constructor-arg>

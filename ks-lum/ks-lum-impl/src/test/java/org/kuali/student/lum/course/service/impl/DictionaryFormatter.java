@@ -1,7 +1,10 @@
 package org.kuali.student.lum.course.service.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.kuali.student.core.dictionary.dto.CaseConstraint;
 import org.kuali.student.core.dictionary.dto.CommonLookupParam;
 import org.kuali.student.core.dictionary.dto.Constraint;
@@ -17,14 +20,51 @@ public class DictionaryFormatter
 
  private StringBuilder builder = new StringBuilder (5000);
  private ObjectStructureDefinition os;
- private String tab;
+ private String rowSeperator = "\n";
+ private String colSeperator = "|";
+ private String name;
+ private Class<?> clazz;
+ private boolean processSubstructures = false;
+ private int level;
+ private Map<String, ObjectStructureDefinition> subStructuresToProcess =
+                                                new LinkedHashMap ();
+ private Set<ObjectStructureDefinition> subStructuresAlreadyProcessed;
 
- public DictionaryFormatter (ObjectStructureDefinition os, String tab)
+ public DictionaryFormatter (String name,
+                             Class<?> clazz,
+                             ObjectStructureDefinition os,
+                             Set<ObjectStructureDefinition> subStructuresAlreadyProcessed,
+                             int level,
+                             boolean processSubstructures)
  {
+  this.name = name;
+  this.clazz = clazz;
   this.os = os;
-  this.tab = tab;
+  this.subStructuresAlreadyProcessed = subStructuresAlreadyProcessed;
+  this.level = level;
+  this.processSubstructures = processSubstructures;
  }
  public static final String UNBOUNDED = "unbounded";
+
+ public String getRowSeperator ()
+ {
+  return rowSeperator;
+ }
+
+ public void setRowSeperator (String rowSeperator)
+ {
+  this.rowSeperator = rowSeperator;
+ }
+
+ public String getColSeparator ()
+ {
+  return colSeperator;
+ }
+
+ public void setColSeparator (String separator)
+ {
+  this.colSeperator = separator;
+ }
 
  private String pad (String str, int size)
  {
@@ -37,88 +77,139 @@ public class DictionaryFormatter
   return padStr.toString ();
  }
 
- private void add (String s)
- {
-  builder.append (s);
- }
-
- private void line ()
- {
-  add ("\n");
- }
-
- private void tab ()
- {
-  add (tab);
- }
-
  public String formatForWiki ()
  {
-  line ();
-//  add ("======= start dump of object structure definition ========");
-  line ();
-  add ("h2. " + calcSimpleName (os.getName ()));
-  line ();
-  tab ();
-  tab ();
-  add ("Field");
-  tab ();
-  tab ();
-  add ("Required?");
-  tab ();
-  tab ();
-  add ("DataType");
-  tab ();
-  tab ();
-  add ("Length");
-  tab ();
-  tab ();
-  add ("Dynamic");
-  tab ();
-  tab ();
-  add ("Default");
-  tab ();
-  tab ();
-  add ("Repeats?");
-  tab ();
-  tab ();
-  add ("Valid Characters");
-  tab ();
-  tab ();
-  add ("Lookup");
-  tab ();
-  tab ();
-  add ("Cross Field");
-  tab ();
-  tab ();
-  line ();
+  builder.append (rowSeperator);
+//  builder.append ("======= start dump of object structure definition ========");
+  builder.append (rowSeperator);
+  builder.append ("h" + level + ". " + calcNotSoSimpleName (name));
+  builder.append ("{anchor:" + name + "}");
+  builder.append (rowSeperator);
+  builder.append ("The DTO for these fields is " + os.getName ());
+  if (os.isHasMetaData ())
+  {
+   builder.append (rowSeperator);
+   builder.append ("This DTO has metadata");
+  }
+  builder.append (rowSeperator);
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Field");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Required?");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("DataType");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Length");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Dynamic");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Default");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Repeats?");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Valid Characters");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Lookup");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append ("Cross Field");
+  builder.append (colSeperator);
+  builder.append (colSeperator);
+  builder.append (rowSeperator);
   for (FieldDefinition fd : os.getAttributes ())
   {
-   tab ();
-   add (pad (fd.getName (), 30));
-   tab ();
-   add (pad (calcRequired (fd), 10));
-   tab ();
-   add (pad (calcDataType (fd), 25));
-   tab ();
-   add (pad (calcLength (fd), 15));
-   tab ();
-   add (pad (calcDynamic (fd), 7));
-   tab ();
-   add (pad (calcDefaultValue (fd), 15));
-   tab ();
-   add (calcRepeating (fd));
-   tab ();
-   add (calcValidChars (fd));
-   tab ();
-   add (calcLookup (fd));
-   tab ();
-   add (calcCrossField (fd));
-   tab ();
-   line ();
+   builder.append (colSeperator);
+   builder.append (pad (fd.getName (), 30));
+   builder.append (colSeperator);
+   builder.append (pad (calcRequired (fd), 10));
+   builder.append (colSeperator);
+   builder.append (pad (calcDataType (fd), 25));
+   builder.append (colSeperator);
+   builder.append (pad (calcLength (fd), 15));
+   builder.append (colSeperator);
+   builder.append (pad (calcDynamic (fd), 7));
+   builder.append (colSeperator);
+   builder.append (pad (calcDefaultValue (fd), 15));
+   builder.append (colSeperator);
+   builder.append (calcRepeating (fd));
+   builder.append (colSeperator);
+   builder.append (calcValidCharsMinMax (fd));
+   builder.append (colSeperator);
+   builder.append (calcLookup (fd));
+   builder.append (colSeperator);
+   builder.append (calcCrossField (fd));
+   builder.append (colSeperator);
+   builder.append (rowSeperator);
   }
-//  add ("======= end dump of object structure definition ========");
-  line ();
+  List<String> discrepancies =
+               new Dictionary2BeanComparer (clazz, os).compare ();
+  if (discrepancies.size () > 0)
+  {
+   builder.append ("h" + (level + 1) + ". " + discrepancies.size ()
+                   + " discrepancie(s) found in "
+                   + calcSimpleName (name));
+   builder.append (rowSeperator);
+   builder.append (formatAsString (discrepancies));
+   builder.append (rowSeperator);
+  }
+
+//  builder.append ("======= end dump of object structure definition ========");
+  builder.append (rowSeperator);
+  for (String subName : this.subStructuresToProcess.keySet ())
+  {
+   ObjectStructureDefinition subOs = this.subStructuresToProcess.get (subName);
+   if (this.subStructuresAlreadyProcessed.add (subOs))
+   {
+//    System.out.println ("formatting substructure " + subName);
+    Class<?> subClazz = getClass (subOs.getName ());
+    DictionaryFormatter formatter =
+                        new DictionaryFormatter (subName, subClazz, subOs,
+                                                 subStructuresAlreadyProcessed,
+                                                 level + 1,
+                                                 this.processSubstructures);
+    builder.append (formatter.formatForWiki ());
+    builder.append (rowSeperator);
+   }
+   else
+   {
+//    System.out.println ("skipping substructure because already processed it: "
+//                        + subName);
+   }
+  }
+
+  return builder.toString ();
+ }
+
+ private Class getClass (String className)
+ {
+  try
+  {
+   return Class.forName (className);
+  }
+  catch (ClassNotFoundException ex)
+  {
+   throw new IllegalArgumentException ("Could not find class for " + className);
+  }
+ }
+
+ private String formatAsString (List<String> discrepancies)
+ {
+  int i = 0;
+  StringBuilder builder = new StringBuilder ();
+  for (String discrep : discrepancies)
+  {
+   i ++;
+   builder.append (i + ". " + discrep + "\n");
+  }
   return builder.toString ();
  }
 
@@ -131,7 +222,17 @@ public class DictionaryFormatter
     throw new IllegalArgumentException (
       fd.getName () + " is complex but does not have a sub-structure defined");
    }
-   return "[#" + calcSimpleName (fd.getDataObjectStructure ().getName ()) + "]";
+   String subStrucName = calcComplexSubStructureName (fd);
+   if (this.processSubstructures)
+   {
+    if ( ! this.subStructuresAlreadyProcessed.contains (
+      fd.getDataObjectStructure ()))
+    {
+//     System.out.println ("Adding " + subStrucName + " to set to be processed");
+     this.subStructuresToProcess.put (subStrucName, fd.getDataObjectStructure ());
+    }
+   }
+   return "[" + calcNotSoSimpleName (subStrucName) + "|#" + subStrucName + "]";
   }
   return fd.getDataType ().toString ();
  }
@@ -154,6 +255,16 @@ public class DictionaryFormatter
   return " ";
  }
 
+ private String calcComplexSubStructureName (FieldDefinition fd)
+ {
+  if (this.processSubstructures)
+  {
+   return name + "." + fd.getName () + "." + calcSimpleName (
+     fd.getDataObjectStructure ().getName ());
+  }
+  return calcSimpleName (fd.getDataObjectStructure ().getName ());
+ }
+
  private String calcSimpleName (String name)
  {
   if (name.lastIndexOf (".") != -1)
@@ -161,6 +272,19 @@ public class DictionaryFormatter
    name = name.substring (name.lastIndexOf (".") + 1);
   }
   return name;
+ }
+
+ private String calcNotSoSimpleName (String name)
+ {
+  if (name.lastIndexOf (".") == -1)
+  {
+   return name;
+  }
+  String simpleName = calcSimpleName (name);
+  String fieldName = calcSimpleName (name.substring (0, name.length ()
+                                                        - simpleName.length ()
+                                                        - 1));
+  return fieldName + "." + simpleName;
  }
 
  private String calcRequired (FieldDefinition fd)
@@ -187,6 +311,8 @@ public class DictionaryFormatter
   return " ";
 //  return "optional";
  }
+ private static final String LINK_TO_DEFINITIONS =
+                             "KULSTG:Formatted View of Base Dictionary#Valid Character Definitions";
 
  private String calcValidChars (FieldDefinition fd)
  {
@@ -194,9 +320,15 @@ public class DictionaryFormatter
   {
    return " ";
   }
-  String escaped = escapeWiki (fd.getValidChars ().getValue ());
-  return "[" + escaped
-         + "|KULSTG:Formatted View of Base Dictionary#Valid Character Definitions]";
+  String labelKey = fd.getValidChars ().getLabelKey ();
+  if (labelKey == null)
+  {
+   labelKey = "validation.validChars";
+  }
+  String validChars = escapeWiki (fd.getValidChars ().getValue ());
+  String descr = "[" + labelKey + "|" + LINK_TO_DEFINITIONS + "]" + "\\\\\n"
+                 + validChars;
+  return descr;
  }
 
  private String escapeWiki (String str)
@@ -231,8 +363,10 @@ public class DictionaryFormatter
   String and = "";
   builder.append ("\\\\");
   builder.append ("\n");
-  builder.append ("Implemented using search:");
-  builder.append (lc.getSearchTypeId ());
+  builder.append ("Implemented using search: ");
+  String searchPage = calcWikiSearchPage (lc.getSearchTypeId ());
+  builder.append ("[" + lc.getSearchTypeId () + "|" + searchPage + "#"
+                  + lc.getSearchTypeId () + "]");
   List<CommonLookupParam> configuredParameters = filterConfiguredParams (
     lc.getParams ());
   if (configuredParameters.size () > 0)
@@ -265,6 +399,88 @@ public class DictionaryFormatter
    }
   }
   return builder.toString ();
+ }
+
+ private String calcValidCharsMinMax (FieldDefinition fd)
+ {
+  String validChars = calcValidChars (fd);
+  String minMax = calcMinMax (fd);
+  String and = " and ";
+  if (validChars.trim ().equals (""))
+  {
+   return minMax;
+  }
+  if (minMax.trim ().equals (""))
+  {
+   return validChars;
+  }
+  return validChars + "\\\\\n" + minMax;
+ }
+
+ private String calcMinMax (FieldDefinition fd)
+ {
+  if (fd.getExclusiveMin () == null)
+  {
+   if (fd.getInclusiveMax () == null)
+   {
+    return " ";
+   }
+   return "Must be <= " + fd.getInclusiveMax ();
+  }
+  if (fd.getInclusiveMax () == null)
+  {
+   return "Must be > " + fd.getExclusiveMin ();
+  }
+  return "Must be > " + fd.getExclusiveMin () + " and < "
+         + fd.getInclusiveMax ();
+ }
+ private static final String PAGE_PREFIX = "Formatted View of ";
+ private static final String PAGE_SUFFIX = " Searches";
+
+ private String calcWikiSearchPage (String searchType)
+ {
+  return PAGE_PREFIX + calcWikigPageAbbrev (searchType) + PAGE_SUFFIX;
+ }
+
+ private String calcWikigPageAbbrev (String searchType)
+ {
+  if (searchType == null)
+  {
+   return null;
+  }
+  if (searchType.equals ("enumeration.management.search"))
+  {
+   return "EM";
+  }
+  if (searchType.startsWith ("lu."))
+  {
+   return "LU";
+  }
+  if (searchType.startsWith ("cluset."))
+  {
+   return "LU";
+  }
+  if (searchType.startsWith ("lo."))
+  {
+   return "LO";
+  }
+  if (searchType.startsWith ("lrc."))
+  {
+   return "LRC";
+  }
+  if (searchType.startsWith ("comment."))
+  {
+   return "Comment";
+  }
+  if (searchType.startsWith ("org."))
+  {
+   return "Organization";
+  }
+  if (searchType.startsWith ("atp."))
+  {
+   return "ATP";
+  }
+  throw new IllegalArgumentException ("Unknown type of search: " + searchType);
  }
 
  private List<CommonLookupParam> filterConfiguredParams (
@@ -448,12 +664,17 @@ public class DictionaryFormatter
  private String calcOverride (FieldDefinition fd, Constraint cons)
  {
   StringBuilder b = new StringBuilder ();
-  b.append (calcOverride ("serviceSide", fd.isServerSide (), cons.isServerSide ()));
-  b.append (calcOverride ("exclusiveMin", fd.getExclusiveMin (), cons.getExclusiveMin ()));
-  b.append (calcOverride ("inclusiveMax", fd.getInclusiveMax (), cons.getInclusiveMax ()));
+  b.append (calcOverride ("serviceSide", fd.isServerSide (),
+                          cons.isServerSide ()));
+  b.append (calcOverride ("exclusiveMin", fd.getExclusiveMin (),
+                          cons.getExclusiveMin ()));
+  b.append (calcOverride ("inclusiveMax", fd.getInclusiveMax (),
+                          cons.getInclusiveMax ()));
   b.append (calcOverride ("minOccurs", fd.getMinOccurs (), cons.getMinOccurs ()));
-  b.append (calcOverride ("validchars", fd.getValidChars (), cons.getValidChars ()));
-  b.append (calcOverride ("validchars", fd.getLookupDefinition (), cons.getLookupDefinition ()));
+  b.append (calcOverride ("validchars", fd.getValidChars (),
+                          cons.getValidChars ()));
+  b.append (calcOverride ("validchars", fd.getLookupDefinition (),
+                          cons.getLookupDefinition ()));
   //TODO: other more complex constraints
   return b.toString ();
  }

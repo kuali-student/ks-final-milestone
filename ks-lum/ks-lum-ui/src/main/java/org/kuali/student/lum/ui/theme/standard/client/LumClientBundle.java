@@ -35,7 +35,11 @@ public interface LumClientBundle extends ClientBundleWithLookup{
 	@Source("org/kuali/student/lum/ui/theme/standard/public/css/Course.css")
 	@CssResource.NotStrict
 	public CssResource courseCss();
-	
+
+	@Source("org/kuali/student/lum/ui/theme/standard/public/css/Program.css")
+	@CssResource.NotStrict
+	public CssResource programCss();
+
 	@Source("org/kuali/student/lum/ui/theme/standard/public/images/gradcap-1.png")
 	@CssResource.NotStrict
 	public ImageResource curriculumManagementImage();

@@ -53,6 +53,7 @@ import org.springframework.util.StringUtils;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class MetadataServiceImpl {
     final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
     

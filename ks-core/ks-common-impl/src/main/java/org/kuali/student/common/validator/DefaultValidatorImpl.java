@@ -396,7 +396,8 @@ public class DefaultValidatorImpl implements Validator{
 
         // TODO: What happens when the field is not in the dataProvider?
         Object fieldValue = (null != caseField) ? dataProvider.getValue(caseField.getName()) : value;
-
+        DataType fieldDataType = (null != caseField ? caseField.getDataType():null); 
+        
         // If fieldValue is null then skip Case check
         if(null == fieldValue) {
             return null;
@@ -408,7 +409,7 @@ public class DefaultValidatorImpl implements Validator{
             List<Object> whenValueList = wc.getValues();
 
             for (Object whenValue : whenValueList) {
-                if (ValidatorUtils.compareValues(fieldValue, whenValue, caseField.getDataType(), operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
+                if (ValidatorUtils.compareValues(fieldValue, whenValue, fieldDataType, operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
                     return wc.getConstraint();
                 }
             }

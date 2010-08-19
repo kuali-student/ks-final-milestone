@@ -45,7 +45,6 @@ import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -100,7 +99,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		// CrossListings
 		List<CourseCrossListingInfo> crossListings = assembleCrossListings(clu.getAlternateIdentifiers()); 
 		course.setCrossListings(crossListings);
-
+		
+		//Variation
+		List<CourseVariationInfo> variations = assembleVariations(clu.getAlternateIdentifiers()); 
+		course.setVariations(variations);
+		
 //		course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
 		if(course.getAdministeringOrgs()==null){
 			course.setAdministeringOrgs(new ArrayList<String>());
@@ -176,16 +179,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		//Special topics code
 		course.setSpecialTopicsCourse(false);
 		for(LuCodeInfo luCode : clu.getLuCodes()){
-			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getValue())){
-				course.setSpecialTopicsCourse(true);
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getType())){
+				course.setSpecialTopicsCourse(Boolean.parseBoolean(luCode.getValue()));
 				break;
 			}
 		}
 		//Pilot Course code
 		course.setPilotCourse(false);
 		for(LuCodeInfo luCode : clu.getLuCodes()){
-			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getValue())){
-				course.setPilotCourse(true);
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getType())){
+				course.setPilotCourse(Boolean.parseBoolean(luCode.getValue()));
 				break;
 			}
 		}
@@ -251,9 +254,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			//Learning Objectives
             course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLearningObjectives(course.getId(), shallowBuild));
 			
-			//Variation
-			List<CourseVariationInfo> variations = assembleVariations(clu.getAlternateIdentifiers()); 
-			course.setVariations(variations);
 		}
 
 		return course;
@@ -292,7 +292,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
 		identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
-		identifier.setState(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_STATE);
+		identifier.setState(course.getState());
 		identifier.setCode(course.getCode());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setLongName(course.getCourseTitle());
@@ -305,30 +305,39 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
 
 		// Use the Course Variation assembler to disassemble the variations
-		List<BaseDTOAssemblyNode<?, ?>> variationResults;
-        try {
-        	
-        	
-            variationResults = disassembleVariations(clu, course, operation);
-            result.getChildNodes().addAll(variationResults);
-        } catch (DoesNotExistException e) {
-        } catch (Exception e) {
-            throw new AssemblyException("Error while disassembling Variation", e);
-        }
 		
-		// Use the Course CrossListing assembler to disassemble the variations
-		List<BaseDTOAssemblyNode<?, ?>> crossListingResults;
-        try {
-        	
-        	
-        	crossListingResults = disassembleCrossListings(clu, course, operation);
-            result.getChildNodes().addAll(crossListingResults);
-        } catch (DoesNotExistException e) {
-        } catch (Exception e) {
-            throw new AssemblyException("Error while disassembling CrossListings", e);
-        }
-		
-
+		// copy all fields
+		//Remove any existing variations or crosslistings
+		for(Iterator<CluIdentifierInfo> iter = clu.getAlternateIdentifiers().iterator();iter.hasNext();){
+			CluIdentifierInfo cluIdentifier = iter.next();
+			if(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE.equals(cluIdentifier.getType()) ||
+				CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE.equals(cluIdentifier.getType()) ){
+				iter.remove();
+			}
+		}
+		//Add in variations
+		for(CourseVariationInfo variation:course.getVariations()){
+			CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+			cluIdentifier.setId(variation.getId());
+			cluIdentifier.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
+			cluIdentifier.setCode(course.getCode());
+			cluIdentifier.setSuffixCode(course.getCourseNumberSuffix());
+			cluIdentifier.setDivision(course.getSubjectArea());
+			cluIdentifier.setVariation(variation.getVariationCode());
+			cluIdentifier.setLongName(variation.getVariationTitle());
+			cluIdentifier.setState(course.getState());
+			clu.getAlternateIdentifiers().add(cluIdentifier);
+		}
+		//Add in crossListings
+		for(CourseCrossListingInfo crossListing:course.getCrossListings()){
+			CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+			cluIdentifier.setId(crossListing.getId());
+			cluIdentifier.setType(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE);
+			cluIdentifier.setSuffixCode(crossListing.getCourseNumberSuffix());
+			cluIdentifier.setDivision(crossListing.getSubjectArea());
+			cluIdentifier.setState(course.getState());
+			clu.getAlternateIdentifiers().add(cluIdentifier);
+		}
 
 		List<AdminOrgInfo> adminOrgInfos = new ArrayList<AdminOrgInfo>();
 		for(String org:course.getAdministeringOrgs()){
@@ -432,7 +441,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		boolean alreadyHadSpecialTopicsCode = false;
 		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
 			LuCodeInfo luCode = luCodeIterator.next();
-			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getValue())){
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getType())){
 				alreadyHadSpecialTopicsCode = true;
 				if(!course.isSpecialTopicsCourse()){
 					luCodeIterator.remove();
@@ -442,7 +451,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		if(!alreadyHadSpecialTopicsCode && course.isSpecialTopicsCourse()){
 			LuCodeInfo luCode = new LuCodeInfo();
-			luCode.setValue(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS);
+			luCode.setType(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS);
+			luCode.setValue("true");
 			clu.getLuCodes().add(luCode);
 		}
 		
@@ -450,7 +460,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		boolean alreadyHadPilotCourseCode = false;
 		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
 			LuCodeInfo luCode = luCodeIterator.next();
-			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getValue())){
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getType())){
 				alreadyHadPilotCourseCode = true;
 				if(!course.isPilotCourse()){
 					luCodeIterator.remove();
@@ -460,7 +470,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		if(!alreadyHadPilotCourseCode && course.isPilotCourse()){
 			LuCodeInfo luCode = new LuCodeInfo();
-			luCode.setValue(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE);
+			luCode.setType(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE);
+			luCode.setValue("true");
 			clu.getLuCodes().add(luCode);
 		}
 		
@@ -846,77 +857,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return variations;
 	}
 	
-	private List<BaseDTOAssemblyNode<?, ?>> disassembleVariations(CluInfo cluInfo,
-			CourseInfo course, NodeOperation operation)
-			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
-		Map<String, CluIdentifierInfo> newVariationsIdents = new HashMap<String, CluIdentifierInfo>();
-		Map<String, CluIdentifierInfo> otherIdents = new HashMap<String, CluIdentifierInfo>();
-		if (course != null && course.getVariations() != null) {
-			for (CourseVariationInfo variation : course.getVariations()) {
-				BaseDTOAssemblyNode<CourseVariationInfo, CluIdentifierInfo> courseVersionAssemblyNode =
-					new BaseDTOAssemblyNode<CourseVariationInfo, CluIdentifierInfo>(null); 
-				variation.setSubjectArea(course.getSubjectArea());
-				variation.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
-				variation.setCourseNumberSuffix(course.getCourseNumberSuffix());
-				if (variation == null) {
-					throw new AssemblyException("Course variation cannot be null");
-				}
-				// cluIdentInfo is the base DTO that corresponds to the business DTO
-				CluIdentifierInfo cluIdentInfo = null;
-				try {
-					if (NodeOperation.UPDATE == operation && variation.getId() != null) {
-						if (cluInfo.getAlternateIdentifiers() != null) {
-							for (CluIdentifierInfo identInfo : cluInfo.getAlternateIdentifiers()) {
-								if (identInfo.getType() != null && identInfo.getType()
-										.equals(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE)) {
-									if (variation.getId() != null && identInfo.getId() != null && 
-											identInfo.getId().equals(variation.getId())) {
-										cluIdentInfo = identInfo;
-									}
-								} else {
-									otherIdents.put(identInfo.getId(), identInfo);
-								}
-							}
-						} else {
-							cluIdentInfo = new CluIdentifierInfo();
-						}
-					} else {
-						cluIdentInfo = new CluIdentifierInfo();
-					}
-				} catch (Exception e) {
-					throw new AssemblyException("Error retrieving course variation during update", e);
-				}
-				
-				if (cluIdentInfo == null) {
-					cluIdentInfo = new CluIdentifierInfo();
-				}
-				
-				// copy all fields
-				cluIdentInfo.setId(UUIDHelper.genStringUUID(variation.getId()));
-				cluIdentInfo.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
-				cluIdentInfo.setCode(course.getCode());
-				cluIdentInfo.setSuffixCode(course.getCourseNumberSuffix());
-				cluIdentInfo.setDivision(course.getSubjectArea());
-				// TODO what to do with short name for a variation? Transcript title?
-//				cluIdentInfo.setShortName(course.getTranscriptTitle());
-				cluIdentInfo.setVariation(variation.getVariationCode());
-				cluIdentInfo.setLongName(variation.getVariationTitle());
-				courseVersionAssemblyNode.setNodeData(cluIdentInfo);
-				courseVersionAssemblyNode.setOperation(operation);
-				courseVersionAssemblyNode.setBusinessDTORef(variation);
-				results.add(courseVersionAssemblyNode);
-				newVariationsIdents.put(cluIdentInfo.getId(), cluIdentInfo);
-			}
-			if (cluInfo.getAlternateIdentifiers() != null) {
-				cluInfo.setAlternateIdentifiers(new ArrayList<CluIdentifierInfo>());
-				cluInfo.getAlternateIdentifiers().addAll(otherIdents.values());
-				cluInfo.getAlternateIdentifiers().addAll(newVariationsIdents.values());
-			}
-		}
-		return results;
-	}
-	
 	private List<CourseCrossListingInfo> assembleCrossListings(List<CluIdentifierInfo> cluIdents) {
 		List<CourseCrossListingInfo> crossListings = new ArrayList<CourseCrossListingInfo>();
 		if (cluIdents != null) {
@@ -935,73 +875,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return crossListings;
 	}
 	
-	private List<BaseDTOAssemblyNode<?, ?>> disassembleCrossListings(CluInfo cluInfo,
-			CourseInfo course, NodeOperation operation)
-			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
-		Map<String, CluIdentifierInfo> newCrossListingsIdents = new HashMap<String, CluIdentifierInfo>();
-		Map<String, CluIdentifierInfo> otherIdents = new HashMap<String, CluIdentifierInfo>();
-		if (course != null && course.getCrossListings() != null) {
-			for (CourseCrossListingInfo crossListing : course.getCrossListings()) {
-				BaseDTOAssemblyNode<CourseCrossListingInfo, CluIdentifierInfo> courseCrossListingsAssemblyNode =
-					new BaseDTOAssemblyNode<CourseCrossListingInfo, CluIdentifierInfo>(null); 
-				if (crossListing == null) {
-					throw new AssemblyException("Course Cross Listing cannot be null");
-				}
-				// cluIdentInfo is the base DTO that corresponds to the business DTO
-				CluIdentifierInfo cluIdentInfo = null;
-				try {
-					if (NodeOperation.UPDATE == operation && crossListing.getId() != null) {
-						if (cluInfo.getAlternateIdentifiers() != null) {
-							for (CluIdentifierInfo identInfo : cluInfo.getAlternateIdentifiers()) {
-								if (identInfo.getType() != null && identInfo.getType()
-										.equals(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE)) {
-									if (crossListing.getId() != null && identInfo.getId() != null && 
-											identInfo.getId().equals(crossListing.getId())) {
-										cluIdentInfo = identInfo;
-									}
-								} else {
-									otherIdents.put(identInfo.getId(), identInfo);
-								}
-							}
-						} else {
-							cluIdentInfo = new CluIdentifierInfo();
-						}
-					} else {
-						cluIdentInfo = new CluIdentifierInfo();
-					}
-				} catch (Exception e) {
-					throw new AssemblyException("Error retrieving course cross listings during update", e);
-				}
-				
-				if (cluIdentInfo == null) {
-					cluIdentInfo = new CluIdentifierInfo();
-				}
-				
-				// copy all fields
-				cluIdentInfo.setId(UUIDHelper.genStringUUID(crossListing.getId()));
-				cluIdentInfo.setType(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE);
-//				cluIdentInfo.setCode(crossListing.getCode());
-				cluIdentInfo.setSuffixCode(crossListing.getCourseNumberSuffix());
-				cluIdentInfo.setDivision(crossListing.getSubjectArea());
-				// TODO what to do with short name for a crossListing? Transcript title?
-//				cluIdentInfo.setShortName(course.getTranscriptTitle());
-//				cluIdentInfo.setLongName(variation.getVariationTitle());
-				courseCrossListingsAssemblyNode.setNodeData(cluIdentInfo);
-				courseCrossListingsAssemblyNode.setOperation(operation);
-				courseCrossListingsAssemblyNode.setBusinessDTORef(crossListing);
-				results.add(courseCrossListingsAssemblyNode);
-				newCrossListingsIdents.put(cluIdentInfo.getId(), cluIdentInfo);
-			}
-			if (cluInfo.getAlternateIdentifiers() != null) {
-				cluInfo.setAlternateIdentifiers(new ArrayList<CluIdentifierInfo>());
-				cluInfo.getAlternateIdentifiers().addAll(otherIdents.values());
-				cluInfo.getAlternateIdentifiers().addAll(newCrossListingsIdents.values());
-			}
-		}
-		return results;
-	}
-
 	// TODO This is pretty much a copy of the disassembleJoints
 	// code... maybe can be made generic
 	private List<BaseDTOAssemblyNode<?, ?>> disassembleJoints(String nodeId,

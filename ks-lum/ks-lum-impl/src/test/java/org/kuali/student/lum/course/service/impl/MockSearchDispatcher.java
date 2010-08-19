@@ -25,7 +25,7 @@ public class MockSearchDispatcher implements SearchDispatcher
   cells.add (cell);
   row.setCells (cells);
   result.setRows (rows);
-  System.out.println ("Generating mock search result for " + searchRequest.getSearchKey ());
+//  System.out.println ("Generating mock search result for " + searchRequest.getSearchKey ());
   return result;
  }
 

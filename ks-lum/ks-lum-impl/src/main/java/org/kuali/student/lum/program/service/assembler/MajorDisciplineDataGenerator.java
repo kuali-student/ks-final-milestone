@@ -1,5 +1,8 @@
 package org.kuali.student.lum.program.service.assembler;
 
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -12,9 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 
 public class MajorDisciplineDataGenerator {
 	private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH,CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};
@@ -120,8 +120,16 @@ public class MajorDisciplineDataGenerator {
 	private String getStringValue(String name, String parentPropertyName,
 			Integer propertyIndex, boolean isMap) {
 		if("id".equals(name)){
-			return null;
+            if("loCategoryInfoList".equals(parentPropertyName)){
+                return "162979A3-25B9-4921-BC8F-C861B2267A73";
+            }
+            else {
+			   return null;
+            }
 		}
+        if("credentialProgramId".equals(name)){
+            return "00F5F8C5-FFF1-4C8B-92FC-789B891E0849";
+        }
 		if("type".equals(name)){
 			
 			if(null==parentPropertyName){
@@ -140,30 +148,41 @@ public class MajorDisciplineDataGenerator {
 				return ProgramAssemblerConstants.PROGRAM_VARIATION;
 			}
 
-			if("divisionsContentOwner".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
-			}
-			
-			if("divisionsStudentOversight".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION;
+			if("orgCoreProgram".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.CORE_PROGRAM;
 			}
 
 			if("divisionsContentOwner".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
 			}
-			
 			if("divisionsStudentOversight".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION;
 			}
-
+            if("divisionsDeployment".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.DEPLOYMENT_DIVISION;
+			}
+			if("divisionsFinancialResources".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION;
+			}
+			if("divisionsFinancialControl".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION;
+			}
 			if("unitsContentOwner".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.CONTENT_OWNER_UNIT;
 			}
-			
 			if("unitsStudentOversight".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT;
 			}
-			
+			if("unitsDeployment".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.DEPLOYMENT_UNIT;
+			}
+			if("unitsFinancialResources".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT;
+			}
+            if("unitsFinancialControl".equals(parentPropertyName)){
+				return ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT;
+			}
+
 			//Temporary change added because of addition of type field to AdminOrgInfo.
 			// Please add the type values for MajorDisciplineInfo admin orgs
 			else{

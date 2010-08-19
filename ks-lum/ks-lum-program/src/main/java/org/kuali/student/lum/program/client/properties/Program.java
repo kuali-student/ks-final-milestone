@@ -5,16 +5,7 @@ package org.kuali.student.lum.program.client.properties;
  * 	D:/programming/projects/exadel_projects/berkeley/kuali/trunk/ks-lum/ks-lum-program/src/main/java/org/kuali/student/lum/program/client/properties/program.properties'.
  */
 public interface Program extends com.google.gwt.i18n.client.Messages {
-	
-	/**
-	 * Translated "Program Description".
-	 * 
-	 * @return translated "Program Description"
-	 */
-	@DefaultMessage("Program Description")
-	@Key("catalogInformation.descr")
-	String catalogInformation_descr();
-	  
+  
   /**
    * Translated "Catalog Description".
    * 
@@ -34,13 +25,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String catalogInformation_catalogPublicationTargets();
 
   /**
-   * Translated "Core Faculty Members".
+   * Translated "Program Description".
    * 
-   * @return translated "Core Faculty Members"
+   * @return translated "Program Description"
    */
-  @DefaultMessage("Core Faculty Members")
-  @Key("catalogInformation.publishedInstructors")
-  String catalogInformation_publishedInstructors();
+  @DefaultMessage("Program Description")
+  @Key("catalogInformation.descr")
+  String catalogInformation_descr();
 
   /**
    * Translated "Full Time / Part Time".
@@ -52,13 +43,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String catalogInformation_intensity();
 
   /**
-   * Translated "Duration".
+   * Translated "Core Faculty Members".
    * 
-   * @return translated "Duration"
+   * @return translated "Core Faculty Members"
    */
-  @DefaultMessage("Duration")
-  @Key("catalogInformation.stdDuration")
-  String catalogInformation_stdDuration();
+  @DefaultMessage("Core Faculty Members")
+  @Key("catalogInformation.publishedInstructors")
+  String catalogInformation_publishedInstructors();
 
   /**
    * Translated "More Info".
@@ -68,6 +59,16 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("More Info")
   @Key("catalogInformation.referenceUrl")
   String catalogInformation_referenceUrl();
+
+  /**
+   * Translated "Duration".
+   * 
+   * @return translated "Duration"
+   */
+  @DefaultMessage("Duration")
+  @Key("catalogInformation.stdDuration")
+  String catalogInformation_stdDuration();
+
   /**
    * Translated "Cancel".
    * 
@@ -123,6 +124,60 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_curriculumOversightUnit();
 
   /**
+   * Translated "Deployment Division".
+   * 
+   * @return translated "Deployment Division"
+   */
+  @DefaultMessage("Deployment Division")
+  @Key("managingBodies.deploymentDivision")
+  String managingBodies_deploymentDivision();
+
+  /**
+   * Translated "Deployment Unit".
+   * 
+   * @return translated "Deployment Unit"
+   */
+  @DefaultMessage("Deployment Unit")
+  @Key("managingBodies.deploymentUnit")
+  String managingBodies_deploymentUnit();
+
+  /**
+   * Translated "Financial Control Division".
+   * 
+   * @return translated "Financial Control Division"
+   */
+  @DefaultMessage("Financial Control Division")
+  @Key("managingBodies.financialControlDivision")
+  String managingBodies_financialControlDivision();
+
+  /**
+   * Translated "Financial Control Unit".
+   * 
+   * @return translated "Financial Control Unit"
+   */
+  @DefaultMessage("Financial Control Unit")
+  @Key("managingBodies.financialControlUnit")
+  String managingBodies_financialControlUnit();
+
+  /**
+   * Translated "Financial Resources Division".
+   * 
+   * @return translated "Financial Resources Division"
+   */
+  @DefaultMessage("Financial Resources Division")
+  @Key("managingBodies.financialResourcesDivision")
+  String managingBodies_financialResourcesDivision();
+
+  /**
+   * Translated "Financial Resources Unit".
+   * 
+   * @return translated "Financial Resources Unit"
+   */
+  @DefaultMessage("Financial Resources Unit")
+  @Key("managingBodies.financialResourcesUnit")
+  String managingBodies_financialResourcesUnit();
+
+  /**
    * Translated "See All Managing Bodies".
    * 
    * @return translated "See All Managing Bodies"
@@ -130,6 +185,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("See All Managing Bodies")
   @Key("managingBodies.seeAll")
   String managingBodies_seeAll();
+
+  /**
+   * Translated "Student Oversight Division".
+   * 
+   * @return translated "Student Oversight Division"
+   */
+  @DefaultMessage("Student Oversight Division")
+  @Key("managingBodies.studentOversightDivision")
+  String managingBodies_studentOversightDivision();
+
+  /**
+   * Translated "Student Oversight Unit".
+   * 
+   * @return translated "Student Oversight Unit"
+   */
+  @DefaultMessage("Student Oversight Unit")
+  @Key("managingBodies.studentOversightUnit")
+  String managingBodies_studentOversightUnit();
 
   /**
    * Translated "Actions".
@@ -159,11 +232,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections();
 
   /**
-   * Translated "Catalog Information".
+   * Translated "Description and Catalog Information".
    * 
-   * @return translated "Catalog Information"
+   * @return translated "Description and Catalog Information"
    */
-  @DefaultMessage("Catalog Information")
+  @DefaultMessage("Description and Catalog Information")
   @Key("program.menu.sections.catalogInfo")
   String program_menu_sections_catalogInfo();
 
@@ -177,31 +250,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_learningObjectives();
 
   /**
-   * Translated "Learning Results".
+   * Translated "Program Managing Bodies".
    * 
-   * @return translated "Learning Results"
+   * @return translated "Program Managing Bodies"
    */
-  @DefaultMessage("Learning Results")
-  @Key("program.menu.sections.learningResults")
-  String program_menu_sections_learningResults();
-
-  /**
-   * Translated "Managing Bodies".
-   * 
-   * @return translated "Managing Bodies"
-   */
-  @DefaultMessage("Managing Bodies")
+  @DefaultMessage("Program Managing Bodies")
   @Key("program.menu.sections.managingBodies")
   String program_menu_sections_managingBodies();
-
-  /**
-   * Translated "Program Description".
-   * 
-   * @return translated "Program Description"
-   */
-  @DefaultMessage("Program Description")
-  @Key("program.menu.sections.programDescription")
-  String program_menu_sections_programDescription();
 
   /**
    * Translated "Key Program Information".
@@ -454,4 +509,76 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Title Transcript")
   @Key("programInformation.titleTranscript")
   String programInformation_titleTranscript();
+
+  /**
+   * Translated "Step 1: Build and Add Rules".
+   * 
+   * @return translated "Step 1: Build and Add Rules"
+   */
+  @DefaultMessage("Step 1: Build and Add Rules")
+  @Key("programRequirements.manageViewPageStep1Title")
+  String programRequirements_manageViewPageStep1Title();
+
+  /**
+   * Translated "Step 2: Combine Rules with Logic".
+   * 
+   * @return translated "Step 2: Combine Rules with Logic"
+   */
+  @DefaultMessage("Step 2: Combine Rules with Logic")
+  @Key("programRequirements.manageViewPageStep2Title")
+  String programRequirements_manageViewPageStep2Title();
+
+  /**
+   * Translated "Add a <*> Rule".
+   * 
+   * @return translated "Add a <*> Rule"
+   */
+  @DefaultMessage("Add a <*> Rule")
+  @Key("programRequirements.manageViewPageTitle")
+  String programRequirements_manageViewPageTitle();
+
+  /**
+   * Translated "Add a <*>".
+   * 
+   * @return translated "Add a <*>"
+   */
+  @DefaultMessage("Add a <*>")
+  @Key("programRequirements.summaryViewPageAddRule")
+  String programRequirements_summaryViewPageAddRule();
+
+  /**
+   * Translated "Are you sure you want to delete this rule?".
+   * 
+   * @return translated "Are you sure you want to delete this rule?"
+   */
+  @DefaultMessage("Are you sure you want to delete this rule?")
+  @Key("programRequirements.summaryViewPageDeleteRuleDialogMsg")
+  String programRequirements_summaryViewPageDeleteRuleDialogMsg();
+
+  /**
+   * Translated "Delete Rule".
+   * 
+   * @return translated "Delete Rule"
+   */
+  @DefaultMessage("Delete Rule")
+  @Key("programRequirements.summaryViewPageDeleteRuleDialogTitle")
+  String programRequirements_summaryViewPageDeleteRuleDialogTitle();
+
+  /**
+   * Translated "No <*> currently exist for this program".
+   * 
+   * @return translated "No <*> currently exist for this program"
+   */
+  @DefaultMessage("No <*> currently exist for this program")
+  @Key("programRequirements.summaryViewPageNoRule")
+  String programRequirements_summaryViewPageNoRule();
+
+  /**
+   * Translated "Program Requirements".
+   * 
+   * @return translated "Program Requirements"
+   */
+  @DefaultMessage("Program Requirements")
+  @Key("programRequirements.summaryViewPageTitle")
+  String programRequirements_summaryViewPageTitle();
 }

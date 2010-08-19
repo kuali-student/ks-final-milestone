@@ -17,8 +17,9 @@ package org.kuali.student.common.assembly.dictionary;
 
 import java.util.List;
 
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
+
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -34,7 +35,7 @@ public class MockDictionaryService implements DictionaryService{
      * @see org.kuali.student.core.dictionary.service.old.DictionaryService#getObjectStructure(java.lang.String)
      */
     @Override
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 

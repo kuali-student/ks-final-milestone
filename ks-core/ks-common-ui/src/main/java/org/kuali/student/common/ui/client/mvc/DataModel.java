@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
 import org.kuali.student.common.ui.client.validator.DataModelValidator;
@@ -241,4 +242,10 @@ public class DataModel implements Model {
         List<ValidationResultInfo> result = validator.validate(this);
         callback.exec(result);
     }
+    
+    public void validateField(FieldDescriptor fd, final Callback<List<ValidationResultInfo>> callback) {
+    	List<ValidationResultInfo> result = validator.validate(fd, this);
+    	callback.exec(result);
+}
+
 }

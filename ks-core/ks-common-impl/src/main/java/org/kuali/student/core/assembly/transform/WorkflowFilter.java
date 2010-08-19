@@ -34,6 +34,9 @@ public class WorkflowFilter extends AbstractDTOFilter {
     public static final String WORKFLOW_SUBMIT		= "Submit";
     public static final String WORKFLOW_APPROVE		= "Approve";
     
+	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractCocOrgQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
+
     final Logger LOG = Logger.getLogger(WorkflowFilter.class);
     
     private WorkflowUtility workflowUtilityService;
@@ -179,7 +182,7 @@ public class WorkflowFilter extends AbstractDTOFilter {
 			//Create the document content
 			Document docContent = null;
 			docContent = impl.createDocument(null, null, null);
-			Element root = docContent.createElement("info");
+			Element root = docContent.createElement(DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME);
 			docContent.appendChild(root);
 			for (Entry<String,String> entry:docFieldMap.entrySet()){
 				Element element = docContent.createElement(entry.getKey());
