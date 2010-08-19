@@ -59,6 +59,7 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 	 * 
 	 * @since 1.0
 	 * @parameter default-value="false"
+	 * 
 	 */
 	boolean skip;
 
