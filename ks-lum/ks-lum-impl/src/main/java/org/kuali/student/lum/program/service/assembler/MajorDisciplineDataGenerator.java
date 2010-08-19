@@ -121,14 +121,14 @@ public class MajorDisciplineDataGenerator {
 			Integer propertyIndex, boolean isMap) {
 		if("id".equals(name)){
             if("loCategoryInfoList".equals(parentPropertyName)){
-                return "162979A3-25B9-4921-BC8F-C861B2267A73";
+                return "162979a3-25b9-4921-bc8f-c861b2267a73";
             }
             else {
 			   return null;
             }
 		}
         if("credentialProgramId".equals(name)){
-            return "00F5F8C5-FFF1-4C8B-92FC-789B891E0849";
+            return "00f5f8c5-fff1-4c8b-92fc-789b891e0849";
         }
 		if("type".equals(name)){
 			

@@ -24,9 +24,7 @@ import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -82,40 +80,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         }
         
        return mdInfo;
-    }
-
-    private void disassembleCodes(CluInfo clu, MajorDisciplineInfo major) {
-
-        //TODO This is good for create but need to handle updates too!!
-
-        if (major.getCip2000Code() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.CIP_2000, major.getCip2000Code());
-            clu.getLuCodes().add(luCode);
-        }
-        if (major.getCip2010Code() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.CIP_2010, major.getCip2010Code());
-            clu.getLuCodes().add(luCode);
-        }
-        if (major.getHegisCode() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.HEGIS, major.getHegisCode() );
-            clu.getLuCodes().add(luCode);
-        }
-        if (major.getUniversityClassification() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION, major.getUniversityClassification() );
-            clu.getLuCodes().add(luCode);
-        }
-        if (major.getSelectiveEnrollmentCode() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.SELECTIVE_ENROLLMENT, major.getSelectiveEnrollmentCode() );
-            clu.getLuCodes().add(luCode);
-        }
-
-    }
-
-    private LuCodeInfo buildLuCode(String type, String value) {
-        LuCodeInfo luCode = new LuCodeInfo();
-        luCode.setType(type);
-        luCode.setValue(value);
-        return luCode;
     }
 
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild) throws AssemblyException {

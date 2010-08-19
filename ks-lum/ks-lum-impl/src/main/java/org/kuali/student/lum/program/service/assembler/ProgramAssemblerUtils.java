@@ -22,6 +22,9 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
@@ -35,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -302,7 +306,14 @@ public class ProgramAssemblerUtils {
             official.setType(ProgramAssemblerConstants.OFFICIAL);
             clu.setOfficialIdentifier(official);
 
-            //TODO check for existing alt ids of this type     for UPDATE op
+            //Remove any existing diploma or transcript alt identifiers
+            for(Iterator<CluIdentifierInfo> iter = clu.getAlternateIdentifiers().iterator();iter.hasNext();){
+                CluIdentifierInfo cluIdentifier = iter.next();
+                if(ProgramAssemblerConstants.DIPLOMA.equals(cluIdentifier.getType()) ||
+                    ProgramAssemblerConstants.TRANSCRIPT.equals(cluIdentifier.getType()) ){
+                    iter.remove();
+                }
+            }
 
             try {
                 method = o.getClass().getMethod("getDiplomaTitle", null);
@@ -393,25 +404,13 @@ public class ProgramAssemblerUtils {
      */
     public CluInfo disassembleLuCodes(CluInfo clu, Object o, NodeOperation operation) throws AssemblyException {
 
-         if (clu.getLuCodes() == null) {
-             clu.setLuCodes(new ArrayList<LuCodeInfo>());
-         }
-        //TODO check for existing LuCodes of same type    for UPDATE op
-         LuCodeInfo code = buildLuCodeFromProgram(o, "getCip2000Code", ProgramAssemblerConstants.CIP_2000);
-         if (code != null)
-             clu.getLuCodes().add(code);
-         code = buildLuCodeFromProgram( o, "getCip2010Code", ProgramAssemblerConstants.CIP_2010);
-         if (code != null)
-             clu.getLuCodes().add(code);
-         code = buildLuCodeFromProgram( o, "getHegisCode", ProgramAssemblerConstants.HEGIS);
-         if (code != null)
-             clu.getLuCodes().add(code);
-         code = buildLuCodeFromProgram( o, "getUniversityClassification", ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION);
-         if (code != null)
-             clu.getLuCodes().add(code);
-         code = buildLuCodeFromProgram( o, "getSelectiveEnrollmentCode", ProgramAssemblerConstants.SELECTIVE_ENROLLMENT);
-         if (code != null)
-             clu.getLuCodes().add(code);
+        clu.setLuCodes(new ArrayList<LuCodeInfo>());
+
+        addLuCode(clu, o, "getCip2000Code", ProgramAssemblerConstants.CIP_2000);
+        addLuCode(clu, o, "getCip2010Code", ProgramAssemblerConstants.CIP_2010);
+        addLuCode(clu, o,  "getHegisCode", ProgramAssemblerConstants.HEGIS);
+        addLuCode(clu, o, "getUniversityClassification", ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION);
+        addLuCode(clu, o,  "getSelectiveEnrollmentCode", ProgramAssemblerConstants.SELECTIVE_ENROLLMENT);
 
         return clu;
 
@@ -482,39 +481,33 @@ public class ProgramAssemblerUtils {
      * Copy AdminOrg values from program to clu
      *
      * @param clu
-     * @param t
+     * @param o
      * @param operation
      */
-    public CluInfo disassembleAdminOrgs(CluInfo clu, Object t, NodeOperation operation){
+    public CluInfo disassembleAdminOrgs(CluInfo clu, Object o, NodeOperation operation){
 
-        if (clu.getAdminOrgs() == null) {
-            clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
-        }        
+        // clear out all old admin orgs
+        clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
 
-        //TODO check for existing admin orgs for type for UPDATE op
-    	List<AdminOrgInfo> orgs  = getAdminOrgsFromProgram(t, "getDivisionsContentOwner");
-  		if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getDivisionsStudentOversight");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getDivisionsDeployment");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getDivisionsFinancialResources");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getDivisionsFinancialControl");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getUnitsContentOwner");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getUnitsStudentOversight");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getUnitsDeployment");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getUnitsFinancialResources");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
-    	orgs = getAdminOrgsFromProgram(t, "getUnitsFinancialControl");
-    	if(orgs != null) clu.getAdminOrgs().addAll(orgs);
+        addAdminOrgs(clu, o, "getDivisionsContentOwner");
+        addAdminOrgs(clu, o, "getDivisionsStudentOversight");
+    	addAdminOrgs(clu, o, "getDivisionsDeployment");
+    	addAdminOrgs(clu, o, "getDivisionsFinancialResources");
+    	addAdminOrgs(clu, o, "getDivisionsFinancialControl");
+    	addAdminOrgs(clu, o, "getUnitsContentOwner");
+    	addAdminOrgs(clu, o, "getUnitsStudentOversight");
+    	addAdminOrgs(clu, o, "getUnitsDeployment");
+    	addAdminOrgs(clu, o,"getUnitsFinancialResources");
+    	addAdminOrgs(clu, o, "getUnitsFinancialControl");
 
         return clu;
 
+    }
+
+    private void addAdminOrgs(CluInfo clu, Object o, String methodName) {
+        List<AdminOrgInfo> orgs  = getAdminOrgsFromProgram(o, methodName);
+        if(orgs != null)
+            clu.getAdminOrgs().addAll(orgs);
     }
 
     /**
@@ -537,22 +530,6 @@ public class ProgramAssemblerUtils {
             throw new AssemblyException("Error getting major results", e);
         }
         return resultOptions;
-    }
-
-
-    //TODO disassembleResultOptions
-    /**
-     *  Copy result options from program to clu
-     *
-     * @param clu
-     * @param t
-     * @param operation
-     * @return
-     */
-    public CluInfo disassembleResultOptions(CluInfo clu, Object t, NodeOperation operation){
-
-        return clu;
-
     }
 
     /**
@@ -780,24 +757,19 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-     public List<BaseDTOAssemblyNode<?,?>>  disassembleCredentialProgram(Object o, NodeOperation operation, String relationType) throws AssemblyException {
+    public List<BaseDTOAssemblyNode<?,?>>  disassembleCredentialProgram(Object o, NodeOperation operation, String relationType) throws AssemblyException {
 
         List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
-        CluInfo credentialClu = null;
 
         Method  method = null;
         String cluId = null;
         String credentialId = null;
-        String state = null;
         try {
             method = o.getClass().getMethod("getCredentialProgramId", null);
             credentialId = (String)method.invoke(o, null);
 
             method = o.getClass().getMethod("getId", null);
             cluId = (String)method.invoke(o, null);
-
-            method = o.getClass().getMethod("getState", null);
-            state = (String)method.invoke(o, null);
 
         } catch (NoSuchMethodException e) {
         } catch (InvocationTargetException e) {
@@ -806,27 +778,82 @@ public class ProgramAssemblerUtils {
         }
 
         try {
-            credentialClu = luService.getClu(credentialId);
+            CluInfo credentialClu = luService.getClu(credentialId);
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Credential Clu does not exist for " + credentialId);
         }
 
-        //TODO checks for update and delete
+        Map<String, String> currentRelations = new HashMap<String, String>();
 
-        CluCluRelationInfo relation = new CluCluRelationInfo();
-        relation.setCluId(cluId);
-        relation.setRelatedCluId(credentialId);
-        relation.setType(relationType);
-        relation.setState(state);
+        if (!NodeOperation.CREATE.equals(operation)) {
+            try {
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId);
 
-        BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
-                null);
-        relationNode.setNodeData(relation);
-        relationNode.setOperation(NodeOperation.CREATE);
+                for (CluCluRelationInfo cluRelation : cluRelations) {
+                    if (relationType.equals(cluRelation.getType())) {
+                        currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
+                    }
+                }
+            } catch (DoesNotExistException e) {
+            } catch (InvalidParameterException e) {
+            } catch (MissingParameterException e) {
+            } catch (OperationFailedException e) {
+                throw new AssemblyException("Error getting related clus", e);
+            }
+        }
 
-        results.add(relationNode);
 
+        //  If this is a create then vreate new relation
+        if (NodeOperation.CREATE == operation
+                || (NodeOperation.UPDATE == operation && !currentRelations.containsKey(credentialId) )) {
+            // the relation does not exist, so create
+            CluCluRelationInfo relation = new CluCluRelationInfo();
+            relation.setCluId(cluId);
+            relation.setRelatedCluId(credentialId);
+            relation.setType(relationType);
+            relation.setState(ProgramAssemblerConstants.ACTIVE);
+
+            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+                    null);
+            relationNode.setNodeData(relation);
+            relationNode.setOperation(NodeOperation.CREATE);
+
+            results.add(relationNode);
+        } else if (NodeOperation.UPDATE == operation
+                && currentRelations.containsKey(credentialId)) {
+            // If the relationship already exists update it
+
+            // remove this entry from the map so we can tell what needs to
+            // be deleted at the end
+            currentRelations.remove(credentialId);
+        } else if (NodeOperation.DELETE == operation
+                && currentRelations.containsKey(credentialId))  {
+            // Delete the Format and its relation
+            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
+            relationToDelete.setId( currentRelations.get(credentialId) );
+            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+                    null);
+            relationToDeleteNode.setNodeData(relationToDelete);
+            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+            results.add(relationToDeleteNode);
+
+            // remove this entry from the map so we can tell what needs to
+            // be deleted at the end
+            currentRelations.remove(credentialId);
+        }
+
+        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
+            // Create a new relation with the id of the relation we want to
+            // delete
+            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
+            relationToDelete.setId( entry.getValue() );
+            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+                    null);
+            relationToDeleteNode.setNodeData(relationToDelete);
+            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+            results.add(relationToDeleteNode);
+        }
         return results;
     }
 
@@ -932,6 +959,17 @@ public class ProgramAssemblerUtils {
 			 return null;
 		}
         return result;
+    }
+
+     private void addLuCode(CluInfo clu, Object o, String methodName, String codeType ) throws AssemblyException {
+
+        LuCodeInfo code = buildLuCodeFromProgram(o, methodName, codeType );
+        if (code != null) {
+//            if (currentCodes.containsKey(code.getType())) {
+//                clu.getLuCodes().remove(currentCodes.get(code.getType()));
+//            }
+            clu.getLuCodes().add(code);
+        }
     }
 
     // Spring setters
