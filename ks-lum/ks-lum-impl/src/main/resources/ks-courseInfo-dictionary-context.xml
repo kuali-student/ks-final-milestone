@@ -919,6 +919,30 @@
  </bean>
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
 
+ <!-- Redefine the ResultComponentInfo to have dynamic attributes -->
+ 	<bean id="org.kuali.student.lum.lrc.dto.ResultComponentInfo"
+		parent="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent">
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="resultComponentInfo.minCreditValue"/>
+				<ref bean="resultComponentInfo.maxCreditValue"/>
+				<ref bean="resultComponentInfo.fixedCreditValue"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
+		<property name="name" value="minCreditValue"/>
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="resultComponentInfo.maxCreditValue" parent="baseNumericString">
+		<property name="name" value="maxCreditValue"/>
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="resultComponentInfo.fixedCreditValue" parent="baseNumericString">
+ 		<property name="name" value="fixedCreditValue"/>
+ 		<property name="dynamic" value="true"/>
+	</bean>
+
  <!-- activity TimeAmountInfo-->
  <bean id="activityInfo.duration.TimeAmountInfo-parent"
        abstract="true" parent="org.kuali.student.core.dto.TimeAmountInfo">

@@ -369,9 +369,10 @@
 	<bean parent="enCourse" p:id="cluAddLearningResultOutcome"          p:value="Add Outcome"/>
 	<bean parent="enCourse" p:id="cluLearningResultOutcome"             p:value="Outcome"/>
 	<bean parent="enCourse" p:id="cluLearningResultOutcomeType"         p:value="Type"/>
-	<bean parent="enCourse" p:id="cluLearningResultsOutcomeCreditValue" p:value="Credit Value"/>
-	<bean parent="enCourse" p:id="cluLearningResultsOutcomeMaxCredits"  p:value="Maximum Credits"/>
-
+	<bean parent="enCourse" p:id="cluLearningResultsOutcomeMinCredits"  p:value="Minimum Credit Value"/>
+	<bean parent="enCourse" p:id="cluLearningResultsOutcomeMaxCredits"  p:value="Maximum Credit Value"/>
+	<bean parent="enCourse" p:id="cluLearningResultsOutcomeFixedCredits" p:value="Credit Value"/>
+	
     <!-- Financial Section labels -->
     
 	<bean parent="enCourse" p:id="cluCourseFeesTitle"                   p:value="Course Fees"/>

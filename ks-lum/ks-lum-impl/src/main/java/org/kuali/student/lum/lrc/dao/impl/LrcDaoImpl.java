@@ -18,6 +18,7 @@ package org.kuali.student.lum.lrc.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -61,6 +62,8 @@ public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao 
             return (ResultComponentType)query.getSingleResult();
         } catch (NoResultException e) {
             throw new DoesNotExistException();
+        } catch (EntityNotFoundException e){
+        	throw new DoesNotExistException();
         }
     }
 }

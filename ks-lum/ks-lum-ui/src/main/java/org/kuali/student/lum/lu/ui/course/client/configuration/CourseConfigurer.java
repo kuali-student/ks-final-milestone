@@ -449,13 +449,76 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 	}
 
 	private Section generateOutcomesSection() {
-		VerticalSection outcomesSection = initSection(getH3Title(LUConstants.LEARNING_RESULT_OUTCOMES_LABEL_KEY), WITH_DIVIDER);
+       
+		String path = COURSE + QueryPath.getPathSeparator() + CREDIT_OPTIONS;
+       
+        VerticalSection courseOutcomes = initSection(getH3Title(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), WITH_DIVIDER);
         
-		addField(outcomesSection, COURSE + "/" + CREDIT_OPTIONS, generateMessageInfo(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY));
-		
-		return outcomesSection;
+        addField(courseOutcomes, path, null, new CreditOptionList(path));
+        
+        return courseOutcomes;
+
 	}
 
+	
+	
+    public class CreditOptionList extends UpdatableMultiplicityComposite {
+        private final String parentPath;
+        public CreditOptionList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+            setAddItemLabel(getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY));
+        }
+
+        public Widget createItem() {
+        	
+        	VerticalSection item = new VerticalSection();
+            
+            FieldDescriptor typeField = addField(item, CreditCourseConstants.TYPE, generateMessageInfo(LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
+            
+            KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract)(((KSPicker)typeField.getFieldWidget()).getInputWidget());
+            
+            GroupSection fixedGroup = new GroupSection();
+            addField(fixedGroup, CREDIT_OPTION_FIXED_CREDITS, generateMessageInfo(LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
+                        
+            GroupSection rangeGroup = new GroupSection();
+            addField(rangeGroup, CREDIT_OPTION_MIN_CREDITS, generateMessageInfo(LUConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
+            addField(rangeGroup, CREDIT_OPTION_MAX_CREDITS, generateMessageInfo(LUConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
+
+            GroupSection multipleGroup = new GroupSection();
+            addField(multipleGroup, "resultValues", null, new StringList(parentPath+"/"+String.valueOf(getAddItemKey())));
+
+            
+            SwapSection swapSection = new SwapSection(picker);
+        	swapSection.addSection(fixedGroup, "kuali.resultComponentType.credit.degree.fixed");
+        	swapSection.addSection(rangeGroup, "kuali.resultComponentType.credit.degree.range");
+        	swapSection.addSection(multipleGroup, "kuali.resultComponentType.credit.degree.multiple");
+        	
+        	item.addSection(swapSection);
+        	
+            return item;
+        }
+    }
+    
+    public class StringList extends UpdatableMultiplicityComposite {
+        private final String parentPath;
+        public StringList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+            setAddItemLabel("AddItemLabel");
+            setItemLabel("ItemLabel");
+        }
+
+        public Widget createItem() {
+        	VerticalSection item = new VerticalSection();
+        	Metadata meta = modelDefinition.getMetadata(QueryPath.parse("creditOptions/*/resultValues/*"));
+        	FieldDescriptor fd = new FieldDescriptor(parentPath + "/" + "resultValues" + "/" + String.valueOf(getAddItemKey()), generateMessageInfo("messgeKey"), meta, new KSTextBox());
+            item.addField(fd);
+        	return item;
+        }
+        
+    }
 
 	private Section generateStudentRegistrationOptionsSection() {
 		VerticalSection studentRegistrationOptionsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY), WITH_DIVIDER);

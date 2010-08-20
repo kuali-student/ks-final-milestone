@@ -38,15 +38,37 @@
 			<ref bean="lrc.criteria.resultComponent"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
+
+	<search:searchType id="lrc.search.resultComponentType" parent="lrc.search.resultComponentType-parent"/>
+	<search:searchType id="lrc.search.resultComponentType-parent"  abstract="true">
+		<search:name>Basic Search for Result Component Types</search:name>
+		<search:desc>Return list of Result Component Types</search:desc>
+		<search:searchResultTypeInfo> 
+			<ref bean="lrc.result.resultComponentType"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lrc.criteria.resultComponentType"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 	
 	<search:searchResultTypeInfo id="lrc.result.resultComponent" parent="lrc.result.resultComponent-parent"/>
 	<search:searchResultTypeInfo id="lrc.result.resultComponent-parent"  abstract="true">
-		<search:name>Lu Full View</search:name>
-		<search:desc>Full view of clus</search:desc>
+		<search:name>LRC Full View</search:name>
+		<search:desc>Full view of ResultComponents</search:desc>
 		<search:resultColumns>
 			<ref bean="lrc.resultColumn.resultComponent.id" /> 
 			<ref bean="lrc.resultColumn.resultComponent.name"/>
 			<ref bean="lrc.resultColumn.resultComponent.type"/>		
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchResultTypeInfo id="lrc.result.resultComponentType" parent="lrc.result.resultComponentType-parent"/>
+	<search:searchResultTypeInfo id="lrc.result.resultComponentType-parent"  abstract="true">
+		<search:name>LRC Type View</search:name>
+		<search:desc>View of Lrc Types</search:desc>
+		<search:resultColumns>
+			<ref bean="lrc.resultColumn.resultComponent.id" /> 
+			<ref bean="lrc.resultColumn.resultComponent.name"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 	
@@ -57,6 +79,16 @@
 		<search:queryParams>
 			<ref bean="lrc.queryParam.resultComponent.id" />
 			<ref bean="lrc.queryParam.resultComponent.type" />
+			<ref bean="lrc.queryParam.resultComponent.idRestrictionList" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultComponentType" parent="lrc.criteria.resultComponentType-parent"/>
+	<search:searchCriteriaTypeInfo id="lrc.criteria.resultComponentType-parent"  abstract="true">
+		<search:name>Lrc Type Criteria</search:name>
+		<search:desc>Lrc Type criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lrc.queryParam.resultComponent.id" />
 			<ref bean="lrc.queryParam.resultComponent.idRestrictionList" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
@@ -126,6 +158,9 @@
 			<map>
 		        <entry key="lrc.search.resultComponent">
 		            <value>SELECT rc.id, rc.name, rc.type.id FROM ResultComponent rc </value>
+		        </entry>
+		        <entry key="lrc.search.resultComponentType">
+		            <value>SELECT rc.id, rc.name FROM ResultComponentType rc </value>
 		        </entry>
 				<entry key="lrc.queryParam.resultComponent.id">
 					<value>rc.id = :lrc_queryParam_resultComponent_id</value>
