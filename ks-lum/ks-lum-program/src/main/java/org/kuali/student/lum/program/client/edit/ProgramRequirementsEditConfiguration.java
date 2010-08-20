@@ -16,7 +16,7 @@ public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<
 
     @Override
     public View getView() {
-        return new RequirementsViewController(viewController, ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT);  
+        return new RequirementsViewController(viewController, ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
     }
 
     public void setViewController(ProgramController viewController) {

@@ -5,15 +5,17 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.View;
 
 /**
- * Skeletal implementation of {@link Configuration}
- *
  * @author Igor
  */
-public abstract class AbstractConfiguration<T extends Configurer> implements Configuration<T> {
+public abstract class AbstractSectionConfiguration<T extends Configurer> extends AbstractConfiguration<T> {
 
-    protected T configurer;
+    protected SectionView rootSection;
 
-    public void setConfigurer(T configurer) {
-        this.configurer = configurer;
+    @Override
+    public View getView() {
+        buildLayout();
+        return rootSection;
     }
+
+    protected abstract void buildLayout();
 }

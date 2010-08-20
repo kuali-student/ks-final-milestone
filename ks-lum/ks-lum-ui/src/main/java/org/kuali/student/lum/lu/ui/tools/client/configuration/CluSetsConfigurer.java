@@ -24,7 +24,6 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
@@ -52,13 +51,11 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeDataHelper;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeLabel;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
 import com.google.gwt.core.client.GWT;
@@ -372,7 +369,7 @@ public class CluSetsConfigurer {
                                 sectionView.updateWidgetData(model);
                                 
                                 //FIXME do something else here, rework logic
-                                //sectionView.redraw();
+                                //rootSection.redraw();
                             }
 
                             @Override

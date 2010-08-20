@@ -4,32 +4,27 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
+import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
-public class ProgramInformationEditConfiguration extends AbstractConfiguration<ProgramEditConfigurer> {
+public class ProgramInformationEditConfiguration extends AbstractSectionConfiguration<ProgramEditConfigurer> {
 
-    private VerticalSectionView mainView;
-
-    @Override
-    public View getView() {
-        createView();
-        return mainView;
+    public ProgramInformationEditConfiguration() {
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    private void createView() {
-        mainView = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
+    @Override
+    protected void buildLayout() {
         HorizontalSection horizontalSection = new HorizontalSection();
         horizontalSection.addSection(createLeftSection());
         horizontalSection.addSection(createRightSection());
-        mainView.addSection(horizontalSection);
+        rootSection.addSection(horizontalSection);
     }
 
     private VerticalSection createLeftSection() {

@@ -4,37 +4,30 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramWidgetFactory;
-import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
+import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
-public class ProgramInformationViewConfiguration extends AbstractConfiguration<ProgramViewConfigurer> {
+public class ProgramInformationViewConfiguration extends AbstractSectionConfiguration<ProgramViewConfigurer> {
 
-    private VerticalSectionView showViewSection;
-
-    @Override
-    public View getView() {
-        createShowView();
-        return showViewSection;
+    public ProgramInformationViewConfiguration() {
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    private void createShowView() {
-        showViewSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
+    protected void buildLayout() {
         HorizontalSection section = new HorizontalSection();
         section.addSection(createIdentifyingDetailsSection());
         section.addSection(createProgramTitleSection());
         section.nextRow();
         section.addSection(createDatesSection());
         section.addSection(createOtherInformationSection());
-        showViewSection.addSection(section);
+        rootSection.addSection(section);
     }
 
     private TableSection createIdentifyingDetailsSection() {
