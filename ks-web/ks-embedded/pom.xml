@@ -23,9 +23,26 @@
         <configuration>
           <environment>${ks.environment}</environment>
           <locations>
-            <param>classpath:org/kuali/rice/standalone/config/standalone-config.xml</param>
+            <param>${basedir}/src/main/resources/org/kuali/rice/standalone/config/standalone-config.xml</param>
           </locations>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-impl</artifactId>
+            <version>${kuali.rice.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-impl</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-impl</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -82,21 +99,6 @@
     </plugins>
   </build>
   <dependencies>
-    <dependency>
-      <groupId>org.kuali.student.dbs</groupId>
-      <artifactId>ks-core-db</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.student.dbs</groupId>
-      <artifactId>ks-lum-db</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.student.dbs</groupId>
-      <artifactId>ks-rice-db</artifactId>
-      <version>${project.version}</version>
-    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
