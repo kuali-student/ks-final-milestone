@@ -285,9 +285,6 @@ public class LrcServiceImpl implements LrcService {
 	    checkForMissingParameter(resultValueId, "resultValueId");
 	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
 	    List<String> ids = lrcDao.getResultComponentIdsByResult(resultValueId, resultComponentTypeKey);
-	    if (ids.isEmpty()) {
-	        throw new DoesNotExistException();
-	    }
 	    return ids;
 	}
 
@@ -301,9 +298,6 @@ public class LrcServiceImpl implements LrcService {
 			OperationFailedException {
 	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
         List<String> ids = lrcDao.getResultComponentIdsByResultComponentType(resultComponentTypeKey);
-        if (ids.isEmpty()) {
-            throw new DoesNotExistException();
-        }
         return ids;
 	}
 
