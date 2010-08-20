@@ -4843,6 +4843,7 @@
         <column name="RATIONALE" size="255" type="VARCHAR"/>
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="WORKFLOW_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_TYPE" name="FK1ED72A27AEB6084D">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
