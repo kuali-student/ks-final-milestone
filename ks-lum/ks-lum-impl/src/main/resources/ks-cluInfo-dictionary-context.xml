@@ -711,9 +711,6 @@
 
  <bean id="timeAmountInfo.timeQuantity-parent" abstract="true" parent="baseInteger">
   <property name="name" value="timeQuantity" />
-  <property name="minLength" value="1" />
-  <property name="maxLength" value="3" />
-  <property name="validChars" ref="digits" />
   <property name="requireConstraint">
    <bean parent="requiresConstraint">
     <property name="fieldPath" value="atpDurationTypeKey"/>

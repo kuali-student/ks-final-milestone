@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<import resource="classpath:ks-base-dictionary-context.xml" />
+	<import resource="classpath:ks-cluInfo-dictionary-context.xml" />
 
 	<!-- ResultComponentInfo-->
 	<bean id="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent"
@@ -70,27 +70,4 @@
 	</bean>
 	<bean id="resultComponentInfo.type" parent="resultComponentInfo.type-parent" />
 
-	<!-- RichTextInfo-->
-	<bean id="org.kuali.student.core.dto.RichTextInfo-parent"
-		abstract="true" parent="objectStructureDefinition">
-		<property name="name" value="org.kuali.student.core.dto.RichTextInfo" />
-		<property name="attributes">
-			<list>
-				<ref bean="richTextInfo.formatted" />
-				<ref bean="richTextInfo.plain" />
-			</list>
-		</property>
-		<property name="hasMetaData" value="true" />
-	</bean>
-	<bean id="org.kuali.student.core.dto.RichTextInfo" parent="org.kuali.student.core.dto.RichTextInfo-parent" />
-
-	<bean id="richTextInfo.formatted-parent" abstract="true" parent="baseString">
-		<property name="name" value="formatted" />
-	</bean>
-	<bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
-
-	<bean id="richTextInfo.plain-parent" abstract="true" parent="baseString">
-		<property name="name" value="plain" />
-	</bean>
-	<bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
 </beans>
