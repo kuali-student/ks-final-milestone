@@ -244,7 +244,7 @@
  </bean>
  <bean id="courseInfo.feeJustification" parent="courseInfo.feeJustification-parent" />
 
- <!-- TimeAmountInfo-->
+ <!-- course TimeAmountInfo-->
  <bean id="courseInfo.duration.TimeAmountInfo-parent"
        abstract="true" parent="org.kuali.student.core.dto.TimeAmountInfo">
   <property name="name" value="org.kuali.student.core.dto.TimeAmountInfo" />
@@ -735,10 +735,9 @@
  </bean>
  <bean id="activityInfo.defaultEnrollmentEstimate" parent="activityInfo.defaultEnrollmentEstimate-parent" />
 
- <bean id="activityInfo.duration-parent" abstract="true"
-       parent="cluInfo.stdDuration-parent">
+ <bean id="activityInfo.duration-parent" abstract="true"  parent="cluInfo.stdDuration-parent">
   <property name="name" value="duration" />
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo" />
+  <property name="dataObjectStructure" ref="activityInfo.duration.TimeAmountInfo" />
  </bean>
  <bean id="activityInfo.duration" parent="activityInfo.duration-parent" />
 
@@ -919,4 +918,31 @@
   <property name="name" value="id" />
  </bean>
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
+
+ <!-- activity TimeAmountInfo-->
+ <bean id="activityInfo.duration.TimeAmountInfo-parent"
+       abstract="true" parent="org.kuali.student.core.dto.TimeAmountInfo">
+  <property name="name" value="org.kuali.student.core.dto.TimeAmountInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="activityInfo.duration.atpDurationTypeKey" />
+    <ref bean="activityInfo.duration.timeQuantity" />
+   </list>
+  </property>
+ </bean>
+ <bean id="activityInfo.duration.TimeAmountInfo" parent="activityInfo.duration.TimeAmountInfo-parent" />
+
+ <bean id="activityInfo.duration.atpDurationTypeKey-parent" abstract="true" parent="timeAmountInfo.atpDurationTypeKey-parent">
+  <property name="name" value="atpDurationTypeKey" />
+ </bean>
+ <bean id="activityInfo.duration.atpDurationTypeKey" parent="activityInfo.duration.atpDurationTypeKey-parent" />
+
+ <bean id="activityInfo.duration.timeQuantity-parent" abstract="true" parent="timeAmountInfo.timeQuantity-parent">
+  <property name="name" value="timeQuantity" />
+  <property name="minLength" value="1" />
+  <property name="maxLength" value="3" />
+  <property name="validChars" ref="numeric" />
+ </bean>
+ <bean id="activityInfo.duration.timeQuantity" parent="activityInfo.duration.timeQuantity-parent" />
+
 </beans>
