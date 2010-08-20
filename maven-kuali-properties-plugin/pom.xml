@@ -12,7 +12,7 @@
   <packaging>maven-plugin</packaging>
   <version>1.0.0-SNAPSHOT</version>
   <name>Maven Kuali Properties Plugin</name>
-  <description>Maven plugin for reading Kuali style properties</description>
+  <description>Maven plugin for reading Kuali style properties and exposing them as Maven project properties</description>
   <build>
     <pluginManagement>
       <plugins>
