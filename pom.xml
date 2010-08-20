@@ -104,6 +104,7 @@
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
+    <ks.environment>dev</ks.environment>
   </properties>
   <profiles>
     <!--
