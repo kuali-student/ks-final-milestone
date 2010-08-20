@@ -23,7 +23,7 @@
         <configuration>
           <environment>${ks.environment}</environment>
           <locations>
-            <param>classpath:org/kuali/rice/standalone/config/standalone-config.xml</param>
+            <param>${basedir}\src\main\resources\org\kuali\rice\standalone\config\standalone-config.xml</param>
           </locations>
         </configuration>
       </plugin>
