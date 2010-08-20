@@ -20,8 +20,14 @@ import java.util.List;
  * The read-properties goal reads property files in the Kuali format and stores them as project properties.
  * 
  * @goal read-properties
+ * @phase process-resources
  */
 public class ReadKualiPropertiesMojo extends AbstractMojo {
+
+	/**
+	 * @parameter expression="${showKualiLogging}" default-value="true"
+	 */
+	boolean showKualiLogging;
 
 	/**
 	 * @parameter default-value="${project}"
@@ -123,9 +129,11 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 	}
 
 	public void execute() throws MojoExecutionException {
-		MavenLogAppender.startPluginLog(this);
 		if (skipMojo()) {
 			return;
+		}
+		if (isShowKualiLogging()) {
+			MavenLogAppender.startPluginLog(this);
 		}
 		List<String> locationsList = getList();
 		Iterator<String> itr = locationsList.iterator();
@@ -148,7 +156,9 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		}
 		ConfigContext.init(config);
 		project.getProperties().putAll(config.getProperties());
-		MavenLogAppender.endPluginLog(this);
+		if (isShowKualiLogging()) {
+			MavenLogAppender.endPluginLog(this);
+		}
 	}
 
 	public File[] getFiles() {
@@ -177,5 +187,29 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 
 	public void setSystemOverride(boolean systemOverride) {
 		this.systemOverride = systemOverride;
+	}
+
+	public boolean isShowKualiLogging() {
+		return showKualiLogging;
+	}
+
+	public void setShowKualiLogging(boolean showKualiLogging) {
+		this.showKualiLogging = showKualiLogging;
+	}
+
+	public boolean isSkip() {
+		return skip;
+	}
+
+	public void setSkip(boolean skip) {
+		this.skip = skip;
+	}
+
+	public boolean isForceMojoExecution() {
+		return forceMojoExecution;
+	}
+
+	public void setForceMojoExecution(boolean forceMojoExecution) {
+		this.forceMojoExecution = forceMojoExecution;
 	}
 }
