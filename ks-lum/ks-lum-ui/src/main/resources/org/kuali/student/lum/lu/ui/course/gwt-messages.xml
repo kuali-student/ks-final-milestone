@@ -341,7 +341,6 @@
 	<bean parent="enCourse" p:id="cluLearningResults-instruct"          p:value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options &lt;br/&gt;for either type, which can be used for multiple course formats, or to account for variations in course offerings."/>
 	<bean parent="enCourse" p:id="cluAddLearningResultAssessmentScale"  p:value="Add Grading Scale Option"/>
 	<bean parent="enCourse" p:id="cluLearningResultGradesAssessments"	p:value="Grades/Assessments"/>
-	<bean parent="enCourse" p:id="cluLearningResults-instruct" p:value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options for either type, which can be used for multiple course formats, or to account for variations in course offerings" />
 	<bean parent="enCourse" p:id="cluLearningResultStudentRegistration"	p:value="Student Registration Options"/>
 	<bean parent="enCourse" p:id="cluLearningResultOutcomes"			p:value="Outcomes"/>
 	<bean parent="enCourse" p:id="cluLearningResultFinalExam"			p:value="Final Exam"/>
