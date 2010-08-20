@@ -64,18 +64,18 @@ public class TestProgramServiceImpl {
     @Test
     @Ignore
     public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1");
+        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", null, null);
         assertNotNull(progReqInfo);
     }
 
     @Test(expected = MissingParameterException.class)
     public void testGetProgramRequirement_nullId() throws Exception {
-        programService.getProgramRequirement(null);
+        programService.getProgramRequirement(null, null, null);
     }
 
     @Test(expected = DoesNotExistException.class)
     public void testGetProgramRequirement_badId() throws Exception {
-        programService.getProgramRequirement("CLU-XXX ");
+        programService.getProgramRequirement("CLU-XXX ", null, null);
     }
 
     @Test

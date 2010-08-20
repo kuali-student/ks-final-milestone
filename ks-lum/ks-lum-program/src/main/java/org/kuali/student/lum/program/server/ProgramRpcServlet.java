@@ -51,7 +51,7 @@ public class ProgramRpcServlet extends AbstractBaseDataOrchestrationRpcGwtServle
 
     @Override
     public ProgramRequirementInfo getProgramRequirement(String programRequirementId) throws Exception {
-        return programService.getProgramRequirement(programRequirementId);
+        return programService.getProgramRequirement(programRequirementId, null, null);
     }    
 
     @Override

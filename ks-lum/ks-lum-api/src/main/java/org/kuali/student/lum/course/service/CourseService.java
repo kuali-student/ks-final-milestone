@@ -123,6 +123,8 @@ public interface CourseService extends DictionaryService {
      * 
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
+     * @param nlUsageTypeKey Natural language usage type key (context)
+     * @param language Translation language e.g en, es, gr    
      * @return a list of Statementree Structures
      * @throws DoesNotExistException
      *             Course does not exist
@@ -135,7 +137,7 @@ public interface CourseService extends DictionaryService {
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    public List<StatementTreeViewInfo> getCourseStatements(@WebParam(name = "courseId") String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StatementTreeViewInfo> getCourseStatements(@WebParam(name = "courseId") String courseId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a Course

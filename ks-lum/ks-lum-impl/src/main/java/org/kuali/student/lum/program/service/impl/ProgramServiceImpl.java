@@ -321,7 +321,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
-	public ProgramRequirementInfo getProgramRequirement(String programRequirementId) throws DoesNotExistException,
+	public ProgramRequirementInfo getProgramRequirement(String programRequirementId, String nlUsageTypeKey, String language) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 

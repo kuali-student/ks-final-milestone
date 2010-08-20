@@ -150,7 +150,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<StatementTreeViewInfo> getCourseStatements(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseStatements");
     }
 
