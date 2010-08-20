@@ -15,35 +15,52 @@
     <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
     <gwt.draftCompile>false</gwt.draftCompile>
   </properties>
+  <profiles>
+    <profile>
+      <id>drop-db</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.properties</groupId>
+            <artifactId>maven-kuali-properties-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>import-ks-embedded-properties</id>
+                <goals>
+                  <goal>read-properties</goal>
+                  <configuration>
+                    <environment>${ks.environment}</environment>
+                    <locations>
+                      <param>${basedir}/src/main/resources/org/kuali/rice/standalone/config/standalone-config.xml</param>
+                    </locations>
+                  </configuration>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-impl</artifactId>
+                <version>${kuali.rice.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.lum</groupId>
+                <artifactId>ks-lum-impl</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.core</groupId>
+                <artifactId>ks-core-impl</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.kuali.maven.properties</groupId>
-        <artifactId>maven-kuali-properties-plugin</artifactId>
-        <configuration>
-          <environment>${ks.environment}</environment>
-          <locations>
-            <param>${basedir}/src/main/resources/org/kuali/rice/standalone/config/standalone-config.xml</param>
-          </locations>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-impl</artifactId>
-            <version>${kuali.rice.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-impl</artifactId>
-            <version>${project.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-impl</artifactId>
-            <version>${project.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
