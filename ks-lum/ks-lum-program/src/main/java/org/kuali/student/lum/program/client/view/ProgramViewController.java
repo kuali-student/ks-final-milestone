@@ -15,4 +15,10 @@ public class ProgramViewController extends ProgramController {
         configurer = GWT.create(ProgramViewConfigurer.class);
         addContentWidget(switchToEditButton);
     }
+
+    @Override
+    protected void configureView() {
+        super.configureView();
+        initialized = true;
+    }
 }

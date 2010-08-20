@@ -7,9 +7,8 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.lum.program.client.framework.AbstractCallback;
 import org.kuali.student.lum.program.client.ProgramController;
-import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.framework.AbstractCallback;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -67,10 +66,11 @@ public class ProgramEditController extends ProgramController {
 
     @Override
     protected void configureView() {
-        if (!initialized) {
-            addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, saveButton);
-            addButtonForView(ProgramSections.PROGRAM_DETAILS_EDIT, cancelButton);
-        }
         super.configureView();
+        if (!initialized) {
+            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton);
+            initialized = true;
+        }
     }
 }

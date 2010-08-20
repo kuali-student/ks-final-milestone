@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
     <import resource="classpath:ks-cluInfo-dictionary-context.xml"/>
-    <import resource="classpath:ks-loInfo-dictionary-context.xml" />
+    <import resource="classpath:ks-loInfo-dictionary-context.xml"/>
 
     <!-- TODO Need a org.kuali.student.lum.program.dto.ProgramInfo-parent"
           that this can inherit from -->
@@ -50,7 +50,7 @@
                 <ref bean="majorDisciplineInfo.divisionsFinancialResources"/>
                 <ref bean="majorDisciplineInfo.divisionsFinancialControl"/>
                 <ref bean="majorDisciplineInfo.unitsContentOwner"/>
-                 <ref bean="majorDisciplineInfo.unitsStudentOversight"/>
+                <ref bean="majorDisciplineInfo.unitsStudentOversight"/>
                 <ref bean="majorDisciplineInfo.unitsDeployment"/>
                 <ref bean="majorDisciplineInfo.unitsFinancialResources"/>
                 <ref bean="majorDisciplineInfo.unitsFinancialControl"/>
@@ -160,7 +160,8 @@
     <bean id="majorDisciplineInfo.endProgramEntryTerm-parent" abstract="true" parent="cluInfo.lastAdmitAtp-parent">
         <property name="name" value="endProgramEntryTerm"/>
     </bean>
-    <bean id="majorDisciplineInfo.endProgramEntryTerm" parent="majorDisciplineInfo.endProgramEntryTerm-parent"/>
+    <bean id="majorDisciplineInfo.endProgramEntryTerm"
+          parent="majorDisciplineInfo.endProgramEntryTerm-parent"/>
 
     <bean id="majorDisciplineInfo.nextReviewPeriod-parent" abstract="true" parent="cluInfo.nextReviewPeriod-parent">
         <property name="name" value="nextReviewPeriod"/>
@@ -490,7 +491,7 @@
     <bean id="majorDisciplineInfo.lastReviewDate" parent="majorDisciplineInfo.lastReviewDate-parent"/>
 
     <bean id="majorDisciplineInfo.isVariationRequired-parent" abstract="true" parent="baseBoolean">
-       <property name="defaultValue" value="true"/>
+        <property name="defaultValue" value="true"/>
         <property name="name" value="isVariationRequired"/>
         <property name="dynamic" value="true"/>
     </bean>

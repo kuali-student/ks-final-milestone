@@ -133,7 +133,6 @@ public class ProgramController extends MenuSectionController {
         configurer.setModelDefinition(programModel.getDefinition());
         configurer.configure(this);
         this.setContentTitle("Programs");
-        initialized = true;
     }
 
     @Override
@@ -153,7 +152,6 @@ public class ProgramController extends MenuSectionController {
      */
     private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
         configureView();
-        initialized = true;
         showDefaultView(onReadyCallback);
     }
 }

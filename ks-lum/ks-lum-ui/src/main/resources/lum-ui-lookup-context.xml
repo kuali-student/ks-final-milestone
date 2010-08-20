@@ -1712,6 +1712,12 @@
 	 <bean id="majorDisciplineInfo.unitsFinancialControl" parent="department-lookup-binding-parent">
 		<property name="path" value="majorDisciplineInfo.unitsFinancialControl" />
 	</bean>
+
+    <bean id="endProgramEntryTerm" parent="uilookup">
+		<property name="path" value="majorDisciplineInfo.endProgramEntryTerm" />
+		<property name="initialLookup"
+			ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	</bean>
 	
 
 </beans>
