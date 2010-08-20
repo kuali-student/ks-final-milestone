@@ -39,19 +39,15 @@ public class CreditCourseProposalRpcGwtServlet extends
 
 	private ModifyCreditCourseProposalManager modifyCourseManager;	
 	private CourseService courseService;
-	private ProposalService proposalService;
 	
 
 	@Override
 	protected Object get(String id) throws Exception {
-		CourseInfo courseInfo;
+		CourseInfo courseInfo = null;
+
 		try {
 			courseInfo = courseService.getCourse(id);
 		} catch (DoesNotExistException dne) {
-			//This could be a proposal id
-			ProposalInfo proposalInfo = proposalService.getProposal(id);
-			String courseId = proposalInfo.getProposalReference().get(0);
-			courseInfo = courseService.getCourse(courseId);
 			LOG.info("Course not found for key " + id + ". Course loaded from proposal instead.");
 		}		
 		
@@ -107,11 +103,5 @@ public class CreditCourseProposalRpcGwtServlet extends
 
 	public void setCourseService(CourseService courseService) {
 		this.courseService = courseService;
-	}
-
-	public void setProposalService(ProposalService proposalService) {
-		this.proposalService = proposalService;
-	}
-
-	
+	}	
 }

@@ -28,6 +28,7 @@ import org.w3c.dom.Text;
 public class WorkflowFilter extends AbstractDTOFilter {
     
 	public static final String WORKFLOW_ACTION		= "WorkflowFilter.Action";
+	public static final String WORKFLOW_DOC_ID		= "WorkflowFilter.DocumentId";
     public static final String WORKFLOW_DOC_TYPE	= "WorkflowFilter.DocumentType";
     public static final String WORKFLOW_USER		= "WorkflowFilter.WorkflowUser";
     
@@ -42,7 +43,6 @@ public class WorkflowFilter extends AbstractDTOFilter {
     private WorkflowUtility workflowUtilityService;
 	private SimpleDocumentActionsWebService simpleDocService;
 	
-	private String objectIdPath;
 	private Map<String, String> docFieldMap;
 	private String docTitlePath;
 	private String docType;
@@ -63,29 +63,25 @@ public class WorkflowFilter extends AbstractDTOFilter {
         	        
         //Setting the app id to proposal id or the id of data object        
         String appId = properties.get(MetadataFilter.METADATA_ID_VALUE); 
-        if (appId == null){
-        	appId = getObjectId(data);
-        }
+        
+        //Get the workflow id
+        String workflowId = properties.get(WORKFLOW_DOC_ID);
         
 
-        //Lookup the workflowId from the object id
+        //Get the workflow document or create one if workflow document doesn't exist
         DocumentDetailDTO docDetail;
-        try {
-        	docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDocumentType(), appId);
-        } catch (Exception e){
-        	docDetail = null;
-        }
-        	
-		if (docDetail == null) {
-			//No workflow details found, create a new workflow document
-			String docTitle = "Unnamed"; 
+        if (workflowId != null){
+        	docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+        } else  {
+            LOG.info("Creating Workflow Document.");
+            
+        	String docTitle = "Unnamed"; 
 			if (properties.get(ProposalFilter.PROPOSAL_NAME) != null){
 				docTitle = properties.get(ProposalFilter.PROPOSAL_NAME);
 			} else if (getDocumentTitle(data) != null){
 				docTitle = getDocumentTitle(data);
 			}
             
-            LOG.info("Creating Workflow Document.");
             DocumentResponse docResponse = simpleDocService.create(username, appId, getDocumentType(), docTitle);
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
@@ -97,6 +93,8 @@ public class WorkflowFilter extends AbstractDTOFilter {
 			} catch (Exception e) {
             	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
 			}
+			
+			properties.put(WORKFLOW_DOC_ID, String.valueOf(docDetail.getRouteHeaderId()));
 		}
 
         //Generate the document content xml
@@ -148,20 +146,7 @@ public class WorkflowFilter extends AbstractDTOFilter {
 	public String getDocumentType(){
 		return docType;
 	}
-	
-
-	/**
-	 * This method should be implemented to return the id to be used to link the workflow document to
-	 * the to a data object. Normally this is simply the id of the data object
-	 * 
-	 * @param data
-	 * @return The object id used to link a workflow document to the application object
-	 */
-	public String getObjectId(Object dto) throws Exception{
-		return getString(dto, objectIdPath);
-	}
-	
-
+		
 	/**
 	 * The title to associate with the workflow process.
 	 * 
@@ -251,10 +236,6 @@ public class WorkflowFilter extends AbstractDTOFilter {
 		return dtoClass;
 	}
 	
-	public void setObjectIdPath(String objectIdPath) {
-		this.objectIdPath = objectIdPath;
-	}
-
 
 	public void setDocFieldPaths(Map<String,String> docFieldMap) {
 		this.docFieldMap = docFieldMap;

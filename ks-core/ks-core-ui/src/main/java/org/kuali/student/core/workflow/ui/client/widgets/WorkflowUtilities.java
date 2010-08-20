@@ -67,8 +67,7 @@ public class WorkflowUtilities{
     WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
     
     private String modelName;
-    private String idPath;
-    private String workflowDocType;
+    private String proposalPath;
     private String proposalId = "";
     private String workflowId;
     
@@ -82,12 +81,11 @@ public class WorkflowUtilities{
     
     private LayoutController parentController;
     
-	public WorkflowUtilities(LayoutController parentController, String workflowDocType, String idPath, CloseHandler<KSLightBox> onSubmitSuccessHandler) {
+	public WorkflowUtilities(LayoutController parentController, String proposalPath, CloseHandler<KSLightBox> onSubmitSuccessHandler) {
 		
 		this.parentController = parentController;
 		this.onSubmitSuccessHandler = onSubmitSuccessHandler;
-		this.idPath = idPath;
-		this.workflowDocType = workflowDocType;
+		this.proposalPath = proposalPath;
 		setupWFButtons();
 		setupDialog();
 	}
@@ -171,26 +169,13 @@ public class WorkflowUtilities{
 	
 	private void updateWorkflowIdFromModel(final DataModel model){
 		if(model!=null){
-			String modelProposalId = model.get(QueryPath.parse(idPath));
+			String modelProposalId = model.get(QueryPath.parse(proposalPath + "/id"));
 			
-			//If proposalId in model has been set or changed, set proposal id to latest from model
-			//and update workflowId
+			//If proposalId in model has been set or changed, get new workflowId and update workfow widget
 			if (modelProposalId != null && !modelProposalId.isEmpty() && !modelProposalId.equals(proposalId)){
 				proposalId = modelProposalId;
-				workflowRpcServiceAsync.getWorkflowIdFromDataId(workflowDocType, proposalId, new AsyncCallback<String>(){
-				
-					@Override
-					public void onFailure(Throwable caught) {
-						workflowId = null;
-						workflowStatusLabel.setText("Status: Unknown");
-					}
-	
-					@Override
-					public void onSuccess(String result) {
-						workflowId = result;
-						updateWorkflow(model);
-					}			
-				});			
+				workflowId = model.get(QueryPath.parse(proposalPath + "/workflowId"));
+				updateWorkflow(model);
 			}
 		}
 	}
@@ -489,11 +474,11 @@ public class WorkflowUtilities{
 	}
 	
 	/**
-	 * Use to set the data model path to retrieve the id to use for this workflow. 
+	 * Use to set the data model path to retrieve the propsal data to use for this workflow. 
 	 * @param idPath
 	 */
-	public void setIdPath(String idPath) {
-		this.idPath = idPath;
+	public void setProposalPath(String proposalPath) {
+		this.proposalPath = proposalPath;
 	}
 	
 	/**

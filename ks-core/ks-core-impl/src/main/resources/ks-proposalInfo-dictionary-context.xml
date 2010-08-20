@@ -14,6 +14,7 @@
 				<ref bean="proposalInfo.effectiveDate" />
 				<ref bean="proposalInfo.expirationDate" />
 				<ref bean="proposalInfo.id" />
+				<ref bean="proposalInfo.workflowId" />
 				<ref bean="proposalInfo.name" />
 				<ref bean="proposalInfo.proposalReference" />
 				<ref bean="proposalInfo.proposalReferenceType" />
@@ -51,6 +52,12 @@
 		<property name="name" value="id" />		
 	</bean>
 	<bean id="proposalInfo.id" parent="proposalInfo.id-parent" />
+
+	<bean id="proposalInfo.workflowId-parent" abstract="true" parent="baseString">
+		<property name="name" value="workflowId" />		
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="proposalInfo.workflowId" parent="proposalInfo.workflowId-parent" />
 
 	<bean id="proposalInfo.name-parent" abstract="true" parent="baseKualiName">
 		<property name="name" value="name" />

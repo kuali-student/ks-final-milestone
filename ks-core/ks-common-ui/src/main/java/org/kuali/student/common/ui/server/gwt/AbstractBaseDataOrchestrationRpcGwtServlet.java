@@ -33,6 +33,8 @@ import org.kuali.student.core.assembly.transform.MetadataFilter;
 import org.kuali.student.core.assembly.transform.TransformationManager;
 import org.kuali.student.core.assembly.transform.WorkflowFilter;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
@@ -51,6 +53,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	private TransformationManager transformationManager;
 	
 	private PermissionService permissionService;
+	private ProposalService proposalService;
 
 	public Map<String,String> getDefaultFilterProperties(){
 		Map<String, String> filterProperties = new HashMap<String,String>();
@@ -66,7 +69,15 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
 		try {
-			Object dto = get(id);
+			String dtoId = id;
+			//First check if this is a proposal id
+			if (proposalService != null){
+				ProposalInfo proposalInfo = proposalService.getProposal(dtoId);
+				filterProperties.put(WorkflowFilter.WORKFLOW_DOC_ID, proposalInfo.getWorkflowId());
+				dtoId = proposalInfo.getProposalReference().get(0);
+			}			
+			
+			Object dto = get(dtoId);
 			if (dto != null){
 				return transformationManager.transform(dto, filterProperties);
 			}
@@ -185,6 +196,14 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
+	}
+	
+	public ProposalService getProposalService() {
+		return proposalService;
+	}
+
+	public void setProposalService(ProposalService proposalService) {
+		this.proposalService = proposalService;
 	}
 
 	protected abstract String getDefaultWorkflowDocumentType();

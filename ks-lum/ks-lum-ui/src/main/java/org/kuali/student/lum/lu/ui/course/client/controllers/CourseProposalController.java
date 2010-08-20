@@ -108,7 +108,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private boolean isNew = false;
 
 	private static final String UPDATED_KEY = "metaInfo/updateTime";
-	private String proposalIdPath = "";
+	private String proposalPath = "";
 
 	private DateFormat df = DateFormat.getInstance();
 
@@ -197,7 +197,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void getCurrentModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
     	if (cluProposalModel.getRoot() != null && cluProposalModel.getRoot().size() > 0){
-        	String id = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        	String id = cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH);
         	if(id != null){
         		getCluProposalFromProposalId(id, callback, workCompleteCallback);
         	}
@@ -264,8 +264,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void init(DataModelDefinition modelDefinition){
     	CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
-    	proposalIdPath = cfg.getProposalIdPath();
-        workflowUtil = new WorkflowUtilities(this,cfg.getWorkflowDocumentType(), proposalIdPath, createOnWorkflowSubmitSuccessHandler());
+    	proposalPath = cfg.getProposalPath();
+        workflowUtil = new WorkflowUtilities(this,proposalPath, createOnWorkflowSubmitSuccessHandler());
         workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
         workflowUtil.requestAndSetupModel();
 
@@ -301,8 +301,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
 
-        		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH) != null){
-            		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH));
+        		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH) != null){
+            		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH));
         		} else {
         			ref.setReferenceId(null);
         		}
@@ -316,8 +316,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
         } else if(modelType == CollaboratorTool.CollaboratorModel.class){
         	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
         	String proposalId=null;
-        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
-        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH)!=null){
+        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH);
         	}
         	collaboratorModel.setDataId(proposalId);
         	callback.onModelReady(collaboratorModel);
@@ -459,7 +459,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     public boolean startSectionRequired(){
-        String proposalId = cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        String proposalId = cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH+"/id");
 
         //Defaulting the proposalTitle to courseTitle, this way course data gets set and assembler doesn't
         //complain. This may not be the correct approach.
@@ -544,7 +544,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	                        saveActionEvent.doActionComplete();
 	                    }
 	    				ViewContext context = CourseProposalController.this.getViewContext();
-	    				context.setId((String)cluProposalModel.get(proposalIdPath));
+	    				context.setId((String)cluProposalModel.get(proposalPath+"/id"));
 	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
 	    				workflowUtil.refresh();
 	    				

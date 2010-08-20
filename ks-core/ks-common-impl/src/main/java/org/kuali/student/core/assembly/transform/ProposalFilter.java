@@ -12,16 +12,15 @@ import org.kuali.student.core.proposal.service.ProposalService;
 /**
  * This filter is used to add and process proposal info to data object.
  * 
+ * The ProposalFilter & WorkflowFilter might be better implemented as a single filter.
+ * 
  * @author Will
  *
  */
 public class ProposalFilter extends AbstractDataFilter implements MetadataFilter{
 
-	public static final String PROPOSAL_NAME				= "ProposalName";
+	public static final String PROPOSAL_NAME				= "ProposalFilter.proposalName";
 	
-	public static final String PROPOSAL_REFERENCE_TYPE		= "kuali.proposal.referenceType.clu";
-    public static final String PROPOSAL_TYPE_CREATE_COURSE	= "kuali.proposal.type.course.create";
-
 	private ProposalService proposalService;
 	private MetadataServiceImpl metadataService;
 	private DataBeanMapper mapper = new DefaultDataBeanMapper();
@@ -56,9 +55,14 @@ public class ProposalFilter extends AbstractDataFilter implements MetadataFilter
 			proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
 		}
 		
-		//Set filter property so outbound filter can retreive proposal
+		//Set filter property so outbound filters can retreive proposal & workflow
 		properties.put(METADATA_ID_VALUE, proposalInfo.getId());
 		properties.put(PROPOSAL_NAME, proposalInfo.getName());
+		
+		String workflowId = proposalInfo.getWorkflowId();
+		if (workflowId != null){
+			properties.put(WorkflowFilter.WORKFLOW_DOC_ID, workflowId);
+		}
 	}
 	
 	
@@ -73,12 +77,16 @@ public class ProposalFilter extends AbstractDataFilter implements MetadataFilter
 		//Get proposal associated with this data
 		String proposalId = properties.get(METADATA_ID_VALUE);
 		ProposalInfo proposalInfo = proposalService.getProposal(proposalId);
-		
+
 		//If no proposal reference id set, set to id of reference object
 		if (proposalInfo.getProposalReference().isEmpty()){
 			String referenceId = data.query("id");
 			proposalInfo.setProposalReferenceType(getProposalReferenceType());
 			proposalInfo.getProposalReference().add(referenceId);
+
+			String workflowId = properties.get(WorkflowFilter.WORKFLOW_DOC_ID);
+			proposalInfo.setWorkflowId(workflowId);
+
 			proposalInfo = proposalService.updateProposal(proposalId, proposalInfo);
 		}
 		
