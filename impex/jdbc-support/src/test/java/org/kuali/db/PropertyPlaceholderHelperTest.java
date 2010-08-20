@@ -47,6 +47,7 @@ public class PropertyPlaceholderHelperTest {
 		System.out.println(properties.getProperty("datasource.url"));
 		System.out.println(properties.getProperty("datasource.username"));
 		System.out.println(properties.getProperty("datasource.password"));
+		System.out.println(properties.getProperty("environment"));
 	}
 
 }
