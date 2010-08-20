@@ -262,19 +262,11 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(rcis);
         assertEquals(1, rcis.size());
 
-        try {
-            rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x", "resultComponentType.credential");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credentialx");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
+        rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x", "resultComponentType.credential");
+        assertEquals(0,rcis.size());
+     
+        rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credentialx");
+        assertEquals(0,rcis.size());
 
         try {
             rcis = client.getResultComponentIdsByResult(null, "resultComponentType.credentialx");
@@ -296,12 +288,8 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(rcis);
         assertEquals(1, rcis.size());
 
-        try {
-            rcis = client.getResultComponentIdsByResultComponentType("resultComponentType.credentialx");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
+        rcis = client.getResultComponentIdsByResultComponentType("resultComponentType.credentialx");
+        assertEquals(0,rcis.size());
 
         try {
             rcis = client.getResultComponentIdsByResultComponentType(null);
