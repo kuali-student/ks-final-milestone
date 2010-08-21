@@ -867,7 +867,7 @@
 					<property name="defaultValueList">
 						<list>
 							<value>approved</value>
-							<value>active</value>
+							<value>activated</value>
 						</list>
 					</property>	
 					<property name="caseSensitive" value="true" />
@@ -940,7 +940,7 @@
 					<property name="defaultValueList">
 						<list>
 							<value>approved</value>
-							<value>active</value>
+							<value>activated</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
