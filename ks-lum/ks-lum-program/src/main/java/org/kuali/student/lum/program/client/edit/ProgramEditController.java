@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.program.client.ProgramController;
@@ -38,8 +39,13 @@ public class ProgramEditController extends ProgramController {
 
             @Override
             public void onClick(ClickEvent event) {
+                doCancel();
             }
         });
+    }
+
+    private void doCancel() {
+        HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW");
     }
 
     private void doSave() {
