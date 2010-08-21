@@ -106,6 +106,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_savingData();
 
   /**
+   * Translated "Do you want to save data?".
+   * 
+   * @return translated "Do you want to save data?"
+   */
+  @DefaultMessage("Do you want to save data?")
+  @Key("confirmDialog.text")
+  String confirmDialog_text();
+
+  /**
+   * Translated "Program Save".
+   * 
+   * @return translated "Program Save"
+   */
+  @DefaultMessage("Program Save")
+  @Key("confirmDialog.title")
+  String confirmDialog_title();
+
+  /**
    * Translated "Curriculum Oversight Division".
    * 
    * @return translated "Curriculum Oversight Division"
