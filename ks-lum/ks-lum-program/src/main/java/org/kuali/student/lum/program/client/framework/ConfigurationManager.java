@@ -1,12 +1,17 @@
 package org.kuali.student.lum.program.client.framework;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
-import org.kuali.student.lum.program.client.framework.Configuration;
 
 import java.util.ArrayList;
 
 /**
+ * This class manages configurations. We should create a repository of all ConfigurationManagers and let universities
+ * register new configuration, remove already defined configuration or change the order in which they appear on the
+ * ui.
+ *
  * @author Igor
+ * @see Configuration
+ * @see AbstractConfiguration
  */
 public class ConfigurationManager<T extends Configurer> {
 

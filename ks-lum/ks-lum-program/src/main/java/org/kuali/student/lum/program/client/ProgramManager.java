@@ -5,6 +5,7 @@ import org.kuali.student.lum.program.client.edit.ProgramEditController;
 import org.kuali.student.lum.program.client.view.ProgramViewController;
 
 /**
+ * 
  * @author Igor
  */
 public class ProgramManager {

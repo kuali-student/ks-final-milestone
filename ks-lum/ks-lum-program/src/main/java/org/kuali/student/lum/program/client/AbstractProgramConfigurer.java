@@ -23,7 +23,7 @@ public abstract class AbstractProgramConfigurer<T extends Configurer> extends Co
     }
 
     /**
-     * Configures menu for Program Sections and Sections itself
+     * Configures menu for Program Sections
      */
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();

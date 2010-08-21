@@ -21,19 +21,33 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
  */
 public class ProgramEditController extends ProgramController {
 
-
     private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
     private ButtonMessageDialog<ButtonEnumerations.ConfirmCancelEnum> confirmDialog;
 
+    /**
+     * Constructor.
+     *
+     * @param programModel
+     */
     public ProgramEditController(DataModel programModel) {
         super(programModel);
         configurer = GWT.create(ProgramEditConfigurer.class);
         initHandlers();
-        init();
+        initializeConfirmDialog();
     }
 
-    private void init() {
+    @Override
+    protected void configureView() {
+        super.configureView();
+        if (!initialized) {
+            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton);
+            initialized = true;
+        }
+    }
+
+    private void initializeConfirmDialog() {
         ConfirmCancelGroup buttonGroup = new ConfirmCancelGroup();
         confirmDialog = new ButtonMessageDialog<ButtonEnumerations.ConfirmCancelEnum>(ProgramProperties.get().confirmDialog_title(), ProgramProperties.get().confirmDialog_text(), buttonGroup);
         buttonGroup.addCallback(new Callback<ButtonEnumerations.ConfirmCancelEnum>() {
@@ -90,15 +104,5 @@ public class ProgramEditController extends ProgramController {
                 programModel.setRoot(result.getValue());
             }
         });
-    }
-
-    @Override
-    protected void configureView() {
-        super.configureView();
-        if (!initialized) {
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton);
-            initialized = true;
-        }
     }
 }

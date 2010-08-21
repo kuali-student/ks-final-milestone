@@ -15,7 +15,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguration<ProgramEditConfigurer> {
 
     public ManagingBodiesEditConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID);
+        rootSection = new VerticalSectionView(ProgramSections.MANAGE_BODIES_EDIT, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
     @Override
