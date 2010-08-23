@@ -42,13 +42,13 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(AbstractCocOrgQualifierResolver.class);
 	
-	protected static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
-	protected static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
-	protected static final String KUALI_ORG_DEPARTMENT 			  = "kuali.org.Department";
-	protected static final String KUALI_ORG_COLLEGE    			  = "kuali.org.College";
-	protected static final String KUALI_ORG_COC        			  = "kuali.org.COC";
-	protected static final String KUALI_ORG_DIVISION   			  = "kuali.org.Division";
-	protected static final String KUALI_ORG_PROGRAM    			  = "kuali.org.Program";
+	public static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
+	public static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
+	public static final String KUALI_ORG_DEPARTMENT 			  = "kuali.org.Department";
+	public static final String KUALI_ORG_COLLEGE    			  = "kuali.org.College";
+	public static final String KUALI_ORG_COC        			  = "kuali.org.COC";
+	public static final String KUALI_ORG_DIVISION   			  = "kuali.org.Division";
+	public static final String KUALI_ORG_PROGRAM    			  = "kuali.org.Program";
 
 	// below string MUST match org.kuali.student.core.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
