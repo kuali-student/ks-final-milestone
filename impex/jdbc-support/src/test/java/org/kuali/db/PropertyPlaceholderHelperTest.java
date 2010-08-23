@@ -38,11 +38,10 @@ public class PropertyPlaceholderHelperTest {
 
 	@Test
 	public void configContext() throws IOException {
-		System.setProperty("s", "foo");
 		JAXBConfigImpl config = new JAXBConfigImpl("classpath:standalone-config.xml", ConfigContext.getCurrentContextConfig());
-		config.setSystemOverride(false);
+		config.setSystemOverride(true);
 		config.parseConfig();
-		// ConfigContext.init(config);
+		ConfigContext.init(config);
 		Properties properties = config.getProperties();
 		System.out.println(properties.getProperty("environment"));
 		System.out.println(properties.getProperty("s"));
