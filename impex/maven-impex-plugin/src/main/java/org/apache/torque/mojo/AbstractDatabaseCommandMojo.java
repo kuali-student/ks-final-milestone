@@ -40,6 +40,9 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 		if (project.getArtifactId().equals(databasePassword)) {
 			databasePassword = getTrimmedArtifactId();
 		}
+		getLog().info("-------------------------------------------");
+		getLog().info(getCommand() + " database " + getDatabase());
+		getLog().info("-------------------------------------------");
 	}
 
 	protected void validateConfiguration() throws MojoExecutionException {
@@ -85,5 +88,4 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 	public void setDatabasePassword(String databasePassword) {
 		this.databasePassword = databasePassword;
 	}
-
 }
