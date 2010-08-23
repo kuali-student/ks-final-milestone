@@ -740,10 +740,31 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 				return null;
 			} else {
 				// Otherwise, fail the build
-				throw new MojoExecutionException(e.getMessage(), e);
+				throw new MojoExecutionException(getConnectionErrorMessage(e, info), e);
 			}
 		}
 		return conn;
+	}
+
+	protected String getConnectionErrorMessage(SQLException e, Properties info) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n\n");
+		sb.append("The following error occurred establishing a connection to the database:\n\n------------------------------------------------------\n");
+		sb.append(e.getMessage());
+		sb.append("------------------------------------------------------\n\n");
+		sb.append("The following information was provided to JDBC:\n");
+		sb.append("------------------------------------------------------\n");
+		sb.append("URL: " + getUrl() + "\n");
+		sb.append("Driver: " + getDriver() + "\n");
+		sb.append("Username: " + info.getProperty(DRIVER_INFO_PROPERTIES_USER) + "\n");
+		if (isShowPassword()) {
+			sb.append("Password: " + info.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD) + "\n");
+		} else {
+			sb.append("Password: *******\n");
+		}
+		sb.append("------------------------------------------------------\n");
+		sb.append("\n");
+		return sb.toString();
 	}
 
 	/**
