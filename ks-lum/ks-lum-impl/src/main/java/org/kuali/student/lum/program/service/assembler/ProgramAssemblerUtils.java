@@ -739,14 +739,14 @@ public class ProgramAssemblerUtils {
         List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
         Method  method = null;
-        String cluId = null;
+        String programId = null;
         String credentialId = null;
         try {
             method = o.getClass().getMethod("getCredentialProgramId", null);
             credentialId = (String)method.invoke(o, null);
 
             method = o.getClass().getMethod("getId", null);
-            cluId = (String)method.invoke(o, null);
+            programId = (String)method.invoke(o, null);
 
         } catch (NoSuchMethodException e) {
         } catch (InvocationTargetException e) {
@@ -765,7 +765,7 @@ public class ProgramAssemblerUtils {
 
         if (!NodeOperation.CREATE.equals(operation)) {
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId);
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(credentialId);
 
                 for (CluCluRelationInfo cluRelation : cluRelations) {
                     if (relationType.equals(cluRelation.getType())) {
@@ -786,8 +786,8 @@ public class ProgramAssemblerUtils {
                 || (NodeOperation.UPDATE == operation && !currentRelations.containsKey(credentialId) )) {
             // the relation does not exist, so create
             CluCluRelationInfo relation = new CluCluRelationInfo();
-            relation.setCluId(cluId);
-            relation.setRelatedCluId(credentialId);
+            relation.setCluId(credentialId);
+            relation.setRelatedCluId(programId);
             relation.setType(relationType);
             relation.setState(ProgramAssemblerConstants.ACTIVE);
 
@@ -805,10 +805,10 @@ public class ProgramAssemblerUtils {
             // be deleted at the end
             currentRelations.remove(credentialId);
         } else if (NodeOperation.DELETE == operation
-                && currentRelations.containsKey(credentialId))  {
+                && currentRelations.containsKey(programId))  {
             // Delete the Format and its relation
             CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
-            relationToDelete.setId( currentRelations.get(credentialId) );
+            relationToDelete.setId( currentRelations.get(programId) );
             BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
                     null);
             relationToDeleteNode.setNodeData(relationToDelete);
@@ -817,7 +817,7 @@ public class ProgramAssemblerUtils {
 
             // remove this entry from the map so we can tell what needs to
             // be deleted at the end
-            currentRelations.remove(credentialId);
+            currentRelations.remove(programId);
         }
 
         for (Map.Entry<String, String> entry : currentRelations.entrySet()) {

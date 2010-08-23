@@ -20,6 +20,8 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
@@ -39,6 +41,7 @@ public class TestProgramServiceImpl {
 
     @Autowired
     public ProgramService programService;
+    private static final String OTHER_LO_CAT_ID = "550e8400-e29b-41d4-a716-446655440000";
 
     @Test
     public void testProgramServiceSetup() {
@@ -533,15 +536,18 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
-    @Ignore public void testDeleteMajorDiscipline() {
+    public void testDeleteMajorDiscipline() {
         try {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
             assertNotNull(majorDisciplineInfo);
+            fixLoCategoryIds(majorDisciplineInfo.getLearningObjectives());
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
             assertNotNull(createdMD);
             assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", createdMD.getCredentialProgramId());
+            
             String majorDisciplineId = createdMD.getId();
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineId);
             assertNotNull(retrievedMD);
@@ -554,6 +560,16 @@ public class TestProgramServiceImpl {
         } catch (Exception e) {
             fail(e.getMessage());
         }
+    }
+
+    private void fixLoCategoryIds(List<LoDisplayInfo> loDisplayInfoList) {
+        for (LoDisplayInfo parentLo : loDisplayInfoList) {
+            fixLoCategoryId(parentLo.getLoCategoryInfoList());
+            fixLoCategoryIds(parentLo.getLoDisplayInfoList());
+        }
+    }
+    private void fixLoCategoryId(List<LoCategoryInfo> loCategoryInfoList) {
+        loCategoryInfoList.get(1).setId(OTHER_LO_CAT_ID);
     }
 
     @Test

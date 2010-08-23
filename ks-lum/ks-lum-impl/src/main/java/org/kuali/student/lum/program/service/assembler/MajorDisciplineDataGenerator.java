@@ -127,6 +127,9 @@ public class MajorDisciplineDataGenerator {
 			   return null;
             }
 		}
+        if("loRepository".equals(name)){
+            return "kuali.loRepository.key.singleUse";
+        }
         if("credentialProgramId".equals(name)){
             return "00f5f8c5-fff1-4c8b-92fc-789b891e0849";
         }
