@@ -102,23 +102,4 @@
       <version>3.0.3.RELEASE</version>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>**/TorqueOMMojoTest.java</include>
-            <include>**/TorqueSQLMojoTest.java</include>
-            <include>**/TorqueDataDtdMojoTest.java</include>
-            <include>**/TorqueDataSQLMojoTest.java</include>
-            <include>**/TorqueInsertSQLMojoTest.java</include>
-            <include>**/TorqueJDBCTest.java</include>
-            <include>**/TorqueDataDumpMojoTest.java</include>
-          </includes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
