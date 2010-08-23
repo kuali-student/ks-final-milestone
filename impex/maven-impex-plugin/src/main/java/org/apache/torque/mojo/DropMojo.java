@@ -7,7 +7,7 @@ import org.kuali.db.DatabaseCommand;
  * 
  * @goal drop
  */
-public class DropMojo extends AbstractDatabaseCommandMojo {
+public class DropMojo extends SingleDatabaseCommandMojo {
 
 	/**
 	 * The database command to execute

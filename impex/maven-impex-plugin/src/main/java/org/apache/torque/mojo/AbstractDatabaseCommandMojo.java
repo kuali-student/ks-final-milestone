@@ -1,29 +1,31 @@
 package org.apache.torque.mojo;
 
-import java.io.IOException;
-import java.util.Properties;
-
 import org.apache.maven.plugin.MojoExecutionException;
-import org.kuali.db.DatabaseCommand;
-import org.kuali.db.SQLGenerator;
-import org.kuali.db.Transaction;
 
 import static org.apache.commons.lang.StringUtils.*;
 
 /**
- * Runs a command that performs an operation on a database (create,drop etc)
+ * Common logic for running SQL commands on a database
  */
 public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMojo {
-
-	public abstract DatabaseCommand getCommand();
+	public static final String DATABASE_PROPERTY = "database";
+	public static final String DATABASE_PW_PROPERTY = "databasePassword";
+	public static final String DATABASE_USERNAME_PROPERTY = "databaseUsername";
 
 	/**
-	 * The database to create
+	 * The name of the database
 	 * 
 	 * @parameter expression="${database}" default-value="${project.artifactId}"
 	 * @required
 	 */
 	String database;
+
+	/**
+	 * The username to use when accessing this database
+	 * 
+	 * @parameter expression="${databaseUsername}" default-value="${project.artifactId}"
+	 */
+	String databaseUsername;
 
 	/**
 	 * The password to use when accessing this database
@@ -40,36 +42,16 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 		if (project.getArtifactId().equals(databasePassword)) {
 			databasePassword = getTrimmedArtifactId();
 		}
-		getLog().info("-------------------------------------------");
-		getLog().info(getCommand() + " database " + getDatabase());
-		getLog().info("-------------------------------------------");
 	}
 
 	protected void validateConfiguration() throws MojoExecutionException {
 		super.validateConfiguration();
 		if (isEmpty(database)) {
-			throw new MojoExecutionException("Must specify a database to " + getCommand());
+			throw new MojoExecutionException("Must specify a database.");
 		}
 
 		if (isEmpty(username) || isEmpty(password)) {
-			throw new MojoExecutionException("username and password must be specified to " + getCommand() + " a database");
-		}
-	}
-
-	@Override
-	protected void configureTransactions() throws MojoExecutionException {
-		Properties properties = getContextProperties();
-		properties.put("database", getDatabase());
-		properties.put("databasePassword", getDatabasePassword());
-		SQLGenerator generator = new SQLGenerator(properties, url, getCommand());
-		try {
-			generator.setEncoding(getEncoding());
-			String sql = generator.getSQL();
-			Transaction t = new Transaction();
-			t.addText(sql);
-			transactions.add(t);
-		} catch (IOException e) {
-			throw new MojoExecutionException("Error generating SQL", e);
+			throw new MojoExecutionException("username and password must be specified.");
 		}
 	}
 

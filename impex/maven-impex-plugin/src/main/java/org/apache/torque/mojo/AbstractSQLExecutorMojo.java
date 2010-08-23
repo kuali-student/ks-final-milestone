@@ -409,7 +409,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	}
 
 	/**
-	 * Set an inline SQL command to execute. NB: Properties are not expanded in this text.
+	 * Set an inline SQL command to execute.
 	 * 
 	 * @param sql
 	 *            the sql statement to add
