@@ -50,7 +50,7 @@ public class MojoDatabaseListener implements DatabaseListener {
 	public void beginTransaction(DatabaseEvent event) {
 		String message = event.getTransaction().getResourceLocation();
 		if (!StringUtils.isEmpty(event.getTransaction().getSqlCommand())) {
-			message = "Executing SQL";
+			message = "Executing SQL ";
 		}
 		prettyPrint = new PrettyPrint("[INFO] " + message);
 		utils.left(prettyPrint);
