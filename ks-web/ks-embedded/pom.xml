@@ -28,13 +28,13 @@
                 <id>import-ks-embedded-properties</id>
                 <goals>
                   <goal>read-properties</goal>
-                  <configuration>
-                    <environment>${ks.environment}</environment>
-                    <locations>
-                      <param>${basedir}/src/main/resources/org/kuali/rice/standalone/config/standalone-config.xml</param>
-                    </locations>
-                  </configuration>
                 </goals>
+                <configuration>
+                  <environment>${ks.environment}</environment>
+                  <locations>
+                    <param>${basedir}/src/main/resources/org/kuali/rice/standalone/config/standalone-config.xml</param>
+                  </locations>
+                </configuration>
               </execution>
             </executions>
             <dependencies>
