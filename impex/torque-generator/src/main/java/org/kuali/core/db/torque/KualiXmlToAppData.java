@@ -35,6 +35,7 @@ public class KualiXmlToAppData extends DefaultHandler implements DatabaseParser 
 
 	private KualiDatabase database;
 	private Table currTable;
+
 	// private View currView;
 	// private Sequence currSequence;
 	private Column currColumn;
@@ -217,9 +218,9 @@ public class KualiXmlToAppData extends DefaultHandler implements DatabaseParser 
 					currTable.setPackage(currentPackage);
 				}
 			} else if (rawName.equals("view")) {
-				// currView = database.addView(attributes);
+				database.addView(attributes);
 			} else if (rawName.equals("sequence")) {
-				// currSequence = database.addSequence(attributes);
+				database.addSequence(attributes);
 			} else if (rawName.equals("column")) {
 				currColumn = currTable.addColumn(attributes);
 			} else if (rawName.equals("inheritance")) {
