@@ -70,4 +70,12 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 	public void setDatabasePassword(String databasePassword) {
 		this.databasePassword = databasePassword;
 	}
+
+	public String getDatabaseUsername() {
+		return databaseUsername;
+	}
+
+	public void setDatabaseUsername(String databaseUsername) {
+		this.databaseUsername = databaseUsername;
+	}
 }

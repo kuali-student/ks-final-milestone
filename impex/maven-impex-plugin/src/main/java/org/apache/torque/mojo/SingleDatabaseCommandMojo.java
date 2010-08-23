@@ -23,10 +23,17 @@ public abstract class SingleDatabaseCommandMojo extends AbstractDatabaseCommandM
 	}
 
 	@Override
+	protected Properties getContextProperties() {
+		Properties properties = super.getContextProperties();
+		properties.setProperty(DATABASE_PROPERTY, getDatabase());
+		properties.setProperty(DATABASE_PW_PROPERTY, getDatabasePassword());
+		properties.setProperty(DATABASE_USERNAME_PROPERTY, getDatabaseUsername());
+		return properties;
+	}
+
+	@Override
 	protected void configureTransactions() throws MojoExecutionException {
 		Properties properties = getContextProperties();
-		properties.put(DATABASE_PROPERTY, getDatabase());
-		properties.put(DATABASE_PW_PROPERTY, getDatabasePassword());
 		SQLGenerator generator = new SQLGenerator(properties, url, getCommand());
 		try {
 			generator.setEncoding(getEncoding());

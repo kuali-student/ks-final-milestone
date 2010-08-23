@@ -27,8 +27,6 @@ public class ResetMojo extends AbstractDatabaseCommandMojo {
 	@Override
 	protected void configureTransactions() throws MojoExecutionException {
 		Properties properties = getContextProperties();
-		properties.put("database", getDatabase());
-		properties.put("databasePassword", getDatabasePassword());
 		try {
 			transactions.add(getTransaction(properties, DatabaseCommand.DROP));
 			transactions.add(getTransaction(properties, DatabaseCommand.CREATE));
