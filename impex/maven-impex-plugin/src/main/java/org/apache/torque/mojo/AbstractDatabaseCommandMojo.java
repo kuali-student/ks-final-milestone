@@ -15,26 +15,12 @@ import static org.apache.commons.lang.StringUtils.*;
  */
 public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMojo {
 
-	/**
-	 * If true, use the artifactId as the schema to create. See also the trimArtifactId setting
-	 * 
-	 * @parameter expression="${useArtifactIdForDatabaseName}" default-value="true"
-	 */
-	boolean useArtifactIdForDatabaseName;
-
-	/**
-	 * If true, use the artifactId as the schema to create. See also the trimArtifactId setting
-	 * 
-	 * @parameter expression="${useArtifactIdForDatabasePassword}" default-value="true"
-	 */
-	boolean useArtifactIdForDatabasePassword;
-
 	public abstract DatabaseCommand getCommand();
 
 	/**
 	 * The database to create
 	 * 
-	 * @parameter expression="${database}"
+	 * @parameter expression="${database}" default-value="${project.artifactId}"
 	 * @required
 	 */
 	String database;
@@ -42,19 +28,16 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 	/**
 	 * The password to use when accessing this database
 	 * 
-	 * @parameter expression="${databasePassword}"
+	 * @parameter expression="${databasePassword}" default-value="${project.artifactId}"
 	 */
 	String databasePassword;
 
 	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();
-		if (!isEmpty(database)) {
-			return;
-		}
-		if (useArtifactIdForDatabaseName) {
+		if (project.getArtifactId().equals(database)) {
 			database = getTrimmedArtifactId();
 		}
-		if (useArtifactIdForDatabasePassword) {
+		if (project.getArtifactId().equals(databasePassword)) {
 			databasePassword = getTrimmedArtifactId();
 		}
 	}
@@ -93,22 +76,6 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 
 	public void setDatabase(String schema) {
 		this.database = schema;
-	}
-
-	public boolean isUseArtifactIdForDatabaseName() {
-		return useArtifactIdForDatabaseName;
-	}
-
-	public void setUseArtifactIdForDatabaseName(boolean useArtifactIdForDatabaseName) {
-		this.useArtifactIdForDatabaseName = useArtifactIdForDatabaseName;
-	}
-
-	public boolean isUseArtifactIdForDatabasePassword() {
-		return useArtifactIdForDatabasePassword;
-	}
-
-	public void setUseArtifactIdForDatabasePassword(boolean useArtifactIdForDatabasePassword) {
-		this.useArtifactIdForDatabasePassword = useArtifactIdForDatabasePassword;
 	}
 
 	public String getDatabasePassword() {
