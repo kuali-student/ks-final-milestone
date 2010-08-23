@@ -43,6 +43,7 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
@@ -66,6 +67,7 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
@@ -487,8 +489,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             addField(rangeGroup, CREDIT_OPTION_MAX_CREDITS, generateMessageInfo(LUConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
 
             GroupSection multipleGroup = new GroupSection();
-            addField(multipleGroup, "resultValues", null, new StringList(parentPath+"/"+String.valueOf(getAddItemKey())));
-
+            FieldDescriptor fd = addField(multipleGroup, "resultValues", generateMessageInfo(LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY), new ListOfStringWidget("Add Item"),parentPath + "/" + String.valueOf(getAddItemKey()));
+            fd.setWidgetBinding(new ListOfStringBinding());
             
             SwapSection swapSection = new SwapSection(picker);
         	swapSection.addSection(fixedGroup, "kuali.resultComponentType.credit.degree.fixed");
@@ -499,25 +501,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         	
             return item;
         }
-    }
-    
-    public class StringList extends UpdatableMultiplicityComposite {
-        private final String parentPath;
-        public StringList(String parentPath){
-            super(StyleType.TOP_LEVEL);
-            this.parentPath = parentPath;
-            setAddItemLabel("AddItemLabel");
-            setItemLabel("ItemLabel");
-        }
-
-        public Widget createItem() {
-        	VerticalSection item = new VerticalSection();
-        	Metadata meta = modelDefinition.getMetadata(QueryPath.parse("creditOptions/*/resultValues/*"));
-        	FieldDescriptor fd = new FieldDescriptor(parentPath + "/" + "resultValues" + "/" + String.valueOf(getAddItemKey()), generateMessageInfo("messgeKey"), meta, new KSTextBox());
-            item.addField(fd);
-        	return item;
-        }
-        
     }
 
 	private Section generateStudentRegistrationOptionsSection() {
