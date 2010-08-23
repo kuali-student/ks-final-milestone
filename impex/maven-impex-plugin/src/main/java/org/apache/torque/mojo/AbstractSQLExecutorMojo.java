@@ -91,7 +91,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * the trailing "-db" is trimmed off.
 	 * 
 	 * @since 1.0
-	 * @parameter expression="${trimArtifactId}" default-value="true"
+	 * @parameter expression="${trimArtifactId}" default-value="false"
 	 */
 	boolean trimArtifactId;
 
