@@ -118,6 +118,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
         initialize();
+        addStyleName("courseProposal");
     }
 
     @Override

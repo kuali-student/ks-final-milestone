@@ -38,6 +38,7 @@ public class ProgramInformationEditConfiguration extends AbstractSectionConfigur
 
     private VerticalSection createRightSection() {
         VerticalSection section = new VerticalSection();
+        section.addStyleName("readOnlySection");
         section.addSection(createReadOnlySection());
         return section;
     }
