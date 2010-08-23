@@ -34,13 +34,6 @@
         LU_RELTN_TYPE_ID="kuali.lu.lu.relation.type.hasMajorProgram"
         RELATED_CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
         ST="Active" VERSIONIND="0"/>
-    <KSLU_CLUCLU_RELTN CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
-        CLU_RELTN_REQ="1" CREATEID="ID1" CREATETIME="20100216100000"
-        EFF_DT="20100816100000"
-        ID="MAJOR-1"
-        LU_RELTN_TYPE_ID="kuali.lu.lu.relation.type.hasVariationProgram"
-        RELATED_CLU_ID="d02dbbd3-20e2-410d-ab52-1bd6d362748b"
-        ST="Active" VERSIONIND="0"/>
     <KSLU_CLUCLU_RELTN CLU_ID="d02dbbd3-20e2-410d-ab52-1bd6d362748b"
         CLU_RELTN_REQ="1" CREATEID="ID1" CREATETIME="20100216100000"
         EFF_DT="20100816100000"

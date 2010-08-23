@@ -427,15 +427,15 @@
     <KSLU_CLU_IDENT CD="" DIV=""
         ID="4ab05feb-b550-4db6-9f65-97a74372a137"
         LNG_NAME="Bachelor of Science" LVL="kuali.lu.program.level.UnderGraduate"
-        SHRT_NAME="B.A." SUFX_CD=""/>
+        SHRT_NAME="B.A." SUFX_CD="" ST="active" />
     <KSLU_CLU_IDENT CD="ANTH" DIV=""
         ID="918040df-964b-46f0-aef9-f8db92b07a41"
         LNG_NAME="Anthropology" LVL=""
-        SHRT_NAME="Anthropology" SUFX_CD=""/>
-    <KSLU_CLU_IDENT CD="ANTH" DIV=""
+        SHRT_NAME="Anthropology" SUFX_CD="" ST="active" />
+    <KSLU_CLU_IDENT CD="TRAN" DIV=""
         ID="MAJOR-1" TYPE="kuali.lu.type.program.identifier.transcript"
-        SHRT_NAME="TRANSCRIPT-TITLE" />
-    <KSLU_CLU_IDENT CD="ANTH" DIV=""
+        SHRT_NAME="TRANSCRIPT-TITLE" ST="active" />
+    <KSLU_CLU_IDENT CD="DIPL" DIV=""
         ID="MAJOR-2" TYPE="kuali.lu.type.program.identifier.diploma"
-        SHRT_NAME="DIPLOMA-TITLE" />
+        SHRT_NAME="DIPLOMA-TITLE" ST="active" />
 </dataset>

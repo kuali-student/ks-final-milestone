@@ -15,6 +15,9 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
@@ -30,9 +33,6 @@ import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -72,7 +72,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setDescr(clu.getDescr());
 
         if (!shallowBuild) {
-            mdInfo.setCredentialProgramId(programAssemblerUtils.assembleCredentialProgramIDs(clu.getId(), ProgramAssemblerConstants.HAS_MAJOR_PROGRAM));
+            mdInfo.setCredentialProgramId(getCredentialProgramID(clu.getId()));
             mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
             mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
             mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
@@ -80,6 +80,24 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         }
         
        return mdInfo;
+    }
+
+    private String getCredentialProgramID(String cluId) throws AssemblyException {
+
+        List<String> credentialProgramIDs = null;
+        try {
+            credentialProgramIDs = luService.getCluIdsByRelation(cluId, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM);
+        } catch (Exception e) {
+            throw new AssemblyException(e);
+        }
+        // Can a Program have more than one Credential Program?
+        // TODO - do we need to validate that?
+        if (null == credentialProgramIDs || credentialProgramIDs.isEmpty()) {
+            throw new AssemblyException("Program with ID == " + cluId + " has no Credential Program associated with it.");
+        } else if (credentialProgramIDs.size() > 1) {
+            throw new AssemblyException("Program with ID == " + cluId + " has more than one Credential Program associated with it.");
+        }
+        return credentialProgramIDs.get(0);
     }
 
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild) throws AssemblyException {

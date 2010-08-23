@@ -1,8 +1,11 @@
 package org.kuali.student.lum.program.service.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.SampCustomValidator;
@@ -18,7 +21,6 @@ import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.junit.Assert.*;
 
 public class TestProgramInfoDictionary
 {
@@ -82,6 +84,6 @@ public class TestProgramInfoDictionary
 ///[id='null']/cip2000Code[value='cip2000Code-test']/ validation.validCharsFailed
 ///[id='null']/cip2010Code[value='cip2010Code-test']/ validation.lengthOutOfRange
 ///[id='null']/cip2010Code[value='cip2010Code-test']/ validation.validCharsFailed
-  assertEquals (6, validationResults.size ());
+        assertEquals(4, validationResults.size());
  }
 }

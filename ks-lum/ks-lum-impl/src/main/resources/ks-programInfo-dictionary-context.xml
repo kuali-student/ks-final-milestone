@@ -97,10 +97,6 @@
     <bean id="majorDisciplineInfo.variations" parent="majorDisciplineInfo.variations-parent"/>
 
     <bean id="majorDisciplineInfo.code-parent" abstract="true" parent="cluIdentifierInfo.code-parent">
-        <property name="name" value="code"/>
-        <property name="minLength" value="1"/>
-        <property name="maxLength" value="5"/>
-        <property name="validChars" ref="digits"/>
     </bean>
     <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent"/>
 

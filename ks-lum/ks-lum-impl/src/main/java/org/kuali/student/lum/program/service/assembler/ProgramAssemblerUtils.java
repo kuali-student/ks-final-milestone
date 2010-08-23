@@ -15,6 +15,14 @@
 
 package org.kuali.student.lum.program.service.assembler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
@@ -33,14 +41,6 @@ import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class ProgramAssemblerUtils {
 
@@ -291,8 +291,8 @@ public class ProgramAssemblerUtils {
         Method method;
         String value;
 
-        try 	{
-            CluIdentifierInfo official = new CluIdentifierInfo();
+        try {
+            CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
 
             method = o.getClass().getMethod("getCode", null);
             String code = (String)method.invoke(o, null);
@@ -307,11 +307,14 @@ public class ProgramAssemblerUtils {
             clu.setOfficialIdentifier(official);
 
             //Remove any existing diploma or transcript alt identifiers
+            CluIdentifierInfo diplomaInfo = null;
+            CluIdentifierInfo transcriptInfo = null;
             for(Iterator<CluIdentifierInfo> iter = clu.getAlternateIdentifiers().iterator();iter.hasNext();){
                 CluIdentifierInfo cluIdentifier = iter.next();
-                if(ProgramAssemblerConstants.DIPLOMA.equals(cluIdentifier.getType()) ||
-                    ProgramAssemblerConstants.TRANSCRIPT.equals(cluIdentifier.getType()) ){
-                    iter.remove();
+                if (ProgramAssemblerConstants.DIPLOMA.equals(cluIdentifier.getType())) {
+                   diplomaInfo = cluIdentifier; 
+                } else if (ProgramAssemblerConstants.TRANSCRIPT.equals(cluIdentifier.getType())) {
+                    transcriptInfo = cluIdentifier;
                 }
             }
 
@@ -319,20 +322,26 @@ public class ProgramAssemblerUtils {
                 method = o.getClass().getMethod("getDiplomaTitle", null);
                 value = (String)method.invoke(o, null);
                 if (value != null) {
-                    CluIdentifierInfo diploma = new CluIdentifierInfo();
-                    diploma.setCode(official.getCode());
-                    diploma.setShortName(value);
-                    diploma.setType(ProgramAssemblerConstants.DIPLOMA);
-                    clu.getAlternateIdentifiers().add(diploma);
+                    if (diplomaInfo == null) {
+                        diplomaInfo = new CluIdentifierInfo();
+                        diplomaInfo.setState(ProgramAssemblerConstants.ACTIVE);
+                        clu.getAlternateIdentifiers().add(diplomaInfo);
+	                }
+                    diplomaInfo.setCode(official.getCode());
+                    diplomaInfo.setShortName(value);
+                    diplomaInfo.setType(ProgramAssemblerConstants.DIPLOMA);
                 }
                 method = o.getClass().getMethod("getTranscriptTitle", null);
                 value = (String)method.invoke(o, null);
                 if (value != null) {
-                    CluIdentifierInfo transcript = new CluIdentifierInfo();
-                    transcript.setCode(official.getCode());
-                    transcript.setShortName(value);
-                    transcript.setType(ProgramAssemblerConstants.TRANSCRIPT);
-                    clu.getAlternateIdentifiers().add(transcript);
+                    if (transcriptInfo == null) {
+                        transcriptInfo = new CluIdentifierInfo();
+                        transcriptInfo.setState(ProgramAssemblerConstants.ACTIVE);
+                        clu.getAlternateIdentifiers().add(transcriptInfo);
+                    }
+                    transcriptInfo.setCode(official.getCode());
+                    transcriptInfo.setShortName(value);
+                    transcriptInfo.setType(ProgramAssemblerConstants.TRANSCRIPT);
                 }
 
             }
@@ -715,38 +724,6 @@ public class ProgramAssemblerUtils {
         return clu;
 
     }
-
-    /**
-     * Retrieve credential program ids for clu 
-     *
-     * @param cluId
-     * @param credentialType
-     * @return
-     * @throws AssemblyException
-     */
-    public String assembleCredentialProgramIDs(String cluId, String credentialType) throws AssemblyException {
-        List<String> credentialProgramIDs = null;
-        try {
-            credentialProgramIDs = luService.getCluIdsByRelation(cluId, credentialType);
-        } catch (Exception e) {
-            throw new AssemblyException(e);
-        }
-        // Can a Program have more than one Credential Program?
-        // TODO - do we need to validate that?
-        if (null == credentialProgramIDs || credentialProgramIDs.size() == 0) {
-            throw new AssemblyException("Program with ID == " + cluId + " has no Credential Program associated with it.");
-        } else if (credentialProgramIDs.size() > 1) {
-            throw new AssemblyException("Program with ID == " + cluId + " has more than one Credential Program associated with it.");
-        }
-
-        if (credentialProgramIDs == null || credentialProgramIDs.isEmpty()) {
-            return null;
-        }
-        else {
-            return credentialProgramIDs.get(0);
-        }
-    }
-
 
     /**
      * Copy credential program id value from program to clu
