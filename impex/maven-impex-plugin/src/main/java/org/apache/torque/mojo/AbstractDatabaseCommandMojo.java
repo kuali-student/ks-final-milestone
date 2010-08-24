@@ -1,5 +1,7 @@
 package org.apache.torque.mojo;
 
+import java.util.Properties;
+
 import org.apache.maven.plugin.MojoExecutionException;
 
 import static org.apache.commons.lang.StringUtils.*;
@@ -45,6 +47,15 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 		if (project.getArtifactId().equals(databaseUsername)) {
 			databaseUsername = getTrimmedArtifactId();
 		}
+	}
+
+	@Override
+	protected Properties getContextProperties() {
+		Properties properties = super.getContextProperties();
+		properties.setProperty(DATABASE_PROPERTY, getDatabase());
+		properties.setProperty(DATABASE_PW_PROPERTY, getDatabasePassword());
+		properties.setProperty(DATABASE_USERNAME_PROPERTY, getDatabaseUsername());
+		return properties;
 	}
 
 	protected void validateConfiguration() throws MojoExecutionException {

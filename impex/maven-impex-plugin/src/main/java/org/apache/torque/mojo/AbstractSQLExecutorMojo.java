@@ -403,7 +403,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		try {
 			executor.execute();
 		} catch (SQLException e) {
-			throw new MojoExecutionException("Error executing SQL", e);
+			throw new MojoExecutionException(getSQLExceptionErrorMessage(e, getInfo(), "Error executing SQL"));
 		}
 
 	}
@@ -747,10 +747,18 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	}
 
 	protected String getConnectionErrorMessage(SQLException e, Properties info) {
+		return getSQLExceptionErrorMessage(e, info, "The following error occurred establishing a connection to the database:");
+	}
+
+	protected String getSQLExceptionErrorMessage(SQLException e, Properties info, String message) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n\n");
-		sb.append("The following error occurred establishing a connection to the database:\n\n------------------------------------------------------\n");
-		sb.append(e.getMessage());
+		sb.append(message + "\n\n------------------------------------------------------\n");
+		String emsg = e.getMessage();
+		sb.append(emsg);
+		if (!emsg.endsWith("\n")) {
+			sb.append("\n");
+		}
 		sb.append("------------------------------------------------------\n\n");
 		sb.append("The following information was provided to JDBC:\n");
 		sb.append("------------------------------------------------------\n");
@@ -790,10 +798,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		}
 		return properties;
 	}
-
-	//
-	// helper accessors for unit test purposes
-	//
 
 	public String getUsername() {
 		return this.username;

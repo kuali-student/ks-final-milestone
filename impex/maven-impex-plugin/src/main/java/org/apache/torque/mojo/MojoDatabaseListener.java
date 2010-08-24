@@ -38,6 +38,7 @@ public class MojoDatabaseListener implements DatabaseListener {
 			getLog().warn(event.getMessage());
 			break;
 		case ERROR:
+			System.out.println();
 			getLog().error(event.getMessage(), event.getException());
 			break;
 		default:

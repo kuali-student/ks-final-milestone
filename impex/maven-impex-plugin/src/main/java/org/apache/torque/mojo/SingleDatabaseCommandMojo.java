@@ -18,17 +18,8 @@ public abstract class SingleDatabaseCommandMojo extends AbstractDatabaseCommandM
 	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();
 		getLog().info("-------------------------------------------");
-		getLog().info(getCommand() + " database " + getDatabase());
+		getLog().info(getCommand() + " database " + getDatabase() + " for " + getTargetDatabase());
 		getLog().info("-------------------------------------------");
-	}
-
-	@Override
-	protected Properties getContextProperties() {
-		Properties properties = super.getContextProperties();
-		properties.setProperty(DATABASE_PROPERTY, getDatabase());
-		properties.setProperty(DATABASE_PW_PROPERTY, getDatabasePassword());
-		properties.setProperty(DATABASE_USERNAME_PROPERTY, getDatabaseUsername());
-		return properties;
 	}
 
 	@Override
