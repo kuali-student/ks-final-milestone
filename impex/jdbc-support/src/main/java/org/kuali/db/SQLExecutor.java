@@ -127,8 +127,16 @@ public class SQLExecutor {
 		fireMessageLogged(message, MessagePriority.DEBUG);
 	}
 
+	public void error(Throwable exception, String message) {
+		DatabaseEvent event = new DatabaseEvent(message, MessagePriority.ERROR);
+		event.setException(exception);
+		for (DatabaseListener listener : listeners) {
+			listener.messageLogged(event);
+		}
+	}
+
 	public void error(String message) {
-		fireMessageLogged(message, MessagePriority.ERROR);
+		error(null, message);
 	}
 
 	public void executeSql(String sql) throws SQLException {
@@ -246,11 +254,10 @@ public class SQLExecutor {
 			successfulStatements++;
 			fireAfterProcessingSQLResults(totalStatements, successfulStatements, updateCountTotal, sql);
 		} catch (SQLException e) {
-			error("Failed to execute: " + sql);
+			error("Failed to execute: " + sql + "\n\n" + e.getMessage());
 			if (ON_ERROR_ABORT.equalsIgnoreCase(getOnError())) {
 				throw e;
 			}
-			error(e.toString());
 		} finally {
 			closeQuietly(resultSet);
 		}

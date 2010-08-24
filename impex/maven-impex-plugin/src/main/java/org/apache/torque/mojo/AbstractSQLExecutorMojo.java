@@ -750,6 +750,29 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		return getSQLExceptionErrorMessage(e, info, "The following error occurred establishing a connection to the database:");
 	}
 
+	protected String getJDBCConfigurationErrorMessage(Properties info) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("------------------------------------------------------\n\n");
+		sb.append("The following information was provided to JDBC:\n");
+		sb.append("------------------------------------------------------\n");
+		sb.append("URL: " + getUrl() + "\n");
+		sb.append("Driver: " + getDriver() + "\n");
+		sb.append("Username: " + info.getProperty(DRIVER_INFO_PROPERTIES_USER) + "\n");
+		String password = info.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD);
+		if (isShowPassword()) {
+			sb.append("Password: " + password + "\n");
+		} else {
+			if (StringUtils.isEmpty(password)) {
+				sb.append("Password: [No password was supplied]\n");
+			} else {
+				sb.append("Password: *******\n");
+			}
+		}
+		sb.append("------------------------------------------------------\n");
+		sb.append("\n");
+		return sb.toString();
+	}
+
 	protected String getSQLExceptionErrorMessage(SQLException e, Properties info, String message) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n\n");
@@ -759,19 +782,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		if (!emsg.endsWith("\n")) {
 			sb.append("\n");
 		}
-		sb.append("------------------------------------------------------\n\n");
-		sb.append("The following information was provided to JDBC:\n");
-		sb.append("------------------------------------------------------\n");
-		sb.append("URL: " + getUrl() + "\n");
-		sb.append("Driver: " + getDriver() + "\n");
-		sb.append("Username: " + info.getProperty(DRIVER_INFO_PROPERTIES_USER) + "\n");
-		if (isShowPassword()) {
-			sb.append("Password: " + info.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD) + "\n");
-		} else {
-			sb.append("Password: *******\n");
-		}
-		sb.append("------------------------------------------------------\n");
-		sb.append("\n");
+		sb.append(getJDBCConfigurationErrorMessage(info));
 		return sb.toString();
 	}
 

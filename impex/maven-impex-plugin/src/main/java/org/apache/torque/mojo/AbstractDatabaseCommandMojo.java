@@ -61,11 +61,11 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 	protected void validateConfiguration() throws MojoExecutionException {
 		super.validateConfiguration();
 		if (isEmpty(database)) {
-			throw new MojoExecutionException("Must specify a database.");
+			throw new MojoExecutionException("\n\nNo database was specified.\nSpecify a database in the plugin configuration or as a system property.\n\n For example:\n-Ddatabase=MYDB\n\n.");
 		}
 
 		if (isEmpty(username) || isEmpty(password)) {
-			throw new MojoExecutionException("username and password must be specified.");
+			throw new MojoExecutionException("\n\nUsername and password must be specified.\nSpecify them in the plugin configuration or as a system property.\n\n For example:\n-Dusername=dbuser\n-Dpassword=dbpassword\n\n.");
 		}
 	}
 
