@@ -17,6 +17,7 @@ public class ProgramInformationViewConfiguration extends AbstractSectionConfigur
 
     public ProgramInformationViewConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
+        rootSection.addStyleName("programInformationView");
     }
 
     protected void buildLayout() {

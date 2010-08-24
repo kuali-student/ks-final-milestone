@@ -55,3 +55,7 @@
 .programController .readOnlySection {
     background-color: #F1F1F1;
 }
+
+.programController .programInformationView{
+   background-color: #F1F1F1;
+}
