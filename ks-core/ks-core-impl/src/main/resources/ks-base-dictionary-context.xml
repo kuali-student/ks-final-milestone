@@ -187,6 +187,9 @@
  <bean id="baseKualiCluId" parent="baseKualiId" abstract="true">
   <!--TODO: Add a lookup to make sure the Org Id is a valid clu -->
  </bean>
+<bean id="baseKualiCluSetId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid cluSet -->
+ </bean>
  <bean id="baseKualiPersonId" parent="baseKualiId" abstract="true">
   <!--TODO: Add a lookup to make sure the Org Id is a valid person -->
  </bean>
