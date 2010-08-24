@@ -25,9 +25,9 @@ import java.util.List;
 public class ReadKualiPropertiesMojo extends AbstractMojo {
 
 	/**
-	 * @parameter expression="${showKualiLogging}" default-value="true"
+	 * @parameter expression="${showLog4jLogging}" default-value="true"
 	 */
-	boolean showKualiLogging;
+	boolean showLog4jLogging;
 
 	/**
 	 * @parameter default-value="${project}"
@@ -51,8 +51,7 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 	String[] locations;
 
 	/**
-	 * If set to true then system properties will always be used, disregarding values in the properties files. The
-	 * default is true.
+	 * If set to true then system properties override any values found in the properties files. The default is true.
 	 * 
 	 * @parameter expression="${systemOverride}" default-value="true"
 	 */
@@ -132,7 +131,7 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		if (skipMojo()) {
 			return;
 		}
-		if (isShowKualiLogging()) {
+		if (isShowLog4jLogging()) {
 			MavenLogAppender.startPluginLog(this);
 		}
 		List<String> locationsList = getList();
@@ -156,7 +155,7 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		}
 		ConfigContext.init(config);
 		project.getProperties().putAll(config.getProperties());
-		if (isShowKualiLogging()) {
+		if (isShowLog4jLogging()) {
 			MavenLogAppender.endPluginLog(this);
 		}
 	}
@@ -189,12 +188,12 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 		this.systemOverride = systemOverride;
 	}
 
-	public boolean isShowKualiLogging() {
-		return showKualiLogging;
+	public boolean isShowLog4jLogging() {
+		return showLog4jLogging;
 	}
 
-	public void setShowKualiLogging(boolean showKualiLogging) {
-		this.showKualiLogging = showKualiLogging;
+	public void setShowLog4jLogging(boolean showKualiLogging) {
+		this.showLog4jLogging = showKualiLogging;
 	}
 
 	public boolean isSkip() {
