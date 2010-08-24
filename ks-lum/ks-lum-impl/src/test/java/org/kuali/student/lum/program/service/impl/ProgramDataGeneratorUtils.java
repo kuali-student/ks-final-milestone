@@ -111,9 +111,16 @@ public class ProgramDataGeneratorUtils {
 	 */
 	private static String getStringValue(String name, String programType, String parentPropertyName,
 			Integer propertyIndex, boolean isMap) {
+		
 		if("id".equals(name)){
-			return null;
+            if("loCategoryInfoList".equals(parentPropertyName)){
+                return "162979A3-25B9-4921-BC8F-C861B2267A73";
+            }
+            else {
+			   return null;
+            }
 		}
+		
 		if("type".equals(name)){
 			
 			if(null==parentPropertyName){
