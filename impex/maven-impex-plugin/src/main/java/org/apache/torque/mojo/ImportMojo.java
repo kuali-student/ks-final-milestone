@@ -162,11 +162,12 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	}
 
 	protected void configureTransactions() throws MojoExecutionException {
+		getLog().debug("schemas=" + schemas);
 		if (schemas != null) {
 			addSchemaXMLResourcesToTransactions();
 		} else if (fileset == null) {
 			fileset = new Fileset();
-			fileset.setBasedir(project.getBuild().getDirectory() + "/generated-sql/xml/" + getTargetDatabase());
+			fileset.setBasedir(project.getBuild().getDirectory() + "/generated-sql/sql/" + getTargetDatabase());
 			fileset.setIncludes(new String[] { "*.sql" });
 		}
 
@@ -398,5 +399,17 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 
 	public void setSchemas(List<String> schemas) {
 		this.schemas = schemas;
+	}
+
+	public boolean isEnableFiltering() {
+		return enableFiltering;
+	}
+
+	public void setEnableFiltering(boolean enableFiltering) {
+		this.enableFiltering = enableFiltering;
+	}
+
+	public Fileset getFileset() {
+		return fileset;
 	}
 }
