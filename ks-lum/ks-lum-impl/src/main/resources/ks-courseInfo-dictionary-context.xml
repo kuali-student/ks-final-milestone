@@ -52,7 +52,8 @@
     <ref bean="courseInfo.finalExamRationale"/>
     <ref bean="courseInfo.outOfClassHours" />
     <!-- Searches -->
-    <ref bean="search.cluset" />
+    <!--<ref bean="search.cluset" />-->
+    <!--TODO: uncomment above when we get the search stuff figured out-->
     <ref bean="search.findCourse" />
     <!--<ref bean="search.proposedCourses" />
     <ref bean="search.approvedCourses" />
@@ -130,7 +131,7 @@
 
 <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseComplexRepeating">
 <property name="name" value="creditOptions"/>
-<property name="dataObjectStructure" ref="org.kuali.student.lum.lrc.dto.ResultComponentInfo"/>
+<property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/>
 </bean>
 <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
 
@@ -979,7 +980,7 @@
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
 
  <!-- Redefine the ResultComponentInfo to have dynamic attributes -->
- 	<bean id="org.kuali.student.lum.lrc.dto.ResultComponentInfo"
+ 	<bean id="courseInfo.creditOptions.ResultComponentInfo-parent" abstract="true"
 		parent="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent">
 		<property name="attributes">
 			<list merge="true">
@@ -989,6 +990,8 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent" />
+
 	<bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
 		<property name="name" value="minCreditValue"/>
 		<property name="dynamic" value="true"/>
