@@ -771,13 +771,11 @@ public class RuleComponentEditorView extends ViewComposite {
          // ****** Add Clu Range *******
          //TODO add cluset and clurange here
          Section cluRangeSection = new VerticalSection();
-         //final Picker cluSetRangePicker = configureSearch("courseRanges");
-         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD);
-         //final FieldDescriptor cluRangeFieldEditDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
+         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
+         addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
          final CluSetRangeDataHelper clusetRangeModelHelper = new CluSetRangeDataHelper();
          final KSItemLabel clusetRangeLabel = new KSItemLabel(true, clusetRangeModelHelper);
          clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
-         //final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, "courseRanges", null, clusetRangeLabel);
          final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
          cluSetRangePicker.getSearchWindow().addActionCompleteCallback(new Callback<Boolean>() {
          
@@ -789,9 +787,6 @@ public class RuleComponentEditorView extends ViewComposite {
                      parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
                          @Override
                          public void onModelReady(DataModel model) {
-//                             ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).setWidgetValue(widget, model, path)
-//                             CluSetHelper cluSetHelper = CluSetHelper.wrap(model.getRoot());
-//                             cluSetHelper.setCluRangeParams(value)
                              SearchRequest searchRequest = cluSetRangePicker.getSearchWindow()
                              .getSearchRequest();
                              String selectedLookupName = cluSetRangePicker.getSearchWindow()
