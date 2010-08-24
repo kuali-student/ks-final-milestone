@@ -1710,6 +1710,10 @@
 		<property name="initialLookup"
 			ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
 	</bean>
-	
 
+    <bean id="endInstAdmitTerm" parent="uilookup">
+          <property name="path" value="majorDisciplineInfo.endInstAdmitTerm" />
+          <property name="initialLookup"
+              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+      </bean>
 </beans>
