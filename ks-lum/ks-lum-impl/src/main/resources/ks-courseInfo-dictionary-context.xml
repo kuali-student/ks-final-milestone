@@ -862,6 +862,8 @@
     <ref bean="cluset.proposedClus"/>
     <ref bean="cluset.clusets"/>
     <ref bean="cluset.clusetRange"/>
+	<ref bean="cluset.clusetRangeEdit"/>
+	<ref bean="cluset.clusetRangeViewDetails"/>
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -879,12 +881,69 @@
   <property name="name" value="clusets" />
  </bean>
  <bean id="cluset.clusets" parent="cluset.clusets-parent" />
- <bean id="cluset.clusetRange-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="clusetRange" />
+ 
+ <!--  courseRange -->
+ <bean id="cluset.clusetRangeEdit-parent" abstract="true" parent="baseStringRepeating">
+  <property name="name" value="clusetRangeEdit" />
  </bean>
+ <bean id="cluset.clusetRangeEdit" parent="cluset.clusetRangeEdit-parent" />
+ <bean id="cluset.clusetRangeViewDetails-parent" abstract="true" parent="baseStringRepeating">
+  <property name="name" value="clusetRangeViewDetails" />
+ </bean>
+ <bean id="cluset.clusetRangeViewDetails" parent="cluset.clusetRangeViewDetails-parent" />
  <bean id="cluset.clusetRange" parent="cluset.clusetRange-parent" />
-
-
+<bean id="cluset.clusetRange-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="clusetRange" />
+  <property name="dataObjectStructure"
+            ref="org.kuali.student.lum.lu.dto.ClusetRangeInfo" />
+ </bean>
+ <bean id="org.kuali.student.lum.lu.dto.ClusetRangeInfo" parent="org.kuali.student.lum.lu.dto.ClusetRangeInfo-parent" />
+  <bean id="org.kuali.student.lum.lu.dto.ClusetRangeInfo-parent"
+       abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.lum.lu.dto.ClusetRangeInfo" />
+  <property name="attributes">
+   <list>
+		<ref bean="clusetRange.id" />
+		<ref bean="clusetRange.searchTypeKey" />
+		<ref bean="clusetRange.queryParams" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="true" />
+ </bean>
+<bean id="clusetRange.id-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="id" />
+ </bean>
+ <bean id="clusetRange.id" parent="clusetRange.id-parent" />
+ <bean id="clusetRange.searchTypeKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="searchTypeKey" />
+ </bean>
+ <bean id="clusetRange.searchTypeKey" parent="clusetRange.searchTypeKey-parent" />
+ <bean id="clusetRange.queryParams-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="clusetRange.queryParams" />
+  <property name="dataObjectStructure" ref="queryParams" />
+ </bean>
+ <bean id="clusetRange.queryParams" parent="clusetRange.queryParams-parent" />
+ <bean id="queryParams-parent"
+       abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="queryParams" />
+  <property name="attributes">
+   <list>
+		<ref bean="queryParams.value" />
+		<ref bean="queryParams.key" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="true" />
+ </bean>
+ <bean id="queryParams" parent="queryParams-parent" />
+  <bean id="queryParams.value-parent" abstract="true" parent="baseString">
+  <property name="name" value="value" />
+ </bean>
+ <bean id="queryParams.value" parent="queryParams.value-parent" />
+  <bean id="queryParams.key-parent" abstract="true" parent="baseString">
+  <property name="name" value="key" />
+ </bean>
+ <bean id="queryParams.key" parent="queryParams.key-parent" />
+ 
   <!-- courseFeeInfo.feeAmounts.CurrencyAmountInfo-->
  <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent"
        abstract="true" parent="objectStructureDefinition">
