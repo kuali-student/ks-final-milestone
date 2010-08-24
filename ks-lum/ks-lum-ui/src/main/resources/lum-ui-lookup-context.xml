@@ -269,8 +269,8 @@
 		</property>
 	</bean>
 
-	<bean id="search.cluset.clusetRange" parent="uilookup">
-		<property name="path" value="search.cluset.clusetRange" />
+	<bean id="search.cluset.clusetRangeEdit" parent="uilookup">
+		<property name="path" value="search.cluset.clusetRangeEdit" />
 		<property name="initialLookup" ref="kuali.lu.lookup.basic.courseRanges" />
 		<property name="additionalLookups">
 			<list>
@@ -281,6 +281,11 @@
 		</property>
 	</bean>
 
+	<bean id="search.cluset.clusetRangeViewDetails" parent="uilookup">
+		<property name="path" value="search.cluset.clusetRangeViewDetails" />
+		<property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
+	</bean>
+		
 	<!-- Initial Lookup Definitions (For suggestbox & dropdown widgets) -->
 	<bean id="emptyLookup" class="org.kuali.student.core.assembly.data.UILookupData"
 		parent="lookup">
