@@ -53,10 +53,9 @@ public abstract class AbstractContext<T> implements Context<T> {
         List<ReqComponentField> fields = reqComponent.getReqComponentFields();
         Map<String, String> map = new HashMap<String, String>();
         for (ReqComponentField field : fields) {
-            String key = field.getKey();
-            //String key = field.getId();
+            String type = field.getType();
             String value = field.getValue();
-            map.put(key, value);
+            map.put(type, value);
         }
         return map;
     }

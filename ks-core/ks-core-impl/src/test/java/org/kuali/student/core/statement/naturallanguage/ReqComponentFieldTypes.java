@@ -32,7 +32,7 @@ package org.kuali.student.core.statement.naturallanguage;
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
-public enum ReqComponentFieldTypeKeys {
+public enum ReqComponentFieldTypes {
 	CLU_KEY("reqCompFieldType.clu.id"),
 	CLUSET_KEY("reqCompFieldType.cluSet.id"),
 	REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
@@ -43,13 +43,13 @@ public enum ReqComponentFieldTypeKeys {
 	INCLUSION_FILTER_TYPE_KEY("reqCompFieldType.inclusionFilter.type"),
 	INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value");
     
-	private String key;
+	private String type;
 	
-	ReqComponentFieldTypeKeys(String key) {
-		this.key = key;
+	ReqComponentFieldTypes(String type) {
+		this.type = type;
 	}
 	
-	public String getKey() {
-		return this.key;
+	public String getType() {
+		return this.type;
 	}
 }

@@ -74,7 +74,7 @@ public class ReqCompEditWidget extends FlowPanel {
             public void onClick(ClickEvent event) {
 
                 /*
-            	if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null) && isReqCompFieldType(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())){
+            	if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null) && isReqCompFieldType(ReqComponentFieldTypes.CLUSET_KEY.getKey())){
             		saveCluSet();
             	} else {
 	            	//1. check that all fields have values
