@@ -1,6 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,11 +165,15 @@ public class DictionaryFormatter
 
 //  builder.append ("======= end dump of object structure definition ========");
   builder.append (rowSeperator);
+  Set<ObjectStructureDefinition> subStructuresAlreadyProcessedBeforeProcessingSubStructures = new HashSet ();
+  subStructuresAlreadyProcessedBeforeProcessingSubStructures.addAll (
+    subStructuresAlreadyProcessed);
   for (String subName : this.subStructuresToProcess.keySet ())
   {
    ObjectStructureDefinition subOs = this.subStructuresToProcess.get (subName);
-   if (this.subStructuresAlreadyProcessed.add (subOs))
+   if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (subOs))
    {
+    this.subStructuresAlreadyProcessed.add (subOs);
 //    System.out.println ("formatting substructure " + subName);
     Class<?> subClazz = getClass (subOs.getName ());
     DictionaryFormatter formatter =
@@ -178,11 +183,6 @@ public class DictionaryFormatter
                                                  this.processSubstructures);
     builder.append (formatter.formatForWiki ());
     builder.append (rowSeperator);
-   }
-   else
-   {
-//    System.out.println ("skipping substructure because already processed it: "
-//                        + subName);
    }
   }
 
