@@ -13,21 +13,21 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.program.client.requirements;
+package org.kuali.student.common.ui.client.widgets.rules;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import org.kuali.student.common.ui.client.widgets.rules.Token;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 
 public class StatementVO extends Token implements Serializable {
 

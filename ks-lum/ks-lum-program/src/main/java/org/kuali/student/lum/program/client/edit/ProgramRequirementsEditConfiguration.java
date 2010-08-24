@@ -5,7 +5,7 @@ import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.requirements.RequirementsViewController;
+import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
 
 /**
  *
@@ -16,7 +16,7 @@ public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<
 
     @Override
     public View getView() {
-        return new RequirementsViewController(viewController, ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
+        return new ProgramRequirementsViewController(viewController, ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
     }
 
     public void setViewController(ProgramController viewController) {

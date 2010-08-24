@@ -15,21 +15,21 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
-public class RequirementsViewController extends BasicLayout {
+public class ProgramRequirementsViewController extends BasicLayout {
 
     public enum ProgramRequirementsViews {
-        VIEW,
+        PREVIEW,
         MANAGE
     }
 
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
 
-    public RequirementsViewController(Controller controller, String name, Enum<?> viewType) {
-		super(RequirementsViewController.class.getName());
+    public ProgramRequirementsViewController(Controller controller, String name, Enum<?> viewType) {
+		super(ProgramRequirementsViewController.class.getName());
 		super.setController(controller);
 		super.setName(name);
 		super.setViewEnum(viewType);
-		this.setDefaultView(ProgramRequirementsViews.VIEW);
+		this.setDefaultView(ProgramRequirementsViews.PREVIEW);
 
         super.registerModel(PROGRAM_RULES_MODEL_ID, new ModelProvider<DataModel>() {
 
@@ -63,11 +63,11 @@ public class RequirementsViewController extends BasicLayout {
 
         //no name for the view so that breadcrumbs do not extra link
         List<String> programRequirements = null; // TODO retrieve a list of program requirements
-        ProgramRequirementsSummaryView summaryView = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.VIEW, "", PROGRAM_RULES_MODEL_ID, programRequirements);
+        ProgramRequirementsSummaryView summaryView = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.PREVIEW, "", PROGRAM_RULES_MODEL_ID, programRequirements);
         super.addView(summaryView);
         
         ProgramRequirementsManageView manageView =
-                new ProgramRequirementsManageView(this, ProgramRequirementsViews.MANAGE, "", PROGRAM_RULES_MODEL_ID, "Fundamental Studies"); //breadcrumb: "Add and Combine Rules"
+                new ProgramRequirementsManageView(this, ProgramRequirementsViews.MANAGE, "Add and Combine Rules", PROGRAM_RULES_MODEL_ID);
         super.addView(manageView);
              
     }

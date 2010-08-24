@@ -25,7 +25,7 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.client.requirements.StatementVO;
+import org.kuali.student.common.ui.client.widgets.rules.StatementVO;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
 import org.apache.log4j.Logger;

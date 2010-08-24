@@ -13,16 +13,15 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.program.client.requirements;
+package org.kuali.student.common.ui.client.widgets.rules;
+
+import java.io.Serializable;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-
-import java.io.Serializable;
-import java.util.List;
 
 public class RuleInfo implements Idable, Serializable {
 
@@ -42,9 +41,11 @@ public class RuleInfo implements Idable, Serializable {
     public String getSelectedStatementType() {
         return selectedStatementType;
     }
+
     public void setSelectedStatementType(String selectedStatementType) {
         this.selectedStatementType = selectedStatementType;
     }
+
     public StatementVO createNewStatementVO() {
         if (selectedStatementType == null) {
             throw new IllegalStateException("selectedStatementType must not be null");
@@ -56,44 +57,57 @@ public class RuleInfo implements Idable, Serializable {
         statementVO.setStatementInfo(newStatementTree);
         return statementVO;
     }
+
     @Override
     public String getId() {
         return id;
     }
+
     @Override
     public void setId(String id) {
         this.id = id;
     }
+
     public String getCluId() {
         return cluId;
-    } 
+    }
+
     public void setCluId(String cluId) {
         this.cluId = cluId;
     }
+
     public String getRationale() {
         return rationale;
     }
+
     public void setRationale(String rationale) {
         this.rationale = rationale;
-    }   
+    }
+
     public String getNaturalLanguageForRuleEdit() {
         return naturalLanguageForRuleEdit;
     }
+
     public void setNaturalLanguageForRuleEdit(String naturalLanguageForRuleEdit) {
         this.naturalLanguageForRuleEdit = naturalLanguageForRuleEdit;
     }
+
     public String getNaturalLanguageForRuleView() {
         return naturalLanguageForRuleView;
     }
+
     public void setNaturalLanguageForRuleView(String naturalLanguageForRuleView) {
         this.naturalLanguageForRuleView = naturalLanguageForRuleView;
     }
+
     public StatementVO getStatementVO() {
         return statementVO;
-    }    
+    }
+
     public void setStatementVO(StatementVO statementVO) {
         this.statementVO = statementVO;
-    }        
+    }
+
     public String getStatementTypeKey() {
         String statementType = (statementVO == null || statementVO.getStatementInfo() == null)? null :
             statementVO.getStatementInfo().getType();
@@ -111,6 +125,7 @@ public class RuleInfo implements Idable, Serializable {
     public EditHistory getEditHistory() {
         return editHistory;
     }
+
     public void setEditHistory(EditHistory editHistory) {
         this.editHistory = editHistory;
     }
@@ -421,20 +436,24 @@ public class RuleInfo implements Idable, Serializable {
     public String getExpression() {
         return expression;
     }
+
     public void setExpression(String expression) {
         this.expression = expression;
     }
+
     public String getPreviewedExpression() {
         return previewedExpression;
     }
+
     public void setPreviewedExpression(String previewedExpression) {
         this.previewedExpression = previewedExpression;
     }
+
     public boolean isSimplifying() {
         return simplifying;
     }
+
     public void setSimplifying(boolean simplifying) {
         this.simplifying = simplifying;
-    }
-    
+    }    
 }

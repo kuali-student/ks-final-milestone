@@ -14,16 +14,16 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 
-public class ReqSummaryDisplayWidget extends FlowPanel {
+public class SubrulePreviewWidget extends FlowPanel {
 
     KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
     SpanPanel separator = new SpanPanel(" | ");
     KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
 
-    public ReqSummaryDisplayWidget(StatementTreeViewInfo stmtTreeInfo, Boolean isReadOnly) {
+    public SubrulePreviewWidget(StatementTreeViewInfo stmtTreeInfo, boolean isReadOnly) {
         super();
 
-        addStyleName("KS-Program-Rule-Summary-Subrule-Box");
+        addStyleName("KS-Program-Rule-Preview-Subrule-Box");
         buildRequirementHeader(stmtTreeInfo, isReadOnly);
         buildRequirement(stmtTreeInfo);
     }
@@ -35,9 +35,9 @@ public class ReqSummaryDisplayWidget extends FlowPanel {
             header.setHTML("Must meet <b>all of the following:</b>");
         } else {
             header.setHTML("Must meet <b>1 of the following:</b>");
-        }
-        header.removeStyleName("ks-form-module");
-        header.setStyleName("KS-Program-Requirements-header");
+        }      
+        header.setStyleName("KS-Program-Rule-Preview-Subrule-header");
+        header.getElement().setAttribute("style", "font-weight: normal");
 
         //do not show edit,delete etc. if user is only viewing the rule in non-edit mode
         if (!isReadOnly) {
@@ -50,7 +50,7 @@ public class ReqSummaryDisplayWidget extends FlowPanel {
         actions.add(editButton);
         actions.add(separator);
         actions.add(deleteButton);
-        actions.addStyleName("KS-Program-Requirements-header-action");
+        actions.addStyleName("KS-Program-Rule-Preview-Subrule-header-action");
         header.add(actions);
         this.add(header);
     }
@@ -66,15 +66,15 @@ public class ReqSummaryDisplayWidget extends FlowPanel {
             for (StatementTreeViewInfo subTree : stmtTreeInfo.getStatements()) {
                 return buildOneRequirement(subTree);
             }
-        } else {
+        } else if (stmtTreeInfo.getReqComponents() != null) {
             List<ReqComponentInfo> reqComponents = stmtTreeInfo.getReqComponents();
             boolean firstComp = true;
             StringBuffer htmlText = new StringBuffer();
-            htmlText.append("<ul class=\"KS-Program-Requirements-ul\">");
+            htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
             for (ReqComponentInfo reqComp : reqComponents) {
                 htmlText.append("<li style=\"padding-top: 5px;\">");
                 if (!firstComp) {
-                    htmlText.append("<span class=\"KS-Program-Requirements-ORAND\">");
+                    htmlText.append("<span class=\"KS-Program-Rule-Preview-Subrule-ORAND\">");
                     htmlText.append((stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ? "AND " : "OR "));
                     htmlText.append("</span>");        
                 }

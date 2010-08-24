@@ -13,17 +13,18 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.program.client.requirements;
-
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
+package org.kuali.student.common.ui.client.widgets.rules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
 public class ObjectClonerUtil {
 
@@ -55,22 +56,20 @@ public class ObjectClonerUtil {
         return cloned;
     }
     
-    private static StatementInfo clone(StatementInfo inLuStatementInfo) {
+    public static StatementInfo clone(StatementInfo inStatementInfo) {
         StatementInfo clonedLuStatementInfo = null;
-        if (inLuStatementInfo != null) {
+        if (inStatementInfo != null) {
             clonedLuStatementInfo = new StatementInfo();
-            clonedLuStatementInfo.setName(inLuStatementInfo.getName());
-            clonedLuStatementInfo.setDesc(inLuStatementInfo.getDesc());
-            clonedLuStatementInfo.setOperator(inLuStatementInfo.getOperator());
-            clonedLuStatementInfo.setStatementIds(
-                    new ArrayList<String>(inLuStatementInfo.getStatementIds()));
-            clonedLuStatementInfo.setReqComponentIds(
-                    new ArrayList<String>(inLuStatementInfo.getReqComponentIds()));
-            clonedLuStatementInfo.setAttributes(clone(inLuStatementInfo.getAttributes()));
-            clonedLuStatementInfo.setMetaInfo(clone(inLuStatementInfo.getMetaInfo()));
-            clonedLuStatementInfo.setType(inLuStatementInfo.getType());
-            clonedLuStatementInfo.setState(inLuStatementInfo.getState());
-            clonedLuStatementInfo.setId(inLuStatementInfo.getId());
+            clonedLuStatementInfo.setName(inStatementInfo.getName());
+            clonedLuStatementInfo.setDesc(inStatementInfo.getDesc());
+            clonedLuStatementInfo.setOperator(inStatementInfo.getOperator());
+            clonedLuStatementInfo.setStatementIds(new ArrayList<String>(inStatementInfo.getStatementIds()));
+            clonedLuStatementInfo.setReqComponentIds(new ArrayList<String>(inStatementInfo.getReqComponentIds()));
+            clonedLuStatementInfo.setAttributes(clone(inStatementInfo.getAttributes()));
+            clonedLuStatementInfo.setMetaInfo(clone(inStatementInfo.getMetaInfo()));
+            clonedLuStatementInfo.setType(inStatementInfo.getType());
+            clonedLuStatementInfo.setState(inStatementInfo.getState());
+            clonedLuStatementInfo.setId(inStatementInfo.getId());
         }
         return clonedLuStatementInfo;
     }
@@ -131,6 +130,7 @@ public class ObjectClonerUtil {
             clonedReqComponentInfo.setType(inReqComponentInfo.getType());
             clonedReqComponentInfo.setState(inReqComponentInfo.getState());
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
+            clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
         }
         return clonedReqComponentInfo;
     }
@@ -155,5 +155,39 @@ public class ObjectClonerUtil {
         }
         return clonedField;
     }
-    
+
+    public static StatementTreeViewInfo clone(StatementTreeViewInfo inStatementTreeViewInfo) {
+        StatementTreeViewInfo clonedStatementTreeViewInfoInfo = null;
+        if (inStatementTreeViewInfo != null) {
+            clonedStatementTreeViewInfoInfo = new StatementTreeViewInfo();
+            clonedStatementTreeViewInfoInfo.setName(inStatementTreeViewInfo.getName());
+            clonedStatementTreeViewInfoInfo.setDesc(inStatementTreeViewInfo.getDesc());
+            clonedStatementTreeViewInfoInfo.setOperator(inStatementTreeViewInfo.getOperator());
+            clonedStatementTreeViewInfoInfo.setAttributes(clone(inStatementTreeViewInfo.getAttributes()));
+            clonedStatementTreeViewInfoInfo.setMetaInfo(clone(inStatementTreeViewInfo.getMetaInfo()));
+            clonedStatementTreeViewInfoInfo.setType(inStatementTreeViewInfo.getType());
+            clonedStatementTreeViewInfoInfo.setState(inStatementTreeViewInfo.getState());
+            clonedStatementTreeViewInfoInfo.setId(inStatementTreeViewInfo.getId());
+
+            List<StatementTreeViewInfo> inStatements = inStatementTreeViewInfo.getStatements();
+            List<ReqComponentInfo> inReqComponentInfos = inStatementTreeViewInfo.getReqComponents();
+
+            if ((inStatements != null) && (inStatements.size() > 0)) {
+                // retrieve all statements
+                List<StatementTreeViewInfo> clonedStatementList = new ArrayList<StatementTreeViewInfo>();
+                for (StatementTreeViewInfo inStatement : inStatements) {
+                    clonedStatementList.add(clone(inStatement)); // inside set the children of this statementTreeViewInfo
+                }
+                clonedStatementTreeViewInfoInfo.setStatements(clonedStatementList);
+            } else {
+                // retrieve all req. component LEAFS
+                List<ReqComponentInfo> clonedReqComponentList = new ArrayList<ReqComponentInfo>();
+                for (ReqComponentInfo inReqComponent : inReqComponentInfos) {
+                    clonedReqComponentList.add(ObjectClonerUtil.clone(inReqComponent));
+                }
+                clonedStatementTreeViewInfoInfo.setReqComponents(clonedReqComponentList);
+            }
+        }
+        return clonedStatementTreeViewInfoInfo;
+    }
 }

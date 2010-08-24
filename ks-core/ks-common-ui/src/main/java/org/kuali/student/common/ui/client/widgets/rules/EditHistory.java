@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.program.client.requirements;
+package org.kuali.student.common.ui.client.widgets.rules;
 
 import java.io.Serializable;
 import java.util.ArrayList;

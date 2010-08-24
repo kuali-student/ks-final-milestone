@@ -13,14 +13,12 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.program.client.requirements;
-
-import org.kuali.student.common.ui.client.widgets.rules.Token;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
+package org.kuali.student.common.ui.client.widgets.rules;
 
 import java.io.Serializable;
+
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 
 public class ReqComponentVO extends Token implements Serializable, Idable {
 
@@ -32,7 +30,7 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
     private String clusetId = null;
     // for GUI use only the As, Bs and Cs, has no meaning in the LUM service
     private String guiReferenceLabelId;
-    
+
     public ReqComponentVO() {}
     
     public ReqComponentVO(ReqComponentInfo reqComponentInfo) {
@@ -82,18 +80,6 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
     }
 
     @Override
-    public String toString() {                
-
-        String reqCompDescription = typeDesc;
-                
-        for (ReqCompFieldInfo fieldInfo : reqComponentInfo.getReqCompFields()) {
-            reqCompDescription = reqCompDescription.replaceAll("<" + fieldInfo.getId() + ">", fieldInfo.getValue());
-        }        
-
-        return (reqCompDescription == null ? "" : reqCompDescription);
-    }
-
-    @Override
     public String getId() {        
         return id;
     }
@@ -108,4 +94,16 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
         return this == obj;
     }
 
+    @Override
+    public String toString() {
+        /*
+        String reqCompDescription = typeDesc;
+
+        for (ReqCompFieldInfo fieldInfo : reqComponentInfo.getReqCompFields()) {
+            reqCompDescription = reqCompDescription.replaceAll("<" + fieldInfo.getId() + ">", fieldInfo.getValue());
+        }
+
+        return (reqCompDescription == null ? "" : reqCompDescription); */
+        return reqComponentInfo.getNaturalLanguageTranslation();
+    }
 }

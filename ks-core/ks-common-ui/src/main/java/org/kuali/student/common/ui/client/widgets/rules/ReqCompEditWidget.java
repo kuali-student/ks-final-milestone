@@ -23,8 +23,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ReqCompEditWidget extends FlowPanel {
 
+    FlowPanel ruleTypePanel = new FlowPanel();
     KSDropDown reqCompTypesList = new KSDropDown();
     KSButton confirmButton = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
+    final String NO_SELECTION_TEXT = "Select rule...";
 
     //widget's data
     private List<ReqComponentTypeInfo> reqCompTypeInfoList;     	//list of all Requirement Component Types based on selected Statement Type
@@ -36,7 +38,6 @@ public class ReqCompEditWidget extends FlowPanel {
 
     public ReqCompEditWidget() {
         super();
-        this.setStyleName("KS-Program-Rule-ReqComp-box");
         setupReqCompTypesList();
         setupHandlers();
         setupNewReqComp();
@@ -148,7 +149,7 @@ public class ReqCompEditWidget extends FlowPanel {
     private void draw() {
 
         //1. show a list of available requirement component types
-        displayReqCompList();
+        displayReqCompListPanel();
 
         //2. display selected req. comp. details
         displayReqComponentDetails();
@@ -174,14 +175,17 @@ public class ReqCompEditWidget extends FlowPanel {
         }
     }
 
-    private void displayReqCompList() {
+    //TODO use app context for text
+    private void displayReqCompListPanel() {
+
+        ruleTypePanel.setStyleName("KS-Program-Rule-ReqCompList-box");
 
         SectionTitle subHeader = SectionTitle.generateH5Title("Select rule type");
         subHeader.setStyleName("KS-Program-Rule-ReqComp-header");
-        add(subHeader);
+        ruleTypePanel.add(subHeader);
 
         KSLabel instructions = new KSLabel("Use the list below to select the type of rule you would like to add to this requirement");
-        add(instructions);
+        ruleTypePanel.add(instructions);
 
         if (selectedReqType != null) {
         	int i = 0;
@@ -193,6 +197,9 @@ public class ReqCompEditWidget extends FlowPanel {
                 i++;
             }
         }
+        reqCompTypesList.addStyleName("KS-Program-Rule-ReqCompList");
+        ruleTypePanel.add(reqCompTypesList);
+        add(ruleTypePanel);
     }
 
     private void displayReqComponentDetails() {
@@ -208,11 +215,7 @@ public class ReqCompEditWidget extends FlowPanel {
         }
 
         //store all requirement components locally
-        reqCompTypeInfoList = reqComponentTypeInfoList; /*new ArrayList<ReqComponentTypeInfo>();
-        for (ReqComponentTypeInfo reqCompInfo : reqComponentTypeInfoList) {
-            reqCompTypeList.add(reqCompInfo);
-        } */
-
+        reqCompTypeInfoList = reqComponentTypeInfoList;
 
         reqCompTypesList.setListItems(listItemReqCompTypes);
         if (reqCompTypesList.getSelectedItem() != null) {
@@ -278,5 +281,10 @@ public class ReqCompEditWidget extends FlowPanel {
 	            return getItemAttribute(id, "?");
 	        }
 	    };
+    }
+
+    //manage rule section needs to update rule views
+    public void addConfirmBtnClickHandler(ClickHandler handler) {
+        confirmButton.addClickHandler(handler);
     }
 }

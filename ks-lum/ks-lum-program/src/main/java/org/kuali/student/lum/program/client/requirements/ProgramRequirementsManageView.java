@@ -20,11 +20,12 @@ import java.util.List;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
+import org.kuali.student.common.ui.client.widgets.rules.ObjectClonerUtil;
 import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
-import org.kuali.student.common.ui.client.widgets.rules.RuleManagementWidget;
+import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -43,37 +44,23 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     private StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
 
-    Controller parentController;
+    ProgramRequirementsViewController parentController;
 
     //view's widgets
-    String pageTitle;
     VerticalPanel layout = new VerticalPanel();
     ReqCompEditWidget editReqCompWidget = new ReqCompEditWidget();
-    RuleManagementWidget ruleManagementWidget = new RuleManagementWidget();
+    RuleManageWidget ruleManageWidget = new RuleManageWidget();
     private SimplePanel twiddlerPanel = new SimplePanel();
-    private KSProgressIndicator twiddler = new KSProgressIndicator();
-
-    private KSButton btnBackToRulesSummary = new KSButton("Back to Rules Summary");    
+    private KSProgressIndicator twiddler = new KSProgressIndicator();   
 
     //view's data
-    private RuleInfo rule = null;
+    private StatementTreeViewInfo rule = null;
     private boolean isInitialized = false;
+    private boolean newRule = false;
 
-    public ProgramRequirementsManageView(Controller parentController, Enum<?> viewEnum, String name, String modelId, String ruleName) {
+    public ProgramRequirementsManageView(ProgramRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId) {
         super(viewEnum, name, modelId);
-
         this.parentController = parentController;
-        pageTitle = ProgramProperties.get().programRequirements_manageViewPageTitle().replace("<*>", ruleName);
-
-        //TODO remove after testing
-        rule = new RuleInfo();
-        rule.setCluId("123");
-        rule.setId(Integer.toString(123)); //id++));
-        rule.setEditHistory(new EditHistory());
-        rule.setSelectedStatementType(null);
-
-        StatementVO statementVO = new StatementVO();
-        rule.setStatementVO(statementVO);
     }
     
     @Override
@@ -92,22 +79,41 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     private void setupHandlers() {                        
 
+        editReqCompWidget.addConfirmBtnClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+
+                statementRpcServiceAsync.translateStatementTreeViewToNL(rule, "KUALI.RULEEDIT", "en", new AsyncCallback<String>() {
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                        GWT.log("translateStatementTreeViewToNL failed", caught);
+                   }
+
+                    public void onSuccess(final String statementNaturalLanguage) {
+                        rule.setNaturalLanguageTranslation(statementNaturalLanguage);
+                        ruleManageWidget.updateRuleViews(rule);
+                    }
+                });
+
+            }
+        });
+
         //TODO setup 'edit' req. component
         // edit link -> call editReqCompWidget.setupReqComp(existin req. comp.) -> return if req. comp. type list not yet loaded        
-
+       /*
         btnBackToRulesSummary.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
 
 //TODO               ((SectionView)parentController.getCurrentView()).setIsDirty(true);
 
-                parentController.showView(RequirementsViewController.ProgramRequirementsViews.VIEW);
+                parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW);
 
-                /*
+
             	getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
                     @Override
                     public void onModelReady(DataModel dataModel) {                 	                        
                     	if (rule.getStatementVO() == null) {
-//TODO                    	    ((CourseReqManager)getController()).removeRule(managedRule); 
+//TODO                    	    ((CourseReqManager)getController()).removeRule(managedRule);
                     	} else {
                             rule.setNaturalLanguageForRuleEdit(naturalLanguage);                     	    
                     	}
@@ -122,9 +128,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     	Window.alert("Failed to get LuData DataModel");                        
                     }
                 });
-                */
+                
             }
-        });        
+        }); */        
     }
       
     private void redraw() {
@@ -132,12 +138,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         remove(layout);
         layout.clear();
 
-        SectionTitle title = SectionTitle.generateH2Title(pageTitle);
-        title.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
-        layout.add(title);
-
         //STEP 1
-        title = SectionTitle.generateH3Title(ProgramProperties.get().programRequirements_manageViewPageStep1Title());
+        SectionTitle title = SectionTitle.generateH3Title(ProgramProperties.get().programRequirements_manageViewPageStep1Title());
         title.setStyleName("KS-Program-Requirements-Manage-Step-header1");  //make the header orange
         layout.add(title);
 
@@ -148,25 +150,26 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         title.setStyleName("KS-Program-Requirements-Manage-Step-header2");  //make the header orange
         layout.add(title);
 
-        layout.add(ruleManagementWidget);
+        ruleManageWidget.updateRuleViews(rule);
+        layout.add(ruleManageWidget);
 
         //add progressive indicator when rules are being simplified
         twiddler = new KSProgressIndicator();
         twiddler.setVisible(false);
         twiddlerPanel.setWidget(twiddler);
         layout.add(twiddlerPanel);
-        
-        layout.add(btnBackToRulesSummary);
 
         addWidget(layout);
+
+        displaySaveButton();
     }
 
     private void retrieveReqCompTypes() {
 
-        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getStatementTypeKey(), new AsyncCallback<List<ReqComponentTypeInfo>>() {
+        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new AsyncCallback<List<ReqComponentTypeInfo>>() {
             public void onFailure(Throwable cause) {
-            	GWT.log("Failed to get req. component types for statement of type:" + rule.getStatementTypeKey(), cause);
-            	Window.alert("Failed to get req. component types for statement of type:" + rule.getStatementTypeKey());
+            	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
+            	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
             }
 
             public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
@@ -180,8 +183,32 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         });
     }
 
+    private void displaySaveButton() {
+        ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
+        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
+             @Override
+            public void exec(ButtonEnumerations.ButtonEnum result) {
+                if (result == ButtonEnumerations.SaveContinueCancelEnum.CANCEL) {
+                    parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW);
+                } else {
+                    //TODO 
+                    parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW);
+                }
+            }
+        });
+        addWidget(actionCancelButtons);
+    }
+
     // called by requirement display widget when user wants to edit a specific piece of rule
-    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo) {
-        rule.getStatementVO().setStatementTreeViewInfo(stmtTreeInfo);
+    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, String ruleType) {
+        //true if user is adding a new rule
+        if (stmtTreeInfo == null) {
+            rule = new StatementTreeViewInfo();
+            rule.setType(ruleType);
+            newRule = true;
+        } else {
+            rule = ObjectClonerUtil.clone(stmtTreeInfo);
+            newRule = false;
+        }
     }
 }
