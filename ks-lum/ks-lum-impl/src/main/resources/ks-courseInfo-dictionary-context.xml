@@ -910,7 +910,7 @@
   </property>
   <property name="hasMetaData" value="true" />
  </bean>
-<bean id="clusetRange.id-parent" abstract="true" parent="baseKualiId">
+ <bean id="clusetRange.id-parent" abstract="true" parent="baseKualiId">
   <property name="name" value="id" />
  </bean>
  <bean id="clusetRange.id" parent="clusetRange.id-parent" />
@@ -935,11 +935,11 @@
   <property name="hasMetaData" value="true" />
  </bean>
  <bean id="queryParams" parent="queryParams-parent" />
-  <bean id="queryParams.value-parent" abstract="true" parent="baseString">
+ <bean id="queryParams.value-parent" abstract="true" parent="baseString">
   <property name="name" value="value" />
  </bean>
  <bean id="queryParams.value" parent="queryParams.value-parent" />
-  <bean id="queryParams.key-parent" abstract="true" parent="baseString">
+ <bean id="queryParams.key-parent" abstract="true" parent="baseString">
   <property name="name" value="key" />
  </bean>
  <bean id="queryParams.key" parent="queryParams.key-parent" />
