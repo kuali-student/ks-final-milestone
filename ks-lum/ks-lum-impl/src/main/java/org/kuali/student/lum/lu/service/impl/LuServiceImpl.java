@@ -1008,6 +1008,7 @@ public class LuServiceImpl implements LuService {
 			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
 					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
 					instructor, luDao));
+			instructor.setClu(clu);
 			adminOrgs.add(instructor);
 		}
 
@@ -1456,6 +1457,7 @@ public class LuServiceImpl implements LuService {
 			cluOrg.setAttributes(LuServiceAssembler.toGenericAttributes(
 					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
 					cluOrg, luDao));
+			cluOrg.setClu(clu);
 			clu.getAdminOrgs().add(cluOrg);
 		}
 
