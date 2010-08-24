@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.edit;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -21,5 +22,10 @@ public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<
 
     public void setViewController(ProgramController viewController) {
         this.viewController = viewController;
+    }
+
+    @Override
+    public Widget asWidget() {
+        return viewController;
     }
 }

@@ -2,10 +2,11 @@ package org.kuali.student.lum.program.client.view;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
+import org.kuali.student.lum.program.client.edit.ProgramRequirementsEditConfiguration;
 import org.kuali.student.lum.program.client.framework.Configuration;
 import org.kuali.student.lum.program.client.framework.ConfigurationManager;
+import org.kuali.student.lum.program.client.framework.ConfigurationRegistry;
 import org.kuali.student.lum.program.client.framework.EditableConfiguration;
-import org.kuali.student.lum.program.client.edit.ProgramRequirementsEditConfiguration;
 
 /**
  * This class represents configuration for  {@link org.kuali.student.lum.program.client.view.ProgramViewController}.
@@ -23,5 +24,6 @@ public class ProgramViewConfigurer extends AbstractProgramConfigurer<ProgramView
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(ProgramRequirementsEditConfiguration.class));  //TODO change to View
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(LearningObjectivesViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(ViewAllSectionConfiguration.class));
+        ConfigurationRegistry.register(this.getClass().getName(), programSectionConfigManager);
     }
 }
