@@ -8,9 +8,9 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 
 /**
- * A utility class for setting up logging for maven plugins so that any logging calls issued via Jakarta's Commons
- * Logging or Log4j get routed through the maven logging system. This allows mojo's to invoke logic from other libraries
- * and get the logging statements issued by those libraries issued to maven's console output
+ * A utility class that setups logging for maven plugins so that any logging calls issued via Jakarta's Commons Logging
+ * or Log4j get routed through the maven logging system. This allows mojo's to invoke logic from other libraries and get
+ * the logging statements issued by those libraries issued to maven's console output
  */
 public class MavenLogger extends AppenderSkeleton implements Log {
 
