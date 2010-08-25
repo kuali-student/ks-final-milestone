@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <import resource="classpath:rule-execution-context.xml" />
+
+    <bean id="factFinderService" class="org.kuali.student.brms.factfinder.service.impl.FactFinderServiceImpl">
+        <property name="factFinder" ref="factFinder"/>
+    </bean>
+
+    <bean id="ruleRepositoryService" class="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl">
+        <property name="ruleRepository" ref="ruleRepository"/>
+    </bean>
+
+    <bean id="ruleExecutionService" class="org.kuali.student.brms.ruleexecution.service.impl.RuleExecutionServiceImpl">
+        <property name="ruleExecution" ref="ruleExecution2"/>
+    </bean>
+
+    <bean id="ruleManagementService" class="org.kuali.student.brms.rulemanagement.service.impl.RuleManagementServiceImpl">
+        <property name="ruleManagement" ref="ruleManagement2"/>
+    </bean>
+
+    <bean id="ruleExecution2" name="ruleExecution2"
+        class="org.kuali.student.brms.ruleexecution.runtime.RuleExecutionImpl">
+        <property name="enableRuleSetCaching" value="false"/>
+        <!-- Fact finder service -->
+        <property name="factFinder" ref="factFinderServiceClient"/>
+        <!-- Rule management service -->
+        <property name="ruleManagement" ref="ruleManagementServiceClient"/>
+        <!-- Rule repository service -->
+        <property name="ruleRespository" ref="ruleRepositoryServiceClient"/>
+        <property name="reportBuilder" ref="reportBuilder"/>
+        <property name="ruleSetExecutor" ref="droolsRuleExecutor"/>
+        <property name="ruleSetExecutorTest" ref="droolsRuleExecutorTest"/>
+    </bean>
+
+    <bean id="ruleManagement2"
+        class="org.kuali.student.brms.rulemanagement.runtime.RuleManagementImpl">
+        <property name="ruleManagementDao" ref="ruleManagementDao"/>
+        <property name="ruleRepository" ref="ruleRepositoryServiceClient"/>
+    </bean>
+
+    <!-- Service Proxy Clients -->
+
+    <bean id="factFinderServiceProxyFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.kuali.student.brms.factfinder.service.FactFinderService" />
+        <property name="address" value="http://localhost:9090/services/factFinderService" />
+    </bean>
+
+    <bean id="ruleRepositoryServiceProxyFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.kuali.student.brms.repository.service.RuleRepositoryService" />
+        <property name="address" value="http://localhost:9090/services/ruleRepositoryService" />
+    </bean>
+
+    <bean id="ruleManagementServiceProxyFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="org.kuali.student.brms.rulemanagement.service.RuleManagementService" />
+        <property name="address" value="http://localhost:9090/services/ruleManagementService" />
+    </bean>
+
+    <!-- Service Clients -->
+
+    <bean id="factFinderServiceClient" class="org.kuali.student.brms.factfinder.service.FactFinderService"
+        factory-bean="factFinderServiceProxyFactory" factory-method="create" />
+
+    <bean id="ruleRepositoryServiceClient" class="org.kuali.student.brms.repository.service.RuleRepositoryService"
+        factory-bean="ruleRepositoryServiceProxyFactory" factory-method="create" />
+
+    <bean id="ruleManagementServiceClient" class="org.kuali.student.brms.rulemanagement.service.RuleManagementService"
+        factory-bean="ruleManagementServiceProxyFactory" factory-method="create" />
+
+</beans>
