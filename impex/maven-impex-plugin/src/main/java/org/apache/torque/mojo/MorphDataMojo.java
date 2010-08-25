@@ -47,11 +47,14 @@ public class MorphDataMojo extends BaseMojo {
 	/**
 	 * The default set of files in that directory to exclude (ant style notation)
 	 * 
-	 * @parameter expression="${oldDataXMLExcludes}" default-value="*schema.xml"
+	 * @parameter expression="${oldDataXMLExcludes}" default-value="schema.xml"
 	 */
 	private String oldDataXMLExcludes;
 
-	protected String[] getFiles() throws IOException {
+	/**
+	 * Use our configuration to determine the list of files we need to convert
+	 */
+	protected String[] getOldFiles() throws IOException {
 		DirectoryScanner ds = new DirectoryScanner();
 		ds.setIncludes(new String[] { getOldDataXMLIncludes() });
 		if (getOldDataXMLExcludes() != null) {
@@ -65,16 +68,16 @@ public class MorphDataMojo extends BaseMojo {
 	protected void executeMojo() throws MojoExecutionException {
 		Utils utils = new Utils();
 		try {
-			String[] files = getFiles();
-			PrettyPrint pp = new PrettyPrint("[INFO] Converting " + files.length + " data XML files");
+			String[] oldFiles = getOldFiles();
+			PrettyPrint pp = new PrettyPrint("[INFO] Converting " + oldFiles.length + " data XML files");
 			utils.left(pp);
 			String inputPath = getOldDataXMLDir().getAbsolutePath();
 			forceMkdir(getNewDataOutputDir());
 			List<String> input = new ArrayList<String>();
 			List<String> output = new ArrayList<String>();
-			for (String file : files) {
-				input.add(inputPath + FS + file);
-				output.add(getNewDataOutputDir() + FS + file);
+			for (String oldFile : oldFiles) {
+				input.add(inputPath + FS + oldFile);
+				output.add(getNewDataOutputDir() + FS + oldFile);
 			}
 			for (int i = 0; i < input.size(); i++) {
 				String filename = input.get(i);
