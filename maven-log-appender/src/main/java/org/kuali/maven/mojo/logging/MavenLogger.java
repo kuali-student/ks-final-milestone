@@ -57,7 +57,7 @@ public class MavenLogger implements Log {
 
 	@Override
 	public void trace(Object message) {
-		trace(message, null);
+		mavenLog.debug(getString(message));
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class MavenLogger implements Log {
 
 	@Override
 	public void debug(Object message, Throwable t) {
-		// TODO Auto-generated method stub
+		mavenLog.debug(getString(message), t);
 	}
 
 	@Override
@@ -88,32 +88,32 @@ public class MavenLogger implements Log {
 
 	@Override
 	public void warn(Object message) {
-		// TODO Auto-generated method stub
+		mavenLog.warn(getString(message));
 	}
 
 	@Override
 	public void warn(Object message, Throwable t) {
-		// TODO Auto-generated method stub
+		mavenLog.warn(getString(message), t);
 	}
 
 	@Override
 	public void error(Object message) {
-		// TODO Auto-generated method stub
+		mavenLog.error(getString(message));
 	}
 
 	@Override
 	public void error(Object message, Throwable t) {
-		// TODO Auto-generated method stub
+		mavenLog.error(getString(message), t);
 	}
 
 	@Override
 	public void fatal(Object message) {
-		// TODO Auto-generated method stub
+		mavenLog.error(getString(message));
 	}
 
 	@Override
 	public void fatal(Object message, Throwable t) {
-		// TODO Auto-generated method stub
+		mavenLog.error(getString(message), t);
 	}
 
 	/**
