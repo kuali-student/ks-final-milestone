@@ -13,7 +13,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  * @goal morphschema
  * @phase generate-sources
  */
-public class MorphSchemaMojo extends MorpherMojo {
+public class MorphSchemaMojo extends BaseMojo {
 
 	// Ant impex has kfs hard coded
 	String defaultSchemaName = "kfs";
@@ -45,7 +45,7 @@ public class MorphSchemaMojo extends MorpherMojo {
 	 */
 	private File oldSchemaXMLFile;
 
-	protected void executeMorph() throws MojoExecutionException {
+	protected void executeMojo() throws MojoExecutionException {
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Converting schema XML file");
 		getLog().info("------------------------------------------------------------------------");

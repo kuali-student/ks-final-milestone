@@ -18,7 +18,7 @@ import org.kuali.core.db.torque.Utils;
  * @goal morphdata
  * @phase generate-sources
  */
-public class MorphDataMojo extends MorpherMojo {
+public class MorphDataMojo extends BaseMojo {
 
 	/**
 	 * The directory in which the morphed XML will be generated.
@@ -62,7 +62,7 @@ public class MorphDataMojo extends MorpherMojo {
 		return ds.getIncludedFiles();
 	}
 
-	protected void executeMorph() throws MojoExecutionException {
+	protected void executeMojo() throws MojoExecutionException {
 		Utils utils = new Utils();
 		try {
 			String[] files = getFiles();
