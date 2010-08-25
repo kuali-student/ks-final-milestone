@@ -323,16 +323,25 @@ public class TestProgramServiceImpl {
         try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
-
+            
             List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(pvInfos);
             assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
+            
+            ProgramVariationInfo pvInfo = pvInfos.get(0);
+            assertEquals("BS", pvInfo.getCode());
+            assertEquals("Bachelor of Science", pvInfo.getDescr().getPlain());
+            assertEquals("Bachelor of Science", pvInfo.getLongTitle());
+            assertEquals("B.S.", pvInfo.getShortTitle());
+            assertEquals("d02dbbd3-20e2-410d-ab52-1bd6d362748b", pvInfo.getId());
+            assertEquals("active", pvInfo.getState());
 
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
     }
+
     
     @Test
     public void testGetBaccCredentialProgram(){
@@ -754,7 +763,6 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testCreateCoreProgram() {
     	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
     	CoreProgramInfo coreProgramInfo = null;
