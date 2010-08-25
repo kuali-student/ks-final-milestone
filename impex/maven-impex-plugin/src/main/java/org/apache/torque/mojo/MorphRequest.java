@@ -3,6 +3,17 @@ package org.apache.torque.mojo;
 import java.io.File;
 
 public class MorphRequest {
+
+	public MorphRequest() {
+		this(null, null);
+	}
+
+	public MorphRequest(File oldFile, File newFile) {
+		super();
+		this.oldFile = oldFile;
+		this.newFile = newFile;
+	}
+
 	File oldFile;
 	File newFile;
 
