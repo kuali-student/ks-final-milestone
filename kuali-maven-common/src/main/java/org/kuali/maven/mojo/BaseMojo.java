@@ -13,7 +13,7 @@ import org.kuali.maven.mojo.MavenLogger;
  * maven related properties that are common to most mojos. Also sets up logging so that if libraries called by a mojo
  * issue log statements to Jakarta Commons Logging or Log4j, those log messages are show in maven's output
  */
-public abstract class AbstractKualiMojo extends AbstractMojo {
+public abstract class BaseMojo extends AbstractMojo {
 	public static final String FS = System.getProperty("file.separator");
 	public static final String SKIP_PACKAGING_TYPE = "pom";
 
