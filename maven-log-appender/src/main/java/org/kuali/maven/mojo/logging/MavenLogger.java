@@ -5,6 +5,15 @@ import org.apache.maven.plugin.logging.SystemStreamLog;
 
 public class MavenLogger implements Log {
 
+	public MavenLogger() {
+		this(null);
+	}
+
+	public MavenLogger(String name) {
+		super();
+		System.out.println(name);
+	}
+
 	private static org.apache.maven.plugin.logging.Log mavenLog = new SystemStreamLog();
 
 	@Override

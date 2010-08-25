@@ -7,15 +7,9 @@ import org.junit.Test;
 public class MavenLoggerTest {
 
 	@Test
-	public void test001() {
-		try {
-			Class<?> instance = Class.forName(MyLogger.class.getName());
-			System.out.println(instance);
-			Log log = LogFactory.getLog(this.getClass());
-			log.info("Hello world");
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+	public void helloWorld() {
+		Log log = LogFactory.getLog(this.getClass());
+		log.info("Hello world");
 	}
 
 }
