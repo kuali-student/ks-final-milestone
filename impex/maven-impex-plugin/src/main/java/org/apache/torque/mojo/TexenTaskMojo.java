@@ -219,12 +219,9 @@ public abstract class TexenTaskMojo extends AntTaskMojo {
 	 * 
 	 * @see org.apache.maven.plugin.Mojo#execute()
 	 */
-	public void execute() throws MojoExecutionException {
-		if (skipMojo()) {
-			return;
-		}
+	public void executeMojo() throws MojoExecutionException {
 		generateContextProperties();
-		super.execute();
+		super.executeMojo();
 	}
 
 	/**

@@ -114,13 +114,6 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	}
 
 	/**
-	 * Analyze schema change properties to determine if the mojo should execute
-	 */
-	public void execute() throws MojoExecutionException {
-		super.execute();
-	}
-
-	/**
 	 * Configures the Texen task wrapped by this mojo
 	 */
 	protected void configureTask() throws MojoExecutionException {

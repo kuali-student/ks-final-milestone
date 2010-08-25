@@ -99,10 +99,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	}
 
 	@Override
-	public void execute() throws MojoExecutionException {
-		if (skipMojo()) {
-			return;
-		}
+	public void executeMojo() throws MojoExecutionException {
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
 		if (!isChanged() && isRunOnlyOnChange()) {
@@ -114,7 +111,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Generating SQL for " + getTargetDatabase() + " from data XML files");
 		getLog().info("------------------------------------------------------------------------");
-		super.execute();
+		super.executeMojo();
 	}
 
 	/**

@@ -65,10 +65,7 @@ public class SchemaSqlMojo extends SqlMojoBase {
 	/**
 	 * Generate SQL from schema XML files
 	 */
-	public void execute() throws MojoExecutionException {
-		if (skipMojo()) {
-			return;
-		}
+	public void executeMojo() throws MojoExecutionException {
 		validateConfiguration();
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
@@ -79,6 +76,6 @@ public class SchemaSqlMojo extends SqlMojoBase {
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Generating SQL for " + getTargetDatabase() + " from schema XML files");
 		getLog().info("------------------------------------------------------------------------");
-		super.execute();
+		super.executeMojo();
 	}
 }

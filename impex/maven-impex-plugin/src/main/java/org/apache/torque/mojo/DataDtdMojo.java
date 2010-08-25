@@ -139,10 +139,10 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	}
 
 	@Override
-	public void execute() throws MojoExecutionException {
+	public void executeMojo() throws MojoExecutionException {
 		getLog().info("-----------------------------------------------------------------");
 		getLog().info("Generating database DTD");
 		getLog().info("-----------------------------------------------------------------");
-		super.execute();
+		super.executeMojo();
 	}
 }

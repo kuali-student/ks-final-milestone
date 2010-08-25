@@ -1,8 +1,6 @@
 package org.apache.torque.mojo;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
@@ -11,33 +9,7 @@ import org.apache.tools.ant.Task;
 /**
  * A base class for mojos that wrap an Ant Task
  */
-public class AntTaskMojo extends AbstractMojo {
-
-	/**
-	 * When <code>true</code>, skip the execution.
-	 * 
-	 * @since 1.0
-	 * @parameter default-value="false"
-	 */
-	private boolean skip;
-
-	/**
-	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
-	 * usually.
-	 * 
-	 * @parameter expression="${forceAntTaskExecution}" default-value=false
-	 * @required
-	 */
-	private boolean forceMojoExecution;
-
-	/**
-	 * The Maven project this plugin runs in.
-	 * 
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 */
-	private MavenProject project;
+public class AntTaskMojo extends BaseMojo {
 
 	/**
 	 * Creates a new instance of AntTaskMojo.
@@ -56,33 +28,6 @@ public class AntTaskMojo extends AbstractMojo {
 	 * The ant project for the ant task.
 	 */
 	private Project antProject;
-
-	/**
-	 * <p>
-	 * Determine if the mojo execution should get skipped.
-	 * </p>
-	 * This is the case if:
-	 * <ul>
-	 * <li>{@link #skip} is <code>true</code></li>
-	 * <li>if the mojo gets executed on a project with packaging type 'pom' and {@link #forceMojoExecution} is
-	 * <code>false</code></li>
-	 * </ul>
-	 * 
-	 * @return <code>true</code> if the mojo execution should be skipped.
-	 */
-	protected boolean skipMojo() {
-		if (skip) {
-			getLog().info("Skip morpher execution");
-			return true;
-		}
-
-		if (!forceMojoExecution && project != null && "pom".equals(project.getPackaging())) {
-			getLog().info("Skipping execution for project with packaging type 'pom'");
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * Provide a hook for any Ant initialization that needs to be done
@@ -107,10 +52,7 @@ public class AntTaskMojo extends AbstractMojo {
 	/**
 	 * Configure the Ant task and then execute it
 	 */
-	public void execute() throws MojoExecutionException {
-		if (skipMojo()) {
-			return;
-		}
+	public void executeMojo() throws MojoExecutionException {
 		configureTask();
 		getAntTask().execute();
 	}
@@ -186,13 +128,5 @@ public class AntTaskMojo extends AbstractMojo {
 
 	public void setAntTask(Task antTask) {
 		this.antTask = antTask;
-	}
-
-	public MavenProject getProject() {
-		return project;
-	}
-
-	public void setProject(MavenProject project) {
-		this.project = project;
 	}
 }
