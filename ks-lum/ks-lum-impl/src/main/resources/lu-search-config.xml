@@ -137,6 +137,7 @@
 			<ref bean="lu.resultColumn.luOptionalLevel"/>
 			<ref bean="lu.resultColumn.luOptionalDescr"/>
 			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.luOptionalPrimaryAdminOrg"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -180,6 +181,12 @@
 	<search:resultColumn id="lu.resultColumn.luOptionalType-parent"  abstract="true">
 		<search:name>Lu Type</search:name>
 		<search:desc>Lu type</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	<search:resultColumn id="lu.resultColumn.luOptionalPrimaryAdminOrg" parent="lu.resultColumn.luOptionalType-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalPrimaryAdminOrg-parent"  abstract="true">
+		<search:name>Department</search:name>
+		<search:desc>Department</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
@@ -631,10 +638,13 @@
  -->
                     <value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
-                    cludesc.plain, clu.state
+                    cludesc.plain, clu.state, primaryOrg.orgId
+                    
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
-                    LEFT JOIN clu.descr cludesc</value>
+                    LEFT JOIN clu.descr cludesc
+                    LEFT JOIN clu.adminOrgs primaryOrg
+                    Where primaryOrg.isPrimary = TRUE OR primaryOrg.isPrimary IS NULL</value>
 		        </entry>
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
