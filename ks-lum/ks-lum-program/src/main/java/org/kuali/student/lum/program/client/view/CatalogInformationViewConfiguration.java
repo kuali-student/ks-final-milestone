@@ -7,7 +7,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
-import org.kuali.student.lum.program.client.framework.ConfigurationRegistry;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -30,7 +29,5 @@ public class CatalogInformationViewConfiguration extends AbstractSectionConfigur
         configurer.addReadOnlyField(section, ProgramConstants.DURATION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_stdDuration()));
         configurer.addReadOnlyField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_referenceUrl()));
         rootSection.addSection(section);
-        ConfigurationRegistry.setRootSection(rootSection);
-
     }
 }
