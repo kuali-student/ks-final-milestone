@@ -1,11 +1,13 @@
 package org.kuali.maven.mojo.logging;
 
 import org.apache.commons.logging.Log;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 
 public class MavenLogger implements Log {
 
-	private static org.apache.maven.plugin.logging.Log mavenLog = new SystemStreamLog();
+	private static org.apache.maven.plugin.logging.Log systemStreamLog = new SystemStreamLog();
+	private static org.apache.maven.plugin.logging.Log mavenLog = systemStreamLog;
 
 	public MavenLogger() {
 		this(null);
@@ -13,6 +15,14 @@ public class MavenLogger implements Log {
 
 	public MavenLogger(String name) {
 		super();
+	}
+
+	public static void startPluginLog(AbstractMojo mojo) {
+		mavenLog = mojo.getLog();
+	}
+
+	public static void endPluginLog(AbstractMojo mojo) {
+		mavenLog = systemStreamLog;
 	}
 
 	@Override
