@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE log4j:configuration PUBLIC "-//log4j//DTD//EN" "http://logging.apache.org/log4j/docs/api/org/apache/log4j/xml/log4j.dtd">
 <log4j:configuration>
-  <appender name="MavenLogAppender" class="org.kuali.maven.mojo.properties.MavenLogAppender">
+  <appender name="MavenLogAppender" class="org.kuali.maven.mojo.MavenLogAppender">
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%m"/>
     </layout>
