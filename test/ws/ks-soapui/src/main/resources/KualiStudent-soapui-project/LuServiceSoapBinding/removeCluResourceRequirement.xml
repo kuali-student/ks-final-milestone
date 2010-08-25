@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="removeCluResourceRequirement" bindingOperationName="removeCluResourceRequirement" type="Request-Response" outputName="removeCluResourceRequirementResponse" inputName="removeCluResourceRequirement" receivesAttachments="false" sendsAttachments="false" id="a3e1902b-8443-4a29-921e-0acd3b76228e" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
