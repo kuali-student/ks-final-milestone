@@ -4,6 +4,14 @@ import org.codehaus.plexus.util.StringUtils;
 
 public class DataMorpher extends Morpher {
 
+	public DataMorpher() {
+		this(null, null);
+	}
+
+	public DataMorpher(MorphRequest morphRequest, String schema) {
+		super(morphRequest, schema);
+	}
+
 	protected String getDTDString() {
 		return '"' + schema + ".dtd\"";
 	}

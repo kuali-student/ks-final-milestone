@@ -65,25 +65,32 @@ public class MorphDataMojo extends BaseMojo {
 		return ds.getIncludedFiles();
 	}
 
+	protected List<MorphRequest> getMorphRequests(String[] oldFiles) throws IOException {
+		String inputPath = getOldDataXMLDir().getAbsolutePath();
+		forceMkdir(getNewDataOutputDir());
+		List<MorphRequest> requests = new ArrayList<MorphRequest>();
+		for (String oldFile : oldFiles) {
+			String oldFilename = inputPath + FS + oldFile;
+			String newFilename = getNewDataOutputDir() + FS + oldFile;
+			MorphRequest request = new MorphRequest();
+			request.setOldFile(new File(oldFilename));
+			request.setNewFile(new File(newFilename));
+			requests.add(request);
+		}
+		return requests;
+	}
+
 	protected void executeMojo() throws MojoExecutionException {
 		Utils utils = new Utils();
 		try {
 			String[] oldFiles = getOldFiles();
+			getLog().info(StringUtils.repeat("-", utils.getDefaultPrintableConsoleWidth() - 7));
 			PrettyPrint pp = new PrettyPrint("[INFO] Converting " + oldFiles.length + " data XML files");
 			utils.left(pp);
-			String inputPath = getOldDataXMLDir().getAbsolutePath();
-			forceMkdir(getNewDataOutputDir());
-			List<String> input = new ArrayList<String>();
-			List<String> output = new ArrayList<String>();
-			for (String oldFile : oldFiles) {
-				input.add(inputPath + FS + oldFile);
-				output.add(getNewDataOutputDir() + FS + oldFile);
-			}
-			for (int i = 0; i < input.size(); i++) {
-				String filename = input.get(i);
-				String contents = readFileToString(new File(filename), getEncoding());
-				contents = getMorphedContents(contents);
-				writeStringToFile(new File(output.get(i)), contents, getEncoding());
+			List<MorphRequest> requests = getMorphRequests(oldFiles);
+			for (MorphRequest request : requests) {
+				Morpher morpher = new DataMorpher(request, getProject().getArtifactId());
+				morpher.executeMorph(getEncoding());
 			}
 			utils.right(pp);
 		} catch (IOException e) {

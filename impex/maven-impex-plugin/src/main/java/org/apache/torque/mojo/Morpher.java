@@ -9,6 +9,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public abstract class Morpher {
+	public Morpher() {
+		this(null, null);
+	}
+
+	public Morpher(MorphRequest morphRequest, String schema) {
+		super();
+		this.morphRequest = morphRequest;
+		this.schema = schema;
+	}
+
 	private static final Log log = LogFactory.getLog(Morpher.class);
 
 	MorphRequest morphRequest;
