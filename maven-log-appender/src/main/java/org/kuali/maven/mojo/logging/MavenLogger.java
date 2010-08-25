@@ -79,7 +79,7 @@ public class MavenLogger implements Log {
 
 	@Override
 	public void info(Object message) {
-		info(message, null);
+		mavenLog.info(getString(message));
 	}
 
 	@Override
