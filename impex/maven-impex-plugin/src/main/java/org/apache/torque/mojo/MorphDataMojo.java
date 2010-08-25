@@ -11,6 +11,7 @@ import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.core.db.torque.PrettyPrint;
 import org.kuali.core.db.torque.Utils;
+import org.kuali.maven.mojo.BaseMojo;
 
 /**
  * Converts Ant impex data XML files into maven-impex-plugin data XML files

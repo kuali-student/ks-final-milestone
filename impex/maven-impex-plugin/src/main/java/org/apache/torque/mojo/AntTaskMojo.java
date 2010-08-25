@@ -5,6 +5,7 @@ import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.kuali.maven.mojo.BaseMojo;
 
 /**
  * A base class for mojos that wrap an Ant Task

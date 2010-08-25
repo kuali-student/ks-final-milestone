@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
+import org.kuali.maven.mojo.BaseMojo;
 
 /**
  * Convert an Ant impex schema XML file into a maven-impex-plugin schema XML file
