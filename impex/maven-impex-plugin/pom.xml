@@ -13,8 +13,8 @@
   <description>Maven Impex Plugin for IMPorting and EXporting data</description>
   <dependencies>
     <dependency>
-      <groupId>org.kuali.maven.logging</groupId>
-      <artifactId>maven-log-appender</artifactId>
+      <groupId>org.kuali.maven.mojo</groupId>
+      <artifactId>kuali-maven-common</artifactId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>

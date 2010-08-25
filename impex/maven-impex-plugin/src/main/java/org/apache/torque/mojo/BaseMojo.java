@@ -6,7 +6,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
-import org.kuali.maven.mojo.logging.MavenLogger;
+import org.kuali.maven.mojo.MavenLogger;
 
 /**
  * Mojo essentials. Contains the "skip" logic that is the de facto standard for maven plugins. Contains a number of
