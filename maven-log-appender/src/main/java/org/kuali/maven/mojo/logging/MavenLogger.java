@@ -1,19 +1,11 @@
 package org.kuali.maven.mojo.logging;
 
 import org.apache.commons.logging.Log;
-import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.logging.SystemStreamLog;
 
 public class MavenLogger implements Log {
 
-	private static org.apache.maven.plugin.logging.Log mavenLog;
-
-	public static void startPluginLog(AbstractMojo mojo) {
-		mavenLog = mojo.getLog();
-	}
-
-	public static void endPluginLog(AbstractMojo mojo) {
-		mavenLog = null;
-	}
+	private static org.apache.maven.plugin.logging.Log mavenLog = new SystemStreamLog();
 
 	@Override
 	public boolean isDebugEnabled() {
