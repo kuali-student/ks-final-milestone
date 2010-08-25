@@ -58,12 +58,12 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	public static final String DRIVER_INFO_PROPERTIES_PASSWORD = "password";
 
 	/**
-	 * Call {@link #setOrderFile(String)} with this value to sort in ascendant order the sql files.
+	 * Call {@link #setOrder(String)} with this value to sort in ascendant order the sql files.
 	 */
 	public static final String FILE_SORTING_ASC = "ascending";
 
 	/**
-	 * Call {@link #setOrderFile(String)} with this value to sort in descendant order the sql files.
+	 * Call {@link #setOrder(String)} with this value to sort in descendant order the sql files.
 	 */
 	public static final String FILE_SORTING_DSC = "descending";
 

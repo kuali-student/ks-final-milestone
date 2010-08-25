@@ -39,11 +39,22 @@ import org.springframework.core.io.Resource;
 import static org.apache.commons.lang.StringUtils.*;
 
 /**
- * Execute SQL files generated to create a database and populate it with a dataset
+ * Executes SQL for creating a database and populating it with a dataset
  * 
  * @goal import
  */
 public class ImportMojo extends AbstractSQLExecutorMojo {
+	public enum Order {
+		ASCENDING, DESCENDING;
+	}
+
+	/**
+	 * The name of the schema to import
+	 * 
+	 * @parameter expression="${schema}" default-value="${project.artifactId}"
+	 */
+	private String schema;
+
 	/**
 	 * Spring style resource entries that point to one or more schema XML files
 	 * 
@@ -60,20 +71,20 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	private Fileset fileset;
 
 	/**
-	 * Set to false to skip importing data
-	 * 
-	 * @since 1.0
-	 * @parameter expression="${importData}" default-value="true"
-	 */
-	private boolean importData;
-
-	/**
 	 * Set to false to skip importing the schema
 	 * 
 	 * @since 1.0
 	 * @parameter expression="${importSchema}" default-value="true"
 	 */
 	private boolean importSchema;
+
+	/**
+	 * Set to false to skip importing data
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${importData}" default-value="true"
+	 */
+	private boolean importData;
 
 	/**
 	 * Set to false to skip importing the schema constraints
@@ -88,9 +99,9 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	 * <code>descending</code>. Any other value means that no sorting will be performed.
 	 * 
 	 * @since 1.1
-	 * @parameter expression="${orderFile}" default-value="ascending"
+	 * @parameter expression="${orderFile}" default-value="ASCENDING"
 	 */
-	private String orderFile = "ascending";
+	private Order order;
 
 	// /////////////////////////////////////////////////////////////////////////////////////
 	/**
@@ -326,29 +337,23 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	 * Sort the transaction list.
 	 */
 	protected void sortTransactions() {
-		if (FILE_SORTING_ASC.equalsIgnoreCase(this.orderFile)) {
+		if (Order.ASCENDING.equals(this.order)) {
 			Collections.sort(transactions);
-		} else if (FILE_SORTING_DSC.equalsIgnoreCase(this.orderFile)) {
+		} else if (Order.DESCENDING.equals(this.order)) {
 			Collections.sort(transactions, Collections.reverseOrder());
 		}
 	}
 
-	void setFileset(Fileset fileset) {
+	public void setFileset(Fileset fileset) {
 		this.fileset = fileset;
 	}
 
-	public String getOrderFile() {
-		return this.orderFile;
+	public Order getOrder() {
+		return this.order;
 	}
 
-	public void setOrderFile(String orderFile) {
-		if (FILE_SORTING_ASC.equalsIgnoreCase(orderFile)) {
-			this.orderFile = FILE_SORTING_ASC;
-		} else if (FILE_SORTING_DSC.equalsIgnoreCase(orderFile)) {
-			this.orderFile = FILE_SORTING_DSC;
-		} else {
-			throw new IllegalArgumentException(orderFile + " is not a valid value for orderFile, only '" + FILE_SORTING_ASC + "' or '" + FILE_SORTING_DSC + "'.");
-		}
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public boolean isImportData() {
@@ -409,5 +414,13 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 
 	public Fileset getFileset() {
 		return fileset;
+	}
+
+	public String getSchema() {
+		return schema;
+	}
+
+	public void setSchema(String schema) {
+		this.schema = schema;
 	}
 }
