@@ -24,4 +24,9 @@ public abstract class AbstractSectionConfiguration<T extends Configurer> extends
     public Widget asWidget() {
         return rootSection;
     }
+
+    @Override
+    public Enum<?> getName() {
+        return rootSection.getViewEnum();
+    }
 }

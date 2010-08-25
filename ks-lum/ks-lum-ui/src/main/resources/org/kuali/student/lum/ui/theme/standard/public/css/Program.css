@@ -45,7 +45,6 @@
 }
 
 .programController {
-    background-color: white;
 }
 
 .programController .ks-table-plain td {
@@ -56,6 +55,6 @@
     background-color: #F1F1F1;
 }
 
-.programController .programInformationView{
-   background-color: #F1F1F1;
+.programController .programInformationView {
+    background-color: #F1F1F1;
 }

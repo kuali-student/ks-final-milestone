@@ -4,7 +4,6 @@ import com.google.gwt.core.client.GWT;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import org.kuali.student.lum.program.client.framework.Configuration;
 import org.kuali.student.lum.program.client.framework.ConfigurationManager;
-import org.kuali.student.lum.program.client.framework.ConfigurationRegistry;
 
 /**
  * @author Igor
@@ -19,6 +18,5 @@ public class ProgramEditConfigurer extends AbstractProgramConfigurer<ProgramEdit
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(CatalogInformationEditConfiguration.class));
         //programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(ProgramRequirementsViewConfiguration.class));  //TODO change to Edit
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(LearningObjectivesEditConfiguration.class));
-        ConfigurationRegistry.register(this.getClass().getName(), programSectionConfigManager);
     }
 }

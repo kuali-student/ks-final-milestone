@@ -28,4 +28,9 @@ public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<
     public Widget asWidget() {
         return viewController;
     }
+
+    @Override
+    public Enum<?> getName() {
+        return ProgramSections.PROGRAM_REQUIREMENTS_EDIT;
+    }
 }

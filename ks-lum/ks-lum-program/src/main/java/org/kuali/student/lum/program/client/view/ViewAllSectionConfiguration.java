@@ -1,6 +1,6 @@
 package org.kuali.student.lum.program.client.view;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -20,13 +20,11 @@ public class ViewAllSectionConfiguration extends AbstractSectionConfiguration<Pr
     @Override
     protected void buildLayout() {
         ConfigurationManager<ProgramViewConfigurer> configurationManager = ConfigurationRegistry.get(ProgramViewConfigurer.class.getName());
-        VerticalPanel verticalPanel = new VerticalPanel();
-        verticalPanel.add(configurationManager.getConfiguration(ProgramInformationViewConfiguration.class.getName()).asWidget());
-        verticalPanel.add(configurationManager.getConfiguration(ManagingBodiesViewConfiguration.class.getName()).asWidget());
-        verticalPanel.add(configurationManager.getConfiguration(SpecializationsViewConfiguration.class.getName()).asWidget());
-        verticalPanel.add(configurationManager.getConfiguration(CatalogInformationViewConfiguration.class.getName()).asWidget());
+        //verticalPanel.add(configurationManager.getConfiguration(ManagingBodiesViewConfiguration.class.getName()).asWidget());
+        //verticalPanel.add(configurationManager.getConfiguration(SpecializationsViewConfiguration.class.getName()).asWidget());
+        rootSection.addSection((Section) configurationManager.getConfiguration(ProgramSections.CATALOG_INFO_VIEW).asWidget());
         //rootSection.addWidget(configurationManager.getConfiguration(ProgramRequirementsViewConfiguration.class.getName()).asWidget());
-        verticalPanel.add(configurationManager.getConfiguration(LearningObjectivesViewConfiguration.class.getName()).asWidget());
-        rootSection.addWidget(verticalPanel);
+        //verticalPanel.add(configurationManager.getConfiguration(LearningObjectivesViewConfiguration.class.getName()).asWidget());
+        //rootSection.addSection(ConfigurationRegistry.getRootSection());
     }
 }

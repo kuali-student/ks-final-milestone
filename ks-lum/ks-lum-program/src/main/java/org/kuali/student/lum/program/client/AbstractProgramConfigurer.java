@@ -18,9 +18,6 @@ public abstract class AbstractProgramConfigurer<T extends Configurer> extends Co
 
     protected ConfigurationManager<T> programSectionConfigManager;
 
-    protected AbstractProgramConfigurer() {
-    }
-
     public void configure(ProgramController viewController) {
         this.viewController = viewController;
         configureProgramSections();

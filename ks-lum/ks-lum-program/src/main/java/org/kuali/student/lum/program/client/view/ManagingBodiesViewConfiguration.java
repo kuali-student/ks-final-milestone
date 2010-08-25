@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
+import org.kuali.student.lum.program.client.framework.ConfigurationRegistry;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**

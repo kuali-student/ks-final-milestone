@@ -24,6 +24,5 @@ public class ProgramViewConfigurer extends AbstractProgramConfigurer<ProgramView
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(ProgramRequirementsEditConfiguration.class));  //TODO change to View
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(LearningObjectivesViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(ViewAllSectionConfiguration.class));
-        ConfigurationRegistry.register(this.getClass().getName(), programSectionConfigManager);
     }
 }

@@ -15,4 +15,6 @@ public interface Configuration<T extends Configurer> {
     View getView();
 
     Widget asWidget();
+
+    Enum<?> getName();
 }
