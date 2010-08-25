@@ -185,9 +185,10 @@ public class TestProgramServiceImpl {
             assertEquals("d02dbbd3-20e2-410d-ab52-1bd6d362748b", major.getCredentialProgramId());
 
             assertNotNull(major.getVariations());
-            assertTrue(major.getVariations().size() == 1);
-            assertEquals("BS", major.getVariations().get(0).getCode());
-
+            assertTrue(major.getVariations().size() == 2);
+            assertEquals("ZOOA", major.getVariations().get(0).getCode());
+            assertEquals("ARCB", major.getVariations().get(1).getCode());
+            
             assertNotNull(major.getCode());
             assertEquals("ANTH", major.getCode());
             assertNotNull(major.getCip2000Code());
@@ -225,7 +226,9 @@ public class TestProgramServiceImpl {
 //            Date testDate = new Date(effectiveDate.getTimeInMillis());
 //            assertTrue(major.getEffectiveDate().compareTo(testDate) == 0);
 
+            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, major.getAttributes().get(ProgramAssemblerConstants.PROGRAM_LEVEL));
             assertNotNull(major.getShortTitle());
+
             assertEquals("Anthro", major.getShortTitle());
             assertNotNull(major.getLongTitle());
             assertEquals("Anthropology", major.getLongTitle());
@@ -288,7 +291,7 @@ public class TestProgramServiceImpl {
             assertEquals(major.getUnitsFinancialControl().get(0).getId(), "MAJOR-10");
             assertEquals(major.getUnitsFinancialControl().get(1).getId(), "MAJOR-11");
             assertNotNull(major.getAttributes());
-            assertTrue(major.getAttributes().size() ==2);
+            assertEquals(3, major.getAttributes().size());
             assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
             assertEquals("JAM TART", major.getAttributes().get("CAKES"));
 
@@ -321,16 +324,25 @@ public class TestProgramServiceImpl {
         try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
-
+            
             List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(pvInfos);
             assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
+            
+            ProgramVariationInfo pvInfo = pvInfos.get(0);
+            assertEquals("ZOOA", pvInfo.getCode());
+            assertEquals("Zooarchaeology", pvInfo.getDescr().getPlain());
+            assertEquals("Zooarchaeology", pvInfo.getLongTitle());
+            assertEquals("ZooArch", pvInfo.getShortTitle());
+            assertEquals("VAR-200", pvInfo.getId());
+            assertEquals("active", pvInfo.getState());
 
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
     }
+
     
     @Test
     public void testGetBaccCredentialProgram(){
@@ -633,7 +645,7 @@ public class TestProgramServiceImpl {
     private void verifyUpdate(MajorDisciplineInfo updatedMD) {
     	assertNotNull(updatedMD);
 
-        assertEquals(3, updatedMD.getAttributes().size());
+        assertEquals(4, updatedMD.getAttributes().size());
         assertNotNull(updatedMD.getAttributes().get("PIES"));
         assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
 
@@ -752,7 +764,6 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testCreateCoreProgram() {
     	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
     	CoreProgramInfo coreProgramInfo = null;

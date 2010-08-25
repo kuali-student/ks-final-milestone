@@ -21,7 +21,7 @@ public class DictionaryTesterHelper
 
  private String outputFileName;
  private File file;
- private OutputStream os;
+ private OutputStream outputStream;
  private PrintStream out;
  private Set<Class<?>> startingClasses;
  private String dictFileName;
@@ -40,13 +40,13 @@ public class DictionaryTesterHelper
   this.file = new File (this.outputFileName);
   try
   {
-   os = new FileOutputStream (file, false);
+   outputStream = new FileOutputStream (file, false);
   }
   catch (FileNotFoundException ex)
   {
    throw new IllegalArgumentException (ex);
   }
-  this.out = new PrintStream (os);
+  this.out = new PrintStream (outputStream);
  }
 
  public void doTest ()

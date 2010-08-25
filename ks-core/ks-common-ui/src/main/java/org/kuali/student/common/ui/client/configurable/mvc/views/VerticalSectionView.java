@@ -18,37 +18,44 @@ package org.kuali.student.common.ui.client.configurable.mvc.views;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 
-public class VerticalSectionView extends SectionView{
+public class VerticalSectionView extends SectionView {
 
-	
-    public VerticalSectionView(Enum<?> viewEnum, String name, String modelId) {     
+
+    public VerticalSectionView(Enum<?> viewEnum, String name, String modelId) {
+        this(viewEnum, name, modelId, true);
+    }
+
+    public VerticalSectionView(Enum<?> viewEnum, String name, String modelId, boolean showTitle) {
         super(viewEnum, name);
         this.modelId = modelId;
         SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
-        layout = new VerticalFieldLayout(sectionTitle);
+        if (showTitle) {
+            layout = new VerticalFieldLayout(sectionTitle);
+        } else {
+            layout = new VerticalFieldLayout();
+        }
         this.add(layout);
     }
 
-	
+
     /**
      * This updates the model
-     * 
+     *
      * @see org.kuali.student.common.ui.client.mvc.View#updateModel()
      */
     @Override
     @SuppressWarnings("unchecked")
     public void updateModel() {
-        if(model!=null && isValidationEnabled()){
+        if (model != null && isValidationEnabled()) {
             super.updateModel(model);
         }
     }
 
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub
 
+    }
 
 
 }

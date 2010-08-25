@@ -75,7 +75,7 @@ import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServi
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeDataHelper;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -452,7 +452,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
             public void onClick(ClickEvent event) {
             	
-            	if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null) && isReqCompFieldType(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())){
+            	if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null) && isReqCompFieldType(ReqComponentFieldTypes.CLUSET_KEY.getId())){
             		saveCluSet();
             	}else{
 	            	//1. check that all fields have values
@@ -534,7 +534,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 return false;
             }
 
-            if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+            if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLU_KEY.getId())) {
             	enteredCluCodes.append((enteredCluCodes.length() > 0 ? ", " : "") + fieldInfo.getValue());
             } else {
             	editedFields.add(fieldInfo);
@@ -543,7 +543,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
     	if (enteredCluCodes.length() > 0) {
             ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-            fieldInfo.setId(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
+            fieldInfo.setId(ReqComponentFieldTypes.CLU_KEY.getId());
             fieldInfo.setValue(enteredCluCodes.toString());
             editedFields.add(fieldInfo);
         }
@@ -563,13 +563,13 @@ public class RuleComponentEditorView extends ViewComposite {
     
     private String getFieldName(ReqCompFieldInfo fieldInfo) {
 
-        if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+        if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLU_KEY.getId())) {
             return "Course";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
             return "Courses";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId())) {
             return "count";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.GPA_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.GPA_KEY.getId())) {
             return "GPA";
         }
 
@@ -615,7 +615,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
                 	if (clusetId != null && !clusetId.trim().isEmpty()){
 	                	 ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-	                     fieldInfo.setId(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
+	                     fieldInfo.setId(ReqComponentFieldTypes.CLUSET_KEY.getId());
 	                     fieldInfo.setValue(CluSetHelper.wrap((Data)result.getValue().get("cluset")).getId());
 	                     editedFields.add(fieldInfo);
 	                     
@@ -961,14 +961,14 @@ public class RuleComponentEditorView extends ViewComposite {
             }
             tagCounts.put(tag, tagCount);
 
-            if (tag.equals(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()) || 
-            		tag.equals(ReqComponentFieldTypeKeys.GPA_KEY.getKey()) || 
-            		tag.equals(ReqComponentFieldTypeKeys.GRADE_TYPE_KEY.getKey()) || 
-            		tag.equals(ReqComponentFieldTypeKeys.INSTRUCTOR_PERMISSION_KEY.getKey()) ||
-                    tag.equals(ReqComponentFieldTypeKeys.ORG_PERMISSION_KEY.getKey()) ||     
-                    tag.equals(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()) || 
-                    tag.equals(ReqComponentFieldTypeKeys.TOTAL_CREDIT_KEY.getKey()) ||                    
-                            tag.equals(ReqComponentFieldTypeKeys.GRADE_KEY.getKey())) {
+            if (tag.equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId()) || 
+            		tag.equals(ReqComponentFieldTypes.GPA_KEY.getId()) || 
+            		tag.equals(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId()) || 
+            		tag.equals(ReqComponentFieldTypes.INSTRUCTOR_PERMISSION_KEY.getId()) ||
+                    tag.equals(ReqComponentFieldTypes.ORG_PERMISSION_KEY.getId()) ||     
+                    tag.equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId()) || 
+                    tag.equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getId()) ||                    
+                            tag.equals(ReqComponentFieldTypes.GRADE_KEY.getId())) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
@@ -990,7 +990,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 continue;
             }
 
-            if (tag.equals(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+            if (tag.equals(ReqComponentFieldTypes.CLU_KEY.getId())) {
             	final ReqCompPicker valueWidget = configureCourseSearch(fieldLabel);
                 valueWidgets.add(valueWidget);
                 String cluIdsInClause = getSpecificFieldValue(fields, tag);
@@ -1021,7 +1021,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 continue;
             }
 
-            if (tag.equals(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())) {
+            if (tag.equals(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
 
                 CluSetsConfigurer clusetConfig = new CluSetsConfigurer();
                 CluSetEditOptionList cluSetEditOptions = clusetConfig.new CluSetEditOptionList();

@@ -11,7 +11,7 @@ public class ProgramConstants {
     public static final String PROGRAM_LEVEL = "programLevel";
     public static final String CREDENTIAL_PROGRAM = "";
     public static final String PROGRAM_CLASSIFICATION = "universityClassification";
-    public static final String DEGREE_TYPE = "degreeType";
+    public static final String DEGREE_TYPE = "resultOptions";
 
     //Dates
     public static final String START_TERM = "startTerm";

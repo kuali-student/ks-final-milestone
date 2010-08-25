@@ -1077,7 +1077,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Get the current joints and put them in a map of joint id/relation
 		// id
-		Map<String, String> currentJointIds = new HashMap<String, String>();
+		Set<String> currentJointIds = new HashSet<String>();
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
@@ -1086,8 +1086,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				for (CluCluRelationInfo jointRelation : jointRelationships) {
 					if (CourseAssemblerConstants.JOINT_RELATION_TYPE
 							.equals(jointRelation.getType())) {
-						currentJointIds.put(jointRelation.getRelatedCluId(),
-								jointRelation.getId());
+						currentJointIds.add(jointRelation.getId());
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -1104,8 +1103,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		for (CourseJointInfo joint : course.getJoints()) {
 
 			// If this is a course create then all joints will be created
-			if (NodeOperation.UPDATE.equals(operation)
-					&& currentJointIds.containsKey(joint.getRelationId())) {
+			if (NodeOperation.UPDATE.equals(operation) && joint.getRelationId() != null
+					&& currentJointIds.contains(joint.getRelationId())) {
 				// remove this entry from the map so we can tell what needs to
 				// be deleted at the end
 				currentJointIds.remove(joint.getRelationId());
@@ -1120,11 +1119,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         // Now any leftover joint ids are no longer needed, so delete
         // joint relations
-        for (Entry<String, String> entry : currentJointIds.entrySet()) {
+        for (String id : currentJointIds) {
             // Create a new relation with the id of the relation we want to
             // delete
             CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
-            relationToDelete.setId(entry.getValue());
+            relationToDelete.setId(id);
             BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(
                     courseJointAssembler);
             relationToDeleteNode.setNodeData(relationToDelete);

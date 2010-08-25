@@ -165,7 +165,8 @@ public class StatementAssembler extends BaseAssembler {
         List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
         for(ReqCompFieldInfo reqCompFieldInfo : reqCompInfo.getReqCompFields()) {
             ReqComponentField reqCompField = new ReqComponentField();
-            reqCompField.setKey(reqCompFieldInfo.getId());
+            //reqCompField.setId(reqCompFieldInfo.getId());
+            reqCompField.setType(reqCompFieldInfo.getType());
             reqCompField.setValue(reqCompFieldInfo.getValue());
             reqCompFieldList.add(reqCompField);
         }
@@ -246,8 +247,7 @@ public class StatementAssembler extends BaseAssembler {
 
     public List<ReqCompFieldInfo> toReqCompFieldInfos(
             List<ReqComponentField> entities) {
-        List<ReqCompFieldInfo> dtos = new ArrayList<ReqCompFieldInfo>(
-                entities.size());
+        List<ReqCompFieldInfo> dtos = new ArrayList<ReqCompFieldInfo>(entities.size());
         for (ReqComponentField entity : entities) {
             dtos.add(toReqCompFieldInfo(entity));
         }
@@ -260,7 +260,8 @@ public class StatementAssembler extends BaseAssembler {
         }
 
         ReqCompFieldInfo dto = new ReqCompFieldInfo();
-        dto.setId(entity.getKey());
+        dto.setId(entity.getId());
+        dto.setType(entity.getType());
         dto.setValue(entity.getValue());
         return dto;
     }

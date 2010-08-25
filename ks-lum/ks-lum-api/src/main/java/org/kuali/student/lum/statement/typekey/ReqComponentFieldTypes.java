@@ -32,7 +32,7 @@ package org.kuali.student.lum.statement.typekey;
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
-public enum ReqComponentFieldTypeKeys {
+public enum ReqComponentFieldTypes {
 	CLU_KEY("reqCompFieldType.clu.id"),
 	CLUSET_KEY("reqCompFieldType.cluSet.id"),
 	REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
@@ -48,13 +48,13 @@ public enum ReqComponentFieldTypeKeys {
     INSTRUCTOR_PERMISSION_KEY("reqCompFieldType.personid"),    
     DURATION_TYPE_KEY("reqCompFieldType.durationType");
     
-	private String key;
+	private String id;
 	
-	ReqComponentFieldTypeKeys(String key) {
-		this.key = key;
+	ReqComponentFieldTypes(String id) {
+		this.id = id;
 	}
 	
-	public String getKey() {
-		return this.key;
+	public String getId() {
+		return this.id;
 	}
 }

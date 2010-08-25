@@ -183,4 +183,16 @@ public class TestStatementServiceImplForProgram {
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-116", "KUALI.RULEEDIT", "en");
         assertEquals("Must complete program within 10 semesters after program entry term", nl);
     }	
+
+    /**
+     * Statement type: kuali.luStatementType.programEntrance 
+     */
+    @Test
+    public void testTranslateStatementTree() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForStatement("STMT-TV-1", "KUALI.RULEEDIT", "en");
+        assertEquals("Must have successfully completed all courses from (MATH152, MATH180) " +
+        		"and Must have earned a minimum GPA of 3.5 in (MATH152, MATH180) " +
+        		"and (Must have successfully completed a minimum of 1 course from (MATH152, MATH180) " +
+        		"or Permission of instructor required)", nl);
+    }	
 }

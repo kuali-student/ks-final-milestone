@@ -31,7 +31,7 @@ import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypeKeys;
+import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 /**
  * Utility class to support testing.
@@ -149,19 +149,19 @@ public class NaturalLanguageUtil {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setId("1");
-		field1.setKey(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
+		field1.setType(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setId("2");
-		field2.setKey(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
+		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
 		field2.setValue(operator);
 		fieldList.add(field2);
 				
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setId("3");
-		field3.setKey(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
+		field3.setType(ReqComponentFieldTypes.CLUSET_KEY.getType());
 		field3.setValue(target);
 		fieldList.add(field3);
 		
@@ -172,44 +172,47 @@ public class NaturalLanguageUtil {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setId("4");
-		field1.setKey(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
+		field1.setType(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setId("5");
-		field2.setKey(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
+		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setId("6");
-		field3.setKey(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
+		field3.setType(ReqComponentFieldTypes.CLU_KEY.getType());
 		field3.setValue(cluIds);
 		fieldList.add(field3);
 		
 		return fieldList;
     }
 
-    public static List<ReqComponentField> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
+    /*public static List<ReqComponentField> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
-		field1.setId(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
+		field1.setId("7");
+		field1.setType(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
-		field2.setId(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
+		field2.setId("8");
+		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
-		field3.setId(reqCompFieldType);
+		field3.setId("9");
+		field3.setType(reqCompFieldType);
 		field3.setValue(id);
 		fieldList.add(field3);
 		
 		return fieldList;
-    }
+    }*/
     
 	public static Statement createStatement(StatementOperatorTypeKey operator) throws Exception {
 		Statement stmt = new Statement();

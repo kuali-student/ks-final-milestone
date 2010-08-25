@@ -5212,7 +5212,7 @@
     </table>
     <table name="KSST_REQ_COM_FIELD">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="REQ_COM_FIELD_KEY" size="255" type="VARCHAR"/>
+        <column name="REQ_COM_FIELD_TYPE" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
     </table>
     <table name="KSST_REQ_COM_FIELD_TYPE">

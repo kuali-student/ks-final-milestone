@@ -1086,4 +1086,29 @@
         LAST_ADMIT_ATP="kuali.atp.SU2010-2011" LAST_ATP="kuali.atp.SU2010-2011"
         NEXT_REVIEW_PRD="kuali.atp.SU2009-2010S1" CLU_INTSTY_TYPE = "kuali.atp.duration.full"
         REF_URL="http://www.slashdot.org" />
+    <KSLU_CLU CAN_CREATE_LUI="0" CREATETIME="20100724120530"
+        DEF_ENRL_EST="0" DEF_MAX_ENRL="0" EFF_DT="20100724120530"
+        HAS_EARLY_DROP_DEDLN="0" EXP_FIRST_ATP="kuali.atp.SU2009-2010S1"
+        ID="VAR-200" IS_ENRL="0"
+        IS_HAZR_DISBLD_STU="0" LUTYPE_ID="kuali.lu.type.credential.Baccalaureate"
+        OFFIC_CLU_ID="VAR-201"  PRI_INSTR_ID="INSTR-1" RT_DESCR_ID="VAR-201"
+        ST="active" UPDATETIME="20100824120530" VERSIONIND="1"
+        ATP_DUR_TYP_KEY= "kuali.atp.duration.Week" TM_QUANTITY= "100"
+        LAST_ADMIT_ATP="kuali.atp.SU2010-2011" LAST_ATP="kuali.atp.SU2010-2011"
+        CLU_INTSTY_TYPE = "kuali.atp.duration.full"
+        REF_URL="http://www.yahoo.ca" />
+    <KSLU_CLU CAN_CREATE_LUI="0" CREATETIME="20100724120530"
+        DEF_ENRL_EST="0" DEF_MAX_ENRL="0" EFF_DT="20100724120530"
+        HAS_EARLY_DROP_DEDLN="0" EXP_FIRST_ATP="kuali.atp.SU2009-2010S1"
+        ID="VAR-300" IS_ENRL="0"
+        IS_HAZR_DISBLD_STU="0" LUTYPE_ID="kuali.lu.type.credential.Baccalaureate"
+        OFFIC_CLU_ID="VAR-301"  PRI_INSTR_ID="INSTR-1" RT_DESCR_ID="VAR-301"
+        ST="active" UPDATETIME="20100824120530" VERSIONIND="1"
+        ATP_DUR_TYP_KEY= "kuali.atp.duration.Week" TM_QUANTITY= "100"
+        LAST_ADMIT_ATP="kuali.atp.SU2010-2011" LAST_ATP="kuali.atp.SU2010-2011"
+        CLU_INTSTY_TYPE = "kuali.atp.duration.full"
+        REF_URL="http://www.yahoo.ca" />
+
+
+
 </dataset>

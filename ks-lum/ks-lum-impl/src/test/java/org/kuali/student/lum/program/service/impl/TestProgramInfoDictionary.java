@@ -16,6 +16,8 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.service.impl.DictionaryTesterHelper;
 import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
+import org.kuali.student.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
@@ -30,7 +32,9 @@ public class TestProgramInfoDictionary
  {
   Set<Class<?>> startingClasses = new LinkedHashSet ();
   startingClasses.add (MajorDisciplineInfo.class);
+  startingClasses.add (CoreProgramInfo.class);
   startingClasses.add (MinorDisciplineInfo.class);
+  startingClasses.add (CredentialProgramInfo.class);
   String contextFile = "ks-programInfo-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
   DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,
@@ -84,6 +88,6 @@ public class TestProgramInfoDictionary
 ///[id='null']/cip2000Code[value='cip2000Code-test']/ validation.validCharsFailed
 ///[id='null']/cip2010Code[value='cip2010Code-test']/ validation.lengthOutOfRange
 ///[id='null']/cip2010Code[value='cip2010Code-test']/ validation.validCharsFailed
-        assertEquals(4, validationResults.size());
+  assertEquals (4, validationResults.size ());
  }
 }

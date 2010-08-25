@@ -31,7 +31,7 @@ import org.kuali.student.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
 import org.kuali.student.core.statement.naturallanguage.Context;
 import org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator;
-import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypeKeys;
+import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 public class ReqComponentTranslatorTest {
 	
@@ -218,11 +218,11 @@ public class ReqComponentTranslatorTest {
 		createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.grdCondCourseList");
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
-		field1.setKey(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
+		field1.setType(ReqComponentFieldTypes.CLU_KEY.getType());
 		field1.setValue(cluIds);
 		fieldList.add(field1);
 		ReqComponentField field2 = new ReqComponentField();
-		field2.setKey(ReqComponentFieldTypeKeys.TOTAL_CREDIT_KEY.getKey());
+		field2.setType(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getType());
 		field2.setValue("6");
 		fieldList.add(field2);
 
@@ -240,7 +240,7 @@ public class ReqComponentTranslatorTest {
 		createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.gradecheck");
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
-		field1.setKey(ReqComponentFieldTypeKeys.GPA_KEY.getKey());
+		field1.setType(ReqComponentFieldTypes.GPA_KEY.getType());
 		field1.setValue("70.0%");
 		fieldList.add(field1);
 

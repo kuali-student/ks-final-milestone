@@ -957,4 +957,32 @@ public class ProgramAssemblerUtils {
     public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
         this.cluAssemblerUtils = cluAssemblerUtils;
     }
+
+    public String getCredentialProgramID(String cluId) throws AssemblyException {
+
+        List<String> credentialProgramIDs = null;
+        try {
+            credentialProgramIDs = luService.getCluIdsByRelation(cluId, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM);
+        } catch (Exception e) {
+            throw new AssemblyException(e);
+        }
+        // Can a Program have more than one Credential Program?
+        // TODO - do we need to validate that?
+        if (null == credentialProgramIDs || credentialProgramIDs.isEmpty()) {
+            throw new AssemblyException("Program with ID == " + cluId + " has no Credential Program associated with it.");
+        } else if (credentialProgramIDs.size() > 1) {
+            throw new AssemblyException("Program with ID == " + cluId + " has more than one Credential Program associated with it.");
+        }
+        return credentialProgramIDs.get(0);
+    }
+
+    public String getProgramLevel(String credentialProgramId) throws AssemblyException {
+        CluInfo credProgramInfo = null;
+        try {
+            credProgramInfo = luService.getClu(credentialProgramId);
+        } catch (Exception e) {
+            throw new AssemblyException(e);
+        }
+        return credProgramInfo.getOfficialIdentifier().getLevel();
+    }
 }
