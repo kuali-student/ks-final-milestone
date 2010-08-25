@@ -20,9 +20,9 @@
 #foreach ($database in $dataModels)
     #if ($project)
         #if ($dataModel.MultipleDatabases)
-            #set ( $outFile = "${database.Name}-data.dtd" )
+            #set ( $outFile = "${database.Name}.dtd" )
         #else
-            #set ( $outFile = "${database.Name}-data.dtd" )
+            #set ( $outFile = "${database.Name}.dtd" )
         #end
         $generator.parse($hfname,$outFile,"tables",$database.Tables)
         #foreach ($tbl in $database.Tables)
