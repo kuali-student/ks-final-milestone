@@ -1,10 +1,13 @@
 package org.kuali.maven.mojo.logging;
 
 import org.apache.commons.logging.Log;
+import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.Level;
+import org.apache.log4j.spi.LoggingEvent;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 
-public class MavenLogger implements Log {
+public class MavenLogger extends AppenderSkeleton implements Log {
 
 	private static org.apache.maven.plugin.logging.Log systemStreamLog = new SystemStreamLog();
 	private static org.apache.maven.plugin.logging.Log mavenLog = systemStreamLog;
@@ -23,6 +26,42 @@ public class MavenLogger implements Log {
 
 	public static void endPluginLog(AbstractMojo mojo) {
 		mavenLog = systemStreamLog;
+	}
+
+	@Override
+	protected void append(LoggingEvent event) {
+		Level level = event.getLevel();
+		if (Level.DEBUG.equals(level) && !(mavenLog.isDebugEnabled())) {
+			return;
+		}
+
+		String text = this.layout.format(event);
+		Throwable throwable = null;
+		if (event.getThrowableInformation() != null) {
+			throwable = event.getThrowableInformation().getThrowable();
+		}
+
+		if (Level.DEBUG.equals(level) || Level.TRACE.equals(level)) {
+			mavenLog.debug(text, throwable);
+		} else if (Level.INFO.equals(level)) {
+			mavenLog.info(text, throwable);
+		} else if (Level.WARN.equals(level)) {
+			mavenLog.warn(text, throwable);
+		} else if (Level.ERROR.equals(level) || Level.FATAL.equals(level)) {
+			mavenLog.error(text, throwable);
+		} else {
+			mavenLog.error(text, throwable);
+		}
+	}
+
+	@Override
+	public void close() {
+		mavenLog = null;
+	}
+
+	@Override
+	public boolean requiresLayout() {
+		return true;
 	}
 
 	@Override
