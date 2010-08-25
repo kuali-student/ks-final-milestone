@@ -60,6 +60,7 @@
                 <ref bean="majorDisciplineInfo.lastReviewDate"/>
                 <ref bean="majorDisciplineInfo.isVariationRequired"/>
                 <ref bean="majorDisciplineInfo.endInstAdmitTerm"/>
+                <ref bean="majorDisciplineInfo.programLevel"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -568,6 +569,12 @@
         <property name="dynamic" value="true"/>
     </bean>
     <bean id="majorDisciplineInfo.endInstAdmitTerm" parent="majorDisciplineInfo.endInstAdmitTerm-parent"/>
+
+	<bean id="majorDisciplineInfo.programLevel-parent" abstract="true" parent="baseKualiCode">
+		<property name="name" value="programLevel" />
+        <property name="dynamic" value="true"/>
+	</bean>
+	<bean id="majorDisciplineInfo.programLevel" parent="majorDisciplineInfo.programLevel-parent" />
 
 <!-- CoreProgramInfo-->
 <bean id="org.kuali.student.lum.program.dto.CoreProgramInfo-parent" abstract="true" parent="objectStructureDefinition">

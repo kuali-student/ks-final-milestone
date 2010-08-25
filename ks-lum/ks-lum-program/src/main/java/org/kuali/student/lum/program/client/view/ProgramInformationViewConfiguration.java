@@ -20,6 +20,7 @@ public class ProgramInformationViewConfiguration extends AbstractSectionConfigur
         rootSection.addStyleName("programInformationView");
     }
 
+    @Override
     protected void buildLayout() {
         HorizontalSection section = new HorizontalSection();
         section.addSection(createIdentifyingDetailsSection());
@@ -33,7 +34,7 @@ public class ProgramInformationViewConfiguration extends AbstractSectionConfigur
     private TableSection createIdentifyingDetailsSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_identifyingDetails()));
         configurer.addReadOnlyField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
-        // configurer.addReadOnlyField(section, ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
+        configurer.addReadOnlyField(section, ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
         configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
         configurer.addReadOnlyField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
         // configurer.addReadOnlyField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));

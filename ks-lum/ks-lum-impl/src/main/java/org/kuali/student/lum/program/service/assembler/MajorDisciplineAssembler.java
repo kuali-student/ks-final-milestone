@@ -72,32 +72,19 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setDescr(clu.getDescr());
 
         if (!shallowBuild) {
-            mdInfo.setCredentialProgramId(getCredentialProgramID(clu.getId()));
+            mdInfo.setCredentialProgramId(programAssemblerUtils.getCredentialProgramID(clu.getId()));
             mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
             mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
             mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
+            setNonPersistedAttributes(mdInfo);
         }
         
        return mdInfo;
     }
 
-    private String getCredentialProgramID(String cluId) throws AssemblyException {
-
-        List<String> credentialProgramIDs = null;
-        try {
-            credentialProgramIDs = luService.getCluIdsByRelation(cluId, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM);
-        } catch (Exception e) {
-            throw new AssemblyException(e);
-        }
-        // Can a Program have more than one Credential Program?
-        // TODO - do we need to validate that?
-        if (null == credentialProgramIDs || credentialProgramIDs.isEmpty()) {
-            throw new AssemblyException("Program with ID == " + cluId + " has no Credential Program associated with it.");
-        } else if (credentialProgramIDs.size() > 1) {
-            throw new AssemblyException("Program with ID == " + cluId + " has more than one Credential Program associated with it.");
-        }
-        return credentialProgramIDs.get(0);
+    private void setNonPersistedAttributes(MajorDisciplineInfo info) throws AssemblyException {
+        info.getAttributes().put(ProgramAssemblerConstants.PROGRAM_LEVEL, programAssemblerUtils.getProgramLevel(info.getCredentialProgramId()));
     }
 
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild) throws AssemblyException {
@@ -151,6 +138,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
         } 
         
+        clearNonPersistedAttributes(clu);
+
         programAssemblerUtils.disassembleBasics(clu, major, operation);
         if (major.getId() == null)
             major.setId(clu.getId());
@@ -198,6 +187,10 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 		result.setBusinessDTORef(major);
 
     	return result;
+    }
+
+    private void clearNonPersistedAttributes(CluInfo info) throws AssemblyException {
+        info.getAttributes().remove(ProgramAssemblerConstants.PROGRAM_LEVEL);
     }
 
     private void disassembleLearningObjectives(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
