@@ -1,4 +1,4 @@
-package org.kuali.maven.mojo.properties;
+package org.kuali.maven.mojo.logging;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
