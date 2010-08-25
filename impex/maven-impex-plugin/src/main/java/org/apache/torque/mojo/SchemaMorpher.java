@@ -84,6 +84,12 @@ public class SchemaMorpher extends Morpher {
 
 	@Override
 	public void executeMorph(String encoding) throws IOException {
+		log.info("hhhdalsdflasdjf;laskjdf;alsdj;f");
+		log.info("hhhdalsdflasdjf;laskjdf;alsdj;f");
+		log.info("hhhdalsdflasdjf;laskjdf;alsdj;f");
+		log.info("hhhdalsdflasdjf;laskjdf;alsdj;f");
+		log.info("hhhdalsdflasdjf;laskjdf;alsdj;f");
+		log.info("hhhdalsdflasdjf;laskjdf;alsdj;f");
 		// Read the "old" schema XML file into a string
 		String contents = readFileToString(morphRequest.getOldFile(), encoding);
 

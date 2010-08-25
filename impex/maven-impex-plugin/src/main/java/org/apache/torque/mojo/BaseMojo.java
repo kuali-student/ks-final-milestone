@@ -63,10 +63,12 @@ public abstract class BaseMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
+		// MavenLogger.startPluginLog(this);
 		if (skipMojo()) {
 			return;
 		}
 		executeMojo();
+		// MavenLogger.endPluginLog(this);
 	}
 
 	protected abstract void executeMojo() throws MojoExecutionException, MojoFailureException;

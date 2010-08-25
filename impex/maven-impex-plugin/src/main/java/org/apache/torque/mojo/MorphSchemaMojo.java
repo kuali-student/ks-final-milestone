@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 
 /**
  * Convert an Ant impex schema XML file into a maven-impex-plugin schema XML file
@@ -31,6 +32,8 @@ public class MorphSchemaMojo extends BaseMojo {
 	private File oldSchemaXMLFile;
 
 	protected void executeMojo() throws MojoExecutionException {
+		Log log = getLog();
+		getLog().info("log=" + log.getClass());
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Converting schema XML file");
 		getLog().info("------------------------------------------------------------------------");
