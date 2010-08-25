@@ -25,8 +25,10 @@ config.log.info_msg("Probability: #{config.tests[test]}")
 sesh = Session.new(config, 'create_proposal', probability)
 
 # Login is department COC
-username = config.directory["department_coc"]["member"]["username"]
-password = config.directory["department_coc"]["member"]["password"]
+#username = config.directory["department_coc"]["member"]["username"]
+#password = config.directory["department_coc"]["member"]["password"]
+username = 'admin'
+password = 'admin'
 
 li_txn = sesh.add_transaction("login")
 li_req = li_txn.add_requests
@@ -39,11 +41,13 @@ cp_txn = sesh.add_transaction("create_proposal")
 cp_req = cp_txn.add_requests
 config.log.info_msg("#{test}: Creating proposal")
 Curriculum.new(cp_req).create_proposal(
-  "Bug Debug Performance Proposal",  
+  "Debug Performance Proposal 1",  
   # COC dep isn't in my DB right now for some reason
   #config.directory["department_coc"]["name"],
-  config.directory["department"]["name"],
-  config.directory["department"]["name"],
+  #config.directory["department"]["name"],
+  #config.directory["department"]["name"],,
+  'Psychology Department',
+  'Psychology Department',
   username
 )
 
