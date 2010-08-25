@@ -12,7 +12,7 @@ public class ProgramRequirementsViewConfiguration extends AbstractSectionConfigu
 
     public ProgramRequirementsViewConfiguration() {
         List<String> programRequirements = null;
-        rootSection = new ProgramRequirementsSummaryView(null, ProgramSections.PROGRAM_DETAILS_VIEW,
+        rootSection = new ProgramRequirementsSummaryView(null, ProgramSections.PROGRAM_REQUIREMENTS_VIEW,
                 ProgramProperties.get().program_menu_sections_requirements(), ProgramConstants.PROGRAM_MODEL_ID, programRequirements);
     }
 

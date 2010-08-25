@@ -7,11 +7,12 @@ import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
+import org.kuali.student.lum.program.client.view.ProgramViewConfigurer;
 
 /**
  *
  */
-public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<ProgramEditConfigurer> {
+public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<ProgramViewConfigurer> {
 
     private ProgramController viewController;
 

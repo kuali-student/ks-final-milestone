@@ -1,9 +1,11 @@
 package org.kuali.student.lum.program.client.requirements;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -26,12 +28,9 @@ import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
@@ -40,14 +39,18 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     ProgramRequirementsViewController parentController;
     Boolean isReadOnly;
-    enum requirementState {STORED, ADDED, EDITED, DELETED;}
+
+    enum requirementState {
+        STORED, ADDED, EDITED, DELETED;
+    }
+
     FlowPanel layout = new FlowPanel();
     ProgramRequirementInfo newRuleAddition;                         //references a rule that will have new subrule
 
 
     List<SpanPanel> perProgramRequirementTypePanel = new ArrayList<SpanPanel>();
     LinkedHashMap<String, LinkedHashMap<ProgramRequirementInfo, requirementState>> rules =
-                                                     new LinkedHashMap<String, LinkedHashMap<ProgramRequirementInfo, requirementState>>();
+            new LinkedHashMap<String, LinkedHashMap<ProgramRequirementInfo, requirementState>>();
 
     public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId, List<String> programRequirements) {
         super(viewEnum, name, modelId);
@@ -59,8 +62,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         statementRpcServiceAsync.getStatementTypesForStatementType("kuali.luStatementType.program", new AsyncCallback<List<StatementTypeInfo>>() {
             @Override
             public void onFailure(Throwable caught) {
-	            Window.alert(caught.getMessage());
-	            GWT.log("getStatementTypes failed", caught);
+                Window.alert(caught.getMessage());
+                GWT.log("getStatementTypes failed", caught);
             }
 
             @Override
@@ -74,10 +77,11 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                         ProgramRequirementInfo tempProgramInfo = new ProgramRequirementInfo();
                         RichTextInfo text = new RichTextInfo();
                         text.setPlain("These are classes or sequences that a student must have completed in order to register" +
-                                                    " in the course. For example, students must have completed 3 classes with a specific GPA.");
+                                " in the course. For example, students must have completed 3 classes with a specific GPA.");
                         tempProgramInfo.setDescr(text);
                         tempProgramInfo.setShortTitle("Expected Total Credits: 50 - 60");
-                        tempProgramInfo.setStatement(parentController.getTestStatement());
+                        if (parentController != null)
+                            tempProgramInfo.setStatement(parentController.getTestStatement());
                         tempRulesList.put(tempProgramInfo, requirementState.STORED);
                         rules.put(stmtInfoType.getName(), tempRulesList);
                     }
@@ -127,7 +131,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         SectionTitle pageTitle = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
         pageTitle.setStyleName("KS-Program-Requirements-Page-Title");  //make the header orange
         layout.add(pageTitle);
-        
+
         //iterate and display rules for each Program Requirement type e.g. Entrance Requirements, Completion Requirements
         Boolean firstRequirement = true;
         for (String stmtTypeName : rules.keySet()) {
@@ -154,16 +158,16 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         if (!isReadOnly) {
             String addRuleLabel = ProgramProperties.get().programRequirements_summaryViewPageAddRule().replace("<*>", ruleTypeName);
             KSButton addProgramReqBtn = new KSButton(addRuleLabel, KSButtonAbstract.ButtonStyle.FORM_SMALL);
-            addProgramReqBtn.addClickHandler(new ClickHandler(){
+            addProgramReqBtn.addClickHandler(new ClickHandler() {
                 public void onClick(ClickEvent event) {
-                        showAddProgramRequirementDialog(requirementsPanel, ruleTypeName);
-                    }
-                });
+                    showAddProgramRequirementDialog(requirementsPanel, ruleTypeName);
+                }
+            });
             layout.add(addProgramReqBtn);
         }
 
         layout.add(requirementsPanel);
-        
+
         //display "No entrance requirement currently exist for this program"
         if (rules == null || rules.size() == 0) {
             String noRuleText = ProgramProperties.get().programRequirements_summaryViewPageNoRule().replace("<*>", ruleTypeName.toLowerCase());
@@ -186,19 +190,19 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         final RulePreviewWidget ruleSummaryViewWidget =
                 new RulePreviewWidget(ruleType, ruleInfo.getShortTitle(), ruleInfo.getDescr().getPlain(), ruleInfo.getStatement(), isReadOnly);
 
-        ruleSummaryViewWidget.addRequirementEditButtonClickHandler(new ClickHandler(){
+        ruleSummaryViewWidget.addRequirementEditButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 showEditProgramRequirementDialog(requirementsPanel, ruleType);
             }
         });
 
-        ruleSummaryViewWidget.addRequirementDeleteButtonClickHandler(new ClickHandler(){
+        ruleSummaryViewWidget.addRequirementDeleteButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog(
                         ProgramProperties.get().programRequirements_summaryViewPageDeleteRuleDialogTitle(),
                         ProgramProperties.get().programRequirements_summaryViewPageDeleteRuleDialogMsg());
 
-                dialog.getConfirmButton().addClickHandler(new ClickHandler(){
+                dialog.getConfirmButton().addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         //update rule status in the stored rules list
@@ -223,26 +227,26 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         /* SUB-RULE edit/delete/add link&buttons handlers */
 
-       ruleSummaryViewWidget.addSubRuleAddButtonClickHandler(new ClickHandler(){
+        ruleSummaryViewWidget.addSubRuleAddButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 //allow only one rule being edited at at ime
                 if (newRuleAddition == null) {
                     newRuleAddition = ruleInfo;
-                    ((ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE)).setRuleTree(null, ruleInfo.getType());
+                    ((ProgramRequirementsManageView) parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE)).setRuleTree(null, ruleInfo.getType());
                     parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
                 }
             }
-        });        
+        });
 
-       ruleSummaryViewWidget.addSubRuleEditCallback(editRuleCallback);
+        ruleSummaryViewWidget.addSubRuleEditCallback(editRuleCallback);
 
-       requirementsPanel.add(ruleSummaryViewWidget);
+        requirementsPanel.add(ruleSummaryViewWidget);
     }
 
     private void displaySaveButton() {
         ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
-        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-             @Override
+        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
+            @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
                 if (result == ButtonEnumerations.SaveContinueCancelEnum.CANCEL) {
                     //TODO
@@ -253,12 +257,12 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 }
             }
         });
-        addWidget(actionCancelButtons);        
+        addWidget(actionCancelButtons);
     }
 
-    protected Callback<StatementTreeViewInfo> editRuleCallback = new Callback<StatementTreeViewInfo>(){
+    protected Callback<StatementTreeViewInfo> editRuleCallback = new Callback<StatementTreeViewInfo>() {
         public void exec(StatementTreeViewInfo stmtTreeInfo) {
-            ((ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE)).setRuleTree(stmtTreeInfo, stmtTreeInfo.getType());
+            ((ProgramRequirementsManageView) parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE)).setRuleTree(stmtTreeInfo, stmtTreeInfo.getType());
             parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
         }
     };
@@ -268,10 +272,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         String addRuleText = ProgramProperties.get().programRequirements_summaryViewPageAddRule().replace("<*>", ruleType);
         final KSLightBox dialog = new KSLightBox(addRuleText);
 
-	    ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.AddCancelEnum.ADD, ButtonEnumerations.AddCancelEnum.CANCEL);
+        ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.AddCancelEnum.ADD, ButtonEnumerations.AddCancelEnum.CANCEL);
 
-        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-             @Override
+        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
+            @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
                 if (result == ButtonEnumerations.AddCancelEnum.ADD) {
                     //create a new program requirement
@@ -282,7 +286,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     ProgramRequirementInfo newProgramInfo = new ProgramRequirementInfo();
                     RichTextInfo text = new RichTextInfo();
                     text.setPlain("These are classes or sequences that a student must have completed in order to register" +
-                                                " in the course. For example, students must have completed 3 classes with a specific GPA.");
+                            " in the course. For example, students must have completed 3 classes with a specific GPA.");
                     newProgramInfo.setDescr(text);
                     newProgramInfo.setShortTitle("Expected Total Credits: 50 - 60");
                     newProgramInfo.setStatement(null); //parentController.getTestStatement());
@@ -297,10 +301,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //VerticalSectionView layout = new VerticalSectionView();
         //layout.addStyleName("KS-Advanced-Search-Window");
         SpanPanel layout = new SpanPanel();
-		layout.add(new KSLabel("TEST"));
-		layout.add(actionCancelButtons);
+        layout.add(new KSLabel("TEST"));
+        layout.add(actionCancelButtons);
 
-        dialog.setSize(600,400);
+        dialog.setSize(600, 400);
         dialog.setWidget(layout);
         dialog.show();
     }
@@ -310,13 +314,13 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         String addRuleText = ProgramProperties.get().programRequirements_summaryViewPageAddRule().replace("<*>", ruleType);
         final KSLightBox dialog = new KSLightBox(addRuleText);
 
-	    ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.UpdateCancelEnum.UPDATE, ButtonEnumerations.UpdateCancelEnum.CANCEL);
+        ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.UpdateCancelEnum.UPDATE, ButtonEnumerations.UpdateCancelEnum.CANCEL);
 
-        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-             @Override
+        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
+            @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
                 if (result == ButtonEnumerations.UpdateCancelEnum.CANCEL) {
-                 dialog.hide();
+                    dialog.hide();
                 } else {   //create a new program requirement
                     //- call validate
                     //- call update method on vertical section view
@@ -329,10 +333,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //VerticalSectionView layout = new VerticalSectionView();
         //layout.addStyleName("KS-Advanced-Search-Window");
         SpanPanel layout = new SpanPanel();
-		layout.add(new KSLabel("TEST"));
-		layout.add(actionCancelButtons);
+        layout.add(new KSLabel("TEST"));
+        layout.add(actionCancelButtons);
 
-        dialog.setSize(600,400);
+        dialog.setSize(600, 400);
         dialog.setWidget(layout);
         dialog.show();
     }
