@@ -9,7 +9,7 @@ import org.kuali.db.SQLGenerator;
 import org.kuali.db.Transaction;
 
 /**
- * Runs a command that performs a single operation on a database (create,drop etc)
+ * Does a DROP->CREATE of the database
  * 
  * @goal reset
  */
