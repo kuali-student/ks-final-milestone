@@ -19,7 +19,7 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 * The directory in which the DTD will be generated
 	 * 
 	 * @parameter property="outputDir" expression="${outputDir}"
-	 *            default-value="${project.build.directory}/generated-impex/dtd"
+	 *            default-value="${project.build.directory}/generated-impex"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy1;
@@ -28,7 +28,7 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 * The location where the report file will be generated, relative to outputDir.
 	 * 
 	 * @parameter property="reportFile" expression="${reportFile}"
-	 *            default-value="../../impex/report.${project.artifact.artifactId}.datadtd.generation"
+	 *            default-value="../reports/report.${project.artifact.artifactId}.datadtd.generation"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy2;
@@ -37,7 +37,7 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 * The location where the context property file for velocity will be generated.
 	 * 
 	 * @parameter property="contextPropertiesPath" expression="${contextPropertiesPath}"
-	 *            default-value="${project.build.directory}/impex/context.datadtd.properties"
+	 *            default-value="${project.build.directory}/reports/context.datadtd.properties"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy3;
@@ -52,8 +52,7 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	/**
 	 * The name of the schema.xml file to process
 	 * 
-	 * @parameter expression="${schemaXMLFile}"
-	 *            default-value="${basedir}/src/main/impex/${project.artifactId}-schema.xml"
+	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
 	 * @required
 	 */
 	private String schemaXMLFile;
