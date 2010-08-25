@@ -114,7 +114,7 @@ public class ProgramDataGeneratorUtils {
 		
 		if("id".equals(name)){
             if("loCategoryInfoList".equals(parentPropertyName)){
-                return "162979A3-25B9-4921-BC8F-C861B2267A73";
+                return "162979a3-25b9-4921-bc8f-c861b2267a73";
             }
             else {
 			   return null;
