@@ -44,6 +44,13 @@ public class MavenLogger extends AppenderSkeleton implements Log {
 
 	// Log4j methods
 
+	protected Throwable getThrowable(LoggingEvent event) {
+		if (event.getThrowableInformation() == null) {
+			return null;
+		}
+		return event.getThrowableInformation().getThrowable();
+	}
+
 	@Override
 	protected void append(LoggingEvent event) {
 		Level level = event.getLevel();
@@ -52,21 +59,37 @@ public class MavenLogger extends AppenderSkeleton implements Log {
 		}
 
 		String text = this.layout.format(event);
-		Throwable throwable = null;
-		if (event.getThrowableInformation() != null) {
-			throwable = event.getThrowableInformation().getThrowable();
-		}
-
+		Throwable throwable = getThrowable(event);
 		if (Level.DEBUG.equals(level) || Level.TRACE.equals(level)) {
-			mavenLog.debug(text, throwable);
+			if (throwable == null) {
+				debug(text);
+			} else {
+				debug(text, throwable);
+			}
 		} else if (Level.INFO.equals(level)) {
-			mavenLog.info(text, throwable);
+			if (throwable == null) {
+				info(text);
+			} else {
+				info(text, throwable);
+			}
 		} else if (Level.WARN.equals(level)) {
-			mavenLog.warn(text, throwable);
+			if (throwable == null) {
+				warn(text);
+			} else {
+				warn(text, throwable);
+			}
 		} else if (Level.ERROR.equals(level) || Level.FATAL.equals(level)) {
-			mavenLog.error(text, throwable);
+			if (throwable == null) {
+				error(text);
+			} else {
+				error(text, throwable);
+			}
 		} else {
-			mavenLog.error(text, throwable);
+			if (throwable == null) {
+				error(text);
+			} else {
+				error(text, throwable);
+			}
 		}
 	}
 

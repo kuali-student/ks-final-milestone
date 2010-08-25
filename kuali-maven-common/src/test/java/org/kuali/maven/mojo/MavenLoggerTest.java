@@ -18,5 +18,4 @@ public class MavenLoggerTest {
 		Logger logger = Logger.getLogger(this.getClass());
 		logger.info("Hello world");
 	}
-
 }
