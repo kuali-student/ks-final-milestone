@@ -635,7 +635,7 @@ public class TestProgramServiceImpl {
     private void verifyUpdate(MajorDisciplineInfo updatedMD) {
     	assertNotNull(updatedMD);
 
-        assertEquals(3, updatedMD.getAttributes().size());
+        assertEquals(4, updatedMD.getAttributes().size());
         assertNotNull(updatedMD.getAttributes().get("PIES"));
         assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
 
