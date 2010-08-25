@@ -1,9 +1,11 @@
 package org.kuali.maven.mojo;
 
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.settings.Settings;
 import org.kuali.maven.mojo.MavenLogger;
 
 /**
@@ -15,11 +17,51 @@ public abstract class BaseMojo extends AbstractMojo {
 	public static final String FS = System.getProperty("file.separator");
 	public static final String SKIP_PACKAGING_TYPE = "pom";
 
-	public abstract boolean isSkip();
+	/**
+	 * When <code>true</code>, skip the execution.
+	 * 
+	 * @since 1.0
+	 * @parameter default-value="false"
+	 */
+	private boolean skip;
 
-	public abstract boolean isForceMojoExecution();
+	/**
+	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
+	 * usually.
+	 * 
+	 * @parameter expression="${forceMorpherExecution}" default-value=false
+	 * @required
+	 */
+	private boolean forceMojoExecution;
 
-	public abstract MavenProject getProject();
+	/**
+	 * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
+	 */
+	private String encoding;
+
+	/**
+	 * The Maven project this plugin runs in.
+	 * 
+	 * @parameter expression="${project}"
+	 * @required
+	 * @readonly
+	 */
+	private MavenProject project;
+
+	/**
+	 * @parameter expression="${settings}"
+	 * @required
+	 * @since 1.0
+	 * @readonly
+	 */
+	private Settings settings;
+
+	/**
+	 * @parameter default-value="${session}"
+	 * @required
+	 * @readonly
+	 */
+	private MavenSession mavenSession;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -47,16 +89,69 @@ public abstract class BaseMojo extends AbstractMojo {
 	 * @return <code>true</code> if the mojo execution should be skipped.
 	 */
 	protected boolean skipMojo() {
-		if (isSkip()) {
+		if (skip) {
 			getLog().info("Skipping execution");
 			return true;
 		}
 
-		if (!isForceMojoExecution() && getProject() != null && SKIP_PACKAGING_TYPE.equals(getProject().getPackaging())) {
+		if (!forceMojoExecution && project != null && SKIP_PACKAGING_TYPE.equals(project.getPackaging())) {
 			getLog().info("Skipping execution for project with packaging type '" + SKIP_PACKAGING_TYPE + "'");
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the maven project.
+	 * 
+	 * @return The maven project where this plugin runs in.
+	 */
+	public MavenProject getProject() {
+		return project;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
+
+	public boolean isSkip() {
+		return skip;
+	}
+
+	public void setSkip(boolean skip) {
+		this.skip = skip;
+	}
+
+	public boolean isForceMojoExecution() {
+		return forceMojoExecution;
+	}
+
+	public void setForceMojoExecution(boolean forceMojoExecution) {
+		this.forceMojoExecution = forceMojoExecution;
+	}
+
+	public Settings getSettings() {
+		return settings;
+	}
+
+	public void setSettings(Settings settings) {
+		this.settings = settings;
+	}
+
+	public MavenSession getMavenSession() {
+		return mavenSession;
+	}
+
+	public void setMavenSession(MavenSession mavenSession) {
+		this.mavenSession = mavenSession;
+	}
+
+	public void setProject(MavenProject project) {
+		this.project = project;
 	}
 }
