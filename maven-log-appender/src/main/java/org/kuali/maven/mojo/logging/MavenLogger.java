@@ -68,13 +68,6 @@ public class MavenLogger implements Log {
 
 	}
 
-	protected String getString(Object message) {
-		if (message == null) {
-			return null;
-		}
-		return message.toString();
-	}
-
 	@Override
 	public void info(Object message) {
 		mavenLog.info(getString(message));
@@ -121,4 +114,15 @@ public class MavenLogger implements Log {
 		// TODO Auto-generated method stub
 
 	}
+
+	/**
+	 * Check for null then call toString on the object
+	 */
+	protected String getString(Object message) {
+		if (message == null) {
+			return null;
+		}
+		return message.toString();
+	}
+
 }
