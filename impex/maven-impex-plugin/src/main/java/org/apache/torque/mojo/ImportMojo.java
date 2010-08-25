@@ -39,13 +39,11 @@ import org.springframework.core.io.Resource;
 import static org.apache.commons.lang.StringUtils.*;
 
 /**
- * Execute the SQL files generated to create a schema and import data
+ * Execute SQL files generated to create a database and populate it with a dataset
  * 
  * @goal import
  */
 public class ImportMojo extends AbstractSQLExecutorMojo {
-	// ////////////////////////// User Info ///////////////////////////////////
-
 	/**
 	 * Spring style resource entries that point to one or more schema XML files
 	 * 
@@ -98,21 +96,21 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	/**
 	 * Print SQL results.
 	 * 
-	 * @parameter
+	 * @parameter expression="${printResultSet}" default-value="false"
 	 * @since 1.3
 	 */
-	private boolean printResultSet = false;
+	private boolean printResultSet;
 
 	/**
 	 * Dump the SQL exection's output to a file. Default is stdout.
 	 * 
-	 * @parameter
+	 * @parameter expression="${outputFile}"
 	 * @since 1.3
 	 */
 	private File outputFile;
 
 	/**
-	 * @parameter default-value=","
+	 * @parameter expression="${outputDelimiter}" default-value=","
 	 * @since 1.4
 	 */
 	private String outputDelimiter;
@@ -120,20 +118,15 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	/**
 	 * Set to true if you want to filter the srcFiles using system-, user- and project properties
 	 * 
-	 * @parameter
+	 * @parameter expression="${enableFiltering}" default-value="false"
 	 * @since 1.4
 	 */
 	private boolean enableFiltering;
 
 	/**
-	 * Interpolator especially for braceless expressions
-	 */
-	// private Interpolator interpolator = new RegexBasedInterpolator("\\$([^\\s;)]+?)", "(?=[\\s;)])");
-
-	/**
-	 * Add a SQL transaction to execute
+	 * Create a new Transaction object and add it to the list of transactions that will be executed
 	 * 
-	 * @return a new SqlExecMojo.Transaction
+	 * @return a new Transaction
 	 */
 	public Transaction createTransaction() {
 		Transaction t = new Transaction();
@@ -147,8 +140,8 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	 * @param print
 	 *            <code>true</code> to print the resultset, otherwise <code>false</code>
 	 */
-	public void setPrintResultSet(boolean print) {
-		this.printResultSet = print;
+	public void setPrintResultSet(boolean printResultSet) {
+		this.printResultSet = printResultSet;
 	}
 
 	/**
@@ -188,15 +181,12 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 
 	/**
 	 * Add user sql fileset to transation list
-	 * 
 	 */
 	protected void addFileSetToTransactions() {
-		String[] includedFiles;
+		String[] includedFiles = new String[0];
 		if (fileset != null) {
 			fileset.scan();
 			includedFiles = fileset.getIncludedFiles();
-		} else {
-			includedFiles = new String[0];
 		}
 
 		for (int j = 0; j < includedFiles.length; j++) {
@@ -211,8 +201,16 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 
 	protected boolean defaultSchemaExists() {
 		DefaultResourceLoader loader = new DefaultResourceLoader();
-		Resource resource = loader.getResource(getDefaultSchemaLocation());
-		return resource.exists();
+		String s = getDefaultSchemaLocation();
+		Resource resource = loader.getResource(s);
+		boolean exists = resource.exists();
+		if (!exists) {
+			String filename = project.getBuild().getDirectory() + "/generated-impex/" + project.getArtifactId() + "-schema.xml";
+			exists = new File(filename).exists();
+			getLog().debug(exists + " " + filename);
+		}
+		getLog().debug("exists=" + exists + " " + s);
+		return exists;
 	}
 
 	protected void addDefaultSchema() {

@@ -118,7 +118,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * empty password parameters in the connection initialization.
 	 * 
 	 * @since 1.4
-	 * @parameter default-value="false"
+	 * @parameter expression="${enableAnonymousPassword}" default-value="false"
 	 */
 	boolean enableAnonymousPassword;
 
@@ -204,7 +204,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * List of files containing SQL statements to load.
 	 * 
 	 * @since 1.0
-	 * @parameter
+	 * @parameter expression="${srcFiles}"
 	 */
 	File[] srcFiles;
 
