@@ -32,7 +32,7 @@ public class MorphSchemaMojo extends BaseMojo {
 	 * The XML file describing the database schema
 	 * 
 	 * @parameter expression="${newSchemaXMLFile}"
-	 *            default-value="${project.build.directory}/generated-impex/${project.artifactId}-schema.xml"
+	 *            default-value="${project.build.directory}/generated-impex/${project.artifactId}.xml"
 	 * @required
 	 */
 	private File newSchemaXMLFile;
