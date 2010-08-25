@@ -1,0 +1,124 @@
+package org.kuali.maven.mojo.logging;
+
+import org.apache.commons.logging.Log;
+import org.apache.maven.plugin.AbstractMojo;
+
+public class MavenLogger implements Log {
+
+	private static org.apache.maven.plugin.logging.Log mavenLog;
+
+	public static void startPluginLog(AbstractMojo mojo) {
+		mavenLog = mojo.getLog();
+	}
+
+	public static void endPluginLog(AbstractMojo mojo) {
+		mavenLog = null;
+	}
+
+	@Override
+	public boolean isDebugEnabled() {
+		return mavenLog.isDebugEnabled();
+	}
+
+	@Override
+	public boolean isErrorEnabled() {
+		return mavenLog.isErrorEnabled();
+	}
+
+	@Override
+	public boolean isFatalEnabled() {
+		return mavenLog.isErrorEnabled();
+	}
+
+	@Override
+	public boolean isInfoEnabled() {
+		return mavenLog.isInfoEnabled();
+	}
+
+	@Override
+	public boolean isTraceEnabled() {
+		return mavenLog.isDebugEnabled();
+	}
+
+	@Override
+	public boolean isWarnEnabled() {
+		return mavenLog.isWarnEnabled();
+	}
+
+	@Override
+	public void trace(Object message) {
+		mavenLog.debug(message.toString());
+	}
+
+	@Override
+	public void trace(Object message, Throwable t) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void debug(Object message) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void debug(Object message, Throwable t) {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected String getString(Object message) {
+		if (message == null) {
+			return null;
+		}
+		return message.toString();
+	}
+
+	@Override
+	public void info(Object message) {
+		mavenLog.info(getString(message));
+	}
+
+	@Override
+	public void info(Object message, Throwable t) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void warn(Object message) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void warn(Object message, Throwable t) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void error(Object message) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void error(Object message, Throwable t) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fatal(Object message) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void fatal(Object message, Throwable t) {
+		// TODO Auto-generated method stub
+
+	}
+}
