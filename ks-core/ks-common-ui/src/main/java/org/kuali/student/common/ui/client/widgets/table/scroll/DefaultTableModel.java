@@ -13,6 +13,7 @@ public class DefaultTableModel extends AbstractTableModel {
 	private ArrayList<Row> rowList = new ArrayList<Row>();
 	private ArrayList<Column> sortedColumnList = new ArrayList<Column>();
 	private int sortableColumnCount = 1;
+	private boolean moreData = true;
 	
 	Column rowHeader = new Column();
     public void installCheckBoxRowHeaderColumn(){
@@ -56,6 +57,14 @@ public class DefaultTableModel extends AbstractTableModel {
 //	public int getSortableColumnCount(){
 	//  return sortableColumnCount;	
 //	}
+
+
+	public void setMoreData(boolean hasMoreData){
+		moreData	 = hasMoreData;
+	}
+	public boolean getMoreData(){
+	  return moreData;	
+	}
 
 	public int getRowCount() {
 		return rowList.size();
