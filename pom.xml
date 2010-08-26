@@ -241,6 +241,11 @@
         <wsdlOption>
          <wsdl>${basedir}/src/main/resources/wsdl/EnumerationManagementService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/CourseService.wsdl</wsdl>
+         <wsdl>${basedir}/src/main/resources/wsdl/OrganizationService.wsdl</wsdl>
+         <wsdl>${basedir}/src/main/resources/wsdl/AtpService.wsdl</wsdl>
+         <wsdl>${basedir}/src/main/resources/wsdl/CommentService.wsdl</wsdl>
+         <wsdl>${basedir}/src/main/resources/wsdl/DocumentService.wsdl</wsdl>
+         <wsdl>${basedir}/src/main/resources/wsdl/ProposalService.wsdl</wsdl>
         </wsdlOption>
        </wsdlOptions>
       </configuration>

@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0" form="unqualified"/>
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}anyType" maxOccurs="unbounded" minOccurs="0" form="unqualified"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 public class GetObjectTypesResponse {
 
     @XmlElement(name = "return", namespace = "")
-    protected List<String> _return;
+    protected List<Object> _return;
 
     /**
      * Gets the value of the return property.
@@ -55,13 +55,13 @@ public class GetObjectTypesResponse {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * {@link Object }
      * 
      * 
      */
-    public List<String> getReturn() {
+    public List<Object> getReturn() {
         if (_return == null) {
-            _return = new ArrayList<String>();
+            _return = new ArrayList<Object>();
         }
         return this._return;
     }

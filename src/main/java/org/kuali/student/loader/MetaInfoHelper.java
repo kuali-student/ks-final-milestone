@@ -15,9 +15,15 @@
  */
 package org.kuali.student.loader;
 
-import java.util.Date;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import org.kuali.student.wsdl.course.MetaInfo;
+
+
 
 /**
  *
@@ -30,7 +36,16 @@ public class MetaInfoHelper
   MetaInfo info = new MetaInfo ();
   info.setCreateId ("LOADER");
   info.setUpdateId ("LOADER");
-  Date now = new Date ();
+  XMLGregorianCalendar now;
+  try
+  {
+   now =
+   DatatypeFactory.newInstance ().newXMLGregorianCalendar (new GregorianCalendar ());
+  }
+  catch (DatatypeConfigurationException ex)
+  {
+   throw new IllegalArgumentException (ex);
+  }
   info.setCreateTime (now);
   info.setUpdateTime (now);
   info.setVersionInd ("1");

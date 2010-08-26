@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import org.kuali.student.wsdl.course.ObjectStructureDefinitionWrapper;
 
 
 /**
@@ -18,7 +17,7 @@ import org.kuali.student.wsdl.course.ObjectStructureDefinitionWrapper;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="return" type="{http://student.kuali.org/wsdl/course}objectStructureDefinitionWrapper" minOccurs="0" form="unqualified"/>
+ *         &lt;element name="return" type="{http://student.kuali.org/wsdl/dictionary}objectStructure" minOccurs="0" form="unqualified"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,17 +33,17 @@ import org.kuali.student.wsdl.course.ObjectStructureDefinitionWrapper;
 public class GetObjectStructureResponse {
 
     @XmlElement(name = "return", namespace = "")
-    protected ObjectStructureDefinitionWrapper _return;
+    protected ObjectStructure _return;
 
     /**
      * Gets the value of the return property.
      * 
      * @return
      *     possible object is
-     *     {@link ObjectStructureDefinitionWrapper }
+     *     {@link ObjectStructure }
      *     
      */
-    public ObjectStructureDefinitionWrapper getReturn() {
+    public ObjectStructure getReturn() {
         return _return;
     }
 
@@ -53,10 +52,10 @@ public class GetObjectStructureResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link ObjectStructureDefinitionWrapper }
+     *     {@link ObjectStructure }
      *     
      */
-    public void setReturn(ObjectStructureDefinitionWrapper value) {
+    public void setReturn(ObjectStructure value) {
         this._return = value;
     }
 

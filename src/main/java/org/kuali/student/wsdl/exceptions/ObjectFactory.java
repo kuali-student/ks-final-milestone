@@ -25,49 +25,19 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _AlreadyExistsException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "AlreadyExistsException");
+    private final static QName _VersionMismatchException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "VersionMismatchException");
     private final static QName _OperationFailedException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "OperationFailedException");
+    private final static QName _DoesNotExistException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "DoesNotExistException");
+    private final static QName _DataValidationErrorException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "DataValidationErrorException");
     private final static QName _PermissionDeniedException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "PermissionDeniedException");
     private final static QName _InvalidParameterException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "InvalidParameterException");
     private final static QName _MissingParameterException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "MissingParameterException");
-    private final static QName _DoesNotExistException_QNAME = new QName("http://student.kuali.org/wsdl/exceptions", "DoesNotExistException");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.kuali.student.wsdl.exceptions
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link AlreadyExistsException }
-     * 
-     */
-    public AlreadyExistsException createAlreadyExistsException() {
-        return new AlreadyExistsException();
-    }
-
-    /**
-     * Create an instance of {@link PermissionDeniedException }
-     * 
-     */
-    public PermissionDeniedException createPermissionDeniedException() {
-        return new PermissionDeniedException();
-    }
-
-    /**
-     * Create an instance of {@link DoesNotExistException }
-     * 
-     */
-    public DoesNotExistException createDoesNotExistException() {
-        return new DoesNotExistException();
-    }
-
-    /**
-     * Create an instance of {@link OperationFailedException }
-     * 
-     */
-    public OperationFailedException createOperationFailedException() {
-        return new OperationFailedException();
     }
 
     /**
@@ -87,6 +57,54 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AlreadyExistsException }
+     * 
+     */
+    public AlreadyExistsException createAlreadyExistsException() {
+        return new AlreadyExistsException();
+    }
+
+    /**
+     * Create an instance of {@link DataValidationErrorException }
+     * 
+     */
+    public DataValidationErrorException createDataValidationErrorException() {
+        return new DataValidationErrorException();
+    }
+
+    /**
+     * Create an instance of {@link OperationFailedException }
+     * 
+     */
+    public OperationFailedException createOperationFailedException() {
+        return new OperationFailedException();
+    }
+
+    /**
+     * Create an instance of {@link PermissionDeniedException }
+     * 
+     */
+    public PermissionDeniedException createPermissionDeniedException() {
+        return new PermissionDeniedException();
+    }
+
+    /**
+     * Create an instance of {@link VersionMismatchException }
+     * 
+     */
+    public VersionMismatchException createVersionMismatchException() {
+        return new VersionMismatchException();
+    }
+
+    /**
+     * Create an instance of {@link DoesNotExistException }
+     * 
+     */
+    public DoesNotExistException createDoesNotExistException() {
+        return new DoesNotExistException();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AlreadyExistsException }{@code >}}
      * 
      */
@@ -96,12 +114,39 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link VersionMismatchException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/exceptions", name = "VersionMismatchException")
+    public JAXBElement<VersionMismatchException> createVersionMismatchException(VersionMismatchException value) {
+        return new JAXBElement<VersionMismatchException>(_VersionMismatchException_QNAME, VersionMismatchException.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link OperationFailedException }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/exceptions", name = "OperationFailedException")
     public JAXBElement<OperationFailedException> createOperationFailedException(OperationFailedException value) {
         return new JAXBElement<OperationFailedException>(_OperationFailedException_QNAME, OperationFailedException.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DoesNotExistException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/exceptions", name = "DoesNotExistException")
+    public JAXBElement<DoesNotExistException> createDoesNotExistException(DoesNotExistException value) {
+        return new JAXBElement<DoesNotExistException>(_DoesNotExistException_QNAME, DoesNotExistException.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DataValidationErrorException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/exceptions", name = "DataValidationErrorException")
+    public JAXBElement<DataValidationErrorException> createDataValidationErrorException(DataValidationErrorException value) {
+        return new JAXBElement<DataValidationErrorException>(_DataValidationErrorException_QNAME, DataValidationErrorException.class, null, value);
     }
 
     /**
@@ -129,15 +174,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/exceptions", name = "MissingParameterException")
     public JAXBElement<MissingParameterException> createMissingParameterException(MissingParameterException value) {
         return new JAXBElement<MissingParameterException>(_MissingParameterException_QNAME, MissingParameterException.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DoesNotExistException }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/exceptions", name = "DoesNotExistException")
-    public JAXBElement<DoesNotExistException> createDoesNotExistException(DoesNotExistException value) {
-        return new JAXBElement<DoesNotExistException>(_DoesNotExistException_QNAME, DoesNotExistException.class, null, value);
     }
 
 }

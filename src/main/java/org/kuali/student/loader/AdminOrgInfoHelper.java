@@ -15,7 +15,12 @@
  */
 package org.kuali.student.loader;
 
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.kuali.student.wsdl.course.AdminOrgInfo;
+
 
 /**
  *
@@ -23,16 +28,47 @@ import org.kuali.student.lum.lu.dto.AdminOrgInfo;
  */
 public class AdminOrgInfoHelper
 {
- public AdminOrgInfo get (String id, String orgId)
+ public AdminOrgInfo get (String type, String orgName)
  {
-  if (orgId == null)
+  if (orgName == null)
   {
    return null;
   }
   AdminOrgInfo info = new AdminOrgInfo ();
-  info.setId (id);
-  info.setOrgId (orgId);
+  info.setType (type);
+  info.setOrgId (orgName);
   return info;
  }
 
+
+ private static final Map<String, String> orgNamesToId = new HashMap ();
+
+ public String findOrgId (String orgName)
+ {
+  if (orgName == null)
+  {
+   return null;
+  }
+  if  (orgNamesToId.containsKey (orgName))
+  {
+   return orgNamesToId.get (orgName);
+  }
+  String id = findOrgIdInternal (orgName);
+  if (id == null)
+  {
+   return null;
+  }
+  orgNamesToId.put (orgName, id);
+  return id;
+  }
+
+ public static final String DEPARTMENT = "kuali.org.Department";
+ public static final String OFFICE = "kuali.org.Office";
+ public String findOrgIdInternal (String orgName)
+ {
+  List<String> types = new ArrayList ();
+  types.add (DEPARTMENT);
+  types.add (OFFICE);
+  return new OrgFinder ().find (orgName, types);
+ }
 }

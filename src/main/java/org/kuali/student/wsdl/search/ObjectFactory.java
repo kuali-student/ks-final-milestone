@@ -25,21 +25,21 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _GetSearchTypeResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypeResponse");
+    private final static QName _GetSearchResultTypeResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchResultTypeResponse");
+    private final static QName _GetSearchCriteriaTypesResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchCriteriaTypesResponse");
+    private final static QName _GetSearchTypesByCriteriaResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypesByCriteriaResponse");
+    private final static QName _GetSearchTypes_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypes");
+    private final static QName _GetSearchType_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchType");
     private final static QName _GetSearchTypesByResult_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypesByResult");
     private final static QName _GetSearchTypesByCriteria_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypesByCriteria");
     private final static QName _GetSearchTypesByResultResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypesByResultResponse");
     private final static QName _GetSearchCriteriaTypeResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchCriteriaTypeResponse");
     private final static QName _GetSearchResultTypesResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchResultTypesResponse");
     private final static QName _GetSearchResultType_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchResultType");
-    private final static QName _GetSearchResultTypeResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchResultTypeResponse");
-    private final static QName _GetSearchCriteriaTypesResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchCriteriaTypesResponse");
     private final static QName _GetSearchResultTypes_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchResultTypes");
-    private final static QName _GetSearchTypesByCriteriaResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypesByCriteriaResponse");
     private final static QName _GetSearchTypesResponse_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypesResponse");
-    private final static QName _GetSearchTypes_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchTypes");
     private final static QName _GetSearchCriteriaType_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchCriteriaType");
     private final static QName _GetSearchCriteriaTypes_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchCriteriaTypes");
-    private final static QName _GetSearchType_QNAME = new QName("http://student.kuali.org/wsdl/search", "getSearchType");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.kuali.student.wsdl.search
@@ -49,11 +49,83 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSearchCriteriaTypeResponse }
+     * Create an instance of {@link GetSearchTypeResponse }
      * 
      */
-    public GetSearchCriteriaTypeResponse createGetSearchCriteriaTypeResponse() {
-        return new GetSearchCriteriaTypeResponse();
+    public GetSearchTypeResponse createGetSearchTypeResponse() {
+        return new GetSearchTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchCriteriaTypesResponse }
+     * 
+     */
+    public GetSearchCriteriaTypesResponse createGetSearchCriteriaTypesResponse() {
+        return new GetSearchCriteriaTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypesByResultResponse }
+     * 
+     */
+    public GetSearchTypesByResultResponse createGetSearchTypesByResultResponse() {
+        return new GetSearchTypesByResultResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchResultType }
+     * 
+     */
+    public GetSearchResultType createGetSearchResultType() {
+        return new GetSearchResultType();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchResultTypesResponse }
+     * 
+     */
+    public GetSearchResultTypesResponse createGetSearchResultTypesResponse() {
+        return new GetSearchResultTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchType }
+     * 
+     */
+    public GetSearchType createGetSearchType() {
+        return new GetSearchType();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypesResponse }
+     * 
+     */
+    public GetSearchTypesResponse createGetSearchTypesResponse() {
+        return new GetSearchTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link SearchParam }
+     * 
+     */
+    public SearchParam createSearchParam() {
+        return new SearchParam();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypesByResult }
+     * 
+     */
+    public GetSearchTypesByResult createGetSearchTypesByResult() {
+        return new GetSearchTypesByResult();
+    }
+
+    /**
+     * Create an instance of {@link SearchRequest }
+     * 
+     */
+    public SearchRequest createSearchRequest() {
+        return new SearchRequest();
     }
 
     /**
@@ -62,6 +134,30 @@ public class ObjectFactory {
      */
     public SearchTypeInfo createSearchTypeInfo() {
         return new SearchTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link SearchResultTypeInfo.ResultColumns }
+     * 
+     */
+    public SearchResultTypeInfo.ResultColumns createSearchResultTypeInfoResultColumns() {
+        return new SearchResultTypeInfo.ResultColumns();
+    }
+
+    /**
+     * Create an instance of {@link SearchResultCell }
+     * 
+     */
+    public SearchResultCell createSearchResultCell() {
+        return new SearchResultCell();
+    }
+
+    /**
+     * Create an instance of {@link SearchResult }
+     * 
+     */
+    public SearchResult createSearchResult() {
+        return new SearchResult();
     }
 
     /**
@@ -89,99 +185,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SearchCriteriaTypeInfo }
+     * Create an instance of {@link ResultColumnInfo }
      * 
      */
-    public SearchCriteriaTypeInfo createSearchCriteriaTypeInfo() {
-        return new SearchCriteriaTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link SearchResult }
-     * 
-     */
-    public SearchResult createSearchResult() {
-        return new SearchResult();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchType }
-     * 
-     */
-    public GetSearchType createGetSearchType() {
-        return new GetSearchType();
-    }
-
-    /**
-     * Create an instance of {@link SearchRequest }
-     * 
-     */
-    public SearchRequest createSearchRequest() {
-        return new SearchRequest();
-    }
-
-    /**
-     * Create an instance of {@link SearchResultTypeInfo }
-     * 
-     */
-    public SearchResultTypeInfo createSearchResultTypeInfo() {
-        return new SearchResultTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchResultTypesResponse }
-     * 
-     */
-    public GetSearchResultTypesResponse createGetSearchResultTypesResponse() {
-        return new GetSearchResultTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypesByResultResponse }
-     * 
-     */
-    public GetSearchTypesByResultResponse createGetSearchTypesByResultResponse() {
-        return new GetSearchTypesByResultResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchResultType }
-     * 
-     */
-    public GetSearchResultType createGetSearchResultType() {
-        return new GetSearchResultType();
-    }
-
-    /**
-     * Create an instance of {@link SearchRelationship }
-     * 
-     */
-    public SearchRelationship createSearchRelationship() {
-        return new SearchRelationship();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchCriteriaTypesResponse }
-     * 
-     */
-    public GetSearchCriteriaTypesResponse createGetSearchCriteriaTypesResponse() {
-        return new GetSearchCriteriaTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchResultTypes }
-     * 
-     */
-    public GetSearchResultTypes createGetSearchResultTypes() {
-        return new GetSearchResultTypes();
-    }
-
-    /**
-     * Create an instance of {@link TypeAttribute }
-     * 
-     */
-    public TypeAttribute createTypeAttribute() {
-        return new TypeAttribute();
+    public ResultColumnInfo createResultColumnInfo() {
+        return new ResultColumnInfo();
     }
 
     /**
@@ -190,22 +198,6 @@ public class ObjectFactory {
      */
     public GetSearchTypesByCriteriaResponse createGetSearchTypesByCriteriaResponse() {
         return new GetSearchTypesByCriteriaResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypeResponse }
-     * 
-     */
-    public GetSearchTypeResponse createGetSearchTypeResponse() {
-        return new GetSearchTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchResultTypeResponse }
-     * 
-     */
-    public GetSearchResultTypeResponse createGetSearchResultTypeResponse() {
-        return new GetSearchResultTypeResponse();
     }
 
     /**
@@ -225,6 +217,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetSearchCriteriaTypeResponse }
+     * 
+     */
+    public GetSearchCriteriaTypeResponse createGetSearchCriteriaTypeResponse() {
+        return new GetSearchCriteriaTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link SearchResultTypeInfo }
+     * 
+     */
+    public SearchResultTypeInfo createSearchResultTypeInfo() {
+        return new SearchResultTypeInfo();
+    }
+
+    /**
      * Create an instance of {@link GetSearchTypes }
      * 
      */
@@ -233,43 +241,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SearchResultCell }
+     * Create an instance of {@link SearchCriteriaTypeInfo }
      * 
      */
-    public SearchResultCell createSearchResultCell() {
-        return new SearchResultCell();
+    public SearchCriteriaTypeInfo createSearchCriteriaTypeInfo() {
+        return new SearchCriteriaTypeInfo();
     }
 
     /**
-     * Create an instance of {@link SearchResultTypeInfo.ResultColumns }
+     * Create an instance of {@link GetSearchResultTypes }
      * 
      */
-    public SearchResultTypeInfo.ResultColumns createSearchResultTypeInfoResultColumns() {
-        return new SearchResultTypeInfo.ResultColumns();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypesResponse }
-     * 
-     */
-    public GetSearchTypesResponse createGetSearchTypesResponse() {
-        return new GetSearchTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link ResultColumnInfo }
-     * 
-     */
-    public ResultColumnInfo createResultColumnInfo() {
-        return new ResultColumnInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypesByResult }
-     * 
-     */
-    public GetSearchTypesByResult createGetSearchTypesByResult() {
-        return new GetSearchTypesByResult();
+    public GetSearchResultTypes createGetSearchResultTypes() {
+        return new GetSearchResultTypes();
     }
 
     /**
@@ -281,11 +265,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SearchParam }
+     * Create an instance of {@link TypeAttribute }
      * 
      */
-    public SearchParam createSearchParam() {
-        return new SearchParam();
+    public TypeAttribute createTypeAttribute() {
+        return new TypeAttribute();
+    }
+
+    /**
+     * Create an instance of {@link SearchRelationship }
+     * 
+     */
+    public SearchRelationship createSearchRelationship() {
+        return new SearchRelationship();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchResultTypeResponse }
+     * 
+     */
+    public GetSearchResultTypeResponse createGetSearchResultTypeResponse() {
+        return new GetSearchResultTypeResponse();
     }
 
     /**
@@ -295,6 +295,51 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchTypeResponse")
     public JAXBElement<GetSearchTypeResponse> createGetSearchTypeResponse(GetSearchTypeResponse value) {
         return new JAXBElement<GetSearchTypeResponse>(_GetSearchTypeResponse_QNAME, GetSearchTypeResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchResultTypeResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchResultTypeResponse")
+    public JAXBElement<GetSearchResultTypeResponse> createGetSearchResultTypeResponse(GetSearchResultTypeResponse value) {
+        return new JAXBElement<GetSearchResultTypeResponse>(_GetSearchResultTypeResponse_QNAME, GetSearchResultTypeResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchCriteriaTypesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchCriteriaTypesResponse")
+    public JAXBElement<GetSearchCriteriaTypesResponse> createGetSearchCriteriaTypesResponse(GetSearchCriteriaTypesResponse value) {
+        return new JAXBElement<GetSearchCriteriaTypesResponse>(_GetSearchCriteriaTypesResponse_QNAME, GetSearchCriteriaTypesResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchTypesByCriteriaResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchTypesByCriteriaResponse")
+    public JAXBElement<GetSearchTypesByCriteriaResponse> createGetSearchTypesByCriteriaResponse(GetSearchTypesByCriteriaResponse value) {
+        return new JAXBElement<GetSearchTypesByCriteriaResponse>(_GetSearchTypesByCriteriaResponse_QNAME, GetSearchTypesByCriteriaResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchTypes }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchTypes")
+    public JAXBElement<GetSearchTypes> createGetSearchTypes(GetSearchTypes value) {
+        return new JAXBElement<GetSearchTypes>(_GetSearchTypes_QNAME, GetSearchTypes.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchType")
+    public JAXBElement<GetSearchType> createGetSearchType(GetSearchType value) {
+        return new JAXBElement<GetSearchType>(_GetSearchType_QNAME, GetSearchType.class, null, value);
     }
 
     /**
@@ -352,24 +397,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchResultTypeResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchResultTypeResponse")
-    public JAXBElement<GetSearchResultTypeResponse> createGetSearchResultTypeResponse(GetSearchResultTypeResponse value) {
-        return new JAXBElement<GetSearchResultTypeResponse>(_GetSearchResultTypeResponse_QNAME, GetSearchResultTypeResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchCriteriaTypesResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchCriteriaTypesResponse")
-    public JAXBElement<GetSearchCriteriaTypesResponse> createGetSearchCriteriaTypesResponse(GetSearchCriteriaTypesResponse value) {
-        return new JAXBElement<GetSearchCriteriaTypesResponse>(_GetSearchCriteriaTypesResponse_QNAME, GetSearchCriteriaTypesResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchResultTypes }{@code >}}
      * 
      */
@@ -379,30 +406,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchTypesByCriteriaResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchTypesByCriteriaResponse")
-    public JAXBElement<GetSearchTypesByCriteriaResponse> createGetSearchTypesByCriteriaResponse(GetSearchTypesByCriteriaResponse value) {
-        return new JAXBElement<GetSearchTypesByCriteriaResponse>(_GetSearchTypesByCriteriaResponse_QNAME, GetSearchTypesByCriteriaResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchTypesResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchTypesResponse")
     public JAXBElement<GetSearchTypesResponse> createGetSearchTypesResponse(GetSearchTypesResponse value) {
         return new JAXBElement<GetSearchTypesResponse>(_GetSearchTypesResponse_QNAME, GetSearchTypesResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchTypes }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchTypes")
-    public JAXBElement<GetSearchTypes> createGetSearchTypes(GetSearchTypes value) {
-        return new JAXBElement<GetSearchTypes>(_GetSearchTypes_QNAME, GetSearchTypes.class, null, value);
     }
 
     /**
@@ -421,15 +430,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchCriteriaTypes")
     public JAXBElement<GetSearchCriteriaTypes> createGetSearchCriteriaTypes(GetSearchCriteriaTypes value) {
         return new JAXBElement<GetSearchCriteriaTypes>(_GetSearchCriteriaTypes_QNAME, GetSearchCriteriaTypes.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetSearchType }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://student.kuali.org/wsdl/search", name = "getSearchType")
-    public JAXBElement<GetSearchType> createGetSearchType(GetSearchType value) {
-        return new JAXBElement<GetSearchType>(_GetSearchType_QNAME, GetSearchType.class, null, value);
     }
 
 }

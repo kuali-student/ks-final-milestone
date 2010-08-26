@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
-import org.kuali.student.wsdl.enumerationmanagement.JaxbAttributeList;
+import org.kuali.student.wsdl.organization.JaxbAttributeList;
 
 
 /**
@@ -29,7 +29,7 @@ import org.kuali.student.wsdl.enumerationmanagement.JaxbAttributeList;
  *         &lt;element name="effectiveDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="expirationDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="modifiable" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="attributes" type="{http://student.kuali.org/wsdl/enumerationmanagement}jaxbAttributeList" minOccurs="0"/>
+ *         &lt;element name="attributes" type="{http://student.kuali.org/wsdl/organization}jaxbAttributeList" minOccurs="0"/>
  *       &lt;/sequence>
  *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="key" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />

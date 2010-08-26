@@ -19,59 +19,59 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.wsdl.course.CourseInfo;
 
 /**
  *
  * @author nwright
  */
-public class CreditCourseToCluConverter
+public class CreditCourseToCourseInfoConverter
 {
 
 
- private CreditCourse course;
+ private CreditCourse cc;
 
- public CreditCourseToCluConverter (CreditCourse course)
+ public CreditCourseToCourseInfoConverter (CreditCourse cc)
  {
-  this.course = course;
+  this.cc = cc;
  }
 
- public CluInfo convert ()
+ public static final String ADMINISTRATION_ADMIN_ORG_TYPE = "kuali.adminOrg.type.Administration";
+ public CourseInfo convert ()
  {
-  CluInfo cluInfo = new CluInfo ();
-  cluInfo.setId (course.getId ());
-  cluInfo.setPrimaryAdminOrg (new AdminOrgInfoHelper ().get ("Primary" + course.getId (), course.getPrimaryAdminOrgId ()));
-  cluInfo.setDescr (new RichTextInfoHelper ().getFromPlain (course.getDesc ()));
+  CourseInfo courseInfo = new CourseInfo ();
+  courseInfo.setId (cc.getId ());
+  courseInfo.getAdministeringOrgs ().add (new AdminOrgInfoHelper ().get (ADMINISTRATION_ADMIN_ORG_TYPE, cc.getPrimaryAdminOrg ()));
+  courseInfo.setDescr (new RichTextInfoHelper ().getFromPlain (cc.getDesc ()));
   CluIdentifierInfo officialIdentifierInfo = new CluIdentifierInfo ();
-  cluInfo.setOfficialIdentifier (officialIdentifierInfo);
-  officialIdentifierInfo.setCode (course.getCode ());
-  officialIdentifierInfo.setDivision (course.getDivision ());
-  officialIdentifierInfo.setSuffixCode (course.getSuffixCode ());
-  officialIdentifierInfo.setVariation (course.getVariation ());
-  officialIdentifierInfo.setShortName (course.getShortName ());
-  officialIdentifierInfo.setLongName (course.getLongName ());
+  courseInfo.setOfficialIdentifier (officialIdentifierInfo);
+  officialIdentifierInfo.setCode (cc.getCode ());
+  officialIdentifierInfo.setDivision (cc.getDivision ());
+  officialIdentifierInfo.setSuffixCode (cc.getSuffixCode ());
+  officialIdentifierInfo.setVariation (cc.getVariation ());
+  officialIdentifierInfo.setShortName (cc.getShortName ());
+  officialIdentifierInfo.setLongName (cc.getLongName ());
   officialIdentifierInfo.setType ("kuali.lu.type.CreditCourse.identifier.official");
   officialIdentifierInfo.setState ("active");
-  officialIdentifierInfo.setId ("official" + course.getId ());
-  cluInfo.setOfferedAtpTypes (convertOfferedAtpTypes (course.getOfferedAtpTypes ()));
-  cluInfo.setType ("kuali.lu.type.CreditCourse");
-  cluInfo.setState ("activated");
+  officialIdentifierInfo.setId ("official" + cc.getId ());
+  courseInfo.getOfferedAtpTypes ().addAll (convertOfferedAtpTypes (cc.getOfferedAtpTypes ()));
+  courseInfo.setType ("kuali.lu.type.CreditCourse");
+  courseInfo.setState ("activated");
   List<String> campuses = new ArrayList ();
   campuses.add ("North");
-  cluInfo.setCampusLocations (campuses);
-  cluInfo.setEnrollable (true);
-  cluInfo.setIntensity (new AmountInfoHelper ().get ("1", "kuali.atp.duration.Semester"));
-  cluInfo.setStdDuration (new TimeAmountInfoHelper ().get (1, "kuali.atp.duration.Semester"));
-  cluInfo.setExpectedFirstAtp ("kuali.atp.FA2008-2009");
-  cluInfo.setHasEarlyDropDeadline (false);
-  cluInfo.setHazardousForDisabledStudents (false);
-  cluInfo.setEnrollable (true);
-  cluInfo.setCanCreateLui (true);
-  cluInfo.setDefaultEnrollmentEstimate (0);
-  cluInfo.setDefaultMaximumEnrollment (50);
-  cluInfo.setEffectiveDate (new DateHelper ().asDate ("2010-01-01"));
-  cluInfo.setMetaInfo (new MetaInfoHelper ().get ());
-  return cluInfo;
+  courseInfo.getCampusLocations ().addAll (campuses);
+  courseInfo.setIntensity (new AmountInfoHelper ().get ("1", "kuali.atp.duration.Semester"));
+  courseInfo.setStdDuration (new TimeAmountInfoHelper ().get (1, "kuali.atp.duration.Semester"));
+  courseInfo.setExpectedFirstAtp ("kuali.atp.FA2008-2009");
+  courseInfo.setHasEarlyDropDeadline (false);
+  courseInfo.setHazardousForDisabledStudents (false);
+  courseInfo.setEnrollable (true);
+  courseInfo.setCanCreateLui (true);
+  courseInfo.setDefaultEnrollmentEstimate (0);
+  courseInfo.setDefaultMaximumEnrollment (50);
+  courseInfo.setEffectiveDate (new DateHelper ().asDate ("2010-01-01"));
+  courseInfo.setMetaInfo (new MetaInfoHelper ().get ());
+  return courseInfo;
  }
 
 // public static final int ID = 0;

@@ -15,7 +15,9 @@
  */
 package org.kuali.student.loader;
 
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.wsdl.course.RichTextInfo;
+
+
 
 
 /**
