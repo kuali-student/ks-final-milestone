@@ -1,0 +1,1088 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+<import resource="classpath:lrd-lrDefinitionInfo-dictionary-structure-config.xml"/>
+
+<!-- ******************************************** -->
+<!-- object structure for object.lrDefinitionInfo -->
+<!-- ******************************************** -->
+<!-- Detailed information about a learning result definition. -->
+<dict:objectStructure key="NOT_FOUND.LrDefinitionInfo" id="object.lrDefinitionInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.lrDefinitionInfo.CreditCourseFinalGrade"/>
+	<dict:typeRef bean="type.lrDefinitionInfo.OverallProgramGPA"/>
+	<dict:typeRef bean="type.lrDefinitionInfo.OverallProgramTotalCredits"/>
+</dict:objectStructure>
+<dict:objectStructure key="NOT_FOUND.LrDefinitionInfo" id="object.lrDefinitionInfo" parent="object.lrDefinitionInfo.abstract"/>
+
+<!-- TODO: update simples -->
+<dict:type key="kuali.lrc.lrd.CreditCourseFinalGrade" id="type.lrDefinitionInfo.CreditCourseFinalGrade.abstract" abstract="true">
+	<dict:name>Credit Course Final Grade</dict:name>
+	<dict:desc>This defines getting the result of a final grade in a credi course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.lrDefinitionInfo.CreditCourseFinalGrade"/>
+</dict:type>
+<dict:type key="kuali.lrc.lrd.CreditCourseFinalGrade" id="type.lrDefinitionInfo.CreditCourseFinalGrade" parent="type.lrDefinitionInfo.CreditCourseFinalGrade.abstract"/>
+
+<!-- For now we have to live without defining "Overall" even though it is a fuzzy word.. What if a person was in multiple overall programs sequentially (undergrad then grad) or parallel (dual major)?  Which program?
+TODO: update simples -->
+<dict:type key="kuali.lrc.lrd.OverallProgramGPA" id="type.lrDefinitionInfo.OverallProgramGPA.abstract" abstract="true">
+	<dict:name>Overall Program GPA</dict:name>
+	<dict:desc>This defines the calculated GPA result of enrollment in the overall program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.lrDefinitionInfo.OverallProgramGPA"/>
+</dict:type>
+<dict:type key="kuali.lrc.lrd.OverallProgramGPA" id="type.lrDefinitionInfo.OverallProgramGPA" parent="type.lrDefinitionInfo.OverallProgramGPA.abstract"/>
+
+<!-- For now we have to live without defining "Overall" even though it is a fuzzy word.. What if a person was in multiple overall programs sequentially (undergrad then grad) or parallel (dual major)?  Which program?
+TODO: update simples -->
+<dict:type key="kuali.lrc.lrd.OverallProgramTotalCredits" id="type.lrDefinitionInfo.OverallProgramTotalCredits.abstract" abstract="true">
+	<dict:name>Overall Program Total Credits</dict:name>
+	<dict:desc>This defines the calculated Total Credits result of enrollment in the overall program.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.lrDefinitionInfo.OverallProgramTotalCredits"/>
+</dict:type>
+<dict:type key="kuali.lrc.lrd.OverallProgramTotalCredits" id="type.lrDefinitionInfo.OverallProgramTotalCredits" parent="type.lrDefinitionInfo.OverallProgramTotalCredits.abstract"/>
+
+<!-- ******************************************************************** -->
+<!-- State for state.lrDefinitionInfo.Credit Course Final Grade.(default) -->
+<!-- ******************************************************************** -->
+
+<dict:state key="*" id="state.lrDefinitionInfo.CreditCourseFinalGrade.abstract" abstract="true">
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.name"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.desc"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.type"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.scale"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.gradeKey"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.operator"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.metaInfo"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.internal.id"/>
+</dict:state>
+<dict:state key="*" id="state.lrDefinitionInfo.CreditCourseFinalGrade" parent="state.lrDefinitionInfo.CreditCourseFinalGrade.abstract"/>
+
+<!-- ************************************************************** -->
+<!-- State for state.lrDefinitionInfo.Overall Program GPA.(default) -->
+<!-- ************************************************************** -->
+
+<dict:state key="*" id="state.lrDefinitionInfo.OverallProgramGPA.abstract" abstract="true">
+	<dict:fieldRef bean="dict.gpa.in.overall.program.name"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.desc"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.type"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.scale"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.gpa"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.operator"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.metaInfo"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.internal.id"/>
+</dict:state>
+<dict:state key="*" id="state.lrDefinitionInfo.OverallProgramGPA" parent="state.lrDefinitionInfo.OverallProgramGPA.abstract"/>
+
+<!-- ************************************************************************ -->
+<!-- State for state.lrDefinitionInfo.Overall Program Total Credits.(default) -->
+<!-- ************************************************************************ -->
+
+<dict:state key="*" id="state.lrDefinitionInfo.OverallProgramTotalCredits.abstract" abstract="true">
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.name"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.desc"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.type"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.scale"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.gpa"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.operator"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.metaInfo"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.internal.id"/>
+</dict:state>
+<dict:state key="*" id="state.lrDefinitionInfo.OverallProgramTotalCredits" parent="state.lrDefinitionInfo.OverallProgramTotalCredits.abstract"/>
+
+
+<!-- *********************************************************************************************** -->
+<!-- object structure for object.field.lrDefinitionInfo.metaInfo.Credit Course Final Grade.(default) -->
+<!-- *********************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade.abstract" abstract="true">
+	<dict:typeRef bean="type.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade" parent="object.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade.abstract"/>
+
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade"/>
+</dict:type>
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade" parent="type.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade.abstract"/>
+
+<!-- ******************************************************************************************************* -->
+<!-- State for state.field.lrDefinitionInfo.metaInfo.Credit Course Final Grade.(default).(default).(default) -->
+<!-- ******************************************************************************************************* -->
+
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade.abstract" abstract="true">
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.meta.versionInd"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.meta.createTime"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.meta.createId"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.meta.updateTime"/>
+	<dict:fieldRef bean="dict.credit.course.with.final.grade.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade" parent="state.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade.abstract"/>
+
+
+<!-- *************************************************** -->
+<!-- dict.credit.course.with.final.grade.meta.versionInd -->
+<!-- *************************************************** -->
+<dict:field key="versionInd" id="dict.credit.course.with.final.grade.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.credit.course.with.final.grade.meta.versionInd" parent="dict.credit.course.with.final.grade.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade meta versionInd</dict:name>
+	<dict:desc>credit course with final grade meta versionInd</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.versionInd.fd" parent="dict.credit.course.with.final.grade.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.credit.course.with.final.grade.meta.versionInd.cd" parent="dict.credit.course.with.final.grade.meta.versionInd.cd.abstract"/>
+
+<!-- *************************************************** -->
+<!-- dict.credit.course.with.final.grade.meta.createTime -->
+<!-- *************************************************** -->
+<dict:field key="createTime" id="dict.credit.course.with.final.grade.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.credit.course.with.final.grade.meta.createTime" parent="dict.credit.course.with.final.grade.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade meta createTime</dict:name>
+	<dict:desc>credit course with final grade meta createTime</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.createTime.fd" parent="dict.credit.course.with.final.grade.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.credit.course.with.final.grade.meta.createTime.cd" parent="dict.credit.course.with.final.grade.meta.createTime.cd.abstract"/>
+
+<!-- ************************************************* -->
+<!-- dict.credit.course.with.final.grade.meta.createId -->
+<!-- ************************************************* -->
+<dict:field key="createId" id="dict.credit.course.with.final.grade.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.credit.course.with.final.grade.meta.createId" parent="dict.credit.course.with.final.grade.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.createId.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade meta createId</dict:name>
+	<dict:desc>credit course with final grade meta createId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.createId.fd" parent="dict.credit.course.with.final.grade.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.credit.course.with.final.grade.meta.createId.cd" parent="dict.credit.course.with.final.grade.meta.createId.cd.abstract"/>
+
+<!-- *************************************************** -->
+<!-- dict.credit.course.with.final.grade.meta.updateTime -->
+<!-- *************************************************** -->
+<dict:field key="updateTime" id="dict.credit.course.with.final.grade.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.credit.course.with.final.grade.meta.updateTime" parent="dict.credit.course.with.final.grade.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade meta updateTime</dict:name>
+	<dict:desc>credit course with final grade meta updateTime</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.updateTime.fd" parent="dict.credit.course.with.final.grade.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.credit.course.with.final.grade.meta.updateTime.cd" parent="dict.credit.course.with.final.grade.meta.updateTime.cd.abstract"/>
+
+<!-- ************************************************* -->
+<!-- dict.credit.course.with.final.grade.meta.updateId -->
+<!-- ************************************************* -->
+<dict:field key="updateId" id="dict.credit.course.with.final.grade.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.credit.course.with.final.grade.meta.updateId" parent="dict.credit.course.with.final.grade.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade meta updateId</dict:name>
+	<dict:desc>credit course with final grade meta updateId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.updateId.fd" parent="dict.credit.course.with.final.grade.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.credit.course.with.final.grade.meta.updateId.cd" parent="dict.credit.course.with.final.grade.meta.updateId.cd.abstract"/>
+
+
+<!-- ***************************************************************************************** -->
+<!-- object structure for object.field.lrDefinitionInfo.metaInfo.Overall Program GPA.(default) -->
+<!-- ***************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.lrDefinitionInfo.metaInfo.OverallProgramGPA.abstract" abstract="true">
+	<dict:typeRef bean="type.field.lrDefinitionInfo.metaInfo.OverallProgramGPA"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.lrDefinitionInfo.metaInfo.OverallProgramGPA" parent="object.field.lrDefinitionInfo.metaInfo.OverallProgramGPA.abstract"/>
+
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.OverallProgramGPA.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.lrDefinitionInfo.metaInfo.OverallProgramGPA"/>
+</dict:type>
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.OverallProgramGPA" parent="type.field.lrDefinitionInfo.metaInfo.OverallProgramGPA.abstract"/>
+
+<!-- ************************************************************************************************* -->
+<!-- State for state.field.lrDefinitionInfo.metaInfo.Overall Program GPA.(default).(default).(default) -->
+<!-- ************************************************************************************************* -->
+
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.OverallProgramGPA.abstract" abstract="true">
+	<dict:fieldRef bean="dict.gpa.in.overall.program.meta.versionInd"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.meta.createTime"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.meta.createId"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.meta.updateTime"/>
+	<dict:fieldRef bean="dict.gpa.in.overall.program.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.OverallProgramGPA" parent="state.field.lrDefinitionInfo.metaInfo.OverallProgramGPA.abstract"/>
+
+
+<!-- ******************************************* -->
+<!-- dict.gpa.in.overall.program.meta.versionInd -->
+<!-- ******************************************* -->
+<dict:field key="versionInd" id="dict.gpa.in.overall.program.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.gpa.in.overall.program.meta.versionInd" parent="dict.gpa.in.overall.program.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program meta versionInd</dict:name>
+	<dict:desc>gpa in overall program meta versionInd</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.versionInd.fd" parent="dict.gpa.in.overall.program.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.gpa.in.overall.program.meta.versionInd.cd" parent="dict.gpa.in.overall.program.meta.versionInd.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.gpa.in.overall.program.meta.createTime -->
+<!-- ******************************************* -->
+<dict:field key="createTime" id="dict.gpa.in.overall.program.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.gpa.in.overall.program.meta.createTime" parent="dict.gpa.in.overall.program.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program meta createTime</dict:name>
+	<dict:desc>gpa in overall program meta createTime</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.createTime.fd" parent="dict.gpa.in.overall.program.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.gpa.in.overall.program.meta.createTime.cd" parent="dict.gpa.in.overall.program.meta.createTime.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.gpa.in.overall.program.meta.createId -->
+<!-- ***************************************** -->
+<dict:field key="createId" id="dict.gpa.in.overall.program.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.gpa.in.overall.program.meta.createId" parent="dict.gpa.in.overall.program.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.createId.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program meta createId</dict:name>
+	<dict:desc>gpa in overall program meta createId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.createId.fd" parent="dict.gpa.in.overall.program.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.gpa.in.overall.program.meta.createId.cd" parent="dict.gpa.in.overall.program.meta.createId.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.gpa.in.overall.program.meta.updateTime -->
+<!-- ******************************************* -->
+<dict:field key="updateTime" id="dict.gpa.in.overall.program.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.gpa.in.overall.program.meta.updateTime" parent="dict.gpa.in.overall.program.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program meta updateTime</dict:name>
+	<dict:desc>gpa in overall program meta updateTime</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.updateTime.fd" parent="dict.gpa.in.overall.program.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.gpa.in.overall.program.meta.updateTime.cd" parent="dict.gpa.in.overall.program.meta.updateTime.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.gpa.in.overall.program.meta.updateId -->
+<!-- ***************************************** -->
+<dict:field key="updateId" id="dict.gpa.in.overall.program.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.gpa.in.overall.program.meta.updateId" parent="dict.gpa.in.overall.program.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program meta updateId</dict:name>
+	<dict:desc>gpa in overall program meta updateId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.updateId.fd" parent="dict.gpa.in.overall.program.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.gpa.in.overall.program.meta.updateId.cd" parent="dict.gpa.in.overall.program.meta.updateId.cd.abstract"/>
+
+
+<!-- *************************************************************************************************** -->
+<!-- object structure for object.field.lrDefinitionInfo.metaInfo.Overall Program Total Credits.(default) -->
+<!-- *************************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits.abstract" abstract="true">
+	<dict:typeRef bean="type.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits" parent="object.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits.abstract"/>
+
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits"/>
+</dict:type>
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits" parent="type.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits.abstract"/>
+
+<!-- *********************************************************************************************************** -->
+<!-- State for state.field.lrDefinitionInfo.metaInfo.Overall Program Total Credits.(default).(default).(default) -->
+<!-- *********************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits.abstract" abstract="true">
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.meta.versionInd"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.meta.createTime"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.meta.createId"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.meta.updateTime"/>
+	<dict:fieldRef bean="dict.total.credits.in.overall.program.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits" parent="state.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits.abstract"/>
+
+
+<!-- ***************************************************** -->
+<!-- dict.total.credits.in.overall.program.meta.versionInd -->
+<!-- ***************************************************** -->
+<dict:field key="versionInd" id="dict.total.credits.in.overall.program.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.total.credits.in.overall.program.meta.versionInd" parent="dict.total.credits.in.overall.program.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program meta versionInd</dict:name>
+	<dict:desc>total credits in overall program meta versionInd</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.versionInd.fd" parent="dict.total.credits.in.overall.program.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.total.credits.in.overall.program.meta.versionInd.cd" parent="dict.total.credits.in.overall.program.meta.versionInd.cd.abstract"/>
+
+<!-- ***************************************************** -->
+<!-- dict.total.credits.in.overall.program.meta.createTime -->
+<!-- ***************************************************** -->
+<dict:field key="createTime" id="dict.total.credits.in.overall.program.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.total.credits.in.overall.program.meta.createTime" parent="dict.total.credits.in.overall.program.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program meta createTime</dict:name>
+	<dict:desc>total credits in overall program meta createTime</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.createTime.fd" parent="dict.total.credits.in.overall.program.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.total.credits.in.overall.program.meta.createTime.cd" parent="dict.total.credits.in.overall.program.meta.createTime.cd.abstract"/>
+
+<!-- *************************************************** -->
+<!-- dict.total.credits.in.overall.program.meta.createId -->
+<!-- *************************************************** -->
+<dict:field key="createId" id="dict.total.credits.in.overall.program.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.total.credits.in.overall.program.meta.createId" parent="dict.total.credits.in.overall.program.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.createId.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program meta createId</dict:name>
+	<dict:desc>total credits in overall program meta createId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.createId.fd" parent="dict.total.credits.in.overall.program.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.total.credits.in.overall.program.meta.createId.cd" parent="dict.total.credits.in.overall.program.meta.createId.cd.abstract"/>
+
+<!-- ***************************************************** -->
+<!-- dict.total.credits.in.overall.program.meta.updateTime -->
+<!-- ***************************************************** -->
+<dict:field key="updateTime" id="dict.total.credits.in.overall.program.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.total.credits.in.overall.program.meta.updateTime" parent="dict.total.credits.in.overall.program.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program meta updateTime</dict:name>
+	<dict:desc>total credits in overall program meta updateTime</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.updateTime.fd" parent="dict.total.credits.in.overall.program.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.total.credits.in.overall.program.meta.updateTime.cd" parent="dict.total.credits.in.overall.program.meta.updateTime.cd.abstract"/>
+
+<!-- *************************************************** -->
+<!-- dict.total.credits.in.overall.program.meta.updateId -->
+<!-- *************************************************** -->
+<dict:field key="updateId" id="dict.total.credits.in.overall.program.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.total.credits.in.overall.program.meta.updateId" parent="dict.total.credits.in.overall.program.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program meta updateId</dict:name>
+	<dict:desc>total credits in overall program meta updateId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.updateId.fd" parent="dict.total.credits.in.overall.program.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.total.credits.in.overall.program.meta.updateId.cd" parent="dict.total.credits.in.overall.program.meta.updateId.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.credit.course.with.final.grade.name -->
+<!-- **************************************** -->
+<dict:field key="name" id="dict.credit.course.with.final.grade.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.name.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.name.cd"/>
+</dict:field>
+<dict:field key="name" id="dict.credit.course.with.final.grade.name" parent="dict.credit.course.with.final.grade.name.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.name.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade name</dict:name>
+	<dict:desc>credit course with final grade name</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.name.fd" parent="dict.credit.course.with.final.grade.name.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="dict.credit.course.with.final.grade.name.cd" parent="dict.credit.course.with.final.grade.name.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.credit.course.with.final.grade.desc -->
+<!-- **************************************** -->
+<dict:field key="desc" id="dict.credit.course.with.final.grade.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.desc.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="dict.credit.course.with.final.grade.desc" parent="dict.credit.course.with.final.grade.desc.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.desc.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade desc</dict:name>
+	<dict:desc>credit course with final grade desc</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.desc.fd" parent="dict.credit.course.with.final.grade.desc.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="dict.credit.course.with.final.grade.desc.cd" parent="dict.credit.course.with.final.grade.desc.cd.abstract"/>
+
+<!-- **************************************** -->
+<!-- dict.credit.course.with.final.grade.type -->
+<!-- **************************************** -->
+<!-- Hard coded to be "kuali.lrc.lrd.CreditCourseFinalGrade" -->
+<dict:field key="lrType" id="dict.credit.course.with.final.grade.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.type.cd"/>
+</dict:field>
+<dict:field key="lrType" id="dict.credit.course.with.final.grade.type" parent="dict.credit.course.with.final.grade.type.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.type.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade type</dict:name>
+	<dict:desc>credit course with final grade type</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.type.fd" parent="dict.credit.course.with.final.grade.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lrd.types"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.credit.course.with.final.grade.type">
+		<dict:validChars>
+		<dict:value>regex:kuali\.lrc\.lrd\.CreditCourseFinalGrade</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrType" id="dict.credit.course.with.final.grade.type.cd" parent="dict.credit.course.with.final.grade.type.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.credit.course.with.final.grade.scale -->
+<!-- ***************************************** -->
+<dict:field key="lrScale" id="dict.credit.course.with.final.grade.scale.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.scale.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.scale.cd"/>
+</dict:field>
+<dict:field key="lrScale" id="dict.credit.course.with.final.grade.scale" parent="dict.credit.course.with.final.grade.scale.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.scale.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade scale</dict:name>
+	<dict:desc>credit course with final grade scale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.scale.fd" parent="dict.credit.course.with.final.grade.scale.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.scale.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.learning.result.scale.types"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrScale" id="dict.credit.course.with.final.grade.scale.cd" parent="dict.credit.course.with.final.grade.scale.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.credit.course.with.final.grade.gradeKey -->
+<!-- ******************************************** -->
+<dict:field key="value" id="dict.credit.course.with.final.grade.gradeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.gradeKey.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.gradeKey.cd"/>
+</dict:field>
+<dict:field key="value" id="dict.credit.course.with.final.grade.gradeKey" parent="dict.credit.course.with.final.grade.gradeKey.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.gradeKey.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade gradeKey</dict:name>
+	<dict:desc>credit course with final grade gradeKey</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.gradeKey.fd" parent="dict.credit.course.with.final.grade.gradeKey.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.gradeKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.gradekey"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="value" id="dict.credit.course.with.final.grade.gradeKey.cd" parent="dict.credit.course.with.final.grade.gradeKey.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.credit.course.with.final.grade.operator -->
+<!-- ******************************************** -->
+<dict:field key="operator" id="dict.credit.course.with.final.grade.operator.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.operator.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.operator.cd"/>
+</dict:field>
+<dict:field key="operator" id="dict.credit.course.with.final.grade.operator" parent="dict.credit.course.with.final.grade.operator.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.operator.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade operator</dict:name>
+	<dict:desc>credit course with final grade operator</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.operator.fd" parent="dict.credit.course.with.final.grade.operator.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.operator.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.code"/>
+	<dict:constraintRef bean="constraint.lrd.operators"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="operator" id="dict.credit.course.with.final.grade.operator.cd" parent="dict.credit.course.with.final.grade.operator.cd.abstract"/>
+
+<!-- ******************************************** -->
+<!-- dict.credit.course.with.final.grade.metaInfo -->
+<!-- ******************************************** -->
+<dict:field key="metaInfo" id="dict.credit.course.with.final.grade.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.credit.course.with.final.grade.metaInfo" parent="dict.credit.course.with.final.grade.metaInfo.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.metaInfo.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade metaInfo</dict:name>
+	<dict:desc>credit course with final grade metaInfo</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.metaInfo.fd" parent="dict.credit.course.with.final.grade.metaInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.credit.course.with.final.grade.metaInfo.cd" parent="dict.credit.course.with.final.grade.metaInfo.cd.abstract"/>
+
+<!-- *********************************************** -->
+<!-- dict.credit.course.with.final.grade.internal.id -->
+<!-- *********************************************** -->
+<dict:field key="lrDefinitionId" id="dict.credit.course.with.final.grade.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.credit.course.with.final.grade.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.internal.id.cd"/>
+</dict:field>
+<dict:field key="lrDefinitionId" id="dict.credit.course.with.final.grade.internal.id" parent="dict.credit.course.with.final.grade.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.internal.id.fd.abstract" abstract="true">
+	<dict:name>credit course with final grade internal id</dict:name>
+	<dict:desc>credit course with final grade internal id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.internal.id.fd" parent="dict.credit.course.with.final.grade.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.credit.course.with.final.grade.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrDefinitionId" id="dict.credit.course.with.final.grade.internal.id.cd" parent="dict.credit.course.with.final.grade.internal.id.cd.abstract"/>
+
+<!-- ******************************** -->
+<!-- dict.gpa.in.overall.program.name -->
+<!-- ******************************** -->
+<dict:field key="name" id="dict.gpa.in.overall.program.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.name.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.name.cd"/>
+</dict:field>
+<dict:field key="name" id="dict.gpa.in.overall.program.name" parent="dict.gpa.in.overall.program.name.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.name.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program name</dict:name>
+	<dict:desc>gpa in overall program name</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.name.fd" parent="dict.gpa.in.overall.program.name.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="dict.gpa.in.overall.program.name.cd" parent="dict.gpa.in.overall.program.name.cd.abstract"/>
+
+<!-- ******************************** -->
+<!-- dict.gpa.in.overall.program.desc -->
+<!-- ******************************** -->
+<dict:field key="desc" id="dict.gpa.in.overall.program.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.desc.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="dict.gpa.in.overall.program.desc" parent="dict.gpa.in.overall.program.desc.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.desc.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program desc</dict:name>
+	<dict:desc>gpa in overall program desc</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.desc.fd" parent="dict.gpa.in.overall.program.desc.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="dict.gpa.in.overall.program.desc.cd" parent="dict.gpa.in.overall.program.desc.cd.abstract"/>
+
+<!-- ******************************** -->
+<!-- dict.gpa.in.overall.program.type -->
+<!-- ******************************** -->
+<!-- Hard coded to be "kuali.lrc.lrd.OverallProgramGPA" -->
+<dict:field key="lrType" id="dict.gpa.in.overall.program.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.type.cd"/>
+</dict:field>
+<dict:field key="lrType" id="dict.gpa.in.overall.program.type" parent="dict.gpa.in.overall.program.type.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.type.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program type</dict:name>
+	<dict:desc>gpa in overall program type</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.type.fd" parent="dict.gpa.in.overall.program.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lrd.types"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.gpa.in.overall.program.type">
+		<dict:validChars>
+		<dict:value>regex:kuali\.lrc\.lrd\.OverallProgramGPA</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrType" id="dict.gpa.in.overall.program.type.cd" parent="dict.gpa.in.overall.program.type.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.gpa.in.overall.program.scale -->
+<!-- ********************************* -->
+<dict:field key="lrScale" id="dict.gpa.in.overall.program.scale.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.scale.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.scale.cd"/>
+</dict:field>
+<dict:field key="lrScale" id="dict.gpa.in.overall.program.scale" parent="dict.gpa.in.overall.program.scale.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.scale.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program scale</dict:name>
+	<dict:desc>gpa in overall program scale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.scale.fd" parent="dict.gpa.in.overall.program.scale.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.scale.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.learning.result.scale.types"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrScale" id="dict.gpa.in.overall.program.scale.cd" parent="dict.gpa.in.overall.program.scale.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.gpa.in.overall.program.gpa -->
+<!-- ******************************* -->
+<!-- not sure the minimum GPA is stored here or on the requirement component -->
+<dict:field key="value" id="dict.gpa.in.overall.program.gpa.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.gpa.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.gpa.cd"/>
+</dict:field>
+<dict:field key="value" id="dict.gpa.in.overall.program.gpa" parent="dict.gpa.in.overall.program.gpa.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.gpa.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program gpa</dict:name>
+	<dict:desc>gpa in overall program gpa</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.gpa.fd" parent="dict.gpa.in.overall.program.gpa.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.gpa.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.non.negative.decimal"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="value" id="dict.gpa.in.overall.program.gpa.cd" parent="dict.gpa.in.overall.program.gpa.cd.abstract"/>
+
+<!-- ************************************ -->
+<!-- dict.gpa.in.overall.program.operator -->
+<!-- ************************************ -->
+<dict:field key="operator" id="dict.gpa.in.overall.program.operator.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.operator.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.operator.cd"/>
+</dict:field>
+<dict:field key="operator" id="dict.gpa.in.overall.program.operator" parent="dict.gpa.in.overall.program.operator.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.operator.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program operator</dict:name>
+	<dict:desc>gpa in overall program operator</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.operator.fd" parent="dict.gpa.in.overall.program.operator.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.operator.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.code"/>
+	<dict:constraintRef bean="constraint.lrd.operators"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="operator" id="dict.gpa.in.overall.program.operator.cd" parent="dict.gpa.in.overall.program.operator.cd.abstract"/>
+
+<!-- ************************************ -->
+<!-- dict.gpa.in.overall.program.metaInfo -->
+<!-- ************************************ -->
+<dict:field key="metaInfo" id="dict.gpa.in.overall.program.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.gpa.in.overall.program.metaInfo" parent="dict.gpa.in.overall.program.metaInfo.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.metaInfo.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program metaInfo</dict:name>
+	<dict:desc>gpa in overall program metaInfo</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.OverallProgramGPA"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.metaInfo.fd" parent="dict.gpa.in.overall.program.metaInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.gpa.in.overall.program.metaInfo.cd" parent="dict.gpa.in.overall.program.metaInfo.cd.abstract"/>
+
+<!-- *************************************** -->
+<!-- dict.gpa.in.overall.program.internal.id -->
+<!-- *************************************** -->
+<dict:field key="lrDefinitionId" id="dict.gpa.in.overall.program.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.gpa.in.overall.program.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.internal.id.cd"/>
+</dict:field>
+<dict:field key="lrDefinitionId" id="dict.gpa.in.overall.program.internal.id" parent="dict.gpa.in.overall.program.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.internal.id.fd.abstract" abstract="true">
+	<dict:name>gpa in overall program internal id</dict:name>
+	<dict:desc>gpa in overall program internal id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.internal.id.fd" parent="dict.gpa.in.overall.program.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.gpa.in.overall.program.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrDefinitionId" id="dict.gpa.in.overall.program.internal.id.cd" parent="dict.gpa.in.overall.program.internal.id.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.total.credits.in.overall.program.name -->
+<!-- ****************************************** -->
+<dict:field key="name" id="dict.total.credits.in.overall.program.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.name.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.name.cd"/>
+</dict:field>
+<dict:field key="name" id="dict.total.credits.in.overall.program.name" parent="dict.total.credits.in.overall.program.name.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.name.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program name</dict:name>
+	<dict:desc>total credits in overall program name</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.name.fd" parent="dict.total.credits.in.overall.program.name.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="dict.total.credits.in.overall.program.name.cd" parent="dict.total.credits.in.overall.program.name.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.total.credits.in.overall.program.desc -->
+<!-- ****************************************** -->
+<dict:field key="desc" id="dict.total.credits.in.overall.program.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.desc.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="dict.total.credits.in.overall.program.desc" parent="dict.total.credits.in.overall.program.desc.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.desc.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program desc</dict:name>
+	<dict:desc>total credits in overall program desc</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.desc.fd" parent="dict.total.credits.in.overall.program.desc.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="dict.total.credits.in.overall.program.desc.cd" parent="dict.total.credits.in.overall.program.desc.cd.abstract"/>
+
+<!-- ****************************************** -->
+<!-- dict.total.credits.in.overall.program.type -->
+<!-- ****************************************** -->
+<!-- Hard coded to be "kuali.lrc.lrd.OverallProgramTotalCredits" -->
+<dict:field key="lrType" id="dict.total.credits.in.overall.program.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.type.cd"/>
+</dict:field>
+<dict:field key="lrType" id="dict.total.credits.in.overall.program.type" parent="dict.total.credits.in.overall.program.type.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.type.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program type</dict:name>
+	<dict:desc>total credits in overall program type</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.type.fd" parent="dict.total.credits.in.overall.program.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lrd.types"/>
+	<dict:constraint key="in-line.constraint.for.dictionary.total.credits.in.overall.program.type">
+		<dict:validChars>
+		<dict:value>regex:kuali\.lrc\.lrd\.OverallProgramTotalCredits</dict:value>
+		</dict:validChars>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrType" id="dict.total.credits.in.overall.program.type.cd" parent="dict.total.credits.in.overall.program.type.cd.abstract"/>
+
+<!-- ******************************************* -->
+<!-- dict.total.credits.in.overall.program.scale -->
+<!-- ******************************************* -->
+<dict:field key="lrScale" id="dict.total.credits.in.overall.program.scale.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.scale.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.scale.cd"/>
+</dict:field>
+<dict:field key="lrScale" id="dict.total.credits.in.overall.program.scale" parent="dict.total.credits.in.overall.program.scale.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.scale.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program scale</dict:name>
+	<dict:desc>total credits in overall program scale</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.scale.fd" parent="dict.total.credits.in.overall.program.scale.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.scale.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.learning.result.scale.types"/>
+	<dict:constraintRef bean="constraint.not.used"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrScale" id="dict.total.credits.in.overall.program.scale.cd" parent="dict.total.credits.in.overall.program.scale.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.total.credits.in.overall.program.gpa -->
+<!-- ***************************************** -->
+<!-- not sure the minimum Credits is stored here or on the requirement component -->
+<dict:field key="value" id="dict.total.credits.in.overall.program.gpa.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.gpa.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.gpa.cd"/>
+</dict:field>
+<dict:field key="value" id="dict.total.credits.in.overall.program.gpa" parent="dict.total.credits.in.overall.program.gpa.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.gpa.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program gpa</dict:name>
+	<dict:desc>total credits in overall program gpa</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.gpa.fd" parent="dict.total.credits.in.overall.program.gpa.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.gpa.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.non.negative.decimal"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="value" id="dict.total.credits.in.overall.program.gpa.cd" parent="dict.total.credits.in.overall.program.gpa.cd.abstract"/>
+
+<!-- ********************************************** -->
+<!-- dict.total.credits.in.overall.program.operator -->
+<!-- ********************************************** -->
+<dict:field key="operator" id="dict.total.credits.in.overall.program.operator.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.operator.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.operator.cd"/>
+</dict:field>
+<dict:field key="operator" id="dict.total.credits.in.overall.program.operator" parent="dict.total.credits.in.overall.program.operator.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.operator.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program operator</dict:name>
+	<dict:desc>total credits in overall program operator</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.operator.fd" parent="dict.total.credits.in.overall.program.operator.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.operator.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.code"/>
+	<dict:constraintRef bean="constraint.lrd.operators"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="operator" id="dict.total.credits.in.overall.program.operator.cd" parent="dict.total.credits.in.overall.program.operator.cd.abstract"/>
+
+<!-- ********************************************** -->
+<!-- dict.total.credits.in.overall.program.metaInfo -->
+<!-- ********************************************** -->
+<dict:field key="metaInfo" id="dict.total.credits.in.overall.program.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.total.credits.in.overall.program.metaInfo" parent="dict.total.credits.in.overall.program.metaInfo.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.metaInfo.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program metaInfo</dict:name>
+	<dict:desc>total credits in overall program metaInfo</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.metaInfo.fd" parent="dict.total.credits.in.overall.program.metaInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.total.credits.in.overall.program.metaInfo.cd" parent="dict.total.credits.in.overall.program.metaInfo.cd.abstract"/>
+
+<!-- ************************************************* -->
+<!-- dict.total.credits.in.overall.program.internal.id -->
+<!-- ************************************************* -->
+<dict:field key="lrDefinitionId" id="dict.total.credits.in.overall.program.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.total.credits.in.overall.program.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.internal.id.cd"/>
+</dict:field>
+<dict:field key="lrDefinitionId" id="dict.total.credits.in.overall.program.internal.id" parent="dict.total.credits.in.overall.program.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.internal.id.fd.abstract" abstract="true">
+	<dict:name>total credits in overall program internal id</dict:name>
+	<dict:desc>total credits in overall program internal id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.internal.id.fd" parent="dict.total.credits.in.overall.program.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.total.credits.in.overall.program.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="lrDefinitionId" id="dict.total.credits.in.overall.program.internal.id.cd" parent="dict.total.credits.in.overall.program.internal.id.cd.abstract"/>
+</beans>

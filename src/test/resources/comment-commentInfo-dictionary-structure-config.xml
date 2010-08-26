@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- *************************************** -->
+<!-- object structure for object.commentInfo -->
+<!-- *************************************** -->
+<!-- Detailed information about a comment. -->
+<dict:objectStructure key="org.kuali.student.core.comment.dto.CommentInfo" id="object.commentInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.commentInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.comment.dto.CommentInfo" id="object.commentInfo" parent="object.commentInfo.abstract"/>
+
+<dict:type key="*" id="type.commentInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.commentInfo"/>
+</dict:type>
+<dict:type key="*" id="type.commentInfo" parent="type.commentInfo.abstract"/>
+
+<!-- *********************************************** -->
+<!-- State for state.commentInfo.(default).(default) -->
+<!-- *********************************************** -->
+
+<dict:state key="*" id="state.commentInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.commentInfo.commentText"/>
+	<dict:fieldRef bean="field.commentInfo.referenceTypeKey"/>
+	<dict:fieldRef bean="field.commentInfo.referenceId"/>
+	<dict:fieldRef bean="field.commentInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.commentInfo.expirationDate"/>
+	<dict:fieldRef bean="field.commentInfo.metaInfo"/>
+	<dict:fieldRef bean="field.commentInfo.type"/>
+	<dict:fieldRef bean="field.commentInfo.state"/>
+	<dict:fieldRef bean="field.commentInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.commentInfo" parent="state.commentInfo.abstract"/>
+
+
+<dict:field key="commentText" id="field.commentInfo.commentText.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.commentText.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.commentText.cd"/>
+</dict:field>
+<dict:field key="commentText" id="field.commentInfo.commentText" parent="field.commentInfo.commentText.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.commentText.fd.abstract" abstract="true">
+	<dict:name>Comment Text</dict:name>
+	<dict:desc>Narrative text of the comment</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.commentInfo.commentText"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.commentText.fd" parent="field.commentInfo.commentText.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.commentInfo.commentText.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="commentText" id="field.commentInfo.commentText.cd" parent="field.commentInfo.commentText.cd.abstract"/>
+
+<!-- ***************************************************************************** -->
+<!-- object structure for object.field.commentInfo.commentText.(default).(default) -->
+<!-- ***************************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.commentInfo.commentText.abstract" abstract="true">
+	<dict:typeRef bean="type.field.commentInfo.commentText"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.commentInfo.commentText" parent="object.field.commentInfo.commentText.abstract"/>
+
+<dict:type key="*" id="type.field.commentInfo.commentText.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.commentInfo.commentText"/>
+</dict:type>
+<dict:type key="*" id="type.field.commentInfo.commentText" parent="type.field.commentInfo.commentText.abstract"/>
+
+<!-- ************************************************************************************* -->
+<!-- State for state.field.commentInfo.commentText.(default).(default).(default).(default) -->
+<!-- ************************************************************************************* -->
+
+<dict:state key="*" id="state.field.commentInfo.commentText.abstract" abstract="true">
+	<dict:fieldRef bean="field.commentInfo.commentText.plain"/>
+	<dict:fieldRef bean="field.commentInfo.commentText.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.commentInfo.commentText" parent="state.field.commentInfo.commentText.abstract"/>
+
+
+<dict:field key="plain" id="field.commentInfo.commentText.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.commentText.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.commentText.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.commentInfo.commentText.plain" parent="field.commentInfo.commentText.plain.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.commentText.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.commentText.plain.fd" parent="field.commentInfo.commentText.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.commentInfo.commentText.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.commentInfo.commentText.plain.cd" parent="field.commentInfo.commentText.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.commentInfo.commentText.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.commentText.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.commentText.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.commentInfo.commentText.formatted" parent="field.commentInfo.commentText.formatted.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.commentText.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.commentText.formatted.fd" parent="field.commentInfo.commentText.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.commentInfo.commentText.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.commentInfo.commentText.formatted.cd" parent="field.commentInfo.commentText.formatted.cd.abstract"/>
+
+<dict:field key="referenceTypeKey" id="field.commentInfo.referenceTypeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.referenceTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.referenceTypeKey.cd"/>
+</dict:field>
+<dict:field key="referenceTypeKey" id="field.commentInfo.referenceTypeKey" parent="field.commentInfo.referenceTypeKey.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.referenceTypeKey.fd.abstract" abstract="true">
+	<dict:name>Reference Type</dict:name>
+	<dict:desc>Unique identifier for a reference type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.referenceTypeKey.fd" parent="field.commentInfo.referenceTypeKey.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); In a list of configured reference types -->
+<dict:constraintDescriptor id="field.commentInfo.referenceTypeKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.reference.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="referenceTypeKey" id="field.commentInfo.referenceTypeKey.cd" parent="field.commentInfo.referenceTypeKey.cd.abstract"/>
+
+<dict:field key="referenceId" id="field.commentInfo.referenceId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.referenceId.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.referenceId.cd"/>
+</dict:field>
+<dict:field key="referenceId" id="field.commentInfo.referenceId" parent="field.commentInfo.referenceId.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.referenceId.fd.abstract" abstract="true">
+	<dict:name>Reference Id</dict:name>
+	<dict:desc>Identifier component for a reference. This is an external identifier and such may not uniquely identify a particular reference unless combined with the type. A referenceId could be a cluId, a luiId, an orgId, a documentId, etc.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.referenceId.fd" parent="field.commentInfo.referenceId.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.commentInfo.referenceId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="referenceId" id="field.commentInfo.referenceId.cd" parent="field.commentInfo.referenceId.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.commentInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.commentInfo.effectiveDate" parent="field.commentInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this comment became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.effectiveDate.fd" parent="field.commentInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.commentInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.commentInfo.effectiveDate.cd" parent="field.commentInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.commentInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.commentInfo.expirationDate" parent="field.commentInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this comment expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.expirationDate.fd" parent="field.commentInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.commentInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.commentInfo.expirationDate.cd" parent="field.commentInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.commentInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.commentInfo.metaInfo" parent="field.commentInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.commentInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.fd" parent="field.commentInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.commentInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.commentInfo.metaInfo.cd" parent="field.commentInfo.metaInfo.cd.abstract"/>
+
+<!-- ************************************************************************** -->
+<!-- object structure for object.field.commentInfo.metaInfo.(default).(default) -->
+<!-- ************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.commentInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.commentInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.commentInfo.metaInfo" parent="object.field.commentInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.commentInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.commentInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.commentInfo.metaInfo" parent="type.field.commentInfo.metaInfo.abstract"/>
+
+<!-- ********************************************************************************** -->
+<!-- State for state.field.commentInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- ********************************************************************************** -->
+
+<dict:state key="*" id="state.field.commentInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.commentInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.commentInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.commentInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.commentInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.commentInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.commentInfo.metaInfo" parent="state.field.commentInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.commentInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.commentInfo.metaInfo.versionInd" parent="field.commentInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.versionInd.fd" parent="field.commentInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.commentInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.commentInfo.metaInfo.versionInd.cd" parent="field.commentInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.commentInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.commentInfo.metaInfo.createTime" parent="field.commentInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.createTime.fd" parent="field.commentInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.commentInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.commentInfo.metaInfo.createTime.cd" parent="field.commentInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.commentInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.commentInfo.metaInfo.createId" parent="field.commentInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.createId.fd" parent="field.commentInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.commentInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.commentInfo.metaInfo.createId.cd" parent="field.commentInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.commentInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.commentInfo.metaInfo.updateTime" parent="field.commentInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.updateTime.fd" parent="field.commentInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.commentInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.commentInfo.metaInfo.updateTime.cd" parent="field.commentInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.commentInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.commentInfo.metaInfo.updateId" parent="field.commentInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.metaInfo.updateId.fd" parent="field.commentInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.commentInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.commentInfo.metaInfo.updateId.cd" parent="field.commentInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.commentInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.commentInfo.type" parent="field.commentInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.type.fd.abstract" abstract="true">
+	<dict:name>Comment Type</dict:name>
+	<dict:desc>Unique identifier for a comment type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.type.fd" parent="field.commentInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only -->
+<dict:constraintDescriptor id="field.commentInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.commentInfo.type.cd" parent="field.commentInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.commentInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.state.cd"/>
+</dict:field>
+<dict:field key="state" id="field.commentInfo.state" parent="field.commentInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.state.fd.abstract" abstract="true">
+	<dict:name>Comment State</dict:name>
+	<dict:desc>The current status of the comment. The values for this field are constrained to those in the commentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.state.fd" parent="field.commentInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE -->
+<dict:constraintDescriptor id="field.commentInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.commentInfo.state.cd" parent="field.commentInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.commentInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.commentInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.commentInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.commentInfo.id" parent="field.commentInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.commentInfo.id.fd.abstract" abstract="true">
+	<dict:name>Comment Identifier</dict:name>
+	<dict:desc>Unique identifier for a comment. This is optional, due to the identifier being set at the time of creation. Once the comment has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.commentInfo.id.fd" parent="field.commentInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.commentInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.commentInfo.id.cd" parent="field.commentInfo.id.cd.abstract"/>
+</beans>

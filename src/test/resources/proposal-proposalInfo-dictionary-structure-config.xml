@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- **************************************** -->
+<!-- object structure for object.proposalInfo -->
+<!-- **************************************** -->
+<!-- Detailed information about a proposal. -->
+<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.proposalInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
+
+<dict:type key="*" id="type.proposalInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.proposalInfo"/>
+</dict:type>
+<dict:type key="*" id="type.proposalInfo" parent="type.proposalInfo.abstract"/>
+
+<!-- ************************************************ -->
+<!-- State for state.proposalInfo.(default).(default) -->
+<!-- ************************************************ -->
+
+<dict:state key="*" id="state.proposalInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.proposalInfo.name"/>
+	<dict:fieldRef bean="field.proposalInfo.proposerPerson"/>
+	<dict:fieldRef bean="field.proposalInfo.proposerOrg"/>
+	<dict:fieldRef bean="field.proposalInfo.proposalReferenceType"/>
+	<dict:fieldRef bean="field.proposalInfo.proposalReference"/>
+	<dict:fieldRef bean="field.proposalInfo.rationale"/>
+	<dict:fieldRef bean="field.proposalInfo.detailDesc"/>
+	<dict:fieldRef bean="field.proposalInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.proposalInfo.expirationDate"/>
+	<dict:fieldRef bean="field.proposalInfo.metaInfo"/>
+	<dict:fieldRef bean="field.proposalInfo.type"/>
+	<dict:fieldRef bean="field.proposalInfo.state"/>
+	<dict:fieldRef bean="field.proposalInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.proposalInfo" parent="state.proposalInfo.abstract"/>
+
+
+<dict:field key="name" id="field.proposalInfo.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.name.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.name.cd"/>
+</dict:field>
+<dict:field key="name" id="field.proposalInfo.name" parent="field.proposalInfo.name.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.name.fd.abstract" abstract="true">
+	<dict:name>Proposal Name</dict:name>
+	<dict:desc>The name or title of the proposal. Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.name.fd" parent="field.proposalInfo.name.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.proposalInfo.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="field.proposalInfo.name.cd" parent="field.proposalInfo.name.cd.abstract"/>
+
+<dict:field key="proposerPerson" id="field.proposalInfo.proposerPerson.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.proposerPerson.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.proposerPerson.cd"/>
+</dict:field>
+<dict:field key="proposerPerson" id="field.proposalInfo.proposerPerson" parent="field.proposalInfo.proposerPerson.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.proposerPerson.fd.abstract" abstract="true">
+	<dict:name>Proposer Person</dict:name>
+	<dict:desc>List of person identifiers. Structure should contain a proposerPerson OR a proposerOrg.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.proposerPerson.fd" parent="field.proposalInfo.proposerPerson.fd.abstract"/>
+<!-- Required; Repeating; Id of an existing PERSON -->
+<dict:constraintDescriptor id="field.proposalInfo.proposerPerson.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.personId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposerPerson" id="field.proposalInfo.proposerPerson.cd" parent="field.proposalInfo.proposerPerson.cd.abstract"/>
+
+<dict:field key="proposerOrg" id="field.proposalInfo.proposerOrg.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.proposerOrg.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.proposerOrg.cd"/>
+</dict:field>
+<dict:field key="proposerOrg" id="field.proposalInfo.proposerOrg" parent="field.proposalInfo.proposerOrg.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.proposerOrg.fd.abstract" abstract="true">
+	<dict:name>Proposer Organization</dict:name>
+	<dict:desc>List of organization identifiers. Structure should contain a proposerPerson OR a proposerOrg</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.proposerOrg.fd" parent="field.proposalInfo.proposerOrg.fd.abstract"/>
+<!-- Required; Repeating; Id of an existing ORG -->
+<dict:constraintDescriptor id="field.proposalInfo.proposerOrg.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.orgId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposerOrg" id="field.proposalInfo.proposerOrg.cd" parent="field.proposalInfo.proposerOrg.cd.abstract"/>
+
+<dict:field key="proposalReferenceType" id="field.proposalInfo.proposalReferenceType.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.proposalReferenceType.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.proposalReferenceType.cd"/>
+</dict:field>
+<dict:field key="proposalReferenceType" id="field.proposalInfo.proposalReferenceType" parent="field.proposalInfo.proposalReferenceType.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.proposalReferenceType.fd.abstract" abstract="true">
+	<dict:name>Proposal Reference Type</dict:name>
+	<dict:desc>Unique identifier for a reference type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.proposalReferenceType.fd" parent="field.proposalInfo.proposalReferenceType.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); In a list of configured reference types -->
+<dict:constraintDescriptor id="field.proposalInfo.proposalReferenceType.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.reference.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposalReferenceType" id="field.proposalInfo.proposalReferenceType.cd" parent="field.proposalInfo.proposalReferenceType.cd.abstract"/>
+
+<dict:field key="proposalReference" id="field.proposalInfo.proposalReference.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.proposalReference.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.proposalReference.cd"/>
+</dict:field>
+<dict:field key="proposalReference" id="field.proposalInfo.proposalReference" parent="field.proposalInfo.proposalReference.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.proposalReference.fd.abstract" abstract="true">
+	<dict:name>Proposal Reference</dict:name>
+	<dict:desc>List of reference identifiers.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.proposalReference.fd" parent="field.proposalInfo.proposalReference.fd.abstract"/>
+<!-- Required; Repeating -->
+<dict:constraintDescriptor id="field.proposalInfo.proposalReference.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="proposalReference" id="field.proposalInfo.proposalReference.cd" parent="field.proposalInfo.proposalReference.cd.abstract"/>
+
+<!-- Made this optional even though the service says its requried -->
+<dict:field key="rationale" id="field.proposalInfo.rationale.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.rationale.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.rationale.cd"/>
+</dict:field>
+<dict:field key="rationale" id="field.proposalInfo.rationale" parent="field.proposalInfo.rationale.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.rationale.fd.abstract" abstract="true">
+	<dict:name>Rationale</dict:name>
+	<dict:desc>Brief explanation of the reason for the proposal</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.rationale.fd" parent="field.proposalInfo.rationale.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.proposalInfo.rationale.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rationale" id="field.proposalInfo.rationale.cd" parent="field.proposalInfo.rationale.cd.abstract"/>
+
+<!-- Made this optional even though the service says its requried -->
+<dict:field key="detailDesc" id="field.proposalInfo.detailDesc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.detailDesc.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.detailDesc.cd"/>
+</dict:field>
+<dict:field key="detailDesc" id="field.proposalInfo.detailDesc" parent="field.proposalInfo.detailDesc.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.detailDesc.fd.abstract" abstract="true">
+	<dict:name>Detailed Description</dict:name>
+	<dict:desc>Detailed description of the proposed changes.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.detailDesc.fd" parent="field.proposalInfo.detailDesc.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.proposalInfo.detailDesc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="detailDesc" id="field.proposalInfo.detailDesc.cd" parent="field.proposalInfo.detailDesc.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.proposalInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.proposalInfo.effectiveDate" parent="field.proposalInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this proposal became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.effectiveDate.fd" parent="field.proposalInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.proposalInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.proposalInfo.effectiveDate.cd" parent="field.proposalInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.proposalInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.proposalInfo.expirationDate" parent="field.proposalInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this proposal expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.expirationDate.fd" parent="field.proposalInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.proposalInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.proposalInfo.expirationDate.cd" parent="field.proposalInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.proposalInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.proposalInfo.metaInfo" parent="field.proposalInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.fd" parent="field.proposalInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.proposalInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.proposalInfo.metaInfo.cd" parent="field.proposalInfo.metaInfo.cd.abstract"/>
+
+<!-- *************************************************************************** -->
+<!-- object structure for object.field.proposalInfo.metaInfo.(default).(default) -->
+<!-- *************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.proposalInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo" parent="object.field.proposalInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.proposalInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo" parent="type.field.proposalInfo.metaInfo.abstract"/>
+
+<!-- *********************************************************************************** -->
+<!-- State for state.field.proposalInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- *********************************************************************************** -->
+
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.proposalInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.proposalInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.proposalInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.proposalInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.proposalInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo" parent="state.field.proposalInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.proposalInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.proposalInfo.metaInfo.versionInd" parent="field.proposalInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.versionInd.fd" parent="field.proposalInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.proposalInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.proposalInfo.metaInfo.versionInd.cd" parent="field.proposalInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.proposalInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.proposalInfo.metaInfo.createTime" parent="field.proposalInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.createTime.fd" parent="field.proposalInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.proposalInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.proposalInfo.metaInfo.createTime.cd" parent="field.proposalInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.proposalInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.proposalInfo.metaInfo.createId" parent="field.proposalInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.createId.fd" parent="field.proposalInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.proposalInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.proposalInfo.metaInfo.createId.cd" parent="field.proposalInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.proposalInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.proposalInfo.metaInfo.updateTime" parent="field.proposalInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.updateTime.fd" parent="field.proposalInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.proposalInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.proposalInfo.metaInfo.updateTime.cd" parent="field.proposalInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.proposalInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.proposalInfo.metaInfo.updateId" parent="field.proposalInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.metaInfo.updateId.fd" parent="field.proposalInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.proposalInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.proposalInfo.metaInfo.updateId.cd" parent="field.proposalInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.proposalInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.proposalInfo.type" parent="field.proposalInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.type.fd.abstract" abstract="true">
+	<dict:name>Proposal Type</dict:name>
+	<dict:desc>Unique identifier for a proposal type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.type.fd" parent="field.proposalInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In a list of configured proposal types -->
+<dict:constraintDescriptor id="field.proposalInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.proposal.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.proposalInfo.type.cd" parent="field.proposalInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.proposalInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="field.proposalInfo.state" parent="field.proposalInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.state.fd.abstract" abstract="true">
+	<dict:name>Proposal State</dict:name>
+	<dict:desc>The current status of the proposal. The values for this field are constrained to those in the proposalState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.state.fd" parent="field.proposalInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE -->
+<dict:constraintDescriptor id="field.proposalInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.proposalInfo.state.cd" parent="field.proposalInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.proposalInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.proposalInfo.id" parent="field.proposalInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.id.fd.abstract" abstract="true">
+	<dict:name>Proposal Identifier</dict:name>
+	<dict:desc>Unique identifier for a Proposal. This is optional, due to the identifier being set at the time of creation. Once the proposal has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.proposalInfo.id.fd" parent="field.proposalInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.proposalInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.proposalInfo.id.cd" parent="field.proposalInfo.id.cd.abstract"/>
+</beans>

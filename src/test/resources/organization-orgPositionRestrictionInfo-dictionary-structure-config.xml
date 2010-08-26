@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ****************************************************** -->
+<!-- object structure for object.orgPositionRestrictionInfo -->
+<!-- ****************************************************** -->
+<!-- Information which constrains/describes organization to person relationships of a particular type for an organization. These constraints/descriptions typically involve active relationships. -->
+<dict:objectStructure key=".OrgPositionRestrictionInfo" id="object.orgPositionRestrictionInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.orgPositionRestrictionInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key=".OrgPositionRestrictionInfo" id="object.orgPositionRestrictionInfo" parent="object.orgPositionRestrictionInfo.abstract"/>
+
+<dict:type key="*" id="type.orgPositionRestrictionInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.orgPositionRestrictionInfo"/>
+</dict:type>
+<dict:type key="*" id="type.orgPositionRestrictionInfo" parent="type.orgPositionRestrictionInfo.abstract"/>
+
+<!-- ************************************************************** -->
+<!-- State for state.orgPositionRestrictionInfo.(default).(default) -->
+<!-- ************************************************************** -->
+
+<dict:state key="*" id="state.orgPositionRestrictionInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.orgId"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.desc"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.title"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.stdDuration"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.minNumRelations"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.maxNumRelations"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.metaInfo"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.orgPositionRestrictionInfo" parent="state.orgPositionRestrictionInfo.abstract"/>
+
+
+<dict:field key="orgId" id="field.orgPositionRestrictionInfo.orgId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.orgId.cd"/>
+</dict:field>
+<dict:field key="orgId" id="field.orgPositionRestrictionInfo.orgId" parent="field.orgPositionRestrictionInfo.orgId.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.orgId.fd.abstract" abstract="true">
+	<dict:name>Organization Identifier</dict:name>
+	<dict:desc>Organization the restriction applies to.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.orgId.fd" parent="field.orgPositionRestrictionInfo.orgId.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.orgId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="orgId" id="field.orgPositionRestrictionInfo.orgId.cd" parent="field.orgPositionRestrictionInfo.orgId.cd.abstract"/>
+
+<dict:field key="orgPersonRelationTypeKey" id="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.cd"/>
+</dict:field>
+<dict:field key="orgPersonRelationTypeKey" id="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey" parent="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.fd.abstract" abstract="true">
+	<dict:name>Organization to Person Relationship Type Identifier</dict:name>
+	<dict:desc>Organization to person relationship type the restriction applies to.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.fd" parent="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="orgPersonRelationTypeKey" id="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.cd" parent="field.orgPositionRestrictionInfo.orgPersonRelationTypeKey.cd.abstract"/>
+
+<dict:field key="desc" id="field.orgPositionRestrictionInfo.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.desc.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="field.orgPositionRestrictionInfo.desc" parent="field.orgPositionRestrictionInfo.desc.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.desc.fd.abstract" abstract="true">
+	<dict:name>Organization Position Restriction Description</dict:name>
+	<dict:desc>Description of the restrictions and use of the relationship type within this particular organization. This should primarily focus on deviations from the standard use of the relationship type.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.orgPositionRestrictionInfo.desc"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.desc.fd" parent="field.orgPositionRestrictionInfo.desc.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="field.orgPositionRestrictionInfo.desc.cd" parent="field.orgPositionRestrictionInfo.desc.cd.abstract"/>
+
+<!-- ************************************************************************************* -->
+<!-- object structure for object.field.orgPositionRestrictionInfo.desc.(default).(default) -->
+<!-- ************************************************************************************* -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.orgPositionRestrictionInfo.desc.abstract" abstract="true">
+	<dict:typeRef bean="type.field.orgPositionRestrictionInfo.desc"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.orgPositionRestrictionInfo.desc" parent="object.field.orgPositionRestrictionInfo.desc.abstract"/>
+
+<dict:type key="*" id="type.field.orgPositionRestrictionInfo.desc.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.orgPositionRestrictionInfo.desc"/>
+</dict:type>
+<dict:type key="*" id="type.field.orgPositionRestrictionInfo.desc" parent="type.field.orgPositionRestrictionInfo.desc.abstract"/>
+
+<!-- ********************************************************************************************* -->
+<!-- State for state.field.orgPositionRestrictionInfo.desc.(default).(default).(default).(default) -->
+<!-- ********************************************************************************************* -->
+
+<dict:state key="*" id="state.field.orgPositionRestrictionInfo.desc.abstract" abstract="true">
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.desc.plain"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.desc.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.orgPositionRestrictionInfo.desc" parent="state.field.orgPositionRestrictionInfo.desc.abstract"/>
+
+
+<dict:field key="plain" id="field.orgPositionRestrictionInfo.desc.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.desc.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.desc.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.orgPositionRestrictionInfo.desc.plain" parent="field.orgPositionRestrictionInfo.desc.plain.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.desc.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.desc.plain.fd" parent="field.orgPositionRestrictionInfo.desc.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.desc.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.orgPositionRestrictionInfo.desc.plain.cd" parent="field.orgPositionRestrictionInfo.desc.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.orgPositionRestrictionInfo.desc.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.desc.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.desc.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.orgPositionRestrictionInfo.desc.formatted" parent="field.orgPositionRestrictionInfo.desc.formatted.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.desc.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.desc.formatted.fd" parent="field.orgPositionRestrictionInfo.desc.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.desc.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.orgPositionRestrictionInfo.desc.formatted.cd" parent="field.orgPositionRestrictionInfo.desc.formatted.cd.abstract"/>
+
+<dict:field key="title" id="field.orgPositionRestrictionInfo.title.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.title.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.title.cd"/>
+</dict:field>
+<dict:field key="title" id="field.orgPositionRestrictionInfo.title" parent="field.orgPositionRestrictionInfo.title.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.title.fd.abstract" abstract="true">
+	<dict:name>Title</dict:name>
+	<dict:desc>Title of organization person relationships of this type. This allows for distinction from the name of the relationship type itself, specific for the given organization.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.title.fd" parent="field.orgPositionRestrictionInfo.title.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.title.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="title" id="field.orgPositionRestrictionInfo.title.cd" parent="field.orgPositionRestrictionInfo.title.cd.abstract"/>
+
+<dict:field key="stdDuration" id="field.orgPositionRestrictionInfo.stdDuration.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.stdDuration.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.stdDuration.cd"/>
+</dict:field>
+<dict:field key="stdDuration" id="field.orgPositionRestrictionInfo.stdDuration" parent="field.orgPositionRestrictionInfo.stdDuration.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.stdDuration.fd.abstract" abstract="true">
+	<dict:name>Standard Duration</dict:name>
+	<dict:desc>Describes the standard duration of relationships of this type.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.orgPositionRestrictionInfo.stdDuration"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.stdDuration.fd" parent="field.orgPositionRestrictionInfo.stdDuration.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.stdDuration.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="stdDuration" id="field.orgPositionRestrictionInfo.stdDuration.cd" parent="field.orgPositionRestrictionInfo.stdDuration.cd.abstract"/>
+
+<!-- ******************************************************************************************** -->
+<!-- object structure for object.field.orgPositionRestrictionInfo.stdDuration.(default).(default) -->
+<!-- ******************************************************************************************** -->
+<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
+<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo" id="object.field.orgPositionRestrictionInfo.stdDuration.abstract" abstract="true">
+	<dict:typeRef bean="type.field.orgPositionRestrictionInfo.stdDuration"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo" id="object.field.orgPositionRestrictionInfo.stdDuration" parent="object.field.orgPositionRestrictionInfo.stdDuration.abstract"/>
+
+<dict:type key="*" id="type.field.orgPositionRestrictionInfo.stdDuration.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.orgPositionRestrictionInfo.stdDuration"/>
+</dict:type>
+<dict:type key="*" id="type.field.orgPositionRestrictionInfo.stdDuration" parent="type.field.orgPositionRestrictionInfo.stdDuration.abstract"/>
+
+<!-- **************************************************************************************************** -->
+<!-- State for state.field.orgPositionRestrictionInfo.stdDuration.(default).(default).(default).(default) -->
+<!-- **************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.orgPositionRestrictionInfo.stdDuration.abstract" abstract="true">
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.stdDuration.timeQuantity"/>
+</dict:state>
+<dict:state key="*" id="state.field.orgPositionRestrictionInfo.stdDuration" parent="state.field.orgPositionRestrictionInfo.stdDuration.abstract"/>
+
+
+<!-- services has this flagged as mandatory but don't think it shoujld be because in a draft state a user may specify the units but not yet specify the amount -->
+<dict:field key="atpDurationTypeKey" id="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.cd"/>
+</dict:field>
+<dict:field key="atpDurationTypeKey" id="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey" parent="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.fd.abstract" abstract="true">
+	<dict:name>Academic Time Period Duration Type Key</dict:name>
+	<dict:desc>The kind of units associated with the quantity, such as Semesters</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.fd" parent="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); In list of configured duration types -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.duration.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="atpDurationTypeKey" id="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.cd" parent="field.orgPositionRestrictionInfo.stdDuration.atpDurationTypeKey.cd.abstract"/>
+
+<!-- services has this flagged as mandatory but don't think it shoujld be because in a draft state a user may specify the amount but not yet specify the units because they are unsure but we still need to save -->
+<dict:field key="timeQuantity" id="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.cd"/>
+</dict:field>
+<dict:field key="timeQuantity" id="field.orgPositionRestrictionInfo.stdDuration.timeQuantity" parent="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.fd.abstract" abstract="true">
+	<dict:name>Time Quantity</dict:name>
+	<dict:desc>The amount of time</dict:desc>
+	<dict:dataType>integer</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.fd" parent="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Integer -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.integer"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="timeQuantity" id="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.cd" parent="field.orgPositionRestrictionInfo.stdDuration.timeQuantity.cd.abstract"/>
+
+<dict:field key="minNumRelations" id="field.orgPositionRestrictionInfo.minNumRelations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.minNumRelations.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.minNumRelations.cd"/>
+</dict:field>
+<dict:field key="minNumRelations" id="field.orgPositionRestrictionInfo.minNumRelations" parent="field.orgPositionRestrictionInfo.minNumRelations.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.minNumRelations.fd.abstract" abstract="true">
+	<dict:name>Minimum Number of Relationships</dict:name>
+	<dict:desc>Acts as a lower bound on the number of relationships of this type expected for the organization. If specified, this should be less than or equal to the value of maxNumRelations</dict:desc>
+	<dict:dataType>integer</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.minNumRelations.fd" parent="field.orgPositionRestrictionInfo.minNumRelations.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.minNumRelations.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="minNumRelations" id="field.orgPositionRestrictionInfo.minNumRelations.cd" parent="field.orgPositionRestrictionInfo.minNumRelations.cd.abstract"/>
+
+<dict:field key="maxNumRelations" id="field.orgPositionRestrictionInfo.maxNumRelations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.maxNumRelations.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.maxNumRelations.cd"/>
+</dict:field>
+<dict:field key="maxNumRelations" id="field.orgPositionRestrictionInfo.maxNumRelations" parent="field.orgPositionRestrictionInfo.maxNumRelations.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.maxNumRelations.fd.abstract" abstract="true">
+	<dict:name>Maximum Number of Relationships</dict:name>
+	<dict:desc>Acts as an upper bound on the number of relationships of this type expected for the organization. The values of this field are restricted to integer values and the string &quot;unbounded&quot;. If specified, this should be greater than or equal to the value of minNumRelations, with the value &quot;unbounded&quot; being automatically assumed to be greater.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.maxNumRelations.fd" parent="field.orgPositionRestrictionInfo.maxNumRelations.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.maxNumRelations.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="maxNumRelations" id="field.orgPositionRestrictionInfo.maxNumRelations.cd" parent="field.orgPositionRestrictionInfo.maxNumRelations.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.orgPositionRestrictionInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.orgPositionRestrictionInfo.metaInfo" parent="field.orgPositionRestrictionInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.orgPositionRestrictionInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.fd" parent="field.orgPositionRestrictionInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.orgPositionRestrictionInfo.metaInfo.cd" parent="field.orgPositionRestrictionInfo.metaInfo.cd.abstract"/>
+
+<!-- ***************************************************************************************** -->
+<!-- object structure for object.field.orgPositionRestrictionInfo.metaInfo.(default).(default) -->
+<!-- ***************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.orgPositionRestrictionInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.orgPositionRestrictionInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.orgPositionRestrictionInfo.metaInfo" parent="object.field.orgPositionRestrictionInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.orgPositionRestrictionInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.orgPositionRestrictionInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.orgPositionRestrictionInfo.metaInfo" parent="type.field.orgPositionRestrictionInfo.metaInfo.abstract"/>
+
+<!-- ************************************************************************************************* -->
+<!-- State for state.field.orgPositionRestrictionInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- ************************************************************************************************* -->
+
+<dict:state key="*" id="state.field.orgPositionRestrictionInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.orgPositionRestrictionInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.orgPositionRestrictionInfo.metaInfo" parent="state.field.orgPositionRestrictionInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.orgPositionRestrictionInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.orgPositionRestrictionInfo.metaInfo.versionInd" parent="field.orgPositionRestrictionInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.versionInd.fd" parent="field.orgPositionRestrictionInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.orgPositionRestrictionInfo.metaInfo.versionInd.cd" parent="field.orgPositionRestrictionInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.orgPositionRestrictionInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.orgPositionRestrictionInfo.metaInfo.createTime" parent="field.orgPositionRestrictionInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.createTime.fd" parent="field.orgPositionRestrictionInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.orgPositionRestrictionInfo.metaInfo.createTime.cd" parent="field.orgPositionRestrictionInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.orgPositionRestrictionInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.orgPositionRestrictionInfo.metaInfo.createId" parent="field.orgPositionRestrictionInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.createId.fd" parent="field.orgPositionRestrictionInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.orgPositionRestrictionInfo.metaInfo.createId.cd" parent="field.orgPositionRestrictionInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.orgPositionRestrictionInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.orgPositionRestrictionInfo.metaInfo.updateTime" parent="field.orgPositionRestrictionInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.updateTime.fd" parent="field.orgPositionRestrictionInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.orgPositionRestrictionInfo.metaInfo.updateTime.cd" parent="field.orgPositionRestrictionInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.orgPositionRestrictionInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.orgPositionRestrictionInfo.metaInfo.updateId" parent="field.orgPositionRestrictionInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.metaInfo.updateId.fd" parent="field.orgPositionRestrictionInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.orgPositionRestrictionInfo.metaInfo.updateId.cd" parent="field.orgPositionRestrictionInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="id" id="field.orgPositionRestrictionInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgPositionRestrictionInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgPositionRestrictionInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.orgPositionRestrictionInfo.id" parent="field.orgPositionRestrictionInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.id.fd.abstract" abstract="true">
+	<dict:name>Organization Position Restriction Identifier</dict:name>
+	<dict:desc>Unique identifier for the organization position restriction record. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. Once set by the service, this should be seen as read-only and immutable. This structure is not retrievable by this identifier to limit the number of active organization position restriction records visible through the service. It is strongly recommended that this identifier not be referenced by outside consumers.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgPositionRestrictionInfo.id.fd" parent="field.orgPositionRestrictionInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.orgPositionRestrictionInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.orgPositionRestrictionInfo.id.cd" parent="field.orgPositionRestrictionInfo.id.cd.abstract"/>
+</beans>

@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- **************************************** -->
+<!-- object structure for object.documentInfo -->
+<!-- **************************************** -->
+<!-- Detailed information about a document. -->
+<dict:objectStructure key="org.kuali.student.core.document.dto.DocumentInfo" id="object.documentInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.documentInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.document.dto.DocumentInfo" id="object.documentInfo" parent="object.documentInfo.abstract"/>
+
+<dict:type key="*" id="type.documentInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.documentInfo"/>
+</dict:type>
+<dict:type key="*" id="type.documentInfo" parent="type.documentInfo.abstract"/>
+
+<!-- ************************************************ -->
+<!-- State for state.documentInfo.(default).(default) -->
+<!-- ************************************************ -->
+
+<dict:state key="*" id="state.documentInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.documentInfo.name"/>
+	<dict:fieldRef bean="field.documentInfo.fileName"/>
+	<dict:fieldRef bean="field.documentInfo.desc"/>
+	<dict:fieldRef bean="field.documentInfo.documentBinaryInfo"/>
+	<dict:fieldRef bean="field.documentInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.documentInfo.expirationDate"/>
+	<dict:fieldRef bean="field.documentInfo.metaInfo"/>
+	<dict:fieldRef bean="field.documentInfo.type"/>
+	<dict:fieldRef bean="field.documentInfo.state"/>
+	<dict:fieldRef bean="field.documentInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.documentInfo" parent="state.documentInfo.abstract"/>
+
+
+<dict:field key="name" id="field.documentInfo.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.name.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.name.cd"/>
+</dict:field>
+<dict:field key="name" id="field.documentInfo.name" parent="field.documentInfo.name.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.name.fd.abstract" abstract="true">
+	<dict:name>Document Name</dict:name>
+	<dict:desc>Friendly name of the document</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.name.fd" parent="field.documentInfo.name.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.documentInfo.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="field.documentInfo.name.cd" parent="field.documentInfo.name.cd.abstract"/>
+
+<dict:field key="fileName" id="field.documentInfo.fileName.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.fileName.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.fileName.cd"/>
+</dict:field>
+<dict:field key="fileName" id="field.documentInfo.fileName" parent="field.documentInfo.fileName.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.fileName.fd.abstract" abstract="true">
+	<dict:name>Document File Name</dict:name>
+	<dict:desc>Name of the document file</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.fileName.fd" parent="field.documentInfo.fileName.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.documentInfo.fileName.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="fileName" id="field.documentInfo.fileName.cd" parent="field.documentInfo.fileName.cd.abstract"/>
+
+<dict:field key="desc" id="field.documentInfo.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.desc.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="field.documentInfo.desc" parent="field.documentInfo.desc.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.desc.fd.abstract" abstract="true">
+	<dict:name>Document Description</dict:name>
+	<dict:desc>Narrative description of the document</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.documentInfo.desc"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.desc.fd" parent="field.documentInfo.desc.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.documentInfo.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="field.documentInfo.desc.cd" parent="field.documentInfo.desc.cd.abstract"/>
+
+<!-- *********************************************************************** -->
+<!-- object structure for object.field.documentInfo.desc.(default).(default) -->
+<!-- *********************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.documentInfo.desc.abstract" abstract="true">
+	<dict:typeRef bean="type.field.documentInfo.desc"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.documentInfo.desc" parent="object.field.documentInfo.desc.abstract"/>
+
+<dict:type key="*" id="type.field.documentInfo.desc.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.documentInfo.desc"/>
+</dict:type>
+<dict:type key="*" id="type.field.documentInfo.desc" parent="type.field.documentInfo.desc.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- State for state.field.documentInfo.desc.(default).(default).(default).(default) -->
+<!-- ******************************************************************************* -->
+
+<dict:state key="*" id="state.field.documentInfo.desc.abstract" abstract="true">
+	<dict:fieldRef bean="field.documentInfo.desc.plain"/>
+	<dict:fieldRef bean="field.documentInfo.desc.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.documentInfo.desc" parent="state.field.documentInfo.desc.abstract"/>
+
+
+<dict:field key="plain" id="field.documentInfo.desc.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.desc.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.desc.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.documentInfo.desc.plain" parent="field.documentInfo.desc.plain.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.desc.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.desc.plain.fd" parent="field.documentInfo.desc.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.documentInfo.desc.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.documentInfo.desc.plain.cd" parent="field.documentInfo.desc.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.documentInfo.desc.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.desc.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.desc.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.documentInfo.desc.formatted" parent="field.documentInfo.desc.formatted.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.desc.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.desc.formatted.fd" parent="field.documentInfo.desc.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.documentInfo.desc.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.documentInfo.desc.formatted.cd" parent="field.documentInfo.desc.formatted.cd.abstract"/>
+
+<dict:field key="documentBinaryInfo" id="field.documentInfo.documentBinaryInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.documentBinaryInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.documentBinaryInfo.cd"/>
+</dict:field>
+<dict:field key="documentBinaryInfo" id="field.documentInfo.documentBinaryInfo" parent="field.documentInfo.documentBinaryInfo.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.documentBinaryInfo.fd.abstract" abstract="true">
+	<dict:name>Document Binary</dict:name>
+	<dict:desc>The encoded document. The expectation is that this could be a base64 encoding.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.documentInfo.documentBinaryInfo"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.documentBinaryInfo.fd" parent="field.documentInfo.documentBinaryInfo.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.documentInfo.documentBinaryInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="documentBinaryInfo" id="field.documentInfo.documentBinaryInfo.cd" parent="field.documentInfo.documentBinaryInfo.cd.abstract"/>
+
+<!-- ************************************************************************************* -->
+<!-- object structure for object.field.documentInfo.documentBinaryInfo.(default).(default) -->
+<!-- ************************************************************************************* -->
+<!-- The encoded document. The expectation is that this could be a base64 encoding. -->
+<dict:objectStructure key="org.kuali.student.core.document.dto.DocumentBinaryInfo" id="object.field.documentInfo.documentBinaryInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.documentInfo.documentBinaryInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.document.dto.DocumentBinaryInfo" id="object.field.documentInfo.documentBinaryInfo" parent="object.field.documentInfo.documentBinaryInfo.abstract"/>
+
+<dict:type key="*" id="type.field.documentInfo.documentBinaryInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.documentInfo.documentBinaryInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.documentInfo.documentBinaryInfo" parent="type.field.documentInfo.documentBinaryInfo.abstract"/>
+
+<!-- ********************************************************************************************* -->
+<!-- State for state.field.documentInfo.documentBinaryInfo.(default).(default).(default).(default) -->
+<!-- ********************************************************************************************* -->
+
+<dict:state key="*" id="state.field.documentInfo.documentBinaryInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.documentInfo.documentBinaryInfo.binary"/>
+</dict:state>
+<dict:state key="*" id="state.field.documentInfo.documentBinaryInfo" parent="state.field.documentInfo.documentBinaryInfo.abstract"/>
+
+
+<dict:field key="binary" id="field.documentInfo.documentBinaryInfo.binary.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.documentBinaryInfo.binary.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.documentBinaryInfo.binary.cd"/>
+</dict:field>
+<dict:field key="binary" id="field.documentInfo.documentBinaryInfo.binary" parent="field.documentInfo.documentBinaryInfo.binary.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.documentBinaryInfo.binary.fd.abstract" abstract="true">
+	<dict:name>binary</dict:name>
+	<dict:desc>Encoded document</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.documentBinaryInfo.binary.fd" parent="field.documentInfo.documentBinaryInfo.binary.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.documentInfo.documentBinaryInfo.binary.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="binary" id="field.documentInfo.documentBinaryInfo.binary.cd" parent="field.documentInfo.documentBinaryInfo.binary.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.documentInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.documentInfo.effectiveDate" parent="field.documentInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this document became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.effectiveDate.fd" parent="field.documentInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.documentInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.documentInfo.effectiveDate.cd" parent="field.documentInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.documentInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.documentInfo.expirationDate" parent="field.documentInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this document expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.expirationDate.fd" parent="field.documentInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.documentInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.documentInfo.expirationDate.cd" parent="field.documentInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.documentInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.documentInfo.metaInfo" parent="field.documentInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.documentInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.fd" parent="field.documentInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.documentInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.documentInfo.metaInfo.cd" parent="field.documentInfo.metaInfo.cd.abstract"/>
+
+<!-- *************************************************************************** -->
+<!-- object structure for object.field.documentInfo.metaInfo.(default).(default) -->
+<!-- *************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.documentInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.documentInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.documentInfo.metaInfo" parent="object.field.documentInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.documentInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.documentInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.documentInfo.metaInfo" parent="type.field.documentInfo.metaInfo.abstract"/>
+
+<!-- *********************************************************************************** -->
+<!-- State for state.field.documentInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- *********************************************************************************** -->
+
+<dict:state key="*" id="state.field.documentInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.documentInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.documentInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.documentInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.documentInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.documentInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.documentInfo.metaInfo" parent="state.field.documentInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.documentInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.documentInfo.metaInfo.versionInd" parent="field.documentInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.versionInd.fd" parent="field.documentInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.documentInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.documentInfo.metaInfo.versionInd.cd" parent="field.documentInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.documentInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.documentInfo.metaInfo.createTime" parent="field.documentInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.createTime.fd" parent="field.documentInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.documentInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.documentInfo.metaInfo.createTime.cd" parent="field.documentInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.documentInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.documentInfo.metaInfo.createId" parent="field.documentInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.createId.fd" parent="field.documentInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.documentInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.documentInfo.metaInfo.createId.cd" parent="field.documentInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.documentInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.documentInfo.metaInfo.updateTime" parent="field.documentInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.updateTime.fd" parent="field.documentInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.documentInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.documentInfo.metaInfo.updateTime.cd" parent="field.documentInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.documentInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.documentInfo.metaInfo.updateId" parent="field.documentInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.metaInfo.updateId.fd" parent="field.documentInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.documentInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.documentInfo.metaInfo.updateId.cd" parent="field.documentInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.documentInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.documentInfo.type" parent="field.documentInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.type.fd.abstract" abstract="true">
+	<dict:name>Document Type</dict:name>
+	<dict:desc>Unique identifier for a document type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.type.fd" parent="field.documentInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only -->
+<dict:constraintDescriptor id="field.documentInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.documentInfo.type.cd" parent="field.documentInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.documentInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.state.cd"/>
+</dict:field>
+<dict:field key="state" id="field.documentInfo.state" parent="field.documentInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.state.fd.abstract" abstract="true">
+	<dict:name>Document State</dict:name>
+	<dict:desc>The current status of the document. The values for this field are constrained to those in the documentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.state.fd" parent="field.documentInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE -->
+<dict:constraintDescriptor id="field.documentInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.documentInfo.state.cd" parent="field.documentInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.documentInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.documentInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.documentInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.documentInfo.id" parent="field.documentInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.documentInfo.id.fd.abstract" abstract="true">
+	<dict:name>Document Identifier</dict:name>
+	<dict:desc>Unique identifier for a document. This is optional, due to the identifier being set at the time of creation. Once the document has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.documentInfo.id.fd" parent="field.documentInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.documentInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.documentInfo.id.cd" parent="field.documentInfo.id.cd.abstract"/>
+</beans>

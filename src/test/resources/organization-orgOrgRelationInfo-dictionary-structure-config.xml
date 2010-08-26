@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ********************************************** -->
+<!-- object structure for object.orgOrgRelationInfo -->
+<!-- ********************************************** -->
+<!-- Detailed information about a single organization to organization relationship. -->
+<dict:objectStructure key=".OrgOrgRelationInfo" id="object.orgOrgRelationInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.orgOrgRelationInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key=".OrgOrgRelationInfo" id="object.orgOrgRelationInfo" parent="object.orgOrgRelationInfo.abstract"/>
+
+<dict:type key="*" id="type.orgOrgRelationInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.orgOrgRelationInfo"/>
+</dict:type>
+<dict:type key="*" id="type.orgOrgRelationInfo" parent="type.orgOrgRelationInfo.abstract"/>
+
+<!-- ****************************************************** -->
+<!-- State for state.orgOrgRelationInfo.(default).(default) -->
+<!-- ****************************************************** -->
+
+<dict:state key="*" id="state.orgOrgRelationInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.orgOrgRelationInfo.orgId"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.relatedOrgId"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.expirationDate"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.metaInfo"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.type"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.state"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.orgOrgRelationInfo" parent="state.orgOrgRelationInfo.abstract"/>
+
+
+<dict:field key="orgId" id="field.orgOrgRelationInfo.orgId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.orgId.cd"/>
+</dict:field>
+<dict:field key="orgId" id="field.orgOrgRelationInfo.orgId" parent="field.orgOrgRelationInfo.orgId.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.orgId.fd.abstract" abstract="true">
+	<dict:name>Org Id</dict:name>
+	<dict:desc>Identifies the &quot;parent&quot; organization in the relation. The relationship is from this organization to the other organization.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.orgId.fd" parent="field.orgOrgRelationInfo.orgId.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.orgId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="orgId" id="field.orgOrgRelationInfo.orgId.cd" parent="field.orgOrgRelationInfo.orgId.cd.abstract"/>
+
+<dict:field key="relatedOrgId" id="field.orgOrgRelationInfo.relatedOrgId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.relatedOrgId.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.relatedOrgId.cd"/>
+</dict:field>
+<dict:field key="relatedOrgId" id="field.orgOrgRelationInfo.relatedOrgId" parent="field.orgOrgRelationInfo.relatedOrgId.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.relatedOrgId.fd.abstract" abstract="true">
+	<dict:name>Related Org Id</dict:name>
+	<dict:desc>This identifies the &quot;child&quot; organization in the relation. The relationship is from the other organization to this organization.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.relatedOrgId.fd" parent="field.orgOrgRelationInfo.relatedOrgId.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.relatedOrgId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="relatedOrgId" id="field.orgOrgRelationInfo.relatedOrgId.cd" parent="field.orgOrgRelationInfo.relatedOrgId.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.orgOrgRelationInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.orgOrgRelationInfo.effectiveDate" parent="field.orgOrgRelationInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this organization to organization relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.effectiveDate.fd" parent="field.orgOrgRelationInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.orgOrgRelationInfo.effectiveDate.cd" parent="field.orgOrgRelationInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.orgOrgRelationInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.orgOrgRelationInfo.expirationDate" parent="field.orgOrgRelationInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this organization to organization relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.expirationDate.fd" parent="field.orgOrgRelationInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.orgOrgRelationInfo.expirationDate.cd" parent="field.orgOrgRelationInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.orgOrgRelationInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.orgOrgRelationInfo.metaInfo" parent="field.orgOrgRelationInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.orgOrgRelationInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.fd" parent="field.orgOrgRelationInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.orgOrgRelationInfo.metaInfo.cd" parent="field.orgOrgRelationInfo.metaInfo.cd.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- object structure for object.field.orgOrgRelationInfo.metaInfo.(default).(default) -->
+<!-- ********************************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.orgOrgRelationInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.orgOrgRelationInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.orgOrgRelationInfo.metaInfo" parent="object.field.orgOrgRelationInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.orgOrgRelationInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.orgOrgRelationInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.orgOrgRelationInfo.metaInfo" parent="type.field.orgOrgRelationInfo.metaInfo.abstract"/>
+
+<!-- ***************************************************************************************** -->
+<!-- State for state.field.orgOrgRelationInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- ***************************************************************************************** -->
+
+<dict:state key="*" id="state.field.orgOrgRelationInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.orgOrgRelationInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.orgOrgRelationInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.orgOrgRelationInfo.metaInfo" parent="state.field.orgOrgRelationInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.orgOrgRelationInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.orgOrgRelationInfo.metaInfo.versionInd" parent="field.orgOrgRelationInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.versionInd.fd" parent="field.orgOrgRelationInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.orgOrgRelationInfo.metaInfo.versionInd.cd" parent="field.orgOrgRelationInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.orgOrgRelationInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.orgOrgRelationInfo.metaInfo.createTime" parent="field.orgOrgRelationInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.createTime.fd" parent="field.orgOrgRelationInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.orgOrgRelationInfo.metaInfo.createTime.cd" parent="field.orgOrgRelationInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.orgOrgRelationInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.orgOrgRelationInfo.metaInfo.createId" parent="field.orgOrgRelationInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.createId.fd" parent="field.orgOrgRelationInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.orgOrgRelationInfo.metaInfo.createId.cd" parent="field.orgOrgRelationInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.orgOrgRelationInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.orgOrgRelationInfo.metaInfo.updateTime" parent="field.orgOrgRelationInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.updateTime.fd" parent="field.orgOrgRelationInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.orgOrgRelationInfo.metaInfo.updateTime.cd" parent="field.orgOrgRelationInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.orgOrgRelationInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.orgOrgRelationInfo.metaInfo.updateId" parent="field.orgOrgRelationInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.metaInfo.updateId.fd" parent="field.orgOrgRelationInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.orgOrgRelationInfo.metaInfo.updateId.cd" parent="field.orgOrgRelationInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.orgOrgRelationInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.orgOrgRelationInfo.type" parent="field.orgOrgRelationInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.type.fd.abstract" abstract="true">
+	<dict:name>Org to Org Relation Type</dict:name>
+	<dict:desc>Unique identifier for an organization to organization relationship type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.type.fd" parent="field.orgOrgRelationInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.orgOrgRelationInfo.type.cd" parent="field.orgOrgRelationInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.orgOrgRelationInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.state.cd"/>
+</dict:field>
+<dict:field key="state" id="field.orgOrgRelationInfo.state" parent="field.orgOrgRelationInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.state.fd.abstract" abstract="true">
+	<dict:name>Org to Org Relation State</dict:name>
+	<dict:desc>The current status of the organization to organization relationship. The values for this field are constrained to those in the orgOrgRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.state.fd" parent="field.orgOrgRelationInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.orgOrgRelationInfo.state.cd" parent="field.orgOrgRelationInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.orgOrgRelationInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.orgOrgRelationInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.orgOrgRelationInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.orgOrgRelationInfo.id" parent="field.orgOrgRelationInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.id.fd.abstract" abstract="true">
+	<dict:name>Org Org Relation Identifier</dict:name>
+	<dict:desc>This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.orgOrgRelationInfo.id.fd" parent="field.orgOrgRelationInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.orgOrgRelationInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.orgOrgRelationInfo.id.cd" parent="field.orgOrgRelationInfo.id.cd.abstract"/>
+</beans>

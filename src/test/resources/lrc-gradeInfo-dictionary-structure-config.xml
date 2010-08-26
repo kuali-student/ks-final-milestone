@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ************************************* -->
+<!-- object structure for object.gradeInfo -->
+<!-- ************************************* -->
+<!-- Detailed information about a grade value. -->
+<dict:objectStructure key="org.kuali.student.lum.lrc.dto.GradeInfo" id="object.gradeInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.gradeInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lrc.dto.GradeInfo" id="object.gradeInfo" parent="object.gradeInfo.abstract"/>
+
+<dict:type key="*" id="type.gradeInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.gradeInfo"/>
+</dict:type>
+<dict:type key="*" id="type.gradeInfo" parent="type.gradeInfo.abstract"/>
+
+<!-- ********************************************* -->
+<!-- State for state.gradeInfo.(default).(default) -->
+<!-- ********************************************* -->
+
+<dict:state key="*" id="state.gradeInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.gradeInfo.name"/>
+	<dict:fieldRef bean="field.gradeInfo.value"/>
+	<dict:fieldRef bean="field.gradeInfo.scaleKey"/>
+	<dict:fieldRef bean="field.gradeInfo.rank"/>
+	<dict:fieldRef bean="field.gradeInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.gradeInfo.expirationDate"/>
+	<dict:fieldRef bean="field.gradeInfo.type"/>
+	<dict:fieldRef bean="field.gradeInfo.key"/>
+</dict:state>
+<dict:state key="*" id="state.gradeInfo" parent="state.gradeInfo.abstract"/>
+
+
+<dict:field key="name" id="field.gradeInfo.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.gradeInfo.name.fd"/>
+	<dict:constraintDescriptorRef bean="field.gradeInfo.name.cd"/>
+</dict:field>
+<dict:field key="name" id="field.gradeInfo.name" parent="field.gradeInfo.name.abstract"/>
+<dict:fieldDescriptor id="field.gradeInfo.name.fd.abstract" abstract="true">
+	<dict:name>Grade Name</dict:name>
+	<dict:desc>Name of the grade. This is likely related to the type, value and/or scale, but this is not required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.gradeInfo.name.fd" parent="field.gradeInfo.name.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
+<dict:constraintDescriptor id="field.gradeInfo.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="field.gradeInfo.name.cd" parent="field.gradeInfo.name.cd.abstract"/>
+
+<dict:field key="value" id="field.gradeInfo.value.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.gradeInfo.value.fd"/>
+	<dict:constraintDescriptorRef bean="field.gradeInfo.value.cd"/>
+</dict:field>
+<dict:field key="value" id="field.gradeInfo.value" parent="field.gradeInfo.value.abstract"/>
+<dict:fieldDescriptor id="field.gradeInfo.value.fd.abstract" abstract="true">
+	<dict:name>Grade Value</dict:name>
+	<dict:desc>Value of the grade. Typically corresponds with the short coded form of the grade (ex. &quot;A&quot;, &quot;4.0&quot;, &quot;97.0%&quot;, etc.)</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.gradeInfo.value.fd" parent="field.gradeInfo.value.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
+<dict:constraintDescriptor id="field.gradeInfo.value.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.code"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="value" id="field.gradeInfo.value.cd" parent="field.gradeInfo.value.cd.abstract"/>
+
+<dict:field key="scaleKey" id="field.gradeInfo.scaleKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.gradeInfo.scaleKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.gradeInfo.scaleKey.cd"/>
+</dict:field>
+<dict:field key="scaleKey" id="field.gradeInfo.scaleKey" parent="field.gradeInfo.scaleKey.abstract"/>
+<dict:fieldDescriptor id="field.gradeInfo.scaleKey.fd.abstract" abstract="true">
+	<dict:name>Scale Identifier</dict:name>
+	<dict:desc>Identifier of the scale for this grade value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.gradeInfo.scaleKey.fd" parent="field.gradeInfo.scaleKey.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); In a list of configured grading scales -->
+<dict:constraintDescriptor id="field.gradeInfo.scaleKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.grade.scales"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="scaleKey" id="field.gradeInfo.scaleKey.cd" parent="field.gradeInfo.scaleKey.cd.abstract"/>
+
+<dict:field key="rank" id="field.gradeInfo.rank.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.gradeInfo.rank.fd"/>
+	<dict:constraintDescriptorRef bean="field.gradeInfo.rank.cd"/>
+</dict:field>
+<dict:field key="rank" id="field.gradeInfo.rank" parent="field.gradeInfo.rank.abstract"/>
+<dict:fieldDescriptor id="field.gradeInfo.rank.fd.abstract" abstract="true">
+	<dict:name>Grade Rank</dict:name>
+	<dict:desc>Rank of the grade value within the scale. Standards around uniqueness and meaning of value are described in the information about the scale.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.gradeInfo.rank.fd" parent="field.gradeInfo.rank.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.gradeInfo.rank.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="rank" id="field.gradeInfo.rank.cd" parent="field.gradeInfo.rank.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.gradeInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.gradeInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.gradeInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.gradeInfo.effectiveDate" parent="field.gradeInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.gradeInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this grade value became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.gradeInfo.effectiveDate.fd" parent="field.gradeInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.gradeInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.gradeInfo.effectiveDate.cd" parent="field.gradeInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.gradeInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.gradeInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.gradeInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.gradeInfo.expirationDate" parent="field.gradeInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.gradeInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this grade value expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.gradeInfo.expirationDate.fd" parent="field.gradeInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.gradeInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.gradeInfo.expirationDate.cd" parent="field.gradeInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="type" id="field.gradeInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.gradeInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.gradeInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.gradeInfo.type" parent="field.gradeInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.gradeInfo.type.fd.abstract" abstract="true">
+	<dict:name>Grade Type</dict:name>
+	<dict:desc>Unique identifier for a grade type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.gradeInfo.type.fd" parent="field.gradeInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only -->
+<dict:constraintDescriptor id="field.gradeInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.gradeInfo.type.cd" parent="field.gradeInfo.type.cd.abstract"/>
+
+<dict:field key="key" id="field.gradeInfo.key.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.gradeInfo.key.fd"/>
+	<dict:constraintDescriptorRef bean="field.gradeInfo.key.cd"/>
+</dict:field>
+<dict:field key="key" id="field.gradeInfo.key" parent="field.gradeInfo.key.abstract"/>
+<dict:fieldDescriptor id="field.gradeInfo.key.fd.abstract" abstract="true">
+	<dict:name>Grade Identifier</dict:name>
+	<dict:desc>Unique identifier for a grade value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.gradeInfo.key.fd" parent="field.gradeInfo.key.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali KEY; structured like a type but unique like and ID, used to identify configured objects. -->
+<dict:constraintDescriptor id="field.gradeInfo.key.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.key"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="key" id="field.gradeInfo.key.cd" parent="field.gradeInfo.key.cd.abstract"/>
+</beans>

@@ -1,0 +1,1734 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CourseService" targetNamespace="http://student.kuali.org/wsdl/course" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://student.kuali.org/wsdl/course" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/course" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/course" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
+<xs:element name="createCourse" type="tns:createCourse"/>
+<xs:element name="createCourseResponse" type="tns:createCourseResponse"/>
+<xs:element name="createCourseStatement" type="tns:createCourseStatement"/>
+<xs:element name="createCourseStatementResponse" type="tns:createCourseStatementResponse"/>
+<xs:element name="deleteCourse" type="tns:deleteCourse"/>
+<xs:element name="deleteCourseResponse" type="tns:deleteCourseResponse"/>
+<xs:element name="deleteCourseStatement" type="tns:deleteCourseStatement"/>
+<xs:element name="deleteCourseStatementResponse" type="tns:deleteCourseStatementResponse"/>
+<xs:element name="getCourse" type="tns:getCourse"/>
+<xs:element name="getCourseActivities" type="tns:getCourseActivities"/>
+<xs:element name="getCourseActivitiesResponse" type="tns:getCourseActivitiesResponse"/>
+<xs:element name="getCourseFormats" type="tns:getCourseFormats"/>
+<xs:element name="getCourseFormatsResponse" type="tns:getCourseFormatsResponse"/>
+<xs:element name="getCourseLos" type="tns:getCourseLos"/>
+<xs:element name="getCourseLosResponse" type="tns:getCourseLosResponse"/>
+<xs:element name="getCourseResponse" type="tns:getCourseResponse"/>
+<xs:element name="getCourseStatements" type="tns:getCourseStatements"/>
+<xs:element name="getCourseStatementsResponse" type="tns:getCourseStatementsResponse"/>
+<xs:element name="updateCourse" type="tns:updateCourse"/>
+<xs:element name="updateCourseResponse" type="tns:updateCourseResponse"/>
+<xs:element name="updateCourseStatement" type="tns:updateCourseStatement"/>
+<xs:element name="updateCourseStatementResponse" type="tns:updateCourseStatementResponse"/>
+<xs:element name="validateCourse" type="tns:validateCourse"/>
+<xs:element name="validateCourseResponse" type="tns:validateCourseResponse"/>
+<xs:element name="validateCourseStatement" type="tns:validateCourseStatement"/>
+<xs:element name="validateCourseStatementResponse" type="tns:validateCourseStatementResponse"/>
+<xs:complexType name="getCourseActivities">
+<xs:sequence>
+<xs:element minOccurs="0" name="formatId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseActivitiesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:activityInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="activityInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="duration" type="tns:timeAmountInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="curriculumOversightOrgs" type="tns:adminOrgInfo"/>
+<xs:element name="defaultEnrollmentEstimate" type="xs:int"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+<xs:element minOccurs="0" name="contactHours" type="tns:amountInfo"/>
+</xs:sequence>
+<xs:attribute name="activityType" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="timeAmountInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="atpDurationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="timeQuantity" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="adminOrgInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+<xs:element name="isPrimary" type="xs:boolean"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="type" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="jaxbAttributeList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Attribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="metaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="amountInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="unitType" type="xs:string"/>
+<xs:element minOccurs="0" name="unitQuantity" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createCourseStatement">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+<xs:element minOccurs="0" name="statementTreeViewInfo" type="tns:statementTreeViewInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="statementTreeViewInfo">
+<xs:complexContent>
+<xs:extension base="tns:abstractStatementInfo">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="statements" type="tns:statementTreeViewInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponents" type="tns:reqComponentInfo"/>
+<xs:element minOccurs="0" name="naturalLanguageTranslation" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractStatementInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+<xs:element minOccurs="0" name="operator" type="tns:statementOperatorTypeKey"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="parentId" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="reqComponentInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="reqCompFields" type="tns:reqCompFieldInfo"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+<xs:element minOccurs="0" name="requiredComponentType" type="tns:reqComponentTypeInfo"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="naturalLanguageTranslation" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="richTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reqCompFieldInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="type" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="reqComponentTypeInfo">
+<xs:complexContent>
+<xs:extension base="tns:typeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="reqCompFieldTypes">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="reqCompFieldType" type="tns:reqCompFieldTypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="typeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="reqCompFieldTypeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="createCourseStatementResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:statementTreeViewInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCourseStatement">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+<xs:element minOccurs="0" name="statementTreeViewInfo" type="tns:statementTreeViewInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCourseStatementResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:statementTreeViewInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateCourse">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseInfo" type="tns:courseInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="courseInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="code" type="xs:string"/>
+<xs:element minOccurs="0" name="courseNumberSuffix" type="xs:string"/>
+<xs:element minOccurs="0" name="courseTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="transcriptTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:richTextInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="formats" type="tns:formatInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="termsOffered" type="xs:string"/>
+<xs:element minOccurs="0" name="duration" type="tns:timeAmountInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="joints" type="tns:courseJointInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="crossListings" type="tns:courseCrossListingInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="variations" type="tns:courseVariationInfo"/>
+<xs:element minOccurs="0" name="subjectArea" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="campusLocations" type="xs:string"/>
+<xs:element minOccurs="0" name="outOfClassHours" type="tns:amountInfo"/>
+<xs:element minOccurs="0" name="primaryInstructor" type="tns:cluInstructorInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="instructors" type="tns:cluInstructorInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="administeringOrgs" type="xs:string"/>
+<xs:element minOccurs="0" name="feeJustification" type="tns:richTextInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="curriculumOversightOrgs" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="fees" nillable="true" type="tns:courseFeeInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="revenues" type="tns:courseRevenueInfo"/>
+<xs:element minOccurs="0" name="expenditure" type="tns:courseExpenditureInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="courseSpecificLOs" type="tns:loDisplayInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="gradingOptions" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="creditOptions" type="tns:resultComponentInfo"/>
+<xs:element name="specialTopicsCourse" type="xs:boolean"/>
+<xs:element name="pilotCourse" type="xs:boolean"/>
+<xs:element minOccurs="0" name="startTerm" type="xs:string"/>
+<xs:element minOccurs="0" name="endTerm" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="formatInfo">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="activities" type="tns:activityInfo"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="courseJointInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseNumberSuffix" type="xs:string"/>
+<xs:element minOccurs="0" name="courseTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="subjectArea" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="courseId" type="xs:string"/>
+<xs:attribute name="relationId" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="courseCrossListingInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="subjectArea" type="xs:string"/>
+<xs:element minOccurs="0" name="department" type="xs:string"/>
+<xs:element minOccurs="0" name="courseNumberSuffix" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="courseVariationInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="variationTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="subjectArea" type="xs:string"/>
+<xs:element minOccurs="0" name="courseNumberSuffix" type="xs:string"/>
+<xs:element minOccurs="0" name="variationCode" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="cluInstructorInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="personInfoOverride" type="xs:string"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="courseFeeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="feeType" type="xs:string"/>
+<xs:element minOccurs="0" name="rateType" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="feeAmounts" type="tns:currencyAmountInfo"/>
+<xs:element minOccurs="0" name="descr" type="tns:richTextInfo"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="currencyAmountInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="currencyTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="currencyQuantity" type="xs:int"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="courseRevenueInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="feeType" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="affiliatedOrgs" type="tns:affiliatedOrgInfo"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="affiliatedOrgInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="percentage" type="xs:long"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="courseExpenditureInfo">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="affiliatedOrgs" type="tns:affiliatedOrgInfo"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="loDisplayInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="loInfo" type="tns:loInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="loDisplayInfoList" type="tns:loDisplayInfo"/>
+<xs:element minOccurs="0" name="parentRelType" type="xs:string"/>
+<xs:element minOccurs="0" name="parentLoRelationid" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="loCategoryInfoList" type="tns:loCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="loInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+<xs:element minOccurs="0" name="loRepositoryKey" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="loCategoryInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+<xs:element minOccurs="0" name="loRepository" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="resultComponentInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="resultValues" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="updateCourseResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:courseInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseFormats">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseFormatsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:formatInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourse">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:courseInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createCourse">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseInfo" type="tns:courseInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createCourseResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:courseInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="objectStructureDefinitionWrapper">
+<xs:sequence>
+<xs:element minOccurs="0" name="rootDefinitionName" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="definitions" nillable="true" type="tns:objectStructureDefinition"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="objectStructureDefinition">
+<xs:sequence>
+<xs:element name="name" type="xs:ID"/>
+<xs:element minOccurs="0" name="businessObjectClass" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:fieldDefinition"/>
+<xs:element name="hasMetaData" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="fieldDefinition">
+<xs:complexContent>
+<xs:extension base="tns:constraint">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="dataType" type="tns:dataType"/>
+<xs:element minOccurs="0" name="dataObjectStructure" type="xs:IDREF"/>
+<xs:element name="dynamic" type="xs:boolean"/>
+<xs:element minOccurs="0" name="defaultValue" type="xs:anyType"/>
+<xs:element minOccurs="0" name="defaultValuePath" type="xs:string"/>
+<xs:element name="readOnly" type="xs:boolean"/>
+<xs:element name="hide" type="xs:boolean"/>
+<xs:element name="mask" type="xs:boolean"/>
+<xs:element name="partialMask" type="xs:boolean"/>
+<xs:element minOccurs="0" name="partialMaskFormatter" type="xs:string"/>
+<xs:element minOccurs="0" name="maskFormatter" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="constraint">
+<xs:complexContent>
+<xs:extension base="tns:baseConstraint">
+<xs:sequence>
+<xs:element name="serverSide" type="xs:boolean"/>
+<xs:element minOccurs="0" name="customValidatorClass" type="xs:string"/>
+<xs:element minOccurs="0" name="locale" type="xs:string"/>
+<xs:element minOccurs="0" name="exclusiveMin" type="xs:string"/>
+<xs:element minOccurs="0" name="inclusiveMax" type="xs:string"/>
+<xs:element minOccurs="0" name="minLength" type="xs:int"/>
+<xs:element minOccurs="0" name="maxLength" type="xs:string"/>
+<xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
+<xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+<xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+<xs:element minOccurs="0" name="caseConstraint" type="tns:caseConstraint"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="requireConstraint" type="tns:requiredConstraint"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="occursConstraint" type="tns:mustOccurConstraint"/>
+<xs:element minOccurs="0" name="lookupDefinition" type="tns:lookupConstraint"/>
+<xs:element minOccurs="0" name="lookupContextPath" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="baseConstraint">
+<xs:sequence>
+<xs:element minOccurs="0" name="labelKey" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validCharsConstraint">
+<xs:complexContent>
+<xs:extension base="tns:baseConstraint">
+<xs:sequence>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="caseConstraint">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="whenConstraint" type="tns:whenConstraint"/>
+<xs:element minOccurs="0" name="fieldPath" type="xs:string"/>
+<xs:element minOccurs="0" name="operator" type="xs:string"/>
+<xs:element name="caseSensitive" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="whenConstraint">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="values" nillable="true" type="xs:anyType"/>
+<xs:element minOccurs="0" name="valuePath" type="xs:string"/>
+<xs:element minOccurs="0" name="constraint" type="tns:constraint"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requiredConstraint">
+<xs:sequence>
+<xs:element minOccurs="0" name="fieldPath" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="mustOccurConstraint">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="requiredFields" type="tns:requiredConstraint"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:mustOccurConstraint"/>
+<xs:element minOccurs="0" name="min" type="xs:int"/>
+<xs:element minOccurs="0" name="max" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="lookupConstraint">
+<xs:complexContent>
+<xs:extension base="tns:commonLookup">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="commonLookup">
+<xs:sequence>
+<xs:element minOccurs="0" name="desc" type="xs:string"/>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="params" nillable="true" type="tns:commonLookupParam"/>
+<xs:element minOccurs="0" name="resultReturnKey" type="xs:string"/>
+<xs:element minOccurs="0" name="searchParamIdKey" type="xs:string"/>
+<xs:element minOccurs="0" name="searchTypeId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="commonLookupParam">
+<xs:sequence>
+<xs:element name="caseSensitive" type="xs:boolean"/>
+<xs:element minOccurs="0" name="childLookup" type="tns:commonLookup"/>
+<xs:element minOccurs="0" name="dataType" type="tns:dataType"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="defaultValueList" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="defaultValueString" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="xs:string"/>
+<xs:element minOccurs="0" name="fieldPath" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element name="optional" type="xs:boolean"/>
+<xs:element minOccurs="0" name="usage" type="tns:usage"/>
+<xs:element minOccurs="0" name="widget" type="tns:widget"/>
+<xs:element minOccurs="0" name="writeAccess" type="tns:writeAccess"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseLos">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseLosResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:loDisplayInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateCourse">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+<xs:element minOccurs="0" name="arg1" type="tns:courseInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateCourseResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseStatements">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCourseStatementsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:statementTreeViewInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteCourse">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteCourseResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="statusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="success" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateCourseStatement">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+<xs:element minOccurs="0" name="statementTreeViewInfo" type="tns:statementTreeViewInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateCourseStatementResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteCourseStatement">
+<xs:sequence>
+<xs:element minOccurs="0" name="courseId" type="xs:string"/>
+<xs:element minOccurs="0" name="statementTreeViewInfo" type="tns:statementTreeViewInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteCourseStatementResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="statementOperatorTypeKey">
+<xs:restriction base="xs:string">
+<xs:enumeration value="AND"/>
+<xs:enumeration value="OR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="dataType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="STRING"/>
+<xs:enumeration value="DATE"/>
+<xs:enumeration value="TRUNCATED_DATE"/>
+<xs:enumeration value="BOOLEAN"/>
+<xs:enumeration value="INTEGER"/>
+<xs:enumeration value="FLOAT"/>
+<xs:enumeration value="DOUBLE"/>
+<xs:enumeration value="LONG"/>
+<xs:enumeration value="COMPLEX"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="usage">
+<xs:restriction base="xs:string">
+<xs:enumeration value="DEFAULT"/>
+<xs:enumeration value="ADVANCED"/>
+<xs:enumeration value="CUSTOM"/>
+<xs:enumeration value="ADVANCED_CUSTOM"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="widget">
+<xs:restriction base="xs:string">
+<xs:enumeration value="SUGGEST_BOX"/>
+<xs:enumeration value="DROPDOWN_LIST"/>
+<xs:enumeration value="RADIO_BUTTONS"/>
+<xs:enumeration value="CHECK_BOXES"/>
+<xs:enumeration value="TEXT_BOX"/>
+<xs:enumeration value="CALENDAR"/>
+<xs:enumeration value="PICKER"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="writeAccess">
+<xs:restriction base="xs:string">
+<xs:enumeration value="ON_CREATE"/>
+<xs:enumeration value="ALWAYS"/>
+<xs:enumeration value="NEVER"/>
+<xs:enumeration value="WHEN_NULL"/>
+<xs:enumeration value="REQUIRED"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="getObjectTypes" nillable="true" type="ns1:getObjectTypes"/>
+<xs:element name="getObjectTypesResponse" nillable="true" type="ns1:getObjectTypesResponse"/>
+<xs:element name="CircularRelationshipException" nillable="true" type="ns0:CircularRelationshipException"/>
+<xs:element name="UnsupportedActionException" nillable="true" type="ns0:UnsupportedActionException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+<xs:element name="DependentObjectsExistException" nillable="true" type="ns0:DependentObjectsExistException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="getObjectStructure" nillable="true" type="ns1:getObjectStructure"/>
+<xs:element name="getObjectStructureResponse" nillable="true" type="ns1:getObjectStructureResponse"/>
+</xs:schema>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary" xmlns:ns1="http://student.kuali.org/wsdl/course" xmlns:tns="http://student.kuali.org/wsdl/dictionary" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:import namespace="http://student.kuali.org/wsdl/course"/>
+<xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
+<xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
+<xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
+<xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
+<xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
+<xs:complexType name="fieldDescriptor">
+<xs:sequence>
+<xs:element name="name" type="xs:string"/>
+<xs:element name="desc" type="xs:string"/>
+<xs:element name="readOnly" type="xs:boolean"/>
+<xs:element name="dataType" type="xs:string"/>
+<xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
+<xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
+<xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="searchSelector">
+<xs:sequence/>
+<xs:attribute name="key" type="xs:string" use="required"/>
+</xs:complexType>
+<xs:complexType name="objectStructure">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string" use="required"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="type">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element name="modifiable" type="xs:boolean"/>
+<xs:element minOccurs="0" name="attributes" type="ns1:jaxbAttributeList"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="key" type="xs:string" use="required"/>
+</xs:complexType>
+<xs:complexType name="state">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
+<xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="key" type="xs:string" use="required"/>
+</xs:complexType>
+<xs:complexType name="field">
+<xs:sequence>
+<xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
+<xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+<xs:element name="selector" type="xs:boolean"/>
+<xs:element name="dynamic" type="xs:boolean"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string" use="required"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="constraintDescriptor">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string" use="required"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="constraintSelector">
+<xs:sequence>
+<xs:element minOccurs="0" name="minValue" type="xs:string"/>
+<xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+<xs:element minOccurs="0" name="minLength" type="xs:int"/>
+<xs:element minOccurs="0" name="maxLength" type="xs:string"/>
+<xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
+<xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+<xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
+<xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+</xs:sequence>
+<xs:attribute name="className" type="xs:string"/>
+<xs:attribute name="key" type="xs:string" use="required"/>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="serverSide" type="xs:boolean" use="required"/>
+<xs:attribute name="locale" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="validCharsConstraint">
+<xs:sequence>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="fields" type="xs:string"/>
+<xs:attribute name="separator" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="requireConstraint">
+<xs:sequence/>
+<xs:attribute name="field" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="caseConstraint">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
+</xs:sequence>
+<xs:attribute name="field" type="xs:string"/>
+<xs:attribute name="operator" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="whenConstraint">
+<xs:sequence>
+<xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
+</xs:sequence>
+<xs:attribute name="value" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="typeStateCaseConstraint">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="typeStateWhenConstraint">
+<xs:sequence>
+<xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+<xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="lookupConstraint">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
+</xs:sequence>
+<xs:attribute name="search" type="xs:string"/>
+<xs:attribute name="searchField" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="lookupKeyConstraint">
+<xs:sequence/>
+<xs:attribute name="field" type="xs:string"/>
+<xs:attribute name="mapsTo" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="occursConstraint">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+</xs:sequence>
+<xs:attribute name="min" type="xs:int"/>
+<xs:attribute name="max" type="xs:int"/>
+</xs:complexType>
+<xs:complexType name="getObjectTypes">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="getObjectTypesResponse">
+<xs:sequence>
+<xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getObjectStructure">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getObjectStructureResponse">
+<xs:sequence>
+<xs:element form="unqualified" minOccurs="0" name="return" type="ns1:objectStructureDefinitionWrapper"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/course" xmlns:tns="http://student.kuali.org/wsdl/exceptions" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:import namespace="http://student.kuali.org/wsdl/course"/>
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="CircularRelationshipException" type="tns:CircularRelationshipException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="UnsupportedActionException" type="tns:UnsupportedActionException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="CircularRelationshipException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UnsupportedActionException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DependentObjectsExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="ns1:validationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getCourseFormats">
+    <wsdl:part element="tns:getCourseFormats" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseLos">
+    <wsdl:part element="tns:getCourseLos" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CircularRelationshipException">
+    <wsdl:part element="tns:CircularRelationshipException" name="CircularRelationshipException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseLosResponse">
+    <wsdl:part element="tns:getCourseLosResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCourseStatement">
+    <wsdl:part element="tns:createCourseStatement" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseStatementsResponse">
+    <wsdl:part element="tns:getCourseStatementsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteCourseResponse">
+    <wsdl:part element="tns:deleteCourseResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCourseStatement">
+    <wsdl:part element="tns:updateCourseStatement" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteCourse">
+    <wsdl:part element="tns:deleteCourse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCourseResponse">
+    <wsdl:part element="tns:validateCourseResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part element="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseResponse">
+    <wsdl:part element="tns:getCourseResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCourseResponse">
+    <wsdl:part element="tns:updateCourseResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectTypes">
+    <wsdl:part element="tns:getObjectTypes" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteCourseStatement">
+    <wsdl:part element="tns:deleteCourseStatement" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part element="tns:AlreadyExistsException" name="AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCourseStatementResponse">
+    <wsdl:part element="tns:validateCourseStatementResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCourseStatement">
+    <wsdl:part element="tns:validateCourseStatement" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part element="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part element="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCourseResponse">
+    <wsdl:part element="tns:createCourseResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCourseStatementResponse">
+    <wsdl:part element="tns:updateCourseStatementResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part element="tns:VersionMismatchException" name="VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part element="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseStatements">
+    <wsdl:part element="tns:getCourseStatements" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part element="tns:DataValidationErrorException" name="DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectStructure">
+    <wsdl:part element="tns:getObjectStructure" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part element="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateCourse">
+    <wsdl:part element="tns:validateCourse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectTypesResponse">
+    <wsdl:part element="tns:getObjectTypesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectStructureResponse">
+    <wsdl:part element="tns:getObjectStructureResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseActivities">
+    <wsdl:part element="tns:getCourseActivities" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCourse">
+    <wsdl:part element="tns:updateCourse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseFormatsResponse">
+    <wsdl:part element="tns:getCourseFormatsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnsupportedActionException">
+    <wsdl:part element="tns:UnsupportedActionException" name="UnsupportedActionException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DependentObjectsExistException">
+    <wsdl:part element="tns:DependentObjectsExistException" name="DependentObjectsExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCourseStatementResponse">
+    <wsdl:part element="tns:createCourseStatementResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourseActivitiesResponse">
+    <wsdl:part element="tns:getCourseActivitiesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteCourseStatementResponse">
+    <wsdl:part element="tns:deleteCourseStatementResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCourse">
+    <wsdl:part element="tns:createCourse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCourse">
+    <wsdl:part element="tns:getCourse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CourseService">
+    <wsdl:operation name="getCourseActivities">
+      <wsdl:input message="tns:getCourseActivities" name="getCourseActivities">
+    </wsdl:input>
+      <wsdl:output message="tns:getCourseActivitiesResponse" name="getCourseActivitiesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCourseStatement">
+      <wsdl:input message="tns:createCourseStatement" name="createCourseStatement">
+    </wsdl:input>
+      <wsdl:output message="tns:createCourseStatementResponse" name="createCourseStatementResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCourseStatement">
+      <wsdl:input message="tns:updateCourseStatement" name="updateCourseStatement">
+    </wsdl:input>
+      <wsdl:output message="tns:updateCourseStatementResponse" name="updateCourseStatementResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectTypes">
+      <wsdl:input message="tns:getObjectTypes" name="getObjectTypes">
+    </wsdl:input>
+      <wsdl:output message="tns:getObjectTypesResponse" name="getObjectTypesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCourse">
+      <wsdl:input message="tns:updateCourse" name="updateCourse">
+    </wsdl:input>
+      <wsdl:output message="tns:updateCourseResponse" name="updateCourseResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DependentObjectsExistException" name="DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:UnsupportedActionException" name="UnsupportedActionException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:AlreadyExistsException" name="AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:CircularRelationshipException" name="CircularRelationshipException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseFormats">
+      <wsdl:input message="tns:getCourseFormats" name="getCourseFormats">
+    </wsdl:input>
+      <wsdl:output message="tns:getCourseFormatsResponse" name="getCourseFormatsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourse">
+      <wsdl:input message="tns:getCourse" name="getCourse">
+    </wsdl:input>
+      <wsdl:output message="tns:getCourseResponse" name="getCourseResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCourse">
+      <wsdl:input message="tns:createCourse" name="createCourse">
+    </wsdl:input>
+      <wsdl:output message="tns:createCourseResponse" name="createCourseResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DependentObjectsExistException" name="DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:UnsupportedActionException" name="UnsupportedActionException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:AlreadyExistsException" name="AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:CircularRelationshipException" name="CircularRelationshipException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectStructure">
+      <wsdl:input message="tns:getObjectStructure" name="getObjectStructure">
+    </wsdl:input>
+      <wsdl:output message="tns:getObjectStructureResponse" name="getObjectStructureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseLos">
+      <wsdl:input message="tns:getCourseLos" name="getCourseLos">
+    </wsdl:input>
+      <wsdl:output message="tns:getCourseLosResponse" name="getCourseLosResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateCourse">
+      <wsdl:input message="tns:validateCourse" name="validateCourse">
+    </wsdl:input>
+      <wsdl:output message="tns:validateCourseResponse" name="validateCourseResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseStatements">
+      <wsdl:input message="tns:getCourseStatements" name="getCourseStatements">
+    </wsdl:input>
+      <wsdl:output message="tns:getCourseStatementsResponse" name="getCourseStatementsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCourse">
+      <wsdl:input message="tns:deleteCourse" name="deleteCourse">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteCourseResponse" name="deleteCourseResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DependentObjectsExistException" name="DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:UnsupportedActionException" name="UnsupportedActionException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:AlreadyExistsException" name="AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:CircularRelationshipException" name="CircularRelationshipException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateCourseStatement">
+      <wsdl:input message="tns:validateCourseStatement" name="validateCourseStatement">
+    </wsdl:input>
+      <wsdl:output message="tns:validateCourseStatementResponse" name="validateCourseStatementResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCourseStatement">
+      <wsdl:input message="tns:deleteCourseStatement" name="deleteCourseStatement">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteCourseStatementResponse" name="deleteCourseStatementResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CourseServiceSoapBinding" type="tns:CourseService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCourseActivities">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseActivities">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseActivitiesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCourseStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createCourseStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createCourseStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCourseStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateCourseStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateCourseStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getObjectTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getObjectTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCourse">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateCourse">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateCourseResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UnsupportedActionException">
+        <soap:fault name="UnsupportedActionException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CircularRelationshipException">
+        <soap:fault name="CircularRelationshipException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourse">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourse">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseFormats">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseFormats">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseFormatsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCourse">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createCourse">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createCourseResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UnsupportedActionException">
+        <soap:fault name="UnsupportedActionException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CircularRelationshipException">
+        <soap:fault name="CircularRelationshipException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectStructure">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getObjectStructure">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getObjectStructureResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseLos">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseLos">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseLosResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCourseStatements">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCourseStatements">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCourseStatementsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateCourse">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateCourse">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateCourseResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCourse">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteCourse">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteCourseResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UnsupportedActionException">
+        <soap:fault name="UnsupportedActionException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CircularRelationshipException">
+        <soap:fault name="CircularRelationshipException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateCourseStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateCourseStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateCourseStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCourseStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteCourseStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteCourseStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CourseService">
+    <wsdl:port binding="tns:CourseServiceSoapBinding" name="CourseServicePort">
+      <soap:address location="http://localhost:9393/ks-embedded-dev/services/CourseService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
