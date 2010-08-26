@@ -25,7 +25,7 @@ public class SchemaSqlMojo extends SqlMojoBase {
 	 * The location where the report file will be generated.
 	 * 
 	 * @parameter property="reportFile" expression="${reportFile}" default-value=
-	 *            "../../../impex/report.${project.artifact.artifactId}.sql.generation"
+	 *            "../../../reports/report.${project.artifact.artifactId}.sql.generation"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy2;
@@ -34,7 +34,7 @@ public class SchemaSqlMojo extends SqlMojoBase {
 	 * The location where the context property file for velocity will be generated.
 	 * 
 	 * @parameter property="contextPropertiesPath" expression="${contextPropertiesPath}"
-	 *            default-value="${project.build.directory}/impex/context.sql.properties"
+	 *            default-value="${project.build.directory}/reports/context.sql.properties"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy3;

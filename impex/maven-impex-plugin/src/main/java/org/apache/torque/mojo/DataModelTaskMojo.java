@@ -71,7 +71,7 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	/**
 	 * The path to the properties file containing the mapping sql file -> target database.
 	 * 
-	 * @parameter expression="${sqlDbMap}" default-value="${project.build.directory}/impex/sqldbmap.properties"
+	 * @parameter expression="${sqlDbMap}" default-value="${project.build.directory}/reports/sqldbmap.properties"
 	 */
 	private String sqlDbMap;
 
