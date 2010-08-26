@@ -1,7 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
-import java.beans.IntrospectionException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.student.core.dictionary.dto.FieldDefinition;
@@ -23,6 +23,10 @@ public class Dictionary2BeanComparer
  
  public List<String> compare ()
  {
+  if (clazz == null)
+  {
+   return Arrays.asList (osDict.getName () + " does not have a corresponding java class");
+  }
   ObjectStructureDefinition osBean = new Bean2DictionaryConverter (clazz).convert ();
   return compare (osDict, osBean);
 
@@ -32,9 +36,9 @@ public class Dictionary2BeanComparer
                                ObjectStructureDefinition osBean)
  {
   List<String> discrepancies = new ArrayList ();
-  compareAddDiscrepancy (discrepancies, "Java Object Name", osDict.getName (), osBean.getName ());
-  compareAddDiscrepancy (discrepancies, "hasMetaData", osDict.isHasMetaData (), osBean.isHasMetaData ());
-  compareAddDiscrepancy (discrepancies, "BusinessObjectClass", osDict.getBusinessObjectClass (), osBean.getBusinessObjectClass ());
+  compareAddDiscrepancy (discrepancies, "Java class name", osDict.getName (), osBean.getName ());
+  compareAddDiscrepancy (discrepancies, "Has meta data?", osDict.isHasMetaData (), osBean.isHasMetaData ());
+  compareAddDiscrepancy (discrepancies, "Business object class", osDict.getBusinessObjectClass (), osBean.getBusinessObjectClass ());
   for (FieldDefinition fdDict : osDict.getAttributes ())
   {
    FieldDefinition fdBean = findField (fdDict.getName (), osBean);
@@ -42,7 +46,7 @@ public class Dictionary2BeanComparer
    {
     if ( ! fdDict.isDynamic ())
     {
-     discrepancies.add ("Field " + fdDict.getName () + " does not exist in the bean");
+     discrepancies.add ("Field " + fdDict.getName () + " does not exist in the corresponding java class");
     }
     continue;
    }
@@ -54,7 +58,7 @@ public class Dictionary2BeanComparer
    FieldDefinition fdDict = findField (fdBean.getName (), osDict);
    if (fdDict == null)
    {
-    discrepancies.add ("Field " + fdBean.getName () + " missing from dict");
+    discrepancies.add ("Field " + fdBean.getName () + " missing from the dictictionary");
     continue;
    }
   }
@@ -109,7 +113,7 @@ public class Dictionary2BeanComparer
     return null;
    }
   }
-  return field + " inconsistent: dict=[" + value1 + "], bean=[" + value2 + "]";
+  return field + " inconsistent: dictionary='" + value1 + "', java class='" + value2 + "'";
  }
 
  private String compare (String field, Object value1, Object value2)
@@ -128,6 +132,6 @@ public class Dictionary2BeanComparer
     return null;
    }
   }
-  return field + " inconsistent: dict=[" + value1 + "], bean=[" + value2 + "]";
+  return field + " inconsistent: dictionary='" + value1 + "'], java class='" + value2 + "'";
  }
 }

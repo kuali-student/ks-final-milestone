@@ -86,11 +86,14 @@ public class DictionaryFormatter
   builder.append ("h" + level + ". " + calcNotSoSimpleName (name));
   builder.append ("{anchor:" + name + "}");
   builder.append (rowSeperator);
-  builder.append ("The DTO for these fields is " + os.getName ());
+  if (clazz != null)
+  {
+   builder.append ("The corresponding java class for this dictionary object is " + os.getName ());
+  }
   if (os.isHasMetaData ())
   {
    builder.append (rowSeperator);
-   builder.append ("This DTO has metadata");
+   builder.append ("The dictionary says this object holds metadata");
   }
   builder.append (rowSeperator);
   builder.append (colSeperator);
@@ -197,7 +200,8 @@ public class DictionaryFormatter
   }
   catch (ClassNotFoundException ex)
   {
-   throw new IllegalArgumentException ("Could not find class for " + className);
+   return null;
+//   throw new IllegalArgumentException ("Could not find class for " + className);
   }
  }
 

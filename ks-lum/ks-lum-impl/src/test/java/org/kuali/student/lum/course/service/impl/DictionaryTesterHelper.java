@@ -105,7 +105,7 @@ public class DictionaryTesterHelper
              + "|https://test.kuali.org/svn/student/trunk/ks-lum/ks-lum-impl/src/main/resources/"
              + dictFileName + "]");
   out.println (
-    " and is compared to following DTOs and thier sub-DTO's for discrepancies:");
+    " and is compared to the following java classes (and their sub-classes) for discrepancies:");
   for (Class<?> clazz : startingClasses)
   {
    out.println ("# " + clazz.getName ());
