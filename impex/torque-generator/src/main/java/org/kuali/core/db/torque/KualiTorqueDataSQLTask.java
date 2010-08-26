@@ -2,9 +2,7 @@ package org.kuali.core.db.torque;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -25,13 +23,8 @@ import org.springframework.util.StringUtils;
  * data XML file
  */
 public class KualiTorqueDataSQLTask extends TorqueDataModelTask {
+	PrettyPrint prettyPrint;
 	Utils utils = new Utils();
-	Map<Thread, PrettyPrint> currentThread = new HashMap<Thread, PrettyPrint>();
-
-	/**
-	 * The directory for the DTD
-	 */
-	protected File dataDTDDir;
 
 	/**
 	 * The DTD itself.
@@ -110,8 +103,6 @@ public class KualiTorqueDataSQLTask extends TorqueDataModelTask {
 		setDatabase(database);
 
 		// Locate the DTD
-		String dtdFile = getDataDTDDir().getAbsolutePath() + "/" + database.getName() + "-data.dtd";
-		setDataDTD(new File(dtdFile));
 		if (!getDataDTD().exists()) {
 			throw new BuildException("Could not find the DTD for " + database.getName());
 		}
@@ -142,13 +133,13 @@ public class KualiTorqueDataSQLTask extends TorqueDataModelTask {
 	}
 
 	public void onBeforeGenerate(File file) {
-		PrettyPrint pp = new PrettyPrint("[INFO] Generating: " + getTargetDatabase() + "/" + StringUtils.replace(file.getName(), ".xml", ".sql"));
-		utils.left(pp);
-		currentThread.put(Thread.currentThread(), pp);
+		prettyPrint = new PrettyPrint("[INFO] Generating: " + getTargetDatabase() + "/" + StringUtils.replace(file.getName(), ".xml", ".sql"));
+		utils.left(prettyPrint);
 	}
 
 	public void onAfterGenerate(File file) {
-		utils.right(currentThread.remove(Thread.currentThread()));
+		utils.right(prettyPrint);
+		prettyPrint = null;
 	}
 
 	/**
@@ -170,14 +161,6 @@ public class KualiTorqueDataSQLTask extends TorqueDataModelTask {
 
 	public void setDatabase(Database database) {
 		this.database = database;
-	}
-
-	public File getDataDTDDir() {
-		return dataDTDDir;
-	}
-
-	public void setDataDTDDir(File dataDTDDir) {
-		this.dataDTDDir = dataDTDDir;
 	}
 
 	public File getDataDTD() {

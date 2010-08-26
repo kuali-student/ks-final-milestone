@@ -136,10 +136,10 @@ public class XmlToData extends DefaultHandler implements EntityResolver {
 		try {
 			File systemIdFile = new File(systemId);
 			if (dtdFile.equals(systemIdFile)) {
-				log.info("Resolver: used " + dtdFile.getPath());
+				log.debug("Resolver: used " + dtdFile.getPath());
 				return new InputSource(new BufferedInputStream(new FileInputStream(dtdFile)));
 			} else {
-				log.info("Resolver: used " + systemId);
+				log.debug("Resolver: used " + systemId);
 				return getInputSource(systemId);
 			}
 		} catch (IOException e) {
