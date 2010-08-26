@@ -15,17 +15,20 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.core.assembly.data.Metadata;
 
-
- /**
+/**
   *
   * MultiplicityConfiguration is passed into a MultiplicitySection to control the creation of the multiplicity.
   *
@@ -53,6 +56,8 @@ public class MultiplicityConfiguration {
     private String addItemLabel;
     
     private Metadata metaData;
+    
+    private SectionTitle title;
 
     int row = 0;
     
@@ -64,7 +69,9 @@ public class MultiplicityConfiguration {
     private boolean showHeaders;
 
     public static enum MultiplicityType {GROUP, TABLE }
-    public static enum StyleType {TOP_LEVEL, SUB_LEVEL}
+    public static enum StyleType {
+        TOP_LEVEL_GROUP, SUB_LEVEL_GROUP, BORDERLESS_TABLE, BORDERED_TABLE
+    }
 
 
      /**
@@ -143,7 +150,7 @@ public class MultiplicityConfiguration {
         if (getNestedConfig() != null) {
             copy.setNestedConfig(getNestedConfig().copy());
         }
-        copy.setParentFd(new FieldDescriptor(getParentFd().getFieldKey(), new MessageKeyInfo(getParentFd().getFieldLabel()), getParentFd().getMetadata()));
+        copy.setParent(new FieldDescriptor(getParentFd().getFieldKey(), new MessageKeyInfo(getParentFd().getFieldLabel()), getParentFd().getMetadata()));
         for (Integer row  : getFields().keySet()) {
             List<FieldDescriptor> fields = getFields().get(row);
             for (FieldDescriptor fd : fields) {
@@ -178,7 +185,7 @@ public class MultiplicityConfiguration {
      *
      * @param parentFd
      */
-    public void setParentFd(FieldDescriptor parentFd) {
+    public void setParent(FieldDescriptor parentFd) {
 		this.parentFd = parentFd;
 	}
 
@@ -277,7 +284,72 @@ public class MultiplicityConfiguration {
 	public void setMetaData(Metadata metaData) {
 		this.metaData = metaData;
 	}
-    
-    
+
+     public SectionTitle getTitle() {
+        return title;
+    }
+
+    public void setTitle(SectionTitle title) {
+        this.title = title;
+    }
+
+    /**
+     * Creates a field descriptor for the parent for this multiplicity
+     * This defines the high level parent field that contains the repeating elements
+     * Will use default widget and binding. For more complex fields create your own
+     * fieldDescriptor and use the other setParent method
+     *
+     * @param fieldKey
+     * @param messageKey
+     * @param parentPath
+     * @param meta
+     */
+    public void setParent(String fieldKey, String messageKey,  String parentPath, Metadata meta) {
+
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        FieldDescriptor fd = new FieldDescriptor(path.toString(), new MessageKeyInfo(messageKey), meta);
+        fd.getFieldElement().setRequired(false);
+
+        setParent(fd);
+
+    }
+
+    /**
+     * Includes this field on the current line at the next horizontal position
+     *
+     * Will use default widget and binding. For more complex fields create your own
+     * FieldDescriptor and pass it in using the other addField method
+     *
+     * @param fieldKey
+     * @param messageKey
+     * @param parentPath
+     * @param meta
+     */
+    public void addField(String fieldKey, String messageKey,  String parentPath, Metadata meta) {
+
+        QueryPath path = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
+
+        FieldDescriptor fd = new FieldDescriptor(path.toString(), new MessageKeyInfo(messageKey), meta);
+        fd.getFieldElement().setRequired(false);
+        addField(fd);
+    }
+
+//    private String translatePath(String path, Metadata metadata) {
+//
+//        String result = path;
+//
+//        QueryPath qPath = QueryPath.parse(path);
+//
+//        if(metadata!=null&&metadata.getInitialLookup()!=null){
+//            QueryPath translationPath = qPath.subPath(0, qPath.size()-1);
+//            if (metadata.getDataType().equals(Data.DataType.STRING)) {
+//                translationPath.add(new Data.StringKey("_runtimeData"));
+//                translationPath.add(new Data.StringKey((String)qPath.get(qPath.size() - 1).get()));
+//                translationPath.add(new Data.StringKey("id-translation"));
+//                result = translationPath.toString();
+//            }
+//        }
+//        return result;
+//    }
 }
 

@@ -480,7 +480,7 @@ public class CluSetsConfigurer {
 //    public class CourseList extends UpdatableMultiplicityComposite {
 //        private final String parentPath;
 //        public CourseList(String parentPath){
-//            super(StyleType.TOP_LEVEL);
+//            super(StyleType.TOP_LEVEL_GROUP);
 //            this.parentPath = parentPath;
 //            setAddItemLabel("Add Course");
 ////            setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));

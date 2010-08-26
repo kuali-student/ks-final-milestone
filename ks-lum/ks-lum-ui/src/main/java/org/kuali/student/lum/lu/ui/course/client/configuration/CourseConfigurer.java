@@ -346,13 +346,13 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         QueryPath parentPath = QueryPath.concat(path);
 
         MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP,
-                MultiplicityConfiguration.StyleType.TOP_LEVEL, getMetaData(parentPath.toString()));
+                MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP, getMetaData(parentPath.toString()));
         config.setAddItemLabel(getLabel(addItemlabelMessageKey));
         config.setItemLabel(getLabel(itemLabelMessageKey));
         config.setUpdateable(true);
 
         FieldDescriptor parentFd = buildFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
-        config.setParentFd(parentFd);
+        config.setParent(parentFd);
 
         if (fieldKeysAndLabels != null) {
             for (List<String> fieldKeyAndLabel : fieldKeysAndLabels) {

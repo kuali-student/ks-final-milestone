@@ -100,7 +100,7 @@ public class MultiplicityGroup extends Composite {
 
     private Widget generateAddWidget() {
     	KSButton addWidget;
-    	if(config.getStyleType() == MultiplicityConfiguration.StyleType.TOP_LEVEL){
+    	if(config.getStyleType() == MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP){
     		addWidget = new KSButton(config.getAddItemLabel(), ButtonStyle.FORM_LARGE);
     	}
     	else{

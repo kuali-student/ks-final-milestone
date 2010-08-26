@@ -608,4 +608,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Program Requirements")
   @Key("programRequirements.summaryViewPageTitle")
   String programRequirements_summaryViewPageTitle();
+
+      /**
+   * Translated "Key Program Information".
+   *
+   * @return translated "Key Program Information"
+   */
+  @DefaultMessage("Completion of a specialization is required for this program")
+  @Key("programSpecialization.instructions")
+  String programSpecialization_instructions();
 }

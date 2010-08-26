@@ -62,7 +62,7 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
         }
 
         if (data != null) {
-            Iterator<Data.Property> iter1 = data.realPropertyIterator();
+            Iterator<Data.Property> iter1 = data.iterator();
             if (iter1.hasNext()) {
                 table.buildHeaders();
 

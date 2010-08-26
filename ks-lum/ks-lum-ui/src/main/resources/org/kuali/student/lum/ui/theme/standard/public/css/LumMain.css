@@ -345,6 +345,27 @@
   padding: 2px;
 }
 
+.KS-MultiplicityTable {
+  margin-left: 3px;
+}
+
+.KS-MultiplicityTableBorder {
+  border: thin solid #C0C0C0;
+  border-collapse: collapse;
+}
+
+.KS-MultiplicityTableHeaderCell {
+	font-weight: bold;
+	background-color: #E6E6E6;
+}
+
+.KS-MultiplicityTableCell {
+  padding: 2px;
+}
+.KS-MultiplicityTableCellBorder {
+  border: 1px solid #C0C0C0;
+}
+
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}

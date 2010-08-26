@@ -57,5 +57,8 @@ public class ProgramConstants {
 
     //Learning Objectives
     public static final String LEARNING_OBJECTIVES = "learningObjectives";
+    
+    //Program Specializations
+    public static final String VARIATIONS = "variations";
 
 }

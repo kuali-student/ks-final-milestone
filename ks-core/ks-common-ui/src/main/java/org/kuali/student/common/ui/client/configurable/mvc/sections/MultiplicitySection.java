@@ -42,7 +42,7 @@ import com.google.gwt.user.client.ui.Widget;
         QueryPath parentPath = QueryPath.concat(COURSE, QueryPath.getPathSeparator(), VERSIONS);
 
         MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP,
-                MultiplicityConfiguration.StyleType.TOP_LEVEL, getMetaData(parentPath.toString()));
+                MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP, getMetaData(parentPath.toString()));
         config.setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
         config.setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
         config.setUpdateable(true);
@@ -98,7 +98,7 @@ import com.google.gwt.user.client.ui.Widget;
         }
          switch (config.getLayoutType()) {
             case GROUP:
-                layout = new VerticalFieldLayout();
+                layout = new VerticalFieldLayout(config.getTitle());
                 widget = new MultiplicityGroup(config);
                 config.getParentFd().setFieldWidget(widget);
                 config.getParentFd().setWidgetBinding(new MultiplicityGroupBinding());
@@ -110,7 +110,7 @@ import com.google.gwt.user.client.ui.Widget;
                     KSErrorDialog.show (new Throwable ("MultiplicityTable can have only one row defined"));
                     return;
                 }
-                layout = new TableFieldLayout();
+                layout = new TableFieldLayout(config.getTitle(), false);
                 widget = new MultiplicityTable(config);
                 config.getParentFd().setFieldWidget(widget);
                 config.getParentFd().setWidgetBinding(new MultiplicityTableBinding());
@@ -131,5 +131,5 @@ import com.google.gwt.user.client.ui.Widget;
     	}
     	
     }
-    
+
 }
