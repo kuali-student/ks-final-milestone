@@ -850,7 +850,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getAttributes().get("AccountingAttrKey3"));
 		assertEquals(2, updatedClu.getAccountingInfo().getAttributes().size());
 
-		assertEquals("UPoffId-divisionUPoffId-suffixcode", updatedClu
+        assertEquals("UPoffId-code", updatedClu
 				.getOfficialIdentifier().getCode());
 		assertEquals("UPoffId-division", updatedClu.getOfficialIdentifier()
 				.getDivision());
