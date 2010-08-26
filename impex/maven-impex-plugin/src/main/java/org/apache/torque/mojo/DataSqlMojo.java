@@ -29,7 +29,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	 * The location where the SQL file will be generated.
 	 * 
 	 * @parameter property="reportFile" expression="${reportFile}"
-	 *            default-value="../../../impex/report.${project.artifact.artifactId}-data.sql"
+	 *            default-value="../../../reports/report.${project.artifact.artifactId}-data.sql"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy2;
@@ -38,7 +38,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	 * The location where the context property file for velocity will be generated.
 	 * 
 	 * @parameter property="contextPropertiesPath" expression="${contextPropertiesPath}"
-	 *            default-value="${project.build.directory}/impex/context.datasql.properties"
+	 *            default-value="${project.build.directory}/reports/context.datasql.properties"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy3;
@@ -54,8 +54,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The XML file describing the database schema
 	 * 
-	 * @parameter expression="${schemaXMLFile}"
-	 *            default-value="${basedir}/src/main/impex/${project.artifactId}-schema.xml"
+	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
 	 * @required
 	 */
 	private File schemaXMLFile;
@@ -79,17 +78,18 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The default set of files in that directory to exclude (ant style notation)
 	 * 
-	 * @parameter expression="${dataXMLExcludes}" default-value="*schema.xml"
+	 * @parameter expression="${dataXMLExcludes}" default-value="${project.artifactId}.xml"
 	 */
 	private String dataXMLExcludes;
 
 	/**
 	 * The DTD for the data XML files
 	 * 
-	 * @parameter expression="${dataDTD}" default-value="${project.build.directory}/generated-impex/dtd"
+	 * @parameter expression="${dataDTD}"
+	 *            default-value="${project.build.directory}/generated-impex/${project.artifactId}.dtd"
 	 * @required
 	 */
-	private File dataDTDDir;
+	private File dataDTD;
 
 	/**
 	 * Creates a new SQLMojo object.
@@ -165,7 +165,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	protected void configureTask() throws MojoExecutionException {
 		super.configureTask();
 		KualiTorqueDataSQLTask task = (KualiTorqueDataSQLTask) super.getGeneratorTask();
-		task.setDataDTDDir(getDataDTDDir());
+		task.setDataDTD(getDataDTD());
 		task.addFileset(getDataXMLFileSet());
 		task.setXmlFile(getSchemaXMLFile().getAbsolutePath());
 		task.setTargetDatabase(getTargetDatabase());
@@ -220,20 +220,20 @@ public class DataSqlMojo extends DataModelTaskMojo {
 		this.schemaXMLFile = schemaXMLFile;
 	}
 
-	public File getDataDTDDir() {
-		return dataDTDDir;
-	}
-
-	public void setDataDTDDir(File dataDTDDir) {
-		this.dataDTDDir = dataDTDDir;
-	}
-
 	public boolean isRunOnlyOnChange() {
 		return runOnlyOnChange;
 	}
 
 	public void setRunOnlyOnChange(boolean runOnlyOnDataChange) {
 		this.runOnlyOnChange = runOnlyOnDataChange;
+	}
+
+	public File getDataDTD() {
+		return dataDTD;
+	}
+
+	public void setDataDTD(File dataDTD) {
+		this.dataDTD = dataDTD;
 	}
 
 }
