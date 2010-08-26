@@ -22,9 +22,11 @@ package org.apache.torque.mojo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.db.Transaction;
 
@@ -41,7 +43,7 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	}
 
 	/**
-	 * @parameter expression="${schema}" default-value="${project.artifactId"
+	 * @parameter expression="${schema}" default-value="${project.artifactId}"
 	 */
 	private String schema;
 
@@ -68,7 +70,7 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	 * @since 1.1
 	 * @parameter expression="${order}" default-value="ASCENDING"
 	 */
-	private Order order;
+	private Order order = Order.ASCENDING;
 
 	protected void updateImportDir() {
 		String path = importDir.getAbsolutePath();
@@ -105,7 +107,16 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		Fileset fileset = getFileset();
 		List<File> files = getFiles(fileset);
 		transactions = getTransactions(files);
+		getLog().info("order=" + order);
+		getLog().info("transactions.size()=" + transactions.size());
+		for (Transaction t : transactions) {
+			getLog().debug(t.getResourceLocation());
+		}
+		getLog().info("----------------------");
 		sortTransactions(transactions);
+		for (Transaction t : transactions) {
+			getLog().debug(t.getResourceLocation());
+		}
 	}
 
 	protected Fileset getFileset() {
@@ -119,11 +130,17 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	/**
 	 * Sort the transaction list.
 	 */
+	@SuppressWarnings("unchecked")
 	protected void sortTransactions(Vector<Transaction> transactions) {
-		if (Order.ASCENDING.equals(this.order)) {
-			Collections.sort(transactions);
-		} else if (Order.DESCENDING.equals(this.order)) {
-			Collections.sort(transactions, Collections.reverseOrder());
+		Comparator<Transaction> comparator = new TransactionComparator<Transaction>(schema);
+		if (Order.ASCENDING.equals(order)) {
+			getLog().info("sorting ascending");
+			Collections.sort(transactions, comparator);
+		} else if (Order.DESCENDING.equals(order)) {
+			getLog().info("sorting descending");
+			Collections.sort(transactions, new ReverseComparator(comparator));
+		} else {
+			getLog().info("no sort");
 		}
 	}
 
