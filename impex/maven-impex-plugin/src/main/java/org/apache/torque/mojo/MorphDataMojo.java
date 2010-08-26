@@ -1,6 +1,8 @@
 package org.apache.torque.mojo;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +75,8 @@ public class MorphDataMojo extends BaseMojo {
 			String oldFilename = inputPath + FS + oldFile;
 			String newFilename = getNewDataOutputDir() + FS + oldFile;
 			MorphRequest request = new MorphRequest();
-			request.setOldFile(new File(oldFilename));
-			request.setNewFile(new File(newFilename));
+			request.setOldData(new FileInputStream(new File(oldFilename)));
+			request.setNewData(new FileOutputStream(new File(newFilename)));
 			requests.add(request);
 		}
 		return requests;

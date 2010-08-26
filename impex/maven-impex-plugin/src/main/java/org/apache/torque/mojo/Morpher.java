@@ -1,10 +1,8 @@
 package org.apache.torque.mojo;
 
-import static org.apache.commons.io.FileUtils.readFileToString;
-import static org.apache.commons.io.FileUtils.writeStringToFile;
-
 import java.io.IOException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -29,8 +27,8 @@ public abstract class Morpher {
 	protected abstract String getMorphedContents(String contents);
 
 	public void executeMorph(String encoding) throws IOException {
-		// Read the "old" schema XML file into a string
-		String contents = readFileToString(morphRequest.getOldFile(), encoding);
+		// Read the "old" schema XML data into a string
+		String contents = IOUtils.toString(morphRequest.getOldData(), encoding);
 
 		// May not need to morph
 		if (isMorphNeeded(contents)) {
@@ -39,8 +37,8 @@ public abstract class Morpher {
 			log.info("No morphing needed");
 		}
 
-		// Write the schema to the file system
-		writeStringToFile(morphRequest.getNewFile(), contents, encoding);
+		// Write the schema to the output stream
+		IOUtils.write(contents, morphRequest.getNewData(), encoding);
 	}
 
 	public MorphRequest getMorphRequest() {

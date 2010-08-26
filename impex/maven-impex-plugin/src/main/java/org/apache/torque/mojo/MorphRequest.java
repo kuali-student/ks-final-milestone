@@ -1,35 +1,41 @@
 package org.apache.torque.mojo;
 
-import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 
+/**
+ * 
+ * 
+ */
 public class MorphRequest {
+
+	InputStream oldData;
+	OutputStream newData;
 
 	public MorphRequest() {
 		this(null, null);
 	}
 
-	public MorphRequest(File oldFile, File newFile) {
+	public MorphRequest(InputStream oldData, OutputStream newData) {
 		super();
-		this.oldFile = oldFile;
-		this.newFile = newFile;
+		this.oldData = oldData;
+		this.newData = newData;
 	}
 
-	File oldFile;
-	File newFile;
-
-	public File getOldFile() {
-		return oldFile;
+	public InputStream getOldData() {
+		return oldData;
 	}
 
-	public void setOldFile(File oldFile) {
-		this.oldFile = oldFile;
+	public void setOldData(InputStream oldData) {
+		this.oldData = oldData;
 	}
 
-	public File getNewFile() {
-		return newFile;
+	public OutputStream getNewData() {
+		return newData;
 	}
 
-	public void setNewFile(File newFile) {
-		this.newFile = newFile;
+	public void setNewData(OutputStream newData) {
+		this.newData = newData;
 	}
+
 }

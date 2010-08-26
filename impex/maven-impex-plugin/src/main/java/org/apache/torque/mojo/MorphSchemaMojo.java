@@ -1,6 +1,8 @@
 package org.apache.torque.mojo;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -35,7 +37,7 @@ public class MorphSchemaMojo extends BaseMojo {
 		getLog().info("Converting schema XML file");
 		getLog().info("------------------------------------------------------------------------");
 		try {
-			MorphRequest request = new MorphRequest(oldSchemaXMLFile, newSchemaXMLFile);
+			MorphRequest request = new MorphRequest(new FileInputStream(oldSchemaXMLFile), new FileOutputStream(newSchemaXMLFile));
 			Morpher morpher = new SchemaMorpher(request, getProject().getArtifactId());
 			morpher.executeMorph(getEncoding());
 		} catch (IOException e) {
