@@ -149,7 +149,7 @@ public class DictionaryTesterHelper
   {
    out.println ("h1. " + clazz.getSimpleName ());
    out.println ("{anchor:" + clazz.getSimpleName () + "}");
-   out.println ("h2. Error Getting Bean from dictionary");
+   out.println ("h2. Error could not find a dictionary definition for the java class");
    out.println (ex.getMessage ());
    return;
   }
