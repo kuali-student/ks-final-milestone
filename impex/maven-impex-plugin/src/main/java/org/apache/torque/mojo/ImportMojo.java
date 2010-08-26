@@ -20,7 +20,10 @@ package org.apache.torque.mojo;
  */
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.db.Transaction;
@@ -34,7 +37,7 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	private static final String FS = System.getProperty("file.separator");
 
 	public enum Order {
-		ASCENDING, DESCENDING;
+		ASCENDING, DESCENDING, NONE;
 	}
 
 	/**
@@ -43,62 +46,80 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	private String schema;
 
 	/**
-	 * @parameter expression="${importDirectory}" default-value="${project.build.directory}/generated-sql/sql"
+	 * @parameter expression="${importDir}" default-value="${project.build.directory}/generated-sql/sql"
 	 * @required
 	 */
-	private File importDirectory;
+	private File importDir;
 
 	/**
-	 * @parameter expression="${importDirectoryIncludes}" default-value="*.sql"
+	 * @parameter expression="${importDirIncludes}" default-value="*.sql"
 	 */
-	private String importDirectoryIncludes = "*.sql";
+	private String importDirIncludes = "*.sql";
 
 	/**
-	 * @parameter expression="${importDirectoryExcludes}" default-value=""
+	 * @parameter expression="${importDirExcludes}" default-value=""
 	 */
-	private String importDirectoryExcludes = "";
+	private String importDirExcludes = "";
 
 	/**
-	 * Set the order in which the SQL files will be executed. Possible values are <code>ascending</code> and
-	 * <code>descending</code>. Any other value means that no sorting will be performed.
+	 * Set the order in which the SQL files will be executed. Possible values are <code>ASCENDING</code> and
+	 * <code>DESCENDING</code> and <code>NONE</code>
 	 * 
 	 * @since 1.1
 	 * @parameter expression="${order}" default-value="ASCENDING"
 	 */
 	private Order order;
 
-	protected void configureTransactions() throws MojoExecutionException {
-		String path = importDirectory.getAbsolutePath();
+	protected void updateImportDir() {
+		String path = importDir.getAbsolutePath();
 		if (!path.endsWith(FS)) {
 			path += FS;
 		}
 		path += getTargetDatabase();
-		importDirectory = new File(path);
-		getLog().info("importDirectory=" + importDirectory.getAbsolutePath());
-		Fileset fileset = getFileset();
+		importDir = new File(path);
+	}
+
+	protected List<File> getFiles(Fileset fileset) {
 		fileset.scan();
 		String[] includedFiles = fileset.getIncludedFiles();
+		List<File> files = new ArrayList<File>();
 		for (String includedFile : includedFiles) {
-			String filename = importDirectory.getAbsolutePath() + FS + includedFile;
+			String filename = importDir.getAbsolutePath() + FS + includedFile;
+			files.add(new File(filename));
+		}
+		return files;
+	}
+
+	protected Vector<Transaction> getTransactions(List<File> files) {
+		Vector<Transaction> transactions = new Vector<Transaction>();
+		for (File file : files) {
 			Transaction t = new Transaction();
-			t.setResourceLocation(filename);
+			t.setResourceLocation(file.getAbsolutePath());
 			transactions.add(t);
 		}
-		sortTransactions();
+		return transactions;
+	}
+
+	protected void configureTransactions() throws MojoExecutionException {
+		updateImportDir();
+		Fileset fileset = getFileset();
+		List<File> files = getFiles(fileset);
+		transactions = getTransactions(files);
+		sortTransactions(transactions);
 	}
 
 	protected Fileset getFileset() {
 		Fileset fileset = new Fileset();
-		fileset.setBasedir(importDirectory);
-		fileset.setExcludes(new String[] { importDirectoryExcludes });
-		fileset.setIncludes(new String[] { importDirectoryIncludes });
+		fileset.setBasedir(importDir);
+		fileset.setExcludes(new String[] { importDirExcludes });
+		fileset.setIncludes(new String[] { importDirIncludes });
 		return fileset;
 	}
 
 	/**
 	 * Sort the transaction list.
 	 */
-	protected void sortTransactions() {
+	protected void sortTransactions(Vector<Transaction> transactions) {
 		if (Order.ASCENDING.equals(this.order)) {
 			Collections.sort(transactions);
 		} else if (Order.DESCENDING.equals(this.order)) {
@@ -114,28 +135,28 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		this.order = order;
 	}
 
-	public File getImportDirectory() {
-		return importDirectory;
+	public File getImportDir() {
+		return importDir;
 	}
 
-	public void setImportDirectory(File importDirectory) {
-		this.importDirectory = importDirectory;
+	public void setImportDir(File importDirectory) {
+		this.importDir = importDirectory;
 	}
 
-	public String getImportDirectoryIncludes() {
-		return importDirectoryIncludes;
+	public String getImportDirIncludes() {
+		return importDirIncludes;
 	}
 
-	public void setImportDirectoryIncludes(String importDirectoryIncludes) {
-		this.importDirectoryIncludes = importDirectoryIncludes;
+	public void setImportDirIncludes(String importDirectoryIncludes) {
+		this.importDirIncludes = importDirectoryIncludes;
 	}
 
-	public String getImportDirectoryExcludes() {
-		return importDirectoryExcludes;
+	public String getImportDirExcludes() {
+		return importDirExcludes;
 	}
 
-	public void setImportDirectoryExcludes(String importDirectoryExcludes) {
-		this.importDirectoryExcludes = importDirectoryExcludes;
+	public void setImportDirExcludes(String importDirectoryExcludes) {
+		this.importDirExcludes = importDirectoryExcludes;
 	}
 
 	public String getSchema() {
