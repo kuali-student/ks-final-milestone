@@ -56,7 +56,7 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	/**
 	 * @parameter expression="${importDirIncludes}" default-value="*.sql"
 	 */
-	private String importDirIncludes = "*.sql";
+	private String importDirIncludes;
 
 	/**
 	 * @parameter expression="${importDirExcludes}" default-value=""
@@ -70,7 +70,7 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	 * @since 1.1
 	 * @parameter expression="${order}" default-value="ASCENDING"
 	 */
-	private Order order = Order.ASCENDING;
+	private Order order;
 
 	protected void updateImportDir() {
 		String path = importDir.getAbsolutePath();
@@ -102,21 +102,13 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		return transactions;
 	}
 
+	@Override
 	protected void configureTransactions() throws MojoExecutionException {
 		updateImportDir();
 		Fileset fileset = getFileset();
 		List<File> files = getFiles(fileset);
 		transactions = getTransactions(files);
-		getLog().info("order=" + order);
-		getLog().info("transactions.size()=" + transactions.size());
-		for (Transaction t : transactions) {
-			getLog().debug(t.getResourceLocation());
-		}
-		getLog().info("----------------------");
 		sortTransactions(transactions);
-		for (Transaction t : transactions) {
-			getLog().debug(t.getResourceLocation());
-		}
 	}
 
 	protected Fileset getFileset() {
@@ -134,13 +126,9 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	protected void sortTransactions(Vector<Transaction> transactions) {
 		Comparator<Transaction> comparator = new TransactionComparator<Transaction>(schema);
 		if (Order.ASCENDING.equals(order)) {
-			getLog().info("sorting ascending");
 			Collections.sort(transactions, comparator);
 		} else if (Order.DESCENDING.equals(order)) {
-			getLog().info("sorting descending");
 			Collections.sort(transactions, new ReverseComparator(comparator));
-		} else {
-			getLog().info("no sort");
 		}
 	}
 
