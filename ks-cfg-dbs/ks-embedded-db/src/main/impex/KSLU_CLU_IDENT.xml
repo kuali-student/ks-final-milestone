@@ -439,6 +439,7 @@
         ID="MAJOR-2" TYPE="kuali.lu.type.program.identifier.diploma"
         SHRT_NAME="DIPLOMA-TITLE" ST="active" />
     <KSLU_CLU_IDENT CD="ZOOA" DIV=""  ID="VAR-201"
+        TYPE="kuali.lu.type.program.identifier.transcript"
         LNG_NAME="Zooarchaeology" LVL=""
         SHRT_NAME="ZooArch" SUFX_CD="" ST="active" />
     <KSLU_CLU_IDENT CD="ZOOA" DIV="" ID="VAR-202"
@@ -448,6 +449,7 @@
         TYPE="kuali.lu.type.program.identifier.diploma"
         SHRT_NAME="Zooarchaeology" ST="active" />
     <KSLU_CLU_IDENT CD="ARCB" DIV="" ID="VAR-301"
+        TYPE="kuali.lu.type.program.identifier.diploma"
         LNG_NAME="Zooarchaeology" LVL=""
         SHRT_NAME="ZooArch" SUFX_CD="" ST="active" />
     <KSLU_CLU_IDENT CD="ARCB" DIV="" ID="VAR-302"
