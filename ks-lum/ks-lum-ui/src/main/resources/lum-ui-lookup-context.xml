@@ -977,7 +977,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.resultColumn.orgShortName" />
-					<property name="name" value="Short Name" />
+					<property name="name" value="Abbreviation" />
 					<property name="desc"
 						value="Short name for the organization, recorded as the default listing" />
 					<property name="dataType" value="STRING" />
@@ -986,7 +986,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.resultColumn.orgOptionalLongName" />
-					<property name="name" value="Long Name" />
+					<property name="name" value="Name" />
 					<property name="desc"
 						value="Long name for the organization, recorded as the default listing." />
 					<property name="dataType" value="STRING" />
@@ -1001,7 +1001,7 @@
 		<property name="id"	value="kuali.lu.lookup.findCourse.advanced.courseproposal" />
 		<property name="name" value="Courses and Proposals" />
 		<property name="desc" value="Search for courses and proposals" />
-		<property name="title" value="Advanced Search: Course or Proposal" />
+		<property name="title" value="Courses and Proposals" />
 		<property name="widget" value="ADVANCED_LIGHTBOX" />
 		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
 		<property name="resultSortKey" value="org.resultColumn.orgShortName" />
@@ -1018,7 +1018,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="lu.resultColumn.luOptionalLongName" />
-					<property name="name" value="Title" />
+					<property name="name" value="Course Title" />
 					<property name="desc" value="Title for the course." />
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="false" />
@@ -1034,7 +1034,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="lu.resultColumn.luOptionalPrimaryAdminOrg" />
-					<property name="name" value="Department" />
+					<property name="name" value="Subject Code" />
 					<property name="desc" value="Department." />
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="false" />
@@ -1057,7 +1057,7 @@
 			value="kuali.lu.lookup.findCourse.advanced.coursesonly" />
 		<property name="name" value="Courses Only" />
 		<property name="desc" value="Search for courses" />
-		<property name="title" value="Advanced Search: Course or Proposal" />
+		<property name="title" value="Courses Only" />
 		<property name="widget" value="ADVANCED_LIGHTBOX" />
 		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
 		<property name="resultSortKey" value="org.resultColumn.orgShortName" />
@@ -1074,7 +1074,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="lu.resultColumn.luOptionalLongName" />
-					<property name="name" value="Title" />
+					<property name="name" value="Course Title" />
 					<property name="desc" value="Title for the course." />
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="false" />
@@ -1090,7 +1090,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="lu.resultColumn.luOptionalPrimaryAdminOrg" />
-					<property name="name" value="Department" />
+					<property name="name" value="Subject Code" />
 					<property name="desc" value="Department." />
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="false" />
@@ -1113,7 +1113,7 @@
 			value="kuali.lu.lookup.findCourse.advanced.proposalsonly" />
 		<property name="name" value="Proposals Only" />
 		<property name="desc" value="Search for proposals" />
-		<property name="title" value="Advanced Search: Course or Proposal" />
+		<property name="title" value="Proposals Only" />
 		<property name="widget" value="ADVANCED_LIGHTBOX" />
 		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
 		<property name="resultSortKey" value="org.resultColumn.orgShortName" />
@@ -1130,7 +1130,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="lu.resultColumn.luOptionalLongName" />
-					<property name="name" value="Title" />
+					<property name="name" value="Course Title" />
 					<property name="desc" value="Title for the course." />
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="false" />
@@ -1146,7 +1146,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="lu.resultColumn.luOptionalPrimaryAdminOrg" />
-					<property name="name" value="Department" />
+					<property name="name" value="Subject Code" />
 					<property name="desc" value="Department." />
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="false" />
@@ -1169,7 +1169,7 @@
 			value="kuali.lu.lookup.findCourse.advanced.proposalsonly" />
 		<property name="name" value="Proposals Only" />
 		<property name="desc" value="Search for proposals" />
-		<property name="title" value="Advanced Search: Course or Proposal" />
+		<property name="title" value="Proposals Only" />
 		<property name="widget" value="ADVANCED_LIGHTBOX" />
 		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
 		<property name="resultSortKey" value="org.resultColumn.orgShortName" />
@@ -1186,7 +1186,7 @@
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="lu.resultColumn.luOptionalLongName" />
-					<property name="name" value="Title" />
+					<property name="name" value="Course Title" />
 					<property name="desc" value="Title for the course." />
 					<property name="dataType" value="STRING" />
 					<property name="hidden" value="false" />
@@ -1216,7 +1216,7 @@
 		<property name="id" value="kuali.proposal.lookup.Proposals" />
 		<property name="name" value="Find Proposal" />
 		<property name="desc" value="Find Proposal" />
-		<property name="title" value="Advanced Search: Course or Proposal" />
+		<property name="title" value="Find Proposal" />
 		<property name="widget" value="ADVANCED_LIGHTBOX" />
 		<property name="resultDisplayKey" value="proposal.resultColumn.proposalOptionalName" />
 		<property name="resultSortKey" value="proposal.resultColumn.proposalOptionalName" />
