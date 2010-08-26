@@ -1,10 +1,10 @@
 package org.kuali.student.lum.program.client.edit;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -18,6 +18,10 @@ public class LearningObjectivesEditConfiguration extends AbstractSectionConfigur
 
     @Override
     protected void buildLayout() {
-
+       // FieldDescriptor fd = addField(rootSection, ProgramConstants.LEARNING_OBJECTIVES, null,
+        //        new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta),
+         //       COURSE);
+        //fd.setWidgetBinding(LOBuilderBinding.INSTANCE);
+        //los.addStyleName("KS-LUM-Section-Divider");
     }
 }

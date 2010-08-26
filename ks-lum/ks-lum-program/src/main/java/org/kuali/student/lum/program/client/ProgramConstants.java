@@ -55,4 +55,7 @@ public class ProgramConstants {
     public static final String DURATION = "stdDuration";
     public static final String MORE_INFORMATION = "referenceURL";
 
+    //Learning Objectives
+    public static final String LEARNING_OBJECTIVES = "learningObjectives";
+
 }
