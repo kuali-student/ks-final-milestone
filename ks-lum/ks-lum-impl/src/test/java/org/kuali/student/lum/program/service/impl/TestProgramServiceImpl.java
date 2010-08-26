@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -21,6 +23,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
@@ -777,4 +780,89 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
 	}
+    
+    @Test 
+    public void testUpdateVariationsByMajorDiscipline(){
+        MajorDisciplineInfo majorDisciplineInfo = null;
+
+        try {
+            majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(majorDisciplineInfo);
+            
+            List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
+            assertNotNull(pvInfos);
+            
+            // update variation fields
+            ProgramVariationInfo pvInfo = pvInfos.get(0);
+
+            pvInfo.setLongTitle(pvInfo.getLongTitle() + "-updated");
+            pvInfo.setCode(pvInfo.getCode() + "-updated");
+            pvInfo.setShortTitle(pvInfo.getShortTitle() + "-updated");
+            RichTextInfo testDesc = pvInfo.getDescr();
+            testDesc.setPlain(testDesc.getPlain() + "-updated");
+            pvInfo.setDescr(testDesc);
+            pvInfo.setCip2000Code( pvInfo.getCip2000Code() + "-updated");
+            pvInfo.setCip2010Code(pvInfo.getCip2010Code() + "-updated");
+            pvInfo.setTranscriptTitle("transcriptTitle-updated");
+            pvInfo.setDiplomaTitle(pvInfo.getDiplomaTitle() + "-updated");
+            
+            List<String> campusLocations = new ArrayList<String>();
+            campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH);
+            campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH);
+            pvInfo.setCampusLocations(campusLocations);
+            
+            List<AdminOrgInfo> testOrgs = new ArrayList<AdminOrgInfo>();
+            AdminOrgInfo testOrg = new AdminOrgInfo();
+            testOrg.setOrgId("testOrgId");
+            testOrg.setType(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION);
+            testOrgs.add(testOrg);
+            if(pvInfo.getDivisionsContentOwner()!= null){
+            	pvInfo.getDivisionsContentOwner().clear();
+            	pvInfo.getDivisionsContentOwner().add(testOrg);
+            }
+            else
+            	pvInfo.setDivisionsContentOwner(testOrgs);
+            
+            //Perform the update
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
+            List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
+            assertNotNull(updatedPvInfos);
+            ProgramVariationInfo updatedPV = updatedPvInfos.get(0);
+            	
+            //Verify the update
+            verifyUpdate(updatedPV);
+
+            // Now explicitly get it
+            List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
+            assertNotNull(pvInfos);
+            verifyUpdate(retrievedPVs.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }   	
+    }
+
+    private void verifyUpdate(ProgramVariationInfo updatedPV) {
+    	assertNotNull(updatedPV);
+
+        //assertEquals("BS-updated", updatedPV.getCode());
+        assertEquals("Zooarchaeology-updated", updatedPV.getDescr().getPlain());
+        assertEquals("Zooarchaeology-updated", updatedPV.getLongTitle());
+        assertEquals("ZooArch-updated", updatedPV.getShortTitle());
+        
+        assertEquals("CIP2000CODE-updated", updatedPV.getCip2000Code());
+        assertEquals("CIP2010CODE-updated", updatedPV.getCip2010Code());
+        assertEquals("transcriptTitle-updated", updatedPV.getTranscriptTitle());
+        assertEquals("Zooarchaeology-updated", updatedPV.getDiplomaTitle());
+
+        assertNotNull(updatedPV.getCampusLocations());
+        for(String loc : updatedPV.getCampusLocations()){
+        	assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(loc) || CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH.equals(loc));
+        }
+
+        assertNotNull(updatedPV.getDivisionsContentOwner());
+        assertEquals("testOrgId", updatedPV.getDivisionsContentOwner().get(0).getOrgId());
+        assertEquals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION, updatedPV.getDivisionsContentOwner().get(0).getType());
+
+    }
 }
