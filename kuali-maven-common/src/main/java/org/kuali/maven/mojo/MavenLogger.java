@@ -39,7 +39,7 @@ public class MavenLogger extends AppenderSkeleton implements Log {
 	 * End logging for this plugin
 	 */
 	public static void endPluginLog(AbstractMojo mojo) {
-		mavenLog = systemStreamLog;
+		mavenLog = null;
 	}
 
 	// Log4j methods
@@ -55,6 +55,10 @@ public class MavenLogger extends AppenderSkeleton implements Log {
 	protected void append(LoggingEvent event) {
 		Level level = event.getLevel();
 		if (Level.DEBUG.equals(level) && !(mavenLog.isDebugEnabled())) {
+			return;
+		}
+
+		if (Level.TRACE.equals(level) && !(mavenLog.isDebugEnabled())) {
 			return;
 		}
 
