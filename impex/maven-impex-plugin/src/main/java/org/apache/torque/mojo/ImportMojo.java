@@ -20,23 +20,16 @@ package org.apache.torque.mojo;
  */
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.shared.filtering.MavenFileFilterRequest;
-import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.torque.engine.database.model.Database;
 import org.apache.torque.engine.database.model.Table;
-import org.codehaus.plexus.util.FileUtils;
-import org.kuali.core.db.torque.Utils;
+import org.kuali.core.db.torque.KualiXmlToAppData;
 import org.kuali.db.Transaction;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-
-import static org.apache.commons.lang.StringUtils.*;
 
 /**
  * Executes SQL for creating a database and populating it with a dataset
@@ -49,18 +42,12 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	}
 
 	/**
-	 * The name of the schema to import
+	 * The name of the schema.xml file to process
 	 * 
-	 * @parameter expression="${schema}" default-value="${project.artifactId}"
+	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
+	 * @required
 	 */
-	private String schema;
-
-	/**
-	 * Spring style resource entries that point to one or more schema XML files
-	 * 
-	 * @parameter expression="${schemas}"
-	 */
-	private List<String> schemas;
+	private String schemaXMLFile;
 
 	/**
 	 * File(s) containing SQL statements to load.
@@ -166,103 +153,12 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	}
 
 	protected void configureTransactions() throws MojoExecutionException {
-		getLog().debug("schemas=" + schemas);
-		if (schemas != null) {
-			addSchemaXMLResourcesToTransactions();
-		} else if (fileset == null) {
-			fileset = new Fileset();
-			fileset.setBasedir(project.getBuild().getDirectory() + "/generated-sql/sql/" + getTargetDatabase());
-			fileset.setIncludes(new String[] { "*.sql" });
-		}
-
-		addCommandToTransactions();
-		addFilesToTransactions();
-		addFileSetToTransactions();
-		sortTransactions();
-	}
-
-	/**
-	 * Add sql command to transactions list.
-	 */
-	protected void addCommandToTransactions() {
-		if (!isEmpty(sqlCommand)) {
-			createTransaction().addText(sqlCommand.trim());
-		}
-	}
-
-	/**
-	 * Add user sql fileset to transation list
-	 */
-	protected void addFileSetToTransactions() {
-		String[] includedFiles = new String[0];
-		if (fileset != null) {
-			fileset.scan();
-			includedFiles = fileset.getIncludedFiles();
-		}
-
-		for (int j = 0; j < includedFiles.length; j++) {
-			createTransaction().setResourceLocation(new File(fileset.getBasedir(), includedFiles[j]).getAbsolutePath());
-		}
-	}
-
-	protected String getDefaultSchemaLocation() {
-		String schema = project.getArtifactId();
-		return "classpath:" + schema + "-schema.xml";
-	}
-
-	protected boolean defaultSchemaExists() {
-		DefaultResourceLoader loader = new DefaultResourceLoader();
-		String s = getDefaultSchemaLocation();
-		Resource resource = loader.getResource(s);
-		boolean exists = resource.exists();
-		if (!exists) {
-			String filename = project.getBuild().getDirectory() + "/generated-impex/" + project.getArtifactId() + "-schema.xml";
-			exists = new File(filename).exists();
-			getLog().debug(exists + " " + filename);
-		}
-		getLog().debug("exists=" + exists + " " + s);
-		return exists;
-	}
-
-	protected void addDefaultSchema() {
-		// They supplied a list of schemas. Only update schemas in their list
-		if (!isNullOrEmpty(getSchemas())) {
-			return;
-		}
-		// The default schema does not exist
-		if (!defaultSchemaExists()) {
-			return;
-		}
-		// We are not importing a schema
-		if (!isImportSchema()) {
-			return;
-		}
-
-		// Add the default schema to the list
-		List<String> schemas = getSchemas();
-		if (schemas == null) {
-			schemas = new ArrayList<String>();
-		}
-		schemas.add(getDefaultSchemaLocation());
-		setSchemas(schemas);
-	}
-
-	protected void addSchemaXMLResourcesToTransactions() throws MojoExecutionException {
-		addDefaultSchema();
-		if (isNullOrEmpty(getSchemas())) {
-			return;
-		}
-
 		try {
-			List<Database> databases = new Utils().getDatabases(getSchemas(), getTargetDatabase());
-			for (String schemaXMLResource : getSchemas()) {
-				getLog().info("Adding " + schemaXMLResource);
-			}
-			for (Database database : databases) {
-				handleDatabase(database);
-			}
-		} catch (IOException e) {
-			throw new MojoExecutionException("Error obtaining databases: " + e);
+			KualiXmlToAppData xmlParser = new KualiXmlToAppData(targetDatabase, "");
+			Database database = xmlParser.parseResource(schemaXMLFile);
+			handleDatabase(database);
+		} catch (Exception e) {
+			throw new MojoExecutionException("Unexpected error", e);
 		}
 	}
 
@@ -270,7 +166,7 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		DefaultResourceLoader loader = new DefaultResourceLoader();
 
 		if (isImportSchema()) {
-			String schemaSQL = "classpath:sql/" + getTargetDatabase() + "/" + database.getName() + "-schema.sql";
+			String schemaSQL = "classpath:sql/" + getTargetDatabase() + "/" + database.getName() + ".sql";
 			createTransaction().setResourceLocation(schemaSQL);
 		}
 		if (isImportData()) {
@@ -291,45 +187,6 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		if (isImportSchemaConstraints()) {
 			String schemaConstraintsSQL = "classpath:sql/" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
 			createTransaction().setResourceLocation(schemaConstraintsSQL);
-		}
-	}
-
-	/**
-	 * Add user input of srcFiles to transaction list.
-	 * 
-	 * @throws MojoExecutionException
-	 */
-	protected void addFilesToTransactions() throws MojoExecutionException {
-		File[] files = getSrcFiles();
-
-		MavenFileFilterRequest request = new MavenFileFilterRequest();
-		request.setEncoding(encoding);
-		request.setMavenSession(mavenSession);
-		request.setMavenProject(project);
-		request.setFiltering(enableFiltering);
-		for (int i = 0; files != null && i < files.length; ++i) {
-			if (files[i] != null && !files[i].exists()) {
-				throw new MojoExecutionException(files[i].getPath() + " not found.");
-			}
-
-			File sourceFile = files[i];
-			String basename = FileUtils.basename(sourceFile.getName());
-			String extension = FileUtils.extension(sourceFile.getName());
-			File targetFile = FileUtils.createTempFile(basename, extension, null);
-			if (!getLog().isDebugEnabled()) {
-				targetFile.deleteOnExit();
-			}
-
-			request.setFrom(sourceFile);
-			request.setTo(targetFile);
-
-			try {
-				fileFilter.copyFile(request);
-			} catch (MavenFilteringException e) {
-				throw new MojoExecutionException(e.getMessage());
-			}
-
-			createTransaction().setResourceLocation(targetFile.getAbsolutePath());
 		}
 	}
 
@@ -396,14 +253,6 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		return printResultSet;
 	}
 
-	public List<String> getSchemas() {
-		return schemas;
-	}
-
-	public void setSchemas(List<String> schemas) {
-		this.schemas = schemas;
-	}
-
 	public boolean isEnableFiltering() {
 		return enableFiltering;
 	}
@@ -416,11 +265,11 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		return fileset;
 	}
 
-	public String getSchema() {
-		return schema;
+	public String getSchemaXMLFile() {
+		return schemaXMLFile;
 	}
 
-	public void setSchema(String schema) {
-		this.schema = schema;
+	public void setSchemaXMLFile(String schemaXMLFile) {
+		this.schemaXMLFile = schemaXMLFile;
 	}
 }

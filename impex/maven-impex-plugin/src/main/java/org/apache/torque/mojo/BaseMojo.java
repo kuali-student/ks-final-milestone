@@ -18,6 +18,13 @@ public abstract class BaseMojo extends AbstractMojo {
 	public static final String SKIP_PACKAGING_TYPE = "pom";
 
 	/**
+	 * When true, redirect logging from Log4j and Jakarta Commons Logging to the Maven logging system
+	 * 
+	 * @parameter expression="${startMavenLogger}" default-value="true"
+	 */
+	private boolean startMavenLogger;
+
+	/**
 	 * When <code>true</code>, skip the execution.
 	 * 
 	 * @since 1.0
@@ -29,7 +36,7 @@ public abstract class BaseMojo extends AbstractMojo {
 	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
 	 * usually.
 	 * 
-	 * @parameter expression="${forceMorpherExecution}" default-value=false
+	 * @parameter expression="${forceMorpherExecution}" default-value="false"
 	 * @required
 	 */
 	private boolean forceMojoExecution;
@@ -65,12 +72,16 @@ public abstract class BaseMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		MavenLogger.startPluginLog(this);
+		if (isStartMavenLogger()) {
+			MavenLogger.startPluginLog(this);
+		}
 		if (skipMojo()) {
 			return;
 		}
 		executeMojo();
-		MavenLogger.endPluginLog(this);
+		if (isStartMavenLogger()) {
+			MavenLogger.endPluginLog(this);
+		}
 	}
 
 	protected abstract void executeMojo() throws MojoExecutionException, MojoFailureException;
@@ -153,5 +164,13 @@ public abstract class BaseMojo extends AbstractMojo {
 
 	public void setProject(MavenProject project) {
 		this.project = project;
+	}
+
+	public boolean isStartMavenLogger() {
+		return startMavenLogger;
+	}
+
+	public void setStartMavenLogger(boolean startMavenLogger) {
+		this.startMavenLogger = startMavenLogger;
 	}
 }
