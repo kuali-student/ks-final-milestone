@@ -900,7 +900,7 @@ public class StatementVO extends Token implements Serializable {
                 newStatementList.add(newStatementVO);
             }
             statementVO.statementVOs = newStatementList;
-        } else {
+        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
             // retrieve all req. component LEAFS
             List<ReqComponentVO> reqComponentList = new ArrayList<ReqComponentVO>();
             for (ReqComponentInfo reqComponent : reqComponentInfos) {

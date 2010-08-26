@@ -19,16 +19,20 @@
 }
 
 /* Program Summary View */
-.KS-Program-Requirements-Summary-Rule-Type-First-Header {
+.KS-Program-Requirements-Preview-Rule-Type-First-Header {
     padding-top: 20px;
 }
 
-.KS-Program-Requirements-Summary-Rule-Type-Header {
+.KS-Program-Requirements-Preview-Rule-Type-Header {
     padding-top: 40px;
 }
 
-.KS-Program-Requirements-Summary-No-Rule-Text {
+.KS-Program-Requirements-Preview-No-Rule-Text {
     padding-top: 20px;
+}
+
+.KS-Program-Requirements-Preview-SaveContinue {
+    padding-top: 40px;    
 }
 
 /* Program Manage View */
@@ -42,6 +46,10 @@
     width: 650px;
     margin-top: 50px;
     border-bottom: 1px solid #d7d7d7;
+}
+
+.KS-Program-Requirements-Save-Button {
+    margin-top: 40px;
 }
 
 .programController {

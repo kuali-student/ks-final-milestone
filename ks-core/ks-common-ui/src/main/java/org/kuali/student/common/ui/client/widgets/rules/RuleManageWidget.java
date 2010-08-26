@@ -6,6 +6,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -13,27 +14,24 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RuleManageWidget extends FlowPanel {
 
-    private KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
-    RuleTableWidget manageRule = new RuleTableWidget();
-    KSLabel logicalExpression = new KSLabel();
-    KSLabel naturalLanguage = new KSLabel();
-    SubrulePreviewWidget preview;
-
-    Boolean isInitialized = false;
-
-	private Map<String, Widget> tabLayoutMap = new HashMap<String, Widget>();
+    private RuleTableWidget manageRule = new RuleTableWidget();
+    private KSLabel logicalExpression = new KSLabel();
+    private KSLabel naturalLanguage = new KSLabel();
+    private SubrulePreviewWidget preview = new SubrulePreviewWidget(null, true);
 
     //widget's data
-    StatementTreeViewInfo rule = null;
+    private StatementTreeViewInfo rule = null;
 
     //TODO use application context for all labels
    
     public RuleManageWidget() {
         super();
-        setupHandlers();
+
+        Map<String, Widget> tabLayoutMap = new HashMap<String, Widget>();
+        KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
 
         tabLayoutMap.put("Object View", manageRule);
-        panel.addTab("Object View", "Object View", manageRule);        
+        panel.addTab("Object View", "Object View", manageRule);
 
         tabLayoutMap.put("Logic View", logicalExpression);
         panel.addTab("Logic View", "Logic View", logicalExpression);
@@ -41,23 +39,15 @@ public class RuleManageWidget extends FlowPanel {
         tabLayoutMap.put("Natural Language View", naturalLanguage);
         panel.addTab("Natural Language View", "Natural Language View", naturalLanguage);
         
-      //  tabLayoutMap.put("Preview", preview);
-//        panel.addTab("Preview", "Preview", preview);
+        tabLayoutMap.put("Preview", preview);
+        panel.addTab("Preview", "Preview", preview);
 
         panel.selectTab("Object View");
         add(panel);
     }
 
-    public void updateRuleViews(StatementTreeViewInfo updatedRule) {
-        rule = updatedRule;
-
-        if (!isInitialized) {
-            preview = new SubrulePreviewWidget(rule, true);
-            tabLayoutMap.put("Preview", preview);
-            panel.addTab("Preview", "Preview", preview);
-            isInitialized = true;
-        }
-
+    public void redraw(StatementTreeViewInfo rule) {
+        this.rule = rule;
         updateObjectView();
         updateLogicView();
         updateNaturalLanguageView();
@@ -66,25 +56,14 @@ public class RuleManageWidget extends FlowPanel {
 
     //show rule in a table
     private void updateObjectView() {
-
-        manageRule.setupHandlers();
-        manageRule.setRuleTree(rule);
-        manageRule.redraw();
-
-        //Handler for when tab is clicked
-        panel.addTabCustomCallback("My Test", new Callback<String>(){
-            @Override
-            public void exec(String result) {
-              //  manageRule.setupHandlers();
-//                manageRule.setRuleTree(rule);
-//                manageRule.redraw();
-            }
-        });
+        manageRule.redraw(ObjectClonerUtil.clone(rule));
     }
 
     private void updateLogicView() {
-//TODO fix
        logicalExpression.setText((manageRule.getRule().getStatementVO() == null ? "" : manageRule.getRule().getStatementVO().convertToExpression()));
+       //rule.populateExpression();
+       //rule.setPreviewedExpression(rule.getExpression());
+       //TODO add a link to RuleExpressionEditor
     }
 
     private void updateNaturalLanguageView() {
@@ -92,22 +71,10 @@ public class RuleManageWidget extends FlowPanel {
     }
 
     private void updatePreview() {
-
+        preview.showSubrule(rule);
     }
 
-   /*
-       private KSLabel editManually = new KSLabel("Edit manually");
-       
-           editManually.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                rule.populateExpression();
-                rule.setPreviewedExpression(rule.getExpression());
-//TODO                getController().showView(PrereqViews.RULE_EXPRESSION_EDITOR, Controller.NO_OP_CALLBACK);
-            }
-        });
-    */
-
-    private void setupHandlers() {
-
-    }    
+    public void setReqCompEditButtonClickCallback(Callback<ReqComponentInfo> callback) {
+        manageRule.addReqCompEditButtonClickCallback(callback);
+    }
 }

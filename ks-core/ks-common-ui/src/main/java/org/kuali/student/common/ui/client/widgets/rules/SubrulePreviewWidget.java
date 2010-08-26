@@ -16,19 +16,31 @@ import com.google.gwt.user.client.ui.HTML;
 
 public class SubrulePreviewWidget extends FlowPanel {
 
-    KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
-    SpanPanel separator = new SpanPanel(" | ");
-    KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
+    private KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
+    private SpanPanel separator = new SpanPanel(" | ");
+    private KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
+    private boolean isReadOnly = true;
 
     public SubrulePreviewWidget(StatementTreeViewInfo stmtTreeInfo, boolean isReadOnly) {
         super();
+        this.isReadOnly = isReadOnly;
 
         addStyleName("KS-Program-Rule-Preview-Subrule-Box");
-        buildRequirementHeader(stmtTreeInfo, isReadOnly);
+        showSubrule(stmtTreeInfo);
+    }
+
+    public void showSubrule(StatementTreeViewInfo stmtTreeInfo) {
+        this.clear();
+
+        if (stmtTreeInfo == null) {
+            return;
+        }
+
+        buildRequirementHeader(stmtTreeInfo);
         buildRequirement(stmtTreeInfo);
     }
 
-    private void buildRequirementHeader(StatementTreeViewInfo stmtTreeInfo, Boolean isReadOnly) {
+    private void buildRequirementHeader(StatementTreeViewInfo stmtTreeInfo) {
 
         SectionTitle header = SectionTitle.generateH6Title("");
         if (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND) {

@@ -26,7 +26,12 @@
 
 .KS-Program-Rule-ReqCompList{
     margin-bottom:15px;
-    margin-top:15px;   
+    margin-top:15px;
+}
+
+.KS-Program-Rule-FieldsList{
+    margin-bottom:15px;
+    margin-top:15px;
 }
 
 .KS-Program-Rule-ReqComp-btn{

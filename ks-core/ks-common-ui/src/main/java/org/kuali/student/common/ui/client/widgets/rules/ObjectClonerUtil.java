@@ -172,14 +172,14 @@ public class ObjectClonerUtil {
             List<StatementTreeViewInfo> inStatements = inStatementTreeViewInfo.getStatements();
             List<ReqComponentInfo> inReqComponentInfos = inStatementTreeViewInfo.getReqComponents();
 
-            if ((inStatements != null) && (inStatements.size() > 0)) {
+            if ((inStatements != null) && (!inStatements.isEmpty())) {
                 // retrieve all statements
                 List<StatementTreeViewInfo> clonedStatementList = new ArrayList<StatementTreeViewInfo>();
                 for (StatementTreeViewInfo inStatement : inStatements) {
                     clonedStatementList.add(clone(inStatement)); // inside set the children of this statementTreeViewInfo
                 }
                 clonedStatementTreeViewInfoInfo.setStatements(clonedStatementList);
-            } else {
+            } else if ((inReqComponentInfos != null) && (!inReqComponentInfos.isEmpty())) {
                 // retrieve all req. component LEAFS
                 List<ReqComponentInfo> clonedReqComponentList = new ArrayList<ReqComponentInfo>();
                 for (ReqComponentInfo inReqComponent : inReqComponentInfos) {

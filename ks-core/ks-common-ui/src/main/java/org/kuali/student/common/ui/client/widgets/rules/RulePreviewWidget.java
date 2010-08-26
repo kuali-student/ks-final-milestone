@@ -1,7 +1,6 @@
 package org.kuali.student.common.ui.client.widgets.rules;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -22,22 +21,21 @@ import com.google.gwt.user.client.ui.Widget;
 public class RulePreviewWidget extends FlowPanel {
 
     
-    String ruleName;
-    String ruleCredits;
-    String ruleDesc;
-    StatementTreeViewInfo stmtTreeInfo;     //program rule e.g. program completion rule
-    boolean isReadOnly;
-    boolean addRuleOperator = false;        //first subrule does not have operator following it  
+    private String ruleName;
+    private String ruleCredits;
+    private String ruleDesc;
+    private StatementTreeViewInfo stmtTreeInfo;     //program rule e.g. program completion rule
+    private boolean isReadOnly;
+    private boolean addRuleOperator = false;        //first subrule does not have operator following it
 
-    SpanPanel rulePanel = new SpanPanel();
-    KSButton editButton = new KSButton("Edit", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
-    SpanPanel separator = new SpanPanel(" | ");
-    KSButton deleteButton = new KSButton("Delete", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
-    KSButton addSubRuleBtn = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
-    List<SubrulePreviewWidget> subRulePreviewWidgets = new ArrayList();
+    private SpanPanel rulePanel = new SpanPanel();
+    private KSButton editButton = new KSButton("Edit", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
+    private SpanPanel separator = new SpanPanel(" | ");
+    private KSButton deleteButton = new KSButton("Delete", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
+    private KSButton addSubRuleBtn = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
+    private List<SubrulePreviewWidget> subRulePreviewWidgets = new ArrayList();
 
-    ClickHandler addSubRuleAddButtonClickHandler;
-    Callback<StatementTreeViewInfo> editRuleCallback;
+    private Callback<StatementTreeViewInfo> editRuleCallback;
 
     public RulePreviewWidget(String ruleName, String ruleCredits, String ruleDesc, StatementTreeViewInfo stmtTreeInfo, Boolean isReadOnly) {
         super();
@@ -56,7 +54,8 @@ public class RulePreviewWidget extends FlowPanel {
         buildRuleHeader();
 
         //true if we have an empty rule
-        if (stmtTreeInfo == null) {
+        if ((stmtTreeInfo == null) || (((stmtTreeInfo.getStatements() == null) || (stmtTreeInfo.getStatements().isEmpty())) &&
+            ((stmtTreeInfo.getReqComponents() == null) || (stmtTreeInfo.getReqComponents().isEmpty())))) {
             KSLabel noRulesAddedYet = new KSLabel("No rules have been added yet.");
             noRulesAddedYet.addStyleName("KS-Program-Rule-Preview-NoRule");
             rulePanel.add(noRulesAddedYet);
@@ -80,7 +79,7 @@ public class RulePreviewWidget extends FlowPanel {
         //add a button for user to add additional subrule
         if (!isReadOnly) {
             addSubRuleBtn.addStyleName("KS-Program-Rule-Preview-Add-Subrule");
-            spacer.add(addSubRuleBtn);
+            rulePanel.add(addSubRuleBtn);
         }
 
         this.add(rulePanel);
@@ -131,33 +130,37 @@ public class RulePreviewWidget extends FlowPanel {
 
         //remove unnecessary operators
         int numberOfOperators = 0;
-        boolean lastWidgetSubRule = true;
+        boolean lastWidgetIsSubRule = true;
+        boolean foundSubRule = false;
         int counter = 0;
         Widget widget = null;
         Widget widgetToRemove = null;
-        Iterator iterator = rulePanel.iterator();
-        while(iterator.hasNext()) {
+        Widget lastOperatorWidget = null;
+        for (Object aRulePanel : rulePanel) {
             counter++;
-            widget = (Widget) iterator.next();
+            widget = (Widget) aRulePanel;
             if (widget instanceof KSLabel) {
-                if (((KSLabel)widget).getText().equals("AND") || ((KSLabel)widget).getText().equals("OR")) {
-                    lastWidgetSubRule = false;
+                if (((KSLabel) widget).getText().equals("AND") || ((KSLabel) widget).getText().equals("OR")) {
+                    lastWidgetIsSubRule = false;
+                    lastOperatorWidget = widget;
                     numberOfOperators++;
                     //remove 'AND' above the first sub-rule or two repeated instances
-                    if ((numberOfOperators > 1) || (counter == 1)) {
+                    if ((numberOfOperators > 1) || (counter == 1) || !foundSubRule) {
                         widgetToRemove = widget;
                         numberOfOperators--;
                     }
                 }
             } else if (widget instanceof SubrulePreviewWidget) {
-                lastWidgetSubRule = true;
+                foundSubRule = true;
+                lastWidgetIsSubRule = true;
                 numberOfOperators = 0;
             }
         }
         
-        if (!lastWidgetSubRule) {
-            rulePanel.remove(widget);
-        } else if (widgetToRemove != null) {
+        if (!lastWidgetIsSubRule) {
+            rulePanel.remove(lastOperatorWidget);
+        }
+        if (widgetToRemove != null) {
             rulePanel.remove(widgetToRemove);
         }
     }
