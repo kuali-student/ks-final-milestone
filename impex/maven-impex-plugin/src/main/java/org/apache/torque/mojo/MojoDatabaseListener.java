@@ -14,7 +14,7 @@ public class MojoDatabaseListener implements DatabaseListener {
 	Utils utils = new Utils();
 	PrettyPrint prettyPrint;
 	Log log;
-	int updateStatusInterval = 150;
+	int updateStatusInterval = 50;
 
 	public MojoDatabaseListener() {
 		this(null);
@@ -47,9 +47,25 @@ public class MojoDatabaseListener implements DatabaseListener {
 		}
 	}
 
+	protected String getMessage(String s) {
+		if (StringUtils.isEmpty(s)) {
+			return s;
+		}
+		int pos = s.lastIndexOf("/");
+		if (pos == -1) {
+			pos = s.lastIndexOf("\\");
+		}
+		if (pos == -1) {
+			pos = 0;
+		} else {
+			pos++;
+		}
+		return s.substring(pos);
+	}
+
 	@Override
 	public void beginTransaction(DatabaseEvent event) {
-		String message = event.getTransaction().getResourceLocation();
+		String message = "Executing " + getMessage(event.getTransaction().getResourceLocation());
 		if (!StringUtils.isEmpty(event.getTransaction().getSqlCommand())) {
 			message = "Executing SQL ";
 		}

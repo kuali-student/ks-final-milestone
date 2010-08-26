@@ -736,7 +736,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 			if (skipOnConnectionError) {
 				// Error getting the connection but they have asked us not to fail the build
 				// This mojo should now skip doing anything else, but the build may continue
-				this.connectionError = true;
+				connectionError = true;
 				return null;
 			} else {
 				// Otherwise, fail the build
