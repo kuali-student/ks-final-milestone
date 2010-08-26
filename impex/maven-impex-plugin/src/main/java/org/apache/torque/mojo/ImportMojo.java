@@ -21,15 +21,9 @@ package org.apache.torque.mojo;
 
 import java.io.File;
 import java.util.Collections;
-import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.torque.engine.database.model.Database;
-import org.apache.torque.engine.database.model.Table;
-import org.kuali.core.db.torque.KualiXmlToAppData;
 import org.kuali.db.Transaction;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 
 /**
  * Executes SQL for creating a database and populating it with a dataset
@@ -37,157 +31,68 @@ import org.springframework.core.io.Resource;
  * @goal import
  */
 public class ImportMojo extends AbstractSQLExecutorMojo {
+	private static final String FS = System.getProperty("file.separator");
+
 	public enum Order {
 		ASCENDING, DESCENDING;
 	}
 
 	/**
-	 * The name of the schema.xml file to process
-	 * 
-	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
+	 * @parameter expression="${schema}" default-value="${project.artifactId"
+	 */
+	private String schema;
+
+	/**
+	 * @parameter expression="${importDirectory}" default-value="${project.build.directory}/generated-sql/sql"
 	 * @required
 	 */
-	private String schemaXMLFile;
+	private File importDirectory;
 
 	/**
-	 * File(s) containing SQL statements to load.
-	 * 
-	 * @since 1.0
-	 * @parameter
+	 * @parameter expression="${importDirectoryIncludes}" default-value="*.sql"
 	 */
-	private Fileset fileset;
+	private String importDirectoryIncludes = "*.sql";
 
 	/**
-	 * Set to false to skip importing the schema
-	 * 
-	 * @since 1.0
-	 * @parameter expression="${importSchema}" default-value="true"
+	 * @parameter expression="${importDirectoryExcludes}" default-value=""
 	 */
-	private boolean importSchema;
-
-	/**
-	 * Set to false to skip importing data
-	 * 
-	 * @since 1.0
-	 * @parameter expression="${importData}" default-value="true"
-	 */
-	private boolean importData;
-
-	/**
-	 * Set to false to skip importing the schema constraints
-	 * 
-	 * @since 1.0
-	 * @parameter expression="${importSchemaConstraints}" default-value="true"
-	 */
-	private boolean importSchemaConstraints;
+	private String importDirectoryExcludes = "";
 
 	/**
 	 * Set the order in which the SQL files will be executed. Possible values are <code>ascending</code> and
 	 * <code>descending</code>. Any other value means that no sorting will be performed.
 	 * 
 	 * @since 1.1
-	 * @parameter expression="${orderFile}" default-value="ASCENDING"
+	 * @parameter expression="${order}" default-value="ASCENDING"
 	 */
 	private Order order;
 
-	// /////////////////////////////////////////////////////////////////////////////////////
-	/**
-	 * Print SQL results.
-	 * 
-	 * @parameter expression="${printResultSet}" default-value="false"
-	 * @since 1.3
-	 */
-	private boolean printResultSet;
-
-	/**
-	 * Dump the SQL exection's output to a file. Default is stdout.
-	 * 
-	 * @parameter expression="${outputFile}"
-	 * @since 1.3
-	 */
-	private File outputFile;
-
-	/**
-	 * @parameter expression="${outputDelimiter}" default-value=","
-	 * @since 1.4
-	 */
-	private String outputDelimiter;
-
-	/**
-	 * Set to true if you want to filter the srcFiles using system-, user- and project properties
-	 * 
-	 * @parameter expression="${enableFiltering}" default-value="false"
-	 * @since 1.4
-	 */
-	private boolean enableFiltering;
-
-	/**
-	 * Create a new Transaction object and add it to the list of transactions that will be executed
-	 * 
-	 * @return a new Transaction
-	 */
-	public Transaction createTransaction() {
-		Transaction t = new Transaction();
-		transactions.addElement(t);
-		return t;
-	}
-
-	/**
-	 * Print result sets from the statements; optional, default false
-	 * 
-	 * @param print
-	 *            <code>true</code> to print the resultset, otherwise <code>false</code>
-	 */
-	public void setPrintResultSet(boolean printResultSet) {
-		this.printResultSet = printResultSet;
-	}
-
-	/**
-	 * Set the output file;
-	 * 
-	 * @param output
-	 *            the output file
-	 */
-	public void setOutputFile(File output) {
-		this.outputFile = output;
-	}
-
 	protected void configureTransactions() throws MojoExecutionException {
-		try {
-			KualiXmlToAppData xmlParser = new KualiXmlToAppData(targetDatabase, "");
-			Database database = xmlParser.parseResource(schemaXMLFile);
-			handleDatabase(database);
-		} catch (Exception e) {
-			throw new MojoExecutionException("Unexpected error", e);
+		String path = importDirectory.getAbsolutePath();
+		if (!path.endsWith(FS)) {
+			path += FS;
 		}
+		path += getTargetDatabase();
+		importDirectory = new File(path);
+		getLog().info("importDirectory=" + importDirectory.getAbsolutePath());
+		Fileset fileset = getFileset();
+		fileset.scan();
+		String[] includedFiles = fileset.getIncludedFiles();
+		for (String includedFile : includedFiles) {
+			String filename = importDirectory.getAbsolutePath() + FS + includedFile;
+			Transaction t = new Transaction();
+			t.setResourceLocation(filename);
+			transactions.add(t);
+		}
+		sortTransactions();
 	}
 
-	protected void handleDatabase(Database database) {
-		DefaultResourceLoader loader = new DefaultResourceLoader();
-
-		if (isImportSchema()) {
-			String schemaSQL = "classpath:sql/" + getTargetDatabase() + "/" + database.getName() + ".sql";
-			createTransaction().setResourceLocation(schemaSQL);
-		}
-		if (isImportData()) {
-			List<?> tables = database.getTables();
-			for (Object object : tables) {
-				Table table = (Table) object;
-				String location = "classpath:sql/" + getTargetDatabase() + "/" + table.getName() + ".sql";
-				Resource resource = loader.getResource(location);
-				if (!resource.exists()) {
-					getLog().debug("Skipping " + location + " because it does not exist");
-					continue;
-				} else {
-					createTransaction().setResourceLocation(location);
-					getLog().debug("Adding " + location);
-				}
-			}
-		}
-		if (isImportSchemaConstraints()) {
-			String schemaConstraintsSQL = "classpath:sql/" + getTargetDatabase() + "/" + database.getName() + "-schema-constraints.sql";
-			createTransaction().setResourceLocation(schemaConstraintsSQL);
-		}
+	protected Fileset getFileset() {
+		Fileset fileset = new Fileset();
+		fileset.setBasedir(importDirectory);
+		fileset.setExcludes(new String[] { importDirectoryExcludes });
+		fileset.setIncludes(new String[] { importDirectoryIncludes });
+		return fileset;
 	}
 
 	/**
@@ -201,10 +106,6 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		}
 	}
 
-	public void setFileset(Fileset fileset) {
-		this.fileset = fileset;
-	}
-
 	public Order getOrder() {
 		return this.order;
 	}
@@ -213,63 +114,35 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		this.order = order;
 	}
 
-	public boolean isImportData() {
-		return importData;
+	public File getImportDirectory() {
+		return importDirectory;
 	}
 
-	public void setImportData(boolean importData) {
-		this.importData = importData;
+	public void setImportDirectory(File importDirectory) {
+		this.importDirectory = importDirectory;
 	}
 
-	public boolean isImportSchema() {
-		return importSchema;
+	public String getImportDirectoryIncludes() {
+		return importDirectoryIncludes;
 	}
 
-	public void setImportSchema(boolean importSchema) {
-		this.importSchema = importSchema;
+	public void setImportDirectoryIncludes(String importDirectoryIncludes) {
+		this.importDirectoryIncludes = importDirectoryIncludes;
 	}
 
-	public boolean isImportSchemaConstraints() {
-		return importSchemaConstraints;
+	public String getImportDirectoryExcludes() {
+		return importDirectoryExcludes;
 	}
 
-	public void setImportSchemaConstraints(boolean importSchemaConstraints) {
-		this.importSchemaConstraints = importSchemaConstraints;
+	public void setImportDirectoryExcludes(String importDirectoryExcludes) {
+		this.importDirectoryExcludes = importDirectoryExcludes;
 	}
 
-	public String getOutputDelimiter() {
-		return outputDelimiter;
+	public String getSchema() {
+		return schema;
 	}
 
-	public void setOutputDelimiter(String outputDelimiter) {
-		this.outputDelimiter = outputDelimiter;
-	}
-
-	public File getOutputFile() {
-		return outputFile;
-	}
-
-	public boolean isPrintResultSet() {
-		return printResultSet;
-	}
-
-	public boolean isEnableFiltering() {
-		return enableFiltering;
-	}
-
-	public void setEnableFiltering(boolean enableFiltering) {
-		this.enableFiltering = enableFiltering;
-	}
-
-	public Fileset getFileset() {
-		return fileset;
-	}
-
-	public String getSchemaXMLFile() {
-		return schemaXMLFile;
-	}
-
-	public void setSchemaXMLFile(String schemaXMLFile) {
-		this.schemaXMLFile = schemaXMLFile;
+	public void setSchema(String schema) {
+		this.schema = schema;
 	}
 }
