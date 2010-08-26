@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Convert an Ant impex schema XML file into a maven-impex-plugin schema XML file
@@ -37,6 +38,7 @@ public class MorphSchemaMojo extends BaseMojo {
 		getLog().info("Converting schema XML file");
 		getLog().info("------------------------------------------------------------------------");
 		try {
+			FileUtils.forceMkdir(new File(FileUtils.getPath(newSchemaXMLFile.getAbsolutePath())));
 			MorphRequest request = new MorphRequest(new FileInputStream(oldSchemaXMLFile), new FileOutputStream(newSchemaXMLFile));
 			Morpher morpher = new SchemaMorpher(request, getProject().getArtifactId());
 			morpher.executeMorph(getEncoding());
