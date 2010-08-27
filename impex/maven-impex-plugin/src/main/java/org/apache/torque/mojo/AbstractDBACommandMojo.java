@@ -9,7 +9,7 @@ import static org.apache.commons.lang.StringUtils.*;
 /**
  * Common logic for running SQL commands on a database
  */
-public abstract class AbstractDatabaseAdministratorCommandMojo extends AbstractSQLExecutorMojo {
+public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	public static final String DATABASE_PROPERTY = "database";
 	public static final String DATABASE_PW_PROPERTY = "databasePassword";
 	public static final String DATABASE_USERNAME_PROPERTY = "databaseUsername";
@@ -35,6 +35,28 @@ public abstract class AbstractDatabaseAdministratorCommandMojo extends AbstractS
 	 * @parameter expression="${databasePassword}" default-value="${project.artifactId}"
 	 */
 	String databasePassword;
+
+	/**
+	 * A user with DBA privileges on the database
+	 * 
+	 * @parameter expression="${dbaUsername}"
+	 */
+	String dbaUsername;
+
+	/**
+	 * The password for the DBA user;
+	 * 
+	 * @parameter expression="${dbaPassword}"
+	 */
+	String dbaPassword;
+
+	/**
+	 * Set this to false if you are allowing DBA commands (eg CREATE database, DROP database) to be issued against your
+	 * database without required authentication
+	 * 
+	 * @parameter expression="${requireDbaCredentials}" default-value="true"
+	 */
+	boolean requireDbaCredentials;
 
 	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();
@@ -63,9 +85,14 @@ public abstract class AbstractDatabaseAdministratorCommandMojo extends AbstractS
 		if (isEmpty(database)) {
 			throw new MojoExecutionException("\n\nNo database was specified.\nSpecify a database in the plugin configuration or as a system property.\n\nFor example:\n-Ddatabase=MYDB\n\n.");
 		}
+	}
 
-		if (isEmpty(username) || isEmpty(password)) {
-			throw new MojoExecutionException("\n\nUsername and password must be specified.\nSpecify them in the plugin configuration or as a system property.\n\nFor example:\n-Dusername=dbuser\n-Dpassword=dbpassword\n\n.");
+	protected void validateCredentials() throws MojoExecutionException {
+		if (!requireDbaCredentials) {
+			return;
+		}
+		if (isEmpty(dbaUsername) || isEmpty(dbaPassword)) {
+			throw new MojoExecutionException("\n\nUsername and password for a DBA user must be specified.\nSpecify them in the plugin configuration or as a system property.\n\nFor example:\n-DdbaUsername=dbauser\n-DdbaPassword=dbapassword\n\n.");
 		}
 	}
 
@@ -91,5 +118,29 @@ public abstract class AbstractDatabaseAdministratorCommandMojo extends AbstractS
 
 	public void setDatabaseUsername(String databaseUsername) {
 		this.databaseUsername = databaseUsername;
+	}
+
+	public String getDbaUsername() {
+		return dbaUsername;
+	}
+
+	public void setDbaUsername(String dbaUsername) {
+		this.dbaUsername = dbaUsername;
+	}
+
+	public String getDbaPassword() {
+		return dbaPassword;
+	}
+
+	public void setDbaPassword(String dbaPassword) {
+		this.dbaPassword = dbaPassword;
+	}
+
+	public boolean isRequireDbaCredentials() {
+		return requireDbaCredentials;
+	}
+
+	public void setRequireDbaCredentials(boolean requireDbaCredentials) {
+		this.requireDbaCredentials = requireDbaCredentials;
 	}
 }

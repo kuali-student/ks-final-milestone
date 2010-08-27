@@ -13,7 +13,7 @@ import org.kuali.db.Transaction;
  * 
  * @goal reset
  */
-public class ResetMojo extends AbstractDatabaseAdministratorCommandMojo {
+public class ResetMojo extends AbstractDBACommandMojo {
 
 	protected Transaction getTransaction(Properties properties, DatabaseCommand command) throws IOException {
 		SQLGenerator generator = new SQLGenerator(properties, url, command);

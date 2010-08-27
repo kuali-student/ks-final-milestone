@@ -11,7 +11,7 @@ import org.kuali.db.Transaction;
 /**
  * Runs a command that performs a single operation on a database (create,drop etc)
  */
-public abstract class SingleDatabaseAdministratorCommandMojo extends AbstractDatabaseAdministratorCommandMojo {
+public abstract class SingleDBACommandMojo extends AbstractDBACommandMojo {
 
 	public abstract DatabaseCommand getCommand();
 

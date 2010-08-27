@@ -7,7 +7,7 @@ import org.kuali.db.DatabaseCommand;
  * 
  * @goal create
  */
-public class CreateMojo extends SingleDatabaseAdministratorCommandMojo {
+public class CreateMojo extends SingleDBACommandMojo {
 
 	/**
 	 * The database command to execute
