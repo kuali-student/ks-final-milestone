@@ -39,7 +39,9 @@ public class ImpexError {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n\n");
-		sb.append(message + "\n\n");
+		if (!StringUtils.isEmpty(message)) {
+			sb.append(message + "\n\n");
+		}
 		if (getThrowable() != null) {
 			sb.append("------------------------------------------------------\n");
 			String emsg = getThrowable().getMessage();

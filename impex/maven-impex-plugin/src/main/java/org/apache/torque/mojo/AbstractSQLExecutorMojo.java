@@ -684,7 +684,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 				return null;
 			} else {
 				// Otherwise, fail the build
-				throw new MojoExecutionException(getImpexError().toString(), e);
+				throw new MojoExecutionException(getImpexError(e, "Connection error: " + e.getMessage()).toString(), e);
 			}
 		}
 		return conn;

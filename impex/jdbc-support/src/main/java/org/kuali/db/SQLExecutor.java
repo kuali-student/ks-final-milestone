@@ -191,7 +191,7 @@ public class SQLExecutor {
 			closeQuietly(statement, conn);
 		}
 
-		info(getSuccessfulStatements() + " of " + getTotalStatements() + " SQL statements executed successfully");
+		log.info(getSuccessfulStatements() + " of " + getTotalStatements() + " SQL statements executed successfully");
 
 		if (ON_ERROR_ABORT_AFTER.equalsIgnoreCase(getOnError()) && totalStatements != successfulStatements) {
 			throw new SQLException("Some SQL statements failed to execute");
