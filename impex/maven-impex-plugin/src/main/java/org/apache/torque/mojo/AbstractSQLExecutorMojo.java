@@ -352,9 +352,25 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		try {
 			executor.execute();
 		} catch (SQLException e) {
-			throw new MojoExecutionException(getSQLExceptionErrorMessage(e, getInfo(), "Error executing SQL"));
+			throw new MojoExecutionException(getImpexError(e, "Error execution SQL").toString(), e);
 		}
+	}
 
+	protected ImpexError getImpexError() throws MojoExecutionException {
+		return getImpexError(null, null);
+	}
+
+	protected ImpexError getImpexError(Throwable throwable, String message) throws MojoExecutionException {
+		ImpexError ie = new ImpexError();
+		ie.setInfo(getInfo());
+		ie.setThrowable(throwable);
+		ie.setMessage(message);
+		try {
+			BeanUtils.copyProperties(ie, this);
+		} catch (Exception e) {
+			throw new MojoExecutionException("Error copying properties", e);
+		}
+		return ie;
 	}
 
 	/**
@@ -668,59 +684,16 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 				return null;
 			} else {
 				// Otherwise, fail the build
-				throw new MojoExecutionException(getConnectionErrorMessage(e, info), e);
+				throw new MojoExecutionException(getImpexError().toString(), e);
 			}
 		}
 		return conn;
 	}
 
-	protected String getConnectionErrorMessage(SQLException e, Properties info) {
-		return getSQLExceptionErrorMessage(e, info, "The following error occurred establishing a connection to the database:");
-	}
-
-	protected String getJDBCConfigurationErrorMessage(Properties info) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("------------------------------------------------------\n\n");
-		sb.append("The following information was provided to JDBC:\n");
-		sb.append("------------------------------------------------------\n");
-		sb.append("URL: " + getUrl() + "\n");
-		sb.append("Driver: " + getDriver() + "\n");
-		String username = info.getProperty(DRIVER_INFO_PROPERTIES_USER);
-		if (StringUtils.isEmpty(username)) {
-			sb.append("Username: [No username was supplied]\n");
-		} else {
-			sb.append("Username: " + username + "\n");
-		}
-		String password = info.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD);
-		if (isShowPassword()) {
-			sb.append("Password: " + password + "\n");
-		} else {
-			if (StringUtils.isEmpty(password)) {
-				sb.append("Password: [No password was supplied]\n");
-			} else {
-				sb.append("Password: *******\n");
-			}
-		}
-		sb.append("------------------------------------------------------\n");
-		sb.append("\n");
-		return sb.toString();
-	}
-
-	protected String getSQLExceptionErrorMessage(SQLException e, Properties info, String message) {
-		StringBuffer sb = new StringBuffer();
-		sb.append("\n\n");
-		sb.append(message + "\n\n");
-		if (e != null) {
-			sb.append("------------------------------------------------------\n");
-			String emsg = e.getMessage();
-			sb.append(emsg);
-			if (!emsg.endsWith("\n")) {
-				sb.append("\n");
-			}
-		}
-		sb.append(getJDBCConfigurationErrorMessage(info));
-		return sb.toString();
-	}
+	// protected String getConnectionErrorMessage(SQLException e, Properties info) {
+	// return getSQLExceptionErrorMessage(e, info,
+	// "The following error occurred establishing a connection to the database:");
+	// }
 
 	/**
 	 * parse driverProperties into Properties set

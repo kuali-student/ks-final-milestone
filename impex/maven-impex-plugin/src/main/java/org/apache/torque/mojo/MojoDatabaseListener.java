@@ -65,7 +65,7 @@ public class MojoDatabaseListener implements DatabaseListener {
 
 	@Override
 	public void beginTransaction(DatabaseEvent event) {
-		String message = "Executing " + getMessage(event.getTransaction().getResourceLocation());
+		String message = "Executing " + getMessage(event.getTransaction().getResourceLocation() + " ");
 		if (!StringUtils.isEmpty(event.getTransaction().getSqlCommand())) {
 			message = "Executing SQL ";
 		}
