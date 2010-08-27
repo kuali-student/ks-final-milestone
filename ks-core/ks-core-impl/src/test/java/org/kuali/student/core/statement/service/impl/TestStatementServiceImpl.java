@@ -207,7 +207,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	private ReqComponentInfo createReqComponent1() {
 		ReqComponentInfo reqCompInfo = new ReqComponentInfo();
 		reqCompInfo.setId("REQCOMP-NL-1");
-		reqCompInfo.setType("kuali.reqCompType.courseList.nof");
+		reqCompInfo.setType("kuali.reqComponent.type.courseList.nof");
 		reqCompInfo.setState("active");
 		RichTextInfo desc = new RichTextInfo();
 		desc.setFormatted("formatted");
@@ -284,14 +284,14 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testTranslateStatementTreeViewToNL_SimpleStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		StatementTreeViewInfo statementInfo = new StatementTreeViewInfo();
-		statementInfo.setType("kuali.luStatementType.prereqAcademicReadiness");
+		statementInfo.setType("kuali.statement.type.course.academicReadiness.prereq");
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
 
 		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", ReqComponentFieldTypes.CLU_KEY.getType(), "CLU-NL-1,CLU-NL-3");
-		ReqComponentInfo reqComp1 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList1);
+		ReqComponentInfo reqComp1 = createReqComponent("kuali.reqComponent.type.courseList.nof", fieldList1);
 		reqComp1.setId("req-1");
 		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", ReqComponentFieldTypes.CLUSET_KEY.getType(), "CLUSET-NL-2");
-		ReqComponentInfo reqComp2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
+		ReqComponentInfo reqComp2 = createReqComponent("kuali.reqComponent.type.courseList.nof", fieldList2);
 		reqComp2.setId("req-2");
 
 		statementInfo.setReqComponents(Arrays.asList(reqComp1, reqComp2));
@@ -340,20 +340,20 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	public void testGetStatementTypes() throws OperationFailedException {
     	List<StatementTypeInfo> types = statementService.getStatementTypes();
 		assertEquals(3, types.size());
-		assertTrue(containsTypeId(types, "kuali.luStatementType.course"));
-		assertTrue(containsTypeId(types, "kuali.luStatementType.prereqAcademicReadiness"));
-		assertTrue(containsTypeId(types, "kuali.luStatementType.coreqAcademicReadiness"));
+		assertTrue(containsTypeId(types, "kuali.statement.type.course"));
+		assertTrue(containsTypeId(types, "kuali.statement.type.course.academicReadiness.prereq"));
+		assertTrue(containsTypeId(types, "kuali.statement.type.course.academicReadiness.coreq"));
 	}
 
     @Test
 	public void testGetStatementType() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-    	StatementTypeInfo type = statementService.getStatementType("kuali.luStatementType.course");
+    	StatementTypeInfo type = statementService.getStatementType("kuali.statement.type.course");
 
         GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
         GregorianCalendar expDate = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
 
     	assertNotNull(type);
-		assertEquals("kuali.luStatementType.course", type.getId());
+		assertEquals("kuali.statement.type.course", type.getId());
 		assertNotNull(type.getAllowedStatementTypes());
 		assertEquals(2, type.getAllowedStatementTypes().size());
 		assertEquals(0, type.getAllowedReqComponentTypes().size());
@@ -366,11 +366,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetStatementTypesForStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	List<String> allowedTypes = statementService.getStatementTypesForStatementType("kuali.luStatementType.course");
+    	List<String> allowedTypes = statementService.getStatementTypesForStatementType("kuali.statement.type.course");
 
 		assertEquals(2, allowedTypes.size());
-		assertTrue(allowedTypes.contains("kuali.luStatementType.prereqAcademicReadiness"));
-		assertTrue(allowedTypes.contains("kuali.luStatementType.coreqAcademicReadiness"));
+		assertTrue(allowedTypes.contains("kuali.statement.type.course.academicReadiness.prereq"));
+		assertTrue(allowedTypes.contains("kuali.statement.type.course.academicReadiness.coreq"));
     }
 
     @Test
@@ -380,7 +380,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertNotNull(stmt);
 
         assertEquals(stmt.getId(), "STMT-2");
-        assertEquals(stmt.getType(), "kuali.luStatementType.prereqAcademicReadiness");
+        assertEquals(stmt.getType(), "kuali.statement.type.course.academicReadiness.prereq");
         assertEquals(stmt.getOperator(), StatementOperatorTypeKey.AND);
         assertEquals(stmt.getState(), "ACTIVE");
         assertEquals(stmt.getName(), "STMT 2");
@@ -465,7 +465,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         StatementInfo stmt = stmtList.get(0);
 
         assertEquals("STMT-2", stmt.getId());
-        assertEquals("kuali.luStatementType.prereqAcademicReadiness", stmt.getType());
+        assertEquals("kuali.statement.type.course.academicReadiness.prereq", stmt.getType());
         assertEquals(StatementOperatorTypeKey.AND, stmt.getOperator());
         assertEquals("ACTIVE", stmt.getState());
         assertEquals("STMT 2", stmt.getName());
@@ -488,7 +488,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetStatementsByType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        List<StatementInfo> stmtList = statementService.getStatementsByType("kuali.luStatementType.prereqAcademicReadiness");
+        List<StatementInfo> stmtList = statementService.getStatementsByType("kuali.statement.type.course.academicReadiness.prereq");
 
         assertNotNull(stmtList);
         assertEquals(13, stmtList.size());
@@ -496,7 +496,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         StatementInfo stmt = stmtList.get(0);
 
         assertEquals(stmt.getId(), "STMT-2");
-        assertEquals(stmt.getType(), "kuali.luStatementType.prereqAcademicReadiness");
+        assertEquals(stmt.getType(), "kuali.statement.type.course.academicReadiness.prereq");
         assertEquals(stmt.getOperator(), StatementOperatorTypeKey.AND);
         assertEquals(stmt.getState(), "ACTIVE");
         assertEquals(stmt.getName(), "STMT 2");
@@ -556,7 +556,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertNotNull(reqCompTypeInfoList);
         assertEquals(9, reqCompTypeInfoList.size());
 
-        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqCompType.courseList.all");
+        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqComponent.type.courseList.all");
 
         assertNotNull(rqt);
         assertEquals(rqt.getName(), "All of required courses");
@@ -564,11 +564,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetReqComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        ReqComponentTypeInfo rqt = statementService.getReqComponentType("kuali.reqCompType.courseList.all");
+        ReqComponentTypeInfo rqt = statementService.getReqComponentType("kuali.reqComponent.type.courseList.all");
         
         assertNotNull(rqt);
-        assertEquals(rqt.getId(), "kuali.reqCompType.courseList.all");
-        assertEquals(rqt.getDescr(), "Student must have completed all of <reqCompFieldType.cluSet.id>");
+        assertEquals(rqt.getId(), "kuali.reqComponent.type.courseList.all");
+        assertEquals(rqt.getDescr(), "Student must have completed all of <kuali.reqComponent.field.type.cluSet.id>");
         assertEquals(rqt.getName(), "All of required courses");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20001231"));
@@ -576,7 +576,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetReqComponentFieldType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        ReqComponentTypeInfo rqt = statementService.getReqComponentType("kuali.reqCompType.courseList.all");
+        ReqComponentTypeInfo rqt = statementService.getReqComponentType("kuali.reqComponent.type.courseList.all");
 
         List<ReqCompFieldTypeInfo> reqftList = rqt.getReqCompFieldTypeInfos();
         assertNotNull(reqftList);
@@ -593,15 +593,15 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetReqComponentTypesForStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        List<ReqComponentTypeInfo> reqCompTypeInfoList = statementService.getReqComponentTypesForStatementType("kuali.luStatementType.prereqAcademicReadiness");
+        List<ReqComponentTypeInfo> reqCompTypeInfoList = statementService.getReqComponentTypesForStatementType("kuali.statement.type.course.academicReadiness.prereq");
 
         assertNotNull(reqCompTypeInfoList);
         assertEquals(6, reqCompTypeInfoList.size());
 
-        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqCompType.gradecheck");
+        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqComponent.type.gradecheck");
 
         assertNotNull(rqt);
-        assertEquals(rqt.getDescr(), "Student needs a minimum GPA of <reqCompFieldType.gpa>");
+        assertEquals(rqt.getDescr(), "Student needs a minimum GPA of <kuali.reqComponent.field.type.gpa>");
         assertEquals(rqt.getName(), "Minimum overall GPA");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20011130"));
@@ -614,7 +614,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertNotNull(reqComp);
 
         assertEquals(reqComp.getId(), "REQCOMP-1");
-        assertEquals(reqComp.getType(), "kuali.reqCompType.courseList.all");
+        assertEquals(reqComp.getType(), "kuali.reqComponent.type.courseList.all");
         assertEquals(reqComp.getDesc().getPlain(), "Req Comp 1");
         assertEquals(reqComp.getEffectiveDate(), df.parse("20010101"));
         assertEquals(reqComp.getExpirationDate(), df.parse("20020101"));
@@ -663,7 +663,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
         assertEquals("REQCOMP-1", reqComp.getId());
 
-        assertEquals("kuali.reqCompType.courseList.all",reqComp.getType());
+        assertEquals("kuali.reqComponent.type.courseList.all",reqComp.getType());
         assertEquals("Req Comp 1", reqComp.getDesc().getPlain());
         assertEquals(df.parse("20010101"), reqComp.getEffectiveDate());
         assertEquals(df.parse("20020101"),reqComp.getExpirationDate());
@@ -679,7 +679,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetReqComponentsByType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        List<ReqComponentInfo> reqCompList = statementService.getReqComponentsByType("kuali.reqCompType.grdCondCourseList");
+        List<ReqComponentInfo> reqCompList = statementService.getReqComponentsByType("kuali.reqComponent.type.grdCondCourseList");
 
         assertNotNull(reqCompList);
         assertEquals(1, reqCompList.size());
@@ -689,7 +689,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertNotNull(reqComp);
 
         assertEquals(reqComp.getId(), "REQCOMP-2");
-        assertEquals(reqComp.getType(), "kuali.reqCompType.grdCondCourseList");
+        assertEquals(reqComp.getType(), "kuali.reqComponent.type.grdCondCourseList");
         assertEquals(reqComp.getDesc().getPlain(), "Req Comp 2");
         assertEquals(reqComp.getEffectiveDate(), df.parse("20010101"));
         assertEquals(reqComp.getExpirationDate(), df.parse("20020101"));
@@ -725,7 +725,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         stmt.setName("STMT 3");
         stmt.setOperator(StatementOperatorTypeKey.OR);
         stmt.setState("ACTIVE");
-        stmt.setType("kuali.luStatementType.coreqAcademicReadiness");
+        stmt.setType("kuali.statement.type.course.academicReadiness.coreq");
 
         MetaInfo mf = new MetaInfo();
 
@@ -734,10 +734,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
         stmt.setMetaInfo(mf);
 
-        StatementInfo createdSmt = statementService.createStatement("kuali.luStatementType.coreqAcademicReadiness", stmt);
+        StatementInfo createdSmt = statementService.createStatement("kuali.statement.type.course.academicReadiness.coreq", stmt);
 
         assertNotNull(createdSmt.getId());
-        assertEquals(createdSmt.getType(), "kuali.luStatementType.coreqAcademicReadiness");
+        assertEquals(createdSmt.getType(), "kuali.statement.type.course.academicReadiness.coreq");
         assertEquals(createdSmt.getOperator(), StatementOperatorTypeKey.OR);
         assertEquals(createdSmt.getState(), "ACTIVE");
         assertEquals(createdSmt.getName(), "STMT 3");
@@ -760,7 +760,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         StatementInfo updSmt = statementService.updateStatement(stmt.getId(), stmt);
 
         assertNotNull(updSmt.getId());
-        assertEquals(updSmt.getType(), "kuali.luStatementType.course");
+        assertEquals(updSmt.getType(), "kuali.statement.type.course");
         assertEquals(updSmt.getOperator(), StatementOperatorTypeKey.OR);
         assertEquals(updSmt.getState(), "ACTIVE");
         assertEquals(updSmt.getName(), "STMT 3");
@@ -804,15 +804,15 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         req.setEffectiveDate(df.parse("20010101"));
         req.setExpirationDate(df.parse("20020101"));
         req.setState("ACTIVE");
-        req.setType("kuali.reqCompType.courseList.all");
+        req.setType("kuali.reqComponent.type.courseList.all");
 
         MetaInfo mf = new MetaInfo();
         req.setMetaInfo(mf);
 
-        ReqComponentInfo createdReq = statementService.createReqComponent("kuali.reqCompType.courseList.all", req);
+        ReqComponentInfo createdReq = statementService.createReqComponent("kuali.reqComponent.type.courseList.all", req);
 
         assertNotNull(createdReq.getId());
-        assertEquals(createdReq.getType(), "kuali.reqCompType.courseList.all");
+        assertEquals(createdReq.getType(), "kuali.reqComponent.type.courseList.all");
         assertEquals(createdReq.getEffectiveDate(), df.parse("20010101"));
         assertEquals(createdReq.getExpirationDate(), df.parse("20020101"));
         assertEquals(createdReq.getState(), "ACTIVE");
@@ -834,7 +834,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         ReqComponentInfo updReq = statementService.updateReqComponent(req.getId(), req);
 
         assertNotNull(updReq.getId());
-        assertEquals(updReq.getType(), "kuali.reqCompType.courseList.all");
+        assertEquals(updReq.getType(), "kuali.reqComponent.type.courseList.all");
         assertEquals(updReq.getState(), "IN_PROGRESS");
         assertEquals(updReq.getDesc().getPlain(), "Req Comp 3");
         assertEquals(updReq.getReqCompFields().size(), 0);
@@ -1074,32 +1074,32 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         // req components
         ReqComponentInfo rc1 = new ReqComponentInfo();
         rc1.setDesc(toRichText("REQCOMP-TV-TEST-1"));
-        rc1.setType("kuali.reqCompType.gradecheck");
+        rc1.setType("kuali.reqComponent.type.gradecheck");
         ReqComponentInfo rc2 = new ReqComponentInfo();
         rc2.setDesc(toRichText("REQCOMP-TV-TEST-2"));
-        rc2.setType("kuali.reqCompType.gradecheck");
+        rc2.setType("kuali.reqComponent.type.gradecheck");
         ReqComponentInfo rc3 = new ReqComponentInfo();
         rc3.setDesc(toRichText("REQCOMP-TV-TEST-3"));
-        rc3.setType("kuali.reqCompType.gradecheck");
+        rc3.setType("kuali.reqComponent.type.gradecheck");
         ReqComponentInfo rc4 = new ReqComponentInfo();
         rc4.setDesc(toRichText("REQCOMP-TV-TEST-4"));
-        rc4.setType("kuali.reqCompType.gradecheck");
+        rc4.setType("kuali.reqComponent.type.gradecheck");
 
         // statement tree views
         StatementTreeViewInfo treeView = new StatementTreeViewInfo();
         treeView.setDesc(toRichText("STMT-TV-TEST-1"));
         treeView.setOperator(StatementOperatorTypeKey.OR);
-        treeView.setType("kuali.luStatementType.prereqAcademicReadiness");
+        treeView.setType("kuali.statement.type.course.academicReadiness.prereq");
 
         StatementTreeViewInfo subTreeView1 = new StatementTreeViewInfo();
         subTreeView1.setDesc(toRichText("STMT-TV-TEST-2"));
         subTreeView1.setOperator(StatementOperatorTypeKey.AND);
-        subTreeView1.setType("kuali.luStatementType.prereqAcademicReadiness");
+        subTreeView1.setType("kuali.statement.type.course.academicReadiness.prereq");
 
         StatementTreeViewInfo subTreeView2 = new StatementTreeViewInfo();
         subTreeView2.setDesc(toRichText("STMT-TV-TEST-3"));
         subTreeView2.setOperator(StatementOperatorTypeKey.AND);
-        subTreeView2.setType("kuali.luStatementType.prereqAcademicReadiness");
+        subTreeView2.setType("kuali.statement.type.course.academicReadiness.prereq");
 
         // construct tree with statements and req components
         stv1ReqComps.add(rc1);
@@ -1150,15 +1150,15 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         ReqComponentInfo reqComp_tv_test2 = new ReqComponentInfo();
     	reqComponents.addAll(subTree2.getReqComponents());
         reqComp_tv_test1.setDesc(toRichText("REQCOMP TV TEST1"));
-        reqComp_tv_test1.setType("kuali.reqCompType.gradecheck");
+        reqComp_tv_test1.setType("kuali.reqComponent.type.gradecheck");
         reqComp_tv_test2.setDesc(toRichText("REQCOMP TV TEST2"));
-        reqComp_tv_test2.setType("kuali.reqCompType.gradecheck");
+        reqComp_tv_test2.setType("kuali.reqComponent.type.gradecheck");
         reqComponents.add(reqComp_tv_test1);
         reqComponents.add(reqComp_tv_test2);
         newSubTree2.setDesc(toRichText("STMT TV TEST"));
         newSubTree2.setReqComponents(reqComponents);
         newSubTree2.setOperator(StatementOperatorTypeKey.AND);
-        newSubTree2.setType("kuali.luStatementType.prereqAcademicReadiness");
+        newSubTree2.setType("kuali.statement.type.course.academicReadiness.prereq");
     	subTreeView.remove(subTree2);
         subTreeView.add(newSubTree2);
     	subTree1.setDesc(toRichText(subTree1.getDesc().getPlain() + editText)); //" is edited"));
@@ -1375,7 +1375,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	private ReqComponentInfo createBadReqComponent1() {
 		ReqComponentInfo reqCompInfo = new ReqComponentInfo();
 		reqCompInfo.setId("REQCOMP-NL-X");
-		reqCompInfo.setType("kuali.reqCompType.courseList.nof");
+		reqCompInfo.setType("kuali.reqComponent.type.courseList.nof");
 		reqCompInfo.setState("active");
 
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
@@ -1398,7 +1398,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		reqCompInfo.setReqCompFields(fieldList);
 		return reqCompInfo;
 	}
-
 
     @Test
     public void testValidateReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

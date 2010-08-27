@@ -179,9 +179,9 @@ public class ProgramRequirementsViewController extends BasicLayout {
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
         subTrees.add(subTree2);
         stmtTreeInfo.setStatements(subTrees);
-        stmtTreeInfo.setType("kuali.luStatementType.prereqAcademicReadiness");
-        subTree1.setType("kuali.luStatementType.prereqAcademicReadiness");
-        subTree2.setType("kuali.luStatementType.prereqAcademicReadiness");
+        stmtTreeInfo.setType("kuali.statement.type.course.academicReadiness.prereq");
+        subTree1.setType("kuali.statement.type.course.academicReadiness.prereq");
+        subTree2.setType("kuali.statement.type.course.academicReadiness.prereq");
 
         // set reqComps for sub-tree 1
         subTree1.setId("STMT-TV-2");

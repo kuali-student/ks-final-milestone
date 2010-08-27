@@ -101,22 +101,22 @@ public class NaturalLanguageUtil {
     	templateDe.setLanguage("de");
     	templateDe.setNlUsageTypeKey(nlUsageTypeKey);
     	
-    	if(reqComponentType.equals("kuali.reqCompType.courseList.nof")) {
+    	if(reqComponentType.equals("kuali.reqComponent.type.courseList.nof")) {
     		templateEn.setTemplate("Student must have completed $expectedValue of $cluSet.getCluSetAsShortName()");
 			templateDe.setTemplate("Student muss abgeschlossen $expectedValue von $cluSet.getCluSetAsShortName()");
-    	} else if(reqComponentType.equals("kuali.reqCompType.courseList.all")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.courseList.all")) {
     		templateEn.setTemplate("Student must have completed all of $cluSet.getCluSetAsShortName()");
     		templateDe.setTemplate("Student must have completed all of $cluSet.getCluSetAsShortName()");
-    	} else if(reqComponentType.equals("kuali.reqCompType.courseList.none")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.courseList.none")) {
     		templateEn.setTemplate("Student must have completed none of $cluSet.getCluSetAsShortName()");
     		templateDe.setTemplate("Student must have completed none of $cluSet.getCluSetAsShortName()");
-    	} else if(reqComponentType.equals("kuali.reqCompType.courseList.1of2")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.courseList.1of2")) {
     		templateEn.setTemplate("Student must have completed $cluSet.getCluAsShortName(0) or $cluSet.getCluAsShortName(1)");
     		templateDe.setTemplate("Student must have completed $cluSet.getCluAsShortName(0) or $cluSet.getCluAsShortName(1)");
-    	} else if(reqComponentType.equals("kuali.reqCompType.grdCondCourseList")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.grdCondCourseList")) {
     		templateEn.setTemplate("Students must take $totalCredits credits from $cluSet.getCluSetAsShortName()");
     		templateDe.setTemplate("Students must take $totalCredits credits from $cluSet.getCluSetAsShortName()");
-    	} else if(reqComponentType.equals("kuali.reqCompType.gradecheck")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.gradecheck")) {
     		templateEn.setTemplate("Student needs a minimum GPA of $gpa");
     		templateDe.setTemplate("Student needs a minimum GPA of $gpa");
     	}
@@ -218,7 +218,7 @@ public class NaturalLanguageUtil {
 		Statement stmt = new Statement();
 		stmt.setOperator(operator);
 		StatementType type = new StatementType();
-		type.setId("kuali.luStatementType.prereqAcademicReadiness");
+		type.setId("kuali.statement.type.course.academicReadiness.prereq");
 		//type.setStatementHeaders(createHeaders());
 		stmt.setStatementType(type);
 		return stmt;
@@ -229,9 +229,9 @@ public class NaturalLanguageUtil {
 		stmt.setId(id);
 		stmt.setOperator(operator);
 //		LuStatementTypeInfo type = new LuStatementTypeInfo();
-//		type.setId("kuali.luStatementType.prereqAcademicReadiness");
+//		type.setId("kuali.statement.type.course.academicReadiness.prereq");
 //		type.setHeaders(createHeaders());
-		StatementType type = createLuStatementTypeInfo("kuali.luStatementType.prereqAcademicReadiness");
+		StatementType type = createLuStatementTypeInfo("kuali.statement.type.course.academicReadiness.prereq");
 		stmt.setStatementType(type);
 		return stmt;
 	}
@@ -267,21 +267,21 @@ public class NaturalLanguageUtil {
     	CourseListContextImpl.setCluSetInfo(cluSetList);
     	CourseListContextImpl courseListContext = new CourseListContextImpl();
 
-    	contextRegistry.add("kuali.reqCompType.courseList.none", courseListContext);
-    	contextRegistry.add("kuali.reqCompType.courseList.all", courseListContext);
-    	contextRegistry.add("kuali.reqCompType.courseList.nof", courseListContext);
-    	contextRegistry.add("kuali.reqCompType.courseList.1of2", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.courseList.none", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.courseList.all", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.courseList.nof", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.courseList.1of2", courseListContext);
 
     	CreditContextImpl.setCluInfo(cluList);
     	CreditContextImpl.setCluSetInfo(cluSetList);
     	CreditContextImpl gradeConditionCourseListContext = new CreditContextImpl();
-    	contextRegistry.add("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
-    	contextRegistry.add("kuali.reqCompType.grdCondCourseList", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.grdCondCourseList", gradeConditionCourseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.grdCondCourseList", courseListContext);
     	
     	GradeCheckContextImpl.setCluInfo(cluList);
     	GradeCheckContextImpl.setCluSetInfo(cluSetList);
     	GradeCheckContextImpl gradeCheckContext = new GradeCheckContextImpl();
-    	contextRegistry.add("kuali.reqCompType.gradecheck", gradeCheckContext);
+    	contextRegistry.add("kuali.reqComponent.type.gradecheck", gradeCheckContext);
     	
     	return contextRegistry;
     }

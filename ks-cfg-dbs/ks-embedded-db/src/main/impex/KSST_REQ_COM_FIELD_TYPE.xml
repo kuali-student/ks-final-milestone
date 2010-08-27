@@ -2,29 +2,29 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="CLU"
-        ID="reqCompFieldType.clu.id" NAME="CLU" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.clu.id" NAME="CLU" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="CLUSET"
-        ID="reqCompFieldType.cluSet.id" NAME="CLUSET" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.cluSet.id" NAME="CLUSET" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="Required Count"
-        ID="reqCompFieldType.requiredCount" NAME="REQUIRED_COUNT" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.requiredCount" NAME="REQUIRED_COUNT" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="GAP"
-        ID="reqCompFieldType.gpa" NAME="GPA" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.gpa" NAME="GPA" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="number" DESCR="Total Credits"
-        ID="reqCompFieldType.totalCredits" NAME="TOTAL_CREDITS" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.totalCredits" NAME="TOTAL_CREDITS" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="CLU"
-        ID="reqCompFieldType.operator" NAME="CLU" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.operator" NAME="CLU" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="CLU"
-        ID="reqCompFieldType.countType" NAME="CLU" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.countType" NAME="CLU" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="GRADETYPE"
-        ID="reqCompFieldType.gradeType" NAME="GRADETYPE" READ_ONLY="0"/>        
+        ID="kuali.reqComponent.field.type.gradeType" NAME="GRADETYPE" READ_ONLY="0"/>        
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="GRADE"
-        ID="reqCompFieldType.grade" NAME="GRADE" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.grade" NAME="GRADE" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="ORG"
-        ID="reqCompFieldType.orgid" NAME="ORG" READ_ONLY="0"/>
+        ID="kuali.reqComponent.field.type.orgid" NAME="ORG" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="PERSON"
-        ID="reqCompFieldType.personid" NAME="PERSON" READ_ONLY="0"/>                                
+        ID="kuali.reqComponent.field.type.personid" NAME="PERSON" READ_ONLY="0"/>                                
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="TEST"
-        ID="reqCompFieldType.test.score" NAME="TEST" READ_ONLY="0"/>                                
+        ID="kuali.reqComponent.field.type.test.score" NAME="TEST" READ_ONLY="0"/>                                
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="DURATIONTYPE"
-        ID="reqCompFieldType.durationType" NAME="DURATIONTYPE" READ_ONLY="0"/>                                
+        ID="kuali.reqComponent.field.type.durationType" NAME="DURATIONTYPE" READ_ONLY="0"/>                                
 </dataset>

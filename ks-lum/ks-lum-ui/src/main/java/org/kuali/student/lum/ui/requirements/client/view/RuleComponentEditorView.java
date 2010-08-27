@@ -1044,8 +1044,8 @@ public class RuleComponentEditorView extends ViewComposite {
          	}
             	
             //need a better way to determine what pickers to use for given req. component type field
-            if ((editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.oneof")) ||
-                        (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.none")))
+            if ((editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.programList.enroll.oneof")) ||
+                        (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.programList.enroll.none")))
             {
                 final ReqCompPicker valueWidget;
                 valueWidget = configureProgramCluSetSearch(fieldLabel);

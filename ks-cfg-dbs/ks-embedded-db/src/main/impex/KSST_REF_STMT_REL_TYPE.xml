@@ -10,17 +10,17 @@
         EXPIR_DT="21001231000000" NAME="Course Rules" TYPE_DESC="Course Rules" TYPE_KEY="course.rule"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Antirequisites"
-        TYPE_DESC="CLU Antirequisites" TYPE_KEY="kuali.luStatementType.antireqAcademicReadiness"/>
+        TYPE_DESC="CLU Antirequisites" TYPE_KEY="kuali.statement.type.course.academicReadiness.antireq"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Corequisites"
-        TYPE_DESC="CLU Corequisites" TYPE_KEY="kuali.luStatementType.coreqAcademicReadiness"/>
+        TYPE_DESC="CLU Corequisites" TYPE_KEY="kuali.statement.type.course.academicReadiness.coreq"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Create Course"
-        TYPE_DESC="CLU Create Course" TYPE_KEY="kuali.luStatementType.course"/>
+        TYPE_DESC="CLU Create Course" TYPE_KEY="kuali.statement.type.course"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Enroll"
-        TYPE_DESC="CLU Enroll" TYPE_KEY="kuali.luStatementType.enrollAcademicReadiness"/>
+        TYPE_DESC="CLU Enroll" TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibility"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Prerequisites"
-        TYPE_DESC="CLU Prerequisites" TYPE_KEY="kuali.luStatementType.prereqAcademicReadiness"/>
+        TYPE_DESC="CLU Prerequisites" TYPE_KEY="kuali.statement.type.course.academicReadiness.prereq"/>
 </dataset>

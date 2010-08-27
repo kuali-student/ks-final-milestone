@@ -17,31 +17,31 @@ package org.kuali.student.core.statement.naturallanguage;
 
 /**
  * <p>Requirement component types are used to map a dot notation field key
- * (e.g. reqCompFieldType.cluSet) to a key without dot notation (cluSet) since most 
+ * (e.g. kuali.reqComponent.field.type.cluSet) to a key without dot notation (cluSet) since most 
  * template engines don't allow dot notation for template variables because
  * dot notations are used to get class properties or methods 
  * (e.g. clu.getOfficialIdentifier().getShortName()).</p>
  * <p>
  * Some Common Template keys
  * <ul>
- * <li><code>reqCompFieldType.clu</code> maps to <code>clu</code></li>
- * <li><code>reqCompFieldType.cluSet</code> maps to <code>cluSet</code></li>
- * <li><code>reqCompFieldType.requiredCount</code> maps to <code>expectedValue</code></li>
- * <li><code>reqCompFieldType.operator</code> maps to <code>relationalOperator</code></li>
+ * <li><code>kuali.reqComponent.field.type.clu</code> maps to <code>clu</code></li>
+ * <li><code>kuali.reqComponent.field.type.cluSet</code> maps to <code>cluSet</code></li>
+ * <li><code>kuali.reqComponent.field.type.requiredCount</code> maps to <code>expectedValue</code></li>
+ * <li><code>kuali.reqComponent.field.type.operator</code> maps to <code>relationalOperator</code></li>
  * </ul>
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
 public enum ReqComponentFieldTypes {
-	CLU_KEY("reqCompFieldType.clu.id"),
-	CLUSET_KEY("reqCompFieldType.cluSet.id"),
-	REQUIRED_COUNT_KEY("reqCompFieldType.requiredCount"),
-    GPA_KEY("reqCompFieldType.gpa"),
-    TOTAL_CREDIT_KEY("reqCompFieldType.totalCredits"),
-	OPERATOR_KEY("reqCompFieldType.operator"),
-	COUNT_TYPE_KEY("reqCompFieldType.countType"),
-	INCLUSION_FILTER_TYPE_KEY("reqCompFieldType.inclusionFilter.type"),
-	INCLUSION_FILTER_VALUE_KEY("reqCompFieldType.inclusionFilter.value");
+	CLU_KEY("kuali.reqComponent.field.type.clu.id"),
+	CLUSET_KEY("kuali.reqComponent.field.type.cluSet.id"),
+	REQUIRED_COUNT_KEY("kuali.reqComponent.field.type.requiredCount"),
+    GPA_KEY("kuali.reqComponent.field.type.gpa"),
+    TOTAL_CREDIT_KEY("kuali.reqComponent.field.type.totalCredits"),
+	OPERATOR_KEY("kuali.reqComponent.field.type.operator"),
+	COUNT_TYPE_KEY("kuali.reqComponent.field.type.countType"),
+	INCLUSION_FILTER_TYPE_KEY("kuali.reqComponent.field.type.inclusionFilter.type"),
+	INCLUSION_FILTER_VALUE_KEY("kuali.reqComponent.field.type.inclusionFilter.value");
     
 	private String type;
 	

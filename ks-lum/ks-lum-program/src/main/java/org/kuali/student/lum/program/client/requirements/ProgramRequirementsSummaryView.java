@@ -57,7 +57,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         isReadOnly = (parentController == null ? true : false);
 
         //retrieve available program requirement types
-        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.luStatementType.program", new AsyncCallback<List<StatementTypeInfo>>() {
+        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", new AsyncCallback<List<StatementTypeInfo>>() {
             @Override
             public void onFailure(Throwable caught) {
 	            Window.alert(caught.getMessage());
@@ -70,7 +70,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     rules.put(stmtInfoType, new LinkedHashMap<ProgramRequirementInfo, requirementState>());
 
                     //TODO remove after testing
-                    if (stmtInfoType.getId().equals("kuali.luStatementType.programEntrance")) {
+                    if (stmtInfoType.getId().equals("kuali.statement.type.program.entrance")) {
                         LinkedHashMap<ProgramRequirementInfo, requirementState> tempRulesList = new LinkedHashMap<ProgramRequirementInfo, requirementState>();
                         ProgramRequirementInfo tempProgramInfo = new ProgramRequirementInfo();
                         RichTextInfo text = new RichTextInfo();

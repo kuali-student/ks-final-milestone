@@ -93,7 +93,7 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_OneOf_English() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
-    	createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.nof");
+    	createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.nof");
 		createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to");
 		
 		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
@@ -104,7 +104,7 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_OneOf_German() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
-    	createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.nof");
+    	createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.nof");
 		createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to");
 		
 		String text = germanTranslator.translate(this.reqComponent, nlUsageTypeKey);
@@ -115,7 +115,7 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_OneOf_EnglishGerman() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
-		ReqComponent reqComp = createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.nof");
+		ReqComponent reqComp = createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.nof");
 		List<ReqComponentField> fields = createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to");
 		reqComp.setReqComponentFields(fields);
 		
@@ -134,7 +134,7 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_AllOf_1Clu() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
-    	createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.all");
+    	createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.all");
 		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", "CLU-NL-1");
 		
 		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
@@ -146,7 +146,7 @@ public class ReqComponentTranslatorTest {
 	public void testTranslate_OneOf_2Clus() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
 		String clus = "CLU-NL-1, CLU-NL-2";
-    	createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.nof");
+    	createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.nof");
 		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", clus);
 		
 		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
@@ -157,7 +157,7 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_AllOf() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
-    	createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.all");
+    	createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.all");
 		createReqComponentFieldsForCluSet("2", "equal_to");
 		
 		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
@@ -168,7 +168,7 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_NoneOf() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
-    	createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.none");
+    	createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.none");
 		createReqComponentFieldsForCluSet("0", "less_than_or_equal_to");
 		
 		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
@@ -188,7 +188,7 @@ public class ReqComponentTranslatorTest {
 
 	@Test
 	public void testTranslate_InvalidNlUsageTypeKey() throws Exception {
-    	createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.none");
+    	createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.none");
 		createReqComponentFieldsForCluSet("0", "less_than_or_equal_to");
 
 		try {
@@ -203,7 +203,7 @@ public class ReqComponentTranslatorTest {
 	public void testTranslate1_1Of2() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
 		String cluIds = "CLU-NL-1, CLU-NL-2";
-		createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.1of2");
+		createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.1of2");
 		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", cluIds);
 		
 		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
@@ -215,7 +215,7 @@ public class ReqComponentTranslatorTest {
 	public void testTranslate_TotalCredits() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
 		String cluIds = "CLU-NL-1, CLU-NL-2";
-		createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.grdCondCourseList");
+		createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.grdCondCourseList");
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setType(ReqComponentFieldTypes.CLU_KEY.getType());
@@ -237,7 +237,7 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_GPA() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULEEDIT";
-		createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.gradecheck");
+		createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.gradecheck");
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setType(ReqComponentFieldTypes.GPA_KEY.getType());
