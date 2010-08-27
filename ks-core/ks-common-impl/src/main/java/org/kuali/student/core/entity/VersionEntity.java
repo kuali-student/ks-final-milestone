@@ -36,10 +36,7 @@ public abstract class VersionEntity extends MetaEntity {
 
     @Column(name = "VER_CMT")
     private String versionComment;
-
-    /**
-     * Version Indepdent Id that remains the same across all versions 
-     */
+            
     public String getVersionIndId() {
         return versionIndId;
     }

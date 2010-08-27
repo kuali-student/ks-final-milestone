@@ -55,6 +55,7 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
@@ -2808,52 +2809,67 @@ public class LuServiceImpl implements LuService {
 	@Override
     public CluInfo createNewCluVersion(String cluId) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {	    
 	    
-	    VersionInfo currVersion = getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
+	    VersionDisplayInfo currVersion = getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
 	    
-	    CluInfo currentClu = getClu(currVersion.getVersionSpecificId());
+	    CluInfo clu = getClu(currVersion.getId());
 	    
-	    currentClu.getMetaInfo().setVersionInd(null);
-	    currentClu.getVersionInfo().setCurrentVersion(false);
-	    currentClu.getVersionInfo().setVersionSpecificId(null);
-	    //currentClu.getVersionInfo().setSequenceNumber( );
+	    // Reset the VersionInfo
+	    clu.setId(null);
+	    clu.getMetaInfo().setVersionInd(null);
+	    clu.getVersionInfo().setCurrentVersion(false);
+	    clu.getVersionInfo().setSequenceNumber( luDao.getLatestCluVersion(clu.getId()).getSequenceNumber()+1 );
 	    
-	    // 
+	    // Clean up the first level properties
+	    clu.setState("DRAFT"); //TODO: Change this to some constants file for States
+	    	    	    
+	    // Create the new Clu Version	    
+	    CluInfo newClu;
+        try {
+            newClu = createClu(clu.getType(), clu);
+        } catch (AlreadyExistsException e) {
+            throw new OperationFailedException(e.getMessage());
+        }
 	    
-	    return null;
+	    // Update all the relations
+	    
+	    
+	    
+	    return newClu;
+	    
 	}
 
     @Override
-    public VersionInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public VersionInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public VersionInfo getFirstVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getFirstVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public VersionInfo getVersionBySequenceNumber(String refObjectTypeURI, String refObjectId, Integer sequence) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getVersionBySequenceNumber(String refObjectTypeURI, String refObjectId, Integer sequence) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public List<VersionInfo> getVersions(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public List<VersionInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }	

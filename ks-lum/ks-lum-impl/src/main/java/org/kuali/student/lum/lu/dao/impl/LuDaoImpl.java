@@ -410,4 +410,13 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		List<CluResult> resultList = query.getResultList();
 		return resultList;
 	}
+
+    @Override
+    public Clu getLatestCluVersion(String cluVersionIndId) {
+        Query query = em.createNamedQuery("Clu.findLatestClu");
+        query.setParameter("culVersionIndId", cluVersionIndId);
+        @SuppressWarnings("unchecked")
+        Clu clu = (Clu)query.getSingleResult();
+        return clu;
+    }
 }

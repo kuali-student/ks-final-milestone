@@ -76,4 +76,6 @@ public interface LuDao extends CrudDao, SearchableDao  {
 	public List<String> getAllowedLuLuRelationTypesByCluId(String cluId,
 			String relatedCluId);
 	public List<CluResult> getCluResultByClu(String cluId);
+	
+	public Clu getLatestCluVersion(String cluVersionIndId);
 }

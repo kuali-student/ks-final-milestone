@@ -46,11 +46,13 @@ import org.kuali.student.core.entity.VersionEntity;
 @Entity
 @Table(name = "KSLU_CLU")
 @NamedQueries( {
+    @NamedQuery(name = "Clu.findLatestClu", query = "SELECT c FROM Clu c WHERE c.versionIndId = :versionIndId and c.sequenceNumber in (select max(nc.sequenceNumber) from Clu nc where nc.versionIndId = :versionIndId)"),
     @NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE c.id IN (:idList)"),
     @NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE c.state = :luState AND c.luType.id = :luTypeKey"),
     @NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.clu.id = :parentCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
 })
 public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
+
     @Id
     @Column(name = "ID")
     private String id;

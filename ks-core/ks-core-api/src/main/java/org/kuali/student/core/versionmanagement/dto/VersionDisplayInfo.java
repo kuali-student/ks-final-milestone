@@ -29,16 +29,22 @@ import javax.xml.bind.annotation.XmlElement;
  * @Author KSContractMojo
  * @Author Kamal
  * @Since Thu May 28 10:25:28 EDT 2009
- * @See <a href="https://wiki.kuali.org/display/KULSTU/versionInfo+Structure">VersionInfo</>
+ * @See <a href="https://wiki.kuali.org/display/KULSTU/versionDisplayInfo+Structure">VersionInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class VersionInfo implements Serializable  {
+public class VersionDisplayInfo implements Serializable  {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement 
+    private String id;
+    
     @XmlElement
     private String versionIndId;
+
+    @XmlElement
+    private String objectTypeURI;
     
     @XmlElement
     private Integer sequenceNumber;
@@ -55,6 +61,25 @@ public class VersionInfo implements Serializable  {
     @XmlAttribute
     private String versionComment;
 
+
+    /**
+     * Version specific id of the entity
+     */
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getObjectTypeURI() {
+        return objectTypeURI;
+    }
+
+    public void setObjectTypeURI(String objectTypeURI) {
+        this.objectTypeURI = objectTypeURI;
+    }
 
     /*
      * Version independent Id that remains the same across all versions
