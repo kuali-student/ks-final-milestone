@@ -31,6 +31,7 @@ import org.kuali.student.core.assembly.data.masking.Mask;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class DataFieldDescriptor {    
     protected String name;
     

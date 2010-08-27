@@ -41,7 +41,7 @@ public class TestStatementServiceImplForProgram {
 	}
 	
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.completed.nof
+	 * Requirement component type: kuali.reqComponent.type.program.programset.completed.nof
 	 */
 	@Test
 	public void testTranslateReqComponent_Completed1ofProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -50,7 +50,7 @@ public class TestStatementServiceImplForProgram {
 	}
 
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.completed.nof
+	 * Requirement component type: kuali.reqComponent.type.program.programset.completed.nof
 	 */
 	@Test
 	public void testTranslateReqComponent_Completed2ofProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -59,7 +59,7 @@ public class TestStatementServiceImplForProgram {
 	}
 
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.notcompleted.nof
+	 * Requirement component type: kuali.reqComponent.type.program.programset.notcompleted.nof
 	 */
 	@Test
 	public void testTranslateReqComponent_NotCompletedAnyOfProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -68,7 +68,7 @@ public class TestStatementServiceImplForProgram {
 	}
 
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.notcompleted.nof
+	 * Requirement component type: kuali.reqComponent.type.program.programset.notcompleted.nof
 	 */
 	@Test
 	public void testTranslateReqComponent_NotCompletedProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -77,7 +77,7 @@ public class TestStatementServiceImplForProgram {
 	}
 
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.completed.all
+	 * Requirement component type: kuali.reqComponent.type.program.programset.completed.all
 	 */
 	@Test
 	public void testTranslateReqComponent_CompletedAllProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -86,7 +86,7 @@ public class TestStatementServiceImplForProgram {
 	}
 
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.completed.all
+	 * Requirement component type: kuali.reqComponent.type.program.programset.completed.all
 	 */
 	@Test
 	public void testTranslateReqComponent_CompletedSingleProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -95,7 +95,7 @@ public class TestStatementServiceImplForProgram {
 	}
 
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.coursecompleted.nof
+	 * Requirement component type: kuali.reqComponent.type.program.programset.coursecompleted.nof
 	 */
 	@Test
 	public void testTranslateReqComponent_1CourseCompletedFromPrograms() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -104,7 +104,7 @@ public class TestStatementServiceImplForProgram {
 	}
 
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.coursecompleted.nof
+	 * Requirement component type: kuali.reqComponent.type.program.programset.coursecompleted.nof
 	 */
 	@Test
 	public void testTranslateReqComponent_2CourseCompletedFromPrograms() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -113,7 +113,7 @@ public class TestStatementServiceImplForProgram {
 	}
 
 	/**
-	 * Requirement component type: kuali.reqCompType.program.programset.coursecompleted.nof
+	 * Requirement component type: kuali.reqComponent.type.program.programset.coursecompleted.nof
 	 */
 	@Test
 	public void testTranslateReqComponent_2CourseCompletedFrom1Program() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -122,7 +122,7 @@ public class TestStatementServiceImplForProgram {
 	}
 	
     /**
-     * Requirement component type: kuali.reqCompType.program.admitted.credits
+     * Requirement component type: kuali.reqComponent.type.program.admitted.credits
      */
     @Test
     public void testTranslateReqComponent_admittedCreditsProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -131,7 +131,7 @@ public class TestStatementServiceImplForProgram {
     }	
 
     /**
-     * Requirement component type: kuali.reqCompType.program.credits.min
+     * Requirement component type: kuali.reqComponent.type.program.credits.min
      */
     @Test
     public void testTranslateReqComponent_minTotalCredits_1Credit() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -140,7 +140,7 @@ public class TestStatementServiceImplForProgram {
     }	
 
     /**
-     * Requirement component type: kuali.reqCompType.program.credits.min
+     * Requirement component type: kuali.reqComponent.type.program.credits.min
      */
     @Test
     public void testTranslateReqComponent_minTotalCredits_120Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -149,7 +149,7 @@ public class TestStatementServiceImplForProgram {
     }	
 
     /**
-     * Requirement component type: kuali.reqCompType.program.credits.max
+     * Requirement component type: kuali.reqComponent.type.program.credits.max
      */
     @Test
     public void testTranslateReqComponent_maxTotalCredits_130Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -158,7 +158,7 @@ public class TestStatementServiceImplForProgram {
     }	
 
     /**
-     * Requirement component type: kuali.reqCompType.program.completion.duration
+     * Requirement component type: kuali.reqComponent.type.program.completion.duration
      */
     @Test
     public void testTranslateReqComponent_CompletionDuration_10Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -167,7 +167,7 @@ public class TestStatementServiceImplForProgram {
     }	
 
     /**
-     * Requirement component type: kuali.reqCompType.program.candidate.status.duration
+     * Requirement component type: kuali.reqComponent.type.program.candidate.status.duration
      */
     @Test
     public void testTranslateReqComponent_CandidateStatusDuration_3Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -176,11 +176,23 @@ public class TestStatementServiceImplForProgram {
     }	
 
     /**
-     * Requirement component type: kuali.reqCompType.program.completion.duration.afterentry
+     * Requirement component type: kuali.reqComponent.type.program.completion.duration.afterentry
      */
     @Test
     public void testTranslateReqComponent_CompletionDurationAfterEntry_3Credits() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-116", "KUALI.RULEEDIT", "en");
         assertEquals("Must complete program within 10 semesters after program entry term", nl);
+    }	
+
+    /**
+     * Statement type: kuali.statement.type.program.entrance 
+     */
+    @Test
+    public void testTranslateStatementTree() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        String nl = statementService.getNaturalLanguageForStatement("STMT-TV-1", "KUALI.RULEEDIT", "en");
+        assertEquals("Must have successfully completed all courses from (MATH152, MATH180) " +
+        		"and Must have earned a minimum GPA of 3.5 in (MATH152, MATH180) " +
+        		"and (Must have successfully completed a minimum of 1 course from (MATH152, MATH180) " +
+        		"or Permission of instructor required)", nl);
     }	
 }

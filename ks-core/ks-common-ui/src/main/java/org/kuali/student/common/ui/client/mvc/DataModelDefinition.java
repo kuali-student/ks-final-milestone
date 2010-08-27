@@ -43,7 +43,7 @@ public class DataModelDefinition implements ModelDefinition {
 		try {
 			_ensurePath(root, metadata, path.iterator(), includeLeafNode);
 		} catch (RuntimeException e){
-			throw new RuntimeException("Invalid property path: " + path.toString(), e);
+			throw new IllegalArgumentException("Invalid property path: " + path.toString(), e);
 		}
 	}
 	
@@ -60,7 +60,7 @@ public class DataModelDefinition implements ModelDefinition {
 				currentMeta = meta.getProperties().get(QueryPath.getWildCard());
 			}
 			if (currentMeta == null) {
-				throw new RuntimeException("Invalid property path element: " + key.toString());
+				throw new IllegalArgumentException("Invalid property path element: " + key.toString());
 			}
 			
 			if (itr.hasNext()) {

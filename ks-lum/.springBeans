@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[2.2.4.RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[2.2.6.200908051215-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
+		<config>ks-lum-impl/src/main/resources/ks-cluInfo-dictionary-context.xml</config>
+		<config>ks-lum-impl/src/main/resources/ks-constraints-dictionary-context.xml</config>
+		<config>ks-lum-impl/src/main/resources/ks-courseInfo-dictionary-context.xml</config>
+		<config>ks-lum-impl/src/main/resources/ks-programInfo-dictionary-context.xml</config>
+		<config>ks-lum-ui/src/main/resources/lum-ui-lookup-context.xml</config>
 	</configs>
 	<configSets>
+		<configSet>
+			<name><![CDATA[Dictionary]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>ks-lum-impl/src/main/resources/ks-cluInfo-dictionary-context.xml</config>
+				<config>ks-lum-impl/src/main/resources/ks-constraints-dictionary-context.xml</config>
+				<config>ks-lum-impl/src/main/resources/ks-courseInfo-dictionary-context.xml</config>
+				<config>ks-lum-impl/src/main/resources/ks-programInfo-dictionary-context.xml</config>
+			</configs>
+		</configSet>
 	</configSets>
 </beansProjectDescription>

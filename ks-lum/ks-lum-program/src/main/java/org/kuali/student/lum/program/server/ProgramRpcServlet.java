@@ -4,6 +4,7 @@ import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGw
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
@@ -28,7 +29,13 @@ public class ProgramRpcServlet extends AbstractBaseDataOrchestrationRpcGwtServle
     @Override
     protected Object get(String id) throws Exception {
     	//TODO Just Major Discipline for now - need to check for other types later
-        return programService.getMajorDiscipline(id);
+        MajorDisciplineInfo returnDTO;
+        if (null == id || id.length() == 0) {
+            returnDTO = new MajorDisciplineInfo();
+        } else {
+            returnDTO = programService.getMajorDiscipline(id);
+        }
+        return returnDTO;
     }
 
     @Override
@@ -47,6 +54,11 @@ public class ProgramRpcServlet extends AbstractBaseDataOrchestrationRpcGwtServle
         }
 
     }
+
+    @Override
+    public ProgramRequirementInfo getProgramRequirement(String programRequirementId) throws Exception {
+        return programService.getProgramRequirement(programRequirementId, null, null);
+    }    
 
     @Override
     protected Class<?> getDtoClass() {

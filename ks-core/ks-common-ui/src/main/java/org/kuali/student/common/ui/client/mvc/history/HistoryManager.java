@@ -129,7 +129,13 @@ public class HistoryManager {
     
     public static void logHistoryChange() {
         String historyStack = collectHistoryStack();
-        History.newItem(historyStack, false);
+        if(historyStack.endsWith("/")){
+        	historyStack = historyStack.substring(0, historyStack.length()-1);
+        }
+        String currentToken = History.getToken();
+        if(!currentToken.equals(historyStack)){
+        	History.newItem(historyStack, false);
+        }
         BreadcrumbManager.updateLinks(historyStack);
     }
     
@@ -154,6 +160,11 @@ public class HistoryManager {
         public void onNavigationEvent(NavigationEvent event) {
         	if(logNavigationHistory){
         		logHistoryChange();
+        	}
+        	else{
+        		String historyStack = collectHistoryStack();
+        		BreadcrumbManager.updateLinks(historyStack);
+        		HistoryManager.setLogNavigationHistory(true);
         	}
         }
     }

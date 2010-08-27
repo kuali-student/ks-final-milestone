@@ -48,7 +48,7 @@ public abstract class AbstractCourseConfigurer extends org.kuali.student.common.
         return PROPOSAL_REFERENCE_OBJECT_TYPE;
     }
 
-    public abstract String getProposalIdPath();
+    public abstract String getProposalPath();
 
     public abstract String getProposalTitlePath();
 

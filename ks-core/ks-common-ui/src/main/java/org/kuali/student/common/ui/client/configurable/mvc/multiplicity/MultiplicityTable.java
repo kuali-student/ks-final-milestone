@@ -32,18 +32,17 @@ public class MultiplicityTable extends FlexTable {
 
     private MultiplicityConfiguration config;
 
-    private static final String STYLE_TABLE = "KS-ViewCourseDisplayTable";
-    private static final String STYLE_CELL = "KS-ViewCourseDisplayTableCell";
-    private static final String STYLE_HEADER_CELL = "KS-ViewCourseDisplayTableHeaderCell";
+    private static final String STYLE_TABLE = "KS-MultiplicityTable";
+    private static final String STYLE_TABLE_BORDER = "KS-MultiplicityTableBorder";
+    private static final String STYLE_CELL = "KS-MultiplicityTableCell";
+    private static final String STYLE_CELL_BORDER = "KS-MultiplicityTableCellBorder";
+    private static final String STYLE_HEADER_CELL = "KS-MultiplicityTableHeaderCell";
     private static final String BLANK_STRING = " ";
     private int col = 0;
     protected int row = 0;
 
     private String parentPath;
 
-    {
-        setStyleName(STYLE_TABLE);
-    }
 
     /**
      *
@@ -53,6 +52,10 @@ public class MultiplicityTable extends FlexTable {
      */
     public MultiplicityTable(MultiplicityConfiguration config) {
         this.config = config;
+        setStyleName(STYLE_TABLE);
+        if (config.getStyleType() == MultiplicityConfiguration.StyleType.BORDERED_TABLE){
+             addStyleName(STYLE_TABLE_BORDER);
+        }
     }
 
     public void initTable() {
@@ -91,6 +94,9 @@ public class MultiplicityTable extends FlexTable {
     private void setCellText(int row, int cell, String fieldValue) {
         setText(row, cell, fieldValue);
         getCellFormatter().addStyleName(row, cell, STYLE_CELL);
+        if (config.getStyleType() == MultiplicityConfiguration.StyleType.BORDERED_TABLE) {
+            getCellFormatter().addStyleName(row, cell, STYLE_CELL_BORDER);
+        }
     }
 
     public void addEmptyCell() {

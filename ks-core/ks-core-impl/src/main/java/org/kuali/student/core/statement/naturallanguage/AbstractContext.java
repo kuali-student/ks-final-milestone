@@ -34,7 +34,7 @@ public abstract class AbstractContext<T> implements Context<T> {
 	/**
 	 * <p>These common shared tokens are needed since velocity doesn't 
 	 * allow periods in tokens.</p>
-	 * <p>E.g. reqCompFieldType.totalCredits must either be convert to 
+	 * <p>E.g. kuali.reqComponent.field.type.totalCredits must either be convert to 
 	 * totalCredits or reqCompFieldType_totalCredits so a template would look 
 	 * like:</p>
 	 * <p>'Student must take $totalCredits of MATH 100'</p>
@@ -53,10 +53,9 @@ public abstract class AbstractContext<T> implements Context<T> {
         List<ReqComponentField> fields = reqComponent.getReqComponentFields();
         Map<String, String> map = new HashMap<String, String>();
         for (ReqComponentField field : fields) {
-            String key = field.getKey();
-            //String key = field.getId();
+            String type = field.getType();
             String value = field.getValue();
-            map.put(key, value);
+            map.put(type, value);
         }
         return map;
     }

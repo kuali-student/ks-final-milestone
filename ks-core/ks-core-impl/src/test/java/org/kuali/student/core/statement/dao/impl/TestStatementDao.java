@@ -171,7 +171,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     
     @Test
     public void testGetStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        StatementType stmtType = dao.fetch(StatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
+        StatementType stmtType = dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.prereq");
         
         assertNotNull(stmtType);
         assertEquals(1, stmtType.getRefStatementRelationTypes().size());
@@ -198,7 +198,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     
     @Test
     public void testGetReqCompNLTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqCompType.courseList.nof");
+        ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.courseList.nof");
 
         List<ReqComponentTypeNLTemplate> templates = reqComp.getNlUsageTemplates();
 
@@ -216,7 +216,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
 
 //    @Test
 //    public void testGetStatementHeaderTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-//        StatementType stmtType  = dao.fetch(StatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
+//        StatementType stmtType  = dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.prereq");
 //
 //        List<StatementTypeHeaderTemplate> templates = stmtType.getStatementHeaders();
 //

@@ -128,6 +128,7 @@ public class KSButtonImpl extends KSButtonAbstract{
 		anchor.setHref("javascript:return false;");
 
 		panel.add(anchor);
+		anchor.setTabIndex(0);
 
 		this.initWidget(panel);
 	}

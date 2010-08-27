@@ -25,6 +25,8 @@ import org.kuali.student.lum.course.service.assembler.LoCategoryRelationInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.lum.lrc.service.LrcService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
@@ -38,6 +40,7 @@ public abstract class LumServiceMethodInvoker implements BusinessServiceMethodIn
 	private LearningObjectiveService loService;
 	private OrganizationService orgService;
 	private AtpService atpService;
+	private LrcService lrcService;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -170,6 +173,34 @@ public abstract class LumServiceMethodInvoker implements BusinessServiceMethodIn
 				luService.deleteCluLoRelation(cluLoRelation.getId());
 				break;
 			}
+		}else if(nodeData instanceof ResultComponentInfo){
+			ResultComponentInfo resultComponent = (ResultComponentInfo) nodeData;
+			switch(results.getOperation()){
+			case CREATE:
+				lrcService.createResultComponent(resultComponent.getType(), resultComponent);
+				break;
+			case UPDATE:
+				lrcService.updateResultComponent(resultComponent.getId(), resultComponent);
+				break;
+			case DELETE:
+				lrcService.deleteResultComponent(resultComponent.getId());
+				break;
+			}
+		}else if(nodeData instanceof ResultComponentInfo){
+			ResultComponentInfo resultComponent = (ResultComponentInfo) nodeData;
+			switch(results.getOperation()){
+			case CREATE:
+				lrcService.createResultComponent(resultComponent.getType(), resultComponent);
+				break;
+			case UPDATE:
+				lrcService.updateResultComponent(resultComponent.getId(), resultComponent);
+				break;
+			case DELETE:
+				lrcService.deleteResultComponent(resultComponent.getId());
+				break;
+			}
+		}else{
+			throw new UnsupportedActionException("This service invoker does not know how to handle nodeData for "+nodeData.getClass().getName());
 		}
 		
 		// For create/update process the child nodes from top to bottom
@@ -218,6 +249,10 @@ public abstract class LumServiceMethodInvoker implements BusinessServiceMethodIn
 
 	public void setAtpService(AtpService atpService) {
 		this.atpService = atpService;
+	}
+
+	public void setLrcService(LrcService lrcService) {
+		this.lrcService = lrcService;
 	}
 
 }

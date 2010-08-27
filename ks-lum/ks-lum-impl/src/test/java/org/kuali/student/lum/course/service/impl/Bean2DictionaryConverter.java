@@ -53,22 +53,11 @@ public class Bean2DictionaryConverter
  {
   for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors ())
   {
-   // not sure why a simple
-   // if (MetaInfo.class.equals (pd.getPropertyType ())
-   // {
-   //   return true;
-   // }
-   // wont work
-   if ( ! MetaInfo.class.equals (pd.getPropertyType ())
-       &&  ! Class.class.equals (pd.getPropertyType ())
-       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
-   {
-    // continue
-   }
-   else
-   {
-    return true;
-   }
+    if (MetaInfo.class.equals (pd.getPropertyType ()))
+    {
+      return true;
+    }
+//       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
   }
   return false;
  }

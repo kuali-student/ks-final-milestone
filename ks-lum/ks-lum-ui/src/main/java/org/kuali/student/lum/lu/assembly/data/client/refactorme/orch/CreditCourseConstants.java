@@ -29,7 +29,6 @@ public interface CreditCourseConstants
 	public static final String FINAL_EXAM_RATIONALE = "finalExamRationale";
 	public static final String TRANSCRIPT_TITLE = "transcriptTitle";
 	public static final String COURSE_TITLE = "courseTitle";
-	public static final String PROPOSAL_TITLE = "proposalTitle";
 	public static final String DESCRIPTION = "description";
 	public static final String PROPOSAL_DESCRIPTION = "descr";
 	public static final String DEPARTMENT = "department";
@@ -43,6 +42,9 @@ public interface CreditCourseConstants
 	public static final String VERSIONS = "variations";
 	public static final String GRADING_OPTIONS = "gradingOptions";
 	public static final String CREDIT_OPTIONS = "creditOptions";
+	public static final String CREDIT_OPTION_MIN_CREDITS = "minCreditValue";
+	public static final String CREDIT_OPTION_MAX_CREDITS = "maxCreditValue";
+	public static final String CREDIT_OPTION_FIXED_CREDITS = "fixedCreditValue";
 	public static final String PASS_FAIL = "passFail";
 	public static final String AUDIT = "audit";
 	public static final String OUTCOME_OPTIONS = "outcomeOptions";

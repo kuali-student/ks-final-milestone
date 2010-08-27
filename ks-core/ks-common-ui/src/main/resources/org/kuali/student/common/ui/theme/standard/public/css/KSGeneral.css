@@ -205,14 +205,14 @@ ul.ks-selected-list {
 }
 
 .ks-selected-list-value-remove {
-	background-image: url("images/common/selected_list_value_remove_20px.png");
-	background-repeat: no-repeat;
-	cursor: pointer;
-	height: 22px;
-	width: 22px;
 	position: absolute;
-	top: 1px;
+	top: 3px;
 	right: 1px;
+}
+
+.ks-selected-list-value-remove:focus, .ks-selected-list-value-remove:hover{
+	cursor: pointer;
+	border:1px solid black;
 }
 
 .ks-selected-list-value-label {

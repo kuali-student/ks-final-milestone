@@ -7,11 +7,14 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 
 public class CredentialProgramAssembler implements BOAssembler<CredentialProgramInfo, CluInfo>{
 	final static Logger LOG = Logger.getLogger(CredentialProgramAssembler.class);
+
     private ProgramAssemblerUtils programAssemblerUtils;
+    private LuService luService;
 
 	@Override
     public CredentialProgramInfo assemble(CluInfo clu,
@@ -41,6 +44,11 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         }
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);
+        try {
+            cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(clu.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM));
+        } catch (Exception e) {
+            throw new AssemblyException(e);
+        }
 
         return cpInfo;
 	}
@@ -54,5 +62,9 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
 	
     public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
         this.programAssemblerUtils = programAssemblerUtils;
+    }
+
+    public void setLuService(LuService luService) {
+        this.luService = luService;
     }
 }

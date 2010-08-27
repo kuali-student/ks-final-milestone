@@ -27,7 +27,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     /**
@@ -152,11 +152,11 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public NLCluSet getCluSet(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	NLCluSet cluSet = null;
-    	if(map.containsKey(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
-        	String cluIds = map.get(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
+    	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
+        	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
         	cluSet = getClusAsCluSet(cluIds);
-        } else if(map.containsKey(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())) {
-        	String cluSetId = map.get(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
+        } else if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
+        	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getId());
             cluSet = getCluSet(cluSetId);
         }
     	return cluSet;
@@ -172,8 +172,8 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
         contextMap.put(CommonTemplateTokens.NL_HELPER_TOKEN, NLHelper.class);
-        contextMap.put(CommonTemplateTokens.EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
-        contextMap.put(CommonTemplateTokens.OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey()));
+        contextMap.put(CommonTemplateTokens.EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId()));
+        contextMap.put(CommonTemplateTokens.OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getId()));
         return contextMap;
     }
 }

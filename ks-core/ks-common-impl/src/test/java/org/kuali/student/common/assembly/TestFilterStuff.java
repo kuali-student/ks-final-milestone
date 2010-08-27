@@ -46,6 +46,11 @@ public class TestFilterStuff {
 	}
 	
 	@Test
+	public void testProposalFilter(){
+		
+	}
+	
+	@Test
 	public void testWorkflowFilter() throws Exception {
 		MockProposal proposal = new MockProposal();
 		proposal.setId("123456789");
@@ -65,9 +70,7 @@ public class TestFilterStuff {
 		workflowFilter.setDtoClass(MockProposal.class);
 		workflowFilter.setDocTitlePath("proposalTitle");
 		workflowFilter.setDocFieldPaths(docFieldPaths);
-		workflowFilter.setObjectIdPath("id");
 						
-		assertEquals("123456789", workflowFilter.getObjectId(proposal));
 		assertEquals("Test Proposal", workflowFilter.getDocumentTitle(proposal));
 		
 		String docContent = workflowFilter.getDocumentContent(proposal);

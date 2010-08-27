@@ -1,6 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +86,15 @@ public class DictionaryFormatter
   builder.append ("h" + level + ". " + calcNotSoSimpleName (name));
   builder.append ("{anchor:" + name + "}");
   builder.append (rowSeperator);
-  builder.append ("The DTO for these fields is " + os.getName ());
+  if (clazz != null)
+  {
+   builder.append ("The corresponding java class for this dictionary object is " + os.getName ());
+  }
+  if (os.isHasMetaData ())
+  {
+   builder.append (rowSeperator);
+   builder.append ("The dictionary says this object holds metadata");
+  }
   builder.append (rowSeperator);
   builder.append (colSeperator);
   builder.append (colSeperator);
@@ -137,7 +146,7 @@ public class DictionaryFormatter
    builder.append (colSeperator);
    builder.append (calcRepeating (fd));
    builder.append (colSeperator);
-   builder.append (calcValidChars (fd));
+   builder.append (calcValidCharsMinMax (fd));
    builder.append (colSeperator);
    builder.append (calcLookup (fd));
    builder.append (colSeperator);
@@ -159,11 +168,15 @@ public class DictionaryFormatter
 
 //  builder.append ("======= end dump of object structure definition ========");
   builder.append (rowSeperator);
+  Set<ObjectStructureDefinition> subStructuresAlreadyProcessedBeforeProcessingSubStructures = new HashSet ();
+  subStructuresAlreadyProcessedBeforeProcessingSubStructures.addAll (
+    subStructuresAlreadyProcessed);
   for (String subName : this.subStructuresToProcess.keySet ())
   {
    ObjectStructureDefinition subOs = this.subStructuresToProcess.get (subName);
-   if (this.subStructuresAlreadyProcessed.add (subOs))
+   if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (subOs))
    {
+    this.subStructuresAlreadyProcessed.add (subOs);
 //    System.out.println ("formatting substructure " + subName);
     Class<?> subClazz = getClass (subOs.getName ());
     DictionaryFormatter formatter =
@@ -173,11 +186,6 @@ public class DictionaryFormatter
                                                  this.processSubstructures);
     builder.append (formatter.formatForWiki ());
     builder.append (rowSeperator);
-   }
-   else
-   {
-//    System.out.println ("skipping substructure because already processed it: "
-//                        + subName);
    }
   }
 
@@ -192,7 +200,8 @@ public class DictionaryFormatter
   }
   catch (ClassNotFoundException ex)
   {
-   throw new IllegalArgumentException ("Could not find class for " + className);
+   return null;
+//   throw new IllegalArgumentException ("Could not find class for " + className);
   }
  }
 
@@ -395,6 +404,40 @@ public class DictionaryFormatter
   }
   return builder.toString ();
  }
+
+ private String calcValidCharsMinMax (FieldDefinition fd)
+ {
+  String validChars = calcValidChars (fd);
+  String minMax = calcMinMax (fd);
+  String and = " and ";
+  if (validChars.trim ().equals (""))
+  {
+   return minMax;
+  }
+  if (minMax.trim ().equals (""))
+  {
+   return validChars;
+  }
+  return validChars + "\\\\\n" + minMax;
+ }
+
+ private String calcMinMax (FieldDefinition fd)
+ {
+  if (fd.getExclusiveMin () == null)
+  {
+   if (fd.getInclusiveMax () == null)
+   {
+    return " ";
+   }
+   return "Must be <= " + fd.getInclusiveMax ();
+  }
+  if (fd.getInclusiveMax () == null)
+  {
+   return "Must be > " + fd.getExclusiveMin ();
+  }
+  return "Must be > " + fd.getExclusiveMin () + " and < "
+         + fd.getInclusiveMax ();
+ }
  private static final String PAGE_PREFIX = "Formatted View of ";
  private static final String PAGE_SUFFIX = " Searches";
 
@@ -437,7 +480,7 @@ public class DictionaryFormatter
   {
    return "Organization";
   }
-if (searchType.startsWith ("atp."))
+  if (searchType.startsWith ("atp."))
   {
    return "ATP";
   }

@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.lum.program.client.framework.AbstractCallback;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
@@ -128,10 +129,10 @@ public class ProgramController extends MenuSectionController {
     }
 
     protected void configureView() {
+        addStyleName("programController");
         configurer.setModelDefinition(programModel.getDefinition());
         configurer.configure(this);
         this.setContentTitle("Programs");
-        initialized = true;
     }
 
     @Override
@@ -151,7 +152,6 @@ public class ProgramController extends MenuSectionController {
      */
     private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
         configureView();
-        initialized = true;
         showDefaultView(onReadyCallback);
     }
 }

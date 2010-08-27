@@ -130,6 +130,60 @@
 		<property name="id" value="ks.common.lookup.person.advanced" />
 	</bean>
 
+	<bean id="kuali.common.lookup.admin.orgcurriculum.advanced" parent="kuali.common.lookup.admin.departments.advanced">
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalLongName" />
+					<property name="name" value="Name" />
+					<property name="desc" value="Long organization name." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalShortName" />
+					<property name="name" value="Abbreviation" />
+					<property name="desc" value="Short organization name." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalId" />
+					<property name="name" value="Id" />
+					<property name="desc" value="Unique identifier for an organization." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="true" />
+					<property name="usage" value="CUSTOM" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type of an organization." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.org.COC</value>
+						</list>
+					</property>
+					<property name="optional" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="kuali.common.lookup.admin.departments.advanced" parent="lookup">
 		<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
 		<property name="name" value="Organization search" />
@@ -143,7 +197,7 @@
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalLongName" />
-					<property name="name" value="Long Name" />
+					<property name="name" value="Name" />
 					<property name="desc" value="Long organization name." />
 					<property name="dataType" value="STRING" />
 					<property name="writeAccess" value="ALWAYS" />
@@ -151,6 +205,7 @@
 					<property name="usage" value="ADVANCED_CUSTOM" />
 					<property name="widget" value="SUGGEST_BOX" />
 				</bean>
+				<!-- 
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalLocation" />
@@ -162,10 +217,11 @@
 					<property name="usage" value="ADVANCED_CUSTOM" />
 					<property name="widget" value="TEXT_BOX" />
 				</bean>
+				 -->
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalShortName" />
-					<property name="name" value="Short Name" />
+					<property name="name" value="Abbreviation" />
 					<property name="desc" value="Short organization name." />
 					<property name="dataType" value="STRING" />
 					<property name="writeAccess" value="ALWAYS" />
@@ -867,7 +923,7 @@
 					<property name="defaultValueList">
 						<list>
 							<value>approved</value>
-							<value>active</value>
+							<value>activated</value>
 						</list>
 					</property>	
 					<property name="caseSensitive" value="true" />
@@ -940,7 +996,7 @@
 					<property name="defaultValueList">
 						<list>
 							<value>approved</value>
-							<value>active</value>
+							<value>activated</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
@@ -1280,31 +1336,32 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="kuali.common.lookup.outcomes" parent="lookup">
-		<property name="id" value="kuali.common.lookup.outcomes"/>
-		<property name="searchTypeId" value="lrc.search.resultComponent"/>
+	<bean id="kuali.common.lookup.credit.degree.types" parent="lookup">
+		<property name="id" value="kuali.common.lookup.credit.degree.types"/>
+		<property name="searchTypeId" value="lrc.search.resultComponentType"/>
 		<property name="name" value="Outcome"/>
-		<property name="desc" value="Search for degree credit outcome"/>
+		<property name="desc" value="Search for degree credit outcome types"/>
 		<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id"/>
 		<property name="params">
 			<list>
 				<bean parent="param">
 					<property name="key" value="lrc.queryParam.resultComponent.id"/>
-					<property name="name" value="Result Component"/>
-					<property name="desc" value="Result Component Id"/>
+					<property name="name" value="Result Type Id"/>
+					<property name="desc" value="Result Type Id"/>
 					<property name="dataType" value="STRING"/>
 					<property name="writeAccess" value="ALWAYS"/>
 				</bean>
 				<bean parent="param">
-					<property name="key" value="lrc.queryParam.resultComponent.type"/>
-					<property name="name" value="Result Component Type"/>
-					<property name="desc" value="Result Component Type"/>
+					<property name="key" value="lrc.queryParam.resultComponent.idRestrictionList"/>
+					<property name="name" value="Result Type Restriction"/>
+					<property name="desc" value="Result Component Type Restriction"/>
 					<property name="dataType" value="STRING"/>
 					<property name="writeAccess" value="NEVER"/>
 					<property name="defaultValueList">
 						<list>
 							<value>kuali.resultComponentType.credit.degree.fixed</value>
 							<value>kuali.resultComponentType.credit.degree.range</value>
+							<value>kuali.resultComponentType.credit.degree.multiple</value>
 						</list>
 					</property>
 				</bean>

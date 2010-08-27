@@ -18,6 +18,7 @@ package org.kuali.student.core.dictionary.service.impl.old;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
+@Deprecated
 public class DictionaryNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override

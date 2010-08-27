@@ -39,7 +39,6 @@ import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
@@ -61,12 +60,10 @@ import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsConfigurer;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ToolsConstants;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsConfigurer.CluSetEditOptionList;
@@ -75,7 +72,7 @@ import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServi
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeDataHelper;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -452,7 +449,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
             public void onClick(ClickEvent event) {
             	
-            	if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null) && isReqCompFieldType(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())){
+            	if(getRuleTypeName().equals("Prerequisite") && (selectedReqType != null) && isReqCompFieldType(ReqComponentFieldTypes.CLUSET_KEY.getId())){
             		saveCluSet();
             	}else{
 	            	//1. check that all fields have values
@@ -534,7 +531,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 return false;
             }
 
-            if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+            if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLU_KEY.getId())) {
             	enteredCluCodes.append((enteredCluCodes.length() > 0 ? ", " : "") + fieldInfo.getValue());
             } else {
             	editedFields.add(fieldInfo);
@@ -543,7 +540,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
     	if (enteredCluCodes.length() > 0) {
             ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-            fieldInfo.setId(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
+            fieldInfo.setId(ReqComponentFieldTypes.CLU_KEY.getId());
             fieldInfo.setValue(enteredCluCodes.toString());
             editedFields.add(fieldInfo);
         }
@@ -563,13 +560,13 @@ public class RuleComponentEditorView extends ViewComposite {
     
     private String getFieldName(ReqCompFieldInfo fieldInfo) {
 
-        if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+        if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLU_KEY.getId())) {
             return "Course";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
             return "Courses";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId())) {
             return "count";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypeKeys.GPA_KEY.getKey())) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.GPA_KEY.getId())) {
             return "GPA";
         }
 
@@ -588,26 +585,17 @@ public class RuleComponentEditorView extends ViewComposite {
         	if(clusetDetails != null)
         		clusetDetails.updateModel(cluProposalModel);
         	
-        	Data input = cluProposalModel.getRoot();
-        	CreditCourseProposalHelper root = CreditCourseProposalHelper.wrap(input);
-        	 if (root.getCourse() == null) {
-        		 Window.alert("Please fill out Course Information.");
-				 return;
-        	 }
-        	 
-        	CreditCourseHelper course =CreditCourseHelper.wrap(root.getCourse().getData());  
-			
-			if(course.getCourseTitle() == null || course.getCourseTitle().trim().isEmpty()){
+        	String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
+			if(courseTitle == null || courseTitle.trim().isEmpty()){
 				 Window.alert("Course Title can't be empty.");
 				 return;
 			}
 			
 			final CluSetHelper cluSet = CluSetHelper.wrap((Data)cluProposalModel.get("cluset"));
-			cluSet.setName(course.getCourseTitle());
-			//cluSet.setName("test_li");
-			cluSet.setDescription(course.getId());
-			cluSet.setEffectiveDate(course.getEffectiveDate());
-			cluSet.setExpirationDate(course.getExpirationDate());
+			cluSet.setName(courseTitle);
+//			cluSet.setDescription(course.getId());
+//			cluSet.setEffectiveDate(course.getEffectiveDate());
+//			cluSet.setExpirationDate(course.getExpirationDate());
 			cluSet.setReusable(new Boolean(false));
 			cluSet.setReferenceable(new Boolean(false));
 
@@ -624,7 +612,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
                 	if (clusetId != null && !clusetId.trim().isEmpty()){
 	                	 ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-	                     fieldInfo.setId(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
+	                     fieldInfo.setId(ReqComponentFieldTypes.CLUSET_KEY.getId());
 	                     fieldInfo.setValue(CluSetHelper.wrap((Data)result.getValue().get("cluset")).getId());
 	                     editedFields.add(fieldInfo);
 	                     
@@ -780,13 +768,11 @@ public class RuleComponentEditorView extends ViewComposite {
          // ****** Add Clu Range *******
          //TODO add cluset and clurange here
          Section cluRangeSection = new VerticalSection();
-         //final Picker cluSetRangePicker = configureSearch("courseRanges");
-         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD);
-         //final FieldDescriptor cluRangeFieldEditDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
+         final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
+         addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE), cluSetRangePicker);
          final CluSetRangeDataHelper clusetRangeModelHelper = new CluSetRangeDataHelper();
          final KSItemLabel clusetRangeLabel = new KSItemLabel(true, clusetRangeModelHelper);
          clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
-         //final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, "courseRanges", null, clusetRangeLabel);
          final FieldDescriptor cluRangeFieldDescriptor = addField(cluRangeSection, ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, null, clusetRangeLabel);
          cluSetRangePicker.getSearchWindow().addActionCompleteCallback(new Callback<Boolean>() {
          
@@ -798,9 +784,6 @@ public class RuleComponentEditorView extends ViewComposite {
                      parent.requestModel(modelId, new ModelRequestCallback<DataModel>() {
                          @Override
                          public void onModelReady(DataModel model) {
-//                             ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).setWidgetValue(widget, model, path)
-//                             CluSetHelper cluSetHelper = CluSetHelper.wrap(model.getRoot());
-//                             cluSetHelper.setCluRangeParams(value)
                              SearchRequest searchRequest = cluSetRangePicker.getSearchWindow()
                              .getSearchRequest();
                              String selectedLookupName = cluSetRangePicker.getSearchWindow()
@@ -975,14 +958,14 @@ public class RuleComponentEditorView extends ViewComposite {
             }
             tagCounts.put(tag, tagCount);
 
-            if (tag.equals(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()) || 
-            		tag.equals(ReqComponentFieldTypeKeys.GPA_KEY.getKey()) || 
-            		tag.equals(ReqComponentFieldTypeKeys.GRADE_TYPE_KEY.getKey()) || 
-            		tag.equals(ReqComponentFieldTypeKeys.INSTRUCTOR_PERMISSION_KEY.getKey()) ||
-                    tag.equals(ReqComponentFieldTypeKeys.ORG_PERMISSION_KEY.getKey()) ||     
-                    tag.equals(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()) || 
-                    tag.equals(ReqComponentFieldTypeKeys.TOTAL_CREDIT_KEY.getKey()) ||                    
-                            tag.equals(ReqComponentFieldTypeKeys.GRADE_KEY.getKey())) {
+            if (tag.equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId()) || 
+            		tag.equals(ReqComponentFieldTypes.GPA_KEY.getId()) || 
+            		tag.equals(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId()) || 
+            		tag.equals(ReqComponentFieldTypes.INSTRUCTOR_PERMISSION_KEY.getId()) ||
+                    tag.equals(ReqComponentFieldTypes.ORG_PERMISSION_KEY.getId()) ||     
+                    tag.equals(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId()) || 
+                    tag.equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getId()) ||                    
+                            tag.equals(ReqComponentFieldTypes.GRADE_KEY.getId())) {
                 final KSTextBox valueWidget = new KSTextBox();
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
@@ -1004,7 +987,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 continue;
             }
 
-            if (tag.equals(ReqComponentFieldTypeKeys.CLU_KEY.getKey())) {
+            if (tag.equals(ReqComponentFieldTypes.CLU_KEY.getId())) {
             	final ReqCompPicker valueWidget = configureCourseSearch(fieldLabel);
                 valueWidgets.add(valueWidget);
                 String cluIdsInClause = getSpecificFieldValue(fields, tag);
@@ -1035,7 +1018,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 continue;
             }
 
-            if (tag.equals(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey())) {
+            if (tag.equals(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
 
                 CluSetsConfigurer clusetConfig = new CluSetsConfigurer();
                 CluSetEditOptionList cluSetEditOptions = clusetConfig.new CluSetEditOptionList();
@@ -1058,8 +1041,8 @@ public class RuleComponentEditorView extends ViewComposite {
          	}
             	
             //need a better way to determine what pickers to use for given req. component type field
-            if ((editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.oneof")) ||
-                        (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.programList.enroll.none")))
+            if ((editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.programList.enroll.oneof")) ||
+                        (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.programList.enroll.none")))
             {
                 final ReqCompPicker valueWidget;
                 valueWidget = configureProgramCluSetSearch(fieldLabel);

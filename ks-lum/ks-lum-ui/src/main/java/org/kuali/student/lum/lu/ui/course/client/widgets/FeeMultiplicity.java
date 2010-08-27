@@ -41,9 +41,9 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.organization.assembly.data.client.RuntimeDataConstants;
+import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
 import com.google.gwt.user.client.ui.Widget;
 

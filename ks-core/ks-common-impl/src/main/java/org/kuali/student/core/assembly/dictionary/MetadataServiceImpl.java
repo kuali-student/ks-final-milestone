@@ -35,9 +35,12 @@ import org.kuali.student.core.assembly.data.UILookupData;
 import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.core.dictionary.dto.CaseConstraint;
 import org.kuali.student.core.dictionary.dto.CommonLookupParam;
+import org.kuali.student.core.dictionary.dto.Constraint;
 import org.kuali.student.core.dictionary.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.dto.WhenConstraint;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
@@ -51,7 +54,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class MetadataServiceImpl {
     final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
-    
+     
     private Map<String, Object> metadataRepository = null;
     
     private Map<String, DictionaryService> dictionaryServiceMap;
@@ -106,21 +109,32 @@ public class MetadataServiceImpl {
     }
     
     /** 
-     * This method gets the metadata for the given object key
+     * This method gets the metadata for the given object key and state
      * 
      * @param objectKey
      * @param type
      * @param state
      * @return
      */
-    public Metadata getMetadata(String objectKey){
+    public Metadata getMetadata(String objectKey, String state){
         if (metadataRepository == null || metadataRepository.get(objectKey) == null){
-            return getMetadataFromDictionaryService(objectKey);
+            return getMetadataFromDictionaryService(objectKey, state);
         }
         
         return null;
     }
        
+    /**
+     * This method gets the metadata for the given object key for state DRAFT.
+     * 
+     * @see MetadataServiceImpl#getMetadata(String, String)
+     * @param objectKey
+     * @return
+     */
+    public Metadata getMetadata(String objectKey){        
+        return getMetadata(objectKey, null);
+    }
+
     /** 
      * This invokes the appropriate dictionary service to get the object structure and then
      * converts it to a metadata structure.
@@ -130,14 +144,14 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    protected Metadata getMetadataFromDictionaryService(String objectKey){
+    protected Metadata getMetadataFromDictionaryService(String objectKey, String state){
 
         Metadata metadata = new Metadata();      
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
         
             
-        metadata.setProperties(getProperties(objectStructure, new RecursionCounter()));
+        metadata.setProperties(getProperties(objectStructure, state, new RecursionCounter()));
         
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
@@ -153,7 +167,7 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, RecursionCounter counter){
+    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String state, RecursionCounter counter){
     	String objectId = objectStructure.getName();
     	int hits = counter.increment(objectId);
         
@@ -170,7 +184,7 @@ public class MetadataServiceImpl {
 	            //Set constraints, authz flags, default value
 	            metadata.setWriteAccess(WriteAccess.ALWAYS);
 	            metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
-	            metadata.setConstraints(getConstraints(fd));
+	            metadata.setConstraints(getConstraints(fd,state));
 	            metadata.setCanEdit(!fd.isReadOnly());
 	            metadata.setCanUnmask(!fd.isMask());
 	            metadata.setCanView(!fd.isHide());
@@ -185,7 +199,7 @@ public class MetadataServiceImpl {
 	            //Get properties for nested object structure
 	            Map<String, Metadata> nestedProperties = null;
 	            if (fd.getDataType() == org.kuali.student.core.dictionary.dto.DataType.COMPLEX && fd.getDataObjectStructure() != null){
-	                nestedProperties = getProperties(fd.getDataObjectStructure(), counter );                
+	                nestedProperties = getProperties(fd.getDataObjectStructure(), state, counter );                
 	            }
 	            
 	            //For repeating field, create a LIST with wildcard in metadata structure
@@ -236,11 +250,15 @@ public class MetadataServiceImpl {
     protected ObjectStructureDefinition getObjectStructure(String objectKey){
         DictionaryService dictionaryService = dictionaryServiceMap.get(objectKey);
         
+        if (dictionaryService == null){
+        	throw new RuntimeException("Dictionary service not provided for objectKey=[" + objectKey+"].");
+        }
+        
         return dictionaryService.getObjectStructure(objectKey);
     }
     
           
-    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd){
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String state){
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
        
         //For now ignoring the serverSide flag and making determination of which constraints
@@ -288,6 +306,33 @@ public class MetadataServiceImpl {
         if (fd.getValidChars() != null){
         	constraintMetadata.setValidChars(fd.getValidChars().getValue());
         	constraintMetadata.setValidCharsMessageId(fd.getValidChars().getLabelKey());
+        }
+        
+        //Case constraints - Currently this is only checking case constraints to determine
+        //the ConstraintMetadata.isRequiredForNextState flag        
+        String nextState = null;
+        if (state==null || "DRAFT".equals(state.toUpperCase())){
+        	nextState = "SUBMITTED";        	
+        } else if ("SUBMITTED".equals(state.toUpperCase())){
+        	nextState = "ACTIVE";
+        }
+        if (nextState != null && fd.getCaseConstraint() != null){
+        	CaseConstraint caseConstraint = fd.getCaseConstraint();
+        	String fieldPath = caseConstraint.getFieldPath();
+        	if (fieldPath.equals("state")){
+        		List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
+        		if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null){
+        			for (WhenConstraint whenConstraint:whenConstraints){
+        				List<Object> values = whenConstraint.getValues();
+        				if (values != null && values.contains(nextState.toUpperCase())){
+        					Constraint constraint = whenConstraint.getConstraint();
+        					if (constraint.getMinOccurs() > 0){
+        						constraintMetadata.setRequiredForNextState(true);
+        					}
+        				}
+        			}
+        		}
+        	}
         }
         
         constraints.add(constraintMetadata);
@@ -398,51 +443,50 @@ public class MetadataServiceImpl {
     }
     
     private void addLookupstoMetadata(Metadata metadata){
-    	Collection<UILookupConfig> lookups = lookupObjectStructures.values();
-    	for(UILookupConfig lookup: lookups){
-    		Map<String,Metadata> parsedMetadataMap = metadata.getProperties();
-    		Metadata parsedMetadata = null;
-    		String lookupFieldPath = lookup.getPath();
-    		String[] lookupPathTokens = getPathTokens(lookupFieldPath);
-            for(int i = 1; i < lookupPathTokens.length; i++) {
-                if(parsedMetadataMap == null) {
-                    break;
-                }
-                if(i==lookupPathTokens.length-1){
-                	//get the metadata on the last path key token
-                	parsedMetadata=parsedMetadataMap.get(lookupPathTokens[i]);
-                }
-                if(parsedMetadataMap.get(lookupPathTokens[i])!=null){
-                	parsedMetadataMap = parsedMetadataMap.get(lookupPathTokens[i]).getProperties();
-                }
-                else if(parsedMetadataMap.get("*")!=null){
-                	//Lookup wildcard in case of unbounded elements in metadata.
-                	parsedMetadataMap = parsedMetadataMap.get("*").getProperties();
-                	i--;
-                }
-
-            }
-            if (parsedMetadata != null) {
-            	UILookupData initialLookup =lookup.getInitialLookup();
-            	if(initialLookup!=null){
-            		mapLookupDatatoMeta(initialLookup);
-            		parsedMetadata.setInitialLookup(mapLookupDatatoMeta(lookup.getInitialLookup()));
-            	}
-            	List<LookupMetadata> additionalLookupMetadata = null;
-            	if (lookup.getAdditionalLookups() != null) {
-					additionalLookupMetadata = new ArrayList<LookupMetadata>();
-					for (UILookupData additionallookup : lookup.getAdditionalLookups()) {
-						additionalLookupMetadata
-								.add(mapLookupDatatoMeta(additionallookup));
+    	if (lookupObjectStructures != null){
+	    	Collection<UILookupConfig> lookups = lookupObjectStructures.values();
+	    	for(UILookupConfig lookup: lookups){
+	    		Map<String,Metadata> parsedMetadataMap = metadata.getProperties();
+	    		Metadata parsedMetadata = null;
+	    		String lookupFieldPath = lookup.getPath();
+	    		String[] lookupPathTokens = getPathTokens(lookupFieldPath);
+	            for(int i = 1; i < lookupPathTokens.length; i++) {
+	                if(parsedMetadataMap == null) {
+	                    break;
+	                }
+	                if(i==lookupPathTokens.length-1){
+	                	//get the metadata on the last path key token
+	                	parsedMetadata=parsedMetadataMap.get(lookupPathTokens[i]);
+	                }
+	                if(parsedMetadataMap.get(lookupPathTokens[i])!=null){
+	                	parsedMetadataMap = parsedMetadataMap.get(lookupPathTokens[i]).getProperties();
+	                }
+	                else if(parsedMetadataMap.get("*")!=null){
+	                	//Lookup wildcard in case of unbounded elements in metadata.
+	                	parsedMetadataMap = parsedMetadataMap.get("*").getProperties();
+	                	i--;
+	                }
+	
+	            }
+	            if (parsedMetadata != null) {
+	            	UILookupData initialLookup =lookup.getInitialLookup();
+	            	if(initialLookup!=null){
+	            		mapLookupDatatoMeta(initialLookup);
+	            		parsedMetadata.setInitialLookup(mapLookupDatatoMeta(lookup.getInitialLookup()));
+	            	}
+	            	List<LookupMetadata> additionalLookupMetadata = null;
+	            	if (lookup.getAdditionalLookups() != null) {
+						additionalLookupMetadata = new ArrayList<LookupMetadata>();
+						for (UILookupData additionallookup : lookup.getAdditionalLookups()) {
+							additionalLookupMetadata
+									.add(mapLookupDatatoMeta(additionallookup));
+						}
+						parsedMetadata
+								.setAdditionalLookups(additionalLookupMetadata);
 					}
-					parsedMetadata
-							.setAdditionalLookups(additionalLookupMetadata);
-				}
-            }
-    	}
-
-          
-          
+	            }
+	    	}
+    	}                    
     }
     
     private LookupMetadata mapLookupDatatoMeta(UILookupData lookupData){

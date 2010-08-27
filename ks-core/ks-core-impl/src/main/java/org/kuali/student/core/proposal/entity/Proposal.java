@@ -58,7 +58,10 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
     @Column(name = "PROPOSAL_ID")
     private String id;
 
-    @Column(name="NAME")
+    @Column(name="WORKFLOW_ID")
+    private String workflowId;
+
+	@Column(name="NAME")
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposal")
@@ -204,4 +207,11 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
         this.attributes = attributes;
     }
 
+    public String getWorkflowId() {
+		return workflowId;
+	}
+
+	public void setWorkflowId(String workflowId) {
+		this.workflowId = workflowId;
+	}
 }

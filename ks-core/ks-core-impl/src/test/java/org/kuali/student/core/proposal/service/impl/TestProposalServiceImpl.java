@@ -429,6 +429,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             proposalInfo.setProposalReferenceType("REFTYPE-1");
             proposalInfo.setRationale("rationale");
             proposalInfo.setDetailDesc("detail desc");
+            proposalInfo.setWorkflowId("kewDocumentId");
             Date effectiveDate = new Date();
             proposalInfo.setEffectiveDate(effectiveDate);
             Date expirationDate = new Date();
@@ -445,6 +446,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
          if (master.getId() != null) {
              assertEquals(master.getId(), validate.getId());
          }
+         assertEquals(master.getWorkflowId(), validate.getWorkflowId());
          assertEquals(master.getName(), validate.getName());
          assertEquals(master.getProposerPerson(), validate.getProposerPerson());
          assertEquals(master.getProposerOrg(), validate.getProposerOrg());

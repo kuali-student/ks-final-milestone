@@ -42,15 +42,8 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.lum.lrc.dto.CredentialInfo;
-import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
-import org.kuali.student.lum.lrc.dto.CreditInfo;
-import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
-import org.kuali.student.lum.lrc.dto.GradeInfo;
-import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
-import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -71,7 +64,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         rci.setDesc(richText);
         List<String> resultValueIds = new ArrayList<String>();
         resultValueIds.add("LRC-RESULT_VALUE-GRADE-1");
-        rci.setResultValueIds(resultValueIds);
+        rci.setResultValues(resultValueIds);
         Date date = new Date();
         rci.setEffectiveDate(date);
         rci.setExpirationDate(date);
@@ -96,7 +89,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertNotNull(rti);
             assertEquals("<p>New ResultComponent</p>", rti.getFormatted());
             assertEquals("New ResultComponent", rti.getPlain());
-            List<String> ids = newRci.getResultValueIds();
+            List<String> ids = newRci.getResultValues();
             java.util.Collections.sort(ids);
             assertNotNull(ids);
             assertEquals(1, ids.size());
@@ -110,7 +103,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertEquals("Active", newRci.getState());
 
             rci = client.getResultComponent(id);
-            rci.getResultValueIds().add("LRC-RESULT_VALUE-GRADE-2");
+            rci.getResultValues().add("LRC-RESULT_VALUE-GRADE-2");
             try {
             	
                 client.updateResultComponent(id, rci);
@@ -121,7 +114,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
                 assertNotNull(rti);
                 assertEquals("<p>New ResultComponent</p>", rti.getFormatted());
                 assertEquals("New ResultComponent", rti.getPlain());
-                ids = newRci.getResultValueIds();
+                ids = newRci.getResultValues();
                 java.util.Collections.sort(ids);
                 assertNotNull(ids);
                 assertEquals(2, ids.size());
@@ -147,12 +140,12 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             }
             
             rci = client.getResultComponent(id);
-            rci.getResultValueIds().add("LRC-RESULT_VALUE-CREDIT-1");
+            rci.getResultValues().add("LRC-RESULT_VALUE-CREDIT-1");
             try {
                 client.updateResultComponent(id, rci);
-                assertTrue(false);
+                //assertTrue(false);
             } catch (DataValidationErrorException e) {
-                assertTrue(true);
+                assertTrue(false);
             } catch (VersionMismatchException e) {
                 assertTrue(false);
             }
@@ -246,7 +239,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
     public void testGetResultComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ResultComponentInfo rci = client.getResultComponent("LRC-RESCOMP-1");
         assertNotNull(rci);
-        assertEquals(3, rci.getResultValueIds().size());
+        assertEquals(4, rci.getResultValues().size());
 
         try {
             rci = client.getResultComponent("LRC-RESCOMP-1x");
@@ -269,19 +262,11 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(rcis);
         assertEquals(1, rcis.size());
 
-        try {
-            rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x", "resultComponentType.credential");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credentialx");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
+        rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x", "resultComponentType.credential");
+        assertEquals(0,rcis.size());
+     
+        rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credentialx");
+        assertEquals(0,rcis.size());
 
         try {
             rcis = client.getResultComponentIdsByResult(null, "resultComponentType.credentialx");
@@ -303,12 +288,8 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         assertNotNull(rcis);
         assertEquals(1, rcis.size());
 
-        try {
-            rcis = client.getResultComponentIdsByResultComponentType("resultComponentType.credentialx");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
+        rcis = client.getResultComponentIdsByResultComponentType("resultComponentType.credentialx");
+        assertEquals(0,rcis.size());
 
         try {
             rcis = client.getResultComponentIdsByResultComponentType(null);
@@ -339,338 +320,6 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         }
     }
 
-	@Test
-    public void testGetCredential() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        CredentialInfo credentialInfo = client.getCredential("LRC-RESULT_VALUE-CREDENTIAL-1");
-        assertNotNull(credentialInfo);
-
-        try {
-            credentialInfo = client.getCredential("LRC-RESULT_VALUE-CREDENTIAL-1X");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-        try {
-            credentialInfo = client.getCredential(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetCredentialByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ArrayList<String> ids = new ArrayList<String>();
-        ids.add("LRC-RESULT_VALUE-CREDENTIAL-1");
-        ids.add("LRC-RESULT_VALUE-CREDENTIAL-2");
-        ids.add("LRC-RESULT_VALUE-CREDENTIAL-1x");
-        List<CredentialInfo> credentials = client.getCredentialsByKeyList(ids);
-        assertNotNull(credentials);
-        assertEquals(2, credentials.size());
-
-        ids.clear();
-        ids.add("LRC-RESULT_VALUE-CREDENTIAL-1x");
-        try {
-            credentials = client.getCredentialsByKeyList(ids);
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        ids.clear();
-        try {
-            credentials = client.getCredentialsByKeyList(ids);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-        try {
-            credentials = client.getCredentialsByKeyList(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetCredentialKeysByCredentialType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> credentialIds = client.getCredentialKeysByCredentialType("lrcType.credential.3");
-        assertNotNull(credentialIds);
-        assertEquals(2, credentialIds.size());
-
-        try {
-            credentialIds = client.getCredentialKeysByCredentialType("lrcType.credential.3x");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            credentialIds = client.getCredentialKeysByCredentialType(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetCredentialType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        CredentialTypeInfo credentialTypeInfo = client.getCredentialType("lrcType.credential.2");
-        assertNotNull(credentialTypeInfo);
-
-        try {
-            credentialTypeInfo = client.getCredentialType("lrcType.credential.2x");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-        try {
-            credentialTypeInfo = client.getCredentialType(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-	@Test
-    public void testGetCredit() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        CreditInfo creditInfo = client.getCredit("LRC-RESULT_VALUE-CREDIT-1");
-        assertNotNull(creditInfo);
-
-        try {
-            creditInfo = client.getCredit("LRC-RESULT_VALUE-CREDIT-1X");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-        try {
-            creditInfo = client.getCredit(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-	@Test
-    public void testGetCreditByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ArrayList<String> keys = new ArrayList<String>();
-        keys.add("LRC-RESULT_VALUE-CREDIT-1");
-        keys.add("LRC-RESULT_VALUE-CREDIT-2");
-        keys.add("LRC-RESULT_VALUE-CREDIT-1x");
-        List<CreditInfo> credits = client.getCreditsByKeyList(keys);
-        assertNotNull(credits);
-        assertEquals(2, credits.size());
-
-        keys.clear();
-        keys.add("LRC-RESULT_VALUE-CREDIT-1x");
-        try {
-            credits = client.getCreditsByKeyList(keys);
-            assertTrue(false);
-        } catch (DoesNotExistException e1) {
-            assertTrue(true);
-        }
-
-        keys.clear();
-        try {
-            credits = client.getCreditsByKeyList(keys);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-        try {
-            credits = client.getCreditsByKeyList(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetCreditKeysByCreditType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> creditIds = client.getCreditKeysByCreditType("lrcType.credit.3");
-        assertNotNull(creditIds);
-        assertEquals(2, creditIds.size());
-
-        try {
-            creditIds = client.getCreditKeysByCreditType("lrcType.credit.3x");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            creditIds = client.getCreditKeysByCreditType(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetCreditType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        CreditTypeInfo creditTypeInfo = client.getCreditType("lrcType.credit.2");
-        assertNotNull(creditTypeInfo);
-
-        try {
-            creditTypeInfo = client.getCreditType("lrcType.credit.2x");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-        try {
-            creditTypeInfo = client.getCreditType(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetCreditTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<CreditTypeInfo> creditTypeInfos = client.getCreditTypes();
-        assertNotNull(creditTypeInfos);
-        assertEquals(3, creditTypeInfos.size());
-    }
-
-    @Test
-    public void testGetGrade() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        GradeInfo gradeInfo = client.getGrade("LRC-RESULT_VALUE-GRADE-1");
-        assertNotNull(gradeInfo);
-
-        try {
-            gradeInfo = client.getGrade("LRC-RESULT_VALUE-GRADE-1X");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-        try {
-            gradeInfo = client.getGrade(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetGradeByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ArrayList<String> keys = new ArrayList<String>();
-        keys.add("LRC-RESULT_VALUE-GRADE-1");
-        keys.add("LRC-RESULT_VALUE-GRADE-2");
-        keys.add("LRC-RESULT_VALUE-GRADE-1x");
-        List<GradeInfo> grades = client.getGradesByKeyList(keys);
-        assertNotNull(grades);
-        assertEquals(2, grades.size());
-
-        keys.clear();
-        keys.add("LRC-RESULT_VALUE-GRADE-1x");
-        try {
-            grades = client.getGradesByKeyList(keys);
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        keys.clear();
-        try {
-            grades = client.getGradesByKeyList(keys);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-        try {
-            grades = client.getGradesByKeyList(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetGradeKeysByGradeType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> gradeIds = client.getGradeKeysByGradeType("lrcType.grade.3");
-        assertNotNull(gradeIds);
-        assertEquals(2, gradeIds.size());
-
-        try {
-            gradeIds = client.getGradeKeysByGradeType("lrcType.grade.3x");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            gradeIds = client.getGradeKeysByGradeType(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetGradeType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        GradeTypeInfo gradeTypeInfo = client.getGradeType("lrcType.grade.2");
-        assertNotNull(gradeTypeInfo);
-
-        try {
-            gradeTypeInfo = client.getGradeType("lrcType.grade.2x");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-        try {
-            gradeTypeInfo = client.getGradeType(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetGradeTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<GradeTypeInfo> gradeTypeInfos = client.getGradeTypes();
-        assertNotNull(gradeTypeInfos);
-        assertEquals(3, gradeTypeInfos.size());
-    }
-
-    @Test
-    public void testGetGradesByScale() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<GradeInfo> grades = client.getGradesByScale("LRC-SCALE-1");
-        assertNotNull(grades);
-        assertEquals(2, grades.size());
-
-        try {
-            grades = client.getGradesByScale("LRC-SCALE-1x");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            grades = client.getGradesByScale(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testGetScale() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ScaleInfo scaleInfo = client.getScale("LRC-SCALE-1");
-        assertNotNull(scaleInfo);
-        try {
-            scaleInfo = client.getScale("LRC-SCALE-1x");
-            assertTrue(false);
-        } catch (DoesNotExistException e) {
-            assertTrue(true);
-        }
-
-        try {
-            scaleInfo = client.getScale(null);
-            assertTrue(false);
-        } catch (MissingParameterException e) {
-            assertTrue(true);
-        }
-    }
     
     public void testBusinessCaseExample() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	ResultComponentInfo rc = new ResultComponentInfo();
@@ -682,7 +331,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         String specificGradeId = "LRC-RESULT_VALUE-GRADE-1";
         
         rc.setName("ResultComponent");
-        rc.setResultValueIds(Arrays.asList(new String[] {specificGradeId}));
+        rc.setResultValues(Arrays.asList(new String[] {specificGradeId}));
         rc.setState("ACTIVE");
         rc.setType("resultComponentType.grade");
         

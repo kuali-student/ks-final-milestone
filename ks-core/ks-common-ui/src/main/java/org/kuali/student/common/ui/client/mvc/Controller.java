@@ -60,7 +60,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     private String defaultModelId = null;
     private ViewContext context = new ViewContext();
     private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
-
+    private boolean fireNavEvents = true;
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
 
     protected Controller(final String controllerId) {
@@ -175,10 +175,11 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 			            }
 			            
 			            currentViewEnum = viewType;
-			            //fireApplicationEvent(new ViewChangeEvent(currentView, view));
 			            currentView = view;
 			            GWT.log("renderView " + viewType.toString(), null);
-			            fireNavigationEvent();
+			            if(fireNavEvents){
+			            	fireNavigationEvent();
+			            }
 			            renderView(view);
 			        	onReadyCallback.exec(true);
 			        	
@@ -192,12 +193,12 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     }
 
     protected void fireNavigationEvent() {
-        DeferredCommand.addCommand(new Command() {
-            @Override
-            public void execute() {
+        //DeferredCommand.addCommand(new Command() {
+           // @Override
+            //public void execute() {
                 fireApplicationEvent(new NavigationEvent(Controller.this));
-            }
-        });
+            //}
+        //});
     }
     
     /**
@@ -501,6 +502,10 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     
     public void resetCurrentView(){
     	currentView = null;
+    }
+    
+    public void fireNavEvents(boolean fireEvents){
+    	fireNavEvents = fireEvents;
     }
     
 

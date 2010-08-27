@@ -21,7 +21,7 @@ public class DictionaryTesterHelper
 
  private String outputFileName;
  private File file;
- private OutputStream os;
+ private OutputStream outputStream;
  private PrintStream out;
  private Set<Class<?>> startingClasses;
  private String dictFileName;
@@ -40,13 +40,13 @@ public class DictionaryTesterHelper
   this.file = new File (this.outputFileName);
   try
   {
-   os = new FileOutputStream (file, false);
+   outputStream = new FileOutputStream (file, false);
   }
   catch (FileNotFoundException ex)
   {
    throw new IllegalArgumentException (ex);
   }
-  this.out = new PrintStream (os);
+  this.out = new PrintStream (outputStream);
  }
 
  public void doTest ()
@@ -105,7 +105,7 @@ public class DictionaryTesterHelper
              + "|https://test.kuali.org/svn/student/trunk/ks-lum/ks-lum-impl/src/main/resources/"
              + dictFileName + "]");
   out.println (
-    " and is compared to following DTOs and thier sub-DTO's for discrepancies:");
+    " and is compared to the following java classes (and their sub-classes) for discrepancies:");
   for (Class<?> clazz : startingClasses)
   {
    out.println ("# " + clazz.getName ());
@@ -149,7 +149,7 @@ public class DictionaryTesterHelper
   {
    out.println ("h1. " + clazz.getSimpleName ());
    out.println ("{anchor:" + clazz.getSimpleName () + "}");
-   out.println ("h2. Error Getting Bean from dictionary");
+   out.println ("h2. Error could not find a dictionary definition for the java class");
    out.println (ex.getMessage ());
    return;
   }

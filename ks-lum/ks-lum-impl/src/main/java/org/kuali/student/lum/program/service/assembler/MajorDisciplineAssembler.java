@@ -15,6 +15,9 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
@@ -24,17 +27,12 @@ import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -65,12 +63,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
         programAssemblerUtils.assembleRequirements(clu, mdInfo);
 
-        mdInfo.setCredentialProgramId(programAssemblerUtils.assembleCredentialProgramIDs(clu.getId(), ProgramAssemblerConstants.HAS_MAJOR_PROGRAM));
-        mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
-        mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
-        mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
-        mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
-
         mdInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         mdInfo.setStdDuration(clu.getStdDuration());
         mdInfo.setPublishedInstructors(clu.getInstructors());
@@ -79,41 +71,20 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setEffectiveDate(clu.getEffectiveDate());
         mdInfo.setDescr(clu.getDescr());
 
+        if (!shallowBuild) {
+            mdInfo.setCredentialProgramId(programAssemblerUtils.getCredentialProgramID(clu.getId()));
+            mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
+            mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+            mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
+            mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
+            setNonPersistedAttributes(mdInfo);
+        }
+        
        return mdInfo;
     }
 
-    private void disassembleCodes(CluInfo clu, MajorDisciplineInfo major) {
-
-        //TODO This is good for create but need to handle updates too!!
-
-        if (major.getCip2000Code() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.CIP_2000, major.getCip2000Code());
-            clu.getLuCodes().add(luCode);
-        }
-        if (major.getCip2010Code() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.CIP_2010, major.getCip2010Code());
-            clu.getLuCodes().add(luCode);
-        }
-        if (major.getHegisCode() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.HEGIS, major.getHegisCode() );
-            clu.getLuCodes().add(luCode);
-        }
-        if (major.getUniversityClassification() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION, major.getUniversityClassification() );
-            clu.getLuCodes().add(luCode);
-        }
-        if (major.getSelectiveEnrollmentCode() != null) {
-            LuCodeInfo luCode = buildLuCode(ProgramAssemblerConstants.SELECTIVE_ENROLLMENT, major.getSelectiveEnrollmentCode() );
-            clu.getLuCodes().add(luCode);
-        }
-
-    }
-
-    private LuCodeInfo buildLuCode(String type, String value) {
-        LuCodeInfo luCode = new LuCodeInfo();
-        luCode.setType(type);
-        luCode.setValue(value);
-        return luCode;
+    private void setNonPersistedAttributes(MajorDisciplineInfo info) throws AssemblyException {
+        info.getAttributes().put(ProgramAssemblerConstants.PROGRAM_LEVEL, programAssemblerUtils.getProgramLevel(info.getCredentialProgramId()));
     }
 
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild) throws AssemblyException {
@@ -154,7 +125,9 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 		    LOG.error("Major for  disassemble is null!");
 			throw new AssemblyException("Major cannot be null");
 		}
-    	
+
+        //TODO   IDs for objects w/o ids
+
 		BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result = new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>(
 				this);
 		
@@ -165,6 +138,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
         } 
         
+        clearNonPersistedAttributes(clu);
+
         programAssemblerUtils.disassembleBasics(clu, major, operation);
         if (major.getId() == null)
             major.setId(clu.getId());
@@ -184,11 +159,9 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         if (major.getCredentialProgramId() != null) {
             disassembleCredentialProgram(major, operation, result);
         }
-
         if (major.getResultOptions() != null) {
-            disassembleResultOptions(major, operation, result);           
+            disassembleResultOptions(major, operation, result);
         }
-
         if (major.getLearningObjectives() != null) {
             disassembleLearningObjectives(major, operation, result);
         }
@@ -206,9 +179,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         clu.setDescr(major.getDescr());
 
         //TODO programRequirements
-//        clu.setAccreditations(major.getAccreditingAgencies());
-
-
+        clu.setAccreditations(major.getAccreditingAgencies());
 
 		// Add the Clu to the result
 		result.setNodeData(clu);
@@ -216,6 +187,10 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 		result.setBusinessDTORef(major);
 
     	return result;
+    }
+
+    private void clearNonPersistedAttributes(CluInfo info) throws AssemblyException {
+        info.getAttributes().remove(ProgramAssemblerConstants.PROGRAM_LEVEL);
     }
 
     private void disassembleLearningObjectives(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
@@ -239,40 +214,16 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     private void disassembleCredentialProgram(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
-        List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
-        CluInfo credentialClu = null;
 
-        // id
+        List<BaseDTOAssemblyNode<?,?>> credentialResults;
         try {
-            credentialClu = luService.getClu(major.getCredentialProgramId());
-        } catch (DoesNotExistException e) {
+            credentialResults = programAssemblerUtils.disassembleCredentialProgram(major, operation, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM);
+            if (credentialResults != null) {
+                result.getChildNodes().addAll(credentialResults);
+            }
         } catch (Exception e) {
-            throw new AssemblyException("Credential Clu does not exist for " + major.getCredentialProgramId());
+            throw new AssemblyException("Error while disassembling Credential program", e);
         }
-
-        //TODO check for update and delete
-
-        // Create the relationship and add it as well
-        CluCluRelationInfo relation = new CluCluRelationInfo();
-        relation.setCluId(major.getId());
-        relation.setRelatedCluId(credentialClu.getId());// this
-        // should
-        // already
-        // be set even if
-        // it's a create
-        relation.setType(ProgramAssemblerConstants.HAS_CORE_PROGRAM);
-        relation.setState(major.getState());
-
-        BaseDTOAssemblyNode<MajorDisciplineInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<MajorDisciplineInfo, CluCluRelationInfo>(
-                null);
-        relationNode.setNodeData(relation);
-        relationNode.setOperation(NodeOperation.CREATE);
-
-        results.add(relationNode);
-
-        result.getChildNodes().addAll(results);
-
-
     }
 
     private void disassembleVariations(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {

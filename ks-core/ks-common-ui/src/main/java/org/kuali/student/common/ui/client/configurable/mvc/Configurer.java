@@ -20,6 +20,10 @@ public abstract class Configurer {
         this.modelDefinition = modelDefinition;
     }
 
+    public ModelDefinition getModelDefinition() {
+        return modelDefinition;
+    }
+
     protected MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(groupName, type, state, labelKey);
     }

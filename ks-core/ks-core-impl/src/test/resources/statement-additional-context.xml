@@ -74,7 +74,7 @@
         <constructor-arg>
             <map-->
                 <!-- Header Contexts-->
-                <!--entry key="kuali.luStatementType.prereqAcademicReadiness">
+                <!--entry key="kuali.statement.type.course.academicReadiness.prereq">
                     <bean class="org.kuali.student.core.statement.config.contexts.HeaderContextImpl" />
                 </entry>
             </map>
@@ -86,38 +86,38 @@
         <constructor-arg>
             <map>
                 <!-- Pre-Req Contexts-->
-                <entry key="kuali.reqCompType.courseList.none">
+                <entry key="kuali.reqComponent.type.courseList.none">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.all">
+                <entry key="kuali.reqComponent.type.courseList.all">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.nof">
+                <entry key="kuali.reqComponent.type.courseList.nof">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.1of1">
+                <entry key="kuali.reqComponent.type.courseList.1of1">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.1of2">
+                <entry key="kuali.reqComponent.type.courseList.1of2">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.gradecheck">
+                <entry key="kuali.reqComponent.type.gradecheck">
                     <list>
                         <ref local="courseListContext"/>
                         <ref local="gradeCheckContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.reqCompType.grdCondCourseList">
+                <entry key="kuali.reqComponent.type.grdCondCourseList">
                     <list>
                         <ref local="courseListContext"/>
                         <ref local="creditContext"/>
                     </list>
                 </entry>
                 <!-- Co-Req Contexts -->
-                <entry key="kuali.reqCompType.courseList.coreq.all">
+                <entry key="kuali.reqComponent.type.courseList.coreq.all">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.coreq.oneof">
+                <entry key="kuali.reqComponent.type.courseList.coreq.oneof">
                     <ref local="courseListContext"/>
                 </entry>
             </map>

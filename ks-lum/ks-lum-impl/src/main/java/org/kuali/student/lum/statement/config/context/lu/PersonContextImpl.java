@@ -21,7 +21,7 @@ import java.util.Map;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
  * This class creates the template context for a person.
@@ -39,7 +39,7 @@ public class PersonContextImpl extends AbstractLuContext<ReqComponent> {
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(PERSON_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.INSTRUCTOR_PERMISSION_KEY.getKey()));
+        contextMap.put(PERSON_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.INSTRUCTOR_PERMISSION_KEY.getId()));
         return contextMap;
     }
 }

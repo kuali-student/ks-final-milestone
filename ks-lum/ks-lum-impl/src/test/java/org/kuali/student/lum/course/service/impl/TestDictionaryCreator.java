@@ -3,7 +3,7 @@ package org.kuali.student.lum.course.service.impl;
 import org.junit.Test;
 import java.beans.IntrospectionException;
 import java.io.IOException;
-import org.kuali.student.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
 
 
 public class TestDictionaryCreator
@@ -16,6 +16,6 @@ public class TestDictionaryCreator
           SecurityException,
           NoSuchFieldException
  {
-  new DictionaryCreator ().execute (CourseFeeInfo.class, "target/ks-CourseFeeInfo-dictinoary-context-generated.xml");
+  new DictionaryCreator ().execute (MinorDisciplineInfo.class, "target/ks-MinorDisciplineInfo-dictinoary-context-generated.xml");
  }
 }

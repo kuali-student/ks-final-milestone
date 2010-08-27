@@ -22,6 +22,7 @@ import java.util.List;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class DataObjectStructure {       
     protected String name;
     protected String desc;

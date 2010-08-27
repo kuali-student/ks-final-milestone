@@ -111,87 +111,12 @@
         </profile>
     </profiles>
     <dependencies>
-
-        <!-- KS core & common dependencies -->
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-util</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-ui</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-ui</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-ui</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-ui</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-api</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-rice-lessdep</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>
-
-        <!-- LUM Dependencies -->
-        <dependency>
-            <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-api</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-rice</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-program</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>

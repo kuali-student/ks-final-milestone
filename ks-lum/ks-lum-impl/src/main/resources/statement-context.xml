@@ -63,68 +63,68 @@
         class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
-                <entry key="kuali.reqCompType.course.courseset.completed.none">
+                <entry key="kuali.reqComponent.type.course.courseset.completed.none">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.course.courseset.completed.all">
+                <entry key="kuali.reqComponent.type.course.courseset.completed.all">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.course.courseset.completed.nof">
+                <entry key="kuali.reqComponent.type.course.courseset.completed.nof">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.course.courseset.enrolled.nof">
+                <entry key="kuali.reqComponent.type.course.courseset.enrolled.nof">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.course.courseset.credits.completed.nof">
+                <entry key="kuali.reqComponent.type.course.courseset.credits.completed.nof">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.course.courseset.credits.completed.none">
+                <entry key="kuali.reqComponent.type.course.courseset.credits.completed.none">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.course.courseset.credits.completed.max">
+                <entry key="kuali.reqComponent.type.course.courseset.credits.completed.max">
                     <ref local="cluSetContext"/>
                 </entry>                
-                <entry key="kuali.reqCompType.course.courseset.gpa.min">
+                <entry key="kuali.reqComponent.type.course.courseset.gpa.min">
                     <list>
                         <ref local="cluSetContext"/>
                         <ref local="gpaContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.coreq.all">
+                <entry key="kuali.reqComponent.type.courseList.coreq.all">
                     <list>
 	                    <ref local="cluSetContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.coreq.oneof">
+                <entry key="kuali.reqComponent.type.courseList.coreq.oneof">
                     <list>
 	                    <ref local="cluSetContext"/>
                     </list>
                 </entry>              
-                <entry key="kuali.reqCompType.course.courseset.grade.min">
+                <entry key="kuali.reqComponent.type.course.courseset.grade.min">
                     <list>
                         <ref local="cluSetContext"/>
                         <ref local="gradeContext"/>
                     </list>
                 </entry>       
-                <entry key="kuali.reqCompType.course.courseset.grade.max">
+                <entry key="kuali.reqComponent.type.course.courseset.grade.max">
                     <list>
                         <ref local="cluSetContext"/>
                         <ref local="gradeContext"/>
                     </list>
                 </entry>  
-                <entry key="kuali.reqCompType.course.permission.org.required">
+                <entry key="kuali.reqComponent.type.course.permission.org.required">
                     <ref local="orgPermissionContext"/>
                 </entry>  
-                <entry key="kuali.reqCompType.course.permission.instructor.required">
+                <entry key="kuali.reqComponent.type.course.permission.instructor.required">
                     <ref local="instructorPermissionContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.course.test.score.min">
+                <entry key="kuali.reqComponent.type.course.test.score.min">
 	                <ref local="cluSetContext"/>
                 </entry>              
-                <entry key="kuali.reqCompType.course.test.score.max">
+                <entry key="kuali.reqComponent.type.course.test.score.max">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.course.courseset.nof.grade.min">
+                <entry key="kuali.reqComponent.type.course.courseset.nof.grade.min">
                     <list>
                         <ref local="cluSetContext"/>
                         <ref local="gradeContext"/>
@@ -132,40 +132,40 @@
                 </entry>                              
 
                 <!-- Program Contexts -->
-                <entry key="kuali.reqCompType.programList.enroll.oneof">
+                <entry key="kuali.reqComponent.type.programList.enroll.oneof">
 	                <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.programList.enroll.none">
+                <entry key="kuali.reqComponent.type.programList.enroll.none">
 	                <ref local="cluSetContext"/>
                 </entry> 
-                <entry key="kuali.reqCompType.program.programset.completed.nof">
+                <entry key="kuali.reqComponent.type.program.programset.completed.nof">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.program.programset.notcompleted.nof">
+                <entry key="kuali.reqComponent.type.program.programset.notcompleted.nof">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.program.programset.completed.all">
+                <entry key="kuali.reqComponent.type.program.programset.completed.all">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.program.programset.coursecompleted.nof">
+                <entry key="kuali.reqComponent.type.program.programset.coursecompleted.nof">
                     <ref local="cluSetContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.program.admitted.credits">
+                <entry key="kuali.reqComponent.type.program.admitted.credits">
                     <ref local="basicContext"/>                
                 </entry>                
-                <entry key="kuali.reqCompType.program.credits.min">
+                <entry key="kuali.reqComponent.type.program.credits.min">
                     <ref local="basicContext"/>                
                 </entry>                
-                <entry key="kuali.reqCompType.program.credits.max">
+                <entry key="kuali.reqComponent.type.program.credits.max">
                     <ref local="basicContext"/>                
                 </entry>                
-                <entry key="kuali.reqCompType.program.completion.duration">
+                <entry key="kuali.reqComponent.type.program.completion.duration">
                     <ref local="durationContext"/>                
                 </entry>                
-                <entry key="kuali.reqCompType.program.candidate.status.duration">
+                <entry key="kuali.reqComponent.type.program.candidate.status.duration">
                     <ref local="durationContext"/>                
                 </entry>                
-                <entry key="kuali.reqCompType.program.completion.duration.afterentry">
+                <entry key="kuali.reqComponent.type.program.completion.duration.afterentry">
                     <ref local="durationContext"/>                
                 </entry>                
             </map>

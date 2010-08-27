@@ -180,6 +180,8 @@ public interface ProgramService extends DictionaryService, SearchService{
     /** 
      * Retrieves a ProgramRequirement
      * @param programRequirementId Unique Id of the ProgramRequirement. Maps to cluId
+     * @param nlUsageTypeKey Natural language usage type key (context)
+     * @param language Translation language e.g en, es, gr
      * @return the Program Requirement
      * @throws DoesNotExistException Program Requirement does not exist
      * @throws InvalidParameterException invalid Program Requirement
@@ -187,7 +189,7 @@ public interface ProgramService extends DictionaryService, SearchService{
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public ProgramRequirementInfo getProgramRequirement(@WebParam(name="programRequirementId")String programRequirementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ProgramRequirementInfo getProgramRequirement(@WebParam(name="programRequirementId")String programRequirementId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a Credential Program

@@ -50,7 +50,7 @@ public class CurriculumHomeController extends LayoutController {
     }
 
     @Override
-    protected <V extends Enum<?>> View getView(V viewType) {
+    public <V extends Enum<?>> View getView(V viewType) {
         //this is done so the views can have delayed loading
         switch ((LUMViews) viewType) {
             case DEFAULT:
@@ -112,13 +112,6 @@ public class CurriculumHomeController extends LayoutController {
     @Override
     public Enum<?> getViewEnumValue(String enumValue) {
         return LUMViews.valueOf(enumValue);
-    }
-
-    @Override
-    public void showDefaultView(Callback<Boolean> onReadyCallback) {
-        HistoryManager.setLogNavigationHistory(false);
-        this.showView(LUMViews.DEFAULT);
-        HistoryManager.setLogNavigationHistory(true);
     }
 
     @Override

@@ -268,10 +268,9 @@
 	margin: 8px 4px 1px 422px;
 }
 .KS-LOBuilder-New{
+	margin-top: 5px;
 	color: blue;
-	font-size: 0.916em;
 	cursor: pointer;
-	width: 24px;
 }
 .KS-LOTextArea {
 	width: 28em;
@@ -344,6 +343,27 @@
 .KS-ViewCourseDisplayTableCell {
   border: 1px solid #C0C0C0;
   padding: 2px;
+}
+
+.KS-MultiplicityTable {
+  margin-left: 3px;
+}
+
+.KS-MultiplicityTableBorder {
+  border: thin solid #C0C0C0;
+  border-collapse: collapse;
+}
+
+.KS-MultiplicityTableHeaderCell {
+	font-weight: bold;
+	background-color: #E6E6E6;
+}
+
+.KS-MultiplicityTableCell {
+  padding: 2px;
+}
+.KS-MultiplicityTableCellBorder {
+  border: 1px solid #C0C0C0;
 }
 
 .cluInfo-officialIdentifier-longName{}

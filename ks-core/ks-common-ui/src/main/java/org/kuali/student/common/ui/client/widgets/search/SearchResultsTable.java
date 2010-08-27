@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
@@ -29,10 +30,16 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
 import org.kuali.student.core.assembly.data.Data.DataType;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.CrossSearchManager;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ScrollEvent;
@@ -89,6 +96,11 @@ public class SearchResultsTable extends Composite{
             }
         }      
                      
+     // TODO - there's a better way to do this
+        if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
+        	tableModel.setMoreData(false);
+        }
+        
         tableModel.installCheckBoxRowHeaderColumn();
         
         final Table table = new Table();
@@ -99,13 +111,14 @@ public class SearchResultsTable extends Composite{
 
             @Override
             public void onScroll(ScrollEvent event) {
-                tableModel.getRowCount();
-                int height = table.getScrollPanel().getOffsetHeight();
-                int scrollHeight = ((ScrollPanel)event.getSource()).getScrollPosition();
-                if ((scrollHeight*100/height) > 10) {
-                    performOnDemandSearch(tableModel.getRowCount(), PAGE_SIZE);
-                    tableModel.fireTableDataChanged();
-                }
+            	if (tableModel.getMoreData()) {
+	                int height = table.getScrollPanel().getOffsetHeight();
+	                int scrollHeight = ((ScrollPanel)event.getSource()).getScrollPosition();
+	                if ((scrollHeight*100/height) > 10) {
+	                    performOnDemandSearch(tableModel.getRowCount(), PAGE_SIZE);
+	                    tableModel.fireTableDataChanged();
+	                }
+            	}
             }        
         });
         
@@ -116,15 +129,23 @@ public class SearchResultsTable extends Composite{
     public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
         this.searchRequest = searchRequest;
         initializeTable(listResultMetadata, resultIdKey);
+        if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
+
+            performOnDemandSearch(0, 0);
+        }
         performOnDemandSearch(0, PAGE_SIZE);
     }    
     
     private void performOnDemandSearch(int startAt, int size) {
-        
-        searchRequest.setNeededTotalResults(false);
+                
 
         searchRequest.setStartAt(startAt);
-        searchRequest.setMaxResults(size); 
+        if (size != 0) {
+        	searchRequest.setNeededTotalResults(false);
+        	searchRequest.setMaxResults(size);
+        } else {
+        	searchRequest.setNeededTotalResults(true);
+        }
 
         searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
 
@@ -137,7 +158,7 @@ public class SearchResultsTable extends Composite{
             @Override
             public void onSuccess(SearchResult results) {
 
-                if(results != null){
+                if(results != null && results.getRows() != null && results.getRows().size() != 0){
                     for (SearchResultRow r: results.getRows()){
                         ResultRow theRow = new ResultRow();
                         for(SearchResultCell c: r.getCells()){
@@ -148,6 +169,8 @@ public class SearchResultsTable extends Composite{
                         }
                        tableModel.addRow(new SearchResultsRow(theRow));
                     }
+                } else {
+                	tableModel.setMoreData(false);
                 }
                 tableModel.fireTableDataChanged();
             }

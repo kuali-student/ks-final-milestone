@@ -36,8 +36,8 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElem
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Key;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -221,9 +221,9 @@ public abstract class BaseSection extends SpanPanel implements Section{
 							//System.out.println("Checking validation on field " + f.getFieldKey());
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
-								if(fieldStatus == ErrorLevel.ERROR){
+/*								if(fieldStatus == ErrorLevel.ERROR){
 									System.out.println("Error: " + f.getFieldKey());
-								}
+								}*/
 								if(fieldStatus.getLevel() > status.getLevel()){
 
 									status = fieldStatus;
@@ -464,6 +464,10 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		}
 		return isDirty;
 	}
+
+    public void setIsDirty(boolean state) {
+        isDirty = state;
+    }
 	
 	/**
 	 * Do not use this method for adding sections, fields, or widgets to sections

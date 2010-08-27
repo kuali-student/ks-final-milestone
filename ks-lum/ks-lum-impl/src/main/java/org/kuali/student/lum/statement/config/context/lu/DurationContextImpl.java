@@ -21,7 +21,7 @@ import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.naturallanguage.AbstractContext;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypeKeys;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
  * This class creates the template context for grade condition type.
@@ -39,8 +39,8 @@ public class DurationContextImpl extends AbstractContext<ReqComponent> {
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
-        contextMap.put(CommonTemplateTokens.EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey()));
-        contextMap.put(DURATION_TYPE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypeKeys.DURATION_TYPE_KEY.getKey()));
+        contextMap.put(CommonTemplateTokens.EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId()));
+        contextMap.put(DURATION_TYPE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.DURATION_TYPE_KEY.getId()));
         return contextMap;
     }
 }

@@ -258,7 +258,7 @@ public class ButtonEnumerations {
         return CANCEL;
     }
     };
-    
+
     public static enum SearchCancelEnum implements ButtonEnum{SEARCH, CANCEL;
 
         @Override
@@ -269,7 +269,7 @@ public class ButtonEnumerations {
                 case CANCEL:
                     return context.getMessage("cancel");
             }
-            return null;  
+            return null;
         }
     	@Override
         public ButtonStyle getStyle() {
@@ -288,6 +288,102 @@ public class ButtonEnumerations {
         @Override
         public ButtonEnum getCancelType() {
             return CANCEL;
-        }    	    	
+        }
+    };
+
+    public static enum AddCancelEnum implements ButtonEnum{ADD, CANCEL;
+
+        @Override
+        public String getText() {
+            switch(this){
+                case ADD:
+                    return context.getMessage("add");
+                case CANCEL:
+                    return context.getMessage("cancel");
+            }
+            return null;
+        }
+    	@Override
+        public ButtonStyle getStyle() {
+            switch(this){
+            case ADD:
+                return ButtonStyle.PRIMARY;
+            case CANCEL:
+                return ButtonStyle.DEFAULT_ANCHOR;
+            }
+            return ButtonStyle.PRIMARY;
+        }
+        @Override
+        public ButtonEnum getActionType() {
+            return ADD;
+        }
+        @Override
+        public ButtonEnum getCancelType() {
+            return CANCEL;
+        }
+    };
+
+    public static enum UpdateCancelEnum implements ButtonEnum{UPDATE, CANCEL;
+
+        @Override
+        public String getText() {
+            switch(this){
+                case UPDATE:
+                    return context.getMessage("update");
+                case CANCEL:
+                    return context.getMessage("cancel");
+            }
+            return null;
+        }
+    	@Override
+        public ButtonStyle getStyle() {
+            switch(this){
+            case UPDATE:
+                return ButtonStyle.PRIMARY;
+            case CANCEL:
+                return ButtonStyle.DEFAULT_ANCHOR;
+            }
+            return ButtonStyle.PRIMARY;
+        }
+        @Override
+        public ButtonEnum getActionType() {
+            return UPDATE;
+        }
+        @Override
+        public ButtonEnum getCancelType() {
+            return CANCEL;
+        }
+    };
+
+    public static enum SaveContinueCancelEnum implements ButtonEnum{SAVE_CONTINUE, CANCEL;
+
+        @Override
+        public String getText() {
+            switch(this){
+                case SAVE_CONTINUE:
+                    return context.getMessage("saveContinue");
+                case CANCEL:
+                    return context.getMessage("cancel");
+            }
+            return null;
+        }
+    	@Override
+        public ButtonStyle getStyle() {
+            switch(this){
+            case SAVE_CONTINUE:
+                return ButtonStyle.PRIMARY;
+            case CANCEL:
+                return ButtonStyle.DEFAULT_ANCHOR;
+            }
+            return ButtonStyle.PRIMARY;
+        }
+        @Override
+        public ButtonEnum getActionType() {
+            return SAVE_CONTINUE;
+        }
+        @Override
+        public ButtonEnum getCancelType() {
+            return CANCEL;
+        }
     };
 }

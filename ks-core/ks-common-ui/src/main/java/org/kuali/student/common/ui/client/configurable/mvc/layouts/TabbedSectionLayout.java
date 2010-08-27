@@ -27,13 +27,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.event.ValidateResultEvent;
-import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
@@ -44,12 +41,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 public class TabbedSectionLayout extends LayoutController implements ConfigurableLayout{
 
@@ -279,7 +271,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
     }
 
 	@Override
-	protected <V extends Enum<?>> View getView(V viewType) {
+	public <V extends Enum<?>> View getView(V viewType) {
 		return viewMap.get(viewType);
 	}
 
@@ -323,7 +315,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
             loaded = true;
         }
 
-        showView(defaultView, onReadyCallback);
+        super.showDefaultView(onReadyCallback);
 	}
 
 	@Override

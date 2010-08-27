@@ -677,7 +677,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		Lui lui;
 
 		if (isUpdate) {
-			lui = (Lui) dao.fetch(Lui.class, luiInfo.getId());
+			lui = dao.fetch(Lui.class, luiInfo.getId());
 			if (null == lui) {
 				throw new DoesNotExistException((new StringBuilder()).append(
 						"Lui does not exist for id: ").append(luiInfo.getId())
@@ -698,7 +698,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		lui.setAttributes(toGenericAttributes(LuiAttribute.class, luiInfo
 				.getAttributes(), lui, dao));
 
-		Clu clu = (Clu) dao.fetch(Clu.class, luiInfo.getCluId());
+		Clu clu = dao.fetch(Clu.class, luiInfo.getCluId());
 		if (null == clu) {
 			throw new InvalidParameterException((new StringBuilder()).append(
 					"Clu does not exist for id: ").append(luiInfo.getCluId())
@@ -1116,7 +1116,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		CluFee fee;
 
 		if (isUpdate) {
-			fee = (CluFee) dao.fetch(CluFee.class, feeInfo.getId());
+			fee = dao.fetch(CluFee.class, feeInfo.getId());
 			if (null == fee) {
 				throw new DoesNotExistException((new StringBuilder()).append(
 						"CluFee does not exist for id: ").append(
@@ -1294,14 +1294,17 @@ public class LuServiceAssembler extends BaseAssembler {
             clu.setOfficialIdentifier(new CluIdentifier());
         }
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu
-                .getOfficialIdentifier(), new String[] { "id", "code" });
+                .getOfficialIdentifier(), new String[] { "id" });
 
-        clu.getOfficialIdentifier().setCode(
-                new StringBuilder().append(
-                        cluInfo.getOfficialIdentifier().getDivision())
-                        .append(
-                                cluInfo.getOfficialIdentifier()
-                                        .getSuffixCode()).toString());
+        if (null == clu.getOfficialIdentifier().getCode() || clu.getOfficialIdentifier().getCode().length() == 0) {
+            // preserve previous behavior if there is no existing code after update
+	        clu.getOfficialIdentifier().setCode(
+	                new StringBuilder().append(
+	                        cluInfo.getOfficialIdentifier().getDivision())
+	                        .append(
+	                                cluInfo.getOfficialIdentifier()
+	                                        .getSuffixCode()).toString());
+        }
     }
 
 	public static List<CluIdentifier> createAlternateIdentifiers(CluInfo cluInfo) {

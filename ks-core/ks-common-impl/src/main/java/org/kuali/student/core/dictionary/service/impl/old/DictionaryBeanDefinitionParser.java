@@ -55,6 +55,7 @@ import org.w3c.dom.Node;
  * @author Daniel Epstein
  *
  */
+@Deprecated
 public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinitionParser{
     
     final Logger logger = Logger.getLogger(DictionaryBeanDefinitionParser.class);

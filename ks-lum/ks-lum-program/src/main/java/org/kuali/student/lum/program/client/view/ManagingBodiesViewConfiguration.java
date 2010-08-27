@@ -1,35 +1,30 @@
 package org.kuali.student.lum.program.client.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.configuration.base.AbstractConfiguration;
+import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
+import org.kuali.student.lum.program.client.framework.ConfigurationRegistry;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
-public class ManagingBodiesViewConfiguration extends AbstractConfiguration<ProgramViewConfigurer> {
+public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguration<ProgramViewConfigurer> {
 
-    private VerticalSectionView mainView;
-
-    @Override
-    public View getView() {
-        createShowView();
-        return mainView;
+    public ManagingBodiesViewConfiguration() {
+        rootSection = new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    private void createShowView() {
-        mainView = new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID);
+    @Override
+    protected void buildLayout() {
         VerticalSection section = createMainSection();
         CollapsableSection collapsableSection = createAdditionalSection();
-        mainView.addSection(section);
-        mainView.addSection(collapsableSection);
+        rootSection.addSection(section);
+        rootSection.addSection(collapsableSection);
     }
 
     private VerticalSection createMainSection() {

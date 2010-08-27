@@ -36,6 +36,7 @@ import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync
 import org.kuali.student.core.workflow.ui.client.service.WorkflowToolRpcService;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowToolRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
+import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
@@ -84,7 +85,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 .SummaryTable-EvenRow{background-color:  #FAFAFA;}
 .SummaryTable-OddRow{background-color: #F0F0F0;}
 */
-
+@Deprecated
 public class ViewCourseProposalSummaryConfigurer implements
         CreditCourseProposalConstants, CreditCourseProposalInfoConstants,
         CreditCourseConstants, CreditCourseFormatConstants,

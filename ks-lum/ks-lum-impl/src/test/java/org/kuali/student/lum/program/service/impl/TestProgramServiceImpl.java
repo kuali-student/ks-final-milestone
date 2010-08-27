@@ -1,10 +1,20 @@
 package org.kuali.student.lum.program.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -12,6 +22,10 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -24,20 +38,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:program-test-context.xml"})
 public class TestProgramServiceImpl {
 
     @Autowired
     public ProgramService programService;
+    private static final String OTHER_LO_CAT_ID = "550e8400-e29b-41d4-a716-446655440000";
 
     @Test
     public void testProgramServiceSetup() {
@@ -59,67 +66,36 @@ public class TestProgramServiceImpl {
         assertEquals("STRING", metadata.getDataType().name());
     }
 
+
     @Test
     @Ignore
-    public void testCreateMajorDiscipline() {
-		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
-        MajorDisciplineInfo major;
-        try {
-            assertNotNull(major = mdGenerator.getMajorDisciplineInfoTestData());
+    public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", null, null);
+        assertNotNull(progReqInfo);
+    }
 
-//            major.setLearningObjectives(null);
-//            major.setResultOptions(null);
-//            for (ProgramVariationInfo variationInfo : major.getVariations()) {
-//                variationInfo.setLearningObjectives(null);
-//                variationInfo.setResultOptions(null);
-//            }
-            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(major);
-            assertNotNull(createdMD);
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
-            assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-	}
+    @Test(expected = MissingParameterException.class)
+    public void testGetProgramRequirement_nullId() throws Exception {
+        programService.getProgramRequirement(null, null, null);
+    }
 
-	@Test
-	@Ignore
-	public void testCreateProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		ProgramRequirementInfo progReqInfo = new ProgramRequirementInfo();
-
-		ProgramRequirementInfo createdInfo = programService.createProgramRequirement(progReqInfo);
-		assertNotNull(createdInfo);
-	}
-
-	@Test
-	@Ignore
-	public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("CLU-2");
-		assertNotNull(progReqInfo);
-	}
-
-	@Test(expected = MissingParameterException.class)
-	public void testGetProgramRequirement_nullId() throws Exception {
-		programService.getProgramRequirement(null);
-	}
-
-	@Test(expected = DoesNotExistException.class)
-	public void testGetProgramRequirement_badId() throws Exception {
-		programService.getProgramRequirement("CLU-XXX ");
-	}
+    @Test(expected = DoesNotExistException.class)
+    public void testGetProgramRequirement_badId() throws Exception {
+        programService.getProgramRequirement("CLU-XXX ", null, null);
+    }
 
     @Test
     public void testGetCoreProgram() {
         CoreProgramInfo core = null;
         try {
             try {
-                core = programService.getCoreProgram("D4EA77DD-B492-4554-B104-863E42C5F8B7");
+                core = programService.getCoreProgram("d4ea77dd-b492-4554-b104-863e42c5f8b7");
                 fail("Should have received DoesNotExistException");
             } catch (DoesNotExistException dnee) {
                 String expectedExceptionMessage = "Specified CLU is not a CoreProgram";
                 assertEquals("Expected DoesNotExistException has incorrect message:", expectedExceptionMessage, dnee.getMessage());
             }
-            core = programService.getCoreProgram("00F5F8C5-FFF1-4C8B-92FC-789B891E0849");
+            core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
 
             assertNotNull(core);
 
@@ -153,37 +129,37 @@ public class TestProgramServiceImpl {
 //            assertTrue(major.getLearningObjectives().size() ==1);
 //            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
 
-			assertNotNull(core.getDivisionsContentOwner());
-			assertTrue(core.getDivisionsContentOwner().size() == 1);
-			assertEquals(core.getDivisionsContentOwner().get(0).getId(), "CORE-COD");
-			assertNotNull(core.getDivisionsStudentOversight());
-			assertTrue(core.getDivisionsStudentOversight().size() == 1);
-			assertEquals(core.getDivisionsStudentOversight().get(0).getId(), "CORE-SOD");
-			assertNotNull(core.getUnitsContentOwner());
-			assertTrue(core.getUnitsContentOwner().size() == 1);
-			assertEquals(core.getUnitsContentOwner().get(0).getId(), "CORE-COU");
-			assertNotNull(core.getUnitsStudentOversight());
-			assertTrue(core.getUnitsStudentOversight().size() == 1);
-			assertEquals(core.getUnitsStudentOversight().get(0).getId(), "CORE-SOU");
+            assertNotNull(core.getDivisionsContentOwner());
+            assertTrue(core.getDivisionsContentOwner().size() == 1);
+            assertEquals(core.getDivisionsContentOwner().get(0).getId(), "CORE-COD");
+            assertNotNull(core.getDivisionsStudentOversight());
+            assertTrue(core.getDivisionsStudentOversight().size() == 1);
+            assertEquals(core.getDivisionsStudentOversight().get(0).getId(), "CORE-SOD");
+            assertNotNull(core.getUnitsContentOwner());
+            assertTrue(core.getUnitsContentOwner().size() == 1);
+            assertEquals(core.getUnitsContentOwner().get(0).getId(), "CORE-COU");
+            assertNotNull(core.getUnitsStudentOversight());
+            assertTrue(core.getUnitsStudentOversight().size() == 1);
+            assertEquals(core.getUnitsStudentOversight().get(0).getId(), "CORE-SOU");
 
-			assertNotNull(core.getAttributes());
-			assertTrue(core.getAttributes().size() ==2);
-			assertEquals("GINGER GEM", core.getAttributes().get("COOKIES"));
-			assertEquals("JAM TART", core.getAttributes().get("CAKES"));
+            assertNotNull(core.getAttributes());
+            assertTrue(core.getAttributes().size() ==2);
+            assertEquals("GINGER GEM", core.getAttributes().get("COOKIES"));
+            assertEquals("JAM TART", core.getAttributes().get("CAKES"));
 
-			assertNotNull(core.getMetaInfo());
-			assertEquals("1", core.getMetaInfo().getVersionInd());
-			assertNotNull(core.getType());
-			assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
-			assertNotNull(core.getState());
-			assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
-			assertNotNull(core.getId());
-			assertEquals("00F5F8C5-FFF1-4C8B-92FC-789B891E0849", core.getId());
+            assertNotNull(core.getMetaInfo());
+            assertEquals("1", core.getMetaInfo().getVersionInd());
+            assertNotNull(core.getType());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
+            assertNotNull(core.getState());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
+            assertNotNull(core.getId());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", core.getId());
           } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             fail(e.getMessage());
         }
-	}
+    }
     @Test
     public void testGetMajorDiscipline() {
         MajorDisciplineInfo major = null;
@@ -197,7 +173,7 @@ public class TestProgramServiceImpl {
                 String expectedExceptionMessage = "Specified CLU is not a Major Discipline";
                 assertEquals("Expected DoesNotExistException has incorrect message:", expectedExceptionMessage, dnee.getMessage());
             }
-            major = programService.getMajorDiscipline("D4EA77DD-B492-4554-B104-863E42C5F8B7");
+            major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
 
             assertNotNull(major);
 
@@ -209,24 +185,25 @@ public class TestProgramServiceImpl {
 
             assertEquals("INSTR-1", major.getPublishedInstructors().get(0).getPersonId());
             assertNotNull(major.getCredentialProgramId());
-            assertEquals("D02DBBD3-20E2-410D-AB52-1BD6D362748B", major.getCredentialProgramId());
+            assertEquals("d02dbbd3-20e2-410d-ab52-1bd6d362748b", major.getCredentialProgramId());
 
             assertNotNull(major.getVariations());
-            assertTrue(major.getVariations().size() == 1);
-            assertEquals("BS", major.getVariations().get(0).getCode());
-
+            assertTrue(major.getVariations().size() == 2);
+            assertEquals("ZOOA", major.getVariations().get(0).getCode());
+            assertEquals("ARCB", major.getVariations().get(1).getCode());
+            
             assertNotNull(major.getCode());
             assertEquals("ANTH", major.getCode());
             assertNotNull(major.getCip2000Code());
-            assertEquals(major.getCip2000Code(), "CIP2000CODE");
+            assertEquals( "CIP2000CODE", major.getCip2000Code());
             assertNotNull(major.getCip2010Code());
-            assertEquals(major.getCip2010Code(), "CIP2010CODE");
+            assertEquals("CIP2010CODE", major.getCip2010Code());
             assertNotNull(major.getHegisCode());
-            assertEquals(major.getHegisCode(), "HEGISCODE");
+            assertEquals("HEGISCODE", major.getHegisCode());
             assertNotNull(major.getUniversityClassification());
-            assertEquals(major.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
+            assertEquals("UNIVERSITYCLASSIFICATIONCODE", major.getUniversityClassification());
             assertNotNull(major.getSelectiveEnrollmentCode());
-            assertEquals(major.getSelectiveEnrollmentCode(), "SELECTIVEENROLLMENTCODE");
+            assertEquals("SELECTIVEENROLLMENTCODE", major.getSelectiveEnrollmentCode());
 
             assertNotNull(major.getResultOptions());
             assertTrue(major.getResultOptions().size() == 1);
@@ -252,14 +229,16 @@ public class TestProgramServiceImpl {
 //            Date testDate = new Date(effectiveDate.getTimeInMillis());
 //            assertTrue(major.getEffectiveDate().compareTo(testDate) == 0);
 
+            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, major.getAttributes().get(ProgramAssemblerConstants.PROGRAM_LEVEL));
             assertNotNull(major.getShortTitle());
+
             assertEquals("Anthro", major.getShortTitle());
             assertNotNull(major.getLongTitle());
             assertEquals("Anthropology", major.getLongTitle());
             assertNotNull(major.getTranscriptTitle());
-            assertEquals(major.getTranscriptTitle(), "TRANSCRIPT-TITLE");
+            assertEquals("TRANSCRIPT-TITLE", major.getTranscriptTitle());
             assertNotNull(major.getDiplomaTitle());
-            assertEquals(major.getDiplomaTitle(), "DIPLOMA-TITLE");
+            assertEquals("DIPLOMA-TITLE", major.getDiplomaTitle() );
             assertNotNull(major.getDescr());
             assertEquals("Anthropology Major", major.getDescr().getPlain());
 
@@ -276,7 +255,7 @@ public class TestProgramServiceImpl {
 
             assertNotNull(major.getOrgCoreProgram());
             assertEquals("kuali.lu.type.CoreProgram", major.getOrgCoreProgram().getType());
-            assertEquals("00F5F8C5-FFF1-4C8B-92FC-789B891E0849", major.getOrgCoreProgram().getId());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", major.getOrgCoreProgram().getId());
             //TODO progr requirements
 
             assertNotNull(major.getAccreditingAgencies());
@@ -315,7 +294,7 @@ public class TestProgramServiceImpl {
             assertEquals(major.getUnitsFinancialControl().get(0).getId(), "MAJOR-10");
             assertEquals(major.getUnitsFinancialControl().get(1).getId(), "MAJOR-11");
             assertNotNull(major.getAttributes());
-            assertTrue(major.getAttributes().size() ==2);
+            assertEquals(3, major.getAttributes().size());
             assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
             assertEquals("JAM TART", major.getAttributes().get("CAKES"));
 
@@ -332,43 +311,258 @@ public class TestProgramServiceImpl {
             assertNotNull(major.getState());
             assertEquals(ProgramAssemblerConstants.ACTIVE, major.getState());
             assertNotNull(major.getId());
-            assertEquals("D4EA77DD-B492-4554-B104-863E42C5F8B7", major.getId());
+            assertEquals("d4ea77dd-b492-4554-b104-863e42c5f8b7", major.getId());
 
 
           } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             fail(e.getMessage());
         }
     }
 
     @Test
     public void testGetVariationsByMajorDisciplineId(){
-    	MajorDisciplineInfo majorDisciplineInfo = null;
-    	
-        try {
-			majorDisciplineInfo = programService.getMajorDiscipline("D4EA77DD-B492-4554-B104-863E42C5F8B7");
-			assertNotNull(majorDisciplineInfo);
+        MajorDisciplineInfo majorDisciplineInfo = null;
 
-			List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("D4EA77DD-B492-4554-B104-863E42C5F8B7");
-			assertNotNull(pvInfos);
-			assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
-						
+        try {
+            majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(majorDisciplineInfo);
+            
+            List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(pvInfos);
+            assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
+            
+            ProgramVariationInfo pvInfo = pvInfos.get(0);
+            assertEquals("ZOOA", pvInfo.getCode());
+            assertEquals("Zooarchaeology", pvInfo.getDescr().getPlain());
+            assertEquals("Zooarchaeology", pvInfo.getLongTitle());
+            assertEquals("ZooArch", pvInfo.getShortTitle());
+            assertEquals("VAR-200", pvInfo.getId());
+            assertEquals("active", pvInfo.getState());
+
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             fail(e.getMessage());
         }
     }
 
+    
     @Test
-    @Ignore public void testDeleteMajorDiscipline() {
+    public void testGetBaccCredentialProgram(){
+
+    	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
+    	CredentialProgramInfo credentialProgramInfo = null;
+    	try{
+    		credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
+            assertNotNull(credentialProgramInfo);
+            assertEquals("BS", credentialProgramInfo.getCode());
+            assertEquals("B.S.", credentialProgramInfo.getShortTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
+    		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
+            assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
+            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
+            assertNotNull(credentialProgramInfo.getCoreProgramIds());
+            assertEquals(1, credentialProgramInfo.getCoreProgramIds().size());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", credentialProgramInfo.getCoreProgramIds().get(0));
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        fail(e.getMessage());
+	    }
+    }
+
+    @Test
+    public void testCreateMajorDiscipline() {
+		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
+        MajorDisciplineInfo major;
+        try {
+            assertNotNull(major = mdGenerator.getMajorDisciplineInfoTestData());
+
+            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(major);
+
+            assertNotNull(createdMD);
+
+            assertNotNull(createdMD.getId());
+
+            assertNotNull(createdMD.getState());
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
+            
+            assertNotNull(createdMD.getType());
+            assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
+
+            assertNotNull(createdMD.getIntensity());
+            assertEquals("intensity-test", createdMD.getIntensity());
+            assertNotNull(createdMD.getReferenceURL());
+            assertEquals("referenceURL-test", createdMD.getReferenceURL());
+
+            assertEquals(2, createdMD.getPublishedInstructors().size());
+            assertEquals("personId-test", createdMD.getPublishedInstructors().get(0).getPersonId());
+
+            assertNotNull(createdMD.getCredentialProgramId());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", createdMD.getCredentialProgramId());
+
+            assertNotNull(createdMD.getVariations());
+            assertTrue(createdMD.getVariations().size() == 2);
+            assertNotNull(createdMD.getVariations().get(0).getId());
+            assertNotNull(createdMD.getVariations().get(1).getId());
+            assertEquals("kuali.lu.type.Variation", createdMD.getVariations().get(0).getType());
+            assertEquals("kuali.lu.type.Variation", createdMD.getVariations().get(1).getType());
+
+            assertNotNull(createdMD.getCode());
+//TODO            assertEquals("ANTH", createdMD.getCode());
+
+            assertNotNull(createdMD.getCip2000Code());
+            assertEquals(createdMD.getCip2000Code(), "cip2000Code-test");
+            assertNotNull(createdMD.getCip2010Code());
+            assertEquals(createdMD.getCip2010Code(), "cip2010Code-test");
+            assertNotNull(createdMD.getHegisCode());
+            assertEquals(createdMD.getHegisCode(), "hegisCode-test");
+            assertNotNull(createdMD.getUniversityClassification());
+            assertEquals(createdMD.getUniversityClassification(), "universityClassification-test");
+            assertNotNull(createdMD.getSelectiveEnrollmentCode());
+            assertEquals(createdMD.getSelectiveEnrollmentCode(), "selectiveEnrollmentCode-test");
+
+            assertNotNull(createdMD.getResultOptions());
+            assertTrue(createdMD.getResultOptions().size() == 2);
+            assertEquals("resultOptions-test", createdMD.getResultOptions().get(0));
+
+            assertNotNull(createdMD.getStdDuration());
+            assertEquals("atpDurationTypeKey-test", createdMD.getStdDuration().getAtpDurationTypeKey());
+            assertEquals(new Integer(63), createdMD.getStdDuration().getTimeQuantity());
+
+            assertNotNull(createdMD.getStartTerm());
+            assertEquals("startTerm-test", createdMD.getStartTerm());
+            assertNotNull(createdMD.getEndTerm());
+            assertEquals("endTerm-test", createdMD.getEndTerm());
+            assertNotNull(createdMD.getEndProgramEntryTerm());
+            assertEquals("endProgramEntryTerm-test", createdMD.getEndProgramEntryTerm());
+            assertNotNull(createdMD.getNextReviewPeriod());
+            assertEquals("nextReviewPeriod-test", createdMD.getNextReviewPeriod());
+
+            assertNotNull(createdMD.getEffectiveDate());
+            //TODO effectiveDate
+//            Calendar effectiveDate = GregorianCalendar.getInstance();
+//            effectiveDate.set(1984, 7, 1, 0, 0, 0);
+//            Date testDate = new Date(effectiveDate.getTimeInMillis());
+//            assertTrue(createdMD.getEffectiveDate().compareTo(testDate) == 0);
+
+            assertNotNull(createdMD.getShortTitle());
+            assertEquals("shortTitle-test", createdMD.getShortTitle());
+            assertNotNull(createdMD.getLongTitle());
+            assertEquals("longTitle-test", createdMD.getLongTitle());
+            assertNotNull(createdMD.getTranscriptTitle());
+            assertEquals(createdMD.getTranscriptTitle(), "transcriptTitle-test");
+            assertNotNull(createdMD.getDiplomaTitle());
+            assertEquals(createdMD.getDiplomaTitle(), "diplomaTitle-test");
+            assertNotNull(createdMD.getDescr());
+            assertEquals("plain-test", createdMD.getDescr().getPlain());
+            assertEquals("formatted-test", createdMD.getDescr().getFormatted());
+
+            //TODO catalog pub targets
+
+            assertNotNull(createdMD.getCatalogDescr());
+            assertEquals("plain-test", createdMD.getCatalogDescr().getPlain());
+            assertEquals("formatted-test", createdMD.getCatalogDescr().getFormatted());
+
+            assertNotNull(createdMD.getCatalogPublicationTargets());
+            assertTrue(createdMD.getCatalogPublicationTargets().size() == 2);
+            assertEquals("catalogPublicationTargets-test", createdMD.getCatalogPublicationTargets().get(0));
+
+            assertNotNull(createdMD.getLearningObjectives());
+            assertTrue(createdMD.getLearningObjectives().size() == 2);
+            assertEquals("plain-test", createdMD.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
+
+            assertNotNull(createdMD.getCampusLocations());
+            assertTrue(createdMD.getCampusLocations().size() == 2);
+            assertEquals("SOUTH", createdMD.getCampusLocations().get(0));
+            assertEquals("NORTH", createdMD.getCampusLocations().get(1));
+
+            assertNotNull(createdMD.getOrgCoreProgram());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdMD.getOrgCoreProgram().getType());
+// TODO           assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", createdMD.getOrgCoreProgram().getId());
+            //TODO progr requirements
+
+            assertNotNull(createdMD.getProgramRequirements());
+            assertTrue(createdMD.getProgramRequirements().size() == 2);
+            assertEquals("programRequirements-test", createdMD.getProgramRequirements().get(0));
+
+            assertNotNull(createdMD.getAccreditingAgencies());
+            assertTrue(createdMD.getAccreditingAgencies().size() == 2);
+            assertEquals("orgId-test", createdMD.getAccreditingAgencies().get(0).getOrgId());
+
+            assertNotNull(createdMD.getDivisionsContentOwner());
+            assertTrue(createdMD.getDivisionsContentOwner().size() == 4);
+            assertEquals(createdMD.getDivisionsContentOwner().get(0).getType(), ProgramAssemblerConstants.CONTENT_OWNER_DIVISION);
+            assertNotNull(createdMD.getDivisionsStudentOversight());
+            assertTrue(createdMD.getDivisionsStudentOversight().size() == 4);
+            assertEquals(createdMD.getDivisionsStudentOversight().get(0).getType(), ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION);
+            assertNotNull(createdMD.getDivisionsDeployment());
+            assertTrue(createdMD.getDivisionsDeployment().size() == 4);
+            assertEquals(createdMD.getDivisionsDeployment().get(0).getType(), ProgramAssemblerConstants.DEPLOYMENT_DIVISION);
+            assertNotNull(createdMD.getDivisionsFinancialResources());
+            assertTrue(createdMD.getDivisionsFinancialResources().size() == 4);
+            assertEquals(createdMD.getDivisionsFinancialResources().get(0).getType(), ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION);
+            assertNotNull(createdMD.getDivisionsFinancialControl());
+            assertTrue(createdMD.getDivisionsFinancialControl().size() == 4);
+            assertEquals(createdMD.getDivisionsFinancialControl().get(0).getType(), ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION);
+
+            assertNotNull(createdMD.getUnitsContentOwner());
+            assertTrue(createdMD.getUnitsContentOwner().size() == 4);
+            assertEquals(createdMD.getUnitsContentOwner().get(0).getType(), ProgramAssemblerConstants.CONTENT_OWNER_UNIT);
+            assertNotNull(createdMD.getUnitsStudentOversight());
+            assertTrue(createdMD.getUnitsStudentOversight().size() == 4);
+            assertEquals(createdMD.getUnitsStudentOversight().get(1).getType(), ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT);
+            assertNotNull(createdMD.getUnitsDeployment());
+            assertTrue(createdMD.getUnitsDeployment().size() == 4);
+            assertEquals(createdMD.getUnitsDeployment().get(0).getType(), ProgramAssemblerConstants.DEPLOYMENT_UNIT);
+            assertNotNull(createdMD.getUnitsFinancialResources());
+            assertTrue(createdMD.getUnitsFinancialResources().size() == 4);
+            assertEquals(createdMD.getUnitsFinancialResources().get(0).getType(), ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT);
+            assertNotNull(createdMD.getUnitsFinancialControl());
+            assertTrue(createdMD.getUnitsFinancialControl().size() == 4);
+            assertEquals(createdMD.getUnitsFinancialControl().get(0).getType(), ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT);
+
+            assertNotNull(createdMD.getAttributes());
+            assertTrue(createdMD.getAttributes().size() ==2);
+            assertEquals("attributes-1", createdMD.getAttributes().get("attributes-1"));
+            assertEquals("attributes-2", createdMD.getAttributes().get("attributes-2"));
+
+            assertNotNull(createdMD.getMetaInfo());
+            assertEquals("0", createdMD.getMetaInfo().getVersionInd());
+           //TODO createTime
+//            Calendar createTime = GregorianCalendar.getInstance();
+//            createTime.set(2009, 4, 7, 12, 5, 36);
+//            testDate = new Date(createTime.getTimeInMillis());
+//            assertTrue(createdMD.getEffectiveDate().compareTo(testDate) == 0);
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+	}
+
+	@Test
+	@Ignore
+	public void testCreateProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		ProgramRequirementInfo progReqInfo = new ProgramRequirementInfo();
+
+		ProgramRequirementInfo createdInfo = programService.createProgramRequirement(progReqInfo);
+		assertNotNull(createdInfo);
+	}
+
+    @Test
+    public void testDeleteMajorDiscipline() {
         try {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
             assertNotNull(majorDisciplineInfo);
+            fixLoCategoryIds(majorDisciplineInfo.getLearningObjectives());
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
             assertNotNull(createdMD);
             assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
+            assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", createdMD.getCredentialProgramId());
+            
             String majorDisciplineId = createdMD.getId();
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineId);
             assertNotNull(retrievedMD);
@@ -383,39 +577,64 @@ public class TestProgramServiceImpl {
         }
     }
 
+    private void fixLoCategoryIds(List<LoDisplayInfo> loDisplayInfoList) {
+        for (LoDisplayInfo parentLo : loDisplayInfoList) {
+            fixLoCategoryId(parentLo.getLoCategoryInfoList());
+            fixLoCategoryIds(parentLo.getLoDisplayInfoList());
+        }
+    }
+    private void fixLoCategoryId(List<LoCategoryInfo> loCategoryInfoList) {
+        loCategoryInfoList.get(1).setId(OTHER_LO_CAT_ID);
+    }
+
     @Test
-    @Ignore public void testUpdateMajorDiscipline() {
+    public void testUpdateMajorDiscipline() {
         try {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
             assertNotNull(majorDisciplineInfo);
-            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
-            assertNotNull(createdMD);
+//            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
+            MajorDisciplineInfo major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(major);
 
             // minimal sanity check
-            assertEquals("longTitle-test", createdMD.getLongTitle());
-            assertEquals("shortTitle-test", createdMD.getShortTitle());
-            assertEquals("credentialProgramId-test", createdMD.getCredentialProgramId());
-            assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
+            assertNotNull(major.getCode());
+            assertEquals("ANTH", major.getCode());
+            assertNotNull(major.getType());
+            assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, major.getType());
+            assertNotNull(major.getState());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, major.getState());
+            assertNotNull(major.getId());
+            assertEquals("d4ea77dd-b492-4554-b104-863e42c5f8b7", major.getId());
+            assertNotNull(major.getShortTitle());
+            assertEquals("Anthro", major.getShortTitle());
+            assertNotNull(major.getLongTitle());
+            assertEquals("Anthropology", major.getLongTitle());
 
             // update some fields
-            createdMD.getCampusLocations().add("MAIN");
-            createdMD.setLongTitle("longTitle-toolong");
-            createdMD.getProgramRequirements().remove(0);
+            major.getCampusLocations().add("MAIN");
+            major.setLongTitle(major.getLongTitle() + "-updated");
+            major.getAttributes().put("PIES", "APPLE");
 
-            Map<String, String> attributes = createdMD.getAttributes();
-            attributes.put("testKey", "testValue");
-            createdMD.setAttributes(attributes);
+            major.setCip2000Code(major.getCip2000Code() + "-updated");
+            major.setDiplomaTitle(major.getDiplomaTitle() + "-updated");
+            major.setTranscriptTitle(major.getTranscriptTitle() + "-updated");
+
+            for (AdminOrgInfo orgInfo : major.getDivisionsFinancialControl()) {
+                orgInfo.setOrgId(orgInfo.getOrgId()+"-updated");
+            }
+            for (AdminOrgInfo orgInfo : major.getUnitsDeployment()) {
+                orgInfo.setOrgId(orgInfo.getOrgId()+"-updated");
+            }
 
            //Perform the update
-            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(createdMD);
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major);
 
             //Verify the update
             verifyUpdate(updatedMD);
 
             // Now explicitly get it
-            MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(createdMD.getId());
+            MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(major.getId());
             verifyUpdate(retrievedMD);
 
             //TODO: add version update
@@ -429,18 +648,31 @@ public class TestProgramServiceImpl {
     private void verifyUpdate(MajorDisciplineInfo updatedMD) {
     	assertNotNull(updatedMD);
 
-        assertEquals(3, updatedMD.getAttributes().size());
-        assertNotNull(updatedMD.getAttributes().get("testKey"));
-        assertEquals("testValue", updatedMD.getAttributes().get("testKey"));
+        assertEquals(4, updatedMD.getAttributes().size());
+        assertNotNull(updatedMD.getAttributes().get("PIES"));
+        assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
 
         assertEquals(3, updatedMD.getCampusLocations().size());
-        assertEquals("MAIN", updatedMD.getCampusLocations().get(3));
+        assertEquals("NORTH", updatedMD.getCampusLocations().get(0));
+        assertEquals("SOUTH", updatedMD.getCampusLocations().get(1));
+        assertEquals("MAIN", updatedMD.getCampusLocations().get(2));
 
-        assertEquals(1, updatedMD.getProgramRequirements().size());
+//        assertEquals(1, updatedMD.getProgramRequirements().size());
 
-        assertEquals("longTitle-toolong", updatedMD.getLongTitle());
+        assertEquals("Anthropology-updated", updatedMD.getLongTitle());
+        assertEquals( "CIP2000CODE-updated", updatedMD.getCip2000Code());
+        assertEquals("TRANSCRIPT-TITLE-updated", updatedMD.getTranscriptTitle());
+        assertEquals("DIPLOMA-TITLE-updated", updatedMD.getDiplomaTitle() );
+
+//        for (AdminOrgInfo orgInfo : major.getDivisionsFinancialControl()) {
+//            orgInfo.setOrgId(orgInfo.getOrgId()+"-updated");
+//        }
+//        for (AdminOrgInfo orgInfo : major.getUnitsDeployment()) {
+//            orgInfo.setOrgId(orgInfo.getOrgId()+"-updated");
+//        }
+
     }
-    
+
     @Test
     @Ignore
     public void testCreateBaccCredentialProgram() {
@@ -456,29 +688,7 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
 	}
-    
-    @Test
-    public void testGetBaccCredentialProgram(){
-    	String credentialProgramId = "D02DBBD3-20E2-410D-AB52-1BD6D362748B";
-    	CredentialProgramInfo credentialProgramInfo = null;
-    	try{
-    		credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
-            assertNotNull(credentialProgramInfo);
-            assertEquals("BS", credentialProgramInfo.getCode());
-            assertEquals("B.S.", credentialProgramInfo.getShortTitle());
-            assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
-            assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
-    		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
-            assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
-            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
 
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	        fail(e.getMessage());
-	    }
-    }
-    
     @Test
     @Ignore public void testDeleteBaccCredentialProgram() {
         try {
@@ -502,7 +712,7 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
     }
-    
+
     @Test
     @Ignore public void testUpdateBaccCredentialProgram() {
         try {
@@ -543,7 +753,7 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
     }
-    
+
     private void verifyUpdate(CredentialProgramInfo updatedCP) {
     	assertNotNull(updatedCP);
 
@@ -555,9 +765,8 @@ public class TestProgramServiceImpl {
 
         assertEquals("longTitle-toolong", updatedCP.getLongTitle());
     }
-    
+
     @Test
-    @Ignore
     public void testCreateCoreProgram() {
     	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
     	CoreProgramInfo coreProgramInfo = null;
@@ -571,4 +780,89 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
 	}
+    
+    @Test 
+    public void testUpdateVariationsByMajorDiscipline(){
+        MajorDisciplineInfo majorDisciplineInfo = null;
+
+        try {
+            majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(majorDisciplineInfo);
+            
+            List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
+            assertNotNull(pvInfos);
+            
+            // update variation fields
+            ProgramVariationInfo pvInfo = pvInfos.get(0);
+
+            pvInfo.setLongTitle(pvInfo.getLongTitle() + "-updated");
+            pvInfo.setCode(pvInfo.getCode() + "-updated");
+            pvInfo.setShortTitle(pvInfo.getShortTitle() + "-updated");
+            RichTextInfo testDesc = pvInfo.getDescr();
+            testDesc.setPlain(testDesc.getPlain() + "-updated");
+            pvInfo.setDescr(testDesc);
+            pvInfo.setCip2000Code( pvInfo.getCip2000Code() + "-updated");
+            pvInfo.setCip2010Code(pvInfo.getCip2010Code() + "-updated");
+            pvInfo.setTranscriptTitle("transcriptTitle-updated");
+            pvInfo.setDiplomaTitle(pvInfo.getDiplomaTitle() + "-updated");
+            
+            List<String> campusLocations = new ArrayList<String>();
+            campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH);
+            campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH);
+            pvInfo.setCampusLocations(campusLocations);
+            
+            List<AdminOrgInfo> testOrgs = new ArrayList<AdminOrgInfo>();
+            AdminOrgInfo testOrg = new AdminOrgInfo();
+            testOrg.setOrgId("testOrgId");
+            testOrg.setType(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION);
+            testOrgs.add(testOrg);
+            if(pvInfo.getDivisionsContentOwner()!= null){
+            	pvInfo.getDivisionsContentOwner().clear();
+            	pvInfo.getDivisionsContentOwner().add(testOrg);
+            }
+            else
+            	pvInfo.setDivisionsContentOwner(testOrgs);
+            
+            //Perform the update
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
+            List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
+            assertNotNull(updatedPvInfos);
+            ProgramVariationInfo updatedPV = updatedPvInfos.get(0);
+            	
+            //Verify the update
+            verifyUpdate(updatedPV);
+
+            // Now explicitly get it
+            List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
+            assertNotNull(pvInfos);
+            verifyUpdate(retrievedPVs.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }   	
+    }
+
+    private void verifyUpdate(ProgramVariationInfo updatedPV) {
+    	assertNotNull(updatedPV);
+
+        //assertEquals("BS-updated", updatedPV.getCode());
+        assertEquals("Zooarchaeology-updated", updatedPV.getDescr().getPlain());
+        assertEquals("Zooarchaeology-updated", updatedPV.getLongTitle());
+        assertEquals("ZooArch-updated", updatedPV.getShortTitle());
+        
+        assertEquals("CIP2000CODE-updated", updatedPV.getCip2000Code());
+        assertEquals("CIP2010CODE-updated", updatedPV.getCip2010Code());
+        assertEquals("transcriptTitle-updated", updatedPV.getTranscriptTitle());
+        assertEquals("Zooarchaeology-updated", updatedPV.getDiplomaTitle());
+
+        assertNotNull(updatedPV.getCampusLocations());
+        for(String loc : updatedPV.getCampusLocations()){
+        	assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(loc) || CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH.equals(loc));
+        }
+
+        assertNotNull(updatedPV.getDivisionsContentOwner());
+        assertEquals("testOrgId", updatedPV.getDivisionsContentOwner().get(0).getOrgId());
+        assertEquals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION, updatedPV.getDivisionsContentOwner().get(0).getType());
+
+    }
 }

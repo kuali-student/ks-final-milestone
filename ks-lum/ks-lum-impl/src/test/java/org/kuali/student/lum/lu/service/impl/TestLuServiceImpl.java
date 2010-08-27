@@ -850,7 +850,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getAttributes().get("AccountingAttrKey3"));
 		assertEquals(2, updatedClu.getAccountingInfo().getAttributes().size());
 
-		assertEquals("UPoffId-divisionUPoffId-suffixcode", updatedClu
+        assertEquals("UPoffId-code", updatedClu
 				.getOfficialIdentifier().getCode());
 		assertEquals("UPoffId-division", updatedClu.getOfficialIdentifier()
 				.getDivision());
@@ -2274,7 +2274,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-        assertEquals(106, createdCluSet.getCluIds().size());
+        assertEquals(109, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {

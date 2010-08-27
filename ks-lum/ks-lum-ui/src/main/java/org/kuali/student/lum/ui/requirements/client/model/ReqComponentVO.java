@@ -17,7 +17,7 @@ package org.kuali.student.lum.ui.requirements.client.model;
 
 import java.io.Serializable;
 
-import org.kuali.student.common.ui.client.widgets.table.Token;
+import org.kuali.student.common.ui.client.widgets.rules.Token;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -29,10 +29,8 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
     private ReqComponentInfo reqComponentInfo;
     private String typeDesc;
     private boolean dirty;
-    private boolean checkBoxOn;
     private String clusetId = null;
-    // for GUI use only the As, Bs and Cs, has no meaning in the 
-    // LUM service
+    // for GUI use only the As, Bs and Cs, has no meaning in the LUM service
     private String guiReferenceLabelId;
     
     public ReqComponentVO() {}
@@ -66,14 +64,6 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
         this.dirty = dirty;
     }
 
-    public boolean isCheckBoxOn() {
-        return checkBoxOn;
-    }
-
-    public void setCheckBoxOn(boolean checkBoxOn) {
-        this.checkBoxOn = checkBoxOn;
-    }
- 
     public String getClusetId() {
         return clusetId;
     }
@@ -88,6 +78,7 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
 
     public void setGuiReferenceLabelId(String guiReferenceLabelId) {
         this.guiReferenceLabelId = guiReferenceLabelId;
+        this.setTokenID(guiReferenceLabelId);
     }
 
     @Override
