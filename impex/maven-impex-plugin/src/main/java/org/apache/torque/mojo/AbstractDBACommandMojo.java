@@ -52,7 +52,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 
 	/**
 	 * Set this to false if you are allowing DBA commands (eg CREATE database, DROP database) to be issued against your
-	 * database without required authentication
+	 * database anonymously
 	 * 
 	 * @parameter expression="${requireDbaCredentials}" default-value="true"
 	 */
@@ -80,6 +80,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		return properties;
 	}
 
+	@Override
 	protected void validateConfiguration() throws MojoExecutionException {
 		super.validateConfiguration();
 		if (isEmpty(database)) {
@@ -87,13 +88,26 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		}
 	}
 
-	protected void validateCredentials() throws MojoExecutionException {
-		if (!requireDbaCredentials) {
-			return;
-		}
-		if (isEmpty(dbaUsername) || isEmpty(dbaPassword)) {
-			throw new MojoExecutionException("\n\nUsername and password for a DBA user must be specified.\nSpecify them in the plugin configuration or as a system property.\n\nFor example:\n-DdbaUsername=dbauser\n-DdbaPassword=dbapassword\n\n.");
-		}
+	@Override
+	protected Credentials getCredentials() {
+		Credentials credentials = new Credentials();
+		credentials.setUsername(getDbaUsername());
+		credentials.setPassword(getDbaPassword());
+		return credentials;
+	}
+
+	@Override
+	protected void validateCredentials(Credentials credentials) throws MojoExecutionException {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n\n");
+		sb.append("Username and password for a DBA user must be specified.\n");
+		sb.append("Specify them in the plugin configuration or as a system property.\n");
+		sb.append("\n");
+		sb.append("For example:\n");
+		sb.append("-DdbaUsername=dbauser\n");
+		sb.append("-DdbaPassword=dbapassword\n");
+		sb.append("\n.");
+		validateCredentials(credentials, requireDbaCredentials, sb.toString());
 	}
 
 	public String getDatabase() {

@@ -144,11 +144,11 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean showPassword;
 
 	/**
-	 * Server's <code>id</code> in <code>settings.xml</code> to look up username and password. Defaults to
-	 * <code>${url}</code> if not given.
+	 * The id of the server in settings.xml containing the username/password to use. This defaults to
+	 * "impex.${project.artifactId}"
 	 * 
 	 * @since 1.0
-	 * @parameter expression="${settingsKey}"
+	 * @parameter expression="${settingsKey}" default-value="impex.${project.artifactId}"
 	 */
 	String settingsKey;
 
@@ -320,6 +320,13 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		return properties;
 	}
 
+	protected Credentials getCredentials() {
+		Credentials credentials = new Credentials();
+		credentials.setUsername(getUsername());
+		credentials.setPassword(getPassword());
+		return credentials;
+	}
+
 	/**
 	 * Validate our configuration and execute SQL as appropriate
 	 * 
@@ -328,7 +335,9 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	public void executeMojo() throws MojoExecutionException {
 
 		updateConfiguration();
-		updateCredentials();
+		Credentials credentials = getCredentials();
+		updateCredentials(credentials);
+		validateCredentials(credentials);
 		validateConfiguration();
 
 		conn = getConnection();
@@ -514,30 +523,36 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		} catch (ClassNotFoundException e) {
 			throw new MojoExecutionException("Can't load driver class " + driver + ". Be sure to include it as a plugin dependency.");
 		}
-		validateCredentials();
 	}
 
-	protected void validateCredentials() throws MojoExecutionException {
-		if (!requireDatabaseCredentials) {
+	protected void validateCredentials(Credentials credentials, boolean anonymousAccessAllowed, String validationFailureMessage) throws MojoExecutionException {
+		if (!anonymousAccessAllowed) {
 			// Might be accessing a database anonymously
 			return;
 		}
+		String username = credentials.getUsername();
+		String password = credentials.getPassword();
 		if (!isEmpty(username) && !isEmpty(password)) {
-			// Both have been supplied
+			// Both are required, and both have been supplied
 			return;
 		}
+		throw new MojoExecutionException(validationFailureMessage);
+	}
+
+	protected void validateCredentials(Credentials credentials) throws MojoExecutionException {
+		// Both are required but one (or both) are missing
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n\n------------------------------------ \n");
 		sb.append(" !! Invalid database credentials !! \n");
 		sb.append("------------------------------------ \n");
-		if (isEmpty(username)) {
+		if (isEmpty(credentials.getUsername())) {
 			sb.append("No username was supplied\n");
 		}
-		if (isEmpty(password)) {
+		if (isEmpty(credentials.getPassword())) {
 			sb.append("No password was supplied\n");
 		}
 		sb.append("\n\n.");
-		throw new MojoExecutionException(sb.toString());
+		validateCredentials(credentials, requireDatabaseCredentials, sb.toString());
 	}
 
 	protected boolean isNullOrEmpty(Collection<?> c) {
@@ -563,48 +578,54 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * 
 	 * @throws MojoExecutionException
 	 */
-	protected void updateCredentials() {
-		if (settingsKey == null) {
-			// Use the JDBC url as a key into settings.xml by default
-			settingsKey = getUrl();
-		}
-		Server server = getSettings().getServer(settingsKey);
-		updateUsername(server);
-		updatePassword(server);
+	protected void updateCredentials(Credentials credentials) {
+		Server server = getServerFromSettingsKey();
+		String username = getUpdatedUsername(server, credentials.getUsername());
+		String password = getUpdatedPassword(server, credentials.getUsername());
+		credentials.setUsername(convertNullToEmpty(username));
+		credentials.setPassword(convertNullToEmpty(password));
 	}
 
-	protected void updatePassword(Server server) {
+	protected Server getServerFromSettingsKey() {
+		Server server = getSettings().getServer(getSettingsKey());
+		if (server == null) {
+			// Fall through to using the JDBC url as a key
+			return getSettings().getServer(getUrl());
+		} else {
+			return null;
+		}
+	}
+
+	protected String getUpdatedPassword(Server server, String password) {
 		// They already gave us a password, don't mess with it
-		if (getPassword() != null) {
-			return;
+		if (!isEmpty(password)) {
+			return password;
 		}
 		if (server != null) {
 			// We've successfully located a server in settings.xml, use the password from that
-			setPassword(server.getPassword());
+			return server.getPassword();
 		} else if (useArtifactIdForCredentials) {
-			// No password was explicitly set, no server was located in settings.xml and they've asked for the password
-			// to default to the artifact id
-			setPassword(getTrimmedArtifactId());
+			// Fall through to using the artifact id of the project as a password
+			return getTrimmedArtifactId();
+		} else {
+			return null;
 		}
-		// If it is null convert it to the empty string
-		setPassword(convertNullToEmpty(getPassword()));
 	}
 
-	protected void updateUsername(Server server) {
-		// Username is already set, don't mess with it
-		if (getUsername() != null) {
-			return;
+	protected String getUpdatedUsername(Server server, String username) {
+		// They already gave us a username, don't mess with it
+		if (!isEmpty(username)) {
+			return username;
 		}
 		if (server != null) {
 			// We've successfully located a server in settings.xml, use the username from that
-			setUsername(server.getUsername());
+			return server.getUsername();
 		} else if (useArtifactIdForCredentials) {
-			// No username was explicitly set, no server was located in settings.xml and they've asked for the username
-			// to default to the artifact id
-			setUsername(getTrimmedArtifactId());
+			// Fall through to using the artifact id of the project as a username
+			return getTrimmedArtifactId();
+		} else {
+			return null;
 		}
-		// If it is null convert it to the empty string
-		setUsername(convertNullToEmpty(getUsername()));
 	}
 
 	protected String trimArtifactId(String artifactId) {
@@ -899,5 +920,37 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	public void setShowPassword(boolean showPassword) {
 		this.showPassword = showPassword;
+	}
+
+	public boolean isEnableAnonymousPassword() {
+		return enableAnonymousPassword;
+	}
+
+	public void setEnableAnonymousPassword(boolean enableAnonymousPassword) {
+		this.enableAnonymousPassword = enableAnonymousPassword;
+	}
+
+	public boolean isRequireDatabaseCredentials() {
+		return requireDatabaseCredentials;
+	}
+
+	public void setRequireDatabaseCredentials(boolean requireDatabaseCredentials) {
+		this.requireDatabaseCredentials = requireDatabaseCredentials;
+	}
+
+	public String getSettingsKey() {
+		return settingsKey;
+	}
+
+	public boolean isAutocommit() {
+		return autocommit;
+	}
+
+	public void setSuccessfulStatements(int successfulStatements) {
+		this.successfulStatements = successfulStatements;
+	}
+
+	public void setTotalStatements(int totalStatements) {
+		this.totalStatements = totalStatements;
 	}
 }
