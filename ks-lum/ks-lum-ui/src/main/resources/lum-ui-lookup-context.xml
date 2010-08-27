@@ -85,13 +85,22 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="course.administeringOrgs" parent="department-lookup-binding-parent">
+		<property name="path" value="courseInfo.administeringOrgs" />
+	</bean>
 
-	<bean id="course.curriculumOversightOrgs" parent="department-lookup-binding-parent">
+	<bean id="course.curriculumOversightOrgs" parent="orgcurriculum-lookup-binding-parent">
 		<property name="path" value="courseInfo.curriculumOversightOrgs" />
 	</bean>
 
-	<bean id="course.administeringOrgs" parent="department-lookup-binding-parent">
-		<property name="path" value="courseInfo.administeringOrgs" />
+	<bean id="orgcurriculum-lookup-binding-parent" parent="department-lookup-binding-parent"
+		abstract="true">
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.admin.orgcurriculum.advanced" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="department-lookup-binding-parent" parent="uilookup"
@@ -950,6 +959,51 @@
 		<property name="widget" value="NO_WIDGET"/>
 	</bean>
 
+	<!-- Advanced Search for Curriculum Oversight field -->
+	<bean id="kuali.lu.lookup.admin.orgcurriculum.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.admin.orgcurriculum.advanced"
+		autowire-candidate="default" dependency-check="default" autowire="default"
+		lazy-init="default">
+		<property name="id" value="kuali.lu.lookup.admin.departments.advanced" />
+		<property name="name" value="Find Organizations" />
+		<property name="desc"
+			value="Search for administrative department organization" />
+		<property name="title" value="Find Organization" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
+		<property name="resultSortKey" value="org.resultColumn.orgShortName" />
+		<property name="results">
+			<list>
+				<bean parent="result" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.resultColumn.orgId" />
+					<property name="name" value="Organization Identifier" />
+					<property name="desc" value="Identifier for the organization" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<bean parent="result" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.resultColumn.orgShortName" />
+					<property name="name" value="Abbreviation" />
+					<property name="desc"
+						value="Short name for the organization, recorded as the default listing" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+				<bean parent="result" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.resultColumn.orgOptionalLongName" />
+					<property name="name" value="Name" />
+					<property name="desc"
+						value="Long name for the organization, recorded as the default listing." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Advanced Searches -->
 
 	<bean id="kuali.lu.lookup.admin.departments.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
