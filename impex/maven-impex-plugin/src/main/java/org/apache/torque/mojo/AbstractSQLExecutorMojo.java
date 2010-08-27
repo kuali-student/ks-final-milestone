@@ -119,6 +119,14 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean enableAnonymousPassword;
 
 	/**
+	 * Fail the build if this is set to true and database credentials are not supplied
+	 * 
+	 * @since 1.4
+	 * @parameter expression="${requireDatabaseCredentials}" default-value="false"
+	 */
+	boolean requireDatabaseCredentials;
+
+	/**
 	 * Additional key=value pairs separated by comma to be passed into JDBC driver.
 	 * 
 	 * @since 1.0
@@ -490,6 +498,30 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		} catch (ClassNotFoundException e) {
 			throw new MojoExecutionException("Can't load driver class " + driver + ". Be sure to include it as a plugin dependency.");
 		}
+		validateCredentials();
+	}
+
+	protected void validateCredentials() throws MojoExecutionException {
+		if (!requireDatabaseCredentials) {
+			// Might be accessing a database anonymously
+			return;
+		}
+		if (!isEmpty(username) && !isEmpty(password)) {
+			// Both have been supplied
+			return;
+		}
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n\n------------------------------------ \n");
+		sb.append(" !! Invalid database credentials !! \n");
+		sb.append("------------------------------------ \n");
+		if (isEmpty(username)) {
+			sb.append("No username was supplied\n");
+		}
+		if (isEmpty(password)) {
+			sb.append("No password was supplied\n");
+		}
+		sb.append("\n\n.");
+		throw new MojoExecutionException(sb.toString());
 	}
 
 	protected boolean isNullOrEmpty(Collection<?> c) {
@@ -653,7 +685,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		sb.append("------------------------------------------------------\n");
 		sb.append("URL: " + getUrl() + "\n");
 		sb.append("Driver: " + getDriver() + "\n");
-		sb.append("Username: " + info.getProperty(DRIVER_INFO_PROPERTIES_USER) + "\n");
+		String username = info.getProperty(DRIVER_INFO_PROPERTIES_USER);
+		if (StringUtils.isEmpty(username)) {
+			sb.append("Username: [No username was supplied]\n");
+		} else {
+			sb.append("Username: " + username + "\n");
+		}
 		String password = info.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD);
 		if (isShowPassword()) {
 			sb.append("Password: " + password + "\n");
@@ -672,11 +709,14 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	protected String getSQLExceptionErrorMessage(SQLException e, Properties info, String message) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n\n");
-		sb.append(message + "\n\n------------------------------------------------------\n");
-		String emsg = e.getMessage();
-		sb.append(emsg);
-		if (!emsg.endsWith("\n")) {
-			sb.append("\n");
+		sb.append(message + "\n\n");
+		if (e != null) {
+			sb.append("------------------------------------------------------\n");
+			String emsg = e.getMessage();
+			sb.append(emsg);
+			if (!emsg.endsWith("\n")) {
+				sb.append("\n");
+			}
 		}
 		sb.append(getJDBCConfigurationErrorMessage(info));
 		return sb.toString();
