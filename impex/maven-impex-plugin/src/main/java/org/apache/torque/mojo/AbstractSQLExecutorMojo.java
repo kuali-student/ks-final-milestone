@@ -352,7 +352,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		try {
 			executor.execute();
 		} catch (SQLException e) {
-			throw new MojoExecutionException(getImpexError(e, "Error execution SQL").toString(), e);
+			throw new MojoExecutionException(getImpexError(e, "Error executing SQL").toString(), e);
 		}
 	}
 
