@@ -208,6 +208,13 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
+      <artifactId>ks-lum-ui-common</artifactId>
+      <classifier>sources</classifier>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
