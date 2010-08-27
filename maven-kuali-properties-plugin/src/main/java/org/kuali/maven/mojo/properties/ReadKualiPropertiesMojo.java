@@ -1,5 +1,7 @@
 package org.kuali.maven.mojo.properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -128,6 +130,12 @@ public class ReadKualiPropertiesMojo extends AbstractMojo {
 	}
 
 	public void execute() throws MojoExecutionException {
+		Log log = LogFactory.getLog(this.getClass());
+		log.info("DKDKFJ:LKSDJ:FLSDJF:LKSDJ:FLKSDJ:KFLJS:DF");
+		log.info("DKDKFJ:LKSDJ:FLSDJF:LKSDJ:FLKSDJ:KFLJS:DF");
+		log.info("DKDKFJ:LKSDJ:FLSDJF:LKSDJ:FLKSDJ:KFLJS:DF");
+		log.info("DKDKFJ:LKSDJ:FLSDJF:LKSDJ:FLKSDJ:KFLJS:DF");
+		log.info("DKDKFJ:LKSDJ:FLSDJF:LKSDJ:FLKSDJ:KFLJS:DF");
 		if (skipMojo()) {
 			return;
 		}
