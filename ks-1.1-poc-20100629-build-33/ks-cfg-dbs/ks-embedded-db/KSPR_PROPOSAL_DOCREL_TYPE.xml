@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
-<dataset>
-    <KSPR_PROPOSAL_DOCREL_TYPE
-        DESCRIPTION="Default proposal document relation type"
-        EFF_DT="20000101000000"
-        ID="kuali.proposal.docRelationType.attachment" NAME="kuali.proposal.docRelationType.attachment"/>
-</dataset>
