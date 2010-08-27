@@ -9,7 +9,7 @@ import static org.apache.commons.lang.StringUtils.*;
 /**
  * Common logic for running SQL commands on a database
  */
-public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMojo {
+public abstract class AbstractDatabaseAdministratorCommandMojo extends AbstractSQLExecutorMojo {
 	public static final String DATABASE_PROPERTY = "database";
 	public static final String DATABASE_PW_PROPERTY = "databasePassword";
 	public static final String DATABASE_USERNAME_PROPERTY = "databaseUsername";
