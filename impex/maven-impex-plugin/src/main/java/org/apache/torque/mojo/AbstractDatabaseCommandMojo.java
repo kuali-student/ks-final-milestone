@@ -38,13 +38,13 @@ public abstract class AbstractDatabaseCommandMojo extends AbstractSQLExecutorMoj
 
 	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();
-		if (project.getArtifactId().equals(database)) {
+		if (getProject().getArtifactId().equals(database)) {
 			database = getTrimmedArtifactId();
 		}
-		if (project.getArtifactId().equals(databasePassword)) {
+		if (getProject().getArtifactId().equals(databasePassword)) {
 			databasePassword = getTrimmedArtifactId();
 		}
-		if (project.getArtifactId().equals(databaseUsername)) {
+		if (getProject().getArtifactId().equals(databaseUsername)) {
 			databaseUsername = getTrimmedArtifactId();
 		}
 	}

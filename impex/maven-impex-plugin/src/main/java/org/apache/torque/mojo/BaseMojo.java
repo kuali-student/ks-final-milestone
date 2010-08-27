@@ -36,7 +36,7 @@ public abstract class BaseMojo extends AbstractMojo {
 	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
 	 * usually.
 	 * 
-	 * @parameter expression="${forceMorpherExecution}" default-value="false"
+	 * @parameter expression="${forceMojoExecution}" default-value="false"
 	 * @required
 	 */
 	private boolean forceMojoExecution;

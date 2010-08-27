@@ -31,12 +31,8 @@ import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Server;
-import org.apache.maven.settings.Settings;
 import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.kuali.core.db.torque.Utils;
 import org.kuali.db.DatabaseType;
@@ -50,7 +46,7 @@ import static org.apache.commons.lang.StringUtils.*;
 /**
  * Abstract mojo for making use of SQLExecutor
  */
-public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
+public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	Utils utils = new Utils();
 	JDBCUtils jdbcUtils = new JDBCUtils();
 
@@ -140,14 +136,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	boolean showPassword;
 
 	/**
-	 * @parameter expression="${settings}"
-	 * @required
-	 * @since 1.0
-	 * @readonly
-	 */
-	Settings settings;
-
-	/**
 	 * Server's <code>id</code> in <code>settings.xml</code> to look up username and password. Defaults to
 	 * <code>${url}</code> if not given.
 	 * 
@@ -166,33 +154,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	boolean skipOnConnectionError;
 
 	/**
-	 * Setting this parameter to <code>true</code> will force the execution of this mojo, even if it would get skipped
-	 * usually.
-	 * 
-	 * @parameter expression="${forceMojoExecution}" default-value=false
-	 * @required
-	 */
-	boolean forceMojoExecution;
-
-	/**
-	 * The Maven Project Object
-	 * 
-	 * @parameter default-value="${project}"
-	 * @required
-	 * @readonly
-	 */
-	MavenProject project;
-
-	/**
-	 * @parameter default-value="${session}"
-	 * @required
-	 * @readonly
-	 */
-	MavenSession mavenSession;
-
-	// ////////////////////////////// Source info /////////////////////////////
-
-	/**
 	 * SQL input commands separated by <code>${delimiter}</code>.
 	 * 
 	 * @since 1.0
@@ -207,14 +168,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * @parameter expression="${srcFiles}"
 	 */
 	File[] srcFiles;
-
-	/**
-	 * When <code>true</code>, skip the execution.
-	 * 
-	 * @since 1.0
-	 * @parameter default-value="false"
-	 */
-	boolean skip;
 
 	// //////////////////////////////// Database info /////////////////////////
 	/**
@@ -290,14 +243,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	boolean showheaders = true;
 
 	/**
-	 * Encoding to use when reading SQL statements from a file.
-	 * 
-	 * @parameter expression="${encoding}" default-value= "${project.build.sourceEncoding}"
-	 * @since 1.1
-	 */
-	String encoding = "";
-
-	/**
 	 * Append to an existing file or overwrite it?
 	 */
 	boolean append = false;
@@ -346,9 +291,9 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 
 	protected String getTrimmedArtifactId() {
 		if (trimArtifactId) {
-			return trimArtifactId(project.getArtifactId());
+			return trimArtifactId(getProject().getArtifactId());
 		} else {
-			return project.getArtifactId();
+			return getProject().getArtifactId();
 		}
 	}
 
@@ -362,7 +307,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		for (String key : environment.keySet()) {
 			properties.put("env." + key, environment.get(key));
 		}
-		properties.putAll(project.getProperties());
+		properties.putAll(getProject().getProperties());
 		properties.putAll(System.getProperties());
 		return properties;
 	}
@@ -372,11 +317,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 * 
 	 * @throws MojoExecutionException
 	 */
-	public void execute() throws MojoExecutionException {
-
-		if (skipMojo()) {
-			return;
-		}
+	public void executeMojo() throws MojoExecutionException {
 
 		updateConfiguration();
 		updateCredentials();
@@ -416,16 +357,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 */
 	public void addText(String sql) {
 		this.sqlCommand += sql;
-	}
-
-	/**
-	 * Set the file encoding to use on the SQL files read in
-	 * 
-	 * @param encoding
-	 *            the encoding to use on the files
-	 */
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
 	}
 
 	/**
@@ -486,33 +417,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 	 */
 	public void setEscapeProcessing(boolean enable) {
 		escapeProcessing = enable;
-	}
-
-	/**
-	 * <p>
-	 * Determine if the mojo execution should get skipped.
-	 * </p>
-	 * This is the case if:
-	 * <ul>
-	 * <li>{@link #skip} is <code>true</code></li>
-	 * <li>if the mojo gets executed on a project with packaging type 'pom' and {@link #forceMojoExecution} is
-	 * <code>false</code></li>
-	 * </ul>
-	 * 
-	 * @return <code>true</code> if the mojo execution should be skipped.
-	 */
-	protected boolean skipMojo() {
-		if (skip) {
-			getLog().info("Skip sql execution");
-			return true;
-		}
-
-		if (!forceMojoExecution && project != null && "pom".equals(project.getPackaging())) {
-			getLog().info("Skipping sql execution for project with packaging type 'pom'");
-			return true;
-		}
-
-		return false;
 	}
 
 	protected SQLExecutor getSqlExecutor() throws MojoExecutionException {
@@ -616,7 +520,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 			// Use the JDBC url as a key into settings.xml by default
 			settingsKey = getUrl();
 		}
-		Server server = settings.getServer(settingsKey);
+		Server server = getSettings().getServer(settingsKey);
 		updateUsername(server);
 		updatePassword(server);
 	}
@@ -632,11 +536,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		} else if (useArtifactIdForCredentials) {
 			// No password was explicitly set, no server was located in settings.xml and they've asked for the password
 			// to default to the artifact id
-			if (isTrimArtifactId()) {
-				setPassword(trimArtifactId(project.getArtifactId()));
-			} else {
-				setPassword(project.getArtifactId());
-			}
+			setPassword(getTrimmedArtifactId());
 		}
 		// If it is null convert it to the empty string
 		setPassword(convertNullToEmpty(getPassword()));
@@ -653,11 +553,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		} else if (useArtifactIdForCredentials) {
 			// No username was explicitly set, no server was located in settings.xml and they've asked for the username
 			// to default to the artifact id
-			if (isTrimArtifactId()) {
-				setUsername(trimArtifactId(project.getArtifactId()));
-			} else {
-				setUsername(project.getArtifactId());
-			}
+			setUsername(getTrimmedArtifactId());
 		}
 		// If it is null convert it to the empty string
 		setUsername(convertNullToEmpty(getUsername()));
@@ -842,7 +738,7 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		this.driver = driver;
 	}
 
-	void setAutocommit(boolean autocommit) {
+	public void setAutocommit(boolean autocommit) {
 		this.autocommit = autocommit;
 	}
 
@@ -888,16 +784,8 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 		}
 	}
 
-	void setSettings(Settings settings) {
-		this.settings = settings;
-	}
-
-	void setSettingsKey(String key) {
+	public void setSettingsKey(String key) {
 		this.settingsKey = key;
-	}
-
-	void setSkip(boolean skip) {
-		this.skip = skip;
 	}
 
 	public void setDriverProperties(String driverProperties) {
@@ -930,10 +818,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 
 	public void setTargetDatabase(String targetDatabase) {
 		this.targetDatabase = targetDatabase;
-	}
-
-	public String getEncoding() {
-		return encoding;
 	}
 
 	public Connection getConn() {
@@ -990,14 +874,6 @@ public abstract class AbstractSQLExecutorMojo extends AbstractMojo {
 
 	public void setSkipOnConnectionError(boolean skipOnConnectionError) {
 		this.skipOnConnectionError = skipOnConnectionError;
-	}
-
-	public MavenSession getMavenSession() {
-		return mavenSession;
-	}
-
-	public void setMavenSession(MavenSession mavenSession) {
-		this.mavenSession = mavenSession;
 	}
 
 	public MavenFileFilter getFileFilter() {
