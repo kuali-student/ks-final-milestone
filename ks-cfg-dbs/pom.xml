@@ -53,17 +53,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.kuali.maven.properties</groupId>
-        <artifactId>maven-kuali-properties-plugin</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <configuration>
-          <locations>
-            <param>${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
-            <param>${additional.config.locations}</param>
-          </locations>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
         <version>1.0.1-SNAPSHOT</version>
@@ -87,6 +76,7 @@
               <goal>datadtd</goal>
             </goals>
           </execution>
+          <!-- 
           <execution>
             <id>generate-oracle-sql</id>
             <goals>
@@ -107,6 +97,7 @@
               <targetDatabase>mysql</targetDatabase>
             </configuration>
           </execution>
+           -->
         </executions>
         <dependencies>
           <dependency>
