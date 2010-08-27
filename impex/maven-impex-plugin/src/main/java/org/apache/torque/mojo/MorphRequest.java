@@ -9,33 +9,43 @@ import java.io.OutputStream;
  */
 public class MorphRequest {
 
-	InputStream oldData;
-	OutputStream newData;
+	String name;
+	InputStream inputStream;
+	OutputStream outputStream;
 
 	public MorphRequest() {
-		this(null, null);
+		this(null, null, null);
 	}
 
-	public MorphRequest(InputStream oldData, OutputStream newData) {
+	public MorphRequest(String filename, InputStream inputStream, OutputStream outputStream) {
 		super();
-		this.oldData = oldData;
-		this.newData = newData;
+		this.name = filename;
+		this.inputStream = inputStream;
+		this.outputStream = outputStream;
 	}
 
-	public InputStream getOldData() {
-		return oldData;
+	public InputStream getInputStream() {
+		return inputStream;
 	}
 
-	public void setOldData(InputStream oldData) {
-		this.oldData = oldData;
+	public void setInputStream(InputStream oldData) {
+		this.inputStream = oldData;
 	}
 
-	public OutputStream getNewData() {
-		return newData;
+	public OutputStream getOutputStream() {
+		return outputStream;
 	}
 
-	public void setNewData(OutputStream newData) {
-		this.newData = newData;
+	public void setOutputStream(OutputStream newData) {
+		this.outputStream = newData;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String filename) {
+		this.name = filename;
 	}
 
 }

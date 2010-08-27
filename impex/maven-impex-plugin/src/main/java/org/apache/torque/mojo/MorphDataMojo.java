@@ -75,8 +75,9 @@ public class MorphDataMojo extends BaseMojo {
 			String oldFilename = inputPath + FS + oldFile;
 			String newFilename = getNewDataOutputDir() + FS + oldFile;
 			MorphRequest request = new MorphRequest();
-			request.setOldData(new FileInputStream(new File(oldFilename)));
-			request.setNewData(new FileOutputStream(new File(newFilename)));
+			request.setName(new File(oldFilename).getName());
+			request.setInputStream(new FileInputStream(new File(oldFilename)));
+			request.setOutputStream(new FileOutputStream(new File(newFilename)));
 			requests.add(request);
 		}
 		return requests;

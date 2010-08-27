@@ -28,17 +28,17 @@ public abstract class Morpher {
 
 	public void executeMorph(String encoding) throws IOException {
 		// Read the "old" schema XML data into a string
-		String contents = IOUtils.toString(morphRequest.getOldData(), encoding);
+		String contents = IOUtils.toString(morphRequest.getInputStream(), encoding);
 
 		// May not need to morph
 		if (isMorphNeeded(contents)) {
 			contents = getMorphedContents(contents);
 		} else {
-			log.info("No morphing needed");
+			log.debug("Skipping morph on " + morphRequest.getName());
 		}
 
 		// Write the schema to the output stream
-		IOUtils.write(contents, morphRequest.getNewData(), encoding);
+		IOUtils.write(contents, morphRequest.getOutputStream(), encoding);
 	}
 
 	public MorphRequest getMorphRequest() {

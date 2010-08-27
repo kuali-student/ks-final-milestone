@@ -39,7 +39,7 @@ public class MorphSchemaMojo extends BaseMojo {
 		getLog().info("------------------------------------------------------------------------");
 		try {
 			FileUtils.forceMkdir(new File(FileUtils.getPath(newSchemaXMLFile.getAbsolutePath())));
-			MorphRequest request = new MorphRequest(new FileInputStream(oldSchemaXMLFile), new FileOutputStream(newSchemaXMLFile));
+			MorphRequest request = new MorphRequest(oldSchemaXMLFile.getName(), new FileInputStream(oldSchemaXMLFile), new FileOutputStream(newSchemaXMLFile));
 			Morpher morpher = new SchemaMorpher(request, getProject().getArtifactId());
 			morpher.executeMorph(getEncoding());
 		} catch (IOException e) {
