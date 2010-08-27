@@ -75,6 +75,7 @@ public class MorphDataMojo extends BaseMojo {
 			String oldFilename = inputPath + FS + oldFile;
 			String newFilename = getNewDataOutputDir() + FS + oldFile;
 			MorphRequest request = new MorphRequest();
+			request.setEncoding(getEncoding());
 			request.setName(new File(oldFilename).getName());
 			request.setInputStream(new FileInputStream(new File(oldFilename)));
 			request.setOutputStream(new FileOutputStream(new File(newFilename)));
@@ -93,7 +94,7 @@ public class MorphDataMojo extends BaseMojo {
 			List<MorphRequest> requests = getMorphRequests(oldFiles);
 			for (MorphRequest request : requests) {
 				Morpher morpher = new DataMorpher(request, getProject().getArtifactId());
-				morpher.executeMorph(getEncoding());
+				morpher.executeMorph();
 			}
 			utils.right(pp);
 		} catch (IOException e) {

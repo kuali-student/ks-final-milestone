@@ -10,6 +10,7 @@ import java.io.OutputStream;
 public class MorphRequest {
 
 	String name;
+	String encoding;
 	InputStream inputStream;
 	OutputStream outputStream;
 
@@ -46,6 +47,14 @@ public class MorphRequest {
 
 	public void setName(String filename) {
 		this.name = filename;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 }
