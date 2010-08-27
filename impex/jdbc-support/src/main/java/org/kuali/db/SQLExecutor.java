@@ -17,6 +17,8 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import static org.apache.commons.io.IOUtils.*;
 import static org.kuali.db.JDBCUtils.*;
@@ -25,6 +27,8 @@ import static org.kuali.db.JDBCUtils.*;
  * Executes SQL statements
  */
 public class SQLExecutor {
+	private static final Log log = LogFactory.getLog(SQLExecutor.class);
+
 	/**
 	 * Call {@link #setOnError(String)} with this value to abort SQL command execution if an error is found.
 	 */
@@ -120,16 +124,23 @@ public class SQLExecutor {
 	}
 
 	public void info(String message) {
+		log.info(message);
 		fireMessageLogged(message);
 	}
 
 	public void debug(String message) {
+		log.debug(message);
 		fireMessageLogged(message, MessagePriority.DEBUG);
 	}
 
-	public void error(Throwable exception, String message) {
+	public void error(Throwable throwable, String message) {
+		if (throwable == null) {
+			log.error(message);
+		} else {
+			log.error(message, throwable);
+		}
 		DatabaseEvent event = new DatabaseEvent(message, MessagePriority.ERROR);
-		event.setException(exception);
+		event.setException(throwable);
 		for (DatabaseListener listener : listeners) {
 			listener.messageLogged(event);
 		}
