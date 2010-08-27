@@ -37,12 +37,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeView extends ViewComposite{
 	
-	private SpanPanel container = new SpanPanel();
-	private KSListPanel list = new KSListPanel();
+	private final SpanPanel container = new SpanPanel();
+	private final KSListPanel list = new KSListPanel();
 	MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	
-	private KSButton categoryManagement = new KSButton("Category Management", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
+	private final KSButton categoryManagement = new KSButton("Category Management", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -88,6 +88,7 @@ public class CurriculumHomeView extends ViewComposite{
 		addIfPermitted(PermissionType.SEARCH, "Courses");
         addIfPermitted(PermissionType.SEARCH, "Proposals");
         addIfPermitted(PermissionType.SEARCH, "Majors");
+		list.add(new Hyperlink("Create a Major Discipline", "/HOME/CURRICULUM_HOME/PROGRAM_EDIT"));
         list.addStyleName("KS-CurriculumHome-LinkList");
 
 	}
@@ -130,7 +131,7 @@ public class CurriculumHomeView extends ViewComposite{
                 KSPicker courseSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
                 courseSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
                     public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = (List<String>)event.getValue();
+                        List<String> selection = event.getValue();
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.OBJECT_ID);
@@ -155,7 +156,7 @@ public class CurriculumHomeView extends ViewComposite{
                 KSPicker proposalSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
                 proposalSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
                     public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = (List<String>)event.getValue();
+                        List<String> selection = event.getValue();
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
@@ -179,7 +180,7 @@ public class CurriculumHomeView extends ViewComposite{
                 KSPicker searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
                 searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
                     public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = (List<String>)event.getValue();
+                        List<String> selection = event.getValue();
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.OBJECT_ID);
