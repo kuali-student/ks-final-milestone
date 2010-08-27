@@ -110,7 +110,12 @@ import com.google.gwt.user.client.ui.Widget;
                     KSErrorDialog.show (new Throwable ("MultiplicityTable can have only one row defined"));
                     return;
                 }
-                layout = new TableFieldLayout(config.getTitle(), false);
+                if (config.getTitle() == null) {
+                    layout = new TableFieldLayout();
+                }
+                else {
+                    layout = new TableFieldLayout(config.getTitle(), false);
+                }
                 widget = new MultiplicityTable(config);
                 config.getParentFd().setFieldWidget(widget);
                 config.getParentFd().setWidgetBinding(new MultiplicityTableBinding());

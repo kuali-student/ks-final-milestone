@@ -644,7 +644,7 @@
                     LEFT JOIN clu.officialIdentifier officialIdentifier
                     LEFT JOIN clu.descr cludesc
                     LEFT JOIN clu.adminOrgs primaryOrg
-                    Where primaryOrg.isPrimary = TRUE OR primaryOrg.isPrimary IS NULL</value>
+                    Where (primaryOrg.isPrimary = TRUE OR primaryOrg.isPrimary IS NULL)</value>
 		        </entry>
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain
