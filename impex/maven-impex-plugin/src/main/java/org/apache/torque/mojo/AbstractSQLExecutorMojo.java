@@ -531,9 +531,9 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		}
 	}
 
-	protected void validateCredentials(Credentials credentials, boolean anonymousAccessAllowed, String validationFailureMessage) throws MojoExecutionException {
-		if (!anonymousAccessAllowed) {
-			// Might be accessing a database anonymously
+	protected void validateCredentials(Credentials credentials, boolean requireCredentials, String validationFailureMessage) throws MojoExecutionException {
+		if (!requireCredentials) {
+			// If credentials aren't required, don't bother validating
 			return;
 		}
 		String username = credentials.getUsername();

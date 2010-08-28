@@ -44,11 +44,18 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String dbaUsername;
 
 	/**
-	 * The password for the DBA user;
+	 * The password for the DBA user
 	 * 
 	 * @parameter expression="${dbaPassword}"
 	 */
 	String dbaPassword;
+
+	/**
+	 * Lookup DBA credentials in settings.xml using this key
+	 * 
+	 * @parameter expression="${dbaSettingsKey}" default-value="impex.${project.artifactId}.dba"
+	 */
+	String dbaSettingsKey;
 
 	/**
 	 * Set this to false if you are allowing DBA commands (eg CREATE database, DROP database) to be issued against your
