@@ -49,6 +49,7 @@ public class FieldDescriptor {
     private boolean hasHadFocus = false;
     private FieldElement fieldElement;
     private String modelId;
+    private MessageKeyInfo messageKey;
 
     public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Metadata metadata) {
     	this.fieldKey = fieldKey;
@@ -56,6 +57,7 @@ public class FieldDescriptor {
     	if(messageKey == null){
     		messageKey = new MessageKeyInfo("");
     	}
+    	setMessageKey(messageKey);
     	fieldElement = new FieldElement(fieldKey, messageKey, createFieldWidget());
     	setupField();
     }
@@ -66,6 +68,7 @@ public class FieldDescriptor {
     	if(messageKey == null){
     		messageKey = new MessageKeyInfo("");
     	}
+        setMessageKey(messageKey);
     	addStyleToWidget(fieldWidget);
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     	setupField();
@@ -184,6 +187,14 @@ public class FieldDescriptor {
 
     public void setWidgetBinding(ModelWidgetBinding widgetBinding) {
         this.modelWidgetBinding = widgetBinding;
+    }
+
+    public MessageKeyInfo getMessageKey() {
+        return messageKey;
+    }
+
+    public void setMessageKey(MessageKeyInfo messageKey) {
+        this.messageKey = messageKey;
     }
 
 }

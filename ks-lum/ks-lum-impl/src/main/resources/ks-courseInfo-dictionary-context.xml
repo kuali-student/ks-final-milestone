@@ -298,14 +298,14 @@
  </bean>
  <bean id="courseInfo.feeJustification.plain" parent="courseInfo.feeJustification.plain-parent" />
 
- <bean id="courseInfo.fees-parent" abstract="true" parent="baseComplex">
+ <bean id="courseInfo.fees-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="fees" />
   <property name="maxOccurs" value="unbounded" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseFeeInfo" />
  </bean>
  <bean id="courseInfo.fees" parent="courseInfo.fees-parent" />
 
-<bean id="courseInfo.revenues-parent" abstract="true" parent="baseComplex">
+<bean id="courseInfo.revenues-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="revenues" />
   <property name="maxOccurs" value="unbounded" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseRevenueInfo" />
@@ -314,6 +314,7 @@
 
 <bean id="courseInfo.expenditure-parent" abstract="true" parent="baseComplex">
   <property name="name" value="expenditure" />
+  <!--  needs to be unbounded here otherwise the check would fail for multiplicity when it tries to update model -->
   <property name="maxOccurs" value="1" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseExpenditureInfo" />
  </bean>
@@ -433,7 +434,7 @@
  </bean>
  <bean id="courseFeeInfo.feeAmounts" parent="courseFeeInfo.feeAmounts-parent"/>
 
- <bean id="courseFeeInfo.feeType-parent" abstract="true" parent="cluFeeRecordInfo.feeType">
+ <bean id="courseFeeInfo.feeType-parent" abstract="true" parent="cluFeeRecordInfo.feeType-parent">
  <property name="name" value="feeType"/>
  </bean>
  <bean id="courseFeeInfo.feeType" parent="courseFeeInfo.feeType-parent"/>
@@ -468,8 +469,10 @@
  </bean>
  <bean id="courseRevenueInfo.feeType" parent="courseRevenueInfo.feeType-parent"/>
 
- <bean id="courseRevenueInfo.affiliatedOrgs-parent" abstract="true" parent="cluFeeRecordInfo.affiliatedOrgs">
- <property name="name" value="affiliatedOrgs"/>
+ <bean id="courseRevenueInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplexRepeating">
+  <property name="name" value="affiliatedOrgs"/>
+  <property name="dataObjectStructure"
+            ref="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" />
  </bean>
  <bean id="courseRevenueInfo.affiliatedOrgs" parent="courseRevenueInfo.affiliatedOrgs-parent"/>
 
@@ -489,8 +492,10 @@
  </bean>
  <bean id="org.kuali.student.lum.course.dto.CourseExpenditureInfo" parent="org.kuali.student.lum.course.dto.CourseExpenditureInfo-parent"/>
 
- <bean id="courseExpenditureInfo.affiliatedOrgs-parent" abstract="true" parent="cluFeeRecordInfo.affiliatedOrgs">
- <property name="name" value="affiliatedOrgs"/>
+ <bean id="courseExpenditureInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplexRepeating">
+  <property name="name" value="affiliatedOrgs"/>
+  <property name="dataObjectStructure"
+            ref="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" />
  </bean>
  <bean id="courseExpenditureInfo.affiliatedOrgs" parent="courseExpenditureInfo.affiliatedOrgs-parent"/>
 

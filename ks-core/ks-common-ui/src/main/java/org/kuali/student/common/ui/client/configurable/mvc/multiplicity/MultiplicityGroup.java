@@ -141,6 +141,10 @@ public class MultiplicityGroup extends Composite {
 
         return item;
 	}
+	
+	public FlowPanel getItemsPanel() {
+	    return itemsPanel;
+	}
 
     private Widget createWidget() {
 

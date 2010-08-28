@@ -81,7 +81,7 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
         
     @Override
 	public MultiplicityItem addItem() {
-    	return addItem(FeeInfoConstants.FIXED_RATE_FEE, 1000 - itemCount);
+    	return addItem(FeeInfoConstants.FIXED_RATE_FEE, itemCount);
     }
         
 	public MultiplicityItem addItem(String rateType, int modelIdx) {
@@ -138,10 +138,10 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
 		private RateTypeList rateTypeList = new RateTypeList();
 		private GroupSection dropDownSection;
 		private GroupSection fieldSection;
-        private String fixedPath = "0/" + FeeInfoConstants.FIXED_RATE_FEE + "/";
-        private String variablePath = "0/" + FeeInfoConstants.VARIABLE_RATE_FEE + "/";
+//        private String fixedPath = "0/" + FeeInfoConstants.FIXED_RATE_FEE + "/";
+//        private String variablePath = "0/" + FeeInfoConstants.VARIABLE_RATE_FEE + "/";
         private String multiplePath = "0/" + FeeInfoConstants.MULTIPLE_RATE_FEE + "/";
-        private String perCreditPath = "0/" + FeeInfoConstants.PER_CREDIT_FEE + "/";
+//        private String perCreditPath = "0/" + FeeInfoConstants.PER_CREDIT_FEE + "/";
         private String currentModelPath;
             
 		public TransmogrifyingFeeRecordItem(String parentPath, int itemCount) {
@@ -157,7 +157,7 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
                     // 1000 - the number of this multiplicity item to avoid any conflicts with existing 
                     // model indices (that were created during retrieval)
                     if (event.isUserInitiated()) {
-                    	setRateType(selectedItem, 1000 - itemNumber);
+                    	setRateType(selectedItem, itemNumber);
                     }
                 }
             });
@@ -167,21 +167,13 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
 			clearSection();
             setCurrentModelPath(rateType, modelIdx);
             buildRateSpecificDropDownSection(rateType, modelIdx);
-            addSection(dropDownSection);
+            addSection("dropDownSection", dropDownSection);
             buildRateSpecificFieldSection(rateType, modelIdx);
-            addSection(fieldSection);
+            addSection("fieldSection", fieldSection);
 		}
 		
 		private void setCurrentModelPath(String rateType, int modelIdx) {
-    		if (FeeInfoConstants.FIXED_RATE_FEE.equals(rateType)) {
-	            currentModelPath = fixedPath + modelIdx;
-    		} else if (FeeInfoConstants.MULTIPLE_RATE_FEE.equals(rateType)) {
-	            currentModelPath = multiplePath + modelIdx;
-    		} else if (FeeInfoConstants.PER_CREDIT_FEE.equals(rateType)) {
-	            currentModelPath = perCreditPath + modelIdx;
-    		} else if (FeeInfoConstants.VARIABLE_RATE_FEE.equals(rateType)) {
-	            currentModelPath = variablePath + modelIdx;
-    		}
+            currentModelPath = Integer.toString(modelIdx);
 		}
 		
 		public String getCurrentModelPath() {
@@ -208,14 +200,15 @@ public class FeeMultiplicity extends UpdatableMultiplicityComposite {
     	private void buildRateSpecificFieldSection(String rateType, int modelIdx) {
     		fieldSection = new GroupSection();
     		if (FeeInfoConstants.FIXED_RATE_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(fieldSection, fixedPath + modelIdx + "/amount", generateMessageInfo("Amount"), null, parentPath );
+	            FeeMultiplicity.this.addField(fieldSection, modelIdx + "/feeAmounts/currencyQuantity", generateMessageInfo("Amount"), null, parentPath );
     		} else if (FeeInfoConstants.MULTIPLE_RATE_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(fieldSection, multiplePath + modelIdx + "/amount", generateMessageInfo("Amount"), new MultipleFeeList(parentPath + "/" + multiplePath + "/amount"), parentPath );
+	            FeeMultiplicity.this.addField(fieldSection, modelIdx + "/feeAmounts/currencyQuantity", generateMessageInfo("Amount"), new MultipleFeeList(parentPath + "/" + modelIdx + "/feeAmounts/currencyQuantity"), parentPath );
     		} else if (FeeInfoConstants.PER_CREDIT_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(fieldSection, perCreditPath + modelIdx + "/amount", generateMessageInfo("Amount (PerCredit)"), null, parentPath );
+	            FeeMultiplicity.this.addField(fieldSection, modelIdx + "/feeAmounts/currencyQuantity", generateMessageInfo("Amount (PerCredit)"), null, parentPath );
     		} else if (FeeInfoConstants.VARIABLE_RATE_FEE.equals(rateType)) {
-	            FeeMultiplicity.this.addField(fieldSection, variablePath + modelIdx + "/minAmount", generateMessageInfo("Amount"), null, parentPath );
-	            FeeMultiplicity.this.addField(fieldSection, variablePath + modelIdx + "/maxAmount", generateMessageInfo("To"), null, parentPath );
+    		    //TODO
+//	            FeeMultiplicity.this.addField(fieldSection, variablePath + modelIdx + "/minAmount", generateMessageInfo("Amount"), null, parentPath );
+//	            FeeMultiplicity.this.addField(fieldSection, variablePath + modelIdx + "/maxAmount", generateMessageInfo("To"), null, parentPath );
     		}
     	}
 	}

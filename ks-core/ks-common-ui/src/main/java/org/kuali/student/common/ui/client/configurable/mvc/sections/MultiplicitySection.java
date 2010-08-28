@@ -99,7 +99,11 @@ import com.google.gwt.user.client.ui.Widget;
          switch (config.getLayoutType()) {
             case GROUP:
                 layout = new VerticalFieldLayout(config.getTitle());
-                widget = new MultiplicityGroup(config);
+                if (config.getCustomMultiplicityGroup() == null) {
+                    widget = new MultiplicityGroup(config);
+                } else {
+                    widget = config.getCustomMultiplicityGroup();
+                }
                 config.getParentFd().setFieldWidget(widget);
                 config.getParentFd().setWidgetBinding(new MultiplicityGroupBinding());
                 this.addField(config.getParentFd());

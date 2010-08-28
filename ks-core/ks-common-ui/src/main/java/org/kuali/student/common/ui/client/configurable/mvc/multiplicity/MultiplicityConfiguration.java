@@ -66,6 +66,7 @@ public class MultiplicityConfiguration {
     protected Map<String, String> concatenatedFields = new HashMap<String, String>();
     
     private MultiplicityConfiguration nestedConfig ;
+    private MultiplicityGroup customMultiplicityGroup;
     private boolean showHeaders;
 
     public static enum MultiplicityType {GROUP, TABLE }
@@ -114,6 +115,15 @@ public class MultiplicityConfiguration {
         }
         fds.add(fieldDescriptor);
         fields.put(row, fds);
+    }
+    
+    public void setFields(Map<Integer, List<FieldDescriptor>> fields) {
+        if (fields == null || fields.isEmpty()) {
+            row = 0;
+        } else {
+            row = fields.size() - 1;
+        }
+        this.fields = fields;
     }
 
 	/**
@@ -285,6 +295,7 @@ public class MultiplicityConfiguration {
 		this.metaData = metaData;
 	}
 
+
      public SectionTitle getTitle() {
         return title;
     }
@@ -351,5 +362,15 @@ public class MultiplicityConfiguration {
 //        }
 //        return result;
 //    }
+
+    public MultiplicityGroup getCustomMultiplicityGroup() {
+        return customMultiplicityGroup;
+    }
+
+    public void setCustomMultiplicityGroup(MultiplicityGroup customMultiplicityGroup) {
+        this.customMultiplicityGroup = customMultiplicityGroup;
+    }
+    
+    
 }
 

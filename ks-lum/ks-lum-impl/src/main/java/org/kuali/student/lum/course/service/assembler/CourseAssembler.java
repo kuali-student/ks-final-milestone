@@ -136,6 +136,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		//Fees
 		//Fee justification
+		List<CourseFeeInfo> fees = new ArrayList<CourseFeeInfo>();
+		List<CourseRevenueInfo> revenues = new ArrayList<CourseRevenueInfo>();
 		if(clu.getFeeInfo() != null){
 			course.setFeeJustification(clu.getFeeInfo().getDescr());
 
@@ -149,7 +151,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					courseRevenue.setAttributes(cluFeeRecord.getAttributes());
 					courseRevenue.setId(cluFeeRecord.getId());
 					courseRevenue.setMetaInfo(cluFeeRecord.getMetaInfo());
-					course.getRevenues().add(courseRevenue);
+					revenues.add(courseRevenue);
 				}else{
 					CourseFeeInfo courseFee = new CourseFeeInfo();
 					courseFee.setFeeType(feeType);
@@ -159,10 +161,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					courseFee.setId(cluFeeRecord.getId());
 					courseFee.setFeeAmounts(cluFeeRecord.getFeeAmounts());
 					courseFee.setAttributes(cluFeeRecord.getAttributes());
-					course.getFees().add(courseFee);
+					fees.add(courseFee);
 				}
 			}
 		}
+		course.setFees(fees);
+		course.setRevenues(revenues);
 		//Expenditures are mapped from accounting info
 		if(course.getExpenditure() == null || clu.getAccountingInfo() == null){
 			course.setExpenditure(new CourseExpenditureInfo());
@@ -497,6 +501,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		for(CourseRevenueInfo courseRevenue:course.getRevenues()){
 			CluFeeRecordInfo cluFeeRecord  = new CluFeeRecordInfo();
 			cluFeeRecord.setFeeType(CourseAssemblerConstants.COURSE_FINANCIALS_REVENUE_TYPE);
+			cluFeeRecord.setRateType(CourseAssemblerConstants.COURSE_FINANCIALS_REVENUE_TYPE);
 			cluFeeRecord.setAttributes(courseRevenue.getAttributes());
 			cluFeeRecord.setAffiliatedOrgs(courseRevenue.getAffiliatedOrgs());
 			cluFeeRecord.setId(courseRevenue.getId());

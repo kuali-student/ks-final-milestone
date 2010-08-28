@@ -29,10 +29,17 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Widget;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -43,7 +50,14 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBi
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.*;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration.MultiplicityType;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -62,22 +76,38 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
+import org.kuali.student.lum.common.client.lo.CategoryDataUtil;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
+import org.kuali.student.lum.common.client.lo.LOPicker;
 import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.lum.common.client.lo.OutlineNode;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseRequisitesSectionView;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CompositeConditionOperator;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
-import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
+import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicityGroup;
+import org.kuali.student.lum.lu.ui.course.client.widgets.SwapCompositeCondition;
+import org.kuali.student.lum.lu.ui.course.client.widgets.SwapCompositeConditionFieldConfig;
+import org.kuali.student.lum.lu.ui.course.client.widgets.SwapCondition;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Widget;
 
 import java.util.*;
 
@@ -144,7 +174,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
             //Administrative
             layout.addMenuItem(sections, generateActiveDatesSection());
-            //TODO layout.addMenuItem(sections, generateFinancialsSection());
+            layout.addMenuItem(sections, generateFinancialsSection());
         }
         //Summary
         ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
@@ -302,24 +332,83 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 LUConstants.ADD_CROSS_LISTED_LABEL_KEY,
                 LUConstants.CROSS_LISTED_ITEM_LABEL_KEY,
                 Arrays.asList(
-                        Arrays.asList(SUBJECT_AREA, LUConstants.SUBJECT_CODE_LABEL_KEY),
-                        Arrays.asList(COURSE_NUMBER_SUFFIX, LUConstants.COURSE_NUMBER_LABEL_KEY)));
+                        new MultiplicityFieldConfig(
+                                SUBJECT_AREA, 
+                                LUConstants.SUBJECT_CODE_LABEL_KEY, null, null),
+                        new MultiplicityFieldConfig(
+                                COURSE_NUMBER_SUFFIX, 
+                                LUConstants.COURSE_NUMBER_LABEL_KEY, null, null)));
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + JOINTS,
                 LUConstants.ADD_EXISTING_LABEL_KEY,
                 LUConstants.JOINT_OFFER_ITEM_LABEL_KEY,
                 Arrays.asList(
-                        Arrays.asList(CreditCourseJointsConstants.COURSE_ID, LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY)));
+                        new MultiplicityFieldConfig(
+                                CreditCourseJointsConstants.COURSE_ID, 
+                                LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null)));
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + VERSIONS,
                 LUConstants.ADD_VERSION_CODE_LABEL_KEY,
                 LUConstants.VERSION_CODE_LABEL_KEY,
                 Arrays.asList(
-                        Arrays.asList("variationCode", LUConstants.VERSION_CODE_LABEL_KEY),
-                        Arrays.asList("variationTitle", LUConstants.TITLE_LABEL_KEY)));
+                        new MultiplicityFieldConfig(
+                                "variationCode", 
+                                LUConstants.VERSION_CODE_LABEL_KEY, null, null), 
+                        new MultiplicityFieldConfig(
+                                "variationTitle", 
+                                LUConstants.TITLE_LABEL_KEY, null, null)
+                ));
         return result;
     }
+    
+    private void addFeeMultiplicityFields(Section section,  
+            String path, String addItemlabelMessageKey,
+            String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
+            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
+            List<String> deletionParentKeys) {
+        MultiplicityConfiguration config = setupMultiplicityConfig(
+                MultiplicityConfiguration.MultiplicityType.GROUP,
+                MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
+                path, addItemlabelMessageKey, itemLabelMessageKey,
+                fieldConfigs, swappableFieldsDefinition, deletionParentKeys);
+        MultiplicitySection ms = null;
+        ms = new MultiplicitySection(config);
+        section.addSection(ms);
 
-    private void addMultiplicityFields(Section section, String path, String addItemlabelMessageKey,
-                                       String itemLabelMessageKey, List<List<String>> fieldKeysAndLabels) {
+    }
+    
+    private MultiplicityConfiguration setupMultiplicityConfig(
+            MultiplicityConfiguration.MultiplicityType multiplicityType,
+            MultiplicityConfiguration.StyleType styleType,
+            String path, String addItemlabelMessageKey,
+            String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
+            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
+            List<String> deletionParentKeys) {
+        QueryPath parentPath = QueryPath.concat(path);
+        MultiplicityConfiguration config = new MultiplicityConfiguration(multiplicityType,
+                styleType, getMetaData(parentPath.toString()));
+        config.setAddItemLabel(getLabel(addItemlabelMessageKey));
+        config.setItemLabel(getLabel(itemLabelMessageKey));
+        config.setUpdateable(true);
+
+        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
+        config.setParent(parentFd);
+
+        if (fieldConfigs != null) {
+            for (MultiplicityFieldConfig fieldConfig : fieldConfigs) {
+                FieldDescriptor fd = buildMultiplicityFD(fieldConfig.getFieldKey(),
+                        fieldConfig.getLabelKey(), parentPath.toString(), fieldConfig.getFieldWidget(),
+                        fieldConfig.getModelWidgetBinding());
+                config.addField(fd);
+                config.nextLine();
+            }
+        }
+        config.setCustomMultiplicityGroup(new FeeMultiplicityGroup(
+                config, swappableFieldsDefinition, deletionParentKeys));
+        return config;
+    }
+
+    private void addMultiplicityFields(Section section,  
+            String path, String addItemlabelMessageKey,
+            String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs) {
         QueryPath parentPath = QueryPath.concat(path);
 
         MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP,
@@ -328,17 +417,19 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         config.setItemLabel(getLabel(itemLabelMessageKey));
         config.setUpdateable(true);
 
-        FieldDescriptor parentFd = buildFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
+        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
         config.setParent(parentFd);
 
-        if (fieldKeysAndLabels != null) {
-            for (List<String> fieldKeyAndLabel : fieldKeysAndLabels) {
-                FieldDescriptor fd = buildMultiplicityFD(fieldKeyAndLabel.get(0),
-                        fieldKeyAndLabel.get(1), parentPath.toString());
+        if (fieldConfigs != null) {
+            for (MultiplicityFieldConfig fieldConfig : fieldConfigs) {
+                FieldDescriptor fd = buildMultiplicityFD(fieldConfig.getFieldKey(),
+                        fieldConfig.getLabelKey(), parentPath.toString(), fieldConfig.getFieldWidget(),
+                        fieldConfig.getModelWidgetBinding());
                 config.addField(fd);
             }
         }
-        MultiplicitySection ms = new MultiplicitySection(config);
+        MultiplicitySection ms = null;
+        ms = new MultiplicitySection(config);
         section.addSection(ms);
 
     }
@@ -347,36 +438,31 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
     }
 
-    private FieldDescriptor buildMultiplicityFD(String fieldKey, String labelKey, String parentPath) {
-
-        QueryPath path = QueryPath.concat(parentPath);
-        int i = path.size();
+    private FieldDescriptor buildMultiplicityFD(
+            String fieldKey, String labelKey, String parentPath, 
+            Widget fieldWidget, ModelWidgetBinding fieldWidgetBinding) {
 
         QueryPath fieldPath = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
         Metadata meta = modelDefinition.getMetadata(fieldPath);
 
         FieldDescriptor fd = new FieldDescriptor(fieldPath.toString(), generateMessageInfo(labelKey), meta);
+        if (fieldWidget != null) {
+            fd.setFieldWidget(fieldWidget);
+        }
+        if (fieldWidgetBinding != null) {
+            fd.setWidgetBinding(fieldWidgetBinding);
+        }
+        
 
         return fd;
 
     }
 
-    private FieldDescriptor buildFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
-        return buildFieldDescriptor(fieldKey, messageKey, parentPath, null, null);
-    }
-
-    private FieldDescriptor buildFieldDescriptor(String fieldKey, String messageKey, String parentPath, Widget widget, ModelWidgetBinding<?> binding) {
-
+    private FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
 
         FieldDescriptor fd = new FieldDescriptor(path.toString(), generateMessageInfo(messageKey), meta);
-        if (widget != null) {
-            fd.setFieldWidget(widget);
-        }
-        if (binding != null) {
-            fd.setWidgetBinding(binding);
-        }
         return fd;
     }
 
@@ -918,28 +1004,201 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 
         VerticalSection justiFee = initSection(getH3Title(LUConstants.COURSE_FEE_TITLE), WITH_DIVIDER);
-        addField(justiFee, COURSE + "/" + FEES + "/0/" + JUSTIFICATION, generateMessageInfo(LUConstants.JUSTIFICATION_FEE), new KSTextArea());
 
-        FeeMultiplicity feeList = new FeeMultiplicity(COURSE + "/" + FEES, groupName, type, state);
-        FieldDescriptor feeFD = addField(justiFee, COURSE + "/" + FEES, null, feeList);
-        feeList.setModelDefinition(modelDefinition);
-        feeFD.setWidgetBinding(new FeeMultiplicity.FeeMultiplicityBinding());
+//        addField(description, COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY));
+
+        addField(justiFee, COURSE + "/" + "feeJustification" + "/" + RichTextInfoConstants.PLAIN,  generateMessageInfo(LUConstants.JUSTIFICATION_FEE));
+        section.addSection(justiFee);
+        Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition =
+            new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
+        
+        // condition: 
+        //    if rateType field is Variable Rate Fee
+        //    if rateType field is Fixed Rate Fee
+        //    if rateType field is Multiple Rate Fee
+        //    if rateType field is Per Credit Fee
+//        String feesPathString = COURSE + QueryPath.getPathSeparator() + FEES;
+        QueryPath feesPath = QueryPath.concat(COURSE, FEES);
+        QueryPath rateTypeFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "rateType");
+//        fees/*/feeAmounts/currencyQuantity
+        QueryPath deletionPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts");
+        QueryPath singularFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "0", "currencyQuantity"); 
+        QueryPath minFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "0", "currencyQuantity"); 
+        QueryPath maxFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "1", "currencyQuantity"); 
+        Metadata feeAmountFieldMeta = modelDefinition.getMetadata(singularFeeAmountFieldPath);
+        
+        SwapCompositeCondition variableRateCondition = new SwapCompositeCondition(
+                CompositeConditionOperator.AND);
+        variableRateCondition.getChildrenConditions().add(
+                makeCondition(rateTypeFieldPath, "Rate Type", "variableRateFee")
+        );
+        variableRateCondition.setConditionId("0");
+        
+        SwapCompositeCondition fixedRateCondition = new SwapCompositeCondition(
+                CompositeConditionOperator.AND);
+        fixedRateCondition.getChildrenConditions().add(
+                makeCondition(rateTypeFieldPath, "Rate Type", "fixedRateFee")
+        );
+        fixedRateCondition.setConditionId("1");
+
+        SwapCompositeCondition perCreditRateCondition = new SwapCompositeCondition(
+                CompositeConditionOperator.AND);
+        perCreditRateCondition.getChildrenConditions().add(
+                makeCondition(rateTypeFieldPath, "Rate Type", "perCreditFee")
+        );
+        perCreditRateCondition.setConditionId("2");
+
+        SwapCompositeCondition multipleRateCondition = new SwapCompositeCondition(
+                CompositeConditionOperator.AND);
+        multipleRateCondition.getChildrenConditions().add(
+                makeCondition(rateTypeFieldPath, "Rate Type", "multipleRateFee")
+        );
+        multipleRateCondition.setConditionId("3");
+
+        swappableFieldsDefinition.put(variableRateCondition,
+                Arrays.asList(
+                        new SwapCompositeConditionFieldConfig(
+                                new FieldDescriptor(
+                                        minFeeAmountFieldPath.toString(), 
+                                        new MessageKeyInfo("Mininum Amount"), feeAmountFieldMeta),
+                                null
+                        ),
+                        new SwapCompositeConditionFieldConfig(
+                                new FieldDescriptor(
+                                        maxFeeAmountFieldPath.toString(), 
+                                        new MessageKeyInfo("Maximum Amount"), feeAmountFieldMeta),
+                                null
+                        ))
+        );
+        
+        swappableFieldsDefinition.put(fixedRateCondition,
+                Arrays.asList(
+                        new SwapCompositeConditionFieldConfig(
+                                new FieldDescriptor(
+                                        singularFeeAmountFieldPath.toString(), 
+                                        new MessageKeyInfo("Amount"), feeAmountFieldMeta), 
+                                null))
+        );
+
+        swappableFieldsDefinition.put(perCreditRateCondition,
+                Arrays.asList(
+                        new SwapCompositeConditionFieldConfig(
+                                new FieldDescriptor(
+                                        singularFeeAmountFieldPath.toString(), 
+                                        new MessageKeyInfo("Amount"), feeAmountFieldMeta),
+                                null))
+        );
+        
+        MultiplicityConfiguration multipleFeesConfig = setupMultiplicityConfig(
+                MultiplicityConfiguration.MultiplicityType.GROUP,
+                MultiplicityConfiguration.StyleType.BORDERLESS_TABLE,
+                COURSE + QueryPath.getPathSeparator() + FEES + QueryPath.getPathSeparator() + 
+                    QueryPath.getWildCard() + QueryPath.getPathSeparator() + "feeAmounts",
+                LUConstants.ADD_ANOTHER_FEE,
+                LUConstants.FEE,
+                Arrays.asList(
+                        new MultiplicityFieldConfig(
+                                "currencyQuantity", 
+                                "Amount", null, null)),
+                null,
+                null);
+        swappableFieldsDefinition.put(multipleRateCondition,
+                Arrays.asList(
+                        new SwapCompositeConditionFieldConfig(
+                                null, multipleFeesConfig
+                                ))
+                );
+
+        addFeeMultiplicityFields(justiFee, 
+                COURSE + QueryPath.getPathSeparator() + FEES,
+                LUConstants.ADD_A_FEE,
+                LUConstants.FEE,
+                Arrays.asList(
+                        new MultiplicityFieldConfig(
+                                "feeType", 
+                                "Fee Type", null, null),
+                        new MultiplicityFieldConfig(
+                                "rateType", 
+                                "Rate Type", null, null)),
+                        swappableFieldsDefinition,
+                        Arrays.asList(
+                                deletionPath.toString()));
+        
+//        FeeMultiplicity feeList = new FeeMultiplicity(COURSE + "/" + FEES, groupName, type, state);
+//        FieldDescriptor feeFD = addField(justiFee, COURSE + "/" + FEES, null, feeList);
+//        feeList.setModelDefinition(modelDefinition);
+//        feeFD.setWidgetBinding(new FeeMultiplicity.FeeMultiplicityBinding());
 
         section.addSection(justiFee);
-
+        
+        
         VerticalSection financialSection = initSection(getH3Title(LUConstants.FINANCIAL_INFORMATION), WITH_DIVIDER);
-
-        FinancialInformationList finInfoList = new FinancialInformationList(COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, LUConstants.REVENUE);
-        finInfoList.setMinEmptyItems(1);
-        addField(financialSection, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, generateMessageInfo(LUConstants.REVENUE), finInfoList);
-
-        // ExpenditureList expInfoList = new ExpenditureList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG);
-        FinancialInformationList expInfoList = new FinancialInformationList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, LUConstants.EXPENDITURE);
-        addField(financialSection, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, generateMessageInfo(LUConstants.EXPENDITURE), expInfoList);
-
+        setupRevenueSection(financialSection);
+        setupExpenditureSection(financialSection);
         section.addSection(financialSection);
 
+//        FinancialInformationList finInfoList = new FinancialInformationList(COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, LUConstants.REVENUE);
+//        finInfoList.setMinEmptyItems(1);
+//        addField(financialSection, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, generateMessageInfo(LUConstants.REVENUE) , finInfoList);
+
+//        // ExpenditureList expInfoList = new ExpenditureList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG);
+//        FinancialInformationList expInfoList = new FinancialInformationList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, LUConstants.EXPENDITURE);
+//        addField(financialSection, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, generateMessageInfo(LUConstants.EXPENDITURE), expInfoList);
+//
+//        section.addSection(financialSection);
+
         return section;
+    }
+    
+    private void setupRevenueSection(Section parentSection) {
+        // TODO customize multiplicity and change "Percentage" label into LUConstants.AMOUNT
+        QueryPath revenuePath = QueryPath.concat(COURSE, "revenues");
+        QueryPath affiliatedOrgIdSubPath = QueryPath.concat("affiliatedOrgs", "0", "orgId");
+        QueryPath percentageSubPath = QueryPath.concat("affiliatedOrgs", "0", "percentage");
+        addMultiplicityFields(parentSection, 
+                revenuePath.toString(), 
+                LUConstants.ADD_ANOTHER_ORGANIZATION, 
+                LUConstants.REVENUE,
+                Arrays.asList(
+                        new MultiplicityFieldConfig(
+                                affiliatedOrgIdSubPath.toString(), 
+                                LUConstants.REVENUE, null, null),
+                        new MultiplicityFieldConfig(
+                                percentageSubPath.toString(), 
+                                "Percentage", null, null)                                
+                )
+        );
+    }
+    
+    private void setupExpenditureSection(Section parentSection) {
+        // TODO customize multiplicity and change "Percentage" label into LUConstants.AMOUNT
+        QueryPath expenditureAffiliatedOrgPath = QueryPath.concat(COURSE, "expenditure", "affiliatedOrgs");
+        QueryPath affiliatedOrgIdSubPath = QueryPath.concat("orgId");
+        QueryPath percentageSubPath = QueryPath.concat("percentage");
+        addMultiplicityFields(parentSection, 
+                expenditureAffiliatedOrgPath.toString(), 
+                LUConstants.ADD_ANOTHER_ORGANIZATION, 
+                LUConstants.EXPENDITURE,
+                Arrays.asList(
+                        new MultiplicityFieldConfig(
+                                affiliatedOrgIdSubPath.toString(), 
+                                LUConstants.EXPENDITURE, null, null),
+                        new MultiplicityFieldConfig(
+                                percentageSubPath.toString(), 
+                                "Percentage", null, null)                                
+                )
+        );
+    }
+    
+    private SwapCondition makeCondition(QueryPath fieldPath, String messageLabelKey, 
+            String value) {
+        SwapCondition swapCondition = new SwapCondition();
+        swapCondition.setFd(new FieldDescriptor(
+                fieldPath.toString(), 
+                new MessageKeyInfo(messageLabelKey),
+                modelDefinition.getMetadata(fieldPath)));
+        swapCondition.setValue(value);
+        return swapCondition;
     }
 
     // TODO -if the sleaze for forcing a single item to 100% is to stay longer than short-term, factor
@@ -1178,3 +1437,550 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
         }
     }
 }
+
+class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
+    
+    public static LOBuilderBinding INSTANCE = new LOBuilderBinding();
+
+    /**
+     * Gets a list of OutlineNode from LOBuilder.  Goes through the list one by one.
+     * While going through the list the algorithm keeps track of the current parent of
+     * a particular level.
+     */
+    @Override
+    public void setModelValue(LOBuilder builder, DataModel model, String path) {
+        Data losData = new Data();
+        Map<Integer, Data> parentStore = new HashMap<Integer, Data>();
+        int sequence = 0; // the ordering information of DisplayInfo
+        List<OutlineNode<LOPicker>> value = stripeOutEmptyInput(builder.getValue());
+        if (value != null) {
+            for (OutlineNode<LOPicker> node : value) {
+                if (node.getIndentLevel() == 0) {
+                    Data item = createLoDisplayInfoData(node, sequence);
+                    parentStore.put(new Integer(0), item);
+                    losData.add(item);
+                } else {
+                    Data item = createLoDisplayInfoData(node, sequence);
+                    LoDisplayInfoHelper parentItemHelper = null;
+                    parentStore.put(node.getIndentLevel(), item);
+                    parentItemHelper = new LoDisplayInfoHelper(
+                            parentStore.get(node.getIndentLevel() - 1));
+                    parentItemHelper.getDisplayInfoList().add(item);
+                }
+                sequence++;
+            }
+        }
+        model.set(QueryPath.parse(path), losData);
+    }
+    
+    @Override
+    public void setWidgetValue(LOBuilder builder, DataModel model, String path) {
+        List<OutlineNode<LOPicker>> loOutlineNodes = new ArrayList<OutlineNode<LOPicker>>();
+
+        // change the 'courseSpecificLOs' elements into a List of OutlineNode's
+        QueryPath qPath = QueryPath.parse(path);
+
+        Data data = null;
+        if(model!=null){
+            data = model.get(qPath);
+        }
+        
+        dataToOutlineNodes(data, loOutlineNodes, 0);
+        if (loOutlineNodes != null && !loOutlineNodes.isEmpty()) {
+            builder.setValue(loOutlineNodes);
+        }
+    }
+    
+    private List<OutlineNode<LOPicker>> stripeOutEmptyInput(List<OutlineNode<LOPicker>> input) {
+        List<OutlineNode<LOPicker>> value = new ArrayList<OutlineNode<LOPicker>>();
+        boolean allEmptyNodes = true;
+        if (input != null) {
+            for (OutlineNode<LOPicker> node : input) {
+                String desc = node.getUserObject().getLOText();
+                int identLevel = node.getIndentLevel();
+                List<LoCategoryInfo> categories = node.getUserObject().getLoCategories();
+                if (desc != null && desc.trim().length() > 0 ||
+                        identLevel > 0 ||
+                        categories != null && !categories.isEmpty()) {
+                    allEmptyNodes = false;
+                    value.add(node);
+                }
+            }
+        }
+        if (allEmptyNodes) {
+            value = null;
+        }
+        return value;
+    }
+    
+    private void dataToOutlineNodes(Data data, List<OutlineNode<LOPicker>> loOutlineNodes, int identLevel) {
+        if (data != null){
+            Iterator<Property> itr = data.realPropertyIterator();
+            LoDisplayInfoSortedSet sortedDisplayInfos = new LoDisplayInfoSortedSet();
+
+            // get top-level LO's in the right order
+            while (itr.hasNext()){
+                Property p = (Property) itr.next();
+                Data loDisplayInfoData = p.getValue();
+                LoDisplayInfoHelper loDisplayInfoHelper = new LoDisplayInfoHelper(loDisplayInfoData);
+                sortedDisplayInfos.add(loDisplayInfoHelper);
+            }
+            for (LoDisplayInfoHelper loDisplayInfoHelper : sortedDisplayInfos) {
+                LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState(), LOBuilder.getRepoKey());
+                LoInfoHelper loInfoHelper = new LoInfoHelper(loDisplayInfoHelper.getLoInfo());
+                RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDesc());
+                picker.setLOText(descriptionHelper.getPlain());
+                List<LoCategoryInfo> categories = getCategoryList(loDisplayInfoHelper);
+                picker.setLOCategories(categories);
+                picker.setMetaInfoData(loInfoHelper.getMetaInfo());
+                OutlineNode<LOPicker> node = new OutlineNode<LOPicker>();
+                
+                node.setUserObject(picker);
+                node.setOpaque(loInfoHelper.getId());
+                node.setIndentLevel(identLevel);
+                loOutlineNodes.add(node);
+                // recurse
+                dataToOutlineNodes(loDisplayInfoHelper.getDisplayInfoList(), loOutlineNodes, identLevel + 1);
+            }
+        }
+    }
+    
+    private List<LoCategoryInfo> getCategoryList(LoDisplayInfoHelper loDisplayInfoHelper) {
+        List<LoCategoryInfo> categoryInfos = new ArrayList<LoCategoryInfo>();
+        Data categoriesData = loDisplayInfoHelper.getCategoryInfoList();
+        
+        if (null != categoriesData) {
+            Iterator<Property> itr = categoriesData.realPropertyIterator();
+                
+            while (itr.hasNext()) {
+                Property catProp = itr.next();
+                Data catData = catProp.getValue();
+                LoCategoryInfo catInfo = CategoryDataUtil.toLoCategoryInfo(catData);
+                categoryInfos.add(catInfo);
+            }
+        }
+        return categoryInfos;
+    }
+    
+    private Data createLoDisplayInfoData(OutlineNode<LOPicker> node, int sequence) {
+        Data result = null;
+        LoDisplayInfoHelper loDisplayInfoDataHelper = new LoDisplayInfoHelper(new Data());
+        LoInfoHelper loInfoHelper = new LoInfoHelper(new Data());
+        // loInfo.id
+        loInfoHelper.setId((String) node.getOpaque());
+        // loInfo.desc
+        RichTextHelper richTextHelper = new RichTextHelper();
+        String loDesc = node.getUserObject().getLOText();
+        richTextHelper.setFormatted(loDesc);
+        richTextHelper.setPlain(loDesc);
+        loInfoHelper.setDesc(richTextHelper.getData());
+        // loInfo.name
+        if (null == loInfoHelper.getName() || loInfoHelper.getName().length() == 0) {
+            loInfoHelper.setName("SINGLE USE LO");
+        }
+
+        // loCategoryInfoList
+        Data categoriesData = new Data();
+        for (LoCategoryInfo cat : node.getUserObject().getLoCategories()) {
+            categoriesData.add(CategoryDataUtil.toData(cat));
+        }
+        
+        // loInfo.sequence
+        loInfoHelper.setSequence(Integer.toString(sequence));
+        
+        // loInfo.metaInfo
+        loInfoHelper.setMetaInfo(node.getUserObject().getMetaInfoData());
+        
+        loDisplayInfoDataHelper.setLoInfo(loInfoHelper.getData());
+        loDisplayInfoDataHelper.setCategoryInfoList(categoriesData);
+        result = loDisplayInfoDataHelper.getData();
+        return result;
+    }
+    
+}
+
+class LoDisplayInfoSortedSet extends TreeSet<LoDisplayInfoHelper> {
+    private static final long serialVersionUID = 1L;
+    
+    public LoDisplayInfoSortedSet() {
+        super(new Comparator<LoDisplayInfoHelper>() {
+            @Override
+            public int compare(LoDisplayInfoHelper o1, LoDisplayInfoHelper o2) {
+                LoInfoHelper o1InfoHelper = new LoInfoHelper(o1.getLoInfo());
+                LoInfoHelper o2InfoHelper = new LoInfoHelper(o2.getLoInfo());
+                int seq1 = -1;
+                int seq2 = -1;
+                
+                seq1 = (o1InfoHelper.getSequence() == null)? 
+                        0 : Integer.valueOf(o1InfoHelper.getSequence());
+                seq2 = (o2InfoHelper.getSequence() == null)? 
+                        0 : Integer.valueOf(o2InfoHelper.getSequence());
+                return Integer.valueOf(seq1).compareTo(Integer.valueOf(seq2));
+            }
+        });
+    }
+}
+
+class LoDisplayInfoHelper {
+    private Data data;
+    public enum Properties implements PropertyEnum
+    {
+        LO_INFO ("loInfo"),
+        LO_DISPLAY_INFO_LIST ("loDisplayInfoList"),
+        LO_CATEGORY_INFO_LIST ("loCategoryInfoList");
+        
+        private final String key;
+        
+        private Properties (final String key)
+        {
+            this.key = key;
+        }
+        
+        @Override
+        public String getKey ()
+        {
+            return this.key;
+        }
+    }
+    
+    public LoDisplayInfoHelper() {
+        data = new Data();
+    }
+    
+    public LoDisplayInfoHelper(Data data) {
+        this.data = data;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public void setLoInfo(Data loInfoData) {
+        HelperUtil.setDataField(LoDisplayInfoHelper.Properties.LO_INFO, data, loInfoData);
+    }
+    
+    public Data getLoInfo() {
+        return HelperUtil.getDataField(LoDisplayInfoHelper.Properties.LO_INFO, data);
+    }
+    
+    public void setDisplayInfoList(Data displayInfoListData) {
+        HelperUtil.setDataField(LoDisplayInfoHelper.Properties.LO_DISPLAY_INFO_LIST, data, displayInfoListData);
+    }
+    
+    public Data getDisplayInfoList() {
+        return HelperUtil.getDataField(LoDisplayInfoHelper.Properties.LO_DISPLAY_INFO_LIST, data);
+    }
+    
+    public void setCategoryInfoList(Data categoryInfoListData) {
+        HelperUtil.setDataField(LoDisplayInfoHelper.Properties.LO_CATEGORY_INFO_LIST, data, categoryInfoListData);
+    }
+    
+    public Data getCategoryInfoList() {
+        return HelperUtil.getDataField(LoDisplayInfoHelper.Properties.LO_CATEGORY_INFO_LIST, data);
+    }
+}
+
+class LoInfoHelper {
+    private Data data;
+    
+    public enum Properties implements PropertyEnum
+    {
+        NAME ("name"),
+        DESC ("desc"),
+        ID ("id"),
+        SEQUENCE ("sequence"),
+        METAINFO ("metaInfo");
+        
+        private final String key;
+        
+        private Properties (final String key)
+        {
+            this.key = key;
+        }
+        
+        @Override
+        public String getKey ()
+        {
+            return this.key;
+        }
+    }
+
+    public LoInfoHelper() {
+        data = new Data();
+    }
+    
+    public LoInfoHelper(Data data) {
+        this.data = data;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public void setName(String name) {
+        data.set(LoInfoHelper.Properties.NAME.getKey(), name);
+    }
+    
+    public String getName() {
+        return (String)data.get(Properties.NAME.getKey());
+    }
+    
+    public void setDesc(Data descData) {
+        HelperUtil.setDataField(LoInfoHelper.Properties.DESC, data, descData);
+    }
+    
+    public Data getDesc() {
+        return HelperUtil.getDataField(LoInfoHelper.Properties.DESC, data);
+    }
+    
+    public void setId(String id) {
+        data.set(LoInfoHelper.Properties.ID.getKey(), id);
+    }
+
+    public String getId() {
+        return (String)data.get(LoInfoHelper.Properties.ID.getKey());
+    }
+    
+    public void setSequence(String sequence) {
+        data.set(LoInfoHelper.Properties.SEQUENCE.getKey(), sequence);
+    }
+    
+    public String getSequence() {
+        return (String)data.get(LoInfoHelper.Properties.SEQUENCE.getKey());
+    }
+    
+    public void setMetaInfo(Data metaInfoData) {
+        HelperUtil.setDataField(LoInfoHelper.Properties.METAINFO, data, metaInfoData);
+    }
+    
+    public Data getMetaInfo() {
+        return HelperUtil.getDataField(LoInfoHelper.Properties.METAINFO, data);
+    }
+    
+}
+
+class LoCategoryInfoHelper {
+    private Data data;
+    
+    public enum Properties implements PropertyEnum
+    {
+        ID ("id"),
+        DESC ("desc"),
+        EFFECTIVE_DATE ("effectiveDate"),
+        EXPIRATION_DATE ("expirationDate"),
+        LO_REPOSITORY ("loRepository"),
+        NAME ("name"),
+        STATE ("state"),
+        TYPE ("type");
+        private final String key;
+        
+        private Properties (final String key)
+        {
+            this.key = key;
+        }
+        
+        @Override
+        public String getKey ()
+        {
+            return this.key;
+        }
+    }
+    
+    public LoCategoryInfoHelper() {
+        this.data = new Data();
+    }
+    
+    public LoCategoryInfoHelper(Data data) {
+        this.data = data;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public void setId(String id) {
+        data.set(Properties.ID.getKey(), id);
+    }
+    
+    public String getId() {
+        return (String) data.get(Properties.ID.getKey());
+    }
+    
+    public void setDesc(Data descData) {
+        HelperUtil.setDataField(Properties.DESC, data, descData);
+    }
+    
+    public Data getDesc() {
+        return HelperUtil.getDataField(Properties.DESC, data);
+    }
+    
+    public void setEffectiveDate(Date effectiveDate) {
+        data.set(Properties.EFFECTIVE_DATE.getKey(), effectiveDate);
+    }
+    
+    public Date getEffectiveDate() {
+        return (Date) data.get(Properties.EFFECTIVE_DATE.getKey());
+    }
+    
+    public void setExpirationDate(Date expirationDate) {
+        data.set(Properties.EXPIRATION_DATE.getKey(), expirationDate);
+    }
+    
+    public Date getExpirationDate() {
+        return (Date) data.get(Properties.EXPIRATION_DATE.getKey());
+    }
+
+    public void setLoRepository(String loRepository) {
+        data.set(Properties.LO_REPOSITORY.getKey(), loRepository);
+    }
+    
+    public String getLoRepository() {
+        return (String) data.get(Properties.LO_REPOSITORY.getKey());
+    }
+    
+    public void setName(String name) {
+        data.set(Properties.NAME.getKey(), name);
+    }
+    
+    public String getName() {
+        return (String) data.get(Properties.NAME.getKey());
+    }
+
+    public void setState(String state) {
+        data.set(Properties.STATE.getKey(), state);
+    }
+    
+    public String getState() {
+        return (String) data.get(Properties.STATE.getKey());
+    }
+
+    public void setType(String type) {
+        data.set(Properties.TYPE.getKey(), type);
+    }
+    
+    public String getType() {
+        return (String) data.get(Properties.TYPE.getKey());
+    }
+}
+
+class RichTextHelper {
+    private Data data;
+    
+    public enum Properties implements PropertyEnum
+    {
+        PLAIN ("plain"),
+        FORMATTED ("formatted");
+        private final String key;
+        
+        private Properties (final String key)
+        {
+            this.key = key;
+        }
+        
+        @Override
+        public String getKey ()
+        {
+            return this.key;
+        }
+    }
+
+    public RichTextHelper() {
+        data = new Data();
+    }
+    
+    public RichTextHelper(Data data) {
+        this.data = data;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public void setPlain(String plain) {
+        data.set(Properties.PLAIN.getKey(), plain);
+    }
+    
+    public String getPlain() {
+        return (String)data.get(Properties.PLAIN.getKey());
+    }
+    
+    public void setFormatted(String formatted) {
+        data.set(Properties.FORMATTED.getKey(), formatted);
+    }
+    
+    public String getFormatted() {
+        return (String)data.get(Properties.FORMATTED.getKey());
+    }
+}
+
+class HelperUtil {
+    public static void setDataField(PropertyEnum property, Data data, Data value) {
+        data.set(property.getKey(), value);
+    }
+    
+    public static Data getDataField(PropertyEnum property, Data data) {
+        if (data.get(property.getKey()) == null) {
+            setDataField(property, data, new Data());
+        }
+        return data.get(property.getKey());
+    }
+}
+
+class MultiplicityFieldConfig {
+    private String fieldKey;
+    private String labelKey;
+    private Widget fieldWidget;
+    private ModelWidgetBinding modelWidgetBinding;
+    
+    public MultiplicityFieldConfig() {
+    }
+    public MultiplicityFieldConfig(String fieldKey, String labelKey,
+            Widget fieldWidget, ModelWidgetBinding modelWidgetBinding) {
+        setFieldKey(fieldKey);
+        setLabelKey(labelKey);
+        setFieldWidget(fieldWidget);
+        setModelWidgetBinding(modelWidgetBinding);
+    }
+    public String getFieldKey() {
+        return fieldKey;
+    }
+    public void setFieldKey(String fieldKey) {
+        this.fieldKey = fieldKey;
+    }
+    public String getLabelKey() {
+        return labelKey;
+    }
+    public void setLabelKey(String labelKey) {
+        this.labelKey = labelKey;
+    }
+    public Widget getFieldWidget() {
+        return fieldWidget;
+    }
+    public void setFieldWidget(Widget fieldWidget) {
+        this.fieldWidget = fieldWidget;
+    }
+    public ModelWidgetBinding getModelWidgetBinding() {
+        return modelWidgetBinding;
+    }
+    public void setModelWidgetBinding(ModelWidgetBinding modelWidgetBinding) {
+        this.modelWidgetBinding = modelWidgetBinding;
+    }
+}
+
+
