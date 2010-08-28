@@ -34,6 +34,7 @@ import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -830,39 +831,90 @@ public class TestProgramServiceImpl {
             ProgramVariationInfo updatedPV = updatedPvInfos.get(0);
             	
             //Verify the update
-            verifyUpdate(updatedPV);
+            verifyUpdate(pvInfo, updatedPV);
 
             // Now explicitly get it
             List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
-            assertNotNull(pvInfos);
-            verifyUpdate(retrievedPVs.get(0));
+            assertNotNull(retrievedPVs);
+            verifyUpdate(pvInfo, retrievedPVs.get(0));
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
         }   	
     }
 
-    private void verifyUpdate(ProgramVariationInfo updatedPV) {
-    	assertNotNull(updatedPV);
+    private void verifyUpdate(ProgramVariationInfo source, ProgramVariationInfo target) {
+    	assertNotNull(target);
 
-        //assertEquals("BS-updated", updatedPV.getCode());
-        assertEquals("Zooarchaeology-updated", updatedPV.getDescr().getPlain());
-        assertEquals("Zooarchaeology-updated", updatedPV.getLongTitle());
-        assertEquals("ZooArch-updated", updatedPV.getShortTitle());
+        assertEquals(source.getDescr().getPlain(), target.getDescr().getPlain());
+        assertEquals(source.getLongTitle(), target.getLongTitle());
+        assertEquals(source.getShortTitle(), target.getShortTitle());
         
-        assertEquals("CIP2000CODE-updated", updatedPV.getCip2000Code());
-        assertEquals("CIP2010CODE-updated", updatedPV.getCip2010Code());
-        assertEquals("transcriptTitle-updated", updatedPV.getTranscriptTitle());
-        assertEquals("Zooarchaeology-updated", updatedPV.getDiplomaTitle());
+        assertEquals(source.getCip2000Code(), target.getCip2000Code());
+        assertEquals(source.getCip2010Code(), target.getCip2010Code());
+        assertEquals(source.getTranscriptTitle(), target.getTranscriptTitle());
+        assertEquals(source.getDiplomaTitle(), target.getDiplomaTitle());
 
-        assertNotNull(updatedPV.getCampusLocations());
-        for(String loc : updatedPV.getCampusLocations()){
+        assertNotNull(target.getCampusLocations());
+        for(String loc : target.getCampusLocations()){
         	assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(loc) || CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH.equals(loc));
         }
 
-        assertNotNull(updatedPV.getDivisionsContentOwner());
-        assertEquals("testOrgId", updatedPV.getDivisionsContentOwner().get(0).getOrgId());
-        assertEquals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION, updatedPV.getDivisionsContentOwner().get(0).getType());
+        assertNotNull(target.getDivisionsContentOwner());
+        assertEquals("testOrgId", target.getDivisionsContentOwner().get(0).getOrgId());
+        assertEquals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION, target.getDivisionsContentOwner().get(0).getType());
 
+    }   
+    @Test 
+    public void testCreateVariationsByMajorDiscipline(){
+        MajorDisciplineInfo majorDisciplineInfo = null;
+
+        try {
+            majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(majorDisciplineInfo);
+            
+            List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
+            assertNotNull(pvInfos);
+            
+            ProgramVariationInfo pvInfoS = pvInfos.get(0);
+            ProgramVariationInfo pvInfoT = new ProgramVariationInfo();
+            
+            BeanUtils.copyProperties(pvInfoS, pvInfoT, new String[] { "id" });
+
+            pvInfoT.setLongTitle(pvInfoT.getLongTitle() + "-created");
+            pvInfoT.setShortTitle(pvInfoT.getShortTitle() + "-created");
+            RichTextInfo testDesc = pvInfoT.getDescr();
+            testDesc.setPlain(testDesc.getPlain() + "-created");
+            pvInfoT.setDescr(testDesc);
+            pvInfoT.setCip2000Code( pvInfoT.getCip2000Code() + "-created");
+            pvInfoT.setCip2010Code(pvInfoT.getCip2010Code() + "-created");
+            pvInfoT.setTranscriptTitle(pvInfoT.getTranscriptTitle() + "-created");
+            pvInfoT.setDiplomaTitle(pvInfoT.getDiplomaTitle() + "-created");
+ 
+            //Perform the update: adding the new variation
+            pvInfos.add(pvInfoT);
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
+            List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
+            assertNotNull(updatedPvInfos);
+            assertEquals(3, updatedPvInfos.size());
+            ProgramVariationInfo createdPV = updatedPvInfos.get(2);
+            	
+            //Verify the update
+            verifyUpdate(pvInfoT, createdPV);
+
+            // Now explicitly get it
+            MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId());
+//            assertEquals(3, retrievedMD.getVariations());
+            
+            List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
+            assertNotNull(retrievedPVs);
+//            assertEquals(3, updatedPvInfos.size());
+//            verifyUpdate(pvInfoT, retrievedPVs.get(2));
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }   	
     }
 }
