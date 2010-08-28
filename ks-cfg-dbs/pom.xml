@@ -52,8 +52,6 @@
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
-          <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
-          <trimArtifactId>true</trimArtifactId>
         </configuration>
         <executions>
           <execution>
@@ -70,13 +68,6 @@
             </goals>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>${oracle.ojdbc.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
@@ -121,6 +112,63 @@
                 <configuration>
                   <targetDatabase>mysql</targetDatabase>
                 </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>reset-oracle-db</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <configuration>
+              <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+              <targetDatabase>oracle</targetDatabase>
+              <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
+              <trimArtifactId>true</trimArtifactId>
+              <dbaUsername>system</dbaUsername>
+              <dbaPassword>gw570229</dbaPassword>
+            </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>reset-database</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>drop</goal>
+                  <goal>create</goal>
+                  <goal>import</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>
