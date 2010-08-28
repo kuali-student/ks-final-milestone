@@ -33,7 +33,7 @@ public class DataMorpher extends Morpher {
 	 */
 	protected boolean isMorphNeeded(String contents) {
 		// Look for the DTD the Maven Impex Plugin uses
-		int pos = contents.indexOf(antDocType);
+		int pos = contents.indexOf(getNewDocType());
 
 		if (pos == -1) {
 			// It isn't there so we should morph
