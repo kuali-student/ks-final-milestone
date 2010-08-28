@@ -24,14 +24,6 @@
       </snapshots>
     </repository>
   </repositories>
-  <modules>
-    <module>ks-embedded-db</module>
-    <module>ks-core-db</module>
-    <module>ks-lum-db</module>
-    <module>ks-rice-db</module>
-    <module>ks-rice-client-db</module>
-    <module>ks-rice-server-db</module>
-  </modules>
   <build>
     <resources>
       <resource>
@@ -60,6 +52,7 @@
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
+          <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
           <trimArtifactId>true</trimArtifactId>
         </configuration>
         <executions>
@@ -76,28 +69,6 @@
               <goal>datadtd</goal>
             </goals>
           </execution>
-          <!-- 
-          <execution>
-            <id>generate-oracle-sql</id>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-            <configuration>
-              <targetDatabase>oracle</targetDatabase>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-mysql-sql</id>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-            <configuration>
-              <targetDatabase>mysql</targetDatabase>
-            </configuration>
-          </execution>
-           -->
         </executions>
         <dependencies>
           <dependency>
@@ -109,4 +80,60 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>generate-sql</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <modules>
+    <module>ks-embedded-db</module>
+    <module>ks-core-db</module>
+    <module>ks-lum-db</module>
+    <module>ks-rice-db</module>
+    <module>ks-rice-client-db</module>
+    <module>ks-rice-server-db</module>
+  </modules>
 </project>
