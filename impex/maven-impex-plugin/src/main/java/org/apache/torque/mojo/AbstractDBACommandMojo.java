@@ -104,8 +104,8 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		sb.append("Specify them in the plugin configuration or as a system property.\n");
 		sb.append("\n");
 		sb.append("For example:\n");
-		sb.append("-DdbaUsername=dbauser\n");
-		sb.append("-DdbaPassword=dbapassword\n");
+		sb.append("-DdbaUsername=system\n");
+		sb.append("-DdbaPassword=systempassword\n");
 		sb.append("\n.");
 		validateCredentials(credentials, requireDbaCredentials, sb.toString());
 	}

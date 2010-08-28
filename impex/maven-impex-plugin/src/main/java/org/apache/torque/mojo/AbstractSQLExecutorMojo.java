@@ -542,16 +542,14 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	protected void validateCredentials(Credentials credentials) throws MojoExecutionException {
 		// Both are required but one (or both) are missing
 		StringBuffer sb = new StringBuffer();
-		sb.append("\n\n------------------------------------ \n");
-		sb.append(" !! Invalid database credentials !! \n");
-		sb.append("------------------------------------ \n");
-		if (isEmpty(credentials.getUsername())) {
-			sb.append("No username was supplied\n");
-		}
-		if (isEmpty(credentials.getPassword())) {
-			sb.append("No password was supplied\n");
-		}
-		sb.append("\n\n.");
+		sb.append("\n\n");
+		sb.append("Username and password must be specified.\n");
+		sb.append("Specify them in the plugin configuration or as a system property.\n");
+		sb.append("\n");
+		sb.append("For example:\n");
+		sb.append("-Dusername=myuser\n");
+		sb.append("-Dpassword=mypassword\n");
+		sb.append("\n.");
 		validateCredentials(credentials, requireDatabaseCredentials, sb.toString());
 	}
 
