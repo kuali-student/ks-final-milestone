@@ -39,7 +39,7 @@ public class MavenLogger extends AppenderSkeleton implements Log {
 	 * End logging for this plugin
 	 */
 	public static void endPluginLog(AbstractMojo mojo) {
-		mavenLog = null;
+		mavenLog = systemStreamLog;
 	}
 
 	// Log4j methods
