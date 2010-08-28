@@ -8,6 +8,9 @@ public class DataMorpher extends Morpher {
 	// New prologue
 	String newPrologue = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
+	// The hard coded Ant impex document type
+	String antDocType = "<!DOCTYPE dataset SYSTEM \"data.dtd\">";
+
 	public DataMorpher() {
 		this(null, null);
 	}
@@ -16,13 +19,13 @@ public class DataMorpher extends Morpher {
 		super(morphRequest, schema);
 	}
 
-	protected String getDTDString() {
-		return '"' + schema + ".dtd\"";
+	protected String getNewDocType() {
+		return "<!DOCTYPE dataset SYSTEM \"" + getSchema() + ".dtd\">";
 	}
 
 	protected String getMorphedContents(String contents) {
 		contents = StringUtils.replace(contents, antPrologue, newPrologue);
-		return StringUtils.replace(contents, "\"data.dtd\"", getDTDString());
+		return StringUtils.replace(contents, antDocType, getNewDocType());
 	}
 
 	/**
@@ -30,7 +33,7 @@ public class DataMorpher extends Morpher {
 	 */
 	protected boolean isMorphNeeded(String contents) {
 		// Look for the DTD the Maven Impex Plugin uses
-		int pos = contents.indexOf(getDTDString());
+		int pos = contents.indexOf(antDocType);
 
 		if (pos == -1) {
 			// It isn't there so we should morph
