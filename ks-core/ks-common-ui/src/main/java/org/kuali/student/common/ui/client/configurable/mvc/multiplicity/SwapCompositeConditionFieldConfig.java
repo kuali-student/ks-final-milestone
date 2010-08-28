@@ -1,9 +1,8 @@
-package org.kuali.student.lum.lu.ui.course.client.widgets;
+package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 
 public class SwapCompositeConditionFieldConfig {
 

@@ -29,7 +29,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -47,24 +46,27 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueB
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.CompositeConditionOperator;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration.MultiplicityType;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
-import org.kuali.student.common.ui.client.widgets.*;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
@@ -76,12 +78,11 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.lum.common.client.lo.CategoryDataUtil;
@@ -91,25 +92,15 @@ import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.common.client.lo.OutlineNode;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseRequisitesSectionView;
-import org.kuali.student.lum.lu.ui.course.client.widgets.CompositeConditionOperator;
-import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicity;
 import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicityGroup;
-import org.kuali.student.lum.lu.ui.course.client.widgets.SwapCompositeCondition;
-import org.kuali.student.lum.lu.ui.course.client.widgets.SwapCompositeConditionFieldConfig;
-import org.kuali.student.lum.lu.ui.course.client.widgets.SwapCondition;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.*;
 
 
 /**
@@ -370,7 +361,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 path, addItemlabelMessageKey, itemLabelMessageKey,
                 fieldConfigs, swappableFieldsDefinition, deletionParentKeys);
         MultiplicitySection ms = null;
-        ms = new MultiplicitySection(config);
+        ms = new MultiplicitySection(config, swappableFieldsDefinition, deletionParentKeys);
         section.addSection(ms);
 
     }
@@ -401,8 +392,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 config.nextLine();
             }
         }
-        config.setCustomMultiplicityGroup(new FeeMultiplicityGroup(
-                config, swappableFieldsDefinition, deletionParentKeys));
+//        config.setCustomMultiplicityGroup(new FeeMultiplicityGroup(
+//                config, swappableFieldsDefinition, deletionParentKeys));
         return config;
     }
 
@@ -1124,11 +1115,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                         Arrays.asList(
                                 deletionPath.toString()));
         
-//        FeeMultiplicity feeList = new FeeMultiplicity(COURSE + "/" + FEES, groupName, type, state);
-//        FieldDescriptor feeFD = addField(justiFee, COURSE + "/" + FEES, null, feeList);
-//        feeList.setModelDefinition(modelDefinition);
-//        feeFD.setWidgetBinding(new FeeMultiplicity.FeeMultiplicityBinding());
-
         section.addSection(justiFee);
         
         
@@ -1136,16 +1122,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         setupRevenueSection(financialSection);
         setupExpenditureSection(financialSection);
         section.addSection(financialSection);
-
-//        FinancialInformationList finInfoList = new FinancialInformationList(COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, LUConstants.REVENUE);
-//        finInfoList.setMinEmptyItems(1);
-//        addField(financialSection, COURSE + "/" + REVENUE_INFO + "/" + REVENUE_ORG, generateMessageInfo(LUConstants.REVENUE) , finInfoList);
-
-//        // ExpenditureList expInfoList = new ExpenditureList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG);
-//        FinancialInformationList expInfoList = new FinancialInformationList(COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, LUConstants.EXPENDITURE);
-//        addField(financialSection, COURSE + "/" + EXPENDITURE_INFO + "/" + EXPENDITURE_ORG, generateMessageInfo(LUConstants.EXPENDITURE), expInfoList);
-//
-//        section.addSection(financialSection);
 
         return section;
     }
@@ -1201,89 +1177,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return swapCondition;
     }
 
-    // TODO -if the sleaze for forcing a single item to 100% is to stay longer than short-term, factor
-    // common sleaziness up into a superclass
-
-    public class FinancialInformationList extends UpdatableMultiplicityComposite {
-        private final String parentPath;
-        private final String labelKey;
-        // keep track of removalCallbacks that super.addItem will be setting
-        private Map<MultiplicityItem, Callback<MultiplicityItem>> removalCallbacks = new HashMap<MultiplicityItem, Callback<MultiplicityItem>>();
-        private Callback<MultiplicityItem> oneHundredPercentCallback = new Callback<MultiplicityItem>() {
-            public void exec(MultiplicityItem itemToRemove) {
-                // exec the removalCallback that super.addItem() set (kind of an exec(super.removalCallback))
-                removalCallbacks.get(itemToRemove).exec(itemToRemove);
-                // remove it, since we won't need it any more
-                removalCallbacks.remove(itemToRemove);
-                // and do our own thing to set the remaining percentage to 100
-                if ((getItems().size() - getRemovedItems().size()) == 1) {
-                    MultiplicityItem currItem = null;
-                    for (int i = 0; i < getItems().size(); i++) {
-                        currItem = getItems().get(i);
-                        if (!currItem.isDeleted()) break;
-                    }
-                    if (null == currItem || currItem.isDeleted()) {
-                        String errMsg = "Unable to find non-deleted item in removal callback";
-                        GWT.log(errMsg, new RuntimeException(errMsg));
-                    }
-                    if (currItem != null) {
-                        // So, how's this for sleazy? Even sleazier than the addItem() sleaziness below
-                        Object itemWithHeader = currItem.getItemWidget();
-                        GroupSection gSection = null;
-                        // let's be paranoid
-                        if (itemWithHeader instanceof RemovableItemWithHeader && ((RemovableItemWithHeader) itemWithHeader).getItemWidget() instanceof GroupSection) {
-                            gSection = (GroupSection) ((RemovableItemWithHeader) itemWithHeader).getItemWidget();
-                            if (gSection.getFields().size() >= 2) {
-                                Widget txtBox = gSection.getFields().get(1).getFieldWidget();
-                                if (txtBox instanceof KSTextBox) {
-                                    ((KSTextBox) txtBox).setValue("100.00%");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        };
-
-        {
-            setAddItemLabel(getLabel(LUConstants.ADD_ANOTHER_ORGANIZATION));
-            setItemLabel(getLabel(LUConstants.ORGANIZATION));
-        }
-
-        public FinancialInformationList(String parentPath, String labelKey) {
-            super(StyleType.TOP_LEVEL);
-            this.parentPath = parentPath;
-            this.labelKey = labelKey;
-        }
-
-        @Override
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount - 1)).toString();
-            GroupSection ns = new GroupSection();
-            addField(ns, AffiliatedOrgInfoConstants.ORG_ID, generateMessageInfo(LUConstants.REVENUE), path);
-            FieldDescriptor fd = addField(ns, PERCENTAGE, generateMessageInfo(LUConstants.AMOUNT), path);
-            fd.getFieldWidget();
-
-            // Do our own validationCallback to make sure they add up to 100%?
-
-            return ns;
-        }
-
-        @Override
-        public MultiplicityItem addItem() {
-            MultiplicityItem returnItem = super.addItem();
-            // this is _so_ wrong, but Brian and I couldn't figure out a better way to
-            // force single item to be 100%
-            removalCallbacks.put(returnItem, returnItem.getRemoveCallback());
-            returnItem.setRemoveCallback(oneHundredPercentCallback);
-            if (getItems().size() == 1) {
-                // needs to be 100% for a single revenue org
-                Widget txtBox = ((GroupSection) returnItem.getItemWidget()).getFields().get(1).getFieldWidget();
-                ((KSTextBox) txtBox).setValue("100");
-            }
-            return returnItem;
-        }
-    }
 
     @Override
     public String getCourseTitlePath() {

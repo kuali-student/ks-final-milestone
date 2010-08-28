@@ -1,18 +1,19 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -21,19 +22,16 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.list.impl.KSCheckBoxListImpl;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.ToolsConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;

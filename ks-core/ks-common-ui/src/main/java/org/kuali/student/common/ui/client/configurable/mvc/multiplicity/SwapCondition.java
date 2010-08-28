@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.course.client.widgets;
+package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import java.util.List;
 import java.util.Map;
