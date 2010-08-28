@@ -3,6 +3,10 @@ package org.apache.torque.mojo;
 import org.codehaus.plexus.util.StringUtils;
 
 public class DataMorpher extends Morpher {
+	// Ant prologue
+	String antPrologue = "<?xml version=\"1.0\"?>";
+	// New prologue
+	String newPrologue = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 	public DataMorpher() {
 		this(null, null);
@@ -17,6 +21,7 @@ public class DataMorpher extends Morpher {
 	}
 
 	protected String getMorphedContents(String contents) {
+		contents = StringUtils.replace(contents, antPrologue, newPrologue);
 		return StringUtils.replace(contents, "\"data.dtd\"", getDTDString());
 	}
 
@@ -34,6 +39,22 @@ public class DataMorpher extends Morpher {
 			// It is already there, we are good to go
 			return false;
 		}
+	}
+
+	public String getAntPrologue() {
+		return antPrologue;
+	}
+
+	public void setAntPrologue(String antPrologue) {
+		this.antPrologue = antPrologue;
+	}
+
+	public String getNewPrologue() {
+		return newPrologue;
+	}
+
+	public void setNewPrologue(String newPrologue) {
+		this.newPrologue = newPrologue;
 	}
 
 }
