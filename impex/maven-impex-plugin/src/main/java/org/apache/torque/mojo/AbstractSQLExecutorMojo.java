@@ -297,6 +297,11 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	boolean connectionError = false;
 
+	/**
+	 * The credentials to use for database access
+	 */
+	Credentials credentials;
+
 	protected String getTrimmedArtifactId() {
 		if (trimArtifactId) {
 			return trimArtifactId(getProject().getArtifactId());
@@ -338,6 +343,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		Credentials credentials = getCredentials();
 		updateCredentials(credentials);
 		validateCredentials(credentials);
+		setCredentials(credentials);
 		validateConfiguration();
 
 		conn = getConnection();
@@ -579,7 +585,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	protected void updateCredentials(Credentials credentials) {
 		Server server = getServerFromSettingsKey();
 		String username = getUpdatedUsername(server, credentials.getUsername());
-		String password = getUpdatedPassword(server, credentials.getUsername());
+		String password = getUpdatedPassword(server, credentials.getPassword());
 		credentials.setUsername(convertNullToEmpty(username));
 		credentials.setPassword(convertNullToEmpty(password));
 	}
@@ -633,10 +639,10 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	protected Properties getInfo() throws MojoExecutionException {
 		Properties info = new Properties();
-		info.put(DRIVER_INFO_PROPERTIES_USER, getUsername());
+		info.put(DRIVER_INFO_PROPERTIES_USER, credentials.getUsername());
 
 		if (!enableAnonymousPassword) {
-			info.put(DRIVER_INFO_PROPERTIES_PASSWORD, getPassword());
+			info.put(DRIVER_INFO_PROPERTIES_PASSWORD, credentials.getPassword());
 		}
 
 		info.putAll(getDriverProperties());
@@ -950,5 +956,9 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	public void setTotalStatements(int totalStatements) {
 		this.totalStatements = totalStatements;
+	}
+
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
 	}
 }
