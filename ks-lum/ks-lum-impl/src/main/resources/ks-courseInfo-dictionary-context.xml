@@ -242,7 +242,7 @@
  </bean>
  <bean id="courseInfo.expirationDate" parent="courseInfo.expirationDate-parent" />
 
-<bean id="courseInfo.feeJustification-parent" abstract="true" parent="cluInfo.descr">
+<bean id="courseInfo.feeJustification-parent" abstract="true" parent="cluFeeInfo.descr">
   <property name="name" value="feeJustification" />
   <property name="dataObjectStructure" ref="courseInfo.feeJustification.RichTextInfo" />
  </bean>
