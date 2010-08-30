@@ -1417,6 +1417,7 @@
 		<property name="name" value="Assessment Scale"/>
 		<property name="desc" value="Search for Grade Assessment Scale"/>
 		<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id"/>
+		<property name="searchParamIdKey" value="lrc.queryParam.resultComponent.id" />
 		<property name="params">
 			<list>
 				<bean parent="param">
