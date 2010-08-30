@@ -12,6 +12,7 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler;
@@ -23,6 +24,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 
 /**
@@ -37,6 +39,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	private LearningObjectiveService loService;
 	private LuService luService;
 	private LoAssembler loAssembler;
+	private CluAssemblerUtils cluAssemblerUtils;
 
 
 	@Override
@@ -50,30 +53,18 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		progReq.setDescr(clu.getDescr());
 
 		try {
+			List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", clu.getId());
+
+
 			StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
-			statementTreeViewAssembler.assemble(statementService.getStatement(clu.getId()), statementTree, true, null);
+		    statementTreeViewAssembler.assemble(statementService.getStatement(relations.get(0).getStatementId()), statementTree, shallowBuild);
 			progReq.setStatement(statementTree);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			throw new AssemblyException(e);
 		}
 
-		//Learning Objectives (from Course Assembler)
-		List<LoDisplayInfo> los = new ArrayList<LoDisplayInfo>();
-		try {
-			List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(clu.getId());
-			for(CluLoRelationInfo cluLoRelation:cluLoRelations){
-				String loId = cluLoRelation.getLoId();
-				LoInfo lo = loService.getLo(loId);
-				LoDisplayInfo loDisplay = loAssembler.assemble(lo, null, shallowBuild);
-				los.add(loDisplay);
-			}
-		} catch (DoesNotExistException e) {
-		} catch (Exception e) {
-			throw new AssemblyException("Error getting learning objectives", e);
-		}
-
-		progReq.setLearningObjectives(los);
+		progReq.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
 
 		progReq.setMetaInfo(clu.getMetaInfo());
 		progReq.setType(clu.getType());
@@ -151,5 +142,13 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	public void setLoAssembler(LoAssembler loAssembler) {
 		this.loAssembler = loAssembler;
+	}
+
+	public CluAssemblerUtils getCluAssemblerUtils() {
+		return cluAssemblerUtils;
+	}
+
+	public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
+		this.cluAssemblerUtils = cluAssemblerUtils;
 	}
 }

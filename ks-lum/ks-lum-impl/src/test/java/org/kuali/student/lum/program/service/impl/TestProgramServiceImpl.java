@@ -22,6 +22,9 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -69,11 +72,83 @@ public class TestProgramServiceImpl {
 
 
     @Test
-    @Ignore
     public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", null, null);
         assertNotNull(progReqInfo);
+
+        checkTreeView(progReqInfo, false);
+
+
+        List<LoDisplayInfo> los = progReqInfo.getLearningObjectives();
+        assertNotNull(los);
+        assertEquals(1, los.size());
+        LoDisplayInfo ldi1 = los.get(0);
+        assertNotNull(ldi1);
+
+        LoInfo loInfo1 = ldi1.getLoInfo();
+        assertNotNull(loInfo1);
+        assertEquals("81abea67-3bcc-4088-8348-e265f3670145", loInfo1.getId());
+        assertEquals("Desc4", loInfo1.getDesc().getPlain());
+        assertEquals("Edit Wiki Message Structure", loInfo1.getName());
+        assertEquals("kuali.loRepository.key.singleUse", loInfo1.getLoRepositoryKey());
+        assertEquals("draft", loInfo1.getState());
+        assertEquals("kuali.lo.type.singleUse", loInfo1.getType());
     }
+
+    @Test
+    public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("1", "KUALI.RULEEDIT", "en");
+        assertNotNull(progReqInfo);
+
+        checkTreeView(progReqInfo, true);
+    }
+
+	private void checkTreeView(final ProgramRequirementInfo progReqInfo,  final boolean checkNaturalLanguage) {
+		StatementTreeViewInfo rootTree = progReqInfo.getStatement();
+        assertNotNull(rootTree);
+        List<StatementTreeViewInfo> subTreeView = rootTree.getStatements();
+        assertNotNull(subTreeView);
+        assertEquals(2, subTreeView.size());
+        StatementTreeViewInfo subTree1 = subTreeView.get(0);
+        StatementTreeViewInfo subTree2 = subTreeView.get(1);
+
+        // Check root tree
+        assertNotNull(rootTree);
+        assertEquals(2, subTreeView.size());
+        assertNotNull(subTree1);
+        assertNotNull(subTree2);
+
+        // Check reqComps of sub-tree 1
+        assertEquals("STMT-TV-2", subTree1.getId());
+        assertEquals(2, subTree1.getReqComponents().size());
+        assertEquals("REQCOMP-TV-1", subTree1.getReqComponents().get(0).getId());
+        assertEquals("REQCOMP-TV-2", subTree1.getReqComponents().get(1).getId());
+        if (checkNaturalLanguage) {
+        	assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
+        	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
+        	assertEquals("Student must have completed all of MATH 152, MATH 180 " +
+        			"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
+        			subTree1.getNaturalLanguageTranslation());
+        }
+
+        // Check reqComps of sub-tree 2
+        assertEquals("STMT-TV-3", subTree2.getId());
+        assertEquals(2, subTree2.getReqComponents().size());
+        assertEquals("REQCOMP-TV-3", subTree2.getReqComponents().get(0).getId());
+        assertEquals("REQCOMP-TV-4", subTree2.getReqComponents().get(1).getId());
+        if (checkNaturalLanguage) {
+        	assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
+        	assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
+        	assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
+        			"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
+        			subTree2.getNaturalLanguageTranslation());
+
+        	assertEquals(
+        			"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
+        			"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
+        			rootTree.getNaturalLanguageTranslation());
+        }
+	}
 
     @Test(expected = MissingParameterException.class)
     public void testGetProgramRequirement_nullId() throws Exception {
@@ -192,7 +267,7 @@ public class TestProgramServiceImpl {
             assertTrue(major.getVariations().size() == 2);
             assertEquals("ZOOA", major.getVariations().get(0).getCode());
             assertEquals("ARCB", major.getVariations().get(1).getCode());
-            
+
             assertNotNull(major.getCode());
             assertEquals("ANTH", major.getCode());
             assertNotNull(major.getCip2000Code());
@@ -232,7 +307,6 @@ public class TestProgramServiceImpl {
 
             assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, major.getAttributes().get(ProgramAssemblerConstants.PROGRAM_LEVEL));
             assertNotNull(major.getShortTitle());
-
             assertEquals("Anthro", major.getShortTitle());
             assertNotNull(major.getLongTitle());
             assertEquals("Anthropology", major.getLongTitle());
@@ -328,11 +402,11 @@ public class TestProgramServiceImpl {
         try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
-            
+
             List<ProgramVariationInfo> pvInfos = programService.getVariationsByMajorDisciplineId("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(pvInfos);
             assertEquals(pvInfos.size(), majorDisciplineInfo.getVariations().size());
-            
+
             ProgramVariationInfo pvInfo = pvInfos.get(0);
             assertEquals("ZOOA", pvInfo.getCode());
             assertEquals("Zooarchaeology", pvInfo.getDescr().getPlain());
@@ -347,7 +421,6 @@ public class TestProgramServiceImpl {
         }
     }
 
-    
     @Test
     public void testGetBaccCredentialProgram(){
 
@@ -388,7 +461,7 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getState());
             assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
-            
+
             assertNotNull(createdMD.getType());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
 
@@ -563,7 +636,7 @@ public class TestProgramServiceImpl {
             assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", createdMD.getCredentialProgramId());
-            
+
             String majorDisciplineId = createdMD.getId();
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineId);
             assertNotNull(retrievedMD);
@@ -781,18 +854,18 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
 	}
-    
-    @Test 
+
+    @Test
     public void testUpdateVariationsByMajorDiscipline(){
         MajorDisciplineInfo majorDisciplineInfo = null;
 
         try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
-            
+
             List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
             assertNotNull(pvInfos);
-            
+
             // update variation fields
             ProgramVariationInfo pvInfo = pvInfos.get(0);
 
@@ -806,12 +879,12 @@ public class TestProgramServiceImpl {
             pvInfo.setCip2010Code(pvInfo.getCip2010Code() + "-updated");
             pvInfo.setTranscriptTitle("transcriptTitle-updated");
             pvInfo.setDiplomaTitle(pvInfo.getDiplomaTitle() + "-updated");
-            
+
             List<String> campusLocations = new ArrayList<String>();
             campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH);
             campusLocations.add(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH);
             pvInfo.setCampusLocations(campusLocations);
-            
+
             List<AdminOrgInfo> testOrgs = new ArrayList<AdminOrgInfo>();
             AdminOrgInfo testOrg = new AdminOrgInfo();
             testOrg.setOrgId("testOrgId");
@@ -823,13 +896,13 @@ public class TestProgramServiceImpl {
             }
             else
             	pvInfo.setDivisionsContentOwner(testOrgs);
-            
+
             //Perform the update
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
             List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
             assertNotNull(updatedPvInfos);
             ProgramVariationInfo updatedPV = updatedPvInfos.get(0);
-            	
+
             //Verify the update
             verifyUpdate(pvInfo, updatedPV);
 
@@ -840,7 +913,7 @@ public class TestProgramServiceImpl {
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
-        }   	
+        }
     }
 
     private void verifyUpdate(ProgramVariationInfo source, ProgramVariationInfo target) {
@@ -849,7 +922,7 @@ public class TestProgramServiceImpl {
         assertEquals(source.getDescr().getPlain(), target.getDescr().getPlain());
         assertEquals(source.getLongTitle(), target.getLongTitle());
         assertEquals(source.getShortTitle(), target.getShortTitle());
-        
+
         assertEquals(source.getCip2000Code(), target.getCip2000Code());
         assertEquals(source.getCip2010Code(), target.getCip2010Code());
         assertEquals(source.getTranscriptTitle(), target.getTranscriptTitle());
@@ -864,21 +937,21 @@ public class TestProgramServiceImpl {
         assertEquals("testOrgId", target.getDivisionsContentOwner().get(0).getOrgId());
         assertEquals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION, target.getDivisionsContentOwner().get(0).getType());
 
-    }   
-    @Test 
+    }
+    @Test
     public void testCreateVariationsByMajorDiscipline(){
         MajorDisciplineInfo majorDisciplineInfo = null;
 
         try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
-            
+
             List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
             assertNotNull(pvInfos);
-            
+
             ProgramVariationInfo pvInfoS = pvInfos.get(0);
             ProgramVariationInfo pvInfoT = new ProgramVariationInfo();
-            
+
             BeanUtils.copyProperties(pvInfoS, pvInfoT, new String[] { "id" });
 
             pvInfoT.setLongTitle(pvInfoT.getLongTitle() + "-created");
@@ -890,7 +963,7 @@ public class TestProgramServiceImpl {
             pvInfoT.setCip2010Code(pvInfoT.getCip2010Code() + "-created");
             pvInfoT.setTranscriptTitle(pvInfoT.getTranscriptTitle() + "-created");
             pvInfoT.setDiplomaTitle(pvInfoT.getDiplomaTitle() + "-created");
- 
+
             //Perform the update: adding the new variation
             pvInfos.add(pvInfoT);
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
@@ -898,23 +971,23 @@ public class TestProgramServiceImpl {
             assertNotNull(updatedPvInfos);
             assertEquals(3, updatedPvInfos.size());
             ProgramVariationInfo createdPV = updatedPvInfos.get(2);
-            	
+
             //Verify the update
             verifyUpdate(pvInfoT, createdPV);
 
             // Now explicitly get it
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId());
 //            assertEquals(3, retrievedMD.getVariations());
-            
+
             List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
             assertNotNull(retrievedPVs);
 //            assertEquals(3, updatedPvInfos.size());
 //            verifyUpdate(pvInfoT, retrievedPVs.get(2));
-            
-            
+
+
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
-        }   	
+        }
     }
 }

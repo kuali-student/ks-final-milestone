@@ -1,11 +1,10 @@
 package org.kuali.student.core.statement.service.assembler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
@@ -19,32 +18,34 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.service.impl.BaseAssembler;
-import org.kuali.student.core.statement.dao.StatementDao;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.entity.Statement;
-import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.core.statement.service.StatementService;
 
-public class StatementTreeViewAssembler extends BaseAssembler {
+
+/**
+ * CRUD operations for StatementTreeViewInfo
+ * <p/>
+ * NOTE: the Natural Language field is NOT filled in. This has be done further up the calling stack.
+ *
+ * @author glindholm
+ *
+ */
+public class StatementTreeViewAssembler extends BaseAssembler implements BOAssembler<StatementTreeViewInfo, StatementInfo>{
     final static Logger LOG = Logger.getLogger(StatementTreeViewAssembler.class);
 
     private StatementService statementService;
 
-	public static final String NL_KEY = "NL_KEY";
-	public static final String USAGE_TYPE_KEY = "USAGE_TYPE_KEY";
-	public StatementTreeViewInfo assemble(
-			StatementInfo statementInfo, StatementTreeViewInfo treeViewInfo, boolean shallowBuild, Map<String, String> configuration)
+	@Override
+	public StatementTreeViewInfo assemble(StatementInfo statementInfo, StatementTreeViewInfo treeViewInfo,
+			boolean shallowBuild)
 			throws AssemblyException {
 
-		if (configuration == null) {
-			configuration = new HashMap<String, String>();
-		}
 		StatementTreeViewInfo treeInfo = (treeViewInfo == null ? new StatementTreeViewInfo() : treeViewInfo);
 
 		try {
-			getStatementTreeViewHelper(statementInfo, treeInfo, shallowBuild, configuration.get(USAGE_TYPE_KEY), configuration.get(NL_KEY));
+			getStatementTreeViewHelper(statementInfo, treeInfo, shallowBuild);
 		} catch (DoesNotExistException e) {
 			throw new AssemblyException(e);
 		} catch (InvalidParameterException e) {
@@ -58,7 +59,8 @@ public class StatementTreeViewAssembler extends BaseAssembler {
 		return treeInfo;
 	}
 
-	public StatementTreeViewInfo disassemble(
+	@Override
+	public BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> disassemble(
 			StatementTreeViewInfo newTree, NodeOperation operation)
 			throws AssemblyException {
 
@@ -70,17 +72,25 @@ public class StatementTreeViewAssembler extends BaseAssembler {
 		}
 
 
-		try {
-			StatementTreeViewInfo origTree = null;
-			if (operation == NodeOperation.UPDATE) {
+		StatementTreeViewInfo origTree = null;
+		StatementInfo statement = null;
+		if (NodeOperation.UPDATE == operation) {
+			try {
+				statement =  statementService.getStatement(newTree.getId());
+	        } catch (Exception e) {
+				throw new AssemblyException("Error getting existing Statement unit during statementTreeView update", e);
+	        }
+			try {
 				origTree = new StatementTreeViewInfo();
-				try {
-					assemble(statementService.getStatement(newTree.getId()), origTree, false, null);
-				} catch (Exception e) {
-					origTree = null;
-				}
+				assemble(statement, origTree, false);
+			} catch (AssemblyException e) {
+				origTree = null; // Treat is a create
+				operation = NodeOperation.CREATE;
 			}
+		}
 
+
+        try {
 	        // insert statements and reqComponents if they do not already exists in database
 	        updateSTVHelperCreateStatements(newTree);
 	        // check the two lists of relationships for ones that need to be deleted/created
@@ -91,7 +101,12 @@ public class StatementTreeViewAssembler extends BaseAssembler {
 	            }
 	        }
 	        updateStatementTreeViewHelper(newTree);
-			return newTree;
+
+	        BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(this);
+	        result.setBusinessDTORef(newTree);
+	        result.setNodeData(statement);
+	        result.setOperation(operation);
+			return result;
 
 		} catch (Exception e) {
 			throw new AssemblyException("Error updating statement tree view:" + e.getMessage(), e);
@@ -111,12 +126,12 @@ public class StatementTreeViewAssembler extends BaseAssembler {
      * @throws OperationFailedException
      */
     private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo,
-    		final boolean shallowBuild, final String nlUsageTypeKey, final String language)
+    		final boolean shallowBuild)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         if (statementInfo == null) return;
 
         copyValues(statementTreeViewInfo, statementInfo);
-        statementTreeViewInfo.setReqComponents(getReqComponentInfos(statementInfo, nlUsageTypeKey, language));
+        statementTreeViewInfo.setReqComponents(getReqComponentInfos(statementInfo));
         // get statements recursively and convert them into statementTreeViewInfo
         for (String statementId : statementInfo.getStatementIds()) {
         	StatementInfo subStatement = statementService.getStatement(statementId);
@@ -124,23 +139,15 @@ public class StatementTreeViewAssembler extends BaseAssembler {
         	List<StatementTreeViewInfo> statements =
         		(statementTreeViewInfo.getStatements() == null) ? new ArrayList<StatementTreeViewInfo>() : statementTreeViewInfo.getStatements();
         		StatementTreeViewInfo subStatementTreeViewInfo = new StatementTreeViewInfo();
-        		if ( nlUsageTypeKey != null && language != null) {
-        			String nl = statementService.getNaturalLanguageForStatement(statementId, nlUsageTypeKey, language);
-        			subStatementTreeViewInfo.setNaturalLanguageTranslation(nl);
-        		}
 
         		if (!shallowBuild) {
         			// recursive call to get subStatementTreeViewInfo
-        			getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo, shallowBuild, nlUsageTypeKey, language);
+        			getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo, shallowBuild);
         		}
         		statements.add(subStatementTreeViewInfo);
         		statementTreeViewInfo.setStatements(statements);
         }
 
-        if ( nlUsageTypeKey != null && language != null) {
-        	String nl = statementService.getNaturalLanguageForStatement(statementTreeViewInfo.getId(), nlUsageTypeKey, language);
-        	statementTreeViewInfo.setNaturalLanguageTranslation(nl);
-        }
     }
 
 
@@ -331,7 +338,7 @@ public class StatementTreeViewAssembler extends BaseAssembler {
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-    private List<ReqComponentInfo> getReqComponentInfos(final StatementInfo statementInfo, final String nlUsageTypeKey, final String language)
+    private List<ReqComponentInfo> getReqComponentInfos(final StatementInfo statementInfo)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ReqComponentInfo> reqComponentInfos = new ArrayList<ReqComponentInfo>();
         if (statementInfo == null) {
@@ -342,10 +349,6 @@ public class StatementTreeViewAssembler extends BaseAssembler {
             for (String reqComponentId : statementInfo.getReqComponentIds()) {
                 //ReqComponentInfo reqCompInfo = getReqComponent(reqComponentId);
             	ReqComponentInfo reqCompInfo = statementService.getReqComponent(reqComponentId);
-            	if ( nlUsageTypeKey != null && language != null) {
-            		String nlLanguage = statementService.getNaturalLanguageForReqComponent(reqComponentId, nlUsageTypeKey, language);
-            		reqCompInfo.setNaturalLanguageTranslation(nlLanguage);
-            	}
             	reqComponentInfos.add(reqCompInfo);
             }
         }
@@ -359,4 +362,6 @@ public class StatementTreeViewAssembler extends BaseAssembler {
 	public void setStatementService(StatementService statementService) {
 		this.statementService = statementService;
 	}
+
+
 }

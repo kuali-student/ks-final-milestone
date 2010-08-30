@@ -147,6 +147,7 @@
                 <entry key="Statement">
                     <list>
                         <value>classpath:ks-statement.sql</value>
+                        <value>classpath:ks-statement-tree.sql</value>
                         <value>classpath:ks-statement-data.sql</value>
                     </list>
                 </entry>
@@ -467,6 +468,7 @@
         <property name="luService" ref="luServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
         <property name="loService" ref="loServiceImpl"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
     <bean id="majorDisciplineAssembler"
@@ -531,5 +533,6 @@
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 </beans>

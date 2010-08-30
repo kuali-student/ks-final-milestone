@@ -1,5 +1,8 @@
 package org.kuali.student.lum.program.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
@@ -9,6 +12,7 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.entity.FieldDescriptorEntity;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -23,9 +27,20 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.entity.RefStatementRelation;
+import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.entity.ReqComponentField;
+import org.kuali.student.core.statement.entity.ReqComponentFieldType;
+import org.kuali.student.core.statement.entity.ReqComponentType;
+import org.kuali.student.core.statement.entity.Statement;
+import org.kuali.student.core.statement.entity.StatementType;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
+import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
@@ -41,9 +56,6 @@ import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
     final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
@@ -57,6 +69,60 @@ public class ProgramServiceImpl implements ProgramService {
     private ProgramRequirementAssembler programRequirementAssembler;
     private CredentialProgramAssembler credentialProgramAssembler;
     private CoreProgramAssembler coreProgramAssembler;
+    private StatementService statementService;
+
+    static {
+    	if(false) {
+    	Clu progReq = new Clu();
+    	Statement stmtRoot = new Statement();
+    	stmtRoot.setState("active");
+    	stmtRoot.setOperator(StatementOperatorTypeKey.AND);
+    	StatementType statementType = new StatementType();
+    	stmtRoot.setStatementType(statementType);
+
+    	// leaf1
+    	Statement leaf1 = new Statement();
+    	leaf1.setOperator(StatementOperatorTypeKey.OR);
+    	leaf1.setParent(stmtRoot);
+    	StatementType statementType1 = new StatementType();
+    	leaf1.setStatementType(statementType1);
+
+    	// reqComp1
+    	ReqComponent reqComp1 = new ReqComponent();
+
+    	ReqComponentType reqComp1Type = new ReqComponentType();
+    	ReqComponentFieldType reqCompFieldType1 = new ReqComponentFieldType();
+    	FieldDescriptorEntity fieldDescriptorEntity1 = new FieldDescriptorEntity();
+    	// FIXME fieldDescriptorEntity1.setXXX
+    	reqComp1Type.getReqCompFieldTypes().add(reqCompFieldType1);
+    	reqComp1.setRequiredComponentType(reqComp1Type);
+
+    	ReqComponentField reqCompTypeField1 = new ReqComponentField();
+    	reqCompTypeField1.setType("type"); // FIXME
+    	reqCompTypeField1.setValue("value"); // FIXME
+    	reqComp1.getReqComponentFields().add(reqCompTypeField1);
+    	leaf1.getRequiredComponents().add(reqComp1);
+
+    	// reqComp2
+    	ReqComponent reqComp2 = new ReqComponent();
+    	leaf1.getRequiredComponents().add(reqComp2);
+
+    	StatementType leaf1Type = new StatementType();
+    	stmtRoot.getChildren().add(leaf1);
+
+
+    	// leaf2
+    	Statement leaf2 = new Statement();
+    	stmtRoot.getChildren().add(leaf2);
+
+    	// Link Statement to Program Requirement Clu
+    	RefStatementRelation refStatementRel = new RefStatementRelation();
+    	refStatementRel.setRefObjectId(progReq.getId());
+    	refStatementRel.setRefObjectTypeKey("clu"); // TODO
+    	refStatementRel.setStatement(stmtRoot);
+    	stmtRoot.getRefStatementRelations().add(refStatementRel);
+    	}
+    }
 
     @Override
     public CredentialProgramInfo createCredentialProgram(
@@ -64,7 +130,7 @@ public class ProgramServiceImpl implements ProgramService {
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	
+
         if (credentialProgramInfo == null) {
             throw new MissingParameterException("CredentialProgramInfo can not be null");
         }
@@ -213,18 +279,18 @@ public class ProgramServiceImpl implements ProgramService {
 
         try {
             CluInfo clu = luService.getClu(credentialProgramId);
-            
+
             if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getType()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
-            
+
             credentialProgramInfo = credentialProgramAssembler.assemble(clu, null, false);
         } catch (AssemblyException e) {
             LOG.error("Error assembling CredentialProgram", e);
             throw new OperationFailedException("Error assembling CredentialProgram");
         }
         return credentialProgramInfo;
-        
+
 		// comment out the above, and uncomment below to get auto-generated data
         // (and vice-versa)
 //		try {
@@ -331,10 +397,14 @@ public class ProgramServiceImpl implements ProgramService {
 
 		try {
 			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(cluInfo, null, false);
+			StatementTreeViewInfo statement = progReqInfo.getStatement();
+			if (nlUsageTypeKey != null && language != null) {
+				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
+			}
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
-            throw new OperationFailedException("Error assembling program requirement");
+            throw new OperationFailedException("Error assembling program requirement: " + e.getMessage(), e);
 		}
 	}
 
@@ -371,7 +441,7 @@ public class ProgramServiceImpl implements ProgramService {
             InvalidParameterException, MissingParameterException,
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
-    	
+
         if (credentialProgramInfo == null) {
             throw new MissingParameterException("CredentialProgramInfo can not be null");
         }
@@ -614,7 +684,7 @@ public class ProgramServiceImpl implements ProgramService {
         invokeServiceCalls(results);
         return results.getBusinessDTORef();
     }
-    
+
     @SuppressWarnings("unchecked")
 	private void invokeServiceCalls(BaseDTOAssemblyNode results) throws AssemblyException{
         // Use the results to make the appropriate service calls here
@@ -622,9 +692,9 @@ public class ProgramServiceImpl implements ProgramService {
             programServiceMethodInvoker.invokeServiceCalls(results);
         } catch (Exception e) {
             throw new AssemblyException(e);
-        }    	
+        }
     }
-    
+
     //Spring setters. Used by spring container to inject corresponding dependencies.
 
     public void setLuService(LuService luService) {
@@ -664,19 +734,27 @@ public class ProgramServiceImpl implements ProgramService {
 		this.coreProgramAssembler = coreProgramAssembler;
 	}
 
+	public StatementService getStatementService() {
+		return statementService;
+	}
+
+	public void setStatementService(StatementService statementService) {
+		this.statementService = statementService;
+	}
+
 	private StatusInfo getStatus(){
         StatusInfo status = new StatusInfo();
         status.setSuccess(true);
-        return status;		
+        return status;
 	}
-	
+
     private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation) throws AssemblyException {
 
         BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation);
         invokeServiceCalls(results);
         return results.getBusinessDTORef();
     }
-    
+
     @Override
     public CoreProgramInfo createCoreProgram(CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (coreProgramInfo == null) {
