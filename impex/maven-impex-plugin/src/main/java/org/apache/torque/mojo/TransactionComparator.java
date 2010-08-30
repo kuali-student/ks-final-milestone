@@ -29,27 +29,35 @@ public class TransactionComparator<T> implements Comparator<Transaction> {
 	public int compare(Transaction one, Transaction two) {
 		String loc1 = one.getResourceLocation();
 		String loc2 = two.getResourceLocation();
+		// If loc1 is ks-embedded-db.sql, it goes first
 		if (isSchemaSQL(loc1)) {
 			return -1;
 		}
+		// If loc2 is ks-embedded-db.sql, it goes first
 		if (isSchemaSQL(loc2)) {
 			return 1;
 		}
+		// If loc1 is ks-embedded-db-constraints.sql, it goes last
 		if (isSchemaConstraintsSQL(loc1)) {
 			return 1;
 		}
+		// If loc2 is ks-embedded-db-constraints.sql, it goes last
 		if (isSchemaConstraintsSQL(loc2)) {
 			return -1;
 		}
+		// They are both empty, it is a tie
 		if (isEmpty(loc1) && isEmpty(loc2)) {
 			return 0;
 		}
+		// Loc2 is empty but loc1 is not, loc1 goes after loc2
 		if (isEmpty(loc1) && !isEmpty(loc2)) {
 			return 1;
 		}
+		// Loc1 is empty but loc2 is not, loc2 goes after loc1
 		if (!isEmpty(loc1) && isEmpty(loc2)) {
 			return -1;
 		}
+		// Fall through to the normal string compare
 		return loc1.compareTo(loc2);
 	}
 
