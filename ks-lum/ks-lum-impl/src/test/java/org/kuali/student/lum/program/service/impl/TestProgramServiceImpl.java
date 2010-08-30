@@ -72,7 +72,6 @@ public class TestProgramServiceImpl {
 
 
     @Test
-    @Ignore
     public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", null, null);
         assertNotNull(progReqInfo);

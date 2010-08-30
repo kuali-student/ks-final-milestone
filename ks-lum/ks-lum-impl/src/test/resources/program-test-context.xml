@@ -149,6 +149,7 @@
                         <value>classpath:ks-statement.sql</value>
                         <value>classpath:ks-statement-tree.sql</value>
                         <value>classpath:ks-statement-data.sql</value>
+                        <value>classpath:ks-program-requirement.sql</value>
                     </list>
                 </entry>
             </map>
