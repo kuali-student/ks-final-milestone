@@ -34,6 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.shared.filtering.MavenFileFilter;
+import org.apache.torque.mojo.converter.ArtifactIdConverter;
 import org.kuali.core.db.torque.Utils;
 import org.kuali.db.DatabaseType;
 import org.kuali.db.JDBCConfiguration;
@@ -63,7 +64,28 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	public static final String FILE_SORTING_DSC = "descending";
 
+	ArtifactIdConverter artifactIdConverter;
+
 	// ////////////////////////// User Info ///////////////////////////////////
+
+	/**
+	 * Class name for logic that can convert the artifact id into the name of a database. Only used if convertArtifactId
+	 * is set to true. If convertArtifactId is true, this string defaults to OracleArtifactIdConverterImpl for Oracle
+	 * and MysqlArtifactIdConverterImpl for MySQL, but the implementation can be swapped out for any other class
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${artifactIdConverterImpl}"
+	 * @required
+	 */
+	String artifactIdConverterImpl;
+
+	/**
+	 * 
+	 * @since 1.0
+	 * @parameter expression="${convertArtifactId}" default-value="false"
+	 * @required
+	 */
+	boolean convertArtifactId;
 
 	/**
 	 * The type of database we are targeting eg oracle, mysql etc
@@ -81,15 +103,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * @parameter expression="${useArtifactIdForCredentials}" default-value="false"
 	 */
 	boolean useArtifactIdForCredentials;
-
-	/**
-	 * If trim artifactId is true, any hyphens in the artifact id are trimmed out and if the artifactId ends in "-db"
-	 * the trailing "-db" is trimmed off.
-	 * 
-	 * @since 1.0
-	 * @parameter expression="${trimArtifactId}" default-value="false"
-	 */
-	boolean trimArtifactId;
 
 	/**
 	 * Database username. If not given, it will be looked up through <code>settings.xml</code>'s server with
@@ -302,16 +315,16 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	Credentials credentials;
 
-	protected String getTrimmedArtifactId() {
-		if (trimArtifactId) {
-			return trimArtifactId(getProject().getArtifactId());
+	protected void configureTransactions() throws MojoExecutionException {
+		// default implementation does nothing
+	}
+
+	protected String getConvertedArtifactId() {
+		if (isConvertArtifactId()) {
+			return getArtifactIdConverter().getConvertedArtifactId(getProject().getArtifactId());
 		} else {
 			return getProject().getArtifactId();
 		}
-	}
-
-	protected void configureTransactions() throws MojoExecutionException {
-		// default implementation does nothing
 	}
 
 	protected Properties getContextProperties() {
@@ -504,6 +517,24 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		if (isBlank(targetDatabase)) {
 			targetDatabase = config.getType().toString().toLowerCase();
 		}
+
+		if (isBlank(getArtifactIdConverterImpl())) {
+			String packageName = ArtifactIdConverter.class.getPackage().getName();
+			artifactIdConverterImpl = packageName + "." + getImpl();
+		}
+		if (isConvertArtifactId()) {
+			try {
+				Class<?> clazz = Class.forName(artifactIdConverterImpl);
+				artifactIdConverter = (ArtifactIdConverter) clazz.newInstance();
+			} catch (Exception e) {
+				throw new MojoExecutionException("Error instantiating converter: " + artifactIdConverterImpl, e);
+			}
+		}
+	}
+
+	protected String getImpl() {
+		String defaultImpl = ArtifactIdConverter.class.getName();
+		return targetDatabase.substring(0, 1).toUpperCase() + targetDatabase.substring(2) + defaultImpl;
 	}
 
 	/**
@@ -610,7 +641,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 			return server.getPassword();
 		} else if (useArtifactIdForCredentials) {
 			// Fall through to using the artifact id of the project as a password
-			return getTrimmedArtifactId();
+			return getConvertedArtifactId();
 		} else {
 			return null;
 		}
@@ -626,7 +657,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 			return server.getUsername();
 		} else if (useArtifactIdForCredentials) {
 			// Fall through to using the artifact id of the project as a username
-			return getTrimmedArtifactId();
+			return getConvertedArtifactId();
 		} else {
 			return null;
 		}
@@ -898,14 +929,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		this.useArtifactIdForCredentials = useArtifactIdForCredentials;
 	}
 
-	public boolean isTrimArtifactId() {
-		return trimArtifactId;
-	}
-
-	public void setTrimArtifactId(boolean trimArtifactId) {
-		this.trimArtifactId = trimArtifactId;
-	}
-
 	public boolean isSkipOnConnectionError() {
 		return skipOnConnectionError;
 	}
@@ -960,5 +983,29 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
+	}
+
+	public ArtifactIdConverter getArtifactIdConverter() {
+		return artifactIdConverter;
+	}
+
+	public void setArtifactIdConverter(ArtifactIdConverter artifactIdConverter) {
+		this.artifactIdConverter = artifactIdConverter;
+	}
+
+	public String getArtifactIdConverterImpl() {
+		return artifactIdConverterImpl;
+	}
+
+	public void setArtifactIdConverterImpl(String artifactIdConverterImpl) {
+		this.artifactIdConverterImpl = artifactIdConverterImpl;
+	}
+
+	public boolean isConvertArtifactId() {
+		return convertArtifactId;
+	}
+
+	public void setConvertArtifactId(boolean convertArtifactId) {
+		this.convertArtifactId = convertArtifactId;
 	}
 }

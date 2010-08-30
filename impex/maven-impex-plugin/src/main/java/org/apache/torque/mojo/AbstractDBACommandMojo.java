@@ -68,13 +68,13 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();
 		if (getProject().getArtifactId().equals(database)) {
-			database = getTrimmedArtifactId();
+			database = getConvertedArtifactId();
 		}
 		if (getProject().getArtifactId().equals(databasePassword)) {
-			databasePassword = getTrimmedArtifactId();
+			databasePassword = getConvertedArtifactId();
 		}
 		if (getProject().getArtifactId().equals(databaseUsername)) {
-			databaseUsername = getTrimmedArtifactId();
+			databaseUsername = getConvertedArtifactId();
 		}
 	}
 
