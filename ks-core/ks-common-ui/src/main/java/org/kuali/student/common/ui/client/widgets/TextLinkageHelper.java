@@ -21,7 +21,6 @@ public class TextLinkageHelper {
                       if(masterString.equals(slave.getText()) 
                               ||"".equals(slave.getText()) ){
                           masterString = master.getText();
-                          System.out.println(masterString);
                           slave.setText(masterString);
                       }
                 }

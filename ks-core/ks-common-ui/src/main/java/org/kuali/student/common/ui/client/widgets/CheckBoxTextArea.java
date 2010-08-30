@@ -16,8 +16,8 @@ import com.google.gwt.user.client.ui.TextArea;
  * */
 public class CheckBoxTextArea extends Composite implements HasText{
     HasText master;
-    TextArea slave = new TextArea();
-    CheckBox checkBox = new CheckBox();
+    KSTextArea slave = new KSTextArea();
+    KSCheckBox checkBox = new KSCheckBox();
     public CheckBoxTextArea(HasText master, String checkBoxText){
         this.master = master;
         FlowPanel flowPanel = new FlowPanel();
@@ -31,8 +31,8 @@ public class CheckBoxTextArea extends Composite implements HasText{
                    slave.setVisible(false);
                }else{
                    slave.setVisible(true);
-               }                
-            }            
+               }
+            }
         });
         checkBox.setValue(true);
         checkBox.setText(checkBoxText);
@@ -54,5 +54,5 @@ public class CheckBoxTextArea extends Composite implements HasText{
             checkBox.setValue(false);
             slave.setText(text);
         }
-    }    
+    }
 }
