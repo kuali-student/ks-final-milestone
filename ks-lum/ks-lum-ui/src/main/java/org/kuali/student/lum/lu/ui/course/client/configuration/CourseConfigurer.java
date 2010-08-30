@@ -29,16 +29,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
-
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -46,28 +39,18 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueB
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.CompositeConditionOperator;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.*;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.*;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -78,30 +61,21 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.data.Data.Value;
-import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
-import org.kuali.student.lum.common.client.lo.CategoryDataUtil;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
 import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
-import org.kuali.student.lum.common.client.lo.LOPicker;
 import org.kuali.student.lum.common.client.lo.LUConstants;
-import org.kuali.student.lum.common.client.lo.OutlineNode;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseRequisitesSectionView;
-import org.kuali.student.lum.lu.ui.course.client.widgets.FeeMultiplicityGroup;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.*;
 
 
 /**
