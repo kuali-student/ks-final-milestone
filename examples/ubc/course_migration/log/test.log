@@ -1,0 +1,366 @@
+# Logfile created on Mon Aug 30 10:40:02 -0700 2010  [4;36;1mSQL (89.0ms)[0m   [0;1mselect decode(table_name,upper(table_name),lower(table_name),table_name) name from all_tables where owner = sys_context('userenv','session_user')[0m
+  [4;35;1mSQL (158.0ms)[0m   [0mCREATE TABLE schema_migrations (version VARCHAR2(255) NOT NULL) [0m
+OracleEnhanced shortened default index name index_schema_migrations_on_version to i_schema_migrations_version
+  [4;36;1mSQL (2128.0ms)[0m   [0;1mCREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations (version)[0m
+  [4;35;1mSQL (65.0ms)[0m   [0mselect decode(table_name,upper(table_name),lower(table_name),table_name) name from all_tables where owner = sys_context('userenv','session_user')[0m
+  [4;36;1mSQL (190.0ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (27.0ms)[0m   [0mselect sequence_name from user_sequences order by 1[0m
+  [4;36;1mSQL (309.0ms)[0m   [0;1mselect table_name from all_tables where owner = sys_context('userenv','session_user') order by 1[0m
+  [4;35;1mSQL (13.0ms)[0m   [0mselect 'DROP VIEW "' || view_name || '";' from user_views[0m
+  [4;36;1mSQL (33.0ms)[0m   [0;1mselect 'DROP SYNONYM "' || synonym_name || '";' from user_synonyms[0m
+  [4;35;1mSQL (38.0ms)[0m   [0mselect 'DROP TYPE "' || type_name || '";' from user_types[0m
+  [4;36;1mSQL (13.0ms)[0m   [0;1mselect 'DROP PACKAGE ' || object_name || ';' from user_objects where object_type = 'PACKAGE'[0m
+  [4;35;1mSQL (4.0ms)[0m   [0mselect 'DROP FUNCTION ' || object_name || ';' from user_objects where object_type = 'FUNCTION'[0m
+  [4;36;1mSQL (3.0ms)[0m   [0;1mselect 'DROP PROCEDURE ' || object_name || ';' from user_objects where object_type = 'PROCEDURE'[0m
+  [4;35;1mSQL (297.0ms)[0m   [0mdrop table ASSIGNED_BURSARY_AMOUNT_TEMP cascade constraints[0m
+  [4;36;1mSQL (361.0ms)[0m   [0;1mdrop table AWARDS_TEST_TABLE_1 cascade constraints[0m
+  [4;35;1mSQL (151.0ms)[0m   [0mdrop table AWRD_APPLY_AND_BURSARY_TEMP cascade constraints[0m
+  [4;36;1mSQL (69.0ms)[0m   [0;1mdrop table AWRD_APPLY_NO_BURSARY_TEMP cascade constraints[0m
+  [4;35;1mSQL (194.0ms)[0m   [0mdrop table AWRD_ASSESSED_NEEDT_BACKUP cascade constraints[0m
+  [4;36;1mSQL (168.0ms)[0m   [0;1mdrop table AWRD_ASSESSED_NEED_2005WT cascade constraints[0m
+  [4;35;1mSQL (113.0ms)[0m   [0mdrop table AWRD_ASSESSED_NEED_TEMPT cascade constraints[0m
+  [4;36;1mSQL (144.0ms)[0m   [0;1mdrop table AWRD_ASSGNT_BACKUP cascade constraints[0m
+  [4;35;1mSQL (85.0ms)[0m   [0mdrop table AWRD_ASSIGNMENT_PEND_BCKUP cascade constraints[0m
+  [4;36;1mSQL (83.0ms)[0m   [0;1mdrop table AWRD_IND_AWARDT_BACKUP cascade constraints[0m
+  [4;35;1mSQL (72.0ms)[0m   [0mdrop table AWRD_LOAN_NUMBERS cascade constraints[0m
+  [4;36;1mSQL (108.0ms)[0m   [0;1mdrop table AWRD_NEED_TEMPT cascade constraints[0m
+  [4;35;1mSQL (112.0ms)[0m   [0mdrop table AWRD_PREV_SENATE_VERSION_TEMP cascade constraints[0m
+  [4;36;1mSQL (102.0ms)[0m   [0;1mdrop table AWRD_SCHOLARSHIP_STANDING_BKP cascade constraints[0m
+  [4;35;1mSQL (75.0ms)[0m   [0mdrop table AWRD_SCHOL_STANDING_SEP30_BKP cascade constraints[0m
+  [4;36;1mSQL (87.0ms)[0m   [0;1mdrop table AWRD_SENATE_AWARD_TMP cascade constraints[0m
+  [4;35;1mSQL (70.0ms)[0m   [0mdrop table AWRD_TEMP_ELIG cascade constraints[0m
+  [4;36;1mSQL (153.0ms)[0m   [0;1mdrop table BASC_STUDENTS_TEMP cascade constraints[0m
+  [4;35;1mSQL (57.0ms)[0m   [0mdrop table BASC_STUDENT_MEETINGS_TEMP cascade constraints[0m
+  [4;36;1mSQL (59.0ms)[0m   [0;1mdrop table BASC_STUDENT_MEETINGS_TEMP2 cascade constraints[0m
+  [4;35;1mSQL (80.0ms)[0m   [0mdrop table CHER_SUMMER2004_APPLICATIONS cascade constraints[0m
+  [4;36;1mSQL (39.0ms)[0m   [0;1mdrop table EMAIL_ADDRESS_TEMP_PETE cascade constraints[0m
+  [4;35;1mSQL (160.0ms)[0m   [0mdrop table JMS_MESSAGES cascade constraints[0m
+  [4;36;1mSQL (68.0ms)[0m   [0;1mdrop table JMS_TRANSACTIONS cascade constraints[0m
+  [4;35;1mSQL (79.0ms)[0m   [0mdrop table NEED_TEMP cascade constraints[0m
+  [4;36;1mSQL (105.0ms)[0m   [0;1mdrop table PASSED_TEMP cascade constraints[0m
+  [4;35;1mSQL (191.0ms)[0m   [0mdrop table PASS_SESSION_CREDIT_CHECK_TEMP cascade constraints[0m
+  [4;36;1mSQL (68.0ms)[0m   [0;1mdrop table PASS_T1_CREDIT_CHECK_TEMP cascade constraints[0m
+  [4;35;1mSQL (60.0ms)[0m   [0mdrop table PASS_T2_CREDIT_CHECK_TEMP cascade constraints[0m
+  [4;36;1mSQL (107.0ms)[0m   [0;1mdrop table PES_HOUSING_TEMP cascade constraints[0m
+  [4;35;1mSQL (138.0ms)[0m   [0mdrop table PLAN_TABLE cascade constraints[0m
+  [4;36;1mSQL (231.0ms)[0m   [0;1mdrop table REGI_LOG_2008W_COMM cascade constraints[0m
+  [4;35;1mSQL (120.0ms)[0m   [0mdrop table REGI_STUDENTS_2006S cascade constraints[0m
+  [4;36;1mSQL (65.0ms)[0m   [0;1mdrop table REGI_STUDENTS_2007S cascade constraints[0m
+  [4;35;1mSQL (105.0ms)[0m   [0mdrop table REGI_STUDENTS_2008S cascade constraints[0m
+  [4;36;1mSQL (71.0ms)[0m   [0;1mdrop table REGI_STUDENTS_2008W cascade constraints[0m
+  [4;35;1mSQL (65.0ms)[0m   [0mdrop table REGI_STUDENTS_2009S cascade constraints[0m
+  [4;36;1mSQL (78.0ms)[0m   [0;1mdrop table REGI_STUDENTS_2009W cascade constraints[0m
+  [4;35;1mSQL (530.0ms)[0m   [0mdrop table SCHEMA_MIGRATIONS cascade constraints[0m
+  [4;36;1mSQL (201.0ms)[0m   [0;1mdrop table SECT_HDR_BACKUP cascade constraints[0m
+  [4;35;1mSQL (86.0ms)[0m   [0mdrop table SFM_REVENUEJV_ENTRY_IQS265 cascade constraints[0m
+  [4;36;1mSQL (110.0ms)[0m   [0;1mdrop table SFM_REVENUEJV_HEADER_IQS265 cascade constraints[0m
+  [4;35;1mSQL (131.0ms)[0m   [0mdrop table SIPC_BACKUP_AWRC_SESS_AWRDT cascade constraints[0m
+  [4;36;1mSQL (153.0ms)[0m   [0;1mdrop table SRRC_REGN_CTRLT_BACKUP cascade constraints[0m
+  [4;35;1mSQL (149.0ms)[0m   [0mdrop table SRRC_SECT_ENRLT_BACKUP cascade constraints[0m
+  [4;36;1mSQL (137.0ms)[0m   [0;1mdrop table STT_HEADERT_BACKUP cascade constraints[0m
+  [4;35;1mSQL (131.0ms)[0m   [0mdrop table STT_HEADERT_TEMP cascade constraints[0m
+  [4;36;1mSQL (137.0ms)[0m   [0;1mdrop table STUDENT_SEC_ENRL_2006W cascade constraints[0m
+  [4;35;1mSQL (92.0ms)[0m   [0mdrop table STUDENT_SEC_ENRL_2008S cascade constraints[0m
+  [4;36;1mSQL (97.0ms)[0m   [0;1mdrop table TABLE36_BACKUP cascade constraints[0m
+  [4;35;1mSQL (99.0ms)[0m   [0mdrop table TEMP_10000929 cascade constraints[0m
+  [4;36;1mSQL (122.0ms)[0m   [0;1mdrop table TEMP_AD_COURSE cascade constraints[0m
+  [4;35;1mSQL (304.0ms)[0m   [0mdrop table TEMP_AWRD_PROG cascade constraints[0m
+  [4;36;1mSQL (558.0ms)[0m   [0;1mdrop table TEMP_AWRD_TTLT1 cascade constraints[0m
+  [4;35;1mSQL (126.0ms)[0m   [0mdrop table TEMP_AWRD_TTLT2 cascade constraints[0m
+  [4;36;1mSQL (62.0ms)[0m   [0;1mdrop table TEMP_ENRL_2004 cascade constraints[0m
+  [4;35;1mSQL (166.0ms)[0m   [0mdrop table TEMP_NARC_EMAILT_PIPLINE_OUC cascade constraints[0m
+  [4;36;1mSQL (60.0ms)[0m   [0;1mdrop table TEMP_NOT_IN_NEED_REPORT cascade constraints[0m
+  [4;35;1mSQL (85.0ms)[0m   [0mdrop table TEMP_SFAS_AFTER_JUNE cascade constraints[0m
+  [4;36;1mSQL (63.0ms)[0m   [0;1mdrop table TEMP_SFAS_BEFORE_JULY cascade constraints[0m
+  [4;35;1mSQL (136.0ms)[0m   [0mdrop table TEMP_SIPC1 cascade constraints[0m
+  [4;36;1mSQL (91.0ms)[0m   [0;1mdrop table TEMP_STUDENTS cascade constraints[0m
+  [4;35;1mSQL (54.0ms)[0m   [0mdrop table TEMP_STUD_NO cascade constraints[0m
+  [4;36;1mSQL (73.0ms)[0m   [0;1mdrop table TEMP_STUD_PROGRAM_2006W cascade constraints[0m
+  [4;35;1mSQL (62.0ms)[0m   [0mdrop table TEMP_TEST_STUDENTS cascade constraints[0m
+  [4;36;1mSQL (59.0ms)[0m   [0;1mdrop table TEST_STUDENTS cascade constraints[0m
+  [4;35;1mSQL (84.0ms)[0m   [0mdrop table UBCO_INSTRUCTORS cascade constraints[0m
+  [4;36;1mSQL (81.0ms)[0m   [0;1mdrop table USER_DEFAULT_TABS_BACKUP cascade constraints[0m
+  [4;35;1mSQL (297.0ms)[0m   [0mDROP VIEW "TABLE107_VW"[0m
+  [4;36;1mSQL (73.0ms)[0m   [0;1mDROP SYNONYM "AWRD_APPL_TRAV_COMMENT_VW"[0m
+  [4;35;1mSQL (786.0ms)[0m   [0mDROP FUNCTION TEST_UBC_CYCLE[0m
+  [4;36;1mSQL (443.0ms)[0m   [0;1mDROP PROCEDURE REVERSE_REVENUEJV[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (4.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (127.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+  [4;36;1mSQL (2.0ms)[0m   [0;1mSAVEPOINT active_record_1[0m
+  [4;35;1mCrrcCrsCatalogt Create (0.0ms)[0m   [0mNativeException: java.sql.SQLException: ORA-01400: cannot insert NULL into ("SIS"."CRRC_CHANGEST"."CRS_CODE")
+ORA-06512: at "SIS.LOG_CHANGES_PROC", line 67
+ORA-06512: at "SIS.SENATE_LOG_B4_CHG", line 46
+ORA-04088: error during execution of trigger 'SIS.SENATE_LOG_B4_CHG'
+: INSERT INTO SIS.CRRC_CRS_CATALOGT (crs_startterm, crs_endterm, crs_prereq, crs_coreq, crs_equivalent, crs_duplicates, crs_credit, crs_credit_delimit, crs_min_cdt, crs_max_cdt, crs_facl_appr_dt, crs_snte_appr_dt, crs_creditvector, crs_creditvariable, crs_description, crs_shorttitle, crs_longtitle, crs_prereqnote, crs_coreqnote, crs_equivnote, crs_duplnote, crs_enterby, crs_enterdt, crs_outline_url, crs_comments, crs_grade_type, crs_level, crs_chg_status, crs_groupequivalent, crs_prereq_jem_id, crs_prereq_reg_flag, crs_restrict_jem_id, crs_coreq_jem_id, crs_no, crs_dpt_cd, crs_stitle_chgflg, crs_credit_chgflg, crs_grdtype_chgflg, crs_restn_refno, crs_version_equiv, crs_cls_max_cdt_qt, crs_req_err_msg_s, crs_req_err_msg_w, crs_crse_typ_cd, crs_crse_ref_cd, crs_publish_fl, admin_campus_cd, crs_cls_max_lifetime_cdt_qt, crs_cdf_flg, crs_cdf_eff_sess, crs_code, crs_seq_no, crs_ver_seq) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)[0m
+  [4;36;1mSQL (2.0ms)[0m   [0;1mROLLBACK TO active_record_1[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (6.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (229.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (3.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (67.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (2.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (67.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (3.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (77.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (3.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (236.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (3.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (72.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (4.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (74.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (3.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (72.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (13.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (142.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (3.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (233.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (4.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (230.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
+ActiveScaffold: extending RESTful routes for crrc_crs_catalogts
+  [4;36;1mSQL (3.0ms)[0m   [0;1m SELECT trigger_name
+ FROM all_triggers
+ WHERE owner = 'SIS'
+ AND trigger_name = 'SIS.CRRC_CRS_CATALOGT_PKT'
+ AND table_owner = 'SIS'
+ AND table_name = 'CRRC_CRS_CATALOGT'
+ AND status = 'ENABLED'
+[0m
+  [4;35;1mCrrcCrsCatalogt Columns (73.0ms)[0m   [0m select column_name as name, data_type as sql_type, data_default, nullable,
+ decode(data_type, 'NUMBER', data_precision,
+ 'FLOAT', data_precision,
+ 'VARCHAR2', decode(char_used, 'C', char_length, data_length),
+ 'CHAR', decode(char_used, 'C', char_length, data_length),
+ null) as limit,
+ decode(data_type, 'NUMBER', data_scale, null) as scale
+ from all_tab_columns
+ where owner = 'SIS'
+ and table_name = 'CRRC_CRS_CATALOGT'
+ order by column_id
+[0m
