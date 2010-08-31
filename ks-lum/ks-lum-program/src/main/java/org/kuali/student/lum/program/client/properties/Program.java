@@ -124,6 +124,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String confirmDialog_title();
 
   /**
+   * Translated "Learning Objectives".
+   * 
+   * @return translated "Learning Objectives"
+   */
+  @DefaultMessage("Learning Objectives")
+  @Key("lo.title")
+  String lo_title();
+
+  /**
    * Translated "Curriculum Oversight Division".
    * 
    * @return translated "Curriculum Oversight Division"
@@ -609,10 +618,10 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("programRequirements.summaryViewPageTitle")
   String programRequirements_summaryViewPageTitle();
 
-      /**
-   * Translated "Key Program Information".
-   *
-   * @return translated "Key Program Information"
+  /**
+   * Translated "Completion of a specialization is required for this program".
+   * 
+   * @return translated "Completion of a specialization is required for this program"
    */
   @DefaultMessage("Completion of a specialization is required for this program")
   @Key("programSpecialization.instructions")
