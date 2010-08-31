@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!--
+    Copyright 2008-2009 The Kuali Foundation Licensed under the Educational
+    Community License, Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a copy of the License
+    at http://www.opensource.org/licenses/ecl2.php Unless required by applicable
+    law or agreed to in writing, software distributed under the License is
+    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the specific language
+    governing permissions and limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util 
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+  <bean id="postgresConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="POSTGRESQL" p:urlFragment=":postgresql:"
+    p:driver="org.postgresql.Driver"/>
+
+  <bean id="mysqlConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="MYSQL" p:urlFragment=":mysql:"
+    p:driver="com.mysql.jdbc.Driver"/>
+
+  <bean id="hsqlConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="HSQL" p:urlFragment=":hsqldb:"
+    p:driver="org.hsqldb.jdbcDriver"/>
+
+  <bean id="h2Configuration" class="org.kuali.db.JDBCConfiguration" p:type="H2" p:urlFragment=":h2:" p:driver="org.h2.Driver"/>
+
+  <bean id="jtdsSqlServerConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":jtds:sqlserver:"
+    p:driver="net.sourceforge.jtds.jdbc.Driver"/>
+
+  <bean id="ms2000SqlServerConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":microsoft:sqlserver:"
+    p:driver="com.microsoft.jdbc.sqlserver.SQLServerDriver"/>
+
+  <bean id="ms2005SqlServerConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="SQL_SERVER" p:urlFragment=":sqlserver:"
+    p:driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+
+  <bean id="db2Configuration" class="org.kuali.db.JDBCConfiguration" p:type="DB2" p:urlFragment=":db2:"
+    p:driver="com.ibm.db2.jcc.DB2Driver"/>
+
+  <bean id="oracleConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="ORACLE" p:urlFragment=":oracle:"
+    p:driver="oracle.jdbc.driver.OracleDriver"/>
+
+  <bean id="derbyConfiguration" class="org.kuali.db.JDBCConfiguration" p:type="DERBY" p:urlFragment=":derby:"
+    p:driver="org.apache.derby.jdbc.EmbeddedDriver"/>
+
+  <util:list id="jdbcConfigurations">
+    <ref bean="postgresConfiguration"/>
+    <ref bean="mysqlConfiguration"/>
+    <ref bean="hsqlConfiguration"/>
+    <ref bean="h2Configuration"/>
+    <ref bean="jtdsSqlServerConfiguration"/>
+    <ref bean="ms2000SqlServerConfiguration"/>
+    <ref bean="ms2005SqlServerConfiguration"/>
+    <ref bean="db2Configuration"/>
+    <ref bean="oracleConfiguration"/>
+    <ref bean="derbyConfiguration"/>
+  </util:list>
+
+</beans>
