@@ -102,7 +102,8 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	public void executeMojo() throws MojoExecutionException {
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
-		if (!isChanged() && isRunOnlyOnChange()) {
+		ChangeDetector detector = new ChangeDetector(getOutputDir(), getReportFile(), getSchemaFiles(),getDataFiles());
+		if (!detector.isChanged() && isRunOnlyOnChange()) {
 			getLog().info("------------------------------------------------------------------------");
 			getLog().info("Data and schema are unchanged.  Skipping generation.");
 			getLog().info("------------------------------------------------------------------------");
@@ -114,38 +115,9 @@ public class DataSqlMojo extends DataModelTaskMojo {
 		super.executeMojo();
 	}
 
-	/**
-	 * Return true if any of the data XML files have changed of if the schema XML file has changed
-	 */
-	protected boolean isChanged() {
-		if (isDataChanged()) {
-			return true;
-		}
-		if (isSchemaChanged()) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns true if any of the data XML files have changed since the time the report file was generated
-	 * 
-	 * @return whether the data has changed
-	 */
-	protected boolean isDataChanged() {
-		File report = new File(super.getOutputDir(), getReportFile());
-		if (!report.exists()) {
-			return true;
-		}
-
+	protected List<File> getDataFiles() {
 		FileSet dataXMLFileSet = getDataXMLFileSet();
-		List<File> dataXMLFiles = getFiles(dataXMLFileSet);
-		for (File dataXMLFile : dataXMLFiles) {
-			if (dataXMLFile.lastModified() > report.lastModified()) {
-				return true;
-			}
-		}
-		return false;
+		return getFiles(dataXMLFileSet);
 	}
 
 	/**

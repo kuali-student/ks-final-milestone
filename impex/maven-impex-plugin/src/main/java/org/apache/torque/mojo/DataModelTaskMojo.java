@@ -155,28 +155,6 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	}
 
 	/**
-	 * Returns true if any of the schema XML files have changed since the time the report file was generated
-	 * 
-	 * @return whether the schema has changed.
-	 */
-	protected boolean isSchemaChanged() {
-		File report = new File(super.getOutputDir(), getReportFile());
-		if (!report.exists()) {
-			return true;
-		}
-
-		List<File> schemaFiles = getSchemaFiles();
-		for (File schemaFile : schemaFiles) {
-			getLog().debug("schemaFile.lastModified=" + schemaFile.lastModified() + " " + schemaFile.getAbsolutePath());
-			getLog().debug("report.lastModified=" + report.lastModified() + " " + report.getAbsolutePath());
-			if (schemaFile.lastModified() > report.lastModified()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Returns the directory where the schema files are located.
 	 * 
 	 * @return the the directory where the schema files are located.
