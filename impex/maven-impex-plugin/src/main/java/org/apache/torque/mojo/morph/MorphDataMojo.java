@@ -1,4 +1,4 @@
-package org.apache.torque.mojo;
+package org.apache.torque.mojo.morph;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.apache.commons.io.FileUtils.*;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.torque.mojo.BaseMojo;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.core.db.torque.PrettyPrint;

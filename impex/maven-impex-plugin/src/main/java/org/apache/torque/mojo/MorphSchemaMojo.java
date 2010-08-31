@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.torque.mojo.morph.MorphRequest;
+import org.apache.torque.mojo.morph.Morpher;
+import org.apache.torque.mojo.morph.SchemaMorpher;
 import org.codehaus.plexus.util.FileUtils;
 
 /**

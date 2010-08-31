@@ -1,4 +1,4 @@
-package org.apache.torque.mojo;
+package org.apache.torque.mojo.morph;
 
 import org.codehaus.plexus.util.StringUtils;
 
