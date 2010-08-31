@@ -668,7 +668,7 @@
 		parent="lookup">
 		<property name="id"
 			value="kuali.common.lookup.findCourse.advanced.courseproposal" />
-		<property name="searchTypeId" value="lu.search.cluGenericCrossSearch" />
+		<property name="searchTypeId" value="lu.search.generic" />
 		<property name="name" value="Courses and Proposals" />
 		<property name="desc" value="Search for courses and proposals" />
 		<property name="params">
@@ -707,9 +707,9 @@
 				</bean>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="lu.queryParam.luOptionalOrgLongName" />
-					<property name="name" value="Department" />
-					<property name="desc" value="Admin department" />
+					<property name="key" value="lu.queryParam.luOptionalStudySubjectArea" />
+					<property name="name" value="Subject Area" />
+					<property name="desc" value="Study Subject Area" />
 					<property name="dataType" value="STRING" />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="caseSensitive" value="true" />
@@ -752,7 +752,7 @@
 		parent="lookup">
 		<property name="id"
 			value="kuali.common.lookup.findCourse.advanced.coursesonly" />
-		<property name="searchTypeId" value="lu.search.cluGenericCrossSearch" />
+		<property name="searchTypeId" value="lu.search.generic" />
 		<property name="name" value="Courses Only" />
 		<property name="desc" value="Search for courses" />
 		<property name="params">
@@ -791,9 +791,9 @@
 				</bean>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="lu.queryParam.luOptionalOrgLongName" />
-					<property name="name" value="Department" />
-					<property name="desc" value="Admin department" />
+					<property name="key" value="lu.queryParam.luOptionalStudySubjectArea" />
+					<property name="name" value="Subject Area" />
+					<property name="desc" value="Study Subject Area" />
 					<property name="dataType" value="STRING" />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="caseSensitive" value="true" />
@@ -832,7 +832,7 @@
 		parent="lookup">
 		<property name="id"
 			value="kuali.common.lookup.findCourse.advanced.proposalsonly" />
-		<property name="searchTypeId" value="lu.search.cluGenericCrossSearch" />
+		<property name="searchTypeId" value="lu.search.generic" />
 		<property name="name" value="Proposals Only" />
 		<property name="desc" value="Search for proposals" />
 		<property name="params">
@@ -871,9 +871,9 @@
 				</bean>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="lu.queryParam.luOptionalOrgLongName" />
-					<property name="name" value="Department" />
-					<property name="desc" value="Admin department" />
+					<property name="key" value="lu.queryParam.luOptionalStudySubjectArea" />
+					<property name="name" value="Subject Area" />
+					<property name="desc" value="Study Subject Area" />
 					<property name="dataType" value="STRING" />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="caseSensitive" value="true" />
