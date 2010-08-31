@@ -1,5 +1,8 @@
 DROP DATABASE IF EXISTS ${database} 
 /
 
-DROP USER ${databaseUsername} IF EXISTS
+GRANT USAGE ON *.* TO '${databaseUsername}'@'%' IDENTIFIED BY '${databasePassword}'
+/
+
+DROP USER ${databaseUsername}
 /
