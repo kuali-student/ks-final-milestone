@@ -140,7 +140,7 @@ public class SectionBinding extends ModelWidgetBindingSupport<Section> {
         List<FieldDescriptor> fields = section.getUnnestedFields();
 
         for (int i = 0; i < fields.size(); i++) {
-            FieldDescriptor field = (FieldDescriptor) fields.get(i);
+            FieldDescriptor field = fields.get(i);
 
             ModelWidgetBinding binding = field.getModelWidgetBinding();
             String fieldPath = path + QueryPath.getPathSeparator() + field.getFieldKey();

@@ -54,7 +54,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         QueryPath qPath = QueryPath.parse(path);
 
         Data data = null;
-        if(model!=null){
+        if (model != null) {
             data = model.get(qPath);
         }
 
@@ -87,14 +87,10 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
     }
 
     private void dataToOutlineNodes(Data data, List<OutlineNode<LOPicker>> loOutlineNodes, int identLevel) {
-        if (data != null){
-            Iterator<Data.Property> itr = data.realPropertyIterator();
+        if (data != null) {
             LoDisplayInfoSortedSet sortedDisplayInfos = new LoDisplayInfoSortedSet();
-
-            // get top-level LO's in the right order
-            while (itr.hasNext()){
-                Data.Property p = (Data.Property) itr.next();
-                Data loDisplayInfoData = p.getValue();
+            for (Data.Property property : data) {
+                Data loDisplayInfoData = property.getValue();
                 LoDisplayInfoHelper loDisplayInfoHelper = new LoDisplayInfoHelper(loDisplayInfoData);
                 sortedDisplayInfos.add(loDisplayInfoHelper);
             }
