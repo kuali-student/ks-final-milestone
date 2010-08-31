@@ -78,17 +78,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
 		CluInfo clu;
 		try {
-			if(NodeOperation.UPDATE == operation){
-				if(variation.getId()!= null && !"".equals(variation.getId()))
-					clu = luService.getClu(variation.getId());
-				else{
-					clu = new CluInfo();
-					operation = NodeOperation.CREATE;
-				}
-			}
-			else
-				clu = new CluInfo();
-			//clu = (NodeOperation.UPDATE == operation) ? luService.getClu(variation.getId()) : new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ? luService.getClu(variation.getId()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during variation update", e);
         } 
