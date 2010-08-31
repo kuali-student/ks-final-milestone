@@ -159,6 +159,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
             }
 
         });
+        super.registerModel("ComparisonModel", new ModelProvider<DataModel>() {
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+                callback.onModelReady(null);
+            }
+        });
         super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
             @Override
             public void onValidateRequest(final ValidateRequestEvent event) {
@@ -197,7 +203,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void getCurrentModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
     	if (cluProposalModel.getRoot() != null && cluProposalModel.getRoot().size() > 0){
-        	String id = cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH);
+        	String id = cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH+"/id");
         	if(id != null){
         		getCluProposalFromProposalId(id, callback, workCompleteCallback);
         	}
@@ -302,7 +308,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         		ReferenceModel ref = new ReferenceModel();
 
         		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH) != null){
-            		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH));
+            		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH+"/id"));
         		} else {
         			ref.setReferenceId(null);
         		}
@@ -317,7 +323,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
         	String proposalId=null;
         	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH)!=null){
-        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH);
+        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH+"/id" );
         	}
         	collaboratorModel.setDataId(proposalId);
         	callback.onModelReady(collaboratorModel);
