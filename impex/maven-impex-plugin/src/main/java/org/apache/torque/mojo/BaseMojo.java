@@ -11,7 +11,7 @@ import org.kuali.maven.mojo.MavenLogger;
 /**
  * Mojo essentials. Contains the "skip" logic that is the de facto standard for maven plugins. Contains a number of
  * maven related properties that are common to most mojos. Also sets up logging so that if libraries called by a mojo
- * issue log statements to Jakarta Commons Logging or Log4j, those log messages are show in maven's output
+ * issue log statements to Jakarta Commons Logging or Log4j, those log messages are shown in maven's output
  */
 public abstract class BaseMojo extends AbstractMojo {
 	public static final String FS = System.getProperty("file.separator");
