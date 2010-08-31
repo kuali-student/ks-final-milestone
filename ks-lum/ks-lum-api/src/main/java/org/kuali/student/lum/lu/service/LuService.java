@@ -28,6 +28,7 @@ import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -897,6 +898,22 @@ public interface LuService extends DictionaryService, SearchService, VersionMana
      * @throws VersionMismatchException The action was attempted on an out of date version
      */
     public CluInfo createNewCluVersion(@WebParam(name="cluId")String cluId) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    
+    /** 
+     * Sets a specific version of the Clu as current. The sequence number should be greater than the existing current Clu version.
+     * @param cluVersionId Version Specific Id of the Clu
+     * @param previousState State for the existing current clu
+     * @param newState State for the clu that is being marked current
+     * @return status of the operation
+     * @throws DoesNotExistException cluVersionId not found
+     * @throws InvalidParameterException invalid cluVersionId, previousState, newState
+     * @throws MissingParameterException missing cluVersionId, previousState, newState
+     * @throws IllegalVersionSequencingException a Clu with higher sequence number from the one provided is marked current
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo setCurrentCluVersion(@WebParam(name="cluVersionId")String cluVersionId, @WebParam(name="previousState")String previousState, @WebParam(name="newState")String newState ) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
     
     /** 
      * Updates the state of the specified CLU
