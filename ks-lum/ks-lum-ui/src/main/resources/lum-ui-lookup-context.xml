@@ -86,21 +86,12 @@
 		</property>
 	</bean>
 	
-	<bean id="course.administeringOrgs" parent="department-lookup-binding-parent">
-		<property name="path" value="courseInfo.administeringOrgs" />
-	</bean>
-
-	<bean id="course.curriculumOversightOrgs" parent="orgcurriculum-lookup-binding-parent">
+	<bean id="course.curriculumOversightOrgs" parent="department-lookup-binding-parent">
 		<property name="path" value="courseInfo.curriculumOversightOrgs" />
 	</bean>
 
-	<bean id="orgcurriculum-lookup-binding-parent" parent="department-lookup-binding-parent"
-		abstract="true">
-		<property name="additionalLookups">
-			<list>
-				<ref bean="kuali.lu.lookup.admin.orgcurriculum.advanced" />
-			</list>
-		</property>
+	<bean id="course.administeringOrgs" parent="department-lookup-binding-parent">
+		<property name="path" value="courseInfo.administeringOrgs" />
 	</bean>
 
 	<bean id="department-lookup-binding-parent" parent="uilookup"
