@@ -16,6 +16,9 @@ import org.kuali.db.Transaction;
 public class ResetMojo extends AbstractDBACommandMojo {
 
 	protected Transaction getTransaction(Properties properties, DatabaseCommand command) throws IOException {
+		getLog().info("------------------------------------------------------");
+		getLog().info(command + " " + getTargetDatabase() + " database " + getDatabase());
+		getLog().info("------------------------------------------------------");
 		SQLGenerator generator = new SQLGenerator(properties, url, command);
 		generator.setEncoding(getEncoding());
 		String sql = generator.getSQL();
