@@ -130,8 +130,6 @@
               <targetDatabase>oracle</targetDatabase>
               <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
               <trimArtifactId>true</trimArtifactId>
-              <dbaUsername>system</dbaUsername>
-              <dbaPassword>gw570229</dbaPassword>
             </configuration>
             <dependencies>
               <dependency>
@@ -162,13 +160,25 @@
                 </goals>
               </execution>
               <execution>
-                <id>reset-database</id>
+                <id>drop-create-database</id>
                 <phase>pre-integration-test</phase>
                 <goals>
                   <goal>drop</goal>
                   <goal>create</goal>
+                </goals>
+                <configuration>
+                  <settingsKey>impex.${project.artifactId}.dba</settingsKey>
+                </configuration>
+              </execution>
+              <execution>
+                <id>import-data</id>
+                <phase>pre-integration-test</phase>
+                <goals>
                   <goal>import</goal>
                 </goals>
+                <configuration>
+                  <settingsKey>impex.${project.artifactId}</settingsKey>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -178,10 +188,12 @@
   </profiles>
   <modules>
     <module>ks-embedded-db</module>
+    <!-- 
     <module>ks-core-db</module>
     <module>ks-lum-db</module>
     <module>ks-rice-db</module>
     <module>ks-rice-client-db</module>
     <module>ks-rice-server-db</module>
+     -->
   </modules>
 </project>
