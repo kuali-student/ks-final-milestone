@@ -834,6 +834,57 @@ public class ProgramAssemblerUtils {
         return results;
     }
 
+    public Map<String, String> getCluCluRelations(String cluId, String relationType) throws AssemblyException{
+        Map<String, String> currentRelations = new HashMap<String, String>();
+
+            try {
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId);
+
+                for (CluCluRelationInfo cluRelation : cluRelations) {
+                    if (relationType.equals(cluRelation.getType())) {
+                        currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
+                    }
+                }
+            } catch (DoesNotExistException e) {
+            } catch (InvalidParameterException e) {
+            } catch (MissingParameterException e) {
+            } catch (OperationFailedException e) {
+                throw new AssemblyException("Error getting related clus", e);
+            }
+            
+            return currentRelations;
+    }
+ 
+    public void addCreateRelationNode(String cluId, String relatedCluId, String relationType, List<BaseDTOAssemblyNode<?, ?>> results){
+        CluCluRelationInfo relation = new CluCluRelationInfo();
+        relation.setCluId(cluId);
+        relation.setRelatedCluId(relatedCluId);
+        relation.setType(relationType);
+        relation.setState(ProgramAssemblerConstants.ACTIVE);
+
+        BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+                null);
+        relationNode.setNodeData(relation);
+        relationNode.setOperation(NodeOperation.CREATE);
+
+        results.add(relationNode);
+    	
+    }
+    
+    public void addDeleteRelationNodes(Map<String, String> currentRelations, List<BaseDTOAssemblyNode<?, ?>> results){
+        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
+            // Create a new relation with the id of the relation we want to
+            // delete
+            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
+            relationToDelete.setId( entry.getValue() );
+            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+                    null);
+            relationToDeleteNode.setNodeData(relationToDelete);
+            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+            results.add(relationToDeleteNode);
+        }   	
+    }
+    
     private LuCodeInfo buildLuCodeFromProgram(Object o, String methodName, String codeType) throws AssemblyException {
 
         LuCodeInfo code = null;
