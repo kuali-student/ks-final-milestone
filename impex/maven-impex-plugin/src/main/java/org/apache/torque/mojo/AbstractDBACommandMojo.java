@@ -90,7 +90,13 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 
 	@Override
 	protected Server getServerFromSettingsKey() {
-		return getSettings().getServer(dbaSettingsKey);
+		Server server = getSettings().getServer(dbaSettingsKey);
+		if (server != null) {
+			return server;
+		}
+		
+		String settingsKey = "impex." + getUrl() + ".dba";
+		return getSettings().getServer(settingsKey);
 	}
 
 	@Override

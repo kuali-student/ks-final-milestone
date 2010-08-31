@@ -629,7 +629,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		Server server = getSettings().getServer(getSettingsKey());
 		if (server == null) {
 			// Fall through to using the JDBC url as a key
-			return getSettings().getServer(getUrl());
+			return getSettings().getServer("impex." + getUrl());
 		} else {
 			return null;
 		}
