@@ -825,7 +825,7 @@
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
   <property name="maxLength" value="250" />
-  <property name="validChars" ref="alphanumericHyphenPeriod"/>
+  <property name="validChars" ref="multiLineText"/>
  </bean>
 
  <!-- Searches -->
