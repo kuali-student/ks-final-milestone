@@ -24,6 +24,7 @@ class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
 
     @Override
     public void setWidgetValue(KSListPanel listPanel, DataModel model, String path) {
+        listPanel.clear();
         Data loData = model.get(path);
         if (loData != null) {
             StringTreeStructure rootModel = new StringTreeStructure();
