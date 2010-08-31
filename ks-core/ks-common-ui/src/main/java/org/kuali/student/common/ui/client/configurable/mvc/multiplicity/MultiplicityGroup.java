@@ -262,12 +262,21 @@ public class MultiplicityGroup extends Composite {
                                     new MultiplicitySection(newSubMultiplicityConfig);
                                 conditionSection.addSection(subMultiplicitySection);
                             } else {
-                                FieldDescriptor fieldDescriptorConfig = conditionFieldConfig.getFieldDescriptorConfig();
-                                conditionSection.addField(new FieldDescriptor(
-                                        translatePath(fieldDescriptorConfig.getFieldKey()),
-                                        fieldDescriptorConfig.getMessageKey(),
-                                        fieldDescriptorConfig.getMetadata()));
-                                helperFieldKeys.put(fieldDescriptorConfig.getFieldKey(), translatePath(fieldDescriptorConfig.getFieldKey()));
+                                MultiplicityFieldConfiguration fieldConfig = 
+                                    conditionFieldConfig.getMultiplicityFieldConfiguration();
+                                FieldDescriptor concreteFieldDescriptor = new FieldDescriptor(
+                                        translatePath(fieldConfig.getFieldPath()),
+                                        fieldConfig.getMessageKeyInfo(),
+                                        fieldConfig.getMetadata());
+                                if (fieldConfig.getFieldWidgetInitializer() != null) {
+                                    Widget fieldWidget = fieldConfig.getFieldWidgetInitializer().getNewWidget();
+                                    ModelWidgetBinding mwb = fieldConfig.getFieldWidgetInitializer()
+                                        .getModelWidgetBindingInstance();
+                                    concreteFieldDescriptor.setFieldWidget(fieldWidget);
+                                    concreteFieldDescriptor.setWidgetBinding(mwb);
+                                }
+                                conditionSection.addField(concreteFieldDescriptor);
+                                helperFieldKeys.put(fieldConfig.getFieldPath(), translatePath(fieldConfig.getFieldPath()));
                             }
                         }
                     }

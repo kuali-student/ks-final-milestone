@@ -1,25 +1,21 @@
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-import java.util.List;
-
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-
 public class SwapCompositeConditionFieldConfig {
 
-    private FieldDescriptor fieldDescriptorConfig;
+    private MultiplicityFieldConfiguration multiplicityFieldConfiguration;
     private MultiplicityConfiguration multiplicityConfiguration;
     
-    public SwapCompositeConditionFieldConfig(FieldDescriptor fieldDescriptorConfig,
+    public SwapCompositeConditionFieldConfig(MultiplicityFieldConfiguration multiplicityFieldConfiguration,
             MultiplicityConfiguration multiplicityConfiguration) {
-        setFieldDescriptorConfig(fieldDescriptorConfig);
+        setMultiplicityFieldConfiguration(multiplicityFieldConfiguration);
         setMultiplicityConfiguration(multiplicityConfiguration);
     }
 
-    public FieldDescriptor getFieldDescriptorConfig() {
-        return fieldDescriptorConfig;
+    public MultiplicityFieldConfiguration getMultiplicityFieldConfiguration() {
+        return multiplicityFieldConfiguration;
     }
-    public void setFieldDescriptorConfig(FieldDescriptor fieldDescriptorConfig) {
-        this.fieldDescriptorConfig = fieldDescriptorConfig;
+    public void setMultiplicityFieldConfiguration(MultiplicityFieldConfiguration multiplicityFieldConfiguration) {
+        this.multiplicityFieldConfiguration = multiplicityFieldConfiguration;
     }
     public MultiplicityConfiguration getMultiplicityConfiguration() {
         return multiplicityConfiguration;

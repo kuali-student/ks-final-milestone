@@ -303,14 +303,18 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 LUConstants.SUBJECT_CODE_LABEL_KEY, null, null),
                         new MultiplicityFieldConfig(
                                 COURSE_NUMBER_SUFFIX, 
-                                LUConstants.COURSE_NUMBER_LABEL_KEY, null, null)));
+                                LUConstants.COURSE_NUMBER_LABEL_KEY, null, null)),
+                        null,
+                        null);
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + JOINTS,
                 LUConstants.ADD_EXISTING_LABEL_KEY,
                 LUConstants.JOINT_OFFER_ITEM_LABEL_KEY,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
                                 CreditCourseJointsConstants.COURSE_ID, 
-                                LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null)));
+                                LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null)),
+                                null,
+                                null);
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + VERSIONS,
                 LUConstants.ADD_VERSION_CODE_LABEL_KEY,
                 LUConstants.VERSION_CODE_LABEL_KEY,
@@ -321,7 +325,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                         new MultiplicityFieldConfig(
                                 "variationTitle", 
                                 LUConstants.TITLE_LABEL_KEY, null, null)
-                ));
+                ),
+                null,
+                null);
         return result;
     }
     
@@ -374,30 +380,17 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     private void addMultiplicityFields(Section section,  
             String path, String addItemlabelMessageKey,
-            String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs) {
-        QueryPath parentPath = QueryPath.concat(path);
-
-        MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP,
-                MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP, getMetaData(parentPath.toString()));
-        config.setAddItemLabel(getLabel(addItemlabelMessageKey));
-        config.setItemLabel(getLabel(itemLabelMessageKey));
-        config.setUpdateable(true);
-
-        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
-        config.setParent(parentFd);
-
-        if (fieldConfigs != null) {
-            for (MultiplicityFieldConfig fieldConfig : fieldConfigs) {
-                FieldDescriptor fd = buildMultiplicityFD(fieldConfig.getFieldKey(),
-                        fieldConfig.getLabelKey(), parentPath.toString(), fieldConfig.getFieldWidget(),
-                        fieldConfig.getModelWidgetBinding());
-                config.addField(fd);
-            }
-        }
+            String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
+            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
+            List<String> deletionParentKeys) {
+        MultiplicityConfiguration config = setupMultiplicityConfig(
+                MultiplicityConfiguration.MultiplicityType.GROUP,
+                MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
+                path, addItemlabelMessageKey, itemLabelMessageKey,
+                fieldConfigs, swappableFieldsDefinition, deletionParentKeys);
         MultiplicitySection ms = null;
-        ms = new MultiplicitySection(config);
+        ms = new MultiplicitySection(config, swappableFieldsDefinition, deletionParentKeys);
         section.addSection(ms);
-
     }
 
     private Metadata getMetaData(String fieldKey) {
@@ -482,54 +475,118 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     private Section generateOutcomesSection() {
 
         String path = COURSE + QueryPath.getPathSeparator() + CREDIT_OPTIONS;
+        QueryPath creditTypeFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CreditCourseConstants.TYPE);
+        QueryPath creditOptionFixedFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_FIXED_CREDITS);
+        QueryPath creditOptionMinFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_MIN_CREDITS);
+        QueryPath creditOptionMaxFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_MAX_CREDITS);
+        QueryPath creditResultValuesFullPath = QueryPath.concat(path, QueryPath.getWildCard(), "resultValues");
 
         VerticalSection courseOutcomes = initSection(getH3Title(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), WITH_DIVIDER);
-
-        addField(courseOutcomes, path, null, new CreditOptionList(path));
+        Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition =
+            new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
+        SwapCompositeCondition fixedCreditCondition = new SwapCompositeCondition(
+                CompositeConditionOperator.AND);
+        fixedCreditCondition.getChildrenConditions().add(
+                makeCondition(creditTypeFullPath, LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.fixed")
+        );
+        fixedCreditCondition.setConditionId("1");
+        SwapCompositeCondition multipleCreditCondition = new SwapCompositeCondition(
+                CompositeConditionOperator.AND);
+        multipleCreditCondition.getChildrenConditions().add(
+                makeCondition(creditTypeFullPath, LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.multiple")
+        );
+        multipleCreditCondition.setConditionId("2");
+        SwapCompositeCondition variableCreditCondition = new SwapCompositeCondition(
+                CompositeConditionOperator.AND);
+        variableCreditCondition.getChildrenConditions().add(
+                makeCondition(creditTypeFullPath, LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.range")
+        );
+        variableCreditCondition.setConditionId("3");
+        
+        swappableFieldsDefinition.put(fixedCreditCondition,
+                Arrays.asList(
+                        new SwapCompositeConditionFieldConfig(
+                                new MultiplicityFieldConfiguration(
+                                        creditOptionFixedFullPath.toString(), 
+                                        generateMessageInfo(LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY),
+                                        modelDefinition.getMetadata(creditOptionFixedFullPath),
+                                        null),
+                                null
+                        )
+                )
+        );
+        MultiplicityFieldWidgetInitializer multipleCreditInitializer = 
+            new MultiplicityFieldWidgetInitializer() {
+                @Override
+                public ModelWidgetBinding getModelWidgetBindingInstance() {
+                    return new ListOfStringBinding();
+                }
+                @Override
+                public Widget getNewWidget() {
+                    return new ListOfStringWidget("Add Item");
+                }
+        };
+        
+//        MultiplicityConfiguration multipleCreditsConfig = setupMultiplicityConfig(
+//                MultiplicityConfiguration.MultiplicityType.GROUP,
+//                MultiplicityConfiguration.StyleType.BORDERLESS_TABLE,
+//                path,
+//                "Add Item",
+//                LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY,
+//                Arrays.asList(
+//                        new MultiplicityFieldConfig(
+//                                "resultValues", 
+//                                "Amount", null, null)),
+//                null,
+//                null);
+        swappableFieldsDefinition.put(multipleCreditCondition,
+                Arrays.asList(
+                        new SwapCompositeConditionFieldConfig(
+                                new MultiplicityFieldConfiguration(
+                                        creditResultValuesFullPath.toString(),
+                                        generateMessageInfo(LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY),
+                                        modelDefinition.getMetadata(creditResultValuesFullPath),
+                                        multipleCreditInitializer),
+                                null
+                        )
+                )
+        );
+        swappableFieldsDefinition.put(variableCreditCondition,
+                Arrays.asList(
+                        new SwapCompositeConditionFieldConfig(
+                                new MultiplicityFieldConfiguration(
+                                        creditOptionMinFullPath.toString(), 
+                                        generateMessageInfo(LUConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY),
+                                        modelDefinition.getMetadata(creditOptionMinFullPath),
+                                        null),
+                                null
+                        ),
+                        new SwapCompositeConditionFieldConfig(
+                                new MultiplicityFieldConfiguration(
+                                        creditOptionMaxFullPath.toString(), 
+                                        generateMessageInfo(LUConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY),
+                                        modelDefinition.getMetadata(creditOptionMaxFullPath),
+                                        null),
+                                null
+                        )
+                )
+        );
+        
+//        addField(courseOutcomes, path, null, new CreditOptionList(path));
+        addMultiplicityFields(
+                courseOutcomes, 
+                path, 
+                LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
+                LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
+                Arrays.asList(
+                        new MultiplicityFieldConfig(
+                                CreditCourseConstants.TYPE,
+                                LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY,
+                                null, null)
+                ), swappableFieldsDefinition, null);
 
         return courseOutcomes;
 
-    }
-
-
-    public class CreditOptionList extends UpdatableMultiplicityComposite {
-        private final String parentPath;
-
-        public CreditOptionList(String parentPath) {
-            super(StyleType.TOP_LEVEL);
-            this.parentPath = parentPath;
-            setAddItemLabel(getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY));
-        }
-
-        public Widget createItem() {
-
-            VerticalSection item = new VerticalSection();
-
-            FieldDescriptor typeField = addField(item, CreditCourseConstants.TYPE, generateMessageInfo(LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
-
-            KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract) (((KSPicker) typeField.getFieldWidget()).getInputWidget());
-
-            GroupSection fixedGroup = new GroupSection();
-            addField(fixedGroup, CREDIT_OPTION_FIXED_CREDITS, generateMessageInfo(LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
-
-            GroupSection rangeGroup = new GroupSection();
-            addField(rangeGroup, CREDIT_OPTION_MIN_CREDITS, generateMessageInfo(LUConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
-            addField(rangeGroup, CREDIT_OPTION_MAX_CREDITS, generateMessageInfo(LUConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY), null, parentPath + "/" + String.valueOf(getAddItemKey()));
-
-            GroupSection multipleGroup = new GroupSection();
-            FieldDescriptor fd = addField(multipleGroup, "resultValues", generateMessageInfo(LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY), new ListOfStringWidget("Add Item"), parentPath + "/" + String.valueOf(getAddItemKey()));
-            fd.setWidgetBinding(new ListOfStringBinding());
-
-            SwapSection swapSection = new SwapSection(picker);
-            swapSection.addSection(fixedGroup, "kuali.resultComponentType.credit.degree.fixed");
-            swapSection.addSection(rangeGroup, "kuali.resultComponentType.credit.degree.range");
-            swapSection.addSection(multipleGroup, "kuali.resultComponentType.credit.degree.multiple");
-
-            item.addSection(swapSection);
-
-            return item;
-        }
     }
 
     private Section generateStudentRegistrationOptionsSection() {
@@ -1024,15 +1081,17 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         swappableFieldsDefinition.put(variableRateCondition,
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
-                                new FieldDescriptor(
+                                new MultiplicityFieldConfiguration(
                                         minFeeAmountFieldPath.toString(), 
-                                        new MessageKeyInfo("Mininum Amount"), feeAmountFieldMeta),
+                                        new MessageKeyInfo("Mininum Amount"), feeAmountFieldMeta,
+                                        null),
                                 null
                         ),
                         new SwapCompositeConditionFieldConfig(
-                                new FieldDescriptor(
+                                new MultiplicityFieldConfiguration(
                                         maxFeeAmountFieldPath.toString(), 
-                                        new MessageKeyInfo("Maximum Amount"), feeAmountFieldMeta),
+                                        new MessageKeyInfo("Maximum Amount"), feeAmountFieldMeta,
+                                        null),
                                 null
                         ))
         );
@@ -1040,18 +1099,20 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         swappableFieldsDefinition.put(fixedRateCondition,
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
-                                new FieldDescriptor(
+                                new MultiplicityFieldConfiguration(
                                         singularFeeAmountFieldPath.toString(), 
-                                        new MessageKeyInfo("Amount"), feeAmountFieldMeta), 
+                                        new MessageKeyInfo("Amount"), feeAmountFieldMeta,
+                                        null), 
                                 null))
         );
 
         swappableFieldsDefinition.put(perCreditRateCondition,
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
-                                new FieldDescriptor(
+                                new MultiplicityFieldConfiguration(
                                         singularFeeAmountFieldPath.toString(), 
-                                        new MessageKeyInfo("Amount"), feeAmountFieldMeta),
+                                        new MessageKeyInfo("Amount"), feeAmountFieldMeta,
+                                        null),
                                 null))
         );
         
@@ -1086,9 +1147,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                         new MultiplicityFieldConfig(
                                 "rateType", 
                                 "Rate Type", null, null)),
-                        swappableFieldsDefinition,
-                        Arrays.asList(
-                                deletionPath.toString()));
+                swappableFieldsDefinition,
+                Arrays.asList(
+                        deletionPath.toString()));
         
         section.addSection(justiFee);
         
@@ -1117,7 +1178,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                         new MultiplicityFieldConfig(
                                 percentageSubPath.toString(), 
                                 "Percentage", null, null)                                
-                )
+                ),
+                null,
+                null
         );
     }
     
@@ -1137,7 +1200,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                         new MultiplicityFieldConfig(
                                 percentageSubPath.toString(), 
                                 "Percentage", null, null)                                
-                )
+                ),
+                null,
+                null
         );
     }
     
@@ -1305,10 +1370,6 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
         }
     }
 }
-
-
-
-
 
 
 class MultiplicityFieldConfig {
