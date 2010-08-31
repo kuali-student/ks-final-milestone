@@ -1,6 +1,6 @@
 package org.apache.torque.mojo.converter;
 
-public class OracleArtifactIdConverterImpl extends ArtifactIdConverter {
+public class OracleArtifactIdConverter extends ArtifactIdConverter {
 
 	@Override
 	public String getConvertedArtifactId(String artifactId) {

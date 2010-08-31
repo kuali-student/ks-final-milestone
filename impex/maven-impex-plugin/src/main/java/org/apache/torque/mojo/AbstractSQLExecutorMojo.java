@@ -82,7 +82,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * 
 	 * @since 1.0
-	 * @parameter expression="${convertArtifactId}" default-value="false"
+	 * @parameter expression="${convertArtifactId}" default-value="true"
 	 * @required
 	 */
 	boolean convertArtifactId;
@@ -520,7 +520,11 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 		if (isBlank(getArtifactIdConverterImpl())) {
 			String packageName = ArtifactIdConverter.class.getPackage().getName();
+			String impl = getImpl();
+			getLog().debug("packageName=" + packageName);
+			getLog().debug("impl=" + impl);
 			artifactIdConverterImpl = packageName + "." + getImpl();
+			getLog().debug("artifactIdConverterImpl=" + artifactIdConverterImpl);
 		}
 		if (isConvertArtifactId()) {
 			try {
@@ -533,8 +537,8 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	}
 
 	protected String getImpl() {
-		String defaultImpl = ArtifactIdConverter.class.getName();
-		return targetDatabase.substring(0, 1).toUpperCase() + targetDatabase.substring(2) + defaultImpl;
+		String defaultImpl = ArtifactIdConverter.class.getSimpleName();
+		return targetDatabase.substring(0, 1).toUpperCase() + targetDatabase.substring(1) + defaultImpl;
 	}
 
 	/**

@@ -3,6 +3,7 @@ package org.apache.torque.mojo;
 import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.settings.Server;
 
 import static org.apache.commons.lang.StringUtils.*;
 
@@ -85,6 +86,11 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		properties.setProperty(DATABASE_PW_PROPERTY, getDatabasePassword());
 		properties.setProperty(DATABASE_USERNAME_PROPERTY, getDatabaseUsername());
 		return properties;
+	}
+
+	@Override
+	protected Server getServerFromSettingsKey() {
+		return getSettings().getServer(dbaSettingsKey);
 	}
 
 	@Override
