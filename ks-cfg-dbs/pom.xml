@@ -52,6 +52,7 @@
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
+          <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
         </configuration>
         <executions>
           <execution>
@@ -67,7 +68,34 @@
               <goal>datadtd</goal>
             </goals>
           </execution>
+          <execution>
+            <id>generate-oracle-sql</id>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datasql</goal>
+            </goals>
+            <configuration>
+              <targetDatabase>oracle</targetDatabase>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-mysql-sql</id>
+            <goals>
+              <goal>schemasql</goal>
+              <goal>datasql</goal>
+            </goals>
+            <configuration>
+              <targetDatabase>mysql</targetDatabase>
+            </configuration>
+          </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>${oracle.ojdbc.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
@@ -131,13 +159,6 @@
               <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
               <trimArtifactId>true</trimArtifactId>
             </configuration>
-            <dependencies>
-              <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc14</artifactId>
-                <version>${oracle.ojdbc.version}</version>
-              </dependency>
-            </dependencies>
             <executions>
               <execution>
                 <id>morph-xml</id>
