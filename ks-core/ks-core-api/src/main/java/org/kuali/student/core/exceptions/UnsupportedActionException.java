@@ -33,4 +33,8 @@ public class UnsupportedActionException extends Exception {
         super(message);
     }
 
+	public UnsupportedActionException(String message, Throwable e) {
+        super(message, e);
+    }
+
 }
