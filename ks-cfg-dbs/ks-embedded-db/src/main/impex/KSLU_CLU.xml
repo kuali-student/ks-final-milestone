@@ -1070,7 +1070,7 @@
         RT_DESCR_ID="8b7df2ea-a0e0-4ca6-b524-5554d3194c92"
         ST="active" UPDATETIME="20090507120530" VERSIONIND="1"
         ATP_DUR_TYP_KEY= "kuali.atp.duration.Week" TM_QUANTITY= "100"
-        LAST_ADMIT_ATP="kuali.atp.SU2010-2011" LAST_ATP="kuali.atp.SU2010-2011"
+        LAST_ADMIT_ATP="kuali.atp.SP2010-2011" LAST_ATP="kuali.atp.SU2010-2011S2"
         NEXT_REVIEW_PRD="kuali.atp.SU2009-2010S1" CLU_INTSTY_TYPE = "kuali.atp.duration.full"
         REF_URL="http://www.google.ca" />
     <KSLU_CLU CAN_CREATE_LUI="0" CREATETIME="20090507120530"
