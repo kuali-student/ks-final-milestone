@@ -9,18 +9,18 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class StringFilterer {
-	private static final Log log = LogFactory.getLog(StringFilterer.class);
+public class StringFilter {
+	private static final Log log = LogFactory.getLog(StringFilter.class);
 	List<String> includePatterns;
 	List<String> excludePatterns;
 	List<Pattern> includes;
 	List<Pattern> excludes;
 
-	public StringFilterer() {
+	public StringFilter() {
 		this(null, null);
 	}
 
-	public StringFilterer(List<String> includePatterns, List<String> excludePatterns) {
+	public StringFilter(List<String> includePatterns, List<String> excludePatterns) {
 		super();
 		this.includePatterns = includePatterns;
 		this.excludePatterns = excludePatterns;
@@ -84,21 +84,18 @@ public class StringFilterer {
 		return list == null || list.size() == 0;
 	}
 
-	public void filterStrings(Iterator<String> itr) {
+	public void filter(Iterator<String> itr) {
 		compilePatterns();
 		while (itr.hasNext()) {
 			String s = itr.next();
-			boolean include = isInclude(s);
-			if (!include) {
-				log.info("Skipping " + s + ".  No match on an inclusion pattern");
+			if (!isInclude(s)) {
+				log.info("Skipping " + s + ".  Does not match an inclusion pattern");
 				itr.remove();
 				continue;
 			}
-			boolean exclude = isExclude(s);
-			if (exclude) {
+			if (isExclude(s)) {
 				log.info("Skipping " + s + ". Matched an exclusion pattern");
 				itr.remove();
-				continue;
 			}
 		}
 	}

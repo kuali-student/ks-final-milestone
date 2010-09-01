@@ -18,6 +18,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.kuali.maven.impex</groupId>
+      <artifactId>jdbc-support</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>ant</groupId>
       <artifactId>ant</artifactId>
       <version>1.6.5</version>

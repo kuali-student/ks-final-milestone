@@ -430,8 +430,8 @@ public class KualiTorqueDataDumpTask extends Task {
 		Set<String> jdbcTableNames = getSet(getJDBCTableNames(dbMetaData));
 		log("Complete JDBC Table Count: " + jdbcTableNames.size());
 
-		StringFilterer filterer = new StringFilterer(includePatterns, excludePatterns);
-		filterer.filterStrings(jdbcTableNames.iterator());
+		StringFilter filterer = new StringFilter(includePatterns, excludePatterns);
+		filterer.filter(jdbcTableNames.iterator());
 		Set<String> filteredTableNames = getFilteredTableNames(jdbcTableNames);
 
 		log("Filtered JDBC Table Count: " + jdbcTableNames.size());
