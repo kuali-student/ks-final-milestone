@@ -18,7 +18,6 @@ package org.kuali.student.lum.statement.config.context;
 import java.util.Map;
 
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
 import org.kuali.student.core.statement.naturallanguage.AbstractContext;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.config.context.util.NLHelper;
