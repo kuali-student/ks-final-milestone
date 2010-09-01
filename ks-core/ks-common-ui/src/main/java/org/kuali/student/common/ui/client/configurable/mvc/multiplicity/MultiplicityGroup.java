@@ -202,7 +202,7 @@ public class MultiplicityGroup extends Composite {
 				List<FieldDescriptor> fields = config.getFields().get(row);
 				for (FieldDescriptor fd : fields) {
                     //TODO  Should copy widgets/bindings too?
-                    final FieldDescriptor newfd = new FieldDescriptor(translatePath(fd.getFieldKey()), new MessageKeyInfo(fd.getFieldLabel()), fd.getMetadata());
+                    final FieldDescriptor newfd = new FieldDescriptor(translatePath(fd.getFieldKey()), fd.getMessageKey(), fd.getMetadata());
                     Widget fieldWidget = newfd.getFieldWidget();
                     section.addField(newfd);
                     helperFieldKeys.put(fd.getFieldKey(), newfd.getFieldKey());

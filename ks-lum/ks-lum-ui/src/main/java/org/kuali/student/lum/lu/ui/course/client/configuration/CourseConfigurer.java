@@ -300,10 +300,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new MultiplicityFieldConfig(
                                 SUBJECT_AREA, 
-                                LUConstants.SUBJECT_CODE_LABEL_KEY, null, null),
+                                LUConstants.SUBJECT_CODE_LABEL_KEY, null, null, true),
                         new MultiplicityFieldConfig(
                                 COURSE_NUMBER_SUFFIX, 
-                                LUConstants.COURSE_NUMBER_LABEL_KEY, null, null)),
+                                LUConstants.COURSE_NUMBER_LABEL_KEY, null, null, true)),
                         null,
                         null);
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + JOINTS,
@@ -312,7 +312,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new MultiplicityFieldConfig(
                                 CreditCourseJointsConstants.COURSE_ID, 
-                                LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null)),
+                                LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null, true)),
                                 null,
                                 null);
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + VERSIONS,
@@ -321,10 +321,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new MultiplicityFieldConfig(
                                 "variationCode", 
-                                LUConstants.VERSION_CODE_LABEL_KEY, null, null), 
+                                LUConstants.VERSION_CODE_LABEL_KEY, null, null, true), 
                         new MultiplicityFieldConfig(
                                 "variationTitle", 
-                                LUConstants.TITLE_LABEL_KEY, null, null)
+                                LUConstants.TITLE_LABEL_KEY, null, null, true)
                 ),
                 null,
                 null);
@@ -370,11 +370,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                         fieldConfig.getLabelKey(), parentPath.toString(), fieldConfig.getFieldWidget(),
                         fieldConfig.getModelWidgetBinding());
                 config.addField(fd);
-                config.nextLine();
+                if (fieldConfig.isNextLine()) {
+                    config.nextLine();
+                }
             }
         }
-//        config.setCustomMultiplicityGroup(new FeeMultiplicityGroup(
-//                config, swappableFieldsDefinition, deletionParentKeys));
         return config;
     }
 
@@ -527,18 +527,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 }
         };
         
-//        MultiplicityConfiguration multipleCreditsConfig = setupMultiplicityConfig(
-//                MultiplicityConfiguration.MultiplicityType.GROUP,
-//                MultiplicityConfiguration.StyleType.BORDERLESS_TABLE,
-//                path,
-//                "Add Item",
-//                LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY,
-//                Arrays.asList(
-//                        new MultiplicityFieldConfig(
-//                                "resultValues", 
-//                                "Amount", null, null)),
-//                null,
-//                null);
         swappableFieldsDefinition.put(multipleCreditCondition,
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
@@ -572,7 +560,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 )
         );
         
-//        addField(courseOutcomes, path, null, new CreditOptionList(path));
         addMultiplicityFields(
                 courseOutcomes, 
                 path, 
@@ -582,7 +569,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                         new MultiplicityFieldConfig(
                                 CreditCourseConstants.TYPE,
                                 LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY,
-                                null, null)
+                                null, null, true)
                 ), swappableFieldsDefinition, null);
 
         return courseOutcomes;
@@ -611,9 +598,64 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
         courseFormats.setHelp(getLabel(LUConstants.FORMATS_LABEL_KEY + "-help"));
         courseFormats.setInstructions(getLabel(LUConstants.FORMATS_LABEL_KEY + "-instruct"));
+        
+        MultiplicityConfiguration courseFormatConfig = setupMultiplicityConfig(
+                MultiplicityConfiguration.MultiplicityType.GROUP,
+                MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
+                COURSE + "/" + FORMATS, LUConstants.COURSE_ADD_FORMAT_LABEL_KEY,
+                LUConstants.FORMAT_LABEL_KEY,
+                null, null, null);
+        MultiplicityConfiguration activitiesConfig = setupMultiplicityConfig(
+                MultiplicityConfiguration.MultiplicityType.GROUP,
+                MultiplicityConfiguration.StyleType.SUB_LEVEL_GROUP,
+                COURSE + "/" + FORMATS + "/*/" + ACTIVITIES, 
+                LUConstants.ADD_ACTIVITY_LABEL_KEY,
+                LUConstants.ACTIVITY_LITERAL_LABEL_KEY,
+                Arrays.asList(
+                        new MultiplicityFieldConfig(
+                                ACTIVITY_TYPE,
+                                LUConstants.ACTIVITY_TYPE_LABEL_KEY,
+                                null,
+                                null,
+                                true),
+                        new MultiplicityFieldConfig(
+                                CONTACT_HOURS + "/" + "unitQuantity",
+                                LUConstants.CONTACT_HOURS_LABEL_KEY,
+                                null,
+                                null,
+                                false),
+                        new MultiplicityFieldConfig(
+                                CONTACT_HOURS + "/" + "unitType",
+                                "",
+                                null,
+                                null,
+                                true),
+                        new MultiplicityFieldConfig(
+                                CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey",
+                                LUConstants.DURATION_TYPE_LABEL_KEY,
+                                null,
+                                null,
+                                false),
+                        new MultiplicityFieldConfig(
+                                CreditCourseActivityConstants.DURATION + "/" + "timeQuantity",
+                                LUConstants.DURATION_LITERAL_LABEL_KEY,
+                                null,
+                                null,
+                                true),
+                        new MultiplicityFieldConfig(
+                                DEFAULT_ENROLLMENT_ESTIMATE,
+                                LUConstants.CLASS_SIZE_LABEL_KEY,
+                                null,
+                                null,
+                                true)
+                ), null, null);
+        courseFormatConfig.setNestedConfig(activitiesConfig);
 
-        addField(courseFormats, COURSE + "/" + FORMATS, null, new CourseFormatList(COURSE + "/" + FORMATS));
-
+        MultiplicitySection ms = null;
+        ms = new MultiplicitySection(courseFormatConfig, 
+                null, null);
+        courseFormats.addSection(ms);
+        
         return courseFormats;
     }
 
@@ -685,58 +727,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         los.addStyleName("KS-LUM-Section-Divider");
         return los;
-    }
-
-    public class CourseFormatList extends UpdatableMultiplicityComposite {
-        private final String parentPath;
-
-        public CourseFormatList(String parentPath) {
-            super(StyleType.TOP_LEVEL);
-            this.parentPath = parentPath;
-            setAddItemLabel(getLabel(LUConstants.COURSE_ADD_FORMAT_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));
-        }
-
-        public Widget createItem() {
-            VerticalSection item = new VerticalSection();
-            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(getAddItemKey()), ACTIVITIES).toString()),
-                    parentPath + "/" + String.valueOf(getAddItemKey()));
-            return item;
-        }
-    }
-
-    public class CourseActivityList extends UpdatableMultiplicityComposite {
-
-        private final String parentPath;
-
-        public CourseActivityList(String parentPath) {
-            super(StyleType.SUB_LEVEL);
-            this.parentPath = parentPath;
-            setAddItemLabel(getLabel(LUConstants.ADD_ACTIVITY_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY));
-        }
-
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
-            GroupSection activity = new GroupSection();
-            addField(activity, ACTIVITY_TYPE, generateMessageInfo(LUConstants.ACTIVITY_TYPE_LABEL_KEY), path);
-            activity.nextLine();
-
-            addField(activity, CONTACT_HOURS + "/" + "unitQuantity", generateMessageInfo(LUConstants.CONTACT_HOURS_LABEL_KEY), path);
-            addField(activity, CONTACT_HOURS + "/" + "unitType", null, null, path);
-
-            activity.nextLine();
-
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey", generateMessageInfo(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + "timeQuantity", generateMessageInfo(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
-
-            activity.nextLine();
-
-            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, generateMessageInfo(LUConstants.CLASS_SIZE_LABEL_KEY), path);
-
-            return activity;
-        }
-
     }
 
     public class PersonList extends KSDropDown {
@@ -1126,7 +1116,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new MultiplicityFieldConfig(
                                 "currencyQuantity", 
-                                "Amount", null, null)),
+                                "Amount", null, null, true)),
                 null,
                 null);
         swappableFieldsDefinition.put(multipleRateCondition,
@@ -1143,10 +1133,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new MultiplicityFieldConfig(
                                 "feeType", 
-                                "Fee Type", null, null),
+                                "Fee Type", null, null, true),
                         new MultiplicityFieldConfig(
                                 "rateType", 
-                                "Rate Type", null, null)),
+                                "Rate Type", null, null, true)),
                 swappableFieldsDefinition,
                 Arrays.asList(
                         deletionPath.toString()));
@@ -1174,10 +1164,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new MultiplicityFieldConfig(
                                 affiliatedOrgIdSubPath.toString(), 
-                                LUConstants.REVENUE, null, null),
+                                LUConstants.REVENUE, null, null, true),
                         new MultiplicityFieldConfig(
                                 percentageSubPath.toString(), 
-                                "Percentage", null, null)                                
+                                "Percentage", null, null, true)                                
                 ),
                 null,
                 null
@@ -1196,10 +1186,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new MultiplicityFieldConfig(
                                 affiliatedOrgIdSubPath.toString(), 
-                                LUConstants.EXPENDITURE, null, null),
+                                LUConstants.EXPENDITURE, null, null, true),
                         new MultiplicityFieldConfig(
                                 percentageSubPath.toString(), 
-                                "Percentage", null, null)                                
+                                "Percentage", null, null, true)                                
                 ),
                 null,
                 null
@@ -1377,15 +1367,17 @@ class MultiplicityFieldConfig {
     private String labelKey;
     private Widget fieldWidget;
     private ModelWidgetBinding modelWidgetBinding;
+    boolean nextLine;
     
     public MultiplicityFieldConfig() {
     }
     public MultiplicityFieldConfig(String fieldKey, String labelKey,
-            Widget fieldWidget, ModelWidgetBinding modelWidgetBinding) {
+            Widget fieldWidget, ModelWidgetBinding modelWidgetBinding, boolean nextLine) {
         setFieldKey(fieldKey);
         setLabelKey(labelKey);
         setFieldWidget(fieldWidget);
         setModelWidgetBinding(modelWidgetBinding);
+        setNextLine(nextLine);
     }
     public String getFieldKey() {
         return fieldKey;
@@ -1410,6 +1402,12 @@ class MultiplicityFieldConfig {
     }
     public void setModelWidgetBinding(ModelWidgetBinding modelWidgetBinding) {
         this.modelWidgetBinding = modelWidgetBinding;
+    }
+    public boolean isNextLine() {
+        return nextLine;
+    }
+    public void setNextLine(boolean nextLine) {
+        this.nextLine = nextLine;
     }
 }
 
