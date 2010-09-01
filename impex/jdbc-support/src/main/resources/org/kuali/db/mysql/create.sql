@@ -1,5 +1,6 @@
 CREATE DATABASE IF NOT EXISTS ${database} 
-DEFAULT CHARACTER SET '${mysql.character.set}' DEFAULT COLLATE '${mysql.collate}';
+DEFAULT CHARACTER SET '${mysql.character.set}' 
+DEFAULT COLLATE '${mysql.collate}';
 /
 
 GRANT ALL ON ${databaseUsername}.* 
