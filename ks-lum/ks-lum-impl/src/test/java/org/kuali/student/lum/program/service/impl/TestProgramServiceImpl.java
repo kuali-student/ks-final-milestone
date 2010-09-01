@@ -939,20 +939,20 @@ public class TestProgramServiceImpl {
         assertEquals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION, target.getDivisionsContentOwner().get(0).getType());
 
     }
-    @Test
+    @Test 
     public void testCreateVariationsByMajorDiscipline(){
         MajorDisciplineInfo majorDisciplineInfo = null;
 
         try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
-
+            
             List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
             assertNotNull(pvInfos);
-
+            
             ProgramVariationInfo pvInfoS = pvInfos.get(0);
             ProgramVariationInfo pvInfoT = new ProgramVariationInfo();
-
+            
             BeanUtils.copyProperties(pvInfoS, pvInfoT, new String[] { "id" });
 
             pvInfoT.setLongTitle(pvInfoT.getLongTitle() + "-created");
@@ -964,7 +964,7 @@ public class TestProgramServiceImpl {
             pvInfoT.setCip2010Code(pvInfoT.getCip2010Code() + "-created");
             pvInfoT.setTranscriptTitle(pvInfoT.getTranscriptTitle() + "-created");
             pvInfoT.setDiplomaTitle(pvInfoT.getDiplomaTitle() + "-created");
-
+ 
             //Perform the update: adding the new variation
             pvInfos.add(pvInfoT);
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
@@ -972,23 +972,57 @@ public class TestProgramServiceImpl {
             assertNotNull(updatedPvInfos);
             assertEquals(3, updatedPvInfos.size());
             ProgramVariationInfo createdPV = updatedPvInfos.get(2);
-
+            
+            	
             //Verify the update
             verifyUpdate(pvInfoT, createdPV);
 
             // Now explicitly get it
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId());
-//            assertEquals(3, retrievedMD.getVariations());
-
+            assertEquals(3, retrievedMD.getVariations().size());
+            
             List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
             assertNotNull(retrievedPVs);
-//            assertEquals(3, updatedPvInfos.size());
-//            verifyUpdate(pvInfoT, retrievedPVs.get(2));
-
-
+            assertEquals(3, updatedPvInfos.size());
+            verifyUpdate(pvInfoT, retrievedPVs.get(2));
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
-        }
+        }   	
+    }
+    
+    @Test 
+    public void testDeleteVariationsByMajorDiscipline(){
+        MajorDisciplineInfo majorDisciplineInfo = null;
+
+        try {
+            majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            assertNotNull(majorDisciplineInfo);
+            
+            List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
+            assertNotNull(pvInfos);
+ 
+            //Perform the update: adding the new variation
+            pvInfos.remove(1);
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
+            List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
+            assertNotNull(updatedPvInfos);
+            assertEquals(2, updatedPvInfos.size());
+ 
+            // Now explicitly get it
+            MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId());
+            assertEquals(2, retrievedMD.getVariations().size());
+            
+            List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
+            assertNotNull(retrievedPVs);
+            assertEquals(2, updatedPvInfos.size());
+            verifyUpdate(pvInfos.get(0), retrievedPVs.get(0));
+                       
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }   	
     }
 }
