@@ -231,9 +231,8 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void processForeignKeys(DatabaseMetaData dbMetaData, String curTable, Element table) throws SQLException {
-		Map<String, Object[]> foreignKeys = getForeignKeys(dbMetaData, curTable);
+		Map<String, KualiForeignKey> foreignKeys = getForeignKeys(dbMetaData, curTable);
 
 		// Foreign keys for this table.
 		for (String fkName : foreignKeys.keySet()) {
@@ -242,23 +241,22 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		}
 	}
 
-	protected Element getForeignKeyElement(String fkName, Map<String, Object[]> foreignKeys) {
+	protected Element getForeignKeyElement(String fkName, Map<String, KualiForeignKey> foreignKeys) {
 		Element fk = doc.createElement("foreign-key");
 		fk.setAttribute("name", fkName);
-		Object[] forKey = foreignKeys.get(fkName);
-		String foreignKeyTable = (String) forKey[0];
-		List<String[]> refs = (List<String[]>) forKey[1];
+		KualiForeignKey forKey = foreignKeys.get(fkName);
+		String foreignKeyTable = forKey.getRefTableName();
+		List<KualiReference> refs = forKey.getReferences();
 		fk.setAttribute("foreignTable", foreignKeyTable);
-		String onDelete = (String) forKey[2];
+		String onDelete = forKey.getOnDelete();
 		// gmcgrego - just adding onDelete if it's cascade so as not to affect kfs behavior
 		if (onDelete == "cascade") {
 			fk.setAttribute("onDelete", onDelete);
 		}
-		for (int m = 0; m < refs.size(); m++) {
+		for (KualiReference refData : refs) {
 			Element ref = doc.createElement("reference");
-			String[] refData = (String[]) refs.get(m);
-			ref.setAttribute("local", refData[0]);
-			ref.setAttribute("foreign", refData[1]);
+			ref.setAttribute("local", refData.getLocalColumn());
+			ref.setAttribute("foreign", refData.getForeignColumn());
 			fk.appendChild(ref);
 		}
 		return fk;
@@ -491,65 +489,6 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		return columns;
 	}
 
-	/**
-	 * Retrieves a list of foreign key columns for a given table.
-	 * 
-	 * @param dbMeta
-	 *            JDBC metadata.
-	 * @param tableName
-	 *            Table from which to retrieve FK information.
-	 * @return A list of foreign keys in <code>tableName</code>.
-	 * @throws SQLException
-	 */
-	@SuppressWarnings("unchecked")
-	public Map<String, Object[]> getForeignKeys(DatabaseMetaData dbMeta, String tableName) throws SQLException {
-		Map<String, Object[]> fks = new HashMap<String, Object[]>();
-		ResultSet foreignKeys = null;
-		try {
-			foreignKeys = dbMeta.getImportedKeys(null, schema, tableName);
-			while (foreignKeys.next()) {
-				String refTableName = foreignKeys.getString(3);
-				String fkName = foreignKeys.getString(12);
-				int deleteRule = foreignKeys.getInt(11);
-				String onDelete = "none";
-				if (deleteRule == DatabaseMetaData.importedKeyCascade) {
-					onDelete = "cascade";
-				} else if (deleteRule == DatabaseMetaData.importedKeyRestrict) {
-					onDelete = "restrict";
-				} else if (deleteRule == DatabaseMetaData.importedKeySetNull) {
-					onDelete = "setnull";
-				}
-				// if FK has no name - make it up (use tablename instead)
-				if (fkName == null) {
-					fkName = refTableName;
-				}
-				Object[] fk = (Object[]) fks.get(fkName);
-				List<String[]> refs;
-				if (fk == null) {
-					fk = new Object[3];
-					fk[0] = refTableName; // referenced table name
-					refs = new ArrayList<String[]>();
-					fk[1] = refs;
-					fks.put(fkName, fk);
-					fk[2] = onDelete;
-				} else {
-					refs = (ArrayList<String[]>) fk[1];
-				}
-				String[] ref = new String[2];
-				ref[0] = foreignKeys.getString(8); // local column
-				ref[1] = foreignKeys.getString(4); // foreign column
-				refs.add(ref);
-			}
-		} catch (SQLException e) {
-			// this seems to be happening in some db drivers (sybase)
-			// when retrieving foreign keys from views.
-			log("Could not read foreign keys for Table " + tableName + " : " + e.getMessage(), Project.MSG_WARN);
-		} finally {
-			closeQuietly(foreignKeys);
-		}
-		return fks;
-	}
-
 	protected String getOnDelete(ResultSet foreignKeys) throws SQLException {
 		int deleteRule = foreignKeys.getInt(11);
 		String onDelete = "none";
@@ -594,7 +533,17 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		references.add(reference);
 	}
 
-	public Map<String, KualiForeignKey> getKualiForeignKeys(DatabaseMetaData dbMeta, String tableName) throws SQLException {
+	/**
+	 * Retrieves a list of foreign key columns for a given table.
+	 * 
+	 * @param dbMeta
+	 *            JDBC metadata.
+	 * @param tableName
+	 *            Table from which to retrieve FK information.
+	 * @return A list of foreign keys in <code>tableName</code>.
+	 * @throws SQLException
+	 */
+	protected Map<String, KualiForeignKey> getForeignKeys(DatabaseMetaData dbMeta, String tableName) throws SQLException {
 		Map<String, KualiForeignKey> fks = new HashMap<String, KualiForeignKey>();
 		ResultSet foreignKeys = null;
 		try {
