@@ -629,7 +629,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 				currIndex.getColumns().add(indexInfo.getString("COLUMN_NAME"));
 			}
 		} catch (SQLException e) {
-			log("WARN: Could not read indexes for Table " + tableName + " : " + e.getMessage(), Project.MSG_WARN);
+			log("Could not read indexes for Table " + tableName + " : " + e.getMessage(), Project.MSG_WARN);
 		} finally {
 			closeQuietly(indexInfo);
 		}
