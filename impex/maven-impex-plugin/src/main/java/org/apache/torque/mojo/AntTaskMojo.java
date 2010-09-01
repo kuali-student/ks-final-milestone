@@ -16,7 +16,6 @@ public class AntTaskMojo extends BaseMojo {
 	 */
 	public AntTaskMojo(Task antTask) {
 		setAntTask(antTask);
-		bootstrap();
 	}
 
 	/**
@@ -53,6 +52,7 @@ public class AntTaskMojo extends BaseMojo {
 	 * Configure the Ant task and then execute it
 	 */
 	public void executeMojo() throws MojoExecutionException {
+		bootstrap();
 		configureTask();
 		getAntTask().execute();
 	}
