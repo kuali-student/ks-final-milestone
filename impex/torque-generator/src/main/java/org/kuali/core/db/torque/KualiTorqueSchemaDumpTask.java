@@ -571,7 +571,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 				return pkInfo.getString("PK_NAME");
 			}
 		} catch (SQLException e) {
-			log("Could not primary key info for " + tableName + " : " + e.getMessage(), Project.MSG_WARN);
+			log("Could not locate primary key info for " + tableName + " : " + e.getMessage(), Project.MSG_WARN);
 		} finally {
 			closeQuietly(pkInfo);
 		}
@@ -581,7 +581,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	protected TableIndex getTableIndex(ResultSet indexInfo, String pkName) throws SQLException {
 		TableIndex index = new TableIndex();
 		index.setName(indexInfo.getString("INDEX_NAME"));
-		index.setUnique(indexInfo.getBoolean("NON_UNIQUE"));
+		index.setUnique(!indexInfo.getBoolean("NON_UNIQUE"));
 		return index;
 	}
 
