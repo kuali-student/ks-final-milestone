@@ -251,10 +251,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				
 				List<String> gradingOptions = assembleGradingOptions(cluResults);
 				
-				//Remove special cases for grading options
-				gradingOptions.remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL);
-				gradingOptions.remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
-				
 				course.setGradingOptions(gradingOptions);
 			} catch (DoesNotExistException e){
 			} catch (Exception e) {
@@ -266,6 +262,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			
 		}
 
+		//Remove special cases for grading options
+		course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL);
+		course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
+		
 		return course;
 	}
 
