@@ -586,7 +586,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	}
 
 	protected void addIndex(TableIndex index, String pkName, List<TableIndex> indexes) {
-		// if has the same name as the PK, skip adding it to the index list
+		// if has the same name as the PK, don't add it to the index list
 		if (pkName == null || !pkName.equals(index.getName())) {
 			indexes.add(index);
 			log("Added " + index.getName() + " to index list", Project.MSG_DEBUG);
@@ -597,6 +597,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 
 	public List<TableIndex> getIndexes(DatabaseMetaData dbMeta, String tableName) throws SQLException {
 		List<TableIndex> indexes = new ArrayList<TableIndex>();
+
 		// need to ensure that the PK is not returned as an index
 		String pkName = getPrimaryKeyName(tableName, dbMeta);
 
@@ -605,14 +606,25 @@ public class KualiTorqueSchemaDumpTask extends Task {
 			indexInfo = dbMeta.getIndexInfo(null, schema, tableName, false, false);
 			TableIndex currIndex = null;
 			while (indexInfo.next()) {
+
+				// Extract the name of the index
 				String name = indexInfo.getString("INDEX_NAME");
 				if (name == null) {
+					// If there is no name, we are done
 					continue;
 				}
+
+				// If this is the first time we are assigning a value to currIndex, OR
+				// we have scrolled to the next row in the result set and are now on a
+				// new index, we need to add to our list of indexes
 				if (currIndex == null || !name.equals(currIndex.getName())) {
+					// Get a TableIndex object
 					currIndex = getTableIndex(indexInfo, pkName);
+					// Make a decision about adding it to the list
 					addIndex(currIndex, pkName, indexes);
 				}
+
+				// Add column information to the current index
 				currIndex.getColumns().add(indexInfo.getString("COLUMN_NAME"));
 			}
 		} catch (SQLException e) {
