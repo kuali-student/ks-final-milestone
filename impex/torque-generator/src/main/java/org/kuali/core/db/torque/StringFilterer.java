@@ -24,7 +24,6 @@ public class StringFilterer {
 		super();
 		this.includePatterns = includePatterns;
 		this.excludePatterns = excludePatterns;
-		compilePatterns();
 	}
 
 	protected void compilePatterns() {
@@ -49,6 +48,9 @@ public class StringFilterer {
 	}
 
 	protected List<Pattern> getPatterns(List<String> patterns) {
+		if (isEmpty(patterns)) {
+			return new ArrayList<Pattern>();
+		}
 		List<Pattern> regexPatterns = new ArrayList<Pattern>();
 		for (String pattern : patterns) {
 			Pattern regexPattern = Pattern.compile(pattern);
@@ -57,7 +59,7 @@ public class StringFilterer {
 		return regexPatterns;
 	}
 
-	public boolean isMatch(String s, List<Pattern> patterns) {
+	protected boolean isMatch(String s, List<Pattern> patterns) {
 		if (isEmpty(patterns)) {
 			return false;
 		}
@@ -70,11 +72,11 @@ public class StringFilterer {
 		return false;
 	}
 
-	public boolean isInclude(String s) {
+	protected boolean isInclude(String s) {
 		return isEmpty(includePatterns) || isMatch(s, includes);
 	}
 
-	public boolean isExclude(String s) {
+	protected boolean isExclude(String s) {
 		return isMatch(s, excludes);
 	}
 
@@ -83,6 +85,7 @@ public class StringFilterer {
 	}
 
 	public void filterStrings(Iterator<String> itr) {
+		compilePatterns();
 		while (itr.hasNext()) {
 			String s = itr.next();
 			boolean include = isInclude(s);
