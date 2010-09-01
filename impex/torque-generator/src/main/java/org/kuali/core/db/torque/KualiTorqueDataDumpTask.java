@@ -19,9 +19,12 @@ import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.tools.ant.BuildException;
@@ -111,6 +114,16 @@ public class KualiTorqueDataDumpTask extends Task {
 	private String dateFormat = "yyyyMMddHHmmss";
 
 	/**
+	 * List of regular expression patterns that will exclude tables
+	 */
+	private List<String> excludePatterns;
+
+	/**
+	 * List of regular expression patterns that will include tables
+	 */
+	private List<String> includePatterns;
+
+	/**
 	 * Dump the data to XML files
 	 */
 	public void execute() throws BuildException {
@@ -186,6 +199,7 @@ public class KualiTorqueDataDumpTask extends Task {
 	protected Object getColumnValue(ResultSet rs, int index, Column column) throws SQLException {
 		// Extract a raw object
 		Object columnValue = rs.getObject(index);
+
 		// If it is null we're done
 		if (columnValue == null) {
 			return null;
@@ -244,8 +258,15 @@ public class KualiTorqueDataDumpTask extends Task {
 		// Cycle through the result set columns
 		int colCount = md.getColumnCount();
 		for (int i = 1; i <= colCount; i++) {
-			// Extract a column value
-			Object columnValue = getColumnValue(rs, i, columns[i]);
+			// Attempt to extract a column value
+			Object columnValue = null;
+			try {
+				columnValue = getColumnValue(rs, i, columns[i]);
+			} catch (Exception ex) {
+				log("Problem reading column " + columns[i] + " from " + tableName, Project.MSG_ERR);
+				log(ex.getClass().getName() + " : " + ex.getMessage(), Project.MSG_ERR);
+			}
+
 			// Null values can be omitted from the XML
 			if (columnValue == null) {
 				continue;
@@ -354,6 +375,70 @@ public class KualiTorqueDataDumpTask extends Task {
 		return set;
 	}
 
+	protected List<Pattern> getPatterns(List<String> patterns) {
+		List<Pattern> regexPatterns = new ArrayList<Pattern>();
+		for (String pattern : patterns) {
+			Pattern regexPattern = Pattern.compile(pattern);
+			regexPatterns.add(regexPattern);
+		}
+		return regexPatterns;
+	}
+
+	protected boolean isMatch(String s, List<Pattern> patterns) {
+		for (Pattern pattern : patterns) {
+			Matcher matcher = pattern.matcher(s);
+			if (matcher.matches()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected Set<String> getFilteredTableNames(Set<String> tableNames) {
+		List<Pattern> includePatterns = getPatterns(getIncludePatterns());
+		List<Pattern> excludePatterns = getPatterns(getExcludePatterns());
+		Iterator<String> itr = tableNames.iterator();
+		while (itr.hasNext()) {
+			String tableName = itr.next();
+			boolean include = isMatch(tableName, includePatterns);
+			if (!include) {
+				log("Skipping " + tableName + ".  No match on an inclusion pattern");
+				itr.remove();
+				continue;
+			}
+			boolean exclude = isMatch(tableName, excludePatterns);
+			if (exclude) {
+				log("Skipping " + tableName + ". Matched an exclusion pattern");
+				itr.remove();
+				continue;
+			}
+		}
+		Set<String> filteredTableNames = new TreeSet<String>();
+		filteredTableNames.addAll(tableNames);
+		// Do we have a valid schema XML file?
+		boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
+		if (!exists) {
+			return filteredTableNames;
+		}
+
+		// If so, only export data for tables that are listed in the schema XML
+		Set<String> schemaXMLNames = getSet(getTableNamesFromTableObjects(getDatabase().getTables()));
+		// These are tables that are in JDBC but not in schema XML
+		Set<String> extraTables = SetUtils.difference(filteredTableNames, schemaXMLNames);
+		// These are tables that are in schema XML but not in JDBC (should always be zero)
+		Set<String> missingTables = SetUtils.difference(schemaXMLNames, filteredTableNames);
+		// These are tables that are in both JDBC and the schema XML
+		Set<String> intersection = SetUtils.intersection(filteredTableNames, schemaXMLNames);
+		// Log what we are up to
+		log("Schema XML Table Count: " + schemaXMLNames.size());
+		log("Tables present in both: " + intersection.size());
+		log("Tables in JDBC that will not be exported: " + extraTables.size());
+		if (missingTables.size() > 0) {
+			log("There are " + missingTables.size() + " tables defined in " + getSchemaXMLFile() + " that are not being returned by JDBC [" + missingTables + "]", Project.MSG_WARN);
+		}
+		return intersection;
+	}
+
 	/**
 	 * Generate XML from the data in the tables in the database
 	 */
@@ -364,31 +449,15 @@ public class KualiTorqueDataDumpTask extends Task {
 		Platform platform = PlatformFactory.getPlatformFor(getDatabaseType());
 		// Get ALL the table names
 		Set<String> jdbcTableNames = getSet(getJDBCTableNames(dbMetaData));
-		log("JDBC Table Count: " + jdbcTableNames.size());
-		// Do we have a valid schema XML file?
-		boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
-		if (exists) {
-			// If so, only export data for tables that are listed in the schema XML
-			Set<String> schemaXMLNames = getSet(getTableNamesFromTableObjects(getDatabase().getTables()));
-			// These are tables that are in JDBC but not in schema XML
-			Set<String> extraTables = SetUtils.difference(jdbcTableNames, schemaXMLNames);
-			// These are tables that are in schema XML but not in JDBC (should always be zero)
-			Set<String> missingTables = SetUtils.difference(schemaXMLNames, jdbcTableNames);
-			// These are tables that are in both JDBC and the schema XML
-			Set<String> intersection = SetUtils.intersection(jdbcTableNames, schemaXMLNames);
-			// Log what we are up to
-			log("Schema XML Table Count: " + schemaXMLNames.size());
-			log("Tables present in both: " + intersection.size());
-			log("Tables in JDBC that will not be exported: " + extraTables.size());
-			if (missingTables.size() > 0) {
-				throw new BuildException("There are " + missingTables.size() + " tables defined in " + getSchemaXMLFile() + " that are not being returned by JDBC [" + missingTables + "]");
-			}
-			// Process only those tables that are in both
-			processTables(intersection, platform, dbMetaData);
-		} else {
-			// Process all the tables
-			processTables(jdbcTableNames, platform, dbMetaData);
-		}
+		log("Complete JDBC Table Count: " + jdbcTableNames.size());
+
+		Set<String> filteredTableNames = getFilteredTableNames(jdbcTableNames);
+
+		log("Filtered JDBC Table Count: " + jdbcTableNames.size());
+
+		processTables(filteredTableNames, platform, dbMetaData);
+
+		log("Filtered JDBC Table Count: " + jdbcTableNames.size());
 
 	}
 
@@ -653,5 +722,21 @@ public class KualiTorqueDataDumpTask extends Task {
 
 	public void setDatabase(Database database) {
 		this.database = database;
+	}
+
+	public List<String> getExcludePatterns() {
+		return excludePatterns;
+	}
+
+	public void setExcludePatterns(List<String> excludePatterns) {
+		this.excludePatterns = excludePatterns;
+	}
+
+	public List<String> getIncludePatterns() {
+		return includePatterns;
+	}
+
+	public void setIncludePatterns(List<String> includePatterns) {
+		this.includePatterns = includePatterns;
 	}
 }

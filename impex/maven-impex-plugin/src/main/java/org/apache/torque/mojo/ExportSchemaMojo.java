@@ -34,7 +34,7 @@ public class ExportSchemaMojo extends AntTaskMojo {
 	/**
 	 * The directory where the schema XML file is to be written
 	 * 
-	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/data/impex"
+	 * @parameter expression="${outputDir}" default-value="${basedir}/src/main/impex"
 	 * @required
 	 */
 	private File outputDir;
@@ -53,6 +53,13 @@ public class ExportSchemaMojo extends AntTaskMojo {
 	 * @parameter expression="${schemaXMLName}" default-value="${project.artifactId}"
 	 */
 	private String schemaXMLName;
+
+	/**
+	 * The suffix to append to the filename
+	 * 
+	 * @parameter expression="${suffix}" default-value=".xml"
+	 */
+	private String suffix;
 
 	/**
 	 * The fully qualified class name of the database driver.
@@ -106,7 +113,7 @@ public class ExportSchemaMojo extends AntTaskMojo {
 		task.setEncoding(getEncoding());
 		task.setTargetDatabase(getTargetDatabase());
 		task.setSchemaXMLName(getSchemaXMLName());
-		task.setSchemaXMLFile(new File(getOutputDir() + FS + getSchemaXMLName() + "-schema.xml"));
+		task.setSchemaXMLFile(new File(getOutputDir() + FS + getSchemaXMLName() + getSuffix()));
 	}
 
 	protected void makeOutputDir() throws MojoExecutionException {
@@ -221,5 +228,13 @@ public class ExportSchemaMojo extends AntTaskMojo {
 
 	public void setSchemaXMLName(String schemaXMLName) {
 		this.schemaXMLName = schemaXMLName;
+	}
+
+	public String getSuffix() {
+		return suffix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
 	}
 }
