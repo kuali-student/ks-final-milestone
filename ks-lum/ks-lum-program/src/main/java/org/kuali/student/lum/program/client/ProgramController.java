@@ -21,7 +21,7 @@ public class ProgramController extends MenuSectionController {
 
     protected boolean initialized = false;
 
-    protected final DataModel programModel;
+    protected DataModel programModel;
 
     protected AbstractProgramConfigurer configurer;
 

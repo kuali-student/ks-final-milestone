@@ -5,7 +5,6 @@ import org.kuali.student.lum.program.client.edit.ProgramEditController;
 import org.kuali.student.lum.program.client.view.ProgramViewController;
 
 /**
- * 
  * @author Igor
  */
 public class ProgramManager {
@@ -14,7 +13,7 @@ public class ProgramManager {
 
     private ProgramEditController programEditController;
 
-    protected final DataModel programModel;
+    protected DataModel programModel;
 
     public ProgramManager() {
         programModel = new DataModel();

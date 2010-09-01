@@ -1857,10 +1857,6 @@
 		<property name="path" value="majorDisciplineInfo.unitsContentOwner" />
 	</bean>
 	
-	 <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
-		<property name="path" value="majorDisciplineInfo.divisionsStudentOversight" />
-	</bean>
-	
 	 <bean id="majorDisciplineInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
 		<property name="path" value="majorDisciplineInfo.unitsStudentOversight" />
 	</bean>
@@ -1900,4 +1896,8 @@
           <property name="initialLookup"
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
       </bean>
+	  
+	 <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
+		<property name="path" value="majorDisciplineInfo.divisionsStudentOversight" />
+	</bean>
 </beans>

@@ -43,6 +43,7 @@
                 <ref bean="majorDisciplineInfo.campusLocations"/>
                 <ref bean="majorDisciplineInfo.programRequirements"/>
                 <ref bean="majorDisciplineInfo.accreditingAgencies"/>
+
                 <ref bean="majorDisciplineInfo.divisionsContentOwner"/>
                 <ref bean="majorDisciplineInfo.divisionsStudentOversight"/>
                 <ref bean="majorDisciplineInfo.divisionsDeployment"/>
@@ -53,6 +54,7 @@
                 <ref bean="majorDisciplineInfo.unitsDeployment"/>
                 <ref bean="majorDisciplineInfo.unitsFinancialResources"/>
                 <ref bean="majorDisciplineInfo.unitsFinancialControl"/>
+
                 <ref bean="majorDisciplineInfo.type"/>
                 <ref bean="majorDisciplineInfo.state"/>
                 <ref bean="majorDisciplineInfo.id"/>
@@ -240,53 +242,59 @@
         <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AccreditationInfo"/>
     </bean>
     <bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent"/>
+	
+	
 
-    <bean id="majorDisciplineInfo.divisionsContentOwner-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+    <bean id="majorDisciplineInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsContentOwner"/>
     </bean>
     <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent" />
+	
+	
 
-    <bean id="majorDisciplineInfo.divisionsStudentOversight-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
-        <property name="name" value="divisionsStudentOversight"/>
-    </bean>
+
     <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo.divisionsStudentOversight-parent" />
 
-     <bean id="majorDisciplineInfo.divisionsDeployment-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+    <bean id="majorDisciplineInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+      <property name="name" value="divisionsStudentOversight" />
+     </bean>
+
+     <bean id="majorDisciplineInfo.divisionsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsDeployment"/>
      </bean>
      <bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo.divisionsDeployment-parent" />
 
-     <bean id="majorDisciplineInfo.divisionsFinancialResources-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+     <bean id="majorDisciplineInfo.divisionsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsFinancialResources"/>
      </bean>
      <bean id="majorDisciplineInfo.divisionsFinancialResources"  parent="majorDisciplineInfo.divisionsFinancialResources-parent" />
 
-     <bean id="majorDisciplineInfo.divisionsFinancialControl-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+     <bean id="majorDisciplineInfo.divisionsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsFinancialControl"/>
      </bean>
      <bean id="majorDisciplineInfo.divisionsFinancialControl" parent="majorDisciplineInfo.divisionsFinancialControl-parent" />
 
-    <bean id="majorDisciplineInfo.unitsContentOwner-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+    <bean id="majorDisciplineInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsContentOwner"/>
     </bean>
     <bean id="majorDisciplineInfo.unitsContentOwner"  parent="majorDisciplineInfo.unitsContentOwner-parent" />
 
-    <bean id="majorDisciplineInfo.unitsStudentOversight-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+    <bean id="majorDisciplineInfo.unitsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsStudentOversight"/>
     </bean>
     <bean id="majorDisciplineInfo.unitsStudentOversight"  parent="majorDisciplineInfo.unitsStudentOversight-parent" />
 
-     <bean id="majorDisciplineInfo.unitsDeployment-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+     <bean id="majorDisciplineInfo.unitsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsDeployment"/>
      </bean>
      <bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.unitsDeployment-parent" />
 
-     <bean id="majorDisciplineInfo.unitsFinancialResources-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+     <bean id="majorDisciplineInfo.unitsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsFinancialResources"/>
      </bean>
      <bean id="majorDisciplineInfo.unitsFinancialResources"  parent="majorDisciplineInfo.unitsFinancialResources-parent" />
 
-     <bean id="majorDisciplineInfo.unitsFinancialControl-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+     <bean id="majorDisciplineInfo.unitsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsFinancialControl"/>
      </bean>
      <bean id="majorDisciplineInfo.unitsFinancialControl"  parent="majorDisciplineInfo.unitsFinancialControl-parent" />
@@ -913,4 +921,5 @@
   <property name="name" value="type"/>
  </bean>
  <bean id="minorDisciplineInfo.type" parent="minorDisciplineInfo.type-parent"/>
+
 </beans>
