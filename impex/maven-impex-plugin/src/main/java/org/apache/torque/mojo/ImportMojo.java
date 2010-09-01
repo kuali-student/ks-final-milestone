@@ -48,7 +48,7 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	private String schema;
 
 	/**
-	 * @parameter expression="${importDir}" default-value="${project.build.directory}/generated-sql/sql"
+	 * @parameter expression="${importDir}" default-value="${project.build.directory}/classes/sql"
 	 * @required
 	 */
 	private File importDir;
