@@ -603,7 +603,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 
 		ResultSet indexInfo = null;
 		try {
-			indexInfo = dbMeta.getIndexInfo(null, schema, tableName, false, false);
+			indexInfo = dbMeta.getIndexInfo(null, schema, tableName, false, true);
 			TableIndex currIndex = null;
 			while (indexInfo.next()) {
 
