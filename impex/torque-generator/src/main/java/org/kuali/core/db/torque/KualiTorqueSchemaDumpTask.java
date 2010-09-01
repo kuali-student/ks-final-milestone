@@ -585,7 +585,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		return index;
 	}
 
-	protected void addIndex(TableIndex index, String pkName, List<TableIndex> indexes) {
+	protected void addIndexIfNotPK(TableIndex index, String pkName, List<TableIndex> indexes) {
 		// if has the same name as the PK, don't add it to the index list
 		if (pkName == null || !pkName.equals(index.getName())) {
 			indexes.add(index);
@@ -618,10 +618,11 @@ public class KualiTorqueSchemaDumpTask extends Task {
 				// we have scrolled to the next row in the result set and are now on a
 				// new index, we need to add to our list of indexes
 				if (currIndex == null || !name.equals(currIndex.getName())) {
-					// Get a TableIndex object
+					// Get a new TableIndex object
 					currIndex = getTableIndex(indexInfo, pkName);
-					// Make a decision about adding it to the list
-					addIndex(currIndex, pkName, indexes);
+					// Add this index to the list if it is not the primary key index
+					// The PK is handled elsewhere
+					addIndexIfNotPK(currIndex, pkName, indexes);
 				}
 
 				// Add column information to the current index
