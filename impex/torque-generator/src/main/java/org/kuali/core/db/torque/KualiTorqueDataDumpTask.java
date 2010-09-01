@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -395,40 +394,20 @@ public class KualiTorqueDataDumpTask extends Task {
 	}
 
 	protected Set<String> getFilteredTableNames(Set<String> tableNames) {
-		List<Pattern> includePatterns = getPatterns(getIncludePatterns());
-		List<Pattern> excludePatterns = getPatterns(getExcludePatterns());
-		Iterator<String> itr = tableNames.iterator();
-		while (itr.hasNext()) {
-			String tableName = itr.next();
-			boolean include = isMatch(tableName, includePatterns);
-			if (!include) {
-				log("Skipping " + tableName + ".  No match on an inclusion pattern");
-				itr.remove();
-				continue;
-			}
-			boolean exclude = isMatch(tableName, excludePatterns);
-			if (exclude) {
-				log("Skipping " + tableName + ". Matched an exclusion pattern");
-				itr.remove();
-				continue;
-			}
-		}
-		Set<String> filteredTableNames = new TreeSet<String>();
-		filteredTableNames.addAll(tableNames);
 		// Do we have a valid schema XML file?
 		boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
 		if (!exists) {
-			return filteredTableNames;
+			return tableNames;
 		}
 
 		// If so, only export data for tables that are listed in the schema XML
 		Set<String> schemaXMLNames = getSet(getTableNamesFromTableObjects(getDatabase().getTables()));
 		// These are tables that are in JDBC but not in schema XML
-		Set<String> extraTables = SetUtils.difference(filteredTableNames, schemaXMLNames);
+		Set<String> extraTables = SetUtils.difference(tableNames, schemaXMLNames);
 		// These are tables that are in schema XML but not in JDBC (should always be zero)
-		Set<String> missingTables = SetUtils.difference(schemaXMLNames, filteredTableNames);
+		Set<String> missingTables = SetUtils.difference(schemaXMLNames, tableNames);
 		// These are tables that are in both JDBC and the schema XML
-		Set<String> intersection = SetUtils.intersection(filteredTableNames, schemaXMLNames);
+		Set<String> intersection = SetUtils.intersection(tableNames, schemaXMLNames);
 		// Log what we are up to
 		log("Schema XML Table Count: " + schemaXMLNames.size());
 		log("Tables present in both: " + intersection.size());
@@ -451,6 +430,8 @@ public class KualiTorqueDataDumpTask extends Task {
 		Set<String> jdbcTableNames = getSet(getJDBCTableNames(dbMetaData));
 		log("Complete JDBC Table Count: " + jdbcTableNames.size());
 
+		StringFilterer filterer = new StringFilterer(includePatterns, excludePatterns);
+		filterer.filterStrings(jdbcTableNames.iterator());
 		Set<String> filteredTableNames = getFilteredTableNames(jdbcTableNames);
 
 		log("Filtered JDBC Table Count: " + jdbcTableNames.size());

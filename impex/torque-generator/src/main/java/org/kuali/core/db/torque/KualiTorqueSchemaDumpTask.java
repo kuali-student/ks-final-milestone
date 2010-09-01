@@ -36,6 +36,8 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	private final boolean processViews = true;
 	private final boolean processSequences = true;
 	String encoding;
+	List<String> includePatterns;
+	List<String> excludePatterns;
 
 	/** Name of XML database schema produced. */
 	protected File schemaXMLFile;
@@ -166,6 +168,9 @@ public class KualiTorqueSchemaDumpTask extends Task {
 			if (processTables) {
 				List<String> tableList = platform.getTableNames(dbMetaData, schema);
 				log("Found " + tableList.size() + " tables");
+				StringFilterer filterer = new StringFilterer(includePatterns, excludePatterns);
+				filterer.filterStrings(tableList.iterator());
+				log("Exporting " + tableList.size() + " tables after filtering is applied");
 
 				for (String curTable : tableList) {
 					long start = System.currentTimeMillis();
@@ -642,5 +647,21 @@ public class KualiTorqueSchemaDumpTask extends Task {
 
 	public void setSchemaXMLFile(File schemaXMLFile) {
 		this.schemaXMLFile = schemaXMLFile;
+	}
+
+	public List<String> getIncludePatterns() {
+		return includePatterns;
+	}
+
+	public void setIncludePatterns(List<String> includePatterns) {
+		this.includePatterns = includePatterns;
+	}
+
+	public List<String> getExcludePatterns() {
+		return excludePatterns;
+	}
+
+	public void setExcludePatterns(List<String> excludePatterns) {
+		this.excludePatterns = excludePatterns;
 	}
 }

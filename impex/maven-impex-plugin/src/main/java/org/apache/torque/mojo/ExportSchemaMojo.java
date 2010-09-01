@@ -2,8 +2,11 @@ package org.apache.torque.mojo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.cxf.common.util.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
 
@@ -92,6 +95,20 @@ public class ExportSchemaMojo extends AntTaskMojo {
 	private String password;
 
 	/**
+	 * Comma separated list of regular expressions for tables to include in the export
+	 * 
+	 * @parameter expression="${includePatterns}"
+	 */
+	private String includePatterns;
+
+	/**
+	 * Comma separated list of regular expressions for tables to exclude from the export
+	 * 
+	 * @parameter expression="${excludePatterns}"
+	 */
+	private String excludePatterns;
+
+	/**
 	 * Creates a new SQLMojo object.
 	 */
 	public ExportSchemaMojo() {
@@ -114,6 +131,20 @@ public class ExportSchemaMojo extends AntTaskMojo {
 		task.setTargetDatabase(getTargetDatabase());
 		task.setSchemaXMLName(getSchemaXMLName());
 		task.setSchemaXMLFile(new File(getOutputDir() + FS + getSchemaXMLName() + getSuffix()));
+		task.setIncludePatterns(getList(getIncludePatterns()));
+		task.setExcludePatterns(getList(getExcludePatterns()));
+	}
+
+	protected List<String> getList(String csv) {
+		if (StringUtils.isEmpty(csv)) {
+			return new ArrayList<String>();
+		}
+		String[] tokens = csv.split(",");
+		List<String> list = new ArrayList<String>();
+		for (String token : tokens) {
+			list.add(token.trim());
+		}
+		return list;
 	}
 
 	protected void makeOutputDir() throws MojoExecutionException {
@@ -236,5 +267,21 @@ public class ExportSchemaMojo extends AntTaskMojo {
 
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
+	}
+
+	public String getIncludePatterns() {
+		return includePatterns;
+	}
+
+	public void setIncludePatterns(String includePatterns) {
+		this.includePatterns = includePatterns;
+	}
+
+	public String getExcludePatterns() {
+		return excludePatterns;
+	}
+
+	public void setExcludePatterns(String excludePatterns) {
+		this.excludePatterns = excludePatterns;
 	}
 }
