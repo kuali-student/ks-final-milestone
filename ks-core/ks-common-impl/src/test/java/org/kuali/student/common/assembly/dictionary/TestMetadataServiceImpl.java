@@ -46,6 +46,32 @@ public class TestMetadataServiceImpl {
         metadata = metadataService.getMetadata("objectStructure1", "RETIRED");
         gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
         assertFalse(gpaConstraints.isRequiredForNextState());
+        
+        
+        //Check type and nested state
+        metadata = metadataService.getMetadata("addressInfo");
+        ConstraintMetadata addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
+        assertEquals(2, addrLineConstraint.getMinLength().intValue());
+        assertEquals(1, addrLineConstraint.getMinOccurs().intValue());
+        assertEquals(20, addrLineConstraint.getMaxLength().intValue());
+
+        metadata = metadataService.getMetadata("addressInfo", "US_ADDRESS", "SUBMITTED");
+        addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
+        assertEquals(5, addrLineConstraint.getMinLength().intValue());
+        assertEquals(1, addrLineConstraint.getMinOccurs().intValue());
+        assertEquals(20, addrLineConstraint.getMaxLength().intValue());
+
+        metadata = metadataService.getMetadata("addressInfo", "US_ADDRESS", "DRAFT");
+        addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
+        assertEquals(5, addrLineConstraint.getMinLength().intValue());
+        assertEquals(0, addrLineConstraint.getMinOccurs().intValue());
+        assertEquals(20, addrLineConstraint.getMaxLength().intValue());
+
+        metadata = metadataService.getMetadata("addressInfo", "FOREIGN_ADDRESS", "DRAFT");
+        addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
+        assertEquals(2, addrLineConstraint.getMinLength().intValue());
+        assertEquals(0, addrLineConstraint.getMinOccurs().intValue());
+        assertEquals(100, addrLineConstraint.getMaxLength().intValue());
     }
     
     
