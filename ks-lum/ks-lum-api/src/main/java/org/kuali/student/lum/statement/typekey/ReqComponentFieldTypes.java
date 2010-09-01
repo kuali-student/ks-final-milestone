@@ -17,36 +17,37 @@ package org.kuali.student.lum.statement.typekey;
 
 /**
  * <p>Requirement component types are used to map a dot notation field key
- * (e.g. kuali.reqComponent.field.type.cluSet) to a key without dot notation (cluSet) since most 
- * template engines don't allow dot notation for template variables because
- * dot notations are used to get class properties or methods 
+ * (e.g. kuali.reqComponent.field.type.cluSet) to a key without dot notation 
+ * (cluSet) since most template engines don't allow dot notation for template 
+ * variables because dot notations are used to get class properties or methods 
  * (e.g. clu.getOfficialIdentifier().getShortName()).</p>
  * <p>
  * Some Common Template keys
  * <ul>
  * <li><code>kuali.reqComponent.field.type.clu</code> maps to <code>clu</code></li>
  * <li><code>kuali.reqComponent.field.type.cluSet</code> maps to <code>cluSet</code></li>
- * <li><code>kuali.reqComponent.field.type.requiredCount</code> maps to <code>expectedValue</code></li>
+ * <li><code>kuali.reqComponent.field.type.value</code> maps to <code>value</code></li>
  * <li><code>kuali.reqComponent.field.type.operator</code> maps to <code>relationalOperator</code></li>
  * </ul>
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
 public enum ReqComponentFieldTypes {
+	VALUE_KEY("kuali.reqComponent.field.type.value"),
+	VALUE_DATA_TYPE_KEY("kuali.reqComponent.field.type.valueDataType"),
+	OPERATOR_KEY("kuali.reqComponent.field.type.operator"),
 	CLU_KEY("kuali.reqComponent.field.type.clu.id"),
 	CLUSET_KEY("kuali.reqComponent.field.type.cluSet.id"),
-	REQUIRED_COUNT_KEY("kuali.reqComponent.field.type.requiredCount"),
     GPA_KEY("kuali.reqComponent.field.type.gpa"),
     TOTAL_CREDIT_KEY("kuali.reqComponent.field.type.totalCredits"),
-	OPERATOR_KEY("kuali.reqComponent.field.type.operator"),
-	COUNT_TYPE_KEY("kuali.reqComponent.field.type.countType"),
 	INCLUSION_FILTER_TYPE_KEY("kuali.reqComponent.field.type.inclusionFilter.type"),
 	INCLUSION_FILTER_VALUE_KEY("kuali.reqComponent.field.type.inclusionFilter.value"),
     GRADE_TYPE_KEY("kuali.reqComponent.field.type.gradeType"),
     GRADE_KEY("kuali.reqComponent.field.type.grade"),	
-    ORG_PERMISSION_KEY("kuali.reqComponent.field.type.orgid"),
-    INSTRUCTOR_PERMISSION_KEY("kuali.reqComponent.field.type.personid"),    
-    DURATION_TYPE_KEY("kuali.reqComponent.field.type.durationType");
+    ORG_PERMISSION_KEY("kuali.reqComponent.field.type.org.id"),
+    INSTRUCTOR_PERMISSION_KEY("kuali.reqComponent.field.type.person.id"),    
+    DURATION_KEY("kuali.reqComponent.field.type.duration"),
+    DURATION_TYPE_KEY("kuali.reqComponent.field.type.durationType.id");
     
 	private String id;
 	
@@ -56,5 +57,11 @@ public enum ReqComponentFieldTypes {
 	
 	public String getId() {
 		return this.id;
+	}
+
+	public enum ValueDataType {
+		STRING,
+		INTEGER,
+		DOUBLE,
 	}
 }

@@ -13,35 +13,49 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.statement.config.context.lu;
+package org.kuali.student.lum.statement.config.context;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
- * This class creates the template context for grade condition type.
+ * This class creates the template context for an organization.
  */
-public class GradeContextImpl extends AbstractLuContext<ReqComponent> {
-	/** Total credits template token */ 
-	private final static String GRADE_TOKEN = "grade";
-    private final static String GRADE_TYPE_TOKEN = "gradeType";	
+public class OrganizationContextImpl extends BasicContextImpl {
+ 
+	private OrganizationService organizationService;
+	
+	private final static String ORG_TOKEN = "org";
+
+	public void setOrganizationService(OrganizationService organizationService) {
+		this.organizationService = organizationService;
+	}
+
+	private OrgInfo getOrganization(String orgId) throws OperationFailedException {
+		try {
+			return organizationService.getOrganization(orgId);
+		} catch (Exception e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+	}
 
     /**
      * Creates the context map (template data) for the requirement component.
      * 
      * @param reqComponent Requirement component
-     * @throws DoesNotExistException
-     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     * @throws OperationFailedException Creating context map fails
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(GRADE_TYPE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId()));
-        contextMap.put(GRADE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId()));        
+        String orgId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.ORG_PERMISSION_KEY.getId());
+        OrgInfo org = getOrganization(orgId);
+        
+        Map<String, Object> contextMap = super.createContextMap(reqComponent);
+        contextMap.put(ORG_TOKEN, org);
         return contextMap;
     }
 }

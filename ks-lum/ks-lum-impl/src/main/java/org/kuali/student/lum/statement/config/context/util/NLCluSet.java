@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.statement.config.context.lu;
+package org.kuali.student.lum.statement.config.context.util;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
  * information. <code>$cluSet</code> is this class.
  * <p>
  * Example:
- * <code>"Student must have completed $expectedValue of $cluSet.getCluSetAsShortName()"</code>
+ * <code>"Student must have completed $value of $cluSet.getCluSetAsShortName()"</code>
  * </p>
  * 
  * {@link CluSetInfo} wrapper class.

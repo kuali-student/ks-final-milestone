@@ -1,10 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSST_OBJECT_SUB_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="Kuali Course"
-        TYPE_DESC="Kuali Course" TYPE_KEY="course"/>
-    <KSST_OBJECT_SUB_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="Kuali Program"
-        TYPE_DESC="Kuali Program" TYPE_KEY="program"/>
+    <KSST_OBJECT_SUB_TYPE NAME="Kuali Course" TYPE_DESC="Kuali Course" TYPE_KEY="course"/>
+    <KSST_OBJECT_SUB_TYPE NAME="Kuali Program" TYPE_DESC="Kuali Program" TYPE_KEY="program"/>
 </dataset>

@@ -13,33 +13,32 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.statement.config.context.lu;
+package org.kuali.student.lum.statement.config.context;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
- * This class creates the template context for an organization.
+ * This class creates the template context for grade check type.
  */
-public class OrganizationContextImpl extends AbstractLuContext<ReqComponent> {
- 
-	private final static String ORG_TOKEN = "orgid";
-
+public class GPAContextImpl extends BasicContextImpl {
+	/** GPA template token */ 
+	private final static String GPA_TOKEN = "gpa";
+	
     /**
      * Creates the context map (template data) for the requirement component.
      * 
      * @param reqComponent Requirement component
-     * @throws DoesNotExistException
-     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     * @throws OperationFailedException Creating context map fails
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(ORG_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.ORG_PERMISSION_KEY.getId()));
+    	Map<String, Object> contextMap = new HashMap<String, Object>();
+    	contextMap.put(GPA_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getId()));
+
         return contextMap;
     }
 }

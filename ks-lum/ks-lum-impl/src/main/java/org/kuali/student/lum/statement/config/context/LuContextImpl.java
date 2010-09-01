@@ -13,34 +13,43 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.statement.config.context.lu;
+package org.kuali.student.lum.statement.config.context;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.naturallanguage.AbstractContext;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
-public abstract class AbstractLuContext<T> extends AbstractContext<T> {
+/**
+ * This class creates the template context for course list types.
+ */
+public class LuContextImpl extends BasicContextImpl {
     /**
      * Learning unit service.
      */
 	private LuService luService;
 
 	/**
-	 * Constructor.
+	 * <code>clu</code> token (key) references a Clu object used in templates.
+	 * e.g. 'Student must have completed all of 
+	 * $clu.getOfficialIdentifier().getShortName()'
 	 */
-	public AbstractLuContext() {
-		this.luService = null;
-	}
+	private final static String CLU_TOKEN = "clu";
+
+	/**
+	 * <code>cluSet</code> token (key) references a Clu set object
+	 * used in templates.
+	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()'
+	 */
+	private final static String CLU_SET_TOKEN = "cluSet";
 
 	/**
 	 * Sets the LU service.
@@ -67,6 +76,15 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 		}
     }
 
+    private CluInfo getClu(ReqComponent reqComponent) throws OperationFailedException {
+        Map<String, String> map = getReqComponentFieldMap(reqComponent);
+        if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
+	    	String cluId = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
+	    	return getCluInfo(cluId);
+        }
+        return null;
+    }
+    
     /**
      * Gets a CLU set.
      *
@@ -132,7 +150,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return A new CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public NLCluSet getClusAsCluSet(String cluIds) throws OperationFailedException {
+    /*public NLCluSet getClusAsCluSet(String cluIds) throws OperationFailedException {
     	String[] cluIdArray = cluIds.split("\\s*,\\s*");
     	List<CluInfo> list = new ArrayList<CluInfo>();
     	for(String cluId : cluIdArray) {
@@ -140,7 +158,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     		list.add(clu);
     	}
     	return new NLCluSet(null, list);
-    }
+    }*/
 
     /**
      * Gets a custom CLU set from a requirement component.
@@ -152,10 +170,10 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     public NLCluSet getCluSet(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	NLCluSet cluSet = null;
-    	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
+    	/*if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
         	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
         	cluSet = getClusAsCluSet(cluIds);
-        } else if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
+        } else*/ if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
         	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getId());
             cluSet = getCluSet(cluSetId);
         }
@@ -164,16 +182,20 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 
     /**
      * Creates the context map (template data) for the requirement component.
-     * Also, adds the field token map to the context map.
-     *
+     * 
      * @param reqComponent Requirement component
-     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     * @throws OperationFailedException Creating context map fails
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
-        contextMap.put(CommonTemplateTokens.NL_HELPER_TOKEN, NLHelper.class);
-        contextMap.put(CommonTemplateTokens.EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId()));
-        contextMap.put(CommonTemplateTokens.OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getId()));
+        CluInfo clu = getClu(reqComponent);
+        if(clu != null) {
+	        contextMap.put(CLU_TOKEN, clu);
+        }
+        NLCluSet cluSet = getCluSet(reqComponent);
+        if(cluSet != null) {
+        	contextMap.put(CLU_SET_TOKEN, cluSet);
+        }
         return contextMap;
     }
 }

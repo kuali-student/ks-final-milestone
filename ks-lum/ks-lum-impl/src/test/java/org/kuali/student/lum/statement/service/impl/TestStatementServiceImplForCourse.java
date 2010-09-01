@@ -170,7 +170,7 @@ public class TestStatementServiceImplForCourse {
     public void testGetNaturalLanguageForReqComponent_perm_org() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         //req. type: 'kuali.reqComponent.type.course.permission.org.required'
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-18", "KUALI.RULEEDIT", "en");
-        assertEquals("Permission of English Department required", nl);
+        assertEquals("Permission of English Dept required", nl);
     }
     
     @Test
@@ -206,5 +206,68 @@ public class TestStatementServiceImplForCourse {
         //req. type: 'kuali.reqComponent.type.course.courseset.nof.grade.min'
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-23", "KUALI.RULEEDIT", "en");
         assertEquals("Must successfully complete a minimum of 1 course from (MATH152, MATH180) with a minimum grade of letter B", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_program_admitted_org_duration_ProgramAsClu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.admitted.org.duration'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-24a", "KUALI.RULEEDIT", "en");
+        assertEquals("Students admitted to Sociology may take no more than 2 courses in the English Dept in 1 year", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_program_admitted_org_duration_ProgramAsCluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.admitted.org.duration'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-24b", "KUALI.RULEEDIT", "en");
+        assertEquals("Students admitted to Sociology may take no more than 2 courses in the English Dept in 1 year", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_program_notadmitted_org_duration_ProgramAsClu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.notadmitted.org.duration'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-25a", "KUALI.RULEEDIT", "en");
+        assertEquals("Students not admitted to Sociology may take no more than 3 courses in the Computer Science Dept in 1 year", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_program_notadmitted_org_duration_ProgramAsCluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.notadmitted.org.duration'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-25b", "KUALI.RULEEDIT", "en");
+        assertEquals("Students not admitted to Sociology may take no more than 3 courses in the Computer Science Dept in 1 year", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponent_kuali_reqComponent_type_course_org_program_admitted() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.org.program.admitted'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-26", "KUALI.RULEEDIT", "en");
+        assertEquals("Must be admitted to any program offered at the course campus location", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_program_notadmitted_ProgramAsClu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.notadmitted'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-27a", "KUALI.RULEEDIT", "en");
+        assertEquals("Must not have been admitted to the Sociology program", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_program_notadmitted_ProgramAsCluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.notadmitted'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-27b", "KUALI.RULEEDIT", "en");
+        assertEquals("Must not have been admitted to the Sociology program", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_credits_repeat_max() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.credits.repeat.max'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-28", "KUALI.RULEEDIT", "en");
+        assertEquals("May be repeated for a maximum of 6 credits", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_org_credits_completed_min() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.org.credits.completed.min'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-29", "KUALI.RULEEDIT", "en");
+        assertEquals("Must have successfully completed a minimum of 30 credits from courses in the Computer Science Dept", nl);
     }
 }

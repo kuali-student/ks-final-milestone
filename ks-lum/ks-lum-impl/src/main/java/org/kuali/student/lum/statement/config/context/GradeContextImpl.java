@@ -13,34 +13,33 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.statement.config.context.lu;
+package org.kuali.student.lum.statement.config.context;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.naturallanguage.AbstractContext;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
  * This class creates the template context for grade condition type.
  */
-public class DurationContextImpl extends AbstractContext<ReqComponent> {
-	/** Duration template token */ 
-    private final static String DURATION_TYPE_TOKEN = "durationType";	
+public class GradeContextImpl extends BasicContextImpl {
+	/** Total credits template token */ 
+	private final static String GRADE_TOKEN = "grade";
+    private final static String GRADE_TYPE_TOKEN = "gradeType";	
 
     /**
      * Creates the context map (template data) for the requirement component.
      * 
      * @param reqComponent Requirement component
-     * @throws DoesNotExistException
-     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     * @throws OperationFailedException Creating context map fails
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(reqComponent);
-        contextMap.put(CommonTemplateTokens.EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getId()));
-        contextMap.put(DURATION_TYPE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.DURATION_TYPE_KEY.getId()));
+        Map<String, Object> contextMap = new HashMap<String, Object>();
+        contextMap.put(GRADE_TYPE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId()));
+        contextMap.put(GRADE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId()));        
         return contextMap;
     }
 }

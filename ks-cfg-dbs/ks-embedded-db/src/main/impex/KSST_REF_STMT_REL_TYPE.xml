@@ -1,26 +1,26 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU Prereq"
-        TYPE_DESC="CLU Prerequisites" TYPE_KEY="clu.prerequisites"/>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU Rules" TYPE_DESC="CLU Rules" TYPE_KEY="clu.rule"/>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="Course Rules" TYPE_DESC="Course Rules" TYPE_KEY="course.rule"/>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU Antirequisites"
-        TYPE_DESC="CLU Antirequisites" TYPE_KEY="kuali.statement.type.course.academicReadiness.antireq"/>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU Corequisites"
-        TYPE_DESC="CLU Corequisites" TYPE_KEY="kuali.statement.type.course.academicReadiness.coreq"/>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU Create Course"
-        TYPE_DESC="CLU Create Course" TYPE_KEY="kuali.statement.type.course"/>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU Enroll"
-        TYPE_DESC="CLU Enroll" TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibility"/>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU Prerequisites"
-        TYPE_DESC="CLU Prerequisites" TYPE_KEY="kuali.statement.type.course.academicReadiness.prereq"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Anti-requisites"
+        TYPE_DESC="CLU Anti-requisites" TYPE_KEY="clu.antirequisites"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Completion Requirements"
+        TYPE_DESC="CLU Completion Requirements" TYPE_KEY="clu.completion"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Co-requisites"
+        TYPE_DESC="CLU Co-requisites" TYPE_KEY="clu.corequisites"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Recommended Preparations"
+        TYPE_DESC="CLU Recommended Preparations" TYPE_KEY="clu.credit.recommendedpreparation"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Repeatable for Credit"
+        TYPE_DESC="CLU Repeatable for Credit" TYPE_KEY="clu.credit.repeatable"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU That Restrict Credit"
+        TYPE_DESC="CLU That Restrict Credit" TYPE_KEY="clu.credit.restriction"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Eligibilities"
+        TYPE_DESC="CLU Eligibilities" TYPE_KEY="clu.eligibilities"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Entrance Requirements"
+        TYPE_DESC="CLU Entrance Requirements" TYPE_KEY="clu.entrance"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Pre-requisites"
+        TYPE_DESC="CLU Pre-requisites" TYPE_KEY="clu.prerequisites"/>
+    <KSST_REF_STMT_REL_TYPE NAME="CLU Rules" TYPE_DESC="CLU Rules" TYPE_KEY="clu.rule"/>
+    <KSST_REF_STMT_REL_TYPE
+        NAME="CLU Satisfactory Progress Requirements"
+        TYPE_DESC="CLU Satisfactory Progress Requirements" TYPE_KEY="clu.satisfactoryprogress"/>
 </dataset>
