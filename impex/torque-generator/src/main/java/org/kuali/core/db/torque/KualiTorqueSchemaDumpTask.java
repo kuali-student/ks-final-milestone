@@ -514,8 +514,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	protected KualiForeignKey getNewKualiForeignKey(String refTableName, String onDelete) {
 		KualiForeignKey fk = new KualiForeignKey();
 		fk.setRefTableName(refTableName); // referenced table name
-		List<KualiReference> references = new ArrayList<KualiReference>();
-		fk.setReferences(references);
+		fk.setReferences(new ArrayList<KualiReference>());
 		fk.setOnDelete(onDelete);
 		return fk;
 	}
@@ -564,62 +563,64 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		return fks;
 	}
 
+	protected String getPrimaryKeyName(String tableName, DatabaseMetaData dbMeta) throws SQLException {
+		ResultSet pkInfo = null;
+		try {
+			pkInfo = dbMeta.getPrimaryKeys(null, schema, tableName);
+			if (pkInfo.next()) {
+				return pkInfo.getString("PK_NAME");
+			}
+		} catch (SQLException e) {
+			log("Could not primary key info for " + tableName + " : " + e.getMessage(), Project.MSG_WARN);
+		} finally {
+			closeQuietly(pkInfo);
+		}
+		return null;
+	}
+
+	protected TableIndex getTableIndex(ResultSet indexInfo, String pkName) throws SQLException {
+		TableIndex index = new TableIndex();
+		index.setName(indexInfo.getString("INDEX_NAME"));
+		index.setUnique(indexInfo.getBoolean("NON_UNIQUE"));
+		return index;
+	}
+
+	protected void addIndex(TableIndex index, String pkName, List<TableIndex> indexes) {
+		// if has the same name as the PK, skip adding it to the index list
+		if (pkName == null || !pkName.equals(index.getName())) {
+			indexes.add(index);
+			log("Added " + index.getName() + " to index list", Project.MSG_DEBUG);
+		} else {
+			log("Skipping PK: " + index.getName(), Project.MSG_DEBUG);
+		}
+	}
+
 	public List<TableIndex> getIndexes(DatabaseMetaData dbMeta, String tableName) throws SQLException {
 		List<TableIndex> indexes = new ArrayList<TableIndex>();
-		ResultSet pkInfo = null;
-		String pkName = null;
-		// ArrayList<String> pkFields = new ArrayList<String>();
+		// need to ensure that the PK is not returned as an index
+		String pkName = getPrimaryKeyName(tableName, dbMeta);
+
 		ResultSet indexInfo = null;
 		try {
 			indexInfo = dbMeta.getIndexInfo(null, schema, tableName, false, false);
-			// need to ensure that the PK is not returned as an index
-			pkInfo = dbMeta.getPrimaryKeys(null, schema, tableName);
-			if (pkInfo.next()) {
-				pkName = pkInfo.getString("PK_NAME");
-			}
-			// Map<Integer,String> tempPk = new HashMap<Integer,String>();
-			// while ( pkInfo.next() ) {
-			// tempPk.put( pkInfo.getInt( "KEY_SEQ" ), pkInfo.getString( "COLUMN_NAME" ) );
-			// }
-
 			TableIndex currIndex = null;
 			while (indexInfo.next()) {
-				if (indexInfo.getString("INDEX_NAME") == null)
+				String name = indexInfo.getString("INDEX_NAME");
+				if (name == null) {
 					continue;
-				// System.out.println( "Row: " + indexInfo.getString( "INDEX_NAME" ) + "/" + indexInfo.getString(
-				// "COLUMN_NAME" ) );
-				if (currIndex == null || !indexInfo.getString("INDEX_NAME").equals(currIndex.name)) {
-					currIndex = new TableIndex();
-					currIndex.name = indexInfo.getString("INDEX_NAME");
-					currIndex.unique = !indexInfo.getBoolean("NON_UNIQUE");
-					// if has the same name as the PK, skip adding it to the index list
-					if (pkName == null || !pkName.equals(currIndex.name)) {
-						indexes.add(currIndex);
-						// System.out.println( "Added " + currIndex.name + " to index list");
-					} else {
-						// System.out.println( "Skipping PK: " + currIndex.name );
-					}
 				}
-				currIndex.columns.add(indexInfo.getString("COLUMN_NAME"));
+				if (currIndex == null || !name.equals(currIndex.getName())) {
+					currIndex = getTableIndex(indexInfo, pkName);
+					addIndex(currIndex, pkName, indexes);
+				}
+				currIndex.getColumns().add(indexInfo.getString("COLUMN_NAME"));
 			}
-
 		} catch (SQLException e) {
 			log("WARN: Could not read indexes for Table " + tableName + " : " + e.getMessage(), Project.MSG_WARN);
 		} finally {
-			if (indexInfo != null) {
-				indexInfo.close();
-			}
-			if (pkInfo != null) {
-				pkInfo.close();
-			}
+			closeQuietly(indexInfo);
 		}
 		return indexes;
-	}
-
-	private static class TableIndex {
-		public String name;
-		public boolean unique;
-		public List<String> columns = new ArrayList<String>();
 	}
 
 	public String getEncoding() {
