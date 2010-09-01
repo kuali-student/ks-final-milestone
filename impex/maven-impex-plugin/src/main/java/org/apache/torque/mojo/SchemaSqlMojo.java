@@ -16,7 +16,7 @@ public class SchemaSqlMojo extends SqlMojoBase {
 	 * The directory in which the SQL will be generated.
 	 * 
 	 * @parameter property="outputDir" expression="${outputDir}"
-	 *            default-value="${project.build.directory}/generated-sql/sql"
+	 *            default-value="${project.build.directory}/classes/sql"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy1;
