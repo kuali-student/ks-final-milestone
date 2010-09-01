@@ -267,8 +267,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         
         // Now any leftover variation ids are no longer needed, so delete them
         if(currentRelations != null && currentRelations.size() > 0){
-        	addDeleteVariationNodes(currentRelations, nodes);
         	programAssemblerUtils.addDeleteRelationNodes(currentRelations, nodes);
+        	//addDeleteVariationNodes(currentRelations, nodes);
         }
         
         result.getChildNodes().addAll(nodes);
