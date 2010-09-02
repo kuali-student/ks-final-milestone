@@ -5,6 +5,7 @@ import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -15,14 +16,14 @@ public class ConnectionHandler {
 	public static final String DRIVER_INFO_PROPERTIES_PASSWORD = "password";
 
 	String url;
-	boolean autocommit;
-	boolean skipOnConnectionError;
-	boolean connectionError;
-	boolean enableAnonymousPassword;
+	boolean autocommit = true;
+	boolean skipOnConnectionError = false;
+	boolean connectionError = false;
+	boolean enableAnonymousPassword = false;;
 	Credentials credentials;
 	Properties driverProperties;
 	String driver;
-	boolean showPassword;
+	boolean showPassword = false;
 
 	protected void showConnectionInfo(Properties properties) {
 		log.info("---------------------------");
@@ -30,10 +31,15 @@ public class ConnectionHandler {
 		log.info("---------------------------");
 		log.info("URL: " + getUrl());
 		log.info("Username: " + properties.getProperty(DRIVER_INFO_PROPERTIES_USER));
+		String password = properties.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD);
 		if (isShowPassword()) {
-			log.info("Password: " + properties.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD));
+			log.info("Password: " + password);
 		} else {
-			log.info("Password: *******");
+			if (StringUtils.isEmpty(password)) {
+				log.info("Password: <no password was supplied>");
+			} else {
+				log.info("Password: " + StringUtils.repeat("*", password.length()));
+			}
 		}
 		log.info("Driver: " + getDriver());
 		log.info("---------------------------");
@@ -57,7 +63,9 @@ public class ConnectionHandler {
 		if (!enableAnonymousPassword) {
 			info.put(DRIVER_INFO_PROPERTIES_PASSWORD, credentials.getPassword());
 		}
-		info.putAll(getDriverProperties());
+		if (driverProperties != null) {
+			info.putAll(getDriverProperties());
+		}
 		return info;
 	}
 
