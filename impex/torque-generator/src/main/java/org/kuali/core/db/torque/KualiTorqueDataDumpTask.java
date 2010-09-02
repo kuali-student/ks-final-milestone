@@ -438,7 +438,6 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 		} finally {
 			closeQuietly(tableNames);
 		}
-		log("Found " + tables.size() + " tables.");
 		return tables;
 	}
 
