@@ -1,6 +1,5 @@
 package org.apache.torque.mojo;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
@@ -47,7 +46,9 @@ public class AntTaskMojo extends BaseMojo {
 		getAntTask().setProject(getAntProject());
 		try {
 			// By default copy properties from the mojo to the task
-			BeanUtils.copyProperties(getAntTask(), this);
+			FilteredPropertyCopier copier = new FilteredPropertyCopier();
+			copier.addExclude("project");
+			copier.copyProperties(getAntTask(), this);
 		} catch (Exception e) {
 			throw new MojoExecutionException("Error copying properties", e);
 		}
