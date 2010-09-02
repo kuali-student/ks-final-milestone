@@ -7,7 +7,7 @@ import org.apache.tools.ant.Task;
 /**
  * A base class for mojos that wrap an Ant Task
  */
-public class AntTaskMojo extends BaseMojo {
+public abstract class AntTaskMojo extends BaseMojo {
 
 	/**
 	 * Creates a new instance of AntTaskMojo.
@@ -45,7 +45,7 @@ public class AntTaskMojo extends BaseMojo {
 		setAntProject(getIniatializedAntProject());
 		getAntTask().setProject(getAntProject());
 		try {
-			// By default copy properties from the mojo to the task
+			// Copy configuration from the mojo to the task
 			FilteredPropertyCopier copier = new FilteredPropertyCopier();
 			copier.addExclude("project");
 			copier.copyProperties(getAntTask(), this);
