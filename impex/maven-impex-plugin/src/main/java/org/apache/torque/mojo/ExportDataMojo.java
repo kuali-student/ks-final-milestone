@@ -38,7 +38,7 @@ public class ExportDataMojo extends AntTaskMojo {
 	private String targetDatabase;
 
 	/**
-	 * Encoding to use when reading SQL statements from a file.
+	 * Encoding to use when exporting data to a file
 	 * 
 	 * @parameter expression="${encoding}" default-value= "${project.build.sourceEncoding}"
 	 * @since 1.1

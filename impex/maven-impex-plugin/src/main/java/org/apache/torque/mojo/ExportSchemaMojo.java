@@ -10,8 +10,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
 
 /**
- * Export a description of a database to XML. This generates information about the metadata ie the tables, primary keys,
- * foreign keys, indexes, sequences, and views. It does not export any data.
+ * Export a description of a database to XML. This generates DDL information. The tables, primary keys, foreign keys,
+ * indexes, sequences, and views. It does not export data.
  * 
  * @goal exportschema
  * @phase generate-sources
@@ -55,7 +55,7 @@ public class ExportSchemaMojo extends AntTaskMojo {
 	private String targetDatabase;
 
 	/**
-	 * The directory where the schema XML file will be written
+	 * The XML file that will be created
 	 * 
 	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
 	 * @required
@@ -71,9 +71,8 @@ public class ExportSchemaMojo extends AntTaskMojo {
 	private String schemaXMLName;
 
 	/**
-	 * The physical name of the schema inside the database we will be exporting. This typically needs some database
-	 * specific conversion applied to it. Oracle needs everything to be upper case. For MySQL it is better if it is all
-	 * lower case
+	 * The physical name of the schema we will be exporting. This typically needs some database specific conversion
+	 * applied to it. Oracle needs everything to be upper case. For MySQL it is better if it is all lower case
 	 * 
 	 * @parameter expression="${schema}"
 	 * @required
