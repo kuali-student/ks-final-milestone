@@ -36,10 +36,10 @@ public class ExportSchemaMojo extends ExportMojo {
 	/**
 	 * The XML file contains a name attribute for the schema being exported. This value is what will end up there
 	 * 
-	 * @parameter expression="${schemaXMLName}" default-value="${project.artifactId}"
+	 * @parameter expression="${artifactId}" default-value="${project.artifactId}"
 	 * @required
 	 */
-	private String schemaXMLName;
+	private String artifactId;
 
 	/**
 	 * The file that the schema XML will get written to
@@ -82,12 +82,12 @@ public class ExportSchemaMojo extends ExportMojo {
 		this.processSequences = processSequences;
 	}
 
-	public String getSchemaXMLName() {
-		return schemaXMLName;
+	public String getArtifactId() {
+		return artifactId;
 	}
 
-	public void setSchemaXMLName(String schemaXMLName) {
-		this.schemaXMLName = schemaXMLName;
+	public void setArtifactId(String schemaXMLName) {
+		this.artifactId = schemaXMLName;
 	}
 
 	public String getSchemaXMLFile() {

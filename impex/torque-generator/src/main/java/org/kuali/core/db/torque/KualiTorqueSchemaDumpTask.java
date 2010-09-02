@@ -46,14 +46,14 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	File schemaXMLFile;
 
 	/**
-	 * DB schema to use.
+	 * Schema to dump
 	 */
 	String schema;
 
 	/**
-	 * DB schema to use.
+	 * The name of the artifact being produced
 	 */
-	String schemaXMLName;
+	String artifactId;
 
 	/**
 	 * DOM document produced.
@@ -70,28 +70,42 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	 */
 	Map<String, String> primaryKeys;
 
-	/**
-	 * Default constructor.
-	 * 
-	 * @throws BuildException
-	 */
-	public void execute() throws BuildException {
-		log("Impex - Schema Export starting");
+	protected void showConfiguration() {
 		log("Schema: " + schema);
-		log("Schema XML Name: " + schemaXMLName);
-		log("Exporting to: " + schemaXMLFile.getAbsolutePath());
+		log("Artifact Id: " + artifactId);
+		log("Exporting to: " + schemaXMLFile.getName());
 		if (getEncoding() == null) {
 			log("Encoding: " + System.getProperty("file.encoding"));
 		} else {
 			log("Encoding: " + getEncoding());
 		}
+	}
 
-		DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, ImpexDTDResolver.DTD_LOCATION);
-		doc = new DocumentImpl(docType);
-		doc.appendChild(doc.createComment(" " + getComment() + " "));
+	protected void updateConfiguration(Platform platform) {
+		if (StringUtils.isEmpty(schema)) {
+			schema = platform.getSchemaName(artifactId);
+		}
+	}
+
+	/**
+	 * Execute the task
+	 */
+	public void execute() throws BuildException {
 
 		try {
-			generateXML();
+			log("--------------------------------------");
+			log("Impex - Schema Export");
+			log("--------------------------------------");
+			log("Loading platform for " + getTargetDatabase());
+			Platform platform = PlatformFactory.getPlatformFor(targetDatabase);
+			updateConfiguration(platform);
+			showConfiguration();
+
+			DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, ImpexDTDResolver.DTD_LOCATION);
+			doc = new DocumentImpl(docType);
+			doc.appendChild(doc.createComment(" " + getComment() + " "));
+
+			generateXML(platform);
 			serialize();
 		} catch (Exception e) {
 			throw new BuildException(e);
@@ -324,22 +338,18 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	 * @throws Exception
 	 *             a generic exception.
 	 */
-	protected void generateXML() throws Exception {
+	protected void generateXML(Platform platform) throws Exception {
 
 		Connection connection = null;
 		try {
 			// Attempt to connect to a database.
 			connection = getConnection();
 
-			log("Loading platform for " + getTargetDatabase());
-			log("Getting table list...");
-			Platform platform = PlatformFactory.getPlatformFor(targetDatabase);
-
 			// Get the database Metadata.
 			DatabaseMetaData dbMetaData = connection.getMetaData();
 
 			databaseNode = doc.createElement("database");
-			databaseNode.setAttribute("name", schemaXMLName);
+			databaseNode.setAttribute("name", artifactId);
 			// JHK added naming method
 			databaseNode.setAttribute("defaultJavaNamingMethod", "nochange");
 
@@ -633,12 +643,12 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 		return processSequences;
 	}
 
-	public String getSchemaXMLName() {
-		return schemaXMLName;
+	public String getArtifactId() {
+		return artifactId;
 	}
 
-	public void setSchemaXMLName(String schemaXMLName) {
-		this.schemaXMLName = schemaXMLName;
+	public void setArtifactId(String schemaXMLName) {
+		this.artifactId = schemaXMLName;
 	}
 
 	public File getSchemaXMLFile() {
