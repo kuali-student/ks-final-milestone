@@ -77,10 +77,6 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	 */
 	public void execute() throws BuildException {
 		log("Impex - Schema Export starting");
-		log("Your DB settings are: ");
-		log("Driver: " + driver);
-		log("URL: " + url);
-		log("Username: " + username);
 		log("Schema: " + schema);
 		log("Schema XML Name: " + schemaXMLName);
 		log("Exporting to: " + schemaXMLFile.getAbsolutePath());

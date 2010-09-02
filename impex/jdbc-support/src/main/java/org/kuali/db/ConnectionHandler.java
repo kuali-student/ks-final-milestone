@@ -20,6 +20,7 @@ public class ConnectionHandler {
 	boolean skipOnConnectionError = false;
 	boolean connectionError = false;
 	boolean enableAnonymousPassword = false;;
+	boolean enableAnonymousUsername = false;;
 	Credentials credentials;
 	Properties driverProperties;
 	String driver;
@@ -58,8 +59,9 @@ public class ConnectionHandler {
 
 	protected Properties getInfo() throws SQLException {
 		Properties info = new Properties();
-		info.put(DRIVER_INFO_PROPERTIES_USER, credentials.getUsername());
-
+		if (!enableAnonymousUsername) {
+			info.put(DRIVER_INFO_PROPERTIES_USER, credentials.getUsername());
+		}
 		if (!enableAnonymousPassword) {
 			info.put(DRIVER_INFO_PROPERTIES_PASSWORD, credentials.getPassword());
 		}
@@ -69,7 +71,26 @@ public class ConnectionHandler {
 		return info;
 	}
 
+	protected void validateConfiguration() throws SQLException {
+		String username = credentials.getUsername();
+		String password = credentials.getPassword();
+		if (!enableAnonymousUsername && StringUtils.isBlank(username)) {
+			throw new SQLException("\n\nNo username was supplied.\nYou can supply a username in the plugin configuration or provide it as a system property.\n\nFor example:\n-Dusername=myuser\n\n.");
+		}
+		if (!enableAnonymousPassword && StringUtils.isBlank(password)) {
+			throw new SQLException("\n\nNo password was supplied.\nYou can supply a password in the plugin configuration or provide it as a system property.\n\nFor example:\n-password=mypassword\n\n.");
+		}
+		// Convert null to the empty string if needed
+		if (StringUtils.isBlank(username)) {
+			credentials.setUsername("");
+		}
+		if (StringUtils.isBlank(password)) {
+			credentials.setPassword("");
+		}
+	}
+
 	public Connection getConnection() throws SQLException {
+		validateConfiguration();
 		Properties info = getInfo();
 		Connection conn = null;
 		try {
@@ -167,6 +188,14 @@ public class ConnectionHandler {
 
 	public void setShowPassword(boolean showPassword) {
 		this.showPassword = showPassword;
+	}
+
+	public boolean isEnableAnonymousUsername() {
+		return enableAnonymousUsername;
+	}
+
+	public void setEnableAnonymousUsername(boolean enableAnonymousUsername) {
+		this.enableAnonymousUsername = enableAnonymousUsername;
 	}
 
 }

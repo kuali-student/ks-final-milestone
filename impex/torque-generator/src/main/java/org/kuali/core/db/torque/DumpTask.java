@@ -3,8 +3,11 @@ package org.kuali.core.db.torque;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.tools.ant.Task;
 import org.kuali.db.ConnectionHandler;
+import org.kuali.db.Credentials;
 
 public class DumpTask extends Task {
 	Utils utils = new Utils();
@@ -12,8 +15,13 @@ public class DumpTask extends Task {
 	ConnectionHandler connectionHandler = new ConnectionHandler();
 
 	protected Connection getConnection() throws SQLException {
-		FilteredPropertyCopier copier = new FilteredPropertyCopier();
-		copier.copyProperties(connectionHandler, this);
+		try {
+			BeanUtils.copyProperties(connectionHandler, this);
+		} catch (Exception e) {
+			throw new SQLException("Error copying properties", e);
+		}
+		Credentials credentials = new Credentials(username, password);
+		connectionHandler.setCredentials(credentials);
 		return connectionHandler.getConnection();
 	}
 

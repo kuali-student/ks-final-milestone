@@ -53,7 +53,7 @@ public class FilteredPropertyCopier {
 				BeanUtils.copyProperty(dest, property, description.get(property));
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error copying properties", e);
 		}
 	}
 
