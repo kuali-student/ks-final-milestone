@@ -26,20 +26,9 @@ import org.apache.torque.engine.database.model.Database;
 import org.xml.sax.Attributes;
 
 /**
- * A class for holding application data structures.
- * 
- * @author <a href="mailto:leon@opticode.co.za>Leon Messerschmidt</a>
- * @author <a href="mailto:jmcnally@collab.net>John McNally</a>
- * @author <a href="mailto:mpoeschl@marmot.at>Martin Poeschl</a>
- * @author <a href="mailto:dlr@collab.net>Daniel Rall</a>
- * @author <a href="mailto:byron_foster@byron_foster@yahoo.com>Byron Foster</a>
- * @author <a href="mailto:monroe@dukece.com>Greg Monroe</a>
- * @version $Id: KualiDatabase.java,v 1.1 2007-10-21 07:57:26 abyrne Exp $
+ * Extends the Torque database class to handle sequences and views
  */
 public class KualiDatabase extends Database {
-	/** Logging class from commons.logging */
-	// private static Log log = LogFactory.getLog(KualiDatabase.class);
-
 	private List<View> views = new ArrayList<View>();
 	private List<Sequence> sequences = new ArrayList<Sequence>();
 
