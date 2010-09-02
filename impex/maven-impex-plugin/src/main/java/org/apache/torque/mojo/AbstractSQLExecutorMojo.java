@@ -22,7 +22,6 @@ package org.apache.torque.mojo;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Map;
@@ -30,13 +29,14 @@ import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.shared.filtering.MavenFileFilter;
+import org.apache.torque.engine.platform.Platform;
+import org.apache.torque.engine.platform.PlatformFactory;
 import org.apache.torque.mojo.configurer.JdbcConfigurer;
-import org.apache.torque.mojo.converter.ArtifactIdConverter;
 import org.kuali.core.db.torque.Utils;
+import org.kuali.db.ConnectionHandler;
 import org.kuali.db.Credentials;
 import org.kuali.db.JDBCUtils;
 import org.kuali.db.SQLExecutor;
@@ -50,6 +50,8 @@ import static org.apache.commons.lang.StringUtils.*;
 public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	Utils utils = new Utils();
 	JDBCUtils jdbcUtils = new JDBCUtils();
+	ConnectionHandler connectionHandler;
+	Platform platform;
 
 	public static final String DRIVER_INFO_PROPERTIES_USER = "user";
 	public static final String DRIVER_INFO_PROPERTIES_PASSWORD = "password";
@@ -64,28 +66,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	public static final String FILE_SORTING_DSC = "descending";
 
-	ArtifactIdConverter artifactIdConverter;
-
 	// ////////////////////////// User Info ///////////////////////////////////
-
-	/**
-	 * Class name for logic that can convert the artifact id into the name of a database. Only used if convertArtifactId
-	 * is set to true. If convertArtifactId is true, this string defaults to OracleArtifactIdConverterImpl for Oracle
-	 * and MysqlArtifactIdConverterImpl for MySQL, but the implementation can be swapped out for any other class
-	 * 
-	 * @since 1.0
-	 * @parameter expression="${artifactIdConverterImpl}"
-	 * @required
-	 */
-	String artifactIdConverterImpl;
-
-	/**
-	 * 
-	 * @since 1.0
-	 * @parameter expression="${convertArtifactId}" default-value="true"
-	 * @required
-	 */
-	boolean convertArtifactId;
 
 	/**
 	 * The type of database we are targeting eg oracle, mysql etc
@@ -95,14 +76,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * @required
 	 */
 	String targetDatabase;
-
-	/**
-	 * If no username/password is supplied, use the artifact id of the project as the username/password
-	 * 
-	 * @since 1.0
-	 * @parameter expression="${useArtifactIdForCredentials}" default-value="false"
-	 */
-	boolean useArtifactIdForCredentials;
 
 	/**
 	 * Database username. If not given, it will be looked up through <code>settings.xml</code>'s server with
@@ -132,12 +105,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean enableAnonymousPassword;
 
 	/**
-	 * Fail the build if this is set to true and database credentials are not supplied
+	 * Ignore the username and use anonymous access.
 	 * 
 	 * @since 1.4
-	 * @parameter expression="${requireDatabaseCredentials}" default-value="false"
+	 * @parameter expression="${enableAnonymousUsername}" default-value="false"
 	 */
-	boolean requireDatabaseCredentials;
+	boolean enableAnonymousUsername;
 
 	/**
 	 * Additional key=value pairs separated by comma to be passed into JDBC driver.
@@ -210,7 +183,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	// //////////////////////////// Operation Configuration ////////////////////
 	/**
-	 * Set to <code>true</code> to execute none-transactional SQL.
+	 * Set to <code>true</code> to execute non-transactional SQL.
 	 * 
 	 * @since 1.0
 	 * @parameter expression="${autocommit}" default-value="false"
@@ -306,25 +279,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	MavenFileFilter fileFilter;
 
 	/**
-	 * This gets set to true if there is an error connecting to the database
-	 */
-	boolean connectionError = false;
-
-	/**
 	 * The credentials to use for database access
 	 */
 	Credentials credentials;
 
 	protected void configureTransactions() throws MojoExecutionException {
 		// default implementation does nothing
-	}
-
-	protected String getConvertedArtifactId() {
-		if (isConvertArtifactId()) {
-			return getArtifactIdConverter().getConvertedArtifactId(getProject().getArtifactId());
-		} else {
-			return getProject().getArtifactId();
-		}
 	}
 
 	protected Properties getContextProperties() {
@@ -361,7 +321,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 		conn = getConnection();
 
-		if (connectionError && skipOnConnectionError) {
+		if (connectionHandler.isConnectionError() && skipOnConnectionError) {
 			// There was an error obtaining a connection
 			// Do not fail the build but don't do anything more
 			return;
@@ -380,25 +340,8 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		try {
 			executor.execute();
 		} catch (SQLException e) {
-			throw new MojoExecutionException(getImpexError(e, "Error executing SQL").toString(), e);
+			throw new MojoExecutionException("Error executing SQL", e);
 		}
-	}
-
-	protected ImpexError getImpexError() throws MojoExecutionException {
-		return getImpexError(null, null);
-	}
-
-	protected ImpexError getImpexError(Throwable throwable, String message) throws MojoExecutionException {
-		ImpexError ie = new ImpexError();
-		ie.setInfo(getInfo());
-		ie.setThrowable(throwable);
-		ie.setMessage(message);
-		try {
-			BeanUtils.copyProperties(ie, this);
-		} catch (Exception e) {
-			throw new MojoExecutionException("Error copying properties", e);
-		}
-		return ie;
 	}
 
 	/**
@@ -490,28 +433,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		new JdbcConfigurer().updateConfiguration(this);
-
-		if (isBlank(getArtifactIdConverterImpl())) {
-			String packageName = ArtifactIdConverter.class.getPackage().getName();
-			String impl = getImpl();
-			getLog().debug("packageName=" + packageName);
-			getLog().debug("impl=" + impl);
-			artifactIdConverterImpl = packageName + "." + getImpl();
-			getLog().debug("artifactIdConverterImpl=" + artifactIdConverterImpl);
-		}
-		if (isConvertArtifactId()) {
-			try {
-				Class<?> clazz = Class.forName(artifactIdConverterImpl);
-				artifactIdConverter = (ArtifactIdConverter) clazz.newInstance();
-			} catch (Exception e) {
-				throw new MojoExecutionException("Error instantiating converter: " + artifactIdConverterImpl, e);
-			}
-		}
-	}
-
-	protected String getImpl() {
-		String defaultImpl = ArtifactIdConverter.class.getSimpleName();
-		return targetDatabase.substring(0, 1).toUpperCase() + targetDatabase.substring(1) + defaultImpl;
+		platform = PlatformFactory.getPlatformFor(targetDatabase);
 	}
 
 	/**
@@ -521,8 +443,8 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		new JdbcConfigurer().updateConfiguration(this);
 	}
 
-	protected void validateCredentials(Credentials credentials, boolean requireCredentials, String validationFailureMessage) throws MojoExecutionException {
-		if (!requireCredentials) {
+	protected void validateCredentials(Credentials credentials, boolean anonymousAccessAllowed, String validationFailureMessage) throws MojoExecutionException {
+		if (anonymousAccessAllowed) {
 			// If credentials aren't required, don't bother validating
 			return;
 		}
@@ -546,7 +468,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		sb.append("-Dusername=myuser\n");
 		sb.append("-Dpassword=mypassword\n");
 		sb.append("\n.");
-		validateCredentials(credentials, requireDatabaseCredentials, sb.toString());
+		validateCredentials(credentials, enableAnonymousUsername && enableAnonymousPassword, sb.toString());
 	}
 
 	protected boolean isNullOrEmpty(Collection<?> c) {
@@ -598,12 +520,8 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		if (server != null) {
 			// We've successfully located a server in settings.xml, use the password from that
 			return server.getPassword();
-		} else if (useArtifactIdForCredentials) {
-			// Fall through to using the artifact id of the project as a password
-			return getConvertedArtifactId();
-		} else {
-			return null;
 		}
+		return platform.getSchemaName(getProject().getArtifactId());
 	}
 
 	protected String getUpdatedUsername(Server server, String username) {
@@ -614,55 +532,8 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		if (server != null) {
 			// We've successfully located a server in settings.xml, use the username from that
 			return server.getUsername();
-		} else if (useArtifactIdForCredentials) {
-			// Fall through to using the artifact id of the project as a username
-			return getConvertedArtifactId();
-		} else {
-			return null;
 		}
-	}
-
-	protected String trimArtifactId(String artifactId) {
-		String s = StringUtils.remove(artifactId, "-db");
-		return StringUtils.remove(s, "-");
-	}
-
-	protected Properties getInfo() throws MojoExecutionException {
-		Properties info = new Properties();
-		info.put(DRIVER_INFO_PROPERTIES_USER, credentials.getUsername());
-
-		if (!enableAnonymousPassword) {
-			info.put(DRIVER_INFO_PROPERTIES_PASSWORD, credentials.getPassword());
-		}
-
-		info.putAll(getDriverProperties());
-		return info;
-	}
-
-	protected Driver getDriverInstance() throws MojoExecutionException {
-		try {
-			Class<?> dc = Class.forName(getDriver());
-			return (Driver) dc.newInstance();
-		} catch (ClassNotFoundException e) {
-			throw new MojoExecutionException("Driver class not found: " + getDriver(), e);
-		} catch (Exception e) {
-			throw new MojoExecutionException("Failure loading driver: " + getDriver(), e);
-		}
-	}
-
-	protected void showConnectionInfo(Properties properties) {
-		getLog().info("---------------------------");
-		getLog().info("JDBC Connection Information");
-		getLog().info("---------------------------");
-		getLog().info("URL: " + getUrl());
-		getLog().info("Username: " + properties.getProperty(DRIVER_INFO_PROPERTIES_USER));
-		if (isShowPassword()) {
-			getLog().info("Password: " + properties.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD));
-		} else {
-			getLog().info("Password: *******");
-		}
-		getLog().info("Driver: " + getDriver());
-		getLog().info("---------------------------");
+		return platform.getSchemaName(getProject().getArtifactId());
 	}
 
 	/**
@@ -678,37 +549,14 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * 
 	 */
 	protected Connection getConnection() throws MojoExecutionException {
-		Properties info = getInfo();
-		Connection conn = null;
+		connectionHandler = new ConnectionHandler();
 		try {
-			Driver driverInstance = getDriverInstance();
-			showConnectionInfo(info);
-			conn = driverInstance.connect(getUrl(), info);
-
-			if (conn == null) {
-				// Driver doesn't understand the URL
-				throw new SQLException("No suitable Driver for " + getUrl());
-			}
-
-			conn.setAutoCommit(autocommit);
-		} catch (SQLException e) {
-			if (skipOnConnectionError) {
-				// Error getting the connection but they have asked us not to fail the build
-				// This mojo should now skip doing anything else, but the build may continue
-				connectionError = true;
-				return null;
-			} else {
-				// Otherwise, fail the build
-				throw new MojoExecutionException(getImpexError(e, "Connection error: " + e.getMessage()).toString(), e);
-			}
+			BeanUtils.copyProperties(connectionHandler, this);
+			return connectionHandler.getConnection();
+		} catch (Exception e) {
+			throw new MojoExecutionException("Error establishing connection", e);
 		}
-		return conn;
 	}
-
-	// protected String getConnectionErrorMessage(SQLException e, Properties info) {
-	// return getSQLExceptionErrorMessage(e, info,
-	// "The following error occurred establishing a connection to the database:");
-	// }
 
 	/**
 	 * parse driverProperties into Properties set
@@ -880,14 +728,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		return escapeProcessing;
 	}
 
-	public boolean isUseArtifactIdForCredentials() {
-		return useArtifactIdForCredentials;
-	}
-
-	public void setUseArtifactIdForCredentials(boolean useArtifactIdForCredentials) {
-		this.useArtifactIdForCredentials = useArtifactIdForCredentials;
-	}
-
 	public boolean isSkipOnConnectionError() {
 		return skipOnConnectionError;
 	}
@@ -916,14 +756,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		this.enableAnonymousPassword = enableAnonymousPassword;
 	}
 
-	public boolean isRequireDatabaseCredentials() {
-		return requireDatabaseCredentials;
-	}
-
-	public void setRequireDatabaseCredentials(boolean requireDatabaseCredentials) {
-		this.requireDatabaseCredentials = requireDatabaseCredentials;
-	}
-
 	public String getSettingsKey() {
 		return settingsKey;
 	}
@@ -944,27 +776,4 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		this.credentials = credentials;
 	}
 
-	public ArtifactIdConverter getArtifactIdConverter() {
-		return artifactIdConverter;
-	}
-
-	public void setArtifactIdConverter(ArtifactIdConverter artifactIdConverter) {
-		this.artifactIdConverter = artifactIdConverter;
-	}
-
-	public String getArtifactIdConverterImpl() {
-		return artifactIdConverterImpl;
-	}
-
-	public void setArtifactIdConverterImpl(String artifactIdConverterImpl) {
-		this.artifactIdConverterImpl = artifactIdConverterImpl;
-	}
-
-	public boolean isConvertArtifactId() {
-		return convertArtifactId;
-	}
-
-	public void setConvertArtifactId(boolean convertArtifactId) {
-		this.convertArtifactId = convertArtifactId;
-	}
 }

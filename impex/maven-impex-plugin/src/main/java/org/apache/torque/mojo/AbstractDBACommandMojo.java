@@ -19,7 +19,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	/**
 	 * The name of the database
 	 * 
-	 * @parameter expression="${database}" default-value="${project.artifactId}"
+	 * @parameter expression="${database}"
 	 * @required
 	 */
 	String database;
@@ -27,14 +27,14 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	/**
 	 * The username to use when accessing this database
 	 * 
-	 * @parameter expression="${databaseUsername}" default-value="${project.artifactId}"
+	 * @parameter expression="${databaseUsername}"
 	 */
 	String databaseUsername;
 
 	/**
 	 * The password to use when accessing this database
 	 * 
-	 * @parameter expression="${databasePassword}" default-value="${project.artifactId}"
+	 * @parameter expression="${databasePassword}"
 	 */
 	String databasePassword;
 
@@ -69,14 +69,14 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 
 	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();
-		if (getProject().getArtifactId().equals(database)) {
-			database = getConvertedArtifactId();
+		if (isEmpty(database)) {
+			database = platform.getSchemaName(getProject().getArtifactId());
 		}
-		if (getProject().getArtifactId().equals(databasePassword)) {
-			databasePassword = getConvertedArtifactId();
+		if (isEmpty(databasePassword)) {
+			databasePassword = platform.getSchemaName(getProject().getArtifactId());
 		}
-		if (getProject().getArtifactId().equals(databaseUsername)) {
-			databaseUsername = getConvertedArtifactId();
+		if (isEmpty(databaseUsername)) {
+			databaseUsername = platform.getSchemaName(getProject().getArtifactId());
 		}
 	}
 
