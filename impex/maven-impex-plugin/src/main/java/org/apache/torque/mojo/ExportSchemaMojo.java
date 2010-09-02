@@ -1,5 +1,6 @@
 package org.apache.torque.mojo;
 
+import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
 
 /**
@@ -9,7 +10,7 @@ import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
  * @goal exportschema
  * @phase generate-sources
  */
-public class ExportSchemaMojo extends AntTaskMojo {
+public class ExportSchemaMojo extends ExportMojo {
 
 	/**
 	 * Flag indicating whether or not tables will be processed. Default is true
@@ -41,10 +42,14 @@ public class ExportSchemaMojo extends AntTaskMojo {
 	private String schemaXMLName;
 
 	/**
-	 * Creates a new SQLMojo object.
+	 * Configure the Ant task
 	 */
-	public ExportSchemaMojo() {
-		super(new KualiTorqueSchemaDumpTask());
+	protected void configureTask() throws MojoExecutionException {
+		KualiTorqueSchemaDumpTask task = new KualiTorqueSchemaDumpTask();
+		setAntTask(task);
+		super.configureTask();
+		task.setIncludePatterns(getListFromCSV(getIncludes()));
+		task.setExcludePatterns(getListFromCSV(getExcludes()));
 	}
 
 	public boolean isProcessTables() {

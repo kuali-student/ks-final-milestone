@@ -39,8 +39,8 @@ public class ExportDataMojo extends ExportMojo {
 		setAntTask(task);
 		super.configureTask();
 		makeOutputDir();
-		task.setIncludePatterns(getListFromCSV(getIncludePatterns()));
-		task.setExcludePatterns(getListFromCSV(getExcludePatterns()));
+		task.setIncludePatterns(getListFromCSV(getIncludes()));
+		task.setExcludePatterns(getListFromCSV(getExcludes()));
 	}
 
 	protected void makeOutputDir() throws MojoExecutionException {

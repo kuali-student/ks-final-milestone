@@ -21,16 +21,16 @@ public abstract class ExportMojo extends AntTaskMojo {
 	/**
 	 * Comma separated list of regular expressions for tables to include in the export
 	 * 
-	 * @parameter expression="${includePatterns}"
+	 * @parameter expression="${includes}"
 	 */
-	private String includePatterns;
+	private String includes;
 
 	/**
 	 * Comma separated list of regular expressions for tables to exclude from the export
 	 * 
-	 * @parameter expression="${excludePatterns}"
+	 * @parameter expression="${excludes}"
 	 */
-	private String excludePatterns;
+	private String excludes;
 
 	/**
 	 * Database type (oracle, mysql etc)
@@ -169,20 +169,20 @@ public abstract class ExportMojo extends AntTaskMojo {
 		this.targetDatabase = targetDatabase;
 	}
 
-	public String getIncludePatterns() {
-		return includePatterns;
+	public String getIncludes() {
+		return includes;
 	}
 
-	public void setIncludePatterns(String includePatterns) {
-		this.includePatterns = includePatterns;
+	public void setIncludes(String includePatterns) {
+		this.includes = includePatterns;
 	}
 
-	public String getExcludePatterns() {
-		return excludePatterns;
+	public String getExcludes() {
+		return excludes;
 	}
 
-	public void setExcludePatterns(String excludePatterns) {
-		this.excludePatterns = excludePatterns;
+	public void setExcludes(String excludePatterns) {
+		this.excludes = excludePatterns;
 	}
 
 	public String getComment() {
