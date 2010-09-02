@@ -216,7 +216,7 @@
  </bean>
  <bean id="baseKualiEffectiveDate" parent="baseDate">
  </bean>
- <!--Need to add	cross field field validation with effective date-->
+ <!--TODO: Need to add	cross field field validation with effective date-->
  <bean id="baseKualiExpirationDate" parent="baseDate">
  </bean>
 
