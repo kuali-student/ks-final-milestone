@@ -27,6 +27,7 @@ import org.apache.xml.serialize.Method;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.kuali.core.db.torque.pojo.ForeignKey;
+import org.kuali.core.db.torque.pojo.Column;
 import org.kuali.core.db.torque.pojo.Reference;
 import org.kuali.core.db.torque.pojo.Index;
 
@@ -152,7 +153,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		return primaryKeys;
 	}
 
-	protected Element getColumnElement(KualiColumn col, String curTable) {
+	protected Element getColumnElement(Column col, String curTable) {
 		String name = col.getName();
 		Integer type = col.getSqlType();
 		int size = col.getSize();
@@ -228,8 +229,8 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	}
 
 	protected void processColumns(DatabaseMetaData dbMetaData, String curTable, Element table) throws SQLException {
-		List<KualiColumn> columns = getColumns(dbMetaData, curTable);
-		for (KualiColumn column : columns) {
+		List<Column> columns = getColumns(dbMetaData, curTable);
+		for (Column column : columns) {
 			Element columnElement = getColumnElement(column, curTable);
 			table.appendChild(columnElement);
 		}
@@ -465,8 +466,8 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	 * @return The list of columns in <code>tableName</code>.
 	 * @throws SQLException
 	 */
-	protected List<KualiColumn> getColumns(DatabaseMetaData dbMeta, String tableName) throws SQLException {
-		List<KualiColumn> columns = new ArrayList<KualiColumn>();
+	protected List<Column> getColumns(DatabaseMetaData dbMeta, String tableName) throws SQLException {
+		List<Column> columns = new ArrayList<Column>();
 		ResultSet columnSet = null;
 		try {
 			columnSet = dbMeta.getColumns(null, schema, tableName, null);
@@ -478,7 +479,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 				Integer nullType = new Integer(columnSet.getInt(11));
 				String defValue = columnSet.getString(13);
 
-				KualiColumn col = new KualiColumn();
+				Column col = new Column();
 				col.setName(name);
 				col.setSqlType(sqlType);
 				col.setSize(size);

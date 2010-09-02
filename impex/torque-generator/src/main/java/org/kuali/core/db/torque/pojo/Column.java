@@ -1,6 +1,6 @@
-package org.kuali.core.db.torque;
+package org.kuali.core.db.torque.pojo;
 
-public class KualiColumn {
+public class Column {
 	String name;
 	Integer sqlType;
 	Integer size;
