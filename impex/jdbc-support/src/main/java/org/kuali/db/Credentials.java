@@ -1,4 +1,4 @@
-package org.apache.torque.mojo;
+package org.kuali.db;
 
 public class Credentials {
 	String username;

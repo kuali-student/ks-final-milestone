@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
+import org.kuali.db.Credentials;
 
 import static org.apache.commons.lang.StringUtils.*;
 

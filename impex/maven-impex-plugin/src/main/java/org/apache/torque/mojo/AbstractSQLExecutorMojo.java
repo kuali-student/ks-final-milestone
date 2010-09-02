@@ -37,6 +37,7 @@ import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.torque.mojo.configurer.JdbcConfigurer;
 import org.apache.torque.mojo.converter.ArtifactIdConverter;
 import org.kuali.core.db.torque.Utils;
+import org.kuali.db.Credentials;
 import org.kuali.db.JDBCUtils;
 import org.kuali.db.SQLExecutor;
 import org.kuali.db.Transaction;
