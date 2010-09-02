@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.tools.ant.Task;
+import org.apache.torque.engine.platform.Platform;
 import org.kuali.db.ConnectionHandler;
 import org.kuali.db.Credentials;
 
@@ -13,6 +15,12 @@ public class DumpTask extends Task {
 	Utils utils = new Utils();
 
 	ConnectionHandler connectionHandler = new ConnectionHandler();
+
+	protected void updateConfiguration(Platform platform) {
+		if (StringUtils.isEmpty(schema)) {
+			schema = platform.getSchemaName(artifactId);
+		}
+	}
 
 	protected Connection getConnection() throws SQLException {
 		try {

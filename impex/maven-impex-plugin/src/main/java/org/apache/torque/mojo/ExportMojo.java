@@ -11,6 +11,14 @@ import org.kuali.core.db.torque.StringFilter;
 public abstract class ExportMojo extends AntTaskMojo {
 
 	/**
+	 * The XML file contains a name attribute for the schema being exported. This value is what will end up there
+	 * 
+	 * @parameter expression="${artifactId}" default-value="${project.artifactId}"
+	 * @required
+	 */
+	private String artifactId;
+
+	/**
 	 * Comment that gets placed into the generated XML document
 	 * 
 	 * @parameter expression="${comment}"
@@ -190,5 +198,13 @@ public abstract class ExportMojo extends AntTaskMojo {
 		DumpTask task = (DumpTask) super.getAntTask();
 		task.setIncludePatterns(StringFilter.getListFromCSV(getIncludes()));
 		task.setExcludePatterns(StringFilter.getListFromCSV(getExcludes()));
+	}
+
+	public String getArtifactId() {
+		return artifactId;
+	}
+
+	public void setArtifactId(String artifactId) {
+		this.artifactId = artifactId;
 	}
 }

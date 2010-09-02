@@ -10,7 +10,6 @@ import java.io.Writer;
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -22,15 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
 import org.apache.torque.engine.database.model.Column;
-import org.apache.torque.engine.database.model.Database;
 import org.apache.torque.engine.database.model.Table;
 import org.apache.torque.engine.platform.Platform;
 import org.apache.torque.engine.platform.PlatformFactory;
@@ -46,62 +41,11 @@ import org.w3c.dom.Element;
 import static java.sql.Types.*;
 
 /**
- * This task exports the tables specified by the schema XML resource to the file system. One table per XML file. If the
- * schema XML resource cannot be located, all tables from the schema specified will be exported.
+ * This task exports tables from a JDBC accessible database to XML
  */
-public class KualiTorqueDataDumpTask extends Task {
+public class KualiTorqueDataDumpTask extends DumpTask {
 	Utils utils = new Utils();
 	private static final String FS = System.getProperty("file.separator");
-
-	/**
-	 * Database we are exporting
-	 */
-	Database database;
-
-	/**
-	 * Encoding to use
-	 */
-	private String encoding;
-
-	/**
-	 * JDBC URL
-	 */
-	private String url;
-
-	/**
-	 * JDBC driver
-	 */
-	private String driver;
-
-	/**
-	 * Database username
-	 */
-	private String username;
-
-	/**
-	 * Database schema
-	 */
-	private String schema;
-
-	/**
-	 * Database password
-	 */
-	private String password;
-
-	/**
-	 * XML file describing the schema
-	 */
-	private String schemaXMLFile;
-
-	/**
-	 * Oracle, mysql, postgres, etc
-	 */
-	private String databaseType;
-
-	/**
-	 * The database connection used to retrieve the data to export
-	 */
-	private Connection connection;
 
 	/**
 	 * The directory where XML files will be written
@@ -113,55 +57,34 @@ public class KualiTorqueDataDumpTask extends Task {
 	 */
 	private String dateFormat = "yyyyMMddHHmmss z";
 
-	/**
-	 * List of regular expression patterns that will exclude tables
-	 */
-	private List<String> excludePatterns;
-
-	/**
-	 * List of regular expression patterns that will include tables
-	 */
-	private List<String> includePatterns;
+	protected void showConfiguration() {
+		log("Schema: " + schema);
+		log("Artifact Id: " + artifactId);
+		log("Comment: " + getComment());
+		if (getEncoding() == null) {
+			log("Encoding: " + System.getProperty("file.encoding"));
+		} else {
+			log("Encoding: " + getEncoding());
+		}
+	}
 
 	/**
 	 * Dump the data to XML files
 	 */
 	public void execute() throws BuildException {
 
-		log("Impex - Starting Data Export");
-		log("Driver: " + getDriver());
-		log("URL: " + getUrl());
-		log("Username: " + getUsername());
-		log("Schema: " + getSchema());
-		log("Encoding: " + utils.getEncoding(getEncoding()));
-
 		try {
-
-			// See if we can locate a schema XML
-			boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
-			if (exists) {
-				// Get an xml parser for the schema XML
-				KualiXmlToAppData xmlParser = new KualiXmlToAppData(getDatabaseType(), "");
-				// Parse schema XML into a database object
-				Database database = xmlParser.parseResource(getSchemaXMLFile());
-				setDatabase(database);
-				log("Schema XML: " + utils.getFilename(getSchemaXMLFile()));
-			} else {
-				log("Unable to locate " + getSchemaXMLFile(), Project.MSG_WARN);
-				log("Exporting ALL tables");
-			}
-
-			// Initialize JDBC and establish a connection to the db
-			Class.forName(getDriver());
-			connection = DriverManager.getConnection(getUrl(), getUsername(), getPassword());
-			log("DB connection established", Project.MSG_DEBUG);
+			log("--------------------------------------");
+			log("Impex - Data Export");
+			log("--------------------------------------");
+			showConfiguration();
+			Platform platform = PlatformFactory.getPlatformFor(targetDatabase);
+			updateConfiguration(platform);
 
 			// Generate the XML
-			generateXML(connection);
+			generateXML();
 		} catch (Exception e) {
 			throw new BuildException(e);
-		} finally {
-			closeQuietly(connection);
 		}
 	}
 
@@ -281,7 +204,7 @@ public class KualiTorqueDataDumpTask extends Task {
 	/**
 	 * Generate and return the dataset Element
 	 */
-	protected Element getDatasetNode(DocumentImpl document, Platform platform, DatabaseMetaData dbMetaData, String tableName) throws SQLException {
+	protected Element getDatasetNode(Connection connection, DocumentImpl document, Platform platform, DatabaseMetaData dbMetaData, String tableName) throws SQLException {
 		Element datasetNode = document.createElement("dataset");
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -319,26 +242,19 @@ public class KualiTorqueDataDumpTask extends Task {
 	 * Return the systemId to use
 	 */
 	protected String getSystemId() {
-		if (getDatabase() != null && getDatabase().getName() != null) {
-			return getDatabase().getName() + "-data.dtd";
-		} else if (getSchema() != null) {
-			return getSchema().toLowerCase() + "-data.dtd";
-		} else {
-			return "data.dtd";
-		}
-
+		return getArtifactId() + ".dtd";
 	}
 
 	/**
 	 * Return the XML Document object that we will serialize to disk
 	 */
-	protected DocumentImpl getDocument(String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException {
+	protected DocumentImpl getDocument(Connection connection, String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException {
 		// Generate the document type
 		DocumentTypeImpl docType = new DocumentTypeImpl(null, "dataset", null, getSystemId());
 		// Generate an empty document
 		DocumentImpl doc = new DocumentImpl(docType);
 		// Extract the data from the table
-		Element datasetNode = getDatasetNode(doc, platform, dbMetaData, tableName);
+		Element datasetNode = getDatasetNode(connection, doc, platform, dbMetaData, tableName);
 		if (datasetNode == null) {
 			// There was no data (zero rows), we are done
 			return null;
@@ -375,80 +291,47 @@ public class KualiTorqueDataDumpTask extends Task {
 		return set;
 	}
 
-	protected List<Pattern> getPatterns(List<String> patterns) {
-		List<Pattern> regexPatterns = new ArrayList<Pattern>();
-		for (String pattern : patterns) {
-			Pattern regexPattern = Pattern.compile(pattern);
-			regexPatterns.add(regexPattern);
-		}
-		return regexPatterns;
-	}
-
-	protected boolean isMatch(String s, List<Pattern> patterns) {
-		for (Pattern pattern : patterns) {
-			Matcher matcher = pattern.matcher(s);
-			if (matcher.matches()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected Set<String> getFilteredTableNames(Set<String> tableNames) {
-		// Do we have a valid schema XML file?
-		boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
-		if (!exists) {
-			return tableNames;
-		}
-
-		// If so, only export data for tables that are listed in the schema XML
-		Set<String> schemaXMLNames = getSet(getTableNamesFromTableObjects(getDatabase().getTables()));
-		// These are tables that are in JDBC but not in schema XML
-		Set<String> extraTables = SetUtils.difference(tableNames, schemaXMLNames);
-		// These are tables that are in schema XML but not in JDBC (should always be zero)
-		Set<String> missingTables = SetUtils.difference(schemaXMLNames, tableNames);
-		// These are tables that are in both JDBC and the schema XML
-		Set<String> intersection = SetUtils.intersection(tableNames, schemaXMLNames);
-		// Log what we are up to
-		log("Schema XML Table Count: " + schemaXMLNames.size());
-		log("Tables present in both: " + intersection.size());
-		log("Tables in JDBC that are not in " + new File(getSchemaXMLFile()).getName() + ": " + extraTables.size());
-		if (missingTables.size() > 0) {
-			log("There are " + missingTables.size() + " tables defined in " + new File(getSchemaXMLFile()).getName() + " that are not being returned by JDBC [" + missingTables + "]", Project.MSG_WARN);
-		}
-		return intersection;
-	}
-
 	/**
 	 * Generate XML from the data in the tables in the database
 	 */
-	protected void generateXML(Connection con) throws Exception {
-		// Get metadata about the database
-		DatabaseMetaData dbMetaData = con.getMetaData();
-		// Get the correct platform (oracle, mysql etc)
-		Platform platform = PlatformFactory.getPlatformFor(getDatabaseType());
-		// Get ALL the table names
-		Set<String> jdbcTableNames = getSet(getJDBCTableNames(dbMetaData));
-		log("Complete JDBC Table Count: " + jdbcTableNames.size());
-		Set<String> filteredTableNames = getFilteredTableNames(jdbcTableNames);
+	protected void generateXML() throws Exception {
+		Connection connection = null;
 
-		StringFilter filterer = new StringFilter(includePatterns, excludePatterns);
-		filterer.filter(filteredTableNames.iterator());
+		try {
+			connection = getConnection();
+			// Get metadata about the database
+			DatabaseMetaData dbMetaData = connection.getMetaData();
+			// Get the correct platform (oracle, mysql etc)
+			Platform platform = PlatformFactory.getPlatformFor(getTargetDatabase());
+			// Get ALL the table names
+			Set<String> tableNames = getSet(getJDBCTableNames(dbMetaData));
+			log("Table Count: " + tableNames.size());
+			int completeSize = tableNames.size();
 
-		log("Filtered JDBC Table Count: " + filteredTableNames.size());
+			StringFilter filterer = new StringFilter(includePatterns, excludePatterns);
+			filterer.filter(tableNames.iterator());
 
-		processTables(filteredTableNames, platform, dbMetaData);
+			int filteredSize = tableNames.size();
+
+			if (filteredSize != completeSize) {
+				log("Filtered table Count: " + tableNames.size());
+			}
+
+			processTables(connection, tableNames, platform, dbMetaData);
+		} catch (Exception e) {
+			closeQuietly(connection);
+		}
 	}
 
 	/**
 	 * Process the tables, keeping track of which tables had at least one row of data
 	 */
-	protected void processTables(Set<String> tableNames, Platform platform, DatabaseMetaData dbMetaData) throws IOException, SQLException {
+	protected void processTables(Connection connection, Set<String> tableNames, Platform platform, DatabaseMetaData dbMetaData) throws IOException, SQLException {
 		long start = System.currentTimeMillis();
 		int exportCount = 0;
 		int skipCount = 0;
 		for (String tableName : tableNames) {
-			boolean exported = processTable(tableName, platform, dbMetaData);
+			boolean exported = processTable(connection, tableName, platform, dbMetaData);
 			if (exported) {
 				exportCount++;
 			} else {
@@ -464,13 +347,13 @@ public class KualiTorqueDataDumpTask extends Task {
 	/**
 	 * Process one table. Only create an XML file if there is at least one row of data
 	 */
-	protected boolean processTable(String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException, IOException {
+	protected boolean processTable(Connection connection, String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException, IOException {
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(1);
 		nf.setMinimumFractionDigits(1);
 		log("Processing: " + tableName, Project.MSG_DEBUG);
 		long ts1 = System.currentTimeMillis();
-		DocumentImpl doc = getDocument(tableName, platform, dbMetaData);
+		DocumentImpl doc = getDocument(connection, tableName, platform, dbMetaData);
 		long ts2 = System.currentTimeMillis();
 		log(utils.pad("Extracting: " + tableName + " ", ts2 - ts1), Project.MSG_DEBUG);
 		boolean exported = false;
@@ -565,62 +448,6 @@ public class KualiTorqueDataDumpTask extends Task {
 		return tables;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getDriver() {
-		return driver;
-	}
-
-	public void setDriver(String driver) {
-		this.driver = driver;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getSchema() {
-		return schema;
-	}
-
-	public void setSchema(String schema) {
-		this.schema = schema;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getDatabaseType() {
-		return databaseType;
-	}
-
-	public void setDatabaseType(String databaseType) {
-		this.databaseType = databaseType;
-	}
-
-	public String getSchemaXMLFile() {
-		return schemaXMLFile;
-	}
-
-	public void setSchemaXMLFile(String schemaXMLFile) {
-		this.schemaXMLFile = schemaXMLFile;
-	}
-
 	public File getOutputDirectory() {
 		return outputDirectory;
 	}
@@ -635,37 +462,5 @@ public class KualiTorqueDataDumpTask extends Task {
 
 	public void setDateFormat(String dateFormat) {
 		this.dateFormat = dateFormat;
-	}
-
-	public String getEncoding() {
-		return encoding;
-	}
-
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
-
-	public Database getDatabase() {
-		return database;
-	}
-
-	public void setDatabase(Database database) {
-		this.database = database;
-	}
-
-	public List<String> getExcludePatterns() {
-		return excludePatterns;
-	}
-
-	public void setExcludePatterns(List<String> excludePatterns) {
-		this.excludePatterns = excludePatterns;
-	}
-
-	public List<String> getIncludePatterns() {
-		return includePatterns;
-	}
-
-	public void setIncludePatterns(List<String> includePatterns) {
-		this.includePatterns = includePatterns;
 	}
 }

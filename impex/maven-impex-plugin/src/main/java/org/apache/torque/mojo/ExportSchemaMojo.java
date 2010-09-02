@@ -34,14 +34,6 @@ public class ExportSchemaMojo extends ExportMojo {
 	private boolean processSequences;
 
 	/**
-	 * The XML file contains a name attribute for the schema being exported. This value is what will end up there
-	 * 
-	 * @parameter expression="${artifactId}" default-value="${project.artifactId}"
-	 * @required
-	 */
-	private String artifactId;
-
-	/**
 	 * The file that the schema XML will get written to
 	 * 
 	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
@@ -80,14 +72,6 @@ public class ExportSchemaMojo extends ExportMojo {
 
 	public void setProcessSequences(boolean processSequences) {
 		this.processSequences = processSequences;
-	}
-
-	public String getArtifactId() {
-		return artifactId;
-	}
-
-	public void setArtifactId(String schemaXMLName) {
-		this.artifactId = schemaXMLName;
 	}
 
 	public String getSchemaXMLFile() {

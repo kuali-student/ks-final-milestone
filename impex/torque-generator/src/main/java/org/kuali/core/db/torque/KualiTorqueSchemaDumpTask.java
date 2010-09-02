@@ -77,12 +77,6 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 		}
 	}
 
-	protected void updateConfiguration(Platform platform) {
-		if (StringUtils.isEmpty(schema)) {
-			schema = platform.getSchemaName(artifactId);
-		}
-	}
-
 	protected DocumentImpl getDocumentImpl() {
 		DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, ImpexDTDResolver.DTD_LOCATION);
 		DocumentImpl doc = new DocumentImpl(docType);
