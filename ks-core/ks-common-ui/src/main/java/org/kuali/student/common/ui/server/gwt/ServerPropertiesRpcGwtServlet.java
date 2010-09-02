@@ -67,6 +67,13 @@ public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet implemen
 	}
 
 	@Override
+	public String getContextPath(){
+		String contextPath = this.getThreadLocalRequest().getContextPath();
+		logger.info("Returning servlet path of [" + contextPath + "]");		
+		return contextPath;
+	}
+
+	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		try {
