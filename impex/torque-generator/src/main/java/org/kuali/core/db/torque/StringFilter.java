@@ -89,12 +89,12 @@ public class StringFilter {
 		while (itr.hasNext()) {
 			String s = itr.next();
 			if (!isInclude(s)) {
-				log.info("Excluding " + s);
+				log.info("Skipping " + s);
 				itr.remove();
 				continue;
 			}
 			if (isExclude(s)) {
-				log.info("Excluding " + s);
+				log.info("Skipping " + s);
 				itr.remove();
 			}
 		}

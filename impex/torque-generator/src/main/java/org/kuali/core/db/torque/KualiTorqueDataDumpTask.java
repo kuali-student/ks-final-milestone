@@ -40,6 +40,7 @@ import org.apache.xerces.util.XMLChar;
 import org.apache.xml.serialize.Method;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
+import static org.kuali.db.JDBCUtils.*;
 import org.w3c.dom.Element;
 
 import static java.sql.Types.*;
@@ -413,7 +414,7 @@ public class KualiTorqueDataDumpTask extends Task {
 		log("Tables present in both: " + intersection.size());
 		log("Tables in JDBC that are not in " + new File(getSchemaXMLFile()).getName() + ": " + extraTables.size());
 		if (missingTables.size() > 0) {
-			log("There are " + missingTables.size() + " tables defined in " + getSchemaXMLFile() + " that are not being returned by JDBC [" + missingTables + "]", Project.MSG_WARN);
+			log("There are " + missingTables.size() + " tables defined in " + new File(getSchemaXMLFile()).getName() + " that are not being returned by JDBC [" + missingTables + "]", Project.MSG_WARN);
 		}
 		return intersection;
 	}
@@ -562,56 +563,6 @@ public class KualiTorqueDataDumpTask extends Task {
 		}
 		log("Found " + tables.size() + " tables.");
 		return tables;
-	}
-
-	/**
-	 * Close both, ignoring exceptions
-	 */
-	protected void closeQuietly(ResultSet rs, Connection c) {
-		closeQuietly(rs);
-		closeQuietly(c);
-	}
-
-	/**
-	 * Close, ignoring exceptions
-	 */
-	protected void closeQuietly(Statement stmt) {
-		if (stmt == null) {
-			return;
-		}
-		try {
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Close, ignoring exceptions
-	 */
-	protected void closeQuietly(Connection c) {
-		if (c == null) {
-			return;
-		}
-		try {
-			c.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Close, ignoring exceptions
-	 */
-	protected void closeQuietly(ResultSet rs) {
-		if (rs == null) {
-			return;
-		}
-		try {
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public String getUrl() {
