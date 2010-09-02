@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -31,7 +32,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 public class CatalogBrowserController extends TabbedSectionLayout
@@ -70,10 +70,10 @@ public class CatalogBrowserController extends TabbedSectionLayout
 		} else	{
     		KSBlockingProgressIndicator.addTask(initializingTask);
     		
-			metadataService.getMetadata ("BrowseCourseCatalog", "default", "default", new AsyncCallback<Metadata> (){
+			metadataService.getMetadata ("BrowseCourseCatalog", "default", "default", new KSAsyncCallback<Metadata> (){
 
 				@Override
-				public void onFailure (Throwable caught)
+				public void handleFailure (Throwable caught)
 				{
 					onReadyCallback.exec (false);
 		    		KSBlockingProgressIndicator.removeTask(initializingTask);

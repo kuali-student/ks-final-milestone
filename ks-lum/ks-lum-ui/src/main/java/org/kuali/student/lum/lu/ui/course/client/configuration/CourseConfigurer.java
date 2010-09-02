@@ -749,7 +749,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
                 searchRequest.setSortColumn("person.resultColumn.GivenName");
                 searchRequest.setSortDirection(SortDirection.ASC);
-                searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>() {
+                searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>() {
 
                     @Override
                     public void onSuccess(SearchResult result) {
@@ -761,7 +761,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                     }
 
                     @Override
-                    public void onFailure(Throwable caught) {
+                    public void handleFailure(Throwable caught) {
                         Window.alert("Unable to contact the SearchService for the list of users");
                         people.addItem(userId, userId);
                         us.setListItems(people);

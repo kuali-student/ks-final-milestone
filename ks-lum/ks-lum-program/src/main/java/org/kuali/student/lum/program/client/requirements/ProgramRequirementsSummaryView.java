@@ -1,7 +1,12 @@
 package org.kuali.student.lum.program.client.requirements;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -29,7 +34,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ProgramRequirementsSummaryView extends VerticalSectionView {
@@ -57,9 +61,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         isReadOnly = (parentController == null ? true : false);
 
         //retrieve available program requirement types
-        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", new AsyncCallback<List<StatementTypeInfo>>() {
+        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", new KSAsyncCallback<List<StatementTypeInfo>>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
 	            Window.alert(caught.getMessage());
 	            GWT.log("getStatementTypes failed", caught);
             }
@@ -87,9 +91,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 //retrieve program requirements
                 /* TODO test when program service is ready
                 for (String programReq : programRequirements) {
-                    programRemoteService.getProgramRequirement(programReq, new AsyncCallback<ProgramRequirementInfo>() {
+                    programRemoteService.getProgramRequirement(programReq, new KSAsyncCallback<ProgramRequirementInfo>() {
                         @Override
-                        public void onFailure(Throwable caught) {
+                        public void handleFailure(Throwable caught) {
                             Window.alert(caught.getMessage());
                             GWT.log("getProgramRequirement failed", caught);
                         }

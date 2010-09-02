@@ -18,6 +18,7 @@ package org.kuali.student.lum.lu.ui.main.client;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -33,7 +34,6 @@ import org.kuali.student.lum.lu.ui.main.client.widgets.ApplicationHeader;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
@@ -72,7 +72,7 @@ public class LUMMainEntryPoint implements EntryPoint{
         MessageList lumMessageList =  getMsgSerializedObject("luMessages" );
         context.addMessages(commonMessageList.getMessages());
         context.addMessages(lumMessageList.getMessages());
- }
+    }
 
     @SuppressWarnings("unchecked")
     public  <T> T getMsgSerializedObject(String key ) throws SerializationException
@@ -91,8 +91,8 @@ public class LUMMainEntryPoint implements EntryPoint{
     public void loadApp(final ApplicationContext context){
         SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
         
-        securityRpc.getPrincipalUsername(new AsyncCallback<String>(){
-            public void onFailure(Throwable caught) {
+        securityRpc.getPrincipalUsername(new KSAsyncCallback<String>(){
+            public void handleFailure(Throwable caught) {
                 context.setUserId("Unknown");
                 initScreen();
             }

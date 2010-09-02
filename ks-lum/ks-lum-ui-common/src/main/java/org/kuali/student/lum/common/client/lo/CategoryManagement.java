@@ -18,6 +18,7 @@ package org.kuali.student.lum.common.client.lo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -27,9 +28,9 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.lum.common.client.lo.rpc.LoRpcService;
+import org.kuali.student.lum.common.client.lo.rpc.LoRpcServiceAsync;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.lum.common.client.lo.rpc.LoRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,7 +39,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -124,9 +124,9 @@ public class CategoryManagement extends Composite {
         
         mainPanel.add(messageLabel);
 
-        loRpcServiceAsync.getLoCategoryTypes(new AsyncCallback<List<LoCategoryTypeInfo>>() {
+        loRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 GWT.log("getLoCategoryTypes failed", caught);
                 Window.alert("Get LoCategory Types failed");
             }
@@ -176,9 +176,9 @@ public class CategoryManagement extends Composite {
             public void onClick(ClickEvent event) {
                 
                 String id = categoryManagementTable.getSelectedLoCategoryInfoId();
-                loRpcServiceAsync.getLoCategory(id, new AsyncCallback<LoCategoryInfo>() {
+                loRpcServiceAsync.getLoCategory(id, new KSAsyncCallback<LoCategoryInfo>() {
                     @Override
-                    public void onFailure(Throwable caught) {
+                    public void handleFailure(Throwable caught) {
                         GWT.log("getSelectedLoCategoryInfo failed", caught);
                         Window.alert("Get Selected Lo Category failed");
                     }
@@ -197,9 +197,9 @@ public class CategoryManagement extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 String id = categoryManagementTable.getSelectedLoCategoryInfoId();
-                loRpcServiceAsync.getLoCategory(id, new AsyncCallback<LoCategoryInfo>() {
+                loRpcServiceAsync.getLoCategory(id, new KSAsyncCallback<LoCategoryInfo>() {
                     @Override
-                    public void onFailure(Throwable caught) {
+                    public void handleFailure(Throwable caught) {
                         GWT.log("getSelectedLoCategoryInfo failed", caught);
                         Window.alert("Get Selected Lo Category failed");
                     }
@@ -292,9 +292,9 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     // not really deleting; rather 'retiring' LoCategory, but switching state to "inactive"
                 	categoryInfo.setState("inactive");
-                    CategoryManagement.loRpcServiceAsync.updateLoCategory(categoryInfo.getId(), categoryInfo, new AsyncCallback<LoCategoryInfo>() {
+                    CategoryManagement.loRpcServiceAsync.updateLoCategory(categoryInfo.getId(), categoryInfo, new KSAsyncCallback<LoCategoryInfo>() {
                         @Override
-                        public void onFailure(Throwable caught) {
+                        public void handleFailure(Throwable caught) {
                             GWT.log("updateLoCategory failed ", caught);
                             Window.alert("Switch LoCategory state to inactive failed ");
                         }
@@ -356,9 +356,9 @@ public class CategoryManagement extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
-                    CategoryManagement.loRpcServiceAsync.updateLoCategory(cate.getId(), cate, new AsyncCallback<LoCategoryInfo>() {
+                    CategoryManagement.loRpcServiceAsync.updateLoCategory(cate.getId(), cate, new KSAsyncCallback<LoCategoryInfo>() {
                         @Override
-                        public void onFailure(Throwable caught) {
+                        public void handleFailure(Throwable caught) {
                             GWT.log("updateLoCategory failed ", caught);
                             Window.alert("Update LoCategory failed ");
                         }
@@ -437,9 +437,9 @@ public class CategoryManagement extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
-                    CategoryManagement.loRpcServiceAsync.createLoCategory(cate.getLoRepository(), cate.getType(), cate, new AsyncCallback<LoCategoryInfo>() {
+                    CategoryManagement.loRpcServiceAsync.createLoCategory(cate.getLoRepository(), cate.getType(), cate, new KSAsyncCallback<LoCategoryInfo>() {
                         @Override
-                        public void onFailure(Throwable caught) {
+                        public void handleFailure(Throwable caught) {
                             GWT.log("createLoCategory failed ", caught);
                             Window.alert("Create LoCategory failed ");
                         }

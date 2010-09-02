@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
@@ -43,7 +44,6 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -109,8 +109,8 @@ public class ApplicationHeader extends Composite{
 		if (!loaded){
 			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION, CODE_SERVER);
 
-	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
-	            public void onFailure(Throwable caught) {
+	        serverPropertiesRpcService.get(serverPropertyList, new KSAsyncCallback<Map<String,String>>() {
+	            public void handleFailure(Throwable caught) {
 	            	//ignoring, we'll use the default
 	            	init();
 	            }

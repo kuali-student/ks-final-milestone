@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
@@ -132,9 +133,8 @@ public class WorkflowUtilities{
 			public void onClick(ClickEvent event) {
 				dialog.getConfirmButton().setEnabled(false);
 				parentController.fireApplicationEvent(new SubmitProposalEvent());
-				workflowRpcServiceAsync.submitDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.submitDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error starting Proposal workflow");
 						dialog.getConfirmButton().setEnabled(true);
 					}
@@ -185,12 +185,8 @@ public class WorkflowUtilities{
 		
 		if (workflowId != null && !workflowId.isEmpty()){
 			//Determine which workflow actions are displayed in the drop down
-			workflowRpcServiceAsync.getActionsRequested(workflowId, new AsyncCallback<String>(){
-	
-				public void onFailure(Throwable caught) {
-					// TODO
-				}
-	
+			workflowRpcServiceAsync.getActionsRequested(workflowId, new KSAsyncCallback<String>(){
+		
 				public void onSuccess(String result) {
 					items.clear();
 					if(result.contains("S")){
@@ -218,9 +214,9 @@ public class WorkflowUtilities{
 				}
 			});
 		
-			workflowRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
+			workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>(){
 				@Override
-				public void onFailure(Throwable caught) {
+				public void handleFailure(Throwable caught) {
 					workflowStatusLabel.setText("Status: Unknown");
 				}
 
@@ -238,9 +234,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfFYIWorkflowItem;
 		wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {	        	
-				workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error FYIing Proposal");
 					}
 					public void onSuccess(
@@ -264,9 +259,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfAcknowledgeItem;
 		wfAcknowledgeItem = new KSMenuItemData("Acknowledge Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
-				workflowRpcServiceAsync.acknowledgeDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.acknowledgeDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error acknowledging Proposal");
 					}
 					public void onSuccess(
@@ -290,9 +284,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfDisApproveItem;
 		wfDisApproveItem = new KSMenuItemData("Disapprove Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {        	
-				workflowRpcServiceAsync.disapproveDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.disapproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error disapproving Proposal");
 					}
 					public void onSuccess(
@@ -315,9 +308,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfApproveItem;
 		wfApproveItem= new KSMenuItemData("Approve Proposal", new ClickHandler(){
 			public void onClick(ClickEvent event) {
-				workflowRpcServiceAsync.approveDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.approveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error approving Proposal");
 					}
 					public void onSuccess(Boolean result) {
@@ -340,8 +332,8 @@ public class WorkflowUtilities{
     	wfWithdrawItem = new KSMenuItemData("Withdraw Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
 	        	
-				workflowRpcServiceAsync.withdrawDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(Throwable caught) {
+				workflowRpcServiceAsync.withdrawDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						GWT.log("Error Withdrawing Proposal", caught);
 						Window.alert("Error Withdrawing Proposal");
 					}

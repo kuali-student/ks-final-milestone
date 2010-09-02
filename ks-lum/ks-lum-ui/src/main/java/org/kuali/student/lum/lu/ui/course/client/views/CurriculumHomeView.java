@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -29,7 +30,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -98,9 +98,9 @@ public class CurriculumHomeView extends ViewComposite{
     }
     
     private void addIfPermitted(PermissionType permType, final String searchType, Map<String,String> permissionAttributes) {
-        cluProposalRpcServiceAsync.isAuthorized(permType, permissionAttributes, new AsyncCallback<Boolean>() {
+        cluProposalRpcServiceAsync.isAuthorized(permType, permissionAttributes, new KSAsyncCallback<Boolean>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override
@@ -120,9 +120,9 @@ public class CurriculumHomeView extends ViewComposite{
     }
 	
     private void addCourseSearchWindow(){
-        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override
@@ -145,9 +145,9 @@ public class CurriculumHomeView extends ViewComposite{
 
     private void addProposalSearchWindow(){
                         
-        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override
@@ -169,9 +169,9 @@ public class CurriculumHomeView extends ViewComposite{
     }
     
     private void addMajorSearchWindow(){
-        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override

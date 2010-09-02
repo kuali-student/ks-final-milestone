@@ -17,9 +17,9 @@ package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -30,22 +30,15 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
 import org.kuali.student.core.assembly.data.Data.DataType;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.impl.CrossSearchManager;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -147,10 +140,10 @@ public class SearchResultsTable extends Composite{
         	searchRequest.setNeededTotalResults(true);
         }
 
-        searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
+        searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
 
             @Override
-            public void onFailure(Throwable cause) {
+            public void handleFailure(Throwable cause) {
                 GWT.log("Failed to perform search", cause); //FIXME more detail info here
                 Window.alert("Failed to perform search");
             }

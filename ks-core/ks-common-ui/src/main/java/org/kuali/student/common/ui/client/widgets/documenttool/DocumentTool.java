@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.documenttool;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
@@ -33,7 +34,6 @@ import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -50,7 +50,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -108,10 +107,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 				  progressBar.setMaxProgress(0);
 				  fileProgressTable.clear();
 				  progressWindow.show();
-				  uploadStatusRpc.getUploadId(new AsyncCallback<String>(){
+				  uploadStatusRpc.getUploadId(new KSAsyncCallback<String>(){
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void handleFailure(Throwable caught) {
 						progressLabel.setText("Could not contact server.");
 						progressButtons.getButton(OkEnum.Ok).setEnabled(true);
 					}
@@ -126,10 +125,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 							private boolean maxSet = false;
 							@Override
 							public void run() {
-								uploadStatusRpc.getUploadStatus(result, new AsyncCallback<UploadStatus>(){
+								uploadStatusRpc.getUploadStatus(result, new KSAsyncCallback<UploadStatus>(){
 
 									@Override
-									public void onFailure(Throwable caught) {
+									public void handleFailure(Throwable caught) {
 										progressLabel.setText("Unable to query upload status.");
 										progressButtons.getButton(OkEnum.Ok).setEnabled(true);
 										refreshDocuments();
@@ -245,10 +244,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	}
 
 	private void isAuthorizedUploadDocuments() {
-        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new AsyncCallback<Boolean>() {
+        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
 
 			@Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
 				GWT.log("Error checking permission for adding comments: ", caught);
 				throw new RuntimeException("Error checking Permissions: ", caught);
             }
@@ -419,10 +418,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         if(referenceId != null && !(referenceId.isEmpty())){
         	documentList.add(loadingDocuments);
 	        try {
-	        	documentRelationRpc.getRefDocIdsForRef(referenceId, new AsyncCallback<List<RefDocRelationInfoMock>>(){
+	        	documentRelationRpc.getRefDocIdsForRef(referenceId, new KSAsyncCallback<List<RefDocRelationInfoMock>>(){
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void handleFailure(Throwable caught) {
 						GWT.log("getRefDocIdsForRef failed", caught);
 						documentList.remove(loadingDocuments);
 
@@ -471,23 +470,11 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                 	 try {
                 		 //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
                 		 //before delete
-             			documentRelationRpc.deleteRefDocRelation(Document.this.info.getId(), new AsyncCallback<StatusInfo>(){
-
-							@Override
-							public void onFailure(Throwable caught) {
-                              KSErrorDialog.show(caught);
-                            }
-
+             			documentRelationRpc.deleteRefDocRelation(Document.this.info.getId(), new KSAsyncCallback<StatusInfo>(){
 							@Override
 							public void onSuccess(StatusInfo result) {
 		             			try {
-									documentServiceAsync.deleteDocument(Document.this.info.getDocumentId(), new AsyncCallback<StatusInfo>(){
-
-										@Override
-										public void onFailure(Throwable caught) {
-                                            KSErrorDialog.show(caught);
-										}
-
+									documentServiceAsync.deleteDocument(Document.this.info.getDocumentId(), new KSAsyncCallback<StatusInfo>(){
 										@Override
 										public void onSuccess(StatusInfo result) {
 											refreshDocuments();

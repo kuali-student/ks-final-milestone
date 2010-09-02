@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.SelectItemWidgetBinding;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -68,7 +69,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -298,12 +298,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     private void populateListWidget(LookupMetadata inLookupMetadata){
         SearchRequest sr = initializeSearchRequest(inLookupMetadata);
-        searchRpcServiceAsync.search(sr, new AsyncCallback<SearchResult>(){
-
-            @Override
-            public void onFailure(Throwable cause) {
-                KSErrorDialog.show(cause);
-            }
+        searchRpcServiceAsync.search(sr, new KSAsyncCallback<SearchResult>(){
 
             @Override
             public void onSuccess(SearchResult results) {

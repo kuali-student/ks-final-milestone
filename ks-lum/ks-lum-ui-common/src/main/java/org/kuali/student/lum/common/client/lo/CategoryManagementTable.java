@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
@@ -27,8 +28,8 @@ import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBui
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
 import org.kuali.student.lum.common.client.lo.rpc.LoRpcService;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.common.client.lo.rpc.LoRpcServiceAsync;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
@@ -36,7 +37,6 @@ import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -74,9 +74,9 @@ public class CategoryManagementTable extends Composite {
      */
     public static void setDisplayOnlyActiveCategories() {
         if (null == displayOnlyActiveCategories) {
-            serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
+            serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new KSAsyncCallback<String>() {
                 @Override
-                public void onFailure(Throwable caught) {
+                public void handleFailure(Throwable caught) {
                     GWT.log("get displayOnlyActiveLoCategories failed", caught);
                     Window.alert("Failed to get displayOnlyActiveLoCategories setting");
                 }
@@ -259,9 +259,9 @@ public class CategoryManagementTable extends Composite {
     }
     
     public void loadTable() {
-        loRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new AsyncCallback<List<LoCategoryInfo>>() {
+        loRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new KSAsyncCallback<List<LoCategoryInfo>>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 GWT.log("getLoCategories failed", caught);
                 Window.alert("Get LoCategories failed");
             }

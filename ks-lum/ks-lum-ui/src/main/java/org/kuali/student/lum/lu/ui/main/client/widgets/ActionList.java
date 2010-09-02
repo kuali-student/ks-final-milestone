@@ -19,13 +19,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 
@@ -49,8 +47,8 @@ public class ActionList extends Composite {
 	    if (!loaded && actionListUrl == null){
 			List<String> serverPropertyList = Arrays.asList(ACTION_LIST_URL);
 			
-	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
-	            public void onFailure(Throwable caught) {
+	        serverPropertiesRpcService.get(serverPropertyList, new KSAsyncCallback<Map<String,String>>() {
+	            public void handleFailure(Throwable caught) {
 	            	loaded = false;
 	            }
 	            

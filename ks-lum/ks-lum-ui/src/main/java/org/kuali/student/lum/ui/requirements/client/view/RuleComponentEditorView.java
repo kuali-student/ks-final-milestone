@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -182,8 +183,8 @@ public class RuleComponentEditorView extends ViewComposite {
             }       	
        });
         
-        requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(getSelectedStatementType(), new AsyncCallback<List<ReqComponentTypeInfo>>() {
-            public void onFailure(Throwable cause) {
+        requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(getSelectedStatementType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
+            public void handleFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + getSelectedStatementType(), cause);
             	Window.alert("Failed to get req. component types for statement of type:" + getSelectedStatementType());
             }
@@ -372,8 +373,8 @@ public class RuleComponentEditorView extends ViewComposite {
         reqCompDetailsPanel.setStyleName("KS-Rules-ReqCompEdit-Width");
 
         requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE,
-                new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
+                new KSAsyncCallback<String>() {
+            public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 GWT.log("getNaturalLanguageForReqComponentInfo failed",caught);
             }
@@ -397,8 +398,8 @@ public class RuleComponentEditorView extends ViewComposite {
         exampleText1.setStyleName("KS-RuleEditor-ExampleText1");
         examplePanel.add(exampleText1);
         requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, EXAMPLE_TEMLATE, TEMLATE_LANGUAGE,
-                new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
+                new KSAsyncCallback<String>() {
+            public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 GWT.log("getNaturalLanguageForReqComponentInfo failed", caught);
             }
@@ -599,9 +600,9 @@ public class RuleComponentEditorView extends ViewComposite {
 			cluSet.setReusable(new Boolean(false));
 			cluSet.setReferenceable(new Boolean(false));
 
-			cluSetManagementRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>() {
+			cluSetManagementRpcServiceAsync.saveData(cluProposalModel.getRoot(), new KSAsyncCallback<DataSaveResult>() {
                 @Override
-                public void onFailure(Throwable caught) {
+                public void handleFailure(Throwable caught) {
 	                Window.alert(caught.getMessage());
 	                GWT.log("Create Cluset failed",caught);
                 }
@@ -648,9 +649,9 @@ public class RuleComponentEditorView extends ViewComposite {
 			}      	
         };
      
-    	AsyncCallback<DataSaveResult> saveCluSetCallback = new AsyncCallback<DataSaveResult>() {
+    	KSAsyncCallback<DataSaveResult> saveCluSetCallback = new KSAsyncCallback<DataSaveResult>() {
     		@Override
-    		public void onFailure(Throwable caught) {
+    		public void handleFailure(Throwable caught) {
     			saveFailedCallback.exec(caught);    
     		}
     		
@@ -1123,8 +1124,8 @@ public class RuleComponentEditorView extends ViewComposite {
 
     private void updateNLAndExit() {
     	if (editedReqComp.getType() != null && !editedReqComp.getType().isEmpty()) {
-	    	requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.RULEEDIT", TEMLATE_LANGUAGE, new AsyncCallback<String>() {
-	            public void onFailure(Throwable caught) {
+	    	requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.RULEEDIT", TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+	            public void handleFailure(Throwable caught) {
 	                Window.alert(caught.getMessage());
 	                GWT.log("getNaturalLanguageForReqComponentInfo failed",caught);
 	            }

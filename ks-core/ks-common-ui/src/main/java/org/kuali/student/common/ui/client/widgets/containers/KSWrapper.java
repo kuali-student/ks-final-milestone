@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
@@ -42,14 +43,12 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -60,8 +59,8 @@ public class KSWrapper extends Composite{
 
     private static final String LUM_APP_URL		= "lum.application.url";
     private static final String APP_URL			= "application.url";
-    private static final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
-    private static final String RICE_URL           = "ks.rice.url";
+    private static final String DOC_SEARCH_URL	= "ks.rice.docSearch.serviceAddress";
+    private static final String RICE_URL		= "ks.rice.url";
     private static final String RICE_LINK_LABEL	= "ks.rice.label";
     private static final String APP_VERSION		= "ks.application.version";
     
@@ -112,8 +111,8 @@ public class KSWrapper extends Composite{
 		if (!loaded){
 			List<String> serverPropertyList = Arrays.asList(APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL, APP_VERSION, CODE_SERVER);
 
-	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
-	            public void onFailure(Throwable caught) {
+	        serverPropertiesRpcService.get(serverPropertyList, new KSAsyncCallback<Map<String,String>>() {
+	            public void handleFailure(Throwable caught) {
 	            	//ignoring, we'll use the default
 	            	init();
 	            }

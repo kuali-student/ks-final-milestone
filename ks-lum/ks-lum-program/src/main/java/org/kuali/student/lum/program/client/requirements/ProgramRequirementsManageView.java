@@ -17,6 +17,7 @@ package org.kuali.student.lum.program.client.requirements;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -172,8 +173,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         public void exec(final ReqComponentInfo reqComp) {
 
             //1. update NL for the req. component
-            statementRpcServiceAsync.translateReqComponentToNL(reqComp, "KUALI.RULEEDIT", "en", new AsyncCallback<String>() {
-                public void onFailure(Throwable caught) {
+            statementRpcServiceAsync.translateReqComponentToNL(reqComp, "KUALI.RULEEDIT", "en", new KSAsyncCallback<String>() {
+                public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("translateReqComponentToNL failed", caught);
                }
@@ -199,8 +200,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     editedReqCompInfo = null;
 
                     //3. update NL for the rule
-                    statementRpcServiceAsync.translateStatementTreeViewToNL(rule, "KUALI.RULEEDIT", "en", new AsyncCallback<String>() {
-                        public void onFailure(Throwable caught) {
+                    statementRpcServiceAsync.translateStatementTreeViewToNL(rule, "KUALI.RULEEDIT", "en", new KSAsyncCallback<String>() {
+                        public void handleFailure(Throwable caught) {
                             Window.alert(caught.getMessage());
                             GWT.log("translateStatementTreeViewToNL failed", caught);
                        }
@@ -217,8 +218,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     private void retrieveAndSetupReqCompTypes() {
 
-        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new AsyncCallback<List<ReqComponentTypeInfo>>() {
-            public void onFailure(Throwable cause) {
+        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
+            public void handleFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
             	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
             }
