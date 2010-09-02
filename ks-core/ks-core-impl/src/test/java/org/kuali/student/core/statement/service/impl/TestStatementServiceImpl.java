@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -282,6 +283,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
 	@Test
+    @Ignore
+    /**
+     * @deprecated Being moved to ProgramRequirementService
+     */
 	public void testTranslateStatementTreeViewToNL_SimpleStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		StatementTreeViewInfo statementInfo = new StatementTreeViewInfo();
 		statementInfo.setType("kuali.statement.type.course.academicReadiness.prereq");
@@ -565,7 +570,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     @Test
     public void testGetReqComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         ReqComponentTypeInfo rqt = statementService.getReqComponentType("kuali.reqComponent.type.courseList.all");
-        
+
         assertNotNull(rqt);
         assertEquals(rqt.getId(), "kuali.reqComponent.type.courseList.all");
         assertEquals(rqt.getDescr(), "Student must have completed all of <kuali.reqComponent.field.type.cluSet.id>");
@@ -979,6 +984,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
+    @Ignore
+    /**
+     * @deprecated Being moved to ProgramRequirementService
+     */
     public void testGetStatementTreeView() throws Exception {
         // Tree structure should be
         //                          STMT-TV-1:OR
@@ -1009,6 +1018,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
+    @Ignore
+    /**
+     * @deprecated Being moved to ProgramRequirementService
+     */
     public void testGetStatementTreeViewForNlUsageType() throws Exception {
         // Tree structure should be:
         //                          STMT-TV-1:OR
@@ -1040,7 +1053,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
         assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
         assertEquals("Student must have completed all of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", 
+        		"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
         		subTree1.getNaturalLanguageTranslation());
 
         // check reqComps of sub-tree 2
@@ -1051,12 +1064,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
         assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
         assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", 
+        		"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
         		subTree2.getNaturalLanguageTranslation());
 
         assertEquals(
         		"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        		"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)", 
+        		"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
         		rootTree.getNaturalLanguageTranslation());
     }
 
@@ -1165,6 +1178,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
+    @Ignore
+    /**
+     * @deprecated Being moved to ProgramRequirementService
+     */
     public void testUpdateStatementTreeView() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         // Before tree is updated
         //                          STMT-TV-1:OR
@@ -1180,12 +1197,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     	StatementTreeViewInfo treeView = statementService.getStatementTreeView("STMT-TV-1");
     	updateStatementTreeViewInfo(treeView, " is edited");
-    	
+
         StatementTreeViewInfo returnedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
         List<StatementTreeViewInfo> returnedSubTrees = returnedTreeView.getStatements();
         StatementTreeViewInfo returnedSubTree1 = returnedSubTrees.get(0);
         StatementTreeViewInfo returnedSubTree2 = returnedSubTrees.get(1);
-        
+
         // Assert updateStatementTreeView
         assertNotNull(returnedSubTree1);
         assertNotNull(returnedSubTree2);
@@ -1203,6 +1220,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
+    @Ignore
+    /**
+     * @deprecated Being moved to ProgramRequirementService
+     */
     public void testUpdateAndGetStatementTreeView() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         // Before tree is updated
         //                          STMT-TV-1:OR
@@ -1218,7 +1239,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     	StatementTreeViewInfo treeView = statementService.getStatementTreeView("STMT-TV-1");
     	updateStatementTreeViewInfo(treeView, " again");
-    	
+
         StatementTreeViewInfo updatedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
         List<StatementTreeViewInfo> updatedSubTrees = updatedTreeView.getStatements();
         StatementTreeViewInfo updatedSubTree1 = updatedSubTrees.get(0);
