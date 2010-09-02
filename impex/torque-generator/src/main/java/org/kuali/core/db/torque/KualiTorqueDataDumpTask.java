@@ -50,12 +50,17 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * The directory where XML files will be written
 	 */
-	private File outputDirectory;
+	private File outputDir;
 
 	/**
 	 * The format to use for dates/timestamps
 	 */
 	private String dateFormat = "yyyyMMddHHmmss z";
+
+	protected void showConfiguration() {
+		super.showConfiguration();
+		log("Exporting to: " + getOutputDir().getAbsolutePath());
+	}
 
 	/**
 	 * Dump the data to XML files
@@ -360,7 +365,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	 * This is where the XML will be written to
 	 */
 	protected Writer getWriter(String tableName) throws FileNotFoundException {
-		String filename = getOutputDirectory() + FS + tableName + ".xml";
+		String filename = getOutputDir() + FS + tableName + ".xml";
 		log("filename:" + filename, Project.MSG_DEBUG);
 		return new PrintWriter(new FileOutputStream(filename));
 	}
@@ -437,12 +442,12 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 		return tables;
 	}
 
-	public File getOutputDirectory() {
-		return outputDirectory;
+	public File getOutputDir() {
+		return outputDir;
 	}
 
-	public void setOutputDirectory(File outputDirectory) {
-		this.outputDirectory = outputDirectory;
+	public void setOutputDir(File outputDirectory) {
+		this.outputDir = outputDirectory;
 	}
 
 	public String getDateFormat() {

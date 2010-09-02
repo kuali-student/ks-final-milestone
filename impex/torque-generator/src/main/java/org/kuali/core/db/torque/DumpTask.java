@@ -31,6 +31,12 @@ public class DumpTask extends Task {
 		if (StringUtils.isEmpty(schema)) {
 			schema = platform.getSchemaName(artifactId);
 		}
+		if (StringUtils.isEmpty(username)) {
+			username = schema;
+		}
+		if (StringUtils.isEmpty(password)) {
+			password = schema;
+		}
 	}
 
 	protected Connection getConnection() throws SQLException {
