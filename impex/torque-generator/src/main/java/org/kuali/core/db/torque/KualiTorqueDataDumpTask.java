@@ -57,17 +57,6 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	 */
 	private String dateFormat = "yyyyMMddHHmmss z";
 
-	protected void showConfiguration() {
-		log("Schema: " + schema);
-		log("Artifact Id: " + artifactId);
-		log("Comment: " + getComment());
-		if (getEncoding() == null) {
-			log("Encoding: " + System.getProperty("file.encoding"));
-		} else {
-			log("Encoding: " + getEncoding());
-		}
-	}
-
 	/**
 	 * Dump the data to XML files
 	 */
@@ -77,9 +66,9 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			log("--------------------------------------");
 			log("Impex - Data Export");
 			log("--------------------------------------");
-			showConfiguration();
 			Platform platform = PlatformFactory.getPlatformFor(targetDatabase);
 			updateConfiguration(platform);
+			showConfiguration();
 
 			// Generate the XML
 			generateXML();

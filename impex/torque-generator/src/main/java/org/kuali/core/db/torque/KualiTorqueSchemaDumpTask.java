@@ -46,11 +46,6 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	File schemaXMLFile;
 
 	/**
-	 * Schema to dump
-	 */
-	String schema;
-
-	/**
 	 * DOM document produced.
 	 */
 	DocumentImpl doc;
@@ -66,15 +61,8 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	Map<String, String> primaryKeys;
 
 	protected void showConfiguration() {
-		log("Schema: " + schema);
-		log("Artifact Id: " + artifactId);
-		log("Exporting to: " + schemaXMLFile.getName());
-		log("Comment: " + getComment());
-		if (getEncoding() == null) {
-			log("Encoding: " + System.getProperty("file.encoding"));
-		} else {
-			log("Encoding: " + getEncoding());
-		}
+		super.showConfiguration();
+		log("Exporting to: " + schemaXMLFile.getAbsolutePath());
 	}
 
 	protected DocumentImpl getDocumentImpl() {

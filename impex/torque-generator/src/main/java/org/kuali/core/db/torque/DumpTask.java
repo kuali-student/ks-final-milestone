@@ -16,6 +16,17 @@ public class DumpTask extends Task {
 
 	ConnectionHandler connectionHandler = new ConnectionHandler();
 
+	protected void showConfiguration() {
+		log("Schema: " + schema);
+		log("Artifact Id: " + artifactId);
+		log("Database Vendor: " + getTargetDatabase());
+		if (getEncoding() == null) {
+			log("Encoding: " + System.getProperty("file.encoding"));
+		} else {
+			log("Encoding: " + getEncoding());
+		}
+	}
+
 	protected void updateConfiguration(Platform platform) {
 		if (StringUtils.isEmpty(schema)) {
 			schema = platform.getSchemaName(artifactId);
