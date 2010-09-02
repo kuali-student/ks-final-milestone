@@ -42,6 +42,14 @@ public class ExportSchemaMojo extends ExportMojo {
 	private String schemaXMLName;
 
 	/**
+	 * The file that the schema XML will get written to
+	 * 
+	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
+	 * @required
+	 */
+	private String schemaXMLFile;
+
+	/**
 	 * Configure the Ant task
 	 */
 	protected void configureTask() throws MojoExecutionException {
@@ -80,6 +88,14 @@ public class ExportSchemaMojo extends ExportMojo {
 
 	public void setSchemaXMLName(String schemaXMLName) {
 		this.schemaXMLName = schemaXMLName;
+	}
+
+	public String getSchemaXMLFile() {
+		return schemaXMLFile;
+	}
+
+	public void setSchemaXMLFile(String schemaXMLFile) {
+		this.schemaXMLFile = schemaXMLFile;
 	}
 
 }

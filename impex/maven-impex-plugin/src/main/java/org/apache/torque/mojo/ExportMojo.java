@@ -1,6 +1,7 @@
 package org.apache.torque.mojo;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.torque.mojo.configurer.JdbcConfigurer;
 import org.kuali.core.db.torque.DumpTask;
 import org.kuali.core.db.torque.StringFilter;
 
@@ -182,6 +183,9 @@ public abstract class ExportMojo extends AntTaskMojo {
 
 	@Override
 	protected void configureTask() throws MojoExecutionException {
+		JdbcConfigurer configurer = new JdbcConfigurer();
+		configurer.updateConfiguration(this);
+		configurer.validateConfiguration(this);
 		super.configureTask();
 		DumpTask task = (DumpTask) super.getAntTask();
 		task.setIncludePatterns(StringFilter.getListFromCSV(getIncludes()));
