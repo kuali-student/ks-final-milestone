@@ -9,6 +9,7 @@ public class MultiplicityFieldConfiguration {
     private MessageKeyInfo messageKeyInfo;
     private Metadata metadata;
     private MultiplicityFieldWidgetInitializer fieldWidgetInitializer;
+    private boolean isRequired;
     
     public MultiplicityFieldConfiguration(
             String fieldPath,
@@ -44,5 +45,13 @@ public class MultiplicityFieldConfiguration {
     }
     public void setFieldWidgetInitializer(MultiplicityFieldWidgetInitializer fieldWidgetInitializer) {
         this.fieldWidgetInitializer = fieldWidgetInitializer;
+    }
+
+    public boolean isRequired() {
+        return isRequired;
+    }
+
+    public void setRequired(boolean isRequired) {
+        this.isRequired = isRequired;
     }
 }

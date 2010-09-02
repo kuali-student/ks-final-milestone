@@ -18,7 +18,11 @@
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import java.util.List;
+
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+
 import com.google.gwt.user.client.ui.FlexTable;
 
 /**
@@ -71,9 +75,11 @@ public class MultiplicityTable extends FlexTable {
         if (config.isShowHeaders()) {
             //TODO should just be 1 row def for a table - throw exception if > 1?
             for (Integer row  : config.getFields().keySet()) {
-                List<FieldDescriptor> fields = config.getFields().get(row);
-                for (FieldDescriptor fd : fields) {
-                    addHeaderCell(fd.getFieldLabel());
+                List<MultiplicityFieldConfiguration> fieldConfigs = config.getFields().get(row);
+                for (MultiplicityFieldConfiguration fieldConfig : fieldConfigs) {
+                    MessageKeyInfo info = fieldConfig.getMessageKeyInfo();
+                    String title = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), info.getId());
+                    addHeaderCell(title);
                 }
             }
             nextRow();

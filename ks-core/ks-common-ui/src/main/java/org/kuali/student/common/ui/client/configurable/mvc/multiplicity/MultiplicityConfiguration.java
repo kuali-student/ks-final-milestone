@@ -62,7 +62,7 @@ public class MultiplicityConfiguration {
     int row = 0;
     
     private FieldDescriptor parentFd;
-    private Map<Integer, List<FieldDescriptor>> fields = new HashMap<Integer, List<FieldDescriptor>>();
+    private Map<Integer, List<MultiplicityFieldConfiguration>> fields = new HashMap<Integer, List<MultiplicityFieldConfiguration>>();
     protected Map<String, String> concatenatedFields = new HashMap<String, String>();
     
     private MultiplicityConfiguration nestedConfig ;
@@ -104,20 +104,20 @@ public class MultiplicityConfiguration {
      *
      * @param fieldDescriptor
      */
-    public void addField(FieldDescriptor fieldDescriptor) {
+    public void addFieldConfiguration(MultiplicityFieldConfiguration fieldDescriptor) {
     	
-        List<FieldDescriptor> fds;
+        List<MultiplicityFieldConfiguration> fds;
         if (fields.containsKey(row)) {
             fds = fields.get(row);
         }
         else {
-            fds = new ArrayList<FieldDescriptor>();
+            fds = new ArrayList<MultiplicityFieldConfiguration>();
         }
         fds.add(fieldDescriptor);
         fields.put(row, fds);
     }
     
-    public void setFields(Map<Integer, List<FieldDescriptor>> fields) {
+    public void setFields(Map<Integer, List<MultiplicityFieldConfiguration>> fields) {
         if (fields == null || fields.isEmpty()) {
             row = 0;
         } else {
@@ -141,9 +141,9 @@ public class MultiplicityConfiguration {
 	 *
 	 * @param fieldKey
 	 */
-	public void addConcatenatedField(FieldDescriptor parentField, String fieldKey){
-		addField(parentField);
-		concatenatedFields.put(parentField.getFieldKey(), fieldKey);
+	public void addConcatenatedField(MultiplicityFieldConfiguration parentField, String fieldKey){
+		addFieldConfiguration(parentField);
+		concatenatedFields.put(parentField.getFieldPath(), fieldKey);
 	}
 
     /**
@@ -162,10 +162,10 @@ public class MultiplicityConfiguration {
         }
         copy.setParent(new FieldDescriptor(getParentFd().getFieldKey(), getParentFd().getMessageKey(), getParentFd().getMetadata()));
         for (Integer row  : getFields().keySet()) {
-            List<FieldDescriptor> fields = getFields().get(row);
-            for (FieldDescriptor fd : fields) {
-                FieldDescriptor newfd = new FieldDescriptor(fd.getFieldKey(), fd.getMessageKey(), fd.getMetadata());
-                copy.addField(newfd);
+            List<MultiplicityFieldConfiguration> fields = getFields().get(row);
+            for (MultiplicityFieldConfiguration fieldConfig : fields) {
+                MultiplicityFieldConfiguration newfieldConfig = new MultiplicityFieldConfiguration(fieldConfig.getFieldPath(), fieldConfig.getMessageKeyInfo(), fieldConfig.getMetadata(), fieldConfig.getFieldWidgetInitializer());
+                copy.addFieldConfiguration(newfieldConfig);
             }
             copy.nextLine();
         }
@@ -199,7 +199,9 @@ public class MultiplicityConfiguration {
 		this.parentFd = parentFd;
 	}
 
-	public Map<Integer, List<FieldDescriptor>> getFields() {
+//	public Map<Integer, List<FieldDescriptor>> getFields() {return null;}
+
+	public Map<Integer, List<MultiplicityFieldConfiguration>> getFields() {
 		return fields;
 	}
 
@@ -340,9 +342,9 @@ public class MultiplicityConfiguration {
 
         QueryPath path = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
 
-        FieldDescriptor fd = new FieldDescriptor(path.toString(), new MessageKeyInfo(messageKey), meta);
-        fd.getFieldElement().setRequired(false);
-        addField(fd);
+        MultiplicityFieldConfiguration fieldConfig = new MultiplicityFieldConfiguration(path.toString(), new MessageKeyInfo(messageKey), meta, null);
+        fieldConfig.setRequired(false);
+        addFieldConfiguration(fieldConfig);
     }
 
 //    private String translatePath(String path, Metadata metadata) {

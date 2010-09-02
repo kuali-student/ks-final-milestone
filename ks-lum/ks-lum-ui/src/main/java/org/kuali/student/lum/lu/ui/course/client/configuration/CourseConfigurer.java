@@ -96,6 +96,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public static final String PROPOSAL_PATH = "proposal";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String COURSE_TITLE_PATH = "/courseTitle";
+    private DocumentTool documentTool;
 
     //Override paths for course and proposal so they are root
     public static final String PROPOSAL = "";
@@ -148,10 +149,12 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         layout.setDefaultView(CourseSections.SUMMARY);
         //Tools
         String tools = "Tools";
+        documentTool = new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
+        documentTool.setModelDefinition(modelDefinition);
         layout.addMenu(tools);
         layout.addMenuItem(tools, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
                 WORKFLOW_DOC_TYPE, getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
-        layout.addMenuItem(tools, new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
+        layout.addMenuItem(tools, documentTool);
 
         layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
         layout.addView(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
@@ -366,10 +369,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         if (fieldConfigs != null) {
             for (MultiplicityFieldConfig fieldConfig : fieldConfigs) {
-                FieldDescriptor fd = buildMultiplicityFD(fieldConfig.getFieldKey(),
-                        fieldConfig.getLabelKey(), parentPath.toString(), fieldConfig.getFieldWidget(),
-                        fieldConfig.getModelWidgetBinding());
-                config.addField(fd);
+                MultiplicityFieldConfiguration fc = buildMultiplicityFD(fieldConfig.getFieldKey(),
+                        fieldConfig.getLabelKey(), parentPath.toString());
+                config.addFieldConfiguration(fc);
                 if (fieldConfig.isNextLine()) {
                     config.nextLine();
                 }
@@ -397,20 +399,14 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
     }
 
-    private FieldDescriptor buildMultiplicityFD(
-            String fieldKey, String labelKey, String parentPath, 
-            Widget fieldWidget, ModelWidgetBinding fieldWidgetBinding) {
+    private MultiplicityFieldConfiguration buildMultiplicityFD(
+            String fieldKey, String labelKey, String parentPath) {
 
         QueryPath fieldPath = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
         Metadata meta = modelDefinition.getMetadata(fieldPath);
 
-        FieldDescriptor fd = new FieldDescriptor(fieldPath.toString(), generateMessageInfo(labelKey), meta);
-        if (fieldWidget != null) {
-            fd.setFieldWidget(fieldWidget);
-        }
-        if (fieldWidgetBinding != null) {
-            fd.setWidgetBinding(fieldWidgetBinding);
-        }
+        MultiplicityFieldConfiguration fd = new MultiplicityFieldConfiguration(
+                fieldPath.toString(), generateMessageInfo(labelKey), meta, null);
         
 
         return fd;
@@ -1365,8 +1361,6 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
 class MultiplicityFieldConfig {
     private String fieldKey;
     private String labelKey;
-    private Widget fieldWidget;
-    private ModelWidgetBinding modelWidgetBinding;
     boolean nextLine;
     
     public MultiplicityFieldConfig() {
@@ -1375,8 +1369,6 @@ class MultiplicityFieldConfig {
             Widget fieldWidget, ModelWidgetBinding modelWidgetBinding, boolean nextLine) {
         setFieldKey(fieldKey);
         setLabelKey(labelKey);
-        setFieldWidget(fieldWidget);
-        setModelWidgetBinding(modelWidgetBinding);
         setNextLine(nextLine);
     }
     public String getFieldKey() {
@@ -1390,18 +1382,6 @@ class MultiplicityFieldConfig {
     }
     public void setLabelKey(String labelKey) {
         this.labelKey = labelKey;
-    }
-    public Widget getFieldWidget() {
-        return fieldWidget;
-    }
-    public void setFieldWidget(Widget fieldWidget) {
-        this.fieldWidget = fieldWidget;
-    }
-    public ModelWidgetBinding getModelWidgetBinding() {
-        return modelWidgetBinding;
-    }
-    public void setModelWidgetBinding(ModelWidgetBinding modelWidgetBinding) {
-        this.modelWidgetBinding = modelWidgetBinding;
     }
     public boolean isNextLine() {
         return nextLine;

@@ -33,7 +33,6 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -199,13 +198,31 @@ public class MultiplicityGroup extends Composite {
 		}
 		else {
 			for (Integer row  : config.getFields().keySet()) {
-				List<FieldDescriptor> fields = config.getFields().get(row);
-				for (FieldDescriptor fd : fields) {
+				List<MultiplicityFieldConfiguration> fieldConfigs = config.getFields().get(row);
+				for (MultiplicityFieldConfiguration fieldConfig : fieldConfigs) {
                     //TODO  Should copy widgets/bindings too?
-                    final FieldDescriptor newfd = new FieldDescriptor(translatePath(fd.getFieldKey()), fd.getMessageKey(), fd.getMetadata());
-                    Widget fieldWidget = newfd.getFieldWidget();
+                    FieldDescriptor newfd = null;
+                    Widget fieldWidget = null;
+                    if (fieldConfig.getFieldWidgetInitializer() != null) {
+                        fieldWidget = fieldConfig.getFieldWidgetInitializer().getNewWidget();
+                        ModelWidgetBinding mwb = fieldConfig.getFieldWidgetInitializer()
+                            .getModelWidgetBindingInstance();
+                        newfd = new FieldDescriptor(
+                                translatePath(fieldConfig.getFieldPath()), 
+                                fieldConfig.getMessageKeyInfo(), 
+                                fieldConfig.getMetadata(),
+                                fieldWidget);
+                        newfd.setWidgetBinding(mwb);
+                    } else {
+                        newfd = new FieldDescriptor(
+                                translatePath(fieldConfig.getFieldPath()), 
+                                fieldConfig.getMessageKeyInfo(), 
+                                fieldConfig.getMetadata());
+                        fieldWidget = newfd.getFieldWidget();
+                    }
+                    newfd.getFieldElement().setRequired(fieldConfig.isRequired());
                     section.addField(newfd);
-                    helperFieldKeys.put(fd.getFieldKey(), newfd.getFieldKey());
+                    helperFieldKeys.put(fieldConfig.getFieldPath(), newfd.getFieldKey());
 
                     // add handlers to all select field that can be selected and triggers
                     // selection change event to notify the swap section to switch section.
@@ -250,7 +267,6 @@ public class MultiplicityGroup extends Composite {
                 for (Entry<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> entry : swappableFieldsDefinition.entrySet()) {
                     SwapCompositeCondition condition = entry.getKey();
                     List<SwapCompositeConditionFieldConfig> fieldConfigs = entry.getValue();
-//                    List<FieldDescriptor> displayFieldsConfigs = fieldConfig.getFieldDescriptorConfig();
                     Section conditionSection = new VerticalSection();
                     if (fieldConfigs != null) {
                         for (SwapCompositeConditionFieldConfig conditionFieldConfig : fieldConfigs) {
@@ -268,6 +284,7 @@ public class MultiplicityGroup extends Composite {
                                         translatePath(fieldConfig.getFieldPath()),
                                         fieldConfig.getMessageKeyInfo(),
                                         fieldConfig.getMetadata());
+                                concreteFieldDescriptor.getFieldElement().setRequired(fieldConfig.isRequired());
                                 if (fieldConfig.getFieldWidgetInitializer() != null) {
                                     Widget fieldWidget = fieldConfig.getFieldWidgetInitializer().getNewWidget();
                                     ModelWidgetBinding mwb = fieldConfig.getFieldWidgetInitializer()
@@ -304,29 +321,31 @@ public class MultiplicityGroup extends Composite {
                     translatePath(parentFd.getFieldKey()),
                     parentFd.getMessageKey(),
                     parentFd.getMetadata());
+        subMultParentConfig.getFieldElement().setRequired(parentFd.getFieldElement().isRequired());
         newSubMultiplicityConfig.setParent(subMultParentConfig);
-        Map<Integer, List<FieldDescriptor>> fieldsMap = newSubMultiplicityConfig.getFields();
-        Map<Integer, List<FieldDescriptor>> newFieldsMap = new HashMap<Integer, List<FieldDescriptor>>();
+        Map<Integer, List<MultiplicityFieldConfiguration>> fieldConfigsMap = newSubMultiplicityConfig.getFields();
+        Map<Integer, List<MultiplicityFieldConfiguration>> newFieldsMap = new HashMap<Integer, List<MultiplicityFieldConfiguration>>();
         int lineCounter = 0;
-        if (fieldsMap != null) {
-            for (List<FieldDescriptor> fieldsInLine : fieldsMap.values()) {
-                List<FieldDescriptor> newFields = new ArrayList<FieldDescriptor>();
-                for (FieldDescriptor field : fieldsInLine) {
+        if (fieldConfigsMap != null) {
+            for (List<MultiplicityFieldConfiguration> fieldConfigsInLine : fieldConfigsMap.values()) {
+                List<MultiplicityFieldConfiguration> newFieldConfigs = new ArrayList<MultiplicityFieldConfiguration>();
+                for (MultiplicityFieldConfiguration fieldConfig : fieldConfigsInLine) {
                     String configParentKey = (parentFd.getFieldKey() == null)? "" : parentFd.getFieldKey();
-                    String configFieldKey = (field.getFieldKey() == null)? "" : field.getFieldKey();
+                    String configFieldKey = (fieldConfig.getFieldPath() == null)? "" : fieldConfig.getFieldPath();
                     String trimmedFieldKey = null;
-                    FieldDescriptor newField = null;
+                    MultiplicityFieldConfiguration newFieldConfig = null;
                     trimmedFieldKey = configFieldKey.substring(configParentKey.length());
                     
                     QueryPath fieldPath = QueryPath.concat(subMultParentConfig.getFieldKey(), 
                             trimmedFieldKey);;
-                    newField = new FieldDescriptor(
-                            fieldPath.toString(), field.getMessageKey(), field.getMetadata()
-                            );
-                    newFields.add(newField);
+                    newFieldConfig = new MultiplicityFieldConfiguration(
+                            fieldPath.toString(), fieldConfig.getMessageKeyInfo(), fieldConfig.getMetadata(),
+                            fieldConfig.getFieldWidgetInitializer());
+                    newFieldConfig.setRequired(fieldConfig.isRequired());
+                    newFieldConfigs.add(newFieldConfig);
                     
                 }
-                newFieldsMap.put(Integer.valueOf(lineCounter), newFields);
+                newFieldsMap.put(Integer.valueOf(lineCounter), newFieldConfigs);
                 lineCounter++;
             }
         }
