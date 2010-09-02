@@ -6,7 +6,7 @@ import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
 
 /**
- * This listener pushes Ant logging messages out to the Maven logging system
+ * This listener issues Ant logging messages to the Maven logging system
  */
 public class MojoAntBuildListener implements BuildListener {
 	Log mavenLog;
