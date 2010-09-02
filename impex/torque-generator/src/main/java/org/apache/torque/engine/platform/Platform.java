@@ -39,6 +39,8 @@ public interface Platform {
 	/** constant for native id method */
 	String SEQUENCE = "sequence";
 
+	String getSchemaName(String artifactId);
+
 	/**
 	 * Returns the native IdMethod (sequence|identity)
 	 * 

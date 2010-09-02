@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.torque.engine.database.model.Domain;
 import org.apache.torque.engine.database.model.SchemaType;
 
@@ -61,6 +62,15 @@ public class PlatformDefaultImpl implements Platform {
 
 	protected void setSchemaDomainMapping(Domain domain) {
 		schemaDomainMap.put(domain.getType(), domain);
+	}
+
+	public String getSchemaName(String artifactId) {
+		String suffix = "-db";
+		if (artifactId.endsWith(suffix)) {
+			int length = artifactId.length();
+			artifactId = artifactId.substring(0, length - suffix.length());
+		}
+		return StringUtils.remove(artifactId, "-");
 	}
 
 	/**

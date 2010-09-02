@@ -71,6 +71,12 @@ public class PlatformMysqlImpl extends PlatformDefaultImpl {
 	}
 
 	@Override
+	public String getSchemaName(String artifactId) {
+		String s = super.getSchemaName(artifactId);
+		return s.toLowerCase();
+	}
+
+	@Override
 	public String filterInvalidDefaultValues(String defaultValue) {
 		if (defaultValue != null) {
 			defaultValue = defaultValue.replace("SYS_GUID()", "");

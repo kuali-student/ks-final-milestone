@@ -66,6 +66,12 @@ public class PlatformOracleImpl extends PlatformDefaultImpl {
 		setSchemaDomainMapping(new Domain(SchemaType.LONGVARBINARY, "LONG RAW"));
 	}
 
+	@Override
+	public String getSchemaName(String artifactId) {
+		String s = super.getSchemaName(artifactId);
+		return s.toUpperCase();
+	}
+
 	/**
 	 * @see Platform#getMaxColumnNameLength()
 	 */
