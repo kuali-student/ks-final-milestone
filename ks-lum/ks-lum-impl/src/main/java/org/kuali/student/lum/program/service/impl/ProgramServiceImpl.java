@@ -1,5 +1,7 @@
 package org.kuali.student.lum.program.service.impl;
 
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,6 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.entity.FieldDescriptorEntity;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -27,20 +28,11 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.entity.RefStatementRelation;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
-import org.kuali.student.core.statement.entity.ReqComponentFieldType;
-import org.kuali.student.core.statement.entity.ReqComponentType;
-import org.kuali.student.core.statement.entity.Statement;
-import org.kuali.student.core.statement.entity.StatementType;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
@@ -70,59 +62,6 @@ public class ProgramServiceImpl implements ProgramService {
     private CredentialProgramAssembler credentialProgramAssembler;
     private CoreProgramAssembler coreProgramAssembler;
     private StatementService statementService;
-
-    static {
-    	if(false) {
-    	Clu progReq = new Clu();
-    	Statement stmtRoot = new Statement();
-    	stmtRoot.setState("active");
-    	stmtRoot.setOperator(StatementOperatorTypeKey.AND);
-    	StatementType statementType = new StatementType();
-    	stmtRoot.setStatementType(statementType);
-
-    	// leaf1
-    	Statement leaf1 = new Statement();
-    	leaf1.setOperator(StatementOperatorTypeKey.OR);
-    	leaf1.setParent(stmtRoot);
-    	StatementType statementType1 = new StatementType();
-    	leaf1.setStatementType(statementType1);
-
-    	// reqComp1
-    	ReqComponent reqComp1 = new ReqComponent();
-
-    	ReqComponentType reqComp1Type = new ReqComponentType();
-    	ReqComponentFieldType reqCompFieldType1 = new ReqComponentFieldType();
-    	FieldDescriptorEntity fieldDescriptorEntity1 = new FieldDescriptorEntity();
-    	// FIXME fieldDescriptorEntity1.setXXX
-    	reqComp1Type.getReqCompFieldTypes().add(reqCompFieldType1);
-    	reqComp1.setRequiredComponentType(reqComp1Type);
-
-    	ReqComponentField reqCompTypeField1 = new ReqComponentField();
-    	reqCompTypeField1.setType("type"); // FIXME
-    	reqCompTypeField1.setValue("value"); // FIXME
-    	reqComp1.getReqComponentFields().add(reqCompTypeField1);
-    	leaf1.getRequiredComponents().add(reqComp1);
-
-    	// reqComp2
-    	ReqComponent reqComp2 = new ReqComponent();
-    	leaf1.getRequiredComponents().add(reqComp2);
-
-    	StatementType leaf1Type = new StatementType();
-    	stmtRoot.getChildren().add(leaf1);
-
-
-    	// leaf2
-    	Statement leaf2 = new Statement();
-    	stmtRoot.getChildren().add(leaf2);
-
-    	// Link Statement to Program Requirement Clu
-    	RefStatementRelation refStatementRel = new RefStatementRelation();
-    	refStatementRel.setRefObjectId(progReq.getId());
-    	refStatementRel.setRefObjectTypeKey("clu"); // TODO
-    	refStatementRel.setStatement(stmtRoot);
-    	stmtRoot.getRefStatementRelations().add(refStatementRel);
-    	}
-    }
 
     @Override
     public CredentialProgramInfo createCredentialProgram(
@@ -165,8 +104,20 @@ public class ProgramServiceImpl implements ProgramService {
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
+
+        // Validate
+        List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo);
+        if (isNotEmpty(validationResults)) {
+        	throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+
+        try {
+            return processProgramRequirementInfo(programRequirementInfo, NodeOperation.CREATE);
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling Program Requirement", e);
+            throw new OperationFailedException("Error disassembling Program Requirement", e);
+        }
     }
 
     @Override
@@ -393,10 +344,12 @@ public class ProgramServiceImpl implements ProgramService {
 
 		checkForMissingParameter(programRequirementId, "programRequirementId");
 
-		CluInfo cluInfo = luService.getClu(programRequirementId);
-
+		CluInfo clu = luService.getClu(programRequirementId);
+		if (!ProgramAssemblerConstants.PROGRAM_REQUIREMENT.equals(clu.getType())) {
+			throw new DoesNotExistException("Specified CLU is not a Program Requirement");
+		}
 		try {
-			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(cluInfo, null, false);
+			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false);
 			StatementTreeViewInfo statement = progReqInfo.getStatement();
 			if (nlUsageTypeKey != null && language != null) {
 				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
@@ -570,8 +523,11 @@ public class ProgramServiceImpl implements ProgramService {
             String validationType, ProgramRequirementInfo programRequirementInfo)
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ProgramRequirementInfo.class.getName());
+        List<ValidationResultInfo> validationResults = validator.validateObject(programRequirementInfo, objStructure);
+
+        return validationResults;
     }
 
     @Override
@@ -685,8 +641,13 @@ public class ProgramServiceImpl implements ProgramService {
         return results.getBusinessDTORef();
     }
 
-    @SuppressWarnings("unchecked")
-	private void invokeServiceCalls(BaseDTOAssemblyNode results) throws AssemblyException{
+    private ProgramRequirementInfo processProgramRequirementInfo(ProgramRequirementInfo programRequirementInfo, NodeOperation operation) throws AssemblyException {
+        BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation);
+        invokeServiceCalls(results);
+        return results.getBusinessDTORef();
+    }
+
+	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results) throws AssemblyException{
         // Use the results to make the appropriate service calls here
         try {
             programServiceMethodInvoker.invokeServiceCalls(results);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
@@ -18,6 +19,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.service.impl.BaseAssembler;
+import org.kuali.student.core.statement.dto.AbstractStatementInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -59,61 +61,65 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 		return treeInfo;
 	}
 
+
 	@Override
 	public BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> disassemble(
 			StatementTreeViewInfo newTree, NodeOperation operation)
 			throws AssemblyException {
 
-		if (newTree == null) {
+        if (newTree == null) {
 			// FIXME Unsure now if this is an exception or just return null or
 			// empty assemblyNode
 		    LOG.error("StatementTreeView to disassemble is null!");
 			throw new AssemblyException("StatementTreeView can not be null");
 		}
 
+		BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(null);
+		try {
+			disassembleStatementTreeHelper(newTree, operation, result);
+		} catch (Exception e) {
+			throw new AssemblyException("Problems dissasembling StatementTreeView", e);
+		}
+		return result;
+	}
 
-		StatementTreeViewInfo origTree = null;
-		StatementInfo statement = null;
-		if (NodeOperation.UPDATE == operation) {
-			try {
-				statement =  statementService.getStatement(newTree.getId());
-	        } catch (Exception e) {
-				throw new AssemblyException("Error getting existing Statement unit during statementTreeView update", e);
-	        }
-			try {
-				origTree = new StatementTreeViewInfo();
-				assemble(statement, origTree, false);
-			} catch (AssemblyException e) {
-				origTree = null; // Treat is a create
-				operation = NodeOperation.CREATE;
+	private void disassembleStatementTreeHelper(StatementTreeViewInfo statementTreeViewInfo, NodeOperation operation, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+		if (statementTreeViewInfo == null) {
+			return;
+		}
+
+		StatementInfo statement = new StatementInfo();
+		copyValues(statement, statementTreeViewInfo);
+		statement.setId(UUIDHelper.genStringUUID(statement.getId()));
+
+		if (statementTreeViewInfo.getReqComponents() != null) {
+			for (ReqComponentInfo reqComponentInfo : statementTreeViewInfo.getReqComponents()) {
+				BaseDTOAssemblyNode<StatementTreeViewInfo, ReqComponentInfo> reqResult = new BaseDTOAssemblyNode<StatementTreeViewInfo, ReqComponentInfo>(null);
+				String reqId = UUIDHelper.genStringUUID(reqComponentInfo.getId());
+				reqComponentInfo.setId(reqId);
+				reqResult.setNodeData(reqComponentInfo);
+				reqResult.setOperation(operation);
+				result.getChildNodes().add(reqResult);
+				statement.getReqComponentIds().add(reqId);
 			}
 		}
 
+		BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> statementResult = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(null);
 
-        try {
-	        // insert statements and reqComponents if they do not already exists in database
-	        updateSTVHelperCreateStatements(newTree);
-	        // check the two lists of relationships for ones that need to be deleted/created
-	        if (origTree != null) {
-	            List<String> toBeDeleted = notIn(origTree, newTree);
-	            for (String delStatementId : toBeDeleted) {
-	            	statementService.deleteStatement(delStatementId);
-	            }
-	        }
-	        updateStatementTreeViewHelper(newTree);
+		statementResult.setNodeData(statement);
+		statementResult.setBusinessDTORef(statementTreeViewInfo);
+		statementResult.setOperation(operation);
+		result.getChildNodes().add(statementResult);
 
-	        BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(this);
-	        result.setBusinessDTORef(newTree);
-	        result.setNodeData(statement);
-	        result.setOperation(operation);
-			return result;
-
-		} catch (Exception e) {
-			throw new AssemblyException("Error updating statement tree view:" + e.getMessage(), e);
-        }
+		for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
+			subStatement.setParentId(statementTreeViewInfo.getId());
+			disassembleStatementTreeHelper(subStatement, operation, result);
+		}
 	}
 
     /**
+     * @deprecated
+     *
      * Goes through the list of statementIds in statementInfo and retrieves all
      * information regarding to the current statementInfo and all the
      * sub-statements referenced by statementIds.  Data will be populated into
@@ -213,14 +219,7 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
    private StatementInfo toStatementInfo(final StatementTreeViewInfo statementTreeViewInfo) {
        StatementInfo statementInfo = null;
        if (statementTreeViewInfo == null) return null;
-       statementInfo = new StatementInfo();
-       statementInfo.setAttributes(statementTreeViewInfo.getAttributes());
-       statementInfo.setDesc(statementTreeViewInfo.getDesc());
-       statementInfo.setId(statementTreeViewInfo.getId());
-       statementInfo.setMetaInfo(statementTreeViewInfo.getMetaInfo());
-       statementInfo.setName(statementTreeViewInfo.getName());
-       statementInfo.setOperator(statementTreeViewInfo.getOperator());
-       statementInfo.setParentId(statementTreeViewInfo.getParentId());
+       copyValues(statementInfo, statementTreeViewInfo);
        // goes through the list of reqComponents in statementTreeViewInfo and extract the reqComponent ids
        if (statementTreeViewInfo.getReqComponents() != null) {
            List<String> reqCompIds = new ArrayList<String>(7);
@@ -315,18 +314,18 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
     /**
      * copies the values in statementInfo into statementTreeViewInfo.  Only the values of the root statement will
      * be affected.
-     * @param statementTreeViewInfo
-     * @param statementInfo
+     * @param to
+     * @param from
      */
-    public static void copyValues(final StatementTreeViewInfo statementTreeViewInfo, StatementInfo statementInfo) {
-        statementTreeViewInfo.setAttributes(statementInfo.getAttributes());
-        statementTreeViewInfo.setDesc(statementInfo.getDesc());
-        statementTreeViewInfo.setId(statementInfo.getId());
-        statementTreeViewInfo.setMetaInfo(statementInfo.getMetaInfo());
-        statementTreeViewInfo.setName(statementInfo.getName());
-        statementTreeViewInfo.setOperator(statementInfo.getOperator());
-        statementTreeViewInfo.setState(statementInfo.getState());
-        statementTreeViewInfo.setType(statementInfo.getType());
+    public static void copyValues(final AbstractStatementInfo to, AbstractStatementInfo from) {
+        to.setAttributes(from.getAttributes());
+        to.setDesc(from.getDesc());
+        to.setId(from.getId());
+        to.setMetaInfo(from.getMetaInfo());
+        to.setName(from.getName());
+        to.setOperator(from.getOperator());
+        to.setState(from.getState());
+        to.setType(from.getType());
     }
 
     /**

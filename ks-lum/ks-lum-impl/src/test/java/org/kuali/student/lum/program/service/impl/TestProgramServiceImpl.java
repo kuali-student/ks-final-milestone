@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +23,14 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
@@ -616,13 +619,235 @@ public class TestProgramServiceImpl {
         }
 	}
 
-	@Test
-	@Ignore
-	public void testCreateProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		ProgramRequirementInfo progReqInfo = new ProgramRequirementInfo();
+    @Test(expected = MissingParameterException.class)
+    public void testCreateProgramRequirement_null() throws Exception {
+    	programService.createProgramRequirement(null);
+    }
 
-		ProgramRequirementInfo createdInfo = programService.createProgramRequirement(progReqInfo);
-		assertNotNull(createdInfo);
+    @Test
+    public void testCreateProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    	ProgramRequirementInfo progReq = new ProgramRequirementInfo();
+    	progReq.setShortTitle("Short Title");
+    	progReq.setLongTitle("Long title");
+    	progReq.setDescr(toRichText("Program Requirement"));
+
+    	List<LoDisplayInfo> los = new ArrayList<LoDisplayInfo>(0);
+
+		LoDisplayInfo loDisplayInfo = new LoDisplayInfo();
+		LoInfo loInfo = new LoInfo();
+		loInfo.setDesc(toRichText("Program Requirement LO Info"));
+		loInfo.setLoRepositoryKey("lo rep key");
+		loDisplayInfo.setLoInfo(loInfo);
+        los.add(loDisplayInfo);
+    	progReq.setLearningObjectives(los);
+
+      	StatementTreeViewInfo statement = createStatementTree();
+    	progReq.setStatement(statement);
+    	progReq.setType(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
+    	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
+    	checkProgramRequirement(progReq, createdProgReq);
+
+    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), null, null);
+    	checkProgramRequirement(progReq, progReq2);
+    }
+
+	private static void checkProgramRequirement(
+			ProgramRequirementInfo orig, ProgramRequirementInfo created) {
+		assertNotNull(orig);
+		assertNotNull(created);
+		assertTrue(EqualsBuilder.reflectionEquals(orig, created, new String[]{"descr", "learningObjectives","statement","attributes","metaInfo"}));
+    	checkLoDisplays(orig.getLearningObjectives(), created.getLearningObjectives());
+
+    	StatementTreeViewInfo statement2 = created.getStatement();
+    	checkStatementTreeView(orig.getStatement(), created.getStatement());
+    	assertNotNull(statement2);
+	}
+
+	private static void checkStatementTreeView(StatementTreeViewInfo statement,
+			StatementTreeViewInfo statement2) {
+		assertNotNull(statement);
+		assertNotNull(statement2);
+		assertTrue(EqualsBuilder.reflectionEquals(statement, statement2, new String[]{"desc", "attributes", "metaInfo", "statements", "reqComponents"}));
+		checkRichText(statement.getDesc(), statement2.getDesc());
+		checkStatementTreeViews(statement.getStatements(), statement2.getStatements());
+		checkReqComponents(statement.getReqComponents(), statement2.getReqComponents());
+	}
+
+	private static void checkReqComponents(List<ReqComponentInfo> reqComponents,
+			List<ReqComponentInfo> reqComponents2) {
+		assertNotNull(reqComponents);
+		assertNotNull(reqComponents2);
+		assertEquals(reqComponents.size(), reqComponents2.size());
+		for (int i = 0; i < reqComponents.size(); i++) {
+			checkReqComponent(reqComponents.get(i), reqComponents2.get(i));
+		}
+	}
+
+	private static void checkReqComponent(ReqComponentInfo reqComponent,
+			ReqComponentInfo reqComponent2) {
+		assertNotNull(reqComponent);
+		assertNotNull(reqComponent2);
+		assertTrue(EqualsBuilder.reflectionEquals(reqComponent, reqComponent2, new String[]{"reqCompFields", "requiredComponentType", "naturalLanguageTranslation"}));
+		checkReqCompFields(reqComponent.getReqCompFields(), reqComponent.getReqCompFields());
+	}
+
+	private static void checkReqCompFields(List<ReqCompFieldInfo> reqCompFields,
+			List<ReqCompFieldInfo> reqCompFields2) {
+		assertNotNull(reqCompFields);
+		assertNotNull(reqCompFields2);
+		assertEquals(reqCompFields.size(), reqCompFields2.size());
+		for (int i = 0; i < reqCompFields.size(); i++) {
+			checkReqCompField(reqCompFields.get(i), reqCompFields2.get(i));
+		}
+	}
+
+	private static void checkReqCompField(ReqCompFieldInfo reqCompField,
+			ReqCompFieldInfo reqCompField2) {
+		assertNotNull(reqCompField);
+		assertNotNull(reqCompField2);
+		assertTrue(EqualsBuilder.reflectionEquals(reqCompField,reqCompField2));
+	}
+
+	private static void checkStatementTreeViews(List<StatementTreeViewInfo> statements,
+			List<StatementTreeViewInfo> statements2) {
+		assertNotNull(statements);
+		assertNotNull(statements2);
+		assertEquals(statements2.size(), statements2.size());
+		for (int i = 0; i < statements2.size(); i++) {
+			checkStatementTreeView(statements.get(i), statements2.get(i));
+		}
+	}
+
+	private static void checkLoDisplays(List<LoDisplayInfo> los,
+			List<LoDisplayInfo> los2) {
+		assertNotNull(los);
+		assertNotNull(los2);
+    	assertEquals(los.size(), los2.size());
+    	for (int i = 0; i < los.size(); i++) {
+    		LoDisplayInfo ldi1 = los.get(i);
+    		LoDisplayInfo ldi2 = los2.get(i);
+    		checkLoDisplay(ldi1, ldi2);
+    	}
+	}
+
+    private static void checkLoDisplay(LoDisplayInfo ldi1, LoDisplayInfo ldi2) {
+		assertNotNull(ldi1);
+		assertNotNull(ldi2);
+		assertTrue(EqualsBuilder.reflectionEquals(ldi1, ldi2, new String[]{"loInfo","loDisplayInfoList","loCategoryInfoList"}));
+
+		LoInfo li1 = ldi1.getLoInfo();
+		LoInfo li2 = ldi2.getLoInfo();
+		checkLo(li1, li2);
+		checkLoDisplayLists(ldi1.getLoDisplayInfoList(), ldi2.getLoDisplayInfoList());
+		checkLoCategorys(ldi1.getLoCategoryInfoList(), ldi2.getLoCategoryInfoList());
+	}
+
+	private static void checkLoCategorys(List<LoCategoryInfo> loCategoryInfoList,
+			List<LoCategoryInfo> loCategoryInfoList2) {
+		assertNotNull(loCategoryInfoList);
+		assertNotNull(loCategoryInfoList2);
+		assertEquals(loCategoryInfoList.size(), loCategoryInfoList2.size());
+		for (int i = 0; i < loCategoryInfoList.size(); i++) {
+			checkLoCategory(loCategoryInfoList.get(i), loCategoryInfoList2.get(i));
+		}
+	}
+
+	private static void checkLoCategory(LoCategoryInfo loCategoryInfo,
+			LoCategoryInfo loCategoryInfo2) {
+		assertNotNull(loCategoryInfo);
+		assertNotNull(loCategoryInfo2);
+		assertTrue(EqualsBuilder.reflectionEquals(loCategoryInfo, loCategoryInfo2, new String[]{"desc","attributes","metaInfo"}));
+		checkRichText(loCategoryInfo.getDesc(), loCategoryInfo2.getDesc());
+	}
+
+	private static void checkLoDisplayLists(List<LoDisplayInfo> di1, List<LoDisplayInfo> di2) {
+		assertNotNull(di1);
+		assertNotNull(di2);
+		assertEquals(di1.size(), di2.size());
+		for (int i = 0; i < di1.size(); i++) {
+			checkLoDisplay(di1.get(i), di2.get(i));
+		}
+	}
+
+	private static void checkLo(LoInfo li1, LoInfo li2) {
+		assertNotNull(li1);
+		assertNotNull(li2);
+
+		assertTrue(EqualsBuilder.reflectionEquals(li1, li2, new String[]{"desc","attributes","metaInfo"}));
+		checkRichText(li1.getDesc(), li2.getDesc());
+	}
+
+	private static void checkRichText(RichTextInfo desc, RichTextInfo desc2) {
+		assertNotNull(desc);
+		assertNotNull(desc2);
+
+		assertTrue(EqualsBuilder.reflectionEquals(desc, desc2));
+	}
+
+	private static StatementTreeViewInfo createStatementTree() {
+        // Statement Tree
+        //                --------- STMT-1:OR ---------
+    	//                |                           |
+        //           STMT-2:AND                  STMT-3:AND
+    	//           |        |                  |        |
+        //      REQCOMP-1  REQCOMP-2        REQCOMP-3  REQCOMP-4
+
+        List<StatementTreeViewInfo> subStatements = new ArrayList<StatementTreeViewInfo>(3);
+        List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
+        List<ReqComponentInfo> reqCompList2 = new ArrayList<ReqComponentInfo>(3);
+
+        // req components
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        ReqComponentInfo rc3 = new ReqComponentInfo();
+        rc3.setDesc(toRichText("REQCOMP-3"));
+        rc3.setType("kuali.reqComponent.type.course.courseset.completed.nof");
+        ReqComponentInfo rc4 = new ReqComponentInfo();
+        rc4.setDesc(toRichText("REQCOMP-4"));
+        rc4.setType("kuali.reqComponent.type.course.permission.instructor.required");
+
+        // statement tree views
+        StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
+        statementTree.setDesc(toRichText("STMT-1"));
+        statementTree.setOperator(StatementOperatorTypeKey.OR);
+        statementTree.setType("kuali.statement.type.program.entrance");
+
+        StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
+        subTree1.setDesc(toRichText("STMT-2"));
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setType("kuali.statement.type.program.entrance");
+
+        StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
+        subTree2.setDesc(toRichText("STMT-3"));
+        subTree2.setOperator(StatementOperatorTypeKey.AND);
+        subTree2.setType("kuali.statement.type.program.entrance");
+
+        // construct tree with statements and req components
+        reqCompList1.add(rc1);
+        reqCompList1.add(rc2);
+        subTree1.setReqComponents(reqCompList1);
+        reqCompList2.add(rc3);
+        reqCompList2.add(rc4);
+        subTree2.setReqComponents(reqCompList2);
+        subStatements.add(subTree1);
+        subStatements.add(subTree2);
+        statementTree.setStatements(subStatements);
+
+        return statementTree;
+    }
+
+	private static RichTextInfo toRichText(String text) {
+		RichTextInfo richTextInfo = new RichTextInfo();
+		if (text == null) {
+			return null;
+		}
+		richTextInfo.setPlain(text);
+		richTextInfo.setFormatted("<p>" + text + "</p>");
+		return richTextInfo;
 	}
 
     @Test
@@ -939,20 +1164,20 @@ public class TestProgramServiceImpl {
         assertEquals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION, target.getDivisionsContentOwner().get(0).getType());
 
     }
-    @Test 
+    @Test
     public void testCreateVariationsByMajorDiscipline(){
         MajorDisciplineInfo majorDisciplineInfo = null;
 
         try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
-            
+
             List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
             assertNotNull(pvInfos);
-            
+
             ProgramVariationInfo pvInfoS = pvInfos.get(0);
             ProgramVariationInfo pvInfoT = new ProgramVariationInfo();
-            
+
             BeanUtils.copyProperties(pvInfoS, pvInfoT, new String[] { "id" });
 
             pvInfoT.setLongTitle(pvInfoT.getLongTitle() + "-created");
@@ -964,7 +1189,7 @@ public class TestProgramServiceImpl {
             pvInfoT.setCip2010Code(pvInfoT.getCip2010Code() + "-created");
             pvInfoT.setTranscriptTitle(pvInfoT.getTranscriptTitle() + "-created");
             pvInfoT.setDiplomaTitle(pvInfoT.getDiplomaTitle() + "-created");
- 
+
             //Perform the update: adding the new variation
             pvInfos.add(pvInfoT);
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
@@ -972,57 +1197,56 @@ public class TestProgramServiceImpl {
             assertNotNull(updatedPvInfos);
             assertEquals(3, updatedPvInfos.size());
             ProgramVariationInfo createdPV = updatedPvInfos.get(2);
-            
-            	
+
             //Verify the update
             verifyUpdate(pvInfoT, createdPV);
 
             // Now explicitly get it
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId());
             assertEquals(3, retrievedMD.getVariations().size());
-            
+
             List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
             assertNotNull(retrievedPVs);
             assertEquals(3, updatedPvInfos.size());
             verifyUpdate(pvInfoT, retrievedPVs.get(2));
-            
-            
+
+
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
-        }   	
+        }
     }
-    
-    @Test 
+
+    @Test
     public void testDeleteVariationsByMajorDiscipline(){
         MajorDisciplineInfo majorDisciplineInfo = null;
 
         try {
             majorDisciplineInfo = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
             assertNotNull(majorDisciplineInfo);
-            
+
             List<ProgramVariationInfo> pvInfos = majorDisciplineInfo.getVariations();
             assertNotNull(pvInfos);
- 
+
             //Perform the update: adding the new variation
             pvInfos.remove(1);
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo);
             List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
             assertNotNull(updatedPvInfos);
             assertEquals(2, updatedPvInfos.size());
- 
+
             // Now explicitly get it
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(majorDisciplineInfo.getId());
             assertEquals(2, retrievedMD.getVariations().size());
-            
+
             List<ProgramVariationInfo> retrievedPVs = programService.getVariationsByMajorDisciplineId(majorDisciplineInfo.getId());
             assertNotNull(retrievedPVs);
             assertEquals(2, updatedPvInfos.size());
             verifyUpdate(pvInfos.get(0), retrievedPVs.get(0));
-                       
+
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
-        }   	
+        }
     }
 }
