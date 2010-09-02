@@ -39,13 +39,16 @@ public class ChangeDetector {
 		return false;
 	}
 
+	/**
+	 * Returns true if any of the data XML files have changed since the time the report file was generated
+	 */
 	public boolean isDataChanged() {
 		File report = new File(getOutputDir(), getReportFile());
 		if (!report.exists()) {
 			return true;
 		}
 
-		for (File dataFile : dataFiles) {
+		for (File dataFile : getDataFiles()) {
 			if (dataFile.lastModified() > report.lastModified()) {
 				return true;
 			}
@@ -55,8 +58,6 @@ public class ChangeDetector {
 
 	/**
 	 * Returns true if any of the schema XML files have changed since the time the report file was generated
-	 * 
-	 * @return whether the schema has changed.
 	 */
 	public boolean isSchemaChanged() {
 		File report = new File(getOutputDir(), getReportFile());
