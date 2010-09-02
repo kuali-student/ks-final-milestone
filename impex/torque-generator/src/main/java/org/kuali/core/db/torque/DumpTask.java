@@ -26,6 +26,11 @@ public class DumpTask extends Task {
 	}
 
 	/**
+	 * This is the maven concept of an artifactId
+	 */
+	String artifactId;
+
+	/**
 	 * The encoding to use
 	 */
 	String encoding;
@@ -161,6 +166,14 @@ public class DumpTask extends Task {
 
 	public void setConnectionHandler(ConnectionHandler connectionHandler) {
 		this.connectionHandler = connectionHandler;
+	}
+
+	public String getArtifactId() {
+		return artifactId;
+	}
+
+	public void setArtifactId(String artifactId) {
+		this.artifactId = artifactId;
 	}
 
 }

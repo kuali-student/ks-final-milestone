@@ -51,11 +51,6 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	String schema;
 
 	/**
-	 * The name of the artifact being produced
-	 */
-	String artifactId;
-
-	/**
 	 * DOM document produced.
 	 */
 	DocumentImpl doc;
@@ -74,6 +69,7 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 		log("Schema: " + schema);
 		log("Artifact Id: " + artifactId);
 		log("Exporting to: " + schemaXMLFile.getName());
+		log("Comment: " + getComment());
 		if (getEncoding() == null) {
 			log("Encoding: " + System.getProperty("file.encoding"));
 		} else {
@@ -87,11 +83,17 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 		}
 	}
 
+	protected DocumentImpl getDocumentImpl() {
+		DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, ImpexDTDResolver.DTD_LOCATION);
+		DocumentImpl doc = new DocumentImpl(docType);
+		doc.appendChild(doc.createComment(" " + getComment() + " "));
+		return doc;
+	}
+
 	/**
 	 * Execute the task
 	 */
 	public void execute() throws BuildException {
-
 		try {
 			log("--------------------------------------");
 			log("Impex - Schema Export");
@@ -100,11 +102,7 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 			Platform platform = PlatformFactory.getPlatformFor(targetDatabase);
 			updateConfiguration(platform);
 			showConfiguration();
-
-			DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, ImpexDTDResolver.DTD_LOCATION);
-			doc = new DocumentImpl(docType);
-			doc.appendChild(doc.createComment(" " + getComment() + " "));
-
+			doc = getDocumentImpl();
 			generateXML(platform);
 			serialize();
 		} catch (Exception e) {
@@ -641,14 +639,6 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 
 	public boolean isProcessSequences() {
 		return processSequences;
-	}
-
-	public String getArtifactId() {
-		return artifactId;
-	}
-
-	public void setArtifactId(String schemaXMLName) {
-		this.artifactId = schemaXMLName;
 	}
 
 	public File getSchemaXMLFile() {

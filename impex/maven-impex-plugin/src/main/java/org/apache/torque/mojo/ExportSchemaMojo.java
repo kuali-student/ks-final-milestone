@@ -4,7 +4,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
 
 /**
- * Export a description of a database to XML. This generates DDL information. The tables, primary keys, foreign keys,
+ * Export a description of a database to XML. This generates DDL information. Tables, primary keys, foreign keys,
  * indexes, sequences, and views. It does not export data.
  * 
  * @goal exportschema
