@@ -135,7 +135,7 @@ public class ExportSchemaMojo extends AntTaskMojo {
 		task.setExcludePatterns(getList(getExcludePatterns()));
 	}
 
-	protected List<String> getList(String csv) {
+	protected static List<String> getList(String csv) {
 		if (StringUtils.isEmpty(csv)) {
 			return new ArrayList<String>();
 		}

@@ -411,7 +411,7 @@ public class KualiTorqueDataDumpTask extends Task {
 		// Log what we are up to
 		log("Schema XML Table Count: " + schemaXMLNames.size());
 		log("Tables present in both: " + intersection.size());
-		log("Tables in JDBC that will not be exported: " + extraTables.size());
+		log("Tables in JDBC that are not in " + new File(getSchemaXMLFile()).getName() + ": " + extraTables.size());
 		if (missingTables.size() > 0) {
 			log("There are " + missingTables.size() + " tables defined in " + getSchemaXMLFile() + " that are not being returned by JDBC [" + missingTables + "]", Project.MSG_WARN);
 		}
@@ -429,17 +429,14 @@ public class KualiTorqueDataDumpTask extends Task {
 		// Get ALL the table names
 		Set<String> jdbcTableNames = getSet(getJDBCTableNames(dbMetaData));
 		log("Complete JDBC Table Count: " + jdbcTableNames.size());
-
-		StringFilter filterer = new StringFilter(includePatterns, excludePatterns);
-		filterer.filter(jdbcTableNames.iterator());
 		Set<String> filteredTableNames = getFilteredTableNames(jdbcTableNames);
 
-		log("Filtered JDBC Table Count: " + jdbcTableNames.size());
+		StringFilter filterer = new StringFilter(includePatterns, excludePatterns);
+		filterer.filter(filteredTableNames.iterator());
+
+		log("Filtered JDBC Table Count: " + filteredTableNames.size());
 
 		processTables(filteredTableNames, platform, dbMetaData);
-
-		log("Filtered JDBC Table Count: " + jdbcTableNames.size());
-
 	}
 
 	/**

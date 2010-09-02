@@ -16,6 +16,20 @@ import org.kuali.core.db.torque.KualiTorqueDataDumpTask;
 public class ExportDataMojo extends AntTaskMojo {
 
 	/**
+	 * Comma separated list of regular expressions for tables to include in the export
+	 * 
+	 * @parameter expression="${includePatterns}"
+	 */
+	private String includePatterns;
+
+	/**
+	 * Comma separated list of regular expressions for tables to exclude from the export
+	 * 
+	 * @parameter expression="${excludePatterns}"
+	 */
+	private String excludePatterns;
+
+	/**
 	 * Database type (oracle, mysql etc)
 	 * 
 	 * @parameter expression="${targetDatabase}"
@@ -42,7 +56,7 @@ public class ExportDataMojo extends AntTaskMojo {
 	/**
 	 * The directory where data XML files will be written
 	 * 
-	 * @parameter expression="${outputDir}" default-value="${project.build.directory}/data/impex"
+	 * @parameter expression="${outputDir}" default-value="${basedir}/src/main/impex"
 	 * @required
 	 */
 	private File outputDir;
@@ -89,8 +103,7 @@ public class ExportDataMojo extends AntTaskMojo {
 	 * The name of the xml file to process. Only one xml file can be processed at a time. Overrides the settings
 	 * schemaIncludes and schemaExcludes
 	 * 
-	 * @parameter expression="${schemaXMLFile}"
-	 *            default-value="${basedir}/src/main/impex/${project.artifactId}-schema.xml"
+	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
 	 * @required
 	 */
 	private String schemaXMLFile;
@@ -119,6 +132,8 @@ public class ExportDataMojo extends AntTaskMojo {
 		task.setSchemaXMLFile(getSchemaXMLFile());
 		task.setEncoding(getEncoding());
 		task.setDatabaseType(getTargetDatabase());
+		task.setIncludePatterns(ExportSchemaMojo.getList(getIncludePatterns()));
+		task.setExcludePatterns(ExportSchemaMojo.getList(getExcludePatterns()));
 	}
 
 	protected void makeOutputDir() throws MojoExecutionException {
@@ -252,5 +267,21 @@ public class ExportDataMojo extends AntTaskMojo {
 
 	public void setTargetDatabase(String targetDatabase) {
 		this.targetDatabase = targetDatabase;
+	}
+
+	public String getIncludePatterns() {
+		return includePatterns;
+	}
+
+	public void setIncludePatterns(String includePatterns) {
+		this.includePatterns = includePatterns;
+	}
+
+	public String getExcludePatterns() {
+		return excludePatterns;
+	}
+
+	public void setExcludePatterns(String excludePatterns) {
+		this.excludePatterns = excludePatterns;
 	}
 }
