@@ -28,6 +28,7 @@ import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.kuali.core.db.torque.pojo.ForeignKey;
 import org.kuali.core.db.torque.pojo.Reference;
+import org.kuali.core.db.torque.pojo.Index;
 
 import static org.kuali.db.JDBCUtils.*;
 import org.w3c.dom.Element;
@@ -266,11 +267,11 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	}
 
 	protected void processIndexes(DatabaseMetaData dbMetaData, String curTable, Element table) throws SQLException {
-		for (TableIndex idx : getIndexes(dbMetaData, curTable)) {
-			String tagName = idx.unique ? "unique" : "index";
+		for (Index idx : getIndexes(dbMetaData, curTable)) {
+			String tagName = idx.isUnique() ? "unique" : "index";
 			Element index = doc.createElement(tagName);
-			index.setAttribute("name", idx.name);
-			for (String colName : idx.columns) {
+			index.setAttribute("name", idx.getName());
+			for (String colName : idx.getColumns()) {
 				Element col = doc.createElement(tagName + "-column");
 				col.setAttribute("name", colName);
 				index.appendChild(col);
@@ -581,14 +582,14 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		return null;
 	}
 
-	protected TableIndex getTableIndex(ResultSet indexInfo, String pkName) throws SQLException {
-		TableIndex index = new TableIndex();
+	protected Index getTableIndex(ResultSet indexInfo, String pkName) throws SQLException {
+		Index index = new Index();
 		index.setName(indexInfo.getString("INDEX_NAME"));
 		index.setUnique(!indexInfo.getBoolean("NON_UNIQUE"));
 		return index;
 	}
 
-	protected void addIndexIfNotPK(TableIndex index, String pkName, List<TableIndex> indexes) {
+	protected void addIndexIfNotPK(Index index, String pkName, List<Index> indexes) {
 		// if has the same name as the PK, don't add it to the index list
 		if (pkName == null || !pkName.equals(index.getName())) {
 			indexes.add(index);
@@ -598,8 +599,8 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		}
 	}
 
-	public List<TableIndex> getIndexes(DatabaseMetaData dbMeta, String tableName) throws SQLException {
-		List<TableIndex> indexes = new ArrayList<TableIndex>();
+	public List<Index> getIndexes(DatabaseMetaData dbMeta, String tableName) throws SQLException {
+		List<Index> indexes = new ArrayList<Index>();
 
 		// need to ensure that the PK is not returned as an index
 		String pkName = getPrimaryKeyName(tableName, dbMeta);
@@ -607,7 +608,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		ResultSet indexInfo = null;
 		try {
 			indexInfo = dbMeta.getIndexInfo(null, schema, tableName, false, true);
-			TableIndex currIndex = null;
+			Index currIndex = null;
 			while (indexInfo.next()) {
 
 				// Extract the name of the index

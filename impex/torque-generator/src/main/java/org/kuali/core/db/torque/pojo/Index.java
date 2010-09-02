@@ -1,9 +1,9 @@
-package org.kuali.core.db.torque;
+package org.kuali.core.db.torque.pojo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableIndex {
+public class Index {
 	List<String> columns = new ArrayList<String>();
 	String name;
 	boolean unique;
