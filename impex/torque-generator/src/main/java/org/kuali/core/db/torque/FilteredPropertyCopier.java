@@ -1,4 +1,4 @@
-package org.apache.torque.mojo;
+package org.kuali.core.db.torque;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,6 +3,7 @@ package org.apache.torque.mojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.kuali.core.db.torque.FilteredPropertyCopier;
 
 /**
  * A base class for mojos that wrap an Ant Task

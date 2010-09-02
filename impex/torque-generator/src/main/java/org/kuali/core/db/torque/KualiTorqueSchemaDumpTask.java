@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -330,22 +329,18 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	 *             a generic exception.
 	 */
 	protected void generateXML() throws Exception {
-		// Load the database Driver.
-		Class.forName(driver);
-		log("DB driver sucessfuly instantiated");
 
-		Connection con = null;
+		Connection connection = null;
 		try {
 			// Attempt to connect to a database.
-			con = DriverManager.getConnection(url, username, password);
-			log("DB connection established");
+			connection = getConnection();
 
 			log("Loading platform for " + getTargetDatabase());
 			log("Getting table list...");
 			Platform platform = PlatformFactory.getPlatformFor(targetDatabase);
 
 			// Get the database Metadata.
-			DatabaseMetaData dbMetaData = con.getMetaData();
+			DatabaseMetaData dbMetaData = connection.getMetaData();
 
 			databaseNode = doc.createElement("database");
 			databaseNode.setAttribute("name", schemaXMLName);
@@ -356,7 +351,7 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 			processViews(platform, dbMetaData);
 			processSequences(platform, dbMetaData);
 		} finally {
-			closeQuietly(con);
+			closeQuietly(connection);
 		}
 	}
 

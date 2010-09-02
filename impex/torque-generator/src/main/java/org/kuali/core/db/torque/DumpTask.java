@@ -1,10 +1,21 @@
 package org.kuali.core.db.torque;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import org.apache.tools.ant.Task;
+import org.kuali.db.ConnectionHandler;
 
 public class DumpTask extends Task {
 	Utils utils = new Utils();
+
+	ConnectionHandler connectionHandler = new ConnectionHandler();
+
+	protected Connection getConnection() throws SQLException {
+		FilteredPropertyCopier copier = new FilteredPropertyCopier();
+		copier.copyProperties(connectionHandler, this);
+		return connectionHandler.getConnection();
+	}
 
 	/**
 	 * The encoding to use
@@ -134,6 +145,14 @@ public class DumpTask extends Task {
 
 	public void setTargetDatabase(String targetDatabase) {
 		this.targetDatabase = targetDatabase;
+	}
+
+	public ConnectionHandler getConnectionHandler() {
+		return connectionHandler;
+	}
+
+	public void setConnectionHandler(ConnectionHandler connectionHandler) {
+		this.connectionHandler = connectionHandler;
 	}
 
 }
