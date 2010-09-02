@@ -1,5 +1,6 @@
 package org.apache.torque.mojo;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
@@ -8,6 +9,13 @@ import org.apache.tools.ant.Task;
  * A base class for mojos that wrap an Ant Task
  */
 public class AntTaskMojo extends BaseMojo {
+
+	/**
+	 * Creates a new instance of AntTaskMojo.
+	 */
+	public AntTaskMojo() {
+		this(null);
+	}
 
 	/**
 	 * Creates a new instance of AntTaskMojo.
@@ -27,30 +35,28 @@ public class AntTaskMojo extends BaseMojo {
 	private Project antProject;
 
 	/**
-	 * Provide a hook for any Ant initialization that needs to be done
+	 * Configures the Ant task which is wrapped by this mojo.
 	 */
-	protected void bootstrap() {
+	protected void configureTask() throws MojoExecutionException {
 		if (getAntTask() == null) {
-			throw new IllegalArgumentException("antTask is null");
+			throw new IllegalArgumentException("Ant task is null");
 		}
 
 		// Attach our task to a project
 		setAntProject(getIniatializedAntProject());
 		getAntTask().setProject(getAntProject());
-	}
-
-	/**
-	 * Configures the Ant task which is wrapped by this mojo.
-	 */
-	protected void configureTask() throws MojoExecutionException {
-		// nothing to do by default
+		try {
+			// By default copy properties from the mojo to the task
+			BeanUtils.copyProperties(getAntTask(), this);
+		} catch (Exception e) {
+			throw new MojoExecutionException("Error copying properties", e);
+		}
 	}
 
 	/**
 	 * Configure the Ant task and then execute it
 	 */
 	public void executeMojo() throws MojoExecutionException {
-		bootstrap();
 		configureTask();
 		getAntTask().execute();
 	}
@@ -66,6 +72,7 @@ public class AntTaskMojo extends BaseMojo {
 		antProject.init();
 		// Add a listener that gets notified about log messages
 		antProject.addBuildListener(new MojoAntBuildListener(getLog()));
+		// Return the initialized ant project
 		return antProject;
 	}
 

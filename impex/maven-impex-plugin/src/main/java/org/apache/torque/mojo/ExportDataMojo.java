@@ -13,37 +13,7 @@ import org.kuali.core.db.torque.KualiTorqueDataDumpTask;
  * @goal exportdata
  * @phase generate-sources
  */
-public class ExportDataMojo extends AntTaskMojo {
-
-	/**
-	 * Comma separated list of regular expressions for tables to include in the export
-	 * 
-	 * @parameter expression="${includePatterns}"
-	 */
-	private String includePatterns;
-
-	/**
-	 * Comma separated list of regular expressions for tables to exclude from the export
-	 * 
-	 * @parameter expression="${excludePatterns}"
-	 */
-	private String excludePatterns;
-
-	/**
-	 * Database type (oracle, mysql etc)
-	 * 
-	 * @parameter expression="${targetDatabase}"
-	 * @required
-	 */
-	private String targetDatabase;
-
-	/**
-	 * Encoding to use when exporting data to a file
-	 * 
-	 * @parameter expression="${encoding}" default-value= "${project.build.sourceEncoding}"
-	 * @since 1.1
-	 */
-	private String encoding;
+public class ExportDataMojo extends ExportMojo {
 
 	/**
 	 * The format to use for dates/timestamps
@@ -62,78 +32,15 @@ public class ExportDataMojo extends AntTaskMojo {
 	private File outputDir;
 
 	/**
-	 * The schema containing the tables to dump
-	 * 
-	 * @parameter expression="${schema}"
-	 * @required
-	 */
-	private String schema;
-
-	/**
-	 * The fully qualified class name of the database driver.
-	 * 
-	 * @parameter expression="${driver}"
-	 * @required
-	 */
-	private String driver;
-
-	/**
-	 * The connect URL of the database.
-	 * 
-	 * @parameter expression="${url}"
-	 * @required
-	 */
-	private String url;
-
-	/**
-	 * The user name to connect to the database.
-	 * 
-	 * @parameter expression="${username}"
-	 */
-	private String username;
-
-	/**
-	 * The password for the database user.
-	 * 
-	 * @parameter expression="${password}"
-	 */
-	private String password;
-
-	/**
-	 * The name of the xml file to process. Only one xml file can be processed at a time. Overrides the settings
-	 * schemaIncludes and schemaExcludes
-	 * 
-	 * @parameter expression="${schemaXMLFile}" default-value="${basedir}/src/main/impex/${project.artifactId}.xml"
-	 * @required
-	 */
-	private String schemaXMLFile;
-
-	/**
-	 * Creates a new SQLMojo object.
-	 */
-	public ExportDataMojo() {
-		super(new KualiTorqueDataDumpTask());
-	}
-
-	/**
 	 * Configure the Ant task
 	 */
 	protected void configureTask() throws MojoExecutionException {
+		KualiTorqueDataDumpTask task = new KualiTorqueDataDumpTask();
+		setAntTask(task);
 		super.configureTask();
-		KualiTorqueDataDumpTask task = (KualiTorqueDataDumpTask) super.getAntTask();
-		task.setDriver(getDriver());
-		task.setUrl(getUrl());
-		task.setUsername(getUsername());
-		task.setPassword(getPassword());
-		task.setSchema(getSchema());
 		makeOutputDir();
-		task.setOutputDirectory(getOutputDir());
-		task.setDateFormat(getDateFormat());
-		task.setSchemaXMLFile(getSchemaXMLFile());
-		task.setEncoding(getEncoding());
-		task.setDatabaseType(getTargetDatabase());
-		task.setIncludePatterns(ExportSchemaMojo.getList(getIncludePatterns()));
-		task.setExcludePatterns(ExportSchemaMojo.getList(getExcludePatterns()));
+		task.setIncludePatterns(getListFromCSV(getIncludePatterns()));
+		task.setExcludePatterns(getListFromCSV(getExcludePatterns()));
 	}
 
 	protected void makeOutputDir() throws MojoExecutionException {
@@ -145,96 +52,6 @@ public class ExportDataMojo extends AntTaskMojo {
 		} catch (IOException e) {
 			throw new MojoExecutionException("Error creating output directory", e);
 		}
-	}
-
-	/**
-	 * Returns the fully qualified class name of the database driver.
-	 */
-	public String getDriver() {
-		return driver;
-	}
-
-	/**
-	 * Sets the fully qualified class name of the database driver.
-	 * 
-	 * @param driver
-	 *            the fully qualified class name of the database driver.
-	 */
-	public void setDriver(String driver) {
-		this.driver = driver;
-	}
-
-	/**
-	 * Returns the password of the database user.
-	 * 
-	 * @return the password of the database user.
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * Sets the password of the database user.
-	 * 
-	 * @param password
-	 *            the password of the database user.
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * Returns the connect URL to the database.
-	 * 
-	 * @return the connect URL to the database.
-	 */
-	public String getUrl() {
-		return url;
-	}
-
-	/**
-	 * Sets the connect URL to the database.
-	 * 
-	 * @param url
-	 *            the connect URL to the database.
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	/**
-	 * Returns the name of the xml file to process.
-	 * 
-	 * @return the name of the xml file to process.
-	 */
-	public String getSchemaXMLFile() {
-		return schemaXMLFile;
-	}
-
-	/**
-	 * Sets the name of the xml file to process.
-	 * 
-	 * @param project
-	 *            the name of the xml file to process.
-	 */
-	public void setSchemaXMLFile(String xmlFile) {
-		this.schemaXMLFile = xmlFile;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getSchema() {
-		return schema;
-	}
-
-	public void setSchema(String schema) {
-		this.schema = schema;
 	}
 
 	public File getOutputDir() {
@@ -251,37 +68,5 @@ public class ExportDataMojo extends AntTaskMojo {
 
 	public void setDateFormat(String dateFormat) {
 		this.dateFormat = dateFormat;
-	}
-
-	public String getEncoding() {
-		return encoding;
-	}
-
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
-
-	public String getTargetDatabase() {
-		return targetDatabase;
-	}
-
-	public void setTargetDatabase(String targetDatabase) {
-		this.targetDatabase = targetDatabase;
-	}
-
-	public String getIncludePatterns() {
-		return includePatterns;
-	}
-
-	public void setIncludePatterns(String includePatterns) {
-		this.includePatterns = includePatterns;
-	}
-
-	public String getExcludePatterns() {
-		return excludePatterns;
-	}
-
-	public void setExcludePatterns(String excludePatterns) {
-		this.excludePatterns = excludePatterns;
 	}
 }
