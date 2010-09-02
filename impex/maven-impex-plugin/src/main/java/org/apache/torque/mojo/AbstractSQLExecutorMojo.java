@@ -34,10 +34,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.shared.filtering.MavenFileFilter;
+import org.apache.torque.mojo.configurer.JdbcConfigurer;
 import org.apache.torque.mojo.converter.ArtifactIdConverter;
 import org.kuali.core.db.torque.Utils;
-import org.kuali.db.DatabaseType;
-import org.kuali.db.JDBCConfiguration;
 import org.kuali.db.JDBCUtils;
 import org.kuali.db.SQLExecutor;
 import org.kuali.db.Transaction;
@@ -484,39 +483,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		}
 	}
 
-	protected String getEmptyURLErrorMessage() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("\n\n");
-		sb.append("No url was supplied.\n");
-		sb.append("You can specify a url in the plugin configuration or provide it as a system property.\n\n");
-		sb.append("For example:\n\n");
-		sb.append("-Durl=jdbc:oracle:thin:@localhost:1521:XE (oracle)\n");
-		sb.append("-Durl=jdbc:mysql://localhost:3306/<database> (mysql)\n");
-		sb.append("\n.");
-		return sb.toString();
-	}
-
 	/**
 	 * Attempt to automatically detect the correct JDBC driver and database type (oracle, mysql, h2, derby, etc) given a
 	 * JDBC url
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
-		if (isEmpty(url)) {
-			throw new MojoExecutionException(getEmptyURLErrorMessage());
-		}
-
-		JDBCConfiguration config = jdbcUtils.getDatabaseConfiguration(url);
-		if (config.equals(JDBCConfiguration.UNKNOWN_CONFIG)) {
-			return;
-		}
-
-		if (isBlank(driver)) {
-			driver = config.getDriver();
-		}
-
-		if (isBlank(targetDatabase)) {
-			targetDatabase = config.getType().toString().toLowerCase();
-		}
+		new JdbcConfigurer().updateConfiguration(this);
 
 		if (isBlank(getArtifactIdConverterImpl())) {
 			String packageName = ArtifactIdConverter.class.getPackage().getName();
@@ -545,25 +517,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * Validate that some essential configuration items are present
 	 */
 	protected void validateConfiguration() throws MojoExecutionException {
-		if (isBlank(driver)) {
-			throw new MojoExecutionException("No database driver. Specify one in the plugin configuration.");
-		}
-
-		if (isBlank(url)) {
-			throw new MojoExecutionException(getEmptyURLErrorMessage());
-		}
-
-		try {
-			DatabaseType.valueOf(targetDatabase.toUpperCase());
-		} catch (IllegalArgumentException e) {
-			throw new MojoExecutionException("Database type of '" + targetDatabase + "' is invalid.  Valid values: " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()));
-		}
-
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			throw new MojoExecutionException("Can't load driver class " + driver + ". Be sure to include it as a plugin dependency.");
-		}
+		new JdbcConfigurer().updateConfiguration(this);
 	}
 
 	protected void validateCredentials(Credentials credentials, boolean requireCredentials, String validationFailureMessage) throws MojoExecutionException {
