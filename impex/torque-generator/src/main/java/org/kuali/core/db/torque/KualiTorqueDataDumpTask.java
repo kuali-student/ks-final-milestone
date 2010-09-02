@@ -111,7 +111,7 @@ public class KualiTorqueDataDumpTask extends Task {
 	/**
 	 * The format to use for dates/timestamps
 	 */
-	private String dateFormat = "yyyyMMddHHmmss";
+	private String dateFormat = "yyyyMMddHHmmss z";
 
 	/**
 	 * List of regular expression patterns that will exclude tables

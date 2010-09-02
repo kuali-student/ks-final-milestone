@@ -48,7 +48,7 @@ public class ExportDataMojo extends AntTaskMojo {
 	/**
 	 * The format to use for dates/timestamps
 	 * 
-	 * @parameter expression="${dateFormat}" default-value="yyyyMMddHHmmss"
+	 * @parameter expression="${dateFormat}" default-value="yyyyMMddHHmmss z"
 	 * @required
 	 */
 	private String dateFormat;

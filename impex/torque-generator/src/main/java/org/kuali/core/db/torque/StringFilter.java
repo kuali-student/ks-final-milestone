@@ -89,12 +89,12 @@ public class StringFilter {
 		while (itr.hasNext()) {
 			String s = itr.next();
 			if (!isInclude(s)) {
-				log.info("Skipping " + s);
+				log.debug("Skipping " + s + ".  Did not match an inclusion pattern");
 				itr.remove();
 				continue;
 			}
 			if (isExclude(s)) {
-				log.info("Skipping " + s);
+				log.debug("Skipping " + s + ". Matched an exclusion pattern.");
 				itr.remove();
 			}
 		}
