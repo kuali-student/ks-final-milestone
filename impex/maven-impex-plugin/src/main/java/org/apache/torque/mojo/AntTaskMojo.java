@@ -7,7 +7,7 @@ import org.apache.tools.ant.Task;
 /**
  * A base class for mojos that wrap an Ant Task
  */
-public abstract class AntTaskMojo extends BaseMojo {
+public class AntTaskMojo extends BaseMojo {
 
 	/**
 	 * Creates a new instance of AntTaskMojo.

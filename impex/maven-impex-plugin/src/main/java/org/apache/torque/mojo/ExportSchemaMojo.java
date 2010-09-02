@@ -48,8 +48,6 @@ public class ExportSchemaMojo extends ExportMojo {
 		KualiTorqueSchemaDumpTask task = new KualiTorqueSchemaDumpTask();
 		setAntTask(task);
 		super.configureTask();
-		task.setIncludePatterns(getListFromCSV(getIncludes()));
-		task.setExcludePatterns(getListFromCSV(getExcludes()));
 	}
 
 	public boolean isProcessTables() {

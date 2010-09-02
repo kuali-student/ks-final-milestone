@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -106,6 +107,18 @@ public class StringFilter {
 
 	public List<Pattern> getExcludes() {
 		return excludes;
+	}
+
+	public static List<String> getListFromCSV(String csv) {
+		if (StringUtils.isEmpty(csv)) {
+			return new ArrayList<String>();
+		}
+		String[] tokens = csv.split(",");
+		List<String> list = new ArrayList<String>();
+		for (String token : tokens) {
+			list.add(token.trim());
+		}
+		return list;
 	}
 
 }

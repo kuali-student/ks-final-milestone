@@ -1,9 +1,8 @@
 package org.apache.torque.mojo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.kuali.core.db.torque.DumpTask;
+import org.kuali.core.db.torque.StringFilter;
 
 /**
  * Reads the content of tables from the database and exports the data to XML files.
@@ -77,18 +76,6 @@ public abstract class ExportMojo extends AntTaskMojo {
 	 * @parameter expression="${password}"
 	 */
 	private String password;
-
-	protected List<String> getListFromCSV(String csv) {
-		if (StringUtils.isEmpty(csv)) {
-			return new ArrayList<String>();
-		}
-		String[] tokens = csv.split(",");
-		List<String> list = new ArrayList<String>();
-		for (String token : tokens) {
-			list.add(token.trim());
-		}
-		return list;
-	}
 
 	/**
 	 * Returns the fully qualified class name of the database driver.
@@ -191,5 +178,13 @@ public abstract class ExportMojo extends AntTaskMojo {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	@Override
+	protected void configureTask() throws MojoExecutionException {
+		super.configureTask();
+		DumpTask task = (DumpTask) super.getAntTask();
+		task.setIncludePatterns(StringFilter.getListFromCSV(getIncludes()));
+		task.setExcludePatterns(StringFilter.getListFromCSV(getExcludes()));
 	}
 }
