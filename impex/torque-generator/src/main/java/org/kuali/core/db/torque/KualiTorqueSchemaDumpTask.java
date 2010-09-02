@@ -26,6 +26,9 @@ import org.apache.xerces.dom.DocumentTypeImpl;
 import org.apache.xml.serialize.Method;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
+import org.kuali.core.db.torque.pojo.ForeignKey;
+import org.kuali.core.db.torque.pojo.Reference;
+
 import static org.kuali.db.JDBCUtils.*;
 import org.w3c.dom.Element;
 
@@ -232,7 +235,7 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	}
 
 	protected void processForeignKeys(DatabaseMetaData dbMetaData, String curTable, Element table) throws SQLException {
-		Map<String, KualiForeignKey> foreignKeys = getForeignKeys(dbMetaData, curTable);
+		Map<String, ForeignKey> foreignKeys = getForeignKeys(dbMetaData, curTable);
 
 		// Foreign keys for this table.
 		for (String fkName : foreignKeys.keySet()) {
@@ -241,19 +244,19 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		}
 	}
 
-	protected Element getForeignKeyElement(String fkName, Map<String, KualiForeignKey> foreignKeys) {
+	protected Element getForeignKeyElement(String fkName, Map<String, ForeignKey> foreignKeys) {
 		Element fk = doc.createElement("foreign-key");
 		fk.setAttribute("name", fkName);
-		KualiForeignKey forKey = foreignKeys.get(fkName);
+		ForeignKey forKey = foreignKeys.get(fkName);
 		String foreignKeyTable = forKey.getRefTableName();
-		List<KualiReference> refs = forKey.getReferences();
+		List<Reference> refs = forKey.getReferences();
 		fk.setAttribute("foreignTable", foreignKeyTable);
 		String onDelete = forKey.getOnDelete();
 		// gmcgrego - just adding onDelete if it's cascade so as not to affect kfs behavior
 		if (onDelete == "cascade") {
 			fk.setAttribute("onDelete", onDelete);
 		}
-		for (KualiReference refData : refs) {
+		for (Reference refData : refs) {
 			Element ref = doc.createElement("reference");
 			ref.setAttribute("local", refData.getLocalColumn());
 			ref.setAttribute("foreign", refData.getForeignColumn());
@@ -511,22 +514,22 @@ public class KualiTorqueSchemaDumpTask extends Task {
 		return fkName;
 	}
 
-	protected KualiForeignKey getNewKualiForeignKey(String refTableName, String onDelete) {
-		KualiForeignKey fk = new KualiForeignKey();
+	protected ForeignKey getNewKualiForeignKey(String refTableName, String onDelete) {
+		ForeignKey fk = new ForeignKey();
 		fk.setRefTableName(refTableName); // referenced table name
-		fk.setReferences(new ArrayList<KualiReference>());
+		fk.setReferences(new ArrayList<Reference>());
 		fk.setOnDelete(onDelete);
 		return fk;
 	}
 
-	protected void addForeignKey(Map<String, KualiForeignKey> fks, String fkName, String refTableName, String onDelete, ResultSet foreignKeys) throws SQLException {
-		KualiForeignKey fk = (KualiForeignKey) fks.get(fkName);
+	protected void addForeignKey(Map<String, ForeignKey> fks, String fkName, String refTableName, String onDelete, ResultSet foreignKeys) throws SQLException {
+		ForeignKey fk = (ForeignKey) fks.get(fkName);
 		if (fk == null) {
 			fk = getNewKualiForeignKey(refTableName, onDelete);
 			fks.put(fkName, fk);
 		}
-		List<KualiReference> references = fk.getReferences();
-		KualiReference reference = new KualiReference();
+		List<Reference> references = fk.getReferences();
+		Reference reference = new Reference();
 		reference.setLocalColumn(foreignKeys.getString(8)); // local column
 		reference.setForeignColumn(foreignKeys.getString(4)); // foreign column
 		references.add(reference);
@@ -542,8 +545,8 @@ public class KualiTorqueSchemaDumpTask extends Task {
 	 * @return A list of foreign keys in <code>tableName</code>.
 	 * @throws SQLException
 	 */
-	protected Map<String, KualiForeignKey> getForeignKeys(DatabaseMetaData dbMeta, String tableName) throws SQLException {
-		Map<String, KualiForeignKey> fks = new HashMap<String, KualiForeignKey>();
+	protected Map<String, ForeignKey> getForeignKeys(DatabaseMetaData dbMeta, String tableName) throws SQLException {
+		Map<String, ForeignKey> fks = new HashMap<String, ForeignKey>();
 		ResultSet foreignKeys = null;
 		try {
 			foreignKeys = dbMeta.getImportedKeys(null, schema, tableName);

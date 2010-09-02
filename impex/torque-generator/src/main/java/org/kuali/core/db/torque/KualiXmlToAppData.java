@@ -21,6 +21,7 @@ import org.apache.torque.engine.database.model.Index;
 import org.apache.torque.engine.database.model.Table;
 import org.apache.torque.engine.database.model.Unique;
 import org.apache.torque.engine.database.transform.DTDResolver;
+import org.kuali.core.db.torque.pojo.KualiDatabase;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.xml.sax.Attributes;

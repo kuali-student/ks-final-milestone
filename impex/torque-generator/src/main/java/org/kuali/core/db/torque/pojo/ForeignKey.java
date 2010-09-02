@@ -1,11 +1,11 @@
-package org.kuali.core.db.torque;
+package org.kuali.core.db.torque.pojo;
 
 import java.util.List;
 
-public class KualiForeignKey {
+public class ForeignKey {
 	String refTableName;
 	String onDelete;
-	List<KualiReference> references;
+	List<Reference> references;
 
 	public String getRefTableName() {
 		return refTableName;
@@ -23,11 +23,11 @@ public class KualiForeignKey {
 		this.onDelete = onDelete;
 	}
 
-	public List<KualiReference> getReferences() {
+	public List<Reference> getReferences() {
 		return references;
 	}
 
-	public void setReferences(List<KualiReference> references) {
+	public void setReferences(List<Reference> references) {
 		this.references = references;
 	}
 

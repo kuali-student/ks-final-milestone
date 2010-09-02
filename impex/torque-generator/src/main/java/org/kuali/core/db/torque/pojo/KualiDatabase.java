@@ -1,4 +1,4 @@
-package org.kuali.core.db.torque;
+package org.kuali.core.db.torque.pojo;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

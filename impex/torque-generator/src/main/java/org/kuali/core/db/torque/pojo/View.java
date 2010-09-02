@@ -1,4 +1,4 @@
-package org.kuali.core.db.torque;
+package org.kuali.core.db.torque.pojo;
 
 public class View {
 
