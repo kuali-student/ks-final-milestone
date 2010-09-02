@@ -113,7 +113,7 @@ public class ProgramServiceImpl implements ProgramService {
         }
 
         try {
-            return processProgramRequirementInfo(programRequirementInfo, NodeOperation.CREATE);
+            return processProgramRequirement(programRequirementInfo, NodeOperation.CREATE);
         } catch (AssemblyException e) {
             LOG.error("Error disassembling Program Requirement", e);
             throw new OperationFailedException("Error disassembling Program Requirement", e);
@@ -216,8 +216,19 @@ public class ProgramServiceImpl implements ProgramService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	checkForMissingParameter(programRequirementId, "programRequirementId");
+        try {
+        	ProgramRequirementInfo programRequirement = getProgramRequirement(programRequirementId, null, null);
+
+        	processProgramRequirement(programRequirement, NodeOperation.DELETE);
+
+            return getStatus();
+
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling MajorDiscipline", e);
+            throw new OperationFailedException("Error disassembling ProgramRequirement", e);
+        }
+
     }
 
     @Override
@@ -472,8 +483,15 @@ public class ProgramServiceImpl implements ProgramService {
             InvalidParameterException, MissingParameterException,
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
+    	deleteProgramRequirement(programRequirementInfo.getId());
+    	ProgramRequirementInfo newOne;
+		try {
+			newOne = createProgramRequirement(programRequirementInfo);
+		} catch (AlreadyExistsException e) {
+			throw new InvalidParameterException();
+		}
+    	return newOne;
     }
 
     @Override
@@ -641,7 +659,7 @@ public class ProgramServiceImpl implements ProgramService {
         return results.getBusinessDTORef();
     }
 
-    private ProgramRequirementInfo processProgramRequirementInfo(ProgramRequirementInfo programRequirementInfo, NodeOperation operation) throws AssemblyException {
+    private ProgramRequirementInfo processProgramRequirement(ProgramRequirementInfo programRequirementInfo, NodeOperation operation) throws AssemblyException {
         BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation);
         invokeServiceCalls(results);
         return results.getBusinessDTORef();

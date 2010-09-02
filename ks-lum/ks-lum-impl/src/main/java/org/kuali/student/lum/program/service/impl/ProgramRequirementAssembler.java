@@ -12,6 +12,9 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -125,8 +128,17 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
         result.getChildNodes().add(statementTree);
 
-        RefStatementRelationInfo relation = new RefStatementRelationInfo();
-        relation.setId(UUIDHelper.genStringUUID(null));
+        RefStatementRelationInfo relation;
+        if (operation == NodeOperation.CREATE) {
+            relation = new RefStatementRelationInfo();
+            relation.setId(UUIDHelper.genStringUUID(null));
+        } else {
+        	try {
+        		relation = statementService.getRefStatementRelationsByRef("clu", clu.getId()).get(0);
+			} catch (Exception e) {
+				throw new AssemblyException("Unable to find RefStatementRelation", e);
+			}
+        }
         relation.setType("clu.programrequirements");
         relation.setRefObjectId(clu.getId());
         relation.setRefObjectTypeKey("clu");

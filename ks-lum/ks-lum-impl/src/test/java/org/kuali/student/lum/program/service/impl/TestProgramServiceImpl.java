@@ -626,7 +626,16 @@ public class TestProgramServiceImpl {
 
     @Test
     public void testCreateProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-    	ProgramRequirementInfo progReq = new ProgramRequirementInfo();
+    	ProgramRequirementInfo progReq = createProgramRequirementTestData();
+    	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
+    	checkProgramRequirement(progReq, createdProgReq);
+
+    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), null, null);
+    	checkProgramRequirement(progReq, progReq2);
+    }
+
+	private ProgramRequirementInfo createProgramRequirementTestData() {
+		ProgramRequirementInfo progReq = new ProgramRequirementInfo();
     	progReq.setShortTitle("Short Title");
     	progReq.setLongTitle("Long title");
     	progReq.setDescr(toRichText("Program Requirement"));
@@ -644,12 +653,8 @@ public class TestProgramServiceImpl {
       	StatementTreeViewInfo statement = createStatementTree();
     	progReq.setStatement(statement);
     	progReq.setType(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
-    	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
-    	checkProgramRequirement(progReq, createdProgReq);
-
-    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), null, null);
-    	checkProgramRequirement(progReq, progReq2);
-    }
+		return progReq;
+	}
 
 	private static void checkProgramRequirement(
 			ProgramRequirementInfo orig, ProgramRequirementInfo created) {
@@ -1248,5 +1253,17 @@ public class TestProgramServiceImpl {
             e.printStackTrace();
             fail(e.getMessage());
         }
+    }
+    
+    @Test(expected=DoesNotExistException.class)
+    public void testDeleteProgramRequirement() throws Exception {
+    	ProgramRequirementInfo progReq = createProgramRequirementTestData();
+    	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
+    	try {
+			programService.deleteProgramRequirement(createdProgReq.getId());
+		} catch (DoesNotExistException e) {
+			fail(e.getMessage());
+		}
+    	programService.getProgramRequirement(createdProgReq.getId(), null, null);
     }
 }
