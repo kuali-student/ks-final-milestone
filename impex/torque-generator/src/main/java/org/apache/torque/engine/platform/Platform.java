@@ -29,86 +29,85 @@ import org.apache.torque.engine.database.model.SchemaType;
 
 /**
  * Interface for RDBMS platform specific behaviour.
- *
+ * 
  * @author <a href="mailto:mpoeschl@marmot.at">Martin Poeschl</a>
  * @version $Id: Platform.java,v 1.1.6.2 2008-04-18 17:04:37 jkeller Exp $
  */
-public interface Platform
-{
-    /** constant for native id method */
-    String IDENTITY = "identity";
-    /** constant for native id method */
-    String SEQUENCE = "sequence";
+public interface Platform {
+	/** constant for native id method */
+	String IDENTITY = "identity";
+	/** constant for native id method */
+	String SEQUENCE = "sequence";
 
-    /**
-     * Returns the native IdMethod (sequence|identity)
-     *
-     * @return the native IdMethod
-     */
-    String getNativeIdMethod();
+	/**
+	 * Returns the native IdMethod (sequence|identity)
+	 * 
+	 * @return the native IdMethod
+	 */
+	String getNativeIdMethod();
 
-    /**
-     * Returns the max column length supported by the db.
-     *
-     * @return the max column length
-     */
-    int getMaxColumnNameLength();
+	/**
+	 * Returns the max column length supported by the db.
+	 * 
+	 * @return the max column length
+	 */
+	int getMaxColumnNameLength();
 
-    /**
-     * Returns the db specific domain for a jdbcType.
-     *
-     * @param jdbcType the jdbcType name
-     * @return the db specific domain
-     */
-    Domain getDomainForSchemaType(SchemaType jdbcType);
+	/**
+	 * Returns the db specific domain for a jdbcType.
+	 * 
+	 * @param jdbcType
+	 *            the jdbcType name
+	 * @return the db specific domain
+	 */
+	Domain getDomainForSchemaType(SchemaType jdbcType);
 
-    /**
-     * @return The RDBMS-specific SQL fragment for <code>NULL</code>
-     * or <code>NOT NULL</code>.
-     */
-    String getNullString(boolean notNull);
+	/**
+	 * @return The RDBMS-specific SQL fragment for <code>NULL</code> or <code>NOT NULL</code>.
+	 */
+	String getNullString(boolean notNull);
 
-    /**
-     * @return The RDBMS-specific SQL fragment for autoincrement.
-     */
-    String getAutoIncrement();
+	/**
+	 * @return The RDBMS-specific SQL fragment for autoincrement.
+	 */
+	String getAutoIncrement();
 
-    /**
-     * Returns if the RDBMS-specific SQL type has a size attribute.
-     *
-     * @param sqlType the SQL type
-     * @return true if the type has a size attribute
-     */
-    boolean hasSize(String sqlType);
+	/**
+	 * Returns if the RDBMS-specific SQL type has a size attribute.
+	 * 
+	 * @param sqlType
+	 *            the SQL type
+	 * @return true if the type has a size attribute
+	 */
+	boolean hasSize(String sqlType);
 
-    /**
-     * Returns if the RDBMS-specific SQL type has a scale attribute.
-     *
-     * @param sqlType the SQL type
-     * @return true if the type has a scale attribute
-     */
-    boolean hasScale(String sqlType);
+	/**
+	 * Returns if the RDBMS-specific SQL type has a scale attribute.
+	 * 
+	 * @param sqlType
+	 *            the SQL type
+	 * @return true if the type has a scale attribute
+	 */
+	boolean hasScale(String sqlType);
 
-    /**
-     * Returns whether the "not null part" of the definition of a column
-     * should be generated before the "autoincrement part" in a "create table"
-     * statement.
-     *
-     * @return true if the "not null part" should be first,
-     *         false if the "autoincrement part" should be first in a
-     *         "create table" statement.
-     */
-    boolean createNotNullBeforeAutoincrement();
-    
-    String filterInvalidDefaultValues( String defaultValue );
-    
-	public boolean isSpecialDefault( String defaultValue );
-    
-	String getViewDefinition( Connection con, String schema, String viewName);
-	
-	Long getSequenceNextVal( Connection con, String schema, String sequenceName );
+	/**
+	 * Returns whether the "not null part" of the definition of a column should be generated before the
+	 * "autoincrement part" in a "create table" statement.
+	 * 
+	 * @return true if the "not null part" should be first, false if the "autoincrement part" should be first in a
+	 *         "create table" statement.
+	 */
+	boolean createNotNullBeforeAutoincrement();
+
+	String filterInvalidDefaultValues(String defaultValue);
+
+	public boolean isSpecialDefault(String defaultValue);
+
+	String getViewDefinition(Connection con, String schema, String viewName);
+
+	Long getSequenceNextVal(Connection con, String schema, String sequenceName);
 
 	public List<String> getPrimaryKeys(DatabaseMetaData dbMeta, String dbSchema, String tableName) throws SQLException;
-	
+
 	public List<String> getTableNames(DatabaseMetaData dbMeta, String databaseSchema) throws SQLException;
 }
