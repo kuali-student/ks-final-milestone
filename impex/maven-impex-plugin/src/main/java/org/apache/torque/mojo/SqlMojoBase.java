@@ -29,6 +29,13 @@ import org.kuali.core.db.torque.KualiTorqueSQLTask;
  */
 public abstract class SqlMojoBase extends DataModelTaskMojo {
 	/**
+	 * Creates a new SQLMojo object.
+	 */
+	public SqlMojoBase() {
+		setAntTask(new KualiTorqueSQLTask());
+	}
+
+	/**
 	 * The suffix of the generated sql files.
 	 */
 	private String suffix = "";

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.kuali.core.db.torque.SetUtils;
 import org.kuali.core.db.torque.StringFilter;
 
 public class FilteredPropertyCopier {
@@ -45,7 +44,7 @@ public class FilteredPropertyCopier {
 	@SuppressWarnings("unchecked")
 	public void copyProperties(Object dest, Object origin) {
 		try {
-			Set<String> properties = SetUtils.intersection(getPropertySet(origin), getPropertySet(dest));
+			Set<String> properties = getPropertySet(origin);
 			StringFilter filterer = new StringFilter(getIncludeProperties(), getExcludeProperties());
 			filterer.filter(properties.iterator());
 			Map<String, Object> description = BeanUtils.describe(origin);

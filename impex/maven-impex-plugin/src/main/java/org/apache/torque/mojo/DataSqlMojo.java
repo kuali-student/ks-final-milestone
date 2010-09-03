@@ -92,6 +92,8 @@ public class DataSqlMojo extends DataModelTaskMojo {
 
 	@Override
 	public void executeMojo() throws MojoExecutionException {
+		generateContextProperties();
+		configureTask();
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
 		ChangeDetector detector = new ChangeDetector(getOutputDir(), getReportFile(), getSchemaFiles(), getDataFiles());
@@ -104,7 +106,8 @@ public class DataSqlMojo extends DataModelTaskMojo {
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Generating SQL for " + getTargetDatabase() + " from data XML files");
 		getLog().info("------------------------------------------------------------------------");
-		super.executeMojo();
+		getAntTask().execute();
+		// super.executeMojo();
 	}
 
 	protected List<File> getDataFiles() {

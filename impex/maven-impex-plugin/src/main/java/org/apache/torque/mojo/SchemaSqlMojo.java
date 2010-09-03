@@ -15,8 +15,7 @@ public class SchemaSqlMojo extends SqlMojoBase {
 	/**
 	 * The directory in which the SQL will be generated.
 	 * 
-	 * @parameter property="outputDir" expression="${outputDir}"
-	 *            default-value="${project.build.directory}/classes/sql"
+	 * @parameter property="outputDir" expression="${outputDir}" default-value="${project.build.directory}/classes/sql"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy1;
@@ -66,6 +65,8 @@ public class SchemaSqlMojo extends SqlMojoBase {
 	 * Generate SQL from schema XML files
 	 */
 	public void executeMojo() throws MojoExecutionException {
+		generateContextProperties();
+		configureTask();
 		validateConfiguration();
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
@@ -77,6 +78,6 @@ public class SchemaSqlMojo extends SqlMojoBase {
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Generating SQL for " + getTargetDatabase() + " from schema XML files");
 		getLog().info("------------------------------------------------------------------------");
-		super.executeMojo();
+		getAntTask().execute();
 	}
 }
