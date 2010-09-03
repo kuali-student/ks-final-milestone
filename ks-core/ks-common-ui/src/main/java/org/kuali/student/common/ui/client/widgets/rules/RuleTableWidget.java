@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -44,6 +45,7 @@ public class RuleTableWidget extends FlowPanel {
     private KSButton btnRedo = new KSButton("Redo");
     private KSButton btnDelete = new KSButton("Delete");
     private FlowPanel topButtonsPanel = new FlowPanel();
+    private FlowPanel ruleTablePanel = new FlowPanel();
 
     private KSProgressIndicator twiddler = new KSProgressIndicator();
 
@@ -68,7 +70,6 @@ public class RuleTableWidget extends FlowPanel {
 
         add(topButtonsPanel);
 
-        FlowPanel ruleTablePanel = new FlowPanel();
         ruleTablePanel.setStyleName("KS-Program-Rule-ObjectView-RulePanel");
         ruleTablePanel.add(ruleTable);
         add(ruleTablePanel);
@@ -292,7 +293,7 @@ public class RuleTableWidget extends FlowPanel {
 
     // called by requirement display widget when user wants to edit a specific piece of rule
     public void redraw(StatementTreeViewInfo stmtTreeInfo, boolean newRule) {
-        rule.getStatementVO().setStatementTreeViewInfo(stmtTreeInfo);
+        rule.getStatementVO().setStatementTreeViewInfo(stmtTreeInfo);    //TODO remove req. compon.t
         if (newRule) {
             rule.setEditHistory(new EditHistory(rule.getStatementVO()));
         }
@@ -307,12 +308,19 @@ public class RuleTableWidget extends FlowPanel {
         btnUndo.setEnabled(rule.getEditHistory().isUndoable());
         btnRedo.setEnabled(rule.getEditHistory().isRedoable());
         btnDelete.setEnabled(rule.statementVOIsDegroupAble());
-        btnMoveRuleUp.setEnabled(rule.isCellSelected() && rule.getStatementVO().isSimple()); //(rule.getStatementTree().getAllLeafCount() > 1));     
-        btnMoveRuleDown.setEnabled(rule.isCellSelected() && rule.getStatementVO().isSimple()); //(rule.getStatementTree().getAllLeafCount() > 1));
+        btnMoveRuleUp.setEnabled(rule.isCellSelected() && (rule.getStatementTree().getAllLeafCount() > 1));
+        btnMoveRuleDown.setEnabled(rule.isCellSelected() && (rule.getStatementTree().getAllLeafCount() > 1));
         
         ruleTable.clear();
         Node tree = rule.getStatementTree();
-        if (tree != null) {
+        if ((tree != null) && (rule.getStatementVO().getChildCount() > 0)) {
+
+            //if we didn't have rule before, now we do so add back the rule table
+            if (ruleTablePanel.getWidgetIndex(ruleTable) == -1) {
+                ruleTablePanel.clear();                
+                ruleTablePanel.add(ruleTable);   
+            }
+
             if (rule.isSimplifying()) {
                 twiddler.setText("Simplifying...");
                 twiddler.setVisible(true);
@@ -325,7 +333,10 @@ public class RuleTableWidget extends FlowPanel {
             ruleTable.addTextClickHandler(ruleTableSelectionHandler);
             ruleTable.addToggleHandler(ruleTableToggleClickHandler);
             ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);                
-        }        
+        } else { //no rule exist so don't show rule table and show a message instead
+            ruleTablePanel.clear();
+            ruleTablePanel.add(new KSLabel("No rules have been added"));
+        }
     }
     
     private void showRuleBeforeSimplify(StatementVO unsimplified) {

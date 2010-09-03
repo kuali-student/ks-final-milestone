@@ -53,19 +53,18 @@ public class RulePreviewWidget extends FlowPanel {
         //start with a header for the entire rule
         buildRuleHeader();
 
-        //true if we have an empty rule
-        if ((stmtTreeInfo == null) || (((stmtTreeInfo.getStatements() == null) || (stmtTreeInfo.getStatements().isEmpty())) &&
-            ((stmtTreeInfo.getReqComponents() == null) || (stmtTreeInfo.getReqComponents().isEmpty())))) {
-            KSLabel noRulesAddedYet = new KSLabel("No rules have been added yet.");
-            noRulesAddedYet.addStyleName("KS-Program-Rule-Preview-NoRule");
-            rulePanel.add(noRulesAddedYet);
+        //show sub-rules if we have any
+        if (stmtTreeInfo == null) {
+            displayNoRule();
+        }
+
+        if ((stmtTreeInfo.getStatements() == null) || (stmtTreeInfo.getStatements().isEmpty())) {
+            if ((stmtTreeInfo.getReqComponents() == null) || (stmtTreeInfo.getReqComponents().isEmpty())) {
+                displayNoRule();
+            } else {
+                addSubRule(stmtTreeInfo);
+            }
         } else {
-            /*
-            List<StatementTreeViewInfo> rootStmt = stmtTreeInfo.getStatements();
-            //if we have only one subrule it can be composed of 
-            if (stmtTreeInfo.getStatements() == null || stmtTreeInfo.getStatements().size() == 0) {
-            } */
-            //generate section for each sub-rule
             for (final StatementTreeViewInfo subTree : stmtTreeInfo.getStatements()) {
                 addSubRule(subTree);
             }
@@ -85,6 +84,12 @@ public class RulePreviewWidget extends FlowPanel {
         this.add(rulePanel);
     }
 
+    private void displayNoRule() {
+        KSLabel noRulesAddedYet = new KSLabel("No rules have been added yet.");
+        noRulesAddedYet.addStyleName("KS-Program-Rule-Preview-NoRule");
+        rulePanel.add(noRulesAddedYet);
+    }
+
     private void addSubRule(final StatementTreeViewInfo subTree) {
         //display AND/OR operator between subrules
         if (addRuleOperator) {
@@ -94,13 +99,13 @@ public class RulePreviewWidget extends FlowPanel {
         final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly);
         subRulePreviewWidgets.add(newSubRuleWidget);
 
-        newSubRuleWidget.setEditButtonClickHandler(new ClickHandler(){
+        newSubRuleWidget.addEditButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 editRuleCallback.exec(subTree);    
             }
         });
 
-        newSubRuleWidget.setDeleteButtonClickHandler(new ClickHandler(){
+        newSubRuleWidget.addDeleteButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog("Delete Requirement", "Are you sure you want to delete this requirement?"); //TODO app context for labels
                 dialog.getConfirmButton().addClickHandler(new ClickHandler(){

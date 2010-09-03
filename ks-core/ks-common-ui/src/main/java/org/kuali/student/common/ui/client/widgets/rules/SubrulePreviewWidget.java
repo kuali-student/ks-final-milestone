@@ -74,9 +74,9 @@ public class SubrulePreviewWidget extends FlowPanel {
     private StringBuffer buildOneRequirement(StatementTreeViewInfo stmtTreeInfo) {
 
         List<StatementTreeViewInfo> stmtTree = stmtTreeInfo.getStatements();
-        if (stmtTree != null) {
+        if ((stmtTree != null) && (stmtTree.size() > 0)) {
             for (StatementTreeViewInfo subTree : stmtTreeInfo.getStatements()) {
-                return buildOneRequirement(subTree);
+                buildOneRequirement(subTree);
             }
         } else if (stmtTreeInfo.getReqComponents() != null) {
             List<ReqComponentInfo> reqComponents = stmtTreeInfo.getReqComponents();
@@ -101,11 +101,11 @@ public class SubrulePreviewWidget extends FlowPanel {
         return new StringBuffer("");
     }
 
-    public void setEditButtonClickHandler(ClickHandler handler) {
+    public void addEditButtonClickHandler(ClickHandler handler) {
         editButton.addClickHandler(handler);
     }
 
-    public void setDeleteButtonClickHandler(ClickHandler handler) {
+    public void addDeleteButtonClickHandler(ClickHandler handler) {
         deleteButton.addClickHandler(handler);    
     }    
 }

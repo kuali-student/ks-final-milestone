@@ -21,6 +21,10 @@ public class ProgramRequirementsViewController extends BasicLayout {
         MANAGE
     }
 
+    protected static final String TEMLATE_LANGUAGE = "en";
+    protected static final String RULEEDIT_TEMLATE = "KUALI.RULEEDIT";
+    protected static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";    
+
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
 
     public ProgramRequirementsViewController(Controller controller, String name, Enum<?> viewType) {
@@ -98,14 +102,12 @@ public class ProgramRequirementsViewController extends BasicLayout {
                 }
 
                 //no dialog if user clicks on the 'Save' button
-                if (((ProgramRequirementsManageView)getCurrentView()).isUserClickedSaveButton()) {
-                    //((ProgramRequirementsManageView)getCurrentView()).getRuleTree();
-                    //((ProgramRequirementsSummaryView)getCurrentView()).saveProgramRequirement();                            
+                if (((ProgramRequirementsManageView)getCurrentView()).isUserClickedSaveButton()) {                       
                     okToChange.exec(true);
                     return;                    
                 }
 
-                //if user clicked on breadcrumbs, menu or cancel button and changes have been made to the rule on the manage screen...
+                //if user clicked on breadcrumbs, menu or cancel button of the manage screen and changes have been made to the rule on the manage screen...
                if (((SectionView)getCurrentView()).isDirty()) {
                     ButtonGroup<ButtonEnumerations.ContinueCancelEnum> buttonGroup = new ContinueCancelGroup();
                     final ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum> dialog =
@@ -118,8 +120,9 @@ public class ProgramRequirementsViewController extends BasicLayout {
                         }
                     });
                     dialog.show();
-                }
-                okToChange.exec(true);
+               } else {
+                    okToChange.exec(true);
+               }
             }
         });
     }

@@ -279,9 +279,9 @@ public class RuleInfo {
         }
 
         // clears off the root if the root no longer has any children after the deletions
-        if (statementVO.getChildCount() == 0) {
-            statementVO = null;
-        }
+     //   if (statementVO.getChildCount() == 0) {
+     //       statementVO = null;
+     //   }
     }
     
     public boolean isAddToGroupOK() {

@@ -64,7 +64,7 @@ public class ReqCompEditWidget extends FlowPanel {
         reqCompWidgetsPanel.addStyleName("KS-Program-Rule-FieldsList");
         displayConfirmButton();
 
-        setupNewReqComp();
+        //setupNewReqComp();
     }
 
     private void setupHandlers() {
@@ -80,6 +80,9 @@ public class ReqCompEditWidget extends FlowPanel {
                         //editedReqComp.setType(selectedReqType.getId());
 
                         setEnableAddRuleButtons(false);
+                        if (reqCompTypesList.getSelectedItem() != null) {
+                            reqCompTypesList.deSelectItem(reqCompTypesList.getSelectedItem());
+                        }
                         
                         //callback needs to update NL for given req. component and the rule
                         reqCompConfirmCallback.exec(editedReqComp);
@@ -132,7 +135,9 @@ public class ReqCompEditWidget extends FlowPanel {
         editedReqComp.setId(Integer.toString(tempCounterID++));  
         editedReqComp.setReqCompFields(null);
         editedReqComp.setRequiredComponentType(reqCompTypeInfo);
-        if (reqCompTypeInfo != null) editedReqComp.setType(reqCompTypeInfo.getId());
+        if (reqCompTypeInfo != null) {
+            editedReqComp.setType(reqCompTypeInfo.getId());
+        }
     }
 
     //call when user wants to edit an existing req. component
@@ -231,7 +236,7 @@ public class ReqCompEditWidget extends FlowPanel {
             String fieldValue = getFieldValue(reqCompFields, fieldType);
 
             //TODO replace with metadata and check on req. comp. field type
-            if (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqCompType.course.permission.instructor.required")) {
+            if (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.course.permission.org.required")) {
                 final KSTextBox valueWidget = new KSTextBox();
                 valueWidget.setName(fieldType);
                 valueWidget.setText(fieldValue);
@@ -347,6 +352,11 @@ public class ReqCompEditWidget extends FlowPanel {
     private void setEnableAddRuleButtons(boolean enable) {
         actionCancelButtons.getButton(ButtonEnumerations.AddCancelEnum.ADD).setEnabled(enable);
         actionCancelButtons.getButton(ButtonEnumerations.AddCancelEnum.CANCEL).setEnabled(enable);
+
+        if (!enable) {
+            reqCompWidgetsPanel.clear();
+            reqCompWidgets.clear();
+        }
     }
 
     //called by view that manages this widget, passing list of req. component types
@@ -367,7 +377,7 @@ public class ReqCompEditWidget extends FlowPanel {
         }
 
         reqCompTypesList.setEnabled(true);
-        setEnableAddRuleButtons(true);
+        setEnableAddRuleButtons(false);
     }
 
     public void setReqCompConfirmButtonClickCallback(Callback<ReqComponentInfo> callback) {
