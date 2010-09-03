@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="removeCluFromCluSet" bindingOperationName="removeCluFromCluSet" type="Request-Response" outputName="removeCluFromCluSetResponse" inputName="removeCluFromCluSet" receivesAttachments="false" sendsAttachments="false" id="6fca7856-0934-43b5-af0b-3a780d835b7b" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
