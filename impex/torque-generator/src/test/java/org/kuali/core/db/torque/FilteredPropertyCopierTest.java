@@ -58,7 +58,7 @@ public class FilteredPropertyCopierTest {
 		fpc.addInclude("onDelete");
 		fpc.copyProperties(dest, origin);
 
-		assertTrue(dest.getOnDelete().equals("onDelete"));
+		assertTrue(dest.getOnDelete().equals("foo"));
 		assertTrue(dest.getRefTableName() == null);
 	}
 }
