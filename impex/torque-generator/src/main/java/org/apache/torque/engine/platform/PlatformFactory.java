@@ -20,19 +20,16 @@ package org.apache.torque.engine.platform;
  */
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Factory class responsible to create Platform objects that define RDBMS platform specific behaviour.
- * 
- * @author Thomas Mahler
- * @author <a href="mailto:mpoeschl@marmot.at">Martin Poeschl</a>
- * @version $Id: PlatformFactory.java,v 1.1 2007-10-21 07:57:27 abyrne Exp $
+ * Factory class responsible for creating Platform objects that define RDBMS platform specific behaviour.
  */
 public class PlatformFactory {
-	private static HashMap platforms = new HashMap();
+	private static Map<String, Platform> platforms = new HashMap<String, Platform>();
 	private static Log log = LogFactory.getLog(PlatformFactory.class);
 
 	/**
@@ -49,7 +46,7 @@ public class PlatformFactory {
 		if (result == null) {
 			try {
 				platformName = getClassnameFor(dbms);
-				Class platformClass = Class.forName(platformName);
+				Class<?> platformClass = Class.forName(platformName);
 				result = (Platform) platformClass.newInstance();
 
 			} catch (Throwable t) {
@@ -82,7 +79,7 @@ public class PlatformFactory {
 	 * 
 	 * @return Returns a HashMap
 	 */
-	private static HashMap getPlatforms() {
+	private static Map<String, Platform> getPlatforms() {
 		return platforms;
 	}
 }
