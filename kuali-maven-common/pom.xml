@@ -12,6 +12,11 @@
   <version>1.0.0-SNAPSHOT</version>
   <name>Kuali Maven Common</name>
   <description>Contains things that are common to most mojo development.</description>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/kuali-maven-common</url>
+  </scm>
   <repositories>
     <repository>
       <id>kuali.nexus</id>
