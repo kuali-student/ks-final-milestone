@@ -49,7 +49,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param reqComponent Requirement component
      * @return Map of requirement component fields
      */
-    public Map<String, String> getReqComponentFieldMap(ReqComponent reqComponent) {
+	protected Map<String, String> getReqComponentFieldMap(ReqComponent reqComponent) {
         List<ReqComponentField> fields = reqComponent.getReqComponentFields();
         Map<String, String> map = new HashMap<String, String>();
         for (ReqComponentField field : fields) {
@@ -68,7 +68,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param key <code>ReqCompFieldInfo</code> key
      * @return Value of <code>ReqCompFieldInfo</code>
      */
-    public String getReqComponentFieldValue(ReqComponent reqComponent, String key) {
+	protected String getReqComponentFieldValue(ReqComponent reqComponent, String key) {
         return getReqComponentFieldMap(reqComponent).get(key);
     }
 

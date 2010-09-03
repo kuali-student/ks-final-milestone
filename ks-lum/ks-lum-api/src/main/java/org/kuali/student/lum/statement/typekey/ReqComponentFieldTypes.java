@@ -42,13 +42,13 @@ public enum ReqComponentFieldTypes {
     TOTAL_CREDIT_KEY("kuali.reqComponent.field.type.totalCredits"),
 	INCLUSION_FILTER_TYPE_KEY("kuali.reqComponent.field.type.inclusionFilter.type"),
 	INCLUSION_FILTER_VALUE_KEY("kuali.reqComponent.field.type.inclusionFilter.value"),
-    GRADE_TYPE_KEY("kuali.reqComponent.field.type.gradeType"),
-    GRADE_KEY("kuali.reqComponent.field.type.grade"),	
-    ORG_PERMISSION_KEY("kuali.reqComponent.field.type.org.id"),
-    INSTRUCTOR_PERMISSION_KEY("kuali.reqComponent.field.type.person.id"),    
+    GRADE_TYPE_KEY("kuali.reqComponent.field.type.gradeType.id"),
+    GRADE_KEY("kuali.reqComponent.field.type.grade.id"),
+    ORGANIZATION_KEY("kuali.reqComponent.field.type.org.id"),
+    PERSON_KEY("kuali.reqComponent.field.type.person.id"),
     DURATION_KEY("kuali.reqComponent.field.type.duration"),
     DURATION_TYPE_KEY("kuali.reqComponent.field.type.durationType.id");
-    
+	
 	private String id;
 	
 	ReqComponentFieldTypes(String id) {

@@ -216,10 +216,10 @@
         OWNER="kuali.reqComponent.type.programList.enroll.none" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="213" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.course.courseset.grade.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqComponent.type.course.courseset.grade.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="214" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.course.courseset.grade.max" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqComponent.type.course.courseset.grade.max" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="215" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqComponent.type.course.permission.org.required" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Organization>"/>
@@ -234,7 +234,7 @@
         OWNER="kuali.reqComponent.type.course.test.score.max" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.test.score;reqCompFieldLabel=Test Score> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Tests>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="219" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.course.courseset.nof.grade.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value;reqCompFieldLabel=Number> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses> with &lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade;reqCompFieldLabel=Grade>"/>
+        OWNER="kuali.reqComponent.type.course.courseset.nof.grade.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value;reqCompFieldLabel=Number> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses> with &lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="22" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULEEDIT"
         OWNER="kuali.reqComponent.type.course.org.program.admitted" TEMPLATE="Must be admitted to any program offered at the course campus location"/>

@@ -30,8 +30,8 @@ public class AtpContextImpl extends BasicContextImpl {
  
 	private AtpService atpService;
 	
-	private final static String DURATION_TYPE_TOKEN = "durationType";
-	private final static String DURATION_TOKEN = "duration";
+	public final static String DURATION_TYPE_TOKEN = "durationType";
+	public final static String DURATION_TOKEN = "duration";
 
 	public void setAtpService(AtpService atpService) {
 		this.atpService = atpService;

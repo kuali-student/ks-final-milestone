@@ -44,7 +44,8 @@
     <bean id="luContext" class="org.kuali.student.lum.statement.config.context.LuContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
-    <bean id="gradeContext" class="org.kuali.student.lum.statement.config.context.GradeContextImpl">
+    <bean id="lrcContext" class="org.kuali.student.lum.statement.config.context.LrcContextImpl">
+        <property name="lrcService" ref="lrcServiceImpl"/>
     </bean>
     <bean id="gpaContext" class="org.kuali.student.lum.statement.config.context.GPAContextImpl">
     </bean>
@@ -61,6 +62,8 @@
         class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
+                <!-- Course Contexts -->
+
                 <entry key="kuali.reqComponent.type.course.courseset.completed.none">
                     <ref local="luContext"/>
                 </entry>
@@ -101,13 +104,13 @@
                 <entry key="kuali.reqComponent.type.course.courseset.grade.min">
                     <list>
                         <ref local="luContext"/>
-                        <ref local="gradeContext"/>
+                        <ref local="lrcContext"/>
                     </list>
                 </entry>       
                 <entry key="kuali.reqComponent.type.course.courseset.grade.max">
                     <list>
                         <ref local="luContext"/>
-                        <ref local="gradeContext"/>
+                        <ref local="lrcContext"/>
                     </list>
                 </entry>  
                 <entry key="kuali.reqComponent.type.course.permission.org.required">
@@ -125,7 +128,7 @@
                 <entry key="kuali.reqComponent.type.course.courseset.nof.grade.min">
                     <list>
                         <ref local="luContext"/>
-                        <ref local="gradeContext"/>
+                        <ref local="lrcContext"/>
                     </list>
                 </entry>                              
                 <entry key="kuali.reqComponent.type.course.program.admitted.org.duration">
@@ -156,6 +159,7 @@
                 </entry>
 
                 <!-- Program Contexts -->
+
                 <entry key="kuali.reqComponent.type.programList.enroll.oneof">
 	                <ref local="luContext"/>
                 </entry>

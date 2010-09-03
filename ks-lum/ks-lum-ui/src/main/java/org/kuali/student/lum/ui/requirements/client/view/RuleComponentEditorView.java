@@ -962,8 +962,8 @@ public class RuleComponentEditorView extends ViewComposite {
             if (tag.equals(ReqComponentFieldTypes.VALUE_KEY.getId()) || 
             		tag.equals(ReqComponentFieldTypes.GPA_KEY.getId()) || 
             		tag.equals(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId()) || 
-            		tag.equals(ReqComponentFieldTypes.INSTRUCTOR_PERMISSION_KEY.getId()) ||
-                    tag.equals(ReqComponentFieldTypes.ORG_PERMISSION_KEY.getId()) ||     
+            		tag.equals(ReqComponentFieldTypes.PERSON_KEY.getId()) ||
+                    tag.equals(ReqComponentFieldTypes.ORGANIZATION_KEY.getId()) ||     
                     tag.equals(ReqComponentFieldTypes.VALUE_KEY.getId()) || 
                     tag.equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getId()) ||                    
                             tag.equals(ReqComponentFieldTypes.GRADE_KEY.getId())) {

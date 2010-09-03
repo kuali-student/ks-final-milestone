@@ -29,19 +29,19 @@ public class BasicContextImpl extends AbstractContext<ReqComponent> {
 	 * helper class for use in templates.
 	 * e.g. '$NLHelper.getProperGrammer($value, "course", "courses")'
 	 */
-	private final static String NL_HELPER_TOKEN = "NLHelper";
+	public final static String NL_HELPER_TOKEN = "NLHelper";
 	/**
 	 * Value token.
 	 */
-	private final static String VALUE_TOKEN = "value";
+	public final static String VALUE_TOKEN = "value";
 	/**
 	 * Value data type token.
 	 */
-	private final static String VALUE_DATA_TYPE_TOKEN = "valueDataType";
+	public final static String VALUE_DATA_TYPE_TOKEN = "valueDataType";
 	/**
 	 * Relational operator token.
 	 */
-	private final static String OPERATOR_TOKEN = "relationalOperator";
+	public final static String OPERATOR_TOKEN = "relationalOperator";
 
 	/**
 	 * Constructor.

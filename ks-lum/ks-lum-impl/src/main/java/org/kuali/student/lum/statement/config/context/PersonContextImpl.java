@@ -27,7 +27,7 @@ import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
  */
 public class PersonContextImpl extends BasicContextImpl {
  
-	private final static String PERSON_TOKEN = "personid";
+	public final static String PERSON_TOKEN = "personid";
 
     /**
      * Creates the context map (template data) for the requirement component.
@@ -37,7 +37,7 @@ public class PersonContextImpl extends BasicContextImpl {
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        contextMap.put(PERSON_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.INSTRUCTOR_PERMISSION_KEY.getId()));
+        contextMap.put(PERSON_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.PERSON_KEY.getId()));
         return contextMap;
     }
 }

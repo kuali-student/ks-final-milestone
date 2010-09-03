@@ -50,15 +50,15 @@
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.org.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.permission.org.required"/>
     <KSST_RCTYP_JN_RCFLDTYP
@@ -78,9 +78,9 @@
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.grade.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gradeType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.program.admitted.org.duration"/>
     <KSST_RCTYP_JN_RCFLDTYP

@@ -42,14 +42,14 @@ public class LuContextImpl extends BasicContextImpl {
 	 * e.g. 'Student must have completed all of 
 	 * $clu.getOfficialIdentifier().getShortName()'
 	 */
-	private final static String CLU_TOKEN = "clu";
+	public final static String CLU_TOKEN = "clu";
 
 	/**
 	 * <code>cluSet</code> token (key) references a Clu set object
 	 * used in templates.
 	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()'
 	 */
-	private final static String CLU_SET_TOKEN = "cluSet";
+	public final static String CLU_SET_TOKEN = "cluSet";
 
 	/**
 	 * Sets the LU service.
@@ -121,7 +121,7 @@ public class LuContextImpl extends BasicContextImpl {
     }
 
     private static void findClusInCluSet(CluSetTreeViewInfo tree, List<CluInfo> cluList) {
-		if (tree.getCluSets() != null) {
+    	if (tree.getCluSets() != null) {
 			for (CluSetTreeViewInfo cluSet : tree.getCluSets()) {
 				findClusInCluSet(cluSet, cluList);
 			}

@@ -30,7 +30,7 @@ public class OrganizationContextImpl extends BasicContextImpl {
  
 	private OrganizationService organizationService;
 	
-	private final static String ORG_TOKEN = "org";
+	public final static String ORG_TOKEN = "org";
 
 	public void setOrganizationService(OrganizationService organizationService) {
 		this.organizationService = organizationService;
@@ -51,7 +51,7 @@ public class OrganizationContextImpl extends BasicContextImpl {
      * @throws OperationFailedException Creating context map fails
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
-        String orgId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.ORG_PERMISSION_KEY.getId());
+        String orgId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
         OrgInfo org = getOrganization(orgId);
         
         Map<String, Object> contextMap = super.createContextMap(reqComponent);

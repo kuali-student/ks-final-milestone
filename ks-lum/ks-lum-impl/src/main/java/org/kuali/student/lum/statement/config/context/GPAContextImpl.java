@@ -27,7 +27,7 @@ import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
  */
 public class GPAContextImpl extends BasicContextImpl {
 	/** GPA template token */ 
-	private final static String GPA_TOKEN = "gpa";
+	public final static String GPA_TOKEN = "gpa";
 	
     /**
      * Creates the context map (template data) for the requirement component.

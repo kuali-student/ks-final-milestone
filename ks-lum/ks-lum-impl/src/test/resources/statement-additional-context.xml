@@ -169,6 +169,9 @@
                 <entry key="Atp">
                     <value>classpath:ks-atp.sql</value>
                 </entry>
+                <entry key="Lrc">
+                    <value>classpath:ks-lrc.sql</value>
+                </entry>
             </map>
         </property>
     </bean>
@@ -271,4 +274,34 @@
         class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
+
+    <!-- Learning Result service config -->
+    <bean id="lrcEntityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no" >
+        <property name="persistenceUnitName" value="Lrc"/>
+        <property name="persistenceXmlLocation"
+            value="classpath:META-INF/lrc-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="lrcEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
+        <property name="entityManagerFactory" ref="lrcEntityManagerFactory" />
+    </bean>
+
+    <bean id="lrcDao"
+        class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+        <property name="em" ref="lrcEntityManager" />
+    </bean>
+
+    <bean id="lrcSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:lrc-search-config.xml" />
+        <!-- property name="crossSearchManager" ref="lumCrossServiceSearchManager"/-->
+    </bean>
+
+    <bean id="lrcServiceImpl"
+        class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+        <property name="lrcDao" ref="lrcDao" />
+        <property name="searchManager" ref="lrcSearchManager" />
+    </bean>
+
 </beans>
