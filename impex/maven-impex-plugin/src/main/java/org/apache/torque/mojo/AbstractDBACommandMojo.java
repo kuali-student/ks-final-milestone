@@ -88,6 +88,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		}
 		if (server != null) {
 			// We've successfully located a server in settings.xml, use the password from that
+			getLog().info("Located a password in settings.xml under the server id '" + server.getId() + "' Password: " + getDisplayPassword(server.getPassword()));
 			return server.getPassword();
 		}
 		// Do not return a default value
@@ -102,6 +103,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		}
 		if (server != null) {
 			// We've successfully located a server in settings.xml, use the username from that
+			getLog().info("Located a username in settings.xml under the server id '" + server.getId() + "' Username: " + server.getUsername());
 			return server.getUsername();
 		}
 		// Do not return a default value
@@ -132,7 +134,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 			return server;
 		}
 
-		String settingsKey = "impex." + getUrl() + ".dba";
+		String settingsKey = "impex.dba." + getUrl();
 		return getSettings().getServer(settingsKey);
 	}
 
@@ -163,7 +165,6 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		sb.append("-DdbaUsername=system\n");
 		sb.append("-DdbaPassword=password\n");
 		sb.append("\n\n.");
-		getLog().info("enableAnonymousDbaAccess=" + enableAnonymousDbaAccess);
 		validateCredentials(credentials, enableAnonymousDbaAccess, sb.toString());
 	}
 

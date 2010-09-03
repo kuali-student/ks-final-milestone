@@ -29,6 +29,7 @@ import java.util.Properties;
 import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.shared.filtering.MavenFileFilter;
@@ -530,9 +531,19 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		}
 		if (server != null) {
 			// We've successfully located a server in settings.xml, use the password from that
+			getLog().info("Located a password in settings.xml under the server id '" + server.getId() + "' Password: " + getDisplayPassword(server.getPassword()));
 			return server.getPassword();
 		}
+		getLog().info("Using default password generated from the artifact id");
 		return platform.getSchemaName(getProject().getArtifactId());
+	}
+
+	protected String getDisplayPassword(String password) {
+		if (isShowPassword()) {
+			return password;
+		} else {
+			return StringUtils.repeat("*", password.length());
+		}
 	}
 
 	protected String getUpdatedUsername(Server server, String username) {
@@ -542,8 +553,10 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		}
 		if (server != null) {
 			// We've successfully located a server in settings.xml, use the username from that
+			getLog().info("Located a username in settings.xml under the server id '" + server.getId() + "' Username: " + server.getUsername());
 			return server.getUsername();
 		}
+		getLog().info("Using default username generated from the artifact id");
 		return platform.getSchemaName(getProject().getArtifactId());
 	}
 
