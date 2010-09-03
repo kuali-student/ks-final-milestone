@@ -52,9 +52,9 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeDataHelper;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
@@ -480,7 +480,7 @@ public class CluSetsConfigurer {
 //    public class CourseList extends UpdatableMultiplicityComposite {
 //        private final String parentPath;
 //        public CourseList(String parentPath){
-//            super(StyleType.TOP_LEVEL);
+//            super(StyleType.TOP_LEVEL_GROUP);
 //            this.parentPath = parentPath;
 //            setAddItemLabel("Add Course");
 ////            setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));

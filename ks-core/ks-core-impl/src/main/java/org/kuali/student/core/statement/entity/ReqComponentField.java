@@ -31,8 +31,8 @@ public class ReqComponentField {
 	@Column(name = "ID")
 	private String id;
 	
-    @Column(name="REQ_COM_FIELD_KEY")
-    private String key;
+    @Column(name="REQ_COM_FIELD_TYPE")
+    private String type;
 
     @Column(name="VALUE")
     private String value;
@@ -53,12 +53,12 @@ public class ReqComponentField {
 		this.id = id;
 	}
 
-    public String getKey() {
-        return key;
+    public String getType() {
+        return type;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getValue() {
@@ -71,7 +71,7 @@ public class ReqComponentField {
 
 	@Override
 	public String toString() {
-		return "ReqComponentField[id=" + id + ", key=" + key + ", value="
+		return "ReqComponentField[id=" + id + ", type=" + type + ", value="
 				+ value + "]";
 	}
 }

@@ -53,6 +53,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	private TransformationManager transformationManager;
 	
 	private PermissionService permissionService;
+
+    //TODO: why do we have this reference in the base class????
 	private ProposalService proposalService;
 
 	public Map<String,String> getDefaultFilterProperties(){
@@ -71,6 +73,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		try {
 			String dtoId = id;
 			//First check if this is a proposal id
+            //TODO: Igor : Why do we check for this when getting the data for programs?
 			if (proposalService != null){
 				ProposalInfo proposalInfo = proposalService.getProposal(dtoId);
 				filterProperties.put(WorkflowFilter.WORKFLOW_DOC_ID, proposalInfo.getWorkflowId());

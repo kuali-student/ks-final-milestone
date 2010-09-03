@@ -1,6 +1,7 @@
 package org.kuali.student.lum.course.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,11 +86,14 @@ public class DictionaryFormatter
   builder.append ("h" + level + ". " + calcNotSoSimpleName (name));
   builder.append ("{anchor:" + name + "}");
   builder.append (rowSeperator);
-  builder.append ("The DTO for these fields is " + os.getName ());
+  if (clazz != null)
+  {
+   builder.append ("The corresponding java class for this dictionary object is " + os.getName ());
+  }
   if (os.isHasMetaData ())
   {
    builder.append (rowSeperator);
-   builder.append ("This DTO has metadata");
+   builder.append ("The dictionary says this object holds metadata");
   }
   builder.append (rowSeperator);
   builder.append (colSeperator);
@@ -164,11 +168,15 @@ public class DictionaryFormatter
 
 //  builder.append ("======= end dump of object structure definition ========");
   builder.append (rowSeperator);
+  Set<ObjectStructureDefinition> subStructuresAlreadyProcessedBeforeProcessingSubStructures = new HashSet ();
+  subStructuresAlreadyProcessedBeforeProcessingSubStructures.addAll (
+    subStructuresAlreadyProcessed);
   for (String subName : this.subStructuresToProcess.keySet ())
   {
    ObjectStructureDefinition subOs = this.subStructuresToProcess.get (subName);
-   if (this.subStructuresAlreadyProcessed.add (subOs))
+   if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (subOs))
    {
+    this.subStructuresAlreadyProcessed.add (subOs);
 //    System.out.println ("formatting substructure " + subName);
     Class<?> subClazz = getClass (subOs.getName ());
     DictionaryFormatter formatter =
@@ -178,11 +186,6 @@ public class DictionaryFormatter
                                                  this.processSubstructures);
     builder.append (formatter.formatForWiki ());
     builder.append (rowSeperator);
-   }
-   else
-   {
-//    System.out.println ("skipping substructure because already processed it: "
-//                        + subName);
    }
   }
 
@@ -197,7 +200,8 @@ public class DictionaryFormatter
   }
   catch (ClassNotFoundException ex)
   {
-   throw new IllegalArgumentException ("Could not find class for " + className);
+   return null;
+//   throw new IllegalArgumentException ("Could not find class for " + className);
   }
  }
 

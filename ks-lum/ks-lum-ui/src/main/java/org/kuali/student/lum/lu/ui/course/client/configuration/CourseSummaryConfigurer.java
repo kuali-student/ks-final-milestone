@@ -12,6 +12,7 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSect
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
+import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 
 import com.google.gwt.user.client.ui.Widget;

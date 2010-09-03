@@ -32,22 +32,14 @@ public class ReqCompFieldInfo implements Serializable, Idable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String value;
-
-    @XmlAttribute(name="key")
+    @XmlAttribute
     private String id;
 
-    /**
-     * Value for this requirement component field.
-     */
-    public String getValue() {
-        return value;
-    }
+    @XmlAttribute
+    private String type;
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+    @XmlElement
+    private String value;
 
     /**
      * Unique identifier for a requirement component field type.
@@ -58,6 +50,25 @@ public class ReqCompFieldInfo implements Serializable, Idable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+    /**
+     * Value for this requirement component field.
+     */
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
 	@Override

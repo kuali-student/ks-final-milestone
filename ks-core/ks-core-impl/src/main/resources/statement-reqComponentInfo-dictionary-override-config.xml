@@ -31,7 +31,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.core.statement.dto.ReqComponentInfo" id="object.reqComponentInfo" parent="object.reqComponentInfo.abstract"/>
 
-<dict:type key="kuali.reqCompType.requisite.*" id="type.reqComponentInfo.RequisiteRequirementComponents.abstract" abstract="true">
+<dict:type key="kuali.reqComponent.type.requisite.*" id="type.reqComponentInfo.RequisiteRequirementComponents.abstract" abstract="true">
 	<dict:name>Requisite Requirement Components</dict:name>
 	<dict:desc>This is a grouping of all the types that refer to a list of courses</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -39,82 +39,82 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:stateRef bean="state.reqComponentInfo.RequisiteRequirementComponents.inactive"/>
 </dict:type>
 
-<dict:type key="kuali.reqCompType.courseList.none" id="type.reqComponentInfo.Noneofthesecourses.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.courseList.none" id="type.reqComponentInfo.Noneofthesecourses.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>None of these courses</dict:name>
 	<dict:desc>Student must have completed none of the specified courses</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.courseList.none" id="type.reqComponentInfo.Noneofthesecourses" parent="type.reqComponentInfo.Noneofthesecourses.abstract"/>
+<dict:type key="kuali.reqComponent.type.courseList.none" id="type.reqComponentInfo.Noneofthesecourses" parent="type.reqComponentInfo.Noneofthesecourses.abstract"/>
 
-<dict:type key="kuali.reqCompType.courseList.coreq.oneof" id="type.reqComponentInfo.Oneofthesecourses-coreq.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.courseList.coreq.oneof" id="type.reqComponentInfo.Oneofthesecourses-coreq.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>One of these courses -coreq</dict:name>
 	<dict:desc>Student must be enrolled in one of the following courses</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.courseList.coreq.oneof" id="type.reqComponentInfo.Oneofthesecourses-coreq" parent="type.reqComponentInfo.Oneofthesecourses-coreq.abstract"/>
+<dict:type key="kuali.reqComponent.type.courseList.coreq.oneof" id="type.reqComponentInfo.Oneofthesecourses-coreq" parent="type.reqComponentInfo.Oneofthesecourses-coreq.abstract"/>
 
-<dict:type key="kuali.reqCompType.courseList.coreq.all" id="type.reqComponentInfo.Allofthesecourses-coreq.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.courseList.coreq.all" id="type.reqComponentInfo.Allofthesecourses-coreq.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>All of these courses -coreq</dict:name>
 	<dict:desc>Student must be enrolled in all of the following courses</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.courseList.coreq.all" id="type.reqComponentInfo.Allofthesecourses-coreq" parent="type.reqComponentInfo.Allofthesecourses-coreq.abstract"/>
+<dict:type key="kuali.reqComponent.type.courseList.coreq.all" id="type.reqComponentInfo.Allofthesecourses-coreq" parent="type.reqComponentInfo.Allofthesecourses-coreq.abstract"/>
 
-<dict:type key="kuali.reqCompType.courseList.all" id="type.reqComponentInfo.Allofthesecourses.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.courseList.all" id="type.reqComponentInfo.Allofthesecourses.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>All of these courses</dict:name>
 	<dict:desc>Student must take all of the specified courses</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.courseList.all" id="type.reqComponentInfo.Allofthesecourses" parent="type.reqComponentInfo.Allofthesecourses.abstract"/>
+<dict:type key="kuali.reqComponent.type.courseList.all" id="type.reqComponentInfo.Allofthesecourses" parent="type.reqComponentInfo.Allofthesecourses.abstract"/>
 
-<dict:type key="kuali.reqCompType.courseList.1of2" id="type.reqComponentInfo.Oneofthesetwocourses.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.courseList.1of2" id="type.reqComponentInfo.Oneofthesetwocourses.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>One of these two courses</dict:name>
 	<dict:desc>Student must take one of two specified courses</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.courseList.1of2" id="type.reqComponentInfo.Oneofthesetwocourses" parent="type.reqComponentInfo.Oneofthesetwocourses.abstract"/>
+<dict:type key="kuali.reqComponent.type.courseList.1of2" id="type.reqComponentInfo.Oneofthesetwocourses" parent="type.reqComponentInfo.Oneofthesetwocourses.abstract"/>
 
-<dict:type key="kuali.reqCompType.courseList.nof" id="type.reqComponentInfo.Nofthesecourses.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.courseList.nof" id="type.reqComponentInfo.Nofthesecourses.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>N of these courses</dict:name>
 	<dict:desc>Student must take &lt;n&gt; courses from the specified courses</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.courseList.nof" id="type.reqComponentInfo.Nofthesecourses" parent="type.reqComponentInfo.Nofthesecourses.abstract"/>
+<dict:type key="kuali.reqComponent.type.courseList.nof" id="type.reqComponentInfo.Nofthesecourses" parent="type.reqComponentInfo.Nofthesecourses.abstract"/>
 
-<dict:type key="kuali.reqCompType.requisite.overall.gpa" id="type.reqComponentInfo.MinimumoverallGPA.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.requisite.overall.gpa" id="type.reqComponentInfo.MinimumoverallGPA.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>Minimum overall GPA</dict:name>
 	<dict:desc>Student needs to have attained a minimum specified GPA</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.requisite.overall.gpa" id="type.reqComponentInfo.MinimumoverallGPA" parent="type.reqComponentInfo.MinimumoverallGPA.abstract"/>
+<dict:type key="kuali.reqComponent.type.requisite.overall.gpa" id="type.reqComponentInfo.MinimumoverallGPA" parent="type.reqComponentInfo.MinimumoverallGPA.abstract"/>
 
-<dict:type key="kuali.reqCompType.requisite.overall.credit" id="type.reqComponentInfo.Minimumoveralltotalcredits.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.requisite.overall.credit" id="type.reqComponentInfo.Minimumoveralltotalcredits.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>Minimum overall total credits</dict:name>
 	<dict:desc>Student needs to have earned a minimum specified Total Credits</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.requisite.overall.credit" id="type.reqComponentInfo.Minimumoveralltotalcredits" parent="type.reqComponentInfo.Minimumoveralltotalcredits.abstract"/>
+<dict:type key="kuali.reqComponent.type.requisite.overall.credit" id="type.reqComponentInfo.Minimumoveralltotalcredits" parent="type.reqComponentInfo.Minimumoveralltotalcredits.abstract"/>
 
-<dict:type key="kuali.reqCompType.requisite.grdCondCourseList" id="type.reqComponentInfo.Coursecompletedwithminimumspecifiedgrade.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.requisite.grdCondCourseList" id="type.reqComponentInfo.Coursecompletedwithminimumspecifiedgrade.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>Course completed with minimum specified grade</dict:name>
 	<dict:desc>Student must have completed the specified course with a minium specified grade</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.requisite.grdCondCourseList" id="type.reqComponentInfo.Coursecompletedwithminimumspecifiedgrade" parent="type.reqComponentInfo.Coursecompletedwithminimumspecifiedgrade.abstract"/>
+<dict:type key="kuali.reqComponent.type.requisite.grdCondCourseList" id="type.reqComponentInfo.Coursecompletedwithminimumspecifiedgrade" parent="type.reqComponentInfo.Coursecompletedwithminimumspecifiedgrade.abstract"/>
 
-<dict:type key="kuali.reqCompType.requisite.programList.oneof" id="type.reqComponentInfo.Oneoftheseprograms.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.requisite.programList.oneof" id="type.reqComponentInfo.Oneoftheseprograms.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>One of these programs</dict:name>
 	<dict:desc>Enrollment is limited to students in the following programs</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.requisite.programList.oneof" id="type.reqComponentInfo.Oneoftheseprograms" parent="type.reqComponentInfo.Oneoftheseprograms.abstract"/>
+<dict:type key="kuali.reqComponent.type.requisite.programList.oneof" id="type.reqComponentInfo.Oneoftheseprograms" parent="type.reqComponentInfo.Oneoftheseprograms.abstract"/>
 
-<dict:type key="kuali.reqCompType.requisite.programList.none" id="type.reqComponentInfo.Noneoftheseprograms.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
+<dict:type key="kuali.reqComponent.type.requisite.programList.none" id="type.reqComponentInfo.Noneoftheseprograms.abstract" abstract="true" parent="type.reqComponentInfo.RequisiteRequirementComponents.abstract">
 	<dict:name>None of these programs</dict:name>
 	<dict:desc>Enrollment is not available to students in the following programs</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.reqCompType.requisite.programList.none" id="type.reqComponentInfo.Noneoftheseprograms" parent="type.reqComponentInfo.Noneoftheseprograms.abstract"/>
+<dict:type key="kuali.reqComponent.type.requisite.programList.none" id="type.reqComponentInfo.Noneoftheseprograms" parent="type.reqComponentInfo.Noneoftheseprograms.abstract"/>
 
 <!-- *************************************************************************** -->
 <!-- State for state.reqComponentInfo.Requisite Requirement Components.(default) -->

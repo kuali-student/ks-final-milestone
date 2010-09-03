@@ -38,6 +38,7 @@
 	<inherits name="org.kuali.student.core.messages.Message"/>
 	<inherits name='org.kuali.student.core.assembly.Assembly'/>
 	<inherits name="org.kuali.student.core.CoreRice" />
+	<inherits name="org.kuali.student.core.statement.Statement" />
 
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
@@ -53,9 +54,17 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>
     </replace-with>
-<!--
+
+	<!-- This can be used to swap the session timeout handler 
+	<replace-with class="org.kuali.student.common.ui.client.security.SpringSecurityLoginRedirectHandler">
+        <when-type-is class="org.kuali.student.common.ui.client.security.SpringSecurityLoginDialogHandler"/>
+    </replace-with>
+    -->
+	
+	<!--
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSStackPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSStackPanel"/>
-    </replace-with> -->
+    </replace-with> 
+    -->
 
 </module>

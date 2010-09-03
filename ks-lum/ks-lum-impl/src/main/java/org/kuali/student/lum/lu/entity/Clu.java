@@ -77,9 +77,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @JoinTable(name = "KSLU_CLU_JN_ACCRED", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ACCRED_ID"))
     private List<CluAccreditation> accreditations;
     
-    
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSLU_CLU_JN_ADMIN_ORG", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ADMIN_ORG_ID"))
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
     private List<CluAdminOrg> adminOrgs;
     
     @ManyToOne(cascade=CascadeType.ALL)

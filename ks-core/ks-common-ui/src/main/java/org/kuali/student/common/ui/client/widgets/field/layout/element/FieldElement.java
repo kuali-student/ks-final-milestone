@@ -227,6 +227,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	div.addStyleName("ks-form-module-elements");
     	return div;
     }
+    
+    public boolean isRequired() {
+        return required.isVisible();
+    }
 
     public void setRequired(boolean isRequired){
     	required.setVisible(isRequired);

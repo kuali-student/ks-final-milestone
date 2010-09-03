@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -36,6 +37,7 @@ import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync
 import org.kuali.student.core.workflow.ui.client.service.WorkflowToolRpcService;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowToolRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
+import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
@@ -483,8 +485,8 @@ public class ViewCourseProposalSummaryConfigurer implements
                     Window.alert("Getting Workflow Id failed");
                 }
                 public void onSuccess(String workflowId) {
-                    workflowToolRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
-                        public void onFailure(Throwable caught) {
+                    workflowToolRpcServiceAsync.getCollaborators(workflowId, new KSAsyncCallback<List<WorkflowPersonInfo>>(){
+                        public void handleFailure(Throwable caught) {
                             Window.alert("Getting Collaborators failed");
                         }
                         public void onSuccess(List<WorkflowPersonInfo> result) {

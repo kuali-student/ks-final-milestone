@@ -118,4 +118,8 @@
     <KSLU_RICH_TEXT_T ID="fa4c2fe9-5960-4f36-98d5-710f9fa03fce" PLAIN="Exploration of the role of diversity in the shaping of American culture. Special emphasis will be placed on the multicultural origins of American popular and material culture, such as foodways and entertainment, and on the experience of &quot;Americanization.&quot;"/>
     <KSLU_RICH_TEXT_T ID="9623c41c-ae72-473a-a1ac-6874c433967d" PLAIN="Bachelor of Science"/>
     <KSLU_RICH_TEXT_T ID="8b7df2ea-a0e0-4ca6-b524-5554d3194c92" PLAIN="Anthropology Major"/>
+    <KSLU_RICH_TEXT_T ID="VAR-201" FORMATTED="Zooarchaeology" PLAIN="Zooarchaeology"/>
+    <KSLU_RICH_TEXT_T ID="VAR-202" FORMATTED="Zooarchaeology" PLAIN="Zooarchaeology"/>
+    <KSLU_RICH_TEXT_T ID="VAR-301" FORMATTED="Archaeobotany" PLAIN="Archaeobotany"/>
+    <KSLU_RICH_TEXT_T ID="VAR-302" FORMATTED="Archaeobotany" PLAIN="Archaeobotany"/>
 </dataset>

@@ -525,6 +525,9 @@
         <property name="luService" ref="luServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
         <property name="loService" ref="loServiceImpl"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+
     </bean>
 
     <bean id="loAssembler"
@@ -578,6 +581,7 @@
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luClient"/>
         <property name="loService" ref="loClient"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
     <bean id="programServiceImpl"

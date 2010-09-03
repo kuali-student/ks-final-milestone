@@ -15,7 +15,7 @@
 
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4;
 
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
+import org.kuali.student.lum.common.client.lo.RichTextInfoHelper;
 
 /**
  * 

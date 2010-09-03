@@ -205,5 +205,17 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-ui-common</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-ui-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

@@ -52,6 +52,10 @@
     <ref bean="courseInfo.finalExamRationale"/>
     <ref bean="courseInfo.outOfClassHours" />
     <!-- Searches -->
+    <!--TODO: remove these searches making them their own thing by reconfiguring 
+         their model structure 
+    see https://jira.kuali.org/browse/KSLUM-375
+    -->
     <ref bean="search.cluset" />
     <ref bean="search.findCourse" />
     <!--<ref bean="search.proposedCourses" />
@@ -130,7 +134,7 @@
 
 <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseComplexRepeating">
 <property name="name" value="creditOptions"/>
-<property name="dataObjectStructure" ref="org.kuali.student.lum.lrc.dto.ResultComponentInfo"/>
+<property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/>
 </bean>
 <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
 
@@ -238,7 +242,7 @@
  </bean>
  <bean id="courseInfo.expirationDate" parent="courseInfo.expirationDate-parent" />
 
-<bean id="courseInfo.feeJustification-parent" abstract="true" parent="cluInfo.descr">
+<bean id="courseInfo.feeJustification-parent" abstract="true" parent="cluFeeInfo.descr">
   <property name="name" value="feeJustification" />
   <property name="dataObjectStructure" ref="courseInfo.feeJustification.RichTextInfo" />
  </bean>
@@ -294,14 +298,14 @@
  </bean>
  <bean id="courseInfo.feeJustification.plain" parent="courseInfo.feeJustification.plain-parent" />
 
- <bean id="courseInfo.fees-parent" abstract="true" parent="baseComplex">
+ <bean id="courseInfo.fees-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="fees" />
   <property name="maxOccurs" value="unbounded" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseFeeInfo" />
  </bean>
  <bean id="courseInfo.fees" parent="courseInfo.fees-parent" />
 
-<bean id="courseInfo.revenues-parent" abstract="true" parent="baseComplex">
+<bean id="courseInfo.revenues-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="revenues" />
   <property name="maxOccurs" value="unbounded" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseRevenueInfo" />
@@ -310,6 +314,7 @@
 
 <bean id="courseInfo.expenditure-parent" abstract="true" parent="baseComplex">
   <property name="name" value="expenditure" />
+  <!--  needs to be unbounded here otherwise the check would fail for multiplicity when it tries to update model -->
   <property name="maxOccurs" value="1" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseExpenditureInfo" />
  </bean>
@@ -429,7 +434,7 @@
  </bean>
  <bean id="courseFeeInfo.feeAmounts" parent="courseFeeInfo.feeAmounts-parent"/>
 
- <bean id="courseFeeInfo.feeType-parent" abstract="true" parent="cluFeeRecordInfo.feeType">
+ <bean id="courseFeeInfo.feeType-parent" abstract="true" parent="cluFeeRecordInfo.feeType-parent">
  <property name="name" value="feeType"/>
  </bean>
  <bean id="courseFeeInfo.feeType" parent="courseFeeInfo.feeType-parent"/>
@@ -464,8 +469,10 @@
  </bean>
  <bean id="courseRevenueInfo.feeType" parent="courseRevenueInfo.feeType-parent"/>
 
- <bean id="courseRevenueInfo.affiliatedOrgs-parent" abstract="true" parent="cluFeeRecordInfo.affiliatedOrgs">
- <property name="name" value="affiliatedOrgs"/>
+ <bean id="courseRevenueInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplexRepeating">
+  <property name="name" value="affiliatedOrgs"/>
+  <property name="dataObjectStructure"
+            ref="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" />
  </bean>
  <bean id="courseRevenueInfo.affiliatedOrgs" parent="courseRevenueInfo.affiliatedOrgs-parent"/>
 
@@ -485,8 +492,10 @@
  </bean>
  <bean id="org.kuali.student.lum.course.dto.CourseExpenditureInfo" parent="org.kuali.student.lum.course.dto.CourseExpenditureInfo-parent"/>
 
- <bean id="courseExpenditureInfo.affiliatedOrgs-parent" abstract="true" parent="cluFeeRecordInfo.affiliatedOrgs">
- <property name="name" value="affiliatedOrgs"/>
+ <bean id="courseExpenditureInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplexRepeating">
+  <property name="name" value="affiliatedOrgs"/>
+  <property name="dataObjectStructure"
+            ref="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" />
  </bean>
  <bean id="courseExpenditureInfo.affiliatedOrgs" parent="courseExpenditureInfo.affiliatedOrgs-parent"/>
 
@@ -816,7 +825,7 @@
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="1" />
   <property name="maxLength" value="250" />
-  <property name="validChars" ref="alphanumericHyphenPeriod"/>
+  <property name="validChars" ref="multiLineText"/>
  </bean>
 
  <!-- Searches -->
@@ -850,23 +859,25 @@
  <bean id="search.cluset-parent" abstract="true" parent="baseComplex">
   <property name="name" value="cluset" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.lu.dto.CluSetInfo" />
+            ref="searchCluSetInfo.CluSetInfo" />
  </bean>
  <bean id="search.cluset" parent="search.cluset-parent" />
- <bean id="org.kuali.student.lum.lu.dto.CluSetInfo-parent"
+ <bean id="searchCluSetInfo.CluSetInfo-parent"
        abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lu.dto.CluSetInfo" />
+  <property name="name" value="SearchCluSetInfo" />
   <property name="attributes">
    <list>
     <ref bean="cluset.approvedClus" />
     <ref bean="cluset.proposedClus"/>
     <ref bean="cluset.clusets"/>
     <ref bean="cluset.clusetRange"/>
+	<ref bean="cluset.clusetRangeEdit"/>
+	<ref bean="cluset.clusetRangeViewDetails"/>
    </list>
   </property>
   <property name="hasMetaData" value="true" />
  </bean>
- <bean id="org.kuali.student.lum.lu.dto.CluSetInfo" parent="org.kuali.student.lum.lu.dto.CluSetInfo-parent" />
+ <bean id="searchCluSetInfo.CluSetInfo" parent="searchCluSetInfo.CluSetInfo-parent" />
  <bean id="cluset.proposedClus-parent" abstract="true" parent="baseStringRepeating">
   <property name="name" value="proposedClus" />
  </bean>
@@ -879,12 +890,69 @@
   <property name="name" value="clusets" />
  </bean>
  <bean id="cluset.clusets" parent="cluset.clusets-parent" />
- <bean id="cluset.clusetRange-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="clusetRange" />
+ 
+ <!--  courseRange -->
+ <bean id="cluset.clusetRangeEdit-parent" abstract="true" parent="baseStringRepeating">
+  <property name="name" value="clusetRangeEdit" />
  </bean>
+ <bean id="cluset.clusetRangeEdit" parent="cluset.clusetRangeEdit-parent" />
+ <bean id="cluset.clusetRangeViewDetails-parent" abstract="true" parent="baseStringRepeating">
+  <property name="name" value="clusetRangeViewDetails" />
+ </bean>
+ <bean id="cluset.clusetRangeViewDetails" parent="cluset.clusetRangeViewDetails-parent" />
  <bean id="cluset.clusetRange" parent="cluset.clusetRange-parent" />
-
-
+<bean id="cluset.clusetRange-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="clusetRange" />
+  <property name="dataObjectStructure"
+            ref="org.kuali.student.lum.lu.dto.ClusetRangeInfo" />
+ </bean>
+ <bean id="org.kuali.student.lum.lu.dto.ClusetRangeInfo" parent="org.kuali.student.lum.lu.dto.ClusetRangeInfo-parent" />
+  <bean id="org.kuali.student.lum.lu.dto.ClusetRangeInfo-parent"
+       abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.lum.lu.dto.ClusetRangeInfo" />
+  <property name="attributes">
+   <list>
+		<ref bean="clusetRange.id" />
+		<ref bean="clusetRange.searchTypeKey" />
+		<ref bean="clusetRange.queryParams" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="true" />
+ </bean>
+ <bean id="clusetRange.id-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="id" />
+ </bean>
+ <bean id="clusetRange.id" parent="clusetRange.id-parent" />
+ <bean id="clusetRange.searchTypeKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="searchTypeKey" />
+ </bean>
+ <bean id="clusetRange.searchTypeKey" parent="clusetRange.searchTypeKey-parent" />
+ <bean id="clusetRange.queryParams-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="clusetRange.queryParams" />
+  <property name="dataObjectStructure" ref="queryParams" />
+ </bean>
+ <bean id="clusetRange.queryParams" parent="clusetRange.queryParams-parent" />
+ <bean id="queryParams-parent"
+       abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="queryParams" />
+  <property name="attributes">
+   <list>
+		<ref bean="queryParams.value" />
+		<ref bean="queryParams.key" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="true" />
+ </bean>
+ <bean id="queryParams" parent="queryParams-parent" />
+ <bean id="queryParams.value-parent" abstract="true" parent="baseString">
+  <property name="name" value="value" />
+ </bean>
+ <bean id="queryParams.value" parent="queryParams.value-parent" />
+ <bean id="queryParams.key-parent" abstract="true" parent="baseString">
+  <property name="name" value="key" />
+ </bean>
+ <bean id="queryParams.key" parent="queryParams.key-parent" />
+ 
   <!-- courseFeeInfo.feeAmounts.CurrencyAmountInfo-->
  <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent"
        abstract="true" parent="objectStructureDefinition">
@@ -920,7 +988,7 @@
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
 
  <!-- Redefine the ResultComponentInfo to have dynamic attributes -->
- 	<bean id="org.kuali.student.lum.lrc.dto.ResultComponentInfo"
+ 	<bean id="courseInfo.creditOptions.ResultComponentInfo-parent" abstract="true"
 		parent="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent">
 		<property name="attributes">
 			<list merge="true">
@@ -930,6 +998,8 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent" />
+
 	<bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
 		<property name="name" value="minCreditValue"/>
 		<property name="dynamic" value="true"/>

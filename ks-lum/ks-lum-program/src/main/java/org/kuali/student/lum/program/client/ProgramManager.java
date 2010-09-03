@@ -13,7 +13,7 @@ public class ProgramManager {
 
     private ProgramEditController programEditController;
 
-    protected final DataModel programModel;
+    protected DataModel programModel;
 
     public ProgramManager() {
         programModel = new DataModel();

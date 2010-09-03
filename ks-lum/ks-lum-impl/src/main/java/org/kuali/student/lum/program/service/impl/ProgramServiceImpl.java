@@ -1,5 +1,10 @@
 package org.kuali.student.lum.program.service.impl;
 
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
@@ -23,6 +28,8 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -41,9 +48,6 @@ import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
     final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
@@ -57,6 +61,7 @@ public class ProgramServiceImpl implements ProgramService {
     private ProgramRequirementAssembler programRequirementAssembler;
     private CredentialProgramAssembler credentialProgramAssembler;
     private CoreProgramAssembler coreProgramAssembler;
+    private StatementService statementService;
 
     @Override
     public CredentialProgramInfo createCredentialProgram(
@@ -64,7 +69,7 @@ public class ProgramServiceImpl implements ProgramService {
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	
+
         if (credentialProgramInfo == null) {
             throw new MissingParameterException("CredentialProgramInfo can not be null");
         }
@@ -99,8 +104,20 @@ public class ProgramServiceImpl implements ProgramService {
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
+
+        // Validate
+        List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo);
+        if (isNotEmpty(validationResults)) {
+        	throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+
+        try {
+            return processProgramRequirement(programRequirementInfo, NodeOperation.CREATE);
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling Program Requirement", e);
+            throw new OperationFailedException("Error disassembling Program Requirement", e);
+        }
     }
 
     @Override
@@ -199,8 +216,19 @@ public class ProgramServiceImpl implements ProgramService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	checkForMissingParameter(programRequirementId, "programRequirementId");
+        try {
+        	ProgramRequirementInfo programRequirement = getProgramRequirement(programRequirementId, null, null);
+
+        	processProgramRequirement(programRequirement, NodeOperation.DELETE);
+
+            return getStatus();
+
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling MajorDiscipline", e);
+            throw new OperationFailedException("Error disassembling ProgramRequirement", e);
+        }
+
     }
 
     @Override
@@ -213,18 +241,18 @@ public class ProgramServiceImpl implements ProgramService {
 
         try {
             CluInfo clu = luService.getClu(credentialProgramId);
-            
+
             if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getType()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
-            
+
             credentialProgramInfo = credentialProgramAssembler.assemble(clu, null, false);
         } catch (AssemblyException e) {
             LOG.error("Error assembling CredentialProgram", e);
             throw new OperationFailedException("Error assembling CredentialProgram");
         }
         return credentialProgramInfo;
-        
+
 		// comment out the above, and uncomment below to get auto-generated data
         // (and vice-versa)
 //		try {
@@ -327,14 +355,20 @@ public class ProgramServiceImpl implements ProgramService {
 
 		checkForMissingParameter(programRequirementId, "programRequirementId");
 
-		CluInfo cluInfo = luService.getClu(programRequirementId);
-
+		CluInfo clu = luService.getClu(programRequirementId);
+		if (!ProgramAssemblerConstants.PROGRAM_REQUIREMENT.equals(clu.getType())) {
+			throw new DoesNotExistException("Specified CLU is not a Program Requirement");
+		}
 		try {
-			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(cluInfo, null, false);
+			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false);
+			StatementTreeViewInfo statement = progReqInfo.getStatement();
+			if (nlUsageTypeKey != null && language != null) {
+				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
+			}
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
-            throw new OperationFailedException("Error assembling program requirement");
+            throw new OperationFailedException("Error assembling program requirement: " + e.getMessage(), e);
 		}
 	}
 
@@ -371,7 +405,7 @@ public class ProgramServiceImpl implements ProgramService {
             InvalidParameterException, MissingParameterException,
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
-    	
+
         if (credentialProgramInfo == null) {
             throw new MissingParameterException("CredentialProgramInfo can not be null");
         }
@@ -449,8 +483,15 @@ public class ProgramServiceImpl implements ProgramService {
             InvalidParameterException, MissingParameterException,
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
+    	deleteProgramRequirement(programRequirementInfo.getId());
+    	ProgramRequirementInfo newOne;
+		try {
+			newOne = createProgramRequirement(programRequirementInfo);
+		} catch (AlreadyExistsException e) {
+			throw new InvalidParameterException();
+		}
+    	return newOne;
     }
 
     @Override
@@ -500,8 +541,11 @@ public class ProgramServiceImpl implements ProgramService {
             String validationType, ProgramRequirementInfo programRequirementInfo)
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ProgramRequirementInfo.class.getName());
+        List<ValidationResultInfo> validationResults = validator.validateObject(programRequirementInfo, objStructure);
+
+        return validationResults;
     }
 
     @Override
@@ -614,17 +658,22 @@ public class ProgramServiceImpl implements ProgramService {
         invokeServiceCalls(results);
         return results.getBusinessDTORef();
     }
-    
-    @SuppressWarnings("unchecked")
-	private void invokeServiceCalls(BaseDTOAssemblyNode results) throws AssemblyException{
+
+    private ProgramRequirementInfo processProgramRequirement(ProgramRequirementInfo programRequirementInfo, NodeOperation operation) throws AssemblyException {
+        BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation);
+        invokeServiceCalls(results);
+        return results.getBusinessDTORef();
+    }
+
+	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results) throws AssemblyException{
         // Use the results to make the appropriate service calls here
         try {
             programServiceMethodInvoker.invokeServiceCalls(results);
         } catch (Exception e) {
             throw new AssemblyException(e);
-        }    	
+        }
     }
-    
+
     //Spring setters. Used by spring container to inject corresponding dependencies.
 
     public void setLuService(LuService luService) {
@@ -664,19 +713,27 @@ public class ProgramServiceImpl implements ProgramService {
 		this.coreProgramAssembler = coreProgramAssembler;
 	}
 
+	public StatementService getStatementService() {
+		return statementService;
+	}
+
+	public void setStatementService(StatementService statementService) {
+		this.statementService = statementService;
+	}
+
 	private StatusInfo getStatus(){
         StatusInfo status = new StatusInfo();
         status.setSuccess(true);
-        return status;		
+        return status;
 	}
-	
+
     private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation) throws AssemblyException {
 
         BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation);
         invokeServiceCalls(results);
         return results.getBusinessDTORef();
     }
-    
+
     @Override
     public CoreProgramInfo createCoreProgram(CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (coreProgramInfo == null) {

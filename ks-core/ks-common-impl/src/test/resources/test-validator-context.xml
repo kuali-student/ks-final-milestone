@@ -109,6 +109,65 @@
 				</property>
 			</bean>
 		</property>
+		<property name="caseConstraint">
+	  		<bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+	   			<property name="operator" value="EQUALS"/>
+	   			<property name="fieldPath" value="type"/>
+	   			<property name="caseSensitive" value="false"/>
+	   			<property name="whenConstraint">
+	    			<list>
+	     				<bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+	      					<property name="values">
+	       						<list>
+	        						<value>US_ADDRESS</value>
+	       						</list>
+	      					</property>
+	      					<property name="constraint">
+	       						<bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+									<property name="minLength" value="5" />	
+									<property name="caseConstraint">
+								  		<bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+								   			<property name="operator" value="EQUALS"/>
+								   			<property name="fieldPath" value="state"/>
+								   			<property name="caseSensitive" value="false"/>
+								   			<property name="whenConstraint">
+								    			<list>
+								     				<bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+								      					<property name="values">
+								       						<list>
+								        						<value>DRAFT</value>
+								       						</list>
+								      					</property>
+								      					<property name="constraint">
+								       						<bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+								       							<property name="minOccurs" value="0"/>
+								       						</bean>
+								      					</property>
+								     				</bean>
+								    			</list>
+								   			</property>
+								  		</bean>
+									</property>	
+	       						</bean>
+	      					</property>
+	     				</bean>
+	     				<bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+	      					<property name="values">
+	       						<list>
+	        						<value>FOREIGN_ADDRESS</value>
+	       						</list>
+	      					</property>
+	      					<property name="constraint">
+	       						<bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+									<property name="maxLength" value="100" />
+									<property name="minOccurs" value="0"/>									
+	       						</bean>
+	      					</property>
+	     				</bean>
+	    			</list>
+	   			</property>
+	  		</bean>
+		</property>			
 	</bean>
 	<bean id="line2"
 		class="org.kuali.student.core.dictionary.dto.FieldDefinition">

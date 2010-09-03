@@ -19,6 +19,7 @@ package org.kuali.student.core.organization.ui.client.view;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
@@ -33,7 +34,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -108,8 +108,8 @@ public class OrgEntryPoint implements EntryPoint{
     public void loadApp(final ApplicationContext context){
         SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
 
-        securityRpc.getPrincipalUsername(new AsyncCallback<String>(){
-            public void onFailure(Throwable caught) {
+        securityRpc.getPrincipalUsername(new KSAsyncCallback<String>(){
+            public void handleFailure(Throwable caught) {
                 context.setUserId("Unknown");
                 initScreen();
             }

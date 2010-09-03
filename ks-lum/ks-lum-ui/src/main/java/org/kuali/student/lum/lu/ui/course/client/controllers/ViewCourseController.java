@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -47,7 +48,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -146,10 +146,10 @@ public class ViewCourseController extends TabbedSectionLayout {
         } else {
         	KSBlockingProgressIndicator.addTask(initTask);
             rpcServiceAsync.getMetadata("", "", 
-                    new AsyncCallback<Metadata>(){
+                    new KSAsyncCallback<Metadata>(){
     
                         @Override
-                        public void onFailure(Throwable caught) {
+                        public void handleFailure(Throwable caught) {
                             onReadyCallback.exec(false);
                         	KSBlockingProgressIndicator.removeTask(initTask);
                             throw new RuntimeException("Failed to get model definition.", caught);                        
@@ -220,10 +220,10 @@ public class ViewCourseController extends TabbedSectionLayout {
     private void getCourseFromCluId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
 
-        rpcServiceAsync.getData(courseId, new AsyncCallback<Data>(){
+        rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
 
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 Window.alert("Error loading Course: "+caught.getMessage());
                 createNewCluModel(callback, workCompleteCallback);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);

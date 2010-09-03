@@ -16,6 +16,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
@@ -44,7 +45,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 public interface CourseService extends DictionaryService {
     /**
      * Retrieves a Course
-     * 
+     *
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @return the created course
@@ -63,7 +64,7 @@ public interface CourseService extends DictionaryService {
 
     /**
      * Retrieves the formats for a Course.
-     * 
+     *
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @return a list of format info Structures
@@ -82,7 +83,7 @@ public interface CourseService extends DictionaryService {
 
     /**
      * Retrieves the Activities for a Course.
-     * 
+     *
      * @param formatId
      *            Unique Id of the Format. Maps to cluId
      * @return a list of activity info Structures
@@ -101,7 +102,7 @@ public interface CourseService extends DictionaryService {
 
     /**
      * Retrieves the Los for a Course.
-     * 
+     *
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @return a list of LoDisplay info Structures
@@ -120,11 +121,11 @@ public interface CourseService extends DictionaryService {
 
     /**
      * Retrieves the Statements of a Course.
-     * 
+     *
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @param nlUsageTypeKey Natural language usage type key (context)
-     * @param language Translation language e.g en, es, gr    
+     * @param language Translation language e.g en, es, gr
      * @return a list of Statementree Structures
      * @throws DoesNotExistException
      *             Course does not exist
@@ -141,7 +142,7 @@ public interface CourseService extends DictionaryService {
 
     /**
      * Creates a Course
-     * 
+     *
      * @param courseInfo
      *            courseInfo
      * @return the created course
@@ -157,17 +158,17 @@ public interface CourseService extends DictionaryService {
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
-     * @throws VersionMismatchException 
-     * @throws DependentObjectsExistException 
-     * @throws CircularRelationshipException 
-     * @throws DoesNotExistException 
-     * @throws UnsupportedActionException 
+     * @throws VersionMismatchException
+     * @throws DependentObjectsExistException
+     * @throws CircularRelationshipException
+     * @throws DoesNotExistException
+     * @throws UnsupportedActionException
      */
     public CourseInfo createCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException;
 
     /**
      * Updates a Course.
-     * 
+     *
      * @param courseInfo
      *            courseInfo
      * @return updated Course
@@ -185,16 +186,18 @@ public interface CourseService extends DictionaryService {
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
-     * @throws DependentObjectsExistException 
-     * @throws CircularRelationshipException 
-     * @throws AlreadyExistsException 
-     * @throws UnsupportedActionException 
+     * @throws DependentObjectsExistException
+     * @throws CircularRelationshipException
+     * @throws AlreadyExistsException
+     * @throws UnsupportedActionException
+     * @throws CircularReferenceException
+     * @throws UnsupportedOperationException
      */
-    public CourseInfo updateCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException;
+    public CourseInfo updateCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException;
 
     /**
      * Deletes a Course.
-     * 
+     *
      * @param courseId
      *            identifier for Course.Maps to cluId
      * @return status of the operation (success or failure)
@@ -208,18 +211,20 @@ public interface CourseService extends DictionaryService {
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
-     * @throws VersionMismatchException 
-     * @throws DependentObjectsExistException 
-     * @throws CircularRelationshipException 
-     * @throws AlreadyExistsException 
-     * @throws DataValidationErrorException 
-     * @throws UnsupportedActionException 
+     * @throws VersionMismatchException
+     * @throws DependentObjectsExistException
+     * @throws CircularRelationshipException
+     * @throws AlreadyExistsException
+     * @throws DataValidationErrorException
+     * @throws UnsupportedActionException
+     * @throws CircularReferenceException
+     * @throws UnsupportedOperationException
      */
-    public StatusInfo deleteCourse(@WebParam(name = "courseId") String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException;
+    public StatusInfo deleteCourse(@WebParam(name = "courseId") String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException;
 
     /**
      * Creates the Statement for a Course.
-     * 
+     *
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @param statementTreeViewInfoList
@@ -240,7 +245,7 @@ public interface CourseService extends DictionaryService {
 
     /**
      * Updates the Statement for a Course.
-     * 
+     *
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @param statementTreeViewInfoList
@@ -261,7 +266,7 @@ public interface CourseService extends DictionaryService {
 
     /**
      * Delete the Statement for a Course.
-     * 
+     *
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @param statementTreeViewInfoList
@@ -279,11 +284,11 @@ public interface CourseService extends DictionaryService {
      *             authorization failure
      */
     public StatusInfo deleteCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
-    
+
+
     /**
      * Validates a course based on its dictionary
-     * 
+     *
      * @param validationType
      *            identifier of the extent of validation
      * @param courseInfo
@@ -300,10 +305,10 @@ public interface CourseService extends DictionaryService {
      */
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    
+
     /**
      * Validates the Statement for a Course.
-     * 
+     *
      * @param courseId
      *            Unique Id of the Course. Maps to cluId
      * @param statementTreeViewInfoList
@@ -318,5 +323,5 @@ public interface CourseService extends DictionaryService {
      * @throws OperationFailedException
      *             unable to complete request
      */
-    public List<ValidationResultInfo> validateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo)  throws InvalidParameterException, MissingParameterException, OperationFailedException;    
+    public List<ValidationResultInfo> validateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo)  throws InvalidParameterException, MissingParameterException, OperationFailedException;
 }

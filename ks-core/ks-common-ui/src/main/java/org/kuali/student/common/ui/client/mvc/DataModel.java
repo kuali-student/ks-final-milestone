@@ -93,6 +93,23 @@ public class DataModel implements Model {
     public Data getRoot() {
         return root;
     }
+    
+    public void remove(final QueryPath path) {
+        QueryPath parent = null;
+        QueryPath leavePath = null;
+        if (path != null && path.size() >= 2) {
+            parent = path.subPath(0, path.size() - 1);
+            leavePath = path.subPath(path.size() - 1, path.size());
+            Object parentData = this.get(parent);
+            if (parentData != null && parentData instanceof Data) {
+                ((Data) parentData).remove(
+                        new Data.StringKey(leavePath.toString()));
+            }
+            
+        } else if (path != null){
+            root.remove(new Data.StringKey(path.toString()));
+        }
+    }
 
     public Map<QueryPath, Object> query(final QueryPath path) {
         Map<QueryPath, Object> result = new HashMap<QueryPath, Object>();

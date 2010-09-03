@@ -13,6 +13,7 @@ import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
@@ -38,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
  * and CluCluRelationInfo.
- * 
+ *
  * @author Kuali Student Team
  */
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -77,7 +78,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+    public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
         if (courseInfo == null) {
             throw new MissingParameterException("CourseInfo can not be null");
@@ -100,7 +101,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+    public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
         try {
             CourseInfo course = getCourse(courseId);
@@ -183,7 +184,7 @@ public class CourseServiceImpl implements CourseService {
     public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("validateCourseStatement");
     }
-    
+
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
@@ -218,7 +219,7 @@ public class CourseServiceImpl implements CourseService {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-    private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation) throws AssemblyException, OperationFailedException, VersionMismatchException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+    private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation) throws AssemblyException, OperationFailedException, VersionMismatchException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
         BaseDTOAssemblyNode<CourseInfo, CluInfo> results = courseAssembler.disassemble(courseInfo, operation);
 
@@ -252,7 +253,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	public LuService getLuService() {
-        return luService;   
+        return luService;
     }
 
     public void setLuService(LuService luService) {

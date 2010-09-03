@@ -158,8 +158,9 @@ public class ObjectClonerUtil {
         ReqCompFieldInfo clonedField = null;
         if (inReqCompFieldInfo != null) {
             clonedField = new ReqCompFieldInfo();
-            clonedField.setValue(inReqCompFieldInfo.getValue());
             clonedField.setId(inReqCompFieldInfo.getId());
+            clonedField.setType(inReqCompFieldInfo.getType());
+            clonedField.setValue(inReqCompFieldInfo.getValue());
         }
         return clonedField;
     }

@@ -106,4 +106,7 @@ public class ProgramAssemblerConstants {
     public static final String CERTIFICATE_RESULTS = "kuali.resultType.certificate";
     public static final String ANNOTATION_RESULTS = "kuali.resultType.annotation";
     public static final String COMPLETION_RESULTS = "kuali.resultType.completion";
+
+    // dynamic attributes the UI needs to retrieve
+    public static final String PROGRAM_LEVEL = "programLevel";
 }

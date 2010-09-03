@@ -2,17 +2,23 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" STMT_TYPE_ID="kuali.statement.type.course"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.luStatementType.coreqAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq" STMT_TYPE_ID="kuali.statement.type.course"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.luStatementType.enrollAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" STMT_TYPE_ID="kuali.statement.type.course"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.luStatementType.antireqAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" STMT_TYPE_ID="kuali.statement.type.course"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.luStatementType.programEntrance" STMT_TYPE_ID="kuali.luStatementType.program"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.credit.repeatable" STMT_TYPE_ID="kuali.statement.type.course"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.luStatementType.programSatisfactoryProgress" STMT_TYPE_ID="kuali.luStatementType.program"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.credit.restriction" STMT_TYPE_ID="kuali.statement.type.course"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.luStatementType.programCompletion" STMT_TYPE_ID="kuali.luStatementType.program"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation" STMT_TYPE_ID="kuali.statement.type.course"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.entrance" STMT_TYPE_ID="kuali.statement.type.program"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" STMT_TYPE_ID="kuali.statement.type.program"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.completion" STMT_TYPE_ID="kuali.statement.type.program"/>
 </dataset>

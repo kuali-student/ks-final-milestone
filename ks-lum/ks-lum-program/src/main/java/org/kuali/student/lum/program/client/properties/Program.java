@@ -106,6 +106,33 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_savingData();
 
   /**
+   * Translated "Do you want to save data?".
+   * 
+   * @return translated "Do you want to save data?"
+   */
+  @DefaultMessage("Do you want to save data?")
+  @Key("confirmDialog.text")
+  String confirmDialog_text();
+
+  /**
+   * Translated "Program Save".
+   * 
+   * @return translated "Program Save"
+   */
+  @DefaultMessage("Program Save")
+  @Key("confirmDialog.title")
+  String confirmDialog_title();
+
+  /**
+   * Translated "Learning Objectives".
+   * 
+   * @return translated "Learning Objectives"
+   */
+  @DefaultMessage("Learning Objectives")
+  @Key("lo.title")
+  String lo_title();
+
+  /**
    * Translated "Curriculum Oversight Division".
    * 
    * @return translated "Curriculum Oversight Division"
@@ -284,6 +311,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Specializations")
   @Key("program.menu.sections.specializations")
   String program_menu_sections_specializations();
+
+  /**
+   * Translated "View All Sections".
+   * 
+   * @return translated "View All Sections"
+   */
+  @DefaultMessage("View All Sections")
+  @Key("program.menu.sections.viewAll")
+  String program_menu_sections_viewAll();
 
   /**
    * Translated "Accreditation".
@@ -529,20 +565,20 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programRequirements_manageViewPageStep2Title();
 
   /**
-   * Translated "Add a <*> Rule".
+   * Translated "Add <*> Rule".
    * 
-   * @return translated "Add a <*> Rule"
+   * @return translated "Add <*> Rule"
    */
-  @DefaultMessage("Add a <*> Rule")
+  @DefaultMessage("Add <*> Rule")
   @Key("programRequirements.manageViewPageTitle")
   String programRequirements_manageViewPageTitle();
 
   /**
-   * Translated "Add a <*>".
+   * Translated "Add <*>".
    * 
-   * @return translated "Add a <*>"
+   * @return translated "Add <*>"
    */
-  @DefaultMessage("Add a <*>")
+  @DefaultMessage("Add <*>")
   @Key("programRequirements.summaryViewPageAddRule")
   String programRequirements_summaryViewPageAddRule();
 
@@ -581,4 +617,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Program Requirements")
   @Key("programRequirements.summaryViewPageTitle")
   String programRequirements_summaryViewPageTitle();
+
+  /**
+   * Translated "Completion of a specialization is required for this program".
+   * 
+   * @return translated "Completion of a specialization is required for this program"
+   */
+  @DefaultMessage("Completion of a specialization is required for this program")
+  @Key("programSpecialization.instructions")
+  String programSpecialization_instructions();
 }

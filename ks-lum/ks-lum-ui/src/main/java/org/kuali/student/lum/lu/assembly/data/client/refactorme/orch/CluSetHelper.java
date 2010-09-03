@@ -19,7 +19,7 @@ import java.util.Date;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
+import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 
 public class CluSetHelper {
 

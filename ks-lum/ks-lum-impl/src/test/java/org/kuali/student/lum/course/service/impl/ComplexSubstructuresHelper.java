@@ -5,18 +5,11 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.junit.Test;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.junit.Assert.*;
 
 public class ComplexSubstructuresHelper
 {

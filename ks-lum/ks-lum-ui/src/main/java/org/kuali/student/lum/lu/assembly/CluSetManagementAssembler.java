@@ -32,7 +32,7 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
+import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
 import org.kuali.student.lum.lu.dto.CluInfo;

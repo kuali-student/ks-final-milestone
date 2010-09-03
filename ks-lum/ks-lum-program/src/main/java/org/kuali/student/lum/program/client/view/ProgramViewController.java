@@ -10,6 +10,11 @@ public class ProgramViewController extends ProgramController {
 
     private Hyperlink switchToEditButton = new Hyperlink("Edit", "/HOME/CURRICULUM_HOME/PROGRAM_EDIT");
 
+    /**
+     * Constructor.
+     *
+     * @param programModel
+     */
     public ProgramViewController(DataModel programModel) {
         super(programModel);
         configurer = GWT.create(ProgramViewConfigurer.class);

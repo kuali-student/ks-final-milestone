@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
@@ -31,7 +32,6 @@ import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasText;
 
 public class SearchSuggestOracle extends IdableSuggestOracle{
@@ -188,12 +188,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         
         //case-sensitive?
         if(query.length() > 0){
-        	searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
-
-            	@Override
-                public void onFailure(Throwable caught) {
-                    // TODO Auto-generated method stub
-                }
+        	searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
     
                 @Override
                 public void onSuccess(SearchResult results) {
@@ -298,13 +293,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     @Override
     public void getSuggestionByIdSearch(String id, final org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
         SearchRequest searchRequest = buildSearchRequestById(null, id);
-        searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
-            
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-            }
-
+        searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){            
             @Override
             public void onSuccess(SearchResult results) {
                 IdableSuggestion theSuggestion = null;

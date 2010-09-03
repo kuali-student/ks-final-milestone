@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityTable;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
@@ -62,7 +63,7 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
         }
 
         if (data != null) {
-            Iterator<Data.Property> iter1 = data.realPropertyIterator();
+            Iterator<Data.Property> iter1 = data.iterator();
             if (iter1.hasNext()) {
                 table.buildHeaders();
 
@@ -73,10 +74,10 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
 
                     // iterate through the fields defined for this table
                     for (Integer row  : table.getConfig().getFields().keySet()) {
-                        List<FieldDescriptor> fields = table.getConfig().getFields().get(row);
-                        for (FieldDescriptor fd : fields) {
+                        List<MultiplicityFieldConfiguration> fieldConfigs = table.getConfig().getFields().get(row);
+                        for (MultiplicityFieldConfiguration fieldConfig : fieldConfigs) {
                             
-                            QueryPath fullPath = QueryPath.parse(fd.getFieldKey());
+                            QueryPath fullPath = QueryPath.parse(fieldConfig.getFieldPath());
                             QueryPath fieldPath = translatePath(path, fullPath, model);                           
                             
                             Object o = rowData.query(fieldPath);

@@ -11,7 +11,7 @@ public class ProgramConstants {
     public static final String PROGRAM_LEVEL = "programLevel";
     public static final String CREDENTIAL_PROGRAM = "";
     public static final String PROGRAM_CLASSIFICATION = "universityClassification";
-    public static final String DEGREE_TYPE = "degreeType";
+    public static final String DEGREE_TYPE = "resultOptions";
 
     //Dates
     public static final String START_TERM = "startTerm";
@@ -54,5 +54,11 @@ public class ProgramConstants {
     public static final String FULL_PART_TIME = "intensity";
     public static final String DURATION = "stdDuration";
     public static final String MORE_INFORMATION = "referenceURL";
+
+    //Learning Objectives
+    public static final String LEARNING_OBJECTIVES = "learningObjectives";
+    
+    //Program Specializations
+    public static final String VARIATIONS = "variations";
 
 }

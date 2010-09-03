@@ -46,7 +46,7 @@ import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
+import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;

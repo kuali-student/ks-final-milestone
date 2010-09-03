@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -27,8 +28,6 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class OrgPersonRelationTypePicker extends KSDropDown{
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
@@ -43,10 +42,7 @@ public class OrgPersonRelationTypePicker extends KSDropDown{
     public void onLoad() {
         super.onLoad();
         if (orgId != null) {
-            orgRpcServiceAsync.getPositionRestrictionsByOrg(orgId,new AsyncCallback<List<OrgPositionRestrictionInfo>>() {
-                public void onFailure(Throwable caught) {
-                    Window.alert(caught.getMessage());
-                }
+            orgRpcServiceAsync.getPositionRestrictionsByOrg(orgId,new KSAsyncCallback<List<OrgPositionRestrictionInfo>>() {
 
                 public void onSuccess(final List<OrgPositionRestrictionInfo> orgRelTypes) {
                     final Map<String, String> map = new LinkedHashMap<String, String>();

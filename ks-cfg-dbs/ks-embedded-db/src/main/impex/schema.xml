@@ -3332,7 +3332,6 @@
         <column name="FEE_ID" size="255" type="VARCHAR"/>
         <column name="LUTYPE_ID" size="255" type="VARCHAR"/>
         <column name="OFFIC_CLU_ID" size="255" type="VARCHAR"/>
-        <column name="PRI_ADMIN_ORG_ID" size="255" type="VARCHAR"/>
         <column name="PRI_INSTR_ID" size="255" type="VARCHAR"/>
         <column name="LAST_ATP" size="255" type="VARCHAR"/>
         <column name="LAST_ADMIT_ATP" size="255" type="VARCHAR"/>
@@ -3347,9 +3346,6 @@
         </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_FEE" name="FK1C27ACBE4BA2C995">
             <reference foreign="ID" local="FEE_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK1C27ACBE29BAD238">
-            <reference foreign="ID" local="PRI_ADMIN_ORG_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_IDENT" name="FK1C27ACBE3C2119F2">
             <reference foreign="ID" local="OFFIC_CLU_ID"/>
@@ -3448,9 +3444,13 @@
     </table>
     <table name="KSLU_CLU_ADMIN_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="IS_PR" size="1" type="DECIMAL"/>
+        <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_CLU" name="FKCFF78F734AF8DD33">
+            <reference foreign="ID" local="CLU_ID"/>
+        </foreign-key>
     </table>
     <table name="KSLU_CLU_ADMIN_ORG_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3670,32 +3670,6 @@
         </foreign-key>
         <unique name="SYS_C0040027">
             <unique-column name="CLU_ACCRED_ID"/>
-        </unique>
-    </table>
-    <table name="KSLU_CLU_JN_ADMIN_ORG">
-        <column name="CLU_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="ADMIN_ORG_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK29AD5E5A4F9D53A0">
-            <reference foreign="ID" local="ADMIN_ORG_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_CLU" name="FK29AD5E5A4AF8DD33">
-            <reference foreign="ID" local="CLU_ID"/>
-        </foreign-key>
-        <unique name="SYS_C00302995">
-            <unique-column name="ADMIN_ORG_ID"/>
-        </unique>
-    </table>
-    <table name="KSLU_CLU_JN_ALT_ADMIN_ORG">
-        <column name="CLU_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="ALT_ORG_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU" name="FK160DFC244AF8DD33">
-            <reference foreign="ID" local="CLU_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK160DFC24F49AE406">
-            <reference foreign="ID" local="ALT_ORG_ID"/>
-        </foreign-key>
-        <unique name="SYS_C0040030">
-            <unique-column name="ALT_ORG_ID"/>
         </unique>
     </table>
     <table name="KSLU_CLU_JN_CAMP_LOC">
@@ -5117,7 +5091,7 @@
     </table>
     <table name="KSST_REQ_COM_FIELD">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="REQ_COM_FIELD_KEY" size="255" type="VARCHAR"/>
+        <column name="REQ_COM_FIELD_TYPE" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
     </table>
     <table name="KSST_REQ_COM_FIELD_TYPE">

@@ -40,8 +40,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * This is a description of what this class does - jimt don't forget to fill this in. 
- * 
+ * This is a description of what this class does - jimt don't forget to fill this in.
+ *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
@@ -86,23 +86,23 @@ public class CluAssemblerUtils {
 	}
 
     public BaseDTOAssemblyNode<?, ?> disassembleCluResults(String cluId,
-			String cluState, List<String> options, NodeOperation operation, String resultType, 
+			String cluState, List<String> options, NodeOperation operation, String resultType,
 			String resultsDescription, String resultDescription) throws AssemblyException {
 		BaseDTOAssemblyNode<List<String>, CluResultInfo> cluResultNode = new BaseDTOAssemblyNode<List<String>, CluResultInfo>(null);
 		if(resultType==null){
 			throw new AssemblyException("resultType can not be null");
 		}
-		
+
 		// Get the current options and put them in a map of option type id/cluResult
 		Map<String, ResultOptionInfo> currentResults = new HashMap<String, ResultOptionInfo>();
 
 		CluResultInfo cluResult = null;
-		
+
 		//If this is not a create, lookup the results for this clu
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
 				List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
-				
+
 				for (CluResultInfo currentResult : cluResultList) {
 					if (resultType
 							.equals(currentResult.getType())) {
@@ -144,9 +144,9 @@ public class CluAssemblerUtils {
 				cluResult.setEffectiveDate(new Date());
 				cluResultNode.setOperation(NodeOperation.CREATE);
 			}
-	
+
 			cluResult.setResultOptions(new ArrayList<ResultOptionInfo>());
-	
+
 			// Loop through all the credit options in this course
 			for (String optionType : options) {
 				if(currentResults.containsKey(optionType)){
@@ -161,12 +161,12 @@ public class CluAssemblerUtils {
 					resultOptionInfo.setDesc(desc);
 					resultOptionInfo.setResultComponentId(optionType);
 					resultOptionInfo.setState(cluState);
-					
+
 					cluResult.getResultOptions().add(resultOptionInfo);
 				}
 			}
 		}
-		
+
 		cluResultNode.setNodeData(cluResult);
 		return cluResultNode;
 	}
@@ -188,16 +188,16 @@ public class CluAssemblerUtils {
 			}
 		} catch (DoesNotExistException e) {
 		} catch (Exception e) {
-			throw new AssemblyException("Error finding related Los");
+			throw new AssemblyException("Error finding related Los", e);
 		}
-		
+
 		// Loop through all the los in this clu
 		for(LoDisplayInfo loDisplay : loInfos){
 
 			// If this is a clu create/new lo update then all los will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId()))) {
-		        
+
                 // the lo does not exist, so create
                 // Assemble and add the lo
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
@@ -229,7 +229,7 @@ public class CluAssemblerUtils {
 				currentCluLoRelations.remove(loDisplay.getLoInfo().getId());
 			} else if (NodeOperation.DELETE == operation
                     && currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
-			    
+
                 // Delete the Format and its relation
 				CluLoRelationInfo relationToDelete = currentCluLoRelations.get(loDisplay.getLoInfo().getId());
                 BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
@@ -237,16 +237,16 @@ public class CluAssemblerUtils {
                 relationToDeleteNode.setNodeData(relationToDelete);
                 relationToDeleteNode.setOperation(NodeOperation.DELETE);
                 results.add(relationToDeleteNode);
-            
+
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
         				.disassemble(loDisplay, NodeOperation.DELETE);
-                results.add(loNode);                                
+                results.add(loNode);
 
                 // remove this entry from the map so we can tell what needs to
                 // be deleted at the end
-                currentCluLoRelations.remove(loDisplay.getLoInfo().getId());			    
+                currentCluLoRelations.remove(loDisplay.getLoInfo().getId());
 			}
-		}         
+		}
 
         // Now any leftover lo ids are no longer needed, so delete
         // los and relations
@@ -264,12 +264,12 @@ public class CluAssemblerUtils {
             LoDisplayInfo loDisplayToDelete = loAssembler.assemble(loToDelete, null, false);
             BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
             		.disassemble(loDisplayToDelete, NodeOperation.DELETE);
-            results.add(loNode);                                            
+            results.add(loNode);
         }
-		
+
 		return results;
 	}
-	
+
     // Spring setters
     public void setLuService(LuService luService) {
         this.luService = luService;

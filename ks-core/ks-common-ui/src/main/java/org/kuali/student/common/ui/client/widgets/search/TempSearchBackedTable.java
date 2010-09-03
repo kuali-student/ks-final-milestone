@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
@@ -39,7 +40,6 @@ import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -92,10 +92,10 @@ public class TempSearchBackedTable extends Composite{
             pagingScrollTable.setEmptyTableWidget(new Label("Processing Search..."));
         }
 
-		searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
+		searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
 
 		    @Override
-		    public void onFailure(Throwable cause) {
+		    public void handleFailure(Throwable cause) {
 		    	GWT.log("Failed to perform search", cause); //FIXME more detail info here
 		    	Window.alert("Failed to perform search");
 		    }

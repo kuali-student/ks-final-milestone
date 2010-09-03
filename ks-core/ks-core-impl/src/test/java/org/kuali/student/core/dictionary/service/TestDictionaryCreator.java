@@ -3,7 +3,7 @@ package org.kuali.student.core.dictionary.service;
 import org.junit.Test;
 import java.beans.IntrospectionException;
 import java.io.IOException;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 
 
 public class TestDictionaryCreator
@@ -16,6 +16,6 @@ public class TestDictionaryCreator
           SecurityException,
           NoSuchFieldException
  {
-  new DictionaryCreator ().execute (ProposalInfo.class, "target/ks-ProposalInfo-dictinoary-context-generated.xml");
+  new DictionaryCreator ().execute (ReqComponentInfo.class, "target/ks-ReqComponentInfo-dictinoary-context-generated.xml");
  }
 }

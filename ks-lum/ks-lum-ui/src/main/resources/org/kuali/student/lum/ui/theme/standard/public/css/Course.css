@@ -1,16 +1,20 @@
-.transcriptTitle {
-	width: 37.5em;
+.courseProposal {
+
+}
+
+.courseProposal .transcriptTitle {
+    width: 37.5em;
 }
 
 .description-plain {
-	width: 37.5em;
+    width: 37.5em;
 }
 
 .instructors .gwt-SuggestBox {
-	width: 30em;
+    width: 30em;
 }
 
 /* The title for Description and Rationale section */
 .cluProposalTitleSection {
-	border-bottom: 1px solid #D8D8D8;
+    border-bottom: 1px solid #D8D8D8;
 }

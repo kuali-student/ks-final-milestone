@@ -39,7 +39,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  *Detailed information about a single CLU.
- */ 
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
@@ -79,8 +79,8 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private String lastAtp;
 
     @XmlElement
-    private String lastAdmitAtp;    
-    
+    private String lastAdmitAtp;
+
     @XmlElement
     private Date effectiveDate;
 
@@ -101,22 +101,22 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private List<LuCodeInfo> luCodes;
-    
+
     @XmlElement
     private String nextReviewPeriod;
 
     @XmlElement
     private boolean isEnrollable;
-    
+
     @XmlElement
     private List<String> offeredAtpTypes;
-    
+
     @XmlElement
     private boolean hasEarlyDropDeadline;
 
     @XmlElement
     private int defaultEnrollmentEstimate;
-    
+
     @XmlElement
     private int defaultMaximumEnrollment;
 
@@ -128,7 +128,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private CluAccountingInfo accountingInfo;
-    
+
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
@@ -221,7 +221,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     public void setCampusLocations(List<String> campusLocations) {
         this.campusLocations = campusLocations;
     }
-    
+
     public List<AdminOrgInfo> getAdminOrgs() {
         if (adminOrgs == null) {
         	adminOrgs = new ArrayList<AdminOrgInfo>();
@@ -337,7 +337,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     public void setLuCodes(List<LuCodeInfo> luCodes) {
         this.luCodes = luCodes;
     }
-    
+
     /**
      * When the next review should be
      */
@@ -520,5 +520,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     public void setLastAdmitAtp(String lastAdmitAtp) {
         this.lastAdmitAtp = lastAdmitAtp;
-    }	
+    }
+
+    @Override
+    public String toString() {
+    	return "CluInfo[id=" + id + "]";
+    }
+
 }

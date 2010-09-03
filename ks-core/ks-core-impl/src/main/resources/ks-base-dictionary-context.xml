@@ -182,13 +182,22 @@
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="baseKualiOrgId" parent="baseKualiId" abstract="true">
-  <!--TODO: Add a lookup to make sure the Org Id is a valid org -->
+  <!--TODO: Add a lookup to make sure the Id is a valid org -->
  </bean>
  <bean id="baseKualiCluId" parent="baseKualiId" abstract="true">
-  <!--TODO: Add a lookup to make sure the Org Id is a valid clu -->
+  <!--TODO: Add a lookup to make sure the Id is a valid clu -->
+ </bean>
+<bean id="baseKualiCluSetId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid cluSet -->
  </bean>
  <bean id="baseKualiPersonId" parent="baseKualiId" abstract="true">
-  <!--TODO: Add a lookup to make sure the Org Id is a valid person -->
+  <!--TODO: Add a lookup to make sure the Id is a valid person -->
+ </bean>
+ <bean id="baseKualiStatementId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid statement -->
+ </bean>
+ <bean id="baseKualiReqComponentId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid requirement component -->
  </bean>
  <bean id="baseKualiOrgIdRequired" parent="baseKualiOrgId" abstract="true">
   <property name="minOccurs" value="1" />
@@ -208,12 +217,18 @@
  <bean id="baseKualiPersonIdRepeating" parent="baseKualiPersonId" abstract="true">
   <property name="maxOccurs" value="unbounded" />
  </bean>
+ <bean id="baseKualiStatementIdRepeating" parent="baseKualiStatementId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiReqComponentIdRepeating" parent="baseKualiReqComponentId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
  <bean id="baseDateRequired" parent="baseDate">
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="baseKualiEffectiveDate" parent="baseDate">
  </bean>
- <!--Need to add	cross field field validation with effective date-->
+ <!--TODO: Need to add	cross field field validation with effective date-->
  <bean id="baseKualiExpirationDate" parent="baseDate">
  </bean>
 
@@ -263,4 +278,26 @@
  <bean id="baseKualiStateRequired" parent="baseKualiState" abstract="true">
   <property name="minOccurs" value="1" />
  </bean>
+
+  <!-- RichTextInfo-->
+ <bean id="org.kuali.student.core.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.dto.RichTextInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="richTextInfo.formatted" />
+    <ref bean="richTextInfo.plain" />
+   </list>
+  </property>
+ </bean>
+ <bean id="org.kuali.student.core.dto.RichTextInfo" parent="org.kuali.student.core.dto.RichTextInfo-parent" />
+
+ <bean id="richTextInfo.formatted-parent" abstract="true" parent="baseKualiRichText">
+  <property name="name" value="formatted" />
+ </bean>
+ <bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
+
+ <bean id="richTextInfo.plain-parent" abstract="true" parent="baseKualiRichText">
+  <property name="name" value="plain" />
+ </bean>
+ <bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
 </beans>
