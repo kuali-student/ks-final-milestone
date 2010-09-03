@@ -31,8 +31,13 @@ public class ConnectionHandler {
 		log.info("JDBC Connection Information");
 		log.info("---------------------------");
 		log.info("URL: " + getUrl());
-		log.info("Username: " + properties.getProperty(DRIVER_INFO_PROPERTIES_USER));
+		String username = properties.getProperty(DRIVER_INFO_PROPERTIES_USER);
 		String password = properties.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD);
+		if (StringUtils.isEmpty(username)) {
+			log.info("Username: <no username was supplied>");
+		} else {
+			log.info("Username: " + username);
+		}
 		if (isShowPassword()) {
 			log.info("Password: " + password);
 		} else {
