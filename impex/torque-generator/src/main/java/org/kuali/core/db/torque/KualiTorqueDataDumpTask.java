@@ -18,11 +18,13 @@ import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.torque.engine.database.model.Column;
@@ -57,9 +59,20 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	 */
 	private String dateFormat = "yyyyMMddHHmmss z";
 
+	/**
+	 * The formatter that will do the formatting of dates;
+	 */
+	private SimpleDateFormat dateFormatter;
+
 	protected void showConfiguration() {
 		super.showConfiguration();
 		log("Exporting to: " + getDataXMLDir().getAbsolutePath());
+		log("Date format: \"" + dateFormat + "\" - " + dateFormatter.format(new Date()));
+	}
+
+	protected void updateConfiguration(Platform platform) {
+		super.updateConfiguration(platform);
+		dateFormatter = new SimpleDateFormat(dateFormat);
 	}
 
 	/**
@@ -76,7 +89,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			showConfiguration();
 
 			// Generate the XML
-			generateXML();
+			generateXML(platform);
 		} catch (Exception e) {
 			throw new BuildException(e);
 		}
@@ -85,11 +98,11 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * Generate a SQL statement that selects all data from the table
 	 */
-	protected String getDataSelectStatement(Platform platform, DatabaseMetaData dbMetaData, String tableName) throws SQLException {
+	protected String getDataSelectStatement(TableHelper helper, String tableName) throws SQLException {
 		StringBuffer sb = new StringBuffer("SELECT * FROM ");
 		sb.append(tableName);
 		sb.append(" ORDER BY 'x'");
-		List<String> pkFields = platform.getPrimaryKeys(dbMetaData, getSchema(), tableName);
+		List<String> pkFields = helper.getPlatform().getPrimaryKeys(helper.getDbMetaData(), getSchema(), tableName);
 		for (String field : pkFields) {
 			sb.append(", ").append(field);
 		}
@@ -140,9 +153,8 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	 * Convert a JDBC Timestamp into a java.util.Date using the format they specified
 	 */
 	protected String getDate(ResultSet rs, int index) throws SQLException {
-		SimpleDateFormat df = new SimpleDateFormat(getDateFormat());
 		Timestamp date = rs.getTimestamp(index);
-		return df.format(date);
+		return dateFormatter.format(date);
 	}
 
 	/**
@@ -198,14 +210,14 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * Generate and return the dataset Element
 	 */
-	protected Element getDatasetNode(Connection connection, DocumentImpl document, Platform platform, DatabaseMetaData dbMetaData, String tableName) throws SQLException {
+	protected Element getDatasetNode(TableHelper helper, DocumentImpl document, String tableName) throws SQLException {
 		Element datasetNode = document.createElement("dataset");
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			// This query selects everything from the table
-			String query = getDataSelectStatement(platform, dbMetaData, tableName);
-			stmt = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			String query = getDataSelectStatement(helper, tableName);
+			stmt = helper.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			rs = stmt.executeQuery(query);
 			ResultSetMetaData md = rs.getMetaData();
 			Column[] columns = getColumns(md);
@@ -217,6 +229,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 				Element row = getRow(document, tableName, md, rs, columns);
 				datasetNode.appendChild(row);
 			}
+			helper.setRowCount(count);
 			// Keep track of how many rows we found
 			if (count == 0) {
 				log("No data found in table " + tableName, Project.MSG_DEBUG);
@@ -242,13 +255,13 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * Return the XML Document object that we will serialize to disk
 	 */
-	protected DocumentImpl getDocument(Connection connection, String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException {
+	protected DocumentImpl getDocument(TableHelper helper, String tableName) throws SQLException {
 		// Generate the document type
 		DocumentTypeImpl docType = new DocumentTypeImpl(null, "dataset", null, getSystemId());
 		// Generate an empty document
 		DocumentImpl doc = new DocumentImpl(docType);
 		// Extract the data from the table
-		Element datasetNode = getDatasetNode(connection, doc, platform, dbMetaData, tableName);
+		Element datasetNode = getDatasetNode(helper, doc, tableName);
 		if (datasetNode == null) {
 			// There was no data (zero rows), we are done
 			return null;
@@ -288,7 +301,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * Generate XML from the data in the tables in the database
 	 */
-	protected void generateXML() throws Exception {
+	protected void generateXML(Platform platform) throws Exception {
 		Connection connection = null;
 
 		try {
@@ -296,7 +309,6 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			// Get metadata about the database
 			DatabaseMetaData dbMetaData = connection.getMetaData();
 			// Get the correct platform (oracle, mysql etc)
-			Platform platform = PlatformFactory.getPlatformFor(getTargetDatabase());
 			// Get ALL the table names
 			Set<String> tableNames = getSet(getJDBCTableNames(dbMetaData));
 			log("Table Count: " + tableNames.size());
@@ -309,9 +321,17 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 
 			if (filteredSize != completeSize) {
 				log("Filtered table Count: " + tableNames.size());
+			} else {
+				log("No table filtering applied.  Exporting all tables.");
 			}
 
-			processTables(connection, tableNames, platform, dbMetaData);
+			TableHelper helper = new TableHelper();
+			helper.setConnection(connection);
+			helper.setPlatform(platform);
+			helper.setDbMetaData(dbMetaData);
+			helper.setTableNames(tableNames);
+
+			processTables(helper);
 		} catch (Exception e) {
 			closeQuietly(connection);
 		}
@@ -320,12 +340,12 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * Process the tables, keeping track of which tables had at least one row of data
 	 */
-	protected void processTables(Connection connection, Set<String> tableNames, Platform platform, DatabaseMetaData dbMetaData) throws IOException, SQLException {
+	protected void processTables(TableHelper helper) throws IOException, SQLException {
 		long start = System.currentTimeMillis();
 		int exportCount = 0;
 		int skipCount = 0;
-		for (String tableName : tableNames) {
-			boolean exported = processTable(connection, tableName, platform, dbMetaData);
+		for (String tableName : helper.getTableNames()) {
+			boolean exported = processTable(helper, tableName);
 			if (exported) {
 				exportCount++;
 			} else {
@@ -333,7 +353,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			}
 		}
 		long elapsed = System.currentTimeMillis() - start;
-		log(utils.pad("Processed " + tableNames.size() + " tables", elapsed));
+		log(utils.pad("Processed " + helper.getTableNames().size() + " tables", elapsed));
 		log("Exported data from " + exportCount + " tables to XML");
 		log("Skipped " + skipCount + " tables that had zero rows");
 	}
@@ -341,13 +361,13 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * Process one table. Only create an XML file if there is at least one row of data
 	 */
-	protected boolean processTable(Connection connection, String tableName, Platform platform, DatabaseMetaData dbMetaData) throws SQLException, IOException {
+	protected boolean processTable(TableHelper helper, String tableName) throws SQLException, IOException {
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(1);
 		nf.setMinimumFractionDigits(1);
 		log("Processing: " + tableName, Project.MSG_DEBUG);
 		long ts1 = System.currentTimeMillis();
-		DocumentImpl doc = getDocument(connection, tableName, platform, dbMetaData);
+		DocumentImpl doc = getDocument(helper, tableName);
 		long ts2 = System.currentTimeMillis();
 		log(utils.pad("Extracting: " + tableName + " ", ts2 - ts1), Project.MSG_DEBUG);
 		boolean exported = false;
@@ -357,7 +377,11 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 		}
 		long ts3 = System.currentTimeMillis();
 		log(utils.pad("Serializing: " + tableName + " ", ts3 - ts2), Project.MSG_DEBUG);
-		log(utils.pad(tableName, (ts3 - ts1)));
+		if (!exported) {
+			log(utils.pad("Rows: " + StringUtils.leftPad(helper.getRowCount() + "", 3) + " " + tableName, (ts3 - ts1)), Project.MSG_DEBUG);
+		} else {
+			log(utils.pad("Rows: " + StringUtils.leftPad(helper.getRowCount() + "", 3) + " " + tableName, (ts3 - ts1)));
+		}
 		return exported;
 	}
 
