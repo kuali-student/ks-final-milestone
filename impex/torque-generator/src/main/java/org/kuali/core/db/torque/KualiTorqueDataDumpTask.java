@@ -15,7 +15,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -150,7 +149,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	}
 
 	/**
-	 * Convert a JDBC Timestamp into a java.util.Date using the format they specified
+	 * Convert a JDBC Timestamp into a java.util.Date using the specified format
 	 */
 	protected String getDate(ResultSet rs, int index) throws SQLException {
 		Timestamp date = rs.getTimestamp(index);
@@ -181,7 +180,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * Convert a row from the result set into an Element
 	 */
-	protected Element getRow(DocumentImpl doc, String tableName, ResultSetMetaData md, ResultSet rs, Column[] columns) throws SQLException {
+	protected Element getRow(DocumentImpl doc, String tableName, ResultSetMetaData md, ResultSet rs, Column[] columns, int rowCount) throws SQLException {
 		// Generate a row object
 		Element row = doc.createElement(tableName);
 		// Cycle through the result set columns
@@ -192,7 +191,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			try {
 				columnValue = getColumnValue(rs, i, columns[i]);
 			} catch (Exception ex) {
-				log("Problem reading column " + columns[i] + " from " + tableName, Project.MSG_ERR);
+				log("Problem reading row " + rowCount + " column " + columns[i] + " from " + tableName, Project.MSG_ERR);
 				log(ex.getClass().getName() + " : " + ex.getMessage(), Project.MSG_ERR);
 			}
 
@@ -226,7 +225,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			while (rs.next()) {
 				count++;
 				log("processing row of " + tableName, Project.MSG_DEBUG);
-				Element row = getRow(document, tableName, md, rs, columns);
+				Element row = getRow(document, tableName, md, rs, columns, count);
 				datasetNode.appendChild(row);
 			}
 			helper.setRowCount(count);
@@ -362,9 +361,6 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	 * Process one table. Only create an XML file if there is at least one row of data
 	 */
 	protected boolean processTable(TableHelper helper, String tableName) throws SQLException, IOException {
-		NumberFormat nf = NumberFormat.getInstance();
-		nf.setMaximumFractionDigits(1);
-		nf.setMinimumFractionDigits(1);
 		log("Processing: " + tableName, Project.MSG_DEBUG);
 		long ts1 = System.currentTimeMillis();
 		DocumentImpl doc = getDocument(helper, tableName);
@@ -378,9 +374,9 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 		long ts3 = System.currentTimeMillis();
 		log(utils.pad("Serializing: " + tableName + " ", ts3 - ts2), Project.MSG_DEBUG);
 		if (!exported) {
-			log(utils.pad("Rows: " + StringUtils.leftPad(helper.getRowCount() + "", 3) + " " + tableName, (ts3 - ts1)), Project.MSG_DEBUG);
+			log(utils.pad("Rows: " + StringUtils.leftPad(helper.getRowCount() + "", 5) + " " + tableName, (ts3 - ts1)), Project.MSG_DEBUG);
 		} else {
-			log(utils.pad("Rows: " + StringUtils.leftPad(helper.getRowCount() + "", 3) + " " + tableName, (ts3 - ts1)));
+			log(utils.pad("Rows: " + StringUtils.leftPad(helper.getRowCount() + "", 5) + " " + tableName, (ts3 - ts1)));
 		}
 		return exported;
 	}
