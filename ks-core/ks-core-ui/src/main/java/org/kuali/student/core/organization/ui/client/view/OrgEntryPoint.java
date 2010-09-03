@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
@@ -96,14 +97,10 @@ public class OrgEntryPoint implements EntryPoint{
     @SuppressWarnings("unchecked")
     public  <T> T getSerializedObject( String name ) throws SerializationException
     {
-        String serialized = getString( name );
+        String serialized = BrowserUtils.getString( name );
         SerializationStreamFactory ssf = GWT.create( MessagesRpcService.class); // magic
         return (T)ssf.createStreamReader( serialized ).readObject();
     }
-    public  native String getString(String name) /*-{
-        return eval("$wnd."+name);
-    }-*/;
-
 
     public void loadApp(final ApplicationContext context){
         SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);

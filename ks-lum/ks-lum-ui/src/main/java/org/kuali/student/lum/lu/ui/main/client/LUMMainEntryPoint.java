@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
@@ -77,17 +78,13 @@ public class LUMMainEntryPoint implements EntryPoint{
     @SuppressWarnings("unchecked")
     public  <T> T getMsgSerializedObject(String key ) throws SerializationException
     {
-        String serialized = getString( key );
+        String serialized = BrowserUtils.getString( key );
         SerializationStreamFactory ssf = GWT.create( MessagesRpcService.class); // magic
         SerializationStreamReader ssr = ssf.createStreamReader( serialized );
         T ret = (T)ssr.readObject();
         return ret;
     } 
-   
-    public  native String getString(String name) /*-{
-        return eval("$wnd."+name);
-    }-*/;
-    
+      
     public void loadApp(final ApplicationContext context){
         SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
         

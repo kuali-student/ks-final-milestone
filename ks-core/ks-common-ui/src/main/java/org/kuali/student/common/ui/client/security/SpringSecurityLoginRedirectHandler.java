@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.security;
 
+import org.kuali.student.common.ui.client.util.BrowserUtils;
+
 import com.google.gwt.user.client.Window;
 
 /**
@@ -15,18 +17,10 @@ public class SpringSecurityLoginRedirectHandler implements
 	@Override
 	public void handleSessionTimeout() {
 		//FIXME: Need a way to get the proper redirect url, for now just reloading the page
-		//redirect(GWT.getHostPageBaseURL());
+		//BrowserUtils.redirect(GWT.getHostPageBaseURL());
 		
 		Window.alert("Your session has timed out and are being redirected to the login page.");
-		reload();
+		BrowserUtils.reload();
 	}
-
-	public static native void redirect(String url)/*-{
-	      $wnd.location = url;
-	}-*/;
-
-	public static native void reload()/*-{
-		$wnd.location.reload();
-	}-*/;
  
 }
