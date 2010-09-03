@@ -309,7 +309,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		ConnectionHandler connectionHandler = new ConnectionHandler();
 		try {
 			BeanUtils.copyProperties(connectionHandler, this);
-			connectionHandler.setCredentials(getCredentials());
 			return connectionHandler;
 		} catch (Exception e) {
 			throw new MojoExecutionException("Error establishing connection", e);

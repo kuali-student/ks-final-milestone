@@ -227,7 +227,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			// Process the ResultSet
 			while (rs.next()) {
 				count++;
-				log("processing row of " + tableName, Project.MSG_DEBUG);
+				log("Processing row " + count + " of " + tableName, Project.MSG_DEBUG);
 				Element row = getRow(document, tableName, md, rs, columns, count);
 				datasetNode.appendChild(row);
 			}
