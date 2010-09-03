@@ -101,11 +101,11 @@ public class SubrulePreviewWidget extends FlowPanel {
         return new StringBuffer("");
     }
 
-    public void addEditButtonClickHandler(ClickHandler handler) {
+    public void setEditButtonClickHandler(ClickHandler handler) {
         editButton.addClickHandler(handler);
     }
 
-    public void addDeleteButtonClickHandler(ClickHandler handler) {
+    public void setDeleteButtonClickHandler(ClickHandler handler) {
         deleteButton.addClickHandler(handler);    
     }    
 }

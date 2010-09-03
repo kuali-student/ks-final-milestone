@@ -94,13 +94,13 @@ public class RulePreviewWidget extends FlowPanel {
         final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly);
         subRulePreviewWidgets.add(newSubRuleWidget);
 
-        newSubRuleWidget.addEditButtonClickHandler(new ClickHandler(){
+        newSubRuleWidget.setEditButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 editRuleCallback.exec(subTree);    
             }
         });
 
-        newSubRuleWidget.addDeleteButtonClickHandler(new ClickHandler(){
+        newSubRuleWidget.setDeleteButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog("Delete Requirement", "Are you sure you want to delete this requirement?"); //TODO app context for labels
                 dialog.getConfirmButton().addClickHandler(new ClickHandler(){
@@ -223,5 +223,9 @@ public class RulePreviewWidget extends FlowPanel {
 
     public void addSubRuleEditCallback(Callback<StatementTreeViewInfo> editRuleCallback) {
         this.editRuleCallback = editRuleCallback; 
+    }
+
+    public StatementTreeViewInfo getStatementTreeViewInfo() {
+        return  stmtTreeInfo;
     }
 }

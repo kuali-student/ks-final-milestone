@@ -168,6 +168,7 @@ public class ObjectClonerUtil {
             clonedStatementTreeViewInfoInfo.setType(inStatementTreeViewInfo.getType());
             clonedStatementTreeViewInfoInfo.setState(inStatementTreeViewInfo.getState());
             clonedStatementTreeViewInfoInfo.setId(inStatementTreeViewInfo.getId());
+            clonedStatementTreeViewInfoInfo.setNaturalLanguageTranslation(inStatementTreeViewInfo.getNaturalLanguageTranslation());
 
             List<StatementTreeViewInfo> inStatements = inStatementTreeViewInfo.getStatements();
             List<ReqComponentInfo> inReqComponentInfos = inStatementTreeViewInfo.getReqComponents();

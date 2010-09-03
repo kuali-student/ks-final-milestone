@@ -19,15 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.common.ui.client.widgets.rules.StatementVO;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.apache.log4j.Logger;
 
 /**
@@ -99,8 +99,8 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     @Override
     public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language) throws Exception {
         return statementService.translateReqComponentToNL(reqComponentInfo, nlUsageTypeKey, language);
-    }    
-          
+    }
+
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
     }

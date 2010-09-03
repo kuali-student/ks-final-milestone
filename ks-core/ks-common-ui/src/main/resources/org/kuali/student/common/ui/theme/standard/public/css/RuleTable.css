@@ -70,6 +70,10 @@
 	vertical-align: middle;
 }
 
+.KS-ReqComp-Panel label {
+	display: none;
+}
+
 .KS-Rules-Table-Cell-ID{
 	background-color: #E0E0E0;
 	padding: 10pt;

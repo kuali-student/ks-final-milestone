@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.client.requirements;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,7 +50,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     private boolean isInitialized = false;
     static int tempProgReqInfoID = 9999;
     private enum requirementState {STORED, ADDED, EDITED, DELETED;}
-    private List<SpanPanel> perProgramRequirementTypePanel = new ArrayList<SpanPanel>();
+    private Map<String, SpanPanel> perProgramRequirementTypePanel = new HashMap<String, SpanPanel>();
     private LinkedHashMap<StatementTypeInfo, LinkedHashMap<ProgramRequirementInfo, requirementState>> rules = new LinkedHashMap<StatementTypeInfo, LinkedHashMap<ProgramRequirementInfo, requirementState>>();
 
     public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId, List<String> programRequirements) {
@@ -107,6 +106,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                                         Window.alert("Found 2 same program requirements? ("+programReqInfo.getType());
                                         GWT.log("Found 2 same program requirements? ("+programReqInfo.getType());
                                     }
+                                    programReqInfo.setType(stmtInfo.getId());
                                     rules.put(stmtInfo, programReqInfo);
                                     break;
                                 }
@@ -129,31 +129,80 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         ProgramRequirementsManageView manageView = (ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
         if (manageView.isDirty()) {
             ((SectionView)parentController.getCurrentView()).setIsDirty(false);
-            StatementTreeViewInfo changedTree = manageView.getRuleTree();
 
-            ProgramRequirementInfo affectedRequirement = getProgramRequirement(changedTree.getId());
-            if (affectedRequirement == null) {
-	            Window.alert("Cannot find program requirement with a statement that has id: '" + changedTree.getId() + "'");
-	            GWT.log("Cannot find program requirement with a statement that has id: '" + changedTree.getId() + "'", null);                
+            StatementTreeViewInfo newTree = manageView.getRuleTree();
+
+            //find the affected program requirement
+            LinkedHashMap<ProgramRequirementInfo, requirementState> reqInfo = null;
+            ProgramRequirementInfo affectedRequirement = null;
+            StatementTypeInfo affectedStatementTypeInfo = null;
+            for (StatementTypeInfo statementTypeInfo : rules.keySet()) {
+                for (ProgramRequirementInfo ruleInfo : rules.get(statementTypeInfo).keySet()) {
+                    if (!findRequirement(ruleInfo, newTree)) {
+                        continue;
+                    }
+                    reqInfo = rules.get(statementTypeInfo);
+                    affectedRequirement = ruleInfo;
+                    affectedStatementTypeInfo = statementTypeInfo;
+                    break;
+                }
             }
 
-            if (rules.get(changedTree.getType()).get(affectedRequirement) == requirementState.STORED) {
-                rules.get(changedTree.getType()).put(affectedRequirement, requirementState.EDITED);
+            if (reqInfo == null) {
+	            Window.alert("Cannot find program requirement with a statement that has id: '" + newTree.getId() + "'");
+	            GWT.log("Cannot find program requirement with a statement that has id: '" + newTree.getId() + "'", null);
+                onReadyCallback.exec(true);
+                return;
+            }
+
+            if (reqInfo.get(affectedRequirement) == requirementState.STORED) {
+                reqInfo.put(affectedRequirement, requirementState.EDITED);
             }
 
             if (manageView.isNewRule()) {
-                affectedRequirement.getStatement().getStatements().add(changedTree);
+                affectedRequirement.getStatement().getStatements().add(newTree);
             } else {
                 //update rule
-                if (changedTree.getStatements() == null || changedTree.getStatements().isEmpty()) {
-                    affectedRequirement.setStatement(changedTree);
+                if (newTree.getStatements() == null || newTree.getStatements().isEmpty()) {
+                    affectedRequirement.setStatement(newTree);
                 } else {
-                    affectedRequirement.getStatement().getStatements().add(changedTree);
+                    affectedRequirement.getStatement().getStatements().add(newTree);
                 }
+            }
+
+            //update display of the rule
+                SpanPanel reqPanel = perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId());
+            for (int i = 0; i < perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId()).getWidgetCount(); i++) {
+                RulePreviewWidget rulePreviewWidget = (RulePreviewWidget)reqPanel.getWidget(i);
+
+//                for(StatementTreeViewInfo tree : affectedRequirement.getStatement().getStatements()) {
+//                    if (rulePreviewWidget.getStatementTreeViewInfo().getId().equals(tree.getId())) {
+
+                if (findRequirement(affectedRequirement, rulePreviewWidget.getStatementTreeViewInfo())) {
+                        RulePreviewWidget newRulePreviewWidget = getUpdatedProgramRequirement(reqPanel, affectedStatementTypeInfo, affectedRequirement);
+                        reqPanel.insert(newRulePreviewWidget, i);
+                        reqPanel.remove(rulePreviewWidget);
+                }
+                //}
             }
         }
 
         onReadyCallback.exec(true);
+    }
+
+    private boolean findRequirement(ProgramRequirementInfo reqInfo, StatementTreeViewInfo tree) {
+        boolean found = false;
+        if (reqInfo.getStatement().getStatements() == null) {
+            found = reqInfo.getStatement().getId().equals(tree.getId());
+        } else {
+            for (StatementTreeViewInfo oneTree : reqInfo.getStatement().getStatements()) {
+                if (oneTree.getId().equals(tree.getId())) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        return found;
     }
 
     private void displayRules() {
@@ -171,7 +220,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
             //create and display one type of program requirement section
             SpanPanel requirementsPanel = new SpanPanel();
-            perProgramRequirementTypePanel.add(requirementsPanel);
+            perProgramRequirementTypePanel.put(stmtTypeInfo.getId(), requirementsPanel);
             displayRequirementSectionForGivenType(requirementsPanel, stmtTypeInfo, rules.get(stmtTypeInfo), firstRequirement);
             firstRequirement = false;
 
@@ -219,21 +268,38 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         layout.add(ruleDesc);
     }
 
-    private void addProgramRequirement(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, final ProgramRequirementInfo progReqInfo, requirementState ruleInitialState) {
+    private void addProgramRequirement(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, final ProgramRequirementInfo progReqInfo,
+                                       requirementState ruleInitialState) {
         //first add new program requirement into the map of rules
+        rules.get(stmtTypeInfo).put(progReqInfo, ruleInitialState);
+        final RulePreviewWidget rulePreviewWidget = new RulePreviewWidget(stmtTypeInfo.getName(), progReqInfo.getShortTitle(), progReqInfo.getDescr().getPlain(),
+                                                    progReqInfo.getStatement(), isReadOnly);
+
+        addRulePreviewWidgetHandlers(requirementsPanel, rulePreviewWidget, stmtTypeInfo, progReqInfo);
+
+        requirementsPanel.add(rulePreviewWidget);
+    }
+
+    private RulePreviewWidget getUpdatedProgramRequirement(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, final ProgramRequirementInfo progReqInfo) {
+
+        final RulePreviewWidget rulePreviewWidget = new RulePreviewWidget(stmtTypeInfo.getName(), progReqInfo.getShortTitle(), progReqInfo.getDescr().getPlain(),
+                                                    progReqInfo.getStatement(), isReadOnly);
+        addRulePreviewWidgetHandlers(requirementsPanel, rulePreviewWidget, stmtTypeInfo, progReqInfo);
+        return rulePreviewWidget;
+    }
+
+    private void addRulePreviewWidgetHandlers(final SpanPanel requirementsPanel, final RulePreviewWidget rulePreviewWidget, final StatementTypeInfo stmtTypeInfo,
+                                              final ProgramRequirementInfo progReqInfo) {
+
         final LinkedHashMap<ProgramRequirementInfo, requirementState> rulesPerType = rules.get(stmtTypeInfo);
-        rulesPerType.put(progReqInfo, ruleInitialState);
 
-        final RulePreviewWidget ruleSummaryViewWidget =
-            new RulePreviewWidget(stmtTypeInfo.getName(), progReqInfo.getShortTitle(), progReqInfo.getDescr().getPlain(), progReqInfo.getStatement(), isReadOnly);
-
-        ruleSummaryViewWidget.addRequirementEditButtonClickHandler(new ClickHandler(){
+        rulePreviewWidget.addRequirementEditButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
             showEditProgramRequirementDialog(requirementsPanel, stmtTypeInfo.getName());
             }
         });
 
-        ruleSummaryViewWidget.addRequirementDeleteButtonClickHandler(new ClickHandler(){
+        rulePreviewWidget.addRequirementDeleteButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog(
                         ProgramProperties.get().programRequirements_summaryViewPageDeleteRuleDialogTitle(),
@@ -250,7 +316,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                         }
 
                         //remove rule from display
-                        requirementsPanel.remove(ruleSummaryViewWidget);
+                        requirementsPanel.remove(rulePreviewWidget);
                         setupNoRuleText(stmtTypeInfo);
 
                         dialog.hide();
@@ -262,17 +328,15 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         /* SUB-RULE edit/delete/add link&buttons handlers */
 
-       ruleSummaryViewWidget.addSubRuleAddButtonClickHandler(new ClickHandler(){
+        rulePreviewWidget.addSubRuleAddButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                     ((ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE))
-                                                                        .setRuleTree(null, progReqInfo.getStatement().getId(), stmtTypeInfo.getId());
+                                                                        .setRuleTree(progReqInfo.getStatement(), stmtTypeInfo.getId(), true);
                     parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
             }
-        });        
+        });
 
-       ruleSummaryViewWidget.addSubRuleEditCallback(editRuleCallback);
-
-       requirementsPanel.add(ruleSummaryViewWidget);
+        rulePreviewWidget.addSubRuleEditCallback(editRuleCallback);
     }
 
     private void displaySaveButton() {
@@ -383,26 +447,15 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             }
         }
         noRuleTextMap.get(stmtTypeInfo.getName()).setVisible(showNoRuleText);
-    }    
+    }
 
     protected Callback<StatementTreeViewInfo> editRuleCallback = new Callback<StatementTreeViewInfo>(){
         public void exec(StatementTreeViewInfo stmtTreeInfo) {
             ((ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE))
-                                                                            .setRuleTree(stmtTreeInfo, stmtTreeInfo.getId(), stmtTreeInfo.getType());
+                                                                            .setRuleTree(stmtTreeInfo, stmtTreeInfo.getType(), false);
             parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
         }
     };
-
-    private ProgramRequirementInfo getProgramRequirement(String treeId) {
-        for (StatementTypeInfo rulesPerType : rules.keySet()) {
-            for (ProgramRequirementInfo ruleInfo : rules.get(rulesPerType).keySet()) {
-                if (ruleInfo.getStatement().getId().equals(treeId)) {
-                    return ruleInfo;
-                }
-            }
-        }
-        return null;
-    }    
 
     private String getWordPlural(String word) {
         return (word.endsWith("s") ? word : word + "s");

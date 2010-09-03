@@ -115,6 +115,7 @@ public class RuleNodeWidget extends FocusPanel {
                 checkBoxAndEdit.setStyleName("KS-ReqComp-DeSelected");                
             }
             html.setHTML(node.getUserObject().toString());
+            html.addStyleName("KS-ReqComp-Panel");
             checkBox.setHTML(node.getUserObject().toString());
             checkBox.setValue(userObject.isCheckBoxOn());
             

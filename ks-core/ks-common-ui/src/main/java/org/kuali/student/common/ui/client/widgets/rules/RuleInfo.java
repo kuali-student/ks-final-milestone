@@ -31,7 +31,7 @@ public class RuleInfo {
     private boolean simplifying;
 
     public RuleInfo() {
-        setEditHistory(new EditHistory());
+        setEditHistory(new EditHistory(statementVO));
         setStatementVO(createNewStatementVO());
     }
 
@@ -340,6 +340,15 @@ public class RuleInfo {
     
     public List<ReqComponentVO> getSelectedReqComponentVOs() {
         return (statementVO == null)? null : statementVO.getSelectedReqComponentVOs();
+    }
+
+    public boolean isCellSelected() {
+
+        if (statementVO == null) {
+            return false;
+        }
+
+        return (!statementVO.getSelectedStatementVOs().isEmpty() || !statementVO.getSelectedReqComponentVOs().isEmpty());
     }
 
     public String getRationale() {

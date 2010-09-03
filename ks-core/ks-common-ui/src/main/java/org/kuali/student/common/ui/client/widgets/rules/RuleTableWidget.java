@@ -38,8 +38,8 @@ public class RuleTableWidget extends FlowPanel {
     private KSButton btnAddOR = new KSButton("OR");
     private KSButton btnAddAND = new KSButton("AND");
     private KSButton btnAddToGroup = new KSButton("Add to Group");
-    private KSButton btnMoveRuleDown = new KSButton();
-    private KSButton btnMoveRuleUp = new KSButton();
+    private KSButton btnMoveRuleDown = new KSButton("Down");
+    private KSButton btnMoveRuleUp = new KSButton("Up");
     private KSButton btnUndo = new KSButton("Undo");
     private KSButton btnRedo = new KSButton("Redo");
     private KSButton btnDelete = new KSButton("Delete");
@@ -97,7 +97,7 @@ public class RuleTableWidget extends FlowPanel {
                     if (structureChanged) {
                         showRuleBeforeSimplify(unsimplified);
                     }
-                    redraw(rule.getStatementVO().getStatementTreeViewInfo());
+                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
                 }
             }
         };
@@ -160,7 +160,7 @@ public class RuleTableWidget extends FlowPanel {
                         StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
                         rule.getEditHistory().save(statementVO);
-                        redraw(rule.getStatementVO().getStatementTreeViewInfo());
+                        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
                     }
                 }
             }
@@ -181,7 +181,7 @@ public class RuleTableWidget extends FlowPanel {
                         StatementVO enclosingStatementVO =  statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
                         rule.getEditHistory().save(statementVO);
-                        redraw(rule.getStatementVO().getStatementTreeViewInfo());
+                        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
                     }
                 }
             }
@@ -201,7 +201,7 @@ public class RuleTableWidget extends FlowPanel {
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
-                    redraw(rule.getStatementVO().getStatementTreeViewInfo());
+                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
                 }
             }
         });
@@ -220,28 +220,30 @@ public class RuleTableWidget extends FlowPanel {
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
-                    redraw(rule.getStatementVO().getStatementTreeViewInfo());
+                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
                 }
             }
         });
         
         btnDelete.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                StatementVO unsimplified = null;
                 boolean structureChanged = false;
+
                 rule.deleteItem();
+
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
-                unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
                 if (rule.getStatementVO() != null) {
                     structureChanged = rule.getStatementVO().simplify();
                 }
+
                 rule.getEditHistory().save(rule.getStatementVO());
-                // sets the statementVO to be the version that hasn't been simplified yet
-                // temporarily
+
+                // sets the statementVO to be the version that hasn't been simplified yet temporarily
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
-                    redraw((rule.getStatementVO() == null ? null : rule.getStatementVO().getStatementTreeViewInfo()));
+                    redraw((rule.getStatementVO() == null ? null : rule.getStatementVO().getStatementTreeViewInfo()), false);
                 }
             }
         });
@@ -262,7 +264,7 @@ public class RuleTableWidget extends FlowPanel {
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
-                    redraw(rule.getStatementVO().getStatementTreeViewInfo());
+                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
                 }
             }
         });
@@ -273,7 +275,7 @@ public class RuleTableWidget extends FlowPanel {
                 if (previousState != null) {
                     rule.setStatementVO(previousState);
                 }
-                redraw(rule.getStatementVO().getStatementTreeViewInfo());
+                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
             }
         });
         
@@ -283,14 +285,18 @@ public class RuleTableWidget extends FlowPanel {
                 if (nextState != null) {
                     rule.setStatementVO(nextState);
                 }
-                redraw(rule.getStatementVO().getStatementTreeViewInfo());
+                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
             }
         });        
     }
 
     // called by requirement display widget when user wants to edit a specific piece of rule
-    public void redraw(StatementTreeViewInfo stmtTreeInfo) {
+    public void redraw(StatementTreeViewInfo stmtTreeInfo, boolean newRule) {
         rule.getStatementVO().setStatementTreeViewInfo(stmtTreeInfo);
+        if (newRule) {
+            rule.setEditHistory(new EditHistory(rule.getStatementVO()));
+        }
+
         updateTable();
     }
     
@@ -301,7 +307,8 @@ public class RuleTableWidget extends FlowPanel {
         btnUndo.setEnabled(rule.getEditHistory().isUndoable());
         btnRedo.setEnabled(rule.getEditHistory().isRedoable());
         btnDelete.setEnabled(rule.statementVOIsDegroupAble());
-        //btnSaveRule.setEnabled(false);
+        btnMoveRuleUp.setEnabled(rule.isCellSelected() && rule.getStatementVO().isSimple()); //(rule.getStatementTree().getAllLeafCount() > 1));     
+        btnMoveRuleDown.setEnabled(rule.isCellSelected() && rule.getStatementVO().isSimple()); //(rule.getStatementTree().getAllLeafCount() > 1));
         
         ruleTable.clear();
         Node tree = rule.getStatementTree();
@@ -324,13 +331,13 @@ public class RuleTableWidget extends FlowPanel {
     private void showRuleBeforeSimplify(StatementVO unsimplified) {
         rule.setStatementVO(unsimplified);
         rule.setSimplifying(true);
-        redraw(null);
+        redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
         // sleep for a while to show the user how the rule looks like before simplification
         Timer simplifyingTimer = new Timer() {
             public void run() {
                 rule.setSimplifying(false);
-                rule.setStatementVO(rule.getEditHistory().getCurrentState());
-                redraw(null);
+                rule.setStatementVO(rule.getEditHistory().getLastHistoricStmtVO());
+                redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
             }
         };
         simplifyingTimer.schedule(1000);
