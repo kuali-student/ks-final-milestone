@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets.documenttool;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
@@ -55,7 +57,9 @@ import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
@@ -66,6 +70,7 @@ import org.kuali.student.core.dto.StatusInfo;
 //import org.kuali.student.lum.lu.ui.course.client.configuration.MultiplicityFieldConfig;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -408,9 +413,9 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 
 		buttonPanel.setContent(form);
-		layout.add(documentList);
 		isAuthorizedUploadDocuments();
 		layout.add(buttonPanel);
+        layout.add(documentList);
 		documentList.setVisible(false);
 		buttonPanel.setVisible(false);
 
@@ -464,6 +469,97 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	private void resetUploadFormPanel() {
 		uploadList.clear();
 		uploadList.add(createUploadForm());
+	}
+	
+	private class DocumentList extends Composite{
+	    private FlexTable tableLayout = new FlexTable();
+	    private List<RefDocRelationInfoMock> docInfos;
+	    public DocumentList() {
+	        this.initWidget(tableLayout);
+	    }
+	    
+	    public DocumentList(List<RefDocRelationInfoMock> docInfos) {
+	        setDocInfos(docInfos);
+            this.initWidget(tableLayout);
+	    }
+	    
+	    public void setDocInfos(List<RefDocRelationInfoMock> docInfos) {
+	        this.docInfos = docInfos;
+	        redraw();
+	    }
+	    
+	    public void add(RefDocRelationInfoMock docInfo) {
+	        docInfos = (docInfos == null)? new ArrayList<RefDocRelationInfoMock>() :
+	            docInfos;
+	        docInfos.add(docInfo);
+	        redraw();
+	    }
+	    
+	    private void redraw() {
+            tableLayout.clear();
+            if (docInfos != null) {
+                int rowIndex = 0;
+                
+                for (final RefDocRelationInfoMock docInfo : docInfos) {
+                    HTML name = new HTML("No file exists");
+                    HTML documentText = new HTML();
+                    AbbrButton delete = new AbbrButton(AbbrButtonType.DELETE);
+                    int columnIndex = 0;
+
+                    // display header
+                    if (rowIndex == 0) {
+                        StringBuilder titleTextSb = new StringBuilder();
+                        titleTextSb.append("Attached Documents (").append(docInfos.size()).append(")");
+                        SectionTitle uploadedFileSectionHeader = SectionTitle.generateH3Title(titleTextSb.toString());
+                        uploadedFileSectionHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
+                        tableLayout.setWidget(rowIndex, columnIndex, uploadedFileSectionHeader);
+                        tableLayout.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 3);
+                        rowIndex++;
+                    }
+                    tableLayout.setWidget(rowIndex, columnIndex, name);
+                    name.setHTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + docInfo.getDocumentId() + "\" target=\"_blank\"><b>" + docInfo.getTitle() + "</b></a>");
+                    name.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
+                    tableLayout.setWidget(rowIndex, columnIndex, name);
+                    columnIndex++;
+                    documentText.setHTML(docInfo.getDesc().getPlain());
+                    documentText.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
+                    tableLayout.setWidget(rowIndex, columnIndex, documentText);
+                    columnIndex++;
+                    tableLayout.setWidget(rowIndex, columnIndex, delete);
+                    delete.addClickHandler(new ClickHandler(){
+                        @Override
+                        public void onClick(ClickEvent event) {
+                             try {
+                                 //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
+                                 //before delete
+                                documentRelationRpc.deleteRefDocRelation(docInfo.getId(), new KSAsyncCallback<StatusInfo>(){
+                                    @Override
+                                    public void onSuccess(StatusInfo result) {
+                                        try {
+                                            documentServiceAsync.deleteDocument(docInfo.getDocumentId(), new KSAsyncCallback<StatusInfo>(){
+                                                @Override
+                                                public void onSuccess(StatusInfo result) {
+                                                    refreshDocuments();
+                                                }
+
+                                            });
+                                        } catch (Exception e) {
+                                            GWT.log("deleteDocument failed", e);
+                                        }
+
+                                    }
+                                });
+                            } catch (Exception e) {
+                                GWT.log("deleteRefDocRelation failed", e);
+                            }
+
+
+                        }
+                    });
+                    rowIndex++;
+                }
+            }
+	    }
 	}
 
 	private static class DocumentForm extends Composite{
@@ -544,9 +640,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 					public void onSuccess(List<RefDocRelationInfoMock> result) {
 						documentList.clear();
 						if(result != null && !(result.isEmpty())){
-							for(RefDocRelationInfoMock info: result){
-								documentList.add(new Document(info));
-							}
+						    documentList.add(new DocumentList(result));
 						}
 						documentList.remove(loadingDocuments);
 					}
@@ -556,102 +650,6 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 			}
         }
 	}
-
-	private class Document extends Composite{
-
-        private SimplePanel content = new SimplePanel();
-        private VerticalFlowPanel viewLayout = new VerticalFlowPanel();
-        private HorizontalBlockFlowPanel header = new HorizontalBlockFlowPanel();
-        private VerticalFlowPanel headerTextContainer = new VerticalFlowPanel();
-        private HorizontalBlockFlowPanel editActions = new HorizontalBlockFlowPanel();
-
-        KSImage delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
-
-        private HTML name = new HTML("No file exists");
-        private HTML documentText = new HTML();
-        private KSLabel fileType = new KSLabel();
-
-        private RefDocRelationInfoMock info;
-
-        public Document(RefDocRelationInfoMock info){
-            this.info = info;
-
-
-            delete.addClickHandler(new ClickHandler(){
-                @Override
-                public void onClick(ClickEvent event) {
-                	 try {
-                		 //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
-                		 //before delete
-             			documentRelationRpc.deleteRefDocRelation(Document.this.info.getId(), new KSAsyncCallback<StatusInfo>(){
-							@Override
-							public void onSuccess(StatusInfo result) {
-		             			try {
-									documentServiceAsync.deleteDocument(Document.this.info.getDocumentId(), new KSAsyncCallback<StatusInfo>(){
-										@Override
-										public void onSuccess(StatusInfo result) {
-											refreshDocuments();
-										}
-
-									});
-								} catch (Exception e) {
-									GWT.log("deleteDocument failed", e);
-								}
-
-							}
-						});
-             		} catch (Exception e) {
-             			GWT.log("deleteRefDocRelation failed", e);
-             		}
-
-
-                }
-            });
-
-            setupDefaultStyles();
-            headerTextContainer.add(name);
-            headerTextContainer.add(fileType);
-            editActions.add(delete);
-            header.add(headerTextContainer);
-            header.add(editActions);
-            setupViewLayout();
-
-            this.initWidget(content);
-        }
-
-        private void setupDefaultStyles(){
-        	content.addStyleName("KS-Comment-Container");
-        	header.addStyleName("KS-Comment-Header");
-        	headerTextContainer.addStyleName("KS-Comment-Header-Left");
-        	delete.addStyleName("KS-Comment-Image-Button");
-        	editActions.addStyleName("KS-Comment-Image-Button-Panel");
-        	documentText.addStyleName("KS-Comment-Text");
-        	fileType.addStyleName("KS-Comment-Date-Created");
-        }
-
-        private void setupViewLayout(){
-
-            viewLayout.clear();
-            viewLayout.add(header);
-            viewLayout.add(documentText);
-
-            if(info.getTitle() != null){
-            	name.setHTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + info.getDocumentId() + "\" target=\"_blank\"><b>" + info.getTitle() + "</b></a>");
-            }
-
-            if(info.getDesc() != null){
-            	documentText.setHTML("<b>" + "Description: " + "</b>" + info.getDesc().getPlain());
-            }
-
-            content.setWidget(viewLayout);
-
-        }
-
-        public void showEditActions(boolean show){
-        	editActions.setVisible(show);
-        }
-
-    }
 
 	@Override
 	public KSImage getImage() {
