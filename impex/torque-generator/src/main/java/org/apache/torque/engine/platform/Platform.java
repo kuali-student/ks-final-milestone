@@ -39,6 +39,14 @@ public interface Platform {
 	/** constant for native id method */
 	String SEQUENCE = "sequence";
 
+	/**
+	 * Given a JDBC url return a url that can connect directly to the database server itself. ie no database specified
+	 */
+	String getServerUrl(String url);
+
+	/**
+	 * Given an artifact id, return a string a schema name based on the artifact id that is allowed by the db vendor
+	 */
 	String getSchemaName(String artifactId);
 
 	/**

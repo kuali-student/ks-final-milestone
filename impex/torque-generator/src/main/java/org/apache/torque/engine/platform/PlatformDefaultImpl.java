@@ -64,6 +64,11 @@ public class PlatformDefaultImpl implements Platform {
 		schemaDomainMap.put(domain.getType(), domain);
 	}
 
+	public String getServerUrl(String url) {
+		// By default just return the existing url
+		return url;
+	}
+
 	public String getSchemaName(String artifactId) {
 		String suffix = "-db";
 		if (artifactId.endsWith(suffix)) {

@@ -18,6 +18,14 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	public static final String DATABASE_USERNAME_PROPERTY = "databaseUsername";
 
 	/**
+	 * URL to connect directly to the database server itself (ie: no database specified).
+	 * 
+	 * @parameter expression="${serverUrl}"
+	 * @required
+	 */
+	String serverUrl;
+
+	/**
 	 * The name of the database
 	 * 
 	 * @parameter expression="${database}"
@@ -77,6 +85,9 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		}
 		if (isEmpty(databaseUsername)) {
 			databaseUsername = platform.getSchemaName(getProject().getArtifactId());
+		}
+		if (isEmpty(serverUrl)) {
+			serverUrl = platform.getServerUrl(url));
 		}
 	}
 
@@ -206,5 +217,13 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 
 	public void setDbaPassword(String dbaPassword) {
 		this.dbaPassword = dbaPassword;
+	}
+
+	public String getServerUrl() {
+		return serverUrl;
+	}
+
+	public void setServerUrl(String serverUrl) {
+		this.serverUrl = serverUrl;
 	}
 }

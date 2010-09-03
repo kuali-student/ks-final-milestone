@@ -19,11 +19,14 @@ package org.apache.torque.engine.platform;
  * under the License.
  */
 
+import static org.kuali.db.DatabaseType.POSTGRESQL;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.torque.engine.database.model.Domain;
 import org.apache.torque.engine.database.model.SchemaType;
 
@@ -68,6 +71,42 @@ public class PlatformMysqlImpl extends PlatformDefaultImpl {
 	 */
 	public boolean hasSize(String sqlType) {
 		return !("MEDIUMTEXT".equals(sqlType) || "LONGTEXT".equals(sqlType) || "BLOB".equals(sqlType) || "MEDIUMBLOB".equals(sqlType) || "LONGBLOB".equals(sqlType));
+	}
+
+	/**
+	 * jdbc:mysql://[host:port],[host:port]/[database][?property1][=value1][&property2][=value2]
+	 */
+	protected String getBaseUrl(String url) {
+		if (url == null) {
+			return null;
+		}
+		if (!url.startsWith("jdbc:mysql://")) {
+			return null;
+		}
+		int count = StringUtils.countMatches(url, "/");
+		if (count != 3) {
+			return null;
+		}
+		int pos = url.lastIndexOf("/");
+		return url.substring(0, pos);
+	}
+
+	protected String getOptions(String url) {
+		int pos = url.indexOf("?");
+		if (pos == -1) {
+			return "";
+		}
+		return url.substring(pos);
+	}
+
+	@Override
+	public String getServerUrl(String url) {
+		String baseUrl = getBaseUrl(url);
+		if (baseUrl == null) {
+			return url;
+		}
+		String options = getOptions(url);
+		return baseUrl + options;
 	}
 
 	@Override
