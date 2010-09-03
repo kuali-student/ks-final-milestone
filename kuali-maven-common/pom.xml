@@ -15,7 +15,7 @@
   <distributionManagement>
     <site>
       <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/maven-plugins/${project.version}</url>
+      <url>scp://student.kuali.org:/opt/www/student/site/maven-plugins/kuali-maven-common/${project.version}</url>
     </site>
   </distributionManagement>
   <scm>
