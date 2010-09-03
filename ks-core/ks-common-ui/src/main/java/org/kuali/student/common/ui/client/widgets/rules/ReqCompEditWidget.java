@@ -75,9 +75,26 @@ public class ReqCompEditWidget extends FlowPanel {
                     if (result == ButtonEnumerations.AddCancelEnum.ADD) {
                         //1. check that all fields have values
 
+                        //TODO move to a separate function
+                        ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
+    	                List<ReqCompFieldInfo> editedFields = new ArrayList<ReqCompFieldInfo>();                        
+                        String name = "";
+        	            String value = "";
+                        for (Object reqCompWidget : reqCompWidgets) {
+
+        	                if (reqCompWidget.getClass().getName().contains("KSTextBox")) {
+        		                name = ((KSTextBox)reqCompWidget).getName();
+        		                value = ((KSTextBox)reqCompWidget).getText();
+                            }
+                            fieldInfo.setId(name);
+                            fieldInfo.setType(name);
+                            fieldInfo.setValue(value);
+                            editedFields.add(fieldInfo);                            
+                        }
+
                         //2. update req. component being edited
-                        //editedReqComp.setReqCompFields(editedFields);
-                        //editedReqComp.setType(selectedReqType.getId());
+                        editedReqComp.setReqCompFields(editedFields);
+                        editedReqComp.setType(selectedReqType.getId());
 
                         setEnableAddRuleButtons(false);
                         if (reqCompTypesList.getSelectedItem() != null) {
@@ -239,12 +256,15 @@ public class ReqCompEditWidget extends FlowPanel {
             if (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.course.permission.org.required")) {
                 final KSTextBox valueWidget = new KSTextBox();
                 valueWidget.setName(fieldType);
-                valueWidget.setText(fieldValue);
+                valueWidget.setText("59"); //hard code for now fieldValue);
                 reqCompWidgetsPanel.add(new KSLabel(fieldLabel + ":"));
                 reqCompWidgetsPanel.add(valueWidget);
                 reqCompWidgets.add(valueWidget);
                 continue;
-            }
+            } /*else if (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.course.permission.instructor.required")) {
+
+                continue;
+            }   */
 
         }
 

@@ -293,6 +293,7 @@ public class RuleTableWidget extends FlowPanel {
 
     // called by requirement display widget when user wants to edit a specific piece of rule
     public void redraw(StatementTreeViewInfo stmtTreeInfo, boolean newRule) {
+        rule.getStatementVO().clearStatementAndReqComponents();
         rule.getStatementVO().setStatementTreeViewInfo(stmtTreeInfo);    //TODO remove req. compon.t
         if (newRule) {
             rule.setEditHistory(new EditHistory(rule.getStatementVO()));
