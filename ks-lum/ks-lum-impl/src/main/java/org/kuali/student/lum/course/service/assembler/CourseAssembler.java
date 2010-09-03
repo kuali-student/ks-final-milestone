@@ -303,7 +303,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
 		identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
 		identifier.setState(course.getState());
-		identifier.setCode(course.getCode());
+		String code = (course.getCode() == null)? "" : course.getCode();
+		identifier.setCode(code);
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setLongName(course.getCourseTitle());
 		
