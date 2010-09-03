@@ -626,4 +626,16 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Completion of a specialization is required for this program")
   @Key("programSpecialization.instructions")
   String programSpecialization_instructions();
+  
+  @DefaultMessage("Key Specialization Information")
+  @Key("variation.menu.sections.variationInformation")
+  String variation_menu_sections_variationInformation();
+ 
+  @DefaultMessage("Specialization Title")
+  @Key("variationInformation.variationTitle")
+  String variationInformation_variationTitle();
+  
+  @DefaultMessage("Specialization Description")
+  @Key("variationCatalogInformation.descr")
+  String variationCatalogInformation_descr();
 }

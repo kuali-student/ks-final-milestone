@@ -3,6 +3,7 @@ package org.kuali.student.lum.program.client;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.edit.ProgramEditController;
 import org.kuali.student.lum.program.client.view.ProgramViewController;
+import org.kuali.student.lum.program.client.view.variation.VariationViewController;
 
 /**
  * @author Igor
@@ -12,6 +13,8 @@ public class ProgramManager {
     private ProgramViewController programViewController;
 
     private ProgramEditController programEditController;
+    
+    private VariationViewController variationViewController;
 
     protected DataModel programModel;
 
@@ -26,6 +29,13 @@ public class ProgramManager {
         return programViewController;
     }
 
+    public VariationViewController getVariationViewController() {
+        if (variationViewController == null) {
+        	variationViewController = new VariationViewController(programModel);
+        }
+        return variationViewController;
+    }
+    
     public ProgramEditController getProgramEditController() {
         if (programEditController == null) {
             programEditController = new ProgramEditController(programModel);
