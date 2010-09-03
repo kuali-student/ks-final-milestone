@@ -16,7 +16,8 @@ public class AntTaskMojoTest extends PlexusTestCase {
 
 		Echo echoTask = new Echo();
 		echoTask.setTaskName("empty task");
-		AntTaskMojo instance = new AntTaskMojo(echoTask);
+		AntTaskMojo instance = new AntTaskMojo();
+		instance.setAntTask(echoTask);
 		echoTask.addText("hello world");
 		instance.execute();
 
