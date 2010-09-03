@@ -76,23 +76,6 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	private String sqlDbMap;
 
 	/**
-	 * Creates a new DataModelTaskMojo object.
-	 */
-	DataModelTaskMojo() {
-		super(new TorqueDataModelTask());
-	}
-
-	/**
-	 * Creates a new DataModelTaskMojo object wrapping the passed TorqueDataModelTask.
-	 * 
-	 * @param torqueDataModelTask
-	 *            the DataModelTask to be wrapped by this Mojo.
-	 */
-	DataModelTaskMojo(TorqueDataModelTask torqueDataModelTask) {
-		super(torqueDataModelTask);
-	}
-
-	/**
 	 * Returns the path to the control template.
 	 * 
 	 * @return the path to the control template.

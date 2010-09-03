@@ -11,20 +11,6 @@ import org.kuali.core.db.torque.FilteredPropertyCopier;
 public class AntTaskMojo extends BaseMojo {
 
 	/**
-	 * Creates a new instance of AntTaskMojo.
-	 */
-	public AntTaskMojo() {
-		this(null);
-	}
-
-	/**
-	 * Creates a new instance of AntTaskMojo.
-	 */
-	public AntTaskMojo(Task antTask) {
-		setAntTask(antTask);
-	}
-
-	/**
 	 * The ant task to be executed by this mojo.
 	 */
 	private Task antTask;

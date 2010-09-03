@@ -58,13 +58,6 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	private String schemaXMLFile;
 
 	/**
-	 * Creates a new SQLMojo object.
-	 */
-	public DataDtdMojo() {
-		super(new TorqueDataModelTask());
-	}
-
-	/**
 	 * Returns the context properties for the Texen task.
 	 * 
 	 * @return The PropertiesConfiguration containing all context properties, not null.
@@ -80,8 +73,9 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 * Configures the Texen task wrapped by this mojo
 	 */
 	protected void configureTask() throws MojoExecutionException {
+		TorqueDataModelTask task = new TorqueDataModelTask();
+		setAntTask(task);
 		super.configureTask();
-		TorqueDataModelTask task = (TorqueDataModelTask) super.getGeneratorTask();
 		boolean exists = new Utils().isFileOrResource(getSchemaXMLFile());
 		if (!exists) {
 			throw new MojoExecutionException("Unable to locate: " + getSchemaXMLFile());

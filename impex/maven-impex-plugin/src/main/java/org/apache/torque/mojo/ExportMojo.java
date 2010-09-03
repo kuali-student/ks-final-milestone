@@ -1,7 +1,6 @@
 package org.apache.torque.mojo;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.torque.mojo.configurer.JdbcConfigurer;
 import org.kuali.core.db.torque.DumpTask;
 import org.kuali.core.db.torque.StringFilter;
 

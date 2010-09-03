@@ -18,8 +18,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	/**
 	 * The directory in which the SQL will be generated.
 	 * 
-	 * @parameter property="outputDir" expression="${outputDir}"
-	 *            default-value="${project.build.directory}/classes/sql"
+	 * @parameter property="outputDir" expression="${outputDir}" default-value="${project.build.directory}/classes/sql"
 	 * @required
 	 */
 	@SuppressWarnings("unused")
@@ -91,18 +90,11 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	 */
 	private File dataDTD;
 
-	/**
-	 * Creates a new SQLMojo object.
-	 */
-	public DataSqlMojo() {
-		super(new KualiTorqueDataSQLTask());
-	}
-
 	@Override
 	public void executeMojo() throws MojoExecutionException {
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
-		ChangeDetector detector = new ChangeDetector(getOutputDir(), getReportFile(), getSchemaFiles(),getDataFiles());
+		ChangeDetector detector = new ChangeDetector(getOutputDir(), getReportFile(), getSchemaFiles(), getDataFiles());
 		if (!detector.isChanged() && isRunOnlyOnChange()) {
 			getLog().info("------------------------------------------------------------------------");
 			getLog().info("Data and schema are unchanged.  Skipping generation.");
@@ -135,8 +127,9 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	 * Configures the Texen task wrapped by this mojo
 	 */
 	protected void configureTask() throws MojoExecutionException {
+		KualiTorqueDataSQLTask task = new KualiTorqueDataSQLTask();
+		setAntTask(task);
 		super.configureTask();
-		KualiTorqueDataSQLTask task = (KualiTorqueDataSQLTask) super.getGeneratorTask();
 		task.setDataDTD(getDataDTD());
 		task.addFileset(getDataXMLFileSet());
 		task.setXmlFile(getSchemaXMLFile().getAbsolutePath());

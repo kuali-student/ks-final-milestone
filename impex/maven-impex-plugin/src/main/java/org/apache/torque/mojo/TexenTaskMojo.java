@@ -51,16 +51,6 @@ public abstract class TexenTaskMojo extends AntTaskMojo {
 	private String contextPropertiesPath;
 
 	/**
-	 * Creates a new instance of AbstractTorqueMojo.
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if generatorTask is null.
-	 */
-	public TexenTaskMojo(TexenTask generatorTask) {
-		super(generatorTask);
-	}
-
-	/**
 	 * Sets the path to Torque's output directory.
 	 * 
 	 * @param outputDir
@@ -191,21 +181,17 @@ public abstract class TexenTaskMojo extends AntTaskMojo {
 	 * Configures the Texen task wrapped by this mojo.
 	 */
 	protected void configureTask() throws MojoExecutionException {
-		getGeneratorTask().setContextProperties(contextPropertiesPath);
-
-		getGeneratorTask().setUseClasspath(useClasspath);
-
-		if (templatePath != null) {
-			try {
-				getGeneratorTask().setTemplatePath(templatePath);
-			} catch (Exception e) {
-				getLog().error("Error setting template path: " + e.getMessage());
-				throw new MojoExecutionException(e.getMessage());
-			}
+		super.configureTask();
+		TexenTask task = getGeneratorTask();
+		task.setContextProperties(contextPropertiesPath);
+		task.setUseClasspath(useClasspath);
+		try {
+			task.setTemplatePath(templatePath);
+		} catch (Exception e) {
+			throw new MojoExecutionException("Error setting template path", e);
 		}
 
 		File outputDirectory = new File(outputDir);
-		getLog().debug("generating torque java sources into: " + outputDirectory.getAbsolutePath());
 		outputDirectory.mkdirs();
 		getGeneratorTask().setOutputDirectory(outputDirectory);
 	}

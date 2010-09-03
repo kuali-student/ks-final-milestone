@@ -34,13 +34,6 @@ public abstract class SqlMojoBase extends DataModelTaskMojo {
 	private String suffix = "";
 
 	/**
-	 * Creates a new SQLMojo object.
-	 */
-	public SqlMojoBase() {
-		super(new KualiTorqueSQLTask());
-	}
-
-	/**
 	 * Returns the context properties for the Texen task.
 	 * 
 	 * @return The PropertiesConfiguration containing all context properties, not null.
