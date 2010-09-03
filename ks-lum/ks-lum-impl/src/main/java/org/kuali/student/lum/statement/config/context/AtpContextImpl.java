@@ -38,6 +38,9 @@ public class AtpContextImpl extends BasicContextImpl {
 	}
 
 	private AtpDurationTypeInfo getAtpDurationType(String atpDurationTypeKey) throws OperationFailedException {
+		if (atpDurationTypeKey == null) {
+			return null;
+		}
 		try {
 			AtpDurationTypeInfo atpDurationType = this.atpService.getAtpDurationType(atpDurationTypeKey);
 			return atpDurationType;

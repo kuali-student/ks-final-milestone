@@ -68,6 +68,9 @@ public class LuContextImpl extends BasicContextImpl {
      * @throws OperationFailedException If retrieving CLU fails
      */
     public CluInfo getCluInfo(String cluId) throws OperationFailedException {
+		if (cluId == null) {
+			return null;
+		}
 		try {
 			CluInfo clu = this.luService.getClu(cluId);
 			return clu;
@@ -93,6 +96,9 @@ public class LuContextImpl extends BasicContextImpl {
      * @throws OperationFailedException If retrieving CLU set fails
      */
     public CluSetInfo getCluSetInfo(String cluSetId) throws OperationFailedException {
+		if (cluSetId == null) {
+			return null;
+		}
 		try {
 	    	CluSetInfo cluSet = this.luService.getCluSetInfo(cluSetId);
 	    	return cluSet;

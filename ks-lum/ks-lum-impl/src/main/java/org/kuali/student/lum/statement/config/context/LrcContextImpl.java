@@ -40,6 +40,9 @@ public class LrcContextImpl extends BasicContextImpl {
 	}
 
 	private ResultComponentInfo getResultComponent(String resultComponentId) throws OperationFailedException {
+		if (resultComponentId == null) {
+			return null;
+		}
 		try {
 			return lrcService.getResultComponent(resultComponentId);
 		} catch (Exception e) {

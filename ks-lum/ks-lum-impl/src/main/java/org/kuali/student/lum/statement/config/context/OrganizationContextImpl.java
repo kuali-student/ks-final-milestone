@@ -37,6 +37,9 @@ public class OrganizationContextImpl extends BasicContextImpl {
 	}
 
 	private OrgInfo getOrganization(String orgId) throws OperationFailedException {
+		if (orgId == null) {
+			return null;
+		}
 		try {
 			return organizationService.getOrganization(orgId);
 		} catch (Exception e) {
