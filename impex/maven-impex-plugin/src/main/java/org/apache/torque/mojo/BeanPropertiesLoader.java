@@ -61,18 +61,18 @@ public class BeanPropertiesLoader {
 				Object value = description.get(key);
 				if (value != null && !isOverride()) {
 					// The property is already set, don't override it unless they have asked us to
-					log.info("Skipping property " + key + " it is already set to " + value);
+					log.debug("Skipping property " + key + " it is already set to " + value);
 					continue;
 				}
 				Set<String> beanProperties = description.keySet();
 				if (!beanProperties.contains(key)) {
 					// This is not a property of the bean
-					log.info("Skipping property " + key + " as it is not a property of this bean");
+					log.debug("Skipping property " + key + " as it is not a property of this bean");
 					continue;
 				}
 				// Extract the value and set it on the bean
 				String newValue = properties.getProperty(key);
-				log.info("Setting '" + key + "' to " + newValue);
+				log.debug("Setting '" + key + "' to " + newValue);
 				BeanUtils.copyProperty(bean, key, newValue);
 			}
 		} catch (Exception e) {
