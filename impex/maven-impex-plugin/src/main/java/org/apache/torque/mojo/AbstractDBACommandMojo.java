@@ -61,8 +61,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String dbaSettingsKey;
 
 	/**
-	 * Set this to true if you are allowing DBA commands (eg CREATE database, DROP database) to be issued against your
-	 * database anonymously
+	 * Set this to true if you are you are including the username/password as part of the JDBC url
 	 * 
 	 * @parameter expression="${enableAnonymousDbaAccess}" default-value="false"
 	 */
