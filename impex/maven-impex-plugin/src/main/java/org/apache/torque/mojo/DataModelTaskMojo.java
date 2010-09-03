@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.torque.task.TorqueDataModelTask;
 
@@ -122,8 +121,6 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	}
 
 	protected List<File> getFiles(FileSet fileSet) {
-		Project project = getAntProject();
-		getLog().info("project=" + project);
 		DirectoryScanner directoryScanner = fileSet.getDirectoryScanner(getAntProject());
 		List<File> files = new ArrayList<File>();
 		String[] fileNames = directoryScanner.getIncludedFiles();
