@@ -8,80 +8,34 @@
 
 package org.kuali.student.core.entity;
 
-import java.util.Date;
-
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass
 public abstract class VersionEntity extends MetaEntity {
 
-    @Column(name = "VER_IND_ID")
-    private String versionIndId;
+	@Embedded
+	private Version version;
+	
+	@Override
+	protected void onPrePersist(){
+		if(version == null){
+			version = new Version();
+		}
+		if(version.getSequenceNumber()==null){
+			version.setSequenceNumber(Long.valueOf(0));
+		}
+		version.setVersionIndId(UUIDHelper.genStringUUID(version.getVersionIndId()));
+	}
+	
+	
+	public Version getVersion() {
+		return version;
+	}
 
-    @Column(name = "SEQ_NUM")
-    private Integer sequenceNumber;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable=false)
-    private Date versionCreateTime;
-
-    @Column(name = "VER_CREATE_ID")
-    private String versionCreateId;
-
-    @Column(name = "IS_CURR_VER")
-    private boolean isCurrentVersion;
-
-    @Column(name = "VER_CMT")
-    private String versionComment;
-            
-    public String getVersionIndId() {
-        return versionIndId;
-    }
-
-    public void setVersionIndId(String versionIndId) {
-        this.versionIndId = versionIndId;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    public Date getVersionCreateTime() {
-        return versionCreateTime;
-    }
-
-    public void setVersionCreateTime(Date versionCreateTime) {
-        this.versionCreateTime = versionCreateTime;
-    }
-
-    public String getVersionCreateId() {
-        return versionCreateId;
-    }
-
-    public void setVersionCreateId(String versionCreateId) {
-        this.versionCreateId = versionCreateId;
-    }
-
-    public boolean isCurrentVersion() {
-        return isCurrentVersion;
-    }
-
-    public void setCurrentVersion(boolean isCurrentVersion) {
-        this.isCurrentVersion = isCurrentVersion;
-    }
-
-    public String getVersionComment() {
-        return versionComment;
-    }
-
-    public void setVersionComment(String versionComment) {
-        this.versionComment = versionComment;
-    }
+	public void setVersion(Version version) {
+		this.version = version;
+	}
 }

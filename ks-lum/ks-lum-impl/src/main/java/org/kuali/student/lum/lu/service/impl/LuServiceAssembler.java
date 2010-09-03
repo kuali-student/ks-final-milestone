@@ -27,11 +27,13 @@ import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.entity.Amount;
 import org.kuali.student.core.entity.CurrencyAmount;
 import org.kuali.student.core.entity.TimeAmount;
+import org.kuali.student.core.entity.Version;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.service.impl.BaseAssembler;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
@@ -209,7 +211,7 @@ public class LuServiceAssembler extends BaseAssembler {
 				"stdDuration", "luCodes", "credit", "offeredAtpTypes", "fee",
 				"accounting", "intensity",
 				"campusLocationList", "accreditationList",
-				"adminOrgs", "attributes", "metaInfo" });
+				"adminOrgs", "attributes", "metaInfo", "versionInfo" });
 		dto.setOfficialIdentifier(toCluIdentifierInfo(entity
 				.getOfficialIdentifier()));
 		dto.setAlternateIdentifiers(toCluIdentifierInfos(entity
@@ -257,6 +259,8 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		dto.setIntensity(toAmountInfo(entity.getIntensity()));
 
+		dto.setVersionInfo(toVersionInfo(entity.getVersion()));
+		
 		return dto;
 
 	}
@@ -1344,4 +1348,18 @@ public class LuServiceAssembler extends BaseAssembler {
             clu.getAlternateIdentifiers().add(identifier);
         }
     }
+
+	public static Version toVersion(VersionInfo versionInfo) {
+		if(versionInfo==null){
+			return null;
+		}
+		Version version = new Version();
+		
+		version.setCurrentVersionStart(versionInfo.getCurrentVersionStart());
+		version.setCurrentVersionEnd(versionInfo.getCurrentVersionEnd());
+		version.setSequenceNumber(versionInfo.getSequenceNumber());
+		version.setVersionComment(versionInfo.getVersionComment());
+		return version;
+	}
+
 }

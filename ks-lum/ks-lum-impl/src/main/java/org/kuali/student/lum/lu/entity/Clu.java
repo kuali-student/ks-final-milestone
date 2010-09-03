@@ -36,6 +36,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.Amount;
@@ -44,9 +45,53 @@ import org.kuali.student.core.entity.TimeAmount;
 import org.kuali.student.core.entity.VersionEntity;
 
 @Entity
-@Table(name = "KSLU_CLU")
+@Table(name = "KSLU_CLU", uniqueConstraints={@UniqueConstraint(columnNames={"VER_IND_ID", "SEQ_NUM"})} )
 @NamedQueries( {
-    @NamedQuery(name = "Clu.findLatestClu", query = "SELECT c FROM Clu c WHERE c.versionIndId = :versionIndId and c.sequenceNumber in (select max(nc.sequenceNumber) from Clu nc where nc.versionIndId = :versionIndId)"),
+	//FIXME dates should be either set from the DB time as part of the insert statement, or set from the application.
+	//DB timestamp (CURRENT_TIMESTAMP) is preferred
+    @NamedQuery(name = "Clu.findCurrentVersionInfo", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.currentVersionStart <= :currentTime AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
+    		
+	@NamedQuery(name = "Clu.findCurrentVersionOnDate", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.currentVersionStart <= :date AND (c.version.currentVersionEnd > :date OR c.version.currentVersionEnd IS NULL)"),
+	@NamedQuery(name = "Clu.findFirstVersion", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.sequenceNumber IN (SELECT MIN(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
+	@NamedQuery(name = "Clu.findVersionBySequence", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.sequenceNumber = :sequenceNumber"),
+	@NamedQuery(name = "Clu.findVersions", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId"),
+	@NamedQuery(name = "Clu.findVersionsInDateRange", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND ( (c.version.currentVersionStart >= :from AND c.version.currentVersionStart < :to)" +
+    		"   OR (c.version.currentVersionStart < :from AND c.version.currentVersionEnd > :from) )"),
+	@NamedQuery(name = "Clu.findVersionsBeforeDate", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.currentVersionStart <= :date"),
+	@NamedQuery(name = "Clu.findVersionsAfterDate", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.currentVersionStart >= :date"),
+    @NamedQuery(name = "Clu.findLatestClu", query = "SELECT c FROM Clu c WHERE c.version.versionIndId = :versionIndId AND c.version.sequenceNumber IN (SELECT MAX(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
+    @NamedQuery(name = "Clu.findCurrentClu", query = "SELECT c FROM Clu c WHERE c.version.versionIndId = :versionIndId AND c.version.currentVersionStart <= :currentTime AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
     @NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE c.id IN (:idList)"),
     @NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE c.state = :luState AND c.luType.id = :luTypeKey"),
     @NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.clu.id = :parentCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
@@ -168,6 +213,7 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
     
     @Override
     protected void onPrePersist() {
+        super.onPrePersist();
         this.id = UUIDHelper.genStringUUID(this.id);
     }
 

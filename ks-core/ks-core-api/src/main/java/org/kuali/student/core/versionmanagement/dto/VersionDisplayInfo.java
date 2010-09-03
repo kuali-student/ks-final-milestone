@@ -35,7 +35,23 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class VersionDisplayInfo implements Serializable  {
 
-    private static final long serialVersionUID = 1L;
+	public VersionDisplayInfo(String id, String versionIndId,
+			Long sequenceNumber,
+			Date currentVersionStart, Date currentVersionEnd,
+			String versionComment) {
+		super();
+		this.id = id;
+		this.versionIndId = versionIndId;
+		this.sequenceNumber = sequenceNumber;
+		this.currentVersionStart = currentVersionStart;
+		this.currentVersionEnd = currentVersionEnd;
+		this.versionComment = versionComment;
+	}
+
+	public VersionDisplayInfo() {
+	}
+
+	private static final long serialVersionUID = 1L;
 
     @XmlElement 
     private String id;
@@ -47,16 +63,13 @@ public class VersionDisplayInfo implements Serializable  {
     private String objectTypeURI;
     
     @XmlElement
-    private Integer sequenceNumber;
-
-    @XmlElement
-    private Date versionCreateTime;
-
-    @XmlElement
-    private String versionCreateId;
+    private Long sequenceNumber;
     
     @XmlElement
-    private boolean isCurrentVersion;
+    private Date currentVersionStart;
+
+	@XmlElement
+    private Date currentVersionEnd;
 
     @XmlAttribute
     private String versionComment;
@@ -95,47 +108,36 @@ public class VersionDisplayInfo implements Serializable  {
     /**
      * The sequence number of the version
      */
-    public Integer getSequenceNumber() {
+    public Long getSequenceNumber() {
         return sequenceNumber;
     }
 
-    public void setSequenceNumber(Integer sequenceNumber) {
+    public void setSequenceNumber(Long sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
-
+    
     /**
-     * The date and time this version was created
+     * 	The date and time this version became current.
      */
-    public Date getVersionCreateTime() {
-        return versionCreateTime;
-    }
+    public Date getCurrentVersionStart() {
+		return currentVersionStart;
+	}
 
-    public void setVersionCreateTime(Date versionCreateTime) {
-        this.versionCreateTime = versionCreateTime;
-    }
-
+	public void setCurrentVersionStart(Date currentVersionStart) {
+		this.currentVersionStart = currentVersionStart;
+	}
+	
     /**
-     * The principal who created this version
+     * 	The date and time when this version stopped being current.
      */
-    public String getVersionCreateId() {
-        return versionCreateId;
-    }
+	public Date getCurrentVersionEnd() {
+		return currentVersionEnd;
+	}
 
-    public void setVersionCreateId(String versionCreateId) {
-        this.versionCreateId = versionCreateId;
-    }
-
-    /**
-     * Flag set to true if this version is the current version. There should be only one version for a given objectId of a objectType marked current at any given point in time.
-     */
-    public boolean isCurrentVersion() {
-        return isCurrentVersion;
-    }
-
-    public void setCurrentVersion(boolean isCurrentVersion) {
-        this.isCurrentVersion = isCurrentVersion;
-    }
-
+	public void setCurrentVersionEnd(Date currentVersionEnd) {
+		this.currentVersionEnd = currentVersionEnd;
+	}
+	
     /**
      * Comments associated with the verison
      */

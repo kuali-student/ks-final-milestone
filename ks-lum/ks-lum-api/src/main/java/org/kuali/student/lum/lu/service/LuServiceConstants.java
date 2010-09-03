@@ -23,6 +23,7 @@ package org.kuali.student.lum.lu.service;
  */
 public class LuServiceConstants {
 
-    public static final String CLU_NAMESPACE_URI = "http://student.kuali.org/wsdl/lu/cluinfo";
+	public static final String LU_NAMESPACE = "http://student.kuali.org/wsdl/lu";
+    public static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";
     
 }

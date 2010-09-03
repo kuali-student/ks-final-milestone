@@ -47,6 +47,7 @@ import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -59,6 +60,7 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
@@ -81,6 +83,7 @@ import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -2813,6 +2816,41 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(createCluResult.getResultOptions().isEmpty(), updateCluResult.getResultOptions().isEmpty());
 	}
 
+	@Test
+	public void testVersioning() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, IllegalVersionSequencingException{
+		CluInfo clu = createCluInfo();
+		clu.setType("luType.shell.course");
+		CluInfo cluV1 = client.createClu(clu.getType(), clu);
+		try{
+			//Try to make a new version when there is no current version
+			client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"foo");
+			assertTrue(false);
+		}catch(Exception e){}
+
+		try{
+			//Try to set the start date in the past
+			client.setCurrentCluVersion(cluV1.getId(), DF.parse("19000101"), null, null);
+			assertTrue(false);
+		}catch(Exception e){}
+		
+		//Make the current version
+		client.setCurrentCluVersion(cluV1.getId(), null, null, null);
+		
+		CluInfo justMadeCurrentClu = client.getClu(cluV1.getId());
+		assertTrue(justMadeCurrentClu.getVersionInfo().getCurrentVersionStart().compareTo(new Date())<1);
+		VersionDisplayInfo versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, justMadeCurrentClu.getVersionInfo().getVersionIndId());
+		//Try to make a new versions from the current version
+		CluInfo cluV2 = client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"CommentA");
+		CluInfo cluV3 = client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"CommentB");
+		versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId());
+		assertEquals(cluV1.getId(),versionDisplayInfo.getId());
+		assertEquals(cluV1.getVersionInfo().getVersionIndId(),cluV2.getVersionInfo().getVersionIndId());
+		assertEquals(cluV1.getVersionInfo().getVersionIndId(),cluV3.getVersionInfo().getVersionIndId());
+		client.setCurrentCluVersion(cluV3.getId(), null, null, null);
+		versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId());
+		assertEquals(versionDisplayInfo.getId(),cluV3.getId());
+	}
+	
 	private CluSetInfo createCluSetInfo() throws ParseException {
 		CluSetInfo cluSetInfo = new CluSetInfo();
 
