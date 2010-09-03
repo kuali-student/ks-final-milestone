@@ -76,14 +76,14 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 
 		BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(null);
 		try {
-			disassembleStatementTreeHelper(newTree, operation, result);
+			disassembleStatementTreeHelper(newTree, operation, null, result);
 		} catch (Exception e) {
 			throw new AssemblyException("Problems dissasembling StatementTreeView", e);
 		}
 		return result;
 	}
 
-	private void disassembleStatementTreeHelper(StatementTreeViewInfo statementTreeViewInfo, NodeOperation operation, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	private void disassembleStatementTreeHelper(StatementTreeViewInfo statementTreeViewInfo, NodeOperation operation, String parentId, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		if (statementTreeViewInfo == null) {
 			return;
 		}
@@ -91,6 +91,7 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 		StatementInfo statement = new StatementInfo();
 		copyValues(statement, statementTreeViewInfo);
 		statement.setId(UUIDHelper.genStringUUID(statement.getId()));
+		statement.setParentId(parentId);
 
 		if (statementTreeViewInfo.getReqComponents() != null) {
 			for (ReqComponentInfo reqComponentInfo : statementTreeViewInfo.getReqComponents()) {
@@ -112,8 +113,7 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 		result.getChildNodes().add(statementResult);
 
 		for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
-			subStatement.setParentId(statementTreeViewInfo.getId());
-			disassembleStatementTreeHelper(subStatement, operation, result);
+			disassembleStatementTreeHelper(subStatement, operation, statementTreeViewInfo.getId(),result);
 		}
 	}
 

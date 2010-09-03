@@ -24,7 +24,9 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
@@ -660,8 +662,11 @@ public class TestProgramServiceImpl {
 			ProgramRequirementInfo orig, ProgramRequirementInfo created) {
 		assertNotNull(orig);
 		assertNotNull(created);
-		assertTrue(EqualsBuilder.reflectionEquals(orig, created, new String[]{"descr", "learningObjectives","statement","attributes","metaInfo"}));
+		assertTrue(EqualsBuilder.reflectionEquals(orig, created, new String[]{"id", "descr", "learningObjectives","statement","attributes","metaInfo"}));
     	checkLoDisplays(orig.getLearningObjectives(), created.getLearningObjectives());
+		if (orig.getId() != null) {
+			assertEquals(orig.getId(), created.getId());
+		}
 
     	StatementTreeViewInfo statement2 = created.getStatement();
     	checkStatementTreeView(orig.getStatement(), created.getStatement());
@@ -672,7 +677,10 @@ public class TestProgramServiceImpl {
 			StatementTreeViewInfo statement2) {
 		assertNotNull(statement);
 		assertNotNull(statement2);
-		assertTrue(EqualsBuilder.reflectionEquals(statement, statement2, new String[]{"desc", "attributes", "metaInfo", "statements", "reqComponents"}));
+		assertTrue(EqualsBuilder.reflectionEquals(statement, statement2, new String[]{"id", "desc", "attributes", "metaInfo", "statements", "reqComponents"}));
+		if (statement.getId() != null) {
+			assertEquals(statement.getId(), statement2.getId());
+		}
 		checkRichText(statement.getDesc(), statement2.getDesc());
 		checkStatementTreeViews(statement.getStatements(), statement2.getStatements());
 		checkReqComponents(statement.getReqComponents(), statement2.getReqComponents());
@@ -692,8 +700,40 @@ public class TestProgramServiceImpl {
 			ReqComponentInfo reqComponent2) {
 		assertNotNull(reqComponent);
 		assertNotNull(reqComponent2);
-		assertTrue(EqualsBuilder.reflectionEquals(reqComponent, reqComponent2, new String[]{"reqCompFields", "requiredComponentType", "naturalLanguageTranslation"}));
+		assertTrue(EqualsBuilder.reflectionEquals(reqComponent, reqComponent2, new String[]{"id", "desc", "reqCompFields", "requiredComponentType", "naturalLanguageTranslation", "metaInfo"}));
+		if (reqComponent.getId() != null) {
+			assertEquals(reqComponent.getId(), reqComponent2.getId());
+		}
+		checkRichText(reqComponent.getDesc(), reqComponent2.getDesc());
 		checkReqCompFields(reqComponent.getReqCompFields(), reqComponent.getReqCompFields());
+		// TODO checkReqComponentType(reqComponent.getRequiredComponentType(), reqComponent2.getRequiredComponentType());
+	}
+
+	private static void checkReqComponentType(
+			ReqComponentTypeInfo requiredComponentType,
+			ReqComponentTypeInfo requiredComponentType2) {
+		assertNotNull(requiredComponentType);
+		assertNotNull(requiredComponentType2);
+		checkReqCompFieldTypes(requiredComponentType.getReqCompFieldTypeInfos(), requiredComponentType2.getReqCompFieldTypeInfos());
+	}
+
+	private static void checkReqCompFieldTypes(
+			List<ReqCompFieldTypeInfo> reqCompFieldTypeInfos,
+			List<ReqCompFieldTypeInfo> reqCompFieldTypeInfos2) {
+		assertNotNull(reqCompFieldTypeInfos);
+		assertNotNull(reqCompFieldTypeInfos2);
+		assertEquals(reqCompFieldTypeInfos.size(), reqCompFieldTypeInfos2.size());
+		for (int i = 0; i < reqCompFieldTypeInfos.size(); i++) {
+			checkReqCompFieldType(reqCompFieldTypeInfos.get(i), reqCompFieldTypeInfos2.get(i));
+		}
+	}
+
+	private static void checkReqCompFieldType(
+			ReqCompFieldTypeInfo reqCompFieldTypeInfo,
+			ReqCompFieldTypeInfo reqCompFieldTypeInfo2) {
+		assertNotNull(reqCompFieldTypeInfo);
+		assertNotNull(reqCompFieldTypeInfo2);
+		
 	}
 
 	private static void checkReqCompFields(List<ReqCompFieldInfo> reqCompFields,
@@ -717,8 +757,8 @@ public class TestProgramServiceImpl {
 			List<StatementTreeViewInfo> statements2) {
 		assertNotNull(statements);
 		assertNotNull(statements2);
-		assertEquals(statements2.size(), statements2.size());
-		for (int i = 0; i < statements2.size(); i++) {
+		assertEquals(statements.size(), statements2.size());
+		for (int i = 0; i < statements.size(); i++) {
 			checkStatementTreeView(statements.get(i), statements2.get(i));
 		}
 	}
@@ -1254,7 +1294,7 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
     }
-    
+
     @Test(expected=DoesNotExistException.class)
     public void testDeleteProgramRequirement() throws Exception {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
