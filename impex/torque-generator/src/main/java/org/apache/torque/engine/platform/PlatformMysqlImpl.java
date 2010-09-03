@@ -116,13 +116,13 @@ public class PlatformMysqlImpl extends PlatformDefaultImpl {
 
 	@Override
 	public String filterInvalidDefaultValues(String defaultValue) {
-		if (defaultValue != null) {
-			defaultValue = defaultValue.replace("SYS_GUID()", "");
-			defaultValue = defaultValue.replace("SYSDATE", "");
-			defaultValue = defaultValue.replace("USERENV(\'SESSIONID\')", "");
-			defaultValue = defaultValue.trim();
+		if (defaultValue == null) {
+			return null;
 		}
-		return defaultValue;
+		defaultValue = defaultValue.replace("SYS_GUID()", "");
+		defaultValue = defaultValue.replace("SYSDATE", "NOW()");
+		defaultValue = defaultValue.replace("USERENV(\'SESSIONID\')", "");
+		return defaultValue.trim();
 	}
 
 	@Override
