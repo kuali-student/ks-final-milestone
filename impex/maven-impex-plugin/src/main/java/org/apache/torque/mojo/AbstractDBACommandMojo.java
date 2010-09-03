@@ -87,7 +87,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 			databaseUsername = platform.getSchemaName(getProject().getArtifactId());
 		}
 		if (isEmpty(serverUrl)) {
-			serverUrl = platform.getServerUrl(url));
+			serverUrl = platform.getServerUrl(url);
 		}
 	}
 
@@ -126,6 +126,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		ConnectionHandler connectionHandler = super.getNewConnectionHandler();
 		connectionHandler.setEnableAnonymousPassword(enableAnonymousDbaAccess);
 		connectionHandler.setEnableAnonymousUsername(enableAnonymousDbaAccess);
+		connectionHandler.setUrl(serverUrl);
 		return connectionHandler;
 	}
 
