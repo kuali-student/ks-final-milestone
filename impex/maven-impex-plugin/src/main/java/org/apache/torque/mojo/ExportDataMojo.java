@@ -26,10 +26,10 @@ public class ExportDataMojo extends ExportMojo {
 	/**
 	 * The directory where data XML files will be written
 	 * 
-	 * @parameter expression="${outputDir}" default-value="${basedir}/src/main/impex"
+	 * @parameter expression="${dataXMLDir}" default-value="${basedir}/src/main/impex"
 	 * @required
 	 */
-	private File outputDir;
+	private File dataXMLDir;
 
 	/**
 	 * Configure the Ant task
@@ -42,22 +42,22 @@ public class ExportDataMojo extends ExportMojo {
 	}
 
 	protected void makeOutputDir() throws MojoExecutionException {
-		if (getOutputDir().exists()) {
+		if (getDataXMLDir().exists()) {
 			return;
 		}
 		try {
-			FileUtils.forceMkdir(getOutputDir());
+			FileUtils.forceMkdir(getDataXMLDir());
 		} catch (IOException e) {
 			throw new MojoExecutionException("Error creating output directory", e);
 		}
 	}
 
-	public File getOutputDir() {
-		return outputDir;
+	public File getDataXMLDir() {
+		return dataXMLDir;
 	}
 
-	public void setOutputDir(File outputDir) {
-		this.outputDir = outputDir;
+	public void setDataXMLDir(File outputDir) {
+		this.dataXMLDir = outputDir;
 	}
 
 	public String getDateFormat() {
