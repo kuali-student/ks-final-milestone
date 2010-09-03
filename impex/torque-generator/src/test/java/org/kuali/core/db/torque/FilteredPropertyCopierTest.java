@@ -8,7 +8,7 @@ import org.kuali.core.db.torque.pojo.ForeignKey;
 public class FilteredPropertyCopierTest {
 
 	@Test
-	public void test1() {
+	public void test1() throws Exception {
 		ForeignKey dest = new ForeignKey();
 		ForeignKey origin = new ForeignKey();
 		origin.setOnDelete("foo");
@@ -20,7 +20,7 @@ public class FilteredPropertyCopierTest {
 	}
 
 	@Test
-	public void test2() {
+	public void test2() throws Exception {
 		ForeignKey dest = new ForeignKey();
 		ForeignKey origin = new ForeignKey();
 		origin.setOnDelete("foo");
@@ -33,7 +33,7 @@ public class FilteredPropertyCopierTest {
 	}
 
 	@Test
-	public void test3() {
+	public void test3() throws Exception {
 		ForeignKey dest = new ForeignKey();
 		ForeignKey origin = new ForeignKey();
 		origin.setOnDelete("foo");
@@ -48,7 +48,7 @@ public class FilteredPropertyCopierTest {
 	}
 
 	@Test
-	public void test4() {
+	public void test4() throws Exception {
 		ForeignKey dest = new ForeignKey();
 		ForeignKey origin = new ForeignKey();
 		origin.setOnDelete("foo");
