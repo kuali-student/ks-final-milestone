@@ -71,8 +71,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
+        retrieveAndSetupReqCompTypes(); //TODO cache it for each statement type?
         if (!isInitialized) {
-            retrieveAndSetupReqCompTypes();
             setupHandlers();
             draw();
             isInitialized = true;
