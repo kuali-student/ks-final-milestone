@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
@@ -9,7 +8,7 @@
   <groupId>org.kuali.maven.impex</groupId>
   <artifactId>impex-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>Impex Parent</name>
   <description>This is the parent pom for the Maven Impex Plugin</description>
   <url>http://student.kuali.org/site/maven-plugins/impex/${project.version}</url>
@@ -71,9 +70,9 @@
     </plugins>
   </reporting>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/impex</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/impex-parent-1.0.1</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/impex-parent-1.0.1</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/tags/impex-parent-1.0.1</url>
   </scm>
   <distributionManagement>
     <site>
