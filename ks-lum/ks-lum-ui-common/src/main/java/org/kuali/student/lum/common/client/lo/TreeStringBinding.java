@@ -1,13 +1,10 @@
-package org.kuali.student.lum.program.client.view;
+package org.kuali.student.lum.common.client.lo;
 
 import com.google.gwt.user.client.ui.Label;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.lum.common.client.lo.LoDisplayInfoHelper;
-import org.kuali.student.lum.common.client.lo.LoInfoHelper;
-import org.kuali.student.lum.common.client.lo.RichTextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
