@@ -35,6 +35,7 @@ import org.apache.maven.settings.Server;
 import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.torque.engine.platform.Platform;
 import org.apache.torque.engine.platform.PlatformFactory;
+import org.kuali.core.db.torque.PropertyHandlingException;
 import org.kuali.core.db.torque.Utils;
 import org.kuali.db.ConnectionHandler;
 import org.kuali.db.Credentials;
@@ -242,6 +243,13 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean append = false;
 
 	/**
+	 * Pointer to a properties file
+	 * 
+	 * @parameter expression="${impexProperties}" default-value="${user.home}/impex.properties"
+	 */
+	String impexProperties;
+
+	/**
 	 * Argument to Statement.setEscapeProcessing If you want the driver to use regular SQL syntax then set this to
 	 * false.
 	 * 
@@ -443,6 +451,11 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * JDBC url
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
+		try {
+			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding()).loadToBean();
+		} catch (PropertyHandlingException e) {
+			throw new MojoExecutionException("Error handling properties", e);
+		}
 		new JdbcConfigurer().updateConfiguration(this);
 		platform = PlatformFactory.getPlatformFor(targetDatabase);
 	}
@@ -799,6 +812,14 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	public Credentials getCredentials() {
 		return credentials;
+	}
+
+	public String getImpexProperties() {
+		return impexProperties;
+	}
+
+	public void setImpexProperties(String impexProperties) {
+		this.impexProperties = impexProperties;
 	}
 
 }

@@ -227,4 +227,20 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	public void setServerUrl(String serverUrl) {
 		this.serverUrl = serverUrl;
 	}
+
+	public String getDbaSettingsKey() {
+		return dbaSettingsKey;
+	}
+
+	public void setDbaSettingsKey(String dbaSettingsKey) {
+		this.dbaSettingsKey = dbaSettingsKey;
+	}
+
+	public boolean isEnableAnonymousDbaAccess() {
+		return enableAnonymousDbaAccess;
+	}
+
+	public void setEnableAnonymousDbaAccess(boolean enableAnonymousDbaAccess) {
+		this.enableAnonymousDbaAccess = enableAnonymousDbaAccess;
+	}
 }
