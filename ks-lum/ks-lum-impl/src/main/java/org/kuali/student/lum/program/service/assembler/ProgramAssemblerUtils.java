@@ -421,56 +421,56 @@ public class ProgramAssemblerUtils {
 
         addLuCode(clu, o, "getCip2000Code", ProgramAssemblerConstants.CIP_2000);
         addLuCode(clu, o, "getCip2010Code", ProgramAssemblerConstants.CIP_2010);
-        addLuCode(clu, o,  "getHegisCode", ProgramAssemblerConstants.HEGIS);
+        addLuCode(clu, o, "getHegisCode", ProgramAssemblerConstants.HEGIS);
         addLuCode(clu, o, "getUniversityClassification", ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION);
-        addLuCode(clu, o,  "getSelectiveEnrollmentCode", ProgramAssemblerConstants.SELECTIVE_ENROLLMENT);
+        addLuCode(clu, o, "getSelectiveEnrollmentCode", ProgramAssemblerConstants.SELECTIVE_ENROLLMENT);
 
         return clu;
 
     }
 
     /**
-     * Copy AdminOrg values from clu to program
-     *
+     * Copy AdminOrg id's from clu's AdminOrgInfo's to program
+     * 
      * @param clu
      * @param o
      * @return
      * @throws AssemblyException
      */
-    public Object assembleAdminOrgs(CluInfo clu, Object o) throws AssemblyException {
+    public Object assembleAdminOrgIds(CluInfo clu, Object o) throws AssemblyException {
 
         try {
             if (clu.getAdminOrgs() != null) {
                 for (AdminOrgInfo cluOrg : clu.getAdminOrgs()) {
                     if (cluOrg.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)) {
-                        addOrgToProgram(o, cluOrg, "getDivisionsContentOwner", "setDivisionsContentOwner");
+                        addOrgIdToProgram(o, cluOrg, "getDivisionsContentOwner", "setDivisionsContentOwner");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)) {
-                        addOrgToProgram(o, cluOrg, "getDivisionsStudentOversight", "setDivisionsStudentOversight");
+                        addOrgIdToProgram(o, cluOrg, "getDivisionsStudentOversight", "setDivisionsStudentOversight");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)) {
-                        addOrgToProgram(o, cluOrg, "getDivisionsDeployment", "setDivisionsDeployment");
+                        addOrgIdToProgram(o, cluOrg, "getDivisionsDeployment", "setDivisionsDeployment");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION)) {
-                        addOrgToProgram(o, cluOrg, "getDivisionsFinancialResources", "setDivisionsFinancialResources");
+                        addOrgIdToProgram(o, cluOrg, "getDivisionsFinancialResources", "setDivisionsFinancialResources");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION)) {
-                        addOrgToProgram(o, cluOrg, "getDivisionsFinancialControl", "setDivisionsFinancialControl");
+                        addOrgIdToProgram(o, cluOrg, "getDivisionsFinancialControl", "setDivisionsFinancialControl");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_UNIT)) {
-                        addOrgToProgram(o, cluOrg, "getUnitsContentOwner", "setUnitsContentOwner");
+                        addOrgIdToProgram(o, cluOrg, "getUnitsContentOwner", "setUnitsContentOwner");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT)) {
-                        addOrgToProgram(o, cluOrg, "getUnitsStudentOversight", "setUnitsStudentOversight");
+                        addOrgIdToProgram(o, cluOrg, "getUnitsStudentOversight", "setUnitsStudentOversight");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_UNIT)) {
-                        addOrgToProgram(o, cluOrg, "getUnitsDeployment", "setUnitsDeployment");
+                        addOrgIdToProgram(o, cluOrg, "getUnitsDeployment", "setUnitsDeployment");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT)) {
-                        addOrgToProgram(o, cluOrg, "getUnitsFinancialResources", "setUnitsFinancialResources");
+                        addOrgIdToProgram(o, cluOrg, "getUnitsFinancialResources", "setUnitsFinancialResources");
                     }
                     else if (cluOrg.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT)) {
-                        addOrgToProgram(o, cluOrg, "getUnitsFinancialControl", "setUnitsFinancialControl");
+                        addOrgIdToProgram(o, cluOrg, "getUnitsFinancialControl", "setUnitsFinancialControl");
                     }
                 }
             }
@@ -502,23 +502,23 @@ public class ProgramAssemblerUtils {
         // clear out all old admin orgs
         clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
 
-        addAdminOrgs(clu, o, "getDivisionsContentOwner");
-        addAdminOrgs(clu, o, "getDivisionsStudentOversight");
-    	addAdminOrgs(clu, o, "getDivisionsDeployment");
-    	addAdminOrgs(clu, o, "getDivisionsFinancialResources");
-    	addAdminOrgs(clu, o, "getDivisionsFinancialControl");
-    	addAdminOrgs(clu, o, "getUnitsContentOwner");
-    	addAdminOrgs(clu, o, "getUnitsStudentOversight");
-    	addAdminOrgs(clu, o, "getUnitsDeployment");
-    	addAdminOrgs(clu, o,"getUnitsFinancialResources");
-    	addAdminOrgs(clu, o, "getUnitsFinancialControl");
+        addAdminOrgs(clu, o, "getDivisionsContentOwner", ProgramAssemblerConstants.CONTENT_OWNER_DIVISION);
+        addAdminOrgs(clu, o, "getDivisionsStudentOversight", ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION);
+        addAdminOrgs(clu, o, "getDivisionsDeployment", ProgramAssemblerConstants.DEPLOYMENT_DIVISION);
+        addAdminOrgs(clu, o, "getDivisionsFinancialResources", ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION);
+        addAdminOrgs(clu, o, "getDivisionsFinancialControl", ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION);
+        addAdminOrgs(clu, o, "getUnitsContentOwner", ProgramAssemblerConstants.CONTENT_OWNER_UNIT);
+        addAdminOrgs(clu, o, "getUnitsStudentOversight", ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT);
+        addAdminOrgs(clu, o, "getUnitsDeployment", ProgramAssemblerConstants.DEPLOYMENT_UNIT);
+        addAdminOrgs(clu, o, "getUnitsFinancialResources", ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT);
+        addAdminOrgs(clu, o, "getUnitsFinancialControl", ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT);
 
         return clu;
 
     }
 
-    private void addAdminOrgs(CluInfo clu, Object o, String methodName) {
-        List<AdminOrgInfo> orgs  = getAdminOrgsFromProgram(o, methodName);
+    private void addAdminOrgs(CluInfo clu, Object o, String methodName, String adminOrgType) {
+        List<AdminOrgInfo> orgs = getAdminOrgsFromProgram(o, methodName, adminOrgType);
         if(orgs != null)
             clu.getAdminOrgs().addAll(orgs);
     }
@@ -919,15 +919,15 @@ public class ProgramAssemblerUtils {
         method.invoke(o, value);
     }
 
-    private void addOrgToProgram(Object o, AdminOrgInfo cluOrg, String getMethod, String setMethod) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void addOrgIdToProgram(Object o, AdminOrgInfo cluOrg, String getMethod, String setMethod) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         Method method = o.getClass().getMethod(getMethod, null);
-        List<AdminOrgInfo> objOrgs = (List<AdminOrgInfo>)method.invoke(o, null);
+        List<String> objOrgs = (List<String>) method.invoke(o, null);
 
         if (objOrgs == null)     {
-            objOrgs = new ArrayList<AdminOrgInfo>();
+            objOrgs = new ArrayList<String>();
         }
-        objOrgs.add(cluOrg);
+        objOrgs.add(cluOrg.getId());
         Class[] parms =  new Class[]{List.class};
         method = o.getClass().getMethod(setMethod, parms);
         Object[] value = new Object[]{objOrgs};
@@ -974,12 +974,20 @@ public class ProgramAssemblerUtils {
         return null;
     }
 
-	private List<AdminOrgInfo> getAdminOrgsFromProgram(Object t, String methodName){
-        List<AdminOrgInfo> result;
+    private List<AdminOrgInfo> getAdminOrgsFromProgram(Object t, String methodName, String adminOrgType) {
+        List<AdminOrgInfo> result = new ArrayList<AdminOrgInfo>();
 		try	{
-			 Class<?> clazz = t.getClass();
-			 Method method = clazz.getMethod(methodName, null);
-            result = (List<AdminOrgInfo>)method.invoke(t, null);
+			Class<?> clazz = t.getClass();
+			Method method = clazz.getMethod(methodName, null);
+            List<String> orgIds = (List<String>) method.invoke(t, null);
+            if (null != orgIds) {
+                for (String orgId : orgIds) {
+                    AdminOrgInfo subjectOrg = new AdminOrgInfo();
+                    subjectOrg.setType(adminOrgType);
+                    subjectOrg.setOrgId(orgId);
+                    result.add(subjectOrg);
+                }
+            }
         }
 		catch (IllegalAccessException   ex){
 			return null;
@@ -990,6 +998,7 @@ public class ProgramAssemblerUtils {
 		catch (NoSuchMethodException ex) {
 			 return null;
 		}
+
         return result;
     }
 

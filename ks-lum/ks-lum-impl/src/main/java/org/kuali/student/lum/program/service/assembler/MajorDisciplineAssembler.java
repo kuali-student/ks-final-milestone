@@ -61,7 +61,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         // Copy all the data from the clu to the majordiscipline
         programAssemblerUtils.assembleBasics(clu, mdInfo);
         programAssemblerUtils.assembleIdentifiers(clu, mdInfo);
-        programAssemblerUtils.assembleAdminOrgs(clu, mdInfo);
+        programAssemblerUtils.assembleAdminOrgIds(clu, mdInfo);
         programAssemblerUtils.assembleAtps(clu, mdInfo);
         programAssemblerUtils.assembleLuCodes(clu, mdInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);

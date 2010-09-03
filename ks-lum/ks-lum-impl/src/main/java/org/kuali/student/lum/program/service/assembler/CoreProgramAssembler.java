@@ -27,8 +27,6 @@ import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 /**
@@ -52,7 +50,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         // Copy all the data from the clu to the coreprogram
         programAssemblerUtils.assembleBasics(clu, cpInfo);
         programAssemblerUtils.assembleIdentifiers(clu, cpInfo);
-        programAssemblerUtils.assembleAdminOrgs(clu, cpInfo);
+        programAssemblerUtils.assembleAdminOrgIds(clu, cpInfo);
         programAssemblerUtils.assembleAtps(clu, cpInfo);
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);

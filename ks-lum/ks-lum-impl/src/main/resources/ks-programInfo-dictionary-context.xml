@@ -62,7 +62,6 @@
                 <ref bean="majorDisciplineInfo.lastReviewDate"/>
                 <ref bean="majorDisciplineInfo.isVariationRequired"/>
                 <ref bean="majorDisciplineInfo.endInstAdmitTerm"/>
-                <ref bean="majorDisciplineInfo.programLevel"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -158,8 +157,7 @@
     <bean id="majorDisciplineInfo.endProgramEntryTerm-parent" abstract="true" parent="cluInfo.lastAdmitAtp-parent">
         <property name="name" value="endProgramEntryTerm"/>
     </bean>
-    <bean id="majorDisciplineInfo.endProgramEntryTerm"
-          parent="majorDisciplineInfo.endProgramEntryTerm-parent"/>
+    <bean id="majorDisciplineInfo.endProgramEntryTerm" parent="majorDisciplineInfo.endProgramEntryTerm-parent"/>
 
     <bean id="majorDisciplineInfo.nextReviewPeriod-parent" abstract="true" parent="cluInfo.nextReviewPeriod-parent">
         <property name="name" value="nextReviewPeriod"/>
@@ -243,15 +241,10 @@
     </bean>
     <bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent"/>
 	
-	
-
     <bean id="majorDisciplineInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsContentOwner"/>
     </bean>
     <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent" />
-	
-	
-
 
     <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo.divisionsStudentOversight-parent" />
 
@@ -404,33 +397,28 @@
 </bean>
 <bean id="programVariationInfo.diplomaTitle" parent="programVariationInfo.diplomaTitle-parent"/>
 
-<bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="baseComplexRepeating">
+<bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="divisionsContentOwner"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo.divisionsContentOwner-parent"/>
-
-<bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="baseComplexRepeating">
+	
+<bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="divisionsDeployment"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo.divisionsDeployment-parent"/>
 
-<bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="baseComplexRepeating">
+<bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="divisionsFinancialControl"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.divisionsFinancialControl" parent="programVariationInfo.divisionsFinancialControl-parent"/>
 
-<bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="baseComplexRepeating">
+<bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="divisionsFinancialResources"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.divisionsFinancialResources" parent="programVariationInfo.divisionsFinancialResources-parent"/>
 
-<bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="baseComplexRepeating">
+<bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="divisionsStudentOversight"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.divisionsStudentOversight" parent="programVariationInfo.divisionsStudentOversight-parent"/>
 
@@ -522,31 +510,26 @@
 
 <bean id="programVariationInfo.unitsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.unitsContentOwner-parent">
  <property name="name" value="unitsContentOwner"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.unitsContentOwner" parent="programVariationInfo.unitsContentOwner-parent"/>
 
 <bean id="programVariationInfo.unitsDeployment-parent" abstract="true" parent="majorDisciplineInfo.unitsDeployment-parent">
  <property name="name" value="unitsDeployment"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.unitsDeployment" parent="programVariationInfo.unitsDeployment-parent"/>
 
 <bean id="programVariationInfo.unitsFinancialControl-parent" abstract="true" parent="majorDisciplineInfo.unitsFinancialControl-parent">
  <property name="name" value="unitsFinancialControl"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.unitsFinancialControl" parent="programVariationInfo.unitsFinancialControl-parent"/>
 
 <bean id="programVariationInfo.unitsFinancialResources-parent" abstract="true" parent="majorDisciplineInfo.unitsFinancialResources-parent">
  <property name="name" value="unitsFinancialResources"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.unitsFinancialResources" parent="programVariationInfo.unitsFinancialResources-parent"/>
 
 <bean id="programVariationInfo.unitsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.unitsStudentOversight-parent">
  <property name="name" value="unitsStudentOversight"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="programVariationInfo.unitsStudentOversight" parent="programVariationInfo.unitsStudentOversight-parent"/>
 
@@ -577,12 +560,6 @@
         <property name="dynamic" value="true"/>
     </bean>
     <bean id="majorDisciplineInfo.endInstAdmitTerm" parent="majorDisciplineInfo.endInstAdmitTerm-parent"/>
-
-	<bean id="majorDisciplineInfo.programLevel-parent" abstract="true" parent="baseKualiCode">
-		<property name="name" value="programLevel" />
-        <property name="dynamic" value="true"/>
-	</bean>
-	<bean id="majorDisciplineInfo.programLevel" parent="majorDisciplineInfo.programLevel-parent" />
 
 <!-- CoreProgramInfo-->
 <bean id="org.kuali.student.lum.program.dto.CoreProgramInfo-parent" abstract="true" parent="objectStructureDefinition">
@@ -638,15 +615,13 @@
 </bean>
 <bean id="coreProgramInfo.descr" parent="coreProgramInfo.descr-parent"/>
 
-<bean id="coreProgramInfo.divisionsContentOwner-parent" abstract="true" parent="baseComplexRepeating">
+<bean id="coreProgramInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="divisionsContentOwner"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="coreProgramInfo.divisionsContentOwner" parent="coreProgramInfo.divisionsContentOwner-parent"/>
 
-<bean id="coreProgramInfo.divisionsStudentOversight-parent" abstract="true" parent="baseComplexRepeating">
+<bean id="coreProgramInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="divisionsStudentOversight"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="coreProgramInfo.divisionsStudentOversight" parent="coreProgramInfo.divisionsStudentOversight-parent"/>
 
@@ -711,19 +686,17 @@
 </bean>
 <bean id="coreProgramInfo.type" parent="coreProgramInfo.type-parent"/>
 
-<bean id="coreProgramInfo.unitsContentOwner-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+<bean id="coreProgramInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="unitsContentOwner"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="coreProgramInfo.unitsContentOwner" parent="coreProgramInfo.unitsContentOwner-parent"/>
 
-<bean id="coreProgramInfo.unitsStudentOversight-parent" abstract="true" parent="cluInfo.adminOrgs-parent">
+<bean id="coreProgramInfo.unitsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="unitsStudentOversight"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
 </bean>
 <bean id="coreProgramInfo.unitsStudentOversight" parent="coreProgramInfo.unitsStudentOversight-parent"/>
 
-<bean id="coreProgramInfo.universityClassification-parent" abstract="true" parent="majorDisciplineInfo.universityClassification-parent">
+<bean id="coreProgramInfo.universityClassification-parent" abstract="true" parent="baseKualiOrgIdRepeating">
  <property name="name" value="universityClassification"/>
 </bean>
 <bean id="coreProgramInfo.universityClassification" parent="coreProgramInfo.universityClassification-parent"/>
@@ -786,13 +759,11 @@
 
  <bean id="credentialProgramInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
   <property name="name" value="divisionsContentOwner"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
  </bean>
  <bean id="credentialProgramInfo.divisionsContentOwner" parent="credentialProgramInfo.divisionsContentOwner-parent"/>
 
  <bean id="credentialProgramInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
   <property name="name" value="divisionsStudentOversight"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
  </bean>
  <bean id="credentialProgramInfo.divisionsStudentOversight" parent="credentialProgramInfo.divisionsStudentOversight-parent"/>
 
@@ -866,13 +837,11 @@
 
  <bean id="credentialProgramInfo.unitsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.unitsContentOwner-parent">
   <property name="name" value="unitsContentOwner"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
  </bean>
  <bean id="credentialProgramInfo.unitsContentOwner" parent="credentialProgramInfo.unitsContentOwner-parent"/>
 
  <bean id="credentialProgramInfo.unitsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.unitsStudentOversight-parent">
   <property name="name" value="unitsStudentOversight"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
  </bean>
  <bean id="credentialProgramInfo.unitsStudentOversight" parent="credentialProgramInfo.unitsStudentOversight-parent"/>
 
