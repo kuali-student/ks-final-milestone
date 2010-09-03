@@ -19,6 +19,30 @@
     <module>torque-templates</module>
     <module>maven-impex-plugin</module>
   </modules>
+  <distributionManagement>
+    <site>
+      <id>ks.site</id>
+      <url>scp://student.kuali.org:/opt/www/student/site/maven-plugins/impex/${project.version}</url>
+    </site>
+  </distributionManagement>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/impex</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/impex</url>
+  </scm>
+  <repositories>
+    <repository>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <properties>
     <spring.version>3.0.3.RELEASE</spring.version>
     <junit.version>4.8.1</junit.version>
