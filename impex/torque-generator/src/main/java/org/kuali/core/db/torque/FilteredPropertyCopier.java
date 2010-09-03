@@ -3,7 +3,6 @@ package org.kuali.core.db.torque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.core.db.torque.StringFilter;
@@ -42,28 +41,16 @@ public class FilteredPropertyCopier {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void copyProperties(Object dest, Object origin) {
+	public void copyProperties(Object dest, Object origin) throws PropertyHandlingException {
 		try {
-			Set<String> properties = getPropertySet(origin);
-			StringFilter filterer = new StringFilter(getIncludeProperties(), getExcludeProperties());
-			filterer.filter(properties.iterator());
 			Map<String, Object> description = BeanUtils.describe(origin);
-			for (String property : properties) {
+			StringFilter filterer = new StringFilter(getIncludeProperties(), getExcludeProperties());
+			filterer.filter(description.keySet().iterator());
+			for (String property : description.keySet()) {
 				BeanUtils.copyProperty(dest, property, description.get(property));
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("Error copying properties", e);
+			throw new PropertyHandlingException("Error copying properties", e);
 		}
 	}
-
-	@SuppressWarnings("unchecked")
-	protected Set<String> getPropertySet(Object bean) {
-		try {
-			Map<String, Object> description = BeanUtils.describe(bean);
-			return description.keySet();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 }
