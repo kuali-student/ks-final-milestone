@@ -191,6 +191,8 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			try {
 				columnValue = getColumnValue(rs, i, columns[i]);
 			} catch (Exception ex) {
+				// Don't let an issue extracting a value stop the process
+				// Log the row/column and continue
 				log("Problem reading row " + rowCount + " column " + columns[i] + " from " + tableName, Project.MSG_ERR);
 				log(ex.getClass().getName() + " : " + ex.getMessage(), Project.MSG_ERR);
 			}
@@ -199,6 +201,7 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			if (columnValue == null) {
 				continue;
 			}
+
 			// Otherwise, escape the String and add it to the row Element
 			row.setAttribute(columns[i].getName(), xmlEscape(columnValue.toString()));
 		}
