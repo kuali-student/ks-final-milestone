@@ -43,6 +43,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.*;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.*;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
@@ -143,11 +144,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, generateActiveDatesSection());
             layout.addMenuItem(sections, generateFinancialsSection());
         }
-        //Summary
-        ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
-        layout.addSpecialMenuItem(summaryConfigurer.generateSummarySection(layout.getWfUtilities()), "Review and Submit");
-        layout.setDefaultView(CourseSections.SUMMARY);
-        //Tools
+            //Summary
+	        CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout);
+	        layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(), "Review and Submit");
+	        layout.setDefaultView(CourseSections.SUMMARY);
+           //Tools
         String tools = "Tools";
         documentTool = new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
         documentTool.setModelDefinition(modelDefinition);

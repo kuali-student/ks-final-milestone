@@ -554,6 +554,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         	if (basicWidget instanceof KSSelectItemWidgetAbstract){
         		Callback<Widget> widgetReadyCallback = new Callback<Widget>(){
 					public void exec(Widget widget) {
+						((KSSelectItemWidgetAbstract)widget).clear();
 		        		for (String id:translations.keySet()){
 		        			((KSSelectItemWidgetAbstract)widget).selectItem(id);
 		        		}

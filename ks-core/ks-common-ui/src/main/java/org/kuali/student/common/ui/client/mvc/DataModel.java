@@ -260,9 +260,35 @@ public class DataModel implements Model {
         callback.exec(result);
     }
     
+    public void validateNextState(final Callback<List<ValidationResultInfo>> callback){
+    	List<ValidationResultInfo> result = validator.validateNextState(this);
+        callback.exec(result);
+    }
+    
     public void validateField(FieldDescriptor fd, final Callback<List<ValidationResultInfo>> callback) {
     	List<ValidationResultInfo> result = validator.validate(fd, this);
     	callback.exec(result);
 }
+    
+	public boolean isValidPath(String sPath) {
+		QueryPath path = QueryPath.parse(sPath);
+		boolean result = false;
+		Data root = this.getRoot();
+		for(int i = 0; i < path.size(); i++) {
+			Data.Key key = path.get(i);
+			if (!root.containsKey(key)) {
+				result = false;
+				break;
+			}
+			else if(i < path.size() - 1){
+				root = (Data) root.get(key);
+			}
+			else{
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
 
 }

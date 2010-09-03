@@ -62,5 +62,7 @@ public class AbbrPanel extends ComplexPanel {
 	  }
 
 
-
+	  public void setText(String text){
+		  this.getElement().setInnerText(text);
+	  }
 }

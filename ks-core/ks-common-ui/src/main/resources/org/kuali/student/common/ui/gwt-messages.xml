@@ -46,7 +46,11 @@
    	<bean parent="enCommon" p:id="go"		    p:value="Go"/>
    	<bean parent="enCommon" p:id="create"		p:value="Create"/>
    	<bean parent="enCommon" p:id="search"		p:value="Search"/>
-   	<bean parent="enCommon" p:id="select"		p:value="Select"/>   	
+   	<bean parent="enCommon" p:id="select"		p:value="Select"/>
+   	<bean parent="enCommon" p:id="booleanTrue"		p:value="Yes"/> 
+   	<bean parent="enCommon" p:id="booleanFalse"		p:value="No"/> 
+   	<bean parent="enCommon" p:id="requiredMarker"		p:value=" *"/>
+   	<bean parent="enCommon" p:id="requiredOnSubmit"		p:value=" Required on Submit"/> 
    	<bean parent="enCommon" p:id="fieldDeletionTitle"		p:value="Remove Fields"/>
    	<bean parent="enCommon" p:id="fieldDeletionConfirmMessage"		p:value="Changing your selection may remove associated fields, are you sure?"/>
 

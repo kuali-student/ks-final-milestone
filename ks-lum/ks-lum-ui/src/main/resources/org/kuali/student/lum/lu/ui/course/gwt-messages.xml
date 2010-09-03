@@ -97,14 +97,14 @@
 		p:value="Alternate Administering Organization" />
 	<bean parent="enCourse" p:id="cluLogistics" p:value="Course Logistics" />
 	<bean parent="enCourse" p:id="cluLogistics-instruct" p:value="Indicate the scheduling, learning results and course format for this course.&lt;br/&gt;" />
-	<bean parent="enCourse" p:id="cluInstructors" p:value="Instructor" />
+	<bean parent="enCourse" p:id="cluInstructors" p:value="Instructor(s)" />
 	<bean parent="enCourse" p:id="cluInstructors-help" p:value="This is not a restrictive list - names here will not determine who will eventually teach this course." />
 	<bean parent="enCourse" p:id="cluInstructor" p:value="Instructor" />
 	<bean parent="enCourse" p:id="cluCredits" p:value="Credits" />
 	<bean parent="enCourse" p:id="cluLearningResults" p:value="Learning Results" />
 	<bean parent="enCourse" p:id="cluScheduling" p:value="Scheduling" />
 	<bean parent="enCourse" p:id="cluFormat" p:value="Course Format" />
-	<bean parent="enCourse" p:id="cluFormats" p:value="Course Format" />
+	<bean parent="enCourse" p:id="cluFormats" p:value="Course Format(s)" />
 	<bean parent="enCourse" p:id="cluFormats-instruct" p:value="Each course format can consist of any number of activities, and you may have more than one course format for this &lt;br/&gt;course." />
 	<bean parent="enCourse" p:id="cluFormats-help" p:value="Is your course taught differently in the school year than it is in the summer? For example, online in the summer, lecture/lab in the fall. If so, you will need two course formats." />
 	<bean parent="enCourse" p:id="cluAddFormat" p:value="Add Additional Format" />

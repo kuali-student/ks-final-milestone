@@ -116,7 +116,12 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 
 
         valuesPanel = new KSListPanel(ListType.UNORDERED);
-        valuesPanel.setStyleName("ks-selected-list");
+        if(config.canEdit){
+        	valuesPanel.setStyleName("ks-selected-list");
+        }
+        else{
+        	valuesPanel.setStyleName("ks-selected-list-readOnly");
+        }
         mainPanel.add(valuesPanel);
         initialized = true;
         widgetReady();

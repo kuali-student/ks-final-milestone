@@ -27,6 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.core.assembly.data.Metadata;
 
 /**
   *
@@ -63,6 +67,7 @@ public class MultiplicityConfiguration {
     
     private FieldDescriptor parentFd;
     private Map<Integer, List<MultiplicityFieldConfiguration>> fields = new HashMap<Integer, List<MultiplicityFieldConfiguration>>();
+    private Map<String, FieldDescriptor> fieldMap = new HashMap<String, FieldDescriptor>();
     protected Map<String, String> concatenatedFields = new HashMap<String, String>();
     
     private MultiplicityConfiguration nestedConfig ;
@@ -165,6 +170,8 @@ public class MultiplicityConfiguration {
             List<MultiplicityFieldConfiguration> fields = getFields().get(row);
             for (MultiplicityFieldConfiguration fieldConfig : fields) {
                 MultiplicityFieldConfiguration newfieldConfig = new MultiplicityFieldConfiguration(fieldConfig.getFieldPath(), fieldConfig.getMessageKeyInfo(), fieldConfig.getMetadata(), fieldConfig.getFieldWidgetInitializer());
+                newfieldConfig.setOptional(fieldConfig.isOptional());
+                newfieldConfig.setModelWidgetBinding(fieldConfig.getModelWidgetBinding());
                 copy.addFieldConfiguration(newfieldConfig);
             }
             copy.nextLine();

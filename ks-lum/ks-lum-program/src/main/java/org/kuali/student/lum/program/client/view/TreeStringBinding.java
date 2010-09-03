@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Igor
  */
-class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
+public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
 
     @Override
     public void setModelValue(KSListPanel widget, DataModel model, String path) {

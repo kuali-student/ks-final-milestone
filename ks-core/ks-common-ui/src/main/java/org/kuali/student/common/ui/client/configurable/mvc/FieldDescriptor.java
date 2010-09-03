@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class FieldDescriptor {
     protected String fieldKey;
-    protected Metadata metadata;
+	protected Metadata metadata;
     @SuppressWarnings("unchecked")
 	private ModelWidgetBinding modelWidgetBinding;
     private Callback<Boolean> validationRequestCallback;
@@ -50,6 +50,7 @@ public class FieldDescriptor {
     private FieldElement fieldElement;
     private String modelId;
     private MessageKeyInfo messageKey;
+    private boolean optional = false;
 
     public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Metadata metadata) {
     	this.fieldKey = fieldKey;
@@ -83,8 +84,12 @@ public class FieldDescriptor {
 
     private void setupField(){
     	if(metadata != null){
-	    	fieldElement.setRequired(MetadataInterrogator.isRequired(metadata));
-	    	//TODO setup the constraint text here
+    		if(MetadataInterrogator.isRequired(metadata)){
+    			fieldElement.setRequiredString("requiredMarker");
+    		}
+    		else if(MetadataInterrogator.isRequiredForNextState(metadata)){
+    			fieldElement.setRequiredString("requiredOnSubmit");
+    		}
     	}
     }
     
@@ -99,6 +104,10 @@ public class FieldDescriptor {
 	public String getFieldKey() {
         return fieldKey;
     }
+	
+    public void setFieldKey(String fieldKey) {
+		this.fieldKey = fieldKey;
+	}
 
     public String getFieldLabel() {
         return fieldElement.getFieldName();
@@ -196,5 +205,23 @@ public class FieldDescriptor {
     public void setMessageKey(MessageKeyInfo messageKey) {
         this.messageKey = messageKey;
     }
+    
+	/**
+	 * Sets the optional flag
+	 * Fields that are optional should not be displayed if there is no data in some cases,
+	 * it is up to the section implementation whether or not to honor this flag
+	 * @param optional
+	 */
+	public void setOptional(boolean optional){
+		this.optional = optional;
+	}
+	
+	/**
+	 * Fields that are optional should not be displayed if there is no data in some cases,
+	 * it is up to the section implementation whether or not to honor this flag
+	 */
+	public boolean isOptional(){
+		return optional;
+	}
 
 }

@@ -364,7 +364,7 @@ public class WorkflowUtilities{
     				Window.alert("Fileds required for workflow must be filled before submitting.");
     			}else{
                     //Make sure the entire data model is valid before submit
-    				dataModel.validate(new Callback<List<ValidationResultInfo>>() {
+    				dataModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
                         @Override
                         public void exec(List<ValidationResultInfo> result) {
                         	
