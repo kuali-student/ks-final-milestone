@@ -32,6 +32,7 @@ public class CurriculumHomeController extends LayoutController {
         PROGRAM_VIEW,
         PROGRAM_EDIT,
         CLU_SETS,
+        VARIATION_VIEW,
         COURSE_CATALOG
     }
 
@@ -67,6 +68,8 @@ public class CurriculumHomeController extends LayoutController {
                 return getCluSetsController();
             case COURSE_CATALOG:
                 return getBrowseCatalogController();
+            case VARIATION_VIEW:
+            	return programManager.getVariationViewController();
             default:
                 return home;
         }

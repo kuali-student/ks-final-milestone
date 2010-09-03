@@ -89,6 +89,7 @@ public class CurriculumHomeView extends ViewComposite{
         addIfPermitted(PermissionType.SEARCH, "Proposals");
         addIfPermitted(PermissionType.SEARCH, "Majors");
 		list.add(new Hyperlink("Create a Major Discipline", "/HOME/CURRICULUM_HOME/PROGRAM_EDIT"));
+		//list.add(new Hyperlink("Variation", "/HOME/CURRICULUM_HOME/VARIATION_VIEW"));
         list.addStyleName("KS-CurriculumHome-LinkList");
 
 	}
