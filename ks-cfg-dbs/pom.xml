@@ -109,7 +109,7 @@
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
             <configuration>
-              <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+              <impexProperties>${user.home}/impex.oracle.properties</impexProperties>
             </configuration>
             <executions>
               <execution>
@@ -160,7 +160,7 @@
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
             <configuration>
-              <url>jdbc:mysql://localhost/</url>
+              <impexProperties>${user.home}/impex.mysql.properties</impexProperties>
             </configuration>
             <executions>
               <execution>
