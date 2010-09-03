@@ -70,12 +70,13 @@ public class ComplexSubstructuresHelper
        &&  ! Double.class.equals (subClass)
        &&  ! Float.class.equals (subClass)
        &&  ! Date.class.equals (subClass)
-       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
+       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ())
+       &&  ! Enum.class.isAssignableFrom (subClass))
    {
     loadComplexStructures (subClass, complexStructures);
    }
   }
  }
 
- 
+
 }

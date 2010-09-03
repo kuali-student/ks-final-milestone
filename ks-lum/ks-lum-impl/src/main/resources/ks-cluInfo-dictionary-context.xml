@@ -256,28 +256,6 @@
  </bean>
  <bean id="cluInfo.type" parent="cluInfo.type-parent" />
 
- <!-- RichTextInfo-->
- <bean id="org.kuali.student.core.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.dto.RichTextInfo" />
-  <property name="attributes">
-   <list>
-    <ref bean="richTextInfo.formatted" />
-    <ref bean="richTextInfo.plain" />
-   </list>
-  </property>
- </bean>
- <bean id="org.kuali.student.core.dto.RichTextInfo" parent="org.kuali.student.core.dto.RichTextInfo-parent" />
-
- <bean id="richTextInfo.formatted-parent" abstract="true" parent="baseKualiRichText">
-  <property name="name" value="formatted" />
- </bean>
- <bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
-
- <bean id="richTextInfo.plain-parent" abstract="true" parent="baseKualiRichText">
-  <property name="name" value="plain" />
- </bean>
- <bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
-
  <!-- AcademicSubjectOrgInfo-->
  <bean id="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo-parent"
        abstract="true" parent="objectStructureDefinition">

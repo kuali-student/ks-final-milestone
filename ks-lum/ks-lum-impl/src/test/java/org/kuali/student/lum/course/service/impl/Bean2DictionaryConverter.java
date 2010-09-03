@@ -49,7 +49,7 @@ public class Bean2DictionaryConverter
   return os;
  }
 
- private boolean calcHasMetaData (BeanInfo beanInfo)
+  private boolean calcHasMetaData (BeanInfo beanInfo)
  {
   for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors ())
   {
@@ -126,9 +126,14 @@ public class Bean2DictionaryConverter
   {
    throw new RuntimeException ("Can't have a list of lists, List<List<?>>");
   }
+  else if (Enum.class.isAssignableFrom (pt))
+  {
+   return DataType.STRING;
+  }
   else
   {
    return DataType.COMPLEX;
   }
  }
 }
+

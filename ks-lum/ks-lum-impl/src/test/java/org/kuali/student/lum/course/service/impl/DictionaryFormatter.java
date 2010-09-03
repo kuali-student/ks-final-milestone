@@ -337,7 +337,7 @@ public class DictionaryFormatter
 
  private String escapeWiki (String str)
  {
-  StringBuilder builder = new StringBuilder (str.length ());
+  StringBuilder bldr = new StringBuilder (str.length ());
   for (int i = 0; i < str.length (); i ++)
   {
    char c = str.charAt (i);
@@ -345,11 +345,12 @@ public class DictionaryFormatter
    {
     case '[':
     case ']':
-     builder.append ('\\');
+    case '|':
+     bldr.append ('\\');
    }
-   builder.append (c);
+   bldr.append (c);
   }
-  return builder.toString ();
+  return bldr.toString ();
  }
 
  private String calcLookup (FieldDefinition fd)
