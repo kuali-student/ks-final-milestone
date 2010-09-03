@@ -927,7 +927,7 @@ public class ProgramAssemblerUtils {
         if (objOrgs == null)     {
             objOrgs = new ArrayList<String>();
         }
-        objOrgs.add(cluOrg.getId());
+        objOrgs.add(cluOrg.getOrgId());
         Class[] parms =  new Class[]{List.class};
         method = o.getClass().getMethod(setMethod, parms);
         Object[] value = new Object[]{objOrgs};
