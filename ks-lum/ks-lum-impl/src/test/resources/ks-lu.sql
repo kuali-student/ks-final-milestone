@@ -584,8 +584,8 @@ insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-2', 'SOUT
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('MAJOR-1', '44','INSTR-1');
 insert into KSLU_CLU_JN_CLU_INSTR (clu_instr_id, clu_id) values ('MAJOR-1', 'd4ea77dd-b492-4554-b104-863e42c5f8b7');
 
-insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-1', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'CIP 2000 code', 'kuali.lu.code.CIP2000', 'CIP2000CODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
-insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-2', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'CIP 2010 code', 'kuali.lu.code.CIP2010', 'CIP2010CODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-1', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'CIP 2000 code', 'kuali.lu.code.CIP2000', '450202', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-2', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'CIP 2010 code', 'kuali.lu.code.CIP2010', '450201', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-3', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'Hegis code', 'kuali.lu.code.HEGIS', 'HEGISCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-4', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'Univ Classification code', 'kuali.lu.code.UniversityClassification', 'UNIVERSITYCLASSIFICATIONCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-5', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'Selective Enrl code', 'kuali.lu.code.SelectiveEnrollment', 'SELECTIVEENROLLMENTCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);

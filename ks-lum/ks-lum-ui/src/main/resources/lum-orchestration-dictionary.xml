@@ -5727,7 +5727,7 @@
 		</property>
 	</bean>
 	<bean id="revenueInfo" parent="revenueInfo-parent" />
-	<bean id="serach-parent" abstract="true" parent="dataObjectStructure">
+	<bean id="search-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="search" />
 		<property name="fields">
 			<list>
@@ -7799,7 +7799,7 @@
 			</list>
 		</property>
 	</bean>	
-	<bean id="search" parent="serach-parent" />
+	<bean id="search" parent="search-parent" />
 
 
 	<bean id="search.findMajor" parent="dataFieldDescriptor">  <!-- what the bean id should be so it loads for CourseConfigurer? -->
@@ -7878,6 +7878,7 @@
 										<value>withdrawn</value>
 										<value>approved</value>
 									-->
+										<value>draft</value>
 										<value>active</value>
 										<value>activated</value>
 									</list>

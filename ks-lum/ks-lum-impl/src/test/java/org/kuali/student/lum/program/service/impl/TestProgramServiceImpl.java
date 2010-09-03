@@ -275,9 +275,9 @@ public class TestProgramServiceImpl {
             assertNotNull(major.getCode());
             assertEquals("ANTH", major.getCode());
             assertNotNull(major.getCip2000Code());
-            assertEquals( "CIP2000CODE", major.getCip2000Code());
+            assertEquals("450202", major.getCip2000Code());
             assertNotNull(major.getCip2010Code());
-            assertEquals("CIP2010CODE", major.getCip2010Code());
+            assertEquals("450201", major.getCip2010Code());
             assertNotNull(major.getHegisCode());
             assertEquals("HEGISCODE", major.getHegisCode());
             assertNotNull(major.getUniversityClassification());
@@ -965,7 +965,7 @@ public class TestProgramServiceImpl {
 //        assertEquals(1, updatedMD.getProgramRequirements().size());
 
         assertEquals("Anthropology-updated", updatedMD.getLongTitle());
-        assertEquals( "CIP2000CODE-updated", updatedMD.getCip2000Code());
+        assertEquals("450202-updated", updatedMD.getCip2000Code());
         assertEquals("TRANSCRIPT-TITLE-updated", updatedMD.getTranscriptTitle());
         assertEquals("DIPLOMA-TITLE-updated", updatedMD.getDiplomaTitle() );
 

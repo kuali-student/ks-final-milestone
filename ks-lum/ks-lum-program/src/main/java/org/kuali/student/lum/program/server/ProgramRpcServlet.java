@@ -32,6 +32,13 @@ public class ProgramRpcServlet extends AbstractBaseDataOrchestrationRpcGwtServle
         MajorDisciplineInfo returnDTO;
         if (null == id || id.length() == 0) {
             returnDTO = new MajorDisciplineInfo();
+            // TODO: need to move these from ProgramAssemblerConstants to
+            // a location that ks-lum-program can depend on
+            returnDTO.setType("kuali.lu.type.MajorDiscipline");
+            returnDTO.setState("draft");
+            // TODO: hard-coded to a Baccalaureate right now, but we need to figure out
+            // how to find the correct ID (https://jira.kuali.org/browse/KSLUM-393)
+            returnDTO.setCredentialProgramId("d02dbbd3-20e2-410d-ab52-1bd6d362748b");
         } else {
             returnDTO = programService.getMajorDiscipline(id);
         }

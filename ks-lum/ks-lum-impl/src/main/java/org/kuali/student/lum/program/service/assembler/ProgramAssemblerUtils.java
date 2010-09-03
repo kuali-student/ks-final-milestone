@@ -303,6 +303,10 @@ public class ProgramAssemblerUtils {
             method = o.getClass().getMethod("getShortTitle", null);
             String shortTitle = (String)method.invoke(o, null);
             official.setShortName(shortTitle);
+            method = o.getClass().getMethod("getState", null);
+            String existingState = (String) method.invoke(o, null);
+            official.setState((null != existingState && existingState.length() > 0) ? existingState : ProgramAssemblerConstants.ACTIVE);
+            // gotta be this type
             official.setType(ProgramAssemblerConstants.OFFICIAL);
             clu.setOfficialIdentifier(official);
 
