@@ -95,7 +95,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		if (server != null) {
 			return server;
 		}
-		
+
 		String settingsKey = "impex." + getUrl() + ".dba";
 		return getSettings().getServer(settingsKey);
 	}
@@ -109,7 +109,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	}
 
 	@Override
-	protected Credentials getCredentials() {
+	protected Credentials getNewCredentials() {
 		Credentials credentials = new Credentials();
 		credentials.setUsername(getDbaUsername());
 		credentials.setPassword(getDbaPassword());

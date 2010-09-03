@@ -107,7 +107,6 @@ public class DataSqlMojo extends DataModelTaskMojo {
 		getLog().info("Generating SQL for " + getTargetDatabase() + " from data XML files");
 		getLog().info("------------------------------------------------------------------------");
 		getAntTask().execute();
-		// super.executeMojo();
 	}
 
 	protected List<File> getDataFiles() {

@@ -48,7 +48,7 @@ import static org.apache.commons.lang.StringUtils.*;
  */
 public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	Utils utils = new Utils();
-	JDBCUtils jdbcUtils = new JDBCUtils();
+	JDBCUtils jdbcUtils;
 	ConnectionHandler connectionHandler;
 	Platform platform;
 
@@ -297,7 +297,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		return properties;
 	}
 
-	protected Credentials getCredentials() {
+	protected Credentials getNewCredentials() {
 		Credentials credentials = new Credentials();
 		credentials.setUsername(getUsername());
 		credentials.setPassword(getPassword());
@@ -310,9 +310,9 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * @throws MojoExecutionException
 	 */
 	public void executeMojo() throws MojoExecutionException {
-
+		jdbcUtils = new JDBCUtils();
 		updateConfiguration();
-		Credentials credentials = getCredentials();
+		Credentials credentials = getNewCredentials();
 		updateCredentials(credentials);
 		validateCredentials(credentials);
 		setCredentials(credentials);
@@ -439,7 +439,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * Validate that some essential configuration items are present
 	 */
 	protected void validateConfiguration() throws MojoExecutionException {
-		new JdbcConfigurer().updateConfiguration(this);
+		new JdbcConfigurer().validateConfiguration(this);
 	}
 
 	protected void validateCredentials(Credentials credentials, boolean anonymousAccessAllowed, String validationFailureMessage) throws MojoExecutionException {
@@ -499,6 +499,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		String password = getUpdatedPassword(server, credentials.getPassword());
 		credentials.setUsername(convertNullToEmpty(username));
 		credentials.setPassword(convertNullToEmpty(password));
+		getLog().info("username=" + username);
 	}
 
 	protected Server getServerFromSettingsKey() {
@@ -551,6 +552,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		connectionHandler = new ConnectionHandler();
 		try {
 			BeanUtils.copyProperties(connectionHandler, this);
+			connectionHandler.setCredentials(getCredentials());
 			return connectionHandler.getConnection();
 		} catch (Exception e) {
 			throw new MojoExecutionException("Error establishing connection", e);
@@ -773,6 +775,10 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
+	}
+
+	public Credentials getCredentials() {
+		return credentials;
 	}
 
 }

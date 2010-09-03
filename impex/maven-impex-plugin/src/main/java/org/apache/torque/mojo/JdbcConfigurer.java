@@ -73,7 +73,6 @@ public class JdbcConfigurer {
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException("Can't load driver class " + driver + ". Be sure to include it as a plugin dependency.");
 		}
-
 	}
 
 	protected String getEmptyURLErrorMessage() {

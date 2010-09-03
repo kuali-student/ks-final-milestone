@@ -78,7 +78,7 @@ public class ConnectionHandler {
 			throw new SQLException("\n\nNo username was supplied.\nYou can supply a username in the plugin configuration or provide it as a system property.\n\nFor example:\n-Dusername=myuser\n\n.");
 		}
 		if (!enableAnonymousPassword && StringUtils.isBlank(password)) {
-			throw new SQLException("\n\nNo password was supplied.\nYou can supply a password in the plugin configuration or provide it as a system property.\n\nFor example:\n-password=mypassword\n\n.");
+			throw new SQLException("\n\nNo password was supplied.\nYou can supply a password in the plugin configuration or provide it as a system property.\n\nFor example:\n-Dpassword=mypassword\n\n.");
 		}
 		// Convert null to the empty string if needed
 		if (StringUtils.isBlank(username)) {
