@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
+import org.kuali.db.ConnectionHandler;
 import org.kuali.db.Credentials;
 
 import static org.apache.commons.lang.StringUtils.*;
@@ -60,12 +61,12 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String dbaSettingsKey;
 
 	/**
-	 * Set this to false if you are allowing DBA commands (eg CREATE database, DROP database) to be issued against your
+	 * Set this to true if you are allowing DBA commands (eg CREATE database, DROP database) to be issued against your
 	 * database anonymously
 	 * 
-	 * @parameter expression="${requireDbaCredentials}" default-value="true"
+	 * @parameter expression="${enableAnonymousDbaAccess}" default-value="false"
 	 */
-	boolean requireDbaCredentials;
+	boolean enableAnonymousDbaAccess;
 
 	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();
@@ -78,6 +79,42 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		if (isEmpty(databaseUsername)) {
 			databaseUsername = platform.getSchemaName(getProject().getArtifactId());
 		}
+	}
+
+	@Override
+	protected String getUpdatedPassword(Server server, String password) {
+		// They already gave us a password, don't mess with it
+		if (!isEmpty(password)) {
+			return password;
+		}
+		if (server != null) {
+			// We've successfully located a server in settings.xml, use the password from that
+			return server.getPassword();
+		}
+		// Do not return a default value
+		return null;
+	}
+
+	@Override
+	protected String getUpdatedUsername(Server server, String username) {
+		// They already gave us a username, don't mess with it
+		if (!isEmpty(username)) {
+			return username;
+		}
+		if (server != null) {
+			// We've successfully located a server in settings.xml, use the username from that
+			return server.getUsername();
+		}
+		// Do not return a default value
+		return null;
+	}
+
+	@Override
+	protected ConnectionHandler getNewConnectionHandler() throws MojoExecutionException {
+		ConnectionHandler connectionHandler = super.getNewConnectionHandler();
+		connectionHandler.setEnableAnonymousPassword(enableAnonymousDbaAccess);
+		connectionHandler.setEnableAnonymousUsername(enableAnonymousDbaAccess);
+		return connectionHandler;
 	}
 
 	@Override
@@ -119,15 +156,16 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	@Override
 	protected void validateCredentials(Credentials credentials) throws MojoExecutionException {
 		StringBuffer sb = new StringBuffer();
-		sb.append("\n\n");
+		sb.append("\n\n\n");
 		sb.append("Username and password for a DBA user must be specified.\n");
 		sb.append("Specify them in the plugin configuration or as a system property.\n");
 		sb.append("\n");
 		sb.append("For example:\n");
 		sb.append("-DdbaUsername=system\n");
-		sb.append("-DdbaPassword=systempassword\n");
-		sb.append("\n.");
-		validateCredentials(credentials, requireDbaCredentials, sb.toString());
+		sb.append("-DdbaPassword=password\n");
+		sb.append("\n\n.");
+		getLog().info("enableAnonymousDbaAccess=" + enableAnonymousDbaAccess);
+		validateCredentials(credentials, enableAnonymousDbaAccess, sb.toString());
 	}
 
 	public String getDatabase() {
@@ -168,13 +206,5 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 
 	public void setDbaPassword(String dbaPassword) {
 		this.dbaPassword = dbaPassword;
-	}
-
-	public boolean isRequireDbaCredentials() {
-		return requireDbaCredentials;
-	}
-
-	public void setRequireDbaCredentials(boolean requireDbaCredentials) {
-		this.requireDbaCredentials = requireDbaCredentials;
 	}
 }

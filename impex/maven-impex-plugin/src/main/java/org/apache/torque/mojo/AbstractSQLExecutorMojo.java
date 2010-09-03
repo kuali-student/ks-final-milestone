@@ -304,6 +304,17 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		return credentials;
 	}
 
+	protected ConnectionHandler getNewConnectionHandler() throws MojoExecutionException {
+		ConnectionHandler connectionHandler = new ConnectionHandler();
+		try {
+			BeanUtils.copyProperties(connectionHandler, this);
+			connectionHandler.setCredentials(getCredentials());
+			return connectionHandler;
+		} catch (Exception e) {
+			throw new MojoExecutionException("Error establishing connection", e);
+		}
+	}
+
 	/**
 	 * Validate our configuration and execute SQL as appropriate
 	 * 
@@ -318,6 +329,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		setCredentials(credentials);
 		validateConfiguration();
 
+		connectionHandler = getNewConnectionHandler();
 		conn = getConnection();
 
 		if (connectionHandler.isConnectionError() && skipOnConnectionError) {
@@ -499,7 +511,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		String password = getUpdatedPassword(server, credentials.getPassword());
 		credentials.setUsername(convertNullToEmpty(username));
 		credentials.setPassword(convertNullToEmpty(password));
-		getLog().info("username=" + username);
 	}
 
 	protected Server getServerFromSettingsKey() {
@@ -549,10 +560,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * 
 	 */
 	protected Connection getConnection() throws MojoExecutionException {
-		connectionHandler = new ConnectionHandler();
 		try {
-			BeanUtils.copyProperties(connectionHandler, this);
-			connectionHandler.setCredentials(getCredentials());
 			return connectionHandler.getConnection();
 		} catch (Exception e) {
 			throw new MojoExecutionException("Error establishing connection", e);
