@@ -1191,6 +1191,7 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(cluInfo.getDescr(), clu.getDescr());
 		} else if (clu.getDescr() != null) {
 			luDao.delete(clu.getDescr());
+			clu.setDescr(null);//TODO is the is the best method of doing this? what if the user passes in a new made up id, does that mean we have orphaned richtexts?
 		}
 
 		if (cluInfo.getPrimaryInstructor() != null) {
