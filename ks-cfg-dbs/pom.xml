@@ -29,9 +29,6 @@
       <resource>
         <directory>${project.build.directory}/generated-impex</directory>
       </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql</directory>
-      </resource>
     </resources>
     <plugins>
       <plugin>
@@ -47,12 +44,11 @@
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
         <configuration>
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
-          <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
         </configuration>
         <executions>
           <execution>
@@ -91,6 +87,11 @@
         </executions>
         <dependencies>
           <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.13</version>
+          </dependency>
+          <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>${oracle.ojdbc.version}</version>
@@ -101,53 +102,7 @@
   </build>
   <profiles>
     <profile>
-      <id>generate-sql</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
-            <artifactId>maven-impex-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>morph-xml</id>
-                <goals>
-                  <goal>morphschema</goal>
-                  <goal>morphdata</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-data-dtd</id>
-                <goals>
-                  <goal>datadtd</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>generate-oracle-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>oracle</targetDatabase>
-                </configuration>
-              </execution>
-              <execution>
-                <id>generate-mysql-sql</id>
-                <goals>
-                  <goal>schemasql</goal>
-                  <goal>datasql</goal>
-                </goals>
-                <configuration>
-                  <targetDatabase>mysql</targetDatabase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>reset-oracle-db</id>
+      <id>reset-oracle</id>
       <build>
         <plugins>
           <plugin>
@@ -155,9 +110,6 @@
             <artifactId>maven-impex-plugin</artifactId>
             <configuration>
               <url>jdbc:oracle:thin:@localhost:1521:XE</url>
-              <targetDatabase>oracle</targetDatabase>
-              <useArtifactIdForCredentials>true</useArtifactIdForCredentials>
-              <trimArtifactId>true</trimArtifactId>
             </configuration>
             <executions>
               <execution>
@@ -187,9 +139,6 @@
                   <goal>drop</goal>
                   <goal>create</goal>
                 </goals>
-                <configuration>
-                  <settingsKey>impex.${project.artifactId}.dba</settingsKey>
-                </configuration>
               </execution>
               <execution>
                 <id>import-data</id>
@@ -197,9 +146,57 @@
                 <goals>
                   <goal>import</goal>
                 </goals>
-                <configuration>
-                  <settingsKey>impex.${project.artifactId}</settingsKey>
-                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>reset-mysql</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <configuration>
+              <url>jdbc:mysql://localhost/</url>
+            </configuration>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>drop-create-database</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>drop</goal>
+                  <goal>create</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>import-data</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>import</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>
