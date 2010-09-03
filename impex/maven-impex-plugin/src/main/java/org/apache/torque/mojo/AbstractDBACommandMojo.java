@@ -64,7 +64,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	/**
 	 * Lookup DBA credentials in settings.xml using this key
 	 * 
-	 * @parameter expression="${dbaSettingsKey}" default-value="impex.${project.artifactId}.dba"
+	 * @parameter expression="${dbaSettingsKey}" default-value="impex.dba.${project.artifactId}"
 	 */
 	String dbaSettingsKey;
 
