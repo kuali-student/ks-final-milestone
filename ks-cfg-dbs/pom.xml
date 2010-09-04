@@ -177,7 +177,7 @@
                 </goals>
               </execution>
               <execution>
-                <id>generate-oracle-sql</id>
+                <id>generate-mysql-sql</id>
                 <goals>
                   <goal>schemasql</goal>
                   <goal>datasql</goal>
