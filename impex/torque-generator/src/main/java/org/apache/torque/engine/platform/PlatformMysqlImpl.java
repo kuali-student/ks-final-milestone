@@ -120,7 +120,7 @@ public class PlatformMysqlImpl extends PlatformDefaultImpl {
 			return null;
 		}
 		defaultValue = defaultValue.replace("SYS_GUID()", "");
-		defaultValue = defaultValue.replace("SYSDATE", "NOW()");
+		defaultValue = defaultValue.replace("SYSDATE", "");
 		defaultValue = defaultValue.replace("USERENV(\'SESSIONID\')", "");
 		return defaultValue.trim();
 	}
