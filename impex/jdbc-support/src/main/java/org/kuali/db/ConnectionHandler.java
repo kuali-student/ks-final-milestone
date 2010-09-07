@@ -27,9 +27,9 @@ public class ConnectionHandler {
 	boolean showPassword = false;
 
 	protected void showConnectionInfo(Properties properties) {
-		log.info("---------------------------");
+		log.info("------------------------------------------------------------------------");
 		log.info("JDBC Connection Information");
-		log.info("---------------------------");
+		log.info("------------------------------------------------------------------------");
 		log.info("URL: " + getUrl());
 		String username = properties.getProperty(DRIVER_INFO_PROPERTIES_USER);
 		String password = properties.getProperty(DRIVER_INFO_PROPERTIES_PASSWORD);
@@ -48,7 +48,7 @@ public class ConnectionHandler {
 			}
 		}
 		log.info("Driver: " + getDriver());
-		log.info("---------------------------");
+		log.info("------------------------------------------------------------------------");
 	}
 
 	protected Driver getDriverInstance() throws SQLException {

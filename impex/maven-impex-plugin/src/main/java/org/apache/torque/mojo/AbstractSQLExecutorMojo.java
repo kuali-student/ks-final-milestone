@@ -227,8 +227,8 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean append = false;
 
 	/**
-	 * Pointer to a properties file containg impex properties. Default value is
-	 * <code>${user.home}/impex.properties</code>
+	 * Pointer to a properties file containing Impex properties. Default value is
+	 * <code>${user.home}/impex.properties</code>. Any properties specified do not override System properties.
 	 * 
 	 * @parameter expression="${impexProperties}"
 	 */

@@ -50,7 +50,9 @@ public class BeanPropertiesLoader {
 			log.warn("No properties file located at " + location);
 			return;
 		} else {
-			log.info("Loading properties from " + location);
+			log.info("------------------------------------------------------------------------");
+			log.info("Loading Impex properties from " + location);
+			log.info("------------------------------------------------------------------------");
 		}
 		try {
 			Properties properties = getProperties();
