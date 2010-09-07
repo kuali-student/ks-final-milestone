@@ -99,7 +99,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	//Models
 	private DataModel cluProposalModel = new DataModel();
 
-    private WorkQueue modelRequestQueue;
+	CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
+	
+	private WorkQueue modelRequestQueue;
 
     private WorkflowUtilities workflowUtil;
 
@@ -134,8 +136,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     private void initialize() {
     	//TODO get from messages
 
-        super.setDefaultModelId(CourseConfigurer.CLU_PROPOSAL_MODEL);
-        super.registerModel(CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
+        super.setDefaultModelId(cfg.getModelId());
+        super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
@@ -203,7 +205,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void getCurrentModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
     	if (cluProposalModel.getRoot() != null && cluProposalModel.getRoot().size() > 0){
-        	String id = cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH+"/id");
+        	String id = cluProposalModel.get(cfg.getProposalPath()+"/id");
         	if(id != null){
         		getCluProposalFromProposalId(id, callback, workCompleteCallback);
         	}
@@ -266,10 +268,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     private void init(DataModelDefinition modelDefinition){
-    	CourseConfigurer cfg = GWT.create(CourseConfigurer.class);
     	proposalPath = cfg.getProposalPath();
         workflowUtil = new WorkflowUtilities(this,proposalPath, createOnWorkflowSubmitSuccessHandler());
-        workflowUtil.setRequiredFieldPaths(cfg.getWorkflowRequiredFields());
         workflowUtil.requestAndSetupModel();
 
     	cfg.setModelDefinition(modelDefinition);
@@ -294,7 +294,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
      */
     @Override
     public Class<? extends Enum<?>> getViewsEnum() {
-        return CourseConfigurer.CourseSections.class;
+        return cfg.getViewsEnum();
     }
 
     @Override
@@ -304,14 +304,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
         	if (cluProposalModel != null){
         		ReferenceModel ref = new ReferenceModel();
 
-        		if(cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH) != null){
-            		ref.setReferenceId((String)cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH+"/id"));
+        		if(cluProposalModel.get(cfg.getProposalPath()) != null){
+            		ref.setReferenceId((String)cluProposalModel.get(cfg.getProposalPath()+"/id"));
         		} else {
         			ref.setReferenceId(null);
         		}
 
-        		ref.setReferenceTypeKey(CourseConfigurer.PROPOSAL_REFERENCE_TYPE_KEY);
-        		ref.setReferenceType(CourseConfigurer.PROPOSAL_REFERENCE_OBJECT_TYPE);
+        		ref.setReferenceTypeKey(cfg.getProposalReferenceTypeKey());
+        		ref.setReferenceType(cfg.getProposalReferenceObjectType());
         		ref.setReferenceState(getViewContext().getState());
 
         		callback.onModelReady(ref);
@@ -319,14 +319,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
         } else if(modelType == CollaboratorTool.CollaboratorModel.class){
         	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
         	String proposalId=null;
-        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH)!=null){
-        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH+"/id" );
+        	if(cluProposalModel!=null && cluProposalModel.get(cfg.getProposalPath())!=null){
+        		proposalId=cluProposalModel.get(cfg.getProposalPath()+"/id" );
         	}
         	collaboratorModel.setDataId(proposalId);
         	callback.onModelReady(collaboratorModel);
 
         }else if (modelType == LuData.class){
-        	requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
+        	requestModel(cfg.getModelId(), callback);
         } else {
             super.requestModel(modelType, callback);
         }
@@ -462,14 +462,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     public boolean startSectionRequired(){
-        String proposalId = cluProposalModel.get(CourseConfigurer.PROPOSAL_PATH+"/id");
+        String proposalId = cluProposalModel.get(cfg.getProposalPath()+"/id");
 
         //Defaulting the proposalTitle to courseTitle, this way course data gets set and assembler doesn't
         //complain. This may not be the correct approach.
-        String proposalTitle = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
+        String proposalTitle = cluProposalModel.get(cfg.getProposalTitlePath());
         if (proposalTitle == null || proposalTitle.isEmpty()){
-            String courseTitle = cluProposalModel.get(CourseConfigurer.COURSE_TITLE_PATH);
-            cluProposalModel.set(QueryPath.parse(CourseConfigurer.PROPOSAL_TITLE_PATH), courseTitle);
+            String courseTitle = cluProposalModel.get(cfg.getCourseTitlePath());
+            cluProposalModel.set(QueryPath.parse(cfg.getProposalTitlePath()), courseTitle);
         }
 
     	return proposalId==null && !CourseProposalController.this.isStartViewShowing();
@@ -647,8 +647,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     		sb.append(" - ");
     		sb.append(cluProposalModel.get("course/transcriptTitle"));
     		sb.append(" (Proposed Modification)");
-    	} else if (cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH) != null){
-    		sb.append(cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH));
+    	} else if (cluProposalModel.get(cfg.getProposalTitlePath()) != null){
+    		sb.append(cluProposalModel.get(cfg.getProposalTitlePath()));
     		sb.append(" (Proposal)");
     	}
     	else{

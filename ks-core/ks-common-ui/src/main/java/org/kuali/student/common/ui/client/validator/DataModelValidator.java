@@ -558,9 +558,12 @@ public class DataModelValidator {
 				QueryPath listPath = QueryPath.parse(e.getKey().toString());
 				listPath.add(Data.WILDCARD_KEY);
 				values = model.query(listPath);
-	
-				// do min/max occurs checks
-				validateOccurs(e.getKey(), values, meta, results);
+				if (values.isEmpty() && isRequiredCheck(meta)){
+					addError(results, path, REQUIRED);
+				} else {	
+					// do min/max occurs checks
+					validateOccurs(e.getKey(), values, meta, results);
+				}
 			}
 		}
 			

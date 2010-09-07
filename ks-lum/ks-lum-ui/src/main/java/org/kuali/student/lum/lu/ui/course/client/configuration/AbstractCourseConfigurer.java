@@ -54,14 +54,11 @@ public abstract class AbstractCourseConfigurer extends org.kuali.student.common.
 
     public abstract String getCourseTitlePath();
 
-    public abstract String[] getWorkflowRequiredFields();
-
     public abstract String getWorkflowDocumentType();
 
     public abstract String getSectionTitle(DataModel model);
 
     public abstract String getProposalHeaderTitle(DataModel model);
-
 
     public abstract Class<? extends Enum<?>> getViewsEnum();
 }

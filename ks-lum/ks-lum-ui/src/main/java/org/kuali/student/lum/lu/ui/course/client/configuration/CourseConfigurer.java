@@ -29,9 +29,12 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -39,8 +42,20 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueB
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.*;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.*;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.CompositeConditionOperator;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldWidgetInitializer;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -48,10 +63,10 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -62,9 +77,9 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
@@ -76,7 +91,9 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseRequisitesSectionView;
 
-import java.util.*;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -255,10 +272,9 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     protected SectionView generateGovernanceSection() {
         VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
-
-        addFieldWithOverrideMinOccurs(section, COURSE + "/" + CAMPUS_LOCATIONS, generateMessageInfo(LUConstants.CAMPUS_LOCATION_LABEL_KEY), null, null, "1");
-        addFieldWithOverrideMinOccurs(section, COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), null, null, "1");
-        addFieldWithOverrideMinOccurs(section, COURSE + "/" + ADMIN_ORGS, generateMessageInfo(LUConstants.ADMIN_ORG_LABEL_KEY), null, null, "1");
+        addField(section, COURSE + "/" + CAMPUS_LOCATIONS, generateMessageInfo(LUConstants.CAMPUS_LOCATION_LABEL_KEY));
+        addField(section, COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
+        addField(section, COURSE + "/" + ADMIN_ORGS, generateMessageInfo(LUConstants.ADMIN_ORG_LABEL_KEY));
 
         return section;
     }
@@ -955,30 +971,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return SectionTitle.generateH5Title(getLabel(labelKey));
     }
 
-    protected FieldDescriptor addFieldWithOverrideMinOccurs(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath, String minOccursOverride) {
-        QueryPath path = QueryPath.concat(parentPath, fieldKey);
-        Metadata meta = modelDefinition.getMetadata(path);
-
-        if (minOccursOverride != null) {
-            List<ConstraintMetadata> constraints = meta.getConstraints();
-            ConstraintMetadata constraint = null;
-            if (constraints == null) {
-                constraint = new ConstraintMetadata();
-                constraints = new ArrayList<ConstraintMetadata>();
-                constraints.add(constraint);
-            } else {
-                constraint = constraints.get(0);
-            }
-            constraint.setMinOccurs(Integer.valueOf(minOccursOverride));
-        }
-        FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
-        if (widget != null) {
-            fd.setFieldWidget(widget);
-        }
-        section.addField(fd);
-        return fd;
-    }
-
     // TODO - when DOL is pushed farther down into LOBuilder,
     // revert these 5 methods to returning void again.
 
@@ -1223,11 +1215,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     @Override
     public Class<? extends Enum<?>> getViewsEnum() {
         return CourseConfigurer.CourseSections.class;
-    }
-
-    @Override
-    public String[] getWorkflowRequiredFields() {
-        return new String[]{"curriculumOversightOrgs"};
     }
 
     @Override

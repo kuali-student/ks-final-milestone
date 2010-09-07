@@ -141,11 +141,14 @@ public class DataModel implements Model {
 	                }
                 } else {
                 	//The wildcard is last element in path, so add all sub-elements to result
+                	//The wildcard will not match a _runtimeData path
                 	Set<Key> keys = d.keySet();
                 	for (Key wildcardKey:keys){
-                		QueryPath wildcardPath = path.subPath(0, path.size()-1);
-                		wildcardPath.add(wildcardKey);
-                		result.put(wildcardPath, d.get(wildcardKey));
+                		if (!("_runtimeData".equals(wildcardKey.get()))){
+	                		QueryPath wildcardPath = path.subPath(0, path.size()-1);
+	                		wildcardPath.add(wildcardKey);
+	                		result.put(wildcardPath, d.get(wildcardKey));
+                		}
                 	}
                 }
             } else if (i < path.size() - 1) {

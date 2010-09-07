@@ -32,7 +32,6 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
@@ -71,9 +70,7 @@ public class WorkflowUtilities{
     private String proposalPath;
     private String proposalId = "";
     private String workflowId;
-    
-    private String[] requiredFieldPaths;
-    
+        
 	private List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
     private CloseHandler<KSLightBox> onSubmitSuccessHandler;
 	private ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
@@ -360,50 +357,26 @@ public class WorkflowUtilities{
 		KSMenuItemData wfStartWorkflowItem;
     	wfStartWorkflowItem = new KSMenuItemData("Submit Proposal", new ClickHandler(){
     		public void onClick(ClickEvent event) {
-    			if(isMissingRequiredFields()){
-    				Window.alert("Fileds required for workflow must be filled before submitting.");
-    			}else{
-                    //Make sure the entire data model is valid before submit
-    				dataModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
-                        @Override
-                        public void exec(List<ValidationResultInfo> result) {
-                        	
-                        	boolean isValid = ((LayoutController)parentController).isValid(result, false);
-                        	if(isValid){
-                				dialog.show();
-                        	}
-                        	else{
-                        		Window.alert("Unable to submit to workflow.  Please check sections for errors.");
-                        	}                            
-                        }
-                    });
-    			}
+                //Make sure the entire data model is valid before submit
+				dataModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
+                    @Override
+                    public void exec(List<ValidationResultInfo> result) {
+                    	
+                    	boolean isValid = ((LayoutController)parentController).isValid(result, false);
+                    	if(isValid){
+            				dialog.show();
+                    	}
+                    	else{
+                    		Window.alert("Unable to submit to workflow.  Please check sections for missing fields.");
+                    	}                            
+                    }
+                });
     		}
 
     	});
 		return wfStartWorkflowItem;
 	}
-	
-	private boolean isMissingRequiredFields() {
-		if (requiredFieldPaths != null){
-			 if (dataModel == null){
-				 return true;
-			 } else {
-				 for (int i=0;i<requiredFieldPaths.length;i++){
-					 Object value = dataModel.get(QueryPath.parse(requiredFieldPaths[i]));
-					 if (value == null){
-						 return true;
-					 } else if (value instanceof Data && ((Data)value).size() <= 0){
-						 return true;
-					 }
-				 }
-			 }
-		}
 		
-		return false;
-	}
-
-	
 	private void setWorkflowStatus(String statusCd){
 		String statusTranslation = "";
 		if (WorkflowConstants.ROUTE_HEADER_SAVED_CD.equals(statusCd)){
@@ -472,18 +445,7 @@ public class WorkflowUtilities{
 	public void setProposalPath(String proposalPath) {
 		this.proposalPath = proposalPath;
 	}
-	
-	/**
-	 * Use to indicate which fields are required for workflow before workflow actions are allowed.
-	 * 
-	 * NOTE: We want this to be configurable via metadata rather than hardcoding a call to this in configurers or controllers.
-	 * 
-	 * @param requiredFieldPaths An array of paths to fields to check in the data model
-	 */
-	public void setRequiredFieldPaths(String[] requiredFieldPaths){
-		this.requiredFieldPaths = requiredFieldPaths;
-	}
-	
+		
 	public void setWorkflowRpcService(WorkflowRpcServiceAsync workflowRpcServiceAsync){
 		this.workflowRpcServiceAsync = workflowRpcServiceAsync;
 	}
