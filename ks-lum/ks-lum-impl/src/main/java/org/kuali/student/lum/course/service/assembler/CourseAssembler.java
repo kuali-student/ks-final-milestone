@@ -611,6 +611,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo> node = new BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo>(null);
 						node.setOperation(NodeOperation.CREATE);
 						node.setNodeData(resultComponent);
+						node.setBusinessDTORef(creditOption);
 						results.add(node);
 						
 						rsltComps.add(id);

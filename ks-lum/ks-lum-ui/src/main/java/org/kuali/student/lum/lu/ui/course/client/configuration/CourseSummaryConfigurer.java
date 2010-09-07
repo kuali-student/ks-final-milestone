@@ -13,16 +13,12 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
-import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableModel;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
@@ -292,40 +288,6 @@ public class CourseSummaryConfigurer implements
 		                Arrays.asList(CREDIT_OPTION_MAX_CREDITS, LUConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY, OPTIONAL),
 		                Arrays.asList("resultValues", LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY, OPTIONAL)),
 		                customBindings);
-        //Massive workaround for result values problem where we dont want to show them on certain selections,
-        //in most cases you want to just use the optional flag and have it be based on empty/null data
-        //but since this data is sometimes not empty/null when we dont want to show it, it requires a show
-        //condition callback
-        tableSection.addShowRowCallback(new ShowRowConditionCallback(){
-			@Override
-			public void processShowConditions(SummaryTableFieldRow row,
-					DataModel column1, DataModel column2) {
-				if(row.getFieldDescriptor1() != null && 
-						row.getFieldDescriptor1().getFieldKey().contains(CREDIT_OPTIONS) &&
-						row.getFieldDescriptor1().getFieldKey().contains("resultValues")){
-		    		String type = row.getFieldDescriptor1().getFieldKey().replace("resultValues", CreditCourseConstants.TYPE);
-		    		Object data1 = null;
-		    		Object data2 = null;
-		    		if(column1 != null){
-		    			data1 = column1.get(type);
-		    		}
-		    		if(column2 != null){
-		    			data2 = column2.get(type);
-		    		}
-		    		
-		    		if(data1 != null && data1 instanceof String){
-		    			if(!((String)data1).equals("kuali.resultComponentType.credit.degree.multiple")){
-		    				row.setShown(false);
-		    			}
-		    		}
-		    		else if(data2 != null && data2 instanceof String){
-		    			if(!((String)data2).equals("kuali.resultComponentType.credit.degree.multiple")){
-		    				row.setShown(false);
-		    			}
-		    		}
-		    	}
-			}
-		});
         
         block.addSummaryMultiplicity(outcomesConfig);
         

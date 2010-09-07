@@ -222,20 +222,20 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			ResultComponentInfo resultComponent = (ResultComponentInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				lrcService.createResultComponent(resultComponent.getType(), resultComponent);
-				break;
-			case UPDATE:
-				lrcService.updateResultComponent(resultComponent.getId(), resultComponent);
-				break;
-			case DELETE:
-				lrcService.deleteResultComponent(resultComponent.getId());
-				break;
-			}
-		}else if(nodeData instanceof ResultComponentInfo){
-			ResultComponentInfo resultComponent = (ResultComponentInfo) nodeData;
-			switch(results.getOperation()){
-			case CREATE:
-				lrcService.createResultComponent(resultComponent.getType(), resultComponent);
+				ResultComponentInfo createdResultComponent = lrcService.createResultComponent(resultComponent.getType(), resultComponent);
+				//Copy the created back to the reference Should there be an assembler for this?
+				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultComponentInfo){
+					ResultComponentInfo resultComponentToUpdate = (ResultComponentInfo) results.getBusinessDTORef();
+					resultComponentToUpdate.setId(createdResultComponent.getId());
+					resultComponentToUpdate.setType(createdResultComponent.getType());
+					resultComponentToUpdate.setDesc(createdResultComponent.getDesc());
+					resultComponentToUpdate.setEffectiveDate(createdResultComponent.getEffectiveDate());
+					resultComponentToUpdate.setExpirationDate(createdResultComponent.getExpirationDate());
+					resultComponentToUpdate.setMetaInfo(createdResultComponent.getMetaInfo());
+					resultComponentToUpdate.setName(createdResultComponent.getName());
+					resultComponentToUpdate.setResultValues(createdResultComponent.getResultValues());
+					resultComponentToUpdate.setState(createdResultComponent.getState());
+				}
 				break;
 			case UPDATE:
 				lrcService.updateResultComponent(resultComponent.getId(), resultComponent);
