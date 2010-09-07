@@ -15,12 +15,12 @@ public class DataMorpher extends Morpher {
 		this(null, null);
 	}
 
-	public DataMorpher(MorphRequest morphRequest, String schema) {
-		super(morphRequest, schema);
+	public DataMorpher(MorphRequest morphRequest, String artifactId) {
+		super(morphRequest, artifactId);
 	}
 
 	protected String getNewDocType() {
-		return "<!DOCTYPE dataset SYSTEM \"" + getSchema() + ".dtd\">";
+		return "<!DOCTYPE dataset SYSTEM \"" + getArtifactId() + ".dtd\">";
 	}
 
 	protected String getMorphedContents(String contents) {

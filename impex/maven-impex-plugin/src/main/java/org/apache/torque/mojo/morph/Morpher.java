@@ -7,20 +7,20 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public abstract class Morpher {
+	private static final Log log = LogFactory.getLog(Morpher.class);
+
+	MorphRequest morphRequest;
+	String artifactId;
+
 	public Morpher() {
 		this(null, null);
 	}
 
-	public Morpher(MorphRequest morphRequest, String schema) {
+	public Morpher(MorphRequest morphRequest, String artifactId) {
 		super();
 		this.morphRequest = morphRequest;
-		this.schema = schema;
+		this.artifactId = artifactId;
 	}
-
-	private static final Log log = LogFactory.getLog(Morpher.class);
-
-	MorphRequest morphRequest;
-	String schema;
 
 	protected abstract boolean isMorphNeeded(String contents);
 
@@ -49,12 +49,12 @@ public abstract class Morpher {
 		this.morphRequest = morphRequest;
 	}
 
-	public String getSchema() {
-		return schema;
+	public String getArtifactId() {
+		return artifactId;
 	}
 
-	public void setSchema(String schema) {
-		this.schema = schema;
+	public void setArtifactId(String schema) {
+		this.artifactId = schema;
 	}
 
 }

@@ -28,9 +28,9 @@ public class SchemaMorpher extends Morpher {
 		this(null, null);
 	}
 
-	public SchemaMorpher(MorphRequest morphRequest, String schema) {
+	public SchemaMorpher(MorphRequest morphRequest, String artifactId) {
 		super();
-		this.schema = schema;
+		this.artifactId = artifactId;
 		this.morphRequest = morphRequest;
 	}
 
@@ -83,7 +83,7 @@ public class SchemaMorpher extends Morpher {
 		contents = StringUtils.replace(contents, antDTDString, newDTDString);
 		contents = StringUtils.replace(contents, antComment, newComment);
 		contents = StringUtils.replace(contents, antPrologue, newPrologue);
-		return StringUtils.replace(contents, "name=\"" + antSchemaName + "\">", "name=\"" + getSchema() + "\">");
+		return StringUtils.replace(contents, "name=\"" + antSchemaName + "\">", "name=\"" + getArtifactId() + "\">");
 	}
 
 	public String getAntSchemaName() {
