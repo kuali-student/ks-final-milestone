@@ -6,6 +6,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
 import org.kuali.db.ConnectionHandler;
 import org.kuali.db.Credentials;
+import org.kuali.db.DatabaseCommand;
 
 import static org.apache.commons.lang.StringUtils.*;
 
@@ -72,6 +73,10 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	 * @parameter expression="${enableAnonymousDbaAccess}" default-value="false"
 	 */
 	boolean enableAnonymousDbaAccess;
+
+	protected String getTransactionDescription(DatabaseCommand command) {
+		return command + " " + getDatabase();
+	}
 
 	protected void updateConfiguration() throws MojoExecutionException {
 		super.updateConfiguration();

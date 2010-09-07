@@ -69,6 +69,10 @@ public class MojoDatabaseListener implements DatabaseListener {
 		if (!StringUtils.isEmpty(event.getTransaction().getSqlCommand())) {
 			message = "Executing SQL ";
 		}
+		String description = event.getTransaction().getDescription();
+		if (!StringUtils.isEmpty(description)) {
+			message += "to " + description;
+		}
 		prettyPrint = new PrettyPrint("[INFO] " + message);
 		utils.left(prettyPrint);
 	}

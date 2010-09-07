@@ -15,13 +15,6 @@ public abstract class SingleDBACommandMojo extends AbstractDBACommandMojo {
 
 	public abstract DatabaseCommand getCommand();
 
-	protected void updateConfiguration() throws MojoExecutionException {
-		super.updateConfiguration();
-		getLog().info("-------------------------------------------");
-		getLog().info(getCommand() + " " + getTargetDatabase() + " database " + getDatabase());
-		getLog().info("-------------------------------------------");
-	}
-
 	@Override
 	protected void configureTransactions() throws MojoExecutionException {
 		Properties properties = getContextProperties();
@@ -31,9 +24,10 @@ public abstract class SingleDBACommandMojo extends AbstractDBACommandMojo {
 			String sql = generator.getSQL();
 			Transaction t = new Transaction();
 			t.addText(sql);
+			t.setDescription(getTransactionDescription(getCommand()));
 			transactions.add(t);
 		} catch (IOException e) {
-			throw new MojoExecutionException("Error generating SQL", e);
+			throw new MojoExecutionException("Error configuring transactions", e);
 		}
 	}
 }
