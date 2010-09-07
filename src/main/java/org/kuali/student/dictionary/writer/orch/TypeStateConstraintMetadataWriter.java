@@ -16,7 +16,7 @@
 package org.kuali.student.dictionary.writer.orch;
 
 import org.kuali.student.dictionary.model.TypeStateConstraint;
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
+//import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.dictionary.writer.StringQuoter;
 
 /**
@@ -54,10 +54,10 @@ public class TypeStateConstraintMetadataWriter
   if (tsCons.getConstraint ().isInline ())
   {
    out.indentPrintln ("ConstraintMetadata consMeta = new ConstraintMetadata ();");
-   ConstraintMetadata consMeta =
-    new ConstraintToConstraintMetadataConverter (tsCons.getConstraint ()).
-    convert ();
-   new ConstraintMetadataWriter (out, "consMeta", consMeta).write ();
+//   ConstraintMetadata consMeta =
+//    new ConstraintToConstraintMetadataConverter (tsCons.getConstraint ()).
+//    convert ();
+//   new ConstraintMetadataWriter (out, "consMeta", consMeta).write ();
    out.indentPrintln ("childMeta.getConstraints ().add (consMeta);");
   }
   else

@@ -19,7 +19,7 @@ import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.Constraint;
 import java.util.HashMap;
 import java.util.Map;
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
+//import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.dictionary.writer.JavaClassWriter;
 
 /**
@@ -55,7 +55,7 @@ public class ConstraintMetadataBankWriter extends JavaClassWriter
 
   importsAdd (Map.class.getName ());
   importsAdd (HashMap.class.getName ());
-  importsAdd (ConstraintMetadata.class.getName ());
+//  importsAdd (ConstraintMetadata.class.getName ());
   indentPrintln ("public static final Map <String, ConstraintMetadata> BANK = new HashMap ();");
   indentPrintln ("// static initiliazer");
   indentPrintln ("static");
@@ -65,9 +65,9 @@ public class ConstraintMetadataBankWriter extends JavaClassWriter
   {
    indentPrintln ("");
    indentPrintln ("consMeta = new ConstraintMetadata ();");
-   ConstraintMetadata consMeta =
-    new ConstraintToConstraintMetadataConverter (cons).convert ();
-   new ConstraintMetadataWriter (this, "consMeta", consMeta).write ();
+//   ConstraintMetadata consMeta =
+//    new ConstraintToConstraintMetadataConverter (cons).convert ();
+//   new ConstraintMetadataWriter (this, "consMeta", consMeta).write ();
    indentPrintln ("BANK.put (consMeta.getId ().toLowerCase (), consMeta);");
   }
   closeBrace (); // end getMetadata method

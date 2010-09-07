@@ -68,9 +68,9 @@ public class OrchestrationObjectsWriter
   {
    System.out.println ("Writing out helper class: " + oo.
     getFullyQualifiedJavaClassHelperName ());
-   OrchestrationObjectHelperWriter writer =
-    new OrchestrationObjectHelperWriter (model, directory, orchObjs, oo);
-   writer.write ();
+//   OrchestrationObjectHelperWriter writer =
+//    new OrchestrationObjectHelperWriter (model, directory, orchObjs, oo);
+//   writer.write ();
   }
 
   // do the helpers first

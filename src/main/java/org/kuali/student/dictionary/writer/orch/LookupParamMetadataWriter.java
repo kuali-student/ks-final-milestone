@@ -16,10 +16,10 @@
 package org.kuali.student.dictionary.writer.orch;
 
 import java.text.SimpleDateFormat;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
+//import org.kuali.student.core.assembly.data.Data;
+//import org.kuali.student.core.assembly.data.LookupMetadata;
+//import org.kuali.student.core.assembly.data.LookupParamMetadata;
+//import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.dictionary.writer.JavaClassWriter;
 import org.kuali.student.dictionary.writer.StringQuoter;
 
@@ -32,149 +32,149 @@ public class LookupParamMetadataWriter
 
  private JavaClassWriter out;
  private String name;
- private LookupParamMetadata paramMeta;
+// private LookupParamMetadata paramMeta;
 
- public LookupParamMetadataWriter (JavaClassWriter out,
-                                   String name,
-                                   LookupParamMetadata paramMeta)
- {
-  this.out = out;
-  this.name = name;
-  this.paramMeta = paramMeta;
- }
+// public LookupParamMetadataWriter (JavaClassWriter out,
+//                                   String name,
+//                                   LookupParamMetadata paramMeta)
+// {
+//  this.out = out;
+//  this.name = name;
+//  this.paramMeta = paramMeta;
+// }
 
  public void write ()
  {
-  out.importsAdd (LookupParamMetadata.class.getName ());
-  writeSetValue ("Key", paramMeta.getKey ());
-  writeSetValue ("Name", paramMeta.getName ());
-  writeSetValue ("Desc", paramMeta.getDesc ());
-  writeSetValue ("WriteAccess", paramMeta.getWriteAccess ());
-  writeSetValue ("DataType", paramMeta.getDataType ());
-  writeSetValue ("Optional", paramMeta.isOptional ());
-  writeSetValue ("DefaultValueString", paramMeta.getDefaultValueString ());
-  writeSetValue ("Usage", paramMeta.getUsage ());
-  writeSetValue ("Widget", paramMeta.getWidget ());
-  writeSetValue ("CaseSensitive", paramMeta.isCaseSensitive ());
+//  out.importsAdd (LookupParamMetadata.class.getName ());
+//  writeSetValue ("Key", paramMeta.getKey ());
+//  writeSetValue ("Name", paramMeta.getName ());
+//  writeSetValue ("Desc", paramMeta.getDesc ());
+//  writeSetValue ("WriteAccess", paramMeta.getWriteAccess ());
+//  writeSetValue ("DataType", paramMeta.getDataType ());
+//  writeSetValue ("Optional", paramMeta.isOptional ());
+//  writeSetValue ("DefaultValueString", paramMeta.getDefaultValueString ());
+//  writeSetValue ("Usage", paramMeta.getUsage ());
+//  writeSetValue ("Widget", paramMeta.getWidget ());
+//  writeSetValue ("CaseSensitive", paramMeta.isCaseSensitive ());
   
  }
 
- private void writeSetValue (String property, Data.DataType value)
- {
-  out.importsAdd (Data.class.getName ());
-  if (value == null)
-  {
-   return;
-  }
-  writeSetValueInternal (property, "Data.DataType." + value);
- }
-
- private void writeSetValue (String property, Metadata.WriteAccess value)
- {
-  out.importsAdd (Metadata.class.getName ());
-  if (value == null)
-  {
-   return;
-  }
-  writeSetValueInternal (property, "Metadata.WriteAccess." + value);
- }
-
-  private void writeSetValue (String property, LookupMetadata.Usage value)
- {
-  out.importsAdd (LookupMetadata.class.getName ());
-  if (value == null)
-  {
-   return;
-  }
-  writeSetValueInternal (property, "LookupMetadata.Usage." + value);
- }
-
- private void writeSetValue (String property, LookupParamMetadata.Widget value)
- {
-  out.importsAdd (LookupParamMetadata.class.getName ());
-  if (value == null)
-  {
-   return;
-  }
-  writeSetValueInternal (property, "LookupParamMetadata.Widget." + value);
- }
-
- private void writeSetValue (String property, Data.Value value)
- {
-  out.importsAdd (Data.class.getName ());
-  if (value == null)
-  {
-   return;
-  }
-  if (value instanceof Data.StringValue)
-  {
-   writeSetValueInternal (property, "new Data.StringValue (" + quote (value.toString ()) + ")");
-   return;
-  }
-  if (value instanceof Data.DateValue)
-  {
-   Data.DateValue dateValue = (Data.DateValue) value;
-   String strVal = new SimpleDateFormat ("yyyy-MM-dd").format (dateValue.get ());
-   writeSetValueInternal (property, "new Data.DateValue (asDate (" + quote (strVal) + "))");
-   return;
-  }
-  if (value instanceof Data.IntegerValue)
-  {
-   writeSetValueInternal (property, "new Data.IntegerValue (" + Integer.parseInt (value.toString ()) + ")");
-   return;
-  }
-  if (value instanceof Data.BooleanValue)
-  {
-   writeSetValueInternal (property, "new Data.BooleanValue (" + Boolean.parseBoolean (value.toString ()) + ")");
-   return;
-  }
-
- }
-
- private void writeSetValue (String property, Integer value)
- {
-  if (value == null)
-  {
-   return;
-  }
-  writeSetValueInternal (property, value);
- }
-
- private void writeSetValue (String property, Boolean value)
- {
-  if (value == null)
-  {
-   return;
-  }
-  // don't write if false because that is the default
-  if ( ! value)
-  {
-   return;
-  }
-  writeSetValueInternal (property, value);
- }
-
- private void writeSetValue (String property, String value)
- {
-  if (value == null)
-  {
-   return;
-  }
-  writeSetValueInternal (property, quote (value));
- }
-
- private void writeSetValueInternal (String property, Object value)
- {
-  if (value == null)
-  {
-   return;
-  }
-  out.indentPrintln (name + ".set" + property + " (" + value.toString () + ");");
- }
-
- private String quote (String str)
- {
-  return StringQuoter.quote (str);
- }
+// private void writeSetValue (String property, Data.DataType value)
+// {
+//  out.importsAdd (Data.class.getName ());
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  writeSetValueInternal (property, "Data.DataType." + value);
+// }
+//
+// private void writeSetValue (String property, Metadata.WriteAccess value)
+// {
+//  out.importsAdd (Metadata.class.getName ());
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  writeSetValueInternal (property, "Metadata.WriteAccess." + value);
+// }
+//
+//  private void writeSetValue (String property, LookupMetadata.Usage value)
+// {
+//  out.importsAdd (LookupMetadata.class.getName ());
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  writeSetValueInternal (property, "LookupMetadata.Usage." + value);
+// }
+//
+// private void writeSetValue (String property, LookupParamMetadata.Widget value)
+// {
+//  out.importsAdd (LookupParamMetadata.class.getName ());
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  writeSetValueInternal (property, "LookupParamMetadata.Widget." + value);
+// }
+//
+// private void writeSetValue (String property, Data.Value value)
+// {
+//  out.importsAdd (Data.class.getName ());
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  if (value instanceof Data.StringValue)
+//  {
+//   writeSetValueInternal (property, "new Data.StringValue (" + quote (value.toString ()) + ")");
+//   return;
+//  }
+//  if (value instanceof Data.DateValue)
+//  {
+//   Data.DateValue dateValue = (Data.DateValue) value;
+//   String strVal = new SimpleDateFormat ("yyyy-MM-dd").format (dateValue.get ());
+//   writeSetValueInternal (property, "new Data.DateValue (asDate (" + quote (strVal) + "))");
+//   return;
+//  }
+//  if (value instanceof Data.IntegerValue)
+//  {
+//   writeSetValueInternal (property, "new Data.IntegerValue (" + Integer.parseInt (value.toString ()) + ")");
+//   return;
+//  }
+//  if (value instanceof Data.BooleanValue)
+//  {
+//   writeSetValueInternal (property, "new Data.BooleanValue (" + Boolean.parseBoolean (value.toString ()) + ")");
+//   return;
+//  }
+//
+// }
+//
+// private void writeSetValue (String property, Integer value)
+// {
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  writeSetValueInternal (property, value);
+// }
+//
+// private void writeSetValue (String property, Boolean value)
+// {
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  // don't write if false because that is the default
+//  if ( ! value)
+//  {
+//   return;
+//  }
+//  writeSetValueInternal (property, value);
+// }
+//
+// private void writeSetValue (String property, String value)
+// {
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  writeSetValueInternal (property, quote (value));
+// }
+//
+// private void writeSetValueInternal (String property, Object value)
+// {
+//  if (value == null)
+//  {
+//   return;
+//  }
+//  out.indentPrintln (name + ".set" + property + " (" + value.toString () + ");");
+// }
+//
+// private String quote (String str)
+// {
+//  return StringQuoter.quote (str);
+// }
 
 }

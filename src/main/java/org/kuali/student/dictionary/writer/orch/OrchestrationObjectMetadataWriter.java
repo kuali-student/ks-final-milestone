@@ -22,9 +22,9 @@ import org.kuali.student.dictionary.model.validation.DictionaryValidationExcepti
 import org.kuali.student.dictionary.model.DictionaryModel;
 import java.util.Date;
 import java.util.Map;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
+//import org.kuali.student.core.assembly.data.Data;
+//import org.kuali.student.core.assembly.data.Metadata;
+//import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.writer.JavaClassWriter;
 import org.kuali.student.dictionary.writer.JavaEnumConstantCalculator;
@@ -94,7 +94,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("");
 
   // get metadata
-  importsAdd (Metadata.class.getName ());
+//  importsAdd (Metadata.class.getName ());
   indentPrintln ("public Metadata getMetadata (String type, String state)");
   openBrace ();
   indentPrintln ("Metadata mainMeta = new Metadata ();");
@@ -145,9 +145,9 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("mainMeta.getProperties ().put (Properties." + constant +
    ".getKey (), childMeta);");
 
-  importsAdd (Data.class.getName ());
-  indentPrintln ("childMeta.setDataType (Data.DataType." +
-   calcDataTypeToUse (field) + ");");
+//  importsAdd (Data.class.getName ());
+//  indentPrintln ("childMeta.setDataType (Data.DataType." +
+//   calcDataTypeToUse (field) + ");");
   indentPrintln ("childMeta.setWriteAccess (Metadata.WriteAccess." + field.
    getWriteAccess () + ");");
   String defVal = calcDefaultValueDataType (field);
@@ -225,10 +225,10 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    case LIST_OF_MAPPED_STRING:
    case LIST_OF_COMPLEX:
    case LIST_OF_COMPLEX_INLINE:
-    importsAdd (QueryPath.class.getName ());
+//    importsAdd (QueryPath.class.getName ());
     indentPrintln ("listMeta = new Metadata ();");
-    indentPrintln ("listMeta.setDataType (Data.DataType." +
-     calcDataTypeToUseForList (field) + ");");
+//    indentPrintln ("listMeta.setDataType (Data.DataType." +
+//     calcDataTypeToUseForList (field) + ");");
     indentPrintln ("listMeta.setWriteAccess (Metadata.WriteAccess." + field.
      getWriteAccess () + ");");
     indentPrintln ("childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);");
@@ -304,114 +304,114 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   }
  }
 
- private Data.DataType calcDataTypeToUse (OrchestrationObjectField field)
- {
-  //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
-  switch (field.getFieldTypeCategory ())
-  {
-   case LIST_OF_PRIMITIVE:
-   case LIST_OF_MAPPED_STRING:
-   case LIST_OF_COMPLEX:
-   case LIST_OF_COMPLEX_INLINE:
-    return Data.DataType.LIST;
-
-   case DYNAMIC_ATTRIBUTE:
-    return Data.DataType.DATA;
-
-   case PRIMITIVE:
-    if (field.getType ().equalsIgnoreCase ("string"))
-    {
-     return Data.DataType.STRING;
-    }
-    if (field.getType ().equalsIgnoreCase ("date"))
-    {
-     importsAdd (Date.class.getName ());
-     return Data.DataType.TRUNCATED_DATE;
-    }
-    if (field.getType ().equalsIgnoreCase ("dateTime"))
-    {
-     importsAdd (Date.class.getName ());
-     return Data.DataType.DATE;
-    }
-    if (field.getType ().equalsIgnoreCase ("boolean"))
-    {
-     return Data.DataType.BOOLEAN;
-    }
-    if (field.getType ().equalsIgnoreCase ("integer"))
-    {
-     return Data.DataType.INTEGER;
-    }
-    if (field.getType ().equalsIgnoreCase ("long"))
-    {
-     return Data.DataType.LONG;
-    }
-    throw new DictionaryValidationException (
-     "Unknown/handled field type " +
-     field.getType () + " " + field.getName ());
-
-   case MAPPED_STRING:
-    return Data.DataType.STRING;
-
-   case COMPLEX:
-    return Data.DataType.DATA;
-
-   case COMPLEX_INLINE:
-    return Data.DataType.DATA;
-  }
-  throw new DictionaryValidationException ("Unknown/unhandled field type category" +
-   field.getFieldTypeCategory () + " for field type " +
-   field.getType () + " for field " + field.getName ());
- }
-
- private Data.DataType calcDataTypeToUseForList (OrchestrationObjectField field)
- {
-  //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
-  switch (field.getFieldTypeCategory ())
-  {
-   case LIST_OF_PRIMITIVE:
-    if (field.getType ().equalsIgnoreCase ("string"))
-    {
-     return Data.DataType.STRING;
-    }
-    if (field.getType ().equalsIgnoreCase ("date"))
-    {
-     importsAdd (Date.class.getName ());
-     return Data.DataType.TRUNCATED_DATE;
-    }
-    if (field.getType ().equalsIgnoreCase ("dateTime"))
-    {
-     importsAdd (Date.class.getName ());
-     return Data.DataType.DATE;
-    }
-    if (field.getType ().equalsIgnoreCase ("boolean"))
-    {
-     return Data.DataType.BOOLEAN;
-    }
-    if (field.getType ().equalsIgnoreCase ("integer"))
-    {
-     return Data.DataType.INTEGER;
-    }
-    if (field.getType ().equalsIgnoreCase ("long"))
-    {
-     return Data.DataType.LONG;
-    }
-    throw new DictionaryValidationException (
-     "Unknown/handled field type " +
-     field.getType () + " " + field.getName ());
-
-   case LIST_OF_MAPPED_STRING:
-    return Data.DataType.STRING;
-
-   case LIST_OF_COMPLEX:
-    return Data.DataType.DATA;
-
-   case LIST_OF_COMPLEX_INLINE:
-    return Data.DataType.DATA;
-  }
-  throw new DictionaryValidationException ("Expected a LIST but Unknown/unhandled field type category" +
-   field.getFieldTypeCategory () + " for field type " +
-   field.getType () + " for field " + field.getName ());
- }
+// private Data.DataType calcDataTypeToUse (OrchestrationObjectField field)
+// {
+//  //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
+//  switch (field.getFieldTypeCategory ())
+//  {
+//   case LIST_OF_PRIMITIVE:
+//   case LIST_OF_MAPPED_STRING:
+//   case LIST_OF_COMPLEX:
+//   case LIST_OF_COMPLEX_INLINE:
+//    return Data.DataType.LIST;
+//
+//   case DYNAMIC_ATTRIBUTE:
+//    return Data.DataType.DATA;
+//
+//   case PRIMITIVE:
+//    if (field.getType ().equalsIgnoreCase ("string"))
+//    {
+//     return Data.DataType.STRING;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("date"))
+//    {
+//     importsAdd (Date.class.getName ());
+//     return Data.DataType.TRUNCATED_DATE;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("dateTime"))
+//    {
+//     importsAdd (Date.class.getName ());
+//     return Data.DataType.DATE;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("boolean"))
+//    {
+//     return Data.DataType.BOOLEAN;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("integer"))
+//    {
+//     return Data.DataType.INTEGER;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("long"))
+//    {
+//     return Data.DataType.LONG;
+//    }
+//    throw new DictionaryValidationException (
+//     "Unknown/handled field type " +
+//     field.getType () + " " + field.getName ());
+//
+//   case MAPPED_STRING:
+//    return Data.DataType.STRING;
+//
+//   case COMPLEX:
+//    return Data.DataType.DATA;
+//
+//   case COMPLEX_INLINE:
+//    return Data.DataType.DATA;
+//  }
+//  throw new DictionaryValidationException ("Unknown/unhandled field type category" +
+//   field.getFieldTypeCategory () + " for field type " +
+//   field.getType () + " for field " + field.getName ());
+// }
+//
+// private Data.DataType calcDataTypeToUseForList (OrchestrationObjectField field)
+// {
+//  //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
+//  switch (field.getFieldTypeCategory ())
+//  {
+//   case LIST_OF_PRIMITIVE:
+//    if (field.getType ().equalsIgnoreCase ("string"))
+//    {
+//     return Data.DataType.STRING;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("date"))
+//    {
+//     importsAdd (Date.class.getName ());
+//     return Data.DataType.TRUNCATED_DATE;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("dateTime"))
+//    {
+//     importsAdd (Date.class.getName ());
+//     return Data.DataType.DATE;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("boolean"))
+//    {
+//     return Data.DataType.BOOLEAN;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("integer"))
+//    {
+//     return Data.DataType.INTEGER;
+//    }
+//    if (field.getType ().equalsIgnoreCase ("long"))
+//    {
+//     return Data.DataType.LONG;
+//    }
+//    throw new DictionaryValidationException (
+//     "Unknown/handled field type " +
+//     field.getType () + " " + field.getName ());
+//
+//   case LIST_OF_MAPPED_STRING:
+//    return Data.DataType.STRING;
+//
+//   case LIST_OF_COMPLEX:
+//    return Data.DataType.DATA;
+//
+//   case LIST_OF_COMPLEX_INLINE:
+//    return Data.DataType.DATA;
+//  }
+//  throw new DictionaryValidationException ("Expected a LIST but Unknown/unhandled field type category" +
+//   field.getFieldTypeCategory () + " for field type " +
+//   field.getType () + " for field " + field.getName ());
+// }
 
  private String calcDefaultValueDataType (OrchestrationObjectField field)
  {

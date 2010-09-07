@@ -18,7 +18,7 @@ package org.kuali.student.dictionary.writer.orch;
 import org.kuali.student.dictionary.writer.dict.ConstraintWriter;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.Constraint;
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
+//import org.kuali.student.core.assembly.data.ConstraintMetadata;
 
 /**
  *
@@ -34,24 +34,24 @@ public class ConstraintToConstraintMetadataConverter
   this.cons = cons;
  }
 
- public ConstraintMetadata convert ()
- {
-  ConstraintMetadata meta = new ConstraintMetadata ();
-  meta.setId (asString (cons.getId ()));
-  meta.setMessageId (asString (cons.getMessageId ()));
-  meta.setDesc (asString (cons.getDesc ()));
-  meta.setComments (asString (cons.getComments ()));
-  meta.setMinLength (asInteger (cons.getMinLength ()));
-  meta.setMaxLength (asInteger (cons.getMaxLength ()));
-  meta.setMinOccurs (asInteger (cons.getMinOccurs ()));
-  meta.setMaxOccurs (asInteger (cons.getMaxOccurs ()));
-  meta.setMinValue (asString (cons.getMinValue ()));
-  meta.setMaxValue (asString (cons.getMaxValue ()));
-  meta.setServerSide (asBoolean (cons.getServerSide ()));
-  meta.setSpecialValidator (asString (cons.getClassName ()));
-  meta.setValidChars (asString (ConstraintWriter.calcValidChars (cons.getValidChars ())));
-  return meta;
- }
+// public ConstraintMetadata convert ()
+// {
+//  ConstraintMetadata meta = new ConstraintMetadata ();
+//  meta.setId (asString (cons.getId ()));
+//  meta.setMessageId (asString (cons.getMessageId ()));
+//  meta.setDesc (asString (cons.getDesc ()));
+//  meta.setComments (asString (cons.getComments ()));
+//  meta.setMinLength (asInteger (cons.getMinLength ()));
+//  meta.setMaxLength (asInteger (cons.getMaxLength ()));
+//  meta.setMinOccurs (asInteger (cons.getMinOccurs ()));
+//  meta.setMaxOccurs (asInteger (cons.getMaxOccurs ()));
+//  meta.setMinValue (asString (cons.getMinValue ()));
+//  meta.setMaxValue (asString (cons.getMaxValue ()));
+//  meta.setServerSide (asBoolean (cons.getServerSide ()));
+//  meta.setSpecialValidator (asString (cons.getClassName ()));
+//  meta.setValidChars (asString (ConstraintWriter.calcValidChars (cons.getValidChars ())));
+//  return meta;
+// }
 
  private String asString (String value)
  {
