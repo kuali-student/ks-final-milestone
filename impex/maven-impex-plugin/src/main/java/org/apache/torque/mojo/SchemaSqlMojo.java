@@ -48,10 +48,10 @@ public class SchemaSqlMojo extends SqlMojoBase {
 	 * Generate SQL from schema XML files
 	 */
 	public void executeMojo() throws MojoExecutionException {
-		generateContextProperties();
-		configureTask();
 		updateConfiguration();
 		validateConfiguration();
+		generateContextProperties();
+		configureTask();
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
 		ChangeDetector detector = new ChangeDetector(getOutputDir(), getReportFile(), getSchemaFiles(), null);

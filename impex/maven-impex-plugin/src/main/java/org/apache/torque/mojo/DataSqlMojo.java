@@ -92,10 +92,10 @@ public class DataSqlMojo extends DataModelTaskMojo {
 
 	@Override
 	public void executeMojo() throws MojoExecutionException {
-		generateContextProperties();
-		configureTask();
 		updateConfiguration();
 		validateConfiguration();
+		generateContextProperties();
+		configureTask();
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
 		ChangeDetector detector = new ChangeDetector(getOutputDir(), getReportFile(), getSchemaFiles(), getDataFiles());
