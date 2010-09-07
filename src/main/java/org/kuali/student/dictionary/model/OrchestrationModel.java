@@ -6,7 +6,7 @@ package org.kuali.student.dictionary.model;
 
 import java.util.List;
 import java.util.Map;
-import org.kuali.student.core.assembly.data.LookupMetadata;
+//import org.kuali.student.core.assembly.data.LookupMetadata;
 
 /**
  *
@@ -25,6 +25,6 @@ public interface OrchestrationModel
   * get look ups for bank of lookups
   * @return
   */
- public List<LookupMetadata> getLookups ();
-
+// public List<LookupMetadata> getLookups ();
+ public List<Object> getLookups ();
 }
