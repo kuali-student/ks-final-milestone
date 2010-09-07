@@ -44,73 +44,26 @@
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2-SNAPSHOT</version>
         <configuration>
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
           <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
         </configuration>
-        <executions>
-          <execution>
-            <id>morph-xml</id>
-            <goals>
-              <goal>morphschema</goal>
-              <goal>morphdata</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-data-dtd</id>
-            <goals>
-              <goal>datadtd</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-oracle-sql</id>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-            <configuration>
-              <targetDatabase>oracle</targetDatabase>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-mysql-sql</id>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-            <configuration>
-              <targetDatabase>mysql</targetDatabase>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.13</version>
-          </dependency>
-          <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>${oracle.ojdbc.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
   <profiles>
     <profile>
-      <id>reset-oracle</id>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <build>
         <plugins>
           <plugin>
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
-            <configuration>
-              <impexProperties>${user.home}/impex.oracle.properties</impexProperties>
-            </configuration>
             <executions>
               <execution>
                 <id>morph-xml</id>
@@ -131,37 +84,44 @@
                   <goal>schemasql</goal>
                   <goal>datasql</goal>
                 </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
+                </configuration>
               </execution>
               <execution>
-                <id>drop-create-database</id>
-                <phase>pre-integration-test</phase>
+                <id>generate-mysql-sql</id>
                 <goals>
-                  <goal>drop</goal>
-                  <goal>create</goal>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
                 </goals>
-              </execution>
-              <execution>
-                <id>import-data</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>import</goal>
-                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
+                </configuration>
               </execution>
             </executions>
+            <dependencies>
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
           </plugin>
         </plugins>
       </build>
     </profile>
     <profile>
-      <id>reset-mysql</id>
+      <id>reset-db</id>
       <build>
         <plugins>
           <plugin>
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
-            <configuration>
-              <impexProperties>${user.home}/impex.mysql.properties</impexProperties>
-            </configuration>
             <executions>
               <execution>
                 <id>morph-xml</id>
@@ -177,14 +137,14 @@
                 </goals>
               </execution>
               <execution>
-                <id>generate-mysql-sql</id>
+                <id>generate-sql</id>
                 <goals>
                   <goal>schemasql</goal>
                   <goal>datasql</goal>
                 </goals>
               </execution>
               <execution>
-                <id>drop-create-database</id>
+                <id>purge-db</id>
                 <phase>pre-integration-test</phase>
                 <goals>
                   <goal>drop</goal>
@@ -199,6 +159,18 @@
                 </goals>
               </execution>
             </executions>
+            <dependencies>
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
           </plugin>
         </plugins>
       </build>
