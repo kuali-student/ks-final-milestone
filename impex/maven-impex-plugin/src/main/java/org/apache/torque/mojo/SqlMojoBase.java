@@ -28,17 +28,13 @@ import org.kuali.core.db.torque.KualiTorqueSQLTask;
  * Generates SQL from schema.xml files
  */
 public abstract class SqlMojoBase extends DataModelTaskMojo {
+
 	/**
 	 * Creates a new SQLMojo object.
 	 */
 	public SqlMojoBase() {
 		setAntTask(new KualiTorqueSQLTask());
 	}
-
-	/**
-	 * The suffix of the generated sql files.
-	 */
-	private String suffix = "";
 
 	/**
 	 * Returns the context properties for the Texen task.
@@ -76,23 +72,8 @@ public abstract class SqlMojoBase extends DataModelTaskMojo {
 		task.addFileset(fileSet);
 	}
 
-	/**
-	 * Sets the suffix of the generated sql files.
-	 * 
-	 * @param suffix
-	 *            the suffix of the generated sql files.
-	 */
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
-	}
-
-	/**
-	 * Returns the suffix of the generated sql files.
-	 * 
-	 * @return the suffix of the generated sql files.
-	 */
-	public String getSuffix() {
-		return suffix;
+	public String getImpexProperties() {
+		return impexProperties;
 	}
 
 }

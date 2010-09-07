@@ -4,10 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.torque.task.TorqueDataModelTask;
+import org.kuali.core.db.torque.PropertyHandlingException;
+import org.kuali.db.DatabaseType;
 
 /**
  * The base class for mojos that wrap DataModelTasks
@@ -18,6 +21,53 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	 * The Velocity context property for the target database
 	 */
 	public static final String TARGET_DATABASE_CONTEXT_PROPERTY = "targetDatabase";
+
+	/**
+	 * Database URL.
+	 * 
+	 * @parameter expression="${url}"
+	 */
+	String url;
+
+	/**
+	 * Pointer to a properties file containing Impex properties. Default value is
+	 * <code>${user.home}/impex.properties</code>. Any properties specified do not override System properties.
+	 * 
+	 * @parameter expression="${impexProperties}"
+	 */
+	String impexProperties = System.getProperty("user.home") + FS + "impex.properties";
+
+	/**
+	 * The suffix of the generated sql files.
+	 */
+	String suffix = "";
+
+	/**
+	 * Validate that some essential configuration items are present
+	 */
+	protected void updateConfiguration() throws MojoExecutionException {
+		try {
+			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding()).loadToBean();
+		} catch (PropertyHandlingException e) {
+			throw new MojoExecutionException("Error handling properties", e);
+		}
+		new JdbcConfigurer().updateConfiguration(this);
+	}
+
+	/**
+	 * Validate that some essential configuration items are present
+	 */
+	protected void validateConfiguration() throws MojoExecutionException {
+		if (StringUtils.isEmpty(getTargetDatabase())) {
+			throw new MojoExecutionException("Database type of '" + getTargetDatabase() + "' is invalid.  Valid values: " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()));
+		}
+
+		try {
+			DatabaseType.valueOf(getTargetDatabase().toUpperCase());
+		} catch (IllegalArgumentException e) {
+			throw new MojoExecutionException("Database type of '" + getTargetDatabase() + "' is invalid.  Valid values: " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()));
+		}
+	}
 
 	/**
 	 * The path to the directory where the schema XML files are located
@@ -286,6 +336,30 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	 */
 	public void setSqlDbMap(String sqlDbMap) {
 		this.sqlDbMap = sqlDbMap;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getImpexProperties() {
+		return impexProperties;
+	}
+
+	public void setImpexProperties(String impexProperties) {
+		this.impexProperties = impexProperties;
+	}
+
+	public String getSuffix() {
+		return suffix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
 	}
 
 }

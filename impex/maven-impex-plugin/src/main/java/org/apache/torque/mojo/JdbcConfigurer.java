@@ -31,7 +31,8 @@ public class JdbcConfigurer {
 	public void updateConfiguration(Object bean) {
 		String url = getProperty("url", bean);
 		if (isEmpty(url)) {
-			throw new IllegalArgumentException(getEmptyURLErrorMessage());
+			// If the url is empty, there is nothing to do
+			return;
 		}
 
 		JDBCConfiguration config = jdbcUtils.getDatabaseConfiguration(url);
