@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.student.core.assembly.data.LookupMetadata;
+//import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.Constraint;
 import org.kuali.student.dictionary.model.Dictionary;
@@ -50,18 +50,20 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
  private DictionaryModel model;
  private ModelFinder finder;
  private String rootPackage;
- private List<LookupMetadata> lookupMetas;
+// private List<LookupMetadata> lookupMetas;
+ private List<Object> lookupMetas;
 
  public OrchestrationObjectsLoader (DictionaryModel model,
                                     String rootPackage)
  {
   this.model = model;
   this.finder = new ModelFinder (model);
-  this.lookupMetas = new SearchTypesToLookupMetadataBankConverter (model).getLookups ();
+//  this.lookupMetas = new SearchTypesToLookupMetadataBankConverter (model).getLookups ();
   this.rootPackage = rootPackage;
  }
 
- public List<LookupMetadata> getLookups ()
+// public List<LookupMetadata> getLookups ()
+ public List<Object> getLookups ()
  {
   return this.lookupMetas;
  }
@@ -343,25 +345,25 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
    return;
   }
   List<String> list = new ArrayList ();
-  for (LookupMetadata lookup : findAdditional (field.getLookup ()))
-  {
-   list.add (lookup.getId ());
-  }
+//  for (LookupMetadata lookup : findAdditional (field.getLookup ()))
+//  {
+//   list.add (lookup.getId ());
+//  }
   field.setAdditionalLookups (list);
  }
 
- private List<LookupMetadata> findAdditional (String lookupKey)
- {
-  List<LookupMetadata> list = new ArrayList ();
-  for (LookupMetadata lookup : lookupMetas)
-  {
-   if (lookup.getId ().toLowerCase ().startsWith (lookupKey + ".additional."))
-   {
-    list.add (lookup);
-   }
-  }
-  return list;
- }
+// private List<LookupMetadata> findAdditional (String lookupKey)
+// {
+//  List<LookupMetadata> list = new ArrayList ();
+//  for (LookupMetadata lookup : lookupMetas)
+//  {
+//   if (lookup.getId ().toLowerCase ().startsWith (lookupKey + ".additional."))
+//   {
+//    list.add (lookup);
+//   }
+//  }
+//  return list;
+// }
  private Integer calcMaxRecursions (OrchObj orch)
  {
   String recursions = orch.getRecursions ();
