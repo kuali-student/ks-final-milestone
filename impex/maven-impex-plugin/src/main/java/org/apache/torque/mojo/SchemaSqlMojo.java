@@ -24,7 +24,7 @@ public class SchemaSqlMojo extends SqlMojoBase {
 	 * The location where the report file will be generated.
 	 * 
 	 * @parameter property="reportFile" expression="${reportFile}" default-value=
-	 *            "../../../reports/report.${project.artifact.artifactId}.sql.generation"
+	 *            "../../../reports/report.${project.artifactId}.sql.generation"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy2;

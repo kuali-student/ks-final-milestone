@@ -14,15 +14,15 @@ public class TransactionComparator<T> implements Comparator<Transaction> {
 
 	String suffix = ".sql";
 	String constraints = "-constraints";
-	String schema;
+	String artifactId;
 
 	public TransactionComparator() {
 		this(null);
 	}
 
-	public TransactionComparator(String schema) {
+	public TransactionComparator(String artifactId) {
 		super();
-		this.schema = schema;
+		this.artifactId = artifactId;
 	}
 
 	@Override
@@ -65,20 +65,20 @@ public class TransactionComparator<T> implements Comparator<Transaction> {
 		if (isEmpty(location)) {
 			return false;
 		} else {
-			return location.endsWith(getSchema() + getSuffix());
+			return location.endsWith(getArtifactId() + getSuffix());
 		}
 	}
 
 	protected boolean isSchemaConstraintsSQL(String location) {
-		return location.endsWith(getSchema() + getConstraints() + getSuffix());
+		return location.endsWith(getArtifactId() + getConstraints() + getSuffix());
 	}
 
-	public String getSchema() {
-		return schema;
+	public String getArtifactId() {
+		return artifactId;
 	}
 
-	public void setSchema(String schema) {
-		this.schema = schema;
+	public void setArtifactId(String schema) {
+		this.artifactId = schema;
 	}
 
 	public String getSuffix() {

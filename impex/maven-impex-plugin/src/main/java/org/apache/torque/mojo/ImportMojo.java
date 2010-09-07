@@ -65,12 +65,11 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 
 	/**
 	 * Set the order in which the SQL files will be executed. Possible values are <code>ASCENDING</code> and
-	 * <code>DESCENDING</code> and <code>NONE</code>
+	 * <code>DESCENDING</code> and <code>NONE</code>. Default value is <code>ASCENDING</code>
 	 * 
-	 * @since 1.1
-	 * @parameter expression="${order}" default-value="ASCENDING"
+	 * @parameter expression="${order}"
 	 */
-	private Order order;
+	private String order = Order.ASCENDING.toString();
 
 	protected void updateImportDir() {
 		String path = importDir.getAbsolutePath();
@@ -124,20 +123,12 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void sortTransactions(Vector<Transaction> transactions) {
-		Comparator<Transaction> comparator = new TransactionComparator<Transaction>(schema);
-		if (Order.ASCENDING.equals(order)) {
+		Comparator<Transaction> comparator = new TransactionComparator<Transaction>(getProject().getArtifactId());
+		if (Order.ASCENDING.toString().equals(order)) {
 			Collections.sort(transactions, comparator);
-		} else if (Order.DESCENDING.equals(order)) {
+		} else if (Order.DESCENDING.toString().equals(order)) {
 			Collections.sort(transactions, new ReverseComparator(comparator));
 		}
-	}
-
-	public Order getOrder() {
-		return this.order;
-	}
-
-	public void setOrder(Order order) {
-		this.order = order;
 	}
 
 	public File getImportDir() {
@@ -170,5 +161,13 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 
 	public void setSchema(String schema) {
 		this.schema = schema;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
 	}
 }

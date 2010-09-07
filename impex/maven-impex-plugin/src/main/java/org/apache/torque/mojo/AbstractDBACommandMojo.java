@@ -21,7 +21,6 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	 * URL to connect directly to the database server itself (ie: no database specified).
 	 * 
 	 * @parameter expression="${serverUrl}"
-	 * @required
 	 */
 	String serverUrl;
 
@@ -29,7 +28,6 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	 * The name of the database
 	 * 
 	 * @parameter expression="${database}"
-	 * @required
 	 */
 	String database;
 

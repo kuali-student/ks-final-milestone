@@ -28,7 +28,7 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 * The location where the report file will be generated, relative to outputDir.
 	 * 
 	 * @parameter property="reportFile" expression="${reportFile}"
-	 *            default-value="../reports/report.${project.artifact.artifactId}.datadtd.generation"
+	 *            default-value="../reports/report.${project.artifactId}.datadtd.generation"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy2;

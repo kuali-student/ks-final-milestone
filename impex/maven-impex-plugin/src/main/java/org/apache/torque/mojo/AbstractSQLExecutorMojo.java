@@ -72,9 +72,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * The type of database we are targeting eg oracle, mysql etc
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${targetDatabase}"
-	 * @required
 	 */
 	String targetDatabase;
 
@@ -82,7 +80,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * Database username. If not given, it will be looked up through <code>settings.xml</code>'s server with
 	 * <code>${settingsKey}</code> as key.
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${username}"
 	 */
 	String username;
@@ -91,7 +88,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * Database password. If not given, it will be looked up through <code>settings.xml</code>'s server with
 	 * <code>${settingsKey}</code> as key.
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${password}"
 	 */
 	String password;
@@ -100,7 +96,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * Ignore the password and use anonymous access. This may be useful for databases like MySQL which do not allow
 	 * empty password parameters in the connection initialization.
 	 * 
-	 * @since 1.4
 	 * @parameter expression="${enableAnonymousPassword}" default-value="false"
 	 */
 	boolean enableAnonymousPassword;
@@ -108,7 +103,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * Ignore the username and use anonymous access.
 	 * 
-	 * @since 1.4
 	 * @parameter expression="${enableAnonymousUsername}" default-value="false"
 	 */
 	boolean enableAnonymousUsername;
@@ -116,8 +110,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * Additional key=value pairs separated by comma to be passed into JDBC driver.
 	 * 
-	 * @since 1.0
-	 * @parameter expression="${driverProperties}" default-value = ""
+	 * @parameter expression="${driverProperties}" default-value=""
 	 */
 	String driverProperties;
 
@@ -125,8 +118,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * If set to true the password being used to connect to the database will be displayed in log messages. Default is
 	 * false
 	 * 
-	 * @since 1.0
-	 * @parameter expression="${showPassword}" default-value = "false"
+	 * @parameter expression="${showPassword}" default-value="false"
 	 */
 	boolean showPassword;
 
@@ -134,16 +126,14 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * The id of the server in settings.xml containing the username/password to use. This defaults to
 	 * "impex.${project.artifactId}"
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${settingsKey}" default-value="impex.${project.artifactId}"
 	 */
 	String settingsKey;
 
 	/**
-	 * Skip execution when there is an error obtaining a connection. This is a special case to support databases, such
-	 * as embedded Derby, that can shutdown the database via the URL (i.e. <code>shutdown=true</code>).
+	 * Skip execution if there is an error obtaining a connection. If this is set to true, the build will continue even
+	 * if there is an error obtaining a connection
 	 * 
-	 * @since 1.1
 	 * @parameter expression="${skipOnConnectionError}" default-value="false"
 	 */
 	boolean skipOnConnectionError;
@@ -151,7 +141,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * SQL input commands separated by <code>${delimiter}</code>.
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${sqlCommand}" default-value=""
 	 */
 	String sqlCommand = "";
@@ -159,7 +148,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * List of files containing SQL statements to load.
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${srcFiles}"
 	 */
 	File[] srcFiles;
@@ -169,15 +157,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * Database URL.
 	 * 
 	 * @parameter expression="${url}"
-	 * @required
-	 * @since 1.0-beta-1
 	 */
 	String url;
 
 	/**
 	 * Database driver classname.
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${driver}"
 	 */
 	String driver;
@@ -186,7 +171,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * Set to <code>true</code> to execute non-transactional SQL.
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${autocommit}" default-value="false"
 	 */
 	boolean autocommit;
@@ -194,7 +178,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * Action to perform if an error is found. Possible values are <code>abort</code> and <code>continue</code>.
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${onError}" default-value="abort"
 	 */
 	String onError = SQLExecutor.ON_ERROR_ABORT;
@@ -204,7 +187,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * Set the delimiter that separates SQL statements.
 	 * 
-	 * @since 1.0
 	 * @parameter expression="${delimiter}" default-value="/"
 	 */
 	String delimiter = "/";
@@ -219,7 +201,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * For example, set this to "go" and delimiterType to "row" for Sybase ASE or MS SQL Server.
 	 * </p>
 	 * 
-	 * @since 1.2
 	 * @parameter expression="${delimiterType}" default-value="row"
 	 */
 	String delimiterType = DelimiterType.ROW;
@@ -227,18 +208,21 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	/**
 	 * Keep the format of an SQL block.
 	 * 
-	 * @since 1.1
 	 * @parameter expression="${keepFormat}" default-value="true"
 	 */
 	boolean keepFormat = true;
 
 	/**
 	 * Print header columns.
+	 * 
+	 * @parameter expression="${showheaders}" default-value="true"
 	 */
 	boolean showheaders = true;
 
 	/**
 	 * Append to an existing file or overwrite it?
+	 * 
+	 * @parameter expression="${append}" default-value="false"
 	 */
 	boolean append = false;
 
@@ -247,13 +231,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * 
 	 * @parameter expression="${impexProperties}" default-value="${user.home}/impex.properties"
 	 */
-	String impexProperties;
+	String properties;
 
 	/**
 	 * Argument to Statement.setEscapeProcessing If you want the driver to use regular SQL syntax then set this to
 	 * false.
 	 * 
-	 * @since 1.4
 	 * @parameter expression="${escapeProcessing}" default-value="true"
 	 */
 	boolean escapeProcessing = true;
@@ -452,7 +435,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		try {
-			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding()).loadToBean();
+			new BeanPropertiesLoader(this, getProperties(), getEncoding()).loadToBean();
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);
 		}
@@ -814,12 +797,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		return credentials;
 	}
 
-	public String getImpexProperties() {
-		return impexProperties;
+	public String getProperties() {
+		return properties;
 	}
 
-	public void setImpexProperties(String impexProperties) {
-		this.impexProperties = impexProperties;
+	public void setProperties(String impexProperties) {
+		this.properties = impexProperties;
 	}
 
 }

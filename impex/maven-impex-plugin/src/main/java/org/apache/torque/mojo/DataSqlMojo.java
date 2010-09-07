@@ -28,7 +28,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	 * The location where the SQL file will be generated.
 	 * 
 	 * @parameter property="reportFile" expression="${reportFile}"
-	 *            default-value="../../../reports/report.${project.artifact.artifactId}-data.sql"
+	 *            default-value="../../../reports/report.${project.artifactId}-data.sql"
 	 */
 	@SuppressWarnings("unused")
 	private String dummy2;
@@ -43,7 +43,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	private String dummy3;
 
 	/**
-	 * Only run this mojo if the data or schema has changed
+	 * Only run this mojo if the data or schema has changed since the last run
 	 * 
 	 * @parameter expression="${runOnlyOnChange}" default-value="true"
 	 * @required

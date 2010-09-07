@@ -21,6 +21,7 @@ public class Transaction {
 	String resourceLocation;
 	String sqlCommand;
 	String encoding;
+	String description;
 
 	/**
      *
@@ -89,5 +90,13 @@ public class Transaction {
 
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
