@@ -1278,14 +1278,7 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static CluIdentifier createOfficialIdentifier(CluInfo cluInfo) {
         CluIdentifier officialIdentifier = new CluIdentifier();
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),
-                officialIdentifier, new String[] { "code" });
-
-        officialIdentifier
-                .setCode(new StringBuilder().append(
-                        cluInfo.getOfficialIdentifier().getDivision())
-                        .append(
-                                cluInfo.getOfficialIdentifier()
-                                        .getSuffixCode()).toString());
+                officialIdentifier);
         return officialIdentifier;
 	}
 
@@ -1295,28 +1288,14 @@ public class LuServiceAssembler extends BaseAssembler {
         }
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu
                 .getOfficialIdentifier(), new String[] { "id" });
-
-        if (null == clu.getOfficialIdentifier().getCode() || clu.getOfficialIdentifier().getCode().length() == 0) {
-            // preserve previous behavior if there is no existing code after update
-	        clu.getOfficialIdentifier().setCode(
-	                new StringBuilder().append(
-	                        cluInfo.getOfficialIdentifier().getDivision())
-	                        .append(
-	                                cluInfo.getOfficialIdentifier()
-	                                        .getSuffixCode()).toString());
-        }
     }
 
 	public static List<CluIdentifier> createAlternateIdentifiers(CluInfo cluInfo) {
 	    List<CluIdentifier> alternateIdentifiers = new ArrayList<CluIdentifier>(0);
 	    for (CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()) {
 	        CluIdentifier identifier = new CluIdentifier();
-	        BeanUtils.copyProperties(cluIdInfo, identifier,
-	                new String[] { "code" });
+	        BeanUtils.copyProperties(cluIdInfo, identifier);
 
-	        identifier.setCode(new StringBuilder().append(
-	                cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode())
-	                .toString());
 	        alternateIdentifiers.add(identifier);
 	    }
 	    return alternateIdentifiers;
@@ -1337,13 +1316,7 @@ public class LuServiceAssembler extends BaseAssembler {
                 identifier = new CluIdentifier();
             }
             // Do Copy
-            BeanUtils.copyProperties(cluIdInfo, identifier,
-                    new String[] { "code" });
-            // FIXME: This will be in orchestration somewhere but
-            // for now put it here
-            identifier.setCode(new StringBuilder().append(
-                    cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode())
-                    .toString());
+            BeanUtils.copyProperties(cluIdInfo, identifier);
             clu.getAlternateIdentifiers().add(identifier);
         }
     }

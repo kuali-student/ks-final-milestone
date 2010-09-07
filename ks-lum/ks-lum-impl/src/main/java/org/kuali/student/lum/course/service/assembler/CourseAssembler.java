@@ -303,15 +303,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
 		identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
 		identifier.setState(course.getState());
-		String code = (course.getCode() == null)? "" : course.getCode();
-		identifier.setCode(code);
-		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setLongName(course.getCourseTitle());
-		
-		identifier.setDivision(course.getSubjectArea());
 		identifier.setShortName(course.getTranscriptTitle());
-		clu.setOfficialIdentifier(identifier);
+		identifier.setSuffixCode(course.getCourseNumberSuffix());
+		identifier.setDivision(course.getSubjectArea());
 
+		//Custom logic to set the code as the concatenation of division and course number suffix
+		if(course.getCourseNumberSuffix()!=null&&course.getSubjectArea()!=null&&!course.getCourseNumberSuffix().isEmpty()&&!course.getSubjectArea().isEmpty()){
+			identifier.setCode(course.getSubjectArea()+course.getCourseNumberSuffix());			
+		}else{
+			identifier.setCode(null);
+		}
+		
+		clu.setOfficialIdentifier(identifier);
 
 		clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
 
@@ -331,7 +335,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
 			cluIdentifier.setId(variation.getId());
 			cluIdentifier.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
-			cluIdentifier.setCode(course.getCode());
+			cluIdentifier.setCode(identifier.getCode());
 			cluIdentifier.setSuffixCode(course.getCourseNumberSuffix());
 			cluIdentifier.setDivision(course.getSubjectArea());
 			cluIdentifier.setVariation(variation.getVariationCode());
