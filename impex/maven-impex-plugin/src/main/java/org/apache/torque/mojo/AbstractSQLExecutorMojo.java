@@ -227,11 +227,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean append = false;
 
 	/**
-	 * Pointer to a properties file
+	 * Pointer to a properties file containg impex properties. Default value is
+	 * <code>${user.home}/impex.properties</code>
 	 * 
-	 * @parameter expression="${impexProperties}" default-value="${user.home}/impex.properties"
+	 * @parameter expression="${impexProperties}"
 	 */
-	String properties;
+	String impexProperties = System.getProperty("user.home") + FS + "impex.properties";
 
 	/**
 	 * Argument to Statement.setEscapeProcessing If you want the driver to use regular SQL syntax then set this to
@@ -435,7 +436,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		try {
-			new BeanPropertiesLoader(this, getProperties(), getEncoding()).loadToBean();
+			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding()).loadToBean();
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);
 		}
@@ -797,12 +798,12 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 		return credentials;
 	}
 
-	public String getProperties() {
-		return properties;
+	public String getImpexProperties() {
+		return impexProperties;
 	}
 
-	public void setProperties(String impexProperties) {
-		this.properties = impexProperties;
+	public void setImpexProperties(String impexProperties) {
+		this.impexProperties = impexProperties;
 	}
 
 }
