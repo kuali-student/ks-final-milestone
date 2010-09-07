@@ -1,7 +1,5 @@
 package org.apache.torque.mojo;
 
-import org.kuali.db.DatabaseCommand;
-
 /**
  * Drops a database
  * 
@@ -15,13 +13,13 @@ public class DropMojo extends SingleDBACommandMojo {
 	 * @parameter expression="${command}" default-value="DROP"
 	 * @required
 	 */
-	DatabaseCommand command;
+	String command;
 
-	public DatabaseCommand getCommand() {
+	public String getCommand() {
 		return command;
 	}
 
-	public void setCommand(DatabaseCommand command) {
+	public void setCommand(String command) {
 		this.command = command;
 	}
 

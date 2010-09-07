@@ -48,10 +48,10 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	protected void updateConfiguration() throws MojoExecutionException {
 		try {
 			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding()).loadToBean();
+			new JdbcConfigurer().updateConfiguration(this);
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);
 		}
-		new JdbcConfigurer().updateConfiguration(this);
 	}
 
 	/**

@@ -3,7 +3,10 @@ package org.apache.torque.mojo;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
+import java.util.Map;
+
 import org.apache.commons.beanutils.BeanUtils;
+import org.kuali.core.db.torque.PropertyHandlingException;
 import org.kuali.db.DatabaseType;
 import org.kuali.db.JDBCConfiguration;
 import org.kuali.db.JDBCUtils;
@@ -12,23 +15,38 @@ public class JdbcConfigurer {
 	JDBCUtils jdbcUtils = new JDBCUtils();
 
 	@SuppressWarnings("unchecked")
+	protected boolean hasProperty(String name, Object bean) throws PropertyHandlingException {
+		try {
+			Map<String, Object> description = BeanUtils.describe(bean);
+			return description.containsKey(name);
+		} catch (Exception e) {
+			throw new PropertyHandlingException(e);
+		}
+
+	}
+
+	@SuppressWarnings("unchecked")
 	protected <T> T getProperty(String name, Object bean) {
 		try {
-			return (T) BeanUtils.getProperty(bean, name);
+			if (hasProperty(name, bean)) {
+				return (T) BeanUtils.getProperty(bean, name);
+			} else {
+				return null;
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	protected void setProperty(Object bean, String name, Object value) {
+	protected void setProperty(Object bean, String name, Object value) throws PropertyHandlingException {
 		try {
 			BeanUtils.copyProperty(bean, name, value);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new PropertyHandlingException(e);
 		}
 	}
 
-	public void updateConfiguration(Object bean) {
+	public void updateConfiguration(Object bean) throws PropertyHandlingException {
 		String url = getProperty("url", bean);
 		if (isEmpty(url)) {
 			// If the url is empty, there is nothing to do

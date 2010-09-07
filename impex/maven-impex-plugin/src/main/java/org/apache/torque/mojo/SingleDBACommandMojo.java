@@ -13,18 +13,18 @@ import org.kuali.db.Transaction;
  */
 public abstract class SingleDBACommandMojo extends AbstractDBACommandMojo {
 
-	public abstract DatabaseCommand getCommand();
+	public abstract String getCommand();
 
 	@Override
 	protected void configureTransactions() throws MojoExecutionException {
 		Properties properties = getContextProperties();
-		SQLGenerator generator = new SQLGenerator(properties, url, getCommand());
+		SQLGenerator generator = new SQLGenerator(properties, url, DatabaseCommand.valueOf(getCommand().toUpperCase()));
 		try {
 			generator.setEncoding(getEncoding());
 			String sql = generator.getSQL();
 			Transaction t = new Transaction();
 			t.addText(sql);
-			t.setDescription(getTransactionDescription(getCommand()));
+			t.setDescription(getTransactionDescription(DatabaseCommand.valueOf(getCommand().toUpperCase())));
 			transactions.add(t);
 		} catch (IOException e) {
 			throw new MojoExecutionException("Error configuring transactions", e);

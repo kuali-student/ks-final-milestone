@@ -1,6 +1,5 @@
 package org.apache.torque.mojo;
 
-import org.kuali.db.DatabaseCommand;
 
 /**
  * Creates a database
@@ -15,13 +14,13 @@ public class CreateMojo extends SingleDBACommandMojo {
 	 * @parameter expression="${command}" default-value="CREATE"
 	 * @required
 	 */
-	DatabaseCommand command;
+	String command;
 
-	public DatabaseCommand getCommand() {
+	public String getCommand() {
 		return command;
 	}
 
-	public void setCommand(DatabaseCommand command) {
+	public void setCommand(String command) {
 		this.command = command;
 	}
 

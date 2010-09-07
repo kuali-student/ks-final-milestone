@@ -2,6 +2,7 @@ package org.apache.torque.mojo;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.DumpTask;
+import org.kuali.core.db.torque.PropertyHandlingException;
 import org.kuali.core.db.torque.StringFilter;
 
 /**
@@ -190,9 +191,13 @@ public abstract class ExportMojo extends AntTaskMojo {
 
 	@Override
 	protected void configureTask() throws MojoExecutionException {
-		JdbcConfigurer configurer = new JdbcConfigurer();
-		configurer.updateConfiguration(this);
-		configurer.validateConfiguration(this);
+		try {
+			JdbcConfigurer configurer = new JdbcConfigurer();
+			configurer.updateConfiguration(this);
+			configurer.validateConfiguration(this);
+		} catch (PropertyHandlingException e) {
+			throw new MojoExecutionException("Error handling properties", e);
+		}
 		super.configureTask();
 		DumpTask task = (DumpTask) super.getAntTask();
 		task.setIncludePatterns(StringFilter.getListFromCSV(getIncludes()));
