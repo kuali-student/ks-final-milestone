@@ -327,7 +327,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         config.setParent(parentFd);
 
         MultiplicityFieldConfiguration fc = buildMultiplicityFD("fieldKey",
-                "fieldLabel", parentPath.toString());
+                "", parentPath.toString());
         MultiplicityFieldWidgetInitializer fieldWidgetInitializer = new MultiplicityFieldWidgetInitializer() {
             @Override
             public ModelWidgetBinding getModelWidgetBindingInstance() {
@@ -389,8 +389,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	    MultiplicityConfiguration uploadFileMultiplicityConfig = setupMultiplicityConfig(
 	            MultiplicityConfiguration.MultiplicityType.GROUP,
 	            MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
-	            "path", "Add Another",
-	            "File", 
+	            "path", "Include More Files",
+	            "File Name", 
 	            null,
 	            null);
         MultiplicitySection ms = null;
@@ -563,8 +563,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	}
 
 	private static class DocumentForm extends Composite{
-		private KSLabel file = new KSLabel("File");
-		private KSLabel type = new KSLabel("Type");
+		private KSLabel file = new KSLabel("File Name");
 		private KSLabel description = new KSLabel("Description");
 		private FileUpload upload = new FileUpload();
 		private KSTextArea documentDescription = new KSTextArea();
@@ -574,10 +573,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 			tableLayout.setWidget(0, 0, file);
 			tableLayout.setWidget(0, 1, upload);
 			upload.setName("uploadFile");
-			tableLayout.setWidget(1, 0, type);
-			tableLayout.setWidget(1, 1, new KSLabel("Type Widget goes here"));
-			tableLayout.setWidget(2, 0, description);
-			tableLayout.setWidget(2, 1, documentDescription);
+			tableLayout.setWidget(1, 0, description);
+			tableLayout.setWidget(1, 1, documentDescription);
 			documentDescription.setName("documentDescription");
 			this.initWidget(tableLayout);
 		}
