@@ -3,7 +3,7 @@ DEFAULT CHARACTER SET '${mysql.character.set}'
 DEFAULT COLLATE '${mysql.collate}';
 /
 
-GRANT ALL ON ${databaseUsername}.* 
+GRANT ALL ON ${database}.* 
 TO '${databaseUsername}'@'%' 
 IDENTIFIED BY '${databasePassword}' 
 WITH GRANT OPTION
