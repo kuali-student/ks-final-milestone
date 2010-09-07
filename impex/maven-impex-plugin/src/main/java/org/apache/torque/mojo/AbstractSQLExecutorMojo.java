@@ -266,7 +266,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	/**
 	 * @component role="org.apache.maven.shared.filtering.MavenFileFilter"
-	 * @since 1.4
 	 */
 	MavenFileFilter fileFilter;
 
