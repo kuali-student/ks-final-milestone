@@ -74,7 +74,7 @@ public class BeanPropertiesLoader {
 				}
 				// Extract the value and set it on the bean
 				String newValue = properties.getProperty(key);
-				log.debug("Setting '" + key + "' to " + newValue);
+				log.info("Setting " + key + "=" + newValue);
 				BeanUtils.copyProperty(bean, key, newValue);
 			}
 		} catch (Exception e) {
