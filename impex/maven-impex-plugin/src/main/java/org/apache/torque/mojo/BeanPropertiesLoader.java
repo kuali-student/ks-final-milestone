@@ -12,6 +12,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.db.torque.PropertyHandlingException;
@@ -75,11 +76,19 @@ public class BeanPropertiesLoader {
 				}
 				// Extract the value and set it on the bean
 				String newValue = properties.getProperty(key);
-				log.info("Setting " + key + "=" + newValue);
+				log.info("Setting " + key + "=" + getLogValue(key, newValue));
 				BeanUtils.copyProperty(bean, key, newValue);
 			}
 		} catch (Exception e) {
 			throw new PropertyHandlingException(e);
+		}
+	}
+
+	protected String getLogValue(String key, String value) {
+		if ("password".equalsIgnoreCase(key) || "dbaPassword".equalsIgnoreCase(key)) {
+			return StringUtils.repeat("*", value.length());
+		} else {
+			return value;
 		}
 	}
 
