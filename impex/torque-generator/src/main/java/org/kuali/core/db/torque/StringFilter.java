@@ -84,7 +84,7 @@ public class StringFilter {
 	 * Return true if the string matches any of the patterns
 	 */
 	protected boolean isMatch(String s, List<Pattern> patterns) {
-		// If patterns is null or zero size, there is nothing to do
+		// If patterns is null or zero size, there is no match
 		if (isEmpty(patterns)) {
 			return false;
 		}
@@ -102,8 +102,7 @@ public class StringFilter {
 
 	/**
 	 * Return true if no inclusion patterns have been specified.<br>
-	 * Return true if there have been inclusion patterns specified and there is a match on at least one of those
-	 * patterns.<br>
+	 * Return true if there have been inclusion patterns specified and there is a match on at least one of them<br>
 	 * Return false otherwise.<br>
 	 */
 	protected boolean isInclude(String s) {
@@ -125,7 +124,7 @@ public class StringFilter {
 	}
 
 	/**
-	 * Invoke Iterator.remove() on any strings that do not match an inclusion pattern or do match an exclusion pattern
+	 * Invoke Iterator.remove() on any strings that match an exclusion pattern or do not match an inclusion pattern
 	 */
 	public void filter(Iterator<String> itr) {
 		// Compile our Strings into Patterns
