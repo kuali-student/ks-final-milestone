@@ -93,8 +93,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	String password;
 
 	/**
-	 * Ignore the password and use anonymous access. This may be useful for databases like MySQL which do not allow
-	 * empty password parameters in the connection initialization.
+	 * Ignore the password and use anonymous access.
 	 * 
 	 * @parameter expression="${enableAnonymousPassword}" default-value="false"
 	 */
@@ -115,16 +114,14 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	String driverProperties;
 
 	/**
-	 * If set to true the password being used to connect to the database will be displayed in log messages. Default is
-	 * false
+	 * If set to true the password being used to connect to the database will be displayed in log messages.
 	 * 
 	 * @parameter expression="${showPassword}" default-value="false"
 	 */
 	boolean showPassword;
 
 	/**
-	 * The id of the server in settings.xml containing the username/password to use. This defaults to
-	 * "impex.${project.artifactId}"
+	 * The id of the server in settings.xml containing the username/password to use.
 	 * 
 	 * @parameter expression="${settingsKey}" default-value="impex.${project.artifactId}"
 	 */
