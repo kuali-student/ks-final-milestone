@@ -1,18 +1,3 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 package org.kuali.student.common.ui.server.gwt;
 
 import java.util.HashMap;
@@ -22,9 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -33,22 +16,20 @@ import org.kuali.student.core.assembly.transform.MetadataFilter;
 import org.kuali.student.core.assembly.transform.TransformationManager;
 import org.kuali.student.core.assembly.transform.WorkflowFilter;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-/**
- * Generic implementation of data gwt data operations calls.
- *
- */
-public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteServiceServlet implements BaseDataOrchestrationRpcService {
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+public abstract class AbstractDataService implements DataService{
 
 	private static final long serialVersionUID = 1L;
 
-	final Logger LOG = Logger.getLogger(AbstractBaseDataOrchestrationRpcGwtServlet.class);
+	final Logger LOG = Logger.getLogger(AbstractDataService.class);
 
 	private TransformationManager transformationManager;
 	
@@ -57,37 +38,30 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
     //TODO: why do we have this reference in the base class????
 	private ProposalService proposalService;
 
-	public Map<String,String> getDefaultFilterProperties(){
-		Map<String, String> filterProperties = new HashMap<String,String>();
-		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
-		filterProperties.put(WorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
-		
-		return filterProperties;
-	}
-	
 	@Override
-	public Data getData(String id) {
+	public Data getData(String id) throws OperationFailedException {
 		Map<String, String> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
-		try {
-			String dtoId = id;
-			//First check if this is a proposal id
-            //TODO: Igor : Why do we check for this when getting the data for programs?
+		String dtoId = id;
+		//First check if this is a proposal id
+        //TODO: Igor : Why do we check for this when getting the data for programs?
+		try{
 			if (proposalService != null){
 				ProposalInfo proposalInfo = proposalService.getProposal(dtoId);
 				filterProperties.put(WorkflowFilter.WORKFLOW_DOC_ID, proposalInfo.getWorkflowId());
 				dtoId = proposalInfo.getProposalReference().get(0);
 			}			
-			
+
 			Object dto = get(dtoId);
 			if (dto != null){
 				return transformationManager.transform(dto, filterProperties);
 			}
-		} catch (Exception e){
-			LOG.error("Error getting Data.",e);			
+		} catch(DoesNotExistException e){
+			return null;
+		} catch (Exception e) {
+			throw new OperationFailedException("Error getting data",e);
 		}
-		
 		return null;
 	}
 
@@ -106,17 +80,12 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			filterProperties.put(AuthorizationFilter.DOC_LEVEL_PERM_CHECK, Boolean.TRUE.toString());
 		}
 		
-		try {
-			Metadata metadata = transformationManager.getMetadata(getDtoClass().getName(), filterProperties); 
-			return metadata;
-		} catch (Exception e) {
-			LOG.error("Could not get metadata ", e);
-			throw new RuntimeException("Failed to get metadata");
-		}		
+		Metadata metadata = transformationManager.getMetadata(getDtoClass().getName(), filterProperties); 
+		return metadata;
 	}
 
 	@Override
-	public DataSaveResult saveData(Data data) throws OperationFailedException {
+	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
 		Map<String, String> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("proposalId"));
 
@@ -126,35 +95,14 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 				
 			Data persistedData = transformationManager.transform(dto, filterProperties);
 			return new DataSaveResult(null, persistedData);
-		} catch (DataValidationErrorException dvee){
-			return new DataSaveResult(dvee.getValidationResults(), null);
-		} catch (Exception e) {
-			LOG.error("Unable to save", e);
-			throw new OperationFailedException("Unable to save");
+		}catch (DataValidationErrorException e){
+			throw e;
+		}catch (Exception e) {
+			throw new OperationFailedException("Unable to save",e);
 		}
 	}
 
-	protected DataSaveResult _saveData(Data data, Map<String,String> filterProperties) throws OperationFailedException{
-		try {
-			filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
-
-			Object dto = transformationManager.transform(data, getDtoClass(),filterProperties);
-			dto = save(dto);
-				
-			Data persistedData = transformationManager.transform(dto,filterProperties);
-			return new DataSaveResult(null, persistedData);
-		} catch (DataValidationErrorException dvee){
-			return new DataSaveResult(dvee.getValidationResults(), null);
-		} catch (Exception e) {
-			LOG.error("Unable to save", e);
-			throw new OperationFailedException("Unable to save");
-		}		
-	}
-	
-	protected boolean checkDocumentLevelPermissions() {
-		return false;
-	}
-
+	@Override
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
 		String user = SecurityUtils.getCurrentUserId();
 		boolean result = false;
@@ -184,6 +132,37 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		LOG.info("Result of authorization check for user '" + user + "': " + result);
 		return Boolean.valueOf(result);
 	}
+	
+	public Map<String,String> getDefaultFilterProperties(){
+		Map<String, String> filterProperties = new HashMap<String,String>();
+		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
+		filterProperties.put(WorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
+		
+		return filterProperties;
+	}
+	
+	protected DataSaveResult _saveData(Data data, Map<String,String> filterProperties) throws OperationFailedException{
+		try {
+			filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
+
+			Object dto = transformationManager.transform(data, getDtoClass(),filterProperties);
+			dto = save(dto);
+				
+			Data persistedData = transformationManager.transform(dto,filterProperties);
+			return new DataSaveResult(null, persistedData);
+		} catch (DataValidationErrorException dvee){
+			return new DataSaveResult(dvee.getValidationResults(), null);
+		} catch (Exception e) {
+			LOG.error("Unable to save", e);
+			throw new OperationFailedException("Unable to save");
+		}		
+	}
+	
+	protected boolean checkDocumentLevelPermissions() {
+		return false;
+	}
+
+
 
 	public TransformationManager getTransformationManager() {
 		return transformationManager;

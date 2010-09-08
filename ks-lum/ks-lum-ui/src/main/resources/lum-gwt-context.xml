@@ -269,12 +269,18 @@
 
     <bean id="CluProposalRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
+        <property name="dataService" ref="CluProposalDataService"/>
+    </bean>
+    
+    <bean id="CluProposalDataService"
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalDataService">
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
         <property name="proposalService" ref="proposalClient"/>
         <property name="transformationManager" ref="courseTransformationManager"/>
         <property name="modifyCourseManager" ref="modifyCreditCourseProposalManager"/>
     </bean>
+    
 
     <!--Program Servlet Declaration-->
     <bean id="statementRpcServlet" class="org.kuali.student.lum.program.server.StatementRpcServlet">
@@ -283,6 +289,10 @@
     </bean>
 
     <bean id="programRpcServlet" class="org.kuali.student.lum.program.server.ProgramRpcServlet">
+		<property name="dataService" ref="programDataService"/>
+    </bean>
+
+    <bean id="programDataService" class="org.kuali.student.lum.program.server.ProgramDataService">
         <property name="transformationManager" ref="programTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
