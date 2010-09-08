@@ -59,13 +59,13 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	 */
 	protected void validateConfiguration() throws MojoExecutionException {
 		if (StringUtils.isEmpty(getTargetDatabase())) {
-			throw new MojoExecutionException("Database type of '" + getTargetDatabase() + "' is invalid.  Valid values: " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()));
+			throw new MojoExecutionException("\n\nDatabase type of '" + getTargetDatabase() + "' is invalid.  Valid values are " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()) + ".\n\nSpecify database type in the plugin configuration or as a system property.\n\n For example:\n-DtargetDatabase=oracle\n\n.");
 		}
 
 		try {
 			DatabaseType.valueOf(getTargetDatabase().toUpperCase());
 		} catch (IllegalArgumentException e) {
-			throw new MojoExecutionException("Database type of '" + getTargetDatabase() + "' is invalid.  Valid values: " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()));
+			throw new MojoExecutionException("\n\nDatabase type of '" + getTargetDatabase() + "' is invalid.  Valid values are " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()) + ".\n\nSpecify database type in the plugin configuration or as a system property.\n\n For example:\n-DtargetDatabase=oracle\n\n.");
 		}
 	}
 
