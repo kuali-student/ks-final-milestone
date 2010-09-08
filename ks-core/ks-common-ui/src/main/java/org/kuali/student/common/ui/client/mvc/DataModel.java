@@ -121,8 +121,18 @@ public class DataModel implements Model {
         return query(QueryPath.parse(path));
     }
 
+    /** 
+     * @param branch The data branch on which to perform the query
+     * @param path The path string relative to the root of the branch
+     * @param result A map containing all matching paths and the corresponding data value. For a non-wildcard path
+     * this should return a single entry in the map of the path supplied and the corresponding value. For
+     * a path containing wildcard, an entry in the map will exist for each matching path and their corresponding values.
+     * Note: A path ending in a wild card will not match the _runtimeData element.
+     */
     private void queryRelative(final Data branch, final QueryPath path, Map<QueryPath, Object> result) {
-        Data d = branch;
+    	//Should this add the entire branch to the result when query path is an empty string?
+    	
+    	Data d = branch;
 
         for (int i = 0; i < path.size(); i++) {
             if (d == null) {
@@ -133,8 +143,8 @@ public class DataModel implements Model {
             if (key.equals(Data.WILDCARD_KEY)) {
                 final QueryPath relative = path.subPath(i + 1, path.size());
                 if (!relative.isEmpty()){
+                	//Handle remaining path after wildcard
 	                for (final Property p : d) {
-	                    // TODO this won't work with wildcarded leafnodes either
 	                    if (p.getValueType().equals(Data.class)) {
 	                        queryRelative((Data) p.getValue(), relative, result);
 	                    }
@@ -151,12 +161,11 @@ public class DataModel implements Model {
                 		}
                 	}
                 }
+                break; //No need to continue once we process wildcard
             } else if (i < path.size() - 1) {
                 d = d.get(key);
             } else {
                 final QueryPath resultPath = d.getQueryPath();
-                // TODO this won't work for leaf nodes that are wildcarded, e.g. myobj.mysubobj.*, probably need to enable
-                // leaf nodes to track their keys
                 resultPath.add(key);
                 Object resultValue = d.get(key);
                 result.put(resultPath, resultValue);

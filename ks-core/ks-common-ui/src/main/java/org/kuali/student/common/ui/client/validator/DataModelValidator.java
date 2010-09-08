@@ -233,9 +233,7 @@ public class DataModelValidator {
 			QueryPath path, List<ValidationResultInfo> results) {
 		
 	    Map<QueryPath, Object> values = model.query(path);
-		
-		validateOccurs(path, values, meta, results);
-		
+			
 		Object[] keys = values.keySet().toArray();
 		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
 			QueryPath element = (QueryPath)keys[keyIndex];
@@ -309,8 +307,6 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 	    
-	    validateOccurs(path, values, meta, results);
-        
 		Object[] keys = values.keySet().toArray();
 		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
 			QueryPath element = (QueryPath)keys[keyIndex];
@@ -352,8 +348,6 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-        validateOccurs(path, values, meta, results);
-        
 		Object[] keys = values.keySet().toArray();
 		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
 			QueryPath element = (QueryPath)keys[keyIndex];
@@ -396,8 +390,6 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 		
-        validateOccurs(path, values, meta, results);
-        
 		Object[] keys = values.keySet().toArray();
 		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
 			QueryPath element = (QueryPath)keys[keyIndex];
@@ -440,8 +432,6 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-        validateOccurs(path, values, meta, results);
-        
 		Object[] keys = values.keySet().toArray();		
 		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
 			QueryPath element = (QueryPath)keys[keyIndex];
@@ -484,8 +474,6 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-        validateOccurs(path, values, meta, results);
-        
 		Object[] keys = values.keySet().toArray();
 		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
 			QueryPath element = (QueryPath)keys[keyIndex];
@@ -529,8 +517,6 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-	    validateOccurs(path, values, meta, results);
-        
 		Object[] keys = values.keySet().toArray();
 		for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
 			QueryPath element = (QueryPath)keys[keyIndex];
@@ -551,15 +537,25 @@ public class DataModelValidator {
 
 	private void doValidateComplex(final DataModel model, final Metadata meta, final QueryPath path, List<ValidationResultInfo> results) {
 		Map<QueryPath, Object> values = model.query(path);
+		boolean hasChildElements = true;
+		
+		//Check if complex object is required and/or meets min/max occurs requirements
 		if (values.isEmpty() && isRequiredCheck(meta)) {
 			addError(results, path, REQUIRED);
+			hasChildElements = false;
 		} else if (meta.getDataType().equals(DataType.LIST)){
+			hasChildElements = false;
 			for (Map.Entry<QueryPath, Object> e:values.entrySet()){
 				QueryPath listPath = QueryPath.parse(e.getKey().toString());
 				listPath.add(Data.WILDCARD_KEY);
 				values = model.query(listPath);
+				
+				if (!values.isEmpty()){
+					hasChildElements = true;
+				}
+				
 				if (values.isEmpty() && isRequiredCheck(meta)){
-					addError(results, path, REQUIRED);
+					addError(results, e.getKey(), REQUIRED);
 				} else {	
 					// do min/max occurs checks
 					validateOccurs(e.getKey(), values, meta, results);
@@ -567,20 +563,21 @@ public class DataModelValidator {
 			}
 		}
 			
-		// validate children
-		String basePath = path.toString();
-		if (meta.getProperties() != null) {
-			Object[] keys = meta.getProperties().keySet().toArray();
-			for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-				String element = (String)keys[keyIndex];
-				if (!element.contains("runtimeData")){
-					QueryPath childPath = QueryPath.concat(basePath, element);
-					//System.out.println(childPath.toString());
-					doValidate(model, meta.getProperties().get(element), childPath, results);
+		// Validate child elements when child elements exist in data or when validating root path
+		if (hasChildElements || path.toString().isEmpty()){
+			String basePath = path.toString();
+			if (meta.getProperties() != null) {
+				Object[] keys = meta.getProperties().keySet().toArray();
+				for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+					String element = (String)keys[keyIndex];
+					if (!element.contains("runtimeData")){
+						QueryPath childPath = QueryPath.concat(basePath, element);
+						//System.out.println(childPath.toString());
+						doValidate(model, meta.getProperties().get(element), childPath, results);
+					}
 				}
 			}
-		}
-	
+		}	
 	}
 	
 	private boolean validateOccurs(QueryPath path, Map<QueryPath, Object> values, Metadata meta, List<ValidationResultInfo> results) {
