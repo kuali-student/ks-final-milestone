@@ -28,12 +28,13 @@ public class BeanPropertiesLoader {
 	String encoding;
 	Object bean;
 	boolean override = true;
+	String description;
 
 	public BeanPropertiesLoader() {
-		this(null, null, null);
+		this(null, null, null, null);
 	}
 
-	public BeanPropertiesLoader(Object bean, String location, String encoding) {
+	public BeanPropertiesLoader(Object bean, String location, String encoding, String description) {
 		super();
 		this.bean = bean;
 		this.location = location;
@@ -51,7 +52,7 @@ public class BeanPropertiesLoader {
 			return;
 		} else {
 			log.info("------------------------------------------------------------------------");
-			log.info("Loading Impex properties from " + location);
+			log.info("Loading " + getDescription() + " properties from " + location);
 			log.info("------------------------------------------------------------------------");
 		}
 		try {
@@ -133,6 +134,14 @@ public class BeanPropertiesLoader {
 
 	public void setOverride(boolean override) {
 		this.override = override;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

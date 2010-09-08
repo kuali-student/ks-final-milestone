@@ -432,7 +432,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		try {
-			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding()).loadToBean();
+			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding(), "Impex").loadToBean();
 			new JdbcConfigurer().updateConfiguration(this);
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);
