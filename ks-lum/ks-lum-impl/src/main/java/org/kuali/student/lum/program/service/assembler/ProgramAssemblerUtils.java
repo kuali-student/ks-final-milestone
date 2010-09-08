@@ -1039,14 +1039,4 @@ public class ProgramAssemblerUtils {
         }
         return credentialProgramIDs.get(0);
     }
-
-    public String getProgramLevel(String credentialProgramId) throws AssemblyException {
-        CluInfo credProgramInfo = null;
-        try {
-            credProgramInfo = luService.getClu(credentialProgramId);
-        } catch (Exception e) {
-            throw new AssemblyException(e);
-        }
-        return credProgramInfo.getOfficialIdentifier().getLevel();
-    }
 }

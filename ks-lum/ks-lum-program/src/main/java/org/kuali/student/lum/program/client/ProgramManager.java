@@ -36,10 +36,16 @@ public class ProgramManager {
         return variationViewController;
     }
     
-    public ProgramEditController getProgramEditController() {
+    public ProgramEditController getProgramEditController(boolean create) {
         if (programEditController == null) {
             programEditController = new ProgramEditController(programModel);
         }
+        /*
+        if (create) {
+            programEditController.getViewContext().setId(null);
+            programEditController.programModel = new DataModel();
+        }
+        */
         return programEditController;
     }
 }

@@ -49,10 +49,10 @@ public class VariationInformationViewConfiguration extends AbstractSectionConfig
     private TableSection createDatesSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_dates()));
         configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
-        configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
-        configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
-        configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.END_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
-        configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.APPROVAL_DATE, new MessageKeyInfo(ProgramProperties.get().programInformation_approvalDate()));
+        configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
+        configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS + "/" + ProgramConstants.PROGRAM_APPROVAL_DATE, new MessageKeyInfo(ProgramProperties.get().programInformation_approvalDate()));
         return section;
     }
 

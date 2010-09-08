@@ -310,7 +310,6 @@ public class TestProgramServiceImpl {
 //            Date testDate = new Date(effectiveDate.getTimeInMillis());
 //            assertTrue(major.getEffectiveDate().compareTo(testDate) == 0);
 
-            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, major.getAttributes().get(ProgramAssemblerConstants.PROGRAM_LEVEL));
             assertNotNull(major.getShortTitle());
             assertEquals("Anthro", major.getShortTitle());
             assertNotNull(major.getLongTitle());
@@ -374,7 +373,7 @@ public class TestProgramServiceImpl {
             assertEquals(major.getUnitsFinancialControl().get(0), "46");
             assertEquals(major.getUnitsFinancialControl().get(1), "47");
             assertNotNull(major.getAttributes());
-            assertEquals(3, major.getAttributes().size());
+            assertEquals(2, major.getAttributes().size());
             assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
             assertEquals("JAM TART", major.getAttributes().get("CAKES"));
 
@@ -1000,7 +999,7 @@ public class TestProgramServiceImpl {
     private void verifyUpdate(MajorDisciplineInfo updatedMD) {
     	assertNotNull(updatedMD);
 
-        assertEquals(4, updatedMD.getAttributes().size());
+        assertEquals(3, updatedMD.getAttributes().size());
         assertNotNull(updatedMD.getAttributes().get("PIES"));
         assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
 

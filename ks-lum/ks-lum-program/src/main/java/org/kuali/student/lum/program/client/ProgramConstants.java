@@ -1,24 +1,26 @@
 package org.kuali.student.lum.program.client;
 
+
 /**
  * @author Igor
  */
 public class ProgramConstants {
     public static final String PROGRAM_MODEL_ID = "programModelId";
+    public static final String CREDENTIAL_PROGRAM_MODEL_ID = "credentialModelId";
 
     //Identifying Details
     public static final String CODE = "code";
     public static final String PROGRAM_LEVEL = "programLevel";
-    public static final String CREDENTIAL_PROGRAM = "";
+    public static final String CREDENTIAL_PROGRAM = "credentialProgram";
     public static final String PROGRAM_CLASSIFICATION = "universityClassification";
     public static final String DEGREE_TYPE = "resultOptions";
 
     //Dates
     public static final String START_TERM = "startTerm";
-    public static final String ADMIT_TERM = "endInstAdmitTerm";
-    public static final String ENTRY_TERM = "endProgramEntryTerm";
-    public static final String END_TERM = "endTerm";
-    public static final String APPROVAL_DATE = "lastReviewDate";
+    public static final String END_INSTITUTIONAL_ADMIT_TERM = "endInstAdmitTerm";
+    public static final String END_PROGRAM_ENTRY_TERM = "endProgramEntryTerm";
+    public static final String END_PROGRAM_ENROLL_TERM = "endTerm";
+    public static final String PROGRAM_APPROVAL_DATE = "approvalDate";
 
     //Program Title
     public static final String LONG_TITLE = "longTitle";
