@@ -40,6 +40,7 @@ public class BeanPropertiesLoader {
 		this.bean = bean;
 		this.location = location;
 		this.encoding = encoding;
+		this.description = description;
 	}
 
 	public boolean exists() {
