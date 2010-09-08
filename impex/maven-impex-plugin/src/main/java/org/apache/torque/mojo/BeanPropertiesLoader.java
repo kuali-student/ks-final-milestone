@@ -86,10 +86,11 @@ public class BeanPropertiesLoader {
 	}
 
 	protected String getLogValue(String key, String value) {
-		if ("password".equalsIgnoreCase(key) || "dbaPassword".equalsIgnoreCase(key)) {
-			return StringUtils.repeat("*", value.length());
-		} else {
+		int pos = key.toLowerCase().indexOf("password");
+		if (pos == -1) {
 			return value;
+		} else {
+			return StringUtils.repeat("*", value.length());
 		}
 	}
 
