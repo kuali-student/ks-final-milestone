@@ -242,7 +242,15 @@ public class MetadataServiceImpl {
      * @return
      */
     protected boolean isRepeating(FieldDefinition fd){
-        return FieldDefinition.UNBOUNDED.equals(fd.getMaxOccurs());
+    	boolean isRepeating = false;
+    	try {
+    		int maxOccurs = Integer.parseInt(fd.getMaxOccurs());
+    		isRepeating = maxOccurs > 1;
+    	} catch (NumberFormatException nfe){
+    		isRepeating = FieldDefinition.UNBOUNDED.equals(fd.getMaxOccurs());
+    	}
+    	
+        return isRepeating; 
     }
     
     /** 
