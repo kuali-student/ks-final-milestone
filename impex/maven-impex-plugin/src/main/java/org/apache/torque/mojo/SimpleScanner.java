@@ -18,9 +18,15 @@ public class SimpleScanner extends DirectoryScanner {
 
 	public SimpleScanner(File baseDir, String include, String exclude) {
 		super();
-		setBasedir(baseDir);
-		setIncludes(new String[] { include });
-		setExcludes(new String[] { exclude });
+		if (baseDir != null) {
+			setBasedir(baseDir);
+		}
+		if (include != null) {
+			setIncludes(new String[] { include });
+		}
+		if (exclude != null) {
+			setExcludes(new String[] { exclude });
+		}
 	}
 
 	/**
