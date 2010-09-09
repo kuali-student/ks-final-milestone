@@ -451,8 +451,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		
 	    Lo lo = loDao.fetch(Lo.class, loId);
         
-	    // TODO note: this is a temporary workaround for the transactional issue across multiple services. 
-	    loInfo.getMetaInfo().setVersionInd(String.valueOf(lo.getVersionInd()));
         if (!String.valueOf(lo.getVersionInd()).equals(loInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }

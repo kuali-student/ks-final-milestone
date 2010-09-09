@@ -124,7 +124,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 
         try {
             client.updateLo(loId, loInfo);
-//            fail("VersionMismatchException expected");
+            fail("VersionMismatchException expected");
         } catch (VersionMismatchException e) {}
 
         // Detecting expected errors
