@@ -23,11 +23,12 @@ public class ChangeDetector {
 	}
 
 	/**
-	 * Return true if a file in the list of files has a timestamp newer than the control file
+	 * Return true if any file in the list of files has a timestamp newer than the control file or if the control file
+	 * does not exist
 	 */
 	public boolean isChanged() {
 		if (!getControlFile().exists()) {
-			log.debug("File " + controlFile.getAbsolutePath() + " does not exist.  Returning true");
+			log.debug("File " + getControlFile().getAbsolutePath() + " does not exist.  Returning true");
 			return true;
 		}
 		long lastModified = getControlFile().lastModified();
