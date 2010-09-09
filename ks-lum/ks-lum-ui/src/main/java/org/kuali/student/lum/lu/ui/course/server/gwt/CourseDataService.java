@@ -16,25 +16,18 @@
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
-import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 
-public class CreditCourseProposalDataService extends
-AbstractDataService {
+public class CourseDataService extends AbstractDataService {
 
 	private static final long serialVersionUID = 1L;
-	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
+	final static Logger LOG = Logger.getLogger(CourseDataService.class);
 
 	private static final String DEFAULT_METADATA_STATE = "draft";
-
-	private ModifyCreditCourseProposalManager modifyCourseManager;	
+	
 	private CourseService courseService;
 	
 
@@ -62,15 +55,6 @@ AbstractDataService {
 		}
 		return courseInfo;
 	}
-
-	public Data getNewProposalWithCopyOfClu(String dataId) throws OperationFailedException {
-		try {
-			return modifyCourseManager.getNewProposalWithCopyOfClu(dataId);
-		} catch (AssemblyException e) {
-			LOG.error("Copy Failed on id:"+dataId, e);
-			throw new OperationFailedException("Copy Failed on id:"+dataId,e);
-		}
-	}
 	
 	@Override
 	protected String getDefaultMetaDataState() {
@@ -90,11 +74,6 @@ AbstractDataService {
 	@Override
 	protected Class<?> getDtoClass() {
 		return CourseInfo.class;
-	}
-
-	public void setModifyCourseManager(
-			ModifyCreditCourseProposalManager modifyCourseManager) {
-		this.modifyCourseManager = modifyCourseManager;
 	}
 
 	public void setCourseService(CourseService courseService) {

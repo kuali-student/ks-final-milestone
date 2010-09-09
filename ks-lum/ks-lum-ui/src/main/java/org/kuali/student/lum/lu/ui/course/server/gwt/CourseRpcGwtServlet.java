@@ -13,14 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.course.client.service;
+package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcService {
 
-public interface CreditCourseProposalRpcServiceAsync extends CourseRpcServiceAsync{
-
-    public void getNewProposalWithCopyOfClu(String cluId, AsyncCallback<Data> callback);
+	private static final long serialVersionUID = 1L;
 
 }

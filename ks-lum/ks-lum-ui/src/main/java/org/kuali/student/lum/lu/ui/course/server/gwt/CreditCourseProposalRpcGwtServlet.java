@@ -15,20 +15,36 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 
 public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 		CreditCourseProposalRpcService {
 
+	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
+	
 	private static final long serialVersionUID = 1L;
+	ModifyCreditCourseProposalManager modifyCourseManager;
 
 	@Override
 	public Data getNewProposalWithCopyOfClu(String cluId)
 			throws OperationFailedException {
-		return ((CreditCourseProposalRpcService) getDataService()).getNewProposalWithCopyOfClu(cluId);
+		try {
+			return modifyCourseManager.getNewProposalWithCopyOfClu(cluId);
+		} catch (AssemblyException e) {
+			LOG.error("Copy Failed on id:"+cluId, e);
+			throw new OperationFailedException("Copy Failed on id:"+cluId,e);
+		}
+	}
+
+	public void setModifyCourseManager(
+			ModifyCreditCourseProposalManager modifyCourseManager) {
+		this.modifyCourseManager = modifyCourseManager;
 	}
 
 }
