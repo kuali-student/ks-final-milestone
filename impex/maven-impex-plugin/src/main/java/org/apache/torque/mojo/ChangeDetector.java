@@ -1,111 +1,59 @@
 package org.apache.torque.mojo;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class ChangeDetector {
-	private static final Log log = LogFactory.getLog(ChangeDetector.class);
-	String outputDir;
-	String reportFile;
-	List<File> schemaFiles = new ArrayList<File>();
-	List<File> dataFiles = new ArrayList<File>();
+
+	private static final Log log = LogFactory.getLog(ChangeDetectorOld.class);
+	File controlFile;
+	List<File> files;
 
 	public ChangeDetector() {
-		this(null, null, null, null);
+		this(null, null);
 	}
 
-	public ChangeDetector(String outputDir, String reportFile, List<File> schemaFiles, List<File> dataFiles) {
+	public ChangeDetector(File controlFile, List<File> files) {
 		super();
-		this.outputDir = outputDir;
-		this.reportFile = reportFile;
-		this.schemaFiles = schemaFiles;
-		this.dataFiles = dataFiles;
+		this.controlFile = controlFile;
+		this.files = files;
 	}
 
 	/**
-	 * Return true if any of the data XML files have changed of if the schema XML file has changed
+	 * Return true if a file in the list of files has a timestamp newer than the control file
 	 */
 	public boolean isChanged() {
-		if (isDataChanged()) {
+		if (!getControlFile().exists()) {
+			log.debug("File " + controlFile.getAbsolutePath() + " does not exist.  Returning true");
 			return true;
 		}
-		if (isSchemaChanged()) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns true if any of the data XML files have changed since the time the report file was generated
-	 */
-	public boolean isDataChanged() {
-		File report = new File(getOutputDir(), getReportFile());
-		if (!report.exists()) {
-			return true;
-		}
-
-		for (File dataFile : getDataFiles()) {
-			if (dataFile.lastModified() > report.lastModified()) {
+		long lastModified = getControlFile().lastModified();
+		for (File file : files) {
+			if (file.lastModified() > lastModified) {
+				log.debug("File " + file.getAbsolutePath() + " was modified after " + getControlFile().getAbsolutePath() + " was last modified");
 				return true;
 			}
 		}
+		log.debug("No files were modified.");
 		return false;
 	}
 
-	/**
-	 * Returns true if any of the schema XML files have changed since the time the report file was generated
-	 */
-	public boolean isSchemaChanged() {
-		File report = new File(getOutputDir(), getReportFile());
-		if (!report.exists()) {
-			return true;
-		}
-
-		List<File> schemaFiles = getSchemaFiles();
-		for (File schemaFile : schemaFiles) {
-			log.debug("schemaFile.lastModified=" + schemaFile.lastModified() + " " + schemaFile.getAbsolutePath());
-			log.debug("report.lastModified=" + report.lastModified() + " " + report.getAbsolutePath());
-			if (schemaFile.lastModified() > report.lastModified()) {
-				return true;
-			}
-		}
-		return false;
+	public File getControlFile() {
+		return controlFile;
 	}
 
-	public String getOutputDir() {
-		return outputDir;
+	public void setControlFile(File controlFile) {
+		this.controlFile = controlFile;
 	}
 
-	public void setOutputDir(String outputDir) {
-		this.outputDir = outputDir;
+	public List<File> getFiles() {
+		return files;
 	}
 
-	public String getReportFile() {
-		return reportFile;
+	public void setFiles(List<File> files) {
+		this.files = files;
 	}
-
-	public void setReportFile(String reportFile) {
-		this.reportFile = reportFile;
-	}
-
-	public List<File> getSchemaFiles() {
-		return schemaFiles;
-	}
-
-	public void setSchemaFiles(List<File> schemaFiles) {
-		this.schemaFiles = schemaFiles;
-	}
-
-	public List<File> getDataFiles() {
-		return dataFiles;
-	}
-
-	public void setDataFiles(List<File> dataFiles) {
-		this.dataFiles = dataFiles;
-	}
-
 }
