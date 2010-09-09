@@ -1,5 +1,6 @@
 package org.kuali.student.lum.course.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -25,14 +27,17 @@ import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -258,4 +263,82 @@ public class CourseServiceImpl implements CourseService {
     public void setLuService(LuService luService) {
         this.luService = luService;
     }
+
+	@Override
+	public CourseInfo createNewCourseVersion(String versionIndCourseId,
+			String versionComment) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException {
+		
+		//step one, get the original course
+		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, versionIndCourseId);
+		CourseInfo originalCourse = getCourse(currentVersion.getId());
+		
+		//Version the Clu
+		CluInfo newVersionClu = luService.createNewCluVersion(versionIndCourseId, versionComment);
+
+		try {
+	        BaseDTOAssemblyNode<CourseInfo, CluInfo> results;
+	        
+	        //Integrate changes into the original course. (should this just be just the id?)
+			courseAssembler.assemble(newVersionClu, originalCourse, true);
+			
+			//Clear Ids from the original course 
+			resetIds(originalCourse);
+			
+			//Disassemble the new course
+			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE);
+	        
+			// Use the results to make the appropriate service calls here
+			courseServiceMethodInvoker.invokeServiceCalls(results);		
+		    
+			return results.getBusinessDTORef();
+		} catch (AlreadyExistsException e) {
+			throw new OperationFailedException("Error creating new course version",e);
+		} catch (DependentObjectsExistException e) {
+			throw new OperationFailedException("Error creating new course version",e);
+		} catch (CircularRelationshipException e) {
+			throw new OperationFailedException("Error creating new course version",e);
+		} catch (UnsupportedActionException e) {
+			throw new OperationFailedException("Error creating new course version",e);
+		} catch (AssemblyException e) {
+			throw new OperationFailedException("Error creating new course version",e);
+		}
+
+	}
+
+	private void resetIds(CourseInfo course) {
+		//Clear/Reset Joint info ids
+		for(CourseJointInfo joint:course.getJoints()){
+			joint.setCourseId(course.getId());
+		}
+		//Clear Los
+		for(LoDisplayInfo lo:course.getCourseSpecificLOs()){
+			resetLoRecursively(lo);
+		}
+		//Clear format/activity ids
+		for(FormatInfo format:course.getFormats()){
+			format.setId(null);
+			for(ActivityInfo activity:format.getActivities()){
+				activity.setId(null);
+			}
+		}
+	}
+	
+	private void resetLoRecursively(LoDisplayInfo lo){
+		lo.getLoInfo().setId(null);
+		for(LoDisplayInfo nestedLo:lo.getLoDisplayInfoList()){
+			resetLoRecursively(nestedLo);
+		}
+	}
+
+	@Override
+	public StatusInfo setCurrentCourseVersion(String courseVersionId,
+			Date currentVersionStart) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			IllegalVersionSequencingException, OperationFailedException,
+			PermissionDeniedException {
+		return luService.setCurrentCluVersion(courseVersionId, currentVersionStart);
+	}
 }

@@ -910,8 +910,6 @@ public interface LuService extends DictionaryService, SearchService, VersionMana
      * The currentVersionStart must be in the future to prevent changing historic data. 
      * @param cluVersionId Version Specific Id of the Clu
      * @param currentVersionStart Date when this clu becomes current. Must be in the future and be after the most current clu's start date. 
-     * @param previousState State for the existing current clu
-     * @param newState State for the clu that is being marked current
      * @return status of the operation
      * @throws DoesNotExistException cluVersionId not found
      * @throws InvalidParameterException invalid cluVersionId, previousState, newState
@@ -920,7 +918,7 @@ public interface LuService extends DictionaryService, SearchService, VersionMana
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo setCurrentCluVersion(@WebParam(name="cluVersionId")String cluVersionId, @WebParam(name="currentVersionStart")Date currentVersionStart, @WebParam(name="previousState")String previousState, @WebParam(name="newState")String newState ) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo setCurrentCluVersion(@WebParam(name="cluVersionId")String cluVersionId, @WebParam(name="currentVersionStart")Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates the state of the specified CLU

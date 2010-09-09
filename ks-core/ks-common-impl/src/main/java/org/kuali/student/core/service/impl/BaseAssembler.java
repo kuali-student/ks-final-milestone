@@ -184,6 +184,7 @@ public class BaseAssembler {
 		versionInfo.setSequenceNumber(version.getSequenceNumber());
 		versionInfo.setVersionComment(version.getVersionComment());
 		versionInfo.setVersionIndId(version.getVersionIndId());
+		versionInfo.setPrevVersionId(version.getPrevVersionId());
 		
 		return versionInfo;
 	}

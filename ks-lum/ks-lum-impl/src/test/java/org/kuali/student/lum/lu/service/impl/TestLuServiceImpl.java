@@ -2829,12 +2829,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		try{
 			//Try to set the start date in the past
-			client.setCurrentCluVersion(cluV1.getId(), DF.parse("19000101"), null, null);
+			client.setCurrentCluVersion(cluV1.getId(), DF.parse("19000101"));
 			assertTrue(false);
 		}catch(Exception e){}
 		
 		//Make the current version
-		client.setCurrentCluVersion(cluV1.getId(), null, null, null);
+		client.setCurrentCluVersion(cluV1.getId(), null);
 		
 		CluInfo justMadeCurrentClu = client.getClu(cluV1.getId());
 		assertTrue(justMadeCurrentClu.getVersionInfo().getCurrentVersionStart().compareTo(new Date())<1);
@@ -2846,7 +2846,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(cluV1.getId(),versionDisplayInfo.getId());
 		assertEquals(cluV1.getVersionInfo().getVersionIndId(),cluV2.getVersionInfo().getVersionIndId());
 		assertEquals(cluV1.getVersionInfo().getVersionIndId(),cluV3.getVersionInfo().getVersionIndId());
-		client.setCurrentCluVersion(cluV3.getId(), null, null, null);
+		client.setCurrentCluVersion(cluV3.getId(), null);
 		versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId());
 		assertEquals(versionDisplayInfo.getId(),cluV3.getId());
 	}

@@ -35,6 +35,7 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
@@ -153,8 +154,11 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
     private MetaInfo metaInfo;
-
-    @XmlAttribute
+    
+    @XmlElement
+    private VersionInfo versionInfo;
+    
+	@XmlAttribute
     private String type;
 
     @XmlAttribute
@@ -600,5 +604,12 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     public void setId(String id) {
         this.id = id;
     }
-    
+
+    public VersionInfo getVersionInfo() {
+		return versionInfo;
+	}
+
+	public void setVersionInfo(VersionInfo versionInfo) {
+		this.versionInfo = versionInfo;
+	}    
 }

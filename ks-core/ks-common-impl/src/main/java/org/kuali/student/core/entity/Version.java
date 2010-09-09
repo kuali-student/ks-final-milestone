@@ -23,6 +23,12 @@ public class Version {
     @Column(name = "CURR_VER_END")
     private Date currentVersionEnd;
 
+    @Column(name = "PREV_VER_ID")
+    private String prevVersionId;
+
+	@Column(name = "VER_CMT")
+    private String versionComment;
+	
 	public Date getCurrentVersionStart() {
 		return currentVersionStart;
 	}
@@ -38,9 +44,6 @@ public class Version {
 	public void setCurrentVersionEnd(Date currentVersionEnd) {
 		this.currentVersionEnd = currentVersionEnd;
 	}
-
-	@Column(name = "VER_CMT")
-    private String versionComment;
             
     public String getVersionIndId() {
         return versionIndId;
@@ -58,7 +61,6 @@ public class Version {
         this.sequenceNumber = sequenceNumber;
     }
 
-
     public String getVersionComment() {
         return versionComment;
     }
@@ -66,5 +68,12 @@ public class Version {
     public void setVersionComment(String versionComment) {
         this.versionComment = versionComment;
     }
+    
+    public String getPrevVersionId() {
+		return prevVersionId;
+	}
 
+	public void setPrevVersionId(String prevVersionId) {
+		this.prevVersionId = prevVersionId;
+	}
 }

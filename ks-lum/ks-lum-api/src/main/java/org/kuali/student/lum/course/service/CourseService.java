@@ -7,6 +7,7 @@
  */
 package org.kuali.student.lum.course.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -20,6 +21,7 @@ import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -318,5 +320,42 @@ public interface CourseService extends DictionaryService {
      * @throws OperationFailedException
      *             unable to complete request
      */
-    public List<ValidationResultInfo> validateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo)  throws InvalidParameterException, MissingParameterException, OperationFailedException;    
+    public List<ValidationResultInfo> validateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo)  throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    
+    
+
+    /** 
+     * Creates a new Course version based on the current course
+     * @param courseId identifier for the Course to be versioned
+     * @param versionComment comment for the current version
+     * @return the new versioned Course information
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException courseId not found
+     * @throws InvalidParameterException invalid courseId
+     * @throws MissingParameterException missing courseId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     */
+    public CourseInfo createNewCourseVersion(@WebParam(name="courseId")String courseId, @WebParam(name="versionComment")String versionComment) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    
+    /** 
+     * Sets a specific version of the Course as current. The sequence number must be greater than the existing current Course version.
+     * This will truncate the current version's end date to the currentVersionStart param.
+     * If a Course exists which is set to become current in the future, that course's currentVersionStart and CurrentVersionEnd will be nullified.
+     * The currentVersionStart must be in the future to prevent changing historic data. 
+     * @param courseVersionId Version Specific Id of the Course
+     * @param currentVersionStart Date when this course becomes current. Must be in the future and be after the most current course's start date. 
+     * @return status of the operation
+     * @throws DoesNotExistException courseVersionId not found
+     * @throws InvalidParameterException invalid courseVersionId, previousState, newState
+     * @throws MissingParameterException missing courseVersionId, previousState, newState
+     * @throws IllegalVersionSequencingException a Course with higher sequence number from the one provided is marked current
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo setCurrentCourseVersion(@WebParam(name="courseVersionId")String courseVersionId, @WebParam(name="currentVersionStart")Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
+
 }

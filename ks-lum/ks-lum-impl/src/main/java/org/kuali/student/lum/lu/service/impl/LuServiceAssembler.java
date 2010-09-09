@@ -1348,18 +1348,4 @@ public class LuServiceAssembler extends BaseAssembler {
             clu.getAlternateIdentifiers().add(identifier);
         }
     }
-
-	public static Version toVersion(VersionInfo versionInfo) {
-		if(versionInfo==null){
-			return null;
-		}
-		Version version = new Version();
-		
-		version.setCurrentVersionStart(versionInfo.getCurrentVersionStart());
-		version.setCurrentVersionEnd(versionInfo.getCurrentVersionEnd());
-		version.setSequenceNumber(versionInfo.getSequenceNumber());
-		version.setVersionComment(versionInfo.getVersionComment());
-		return version;
-	}
-
 }

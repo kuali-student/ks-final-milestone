@@ -20,7 +20,6 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
@@ -38,7 +37,7 @@ public class VersionDisplayInfo implements Serializable  {
 	public VersionDisplayInfo(String id, String versionIndId,
 			Long sequenceNumber,
 			Date currentVersionStart, Date currentVersionEnd,
-			String versionComment) {
+			String versionComment, String prevVersionId) {
 		super();
 		this.id = id;
 		this.versionIndId = versionIndId;
@@ -46,6 +45,7 @@ public class VersionDisplayInfo implements Serializable  {
 		this.currentVersionStart = currentVersionStart;
 		this.currentVersionEnd = currentVersionEnd;
 		this.versionComment = versionComment;
+		this.prevVersionId = prevVersionId;
 	}
 
 	public VersionDisplayInfo() {
@@ -71,11 +71,22 @@ public class VersionDisplayInfo implements Serializable  {
 	@XmlElement
     private Date currentVersionEnd;
 
-    @XmlAttribute
+    @XmlElement
     private String versionComment;
 
+    @XmlElement
+    private String prevVersionId;
 
-    /**
+
+    public String getPrevVersionId() {
+		return prevVersionId;
+	}
+
+	public void setPrevVersionId(String prevVersionId) {
+		this.prevVersionId = prevVersionId;
+	}
+
+	/**
      * Version specific id of the entity
      */
     public String getId() {

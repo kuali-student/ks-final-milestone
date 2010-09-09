@@ -61,7 +61,6 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -2856,6 +2855,7 @@ public class LuServiceImpl implements LuService {
     		version.setCurrentVersionStart(null);
     		version.setCurrentVersionEnd(null);
     		version.setVersionComment(versionComment);
+    		version.setPrevVersionId(currentClu.getId());
     		clu.setVersion(version);
     		luDao.create(clu);
             newClu = LuServiceAssembler.toCluInfo(clu); 
@@ -2901,7 +2901,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-    public StatusInfo setCurrentCluVersion(String cluVersionId, Date currentVersionStart, String previousState, String newState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo setCurrentCluVersion(String cluVersionId, Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
         //Check params
 		Date currentDbDate = new Date();//FIXME, this should be DB time
 		if(currentVersionStart!=null&&currentVersionStart.compareTo(currentDbDate)<0){
@@ -2911,8 +2911,6 @@ public class LuServiceImpl implements LuService {
 		if(currentVersionStart==null){
 			currentVersionStart = currentDbDate;
 		}
-		
-		//TODO update states... Should states really change for versioning? should they just be approved or not?
 		
 		//get the clu we are setting as current 
 		Clu clu = luDao.fetch(Clu.class, cluVersionId);
