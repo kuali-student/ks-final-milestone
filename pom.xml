@@ -103,7 +103,7 @@
 
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
-    <ks.java2ws.phase>process-classes</ks.java2ws.phase>
+    <ks.java2ws.phase>none</ks.java2ws.phase>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <profiles>
