@@ -19,6 +19,8 @@ package org.apache.torque.mojo;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.types.FileSet;
@@ -68,7 +70,7 @@ public abstract class SqlMojoBase extends DataModelTaskMojo {
 			getLog().debug("Adding suffix: " + getSuffix());
 			task.setSuffix(getSuffix());
 		}
-		FileSet fileSet = getSchemaXMLFileSet();
+		FileSet fileSet = getAntFileSet(new File(getSchemaDir()), getSchemaIncludes(), getSchemaExcludes());
 		task.addFileset(fileSet);
 	}
 

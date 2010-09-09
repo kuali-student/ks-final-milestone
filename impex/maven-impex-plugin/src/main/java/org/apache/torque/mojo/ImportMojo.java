@@ -20,7 +20,6 @@ package org.apache.torque.mojo;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -48,6 +47,8 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	private String schema;
 
 	/**
+	 * This is the directory to scan for SQL files to import. ${targetDatabase} gets appended to this value
+	 * 
 	 * @parameter expression="${importDir}" default-value="${project.build.directory}/classes/sql"
 	 * @required
 	 */
@@ -80,17 +81,6 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 		importDir = new File(path);
 	}
 
-	protected List<File> getFiles(Fileset fileset) {
-		fileset.scan();
-		String[] includedFiles = fileset.getIncludedFiles();
-		List<File> files = new ArrayList<File>();
-		for (String includedFile : includedFiles) {
-			String filename = importDir.getAbsolutePath() + FS + includedFile;
-			files.add(new File(filename));
-		}
-		return files;
-	}
-
 	protected Vector<Transaction> getTransactions(List<File> files) {
 		Vector<Transaction> transactions = new Vector<Transaction>();
 		for (File file : files) {
@@ -104,18 +94,9 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	@Override
 	protected void configureTransactions() throws MojoExecutionException {
 		updateImportDir();
-		Fileset fileset = getFileset();
-		List<File> files = getFiles(fileset);
+		List<File> files = new SimpleScanner(importDir, importDirIncludes, importDirExcludes).getFiles();
 		transactions = getTransactions(files);
 		sortTransactions(transactions);
-	}
-
-	protected Fileset getFileset() {
-		Fileset fileset = new Fileset();
-		fileset.setBasedir(importDir);
-		fileset.setExcludes(new String[] { importDirExcludes });
-		fileset.setIncludes(new String[] { importDirIncludes });
-		return fileset;
 	}
 
 	/**

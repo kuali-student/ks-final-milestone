@@ -1,12 +1,11 @@
 package org.apache.torque.mojo;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.torque.task.TorqueDataModelTask;
 import org.kuali.core.db.torque.PropertyHandlingException;
@@ -42,6 +41,24 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	 */
 	String suffix = "";
 
+	protected File getCanonicalReportFile() throws MojoExecutionException {
+		try {
+			String filename = getOutputDir() + FS + getReportFile();
+			File file = new File(filename);
+			return file.getCanonicalFile();
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error with report file", e);
+		}
+	}
+
+	protected FileSet getAntFileSet(File baseDir, String includes, String excludes) {
+		FileSet fileSet = new FileSet();
+		fileSet.setDir(baseDir);
+		fileSet.setIncludes(includes);
+		fileSet.setExcludes(excludes);
+		return fileSet;
+	}
+
 	/**
 	 * Validate that some essential configuration items are present
 	 */
@@ -54,18 +71,28 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 		}
 	}
 
+	protected String getInvalidTargetDatabaseMessage() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n\n");
+		sb.append("Target database of '" + getTargetDatabase() + "' is invalid.\n\n");
+		sb.append("Valid values are " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()) + ".\n\n");
+		sb.append("Specify targetDatabase in the plugin configuration or as a system property.\n\n");
+		sb.append("For example:\n-DtargetDatabase=oracle\n\n.");
+		return sb.toString();
+	}
+
 	/**
 	 * Validate that some essential configuration items are present
 	 */
 	protected void validateConfiguration() throws MojoExecutionException {
 		if (StringUtils.isEmpty(getTargetDatabase())) {
-			throw new MojoExecutionException("\n\nDatabase type of '" + getTargetDatabase() + "' is invalid.  Valid values are " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()) + ".\n\nSpecify database type in the plugin configuration or as a system property.\n\n For example:\n-DtargetDatabase=oracle\n\n.");
+			throw new MojoExecutionException(getInvalidTargetDatabaseMessage());
 		}
 
 		try {
 			DatabaseType.valueOf(getTargetDatabase().toUpperCase());
 		} catch (IllegalArgumentException e) {
-			throw new MojoExecutionException("\n\nDatabase type of '" + getTargetDatabase() + "' is invalid.  Valid values are " + org.springframework.util.StringUtils.arrayToCommaDelimitedString(DatabaseType.values()) + ".\n\nSpecify database type in the plugin configuration or as a system property.\n\n For example:\n-DtargetDatabase=oracle\n\n.");
+			throw new MojoExecutionException(getInvalidTargetDatabaseMessage());
 		}
 	}
 
@@ -162,29 +189,8 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 		}
 	}
 
-	protected FileSet getSchemaXMLFileSet() {
-		FileSet fileSet = new FileSet();
-		fileSet.setDir(new File(getSchemaDir()));
-		fileSet.setIncludes(getSchemaIncludes());
-		fileSet.setExcludes(getSchemaExcludes());
-		return fileSet;
-	}
-
-	protected List<File> getFiles(FileSet fileSet) {
-		DirectoryScanner directoryScanner = fileSet.getDirectoryScanner(getAntProject());
-		List<File> files = new ArrayList<File>();
-		String[] fileNames = directoryScanner.getIncludedFiles();
-		File srcDir = directoryScanner.getBasedir();
-		for (int i = 0; i < fileNames.length; ++i) {
-			File file = new File(srcDir, fileNames[i]);
-			files.add(file);
-		}
-		return files;
-	}
-
 	protected List<File> getSchemaFiles() {
-		FileSet schemaXMLFileSet = getSchemaXMLFileSet();
-		return getFiles(schemaXMLFileSet);
+		return new SimpleScanner(new File(getSchemaDir()), getSchemaIncludes(), getSchemaExcludes()).getFiles();
 	}
 
 	/**

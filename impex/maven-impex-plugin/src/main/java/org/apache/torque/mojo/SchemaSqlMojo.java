@@ -54,8 +54,8 @@ public class SchemaSqlMojo extends SqlMojoBase {
 		configureTask();
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
-		ChangeDetector detector = new ChangeDetector(getOutputDir(), getReportFile(), getSchemaFiles(), null);
-		if (!detector.isSchemaChanged() && isRunOnlyOnSchemaChange()) {
+		ChangeDetector detector = new ChangeDetector(getCanonicalReportFile(), getSchemaFiles());
+		if (!detector.isChanged() && isRunOnlyOnSchemaChange()) {
 			getLog().info("Schema has not changed.  Skipping generation");
 			return;
 		}

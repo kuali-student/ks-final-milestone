@@ -98,7 +98,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 		configureTask();
 		addTargetDatabaseToOutputDir();
 		addTargetDatabaseToReportFile();
-		ChangeDetector detector = new ChangeDetector(getOutputDir(), getReportFile(), getSchemaFiles(), getDataFiles());
+		ChangeDetectorOld detector = new ChangeDetectorOld(getOutputDir(), getReportFile(), getSchemaFiles(), getDataFiles());
 		if (!detector.isChanged() && isRunOnlyOnChange()) {
 			getLog().info("------------------------------------------------------------------------");
 			getLog().info("Data and schema are unchanged.  Skipping generation.");
@@ -112,8 +112,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 	}
 
 	protected List<File> getDataFiles() {
-		FileSet dataXMLFileSet = getDataXMLFileSet();
-		return getFiles(dataXMLFileSet);
+		return new SimpleScanner(getDataXMLDir(), getDataXMLIncludes(), getDataXMLExcludes()).getFiles();
 	}
 
 	/**

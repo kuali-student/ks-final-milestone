@@ -23,8 +23,8 @@ public class ChangeDetector {
 	}
 
 	/**
-	 * Return true if any file in the list of files has a timestamp newer than the control file or if the control file
-	 * does not exist
+	 * Return true if any file in the list of files has a last modified timestamp newer than the control file or if the
+	 * control file does not exist
 	 */
 	public boolean isChanged() {
 		if (!getControlFile().exists()) {
@@ -32,7 +32,7 @@ public class ChangeDetector {
 			return true;
 		}
 		long lastModified = getControlFile().lastModified();
-		for (File file : files) {
+		for (File file : getFiles()) {
 			if (file.lastModified() > lastModified) {
 				log.debug("File " + file.getAbsolutePath() + " was modified after " + getControlFile().getAbsolutePath() + " was last modified");
 				return true;
