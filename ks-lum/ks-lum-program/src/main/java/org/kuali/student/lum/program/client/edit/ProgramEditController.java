@@ -3,6 +3,7 @@ package org.kuali.student.lum.program.client.edit;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -30,8 +31,8 @@ public class ProgramEditController extends ProgramController {
      *
      * @param programModel
      */
-    public ProgramEditController(DataModel programModel) {
-        super(programModel);
+    public ProgramEditController(DataModel programModel, ViewContext viewContext) {
+        super(programModel, viewContext);
         configurer = GWT.create(ProgramEditConfigurer.class);
         initHandlers();
         initializeConfirmDialog();
@@ -81,7 +82,7 @@ public class ProgramEditController extends ProgramController {
     }
 
     private void doCancel() {
-        HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW");
+        HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", getViewContext());
     }
 
     private void doSave() {

@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.view.variation;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
@@ -12,8 +13,8 @@ public class VariationViewController extends ProgramController{
 
 	public static final String parentLinkUrlBase = GWT.getModuleBaseURL() + "/HOME/CURRICULUM_HOME/PROGRAM_VIEW";
 	
-	public VariationViewController(DataModel programModel) {
-		super(programModel);
+	public VariationViewController(DataModel programModel, ViewContext viewContext) {
+		super(programModel, viewContext);
         configurer = GWT.create(VariationViewConfigurer.class);   
 	}
 

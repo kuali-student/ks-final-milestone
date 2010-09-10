@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.edit.ProgramEditController;
 import org.kuali.student.lum.program.client.view.ProgramViewController;
@@ -13,10 +14,12 @@ public class ProgramManager {
     private ProgramViewController programViewController;
 
     private ProgramEditController programEditController;
-    
+
     private VariationViewController variationViewController;
 
     protected DataModel programModel;
+
+    private ViewContext viewContext = new ViewContext();
 
     public ProgramManager() {
         programModel = new DataModel();
@@ -24,28 +27,26 @@ public class ProgramManager {
 
     public ProgramViewController getProgramViewController() {
         if (programViewController == null) {
-            programViewController = new ProgramViewController(programModel);
+            programViewController = new ProgramViewController(programModel, viewContext);
+        } else {
+            programModel.resetRoot();
         }
         return programViewController;
     }
 
     public VariationViewController getVariationViewController() {
         if (variationViewController == null) {
-        	variationViewController = new VariationViewController(programModel);
+            variationViewController = new VariationViewController(programModel, viewContext);
         }
         return variationViewController;
     }
-    
-    public ProgramEditController getProgramEditController(boolean create) {
+
+    public ProgramEditController getProgramEditController() {
         if (programEditController == null) {
-            programEditController = new ProgramEditController(programModel);
+            programEditController = new ProgramEditController(programModel, viewContext);
+        } else {
+            programModel.resetRoot();
         }
-        /*
-        if (create) {
-            programEditController.getViewContext().setId(null);
-            programEditController.programModel = new DataModel();
-        }
-        */
         return programEditController;
     }
 }

@@ -62,9 +62,9 @@ public class CurriculumHomeController extends LayoutController {
             case PROGRAM_VIEW:
                 return programManager.getProgramViewController();
             case PROGRAM_EDIT:
-                return programManager.getProgramEditController(false);
+                return programManager.getProgramEditController();
             case PROGRAM_CREATE:
-                return programManager.getProgramEditController(true);
+                return programManager.getProgramEditController();
             case CLU_SETS:
                 return getCluSetsController();
             case COURSE_CATALOG:

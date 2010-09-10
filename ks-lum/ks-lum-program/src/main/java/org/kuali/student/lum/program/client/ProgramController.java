@@ -1,12 +1,9 @@
 package org.kuali.student.lum.program.client;
 
+import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
@@ -14,8 +11,6 @@ import org.kuali.student.lum.program.client.framework.AbstractCallback;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
-
-import com.google.gwt.core.client.GWT;
 
 /**
  * @author Igor
@@ -35,10 +30,10 @@ public class ProgramController extends MenuSectionController {
      *
      * @param programModel
      */
-    public ProgramController(DataModel programModel) {
+    public ProgramController(DataModel programModel, ViewContext viewContext) {
         super("");
         this.programModel = programModel;
-        setViewContext(new ViewContext());
+        setViewContext(viewContext);
         initializeModel();
     }
 
@@ -157,6 +152,6 @@ public class ProgramController extends MenuSectionController {
      */
     private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
         configureView();
-        showDefaultView(onReadyCallback);
+        onReadyCallback.exec(true);
     }
 }
