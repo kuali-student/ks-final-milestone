@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.tools.ant.types.FileSet;
 import org.kuali.core.db.torque.KualiTorqueDataSQLTask;
 
 /**
@@ -135,17 +134,9 @@ public class DataSqlMojo extends DataModelTaskMojo {
 		setAntTask(task);
 		super.configureTask();
 		task.setDataDTD(getDataDTD());
-		task.addFileset(getDataXMLFileSet());
+		task.addFileset(getAntFileSet(getDataXMLDir(), getDataXMLIncludes(), getDataXMLExcludes()));
 		task.setXmlFile(getSchemaXMLFile().getAbsolutePath());
 		task.setTargetDatabase(getTargetDatabase());
-	}
-
-	protected FileSet getDataXMLFileSet() {
-		FileSet fileset = new FileSet();
-		fileset.setDir(getDataXMLDir());
-		fileset.setIncludes(getDataXMLIncludes());
-		fileset.setExcludes(getDataXMLExcludes());
-		return fileset;
 	}
 
 	/**
