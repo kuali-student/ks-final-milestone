@@ -14,6 +14,7 @@
       <artifactId>ks-standard-sec</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!--  
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-test</artifactId>
@@ -26,6 +27,7 @@
       <type>pom</type>
       <scope>test</scope>
     </dependency>
+    -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
