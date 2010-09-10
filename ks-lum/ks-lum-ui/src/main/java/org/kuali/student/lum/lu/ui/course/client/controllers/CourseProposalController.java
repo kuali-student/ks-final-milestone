@@ -417,9 +417,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-        		/* This is to update model with data from current section only */
-                //getCurrentView().updateModel();
-                CourseProposalController.this.updateModel();
+                CourseProposalController.this.updateModelFromCurrentView();
 
                 if (isStartViewShowing()){
                 	//This call required so fields in start section, which also appear in
