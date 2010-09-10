@@ -11,7 +11,7 @@ import com.google.gwt.dom.client.Style;
 
 public class VariationViewController extends ProgramController{
 
-	public static final String parentLinkUrlBase = GWT.getModuleBaseURL() + "/HOME/CURRICULUM_HOME/PROGRAM_VIEW";
+	public static final String parentLinkbaseURL = GWT.getModuleBaseURL() + "LUMMain.jsp#/HOME/CURRICULUM_HOME/PROGRAM_VIEW";
 	
 	public VariationViewController(DataModel programModel, ViewContext viewContext) {
 		super(programModel, viewContext);
@@ -36,7 +36,7 @@ public class VariationViewController extends ProgramController{
         this.setContentTitle("Specialization of " + mdTitle);
 
         HTML parentLink = new HTML("Parent Program");
-		parentLink.setHTML("<br><b>Parent Program: </b><a href=\"" + GWT.getModuleBaseURL()+"LUMMain.jsp#/HOME/CURRICULUM_HOME/PROGRAM_VIEW&docId=" + mdId + "\"><b>" + mdTitle + "</b></a>");
+		parentLink.setHTML("<br><b>Parent Program: </b><a href=\"" + parentLinkbaseURL + "&docId=" + mdId + "\"><b>" + mdTitle + "</b></a>");
         parentLink.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
         parentLink.getElement().getStyle().setFontSize(3, Style.Unit.PX);
         this.addContentWidget(parentLink);
