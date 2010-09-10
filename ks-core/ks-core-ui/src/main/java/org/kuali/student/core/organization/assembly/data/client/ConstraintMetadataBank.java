@@ -825,10 +825,10 @@ public class ConstraintMetadataBank
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.active");
 		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
-		consMeta.setDesc ("Must be \"active\"");
+		consMeta.setDesc ("Must be \"Active\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("active");
+		consMeta.setValidChars ("Active");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
@@ -1305,7 +1305,7 @@ public class ConstraintMetadataBank
 		
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("default.active");
-		consMeta.setDesc ("Defaults to \"active\"");
+		consMeta.setDesc ("Defaults to \"Active\"");
 		consMeta.setComments ("Not sure how to implement defaults");
 		consMeta.setServerSide (true);
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);

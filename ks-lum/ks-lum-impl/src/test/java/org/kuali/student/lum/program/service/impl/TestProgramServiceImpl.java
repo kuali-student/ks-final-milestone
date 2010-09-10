@@ -417,7 +417,7 @@ public class TestProgramServiceImpl {
             assertEquals("Zooarchaeology", pvInfo.getLongTitle());
             assertEquals("ZooArch", pvInfo.getShortTitle());
             assertEquals("VAR-200", pvInfo.getId());
-            assertEquals("active", pvInfo.getState());
+            assertEquals("Active", pvInfo.getState());
 
         } catch (Exception e) {
             e.printStackTrace();

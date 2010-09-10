@@ -63,7 +63,7 @@ public class ViewCourseController extends TabbedSectionLayout {
     private String cluType = "kuali.lu.type.CreditCourse";
     private String courseId = null;
     
-    private static final String CLU_STATE = "active";
+    private static final String CLU_STATE = "Active";
     private static final String COURSE_CODE_PATH   = "courseCode";
     
     private final String REFERENCE_TYPE = "referenceType.clu";

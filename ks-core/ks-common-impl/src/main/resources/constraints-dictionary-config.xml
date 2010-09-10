@@ -794,7 +794,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraint key="hard.coded.active" id="constraint.hard.coded.active" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "active" -->
 		<dict:validChars>
-		<dict:value>regex:active</dict:value>
+		<dict:value>regex:Active</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 

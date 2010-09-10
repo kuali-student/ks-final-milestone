@@ -118,16 +118,16 @@
         EXPIR_DT="20000101000000" ID="41" SORT_KEY="41" VAL="Submitted but not yet approved"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="withdrawn" CD="withdrawn"
         EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="42" SORT_KEY="42" VAL="Withdrawn (anytime before activated)"/>
+        EXPIR_DT="20000101000000" ID="42" SORT_KEY="42" VAL="Withdrawn (anytime before active)"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="approved" CD="approved"
         EFF_DT="20000101000000" ENUM_KEY="kuali.state"
         EXPIR_DT="20000101000000" ID="43" SORT_KEY="43" VAL="Approved"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="rejected" CD="rejected"
         EFF_DT="20000101000000" ENUM_KEY="kuali.state"
         EXPIR_DT="20000101000000" ID="44" SORT_KEY="44" VAL="Not approved (rejected)"/>
-    <KSEM_ENUM_VAL_T ABBREV_VAL="activated" CD="activated"
+    <KSEM_ENUM_VAL_T ABBREV_VAL="Active" CD="Active"
         EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="45" SORT_KEY="45" VAL="Activated and ready to be published"/>
+        EXPIR_DT="20000101000000" ID="45" SORT_KEY="45" VAL="Active and ready to be published"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="retired" CD="retired"
         EFF_DT="20000101000000" ENUM_KEY="kuali.state"
         EXPIR_DT="20000101000000" ID="46" SORT_KEY="46" VAL="Retired/No longer active"/>

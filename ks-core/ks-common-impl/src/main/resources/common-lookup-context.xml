@@ -737,7 +737,7 @@
 							<value>submitted</value>
 							<value>withdrawn</value>
 							<value>approved</value>
-							<value>activated</value>
+							<value>Active</value>
 							<!-- do not show rejected or retired <value>rejected</value> -->
 						</list>
 					</property>
@@ -817,7 +817,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>activated</value>
+							<value>Active</value>
 							<!-- do not show retired: <value>retired</value> -->
 						</list>
 					</property>
@@ -1041,7 +1041,7 @@
 					<property name="defaultValueList">
 						<list>
 							<value>approved</value>
-							<value>activated</value>
+							<value>Active</value>
 						</list>
 					</property>	
 					<property name="caseSensitive" value="true" />
@@ -1114,7 +1114,7 @@
 					<property name="defaultValueList">
 						<list>
 							<value>approved</value>
-							<value>activated</value>
+							<value>Active</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />

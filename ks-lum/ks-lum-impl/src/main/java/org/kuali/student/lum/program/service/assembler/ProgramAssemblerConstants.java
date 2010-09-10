@@ -56,7 +56,7 @@ public class ProgramAssemblerConstants {
 
 	// clu states
 	public static final String DRAFT = "draft";
-	public static final String ACTIVE = "active"; // also use for identifiers
+	public static final String ACTIVE = "Active"; // also use for identifiers
 													// and relations
 	public static final String SUPERSEDED = "superseded";
 	public static final String SUSPENDED = "suspended";

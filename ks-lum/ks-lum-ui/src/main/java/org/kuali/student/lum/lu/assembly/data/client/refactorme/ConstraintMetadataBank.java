@@ -845,10 +845,10 @@ public class ConstraintMetadataBank
 		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.active");
 		//consMeta.setMessageId ("kuali.msg.validation.hard.coded");
-		consMeta.setDesc ("Must be \"active\"");
+		consMeta.setDesc ("Must be \"Active\"");
 		consMeta.setServerSide (true);
 		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
-		consMeta.setValidChars ("regex:active");
+		consMeta.setValidChars ("regex:Active");
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 
 		consMeta = new ConstraintMetadata ();

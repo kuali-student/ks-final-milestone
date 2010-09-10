@@ -1536,13 +1536,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		// update and confirm it was updated
 		LuiInfo updatedLui = client.updateLuiState(createdLui.getId(),
-				"Activated");
-		assertEquals("Activated", updatedLui.getState());
+				"Active");
+		assertEquals("Active", updatedLui.getState());
 
 		// and now explicitly retrieve it without a call to updateLuiState and
 		// confirm same
 		updatedLui = client.getLui(createdLui.getId());
-		assertEquals("Activated", updatedLui.getState());
+		assertEquals("Active", updatedLui.getState());
 
 		// and delete it to keep db consistent for other tests
 		client.deleteLui(updatedLui.getId());
@@ -1816,7 +1816,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		CluIdentifierInfo cluId1 = new CluIdentifierInfo();
 		cluId1.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
-		cluId1.setState("active");
+		cluId1.setState("Sctive");
 		cluId1.setCode("cluIdonecode");
 		cluId1.setDivision("cluIdonedivision");
 		cluId1.setLevel("cluIdonelevel");
@@ -1832,7 +1832,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluIdentifierInfo cluId2 = new CluIdentifierInfo();
 		// Check for different type validations
 		cluId2.setType("kuali.lu.type.CreditCourse.identifier.version");
-		cluId2.setState("active");
+		cluId2.setState("Sctive");
 		cluId2.setCode("cluIdtwocode");
 		cluId2.setDivision("cluIdtwodivision");
 		cluId2.setLevel("cluIdtwolevel");
@@ -2289,7 +2289,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		queryParamValues.add(sp1);
 		SearchParam sp2 = new SearchParam();
 		sp2.setKey("lu.queryParam.cluState");
-		sp2.setValue("activated");
+		sp2.setValue("Active");
 		queryParamValues.add(sp2);
 
 		MembershipQueryInfo query = new MembershipQueryInfo();

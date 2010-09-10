@@ -48,7 +48,7 @@ public class LUConstants {
     public final static String LU_STATE_WITHDRAWN = "Withdrawn";
     public final static String LU_STATE_APPROVED = "Approved";
     public final static String LU_STATE_NOT_APPROVED = "Not Approved";
-    public final static String LU_STATE_ACTIVATED = "Activated";
+    public final static String LU_STATE_ACTIVE = "Active";
     public final static String LU_STATE_RETIRED = "Retired";
 
     //Section names

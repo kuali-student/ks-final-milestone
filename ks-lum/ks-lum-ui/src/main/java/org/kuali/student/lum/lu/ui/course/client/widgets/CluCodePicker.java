@@ -89,7 +89,7 @@ public class CluCodePicker extends Composite implements SuggestPicker {
     private static final String STATE_WITHDRAWN = "Withdrawn";
     private static final String STATE_APPROVED = "Approved";
     private static final String STATE_REJECTED = "Rejected";
-    private static final String STATE_ACTIVATED = "Activated";
+    private static final String STATE_ACTIVE = "Active";
     private static final String STATE_RETIRED = "Retired";
 
 
@@ -121,12 +121,12 @@ public class CluCodePicker extends Composite implements SuggestPicker {
 //        final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
 //        QueryParamValue luStateParam = new QueryParamValue();
 //        luStateParam.setKey("lu.queryParam.cluState");     
-//        luStateParam.setValue(STATE_ACTIVATED);
+//        luStateParam.setValue(STATE_ACTIVE);
 //        params.add(luStateParam);
 		List<SearchParam> additionalParams = new ArrayList<SearchParam>();
 		SearchParam luStateParam = new SearchParam();
 		luStateParam.setKey("lu.queryParam.cluState");
-		luStateParam.setValue(STATE_ACTIVATED);
+		luStateParam.setValue(STATE_ACTIVE);
 		additionalParams.add(luStateParam);
 
         luSearchOracle.setAdditionalSearchParams(additionalParams);
@@ -208,7 +208,7 @@ public class CluCodePicker extends Composite implements SuggestPicker {
     private ListItems buildCluStateListItems() {
 
         return new ListItems(){
-            List<String> states = Arrays.asList(STATE_ACTIVATED, STATE_APPROVED, STATE_DRAFT, STATE_EXPLORE, STATE_REJECTED,
+            List<String> states = Arrays.asList(STATE_ACTIVE, STATE_APPROVED, STATE_DRAFT, STATE_EXPLORE, STATE_REJECTED,
                     STATE_RETIRED, STATE_SUBMITTED, STATE_TEMPLATE, STATE_WITHDRAWN);
 
             @Override
