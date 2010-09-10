@@ -108,22 +108,30 @@ public class MetadataServiceImpl {
         }
     }
     
+   
     /** 
-     * This method gets the metadata for the given object key and state
+     * This method gets the metadata for the given object key, type and state
      * 
      * @param objectKey
      * @param type
      * @param state
      * @return
      */
-    public Metadata getMetadata(String objectKey, String state){
+    public Metadata getMetadata(String objectKey, String type, String state){
         if (metadataRepository == null || metadataRepository.get(objectKey) == null){
-            return getMetadataFromDictionaryService(objectKey, state);
+            return getMetadataFromDictionaryService(objectKey, type, state);
         }
         
         return null;
-    }
+    }    
        
+    /**
+     * This method gets the metadata for the given object key and state
+     */
+    public Metadata getMetadata(String objectKey, String state){
+    	return getMetadata(objectKey, null, state);
+    }
+
     /**
      * This method gets the metadata for the given object key for state DRAFT.
      * 
@@ -132,7 +140,7 @@ public class MetadataServiceImpl {
      * @return
      */
     public Metadata getMetadata(String objectKey){        
-        return getMetadata(objectKey, null);
+        return getMetadata(objectKey, null, null);
     }
 
     /** 
@@ -144,14 +152,14 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    protected Metadata getMetadataFromDictionaryService(String objectKey, String state){
+    protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state){
 
         Metadata metadata = new Metadata();      
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
         
             
-        metadata.setProperties(getProperties(objectStructure, state, new RecursionCounter()));
+        metadata.setProperties(getProperties(objectStructure, type, state, new RecursionCounter()));
         
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
@@ -167,7 +175,7 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String state, RecursionCounter counter){
+    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, RecursionCounter counter){
     	String objectId = objectStructure.getName();
     	int hits = counter.increment(objectId);
         
@@ -184,22 +192,18 @@ public class MetadataServiceImpl {
 	            //Set constraints, authz flags, default value
 	            metadata.setWriteAccess(WriteAccess.ALWAYS);
 	            metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
-	            metadata.setConstraints(getConstraints(fd,state));
+	            metadata.setConstraints(getConstraints(fd,type,state));
 	            metadata.setCanEdit(!fd.isReadOnly());
 	            metadata.setCanUnmask(!fd.isMask());
 	            metadata.setCanView(!fd.isHide());
 	            metadata.setDynamic(fd.isDynamic());
 	            metadata.setLabelKey(fd.getLabelKey());
 	           	metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));            	
-	            
-	            //TODO: Need for a way to obtain full lookup info from a UI lookup config
-	            //metadata.setInitialLookup(initialLookup);
-	           
-	                                   
+	                       	                                  
 	            //Get properties for nested object structure
 	            Map<String, Metadata> nestedProperties = null;
 	            if (fd.getDataType() == org.kuali.student.core.dictionary.dto.DataType.COMPLEX && fd.getDataObjectStructure() != null){
-	                nestedProperties = getProperties(fd.getDataObjectStructure(), state, counter );                
+	                nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, counter );                
 	            }
 	            
 	            //For repeating field, create a LIST with wildcard in metadata structure
@@ -238,7 +242,15 @@ public class MetadataServiceImpl {
      * @return
      */
     protected boolean isRepeating(FieldDefinition fd){
-        return FieldDefinition.UNBOUNDED.equals(fd.getMaxOccurs());
+    	boolean isRepeating = false;
+    	try {
+    		int maxOccurs = Integer.parseInt(fd.getMaxOccurs());
+    		isRepeating = maxOccurs > 1;
+    	} catch (NumberFormatException nfe){
+    		isRepeating = FieldDefinition.UNBOUNDED.equals(fd.getMaxOccurs());
+    	}
+    	
+        return isRepeating; 
     }
     
     /** 
@@ -258,20 +270,37 @@ public class MetadataServiceImpl {
     }
     
           
-    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String state){
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state){
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
        
-        //For now ignoring the serverSide flag and making determination of which constraints
-        //should be passed up to the UI via metadata.
         ConstraintMetadata constraintMetadata = new ConstraintMetadata();
         
-        //Min Length
-        constraintMetadata.setMinLength(fd.getMinLength());
+        updateConstraintMetadata(constraintMetadata, (Constraint)fd, type, state);
+        constraints.add(constraintMetadata);
+        
+        return constraints;
+    }
+    
+
+    /**
+     * This updates the constraintMetadata with defintions from the dictionary constraint field.
+     * 
+     * @param constraintMetadata
+     * @param constraint
+     */
+    protected void updateConstraintMetadata(ConstraintMetadata constraintMetadata, Constraint constraint, String type, String state){
+        //For now ignoring the serverSide flag and making determination of which constraints
+        //should be passed up to the UI via metadata.
+
+    	//Min Length
+    	if (constraint.getMinLength() != null){
+    		constraintMetadata.setMinLength(constraint.getMinLength());
+    	}
         
         //Max Length
         try {
-        	if(fd.getMaxLength()!=null){
-        		constraintMetadata.setMaxLength(Integer.parseInt(fd.getMaxLength()));
+        	if(constraint.getMaxLength()!=null){
+        		constraintMetadata.setMaxLength(Integer.parseInt(constraint.getMaxLength()));
         	}
     		//Do we need to add another constraint and label it required if minOccurs = 1
         } catch (NumberFormatException nfe) {
@@ -280,63 +309,98 @@ public class MetadataServiceImpl {
         }
         
         //Min Occurs
-        constraintMetadata.setMinOccurs(fd.getMinOccurs());
+        if (constraint.getMinOccurs() != null){
+        	constraintMetadata.setMinOccurs(constraint.getMinOccurs());
+        }
         
         //Max Occurs
-    	String maxOccurs = fd.getMaxOccurs();
-        try {        	
-        	constraintMetadata.setMaxOccurs(Integer.parseInt(maxOccurs));
-        	if (!FieldDefinition.SINGLE.equals(maxOccurs)){
-        		constraintMetadata.setId("repeating");
-        	}
-        } catch (NumberFormatException nfe){
-        	// Setting unbounded to a value of 9999, since unbounded not handled by metadata
-        	if (FieldDefinition.UNBOUNDED.equals(maxOccurs)){
-	        	constraintMetadata.setId("repeating");
-	        	constraintMetadata.setMaxOccurs(9999);
-        	}
-        }
+    	String maxOccurs = constraint.getMaxOccurs();
+    	if (maxOccurs != null){
+	    	try {        	
+	        	constraintMetadata.setMaxOccurs(Integer.parseInt(maxOccurs));
+	        	if (!FieldDefinition.SINGLE.equals(maxOccurs)){
+	        		constraintMetadata.setId("repeating");
+	        	}
+	        } catch (NumberFormatException nfe){
+	        	// Setting unbounded to a value of 9999, since unbounded not handled by metadata
+	        	if (FieldDefinition.UNBOUNDED.equals(maxOccurs)){
+		        	constraintMetadata.setId("repeating");
+		        	constraintMetadata.setMaxOccurs(9999);
+	        	}
+	        }
+    	}
         
         //Min Value
-        constraintMetadata.setMinValue(fd.getExclusiveMin());
+    	if (constraint.getExclusiveMin() != null){
+    		constraintMetadata.setMinValue(constraint.getExclusiveMin());
+    	}
         
         //Max Value
-        constraintMetadata.setMaxValue(fd.getInclusiveMax());
+    	if (constraint.getInclusiveMax() != null){
+    		constraintMetadata.setMaxValue(constraint.getInclusiveMax());
+    	}
                         
-        if (fd.getValidChars() != null){
-        	constraintMetadata.setValidChars(fd.getValidChars().getValue());
-        	constraintMetadata.setValidCharsMessageId(fd.getValidChars().getLabelKey());
+        if (constraint.getValidChars() != null){
+        	constraintMetadata.setValidChars(constraint.getValidChars().getValue());
+        	constraintMetadata.setValidCharsMessageId(constraint.getValidChars().getLabelKey());
         }
         
-        //Case constraints - Currently this is only checking case constraints to determine
-        //the ConstraintMetadata.isRequiredForNextState flag        
-        String nextState = null;
-        if (state==null || "DRAFT".equals(state.toUpperCase())){
-        	nextState = "SUBMITTED";        	
-        } else if ("SUBMITTED".equals(state.toUpperCase())){
-        	nextState = "ACTIVE";
-        }
-        if (nextState != null && fd.getCaseConstraint() != null){
-        	CaseConstraint caseConstraint = fd.getCaseConstraint();
-        	String fieldPath = caseConstraint.getFieldPath();
-        	if (fieldPath.equals("state")){
-        		List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
-        		if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null){
-        			for (WhenConstraint whenConstraint:whenConstraints){
-        				List<Object> values = whenConstraint.getValues();
-        				if (values != null && values.contains(nextState.toUpperCase())){
-        					Constraint constraint = whenConstraint.getConstraint();
-        					if (constraint.getMinOccurs() > 0){
-        						constraintMetadata.setRequiredForNextState(true);
-        					}
-        				}
-        			}
-        		}
-        	}
-        }
-        
-        constraints.add(constraintMetadata);
-       return constraints;
+        //Case constraints         
+    	if (constraint.getCaseConstraint() != null){
+    		processCaseConstraint(constraintMetadata, constraint.getCaseConstraint(), type, state);
+    	}    	
+    }
+    
+    protected void processCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state){
+    	String fieldPath = caseConstraint.getFieldPath();
+        List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
+
+        fieldPath = (fieldPath !=null ? fieldPath.toUpperCase():fieldPath);
+    	if ("STATE".equals(fieldPath)){
+    		//Process a state constraint
+    		
+    		//Determine nextState for required for next state indicator
+    		String nextState = null;
+            if (state==null || "DRAFT".equals(state.toUpperCase())){
+            	state = "DRAFT";
+            	nextState = "SUBMITTED";        	
+            } else if ("SUBMITTED".equals(state.toUpperCase())){
+            	nextState = "ACTIVE";
+            }
+
+    		if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null){    			
+    			for (WhenConstraint whenConstraint:whenConstraints){
+    				List<Object> values = whenConstraint.getValues();
+    				if (values != null) {
+    					Constraint constraint = whenConstraint.getConstraint();
+    					
+    					//Set the required for next state flag
+    					if (values.contains(nextState)){
+	    					if (constraint.getMinOccurs() > 0){
+	    						constraintMetadata.setRequiredForNextState(true);
+	    					}
+    					}
+    					
+    					//Update constraints based on state constraints
+    					if (values.contains(state.toUpperCase())){
+    						updateConstraintMetadata(constraintMetadata, constraint, type, state);
+    					}
+    				}	
+    			}
+    		}
+    	} else if ("TYPE".equals(fieldPath)){
+    		//Process a type constraint
+    		
+    		if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null){    			
+    			for (WhenConstraint whenConstraint:whenConstraints){
+    				List<Object> values = whenConstraint.getValues();
+    				if (values != null && values.contains(type)) {
+    					Constraint constraint = whenConstraint.getConstraint();
+   						updateConstraintMetadata(constraintMetadata, constraint, type, state);
+    				}	
+    			}
+    		}    		
+    	}
     }
     
     /**
@@ -431,7 +495,8 @@ public class MetadataServiceImpl {
     	
     }
     
-    private void init(){
+    @SuppressWarnings("unchecked")
+	private void init(){
     	ApplicationContext ac = new ClassPathXmlApplicationContext(uiLookupContext);
 
 		Map<String, UILookupConfig> beansOfType = (Map<String, UILookupConfig>) ac.getBeansOfType(UILookupConfig.class);

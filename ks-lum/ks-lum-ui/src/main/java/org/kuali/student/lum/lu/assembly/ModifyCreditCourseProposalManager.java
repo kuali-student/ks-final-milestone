@@ -45,6 +45,8 @@ import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
  * the credit course proposal with that id. 
  *
  */
+
+//TODO: Rewrite to extend/use CreditCourseRpcService or replace with filters
 public class ModifyCreditCourseProposalManager{
 
     private final Logger LOG = Logger.getLogger(ModifyCreditCourseProposalManager.class);

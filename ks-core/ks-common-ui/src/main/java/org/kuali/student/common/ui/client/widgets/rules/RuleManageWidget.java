@@ -6,6 +6,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -13,101 +14,97 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RuleManageWidget extends FlowPanel {
 
-    private KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
-    RuleTableWidget manageRule = new RuleTableWidget();
-    KSLabel logicalExpression = new KSLabel();
-    KSLabel naturalLanguage = new KSLabel();
-    SubrulePreviewWidget preview;
-
-    Boolean isInitialized = false;
-
-	private Map<String, Widget> tabLayoutMap = new HashMap<String, Widget>();
+    private RuleTableWidget manageRule = new RuleTableWidget();
+    private KSLabel logicalExpression = new KSLabel();
+    //private KSLabel naturalLanguage = new KSLabel();
+    private SubrulePreviewWidget preview = new SubrulePreviewWidget(null, true);
 
     //widget's data
-    StatementTreeViewInfo rule = null;
+    private StatementTreeViewInfo rule = null;
 
     //TODO use application context for all labels
    
     public RuleManageWidget() {
         super();
-        setupHandlers();
 
-        tabLayoutMap.put("Object View", manageRule);
-        panel.addTab("Object View", "Object View", manageRule);        
+        Map<String, Widget> tabLayoutMap = new HashMap<String, Widget>();
+        KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
 
-        tabLayoutMap.put("Logic View", logicalExpression);
-        panel.addTab("Logic View", "Logic View", logicalExpression);
+        String objectView = "Edit with Object";
+        tabLayoutMap.put(objectView, manageRule);
+        panel.addTab(objectView, objectView, manageRule);
 
+        String logicView = "Edit with Logic";
+        tabLayoutMap.put(logicView, logicalExpression);
+        panel.addTab(logicView, logicView, logicalExpression);
+        panel.addTabCustomCallback(logicView, new Callback<String>() {
+            @Override
+            public void exec(String result) {
+                updateLogicView();
+            }
+        });
+
+        /*
         tabLayoutMap.put("Natural Language View", naturalLanguage);
         panel.addTab("Natural Language View", "Natural Language View", naturalLanguage);
+        panel.addTabCustomCallback("Natural Language View", new Callback<String>() {
+            @Override
+            public void exec(String result) {
+                updateNaturalLanguageView();
+            }
+        });  */
         
-      //  tabLayoutMap.put("Preview", preview);
-//        panel.addTab("Preview", "Preview", preview);
+        tabLayoutMap.put("Preview", preview);
+        panel.addTab("Preview", "Preview", preview);
+        panel.addTabCustomCallback("Preview", new Callback<String>() {
+            @Override
+            public void exec(String result) {
+                updatePreview();
+            }
+        });
 
-        panel.selectTab("Object View");
+        panel.selectTab(objectView);
         add(panel);
     }
 
-    public void updateRuleViews(StatementTreeViewInfo updatedRule) {
-        rule = updatedRule;
-
-        if (!isInitialized) {
-            preview = new SubrulePreviewWidget(rule, true);
-            tabLayoutMap.put("Preview", preview);
-            panel.addTab("Preview", "Preview", preview);
-            isInitialized = true;
-        }
-
+    public void redraw(StatementTreeViewInfo rule) {
+        this.rule = rule;
         updateObjectView();
-        updateLogicView();
-        updateNaturalLanguageView();
-        updatePreview();
+      //  updateLogicView();
+      //  updateNaturalLanguageView();
+      //  updatePreview();
     }
 
     //show rule in a table
     private void updateObjectView() {
-
-        manageRule.setupHandlers();
-        manageRule.setRuleTree(rule);
-        manageRule.redraw();
-
-        //Handler for when tab is clicked
-        panel.addTabCustomCallback("My Test", new Callback<String>(){
-            @Override
-            public void exec(String result) {
-              //  manageRule.setupHandlers();
-//                manageRule.setRuleTree(rule);
-//                manageRule.redraw();
-            }
-        });
+        manageRule.redraw(rule, true);
     }
 
     private void updateLogicView() {
-//TODO fix
-       logicalExpression.setText((manageRule.getRule().getStatementVO() == null ? "" : manageRule.getRule().getStatementVO().convertToExpression()));
+       logicalExpression.setText(getLogicExpression());
+       //rule.populateExpression();
+       //rule.setPreviewedExpression(rule.getExpression());
+       //TODO add a link to RuleExpressionEditor
     }
 
+    /*
     private void updateNaturalLanguageView() {
         naturalLanguage.setText(rule.getNaturalLanguageTranslation());
+    } */
+
+    public String getLogicExpression() {
+        return (manageRule.getRule().getStatementVO() == null ? "" : manageRule.getRule().getStatementVO().convertToExpression());
     }
 
     private void updatePreview() {
-
+        preview.showSubrule(manageRule.getRule().getStatementVO().getStatementTreeViewInfo());
     }
 
-   /*
-       private KSLabel editManually = new KSLabel("Edit manually");
-       
-           editManually.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                rule.populateExpression();
-                rule.setPreviewedExpression(rule.getExpression());
-//TODO                getController().showView(PrereqViews.RULE_EXPRESSION_EDITOR, Controller.NO_OP_CALLBACK);
-            }
-        });
-    */
+    public void setReqCompEditButtonClickCallback(Callback<ReqComponentInfo> callback) {
+        manageRule.addReqCompEditButtonClickCallback(callback);
+    }
 
-    private void setupHandlers() {
-
-    }    
+    public StatementTreeViewInfo getStatementTreeViewInfo() {
+        return manageRule.getRule().getStatementVO().getStatementTreeViewInfo();
+    }
 }

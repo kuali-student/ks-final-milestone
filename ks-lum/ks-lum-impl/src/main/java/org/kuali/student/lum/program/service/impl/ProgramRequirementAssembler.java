@@ -3,26 +3,31 @@
  */
 package org.kuali.student.lum.program.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.LoAssembler;
-import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerUtils;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 
 /**
@@ -37,6 +42,8 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	private LearningObjectiveService loService;
 	private LuService luService;
 	private LoAssembler loAssembler;
+	private CluAssemblerUtils cluAssemblerUtils;
+    private ProgramAssemblerUtils programAssemblerUtils;
 
 
 	@Override
@@ -45,35 +52,28 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 			throws AssemblyException {
 		ProgramRequirementInfo progReq = (progReqInfo != null ? progReqInfo : new ProgramRequirementInfo());
 
-		progReq.setShortTitle(clu.getOfficialIdentifier().getShortName());
-		progReq.setLongTitle(clu.getOfficialIdentifier().getLongName());
+		if (clu.getOfficialIdentifier() != null) {
+			progReq.setShortTitle(clu.getOfficialIdentifier().getShortName());
+			progReq.setLongTitle(clu.getOfficialIdentifier().getLongName());
+		}
 		progReq.setDescr(clu.getDescr());
 
 		try {
+			List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", clu.getId());
+
+
 			StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
-			statementTreeViewAssembler.assemble(statementService.getStatement(clu.getId()), statementTree, true, null);
+			if (relations != null) {
+				statementTreeViewAssembler.assemble(statementService.getStatement(relations.get(0).getStatementId()), statementTree, shallowBuild);
+			}
 			progReq.setStatement(statementTree);
+		} catch (AssemblyException e) {
+			throw e;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			throw new AssemblyException(e);
 		}
 
-		//Learning Objectives (from Course Assembler)
-		List<LoDisplayInfo> los = new ArrayList<LoDisplayInfo>();
-		try {
-			List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(clu.getId());
-			for(CluLoRelationInfo cluLoRelation:cluLoRelations){
-				String loId = cluLoRelation.getLoId();
-				LoInfo lo = loService.getLo(loId);
-				LoDisplayInfo loDisplay = loAssembler.assemble(lo, null, shallowBuild);
-				los.add(loDisplay);
-			}
-		} catch (DoesNotExistException e) {
-		} catch (Exception e) {
-			throw new AssemblyException("Error getting learning objectives", e);
-		}
-
-		progReq.setLearningObjectives(los);
+		progReq.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
 
 		progReq.setMetaInfo(clu.getMetaInfo());
 		progReq.setType(clu.getType());
@@ -97,19 +97,78 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 		BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo>(this);
 
-		CluInfo statement;
+		CluInfo clu;
 		try {
-			statement = (NodeOperation.UPDATE == operation) ?  luService.getClu(progReq.getId()) : new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ?  luService.getClu(progReq.getId()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during program requirement update", e);
         }
 
+        programAssemblerUtils.disassembleBasics(clu, progReq, operation);
+        progReq.setId(clu.getId());
+        if (clu.getOfficialIdentifier() == null) {
+        	clu.setOfficialIdentifier(new CluIdentifierInfo());
+        }
+        clu.getOfficialIdentifier().setLongName(progReq.getLongTitle());
+        clu.getOfficialIdentifier().setShortName(progReq.getShortTitle());
+        if (progReq.getLearningObjectives() != null) {
+            disassembleLearningObjectives(progReq, operation, result);
+        }
+
         // Add the Statement to the result
-        result.setNodeData(statement);
+        StatementTreeViewInfo statement = progReq.getStatement();
+        statement.setId(UUIDHelper.genStringUUID(statement.getId()));
+        BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> statementTree;
+		try {
+			statementTree = statementTreeViewAssembler.disassemble(statement, operation);
+		} catch (AssemblyException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new AssemblyException(e);
+		}
+        result.getChildNodes().add(statementTree);
+
+        RefStatementRelationInfo relation;
+        if (operation == NodeOperation.CREATE) {
+            relation = new RefStatementRelationInfo();
+            relation.setId(UUIDHelper.genStringUUID(null));
+        } else {
+        	try {
+        		relation = statementService.getRefStatementRelationsByRef("clu", clu.getId()).get(0);
+			} catch (Exception e) {
+				throw new AssemblyException("Unable to find RefStatementRelation", e);
+			}
+        }
+        relation.setType("clu.programrequirements");
+        relation.setRefObjectId(clu.getId());
+        relation.setRefObjectTypeKey("clu");
+        relation.setStatementId(statement.getId());
+        relation.setState("active");
+
+        BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo> relationNode = new BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo>(null);
+        relationNode.setNodeData(relation);
+        relationNode.setOperation(operation);
+        result.getChildNodes().add(relationNode);
+
+        result.setNodeData(clu);
         result.setOperation(operation);
         result.setBusinessDTORef(progReq);
-
+        result.setAssembler(null);
 		return result;
+	}
+
+	private void disassembleLearningObjectives(ProgramRequirementInfo progReq,
+			NodeOperation operation,
+			BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result) throws AssemblyException {
+        try {
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(progReq.getId(), progReq.getState(),  progReq.getLearningObjectives(), operation);
+            if (loResults != null) {
+                result.getChildNodes().addAll(loResults);
+            }
+        } catch (DoesNotExistException e) {
+        } catch (Exception e) {
+            throw new AssemblyException("Error while disassembling los", e);
+        }
 	}
 
 	public StatementTreeViewAssembler getStatementTreeViewAssembler() {
@@ -151,5 +210,21 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	public void setLoAssembler(LoAssembler loAssembler) {
 		this.loAssembler = loAssembler;
+	}
+
+	public CluAssemblerUtils getCluAssemblerUtils() {
+		return cluAssemblerUtils;
+	}
+
+	public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
+		this.cluAssemblerUtils = cluAssemblerUtils;
+	}
+
+	public ProgramAssemblerUtils getProgramAssemblerUtils() {
+		return programAssemblerUtils;
+	}
+
+	public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
+		this.programAssemblerUtils = programAssemblerUtils;
 	}
 }

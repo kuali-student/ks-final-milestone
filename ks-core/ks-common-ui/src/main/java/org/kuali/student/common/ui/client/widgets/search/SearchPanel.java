@@ -92,6 +92,7 @@ public class SearchPanel extends Composite{
     interface SearchParametersWidget {
         public SearchRequest getSearchRequest();
         public LookupMetadata getLookupMetadata();
+        public List<HasSearchParam> getSearchParams();
     }
 
     public SearchPanel(LookupMetadata meta){
@@ -139,6 +140,11 @@ public class SearchPanel extends Composite{
                 searchLookups.put(lookup.getName(), lookup);
             }
             selectedLookupName = lookups.get(0).getName();
+            // Sets the activeSearchParametersWidget to be the first search
+            activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookupName);
+            String actionLabel = (lookups.get(0) == null)? null : lookups.get(0)
+                    .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
+            setActionLabel(actionLabel);
             searchParamPanel = new SwappablePanel(searches);
             ((SwappablePanel)searchParamPanel).setSearchLookups(searchLookups);
             ((SwappablePanel)searchParamPanel).addLookupChangedCallback(new Callback<LookupMetadata>() {
@@ -216,6 +222,7 @@ public class SearchPanel extends Composite{
     private class CustomizedSearch extends Composite implements SearchParametersWidget {
 
         private List<CustomLine> lines = new ArrayList<CustomLine>();
+        private List<HasSearchParam> searchParams = new ArrayList<HasSearchParam>();
         private VerticalPanel layout = new VerticalPanel();
         private VerticalPanel linePanel = new VerticalPanel();
         private LookupMetadata meta;
@@ -241,6 +248,7 @@ public class SearchPanel extends Composite{
                     line.addStyleName("ks-form-module-single-line-margin");
                     linePanel.add(line);
                     lines.add(line);
+                    searchParams.add(line);
                 }
             });
 
@@ -305,6 +313,12 @@ public class SearchPanel extends Composite{
             sr.setSearchKey(meta.getSearchTypeId());
             return sr;
         }
+
+        @Override
+        public List<HasSearchParam> getSearchParams() {
+            return searchParams;
+        }
+
     }
 
     private interface HasSearchParam{
@@ -361,6 +375,7 @@ public class SearchPanel extends Composite{
 
     private class AdvancedSearch extends Composite implements SearchParametersWidget {
         private LookupMetadata meta;
+        private List<HasSearchParam> searchParams = new ArrayList<HasSearchParam>();
 
         public AdvancedSearch(final LookupMetadata meta){
             VerticalPanel panel = new VerticalPanel();
@@ -382,12 +397,14 @@ public class SearchPanel extends Composite{
                     SearchField paramField = new SearchField(param);
                     searchFields.add(paramField);
                     panel.add(paramField);
+                    searchParams.add(paramField);
                 }
                 else if (param.getWriteAccess() == WriteAccess.WHEN_NULL){
                     if(param.getDefaultValueString() == null && param.getDefaultValueList() == null){
                         SearchField paramField = new SearchField(param);
                         searchFields.add(paramField);
                         panel.add(paramField);
+                        searchParams.add(paramField);
                     }
                 }
 
@@ -412,9 +429,11 @@ public class SearchPanel extends Composite{
         public SearchRequest getSearchRequest() {
             SearchRequest sr = new SearchRequest();
             List<SearchParam> params = new ArrayList<SearchParam>();
+            List<HasSearchParam> searchParams = getSearchParams();
 
             //initialize search parameters if user entered values into search criteria fields in UI
-            for(SearchField field: searchFields){
+            
+            for(HasSearchParam field: searchParams){
                 SearchParam param = field.getSearchParam();
                 //TODO is this null check needed here? probably. assuming string here
                 //TODO make check more robust here/inserting params more robust
@@ -465,6 +484,10 @@ public class SearchPanel extends Composite{
             return sr;
         }
 
+        @Override
+        public List<HasSearchParam> getSearchParams() {
+            return searchParams;
+        }
     }
 
     private static class SearchField extends Composite implements HasSearchParam{
@@ -682,9 +705,10 @@ public class SearchPanel extends Composite{
                 table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey());
                 resultsTablePanel.setVisible(true);
                 List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
+                List<HasSearchParam> searchParams = activeSearchParametersWidget.getSearchParams();
 
                 //initialize search parameters if user entered values into search criteria fields in UI
-                for(SearchField field: searchFields){
+                for(HasSearchParam field: searchParams){
                     SearchParam param = field.getSearchParam();
                     //TODO is this null check needed here? probably. assuming string here
                     //TODO make check more robust here/inserting params more robust

@@ -23,8 +23,8 @@ public class Version {
     @Column(name = "CURR_VER_END")
     private Date currentVersionEnd;
 
-    @Column(name = "PREV_VER_ID")
-    private String prevVersionId;
+    @Column(name = "VER_FROM_ID")
+    private String versionedFromId;
 
 	@Column(name = "VER_CMT")
     private String versionComment;
@@ -69,11 +69,12 @@ public class Version {
         this.versionComment = versionComment;
     }
     
-    public String getPrevVersionId() {
-		return prevVersionId;
+	public String getVersionedFromId() {
+		return versionedFromId;
 	}
 
-	public void setPrevVersionId(String prevVersionId) {
-		this.prevVersionId = prevVersionId;
+	public void setVersionedFromId(String versionedFromId) {
+		this.versionedFromId = versionedFromId;
 	}
+
 }

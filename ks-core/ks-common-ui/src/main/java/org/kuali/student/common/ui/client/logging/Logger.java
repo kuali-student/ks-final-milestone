@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.LogRpcService;
 import org.kuali.student.common.ui.client.service.LogRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class Logger {
 	/**
@@ -127,10 +127,10 @@ public class Logger {
 			    String log = formatLog(messages);
 			    LogRpcServiceAsync logService = (LogRpcServiceAsync) GWT .create(LogRpcService.class); 
 			    
-				logService.sendLog(context, log, new AsyncCallback<Boolean>() {
-					public void onFailure(Throwable caught) {
-					    GWT.log("sendLog Failed", caught);
-						throw new LogFailedException(caught);
+				logService.sendLog(context, log, new KSAsyncCallback<Boolean>() {
+					public void handleFailure(Throwable caught) {
+					    GWT.log("sendLog Failed", caught);					    
+					    //throw new LogFailedException(caught);
 					}
 
 					public void onSuccess(Boolean result) {

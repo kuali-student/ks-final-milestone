@@ -21,7 +21,7 @@ public class ProgramController extends MenuSectionController {
 
     protected boolean initialized = false;
 
-    protected final DataModel programModel;
+    protected DataModel programModel;
 
     protected AbstractProgramConfigurer configurer;
 
@@ -30,10 +30,10 @@ public class ProgramController extends MenuSectionController {
      *
      * @param programModel
      */
-    public ProgramController(DataModel programModel) {
+    public ProgramController(DataModel programModel, ViewContext viewContext) {
         super("");
         this.programModel = programModel;
-        setViewContext(new ViewContext());
+        setViewContext(viewContext);
         initializeModel();
     }
 
@@ -152,6 +152,6 @@ public class ProgramController extends MenuSectionController {
      */
     private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
         configureView();
-        showDefaultView(onReadyCallback);
+        onReadyCallback.exec(true);
     }
 }

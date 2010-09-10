@@ -722,8 +722,7 @@ public class StatementVO extends Token implements Serializable {
     
     private boolean doCleanupStatementVO(StatementVO statementVO, StatementVO parent) {
         boolean structureChanged = false;
-        if (statementVO.getStatementVOCount() == 0 &&
-                statementVO.getReqComponentVOCount() == 0) {
+        if (statementVO.getStatementVOCount() == 0 && statementVO.getReqComponentVOCount() == 0) {
             if (parent != null) {
                 parent.removeStatementVO(statementVO);
                 structureChanged = true;
@@ -737,18 +736,12 @@ public class StatementVO extends Token implements Serializable {
     }
 
     public String getPrintableStatement() {
-        StringBuilder sbResult = null;
-        sbResult = doConvertToExpression(new StringBuilder(),
-                this, true);
-        return sbResult.toString();
+        return doConvertToExpression(new StringBuilder(), this, true).toString();       
     }
     
     public String convertToExpression() {
-        StringBuilder sbResult = null;
         assignGuiRCId();
-        sbResult = doConvertToExpression(new StringBuilder(),
-                this, false);
-        return sbResult.toString();
+        return doConvertToExpression(new StringBuilder(), this, false).toString();
     }
     
     private StringBuilder doConvertToExpression(StringBuilder inSbResult, 
@@ -900,7 +893,7 @@ public class StatementVO extends Token implements Serializable {
                 newStatementList.add(newStatementVO);
             }
             statementVO.statementVOs = newStatementList;
-        } else {
+        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
             // retrieve all req. component LEAFS
             List<ReqComponentVO> reqComponentList = new ArrayList<ReqComponentVO>();
             for (ReqComponentInfo reqComponent : reqComponentInfos) {
@@ -915,15 +908,14 @@ public class StatementVO extends Token implements Serializable {
     }
 
     private void setFields(final StatementTreeViewInfo statementTreeViewInfo) {
-//TODO uncomment after testing
         statementInfo = new StatementInfo();
-//        getStatementInfo().setAttributes(statementTreeViewInfo.getAttributes());
-//        getStatementInfo().setDesc(statementTreeViewInfo.getDesc());
-//        getStatementInfo().setId(statementTreeViewInfo.getId());
-//        getStatementInfo().setMetaInfo(statementTreeViewInfo.getMetaInfo());
-//        getStatementInfo().setName(statementTreeViewInfo.getName());
+        getStatementInfo().setAttributes(statementTreeViewInfo.getAttributes());
+        getStatementInfo().setDesc(statementTreeViewInfo.getDesc());
+        getStatementInfo().setId(statementTreeViewInfo.getId());
+        getStatementInfo().setMetaInfo(statementTreeViewInfo.getMetaInfo());
+        getStatementInfo().setName(statementTreeViewInfo.getName());
         getStatementInfo().setOperator(statementTreeViewInfo.getOperator());
-//        getStatementInfo().setState(statementTreeViewInfo.getState());
+        getStatementInfo().setState(statementTreeViewInfo.getState());
         getStatementInfo().setType(statementTreeViewInfo.getType());
     }
 }

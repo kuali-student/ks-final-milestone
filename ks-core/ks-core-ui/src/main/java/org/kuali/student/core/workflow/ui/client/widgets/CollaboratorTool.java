@@ -18,6 +18,7 @@ package org.kuali.student.core.workflow.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
@@ -144,10 +145,10 @@ public class CollaboratorTool extends Composite implements ToolView{
         //columns.add("Remove Person");
         table = new SimpleWidgetTable(columns);
     	
-		workflowToolRpcServiceAsync.getMetadata("workflow", null, new AsyncCallback<Metadata>(){
+		workflowToolRpcServiceAsync.getMetadata("workflow", null, new KSAsyncCallback<Metadata>(){
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void handleFailure(Throwable caught) {
 				GWT.log("error getting meta", caught);
 			}
 
@@ -225,9 +226,9 @@ public class CollaboratorTool extends Composite implements ToolView{
 					
 					dataId = model.getDataId();
 					if(workflowId == null){
-						workflowRpcServiceAsync.getWorkflowIdFromDataId(workflowDocType, dataId, new AsyncCallback<String>(){
+						workflowRpcServiceAsync.getWorkflowIdFromDataId(workflowDocType, dataId, new KSAsyncCallback<String>(){
 							@Override
-							public void onFailure(Throwable caught) {
+							public void handleFailure(Throwable caught) {
 								//Window.alert("Getting workflowId failed");
 								workflowId = null;
 								documentStatus = null;
@@ -272,9 +273,9 @@ public class CollaboratorTool extends Composite implements ToolView{
 	}
 	
 	private void refreshDocumentStatus(final Callback<Boolean> onReadyCallback){
-		workflowRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
+		workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>(){
 			@Override
-			public void onFailure(Throwable caught) {
+			public void handleFailure(Throwable caught) {
 				documentStatus = null;
 				onReadyCallback.exec(true);										
 			}
@@ -396,8 +397,8 @@ public class CollaboratorTool extends Composite implements ToolView{
     		Window.alert("Workflow must be started before Collaborators can be added");
     	}else{
     		//TODO put real title in
-    		workflowToolRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, selectedPermissionCode, selectedActionRequest, participationRequired, respondBy, new AsyncCallback<Boolean>(){
-				public void onFailure(Throwable caught) {
+    		workflowToolRpcServiceAsync.addCollaborator(workflowId, dataId, "title here", recipientPrincipalId, selectedPermissionCode, selectedActionRequest, participationRequired, respondBy, new KSAsyncCallback<Boolean>(){
+				public void handleFailure(Throwable caught) {
 					Window.alert("Could not add Collaborator");
 					GWT.log("could not add collaborator", caught);
 				}
@@ -432,8 +433,8 @@ public class CollaboratorTool extends Composite implements ToolView{
     
 	public void refreshCollaboratorData() {
 		if(workflowId!=null){
-			workflowToolRpcServiceAsync.getCollaborators(workflowId, new AsyncCallback<List<WorkflowPersonInfo>>(){
-				public void onFailure(Throwable caught) {
+			workflowToolRpcServiceAsync.getCollaborators(workflowId, new KSAsyncCallback<List<WorkflowPersonInfo>>(){
+				public void handleFailure(Throwable caught) {
 					Window.alert("Getting Collaborators failed");
 				}
 				public void onSuccess(List<WorkflowPersonInfo> result) {
@@ -510,10 +511,10 @@ public class CollaboratorTool extends Composite implements ToolView{
 				}
 	        });
 		}
-		workflowToolRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new AsyncCallback<Boolean>(){
+		workflowToolRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new KSAsyncCallback<Boolean>(){
 
 			@Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
 				GWT.log("Caught error trying to verify authorization for adding adhoc reviewers", caught);
 				Window.alert("Error checking authorization for adding collaborators/reviewers");
             }

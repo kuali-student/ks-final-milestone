@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -20,16 +21,15 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.lum.common.client.lo.CategoryManagement;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.widgets.CategoryManagement;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -37,12 +37,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeView extends ViewComposite{
 	
-	private SpanPanel container = new SpanPanel();
-	private KSListPanel list = new KSListPanel();
+	private final SpanPanel container = new SpanPanel();
+	private final KSListPanel list = new KSListPanel();
 	MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	
-	private KSButton categoryManagement = new KSButton("Category Management", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
+	private final KSButton categoryManagement = new KSButton("Category Management", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -88,6 +88,8 @@ public class CurriculumHomeView extends ViewComposite{
 		addIfPermitted(PermissionType.SEARCH, "Courses");
         addIfPermitted(PermissionType.SEARCH, "Proposals");
         addIfPermitted(PermissionType.SEARCH, "Majors");
+        list.add(new Hyperlink("Create a Major Discipline", "/HOME/CURRICULUM_HOME/PROGRAM_CREATE"));
+		//list.add(new Hyperlink("Variation", "/HOME/CURRICULUM_HOME/VARIATION_VIEW"));
         list.addStyleName("KS-CurriculumHome-LinkList");
 
 	}
@@ -97,9 +99,9 @@ public class CurriculumHomeView extends ViewComposite{
     }
     
     private void addIfPermitted(PermissionType permType, final String searchType, Map<String,String> permissionAttributes) {
-        cluProposalRpcServiceAsync.isAuthorized(permType, permissionAttributes, new AsyncCallback<Boolean>() {
+        cluProposalRpcServiceAsync.isAuthorized(permType, permissionAttributes, new KSAsyncCallback<Boolean>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override
@@ -119,9 +121,9 @@ public class CurriculumHomeView extends ViewComposite{
     }
 	
     private void addCourseSearchWindow(){
-        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override
@@ -130,7 +132,7 @@ public class CurriculumHomeView extends ViewComposite{
                 KSPicker courseSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
                 courseSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
                     public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = (List<String>)event.getValue();
+                        List<String> selection = event.getValue();
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.OBJECT_ID);
@@ -144,9 +146,9 @@ public class CurriculumHomeView extends ViewComposite{
 
     private void addProposalSearchWindow(){
                         
-        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override
@@ -155,7 +157,7 @@ public class CurriculumHomeView extends ViewComposite{
                 KSPicker proposalSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
                 proposalSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
                     public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = (List<String>)event.getValue();
+                        List<String> selection = event.getValue();
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
@@ -168,9 +170,9 @@ public class CurriculumHomeView extends ViewComposite{
     }
     
     private void addMajorSearchWindow(){
-        metadataServiceAsync.getMetadata("search", "", "", new AsyncCallback<Metadata>() {
+        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
             @Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
                 throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override
@@ -179,7 +181,7 @@ public class CurriculumHomeView extends ViewComposite{
                 KSPicker searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
                 searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
                     public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = (List<String>)event.getValue();
+                        List<String> selection = event.getValue();
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(selection.get(0));
                         viewContext.setIdType(IdType.OBJECT_ID);

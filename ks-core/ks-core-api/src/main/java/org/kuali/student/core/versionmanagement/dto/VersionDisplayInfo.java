@@ -37,7 +37,7 @@ public class VersionDisplayInfo implements Serializable  {
 	public VersionDisplayInfo(String id, String versionIndId,
 			Long sequenceNumber,
 			Date currentVersionStart, Date currentVersionEnd,
-			String versionComment, String prevVersionId) {
+			String versionComment, String versionedFromId) {
 		super();
 		this.id = id;
 		this.versionIndId = versionIndId;
@@ -45,7 +45,7 @@ public class VersionDisplayInfo implements Serializable  {
 		this.currentVersionStart = currentVersionStart;
 		this.currentVersionEnd = currentVersionEnd;
 		this.versionComment = versionComment;
-		this.prevVersionId = prevVersionId;
+		this.versionedFromId = versionedFromId;
 	}
 
 	public VersionDisplayInfo() {
@@ -75,15 +75,15 @@ public class VersionDisplayInfo implements Serializable  {
     private String versionComment;
 
     @XmlElement
-    private String prevVersionId;
+    private String versionedFromId;
 
 
-    public String getPrevVersionId() {
-		return prevVersionId;
+    public String getVersionedFromId() {
+		return versionedFromId;
 	}
 
-	public void setPrevVersionId(String prevVersionId) {
-		this.prevVersionId = prevVersionId;
+	public void setVersionedFromId(String versionedFromId) {
+		this.versionedFromId = versionedFromId;
 	}
 
 	/**

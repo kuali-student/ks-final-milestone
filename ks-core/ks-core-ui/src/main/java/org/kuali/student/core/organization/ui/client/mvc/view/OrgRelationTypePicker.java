@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
@@ -27,8 +28,6 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class OrgRelationTypePicker extends KSDropDown{
 
@@ -41,10 +40,7 @@ public class OrgRelationTypePicker extends KSDropDown{
 	public void onLoad() {
 		super.onLoad();
 		
-		orgRpcServiceAsync.getOrgOrgRelationTypes(new AsyncCallback<List<OrgOrgRelationTypeInfo>>(){
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-            }
+		orgRpcServiceAsync.getOrgOrgRelationTypes(new KSAsyncCallback<List<OrgOrgRelationTypeInfo>>(){
 			public void onSuccess(final List<OrgOrgRelationTypeInfo> orgRelTypes) {
 			    final Map<String,String> map = new LinkedHashMap<String, String>();
                 for(OrgOrgRelationTypeInfo info : orgRelTypes) {

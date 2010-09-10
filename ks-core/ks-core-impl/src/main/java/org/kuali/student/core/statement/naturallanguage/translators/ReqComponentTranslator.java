@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class translates requirement components into a specific 
+ * This class translates requirement components into a specific
  * natural language. This class is not thread safe.
  */
 public class ReqComponentTranslator {
@@ -43,7 +43,7 @@ public class ReqComponentTranslator {
     private TemplateTranslator templateTranslator = new TemplateTranslator();
 
     /**
-	 * Constructs a new natural language translator in the 
+	 * Constructs a new natural language translator in the
 	 * default language locale.
      */
     public ReqComponentTranslator() {
@@ -52,7 +52,7 @@ public class ReqComponentTranslator {
 
 	/**
 	 * Sets requirement component translation language.
-	 * 
+	 *
 	 * @param language Language translation
 	 */
     public void setLanguage(final String language) {
@@ -61,7 +61,7 @@ public class ReqComponentTranslator {
 
     /**
      * Sets the template context registry.
-     * 
+     *
      * @param contextRegistry Template context registry
      */
     public void setContextRegistry(final ContextRegistry<Context<ReqComponent>> contextRegistry) {
@@ -69,10 +69,10 @@ public class ReqComponentTranslator {
     }
 
     /**
-     * Translates an <code>reqComponent</code> for a specific 
+     * Translates an <code>reqComponent</code> for a specific
      * <code>nlUsageTypeKey</code> into natural language.
      * This method is not thread safe.
-     *  
+     *
      * @param reqComponent
      *            Requirement component to translate
      * @param nlUsageTypeKey
@@ -88,10 +88,10 @@ public class ReqComponentTranslator {
     }
 
     /**
-     * Translates an <code>reqComponent</code> for a specific 
+     * Translates an <code>reqComponent</code> for a specific
      * <code>nlUsageTypeKey</code> into natural language.
      * This method is not thread safe.
-     * 
+     *
      * @param reqComponent
      *            Requirement component to translate
      * @param nlUsageTypeKey
@@ -108,7 +108,7 @@ public class ReqComponentTranslator {
     	if(reqComponent == null) {
     		throw new DoesNotExistException("ReqComponent cannot be null");
     	}
-    	
+
     	ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
         Map<String, Object> contextMap = buildContextMap(reqComponent);
         ReqComponentTypeNLTemplate template = getTemplate(reqComponentType, nlUsageTypeKey, language);
@@ -124,7 +124,7 @@ public class ReqComponentTranslator {
 
     /**
      * Builds a requirement component type context map.
-     * 
+     *
      * @param reqComponent Requirement component
      * @throws DoesNotExistException Requirement component context not found in registry
      * @throws OperationFailedException Creating context map failed
@@ -146,7 +146,7 @@ public class ReqComponentTranslator {
 
     /**
      * Gets the requirement component type template for the <code>nlUsageTypeKey</code>.
-     * 
+     *
      * @param reqComponentType
      *            Requirement component type
      * @param nlUsageTypeKey
@@ -162,6 +162,6 @@ public class ReqComponentTranslator {
             }
         }
         throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "'" +
-        		" and language code '" + language + "' for requirement component type template not found");
+        		" and language code '" + language + "' for requirement component type " + reqComponentType.getId() + " template not found");
     }
 }

@@ -50,42 +50,42 @@ import org.kuali.student.core.entity.VersionEntity;
 	//FIXME dates should be either set from the DB time as part of the insert statement, or set from the application.
 	//DB timestamp (CURRENT_TIMESTAMP) is preferred
     @NamedQuery(name = "Clu.findCurrentVersionInfo", query = "SELECT " +
-    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.prevVersionId) " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.currentVersionStart <= :currentTime AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
 	@NamedQuery(name = "Clu.findCurrentVersionOnDate", query = "SELECT " +
-    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.prevVersionId) " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.currentVersionStart <= :date AND (c.version.currentVersionEnd > :date OR c.version.currentVersionEnd IS NULL)"),
 	@NamedQuery(name = "Clu.findFirstVersion", query = "SELECT " +
-    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.prevVersionId) " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.sequenceNumber IN (SELECT MIN(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
 	@NamedQuery(name = "Clu.findVersionBySequence", query = "SELECT " +
-    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.prevVersionId) " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.sequenceNumber = :sequenceNumber"),
 	@NamedQuery(name = "Clu.findVersions", query = "SELECT " +
-    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.prevVersionId) " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId"),
 	@NamedQuery(name = "Clu.findVersionsInDateRange", query = "SELECT " +
-    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.prevVersionId) " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND ( (c.version.currentVersionStart >= :from AND c.version.currentVersionStart < :to)" +
     		"   OR (c.version.currentVersionStart < :from AND c.version.currentVersionEnd > :from) )"),
 	@NamedQuery(name = "Clu.findVersionsBeforeDate", query = "SELECT " +
-    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.prevVersionId) " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.currentVersionStart <= :date"),
 	@NamedQuery(name = "Clu.findVersionsAfterDate", query = "SELECT " +
-    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.prevVersionId) " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
     		"AND c.version.currentVersionStart >= :date"),

@@ -120,8 +120,8 @@ public class ViewCourseActionList extends Composite {
 //			@Override
 //			public void onClick(ClickEvent event) {
 //				dialog.getConfirmButton().setEnabled(false);
-//				rpcService.submitDocumentWithData(dataModel.getRoot(), new AsyncCallback<DataSaveResult>(){
-//					public void onFailure(
+//				rpcService.submitDocumentWithData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>(){
+//					public void handleFailure(
 //							Throwable caught) {
 //						Window.alert("Error starting Proposal workflow");
 //						dialog.getConfirmButton().setEnabled(true);
@@ -147,8 +147,8 @@ public class ViewCourseActionList extends Composite {
 	        public void onClick(ClickEvent event) {
 				Window.alert("Function not yet implemented");
 	        	
-//				rpcService.acknowledgeDocumentWithId(proposalId, new AsyncCallback<Boolean>(){
-//					public void onFailure(
+//				rpcService.acknowledgeDocumentWithId(proposalId, new KSAsyncCallback<Boolean>(){
+//					public void handleFailure(
 //							Throwable caught) {
 //						Window.alert("Error acknowledging Proposal");
 //					}
@@ -193,10 +193,7 @@ public class ViewCourseActionList extends Composite {
 		courseActionsDropDown.setItems(items);
 
 		//FIXME: apply permissions
-//		rpcService.getActionsRequested(courseId, new AsyncCallback<String>(){
-//
-//			public void onFailure(Throwable caught) {
-//			}
+//		rpcService.getActionsRequested(courseId, new KSAsyncCallback<String>(){
 //
 //			public void onSuccess(String result) {
 //				Window.alert("Permissions string="+result);

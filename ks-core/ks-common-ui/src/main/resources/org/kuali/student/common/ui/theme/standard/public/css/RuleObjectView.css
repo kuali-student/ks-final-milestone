@@ -15,10 +15,7 @@
 
 .KS-Program-Rule-ObjectView-RulePanel{
     background: #999999;
-    padding-left: 5px;
-    padding-top: 30px;
-    padding-right: 5px;
-    padding-bottom: 5px;
+    padding: 30px 5px 30px 10px;
     border: 1px solid #000000;
 }
 
@@ -39,21 +36,21 @@
 }
 
 .KS-Program-Rule-ObjectView-Down-Button {
-
+    margin-left: 20px;
 }
 
 .KS-Program-Rule-ObjectView-Up-Button {
-
+    margin-left: 10px;
 }
 
 .KS-Program-Rule-ObjectView-Undo-Button {
-
+    margin-left: 50px;
 }
 
 .KS-Program-Rule-ObjectView-Redo-Button {
-
+    margin-left: 10px;
 }
 
 .KS-Program-Rule-ObjectView-Delete-Button {
-
+    margin-left: 50px;
 }

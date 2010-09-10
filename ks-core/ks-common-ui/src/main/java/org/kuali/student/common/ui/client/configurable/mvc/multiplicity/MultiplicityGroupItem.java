@@ -62,10 +62,12 @@ public class MultiplicityGroupItem extends BaseSection {
     private void buildLayout() {
 
         switch (style) {
-            case TOP_LEVEL:
+            case TOP_LEVEL_GROUP:
+            case BORDERED_TABLE:
                 layout = new BorderedHeadedLayout(itemLabel, updateable);
                 break;
-            case SUB_LEVEL:
+            case SUB_LEVEL_GROUP:
+            case BORDERLESS_TABLE:
                 layout = new UnborderedHeadedLayout(itemLabel, updateable);
                 break;
         }

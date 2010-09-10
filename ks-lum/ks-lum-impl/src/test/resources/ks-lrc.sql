@@ -168,3 +168,11 @@ INSERT INTO KSLU_LRC_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-LRC-RV
 INSERT INTO KSLU_LRC_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-LRC-RV-5', '<p>Final Grade of F</p>', 'Final Grade of F');
 INSERT INTO KSLU_LRC_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-LRC-RV-6', '<p>Final Grade of P</p>', 'Final Grade of P');
 INSERT INTO KSLU_LRC_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-LRC-RV-7', '<p>Final Grade of F</p>', 'Final Grade of F');
+
+// KSLU_LRC_RESULT_VALUE.id and KSLU_LRC_RESULT_VALUE.value MUST be the same since id is also used as the value
+INSERT INTO KSLU_LRC_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID) VALUES ('A', 'A', 'kuali.resultComponent.grade.letter')
+INSERT INTO KSLU_LRC_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID) VALUES ('B', 'B', 'kuali.resultComponent.grade.letter')
+INSERT INTO KSLU_LRC_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID) VALUES ('C', 'C', 'kuali.resultComponent.grade.letter')
+INSERT INTO KSLU_LRC_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID) VALUES ('D', 'D', 'kuali.resultComponent.grade.letter')
+INSERT INTO KSLU_LRC_RESULT_VALUE (ID, VALUE, RSLT_COMP_ID) VALUES ('F', 'F', 'kuali.resultComponent.grade.letter')
+

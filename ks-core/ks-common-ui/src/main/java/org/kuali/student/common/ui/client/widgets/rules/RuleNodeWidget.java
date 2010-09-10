@@ -15,12 +15,12 @@
 
 package org.kuali.student.common.ui.client.widgets.rules;
 
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.table.Node;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.*;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 
 public class RuleNodeWidget extends FocusPanel {
     
@@ -86,7 +86,7 @@ public class RuleNodeWidget extends FocusPanel {
         } else { //we have a rule to display in this node  //if (userObject instanceof ReqComponentVO) {
             KSLabel rcLabel = null;
             HorizontalPanel tableCell = new HorizontalPanel();
-            checkBoxAndEdit= new HorizontalPanel();
+            checkBoxAndEdit = new HorizontalPanel();
             super.setWidget(tableCell);
             this.setStyleName(userObject.isCheckBoxOn() ? "KS-Rules-Table-Cell-Selected" : "KS-Rules-Table-Cell-DeSelected");
             if (userObject.getTokenID() != null) {
@@ -115,6 +115,7 @@ public class RuleNodeWidget extends FocusPanel {
                 checkBoxAndEdit.setStyleName("KS-ReqComp-DeSelected");                
             }
             html.setHTML(node.getUserObject().toString());
+            html.addStyleName("KS-ReqComp-Panel");
             checkBox.setHTML(node.getUserObject().toString());
             checkBox.setValue(userObject.isCheckBoxOn());
             

@@ -49,26 +49,15 @@ public class Bean2DictionaryConverter
   return os;
  }
 
- private boolean calcHasMetaData (BeanInfo beanInfo)
+  private boolean calcHasMetaData (BeanInfo beanInfo)
  {
   for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors ())
   {
-   // not sure why a simple
-   // if (MetaInfo.class.equals (pd.getPropertyType ())
-   // {
-   //   return true;
-   // }
-   // wont work
-   if ( ! MetaInfo.class.equals (pd.getPropertyType ())
-       &&  ! Class.class.equals (pd.getPropertyType ())
-       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
-   {
-    // continue
-   }
-   else
-   {
-    return true;
-   }
+    if (MetaInfo.class.equals (pd.getPropertyType ()))
+    {
+      return true;
+    }
+//       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
   }
   return false;
  }
@@ -136,6 +125,10 @@ public class Bean2DictionaryConverter
   else if (List.class.equals (pt))
   {
    throw new RuntimeException ("Can't have a list of lists, List<List<?>>");
+  }
+  else if (Enum.class.isAssignableFrom (pt))
+  {
+   return DataType.STRING;
   }
   else
   {

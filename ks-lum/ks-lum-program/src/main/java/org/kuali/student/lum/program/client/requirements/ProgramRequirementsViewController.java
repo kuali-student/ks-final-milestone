@@ -5,12 +5,11 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
-import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ContinueCancelGroup;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -21,6 +20,10 @@ public class ProgramRequirementsViewController extends BasicLayout {
         PREVIEW,
         MANAGE
     }
+
+    protected static final String TEMLATE_LANGUAGE = "en";
+    protected static final String RULEEDIT_TEMLATE = "KUALI.RULEEDIT";
+    protected static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";    
 
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
 
@@ -82,74 +85,44 @@ public class ProgramRequirementsViewController extends BasicLayout {
 
         //We do this check here because theoretically the subcontroller views
         //will display their own messages to the user to give them a reason why the view
-        //change has been cancelled, otherwise continue to check for reasons not to change
-        //with this controller
+        //change has been cancelled, otherwise continue to check for reasons not to change with this controller
         super.beforeViewChange(new Callback<Boolean>(){
 
             @Override
             public void exec(Boolean result) {
-                if(result){
-//TODO check if view (manage view - check if dirty to show dialog); clear dirty flag                    
-                    if(getCurrentView() instanceof ProgramRequirementsManageView && ((SectionView)getCurrentView()).isDirty()){
-                        ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
-                        final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
-                        buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>(){
 
-                            @Override
-                            public void exec(ButtonEnumerations.YesNoCancelEnum result) {
-                                switch(result){
-                                    case YES:
-                                        SaveActionEvent e = new SaveActionEvent();
-                                        fireApplicationEvent(e);
-                                        if(e.isSaveSuccessful()){
-                                            okToChange.exec(true);
-                                        }
-                                        else{
-                                            okToChange.exec(false);
-                                        }
-                                        dialog.hide();
-                                        break;
-                                    case NO:
-                                        //Force a model request from server
-                                        /*
-                                        getCurrentModel(new ModelRequestCallback<DataModel>(){
-
-                                            @Override
-                                            public void onModelReady(DataModel model) {
-                                                if (getCurrentView()instanceof Section){
-                                                    ((Section) getCurrentView()).resetFieldInteractionFlags();
-                                                }
-                                                okToChange.exec(true);
-                                                dialog.hide();
-                                            }
-
-                                            @Override
-                                            public void onRequestFail(Throwable cause) {
-                                                //TODO Is this correct... do we want to stop view change if we can't restore the data?  Possibly traps the user
-                                                //if we don't it messes up saves, possibly warn the user that it failed and continue?
-                                                okToChange.exec(false);
-                                                dialog.hide();
-                                                GWT.log("Unable to retrieve model for data restore on view change with no save", cause);
-                                            }},
-                                            NO_OP_CALLBACK);  */
-
-                                        break;
-                                    case CANCEL:
-                                        okToChange.exec(false);
-                                        dialog.hide();
-                                        break;
-                                }
-                            }
-                        });
-                        dialog.show();
-                    }
-                    else{
-                        okToChange.exec(true);
-                    }
-                }
-                else{
+                if (!result) {
                     okToChange.exec(false);
+                    return;
                 }
+
+                if(!(getCurrentView() instanceof ProgramRequirementsManageView)) {
+                    okToChange.exec(true);
+                    return;
+                }
+
+                //no dialog if user clicks on the 'Save' button
+                if (((ProgramRequirementsManageView)getCurrentView()).isUserClickedSaveButton()) {                       
+                    okToChange.exec(true);
+                    return;                    
+                }
+
+                //if user clicked on breadcrumbs, menu or cancel button of the manage screen and changes have been made to the rule on the manage screen...
+               if (((SectionView)getCurrentView()).isDirty()) {
+                    ButtonGroup<ButtonEnumerations.ContinueCancelEnum> buttonGroup = new ContinueCancelGroup();
+                    final ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum> dialog =
+                                new ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum>("Warning", "You have unsaved changes. Are you sure you want to proceed?", buttonGroup);
+                    buttonGroup.addCallback(new Callback<ButtonEnumerations.ContinueCancelEnum>(){
+                        @Override
+                        public void exec(ButtonEnumerations.ContinueCancelEnum result) {
+                            okToChange.exec(result == ButtonEnumerations.ContinueCancelEnum.CONTINUE);                            
+                            dialog.hide();
+                        }
+                    });
+                    dialog.show();
+               } else {
+                    okToChange.exec(true);
+               }
             }
         });
     }
@@ -172,6 +145,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
     public StatementTreeViewInfo getTestStatement() {
 
         StatementTreeViewInfo stmtTreeInfo = new StatementTreeViewInfo();
+        stmtTreeInfo.setId("123");
 
         List<StatementTreeViewInfo> subTrees = new ArrayList<StatementTreeViewInfo>();
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
@@ -179,19 +153,21 @@ public class ProgramRequirementsViewController extends BasicLayout {
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
         subTrees.add(subTree2);
         stmtTreeInfo.setStatements(subTrees);
-        stmtTreeInfo.setType("kuali.luStatementType.prereqAcademicReadiness");
-        subTree1.setType("kuali.luStatementType.prereqAcademicReadiness");
-        subTree2.setType("kuali.luStatementType.prereqAcademicReadiness");
+        stmtTreeInfo.setType("kuali.statement.type.course.academicReadiness.prereq");
+        subTree1.setType("kuali.statement.type.course.academicReadiness.prereq");
+        subTree2.setType("kuali.statement.type.course.academicReadiness.prereq");
 
         // set reqComps for sub-tree 1
         subTree1.setId("STMT-TV-2");
         subTree1.setStatements(null);
         ReqComponentInfo reqComp1 = new ReqComponentInfo();
         reqComp1.setId("REQCOMP-TV-1");
-        reqComp1.setNaturalLanguageTranslation("Student must have completed all of MATH 152, MATH 180");
+        reqComp1.setNaturalLanguageTranslation("Must have successfully completed all courses from MATH 152, MATH 180");
+        reqComp1.setType("kuali.reqCompType.course.courseset.completed.all");
         ReqComponentInfo reqComp2 = new ReqComponentInfo();
         reqComp2.setId("REQCOMP-TV-2");
-        reqComp2.setNaturalLanguageTranslation("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180");
+        reqComp2.setNaturalLanguageTranslation("Must have earned a minimum GPA of 3.5 in MATH 152, MATH 180");
+        reqComp2.setType("kuali.reqCompType.course.courseset.gpa.min");
         List<ReqComponentInfo> reqComponents = new ArrayList<ReqComponentInfo>();
         reqComponents.add(reqComp1);
         reqComponents.add(reqComp2);
@@ -204,10 +180,12 @@ public class ProgramRequirementsViewController extends BasicLayout {
         subTree2.setStatements(null);
         ReqComponentInfo reqComp3 = new ReqComponentInfo();
         reqComp3.setId("REQCOMP-TV-3");
-        reqComp3.setNaturalLanguageTranslation("Student must have completed 1 of MATH 152, MATH 180");
+        reqComp3.setNaturalLanguageTranslation("Must have successfully completed a minimum of 1 course from MATH 152, MATH 180");
+        reqComp3.setType("kuali.reqCompType.course.courseset.completed.nof");
         ReqComponentInfo reqComp4 = new ReqComponentInfo();
         reqComp4.setId("REQCOMP-TV-4");
-        reqComp4.setNaturalLanguageTranslation("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180");
+        reqComp4.setNaturalLanguageTranslation("Must have earned a minimum GPA of 4 in MATH 152, MATH 180");
+        reqComp4.setType("kuali.reqCompType.course.courseset.gpa.min");
         List<ReqComponentInfo> reqComponents2 = new ArrayList<ReqComponentInfo>();
         reqComponents2.add(reqComp3);
         reqComponents2.add(reqComp4);

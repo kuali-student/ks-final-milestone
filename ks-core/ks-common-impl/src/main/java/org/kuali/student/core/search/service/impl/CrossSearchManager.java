@@ -92,6 +92,15 @@ public class CrossSearchManager {
 		
 		//merge the subsearches together using the join rules (this is in o^2 time which is bad)
 		List <Map<String,SearchResultRow>> allPermutations = unionOfAllRows(subSearchResults);
+
+		int toIndex=0;
+		if(searchRequest.getMaxResults()!=null){
+			if(searchRequest.getStartAt()!=null){
+				toIndex = searchRequest.getStartAt()+searchRequest.getMaxResults();
+			} else {
+				toIndex = searchRequest.getMaxResults();
+			}			
+		}
 		for(Map<String,SearchResultRow> permutation:allPermutations){
 			if(meetsCriteria(permutation,crossSearchType,crossSearchType.getJoinCriteria())){
 				SearchResultRow mappedResult = mapResultRow(permutation,crossSearchType);
@@ -121,6 +130,8 @@ public class CrossSearchManager {
 			Collections.sort(searchResult.getRows(), new SearchResultRowComparator(sortColumn,sortDirection));
 		}
 		
+		
+		
 		//Paginate if we need to
 		if(searchRequest.getMaxResults()!=null){
 			int fromIndex=0;
@@ -128,7 +139,12 @@ public class CrossSearchManager {
 				fromIndex=searchRequest.getStartAt();
 			}
 			int toIndex = fromIndex+searchRequest.getMaxResults();
-			searchResult.setRows(searchResult.getRows().subList(fromIndex, toIndex));
+			SearchResult pagedResult = new SearchResult();
+			for (int i=fromIndex; i <= toIndex; i++) {
+				pagedResult.getRows().add(searchResult.getRows().get(i));
+			}
+			
+			searchResult = pagedResult;
 		}
 		return searchResult;
 	}

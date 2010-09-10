@@ -136,6 +136,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		//Fees
 		//Fee justification
+		List<CourseFeeInfo> fees = new ArrayList<CourseFeeInfo>();
+		List<CourseRevenueInfo> revenues = new ArrayList<CourseRevenueInfo>();
 		if(clu.getFeeInfo() != null){
 			course.setFeeJustification(clu.getFeeInfo().getDescr());
 
@@ -149,7 +151,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					courseRevenue.setAttributes(cluFeeRecord.getAttributes());
 					courseRevenue.setId(cluFeeRecord.getId());
 					courseRevenue.setMetaInfo(cluFeeRecord.getMetaInfo());
-					course.getRevenues().add(courseRevenue);
+					revenues.add(courseRevenue);
 				}else{
 					CourseFeeInfo courseFee = new CourseFeeInfo();
 					courseFee.setFeeType(feeType);
@@ -159,10 +161,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					courseFee.setId(cluFeeRecord.getId());
 					courseFee.setFeeAmounts(cluFeeRecord.getFeeAmounts());
 					courseFee.setAttributes(cluFeeRecord.getAttributes());
-					course.getFees().add(courseFee);
+					fees.add(courseFee);
 				}
 			}
 		}
+		course.setFees(fees);
+		course.setRevenues(revenues);
 		//Expenditures are mapped from accounting info
 		if(course.getExpenditure() == null || clu.getAccountingInfo() == null){
 			course.setExpenditure(new CourseExpenditureInfo());
@@ -248,10 +252,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				
 				List<String> gradingOptions = assembleGradingOptions(cluResults);
 				
-				//Remove special cases for grading options
-				gradingOptions.remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL);
-				gradingOptions.remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
-				
 				course.setGradingOptions(gradingOptions);
 			} catch (DoesNotExistException e){
 			} catch (Exception e) {
@@ -263,6 +263,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			
 		}
 
+		//Remove special cases for grading options
+		course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL);
+		course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
+		
 		return course;
 	}
 
@@ -300,14 +304,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
 		identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
 		identifier.setState(course.getState());
-		identifier.setCode(course.getCode());
-		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setLongName(course.getCourseTitle());
-		
-		identifier.setDivision(course.getSubjectArea());
 		identifier.setShortName(course.getTranscriptTitle());
-		clu.setOfficialIdentifier(identifier);
+		identifier.setSuffixCode(course.getCourseNumberSuffix());
+		identifier.setDivision(course.getSubjectArea());
 
+		//Custom logic to set the code as the concatenation of division and course number suffix
+		if(course.getCourseNumberSuffix()!=null&&course.getSubjectArea()!=null&&!course.getCourseNumberSuffix().isEmpty()&&!course.getSubjectArea().isEmpty()){
+			identifier.setCode(course.getSubjectArea()+course.getCourseNumberSuffix());			
+		}else{
+			identifier.setCode(null);
+		}
+		
+		clu.setOfficialIdentifier(identifier);
 
 		clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
 
@@ -327,7 +336,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
 			cluIdentifier.setId(variation.getId());
 			cluIdentifier.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
-			cluIdentifier.setCode(course.getCode());
+			cluIdentifier.setCode(identifier.getCode());
 			cluIdentifier.setSuffixCode(course.getCourseNumberSuffix());
 			cluIdentifier.setDivision(course.getSubjectArea());
 			cluIdentifier.setVariation(variation.getVariationCode());
@@ -499,6 +508,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		for(CourseRevenueInfo courseRevenue:course.getRevenues()){
 			CluFeeRecordInfo cluFeeRecord  = new CluFeeRecordInfo();
 			cluFeeRecord.setFeeType(CourseAssemblerConstants.COURSE_FINANCIALS_REVENUE_TYPE);
+			cluFeeRecord.setRateType(CourseAssemblerConstants.COURSE_FINANCIALS_REVENUE_TYPE);
 			cluFeeRecord.setAttributes(courseRevenue.getAttributes());
 			cluFeeRecord.setAffiliatedOrgs(courseRevenue.getAffiliatedOrgs());
 			cluFeeRecord.setId(courseRevenue.getId());
@@ -607,6 +617,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo> node = new BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo>(null);
 						node.setOperation(NodeOperation.CREATE);
 						node.setNodeData(resultComponent);
+						node.setBusinessDTORef(creditOption);
 						results.add(node);
 						
 						rsltComps.add(id);
@@ -1079,7 +1090,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Get the current joints and put them in a map of joint id/relation
 		// id
-		Map<String, String> currentJointIds = new HashMap<String, String>();
+		Set<String> currentJointIds = new HashSet<String>();
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
@@ -1088,8 +1099,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				for (CluCluRelationInfo jointRelation : jointRelationships) {
 					if (CourseAssemblerConstants.JOINT_RELATION_TYPE
 							.equals(jointRelation.getType())) {
-						currentJointIds.put(jointRelation.getRelatedCluId(),
-								jointRelation.getId());
+						currentJointIds.add(jointRelation.getId());
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -1106,8 +1116,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		for (CourseJointInfo joint : course.getJoints()) {
 
 			// If this is a course create then all joints will be created
-			if (NodeOperation.UPDATE.equals(operation)
-					&& currentJointIds.containsKey(joint.getRelationId())) {
+			if (NodeOperation.UPDATE.equals(operation) && joint.getRelationId() != null
+					&& currentJointIds.contains(joint.getRelationId())) {
 				// remove this entry from the map so we can tell what needs to
 				// be deleted at the end
 				currentJointIds.remove(joint.getRelationId());
@@ -1122,11 +1132,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         // Now any leftover joint ids are no longer needed, so delete
         // joint relations
-        for (Entry<String, String> entry : currentJointIds.entrySet()) {
+        for (String id : currentJointIds) {
             // Create a new relation with the id of the relation we want to
             // delete
             CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
-            relationToDelete.setId(entry.getValue());
+            relationToDelete.setId(id);
             BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(
                     courseJointAssembler);
             relationToDeleteNode.setNodeData(relationToDelete);

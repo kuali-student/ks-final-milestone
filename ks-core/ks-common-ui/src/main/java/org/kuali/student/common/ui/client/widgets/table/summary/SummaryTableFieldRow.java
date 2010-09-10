@@ -4,24 +4,22 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
 
 public class SummaryTableFieldRow extends SummaryTableRow{
-    FieldDescriptor fieldDescriptor1;
-    FieldDescriptor fieldDescriptor2;
+    private FieldDescriptor fieldDescriptor1;
+    private FieldDescriptor fieldDescriptor2;
+    private boolean temporary = false;
     
-    public SummaryTableFieldRow(FieldDescriptor fieldDescriptor){
-        this.fieldDescriptor1 = fieldDescriptor;
-        this.setKey(fieldDescriptor.getFieldKey());
-        this.setCell1(fieldDescriptor.getFieldWidget());
-        this.setTitle(fieldDescriptor.getFieldLabel());
-        this.setRequired(MetadataInterrogator.isRequired(fieldDescriptor.getMetadata()));
-        
+    public SummaryTableFieldRow(){
+        this.setContentCellCount(2);
     }
+    
     public SummaryTableFieldRow(FieldDescriptor fieldDescriptor1,
             FieldDescriptor fieldDescriptor2){
         this.fieldDescriptor1 = fieldDescriptor1;
         this.setKey(fieldDescriptor1.getFieldKey());
         this.setCell1(fieldDescriptor1.getFieldWidget());
         this.setTitle(fieldDescriptor1.getFieldLabel());
-        this.setRequired(MetadataInterrogator.isRequired(fieldDescriptor1.getMetadata()));
+        this.setRequired(MetadataInterrogator.isRequired(fieldDescriptor1.getMetadata()) || 
+        		MetadataInterrogator.isRequiredForNextState(fieldDescriptor1.getMetadata()));
         
         this.fieldDescriptor2 = fieldDescriptor2;
         this.setCell2(fieldDescriptor2.getFieldWidget());
@@ -34,5 +32,18 @@ public class SummaryTableFieldRow extends SummaryTableRow{
     public FieldDescriptor getFieldDescriptor2(){
         return fieldDescriptor2;
     }
+    
+    /**
+     * This flag means the row should be removed before data is re-generated for the
+     * rows
+     * @param multiplicityRow
+     */
+    protected void setTemporaryRowFlag(boolean multiplicityRow) {
+		this.temporary = multiplicityRow;
+	}
+    
+    protected boolean isTemporaryRow() {
+		return temporary;
+	}
 
 }

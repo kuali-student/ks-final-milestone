@@ -1213,6 +1213,7 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(cluInfo.getDescr(), clu.getDescr());
 		} else if (clu.getDescr() != null) {
 			luDao.delete(clu.getDescr());
+			clu.setDescr(null);//TODO is the is the best method of doing this? what if the user passes in a new made up id, does that mean we have orphaned richtexts?
 		}
 
 		if (cluInfo.getPrimaryInstructor() != null) {
@@ -2855,7 +2856,7 @@ public class LuServiceImpl implements LuService {
     		version.setCurrentVersionStart(null);
     		version.setCurrentVersionEnd(null);
     		version.setVersionComment(versionComment);
-    		version.setPrevVersionId(currentClu.getId());
+    		version.setVersionedFromId(currentClu.getId());
     		clu.setVersion(version);
     		luDao.create(clu);
             newClu = LuServiceAssembler.toCluInfo(clu); 
@@ -2926,7 +2927,11 @@ public class LuServiceImpl implements LuService {
 			if(clu.getVersion().getSequenceNumber()<=oldClu.getVersion().getSequenceNumber()){
 				throw new OperationFailedException("Clu to make current must have been versioned from the current Clu");
 			}
+		}else{
+			//Ignore the start date set if this is the first version (it will be set to the current time to avoid weird time problems)
+			currentVersionStart = currentDbDate;
 		}
+		
 		
 		//Get any clus that are set to become current in the future, and clear their current dates
 		List<VersionDisplayInfo> versionsInFuture = luDao.getVersionsInDateRange(versionIndId, null, currentDbDate, null);
@@ -2939,7 +2944,7 @@ public class LuServiceImpl implements LuService {
 			}
 		}
 		
-		//If there is a current clu, set it's end date to the new clu's start date
+		//If there is a current clu, set its end date to the new clu's start date
 		if(oldClu!=null){
 			oldClu.getVersion().setCurrentVersionEnd(currentVersionStart);
 			oldClu = luDao.update(oldClu);

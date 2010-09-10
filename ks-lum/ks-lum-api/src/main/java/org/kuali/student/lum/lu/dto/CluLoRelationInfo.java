@@ -175,4 +175,10 @@ public class CluLoRelationInfo  implements Serializable, Idable, HasTypeState, H
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+    	return "CLuLoRelaionInfo[id=" + id + ", cluId=" + cluId + ", loId=" + loId + "]";
+    }
+
 }

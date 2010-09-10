@@ -18,7 +18,11 @@
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import java.util.List;
+
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+
 import com.google.gwt.user.client.ui.FlexTable;
 
 /**
@@ -32,18 +36,17 @@ public class MultiplicityTable extends FlexTable {
 
     private MultiplicityConfiguration config;
 
-    private static final String STYLE_TABLE = "KS-ViewCourseDisplayTable";
-    private static final String STYLE_CELL = "KS-ViewCourseDisplayTableCell";
-    private static final String STYLE_HEADER_CELL = "KS-ViewCourseDisplayTableHeaderCell";
+    private static final String STYLE_TABLE = "KS-MultiplicityTable";
+    private static final String STYLE_TABLE_BORDER = "KS-MultiplicityTableBorder";
+    private static final String STYLE_CELL = "KS-MultiplicityTableCell";
+    private static final String STYLE_CELL_BORDER = "KS-MultiplicityTableCellBorder";
+    private static final String STYLE_HEADER_CELL = "KS-MultiplicityTableHeaderCell";
     private static final String BLANK_STRING = " ";
     private int col = 0;
     protected int row = 0;
 
     private String parentPath;
 
-    {
-        setStyleName(STYLE_TABLE);
-    }
 
     /**
      *
@@ -53,6 +56,10 @@ public class MultiplicityTable extends FlexTable {
      */
     public MultiplicityTable(MultiplicityConfiguration config) {
         this.config = config;
+        setStyleName(STYLE_TABLE);
+        if (config.getStyleType() == MultiplicityConfiguration.StyleType.BORDERED_TABLE){
+             addStyleName(STYLE_TABLE_BORDER);
+        }
     }
 
     public void initTable() {
@@ -68,9 +75,11 @@ public class MultiplicityTable extends FlexTable {
         if (config.isShowHeaders()) {
             //TODO should just be 1 row def for a table - throw exception if > 1?
             for (Integer row  : config.getFields().keySet()) {
-                List<FieldDescriptor> fields = config.getFields().get(row);
-                for (FieldDescriptor fd : fields) {
-                    addHeaderCell(fd.getFieldLabel());
+                List<MultiplicityFieldConfiguration> fieldConfigs = config.getFields().get(row);
+                for (MultiplicityFieldConfiguration fieldConfig : fieldConfigs) {
+                    MessageKeyInfo info = fieldConfig.getMessageKeyInfo();
+                    String title = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), info.getId());
+                    addHeaderCell(title);
                 }
             }
             nextRow();
@@ -91,6 +100,9 @@ public class MultiplicityTable extends FlexTable {
     private void setCellText(int row, int cell, String fieldValue) {
         setText(row, cell, fieldValue);
         getCellFormatter().addStyleName(row, cell, STYLE_CELL);
+        if (config.getStyleType() == MultiplicityConfiguration.StyleType.BORDERED_TABLE) {
+            getCellFormatter().addStyleName(row, cell, STYLE_CELL_BORDER);
+        }
     }
 
     public void addEmptyCell() {

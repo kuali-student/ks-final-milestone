@@ -23,62 +23,62 @@ public class EditHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<StatementVO> histories = new ArrayList<StatementVO>();
-    private static final int MAX_NUM_HISTORIES = 5;
+    private static final int MAX_NUM_HISTORIES = 10;
     private int currHistoryIndex = -1;
-    
-    public void save(StatementVO history) {
-        StatementVO cloned = null;
+
+    public EditHistory(StatementVO origStatementVO) {
+        save(origStatementVO);
+    }
+
+    public void save(StatementVO historicStmtVO) {
         List<StatementVO> newHistories = new ArrayList<StatementVO>();
-        // replace out of date histories with the new history
-        if (currHistoryIndex >= 0 &&
-                currHistoryIndex < histories.size()) {
+        
+        // replace out of date histories with the new historicStmtVO
+        if (currHistoryIndex >= 0 && currHistoryIndex < histories.size()) {
             for (int i = 0; i < currHistoryIndex + 1; i++) {
                 newHistories.add(histories.get(i));
             }
             histories = newHistories;
         }
-        currHistoryIndex++;
-        cloned = ObjectClonerUtil.clone(history);
-        histories.add(cloned);
         
+        histories.add(ObjectClonerUtil.clone(historicStmtVO));
+        currHistoryIndex++;
+
         // delete old element
         if (histories.size() > MAX_NUM_HISTORIES) {
             histories.remove(0);
             currHistoryIndex = histories.size() - 1;
         }
     }
+
+    public StatementVO getLastHistoricStmtVO() {
+        return ObjectClonerUtil.clone(histories.get(currHistoryIndex));
+    }
     
-    public StatementVO getCurrentState() {
-        StatementVO history = null;
-        history = ObjectClonerUtil.clone(histories.get(currHistoryIndex));
-        return history;
+    public StatementVO getSafeHistoricStmtVO(int index) {
+        index = (index < 0 ? 0 : (index < histories.size() ? index : histories.size()));
+        return ObjectClonerUtil.clone(histories.get(index));
     }
     
     public StatementVO undo() {
-        StatementVO history = null;
-        if (isUndoable()) {
-            currHistoryIndex--;
-        }
-        history = ObjectClonerUtil.clone(histories.get(currHistoryIndex));
-        return history;
+        currHistoryIndex--;
+        currHistoryIndex = (currHistoryIndex < 0 ? -1 : currHistoryIndex);
+        StatementVO lastHistoricStmtVO = getSafeHistoricStmtVO(currHistoryIndex);
+        return lastHistoricStmtVO;
     }
     
     public StatementVO redo() {
-        StatementVO history = null;
-        if (isRedoable()) {
-            currHistoryIndex++;
-        }
-        history = ObjectClonerUtil.clone(histories.get(currHistoryIndex));
-        return history;
+        currHistoryIndex++;
+        currHistoryIndex = (currHistoryIndex < histories.size() ? currHistoryIndex : histories.size());
+        StatementVO futureHistoricStmtVO = getSafeHistoricStmtVO(currHistoryIndex);
+        return futureHistoricStmtVO;
     }
-    
+
     public boolean isUndoable() {
         return currHistoryIndex > 0;
     }
     
     public boolean isRedoable() {
         return currHistoryIndex < histories.size() - 1;
-    }
-    
-    
+    }   
 }

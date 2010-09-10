@@ -1,17 +1,25 @@
 package org.kuali.student.common.ui.client.widgets.table.summary;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.MetadataInterrogator;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Property;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,9 +27,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class SummaryTableSection extends VerticalSection {
     SummaryTable summaryTable = new SummaryTable();
     SummaryTableModel summaryTableModel = new SummaryTableModel();
-    private boolean needToRebuldTable = true;
     Controller controller;
     DataModel comparisonModel = null;
+    List<ShowRowConditionCallback> showRowCallbacks = new ArrayList<ShowRowConditionCallback>();
 
     public SummaryTableSection(Controller controller) {
         super();
@@ -56,65 +64,333 @@ public class SummaryTableSection extends VerticalSection {
     public void setEditable(boolean bool) {
         summaryTableModel.setEditable(bool);
     }
+    
+    public void addShowRowCallback(ShowRowConditionCallback callback){
+    	this.showRowCallbacks.add(callback);
+    }
+    
+    private void processShowConditions(SummaryTableFieldRow row, DataModel model, DataModel comparisonModel){
+    	for(int i =0; i < showRowCallbacks.size(); i++){
+    		showRowCallbacks.get(i).processShowConditions(row, model, comparisonModel);
+    	}
+    }
 
     public void addSummaryTableFieldBlock(SummaryTableFieldBlock section) {
         summaryTableModel.addSection(section);
     }
     
-    @Override
-    public void updateWidgetData(DataModel model) {
-        if (needToRebuldTable) {
-            summaryTable.doLayout();
-            needToRebuldTable = false;
+    private int buildMultiplicityRows(DataModel model, DataModel compModel, SummaryTableMultiplicityFieldRow parentRow, 
+    		List<SummaryTableRow> rowList, int styleLevel, Integer parentNum){
+    	MultiplicityConfiguration config = parentRow.getConfig();
+    	int index = rowList.indexOf(parentRow) + 1;
+    	int fieldRowsCreated = 0;
+    	int number = 0;
+    	String path = parentRow.getConfig().getParentFd().getFieldKey();
+    	if(parentNum != null){
+    		path = path.replace("*", "" + parentNum);
+    	}
+    	Data data = null;
+    	if(model != null && model.isValidPath(path)){
+    		data = model.get(QueryPath.parse(path));
+    	}
+		Data compData = null;
+		if(compModel != null && compModel.isValidPath(path)){
+			compData = compModel.get(QueryPath.parse(path));
+		}
+    	if((data != null && data.size() > 0) || (compData != null && compData.size() > 0)){
+    		Iterator<Property> itr = null;
+    		if(data != null && compData != null){
+    			if(data.size() >= compData.size()){
+    				itr = data.iterator();
+    			}
+    			else{
+    				itr = compData.iterator();
+    			}
+    		}
+    		else if(data != null){
+    			itr = data.iterator();
+    		}
+    		else{
+    			itr = compData.iterator();
+    		}
+    		SummaryTableMultiplicityFieldRow currentMultiplicityRow = parentRow;
+            while (itr.hasNext()) {
+                Property p = (Property) itr.next();
+                if (p.getKey() instanceof Integer){
+                	number = (Integer)p.getKey();
+                }
+        		if(config.getItemLabel() != null && !config.getItemLabel().isEmpty()){
+        			currentMultiplicityRow.setTitle(config.getItemLabel() + " "+ (number + 1));
+        			currentMultiplicityRow.setKey(path);
+            		if(MetadataInterrogator.isRequired(config.getMetaData()) || 
+                			MetadataInterrogator.isRequiredForNextState(config.getMetaData())){
+            			currentMultiplicityRow.setRequired(true);
+            		}
+            		currentMultiplicityRow.addTitleCellStyleName("summary-table-multiplicity-level-" + styleLevel);
+        		}
+        		else{
+        			currentMultiplicityRow.setShown(false);
+        		}
+	    		//set has-data/requires data style here
+	    		Map<Integer, List<MultiplicityFieldConfiguration>> fieldsCopy = config.getFields();
+				for(int i = 0; i < config.getFields().size(); i++){
+					for(int j = 0; j < config.getFields().get(i).size(); j++){
+						//TODO handle custom widgets (multiplicity field widget initializer)
+						MultiplicityFieldConfiguration field = fieldsCopy.get(i).get(j);
+	    				String fieldKey = translatePath(field.getFieldPath(), path, number);
+	    				FieldDescriptorReadOnly fd1 = new FieldDescriptorReadOnly(fieldKey, field.getMessageKeyInfo(), field.getMetadata());
+	    				fd1.setOptional(field.isOptional());
+	    				if(field.getModelWidgetBinding() != null){
+	    					fd1.setWidgetBinding(field.getModelWidgetBinding());
+	    				}
+	    				FieldDescriptorReadOnly fd2 = new FieldDescriptorReadOnly(fieldKey, field.getMessageKeyInfo(), field.getMetadata());
+	    				fd2.setOptional(field.isOptional());
+	    				if(field.getModelWidgetBinding() != null){
+	    					fd2.setWidgetBinding(field.getModelWidgetBinding());
+	    				}
+	    				SummaryTableFieldRow row = new SummaryTableFieldRow(fd1, fd2);
+	    				row.setTemporaryRowFlag(true);
+	    				rowList.add(index, row);
+	    				index++;
+	    				fieldRowsCreated++;
+	    			}
+				}
+				
+	    		if(config.getNestedConfig() != null){
+	    			MultiplicityConfiguration nestedConfig = config.getNestedConfig();
+	    			nestedConfig.getParentFd().getFieldKey().replace(config.getParentFd().getFieldKey(), path);
+	    			SummaryTableMultiplicityFieldRow mRow = new SummaryTableMultiplicityFieldRow(nestedConfig);
+	    			mRow.setTemporaryRowFlag(true);
+	    			rowList.add(index, mRow);
+	    			index++;
+	    			fieldRowsCreated++;
+	    			int result = buildMultiplicityRows(model, compModel, mRow, rowList, styleLevel + 1, number);
+	    			index = index + result;
+	    			
+	    		}
+	    		
+	    		if(itr.hasNext()){
+	    			SummaryTableMultiplicityFieldRow mRow = new SummaryTableMultiplicityFieldRow(config);
+	    			mRow.setTemporaryRowFlag(true);
+	    			rowList.add(index, mRow);
+	    			index++;
+	    			fieldRowsCreated++;
+	    			currentMultiplicityRow = mRow;
+	    		}
+            }
+    	}
+    	else{
+        	if(MetadataInterrogator.isRequired(config.getMetaData()) || 
+        			MetadataInterrogator.isRequiredForNextState(config.getMetaData())){
+        		if(config.getItemLabel() != null && !config.getItemLabel().isEmpty()){
+        			parentRow.setTitle(config.getItemLabel() + " "+ (number + 1));
+        			parentRow.setKey(path);
+            		parentRow.setRequired(true);
+            		parentRow.addTitleCellStyleName("summary-table-multiplicity-level-" + styleLevel);
+        		}
+        		else{
+        			parentRow.setShown(false);
+        		}
+        		//set has-data/requires data style here
+        		Map<Integer, List<MultiplicityFieldConfiguration>> fields = config.getFields();
+				for(int i = 0; i < fields.size(); i++){
+					for(int j = 0; j < fields.get(i).size(); j++){
+						//TODO handle custom widgets (multiplicity field widget initializer)
+						MultiplicityFieldConfiguration field = fields.get(i).get(j);
+	    				String fieldKey = translatePath(field.getFieldPath(), path, number);
+	    				FieldDescriptorReadOnly fd1 = new FieldDescriptorReadOnly(fieldKey, field.getMessageKeyInfo(), field.getMetadata());
+	    				fd1.setOptional(field.isOptional());
+	    				if(field.getModelWidgetBinding() != null){
+	    					fd1.setWidgetBinding(field.getModelWidgetBinding());
+	    				}
+	    				FieldDescriptorReadOnly fd2 = new FieldDescriptorReadOnly(fieldKey, field.getMessageKeyInfo(), field.getMetadata());
+	    				fd2.setOptional(field.isOptional());
+	    				if(field.getModelWidgetBinding() != null){
+	    					fd2.setWidgetBinding(field.getModelWidgetBinding());
+	    				}
+	    				SummaryTableFieldRow row = new SummaryTableFieldRow(fd1, fd2);
+	    				row.setTemporaryRowFlag(true);
+	    				rowList.add(index, row);
+	    				index++;
+	    				fieldRowsCreated++;
+	    			}
+				}
+				
+    			
+	    		if(config.getNestedConfig() != null){
+	    			MultiplicityConfiguration nestedConfig = config.getNestedConfig();
+	    			nestedConfig.getParentFd().getFieldKey().replace(config.getParentFd().getFieldKey(), path);
+	    			SummaryTableMultiplicityFieldRow mRow = new SummaryTableMultiplicityFieldRow(nestedConfig);
+	    			mRow.setTemporaryRowFlag(true);
+	    			rowList.add(index, mRow);
+	    			index++;
+	    			fieldRowsCreated++;
+	    			buildMultiplicityRows(null, null, mRow, rowList, styleLevel + 1, number);
+	    		}
+        	}
+        	else{
+        		//Alternate label possibly here
+        		parentRow.setTitle(config.getItemLabel());
+        		parentRow.setRequired(false);
+        		parentRow.setKey(config.getParentFd().getFieldKey());
+        		//set unrequired style here
+        	}
+    	}
+    	return fieldRowsCreated;
+    }
+    
+    public String translatePath(String path, String parentPath, int num) {
+        String fieldPath;
+        if (parentPath != null) {
+            QueryPath parent = QueryPath.concat(parentPath);
+            int i = parent.size();
+
+            QueryPath subPath = QueryPath.concat(path);
+            String itemPath =  subPath.subPath(i, subPath.size()).toString();
+
+            QueryPath qp = QueryPath.concat(parentPath, itemPath);
+            fieldPath = qp.toString();
         }
-        List<SummaryTableBlock> sectionList = summaryTableModel.getSectionList();
-        
+        else {
+            fieldPath = path;
+        }
+
+        fieldPath = fieldPath.replace("*", "" + num);
+        return fieldPath;
+    }
+    
+    @Override
+    public void updateWidgetData(final DataModel model) {
         controller.requestModel("ComparisonModel", new ModelRequestCallback<DataModel>() {
             @Override
-            public void onModelReady(DataModel model) {
-                comparisonModel = model;
-                // hard code a model to test the second column
+            public void onModelReady(DataModel otherModel) {
+                comparisonModel = otherModel;
+                updateTableData(model);
             }
 
             @Override
             public void onRequestFail(Throwable cause) {
-                GWT.log("ComparisonModel cannot be found. " + cause.getLocalizedMessage(), null);
+            	comparisonModel = null;
+            	updateTableData(model);
+                //GWT.log("ComparisonModel cannot be found. " + cause.getLocalizedMessage(), null);
             }
         });
-
+    }
+    
+    private void resetSummaryTableRows(SummaryTableFieldBlock fieldBlock){
+    	List<SummaryTableRow> rowList = fieldBlock.getSectionRowList();
+    	List<SummaryTableRow> removeList = new ArrayList<SummaryTableRow>();
+        for (int j = 0; j < rowList.size(); j++) {
+        	 SummaryTableFieldRow fieldRow = (SummaryTableFieldRow) rowList.get(j);
+        	 if(fieldRow.isTemporaryRow()){
+        		 removeList.add(fieldRow);
+        	 }
+        	 if(!fieldRow.isShown()){
+        		 fieldRow.setShown(true);
+        	 }
+        }
+        rowList.removeAll(removeList);
+    }
+    
+    private void buildSummaryTableMultiplicity(DataModel model, DataModel compModel, SummaryTableFieldBlock fieldBlock){
+    	List<SummaryTableMultiplicityFieldRow> mRows = fieldBlock.getMultiplicityList();
+    	for(int i = 0; i < mRows.size(); i++){
+    		SummaryTableMultiplicityFieldRow mRow = mRows.get(i);
+    		
+    		buildMultiplicityRows(model, compModel, mRow, fieldBlock.getSectionRowList(), 1, null);
+    	}
+    }
+    
+    @SuppressWarnings("unchecked")
+	private void updateTableData(DataModel model){
+    	List<SummaryTableBlock> sectionList = summaryTableModel.getSectionList();
         for (int i = 0; i < sectionList.size(); i++) {
             SummaryTableFieldBlock fieldBlock = (SummaryTableFieldBlock) sectionList.get(i);
+            resetSummaryTableRows(fieldBlock);
+            if(!fieldBlock.getMultiplicityList().isEmpty()){
+            	buildSummaryTableMultiplicity(model, comparisonModel, fieldBlock);
+            }
             List<SummaryTableRow> rowList = fieldBlock.getSectionRowList();
             for (int j = 0; j < rowList.size(); j++) {
-                SummaryTableFieldRow fieldRow = (SummaryTableFieldRow) rowList.get(i);
+                SummaryTableFieldRow fieldRow = (SummaryTableFieldRow) rowList.get(j);
                 FieldDescriptor field = fieldRow.getFieldDescriptor1();
                 final FieldDescriptor field2 = fieldRow.getFieldDescriptor2();
+                boolean optional = false;
+                boolean firstValueEmpty = true;
+                boolean secondValueEmpty = true;
                 // for the first column
-                ModelWidgetBinding binding = field.getModelWidgetBinding();
-                String fieldPath = QueryPath.getPathSeparator() + field.getFieldKey();
-                if (binding != null) {
-                    Widget w = field.getFieldWidget();
-                    binding.setWidgetValue(w, model, fieldPath);
-                } else {
-                    GWT.log(field.getFieldKey() + " has no widget binding.", null);
+                if(field != null){
+                	
+                	if(field instanceof FieldDescriptorReadOnly){
+                		optional = ((FieldDescriptorReadOnly)field).isOptional();
+                	}
+                	String fieldPath = QueryPath.getPathSeparator() + field.getFieldKey();
+                	if(model.isValidPath(fieldPath)){
+                	
+	                	Object value = model.get(QueryPath.parse(fieldPath));
+	                	if(value != null){
+                    		if(value instanceof String && !((String)value).isEmpty()){
+		                		firstValueEmpty = false;
+		                	}
+                    		else{
+                    			firstValueEmpty = false;
+                    		}
+	                	}
+		                
+	                	ModelWidgetBinding binding = field.getModelWidgetBinding();
+	                
+		                if (binding != null) {
+		                    Widget w = field.getFieldWidget();
+		                    binding.setWidgetValue(w, model, fieldPath);
+		                } else {
+		                    GWT.log(field.getFieldKey() + " has no widget binding.", null);
+		                }
+	                }
                 }
                 // the second column
                 if (comparisonModel == null) {
-                    fieldRow.setContentCellCount(1);// hide the second column
+                	if(fieldRow.getContentCellCount() == 2){
+                		fieldRow.setContentCellCount(1);
+                	}
                 }else{
-                    ModelWidgetBinding binding2 = field2.getModelWidgetBinding();
-                    String fieldPath2 = QueryPath.getPathSeparator() + field2.getFieldKey();
-                    if (binding2 != null) {
-                        Widget w = field2.getFieldWidget();
-                        binding2.setWidgetValue(w, model, fieldPath2);
-                    } else {
-                        GWT.log(field2.getFieldKey() + " has no widget binding for the ComparisonModel.", null);
-                    }
+                	if(fieldRow.getContentCellCount() == 1){
+                		fieldRow.setContentCellCount(2);
+                	}
+                	if(field2 != null){
+	                    
+	                    String fieldPath2 = QueryPath.getPathSeparator() + field2.getFieldKey();
+	                    if(comparisonModel.isValidPath(fieldPath2)){
+	                    	
+	                    	Object value = model.get(QueryPath.parse(fieldPath2));
+	                    	if(value != null){
+	                    		if(value instanceof String && !((String)value).isEmpty()){
+			                		secondValueEmpty = false;
+			                	}
+	                    		else{
+	                    			secondValueEmpty = false;
+	                    		}
+		                	}
+	                    	
+	                    	ModelWidgetBinding binding2 = field2.getModelWidgetBinding();
+	                    	
+		                    if (binding2 != null) {
+		                        Widget w = field2.getFieldWidget();
+		                        binding2.setWidgetValue(w, model, fieldPath2);
+		                    } else {
+		                        GWT.log(field2.getFieldKey() + " has no widget binding for the ComparisonModel.", null);
+		                    }
+	                    }
+                	}
                 }
-
                 
+                if(firstValueEmpty && secondValueEmpty && optional){
+                	fieldRow.setShown(false);
+                }
+                processShowConditions(fieldRow, model, comparisonModel);
             }
         }
+        
+        summaryTable.doLayout();
     }
 
     @Override

@@ -168,7 +168,6 @@ insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('baa98141-3fd9-45f9-
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('cf94f50b-3313-4f1d-a654-acfb751f7f07', null, 'Lectures, experimental courses, and other special subjects in the fields of animal sciences and veterinary medicine.')
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('9623c41c-ae72-473a-a1ac-6874c433967d', null, 'Bachelor of Science')
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('8b7df2ea-a0e0-4ca6-b524-5554d3194c92', null, 'Anthropology Major')
-insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('PROGREQ-RT-22', null, 'Program Requirement')
 
 // CluIdentifier
 INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-1', 'Code', 'Division', 'Level', 'SUFX_CD', 'Long Name', 'Shortname', 'State', 'Type', 'Variation')
@@ -274,7 +273,6 @@ insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, 
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('cca4eb70-c4af-4f14-894f-d89b6810605c', 'AMST857', 'AMST', '800', '857', 'Museum Scholarship Practicum', 'MUSEUM SCHLRSHP PRACT', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('4ab05feb-b550-4db6-9f65-97a74372a137', 'BS', '', 'kuali.lu.program.level.UnderGraduate', '', 'Bachelor of Science', 'B.S.', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('918040df-964b-46f0-aef9-f8db92b07a41', 'ANTH', '', '', '', 'Anthropology', 'Anthro', null, null, null)
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('PROGREQ-IDENT-1', '', '', '', '', 'Program Requirement', 'ProgReq', null, null, null)
 
 
 // CluCredit
@@ -412,7 +410,6 @@ insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID)  values ('d02dbbd3-20e2-410d-ab52-1bd6d362748b', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, '9623c41c-ae72-473a-a1ac-6874c433967d', null,  'kuali.lu.type.credential.Baccalaureate', '4ab05feb-b550-4db6-9f65-97a74372a137', 'INSTR-1')
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, EXP_FIRST_ATP) values ('d4ea77dd-b492-4554-b104-863e42c5f8b7', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, '8b7df2ea-a0e0-4ca6-b524-5554d3194c92', null,  'kuali.lu.type.MajorDiscipline', '918040df-964b-46f0-aef9-f8db92b07a41', 'INSTR-1', 'start_term')
 insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, EXP_FIRST_ATP)  values ('00f5f8c5-fff1-4c8b-92fc-789b891e0849', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, '8b7df2ea-a0e0-4ca6-b524-5554d3194c92', null,  'kuali.lu.type.CoreProgram', '4ab05feb-b550-4db6-9f65-97a74372a137', 'INSTR-1', 'start_term')
-insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID, EXP_FIRST_ATP) values ('PROGREQ-1', null, {ts '2009-05-07 12:05:36.0'}, null, {ts '2009-05-07 12:05:36.0'}, 1, 0, 0, 0, {ts '1994-08-01 00:00:00.0'}, null, 0, 0, 0, null, null, 'activated', null, null, null, null, 'PROGREQ-RT-22', null,  'kuali.lu.type.Requirement', 'PROGREQ-IDENT-1', 'INSTR-1', 'start_term')
 
 // Primary admin orgs
 insert into kslu_clu_admin_org (id, org_id,IS_PR,clu_id) values ('ADMIN-ORG-1','42',0,'2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
@@ -563,7 +560,6 @@ update KSLU_CLU set PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_F
 // End of test data for View Course
 
 // Test data for MajorDiscipline
-
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('MAJOR-1','31',0, 'kuali.adminOrg.type.ContentOwnerDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('MAJOR-2','32',0, 'kuali.adminOrg.type.StudentOversightDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('MAJOR-3','33',0, 'kuali.adminOrg.type.DeploymentDivision', 'd4ea77dd-b492-4554-b104-863e42c5f8b7');
@@ -588,8 +584,8 @@ insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-2', 'SOUT
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('MAJOR-1', '44','INSTR-1');
 insert into KSLU_CLU_JN_CLU_INSTR (clu_instr_id, clu_id) values ('MAJOR-1', 'd4ea77dd-b492-4554-b104-863e42c5f8b7');
 
-insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-1', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'CIP 2000 code', 'kuali.lu.code.CIP2000', 'CIP2000CODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
-insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-2', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'CIP 2010 code', 'kuali.lu.code.CIP2010', 'CIP2010CODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-1', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'CIP 2000 code', 'kuali.lu.code.CIP2000', '450202', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-2', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'CIP 2010 code', 'kuali.lu.code.CIP2010', '450201', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-3', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'Hegis code', 'kuali.lu.code.HEGIS', 'HEGISCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-4', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'Univ Classification code', 'kuali.lu.code.UniversityClassification', 'UNIVERSITYCLASSIFICATIONCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('MAJOR-5', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'Selective Enrl code', 'kuali.lu.code.SelectiveEnrollment', 'SELECTIVEENROLLMENTCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
@@ -612,12 +608,98 @@ insert into kslu_clu_JN_ACCRED (CLU_ID, CLU_ACCRED_ID) values ('d4ea77dd-b492-45
 
 INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('MAJOR-1', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', {ts '2009-01-01 00:00:00.0'},  'active', 'cluLuType.default')
 
-
-insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('MAJOR-1', 'CREATEID', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'active', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.lu.relation.type.hasVariationProgram', 'd02dbbd3-20e2-410d-ab52-1bd6d362748b' );
-
  update KSLU_CLU set ATP_DUR_TYP_KEY= 'kuali.atp.duration.Week', TM_QUANTITY= 100, LAST_ADMIT_ATP= 'end_admit_term', LAST_ATP = 'end_term', NEXT_REVIEW_PRD = 'kuali.atp.SU2009-2010S1', clu_intsty_type = 'kuali.atp.duration.full',  ref_url='http://www.google.ca' where ID = 'd4ea77dd-b492-4554-b104-863e42c5f8b7';
  update KSLU_CLU set LAST_ADMIT_ATP= 'end_admit_term', LAST_ATP = 'end_term',ref_url='http://www.google.ca' where ID = '00f5f8c5-fff1-4c8b-92fc-789b891e0849';
 
+// Test data for Variations
+// Variation 1
+insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('VAR-201', '<b>Zooarchaeology</b>', 'Zooarchaeology')
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('VAR-201', 'ZOOA', '', '', '', 'Zooarchaeology', 'ZooArch', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('VAR-202', 'ZOO', '', '', '', '', 'ZOOARCHAEOLOGY', null, 'kuali.lu.type.program.identifier.transcript', null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('VAR-203', 'ZOO', '', '', '', '', 'Zooarchaeology', null, 'kuali.lu.type.program.identifier.diploma', null)
+insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID) values ('VAR-200', null, {ts '2010-07-24 12:05:36.0'}, null, {ts '2010-08-24 12:05:36.0'}, 1, 0, 0, 0, {ts '2010-07-24 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, 'VAR-201', null,  'kuali.lu.type.credential.Baccalaureate', 'VAR-201', 'INSTR-1')
+update KSLU_CLU set ATP_DUR_TYP_KEY= 'kuali.atp.duration.Week', TM_QUANTITY= 100, LAST_ADMIT_ATP= 'end_admit_term',  EXP_FIRST_ATP='start_term', LAST_ATP = 'end_term', clu_intsty_type = 'kuali.atp.duration.full',  ref_url='http://www.google.ca' where ID = 'VAR-200';
+insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('VAR-201', 'CREATEID', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'active', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.lu.relation.type.hasVariationProgram', 'VAR-200' );
+
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-201','11',0, 'kuali.adminOrg.type.ContentOwnerDivision', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-202','12',0, 'kuali.adminOrg.type.StudentOversightDivision', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-203','13',0, 'kuali.adminOrg.type.DeploymentDivision', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-204','14',0, 'kuali.adminOrg.type.FinancialResourcesDivision', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-205','16',0, 'kuali.adminOrg.type.FinancialControlDivision', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-206','21',0, 'kuali.adminOrg.type.ContentOwnerUnit', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-207','22',0, 'kuali.adminOrg.type.StudentOversightUnit', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-208','23',0, 'kuali.adminOrg.type.StudentOversightUnit', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-209','24',0, 'kuali.adminOrg.type.DeploymentUnit', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-210','26',0, 'kuali.adminOrg.type.FinancialResourcesUnit', 'VAR-200');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-211','27',0, 'kuali.adminOrg.type.FinancialControlUnit', 'VAR-200');
+
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-201', 'SOUTH','VAR-200');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-202', 'EXTENDED','VAR-200');
+
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-201', 'VAR-200', 'CIP 2000 code', 'kuali.lu.code.CIP2000', 'CIP2000CODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-202', 'VAR-200', 'CIP 2010 code', 'kuali.lu.code.CIP2010', 'CIP2010CODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-203', 'VAR-200', 'Hegis code', 'kuali.lu.code.HEGIS', 'HEGISCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-204', 'VAR-200', 'Univ Classification code', 'kuali.lu.code.UniversityClassification', 'UNIVERSITYCLASSIFICATIONCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-205', 'VAR-200', 'Selective Enrl code', 'kuali.lu.code.SelectiveEnrollment', 'SELECTIVEENROLLMENTCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+
+insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('VAR-200','VAR-202');
+insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('VAR-200','VAR-203');
+
+insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('VAR-201', 'CAKES', 'NANAIMO BAR', 'VAR-200')
+insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('VAR-202', 'COOKIES', 'SHORTBREAD', 'VAR-200')
+
+insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('VAR-202', '<b>Zooarchaeology</b>', 'Zooarchaeology')
+insert into KSLU_CLU_RSLT  (ID,  CREATEID, CREATETIME, versionind, eff_dt,  st,  clu_id, type_key_id) values ('VAR-201',  'admin',  {ts '2010-04-15 10:00:00.0'}, 0,  {ts '2010-04-07 10:00:00.0'},  'active',  'VAR-200', 'kuali.resultType.certificate');
+insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VERSIONIND,RES_COMP_ID,ST, RT_DESCR_ID) Values ('VAR-201','admin',{ts '2010-04-15 10:00:00.0'}, 0, 'kuali.certificateType.degree','active', 'VAR-202');
+insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('VAR-201','VAR-201');
+
+--INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('VAR-201', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'VAR-200', {ts '2009-01-01 00:00:00.0'},  'active', 'cluLuType.default')
+
+// Variation 2
+insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('VAR-301', '<b>Archaeobotany</b>', 'Archaeobotany')
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('VAR-301', 'ARCB', '', '', '', 'Archaeobotany', 'ArchBot', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('VAR-302', 'ARCHAEOBOTANY', '', '', '', '', 'TRANSCRIPT-TITLE', null, 'kuali.lu.type.program.identifier.transcript', null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('VAR-303', 'Archaeobotany', '', '', '', '', 'DIPLOMA-TITLE', null, 'kuali.lu.type.program.identifier.diploma', null)
+insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID) values ('VAR-300', null, {ts '2010-07-24 12:05:36.0'}, null, {ts '2010-08-24 12:05:36.0'}, 1, 0, 0, 0, {ts '2010-07-24 00:00:00.0'}, null, 0, 0, 0, null, null, 'active', null, null, null, null, 'VAR-301', null,  'kuali.lu.type.credential.Baccalaureate', 'VAR-301', 'INSTR-1')
+update KSLU_CLU set ATP_DUR_TYP_KEY= 'kuali.atp.duration.Week', TM_QUANTITY= 100, LAST_ADMIT_ATP= 'end_admit_term',  EXP_FIRST_ATP='start_term', LAST_ATP = 'end_term', clu_intsty_type = 'kuali.atp.duration.full',  ref_url='http://www.google.ca' where ID = 'VAR-300';
+insert into KSLU_CLUCLU_RELTN (id, createid, createtime, versionind, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('VAR-301', 'CREATEID', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'active', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.lu.relation.type.hasVariationProgram', 'VAR-300' );
+
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-301','31',0, 'kuali.adminOrg.type.ContentOwnerDivision', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-302','32',0, 'kuali.adminOrg.type.StudentOversightDivision', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-303','33',0, 'kuali.adminOrg.type.DeploymentDivision', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-304','34',0, 'kuali.adminOrg.type.FinancialResourcesDivision', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-305','36',0, 'kuali.adminOrg.type.FinancialControlDivision', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-306','41',0, 'kuali.adminOrg.type.ContentOwnerUnit', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-307','42',0, 'kuali.adminOrg.type.StudentOversightUnit', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-308','43',0, 'kuali.adminOrg.type.StudentOversightUnit', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-309','44',0, 'kuali.adminOrg.type.DeploymentUnit', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-310','46',0, 'kuali.adminOrg.type.FinancialResourcesUnit', 'VAR-300');
+insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-311','47',0, 'kuali.adminOrg.type.FinancialControlUnit', 'VAR-300');
+
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-301', 'NORTH','VAR-300');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-302', 'EXTENDED','VAR-300');
+
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-301', 'VAR-300', 'CIP 2000 code', 'kuali.lu.code.CIP2000', 'CIP2000CODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-302', 'VAR-300', 'CIP 2010 code', 'kuali.lu.code.CIP2010', 'CIP2010CODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-303', 'VAR-300', 'Hegis code', 'kuali.lu.code.HEGIS', 'HEGISCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-304', 'VAR-300', 'Univ Classification code', 'kuali.lu.code.UniversityClassification', 'UNIVERSITYCLASSIFICATIONCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-305', 'VAR-300', 'Selective Enrl code', 'kuali.lu.code.SelectiveEnrollment', 'SELECTIVEENROLLMENTCODE', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
+
+insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('VAR-300','VAR-301');
+insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('VAR-300','VAR-302');
+
+insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('VAR-302', '<b>Archaeobotany</b>', 'Archaeobotany')
+insert into KSLU_CLU_RSLT  (ID,  CREATEID, CREATETIME, versionind, eff_dt,  st,  clu_id, type_key_id) values ('VAR-301',  'admin',  {ts '2010-04-15 10:00:00.0'}, 0,  {ts '2010-04-07 10:00:00.0'},  'active',  'VAR-300', 'kuali.resultType.certificate');
+insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VERSIONIND,RES_COMP_ID,ST, RT_DESCR_ID) Values ('VAR-301','admin',{ts '2010-04-15 10:00:00.0'}, 0, 'kuali.certificateType.degree','active', 'VAR-302');
+insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('VAR-301','VAR-301');
+
+
+--INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('VAR-301', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'VAR-300', {ts '2009-01-01 00:00:00.0'},  'active', 'cluLuType.default')
+
+
+--
+--
+--
 --Versioning tests
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID,VER_IND_ID,SEQ_NUM,CURR_VER_START,CURR_VER_END) values ('CLU-VERSIONTEST-V0', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture','CLU-VERSIONTEST-IND',0,{ts '2010-01-01 00:00:00.0'},{ts '2010-02-01 00:00:00.0'})
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID,VER_IND_ID,SEQ_NUM,CURR_VER_START,CURR_VER_END) values ('CLU-VERSIONTEST-V1', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture','CLU-VERSIONTEST-IND',1,{ts '2010-02-01 00:00:00.0'},{ts '2010-03-01 00:00:00.0'})

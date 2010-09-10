@@ -1,6 +1,9 @@
 package org.kuali.student.lum.program.client.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
+import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
@@ -16,6 +19,6 @@ public class LearningObjectivesViewConfiguration extends AbstractSectionConfigur
     }
 
     protected void buildLayout() {
-        //builds layout
+        configurer.addReadOnlyField(rootSection, ProgramConstants.LEARNING_OBJECTIVES, new MessageKeyInfo(""), new KSListPanel()).setWidgetBinding(new TreeStringBinding());
     }
 }

@@ -175,7 +175,6 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 			            }
 			            
 			            currentViewEnum = viewType;
-			            //fireApplicationEvent(new ViewChangeEvent(currentView, view));
 			            currentView = view;
 			            GWT.log("renderView " + viewType.toString(), null);
 			            if(fireNavEvents){

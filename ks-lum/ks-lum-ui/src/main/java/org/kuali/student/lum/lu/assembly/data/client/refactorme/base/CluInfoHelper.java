@@ -20,6 +20,8 @@ import java.util.Date;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
+import org.kuali.student.lum.common.client.lo.RichTextInfoHelper;
 
 
 public class CluInfoHelper

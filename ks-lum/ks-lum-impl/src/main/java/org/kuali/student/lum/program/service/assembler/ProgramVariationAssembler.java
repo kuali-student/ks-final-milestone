@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.BOAssembler;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
@@ -26,8 +28,6 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
-
-import java.util.List;
 
 /**
  * @author KS
@@ -48,7 +48,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         // Copy all the data from the clu to the programvariation
         programAssemblerUtils.assembleBasics(clu, pvInfo);
         programAssemblerUtils.assembleIdentifiers(clu, pvInfo);
-        programAssemblerUtils.assembleAdminOrgs(clu, pvInfo);
+        programAssemblerUtils.assembleAdminOrgIds(clu, pvInfo);
         programAssemblerUtils.assembleAtps(clu, pvInfo);
         programAssemblerUtils.assembleLuCodes(clu, pvInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, pvInfo);

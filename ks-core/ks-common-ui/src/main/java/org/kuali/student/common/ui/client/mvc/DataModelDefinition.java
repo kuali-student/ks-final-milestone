@@ -125,6 +125,5 @@ public class DataModelDefinition implements ModelDefinition {
 	public void setMetadata(Metadata root) {
 		this.metadata = root;
 	}
-	
 
 }

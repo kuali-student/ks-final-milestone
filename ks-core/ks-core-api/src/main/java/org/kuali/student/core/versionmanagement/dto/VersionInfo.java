@@ -52,7 +52,7 @@ public class VersionInfo implements Serializable  {
     private String versionComment;
 
 	@XmlElement
-    private String prevVersionId;
+    private String versionedFromId;
 
     /**
      * Version independent Id that remains the same across all versions
@@ -109,11 +109,11 @@ public class VersionInfo implements Serializable  {
         this.versionComment = versionComment;
     }
 
-	public void setPrevVersionId(String prevVersionId) {
-		this.prevVersionId = prevVersionId;
+	public void setVersionedFromId(String versionedFromId) {
+		this.versionedFromId = versionedFromId;
 	}
 
-	public String getPrevVersionId() {
-		return prevVersionId;
+	public String getVersionedFromId() {
+		return versionedFromId;
 	}
 }

@@ -9,6 +9,9 @@ public class SummaryTableRow {
     private Widget cell1;
     private Widget cell2;
     private String key;
+    private String titleStyle;
+    private String contentStyle;
+    private boolean shown = true;
     
     public String getKey() {
         return key;
@@ -47,4 +50,32 @@ public class SummaryTableRow {
         this.cell2 = cell2;
     }
     
+    public void addTitleCellStyleName(String style){
+    	this.titleStyle = style;
+    }
+    
+    public String getTitleCellStyleName(){
+    	return titleStyle;
+    }
+    
+    public void addContentCellStyleName(String style){
+    	this.contentStyle = style;
+    }
+    
+    public String getContentCellStyleName(){
+    	return contentStyle;
+    }
+    
+    /**
+     * Rows that are set to not show will be set to display:none during the layout phase.
+     * These flags should be reset and set again if needed during each data setup phase.
+     * @param show
+     */
+    public void setShown(boolean show){
+    	this.shown = show;
+    }
+    
+    protected boolean isShown(){
+    	return shown;
+    }
 }

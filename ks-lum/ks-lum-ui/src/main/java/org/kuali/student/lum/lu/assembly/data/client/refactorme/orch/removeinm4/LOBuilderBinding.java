@@ -35,15 +35,15 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.lum.common.client.lo.LOBuilder;
+import org.kuali.student.lum.common.client.lo.LOPicker;
+import org.kuali.student.lum.common.client.lo.OutlineNode;
+import org.kuali.student.lum.common.client.lo.RichTextInfoHelper;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.LoCategoryInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoChildSingleUseLosHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoHelper;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
-import org.kuali.student.lum.lu.ui.course.client.widgets.OutlineNode;
 
 import com.google.gwt.core.client.GWT;
 

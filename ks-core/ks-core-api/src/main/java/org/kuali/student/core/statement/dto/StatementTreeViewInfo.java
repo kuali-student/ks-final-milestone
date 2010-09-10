@@ -38,24 +38,24 @@ public class StatementTreeViewInfo extends AbstractStatementInfo {
 
 
     public List<StatementTreeViewInfo> getStatements() {
+    	if (this.statements == null) {
+    		this.statements = new ArrayList<StatementTreeViewInfo>(0);
+    	}
         return statements;
     }
 
     public void setStatements(List<StatementTreeViewInfo> statements) {
-    	if (this.statements == null) {
-    		this.statements = new ArrayList<StatementTreeViewInfo>(0);
-    	}
         this.statements = statements;
     }
 
     public List<ReqComponentInfo> getReqComponents() {
+    	if (this.reqComponents == null) {
+    		this.reqComponents = new ArrayList<ReqComponentInfo>(0);
+    	}
         return reqComponents;
     }
 
     public void setReqComponents(List<ReqComponentInfo> reqComponents) {
-    	if (this.reqComponents == null) {
-    		this.reqComponents = new ArrayList<ReqComponentInfo>(0);
-    	}
         this.reqComponents = reqComponents;
     }
 

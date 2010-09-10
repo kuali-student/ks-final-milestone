@@ -72,7 +72,7 @@ public class NaturalLanguageTranslatorTest {
     }
     
     private static void createReqComponent() throws Exception {
-    	reqComponent = NaturalLanguageUtil.createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.nof");
+    	reqComponent = NaturalLanguageUtil.createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.nof");
     	reqComponent.setId("REQCOMP-NL-1");
     }
 
@@ -80,12 +80,12 @@ public class NaturalLanguageTranslatorTest {
     	luStatement = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.OR);
     	luStatement.setId("STMT-5");
 
-    	ReqComponent req1 = NaturalLanguageUtil.createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.nof");
+    	ReqComponent req1 = NaturalLanguageUtil.createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.nof");
     	req1.setId("REQCOMP-NL-1");
     	List<ReqComponentField> fieldList1 = NaturalLanguageUtil.createReqComponentFieldsForCluSet("1", "greater_than_or_equal_to", "CLUSET-NL-1");
     	req1.setReqComponentFields(fieldList1);
 
-    	ReqComponent req2 = NaturalLanguageUtil.createReqComponent("KUALI.RULEEDIT", "kuali.reqCompType.courseList.nof");
+    	ReqComponent req2 = NaturalLanguageUtil.createReqComponent("KUALI.RULEEDIT", "kuali.reqComponent.type.courseList.nof");
     	req2.setId("REQCOMP-NL-4");
     	List<ReqComponentField> fieldList2 = NaturalLanguageUtil.createReqComponentFieldsForCluSet("2", "greater_than_or_equal_to", "CLUSET-NL-2");
     	req2.setReqComponentFields(fieldList2);

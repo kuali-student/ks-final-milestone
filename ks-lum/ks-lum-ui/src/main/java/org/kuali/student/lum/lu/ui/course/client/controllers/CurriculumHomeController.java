@@ -1,10 +1,8 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
@@ -14,16 +12,16 @@ import org.kuali.student.lum.program.client.ProgramManager;
 
 public class CurriculumHomeController extends LayoutController {
 
-    private boolean loaded = false;
+    private final boolean loaded = false;
 
     private CurriculumHomeView home;
-    private SpanPanel panel = new SpanPanel();
+    private final SpanPanel panel = new SpanPanel();
 
     private CourseProposalController courseProposalController;
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
-    private ProgramManager programManager = new ProgramManager();
+    private final ProgramManager programManager = new ProgramManager();
 
     public enum LUMViews {
         DEFAULT,
@@ -31,7 +29,9 @@ public class CurriculumHomeController extends LayoutController {
         VIEW_COURSE,
         PROGRAM_VIEW,
         PROGRAM_EDIT,
+        PROGRAM_CREATE,
         CLU_SETS,
+        VARIATION_VIEW,
         COURSE_CATALOG
     }
 
@@ -63,10 +63,14 @@ public class CurriculumHomeController extends LayoutController {
                 return programManager.getProgramViewController();
             case PROGRAM_EDIT:
                 return programManager.getProgramEditController();
+            case PROGRAM_CREATE:
+                return programManager.getProgramEditController();
             case CLU_SETS:
                 return getCluSetsController();
             case COURSE_CATALOG:
                 return getBrowseCatalogController();
+            case VARIATION_VIEW:
+            	return programManager.getVariationViewController();
             default:
                 return home;
         }
@@ -105,6 +109,7 @@ public class CurriculumHomeController extends LayoutController {
         ApplicationController.getApplicationViewContainer().add(view.asWidget());
     }
 
+    @Override
     public Class<? extends Enum<?>> getViewsEnum() {
         return LUMViews.class;
     }

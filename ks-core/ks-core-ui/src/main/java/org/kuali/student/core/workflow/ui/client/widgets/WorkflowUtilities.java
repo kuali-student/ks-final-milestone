@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
@@ -31,7 +32,6 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
@@ -70,9 +70,7 @@ public class WorkflowUtilities{
     private String proposalPath;
     private String proposalId = "";
     private String workflowId;
-    
-    private String[] requiredFieldPaths;
-    
+        
 	private List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
     private CloseHandler<KSLightBox> onSubmitSuccessHandler;
 	private ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
@@ -132,9 +130,8 @@ public class WorkflowUtilities{
 			public void onClick(ClickEvent event) {
 				dialog.getConfirmButton().setEnabled(false);
 				parentController.fireApplicationEvent(new SubmitProposalEvent());
-				workflowRpcServiceAsync.submitDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.submitDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error starting Proposal workflow");
 						dialog.getConfirmButton().setEnabled(true);
 					}
@@ -185,12 +182,8 @@ public class WorkflowUtilities{
 		
 		if (workflowId != null && !workflowId.isEmpty()){
 			//Determine which workflow actions are displayed in the drop down
-			workflowRpcServiceAsync.getActionsRequested(workflowId, new AsyncCallback<String>(){
-	
-				public void onFailure(Throwable caught) {
-					// TODO
-				}
-	
+			workflowRpcServiceAsync.getActionsRequested(workflowId, new KSAsyncCallback<String>(){
+		
 				public void onSuccess(String result) {
 					items.clear();
 					if(result.contains("S")){
@@ -218,9 +211,9 @@ public class WorkflowUtilities{
 				}
 			});
 		
-			workflowRpcServiceAsync.getDocumentStatus(workflowId, new AsyncCallback<String>(){
+			workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>(){
 				@Override
-				public void onFailure(Throwable caught) {
+				public void handleFailure(Throwable caught) {
 					workflowStatusLabel.setText("Status: Unknown");
 				}
 
@@ -238,9 +231,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfFYIWorkflowItem;
 		wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {	        	
-				workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error FYIing Proposal");
 					}
 					public void onSuccess(
@@ -264,9 +256,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfAcknowledgeItem;
 		wfAcknowledgeItem = new KSMenuItemData("Acknowledge Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
-				workflowRpcServiceAsync.acknowledgeDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.acknowledgeDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error acknowledging Proposal");
 					}
 					public void onSuccess(
@@ -290,9 +281,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfDisApproveItem;
 		wfDisApproveItem = new KSMenuItemData("Disapprove Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {        	
-				workflowRpcServiceAsync.disapproveDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.disapproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error disapproving Proposal");
 					}
 					public void onSuccess(
@@ -315,9 +305,8 @@ public class WorkflowUtilities{
 		KSMenuItemData wfApproveItem;
 		wfApproveItem= new KSMenuItemData("Approve Proposal", new ClickHandler(){
 			public void onClick(ClickEvent event) {
-				workflowRpcServiceAsync.approveDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
+				workflowRpcServiceAsync.approveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						Window.alert("Error approving Proposal");
 					}
 					public void onSuccess(Boolean result) {
@@ -340,8 +329,8 @@ public class WorkflowUtilities{
     	wfWithdrawItem = new KSMenuItemData("Withdraw Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
 	        	
-				workflowRpcServiceAsync.withdrawDocumentWithId(workflowId, new AsyncCallback<Boolean>(){
-					public void onFailure(Throwable caught) {
+				workflowRpcServiceAsync.withdrawDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+					public void handleFailure(Throwable caught) {
 						GWT.log("Error Withdrawing Proposal", caught);
 						Window.alert("Error Withdrawing Proposal");
 					}
@@ -368,50 +357,26 @@ public class WorkflowUtilities{
 		KSMenuItemData wfStartWorkflowItem;
     	wfStartWorkflowItem = new KSMenuItemData("Submit Proposal", new ClickHandler(){
     		public void onClick(ClickEvent event) {
-    			if(isMissingRequiredFields()){
-    				Window.alert("Fileds required for workflow must be filled before submitting.");
-    			}else{
-                    //Make sure the entire data model is valid before submit
-    				dataModel.validate(new Callback<List<ValidationResultInfo>>() {
-                        @Override
-                        public void exec(List<ValidationResultInfo> result) {
-                        	
-                        	boolean isValid = ((LayoutController)parentController).isValid(result, false);
-                        	if(isValid){
-                				dialog.show();
-                        	}
-                        	else{
-                        		Window.alert("Unable to submit to workflow.  Please check sections for errors.");
-                        	}                            
-                        }
-                    });
-    			}
+                //Make sure the entire data model is valid before submit
+				dataModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
+                    @Override
+                    public void exec(List<ValidationResultInfo> result) {
+                    	
+                    	boolean isValid = ((LayoutController)parentController).isValid(result, false);
+                    	if(isValid){
+            				dialog.show();
+                    	}
+                    	else{
+                    		Window.alert("Unable to submit to workflow.  Please check sections for missing fields.");
+                    	}                            
+                    }
+                });
     		}
 
     	});
 		return wfStartWorkflowItem;
 	}
-	
-	private boolean isMissingRequiredFields() {
-		if (requiredFieldPaths != null){
-			 if (dataModel == null){
-				 return true;
-			 } else {
-				 for (int i=0;i<requiredFieldPaths.length;i++){
-					 Object value = dataModel.get(QueryPath.parse(requiredFieldPaths[i]));
-					 if (value == null){
-						 return true;
-					 } else if (value instanceof Data && ((Data)value).size() <= 0){
-						 return true;
-					 }
-				 }
-			 }
-		}
 		
-		return false;
-	}
-
-	
 	private void setWorkflowStatus(String statusCd){
 		String statusTranslation = "";
 		if (WorkflowConstants.ROUTE_HEADER_SAVED_CD.equals(statusCd)){
@@ -480,18 +445,7 @@ public class WorkflowUtilities{
 	public void setProposalPath(String proposalPath) {
 		this.proposalPath = proposalPath;
 	}
-	
-	/**
-	 * Use to indicate which fields are required for workflow before workflow actions are allowed.
-	 * 
-	 * NOTE: We want this to be configurable via metadata rather than hardcoding a call to this in configurers or controllers.
-	 * 
-	 * @param requiredFieldPaths An array of paths to fields to check in the data model
-	 */
-	public void setRequiredFieldPaths(String[] requiredFieldPaths){
-		this.requiredFieldPaths = requiredFieldPaths;
-	}
-	
+		
 	public void setWorkflowRpcService(WorkflowRpcServiceAsync workflowRpcServiceAsync){
 		this.workflowRpcServiceAsync = workflowRpcServiceAsync;
 	}

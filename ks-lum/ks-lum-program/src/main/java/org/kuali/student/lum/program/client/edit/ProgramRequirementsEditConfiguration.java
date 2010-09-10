@@ -1,16 +1,18 @@
 package org.kuali.student.lum.program.client.edit;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
+import org.kuali.student.lum.program.client.view.ProgramViewConfigurer;
 
 /**
  *
  */
-public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<ProgramEditConfigurer> {
+public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<ProgramViewConfigurer> {
 
     private ProgramController viewController;
 
@@ -21,5 +23,15 @@ public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<
 
     public void setViewController(ProgramController viewController) {
         this.viewController = viewController;
+    }
+
+    @Override
+    public Widget asWidget() {
+        return viewController;
+    }
+
+    @Override
+    public Enum<?> getName() {
+        return ProgramSections.PROGRAM_REQUIREMENTS_EDIT;
     }
 }

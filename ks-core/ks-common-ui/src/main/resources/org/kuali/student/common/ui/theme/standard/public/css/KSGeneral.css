@@ -238,3 +238,23 @@ ul.ks-selected-list {
 	width: 100%;
 	z-index: -1;
 }
+
+.ks-selected-list-readOnly ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.ks-selected-list-readOnly ul li {
+	padding: 0;
+	margin: 0;
+	display: block;
+}
+
+.ks-selected-list-readOnly .ks-selected-list-value{
+	padding-bottom: 2px;
+	min-height: 0px;
+}
+
+.ks-selected-list-readOnly .ks-selected-list-value-container{
+}

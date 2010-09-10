@@ -485,6 +485,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		CluInfo clu = createCluInfo();
 
+		clu.getOfficialIdentifier().setCode("offId-divisionoffId-suffixcode");
+		clu.getAlternateIdentifiers().get(0).setCode("cluId1-divisioncluId1-suffixcode");
+		clu.getAlternateIdentifiers().get(1).setCode("cluId2-divisioncluId2-suffixcode");
+
 		// Do the actual create call
 		CluInfo createdClu = client.createClu("luType.shell.course", clu);
 		createdClu = client.getClu(createdClu.getId());
@@ -853,7 +857,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getAttributes().get("AccountingAttrKey3"));
 		assertEquals(2, updatedClu.getAccountingInfo().getAttributes().size());
 
-		assertEquals("UPoffId-divisionUPoffId-suffixcode", updatedClu
+        assertEquals("UPoffId-code", updatedClu
 				.getOfficialIdentifier().getCode());
 		assertEquals("UPoffId-division", updatedClu.getOfficialIdentifier()
 				.getDivision());
@@ -872,7 +876,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("UPoffId-variation", updatedClu.getOfficialIdentifier()
 				.getVariation());
 
-		assertEquals("UPcluId1-divisionUPcluId1-suffixcode", updatedClu
+		assertEquals("UPcluId1-code", updatedClu
 				.getAlternateIdentifiers().get(0).getCode());
 		assertEquals("UPcluId1-division", updatedClu.getAlternateIdentifiers()
 				.get(0).getDivision());
@@ -891,7 +895,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("UPcluId1-variation", updatedClu.getAlternateIdentifiers()
 				.get(0).getVariation());
 
-		assertEquals("cluId3-divisioncluId3-suffixcode", updatedClu
+		assertEquals("cluId3-code", updatedClu
 				.getAlternateIdentifiers().get(1).getCode());
 		assertEquals("cluId3-division", updatedClu.getAlternateIdentifiers()
 				.get(1).getDivision());
@@ -2277,7 +2281,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-        assertEquals(107, createdCluSet.getCluIds().size());
+        assertEquals(108, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
