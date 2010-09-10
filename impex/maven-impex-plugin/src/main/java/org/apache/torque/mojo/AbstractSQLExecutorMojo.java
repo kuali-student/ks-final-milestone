@@ -70,7 +70,9 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	// ////////////////////////// User Info ///////////////////////////////////
 
 	/**
-	 * The type of database we are targeting eg oracle, mysql etc
+	 * The type of database we are targeting (eg oracle, mysql). This is optional as the database type will be
+	 * automatically detected based on the <code>url</code> that is supplied. If targetDatabase is explicitly supplied
+	 * it will override the type selected by the automatic detection logic.
 	 * 
 	 * @parameter expression="${targetDatabase}"
 	 */
@@ -107,7 +109,7 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean enableAnonymousUsername;
 
 	/**
-	 * Additional key=value pairs separated by comma to be passed into JDBC driver.
+	 * Additional key=value pairs separated by a comma to be passed to JDBC driver.
 	 * 
 	 * @parameter expression="${driverProperties}" default-value=""
 	 */
@@ -158,7 +160,10 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	String url;
 
 	/**
-	 * Database driver classname.
+	 * Database driver classname. This parameter is optional, as the correct JDBC driver to use is detected from the
+	 * <code>url</code> in almost all cases (works for Oracle, MySQL, Derby, PostGresSQL, DB2, H2, HSQL, SQL Server). If
+	 * a driver is explicitly supplied, it will be used in place of the JDBC driver the automatic detection logic would
+	 * have chosen.
 	 * 
 	 * @parameter expression="${driver}"
 	 */
@@ -189,14 +194,11 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	String delimiter = "/";
 
 	/**
-	 * <p>
 	 * The delimiter type takes two values - "normal" and "row". Normal means that any occurrence of the delimiter
 	 * terminate the SQL command whereas with row, only a line containing just the delimiter is recognized as the end of
-	 * the command.
-	 * </p>
-	 * <p>
+	 * the command.<br>
+	 * <br>
 	 * For example, set this to "go" and delimiterType to "row" for Sybase ASE or MS SQL Server.
-	 * </p>
 	 * 
 	 * @parameter expression="${delimiterType}" default-value="row"
 	 */
@@ -217,15 +219,16 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean showheaders = true;
 
 	/**
-	 * Append to an existing file or overwrite it?
+	 * If writing output to a file, append to an existing file or overwrite it?
 	 * 
 	 * @parameter expression="${append}" default-value="false"
 	 */
 	boolean append = false;
 
 	/**
-	 * Pointer to a properties file containing Impex properties. Default value is
-	 * <code>${user.home}/impex.properties</code>. Any properties specified do not override System properties.
+	 * Pointer to a properties file containing any of these properties. Default value is
+	 * <code>${user.home}/impex.properties</code>. Properties specified here override plugin configuration but do not
+	 * override system properties.
 	 * 
 	 * @parameter expression="${impexProperties}"
 	 */

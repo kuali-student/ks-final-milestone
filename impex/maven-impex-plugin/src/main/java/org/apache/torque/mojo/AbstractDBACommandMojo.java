@@ -19,35 +19,38 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	public static final String DATABASE_USERNAME_PROPERTY = "databaseUsername";
 
 	/**
-	 * URL to connect directly to the database server itself (ie: no database specified).
+	 * URL to connect directly to the database server itself (ie: no database specified). This is optional as it is
+	 * automatically detected in almost all cases from the <code>url</code>. If <code>serverUrl</code> is explicitly
+	 * supplied it overrides the <code>serverUrl</code> chosen by the automatic detection logic.
 	 * 
 	 * @parameter expression="${serverUrl}"
 	 */
 	String serverUrl;
 
 	/**
-	 * The name of the database
+	 * The name of the database to DROP/CREATE
 	 * 
 	 * @parameter expression="${database}"
 	 */
 	String database;
 
 	/**
-	 * The username to use when accessing this database
+	 * The username to DROP/CREATE when issuing DBA commands for creating/dropping a user
 	 * 
 	 * @parameter expression="${databaseUsername}"
 	 */
 	String databaseUsername;
 
 	/**
-	 * The password to use when accessing this database
+	 * The password for the username that gets DROPPED/CREATED
 	 * 
 	 * @parameter expression="${databasePassword}"
 	 */
 	String databasePassword;
 
 	/**
-	 * A user with DBA privileges on the database
+	 * A user with DBA privileges on the database. This is the user that Impex will connect to the database as to issue
+	 * DBA commands for dropping/creating databases and users.
 	 * 
 	 * @parameter expression="${dbaUsername}"
 	 */
