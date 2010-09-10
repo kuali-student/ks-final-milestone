@@ -28,21 +28,35 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String serverUrl;
 
 	/**
-	 * The name of the database to DROP/CREATE
+	 * The name of the database to DROP/CREATE. If not specified this defaults to a database name that is compatible
+	 * with ${targetDatabase}. There is platform specific logic that will automatically convert the artifact id into a
+	 * compatible name.
+	 * 
+	 * For example:<br>
+	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL)
 	 * 
 	 * @parameter expression="${database}"
 	 */
 	String database;
 
 	/**
-	 * The username to DROP/CREATE when issuing DBA commands for creating/dropping a user
+	 * The user to DROP/CREATE when issuing DBA commands for creating/dropping a user. If not specified this defaults to
+	 * a user based on a conversion of the artifact id.<br>
 	 * 
-	 * @parameter expression="${databaseUsername}"
+	 * For example:<br>
+	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL)
+	 * 
+	 * 
+	 * @parameter expression="${databaseUser}"
 	 */
-	String databaseUsername;
+	String databaseUser;
 
 	/**
-	 * The password for the username that gets DROPPED/CREATED
+	 * The password for the user to DROP/CREATE when issuing DBA commands for creating/dropping a user. If not specified
+	 * this defaults to a password based on a conversion of the artifact id.<br>
+	 * 
+	 * For example:<br>
+	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL)
 	 * 
 	 * @parameter expression="${databasePassword}"
 	 */
@@ -50,14 +64,14 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 
 	/**
 	 * A user with DBA privileges on the database. This is the user that Impex will connect to the database as to issue
-	 * DBA commands for dropping/creating databases and users.
+	 * DBA commands for dropping/creating databases and users. This overrides <code>username</code>
 	 * 
-	 * @parameter expression="${dbaUsername}"
+	 * @parameter expression="${dbaUser}"
 	 */
-	String dbaUsername;
+	String dbaUser;
 
 	/**
-	 * The password for the DBA user
+	 * The password for the DBA user. This overrides <code>password</code>
 	 * 
 	 * @parameter expression="${dbaPassword}"
 	 */
@@ -89,8 +103,8 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		if (isEmpty(databasePassword)) {
 			databasePassword = platform.getSchemaName(getProject().getArtifactId());
 		}
-		if (isEmpty(databaseUsername)) {
-			databaseUsername = platform.getSchemaName(getProject().getArtifactId());
+		if (isEmpty(databaseUser)) {
+			databaseUser = platform.getSchemaName(getProject().getArtifactId());
 		}
 		if (isEmpty(serverUrl)) {
 			serverUrl = platform.getServerUrl(url);
@@ -141,7 +155,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		Properties properties = super.getContextProperties();
 		properties.setProperty(DATABASE_PROPERTY, getDatabase());
 		properties.setProperty(DATABASE_PW_PROPERTY, getDatabasePassword());
-		properties.setProperty(DATABASE_USERNAME_PROPERTY, getDatabaseUsername());
+		properties.setProperty(DATABASE_USERNAME_PROPERTY, getDatabaseUser());
 		return properties;
 	}
 
@@ -167,7 +181,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	@Override
 	protected Credentials getNewCredentials() {
 		Credentials credentials = new Credentials();
-		credentials.setUsername(getDbaUsername());
+		credentials.setUsername(getDbaUser());
 		credentials.setPassword(getDbaPassword());
 		return credentials;
 	}
@@ -202,20 +216,20 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		this.databasePassword = databasePassword;
 	}
 
-	public String getDatabaseUsername() {
-		return databaseUsername;
+	public String getDatabaseUser() {
+		return databaseUser;
 	}
 
-	public void setDatabaseUsername(String databaseUsername) {
-		this.databaseUsername = databaseUsername;
+	public void setDatabaseUser(String databaseUsername) {
+		this.databaseUser = databaseUsername;
 	}
 
-	public String getDbaUsername() {
-		return dbaUsername;
+	public String getDbaUser() {
+		return dbaUser;
 	}
 
-	public void setDbaUsername(String dbaUsername) {
-		this.dbaUsername = dbaUsername;
+	public void setDbaUser(String dbaUsername) {
+		this.dbaUser = dbaUsername;
 	}
 
 	public String getDbaPassword() {
