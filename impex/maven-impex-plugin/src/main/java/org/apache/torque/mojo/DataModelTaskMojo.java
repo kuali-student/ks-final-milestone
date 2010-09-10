@@ -161,7 +161,7 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 
 	protected void addTargetDatabaseToOutputDir() {
 		TorqueDataModelTask task = (TorqueDataModelTask) super.getGeneratorTask();
-		String newOutputDir = getOutputDir() + "/" + getTargetDatabase();
+		String newOutputDir = getOutputDir() + FS + getTargetDatabase();
 		task.setOutputDirectory(new File(newOutputDir));
 		setOutputDir(newOutputDir);
 	}

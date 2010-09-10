@@ -36,6 +36,36 @@ public class MorphSchemaMojo extends BaseMojo {
 	 */
 	private File oldSchemaXMLFile;
 
+	@Override
+	protected boolean skipMojo() {
+		// We may be skipping based on packaging of type 'pom'
+		if (super.skipMojo()) {
+			return true;
+		}
+
+		// We can skip if the file hasn't changed since the last run
+		boolean morphNeeded = isMorphNeeded();
+		if (morphNeeded) {
+			return false;
+		} else {
+			getLog().info("Skipping morph.  Nothing has changed");
+			return true;
+		}
+	}
+
+	protected boolean isMorphNeeded() {
+		// The new file does not exist, we need to morph
+		if (!newSchemaXMLFile.exists()) {
+			return true;
+		}
+
+		long oldLastModified = oldSchemaXMLFile.lastModified();
+		long newLastModified = newSchemaXMLFile.lastModified();
+
+		// If old file has been updated since the new file was created, we need to morph
+		return oldLastModified > newLastModified;
+	}
+
 	protected void executeMojo() throws MojoExecutionException {
 		getLog().info("------------------------------------------------------------------------");
 		getLog().info("Converting schema XML file");

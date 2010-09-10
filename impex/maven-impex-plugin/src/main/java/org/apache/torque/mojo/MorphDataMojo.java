@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.io.FileUtils.*;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.torque.mojo.morph.DataMorpher;
 import org.apache.torque.mojo.morph.MorphRequest;
@@ -70,18 +71,35 @@ public class MorphDataMojo extends BaseMojo {
 		return ds.getIncludedFiles();
 	}
 
+	protected boolean isMorphNeeded(File oldFile, File newFile) {
+		if (!newFile.exists()) {
+			return true;
+		}
+
+		long lastModifiedOld = oldFile.lastModified();
+		long lastModifiedNew = newFile.lastModified();
+		return lastModifiedOld > lastModifiedNew;
+	}
+
 	protected List<MorphRequest> getMorphRequests(String[] oldFiles) throws IOException {
 		String inputPath = getOldDataXMLDir().getAbsolutePath();
+		String outputPath = getNewDataOutputDir().getAbsolutePath();
 		forceMkdir(getNewDataOutputDir());
 		List<MorphRequest> requests = new ArrayList<MorphRequest>();
-		for (String oldFile : oldFiles) {
-			String oldFilename = inputPath + FS + oldFile;
-			String newFilename = getNewDataOutputDir() + FS + oldFile;
+		for (String oldFilename : oldFiles) {
+			String oldFilePath = inputPath + FS + oldFilename;
+			String newFilePath = outputPath + FS + oldFilename;
+			File oldFile = new File(oldFilePath);
+			File newFile = new File(newFilePath);
+			if (!isMorphNeeded(oldFile, newFile)) {
+				getLog().debug("Skipping morph on " + oldFilename);
+				continue;
+			}
 			MorphRequest request = new MorphRequest();
 			request.setEncoding(getEncoding());
-			request.setName(new File(oldFilename).getName());
-			request.setInputStream(new FileInputStream(new File(oldFilename)));
-			request.setOutputStream(new FileOutputStream(new File(newFilename)));
+			request.setName(oldFile.getName());
+			request.setInputStream(new FileInputStream(oldFile));
+			request.setOutputStream(new FileOutputStream(newFile));
 			requests.add(request);
 		}
 		return requests;
@@ -100,6 +118,10 @@ public class MorphDataMojo extends BaseMojo {
 				morpher.executeMorph();
 			}
 			utils.right(pp);
+			int skipCount = oldFiles.length - requests.size();
+			if (skipCount > 0) {
+				getLog().info("Skipped " + skipCount + " files that were unchanged.");
+			}
 		} catch (IOException e) {
 			throw new MojoExecutionException("Unexpected error", e);
 		}
