@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class ChangeDetector {
 
-	private static final Log log = LogFactory.getLog(ChangeDetectorOld.class);
+	private static final Log log = LogFactory.getLog(ChangeDetector.class);
 	File controlFile;
 	List<File> files;
 
