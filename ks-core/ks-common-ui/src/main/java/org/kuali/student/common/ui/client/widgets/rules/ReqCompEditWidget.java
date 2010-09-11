@@ -44,6 +44,7 @@ public class ReqCompEditWidget extends FlowPanel {
     private ReqComponentTypeInfo originalReqType;
     private boolean addingNewReqComp;                           //adding (true) or editing (false) req. component
     private Callback reqCompConfirmCallback;
+    private Callback newReqCompSelectedCallback;
     private Callback compositionTemplateCallback;
     private static int tempCounterID = 99999;
 
@@ -105,6 +106,7 @@ public class ReqCompEditWidget extends FlowPanel {
                         reqCompConfirmCallback.exec(editedReqComp);
                     } else {
                         setupNewReqComp();
+                        reqCompConfirmCallback.exec(null);                        
                     }
                }                                             
         });
@@ -117,6 +119,8 @@ public class ReqCompEditWidget extends FlowPanel {
 			        return;
 			    }
 
+                //disable Step 2 section and enable 'Add Rule' and 'cancel' buttons
+                 newReqCompSelectedCallback.exec(null);                
                  setEnableAddRuleButtons(true);
 
                  List<String> ids = ((KSSelectItemWidgetAbstract)event.getWidget()).getSelectedItems();
@@ -253,10 +257,9 @@ public class ReqCompEditWidget extends FlowPanel {
             String fieldValue = getFieldValue(reqCompFields, fieldType);
 
             //TODO replace with metadata and check on req. comp. field type
-            if (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.course.permission.org.required")) {
+            if (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.program.admitted.credits")) {
                 final KSTextBox valueWidget = new KSTextBox();
                 valueWidget.setName(fieldType);
-                valueWidget.setText("59"); //hard code for now fieldValue);
                 reqCompWidgetsPanel.add(new KSLabel(fieldLabel + ":"));
                 reqCompWidgetsPanel.add(valueWidget);
                 reqCompWidgets.add(valueWidget);
@@ -406,6 +409,10 @@ public class ReqCompEditWidget extends FlowPanel {
 
     public void setRetrieveCompositionTemplateCallback(Callback<ReqComponentInfo> callback) {
         compositionTemplateCallback = callback;
+    }
+
+    public void setNewReqCompSelectedCallbackCallback(Callback<ReqComponentInfo> callback) {
+        newReqCompSelectedCallback = callback;
     }
 }
 

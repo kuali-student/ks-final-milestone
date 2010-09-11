@@ -36,8 +36,8 @@
 	text-align: center;
 }
 
-.KS-Rules-Table-Cell-ANDOR-Checkbox{
-	padding-left:40%;
+.KS-Rules-Table-Cell-ANDOR{
+	font-weight: bold;
 }
 
 .KS-Rules-Table-Cell-Selected{
@@ -87,4 +87,12 @@
 	color: #0033CC;
 	text-decoration: underline;
 	cursor: pointer;
+}
+
+.KS-Rules-URL-Link-Readonly{
+	margin-left: 20px;
+	font-size: 8pt;
+	color: #999999;
+	text-decoration: underline;
+	cursor: default;
 }

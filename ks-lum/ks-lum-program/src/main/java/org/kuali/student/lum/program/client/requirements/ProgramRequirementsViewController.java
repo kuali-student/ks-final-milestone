@@ -11,6 +11,7 @@ import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ContinueCancelGroup;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
@@ -153,45 +154,53 @@ public class ProgramRequirementsViewController extends BasicLayout {
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
         subTrees.add(subTree2);
         stmtTreeInfo.setStatements(subTrees);
-        stmtTreeInfo.setType("kuali.statement.type.course.academicReadiness.prereq");
-        subTree1.setType("kuali.statement.type.course.academicReadiness.prereq");
-        subTree2.setType("kuali.statement.type.course.academicReadiness.prereq");
+        stmtTreeInfo.setType("kuali.statement.type.program.entrance");
+        subTree1.setType("kuali.statement.type.program.entrance");
+        subTree2.setType("kuali.statement.type.program.entrance");
 
         // set reqComps for sub-tree 1
         subTree1.setId("STMT-TV-2");
         subTree1.setStatements(null);
         ReqComponentInfo reqComp1 = new ReqComponentInfo();
         reqComp1.setId("REQCOMP-TV-1");
-        reqComp1.setNaturalLanguageTranslation("Must have successfully completed all courses from MATH 152, MATH 180");
-        reqComp1.setType("kuali.reqCompType.course.courseset.completed.all");
+        reqComp1.setNaturalLanguageTranslation("Must have successfully completed all of (Sociology and CORE Advanced Studies) programs");
+        ReqComponentTypeInfo reqCompType = new ReqComponentTypeInfo();
+        reqCompType.setId("kuali.reqComponent.type.program.programset.completed.all");
+        reqComp1.setRequiredComponentType(reqCompType);
         ReqComponentInfo reqComp2 = new ReqComponentInfo();
         reqComp2.setId("REQCOMP-TV-2");
-        reqComp2.setNaturalLanguageTranslation("Must have earned a minimum GPA of 3.5 in MATH 152, MATH 180");
-        reqComp2.setType("kuali.reqCompType.course.courseset.gpa.min");
+        reqComp2.setNaturalLanguageTranslation("Must have earned a minimum GPA of 2.00 in (MATH111, 140, 220, and STAT100)");
+        ReqComponentTypeInfo reqCompType2 = new ReqComponentTypeInfo();
+        reqCompType2.setId("kuali.reqComponent.type.course.courseset.gpa.min");
+        reqComp2.setRequiredComponentType(reqCompType2);        
         List<ReqComponentInfo> reqComponents = new ArrayList<ReqComponentInfo>();
         reqComponents.add(reqComp1);
         reqComponents.add(reqComp2);
         subTree1.setReqComponents(reqComponents);
-        subTree1.setNaturalLanguageTranslation("Student must have completed all of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180");
+        subTree1.setNaturalLanguageTranslation("Must have successfully completed all of (Sociology and CORE Advanced Studies) programs " +
+        		"and must have earned a minimum GPA of 2.00 in (MATH111, 140, 220, and STAT100)");
         subTree1.setOperator(StatementOperatorTypeKey.OR);
 
         subTree2.setId("STMT-TV-3");
         subTree2.setStatements(null);
         ReqComponentInfo reqComp3 = new ReqComponentInfo();
         reqComp3.setId("REQCOMP-TV-3");
-        reqComp3.setNaturalLanguageTranslation("Must have successfully completed a minimum of 1 course from MATH 152, MATH 180");
-        reqComp3.setType("kuali.reqCompType.course.courseset.completed.nof");
+        reqComp3.setNaturalLanguageTranslation("Must have successfully completed a minimum of 14 courses from ( Sociology and CORE Advanced Studies) programs");
+        ReqComponentTypeInfo reqCompType3 = new ReqComponentTypeInfo();
+        reqCompType3.setId("kuali.reqComponent.type.program.programset.coursecompleted.nof");
+        reqComp3.setRequiredComponentType(reqCompType3);
         ReqComponentInfo reqComp4 = new ReqComponentInfo();
         reqComp4.setId("REQCOMP-TV-4");
-        reqComp4.setNaturalLanguageTranslation("Must have earned a minimum GPA of 4 in MATH 152, MATH 180");
-        reqComp4.setType("kuali.reqCompType.course.courseset.gpa.min");
+        reqComp4.setNaturalLanguageTranslation("Must be admitted to program prior to earning 60 credits");
+        ReqComponentTypeInfo reqCompType4 = new ReqComponentTypeInfo();
+        reqCompType4.setId("kuali.reqComponent.type.program.admitted.credits");
+        reqComp4.setRequiredComponentType(reqCompType4);
         List<ReqComponentInfo> reqComponents2 = new ArrayList<ReqComponentInfo>();
         reqComponents2.add(reqComp3);
         reqComponents2.add(reqComp4);
         subTree2.setReqComponents(reqComponents2);
-        subTree2.setNaturalLanguageTranslation("Student must have completed 1 of MATH 152, MATH 180 " +
-                "and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180");
+        subTree2.setNaturalLanguageTranslation("Must have successfully completed a minimum of 14 courses from ( Sociology and CORE Advanced Studies) programs " +
+                "and must be admitted to program prior to earning 60 credits");
         subTree2.setOperator(StatementOperatorTypeKey.AND);
 
        stmtTreeInfo.setNaturalLanguageTranslation(

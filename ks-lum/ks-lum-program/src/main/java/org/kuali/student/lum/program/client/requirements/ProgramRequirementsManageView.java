@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
@@ -57,6 +58,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     private boolean isInitialized = false;
     private boolean isNewRule = false;
     private ReqComponentInfo editedReqCompInfo = null;
+    private static int tempStmtTreeViewInfoID = 9999;
+    private String relatedProgramReqInfoId = null;
     private String originalReqCompNL;
     private String originalLogicExpression;
 
@@ -83,6 +86,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     private void setupHandlers() {                        
         editReqCompWidget.setReqCompConfirmButtonClickCallback(actionButtonClickedReqCompCallback);
+        editReqCompWidget.setNewReqCompSelectedCallbackCallback(newReqCompSelectedCallbackCallback);
         editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
         ruleManageWidget.setReqCompEditButtonClickCallback(editReqCompCallback);
     }
@@ -134,13 +138,14 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     }
 
     // called by requirement display widget when user wants to edit or add a sub-rule
-    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, String ruleType, boolean newRuleFlag) {
+    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, String ruleType, boolean newRuleFlag, String relatedProgramReqInfoId) {
 
         if (!isInitialized) {
             editReqCompWidget = new ReqCompEditWidget();
             ruleManageWidget = new RuleManageWidget();            
         }
 
+        this.relatedProgramReqInfoId = relatedProgramReqInfoId;
         editedReqCompInfo = null;
         userClickedSaveButton = false;        
         rule = ObjectClonerUtil.clone(stmtTreeInfo);
@@ -163,12 +168,18 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         return isNewRule;
     }
 
+    //called when user clicked on rule 'edit' link
     protected Callback<ReqComponentInfo> editReqCompCallback = new Callback<ReqComponentInfo>(){
         public void exec(ReqComponentInfo reqComp) {
+            setEnabled(false);
             editReqCompWidget.setupExistingReqComp(reqComp);
             editedReqCompInfo = reqComp;
         }
     };
+
+    protected void setEnabled(boolean enabled) {
+        ruleManageWidget.setEanbled(enabled);
+    }
 
     @Override
     public boolean isDirty() {
@@ -176,10 +187,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
             return false;
         }
 
-        //if user wants to cancel then we don't care about his changes
-        if (!isUserClickedSaveButton()) {
-            return false;
-        }
+        //TODO until we figure out how to detect changes, always return true
+        return true;
 
         //first check logic expression
 //        if (!ruleManageWidget.getLogicExpression().equals(originalLogicExpression)) {
@@ -191,7 +200,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
       //      return !ruleManageWidget.getLogicExpression().equals(originalLogicExpression);
       //  }
         //TODO how to check whether rule changed or not? 
-        return true; // !(ruleManageWidget.getLogicExpression().equals(originalLogicExpression) && getAllReqCompNLs().equals(originalReqCompNL));
+       // !(ruleManageWidget.getLogicExpression().equals(originalLogicExpression) && getAllReqCompNLs().equals(originalReqCompNL));
     }
 
     private String getAllReqCompNLs() {
@@ -204,13 +213,15 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         return NL.toString();
     }
 
-    //called when user clicks 'Add' or 'Update' a req. component of a rule
+    //called when user clicks 'Add Rule' or 'Update Rule' when editing a req. component
     protected Callback<ReqComponentInfo> actionButtonClickedReqCompCallback = new Callback<ReqComponentInfo>(){
         public void exec(final ReqComponentInfo reqComp) {
 
+            setEnabled(true);            
+
             //true if user cancel adding/editing req. component
             if (reqComp == null) {
-                return;    
+                return;
             }
 
             //1. update NL for the req. component
@@ -231,11 +242,16 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     if (editedReqCompInfo == null) {  //add req. component
                         if (rule.getStatements() != null && !rule.getStatements().isEmpty()) {
                             StatementTreeViewInfo newStatementTreeViewInfo = new StatementTreeViewInfo();
+                            newStatementTreeViewInfo.setId("STMTTREE" + Integer.toString(tempStmtTreeViewInfoID++));
                             newStatementTreeViewInfo.setOperator(rule.getStatements().get(0).getOperator());
                             newStatementTreeViewInfo.getReqComponents().add(reqComp);
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
                             rule.getReqComponents().add(reqComp);
+                            //set default operator between req. components of the rule
+                            if (rule.getOperator() == null) {
+                                rule.setOperator(StatementOperatorTypeKey.AND);
+                            }
                         }
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
@@ -262,6 +278,13 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     ruleManageWidget.redraw(rule);
                 }
             });
+        }
+    };
+        
+    //called when user selects a rule type in the editor
+    protected Callback<ReqComponentInfo> newReqCompSelectedCallbackCallback = new Callback<ReqComponentInfo>(){
+        public void exec(final ReqComponentInfo reqComp) {
+            setEnabled(false);
         }
     };
 
@@ -308,5 +331,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     public boolean isUserClickedSaveButton() {
         return userClickedSaveButton;
-    }    
+    }
+
+    public String getRelatedProgramReqInfoId() {
+        return relatedProgramReqInfoId;
+    }
 }

@@ -22,16 +22,16 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class AndOrButton extends HorizontalPanel {
+
     Button andButton = new Button(" AND ");
     Button orButton = new Button("OR");
-  //  Label andLabel = new Label("And");
-  //  Label orLabel = new Label("Or");
     HandlerRegistration andHandlerRegi;
     HandlerRegistration orHandlerRegi;
     
     public final static int And = 1;
     public final static int Or = 2;
     private int value = And;
+
     public AndOrButton(){
         super.add(andButton);
         //super.add(andLabel);
@@ -55,21 +55,26 @@ public class AndOrButton extends HorizontalPanel {
             }
         });       
     }
+
     public int getValue(){
         return value;
     }
+
     public void addClickHandler(ClickHandler clickHandler) {
         andHandlerRegi = andButton.addClickHandler(clickHandler);
         orHandlerRegi = orButton.addClickHandler(clickHandler);
     }
+
     public void removeClickHandler() {
         andHandlerRegi.removeHandler();
         orHandlerRegi.removeHandler();
     }
+
     public void setValue(int v){
         this.value = v;
         update(this.value);
     }
+
     private void update(int value){
         this.value = value;
         
@@ -80,17 +85,10 @@ public class AndOrButton extends HorizontalPanel {
             orButton.setStyleName("KS-Rules-Toggle-Label"); 
             andButton.setStyleName("KS-Rules-Toggle-Button");
         }
-        
-        /*
-        if(value == And){
-            andButton.setVisible(true);
-            andLabel.setVisible(true);
-            orButton.setVisible(false);
-            orLabel.setVisible(false);
-        }else if (value == Or){
-            andButton.setVisible(false);
-            andLabel.setVisible(false);
-            orButton.setVisible(true);
-            orLabel.setVisible(true);
-        } */
-    }}
+    }
+
+    public void setEnabled(boolean enabled) {
+        andButton.setEnabled(enabled);
+        orButton.setEnabled(enabled);
+    }
+}

@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,8 +37,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class RuleTableWidget extends FlowPanel {
 
      //rule table manipulation buttons
-    private KSButton btnAddOR = new KSButton("OR");
-    private KSButton btnAddAND = new KSButton("AND");
+    private KSButton btnMakeOR = new KSButton("OR");
+    private KSButton btnMakeAND = new KSButton("AND");
     private KSButton btnAddToGroup = new KSButton("Add to Group");
     private KSButton btnMoveRuleDown = new KSButton("Down");
     private KSButton btnMoveRuleUp = new KSButton("Up");
@@ -52,13 +53,14 @@ public class RuleTableWidget extends FlowPanel {
     //rule table
     private RuleTable  ruleTable = new RuleTable();
     private ClickHandler ruleTableSelectionHandler = null;
-    private ClickHandler ruleTableToggleClickHandler = null;
     private ClickHandler ruleTableEditClauseHandler = null;
     private HandlerRegistration textClickHandler = null;
 
     //view's data
     private RuleInfo rule = new RuleInfo();
     private Callback reqCompEditCallback;
+    private boolean isEnabled = true;
+    private boolean isOperatorChecked = false;
 
     public RuleTableWidget() {
         createButtonsPanel();
@@ -78,31 +80,7 @@ public class RuleTableWidget extends FlowPanel {
     }
   
     private void setupHandlers() {            
-               
-        ruleTableToggleClickHandler = new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                Cell cell = ruleTable.getCellForEvent(event);
-                if (cell == null) {
-                    return;
-                }
-                
-                RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
-                Token userObject = (Token) widget.getNode().getUserObject();
-                
-                if (userObject.isTokenOperator()) {
-                    userObject.toggleAndOr();
-                    StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
-                    boolean structureChanged = rule.getStatementVO().simplify();
-                    rule.getEditHistory().save(rule.getStatementVO());
-                    if (structureChanged) {
-                        showRuleBeforeSimplify(unsimplified);
-                    }
-                    redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
-                }
-            }
-        };
-        
+                       
         ruleTableSelectionHandler = new ClickHandler() {
 
             @Override
@@ -112,8 +90,16 @@ public class RuleTableWidget extends FlowPanel {
                 if (cell == null) {
                     return;
                 }
-                
+
                 RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());
+
+                //we don't want to select a cell if user clicked on 'edit' link or the table is disabled for editing
+                if (widget.isEditMode() || !isEnabled) {
+                    widget.setEditMode(false);
+                    return;
+                }
+
+                //select operator or rule
                 Object userObject = widget.getNode().getUserObject();
                 if (userObject instanceof StatementVO) { 
                     StatementVO statementVO = (StatementVO) userObject;
@@ -130,8 +116,7 @@ public class RuleTableWidget extends FlowPanel {
         ruleTableEditClauseHandler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Cell cell = ruleTable.getCellForEvent(event); 
-            
+                Cell cell = ruleTable.getCellForEvent(event);             
                 if (cell == null) {
                     return;
                 }
@@ -139,6 +124,7 @@ public class RuleTableWidget extends FlowPanel {
                 RuleNodeWidget widget = (RuleNodeWidget) ruleTable.getWidget(cell.getRowIndex(), cell.getCellIndex());                 
                 Object userObject = widget.getNode().getUserObject();   
                 if (userObject instanceof ReqComponentVO) {
+                    widget.setEditMode(true);
                     final ReqComponentVO rule = (ReqComponentVO) userObject;
                     reqCompEditCallback.exec(rule.getReqComponentInfo());
                 }
@@ -150,15 +136,10 @@ public class RuleTableWidget extends FlowPanel {
             public void onClick(ClickEvent event) {
                 StatementVO statementVO = rule.getStatementVO();
                 if (statementVO != null) {
-                    List<ReqComponentVO> selectedRCs = statementVO.getSelectedReqComponentVOs();
-                    List<StatementVO> selectedSs = statementVO.getSelectedStatementVOs();
-                    int numSelectedRCs = (selectedRCs == null)? 0 : selectedRCs.size();
-                    int numSelectedSs = (selectedSs == null)? 0 : selectedSs.size();
-                    ReqComponentVO selectedReqCompVO = null;
-                    
-                    if (numSelectedRCs == 1 && numSelectedSs == 0) {
-                        selectedReqCompVO = selectedRCs.get(0);
-                        StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
+                    //only allow moving up to 1 req. component but not operands
+                    if (isAbletoMoveReqComp()) {
+                        ReqComponentVO selectedReqCompVO = statementVO.getSelectedReqComponentVOs().get(0);
+                        StatementVO enclosingStatementVO =  statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("RIGHT", selectedReqCompVO);
                         rule.getEditHistory().save(statementVO);
                         redraw(rule.getStatementVO().getStatementTreeViewInfo(), false);
@@ -171,14 +152,9 @@ public class RuleTableWidget extends FlowPanel {
             public void onClick(ClickEvent event) {
                 StatementVO statementVO = rule.getStatementVO();
                 if (statementVO != null) {
-                    List<ReqComponentVO> selectedRCs = statementVO.getSelectedReqComponentVOs();
-                    List<StatementVO> selectedSs = statementVO.getSelectedStatementVOs();
-                    int numSelectedRCs = (selectedRCs == null)? 0 : selectedRCs.size();
-                    int numSelectedSs = (selectedSs == null)? 0 : selectedSs.size();
-                    ReqComponentVO selectedReqCompVO = null;
-                    
-                    if (numSelectedRCs == 1 && numSelectedSs == 0) {
-                        selectedReqCompVO = selectedRCs.get(0);
+                    //only allow moving up to 1 req. component but not operands
+                    if (isAbletoMoveReqComp()) {
+                        ReqComponentVO selectedReqCompVO = statementVO.getSelectedReqComponentVOs().get(0);
                         StatementVO enclosingStatementVO =  statementVO.getEnclosingStatementVO(statementVO, selectedReqCompVO);
                         enclosingStatementVO.shiftReqComponent("LEFT", selectedReqCompVO);
                         rule.getEditHistory().save(statementVO);
@@ -188,17 +164,26 @@ public class RuleTableWidget extends FlowPanel {
             }
         });
         
-        btnAddOR.addClickHandler(new ClickHandler() {
+        btnMakeOR.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                StatementVO unsimplified = null;
-                boolean structureChanged = false;
-                rule.insertOR();
+
+                //did user select an operand to change from OR to AND ?
+                if (isMatchingOperandSelected(Token.Or)) {                           
+                    StatementVO statementVO = rule.getSelectedStatementVOs().get(0);
+                    if (statementVO != null) {
+                        statementVO.getStatementInfo().setOperator(StatementOperatorTypeKey.OR);
+                        statementVO.toggleAndOr();
+                    }
+                } else {
+                    rule.insertOR();
+                }
+
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
-                unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
-                structureChanged = rule.getStatementVO().simplify();
+                StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                boolean structureChanged = rule.getStatementVO().simplify();
                 rule.getEditHistory().save(rule.getStatementVO());
-                // sets the statementVO to be the version that hasn't been simplified yet
-                // temporarily
+
+                // sets the statementVO to be the version that hasn't been simplified yet temporarily
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
@@ -207,17 +192,26 @@ public class RuleTableWidget extends FlowPanel {
             }
         });
         
-        btnAddAND.addClickHandler(new ClickHandler() {
+        btnMakeAND.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                StatementVO unsimplified = null;
-                boolean structureChanged = false;
-                rule.insertAND();
+
+                //did user select an operand to change from AND to OR ?
+                if (isMatchingOperandSelected(Token.And)) {                           
+                    StatementVO statementVO = rule.getSelectedStatementVOs().get(0);
+                    if (statementVO != null) {
+                        statementVO.getStatementInfo().setOperator(StatementOperatorTypeKey.AND);
+                        statementVO.toggleAndOr();
+                    }
+                } else {
+                    rule.insertAND();
+                }
+
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
-                unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
-                structureChanged = rule.getStatementVO().simplify();
+                StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                boolean structureChanged = rule.getStatementVO().simplify();
                 rule.getEditHistory().save(rule.getStatementVO());
-                // sets the statementVO to be the version that hasn't been simplified yet
-                // temporarily
+
+                // sets the statementVO to be the version that hasn't been simplified yet temporarily
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
@@ -228,12 +222,11 @@ public class RuleTableWidget extends FlowPanel {
         
         btnDelete.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                boolean structureChanged = false;
-
                 rule.deleteItem();
 
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
                 StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                boolean structureChanged = false;
                 if (rule.getStatementVO() != null) {
                     structureChanged = rule.getStatementVO().simplify();
                 }
@@ -251,17 +244,17 @@ public class RuleTableWidget extends FlowPanel {
         
         btnAddToGroup.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                StatementVO unsimplified = null;
-                boolean structureChanged = false;
                 rule.addToGroup();
+
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
-                unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                boolean structureChanged = false;
                 if (rule.getStatementVO() != null) {
                     structureChanged = rule.getStatementVO().simplify();
                 }
                 rule.getEditHistory().save(rule.getStatementVO());
-                // sets the statementVO to be the version that hasn't been simplified yet
-                // temporarily
+                
+                // sets the statementVO to be the version that hasn't been simplified yet temporarily
                 if (structureChanged) {
                     showRuleBeforeSimplify(unsimplified);
                 } else {
@@ -299,19 +292,12 @@ public class RuleTableWidget extends FlowPanel {
             rule.setEditHistory(new EditHistory(rule.getStatementVO()));
         }
 
+        rule.getStatementVO().clearSelections();
         updateTable();
     }
     
     private void updateTable() {        
-        btnAddAND.setEnabled(rule.statementVOIsGroupAble());
-        btnAddOR.setEnabled(rule.statementVOIsGroupAble());
-        btnAddToGroup.setEnabled(rule.isAddToGroupOK());
-        btnUndo.setEnabled(rule.getEditHistory().isUndoable());
-        btnRedo.setEnabled(rule.getEditHistory().isRedoable());
-        btnDelete.setEnabled(rule.statementVOIsDegroupAble());
-        btnMoveRuleUp.setEnabled(rule.isCellSelected() && (rule.getStatementTree().getAllLeafCount() > 1));
-        btnMoveRuleDown.setEnabled(rule.isCellSelected() && (rule.getStatementTree().getAllLeafCount() > 1));
-        
+        setEnableButtons(true);        
         ruleTable.clear();
         Node tree = rule.getStatementTree();
         if ((tree != null) && (rule.getStatementVO().getChildCount() > 0)) {
@@ -332,7 +318,6 @@ public class RuleTableWidget extends FlowPanel {
             ruleTable.buildTable(tree);
             textClickHandler.removeHandler();
             ruleTable.addTextClickHandler(ruleTableSelectionHandler);
-            ruleTable.addToggleHandler(ruleTableToggleClickHandler);
             ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);                
         } else { //no rule exist so don't show rule table and show a message instead
             ruleTablePanel.clear();
@@ -355,12 +340,69 @@ public class RuleTableWidget extends FlowPanel {
         simplifyingTimer.schedule(1000);
     }
 
+    public void setEnabledView(boolean enabled) {
+        setEnableButtons(enabled);
+        ruleTable.setEnabled(enabled);
+        isEnabled = enabled;
+        //TODO enable/disable buttons in Edit With Logic view
+    }
+
+    public void setEnableButtons(boolean enabled) {
+        if (enabled) {
+            btnMakeAND.setEnabled(isMatchingOperandSelected(Token.And) || rule.statementVOIsGroupAble());
+            btnMakeOR.setEnabled(isMatchingOperandSelected(Token.Or) || rule.statementVOIsGroupAble());
+            btnAddToGroup.setEnabled(rule.isAddToGroupOK());
+            btnUndo.setEnabled(rule.getEditHistory().isUndoable());
+            btnRedo.setEnabled(rule.getEditHistory().isRedoable());
+            btnDelete.setEnabled(isAbleToDelete());
+            btnMoveRuleUp.setEnabled(rule.getStatementVO().isNodeSelected() && !rule.getStatementVO().isFirstSelectedReqComp() && isAbletoMoveReqComp());
+            btnMoveRuleDown.setEnabled(rule.getStatementVO().isNodeSelected() && !rule.getStatementVO().isLastSelectedReqComp() && isAbletoMoveReqComp());
+        } else {
+            btnMakeAND.setEnabled(false);
+            btnMakeOR.setEnabled(false);
+            btnAddToGroup.setEnabled(false);
+            btnUndo.setEnabled(false);
+            btnRedo.setEnabled(false);
+            btnDelete.setEnabled(false);
+            btnMoveRuleUp.setEnabled(false);
+            btnMoveRuleDown.setEnabled(false);
+        }
+    }
+
+    //right now only allow moving of up to 1 req. component but not operands
+    private boolean isAbletoMoveReqComp() {
+        List<ReqComponentVO> selectedRCs = rule.getStatementVO().getSelectedReqComponentVOs();
+        List<StatementVO> selectedSs = rule.getStatementVO().getSelectedStatementVOs();
+        int numSelectedRCs = (selectedRCs == null)? 0 : selectedRCs.size();
+        int numSelectedSs = (selectedSs == null)? 0 : selectedSs.size();
+        return (numSelectedRCs == 1 && numSelectedSs == 0);       
+    }
+
+    //check whether user selected only 1 operator of opossite type    
+    private boolean isMatchingOperandSelected(int type) {
+        List<StatementVO> selectedStmts = rule.getSelectedStatementVOs();
+        if (((rule.getSelectedReqComponentVOs() == null) || (rule.getSelectedReqComponentVOs().isEmpty())) && (selectedStmts.size() == 1)
+                && (((StatementVO)selectedStmts.get(0)).getType() != type)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isAbleToDelete() {
+        //return ((rule.getSelectedStatementVOs().size() > 0) || (rule.getSelectedReqComponentVOs().size() > 0));
+        if ((rule.getSelectedStatementVOs() == null || rule.getSelectedStatementVOs().size() == 0) && (rule.getSelectedReqComponentVOs().size() > 1)) {
+            return true;
+        }
+
+        return rule.statementVOIsDegroupAble();
+    }
+
     private void createButtonsPanel() {
         topButtonsPanel.setStyleName("KS-Program-Rule-ObjectView-ButtonPanel");
-        btnAddOR.addStyleName("KS-Program-Rule-ObjectView-OR-Button");
-        topButtonsPanel.add(btnAddOR);
-        btnAddAND.addStyleName("KS-Program-Rule-ObjectView-AND-Button");
-        topButtonsPanel.add(btnAddAND);
+        btnMakeOR.addStyleName("KS-Program-Rule-ObjectView-OR-Button");
+        topButtonsPanel.add(btnMakeOR);
+        btnMakeAND.addStyleName("KS-Program-Rule-ObjectView-AND-Button");
+        topButtonsPanel.add(btnMakeAND);
         btnAddToGroup.addStyleName("KS-Program-Rule-ObjectView-Group-Button");
         topButtonsPanel.add(btnAddToGroup);
         btnMoveRuleDown.addStyleName("KS-Program-Rule-ObjectView-Down-Button");
