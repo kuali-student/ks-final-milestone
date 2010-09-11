@@ -34,7 +34,7 @@ public class TestMetadataServiceDictionary
 {
 
  @Test
- public void testLoadCourseInfoDictionary ()
+ public void testMetadataService ()
  {
   Set<Class<?>> startingClasses = new LinkedHashSet ();
   startingClasses.add (CourseInfo.class);
@@ -43,40 +43,40 @@ public class TestMetadataServiceDictionary
   startingClasses.add (ProposalInfo.class);
   startingClasses.add (CluSetInfo.class);
 
-  DictionaryService courseDictService = new DictionaryServiceImpl (
-    "classpath:ks-courseInfo-dictionary-context.xml");
-  DictionaryService progDictService = new DictionaryServiceImpl (
-    "classpath:ks-programInfo-dictionary-context.xml");
-  DictionaryService proposalDictService = new DictionaryServiceImpl (
-    "classpath:ks-proposalInfo-dictionary-context.xml");
-  MetadataServiceImpl metadataService = new MetadataServiceImpl (
-    courseDictService, progDictService, proposalDictService);
-  metadataService.setUiLookupContext ("classpath:lum-ui-lookup-context.xml");
-
-
-  System.out.println ("(!) This page was automatically generated on "
-                      + new Date ());
-  System.out.println ("DO NOT UPDATE MANUALLY!");
-  System.out.println ("");
-  System.out.print ("This page represents a formatted view of the lum ui dictionary");
-  for (Class<?> clazz : startingClasses)
-  {
-   System.out.println ("# " + clazz.getName ());
-  }
-  System.out.println ("");
-  System.out.println ("----");
-  System.out.println ("{toc}");
-  System.out.println ("----");
-  for (Class<?> clazz : startingClasses)
-  {
-//   System.out.println ("getting meta data for " + clazz.getName ());
-   Metadata metadata = metadataService.getMetadata (clazz.getName ());
-   assertNotNull (metadata);
-   MetadataFormatter formatter = new MetadataFormatter (clazz.getName (), clazz,
-                                                        metadata, new HashSet (),
-                                                        1, true);
-   System.out.println (formatter.formatForWiki ());
-
-  }
+//  DictionaryService courseDictService = new DictionaryServiceImpl (
+//    "classpath:ks-courseInfo-dictionary-context.xml");
+//  DictionaryService progDictService = new DictionaryServiceImpl (
+//    "classpath:ks-programInfo-dictionary-context.xml");
+//  DictionaryService proposalDictService = new DictionaryServiceImpl (
+//    "classpath:ks-proposalInfo-dictionary-context.xml");
+//  MetadataServiceImpl metadataService = new MetadataServiceImpl (
+//    courseDictService, progDictService, proposalDictService);
+//  metadataService.setUiLookupContext ("classpath:lum-ui-lookup-context.xml");
+//
+//
+//  System.out.println ("(!) This page was automatically generated on "
+//                      + new Date ());
+//  System.out.println ("DO NOT UPDATE MANUALLY!");
+//  System.out.println ("");
+//  System.out.print ("This page represents a formatted view of the lum ui dictionary");
+//  for (Class<?> clazz : startingClasses)
+//  {
+//   System.out.println ("# " + clazz.getName ());
+//  }
+//  System.out.println ("");
+//  System.out.println ("----");
+//  System.out.println ("{toc}");
+//  System.out.println ("----");
+//  for (Class<?> clazz : startingClasses)
+//  {
+////   System.out.println ("getting meta data for " + clazz.getName ());
+//   Metadata metadata = metadataService.getMetadata (clazz.getName ());
+//   assertNotNull (metadata);
+//   MetadataFormatter formatter = new MetadataFormatter (clazz.getName (), clazz,
+//                                                        metadata, new HashSet (),
+//                                                        1, true);
+//   System.out.println (formatter.formatForWiki ());
+//
+//  }
  }
 }
