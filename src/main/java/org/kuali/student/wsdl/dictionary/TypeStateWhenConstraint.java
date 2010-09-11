@@ -38,9 +38,9 @@ public class TypeStateWhenConstraint {
 
     protected Integer minOccurs;
     protected String maxOccurs;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
-    @XmlAttribute
+    @XmlAttribute(name = "state")
     protected String state;
 
     /**

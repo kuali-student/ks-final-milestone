@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "searchSelector")
 public class SearchSelector {
 
-    @XmlAttribute(required = true)
+    @XmlAttribute(name = "key", required = true)
     protected String key;
 
     /**

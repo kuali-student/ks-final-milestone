@@ -64,15 +64,14 @@ public class CreditCourseLoaderModelExcelImpl implements CreditCourseLoaderModel
    }
    list.add (cc);
    row++;
-   cc.setId ("LOADEDID#" + row);
-   cc.setDivision (helper.getFixup ("division"));
-   cc.setSuffixCode (helper.getFixup ("suffixCode"));
+   cc.setSubjectArea (helper.getFixup ("subjectArea"));
+   cc.setCourseNumberSuffix (helper.getFixup ("courseNumberSuffix"));
    cc.setVariation (helper.getFixup ("variation"));
-   cc.setPrimaryAdminOrg (helper.getFixup ("primaryAdminOrg"));
-   cc.setPrimaryAdminOrgId (helper.getFixup ("orgId"));
-   cc.setShortName (helper.getFixup ("shortName"));
-   cc.setLongName (helper.getFixup ("longName"));
-   cc.setDesc (helper.getFixup ("Desc"));
+   cc.setAdministeringOrgName (helper.getFixup ("AdministeringOrgName"));
+   cc.setAdministeringOrg (helper.getFixup ("AdministeringOrgName"));
+   cc.setTranscriptTitle (helper.getFixup ("TranscriptTitle"));
+   cc.setCourseTitle (helper.getFixup ("CourseTitle"));
+   cc.setDescr (helper.getFixup ("Descr"));
    cc.setCredits (helper.getFixup ("credits"));
    cc.setRestrictions (helper.getFixup ("restrictions"));
    cc.setPrereq (helper.getFixup ("prereq"));
@@ -81,7 +80,7 @@ public class CreditCourseLoaderModelExcelImpl implements CreditCourseLoaderModel
    cc.setCoreqNL (helper.getFixup ("coreqNL"));
    cc.setEquivalencies (helper.getFixup ("equivalencies"));
    cc.setGradingOptions (helper.getFixup ("gradingOptions"));
-   cc.setOfferedAtpTypes (helper.getFixup ("offeredAtpTypes"));
+   cc.setTermsOffered (helper.getFixup ("TermsOffered"));
    cc.setRequirementsMet (helper.getFixup ("requirementsMet"));
    cc.setLearningObjectives (helper.getFixup ("learningObjectives"));
   }

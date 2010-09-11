@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "lookupConstraint")
+@XmlType(name = "lookupConstraint", namespace = "http://student.kuali.org/wsdl/proposal")
 public class LookupConstraint
     extends CommonLookup
 {

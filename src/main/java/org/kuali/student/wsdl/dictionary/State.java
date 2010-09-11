@@ -42,9 +42,9 @@ public class State {
     @XmlElement(required = true)
     protected List<Field> field;
     protected ConstraintDescriptor constraintDescriptor;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
-    @XmlAttribute(required = true)
+    @XmlAttribute(name = "key", required = true)
     protected String key;
 
     /**

@@ -42,11 +42,11 @@ public class CourseJointInfo {
     protected String courseNumberSuffix;
     protected String courseTitle;
     protected String subjectArea;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
-    @XmlAttribute
+    @XmlAttribute(name = "courseId")
     protected String courseId;
-    @XmlAttribute
+    @XmlAttribute(name = "relationId")
     protected String relationId;
 
     /**

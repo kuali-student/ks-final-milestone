@@ -37,7 +37,7 @@ public class ReqCompFieldTypeInfo {
 
     @XmlElement(namespace = "http://student.kuali.org/wsdl/dictionary")
     protected FieldDescriptor fieldDescriptor;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

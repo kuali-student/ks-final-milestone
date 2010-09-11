@@ -44,9 +44,9 @@ public class Field {
     protected ConstraintDescriptor constraintDescriptor;
     protected boolean selector;
     protected boolean dynamic;
-    @XmlAttribute(required = true)
+    @XmlAttribute(name = "key", required = true)
     protected String key;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

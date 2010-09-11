@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import org.kuali.student.wsdl.organization.ValidationResultInfo;
+import org.kuali.student.wsdl.course.ValidationResultInfo;
 
 
 /**
@@ -21,7 +21,7 @@ import org.kuali.student.wsdl.organization.ValidationResultInfo;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="message" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="validationResults" type="{http://student.kuali.org/wsdl/organization}validationResultInfo" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="validationResults" type="{http://student.kuali.org/wsdl/course}validationResultInfo" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>

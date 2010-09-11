@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "statusInfo", propOrder = {
+@XmlType(name = "statusInfo", namespace = "http://student.kuali.org/wsdl/proposal", propOrder = {
     "success",
     "message"
 })

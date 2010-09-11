@@ -14,13 +14,7 @@
  */
 package org.kuali.student.dictionary.writer.dict;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -28,11 +22,12 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  * This is a copy of theone
  * @author nwright
  */
-public class DictionaryServiceSpringImpl implements DictionaryService
+//public class DictionaryServiceSpringImpl implements DictionaryService
+public class DictionaryServiceSpringImpl
 {
 
  private String dictionaryContext;
- private Map<String, ObjectStructure> objectStructures;
+// private Map<String, ObjectStructure> objectStructures;
 
  public DictionaryServiceSpringImpl ()
  {
@@ -53,42 +48,42 @@ public class DictionaryServiceSpringImpl implements DictionaryService
   ApplicationContext ac =
    new FileSystemXmlApplicationContext (dictionaryContext);
 
-  Map<String, ObjectStructure> beansOfType
-   = (Map<String, ObjectStructure>) ac.getBeansOfType (ObjectStructure.class);
-  objectStructures = new HashMap<String, ObjectStructure> ();
-  for (ObjectStructure objStr : beansOfType.values ())
-  {
-   objectStructures.put (objStr.getKey (), objStr);
-  }
+//  Map<String, ObjectStructure> beansOfType
+//   = (Map<String, ObjectStructure>) ac.getBeansOfType (ObjectStructure.class);
+//  objectStructures = new HashMap<String, ObjectStructure> ();
+//  for (ObjectStructure objStr : beansOfType.values ())
+//  {
+//   objectStructures.put (objStr.getKey (), objStr);
+//  }
  }
 
- @Override
- public ObjectStructure getObjectStructure (String objectTypeKey)
- {
-  return objectStructures.get (objectTypeKey);
- }
-
- @Override
- public List<String> getObjectTypes ()
- {
-  return new ArrayList<String> (objectStructures.keySet ());
- }
-
- @Override
- public boolean validateObject (String objectTypeKey, String stateKey,
-                                String info)
- {
-  // TODO ddean - THIS METHOD NEEDS JAVADOCS
-  return false;
- }
-
- @Override
- public boolean validateStructureData (String objectTypeKey, String stateKey,
-                                       String info)
- {
-  // TODO ddean - THIS METHOD NEEDS JAVADOCS
-  return false;
- }
+// @Override
+// public ObjectStructure getObjectStructure (String objectTypeKey)
+// {
+//  return objectStructures.get (objectTypeKey);
+// }
+//
+// @Override
+// public List<String> getObjectTypes ()
+// {
+//  return new ArrayList<String> (objectStructures.keySet ());
+// }
+//
+// @Override
+// public boolean validateObject (String objectTypeKey, String stateKey,
+//                                String info)
+// {
+//  // TODO ddean - THIS METHOD NEEDS JAVADOCS
+//  return false;
+// }
+//
+// @Override
+// public boolean validateStructureData (String objectTypeKey, String stateKey,
+//                                       String info)
+// {
+//  // TODO ddean - THIS METHOD NEEDS JAVADOCS
+//  return false;
+// }
 
  public String getDictionaryContext ()
  {

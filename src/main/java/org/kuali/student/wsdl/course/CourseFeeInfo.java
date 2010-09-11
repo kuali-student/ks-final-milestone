@@ -51,7 +51,7 @@ public class CourseFeeInfo {
     protected RichTextInfo descr;
     protected JaxbAttributeList attributes;
     protected MetaInfo metaInfo;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

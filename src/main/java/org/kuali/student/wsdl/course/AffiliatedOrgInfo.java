@@ -47,7 +47,7 @@ public class AffiliatedOrgInfo {
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar expirationDate;
     protected Long percentage;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

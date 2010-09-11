@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "requireConstraint")
 public class RequireConstraint {
 
-    @XmlAttribute
+    @XmlAttribute(name = "field")
     protected String field;
 
     /**

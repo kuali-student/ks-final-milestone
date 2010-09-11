@@ -44,9 +44,9 @@ public class AdminOrgInfo {
     protected JaxbAttributeList attributes;
     protected MetaInfo metaInfo;
     protected boolean isPrimary;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
 
     /**

@@ -40,9 +40,9 @@ public class OccursConstraint {
 
     protected List<RequireConstraint> require;
     protected List<OccursConstraint> occurs;
-    @XmlAttribute
+    @XmlAttribute(name = "min")
     protected Integer min;
-    @XmlAttribute
+    @XmlAttribute(name = "max")
     protected Integer max;
 
     /**

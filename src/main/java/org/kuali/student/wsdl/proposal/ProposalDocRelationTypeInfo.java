@@ -50,7 +50,7 @@ public class ProposalDocRelationTypeInfo {
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar expirationDate;
     protected JaxbAttributeList attributes;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

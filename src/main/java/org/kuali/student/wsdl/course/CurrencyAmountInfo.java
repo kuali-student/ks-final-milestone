@@ -40,7 +40,7 @@ public class CurrencyAmountInfo {
     protected String currencyTypeKey;
     protected Integer currencyQuantity;
     protected MetaInfo metaInfo;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

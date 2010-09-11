@@ -15,16 +15,9 @@
  */
 package org.kuali.student.loader;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
@@ -37,27 +30,24 @@ public class CreditCourseLoaderModelFactory
 {
 
  public static final String RESOURCES_DIRECTORY = "resources/krudata";
- public static String COURSES = "Courses.xls";
+ public static String COURSES_XLS = "Courses.xls";
  public static final String EXCEL_FILES_DEFAULT_DIRECTORY_KEY =
                             "loader.model.excel.default.directory";
  public static final String EXCEL_FILES_KEY =
                             "credit.course.loader.model.excel.file#";
- public static final String OUTPUT_DEFAULT_DIRECTORY_KEY =
-                            "loader.output.default.directory";
- public static final String COURSES_SQL_INSERT_FILE = "CoursesInsert.sql";
- public static final String SQL_FILES_OUTPUT_KEY =
-                            "credit.course.loader.model.sql.output";
+ public static final String SERVICE_HOST_URL =
+                            "loader.service.host.url";
+ public static final String LOCAL_HOST_URL =
+                            "http://localhost:9393/ks-embedded-dev";
 
  public static Properties getDefaultConfig ()
  {
   Properties defaultProps = new Properties ();
   defaultProps.put (EXCEL_FILES_DEFAULT_DIRECTORY_KEY, RESOURCES_DIRECTORY);
-  defaultProps.put (EXCEL_FILES_KEY + "1", COURSES);
-  defaultProps.put (OUTPUT_DEFAULT_DIRECTORY_KEY, RESOURCES_DIRECTORY);
-  defaultProps.put (SQL_FILES_OUTPUT_KEY, COURSES_SQL_INSERT_FILE);
+  defaultProps.put (EXCEL_FILES_KEY + "1", COURSES_XLS);
+  defaultProps.put (SERVICE_HOST_URL, LOCAL_HOST_URL);
   return defaultProps;
  }
-
  private Properties config;
 
  public Properties getConfig ()
@@ -101,36 +91,4 @@ public class CreditCourseLoaderModelFactory
   CreditCourseLoaderModelCache cache = new CreditCourseLoaderModelCache (model);
   return cache;
  }
-
- public PrintWriter getOut ()
- {
-  List<SpreadsheetReader> list = new ArrayList ();
-  String directory = config.getProperty (OUTPUT_DEFAULT_DIRECTORY_KEY);
-  String fileName = config.getProperty (SQL_FILES_OUTPUT_KEY);
-  if (fileName != null)
-  {
-//    System.out.println ("excelFile(" + i + ")=" + excelFileName);
-   if (directory != null)
-   {
-    if ( ! fileName.startsWith ("/"))
-    {
-//      System.out.println ("prepending with directory");
-     fileName = directory + "/" + fileName;
-    }
-   }
-  }
-  File file = new File (fileName);
-  OutputStream os = null;
-  try
-  {
-   os = new FileOutputStream (file, false);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new IllegalArgumentException (ex);
-  }
-  PrintWriter out = new PrintWriter (os);
-  return out;
- }
-
 }

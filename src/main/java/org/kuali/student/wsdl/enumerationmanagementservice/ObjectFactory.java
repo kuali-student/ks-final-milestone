@@ -45,43 +45,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetEnumerationMetaResponse }
+     * Create an instance of {@link GetEnumerationMetasResponse }
      * 
      */
-    public GetEnumerationMetaResponse createGetEnumerationMetaResponse() {
-        return new GetEnumerationMetaResponse();
-    }
-
-    /**
-     * Create an instance of {@link RemoveEnumeratedValue }
-     * 
-     */
-    public RemoveEnumeratedValue createRemoveEnumeratedValue() {
-        return new RemoveEnumeratedValue();
-    }
-
-    /**
-     * Create an instance of {@link GetEnumerationResponse }
-     * 
-     */
-    public GetEnumerationResponse createGetEnumerationResponse() {
-        return new GetEnumerationResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetEnumerationMeta }
-     * 
-     */
-    public GetEnumerationMeta createGetEnumerationMeta() {
-        return new GetEnumerationMeta();
-    }
-
-    /**
-     * Create an instance of {@link GetEnumeration }
-     * 
-     */
-    public GetEnumeration createGetEnumeration() {
-        return new GetEnumeration();
+    public GetEnumerationMetasResponse createGetEnumerationMetasResponse() {
+        return new GetEnumerationMetasResponse();
     }
 
     /**
@@ -93,19 +61,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetEnumerationMetas }
+     * Create an instance of {@link UpdateEnumeratedValueResponse }
      * 
      */
-    public GetEnumerationMetas createGetEnumerationMetas() {
-        return new GetEnumerationMetas();
-    }
-
-    /**
-     * Create an instance of {@link AddEnumeratedValueResponse }
-     * 
-     */
-    public AddEnumeratedValueResponse createAddEnumeratedValueResponse() {
-        return new AddEnumeratedValueResponse();
+    public UpdateEnumeratedValueResponse createUpdateEnumeratedValueResponse() {
+        return new UpdateEnumeratedValueResponse();
     }
 
     /**
@@ -117,19 +77,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetEnumerationMetasResponse }
+     * Create an instance of {@link GetEnumerationResponse }
      * 
      */
-    public GetEnumerationMetasResponse createGetEnumerationMetasResponse() {
-        return new GetEnumerationMetasResponse();
+    public GetEnumerationResponse createGetEnumerationResponse() {
+        return new GetEnumerationResponse();
     }
 
     /**
-     * Create an instance of {@link UpdateEnumeratedValueResponse }
+     * Create an instance of {@link GetEnumeration }
      * 
      */
-    public UpdateEnumeratedValueResponse createUpdateEnumeratedValueResponse() {
-        return new UpdateEnumeratedValueResponse();
+    public GetEnumeration createGetEnumeration() {
+        return new GetEnumeration();
+    }
+
+    /**
+     * Create an instance of {@link GetEnumerationMeta }
+     * 
+     */
+    public GetEnumerationMeta createGetEnumerationMeta() {
+        return new GetEnumerationMeta();
+    }
+
+    /**
+     * Create an instance of {@link GetEnumerationMetaResponse }
+     * 
+     */
+    public GetEnumerationMetaResponse createGetEnumerationMetaResponse() {
+        return new GetEnumerationMetaResponse();
+    }
+
+    /**
+     * Create an instance of {@link AddEnumeratedValueResponse }
+     * 
+     */
+    public AddEnumeratedValueResponse createAddEnumeratedValueResponse() {
+        return new AddEnumeratedValueResponse();
+    }
+
+    /**
+     * Create an instance of {@link RemoveEnumeratedValue }
+     * 
+     */
+    public RemoveEnumeratedValue createRemoveEnumeratedValue() {
+        return new RemoveEnumeratedValue();
+    }
+
+    /**
+     * Create an instance of {@link GetEnumerationMetas }
+     * 
+     */
+    public GetEnumerationMetas createGetEnumerationMetas() {
+        return new GetEnumerationMetas();
     }
 
     /**

@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
 public class EnumFieldViewInfo {
 
     protected List<EnumContextInfo> contextDescriptors;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

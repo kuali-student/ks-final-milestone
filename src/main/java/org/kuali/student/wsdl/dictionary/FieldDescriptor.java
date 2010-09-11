@@ -56,7 +56,7 @@ public class FieldDescriptor {
     protected SearchSelector search;
     protected ObjectStructure objectStructure;
     protected String objectStructureRef;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

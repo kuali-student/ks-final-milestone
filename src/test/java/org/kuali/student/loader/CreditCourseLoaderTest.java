@@ -15,7 +15,6 @@
  */
 package org.kuali.student.loader;
 
-
 import java.util.Date;
 import java.util.List;
 import org.junit.After;
@@ -23,7 +22,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+import static org.junit.Assert.*;
 
 /**
  *
@@ -38,54 +37,76 @@ public class CreditCourseLoaderTest
 
  @BeforeClass
  public static void setUpClass ()
-     throws Exception
+   throws Exception
  {
  }
 
  @AfterClass
  public static void tearDownClass ()
-     throws Exception
+   throws Exception
  {
  }
 
  @Before
  public void setUp ()
  {
- 
  }
 
  @After
  public void tearDown ()
  {
- 
  }
-
 
  /**
   * Test of load method, of class OrgLoader.
   */
  @Test
  public void testLoadCreditCourses ()
-     throws Exception
+   throws Exception
  {
   System.out.println (new Date () + " load credit courses");
 
   CreditCourseLoader ccLoader = new CreditCourseLoader ();
+  CrsService crsService = new CrsService ();
+  crsService.setHostUrl (CreditCourseLoaderModelFactory.LOCAL_HOST_URL);
+  ccLoader.setCrsService (crsService);
   CreditCourseLoaderModel ccModel = CreditCourseLoaderModelFactoryTest.getInstance ().
-      getModel ();
+    getModel ();
 
   System.out.println (new Date () + " getting credit courses...");
   List<CreditCourse> creditCourses = ccModel.getCreditCourses ();
 
   System.out.println (new Date () + " loading " + creditCourses.size ()
                       + " credit courses");
-  ccLoader.setSource (creditCourses.iterator ());
-  ccLoader.setOut (CreditCourseLoaderModelFactoryTest.getInstance ().getOut ());
-  int written = ccLoader.write ();
-  ccLoader.getOut ().close ();
-  System.out.println (written + " recordes written out of " + creditCourses.size () + " credit courses");
-
-
+  ccLoader.setInputDataSource (creditCourses.subList (372, 373).iterator ());
+//  ccLoader.setInputDataSource (creditCourses.iterator ());
+  List<CreditCourseLoadResult> results = ccLoader.update ();
+  int created = 0;
+  int failures = 0;
+  for (CreditCourseLoadResult result : results)
+  {
+   if (result.isSuccess ())
+   {
+    created ++;
+    System.out.println (result.getCourseInfo ().getCode () + " id = " + result.getCourseInfo ().getId ());
+   }
+   else
+   {
+    failures ++;
+   }
+  }
+  System.out.println (created + " recordes created out of " + creditCourses.size () + " credit courses");
+  System.out.println (failures + " records failed to load");
+  for (CreditCourseLoadResult result : results)
+  {
+   if ( ! result.isSuccess ())
+   {
+    System.out.println (result);
+   }
+  }
+  if (failures > 0)
+  {
+   fail (failures + " records failed to load");
+  }
  }
-
 }

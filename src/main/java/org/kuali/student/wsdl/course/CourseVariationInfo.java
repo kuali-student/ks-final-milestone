@@ -44,9 +44,9 @@ public class CourseVariationInfo {
     protected String subjectArea;
     protected String courseNumberSuffix;
     protected String variationCode;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

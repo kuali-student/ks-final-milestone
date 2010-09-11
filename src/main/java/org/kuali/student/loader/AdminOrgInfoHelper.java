@@ -28,15 +28,15 @@ import org.kuali.student.wsdl.course.AdminOrgInfo;
  */
 public class AdminOrgInfoHelper
 {
- public AdminOrgInfo get (String type, String orgName)
+ public AdminOrgInfo get (String type, String orgId)
  {
-  if (orgName == null)
+  if (orgId == null)
   {
    return null;
   }
   AdminOrgInfo info = new AdminOrgInfo ();
   info.setType (type);
-  info.setOrgId (orgName);
+  info.setOrgId (orgId);
   return info;
  }
 
@@ -69,6 +69,6 @@ public class AdminOrgInfoHelper
   List<String> types = new ArrayList ();
   types.add (DEPARTMENT);
   types.add (OFFICE);
-  return new OrgFinder ().find (orgName, types);
+  return new OrgService ().findMatch (orgName, types);
  }
 }

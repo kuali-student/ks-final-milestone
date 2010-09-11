@@ -48,11 +48,11 @@ public class OrgTreeInfo {
     protected String relationType;
     protected String orgHierarchyId;
     protected long positions;
-    @XmlAttribute
+    @XmlAttribute(name = "orgId")
     protected String orgId;
-    @XmlAttribute
+    @XmlAttribute(name = "parentId")
     protected String parentId;
-    @XmlAttribute
+    @XmlAttribute(name = "displayName")
     protected String displayName;
 
     /**

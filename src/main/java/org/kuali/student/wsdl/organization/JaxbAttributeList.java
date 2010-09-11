@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "jaxbAttributeList", propOrder = {
+@XmlType(name = "jaxbAttributeList", namespace = "http://student.kuali.org/wsdl/organization", propOrder = {
     "attribute"
 })
 public class JaxbAttributeList {

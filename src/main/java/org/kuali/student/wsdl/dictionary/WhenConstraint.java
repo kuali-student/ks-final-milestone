@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "whenConstraint", propOrder = {
+@XmlType(name = "whenConstraint", namespace = "http://student.kuali.org/wsdl/dictionary", propOrder = {
     "constraint"
 })
 public class WhenConstraint {
 
     protected ConstraintSelector constraint;
-    @XmlAttribute
+    @XmlAttribute(name = "value")
     protected String value;
 
     /**

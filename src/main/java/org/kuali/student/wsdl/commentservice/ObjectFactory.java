@@ -69,67 +69,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link AddTag }
+     * Create an instance of {@link ValidateCommentResponse }
      * 
      */
-    public AddTag createAddTag() {
-        return new AddTag();
+    public ValidateCommentResponse createValidateCommentResponse() {
+        return new ValidateCommentResponse();
     }
 
     /**
-     * Create an instance of {@link GetCommentResponse }
+     * Create an instance of {@link UpdateCommentResponse }
      * 
      */
-    public GetCommentResponse createGetCommentResponse() {
-        return new GetCommentResponse();
+    public UpdateCommentResponse createUpdateCommentResponse() {
+        return new UpdateCommentResponse();
     }
 
     /**
-     * Create an instance of {@link AddTagResponse }
+     * Create an instance of {@link GetCommentsResponse }
      * 
      */
-    public AddTagResponse createAddTagResponse() {
-        return new AddTagResponse();
-    }
-
-    /**
-     * Create an instance of {@link ValidateComment }
-     * 
-     */
-    public ValidateComment createValidateComment() {
-        return new ValidateComment();
-    }
-
-    /**
-     * Create an instance of {@link GetCommentsByTypeResponse }
-     * 
-     */
-    public GetCommentsByTypeResponse createGetCommentsByTypeResponse() {
-        return new GetCommentsByTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetComments }
-     * 
-     */
-    public GetComments createGetComments() {
-        return new GetComments();
-    }
-
-    /**
-     * Create an instance of {@link UpdateComment }
-     * 
-     */
-    public UpdateComment createUpdateComment() {
-        return new UpdateComment();
-    }
-
-    /**
-     * Create an instance of {@link GetTagsByTypeResponse }
-     * 
-     */
-    public GetTagsByTypeResponse createGetTagsByTypeResponse() {
-        return new GetTagsByTypeResponse();
+    public GetCommentsResponse createGetCommentsResponse() {
+        return new GetCommentsResponse();
     }
 
     /**
@@ -141,51 +101,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetCommentTypesResponse }
+     * Create an instance of {@link AddCommentResponse }
      * 
      */
-    public GetCommentTypesResponse createGetCommentTypesResponse() {
-        return new GetCommentTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetTag }
-     * 
-     */
-    public GetTag createGetTag() {
-        return new GetTag();
-    }
-
-    /**
-     * Create an instance of {@link RemoveTagResponse }
-     * 
-     */
-    public RemoveTagResponse createRemoveTagResponse() {
-        return new RemoveTagResponse();
-    }
-
-    /**
-     * Create an instance of {@link RemoveComment }
-     * 
-     */
-    public RemoveComment createRemoveComment() {
-        return new RemoveComment();
-    }
-
-    /**
-     * Create an instance of {@link GetTagTypes }
-     * 
-     */
-    public GetTagTypes createGetTagTypes() {
-        return new GetTagTypes();
-    }
-
-    /**
-     * Create an instance of {@link RemoveTagsResponse }
-     * 
-     */
-    public RemoveTagsResponse createRemoveTagsResponse() {
-        return new RemoveTagsResponse();
+    public AddCommentResponse createAddCommentResponse() {
+        return new AddCommentResponse();
     }
 
     /**
@@ -205,6 +125,46 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetTagsByTypeResponse }
+     * 
+     */
+    public GetTagsByTypeResponse createGetTagsByTypeResponse() {
+        return new GetTagsByTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link AddTag }
+     * 
+     */
+    public AddTag createAddTag() {
+        return new AddTag();
+    }
+
+    /**
+     * Create an instance of {@link GetTagsByType }
+     * 
+     */
+    public GetTagsByType createGetTagsByType() {
+        return new GetTagsByType();
+    }
+
+    /**
+     * Create an instance of {@link GetCommentsByType }
+     * 
+     */
+    public GetCommentsByType createGetCommentsByType() {
+        return new GetCommentsByType();
+    }
+
+    /**
+     * Create an instance of {@link AddTagResponse }
+     * 
+     */
+    public AddTagResponse createAddTagResponse() {
+        return new AddTagResponse();
+    }
+
+    /**
      * Create an instance of {@link GetTagsResponse }
      * 
      */
@@ -213,51 +173,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RemoveTag }
+     * Create an instance of {@link RemoveTagResponse }
      * 
      */
-    public RemoveTag createRemoveTag() {
-        return new RemoveTag();
+    public RemoveTagResponse createRemoveTagResponse() {
+        return new RemoveTagResponse();
     }
 
     /**
-     * Create an instance of {@link GetTagTypesResponse }
+     * Create an instance of {@link GetTag }
      * 
      */
-    public GetTagTypesResponse createGetTagTypesResponse() {
-        return new GetTagTypesResponse();
+    public GetTag createGetTag() {
+        return new GetTag();
     }
 
     /**
-     * Create an instance of {@link AddComment }
+     * Create an instance of {@link GetTagTypes }
      * 
      */
-    public AddComment createAddComment() {
-        return new AddComment();
-    }
-
-    /**
-     * Create an instance of {@link RemoveCommentsResponse }
-     * 
-     */
-    public RemoveCommentsResponse createRemoveCommentsResponse() {
-        return new RemoveCommentsResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetReferenceTypes }
-     * 
-     */
-    public GetReferenceTypes createGetReferenceTypes() {
-        return new GetReferenceTypes();
-    }
-
-    /**
-     * Create an instance of {@link AddCommentResponse }
-     * 
-     */
-    public AddCommentResponse createAddCommentResponse() {
-        return new AddCommentResponse();
+    public GetTagTypes createGetTagTypes() {
+        return new GetTagTypes();
     }
 
     /**
@@ -269,11 +205,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetTagsByType }
+     * Create an instance of {@link RemoveCommentsResponse }
      * 
      */
-    public GetTagsByType createGetTagsByType() {
-        return new GetTagsByType();
+    public RemoveCommentsResponse createRemoveCommentsResponse() {
+        return new RemoveCommentsResponse();
+    }
+
+    /**
+     * Create an instance of {@link RemoveTag }
+     * 
+     */
+    public RemoveTag createRemoveTag() {
+        return new RemoveTag();
+    }
+
+    /**
+     * Create an instance of {@link GetCommentResponse }
+     * 
+     */
+    public GetCommentResponse createGetCommentResponse() {
+        return new GetCommentResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetCommentTypesResponse }
+     * 
+     */
+    public GetCommentTypesResponse createGetCommentTypesResponse() {
+        return new GetCommentTypesResponse();
     }
 
     /**
@@ -293,35 +253,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetReferenceTypes }
+     * 
+     */
+    public GetReferenceTypes createGetReferenceTypes() {
+        return new GetReferenceTypes();
+    }
+
+    /**
      * Create an instance of {@link GetComment }
      * 
      */
     public GetComment createGetComment() {
         return new GetComment();
-    }
-
-    /**
-     * Create an instance of {@link ValidateCommentResponse }
-     * 
-     */
-    public ValidateCommentResponse createValidateCommentResponse() {
-        return new ValidateCommentResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetCommentTypesForReferenceTypeResponse }
-     * 
-     */
-    public GetCommentTypesForReferenceTypeResponse createGetCommentTypesForReferenceTypeResponse() {
-        return new GetCommentTypesForReferenceTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link UpdateCommentResponse }
-     * 
-     */
-    public UpdateCommentResponse createUpdateCommentResponse() {
-        return new UpdateCommentResponse();
     }
 
     /**
@@ -333,19 +277,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetCommentsResponse }
+     * Create an instance of {@link UpdateComment }
      * 
      */
-    public GetCommentsResponse createGetCommentsResponse() {
-        return new GetCommentsResponse();
+    public UpdateComment createUpdateComment() {
+        return new UpdateComment();
     }
 
     /**
-     * Create an instance of {@link GetCommentsByType }
+     * Create an instance of {@link AddComment }
      * 
      */
-    public GetCommentsByType createGetCommentsByType() {
-        return new GetCommentsByType();
+    public AddComment createAddComment() {
+        return new AddComment();
+    }
+
+    /**
+     * Create an instance of {@link GetCommentTypesForReferenceTypeResponse }
+     * 
+     */
+    public GetCommentTypesForReferenceTypeResponse createGetCommentTypesForReferenceTypeResponse() {
+        return new GetCommentTypesForReferenceTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link RemoveComment }
+     * 
+     */
+    public RemoveComment createRemoveComment() {
+        return new RemoveComment();
+    }
+
+    /**
+     * Create an instance of {@link GetTagTypesResponse }
+     * 
+     */
+    public GetTagTypesResponse createGetTagTypesResponse() {
+        return new GetTagTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link RemoveTagsResponse }
+     * 
+     */
+    public RemoveTagsResponse createRemoveTagsResponse() {
+        return new RemoveTagsResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetComments }
+     * 
+     */
+    public GetComments createGetComments() {
+        return new GetComments();
     }
 
     /**
@@ -354,6 +338,22 @@ public class ObjectFactory {
      */
     public GetTags createGetTags() {
         return new GetTags();
+    }
+
+    /**
+     * Create an instance of {@link ValidateComment }
+     * 
+     */
+    public ValidateComment createValidateComment() {
+        return new ValidateComment();
+    }
+
+    /**
+     * Create an instance of {@link GetCommentsByTypeResponse }
+     * 
+     */
+    public GetCommentsByTypeResponse createGetCommentsByTypeResponse() {
+        return new GetCommentsByTypeResponse();
     }
 
     /**

@@ -31,15 +31,15 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "caseConstraint", propOrder = {
+@XmlType(name = "caseConstraint", namespace = "http://student.kuali.org/wsdl/dictionary", propOrder = {
     "when"
 })
 public class CaseConstraint {
 
     protected List<WhenConstraint> when;
-    @XmlAttribute
+    @XmlAttribute(name = "field")
     protected String field;
-    @XmlAttribute
+    @XmlAttribute(name = "operator")
     protected String operator;
 
     /**

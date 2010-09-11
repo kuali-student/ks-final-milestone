@@ -31,15 +31,15 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "lookupConstraint", propOrder = {
+@XmlType(name = "lookupConstraint", namespace = "http://student.kuali.org/wsdl/dictionary", propOrder = {
     "lookupKey"
 })
 public class LookupConstraint {
 
     protected List<LookupKeyConstraint> lookupKey;
-    @XmlAttribute
+    @XmlAttribute(name = "search")
     protected String search;
-    @XmlAttribute
+    @XmlAttribute(name = "searchField")
     protected String searchField;
 
     /**

@@ -75,15 +75,15 @@ public class ConstraintSelector {
     protected TypeStateCaseConstraint typeStateCase;
     protected List<LookupConstraint> lookup;
     protected List<OccursConstraint> occurs;
-    @XmlAttribute
+    @XmlAttribute(name = "className")
     protected String className;
-    @XmlAttribute(required = true)
+    @XmlAttribute(name = "key", required = true)
     protected String key;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
-    @XmlAttribute(required = true)
+    @XmlAttribute(name = "serverSide", required = true)
     protected boolean serverSide;
-    @XmlAttribute
+    @XmlAttribute(name = "locale")
     protected String locale;
 
     /**

@@ -73,110 +73,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RemoveDocumentCategoryFromDocument }
-     * 
-     */
-    public RemoveDocumentCategoryFromDocument createRemoveDocumentCategoryFromDocument() {
-        return new RemoveDocumentCategoryFromDocument();
-    }
-
-    /**
-     * Create an instance of {@link StatusInfo }
-     * 
-     */
-    public StatusInfo createStatusInfo() {
-        return new StatusInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentsByIdListResponse }
-     * 
-     */
-    public GetDocumentsByIdListResponse createGetDocumentsByIdListResponse() {
-        return new GetDocumentsByIdListResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetCategoriesByDocument }
-     * 
-     */
-    public GetCategoriesByDocument createGetCategoriesByDocument() {
-        return new GetCategoriesByDocument();
-    }
-
-    /**
-     * Create an instance of {@link GetDocument }
-     * 
-     */
-    public GetDocument createGetDocument() {
-        return new GetDocument();
-    }
-
-    /**
-     * Create an instance of {@link DocumentInfo }
-     * 
-     */
-    public DocumentInfo createDocumentInfo() {
-        return new DocumentInfo();
-    }
-
-    /**
-     * Create an instance of {@link RichTextInfo }
-     * 
-     */
-    public RichTextInfo createRichTextInfo() {
-        return new RichTextInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentResponse }
-     * 
-     */
-    public GetDocumentResponse createGetDocumentResponse() {
-        return new GetDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link Attribute }
-     * 
-     */
-    public Attribute createAttribute() {
-        return new Attribute();
-    }
-
-    /**
-     * Create an instance of {@link DocumentCategoryInfo }
-     * 
-     */
-    public DocumentCategoryInfo createDocumentCategoryInfo() {
-        return new DocumentCategoryInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentsByIdList }
-     * 
-     */
-    public GetDocumentsByIdList createGetDocumentsByIdList() {
-        return new GetDocumentsByIdList();
-    }
-
-    /**
-     * Create an instance of {@link ValidationResultInfo }
-     * 
-     */
-    public ValidationResultInfo createValidationResultInfo() {
-        return new ValidationResultInfo();
-    }
-
-    /**
-     * Create an instance of {@link AddDocumentCategoryToDocumentResponse }
-     * 
-     */
-    public AddDocumentCategoryToDocumentResponse createAddDocumentCategoryToDocumentResponse() {
-        return new AddDocumentCategoryToDocumentResponse();
-    }
-
-    /**
      * Create an instance of {@link UpdateDocumentResponse }
      * 
      */
@@ -185,11 +81,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateDocument }
+     * Create an instance of {@link GetDocumentCategoriesResponse }
      * 
      */
-    public UpdateDocument createUpdateDocument() {
-        return new UpdateDocument();
+    public GetDocumentCategoriesResponse createGetDocumentCategoriesResponse() {
+        return new GetDocumentCategoriesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetCategoriesByDocumentResponse }
+     * 
+     */
+    public GetCategoriesByDocumentResponse createGetCategoriesByDocumentResponse() {
+        return new GetCategoriesByDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentType }
+     * 
+     */
+    public GetDocumentType createGetDocumentType() {
+        return new GetDocumentType();
     }
 
     /**
@@ -201,11 +113,219 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AddDocumentCategoryToDocument }
+     * 
+     */
+    public AddDocumentCategoryToDocument createAddDocumentCategoryToDocument() {
+        return new AddDocumentCategoryToDocument();
+    }
+
+    /**
+     * Create an instance of {@link GetCategoriesByDocument }
+     * 
+     */
+    public GetCategoriesByDocument createGetCategoriesByDocument() {
+        return new GetCategoriesByDocument();
+    }
+
+    /**
+     * Create an instance of {@link UpdateDocument }
+     * 
+     */
+    public UpdateDocument createUpdateDocument() {
+        return new UpdateDocument();
+    }
+
+    /**
+     * Create an instance of {@link DeleteDocument }
+     * 
+     */
+    public DeleteDocument createDeleteDocument() {
+        return new DeleteDocument();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentCategoryResponse }
+     * 
+     */
+    public GetDocumentCategoryResponse createGetDocumentCategoryResponse() {
+        return new GetDocumentCategoryResponse();
+    }
+
+    /**
+     * Create an instance of {@link CreateDocument }
+     * 
+     */
+    public CreateDocument createCreateDocument() {
+        return new CreateDocument();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentCategories }
+     * 
+     */
+    public GetDocumentCategories createGetDocumentCategories() {
+        return new GetDocumentCategories();
+    }
+
+    /**
      * Create an instance of {@link GetDocumentTypeResponse }
      * 
      */
     public GetDocumentTypeResponse createGetDocumentTypeResponse() {
         return new GetDocumentTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link ValidationResultInfo }
+     * 
+     */
+    public ValidationResultInfo createValidationResultInfo() {
+        return new ValidationResultInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetDocument }
+     * 
+     */
+    public GetDocument createGetDocument() {
+        return new GetDocument();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentTypesResponse }
+     * 
+     */
+    public GetDocumentTypesResponse createGetDocumentTypesResponse() {
+        return new GetDocumentTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentTypes }
+     * 
+     */
+    public GetDocumentTypes createGetDocumentTypes() {
+        return new GetDocumentTypes();
+    }
+
+    /**
+     * Create an instance of {@link JaxbAttributeList }
+     * 
+     */
+    public JaxbAttributeList createJaxbAttributeList() {
+        return new JaxbAttributeList();
+    }
+
+    /**
+     * Create an instance of {@link RemoveDocumentCategoryFromDocumentResponse }
+     * 
+     */
+    public RemoveDocumentCategoryFromDocumentResponse createRemoveDocumentCategoryFromDocumentResponse() {
+        return new RemoveDocumentCategoryFromDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentCategory }
+     * 
+     */
+    public GetDocumentCategory createGetDocumentCategory() {
+        return new GetDocumentCategory();
+    }
+
+    /**
+     * Create an instance of {@link DocumentInfo }
+     * 
+     */
+    public DocumentInfo createDocumentInfo() {
+        return new DocumentInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentsByIdList }
+     * 
+     */
+    public GetDocumentsByIdList createGetDocumentsByIdList() {
+        return new GetDocumentsByIdList();
+    }
+
+    /**
+     * Create an instance of {@link Attribute }
+     * 
+     */
+    public Attribute createAttribute() {
+        return new Attribute();
+    }
+
+    /**
+     * Create an instance of {@link DeleteDocumentResponse }
+     * 
+     */
+    public DeleteDocumentResponse createDeleteDocumentResponse() {
+        return new DeleteDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link ValidateDocument }
+     * 
+     */
+    public ValidateDocument createValidateDocument() {
+        return new ValidateDocument();
+    }
+
+    /**
+     * Create an instance of {@link RichTextInfo }
+     * 
+     */
+    public RichTextInfo createRichTextInfo() {
+        return new RichTextInfo();
+    }
+
+    /**
+     * Create an instance of {@link RemoveDocumentCategoryFromDocument }
+     * 
+     */
+    public RemoveDocumentCategoryFromDocument createRemoveDocumentCategoryFromDocument() {
+        return new RemoveDocumentCategoryFromDocument();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentResponse }
+     * 
+     */
+    public GetDocumentResponse createGetDocumentResponse() {
+        return new GetDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link StatusInfo }
+     * 
+     */
+    public StatusInfo createStatusInfo() {
+        return new StatusInfo();
+    }
+
+    /**
+     * Create an instance of {@link MetaInfo }
+     * 
+     */
+    public MetaInfo createMetaInfo() {
+        return new MetaInfo();
+    }
+
+    /**
+     * Create an instance of {@link DocumentCategoryInfo }
+     * 
+     */
+    public DocumentCategoryInfo createDocumentCategoryInfo() {
+        return new DocumentCategoryInfo();
+    }
+
+    /**
+     * Create an instance of {@link DocumentTypeInfo }
+     * 
+     */
+    public DocumentTypeInfo createDocumentTypeInfo() {
+        return new DocumentTypeInfo();
     }
 
     /**
@@ -225,139 +345,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateDocument }
+     * Create an instance of {@link AddDocumentCategoryToDocumentResponse }
      * 
      */
-    public CreateDocument createCreateDocument() {
-        return new CreateDocument();
+    public AddDocumentCategoryToDocumentResponse createAddDocumentCategoryToDocumentResponse() {
+        return new AddDocumentCategoryToDocumentResponse();
     }
 
     /**
-     * Create an instance of {@link GetCategoriesByDocumentResponse }
+     * Create an instance of {@link GetDocumentsByIdListResponse }
      * 
      */
-    public GetCategoriesByDocumentResponse createGetCategoriesByDocumentResponse() {
-        return new GetCategoriesByDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link MetaInfo }
-     * 
-     */
-    public MetaInfo createMetaInfo() {
-        return new MetaInfo();
-    }
-
-    /**
-     * Create an instance of {@link RemoveDocumentCategoryFromDocumentResponse }
-     * 
-     */
-    public RemoveDocumentCategoryFromDocumentResponse createRemoveDocumentCategoryFromDocumentResponse() {
-        return new RemoveDocumentCategoryFromDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link AddDocumentCategoryToDocument }
-     * 
-     */
-    public AddDocumentCategoryToDocument createAddDocumentCategoryToDocument() {
-        return new AddDocumentCategoryToDocument();
-    }
-
-    /**
-     * Create an instance of {@link DeleteDocumentResponse }
-     * 
-     */
-    public DeleteDocumentResponse createDeleteDocumentResponse() {
-        return new DeleteDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentTypesResponse }
-     * 
-     */
-    public GetDocumentTypesResponse createGetDocumentTypesResponse() {
-        return new GetDocumentTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link ValidateDocument }
-     * 
-     */
-    public ValidateDocument createValidateDocument() {
-        return new ValidateDocument();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentTypes }
-     * 
-     */
-    public GetDocumentTypes createGetDocumentTypes() {
-        return new GetDocumentTypes();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentCategoryResponse }
-     * 
-     */
-    public GetDocumentCategoryResponse createGetDocumentCategoryResponse() {
-        return new GetDocumentCategoryResponse();
-    }
-
-    /**
-     * Create an instance of {@link JaxbAttributeList }
-     * 
-     */
-    public JaxbAttributeList createJaxbAttributeList() {
-        return new JaxbAttributeList();
-    }
-
-    /**
-     * Create an instance of {@link DeleteDocument }
-     * 
-     */
-    public DeleteDocument createDeleteDocument() {
-        return new DeleteDocument();
-    }
-
-    /**
-     * Create an instance of {@link DocumentTypeInfo }
-     * 
-     */
-    public DocumentTypeInfo createDocumentTypeInfo() {
-        return new DocumentTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentCategory }
-     * 
-     */
-    public GetDocumentCategory createGetDocumentCategory() {
-        return new GetDocumentCategory();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentType }
-     * 
-     */
-    public GetDocumentType createGetDocumentType() {
-        return new GetDocumentType();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentCategoriesResponse }
-     * 
-     */
-    public GetDocumentCategoriesResponse createGetDocumentCategoriesResponse() {
-        return new GetDocumentCategoriesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentCategories }
-     * 
-     */
-    public GetDocumentCategories createGetDocumentCategories() {
-        return new GetDocumentCategories();
+    public GetDocumentsByIdListResponse createGetDocumentsByIdListResponse() {
+        return new GetDocumentsByIdListResponse();
     }
 
     /**

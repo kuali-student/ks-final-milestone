@@ -22,16 +22,15 @@ package org.kuali.student.loader;
 public class CreditCourse
 {
 
-private String id;
 private String code;
-private String division;
-private String suffixCode;
+private String subjectArea;
+private String courseNumberSuffixCode;
 private String variation;
-private String primaryAdminOrg;
-private String primaryAdminOrgId;
-private String shortName;
-private String longName;
-private String desc;
+private String administeringOrgName;
+private String administeringOrgId;
+private String transcriptTitle;
+private String courseTitle;
+private String descr;
 private String credits;
 private String restrictions;
 private String prereq;
@@ -40,19 +39,9 @@ private String coreq;
 private String coreqNL;
 private String equivalencies;
 private String gradingOptions;
-private String offeredAtpTypes;
+private String termsOffered;
 private String requirementsMet;
 private String learningObjectives;
-
- public String getId ()
- {
-  return id;
- }
-
- public void setId (String id)
- {
-  this.id = id;
- }
 
  public String getCode ()
  {
@@ -105,24 +94,24 @@ private String learningObjectives;
   this.credits = credits;
  }
 
- public String getDesc ()
+ public String getDescr ()
  {
-  return desc;
+  return descr;
  }
 
- public void setDesc (String desc)
+ public void setDescr (String descr)
  {
-  this.desc = desc;
+  this.descr = descr;
  }
 
- public String getDivision ()
+ public String getSubjectArea ()
  {
-  return division;
+  return subjectArea;
  }
 
- public void setDivision (String division)
+ public void setSubjectArea (String subjectArea)
  {
-  this.division = division;
+  this.subjectArea = subjectArea;
  }
 
  public String getEquivalencies ()
@@ -155,14 +144,14 @@ private String learningObjectives;
   this.learningObjectives = learningObjectives;
  }
 
- public String getOfferedAtpTypes ()
+ public String getTermsOffered ()
  {
-  return offeredAtpTypes;
+  return termsOffered;
  }
 
- public void setOfferedAtpTypes (String offeredAtpTypes)
+ public void setTermsOffered (String termsOffered)
  {
-  this.offeredAtpTypes = offeredAtpTypes;
+  this.termsOffered = termsOffered;
  }
 
  public String getPrereqNL ()
@@ -185,24 +174,24 @@ private String learningObjectives;
   this.prereq = prereq;
  }
 
- public String getPrimaryAdminOrg ()
+ public String getAdministeringOrgName ()
  {
-  return primaryAdminOrg;
+  return administeringOrgName;
  }
 
- public void setPrimaryAdminOrg (String primaryAdminOrg)
+ public void setAdministeringOrgName (String name)
  {
-  this.primaryAdminOrg = primaryAdminOrg;
+  this.administeringOrgName = name;
  }
 
- public String getPrimaryAdminOrgId ()
+ public String getAdministeringOrg ()
  {
-  return primaryAdminOrgId;
+  return administeringOrgId;
  }
 
- public void setPrimaryAdminOrgId (String primaryAdminOrgId)
+ public void setAdministeringOrg (String orgId)
  {
-  this.primaryAdminOrgId = primaryAdminOrgId;
+  this.administeringOrgId = orgId;
  }
 
  public String getRequirementsMet ()
@@ -225,34 +214,34 @@ private String learningObjectives;
   this.restrictions = restrictions;
  }
 
- public String getShortName ()
+ public String getTranscriptTitle ()
  {
-  return shortName;
+  return transcriptTitle;
  }
 
- public void setShortName (String shortName)
+ public void setTranscriptTitle (String title)
  {
-  this.shortName = shortName;
+  this.transcriptTitle = title;
  }
 
- public String getLongName ()
+ public String getCourseTitle ()
  {
-  return longName;
+  return courseTitle;
  }
 
- public void setLongName (String longName)
+ public void setCourseTitle (String title)
  {
-  this.longName = longName;
+  this.courseTitle = title;
  }
 
- public String getSuffixCode ()
+ public String getCourseNumberSuffix ()
  {
-  return suffixCode;
+  return courseNumberSuffixCode;
  }
 
- public void setSuffixCode (String suffixCode)
+ public void setCourseNumberSuffix (String suffixCode)
  {
-  this.suffixCode = suffixCode;
+  this.courseNumberSuffixCode = suffixCode;
  }
 
 

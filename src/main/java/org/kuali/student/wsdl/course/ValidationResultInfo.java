@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validationResultInfo", propOrder = {
+@XmlType(name = "validationResultInfo", namespace = "http://student.kuali.org/wsdl/course", propOrder = {
     "element",
     "level",
     "message"

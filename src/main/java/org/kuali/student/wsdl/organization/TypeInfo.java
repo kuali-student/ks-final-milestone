@@ -35,7 +35,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "typeInfo", propOrder = {
+@XmlType(name = "typeInfo", namespace = "http://student.kuali.org/wsdl/organization", propOrder = {
     "name",
     "desc",
     "effectiveDate",
@@ -57,7 +57,7 @@ public abstract class TypeInfo {
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar expirationDate;
     protected JaxbAttributeList attributes;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

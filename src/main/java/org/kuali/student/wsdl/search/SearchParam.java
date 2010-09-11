@@ -39,7 +39,7 @@ public class SearchParam {
 
     protected String value;
     protected List<String> listValue;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

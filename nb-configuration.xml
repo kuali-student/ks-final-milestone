@@ -14,6 +14,7 @@ That way multiple projects can share the same settings (useful for formatting ru
 Any value defined here will override the pom.xml file value but is only applicable to the current project.
 -->
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
+        <netbeans.hint.jdkPlatform>default_fx_platform</netbeans.hint.jdkPlatform>
     </properties>
     <spring-data xmlns="http://www.netbeans.org/ns/spring-data/1">
         <config-files/>

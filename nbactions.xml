@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
         <action>
-            <actionName>CUSTOM-install no tests</actionName>
-            <displayName>install no tests</displayName>
+            <actionName>build-with-dependencies</actionName>
             <goals>
                 <goal>install</goal>
             </goals>
-        </action>
-        <action>
-            <actionName>build-with-dependencies</actionName>
             <basedir>..</basedir>
             <reactor>also-make</reactor>
-            <goals>
-                <goal>install</goal>
-            </goals>
         </action>
         <action>
             <actionName>CUSTOM-wsdl2java</actionName>
@@ -22,4 +15,22 @@
                 <goal>generate-sources</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-install no test</actionName>
+            <displayName>install no test</displayName>
+            <goals>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-show debug</actionName>
+            <displayName>show debug</displayName>
+            <goals>
+                <goal>install</goal>
+            </goals>
+        </action>
+        
     </actions>

@@ -53,11 +53,11 @@ public class ActivityInfo {
     protected JaxbAttributeList attributes;
     protected MetaInfo metaInfo;
     protected AmountInfo contactHours;
-    @XmlAttribute
+    @XmlAttribute(name = "activityType")
     protected String activityType;
-    @XmlAttribute
+    @XmlAttribute(name = "state")
     protected String state;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

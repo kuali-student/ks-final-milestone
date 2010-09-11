@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "timeAmountInfo", propOrder = {
+@XmlType(name = "timeAmountInfo", namespace = "http://student.kuali.org/wsdl/course", propOrder = {
     "atpDurationTypeKey",
     "timeQuantity"
 })

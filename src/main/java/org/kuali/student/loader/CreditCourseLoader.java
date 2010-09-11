@@ -15,16 +15,12 @@
  */
 package org.kuali.student.loader;
 
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
+import java.util.Properties;
 import org.kuali.student.wsdl.course.CourseInfo;
+import org.kuali.student.wsdl.course.DataValidationErrorException;
 
 /**
  *
@@ -33,117 +29,82 @@ import org.kuali.student.wsdl.course.CourseInfo;
 public class CreditCourseLoader
 {
 
+ private CrsService crsService;
+
+ public CrsService getCrsService ()
+ {
+  return crsService;
+ }
+
+ public void setCrsService (CrsService crsService)
+ {
+  this.crsService = crsService;
+ }
+
  public CreditCourseLoader ()
  {
  }
+ private Iterator<CreditCourse> inputDataSource;
 
- private Iterator<CreditCourse> source;
-
- public Iterator<CreditCourse> getSource ()
+ public Iterator<CreditCourse> getInputDataSource ()
  {
-  return source;
+  return inputDataSource;
  }
 
- public void setSource (Iterator<CreditCourse> source)
+ public void setInputDataSource (Iterator<CreditCourse> inputDataSource)
  {
-  this.source = source;
+  this.inputDataSource = inputDataSource;
  }
 
- public int update ()
+ public List<CreditCourseLoadResult> update ()
  {
- 
+  List<CreditCourseLoadResult> results = new ArrayList (500);
   int row = 0;
-  int written = 0;
-  while (source.hasNext ())
+  while (inputDataSource.hasNext ())
   {
-   CreditCourse cc = source.next ();
+   CreditCourseLoadResult result = new CreditCourseLoadResult ();
+   results.add (result);
+   CreditCourse cc = inputDataSource.next ();
    row ++;
-   written ++;
    CourseInfo info = new CreditCourseToCourseInfoConverter (cc).convert ();
-   create (info);
+   result.setRow (row);
+   result.setCreditCourse (cc);
+   result.setCourseInfo (info);
+   try
+   {
+    CourseInfo createdInfo = crsService.createCourse (info);
+    result.setCourseInfo (createdInfo);
+    result.setSuccess (true);
+   }
+   catch (DataValidationErrorException ex)
+   {
+    result.setSuccess (false);
+    result.setDataValidationErrorException (ex.getFaultInfo ());
+   }
+   catch (Exception ex)
+   {
+    result.setSuccess (false);
+    result.setException (ex);
+   }
   }
-  return written;
+  return results;
  }
 
- private void create (CourseInfo info)
+ public static CreditCourseLoaderModelFactory getInstance (String excelFile)
  {
-  System.out.println ("creating course");
+  Properties props = new Properties ();
+  props.putAll (CreditCourseLoaderModelFactory.getDefaultConfig ());
+  props.put (CreditCourseLoaderModelFactory.EXCEL_FILES_DEFAULT_DIRECTORY_KEY, "src/main/"
+   + CreditCourseLoaderModelFactory.RESOURCES_DIRECTORY);
+  props.put (CreditCourseLoaderModelFactory.SERVICE_HOST_URL, "src/main/"
+   + CreditCourseLoaderModelFactory.RESOURCES_DIRECTORY);
+  System.out.println ("Current Directory=" + System.getProperty ("user.dir"));
+  CreditCourseLoaderModelFactory factory = new CreditCourseLoaderModelFactory ();
+  factory.setConfig (props);
+  return factory;
  }
 
  
-  
- private String asString (String value)
- {
-  if (value == null)
-  {
-   return "null";
-  }
-  return escape (value.toString ());
- }
 
- private String escape (String value)
- {
-  if (value == null)
-  {
-   return null;
-  }
-  if (value.indexOf ("'") == -1)
-  {
-   return "'" + value + "'";
-  }
-  StringBuilder builder = new StringBuilder (value.length () + 2);
-  for (int i = 0; i < value.length (); i ++)
-  {
-   char c = value.charAt (i);
-   if (c == '\'')
-   {
-    builder.append ('\'');
-   }
-   builder.append (c);
-  }
-  return "'" + builder.toString () + "'";
- }
-
- private String asDate (Date value)
- {
-  if (value == null)
-  {
-   return "null";
-  }
-  SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd");
-  return "to_date ('" + sdf.format (value) + "', 'YYYY-MM-DD')";
- }
-
- private String asNumber (String value)
- {
-  if (value == null)
-  {
-   return "null";
-  }
-  int numb = Integer.parseInt (value);
-  return numb + "";
- }
-
- private String asNumber (Number value)
- {
-  if (value == null)
-  {
-   return "null";
-  }
-  return value.toString ();
- }
-
- private String asBoolean (Boolean value)
- {
-  if (value == null)
-  {
-   return "null";
-  }
-  if (value)
-  {
-   return "1";
-  }
-  return "0";
- }
 
 }

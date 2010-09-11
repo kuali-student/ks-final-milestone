@@ -31,9 +31,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "lookupKeyConstraint")
 public class LookupKeyConstraint {
 
-    @XmlAttribute
+    @XmlAttribute(name = "field")
     protected String field;
-    @XmlAttribute
+    @XmlAttribute(name = "mapsTo")
     protected String mapsTo;
 
     /**

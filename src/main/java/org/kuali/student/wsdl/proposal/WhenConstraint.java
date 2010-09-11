@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "whenConstraint", propOrder = {
+@XmlType(name = "whenConstraint", namespace = "http://student.kuali.org/wsdl/proposal", propOrder = {
     "values",
     "valuePath",
     "constraint"

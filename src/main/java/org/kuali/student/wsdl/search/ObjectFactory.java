@@ -49,219 +49,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSearchTypeResponse }
-     * 
-     */
-    public GetSearchTypeResponse createGetSearchTypeResponse() {
-        return new GetSearchTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchCriteriaTypesResponse }
-     * 
-     */
-    public GetSearchCriteriaTypesResponse createGetSearchCriteriaTypesResponse() {
-        return new GetSearchCriteriaTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypesByResultResponse }
-     * 
-     */
-    public GetSearchTypesByResultResponse createGetSearchTypesByResultResponse() {
-        return new GetSearchTypesByResultResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchResultType }
-     * 
-     */
-    public GetSearchResultType createGetSearchResultType() {
-        return new GetSearchResultType();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchResultTypesResponse }
-     * 
-     */
-    public GetSearchResultTypesResponse createGetSearchResultTypesResponse() {
-        return new GetSearchResultTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchType }
-     * 
-     */
-    public GetSearchType createGetSearchType() {
-        return new GetSearchType();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypesResponse }
-     * 
-     */
-    public GetSearchTypesResponse createGetSearchTypesResponse() {
-        return new GetSearchTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link SearchParam }
-     * 
-     */
-    public SearchParam createSearchParam() {
-        return new SearchParam();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypesByResult }
-     * 
-     */
-    public GetSearchTypesByResult createGetSearchTypesByResult() {
-        return new GetSearchTypesByResult();
-    }
-
-    /**
-     * Create an instance of {@link SearchRequest }
-     * 
-     */
-    public SearchRequest createSearchRequest() {
-        return new SearchRequest();
-    }
-
-    /**
-     * Create an instance of {@link SearchTypeInfo }
-     * 
-     */
-    public SearchTypeInfo createSearchTypeInfo() {
-        return new SearchTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link SearchResultTypeInfo.ResultColumns }
-     * 
-     */
-    public SearchResultTypeInfo.ResultColumns createSearchResultTypeInfoResultColumns() {
-        return new SearchResultTypeInfo.ResultColumns();
-    }
-
-    /**
-     * Create an instance of {@link SearchResultCell }
-     * 
-     */
-    public SearchResultCell createSearchResultCell() {
-        return new SearchResultCell();
-    }
-
-    /**
-     * Create an instance of {@link SearchResult }
-     * 
-     */
-    public SearchResult createSearchResult() {
-        return new SearchResult();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchCriteriaTypes }
-     * 
-     */
-    public GetSearchCriteriaTypes createGetSearchCriteriaTypes() {
-        return new GetSearchCriteriaTypes();
-    }
-
-    /**
-     * Create an instance of {@link QueryParamInfo }
-     * 
-     */
-    public QueryParamInfo createQueryParamInfo() {
-        return new QueryParamInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypesByCriteria }
-     * 
-     */
-    public GetSearchTypesByCriteria createGetSearchTypesByCriteria() {
-        return new GetSearchTypesByCriteria();
-    }
-
-    /**
-     * Create an instance of {@link ResultColumnInfo }
-     * 
-     */
-    public ResultColumnInfo createResultColumnInfo() {
-        return new ResultColumnInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypesByCriteriaResponse }
-     * 
-     */
-    public GetSearchTypesByCriteriaResponse createGetSearchTypesByCriteriaResponse() {
-        return new GetSearchTypesByCriteriaResponse();
-    }
-
-    /**
-     * Create an instance of {@link SearchResultRow }
-     * 
-     */
-    public SearchResultRow createSearchResultRow() {
-        return new SearchResultRow();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchCriteriaType }
-     * 
-     */
-    public GetSearchCriteriaType createGetSearchCriteriaType() {
-        return new GetSearchCriteriaType();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchCriteriaTypeResponse }
-     * 
-     */
-    public GetSearchCriteriaTypeResponse createGetSearchCriteriaTypeResponse() {
-        return new GetSearchCriteriaTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link SearchResultTypeInfo }
-     * 
-     */
-    public SearchResultTypeInfo createSearchResultTypeInfo() {
-        return new SearchResultTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetSearchTypes }
-     * 
-     */
-    public GetSearchTypes createGetSearchTypes() {
-        return new GetSearchTypes();
-    }
-
-    /**
-     * Create an instance of {@link SearchCriteriaTypeInfo }
-     * 
-     */
-    public SearchCriteriaTypeInfo createSearchCriteriaTypeInfo() {
-        return new SearchCriteriaTypeInfo();
-    }
-
-    /**
      * Create an instance of {@link GetSearchResultTypes }
      * 
      */
     public GetSearchResultTypes createGetSearchResultTypes() {
         return new GetSearchResultTypes();
-    }
-
-    /**
-     * Create an instance of {@link SearchCriteriaTypeInfo.QueryParams }
-     * 
-     */
-    public SearchCriteriaTypeInfo.QueryParams createSearchCriteriaTypeInfoQueryParams() {
-        return new SearchCriteriaTypeInfo.QueryParams();
     }
 
     /**
@@ -281,11 +73,219 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetSearchCriteriaType }
+     * 
+     */
+    public GetSearchCriteriaType createGetSearchCriteriaType() {
+        return new GetSearchCriteriaType();
+    }
+
+    /**
+     * Create an instance of {@link SearchResult }
+     * 
+     */
+    public SearchResult createSearchResult() {
+        return new SearchResult();
+    }
+
+    /**
+     * Create an instance of {@link SearchCriteriaTypeInfo }
+     * 
+     */
+    public SearchCriteriaTypeInfo createSearchCriteriaTypeInfo() {
+        return new SearchCriteriaTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link SearchTypeInfo }
+     * 
+     */
+    public SearchTypeInfo createSearchTypeInfo() {
+        return new SearchTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchResultTypesResponse }
+     * 
+     */
+    public GetSearchResultTypesResponse createGetSearchResultTypesResponse() {
+        return new GetSearchResultTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypesByCriteria }
+     * 
+     */
+    public GetSearchTypesByCriteria createGetSearchTypesByCriteria() {
+        return new GetSearchTypesByCriteria();
+    }
+
+    /**
+     * Create an instance of {@link SearchRequest }
+     * 
+     */
+    public SearchRequest createSearchRequest() {
+        return new SearchRequest();
+    }
+
+    /**
+     * Create an instance of {@link SearchCriteriaTypeInfo.QueryParams }
+     * 
+     */
+    public SearchCriteriaTypeInfo.QueryParams createSearchCriteriaTypeInfoQueryParams() {
+        return new SearchCriteriaTypeInfo.QueryParams();
+    }
+
+    /**
+     * Create an instance of {@link ResultColumnInfo }
+     * 
+     */
+    public ResultColumnInfo createResultColumnInfo() {
+        return new ResultColumnInfo();
+    }
+
+    /**
+     * Create an instance of {@link SearchResultCell }
+     * 
+     */
+    public SearchResultCell createSearchResultCell() {
+        return new SearchResultCell();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypesByCriteriaResponse }
+     * 
+     */
+    public GetSearchTypesByCriteriaResponse createGetSearchTypesByCriteriaResponse() {
+        return new GetSearchTypesByCriteriaResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypeResponse }
+     * 
+     */
+    public GetSearchTypeResponse createGetSearchTypeResponse() {
+        return new GetSearchTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link SearchParam }
+     * 
+     */
+    public SearchParam createSearchParam() {
+        return new SearchParam();
+    }
+
+    /**
+     * Create an instance of {@link SearchResultTypeInfo }
+     * 
+     */
+    public SearchResultTypeInfo createSearchResultTypeInfo() {
+        return new SearchResultTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link SearchResultTypeInfo.ResultColumns }
+     * 
+     */
+    public SearchResultTypeInfo.ResultColumns createSearchResultTypeInfoResultColumns() {
+        return new SearchResultTypeInfo.ResultColumns();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypes }
+     * 
+     */
+    public GetSearchTypes createGetSearchTypes() {
+        return new GetSearchTypes();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypesResponse }
+     * 
+     */
+    public GetSearchTypesResponse createGetSearchTypesResponse() {
+        return new GetSearchTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchType }
+     * 
+     */
+    public GetSearchType createGetSearchType() {
+        return new GetSearchType();
+    }
+
+    /**
      * Create an instance of {@link GetSearchResultTypeResponse }
      * 
      */
     public GetSearchResultTypeResponse createGetSearchResultTypeResponse() {
         return new GetSearchResultTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchCriteriaTypes }
+     * 
+     */
+    public GetSearchCriteriaTypes createGetSearchCriteriaTypes() {
+        return new GetSearchCriteriaTypes();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchCriteriaTypeResponse }
+     * 
+     */
+    public GetSearchCriteriaTypeResponse createGetSearchCriteriaTypeResponse() {
+        return new GetSearchCriteriaTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypesByResultResponse }
+     * 
+     */
+    public GetSearchTypesByResultResponse createGetSearchTypesByResultResponse() {
+        return new GetSearchTypesByResultResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchTypesByResult }
+     * 
+     */
+    public GetSearchTypesByResult createGetSearchTypesByResult() {
+        return new GetSearchTypesByResult();
+    }
+
+    /**
+     * Create an instance of {@link QueryParamInfo }
+     * 
+     */
+    public QueryParamInfo createQueryParamInfo() {
+        return new QueryParamInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchCriteriaTypesResponse }
+     * 
+     */
+    public GetSearchCriteriaTypesResponse createGetSearchCriteriaTypesResponse() {
+        return new GetSearchCriteriaTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link SearchResultRow }
+     * 
+     */
+    public SearchResultRow createSearchResultRow() {
+        return new SearchResultRow();
+    }
+
+    /**
+     * Create an instance of {@link GetSearchResultType }
+     * 
+     */
+    public GetSearchResultType createGetSearchResultType() {
+        return new GetSearchResultType();
     }
 
     /**

@@ -43,7 +43,7 @@ public class SearchTypeInfo {
     protected String desc;
     protected SearchResultTypeInfo searchResultTypeInfo;
     protected SearchCriteriaTypeInfo searchCriteriaTypeInfo;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

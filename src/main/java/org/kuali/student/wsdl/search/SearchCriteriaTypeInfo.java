@@ -52,7 +52,7 @@ public class SearchCriteriaTypeInfo {
     protected String name;
     protected String desc;
     protected SearchCriteriaTypeInfo.QueryParams queryParams;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

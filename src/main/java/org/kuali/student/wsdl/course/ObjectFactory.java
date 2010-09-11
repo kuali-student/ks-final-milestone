@@ -89,539 +89,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CourseVariationInfo }
-     * 
-     */
-    public CourseVariationInfo createCourseVariationInfo() {
-        return new CourseVariationInfo();
-    }
-
-    /**
-     * Create an instance of {@link CreateCourseResponse }
-     * 
-     */
-    public CreateCourseResponse createCreateCourseResponse() {
-        return new CreateCourseResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetCourse }
-     * 
-     */
-    public GetCourse createGetCourse() {
-        return new GetCourse();
-    }
-
-    /**
-     * Create an instance of {@link TimeAmountInfo }
-     * 
-     */
-    public TimeAmountInfo createTimeAmountInfo() {
-        return new TimeAmountInfo();
-    }
-
-    /**
-     * Create an instance of {@link CaseConstraint }
-     * 
-     */
-    public CaseConstraint createCaseConstraint() {
-        return new CaseConstraint();
-    }
-
-    /**
-     * Create an instance of {@link ObjectStructureDefinition }
-     * 
-     */
-    public ObjectStructureDefinition createObjectStructureDefinition() {
-        return new ObjectStructureDefinition();
-    }
-
-    /**
-     * Create an instance of {@link Constraint }
-     * 
-     */
-    public Constraint createConstraint() {
-        return new Constraint();
-    }
-
-    /**
-     * Create an instance of {@link CreateCourseStatement }
-     * 
-     */
-    public CreateCourseStatement createCreateCourseStatement() {
-        return new CreateCourseStatement();
-    }
-
-    /**
-     * Create an instance of {@link CluInstructorInfo }
-     * 
-     */
-    public CluInstructorInfo createCluInstructorInfo() {
-        return new CluInstructorInfo();
-    }
-
-    /**
-     * Create an instance of {@link ReqCompFieldTypeInfo }
-     * 
-     */
-    public ReqCompFieldTypeInfo createReqCompFieldTypeInfo() {
-        return new ReqCompFieldTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link UpdateCourseStatementResponse }
-     * 
-     */
-    public UpdateCourseStatementResponse createUpdateCourseStatementResponse() {
-        return new UpdateCourseStatementResponse();
-    }
-
-    /**
-     * Create an instance of {@link ResultComponentInfo }
-     * 
-     */
-    public ResultComponentInfo createResultComponentInfo() {
-        return new ResultComponentInfo();
-    }
-
-    /**
-     * Create an instance of {@link UpdateCourse }
-     * 
-     */
-    public UpdateCourse createUpdateCourse() {
-        return new UpdateCourse();
-    }
-
-    /**
-     * Create an instance of {@link CreateCourseStatementResponse }
-     * 
-     */
-    public CreateCourseStatementResponse createCreateCourseStatementResponse() {
-        return new CreateCourseStatementResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetCourseLos }
-     * 
-     */
-    public GetCourseLos createGetCourseLos() {
-        return new GetCourseLos();
-    }
-
-    /**
-     * Create an instance of {@link ObjectStructureDefinitionWrapper }
-     * 
-     */
-    public ObjectStructureDefinitionWrapper createObjectStructureDefinitionWrapper() {
-        return new ObjectStructureDefinitionWrapper();
-    }
-
-    /**
-     * Create an instance of {@link AffiliatedOrgInfo }
-     * 
-     */
-    public AffiliatedOrgInfo createAffiliatedOrgInfo() {
-        return new AffiliatedOrgInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetCourseLosResponse }
-     * 
-     */
-    public GetCourseLosResponse createGetCourseLosResponse() {
-        return new GetCourseLosResponse();
-    }
-
-    /**
-     * Create an instance of {@link ValidationResultInfo }
-     * 
-     */
-    public ValidationResultInfo createValidationResultInfo() {
-        return new ValidationResultInfo();
-    }
-
-    /**
-     * Create an instance of {@link RequiredConstraint }
-     * 
-     */
-    public RequiredConstraint createRequiredConstraint() {
-        return new RequiredConstraint();
-    }
-
-    /**
-     * Create an instance of {@link JaxbAttributeList }
-     * 
-     */
-    public JaxbAttributeList createJaxbAttributeList() {
-        return new JaxbAttributeList();
-    }
-
-    /**
-     * Create an instance of {@link ValidateCourseStatement }
-     * 
-     */
-    public ValidateCourseStatement createValidateCourseStatement() {
-        return new ValidateCourseStatement();
-    }
-
-    /**
-     * Create an instance of {@link CourseFeeInfo }
-     * 
-     */
-    public CourseFeeInfo createCourseFeeInfo() {
-        return new CourseFeeInfo();
-    }
-
-    /**
-     * Create an instance of {@link AmountInfo }
-     * 
-     */
-    public AmountInfo createAmountInfo() {
-        return new AmountInfo();
-    }
-
-    /**
-     * Create an instance of {@link MustOccurConstraint }
-     * 
-     */
-    public MustOccurConstraint createMustOccurConstraint() {
-        return new MustOccurConstraint();
-    }
-
-    /**
-     * Create an instance of {@link ReqComponentInfo }
-     * 
-     */
-    public ReqComponentInfo createReqComponentInfo() {
-        return new ReqComponentInfo();
-    }
-
-    /**
-     * Create an instance of {@link DeleteCourseResponse }
-     * 
-     */
-    public DeleteCourseResponse createDeleteCourseResponse() {
-        return new DeleteCourseResponse();
-    }
-
-    /**
-     * Create an instance of {@link CommonLookup }
-     * 
-     */
-    public CommonLookup createCommonLookup() {
-        return new CommonLookup();
-    }
-
-    /**
-     * Create an instance of {@link GetCourseStatementsResponse }
-     * 
-     */
-    public GetCourseStatementsResponse createGetCourseStatementsResponse() {
-        return new GetCourseStatementsResponse();
-    }
-
-    /**
-     * Create an instance of {@link BaseConstraint }
-     * 
-     */
-    public BaseConstraint createBaseConstraint() {
-        return new BaseConstraint();
-    }
-
-    /**
-     * Create an instance of {@link Attribute }
-     * 
-     */
-    public Attribute createAttribute() {
-        return new Attribute();
-    }
-
-    /**
-     * Create an instance of {@link FormatInfo }
-     * 
-     */
-    public FormatInfo createFormatInfo() {
-        return new FormatInfo();
-    }
-
-    /**
-     * Create an instance of {@link StatusInfo }
-     * 
-     */
-    public StatusInfo createStatusInfo() {
-        return new StatusInfo();
-    }
-
-    /**
-     * Create an instance of {@link UpdateCourseResponse }
-     * 
-     */
-    public UpdateCourseResponse createUpdateCourseResponse() {
-        return new UpdateCourseResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetCourseResponse }
-     * 
-     */
-    public GetCourseResponse createGetCourseResponse() {
-        return new GetCourseResponse();
-    }
-
-    /**
-     * Create an instance of {@link LoDisplayInfo }
-     * 
-     */
-    public LoDisplayInfo createLoDisplayInfo() {
-        return new LoDisplayInfo();
-    }
-
-    /**
-     * Create an instance of {@link ValidateCourseStatementResponse }
-     * 
-     */
-    public ValidateCourseStatementResponse createValidateCourseStatementResponse() {
-        return new ValidateCourseStatementResponse();
-    }
-
-    /**
-     * Create an instance of {@link DeleteCourse }
-     * 
-     */
-    public DeleteCourse createDeleteCourse() {
-        return new DeleteCourse();
-    }
-
-    /**
-     * Create an instance of {@link RichTextInfo }
-     * 
-     */
-    public RichTextInfo createRichTextInfo() {
-        return new RichTextInfo();
-    }
-
-    /**
-     * Create an instance of {@link FieldDefinition }
-     * 
-     */
-    public FieldDefinition createFieldDefinition() {
-        return new FieldDefinition();
-    }
-
-    /**
-     * Create an instance of {@link ValidateCourseResponse }
-     * 
-     */
-    public ValidateCourseResponse createValidateCourseResponse() {
-        return new ValidateCourseResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetCourseFormats }
-     * 
-     */
-    public GetCourseFormats createGetCourseFormats() {
-        return new GetCourseFormats();
-    }
-
-    /**
-     * Create an instance of {@link GetCourseFormatsResponse }
-     * 
-     */
-    public GetCourseFormatsResponse createGetCourseFormatsResponse() {
-        return new GetCourseFormatsResponse();
-    }
-
-    /**
-     * Create an instance of {@link WhenConstraint }
-     * 
-     */
-    public WhenConstraint createWhenConstraint() {
-        return new WhenConstraint();
-    }
-
-    /**
-     * Create an instance of {@link CourseRevenueInfo }
-     * 
-     */
-    public CourseRevenueInfo createCourseRevenueInfo() {
-        return new CourseRevenueInfo();
-    }
-
-    /**
-     * Create an instance of {@link LoInfo }
-     * 
-     */
-    public LoInfo createLoInfo() {
-        return new LoInfo();
-    }
-
-    /**
-     * Create an instance of {@link CurrencyAmountInfo }
-     * 
-     */
-    public CurrencyAmountInfo createCurrencyAmountInfo() {
-        return new CurrencyAmountInfo();
-    }
-
-    /**
-     * Create an instance of {@link LookupConstraint }
-     * 
-     */
-    public LookupConstraint createLookupConstraint() {
-        return new LookupConstraint();
-    }
-
-    /**
-     * Create an instance of {@link ReqComponentTypeInfo }
-     * 
-     */
-    public ReqComponentTypeInfo createReqComponentTypeInfo() {
-        return new ReqComponentTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link CommonLookupParam }
-     * 
-     */
-    public CommonLookupParam createCommonLookupParam() {
-        return new CommonLookupParam();
-    }
-
-    /**
-     * Create an instance of {@link MetaInfo }
-     * 
-     */
-    public MetaInfo createMetaInfo() {
-        return new MetaInfo();
-    }
-
-    /**
-     * Create an instance of {@link ActivityInfo }
-     * 
-     */
-    public ActivityInfo createActivityInfo() {
-        return new ActivityInfo();
-    }
-
-    /**
-     * Create an instance of {@link LoCategoryInfo }
-     * 
-     */
-    public LoCategoryInfo createLoCategoryInfo() {
-        return new LoCategoryInfo();
-    }
-
-    /**
-     * Create an instance of {@link ValidateCourse }
-     * 
-     */
-    public ValidateCourse createValidateCourse() {
-        return new ValidateCourse();
-    }
-
-    /**
-     * Create an instance of {@link GetCourseStatements }
-     * 
-     */
-    public GetCourseStatements createGetCourseStatements() {
-        return new GetCourseStatements();
-    }
-
-    /**
-     * Create an instance of {@link CourseInfo }
-     * 
-     */
-    public CourseInfo createCourseInfo() {
-        return new CourseInfo();
-    }
-
-    /**
-     * Create an instance of {@link DeleteCourseStatementResponse }
-     * 
-     */
-    public DeleteCourseStatementResponse createDeleteCourseStatementResponse() {
-        return new DeleteCourseStatementResponse();
-    }
-
-    /**
-     * Create an instance of {@link CourseJointInfo }
-     * 
-     */
-    public CourseJointInfo createCourseJointInfo() {
-        return new CourseJointInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetCourseActivitiesResponse }
-     * 
-     */
-    public GetCourseActivitiesResponse createGetCourseActivitiesResponse() {
-        return new GetCourseActivitiesResponse();
-    }
-
-    /**
-     * Create an instance of {@link StatementTreeViewInfo }
-     * 
-     */
-    public StatementTreeViewInfo createStatementTreeViewInfo() {
-        return new StatementTreeViewInfo();
-    }
-
-    /**
-     * Create an instance of {@link UpdateCourseStatement }
-     * 
-     */
-    public UpdateCourseStatement createUpdateCourseStatement() {
-        return new UpdateCourseStatement();
-    }
-
-    /**
-     * Create an instance of {@link ReqComponentTypeInfo.ReqCompFieldTypes }
-     * 
-     */
-    public ReqComponentTypeInfo.ReqCompFieldTypes createReqComponentTypeInfoReqCompFieldTypes() {
-        return new ReqComponentTypeInfo.ReqCompFieldTypes();
-    }
-
-    /**
-     * Create an instance of {@link ReqCompFieldInfo }
-     * 
-     */
-    public ReqCompFieldInfo createReqCompFieldInfo() {
-        return new ReqCompFieldInfo();
-    }
-
-    /**
-     * Create an instance of {@link CourseCrossListingInfo }
-     * 
-     */
-    public CourseCrossListingInfo createCourseCrossListingInfo() {
-        return new CourseCrossListingInfo();
-    }
-
-    /**
-     * Create an instance of {@link ValidCharsConstraint }
-     * 
-     */
-    public ValidCharsConstraint createValidCharsConstraint() {
-        return new ValidCharsConstraint();
-    }
-
-    /**
      * Create an instance of {@link CreateCourse }
      * 
      */
     public CreateCourse createCreateCourse() {
         return new CreateCourse();
-    }
-
-    /**
-     * Create an instance of {@link CourseExpenditureInfo }
-     * 
-     */
-    public CourseExpenditureInfo createCourseExpenditureInfo() {
-        return new CourseExpenditureInfo();
     }
 
     /**
@@ -633,6 +105,198 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DeleteCourseStatementResponse }
+     * 
+     */
+    public DeleteCourseStatementResponse createDeleteCourseStatementResponse() {
+        return new DeleteCourseStatementResponse();
+    }
+
+    /**
+     * Create an instance of {@link ValidateCourseStatementResponse }
+     * 
+     */
+    public ValidateCourseStatementResponse createValidateCourseStatementResponse() {
+        return new ValidateCourseStatementResponse();
+    }
+
+    /**
+     * Create an instance of {@link DeleteCourseResponse }
+     * 
+     */
+    public DeleteCourseResponse createDeleteCourseResponse() {
+        return new DeleteCourseResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetCourseFormatsResponse }
+     * 
+     */
+    public GetCourseFormatsResponse createGetCourseFormatsResponse() {
+        return new GetCourseFormatsResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetCourseStatements }
+     * 
+     */
+    public GetCourseStatements createGetCourseStatements() {
+        return new GetCourseStatements();
+    }
+
+    /**
+     * Create an instance of {@link RichTextInfo }
+     * 
+     */
+    public RichTextInfo createRichTextInfo() {
+        return new RichTextInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetCourseLosResponse }
+     * 
+     */
+    public GetCourseLosResponse createGetCourseLosResponse() {
+        return new GetCourseLosResponse();
+    }
+
+    /**
+     * Create an instance of {@link ReqComponentTypeInfo.ReqCompFieldTypes }
+     * 
+     */
+    public ReqComponentTypeInfo.ReqCompFieldTypes createReqComponentTypeInfoReqCompFieldTypes() {
+        return new ReqComponentTypeInfo.ReqCompFieldTypes();
+    }
+
+    /**
+     * Create an instance of {@link DeleteCourse }
+     * 
+     */
+    public DeleteCourse createDeleteCourse() {
+        return new DeleteCourse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateCourseResponse }
+     * 
+     */
+    public UpdateCourseResponse createUpdateCourseResponse() {
+        return new UpdateCourseResponse();
+    }
+
+    /**
+     * Create an instance of {@link ValidateCourseStatement }
+     * 
+     */
+    public ValidateCourseStatement createValidateCourseStatement() {
+        return new ValidateCourseStatement();
+    }
+
+    /**
+     * Create an instance of {@link GetCourseActivitiesResponse }
+     * 
+     */
+    public GetCourseActivitiesResponse createGetCourseActivitiesResponse() {
+        return new GetCourseActivitiesResponse();
+    }
+
+    /**
+     * Create an instance of {@link StatusInfo }
+     * 
+     */
+    public StatusInfo createStatusInfo() {
+        return new StatusInfo();
+    }
+
+    /**
+     * Create an instance of {@link CreateCourseStatement }
+     * 
+     */
+    public CreateCourseStatement createCreateCourseStatement() {
+        return new CreateCourseStatement();
+    }
+
+    /**
+     * Create an instance of {@link CourseFeeInfo }
+     * 
+     */
+    public CourseFeeInfo createCourseFeeInfo() {
+        return new CourseFeeInfo();
+    }
+
+    /**
+     * Create an instance of {@link CourseCrossListingInfo }
+     * 
+     */
+    public CourseCrossListingInfo createCourseCrossListingInfo() {
+        return new CourseCrossListingInfo();
+    }
+
+    /**
+     * Create an instance of {@link ReqComponentTypeInfo }
+     * 
+     */
+    public ReqComponentTypeInfo createReqComponentTypeInfo() {
+        return new ReqComponentTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link AmountInfo }
+     * 
+     */
+    public AmountInfo createAmountInfo() {
+        return new AmountInfo();
+    }
+
+    /**
+     * Create an instance of {@link CourseExpenditureInfo }
+     * 
+     */
+    public CourseExpenditureInfo createCourseExpenditureInfo() {
+        return new CourseExpenditureInfo();
+    }
+
+    /**
+     * Create an instance of {@link MetaInfo }
+     * 
+     */
+    public MetaInfo createMetaInfo() {
+        return new MetaInfo();
+    }
+
+    /**
+     * Create an instance of {@link LoCategoryInfo }
+     * 
+     */
+    public LoCategoryInfo createLoCategoryInfo() {
+        return new LoCategoryInfo();
+    }
+
+    /**
+     * Create an instance of {@link BaseConstraint }
+     * 
+     */
+    public BaseConstraint createBaseConstraint() {
+        return new BaseConstraint();
+    }
+
+    /**
+     * Create an instance of {@link ValidateCourse }
+     * 
+     */
+    public ValidateCourse createValidateCourse() {
+        return new ValidateCourse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateCourseStatementResponse }
+     * 
+     */
+    public UpdateCourseStatementResponse createUpdateCourseStatementResponse() {
+        return new UpdateCourseStatementResponse();
+    }
+
+    /**
      * Create an instance of {@link GetCourseActivities }
      * 
      */
@@ -641,11 +305,347 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link FormatInfo }
+     * 
+     */
+    public FormatInfo createFormatInfo() {
+        return new FormatInfo();
+    }
+
+    /**
+     * Create an instance of {@link TimeAmountInfo }
+     * 
+     */
+    public TimeAmountInfo createTimeAmountInfo() {
+        return new TimeAmountInfo();
+    }
+
+    /**
+     * Create an instance of {@link CluInstructorInfo }
+     * 
+     */
+    public CluInstructorInfo createCluInstructorInfo() {
+        return new CluInstructorInfo();
+    }
+
+    /**
+     * Create an instance of {@link CourseVariationInfo }
+     * 
+     */
+    public CourseVariationInfo createCourseVariationInfo() {
+        return new CourseVariationInfo();
+    }
+
+    /**
+     * Create an instance of {@link LoInfo }
+     * 
+     */
+    public LoInfo createLoInfo() {
+        return new LoInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetCourseStatementsResponse }
+     * 
+     */
+    public GetCourseStatementsResponse createGetCourseStatementsResponse() {
+        return new GetCourseStatementsResponse();
+    }
+
+    /**
+     * Create an instance of {@link ReqComponentInfo }
+     * 
+     */
+    public ReqComponentInfo createReqComponentInfo() {
+        return new ReqComponentInfo();
+    }
+
+    /**
+     * Create an instance of {@link ObjectStructureDefinition }
+     * 
+     */
+    public ObjectStructureDefinition createObjectStructureDefinition() {
+        return new ObjectStructureDefinition();
+    }
+
+    /**
+     * Create an instance of {@link LoDisplayInfo }
+     * 
+     */
+    public LoDisplayInfo createLoDisplayInfo() {
+        return new LoDisplayInfo();
+    }
+
+    /**
+     * Create an instance of {@link MustOccurConstraint }
+     * 
+     */
+    public MustOccurConstraint createMustOccurConstraint() {
+        return new MustOccurConstraint();
+    }
+
+    /**
+     * Create an instance of {@link CommonLookupParam }
+     * 
+     */
+    public CommonLookupParam createCommonLookupParam() {
+        return new CommonLookupParam();
+    }
+
+    /**
+     * Create an instance of {@link ValidCharsConstraint }
+     * 
+     */
+    public ValidCharsConstraint createValidCharsConstraint() {
+        return new ValidCharsConstraint();
+    }
+
+    /**
+     * Create an instance of {@link RequiredConstraint }
+     * 
+     */
+    public RequiredConstraint createRequiredConstraint() {
+        return new RequiredConstraint();
+    }
+
+    /**
+     * Create an instance of {@link FieldDefinition }
+     * 
+     */
+    public FieldDefinition createFieldDefinition() {
+        return new FieldDefinition();
+    }
+
+    /**
+     * Create an instance of {@link GetCourseResponse }
+     * 
+     */
+    public GetCourseResponse createGetCourseResponse() {
+        return new GetCourseResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObjectStructureDefinitionWrapper }
+     * 
+     */
+    public ObjectStructureDefinitionWrapper createObjectStructureDefinitionWrapper() {
+        return new ObjectStructureDefinitionWrapper();
+    }
+
+    /**
+     * Create an instance of {@link CaseConstraint }
+     * 
+     */
+    public CaseConstraint createCaseConstraint() {
+        return new CaseConstraint();
+    }
+
+    /**
+     * Create an instance of {@link ValidationResultInfo }
+     * 
+     */
+    public ValidationResultInfo createValidationResultInfo() {
+        return new ValidationResultInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetCourseLos }
+     * 
+     */
+    public GetCourseLos createGetCourseLos() {
+        return new GetCourseLos();
+    }
+
+    /**
+     * Create an instance of {@link CreateCourseResponse }
+     * 
+     */
+    public CreateCourseResponse createCreateCourseResponse() {
+        return new CreateCourseResponse();
+    }
+
+    /**
+     * Create an instance of {@link Constraint }
+     * 
+     */
+    public Constraint createConstraint() {
+        return new Constraint();
+    }
+
+    /**
+     * Create an instance of {@link ValidateCourseResponse }
+     * 
+     */
+    public ValidateCourseResponse createValidateCourseResponse() {
+        return new ValidateCourseResponse();
+    }
+
+    /**
+     * Create an instance of {@link Attribute }
+     * 
+     */
+    public Attribute createAttribute() {
+        return new Attribute();
+    }
+
+    /**
+     * Create an instance of {@link GetCourseFormats }
+     * 
+     */
+    public GetCourseFormats createGetCourseFormats() {
+        return new GetCourseFormats();
+    }
+
+    /**
+     * Create an instance of {@link ResultComponentInfo }
+     * 
+     */
+    public ResultComponentInfo createResultComponentInfo() {
+        return new ResultComponentInfo();
+    }
+
+    /**
+     * Create an instance of {@link JaxbAttributeList }
+     * 
+     */
+    public JaxbAttributeList createJaxbAttributeList() {
+        return new JaxbAttributeList();
+    }
+
+    /**
      * Create an instance of {@link DeleteCourseStatement }
      * 
      */
     public DeleteCourseStatement createDeleteCourseStatement() {
         return new DeleteCourseStatement();
+    }
+
+    /**
+     * Create an instance of {@link CurrencyAmountInfo }
+     * 
+     */
+    public CurrencyAmountInfo createCurrencyAmountInfo() {
+        return new CurrencyAmountInfo();
+    }
+
+    /**
+     * Create an instance of {@link UpdateCourseStatement }
+     * 
+     */
+    public UpdateCourseStatement createUpdateCourseStatement() {
+        return new UpdateCourseStatement();
+    }
+
+    /**
+     * Create an instance of {@link ActivityInfo }
+     * 
+     */
+    public ActivityInfo createActivityInfo() {
+        return new ActivityInfo();
+    }
+
+    /**
+     * Create an instance of {@link UpdateCourse }
+     * 
+     */
+    public UpdateCourse createUpdateCourse() {
+        return new UpdateCourse();
+    }
+
+    /**
+     * Create an instance of {@link CommonLookup }
+     * 
+     */
+    public CommonLookup createCommonLookup() {
+        return new CommonLookup();
+    }
+
+    /**
+     * Create an instance of {@link CreateCourseStatementResponse }
+     * 
+     */
+    public CreateCourseStatementResponse createCreateCourseStatementResponse() {
+        return new CreateCourseStatementResponse();
+    }
+
+    /**
+     * Create an instance of {@link CourseInfo }
+     * 
+     */
+    public CourseInfo createCourseInfo() {
+        return new CourseInfo();
+    }
+
+    /**
+     * Create an instance of {@link CourseJointInfo }
+     * 
+     */
+    public CourseJointInfo createCourseJointInfo() {
+        return new CourseJointInfo();
+    }
+
+    /**
+     * Create an instance of {@link ReqCompFieldTypeInfo }
+     * 
+     */
+    public ReqCompFieldTypeInfo createReqCompFieldTypeInfo() {
+        return new ReqCompFieldTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link CourseRevenueInfo }
+     * 
+     */
+    public CourseRevenueInfo createCourseRevenueInfo() {
+        return new CourseRevenueInfo();
+    }
+
+    /**
+     * Create an instance of {@link AffiliatedOrgInfo }
+     * 
+     */
+    public AffiliatedOrgInfo createAffiliatedOrgInfo() {
+        return new AffiliatedOrgInfo();
+    }
+
+    /**
+     * Create an instance of {@link StatementTreeViewInfo }
+     * 
+     */
+    public StatementTreeViewInfo createStatementTreeViewInfo() {
+        return new StatementTreeViewInfo();
+    }
+
+    /**
+     * Create an instance of {@link LookupConstraint }
+     * 
+     */
+    public LookupConstraint createLookupConstraint() {
+        return new LookupConstraint();
+    }
+
+    /**
+     * Create an instance of {@link GetCourse }
+     * 
+     */
+    public GetCourse createGetCourse() {
+        return new GetCourse();
+    }
+
+    /**
+     * Create an instance of {@link WhenConstraint }
+     * 
+     */
+    public WhenConstraint createWhenConstraint() {
+        return new WhenConstraint();
+    }
+
+    /**
+     * Create an instance of {@link ReqCompFieldInfo }
+     * 
+     */
+    public ReqCompFieldInfo createReqCompFieldInfo() {
+        return new ReqCompFieldInfo();
     }
 
     /**

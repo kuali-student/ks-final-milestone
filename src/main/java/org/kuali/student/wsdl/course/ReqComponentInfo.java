@@ -58,13 +58,13 @@ public class ReqComponentInfo {
     protected XMLGregorianCalendar expirationDate;
     protected MetaInfo metaInfo;
     protected ReqComponentTypeInfo requiredComponentType;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
-    @XmlAttribute
+    @XmlAttribute(name = "state")
     protected String state;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
-    @XmlAttribute
+    @XmlAttribute(name = "naturalLanguageTranslation")
     protected String naturalLanguageTranslation;
 
     /**

@@ -35,9 +35,9 @@ import javax.xml.bind.annotation.XmlType;
 public class ReqCompFieldInfo {
 
     protected String value;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
 
     /**

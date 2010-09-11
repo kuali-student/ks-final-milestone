@@ -45,9 +45,9 @@ public class ObjectStructure {
     protected List<Type> type;
     protected String name;
     protected String desc;
-    @XmlAttribute(required = true)
+    @XmlAttribute(name = "key", required = true)
     protected String key;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

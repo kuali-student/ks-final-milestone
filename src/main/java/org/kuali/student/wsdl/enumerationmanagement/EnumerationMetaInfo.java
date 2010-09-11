@@ -45,7 +45,7 @@ public class EnumerationMetaInfo {
     protected String desc;
     protected List<EnumeratedValueFieldInfo> enumeratedValueFields;
     protected List<EnumContextInfo> contextDescriptors;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

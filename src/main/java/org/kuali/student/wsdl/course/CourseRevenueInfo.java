@@ -45,7 +45,7 @@ public class CourseRevenueInfo {
     protected List<AffiliatedOrgInfo> affiliatedOrgs;
     protected JaxbAttributeList attributes;
     protected MetaInfo metaInfo;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

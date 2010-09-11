@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "caseConstraint", propOrder = {
+@XmlType(name = "caseConstraint", namespace = "http://student.kuali.org/wsdl/course", propOrder = {
     "whenConstraint",
     "fieldPath",
     "operator",

@@ -16,6 +16,12 @@
 package org.kuali.student.loader;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  *
@@ -26,6 +32,10 @@ public class DateHelper
 
  public Date asDate (String str)
  {
+  if (str == null)
+  {
+   return null;
+  }
   // Can't use SimpleDateFormat inside GWT
   // but don't want to use GWT specific code so this is indepdent of GWT
   // so...
@@ -34,6 +44,29 @@ public class DateHelper
   int dd = Integer.parseInt (str.substring (8, 10));
   Date date = new Date (yyyy, mm, dd);
   return date;
+ }
+
+ public XMLGregorianCalendar asXmlDate (String strDate)
+ {
+  return asXmlDate (asDate (strDate));
+ }
+
+ public XMLGregorianCalendar asXmlDate (Date date)
+ {
+  if (date == null)
+  {
+   return null;
+  }
+  GregorianCalendar gc = new GregorianCalendar ();
+  gc.set (date.getYear (), date.getMonth (), date.getDay ());
+  try
+  {
+   return DatatypeFactory.newInstance ().newXMLGregorianCalendar (gc);
+  }
+  catch (DatatypeConfigurationException ex)
+  {
+   throw new IllegalArgumentException (ex);
+  }
  }
 
  public String asYYYYMMDD (Date date)
@@ -57,5 +90,4 @@ public class DateHelper
   }
   return yr + mnth + dom;
  }
-
 }

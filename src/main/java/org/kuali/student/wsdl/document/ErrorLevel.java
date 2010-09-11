@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  * 
  */
-@XmlType(name = "errorLevel")
+@XmlType(name = "errorLevel", namespace="http://student.kuali.org/wsdl/document")
 @XmlEnum
 public enum ErrorLevel {
 

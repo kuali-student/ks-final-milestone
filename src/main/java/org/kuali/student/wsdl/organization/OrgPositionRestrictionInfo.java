@@ -58,7 +58,7 @@ public class OrgPositionRestrictionInfo {
     protected String maxNumRelations;
     protected JaxbAttributeList attributes;
     protected MetaInfo metaInfo;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

@@ -29,15 +29,15 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validCharsConstraint", propOrder = {
+@XmlType(name = "validCharsConstraint", namespace = "http://student.kuali.org/wsdl/dictionary", propOrder = {
     "value"
 })
 public class ValidCharsConstraint {
 
     protected String value;
-    @XmlAttribute
+    @XmlAttribute(name = "fields")
     protected String fields;
-    @XmlAttribute
+    @XmlAttribute(name = "separator")
     protected String separator;
 
     /**

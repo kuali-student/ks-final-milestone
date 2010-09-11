@@ -55,11 +55,11 @@ public class OrgOrgRelationInfo {
     protected XMLGregorianCalendar expirationDate;
     protected JaxbAttributeList attributes;
     protected MetaInfo metaInfo;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
-    @XmlAttribute
+    @XmlAttribute(name = "state")
     protected String state;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

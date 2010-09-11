@@ -32,7 +32,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "metaInfo", propOrder = {
+@XmlType(name = "metaInfo", namespace = "http://student.kuali.org/wsdl/proposal", propOrder = {
     "versionInd",
     "createTime",
     "createId",

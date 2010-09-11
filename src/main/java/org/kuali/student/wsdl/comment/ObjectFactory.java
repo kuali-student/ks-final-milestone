@@ -127,27 +127,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RichTextInfo }
+     * Create an instance of {@link CommentTypeInfo }
      * 
      */
-    public RichTextInfo createRichTextInfo() {
-        return new RichTextInfo();
-    }
-
-    /**
-     * Create an instance of {@link JaxbAttributeList }
-     * 
-     */
-    public JaxbAttributeList createJaxbAttributeList() {
-        return new JaxbAttributeList();
-    }
-
-    /**
-     * Create an instance of {@link TagInfo }
-     * 
-     */
-    public TagInfo createTagInfo() {
-        return new TagInfo();
+    public CommentTypeInfo createCommentTypeInfo() {
+        return new CommentTypeInfo();
     }
 
     /**
@@ -159,11 +143,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link TagInfo }
+     * 
+     */
+    public TagInfo createTagInfo() {
+        return new TagInfo();
+    }
+
+    /**
      * Create an instance of {@link CommentInfo }
      * 
      */
     public CommentInfo createCommentInfo() {
         return new CommentInfo();
+    }
+
+    /**
+     * Create an instance of {@link ValidationResultInfo }
+     * 
+     */
+    public ValidationResultInfo createValidationResultInfo() {
+        return new ValidationResultInfo();
     }
 
     /**
@@ -183,19 +183,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ValidationResultInfo }
+     * Create an instance of {@link JaxbAttributeList }
      * 
      */
-    public ValidationResultInfo createValidationResultInfo() {
-        return new ValidationResultInfo();
+    public JaxbAttributeList createJaxbAttributeList() {
+        return new JaxbAttributeList();
     }
 
     /**
-     * Create an instance of {@link CommentTypeInfo }
+     * Create an instance of {@link Attribute }
      * 
      */
-    public CommentTypeInfo createCommentTypeInfo() {
-        return new CommentTypeInfo();
+    public Attribute createAttribute() {
+        return new Attribute();
     }
 
     /**
@@ -207,11 +207,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Attribute }
+     * Create an instance of {@link RichTextInfo }
      * 
      */
-    public Attribute createAttribute() {
-        return new Attribute();
+    public RichTextInfo createRichTextInfo() {
+        return new RichTextInfo();
     }
 
     /**

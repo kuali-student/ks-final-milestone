@@ -41,9 +41,9 @@ public class CourseCrossListingInfo {
     protected String subjectArea;
     protected String department;
     protected String courseNumberSuffix;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
-    @XmlAttribute
+    @XmlAttribute(name = "id")
     protected String id;
 
     /**

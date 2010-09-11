@@ -52,7 +52,7 @@ public class SearchResultTypeInfo {
     protected String name;
     protected String desc;
     protected SearchResultTypeInfo.ResultColumns resultColumns;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

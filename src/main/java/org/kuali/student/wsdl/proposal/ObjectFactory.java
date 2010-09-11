@@ -145,86 +145,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetProposalsByIdList }
-     * 
-     */
-    public GetProposalsByIdList createGetProposalsByIdList() {
-        return new GetProposalsByIdList();
-    }
-
-    /**
-     * Create an instance of {@link CreateProposalDocRelationResponse }
-     * 
-     */
-    public CreateProposalDocRelationResponse createCreateProposalDocRelationResponse() {
-        return new CreateProposalDocRelationResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalTypesForReferenceTypeResponse }
-     * 
-     */
-    public GetProposalTypesForReferenceTypeResponse createGetProposalTypesForReferenceTypeResponse() {
-        return new GetProposalTypesForReferenceTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalsByState }
-     * 
-     */
-    public GetProposalsByState createGetProposalsByState() {
-        return new GetProposalsByState();
-    }
-
-    /**
-     * Create an instance of {@link GetProposal }
-     * 
-     */
-    public GetProposal createGetProposal() {
-        return new GetProposal();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalDocRelationsByDocumentResponse }
-     * 
-     */
-    public GetProposalDocRelationsByDocumentResponse createGetProposalDocRelationsByDocumentResponse() {
-        return new GetProposalDocRelationsByDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link ProposalDocRelationInfo }
-     * 
-     */
-    public ProposalDocRelationInfo createProposalDocRelationInfo() {
-        return new ProposalDocRelationInfo();
-    }
-
-    /**
-     * Create an instance of {@link UpdateProposalResponse }
-     * 
-     */
-    public UpdateProposalResponse createUpdateProposalResponse() {
-        return new UpdateProposalResponse();
-    }
-
-    /**
-     * Create an instance of {@link DeleteProposalDocRelation }
-     * 
-     */
-    public DeleteProposalDocRelation createDeleteProposalDocRelation() {
-        return new DeleteProposalDocRelation();
-    }
-
-    /**
-     * Create an instance of {@link ValidateProposal }
-     * 
-     */
-    public ValidateProposal createValidateProposal() {
-        return new ValidateProposal();
-    }
-
-    /**
      * Create an instance of {@link ValidationResultInfo }
      * 
      */
@@ -233,227 +153,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ValidCharsConstraint }
-     * 
-     */
-    public ValidCharsConstraint createValidCharsConstraint() {
-        return new ValidCharsConstraint();
-    }
-
-    /**
-     * Create an instance of {@link ProposalTypeInfo }
-     * 
-     */
-    public ProposalTypeInfo createProposalTypeInfo() {
-        return new ProposalTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link MustOccurConstraint }
-     * 
-     */
-    public MustOccurConstraint createMustOccurConstraint() {
-        return new MustOccurConstraint();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalsByReferenceResponse }
-     * 
-     */
-    public GetProposalsByReferenceResponse createGetProposalsByReferenceResponse() {
-        return new GetProposalsByReferenceResponse();
-    }
-
-    /**
-     * Create an instance of {@link Constraint }
-     * 
-     */
-    public Constraint createConstraint() {
-        return new Constraint();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalsByProposalTypeResponse }
-     * 
-     */
-    public GetProposalsByProposalTypeResponse createGetProposalsByProposalTypeResponse() {
-        return new GetProposalsByProposalTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link DeleteProposalDocRelationResponse }
-     * 
-     */
-    public DeleteProposalDocRelationResponse createDeleteProposalDocRelationResponse() {
-        return new DeleteProposalDocRelationResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalTypesResponse }
-     * 
-     */
-    public GetProposalTypesResponse createGetProposalTypesResponse() {
-        return new GetProposalTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalsByReference }
-     * 
-     */
-    public GetProposalsByReference createGetProposalsByReference() {
-        return new GetProposalsByReference();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalDocRelationsByType }
-     * 
-     */
-    public GetProposalDocRelationsByType createGetProposalDocRelationsByType() {
-        return new GetProposalDocRelationsByType();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalDocRelationsByIdListResponse }
-     * 
-     */
-    public GetProposalDocRelationsByIdListResponse createGetProposalDocRelationsByIdListResponse() {
-        return new GetProposalDocRelationsByIdListResponse();
-    }
-
-    /**
-     * Create an instance of {@link ProposalInfo }
-     * 
-     */
-    public ProposalInfo createProposalInfo() {
-        return new ProposalInfo();
-    }
-
-    /**
      * Create an instance of {@link ValidateProposalDocRelationResponse }
      * 
      */
     public ValidateProposalDocRelationResponse createValidateProposalDocRelationResponse() {
         return new ValidateProposalDocRelationResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalDocRelationsByDocument }
-     * 
-     */
-    public GetProposalDocRelationsByDocument createGetProposalDocRelationsByDocument() {
-        return new GetProposalDocRelationsByDocument();
-    }
-
-    /**
-     * Create an instance of {@link GetReferenceTypes }
-     * 
-     */
-    public GetReferenceTypes createGetReferenceTypes() {
-        return new GetReferenceTypes();
-    }
-
-    /**
-     * Create an instance of {@link UpdateProposalDocRelation }
-     * 
-     */
-    public UpdateProposalDocRelation createUpdateProposalDocRelation() {
-        return new UpdateProposalDocRelation();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalTypes }
-     * 
-     */
-    public GetProposalTypes createGetProposalTypes() {
-        return new GetProposalTypes();
-    }
-
-    /**
-     * Create an instance of {@link LookupConstraint }
-     * 
-     */
-    public LookupConstraint createLookupConstraint() {
-        return new LookupConstraint();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalsByProposalType }
-     * 
-     */
-    public GetProposalsByProposalType createGetProposalsByProposalType() {
-        return new GetProposalsByProposalType();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalDocRelationTypes }
-     * 
-     */
-    public GetProposalDocRelationTypes createGetProposalDocRelationTypes() {
-        return new GetProposalDocRelationTypes();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalTypeResponse }
-     * 
-     */
-    public GetProposalTypeResponse createGetProposalTypeResponse() {
-        return new GetProposalTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalsByStateResponse }
-     * 
-     */
-    public GetProposalsByStateResponse createGetProposalsByStateResponse() {
-        return new GetProposalsByStateResponse();
-    }
-
-    /**
-     * Create an instance of {@link UpdateProposalDocRelationResponse }
-     * 
-     */
-    public UpdateProposalDocRelationResponse createUpdateProposalDocRelationResponse() {
-        return new UpdateProposalDocRelationResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalDocRelationTypesResponse }
-     * 
-     */
-    public GetProposalDocRelationTypesResponse createGetProposalDocRelationTypesResponse() {
-        return new GetProposalDocRelationTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link RichTextInfo }
-     * 
-     */
-    public RichTextInfo createRichTextInfo() {
-        return new RichTextInfo();
-    }
-
-    /**
-     * Create an instance of {@link CaseConstraint }
-     * 
-     */
-    public CaseConstraint createCaseConstraint() {
-        return new CaseConstraint();
-    }
-
-    /**
-     * Create an instance of {@link GetAllowedProposalDocRelationTypesForProposalType }
-     * 
-     */
-    public GetAllowedProposalDocRelationTypesForProposalType createGetAllowedProposalDocRelationTypesForProposalType() {
-        return new GetAllowedProposalDocRelationTypesForProposalType();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalsByIdListResponse }
-     * 
-     */
-    public GetProposalsByIdListResponse createGetProposalsByIdListResponse() {
-        return new GetProposalsByIdListResponse();
     }
 
     /**
@@ -473,46 +177,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateProposal }
-     * 
-     */
-    public CreateProposal createCreateProposal() {
-        return new CreateProposal();
-    }
-
-    /**
-     * Create an instance of {@link GetReferenceTypesResponse }
-     * 
-     */
-    public GetReferenceTypesResponse createGetReferenceTypesResponse() {
-        return new GetReferenceTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link StatusInfo }
-     * 
-     */
-    public StatusInfo createStatusInfo() {
-        return new StatusInfo();
-    }
-
-    /**
-     * Create an instance of {@link Attribute }
-     * 
-     */
-    public Attribute createAttribute() {
-        return new Attribute();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalDocRelationsByProposal }
-     * 
-     */
-    public GetProposalDocRelationsByProposal createGetProposalDocRelationsByProposal() {
-        return new GetProposalDocRelationsByProposal();
-    }
-
-    /**
      * Create an instance of {@link MetaInfo }
      * 
      */
@@ -521,67 +185,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetProposalDocRelationResponse }
+     * Create an instance of {@link GetProposalsByIdListResponse }
      * 
      */
-    public GetProposalDocRelationResponse createGetProposalDocRelationResponse() {
-        return new GetProposalDocRelationResponse();
+    public GetProposalsByIdListResponse createGetProposalsByIdListResponse() {
+        return new GetProposalsByIdListResponse();
     }
 
     /**
-     * Create an instance of {@link FieldDefinition }
+     * Create an instance of {@link GetProposalsByReference }
      * 
      */
-    public FieldDefinition createFieldDefinition() {
-        return new FieldDefinition();
+    public GetProposalsByReference createGetProposalsByReference() {
+        return new GetProposalsByReference();
     }
 
     /**
-     * Create an instance of {@link BaseConstraint }
+     * Create an instance of {@link LookupConstraint }
      * 
      */
-    public BaseConstraint createBaseConstraint() {
-        return new BaseConstraint();
-    }
-
-    /**
-     * Create an instance of {@link ObjectStructureDefinition }
-     * 
-     */
-    public ObjectStructureDefinition createObjectStructureDefinition() {
-        return new ObjectStructureDefinition();
-    }
-
-    /**
-     * Create an instance of {@link DeleteProposal }
-     * 
-     */
-    public DeleteProposal createDeleteProposal() {
-        return new DeleteProposal();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalType }
-     * 
-     */
-    public GetProposalType createGetProposalType() {
-        return new GetProposalType();
-    }
-
-    /**
-     * Create an instance of {@link ObjectStructureDefinitionWrapper }
-     * 
-     */
-    public ObjectStructureDefinitionWrapper createObjectStructureDefinitionWrapper() {
-        return new ObjectStructureDefinitionWrapper();
-    }
-
-    /**
-     * Create an instance of {@link CreateProposalDocRelation }
-     * 
-     */
-    public CreateProposalDocRelation createCreateProposalDocRelation() {
-        return new CreateProposalDocRelation();
+    public LookupConstraint createLookupConstraint() {
+        return new LookupConstraint();
     }
 
     /**
@@ -593,19 +217,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CommonLookupParam }
+     * Create an instance of {@link UpdateProposalDocRelation }
      * 
      */
-    public CommonLookupParam createCommonLookupParam() {
-        return new CommonLookupParam();
+    public UpdateProposalDocRelation createUpdateProposalDocRelation() {
+        return new UpdateProposalDocRelation();
     }
 
     /**
-     * Create an instance of {@link GetProposalDocRelationsByIdList }
+     * Create an instance of {@link GetProposalDocRelationsByDocument }
      * 
      */
-    public GetProposalDocRelationsByIdList createGetProposalDocRelationsByIdList() {
-        return new GetProposalDocRelationsByIdList();
+    public GetProposalDocRelationsByDocument createGetProposalDocRelationsByDocument() {
+        return new GetProposalDocRelationsByDocument();
+    }
+
+    /**
+     * Create an instance of {@link ObjectStructureDefinition }
+     * 
+     */
+    public ObjectStructureDefinition createObjectStructureDefinition() {
+        return new ObjectStructureDefinition();
     }
 
     /**
@@ -617,6 +249,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetProposalsByState }
+     * 
+     */
+    public GetProposalsByState createGetProposalsByState() {
+        return new GetProposalsByState();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalsByReferenceResponse }
+     * 
+     */
+    public GetProposalsByReferenceResponse createGetProposalsByReferenceResponse() {
+        return new GetProposalsByReferenceResponse();
+    }
+
+    /**
+     * Create an instance of {@link ProposalInfo }
+     * 
+     */
+    public ProposalInfo createProposalInfo() {
+        return new ProposalInfo();
+    }
+
+    /**
      * Create an instance of {@link RequiredConstraint }
      * 
      */
@@ -625,27 +281,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetProposalDocRelationsByProposalResponse }
+     * Create an instance of {@link JaxbAttributeList }
      * 
      */
-    public GetProposalDocRelationsByProposalResponse createGetProposalDocRelationsByProposalResponse() {
-        return new GetProposalDocRelationsByProposalResponse();
+    public JaxbAttributeList createJaxbAttributeList() {
+        return new JaxbAttributeList();
     }
 
     /**
-     * Create an instance of {@link UpdateProposal }
+     * Create an instance of {@link GetProposalTypesResponse }
      * 
      */
-    public UpdateProposal createUpdateProposal() {
-        return new UpdateProposal();
+    public GetProposalTypesResponse createGetProposalTypesResponse() {
+        return new GetProposalTypesResponse();
     }
 
     /**
-     * Create an instance of {@link ValidateProposalDocRelation }
+     * Create an instance of {@link GetAllowedProposalDocRelationTypesForProposalType }
      * 
      */
-    public ValidateProposalDocRelation createValidateProposalDocRelation() {
-        return new ValidateProposalDocRelation();
+    public GetAllowedProposalDocRelationTypesForProposalType createGetAllowedProposalDocRelationTypesForProposalType() {
+        return new GetAllowedProposalDocRelationTypesForProposalType();
+    }
+
+    /**
+     * Create an instance of {@link MustOccurConstraint }
+     * 
+     */
+    public MustOccurConstraint createMustOccurConstraint() {
+        return new MustOccurConstraint();
     }
 
     /**
@@ -657,11 +321,195 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetProposalDocRelationsByTypeResponse }
+     * Create an instance of {@link GetProposalDocRelationResponse }
      * 
      */
-    public GetProposalDocRelationsByTypeResponse createGetProposalDocRelationsByTypeResponse() {
-        return new GetProposalDocRelationsByTypeResponse();
+    public GetProposalDocRelationResponse createGetProposalDocRelationResponse() {
+        return new GetProposalDocRelationResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetReferenceTypes }
+     * 
+     */
+    public GetReferenceTypes createGetReferenceTypes() {
+        return new GetReferenceTypes();
+    }
+
+    /**
+     * Create an instance of {@link ValidateProposalDocRelation }
+     * 
+     */
+    public ValidateProposalDocRelation createValidateProposalDocRelation() {
+        return new ValidateProposalDocRelation();
+    }
+
+    /**
+     * Create an instance of {@link StatusInfo }
+     * 
+     */
+    public StatusInfo createStatusInfo() {
+        return new StatusInfo();
+    }
+
+    /**
+     * Create an instance of {@link ReferenceTypeInfo }
+     * 
+     */
+    public ReferenceTypeInfo createReferenceTypeInfo() {
+        return new ReferenceTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationsByIdList }
+     * 
+     */
+    public GetProposalDocRelationsByIdList createGetProposalDocRelationsByIdList() {
+        return new GetProposalDocRelationsByIdList();
+    }
+
+    /**
+     * Create an instance of {@link GetReferenceTypesResponse }
+     * 
+     */
+    public GetReferenceTypesResponse createGetReferenceTypesResponse() {
+        return new GetReferenceTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationTypeResponse }
+     * 
+     */
+    public GetProposalDocRelationTypeResponse createGetProposalDocRelationTypeResponse() {
+        return new GetProposalDocRelationTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalTypes }
+     * 
+     */
+    public GetProposalTypes createGetProposalTypes() {
+        return new GetProposalTypes();
+    }
+
+    /**
+     * Create an instance of {@link UpdateProposalResponse }
+     * 
+     */
+    public UpdateProposalResponse createUpdateProposalResponse() {
+        return new UpdateProposalResponse();
+    }
+
+    /**
+     * Create an instance of {@link CaseConstraint }
+     * 
+     */
+    public CaseConstraint createCaseConstraint() {
+        return new CaseConstraint();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationsByIdListResponse }
+     * 
+     */
+    public GetProposalDocRelationsByIdListResponse createGetProposalDocRelationsByIdListResponse() {
+        return new GetProposalDocRelationsByIdListResponse();
+    }
+
+    /**
+     * Create an instance of {@link RichTextInfo }
+     * 
+     */
+    public RichTextInfo createRichTextInfo() {
+        return new RichTextInfo();
+    }
+
+    /**
+     * Create an instance of {@link DeleteProposalDocRelation }
+     * 
+     */
+    public DeleteProposalDocRelation createDeleteProposalDocRelation() {
+        return new DeleteProposalDocRelation();
+    }
+
+    /**
+     * Create an instance of {@link ProposalDocRelationTypeInfo }
+     * 
+     */
+    public ProposalDocRelationTypeInfo createProposalDocRelationTypeInfo() {
+        return new ProposalDocRelationTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link Constraint }
+     * 
+     */
+    public Constraint createConstraint() {
+        return new Constraint();
+    }
+
+    /**
+     * Create an instance of {@link UpdateProposal }
+     * 
+     */
+    public UpdateProposal createUpdateProposal() {
+        return new UpdateProposal();
+    }
+
+    /**
+     * Create an instance of {@link CreateProposalDocRelation }
+     * 
+     */
+    public CreateProposalDocRelation createCreateProposalDocRelation() {
+        return new CreateProposalDocRelation();
+    }
+
+    /**
+     * Create an instance of {@link BaseConstraint }
+     * 
+     */
+    public BaseConstraint createBaseConstraint() {
+        return new BaseConstraint();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationTypes }
+     * 
+     */
+    public GetProposalDocRelationTypes createGetProposalDocRelationTypes() {
+        return new GetProposalDocRelationTypes();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelation }
+     * 
+     */
+    public GetProposalDocRelation createGetProposalDocRelation() {
+        return new GetProposalDocRelation();
+    }
+
+    /**
+     * Create an instance of {@link CommonLookup }
+     * 
+     */
+    public CommonLookup createCommonLookup() {
+        return new CommonLookup();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalType }
+     * 
+     */
+    public GetProposalType createGetProposalType() {
+        return new GetProposalType();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationTypesResponse }
+     * 
+     */
+    public GetProposalDocRelationTypesResponse createGetProposalDocRelationTypesResponse() {
+        return new GetProposalDocRelationTypesResponse();
     }
 
     /**
@@ -673,11 +521,195 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JaxbAttributeList }
+     * Create an instance of {@link ValidateProposal }
      * 
      */
-    public JaxbAttributeList createJaxbAttributeList() {
-        return new JaxbAttributeList();
+    public ValidateProposal createValidateProposal() {
+        return new ValidateProposal();
+    }
+
+    /**
+     * Create an instance of {@link Attribute }
+     * 
+     */
+    public Attribute createAttribute() {
+        return new Attribute();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationsByDocumentResponse }
+     * 
+     */
+    public GetProposalDocRelationsByDocumentResponse createGetProposalDocRelationsByDocumentResponse() {
+        return new GetProposalDocRelationsByDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link ProposalTypeInfo }
+     * 
+     */
+    public ProposalTypeInfo createProposalTypeInfo() {
+        return new ProposalTypeInfo();
+    }
+
+    /**
+     * Create an instance of {@link ObjectStructureDefinitionWrapper }
+     * 
+     */
+    public ObjectStructureDefinitionWrapper createObjectStructureDefinitionWrapper() {
+        return new ObjectStructureDefinitionWrapper();
+    }
+
+    /**
+     * Create an instance of {@link ProposalDocRelationInfo }
+     * 
+     */
+    public ProposalDocRelationInfo createProposalDocRelationInfo() {
+        return new ProposalDocRelationInfo();
+    }
+
+    /**
+     * Create an instance of {@link CommonLookupParam }
+     * 
+     */
+    public CommonLookupParam createCommonLookupParam() {
+        return new CommonLookupParam();
+    }
+
+    /**
+     * Create an instance of {@link DeleteProposal }
+     * 
+     */
+    public DeleteProposal createDeleteProposal() {
+        return new DeleteProposal();
+    }
+
+    /**
+     * Create an instance of {@link CreateProposal }
+     * 
+     */
+    public CreateProposal createCreateProposal() {
+        return new CreateProposal();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationsByType }
+     * 
+     */
+    public GetProposalDocRelationsByType createGetProposalDocRelationsByType() {
+        return new GetProposalDocRelationsByType();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalTypesForReferenceTypeResponse }
+     * 
+     */
+    public GetProposalTypesForReferenceTypeResponse createGetProposalTypesForReferenceTypeResponse() {
+        return new GetProposalTypesForReferenceTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalsByProposalType }
+     * 
+     */
+    public GetProposalsByProposalType createGetProposalsByProposalType() {
+        return new GetProposalsByProposalType();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationsByTypeResponse }
+     * 
+     */
+    public GetProposalDocRelationsByTypeResponse createGetProposalDocRelationsByTypeResponse() {
+        return new GetProposalDocRelationsByTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationsByProposal }
+     * 
+     */
+    public GetProposalDocRelationsByProposal createGetProposalDocRelationsByProposal() {
+        return new GetProposalDocRelationsByProposal();
+    }
+
+    /**
+     * Create an instance of {@link UpdateProposalDocRelationResponse }
+     * 
+     */
+    public UpdateProposalDocRelationResponse createUpdateProposalDocRelationResponse() {
+        return new UpdateProposalDocRelationResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalsByIdList }
+     * 
+     */
+    public GetProposalsByIdList createGetProposalsByIdList() {
+        return new GetProposalsByIdList();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalsByProposalTypeResponse }
+     * 
+     */
+    public GetProposalsByProposalTypeResponse createGetProposalsByProposalTypeResponse() {
+        return new GetProposalsByProposalTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalDocRelationsByProposalResponse }
+     * 
+     */
+    public GetProposalDocRelationsByProposalResponse createGetProposalDocRelationsByProposalResponse() {
+        return new GetProposalDocRelationsByProposalResponse();
+    }
+
+    /**
+     * Create an instance of {@link DeleteProposalDocRelationResponse }
+     * 
+     */
+    public DeleteProposalDocRelationResponse createDeleteProposalDocRelationResponse() {
+        return new DeleteProposalDocRelationResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalsByStateResponse }
+     * 
+     */
+    public GetProposalsByStateResponse createGetProposalsByStateResponse() {
+        return new GetProposalsByStateResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposalTypeResponse }
+     * 
+     */
+    public GetProposalTypeResponse createGetProposalTypeResponse() {
+        return new GetProposalTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetProposal }
+     * 
+     */
+    public GetProposal createGetProposal() {
+        return new GetProposal();
+    }
+
+    /**
+     * Create an instance of {@link FieldDefinition }
+     * 
+     */
+    public FieldDefinition createFieldDefinition() {
+        return new FieldDefinition();
+    }
+
+    /**
+     * Create an instance of {@link CreateProposalDocRelationResponse }
+     * 
+     */
+    public CreateProposalDocRelationResponse createCreateProposalDocRelationResponse() {
+        return new CreateProposalDocRelationResponse();
     }
 
     /**
@@ -697,43 +729,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetProposalDocRelation }
+     * Create an instance of {@link ValidCharsConstraint }
      * 
      */
-    public GetProposalDocRelation createGetProposalDocRelation() {
-        return new GetProposalDocRelation();
-    }
-
-    /**
-     * Create an instance of {@link ProposalDocRelationTypeInfo }
-     * 
-     */
-    public ProposalDocRelationTypeInfo createProposalDocRelationTypeInfo() {
-        return new ProposalDocRelationTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetProposalDocRelationTypeResponse }
-     * 
-     */
-    public GetProposalDocRelationTypeResponse createGetProposalDocRelationTypeResponse() {
-        return new GetProposalDocRelationTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link CommonLookup }
-     * 
-     */
-    public CommonLookup createCommonLookup() {
-        return new CommonLookup();
-    }
-
-    /**
-     * Create an instance of {@link ReferenceTypeInfo }
-     * 
-     */
-    public ReferenceTypeInfo createReferenceTypeInfo() {
-        return new ReferenceTypeInfo();
+    public ValidCharsConstraint createValidCharsConstraint() {
+        return new ValidCharsConstraint();
     }
 
     /**

@@ -18,7 +18,7 @@ package org.kuali.student.loader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
+import org.kuali.student.wsdl.course.AdminOrgInfo;
 import org.kuali.student.wsdl.course.CourseInfo;
 
 /**
@@ -40,36 +40,33 @@ public class CreditCourseToCourseInfoConverter
  public CourseInfo convert ()
  {
   CourseInfo courseInfo = new CourseInfo ();
-  courseInfo.setId (cc.getId ());
-  courseInfo.getAdministeringOrgs ().add (new AdminOrgInfoHelper ().get (ADMINISTRATION_ADMIN_ORG_TYPE, cc.getPrimaryAdminOrg ()));
-  courseInfo.setDescr (new RichTextInfoHelper ().getFromPlain (cc.getDesc ()));
-  CluIdentifierInfo officialIdentifierInfo = new CluIdentifierInfo ();
-  courseInfo.setOfficialIdentifier (officialIdentifierInfo);
-  officialIdentifierInfo.setCode (cc.getCode ());
-  officialIdentifierInfo.setDivision (cc.getDivision ());
-  officialIdentifierInfo.setSuffixCode (cc.getSuffixCode ());
-  officialIdentifierInfo.setVariation (cc.getVariation ());
-  officialIdentifierInfo.setShortName (cc.getShortName ());
-  officialIdentifierInfo.setLongName (cc.getLongName ());
-  officialIdentifierInfo.setType ("kuali.lu.type.CreditCourse.identifier.official");
-  officialIdentifierInfo.setState ("active");
-  officialIdentifierInfo.setId ("official" + cc.getId ());
-  courseInfo.getOfferedAtpTypes ().addAll (convertOfferedAtpTypes (cc.getOfferedAtpTypes ()));
+  courseInfo.setId (null);
+  AdminOrgInfo adminOrgInfo = new AdminOrgInfoHelper ().get (ADMINISTRATION_ADMIN_ORG_TYPE, cc.getAdministeringOrgName ());
+  if (adminOrgInfo != null)
+  {
+   courseInfo.getAdministeringOrgs ().add (adminOrgInfo.getId ());
+  }
+  courseInfo.setDescr (new RichTextInfoHelper ().getFromPlain (cc.getDescr ()));
+  // let it calculate the code
+//  courseInfo.setCode (cc.getCode ());
+  courseInfo.setSubjectArea (cc.getSubjectArea ());
+  courseInfo.setCourseNumberSuffix (cc.getCourseNumberSuffix ());
+  courseInfo.setTranscriptTitle (cc.getTranscriptTitle ());
+  courseInfo.setCourseTitle (cc.getCourseTitle ());
+  courseInfo.getTermsOffered ().addAll (convertOfferedAtpTypes (cc.getTermsOffered ()));
   courseInfo.setType ("kuali.lu.type.CreditCourse");
-  courseInfo.setState ("activated");
-  List<String> campuses = new ArrayList ();
-  campuses.add ("North");
-  courseInfo.getCampusLocations ().addAll (campuses);
-  courseInfo.setIntensity (new AmountInfoHelper ().get ("1", "kuali.atp.duration.Semester"));
-  courseInfo.setStdDuration (new TimeAmountInfoHelper ().get (1, "kuali.atp.duration.Semester"));
-  courseInfo.setExpectedFirstAtp ("kuali.atp.FA2008-2009");
-  courseInfo.setHasEarlyDropDeadline (false);
-  courseInfo.setHazardousForDisabledStudents (false);
-  courseInfo.setEnrollable (true);
-  courseInfo.setCanCreateLui (true);
-  courseInfo.setDefaultEnrollmentEstimate (0);
-  courseInfo.setDefaultMaximumEnrollment (50);
-  courseInfo.setEffectiveDate (new DateHelper ().asDate ("2010-01-01"));
+  courseInfo.setState ("Active");
+//  List<String> campuses = new ArrayList ();
+//  campuses.add ("North");
+//  courseInfo.getCampusLocations ().addAll (campuses);
+
+  // TODO: make this a lookup via the OrgService 
+  courseInfo.getAdministeringOrgs ().add (cc.getAdministeringOrg ());
+
+  courseInfo.setOutOfClassHours (new AmountInfoHelper ().get ("1", "kuali.atp.duration.Semester"));
+  courseInfo.setDuration (new TimeAmountInfoHelper ().get (1, "kuali.atp.duration.Semester"));
+  courseInfo.setStartTerm ("kuali.atp.FA2008-2009");
+  courseInfo.setEffectiveDate (new DateHelper ().asXmlDate ("2010-01-01"));
   courseInfo.setMetaInfo (new MetaInfoHelper ().get ());
   return courseInfo;
  }

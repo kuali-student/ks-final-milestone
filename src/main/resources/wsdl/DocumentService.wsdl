@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DocumentService" targetNamespace="http://student.kuali.org/wsdl/document" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://student.kuali.org/wsdl/document" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/document" xmlns:tns="http://student.kuali.org/wsdl/exceptions" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:import namespace="http://student.kuali.org/wsdl/document"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="ns1:validationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/document" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:tns="http://student.kuali.org/wsdl/document" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="addDocumentCategoryToDocument" type="tns:addDocumentCategoryToDocument"/>
+<xs:element name="addDocumentCategoryToDocumentResponse" type="tns:addDocumentCategoryToDocumentResponse"/>
+<xs:element name="createDocument" type="tns:createDocument"/>
+<xs:element name="createDocumentResponse" type="tns:createDocumentResponse"/>
+<xs:element name="deleteDocument" type="tns:deleteDocument"/>
+<xs:element name="deleteDocumentResponse" type="tns:deleteDocumentResponse"/>
+<xs:element name="getCategoriesByDocument" type="tns:getCategoriesByDocument"/>
+<xs:element name="getCategoriesByDocumentResponse" type="tns:getCategoriesByDocumentResponse"/>
+<xs:element name="getDocument" type="tns:getDocument"/>
+<xs:element name="getDocumentCategories" type="tns:getDocumentCategories"/>
+<xs:element name="getDocumentCategoriesResponse" type="tns:getDocumentCategoriesResponse"/>
+<xs:element name="getDocumentCategory" type="tns:getDocumentCategory"/>
+<xs:element name="getDocumentCategoryResponse" type="tns:getDocumentCategoryResponse"/>
+<xs:element name="getDocumentResponse" type="tns:getDocumentResponse"/>
+<xs:element name="getDocumentType" type="tns:getDocumentType"/>
+<xs:element name="getDocumentTypeResponse" type="tns:getDocumentTypeResponse"/>
+<xs:element name="getDocumentTypes" type="tns:getDocumentTypes"/>
+<xs:element name="getDocumentTypesResponse" type="tns:getDocumentTypesResponse"/>
+<xs:element name="getDocumentsByIdList" type="tns:getDocumentsByIdList"/>
+<xs:element name="getDocumentsByIdListResponse" type="tns:getDocumentsByIdListResponse"/>
+<xs:element name="removeDocumentCategoryFromDocument" type="tns:removeDocumentCategoryFromDocument"/>
+<xs:element name="removeDocumentCategoryFromDocumentResponse" type="tns:removeDocumentCategoryFromDocumentResponse"/>
+<xs:element name="updateDocument" type="tns:updateDocument"/>
+<xs:element name="updateDocumentResponse" type="tns:updateDocumentResponse"/>
+<xs:element name="validateDocument" type="tns:validateDocument"/>
+<xs:element name="validateDocumentResponse" type="tns:validateDocumentResponse"/>
+<xs:complexType name="getDocumentsByIdList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="documentIdList" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentsByIdListResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:documentInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="fileName" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+<xs:element minOccurs="0" name="documentBinaryInfo" type="tns:documentBinaryInfo"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+<xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+</xs:sequence>
+<xs:attribute name="type" type="xs:string"/>
+<xs:attribute name="state" type="xs:string"/>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="richTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentBinaryInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="binary" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="jaxbAttributeList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Attribute">
+<xs:sequence>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="metaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationType" type="xs:string"/>
+<xs:element minOccurs="0" name="documentInfo" type="tns:documentInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateDocumentResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:string"/>
+<xs:element minOccurs="0" name="documentInfo" type="tns:documentInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="statusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="success" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentType">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentTypeKey" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentTypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentTypeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="removeDocumentCategoryFromDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:string"/>
+<xs:element minOccurs="0" name="documentCategoryKey" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeDocumentCategoryFromDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCategoriesByDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCategoriesByDocumentResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:documentCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentCategoryInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="getDocumentCategories">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="getDocumentCategoriesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:documentCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addDocumentCategoryToDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:string"/>
+<xs:element minOccurs="0" name="documentCategoryKey" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addDocumentCategoryToDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="documentCategoryKey" type="xs:string"/>
+<xs:element minOccurs="0" name="documentInfo" type="tns:documentInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentTypes">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="getDocumentTypesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:documentTypeInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentCategoryKey" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getDocumentsByIdList">
+    <wsdl:part element="tns:getDocumentsByIdList" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentTypeResponse">
+    <wsdl:part element="tns:getDocumentTypeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeDocumentCategoryFromDocumentResponse">
+    <wsdl:part element="tns:removeDocumentCategoryFromDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part element="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateDocumentResponse">
+    <wsdl:part element="tns:validateDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDocumentCategoryToDocument">
+    <wsdl:part element="tns:addDocumentCategoryToDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeDocumentCategoryFromDocument">
+    <wsdl:part element="tns:removeDocumentCategoryFromDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentCategory">
+    <wsdl:part element="tns:getDocumentCategory" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentCategoriesResponse">
+    <wsdl:part element="tns:getDocumentCategoriesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentTypes">
+    <wsdl:part element="tns:getDocumentTypes" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentsByIdListResponse">
+    <wsdl:part element="tns:getDocumentsByIdListResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteDocumentResponse">
+    <wsdl:part element="tns:deleteDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentCategories">
+    <wsdl:part element="tns:getDocumentCategories" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentResponse">
+    <wsdl:part element="tns:getDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentTypesResponse">
+    <wsdl:part element="tns:getDocumentTypesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDocumentResponse">
+    <wsdl:part element="tns:updateDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteDocument">
+    <wsdl:part element="tns:deleteDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDocumentCategoryToDocumentResponse">
+    <wsdl:part element="tns:addDocumentCategoryToDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createDocumentResponse">
+    <wsdl:part element="tns:createDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocument">
+    <wsdl:part element="tns:getDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createDocument">
+    <wsdl:part element="tns:createDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDocument">
+    <wsdl:part element="tns:updateDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part element="tns:DataValidationErrorException" name="DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCategoriesByDocument">
+    <wsdl:part element="tns:getCategoriesByDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentCategoryResponse">
+    <wsdl:part element="tns:getDocumentCategoryResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentType">
+    <wsdl:part element="tns:getDocumentType" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCategoriesByDocumentResponse">
+    <wsdl:part element="tns:getCategoriesByDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part element="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part element="tns:VersionMismatchException" name="VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part element="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part element="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateDocument">
+    <wsdl:part element="tns:validateDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part element="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="DocumentService">
+    <wsdl:operation name="getDocumentsByIdList">
+      <wsdl:input message="tns:getDocumentsByIdList" name="getDocumentsByIdList">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentsByIdListResponse" name="getDocumentsByIdListResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateDocument">
+      <wsdl:input message="tns:validateDocument" name="validateDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:validateDocumentResponse" name="validateDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocument">
+      <wsdl:input message="tns:getDocument" name="getDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentResponse" name="getDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateDocument">
+      <wsdl:input message="tns:updateDocument" name="updateDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:updateDocumentResponse" name="updateDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDocument">
+      <wsdl:input message="tns:deleteDocument" name="deleteDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteDocumentResponse" name="deleteDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentType">
+      <wsdl:input message="tns:getDocumentType" name="getDocumentType">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentTypeResponse" name="getDocumentTypeResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeDocumentCategoryFromDocument">
+      <wsdl:input message="tns:removeDocumentCategoryFromDocument" name="removeDocumentCategoryFromDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:removeDocumentCategoryFromDocumentResponse" name="removeDocumentCategoryFromDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCategoriesByDocument">
+      <wsdl:input message="tns:getCategoriesByDocument" name="getCategoriesByDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:getCategoriesByDocumentResponse" name="getCategoriesByDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentCategories">
+      <wsdl:input message="tns:getDocumentCategories" name="getDocumentCategories">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentCategoriesResponse" name="getDocumentCategoriesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addDocumentCategoryToDocument">
+      <wsdl:input message="tns:addDocumentCategoryToDocument" name="addDocumentCategoryToDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:addDocumentCategoryToDocumentResponse" name="addDocumentCategoryToDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createDocument">
+      <wsdl:input message="tns:createDocument" name="createDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:createDocumentResponse" name="createDocumentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentTypes">
+      <wsdl:input message="tns:getDocumentTypes" name="getDocumentTypes">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentTypesResponse" name="getDocumentTypesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentCategory">
+      <wsdl:input message="tns:getDocumentCategory" name="getDocumentCategory">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentCategoryResponse" name="getDocumentCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DocumentServiceSoapBinding" type="tns:DocumentService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getDocumentsByIdList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDocumentsByIdList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDocumentsByIdListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDocumentType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDocumentTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCategoriesByDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCategoriesByDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCategoriesByDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeDocumentCategoryFromDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeDocumentCategoryFromDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeDocumentCategoryFromDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentCategories">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDocumentCategories">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDocumentCategoriesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addDocumentCategoryToDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addDocumentCategoryToDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addDocumentCategoryToDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDocumentTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDocumentTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDocumentCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDocumentCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DocumentService">
+    <wsdl:port binding="tns:DocumentServiceSoapBinding" name="DocumentServicePort">
+      <soap:address location="http://localhost:9393/ks-embedded-dev/services/DocumentService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

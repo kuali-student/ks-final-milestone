@@ -40,7 +40,7 @@ public class ResultColumnInfo {
     protected String name;
     protected String desc;
     protected String dataType;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

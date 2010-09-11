@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 public class EnumContextInfo {
 
     protected FieldDescriptorInfo contextValueDescriptor;
-    @XmlAttribute
+    @XmlAttribute(name = "type")
     protected String type;
 
     /**

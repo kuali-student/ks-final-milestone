@@ -43,7 +43,7 @@ public class OrgCodeInfo {
     protected String value;
     protected JaxbAttributeList attributes;
     protected MetaInfo metaInfo;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

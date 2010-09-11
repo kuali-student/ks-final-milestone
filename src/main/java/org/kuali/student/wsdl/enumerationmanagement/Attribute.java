@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Attribute", propOrder = {
+@XmlType(name = "Attribute", namespace = "http://student.kuali.org/wsdl/enumerationmanagement", propOrder = {
     "value"
 })
 public class Attribute {
 
     protected String value;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
 
     /**

@@ -105,11 +105,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EnumeratedValueFieldInfo }
+     * Create an instance of {@link FieldDescriptorInfo }
      * 
      */
-    public EnumeratedValueFieldInfo createEnumeratedValueFieldInfo() {
-        return new EnumeratedValueFieldInfo();
+    public FieldDescriptorInfo createFieldDescriptorInfo() {
+        return new FieldDescriptorInfo();
     }
 
     /**
@@ -121,35 +121,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Attribute }
-     * 
-     */
-    public Attribute createAttribute() {
-        return new Attribute();
-    }
-
-    /**
-     * Create an instance of {@link StatusInfo }
-     * 
-     */
-    public StatusInfo createStatusInfo() {
-        return new StatusInfo();
-    }
-
-    /**
      * Create an instance of {@link EnumContextValueInfo }
      * 
      */
     public EnumContextValueInfo createEnumContextValueInfo() {
         return new EnumContextValueInfo();
-    }
-
-    /**
-     * Create an instance of {@link FieldDescriptorInfo }
-     * 
-     */
-    public FieldDescriptorInfo createFieldDescriptorInfo() {
-        return new FieldDescriptorInfo();
     }
 
     /**
@@ -161,19 +137,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EnumFieldViewInfo }
+     * Create an instance of {@link Attribute }
      * 
      */
-    public EnumFieldViewInfo createEnumFieldViewInfo() {
-        return new EnumFieldViewInfo();
-    }
-
-    /**
-     * Create an instance of {@link JaxbAttributeList }
-     * 
-     */
-    public JaxbAttributeList createJaxbAttributeList() {
-        return new JaxbAttributeList();
+    public Attribute createAttribute() {
+        return new Attribute();
     }
 
     /**
@@ -182,6 +150,38 @@ public class ObjectFactory {
      */
     public EnumContextInfo createEnumContextInfo() {
         return new EnumContextInfo();
+    }
+
+    /**
+     * Create an instance of {@link EnumFieldViewInfo }
+     * 
+     */
+    public EnumFieldViewInfo createEnumFieldViewInfo() {
+        return new EnumFieldViewInfo();
+    }
+
+    /**
+     * Create an instance of {@link EnumeratedValueFieldInfo }
+     * 
+     */
+    public EnumeratedValueFieldInfo createEnumeratedValueFieldInfo() {
+        return new EnumeratedValueFieldInfo();
+    }
+
+    /**
+     * Create an instance of {@link StatusInfo }
+     * 
+     */
+    public StatusInfo createStatusInfo() {
+        return new StatusInfo();
+    }
+
+    /**
+     * Create an instance of {@link JaxbAttributeList }
+     * 
+     */
+    public JaxbAttributeList createJaxbAttributeList() {
+        return new JaxbAttributeList();
     }
 
     /**

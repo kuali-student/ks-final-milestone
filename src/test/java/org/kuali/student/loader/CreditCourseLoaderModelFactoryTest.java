@@ -62,7 +62,7 @@ public class CreditCourseLoaderModelFactoryTest
   props.putAll (CreditCourseLoaderModelFactory.getDefaultConfig ());
   props.put (CreditCourseLoaderModelFactory.EXCEL_FILES_DEFAULT_DIRECTORY_KEY, "src/main/"
    + CreditCourseLoaderModelFactory.RESOURCES_DIRECTORY);
-  props.put (CreditCourseLoaderModelFactory.OUTPUT_DEFAULT_DIRECTORY_KEY, "src/main/"
+  props.put (CreditCourseLoaderModelFactory.SERVICE_HOST_URL, "src/main/"
    + CreditCourseLoaderModelFactory.RESOURCES_DIRECTORY);
   System.out.println ("Current Directory=" + System.getProperty ("user.dir"));
   CreditCourseLoaderModelFactory factory = new CreditCourseLoaderModelFactory ();
@@ -85,31 +85,15 @@ public class CreditCourseLoaderModelFactoryTest
   }
   CreditCourse cc = result.getCreditCourses ().get (0);
   assertEquals ("AACH 101", cc.getCode ());
-  assertEquals ("AACH", cc.getDivision ());
-  assertEquals ("101", cc.getSuffixCode ());
-  assertEquals ("Art & Architecture", cc.getPrimaryAdminOrg ());
-  assertEquals ("Survey Art & Arch I", cc.getShortName ());
-  assertEquals ("Survey of Art & Arch I", cc.getLongName ());
-  assertEquals ("Principles of art. Relation of styles to cultural context. Art and architecture from ancient times to the end of the Middle Ages.", cc.getDesc ());
+  assertEquals ("AACH", cc.getSubjectArea ());
+  assertEquals ("101", cc.getCourseNumberSuffix ());
+  assertEquals ("Art & Architecture", cc.getAdministeringOrgName ());
+  assertEquals ("Survey Art & Arch I", cc.getTranscriptTitle ());
+  assertEquals ("Survey of Art & Arch I", cc.getCourseTitle ());
+  assertEquals ("Principles of art. Relation of styles to cultural context. Art and architecture from ancient times to the end of the Middle Ages.", cc.getDescr ());
   assertEquals ("3", cc.getCredits ());
   assertEquals ("Numeric Grade", cc.getGradingOptions ());
-  assertEquals ("kuali.atp.type.Fall kuali.atp.type.Spring kuali.atp.type.Winter", cc.getOfferedAtpTypes ());
-
-
-
- }
-
-
-
- /**
-  * Test of getModel method, of class DataModelFactory.
-  */
- @Test
- public void testGetOut ()
- {
-  System.out.println ("getOut");
-  CreditCourseLoaderModelFactory instance = getInstance ();
-  instance.getOut ();
+  assertEquals ("kuali.atp.type.Fall kuali.atp.type.Spring kuali.atp.type.Winter", cc.getTermsOffered ());
  }
 
 }

@@ -38,9 +38,9 @@ public class QueryParamInfo {
 
     @XmlElement(namespace = "http://student.kuali.org/wsdl/dictionary")
     protected FieldDescriptor fieldDescriptor;
-    @XmlAttribute
+    @XmlAttribute(name = "key")
     protected String key;
-    @XmlAttribute(required = true)
+    @XmlAttribute(name = "optional", required = true)
     protected boolean optional;
 
     /**
