@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>ks-service-api-pom</artifactId>
+        <groupId>org.kuali.student.poc.common</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.brms</groupId>
+	<artifactId>brms-parent-pom</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>BRMS API</name>
+	<description />
+	
+	<modules>
+		<module>fact-finder-api</module>
+		<module>rule-execution-api</module>
+		<module>rule-management-api</module>
+		<module>rule-repository-api</module>
+	</modules>
+	
+	<repositories>
+		<repository>
+			<id>kuali.release</id>
+			<url>http://archiva.kuali.umd.edu/repository/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>kuali.snapshot</id>
+			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-ws</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+			
+</project>

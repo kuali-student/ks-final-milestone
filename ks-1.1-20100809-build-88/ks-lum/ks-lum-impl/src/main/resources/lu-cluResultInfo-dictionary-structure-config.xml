@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ***************************************** -->
+<!-- object structure for object.cluResultInfo -->
+<!-- ***************************************** -->
+<!-- information about a CLU result. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluResultInfo" id="object.cluResultInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.cluResultInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluResultInfo" id="object.cluResultInfo" parent="object.cluResultInfo.abstract"/>
+
+<dict:type key="*" id="type.cluResultInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.cluResultInfo"/>
+</dict:type>
+<dict:type key="*" id="type.cluResultInfo" parent="type.cluResultInfo.abstract"/>
+
+<!-- ************************************************* -->
+<!-- State for state.cluResultInfo.(default).(default) -->
+<!-- ************************************************* -->
+
+<dict:state key="*" id="state.cluResultInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluResultInfo.desc"/>
+	<dict:fieldRef bean="field.cluResultInfo.cluId"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions"/>
+	<dict:fieldRef bean="field.cluResultInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.cluResultInfo.expirationDate"/>
+	<dict:fieldRef bean="field.cluResultInfo.metaInfo"/>
+	<dict:fieldRef bean="field.cluResultInfo.type"/>
+	<dict:fieldRef bean="field.cluResultInfo.state"/>
+	<dict:fieldRef bean="field.cluResultInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.cluResultInfo" parent="state.cluResultInfo.abstract"/>
+
+
+<dict:field key="desc" id="field.cluResultInfo.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.desc.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="field.cluResultInfo.desc" parent="field.cluResultInfo.desc.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.desc.fd.abstract" abstract="true">
+	<dict:name>CLU Result Description</dict:name>
+	<dict:desc>Narrative description of the CLU result.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluResultInfo.desc"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.desc.fd" parent="field.cluResultInfo.desc.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.cluResultInfo.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="field.cluResultInfo.desc.cd" parent="field.cluResultInfo.desc.cd.abstract"/>
+
+<!-- ************************************************************************ -->
+<!-- object structure for object.field.cluResultInfo.desc.(default).(default) -->
+<!-- ************************************************************************ -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.desc.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.desc"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.desc" parent="object.field.cluResultInfo.desc.abstract"/>
+
+<dict:type key="*" id="type.field.cluResultInfo.desc.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluResultInfo.desc"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluResultInfo.desc" parent="type.field.cluResultInfo.desc.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- State for state.field.cluResultInfo.desc.(default).(default).(default).(default) -->
+<!-- ******************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluResultInfo.desc.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluResultInfo.desc.plain"/>
+	<dict:fieldRef bean="field.cluResultInfo.desc.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluResultInfo.desc" parent="state.field.cluResultInfo.desc.abstract"/>
+
+
+<dict:field key="plain" id="field.cluResultInfo.desc.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.desc.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.desc.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.cluResultInfo.desc.plain" parent="field.cluResultInfo.desc.plain.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.desc.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.desc.plain.fd" parent="field.cluResultInfo.desc.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.cluResultInfo.desc.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.cluResultInfo.desc.plain.cd" parent="field.cluResultInfo.desc.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.cluResultInfo.desc.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.desc.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.desc.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.cluResultInfo.desc.formatted" parent="field.cluResultInfo.desc.formatted.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.desc.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.desc.formatted.fd" parent="field.cluResultInfo.desc.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.cluResultInfo.desc.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.cluResultInfo.desc.formatted.cd" parent="field.cluResultInfo.desc.formatted.cd.abstract"/>
+
+<dict:field key="cluId" id="field.cluResultInfo.cluId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.cluId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.cluId.cd"/>
+</dict:field>
+<dict:field key="cluId" id="field.cluResultInfo.cluId" parent="field.cluResultInfo.cluId.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.cluId.fd.abstract" abstract="true">
+	<dict:name>CLU Identifier</dict:name>
+	<dict:desc>The cluId to which the CLU Result is linked.Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.cluId.fd" parent="field.cluResultInfo.cluId.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Id of an existing CLU -->
+<dict:constraintDescriptor id="field.cluResultInfo.cluId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="cluId" id="field.cluResultInfo.cluId.cd" parent="field.cluResultInfo.cluId.cd.abstract"/>
+
+<dict:field key="resultOptions" id="field.cluResultInfo.resultOptions.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.cd"/>
+</dict:field>
+<dict:field key="resultOptions" id="field.cluResultInfo.resultOptions" parent="field.cluResultInfo.resultOptions.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.fd.abstract" abstract="true">
+	<dict:name>Result Options</dict:name>
+	<dict:desc>List of learning result option information.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.fd" parent="field.cluResultInfo.resultOptions.fd.abstract"/>
+<!-- Optional; Repeating -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="resultOptions" id="field.cluResultInfo.resultOptions.cd" parent="field.cluResultInfo.resultOptions.cd.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- object structure for object.field.cluResultInfo.resultOptions.(default).(default) -->
+<!-- ********************************************************************************* -->
+<!-- information about a result option. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.ResultOptionInfo" id="object.field.cluResultInfo.resultOptions.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.resultOptions"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.ResultOptionInfo" id="object.field.cluResultInfo.resultOptions" parent="object.field.cluResultInfo.resultOptions.abstract"/>
+
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluResultInfo.resultOptions"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions" parent="type.field.cluResultInfo.resultOptions.abstract"/>
+
+<!-- ***************************************************************************************** -->
+<!-- State for state.field.cluResultInfo.resultOptions.(default).(default).(default).(default) -->
+<!-- ***************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.desc"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.resultUsageTypeKey"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.resultComponentId"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.effectiveDate"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.expirationDate"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.metaInfo"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.state"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.id"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions" parent="state.field.cluResultInfo.resultOptions.abstract"/>
+
+
+<dict:field key="desc" id="field.cluResultInfo.resultOptions.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.desc.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="field.cluResultInfo.resultOptions.desc" parent="field.cluResultInfo.resultOptions.desc.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.fd.abstract" abstract="true">
+	<dict:name>Result Option Description</dict:name>
+	<dict:desc>Narrative description of the result option.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.desc"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.fd" parent="field.cluResultInfo.resultOptions.desc.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="field.cluResultInfo.resultOptions.desc.cd" parent="field.cluResultInfo.resultOptions.desc.cd.abstract"/>
+
+<!-- ********************************************************************************************************** -->
+<!-- object structure for object.field.cluResultInfo.resultOptions.(default).(default).desc.(default).(default) -->
+<!-- ********************************************************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.desc.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.desc"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.desc" parent="object.field.cluResultInfo.resultOptions.desc.abstract"/>
+
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.desc.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluResultInfo.resultOptions.desc"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.desc" parent="type.field.cluResultInfo.resultOptions.desc.abstract"/>
+
+<!-- ****************************************************************************************************************** -->
+<!-- State for state.field.cluResultInfo.resultOptions.(default).(default).desc.(default).(default).(default).(default) -->
+<!-- ****************************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.desc.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.desc.plain"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.desc.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.desc" parent="state.field.cluResultInfo.resultOptions.desc.abstract"/>
+
+
+<dict:field key="plain" id="field.cluResultInfo.resultOptions.desc.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.desc.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.desc.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.cluResultInfo.resultOptions.desc.plain" parent="field.cluResultInfo.resultOptions.desc.plain.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.plain.fd" parent="field.cluResultInfo.resultOptions.desc.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.desc.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.cluResultInfo.resultOptions.desc.plain.cd" parent="field.cluResultInfo.resultOptions.desc.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.cluResultInfo.resultOptions.desc.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.desc.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.desc.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.cluResultInfo.resultOptions.desc.formatted" parent="field.cluResultInfo.resultOptions.desc.formatted.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.formatted.fd" parent="field.cluResultInfo.resultOptions.desc.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.desc.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.cluResultInfo.resultOptions.desc.formatted.cd" parent="field.cluResultInfo.resultOptions.desc.formatted.cd.abstract"/>
+
+<dict:field key="resultUsageTypeKey" id="field.cluResultInfo.resultOptions.resultUsageTypeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.resultUsageTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.resultUsageTypeKey.cd"/>
+</dict:field>
+<dict:field key="resultUsageTypeKey" id="field.cluResultInfo.resultOptions.resultUsageTypeKey" parent="field.cluResultInfo.resultOptions.resultUsageTypeKey.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.resultUsageTypeKey.fd.abstract" abstract="true">
+	<dict:name>Result Usage Type</dict:name>
+	<dict:desc>Unique identifier for a result usage type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.resultUsageTypeKey.fd" parent="field.cluResultInfo.resultOptions.resultUsageTypeKey.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); In list of confured resultUsage types -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.resultUsageTypeKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.resultUsage.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="resultUsageTypeKey" id="field.cluResultInfo.resultOptions.resultUsageTypeKey.cd" parent="field.cluResultInfo.resultOptions.resultUsageTypeKey.cd.abstract"/>
+
+<dict:field key="resultComponentId" id="field.cluResultInfo.resultOptions.resultComponentId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.resultComponentId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.resultComponentId.cd"/>
+</dict:field>
+<dict:field key="resultComponentId" id="field.cluResultInfo.resultOptions.resultComponentId" parent="field.cluResultInfo.resultOptions.resultComponentId.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.resultComponentId.fd.abstract" abstract="true">
+	<dict:name>Result Component Id</dict:name>
+	<dict:desc>Unique identifier for a result component.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.resultComponentId.fd" parent="field.cluResultInfo.resultOptions.resultComponentId.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Id of an exisitn resultComponent -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.resultComponentId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.resultComponentId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="resultComponentId" id="field.cluResultInfo.resultOptions.resultComponentId.cd" parent="field.cluResultInfo.resultOptions.resultComponentId.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.cluResultInfo.resultOptions.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.cluResultInfo.resultOptions.effectiveDate" parent="field.cluResultInfo.resultOptions.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this result option became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.effectiveDate.fd" parent="field.cluResultInfo.resultOptions.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.cluResultInfo.resultOptions.effectiveDate.cd" parent="field.cluResultInfo.resultOptions.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.cluResultInfo.resultOptions.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.cluResultInfo.resultOptions.expirationDate" parent="field.cluResultInfo.resultOptions.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this result option expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.expirationDate.fd" parent="field.cluResultInfo.resultOptions.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.cluResultInfo.resultOptions.expirationDate.cd" parent="field.cluResultInfo.resultOptions.expirationDate.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.cluResultInfo.resultOptions.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.cluResultInfo.resultOptions.metaInfo" parent="field.cluResultInfo.resultOptions.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.fd" parent="field.cluResultInfo.resultOptions.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.cluResultInfo.resultOptions.metaInfo.cd" parent="field.cluResultInfo.resultOptions.metaInfo.cd.abstract"/>
+
+<!-- ************************************************************************************************************** -->
+<!-- object structure for object.field.cluResultInfo.resultOptions.(default).(default).metaInfo.(default).(default) -->
+<!-- ************************************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.metaInfo" parent="object.field.cluResultInfo.resultOptions.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluResultInfo.resultOptions.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.metaInfo" parent="type.field.cluResultInfo.resultOptions.metaInfo.abstract"/>
+
+<!-- ********************************************************************************************************************** -->
+<!-- State for state.field.cluResultInfo.resultOptions.(default).(default).metaInfo.(default).(default).(default).(default) -->
+<!-- ********************************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.metaInfo.createId"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.cluResultInfo.resultOptions.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.metaInfo" parent="state.field.cluResultInfo.resultOptions.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.cluResultInfo.resultOptions.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.cluResultInfo.resultOptions.metaInfo.versionInd" parent="field.cluResultInfo.resultOptions.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.versionInd.fd" parent="field.cluResultInfo.resultOptions.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.cluResultInfo.resultOptions.metaInfo.versionInd.cd" parent="field.cluResultInfo.resultOptions.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.cluResultInfo.resultOptions.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.cluResultInfo.resultOptions.metaInfo.createTime" parent="field.cluResultInfo.resultOptions.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.createTime.fd" parent="field.cluResultInfo.resultOptions.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.cluResultInfo.resultOptions.metaInfo.createTime.cd" parent="field.cluResultInfo.resultOptions.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.cluResultInfo.resultOptions.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.cluResultInfo.resultOptions.metaInfo.createId" parent="field.cluResultInfo.resultOptions.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.createId.fd" parent="field.cluResultInfo.resultOptions.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.cluResultInfo.resultOptions.metaInfo.createId.cd" parent="field.cluResultInfo.resultOptions.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.cluResultInfo.resultOptions.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.cluResultInfo.resultOptions.metaInfo.updateTime" parent="field.cluResultInfo.resultOptions.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.updateTime.fd" parent="field.cluResultInfo.resultOptions.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.cluResultInfo.resultOptions.metaInfo.updateTime.cd" parent="field.cluResultInfo.resultOptions.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.cluResultInfo.resultOptions.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.cluResultInfo.resultOptions.metaInfo.updateId" parent="field.cluResultInfo.resultOptions.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.updateId.fd" parent="field.cluResultInfo.resultOptions.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.cluResultInfo.resultOptions.metaInfo.updateId.cd" parent="field.cluResultInfo.resultOptions.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="state" id="field.cluResultInfo.resultOptions.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="field.cluResultInfo.resultOptions.state" parent="field.cluResultInfo.resultOptions.state.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.state.fd.abstract" abstract="true">
+	<dict:name>Result Option State</dict:name>
+	<dict:desc>The current status of the result option. The values for this field are constrained to those in the resultOptionState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.state.fd" parent="field.cluResultInfo.resultOptions.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.cluResultInfo.resultOptions.state.cd" parent="field.cluResultInfo.resultOptions.state.cd.abstract"/>
+
+<dict:field key="id" id="field.cluResultInfo.resultOptions.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.resultOptions.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.cluResultInfo.resultOptions.id" parent="field.cluResultInfo.resultOptions.id.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.id.fd.abstract" abstract="true">
+	<dict:name>Result Option Identifier</dict:name>
+	<dict:desc>Unique identifier for a result option. This is optional, due to the identifier being set at the time of creation. Once the result option has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.id.fd" parent="field.cluResultInfo.resultOptions.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.cluResultInfo.resultOptions.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.cluResultInfo.resultOptions.id.cd" parent="field.cluResultInfo.resultOptions.id.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.cluResultInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.cluResultInfo.effectiveDate" parent="field.cluResultInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this CLU result became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.effectiveDate.fd" parent="field.cluResultInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.cluResultInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.cluResultInfo.effectiveDate.cd" parent="field.cluResultInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.cluResultInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.cluResultInfo.expirationDate" parent="field.cluResultInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this CLU result expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.expirationDate.fd" parent="field.cluResultInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.cluResultInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.cluResultInfo.expirationDate.cd" parent="field.cluResultInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.cluResultInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.cluResultInfo.metaInfo" parent="field.cluResultInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluResultInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.fd" parent="field.cluResultInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.cluResultInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.cluResultInfo.metaInfo.cd" parent="field.cluResultInfo.metaInfo.cd.abstract"/>
+
+<!-- **************************************************************************** -->
+<!-- object structure for object.field.cluResultInfo.metaInfo.(default).(default) -->
+<!-- **************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo" parent="object.field.cluResultInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.cluResultInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluResultInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluResultInfo.metaInfo" parent="type.field.cluResultInfo.metaInfo.abstract"/>
+
+<!-- ************************************************************************************ -->
+<!-- State for state.field.cluResultInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- ************************************************************************************ -->
+
+<dict:state key="*" id="state.field.cluResultInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluResultInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.cluResultInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.cluResultInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.cluResultInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.cluResultInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluResultInfo.metaInfo" parent="state.field.cluResultInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.cluResultInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.cluResultInfo.metaInfo.versionInd" parent="field.cluResultInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.versionInd.fd" parent="field.cluResultInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.cluResultInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.cluResultInfo.metaInfo.versionInd.cd" parent="field.cluResultInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.cluResultInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.cluResultInfo.metaInfo.createTime" parent="field.cluResultInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.createTime.fd" parent="field.cluResultInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.cluResultInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.cluResultInfo.metaInfo.createTime.cd" parent="field.cluResultInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.cluResultInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.cluResultInfo.metaInfo.createId" parent="field.cluResultInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.createId.fd" parent="field.cluResultInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.cluResultInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.cluResultInfo.metaInfo.createId.cd" parent="field.cluResultInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.cluResultInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.cluResultInfo.metaInfo.updateTime" parent="field.cluResultInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.updateTime.fd" parent="field.cluResultInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.cluResultInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.cluResultInfo.metaInfo.updateTime.cd" parent="field.cluResultInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.cluResultInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.cluResultInfo.metaInfo.updateId" parent="field.cluResultInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.updateId.fd" parent="field.cluResultInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.cluResultInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.cluResultInfo.metaInfo.updateId.cd" parent="field.cluResultInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.cluResultInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.cluResultInfo.type" parent="field.cluResultInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.type.fd.abstract" abstract="true">
+	<dict:name>Clu Result Type</dict:name>
+	<dict:desc>Unique identifier for a clu learning result object type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.type.fd" parent="field.cluResultInfo.type.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured cluResultTypes -->
+<dict:constraintDescriptor id="field.cluResultInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.cluResult.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.cluResultInfo.type.cd" parent="field.cluResultInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.cluResultInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="field.cluResultInfo.state" parent="field.cluResultInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.state.fd.abstract" abstract="true">
+	<dict:name>CLU Result State</dict:name>
+	<dict:desc>The current status of the CLU Result. The values for this field are constrained to those in the cluResultState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.state.fd" parent="field.cluResultInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE -->
+<dict:constraintDescriptor id="field.cluResultInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.cluResultInfo.state.cd" parent="field.cluResultInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.cluResultInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluResultInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluResultInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.cluResultInfo.id" parent="field.cluResultInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.cluResultInfo.id.fd.abstract" abstract="true">
+	<dict:name>CLU Result Identifier</dict:name>
+	<dict:desc>Unique identifier for a CLU result. This is optional, due to the identifier being set at the time of creation. Once the result set has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluResultInfo.id.fd" parent="field.cluResultInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.cluResultInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.cluResultInfo.id.cd" parent="field.cluResultInfo.id.cd.abstract"/>
+</beans>

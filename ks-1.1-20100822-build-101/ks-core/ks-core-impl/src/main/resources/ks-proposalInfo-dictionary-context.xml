@@ -1,0 +1,115 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<import resource="classpath:ks-base-dictionary-context.xml" />
+
+	<!-- ProposalInfo-->
+	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo-parent"
+		abstract="true" parent="objectStructureDefinition">
+		<property name="name"
+			value="org.kuali.student.core.proposal.dto.ProposalInfo" />
+		<property name="attributes">
+			<list>
+				<ref bean="proposalInfo.detailDesc" />
+				<ref bean="proposalInfo.effectiveDate" />
+				<ref bean="proposalInfo.expirationDate" />
+				<ref bean="proposalInfo.id" />
+				<ref bean="proposalInfo.workflowId" />
+				<ref bean="proposalInfo.name" />
+				<ref bean="proposalInfo.proposalReference" />
+				<ref bean="proposalInfo.proposalReferenceType" />
+				<ref bean="proposalInfo.proposerOrg" />
+				<ref bean="proposalInfo.proposerPerson" />
+				<ref bean="proposalInfo.rationale" />
+				<ref bean="proposalInfo.state" />
+				<ref bean="proposalInfo.type" />
+			</list>
+		</property>
+		<property name="hasMetaData" value="true" />
+	</bean>
+	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo"
+		parent="org.kuali.student.core.proposal.dto.ProposalInfo-parent" />
+
+	<bean id="proposalInfo.detailDesc-parent" abstract="true"
+		parent="baseKualiDescription">
+		<property name="name" value="detailDesc" />
+	</bean>
+	<bean id="proposalInfo.detailDesc" parent="proposalInfo.detailDesc-parent" />
+
+	<bean id="proposalInfo.effectiveDate-parent" abstract="true"
+		parent="baseKualiEffectiveDate">
+		<property name="name" value="effectiveDate" />
+	</bean>
+	<bean id="proposalInfo.effectiveDate" parent="proposalInfo.effectiveDate-parent" />
+
+	<bean id="proposalInfo.expirationDate-parent" abstract="true"
+		parent="baseKualiExpirationDate">
+		<property name="name" value="expirationDate" />
+	</bean>
+	<bean id="proposalInfo.expirationDate" parent="proposalInfo.expirationDate-parent" />
+
+	<bean id="proposalInfo.id-parent" abstract="true" parent="baseKualiId">
+		<property name="name" value="id" />		
+	</bean>
+	<bean id="proposalInfo.id" parent="proposalInfo.id-parent" />
+
+	<bean id="proposalInfo.workflowId-parent" abstract="true" parent="baseString">
+		<property name="name" value="workflowId" />		
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="proposalInfo.workflowId" parent="proposalInfo.workflowId-parent" />
+
+	<bean id="proposalInfo.name-parent" abstract="true" parent="baseKualiName">
+		<property name="name" value="name" />
+		<property name="minOccurs" value="0" />
+		<property name="maxLength" value="60"/>		
+	</bean>
+	<bean id="proposalInfo.name" parent="proposalInfo.name-parent" />
+
+	<bean id="proposalInfo.proposalReference-parent" abstract="true"
+		parent="baseKualiId">
+		<property name="name" value="proposalReference" />
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	<bean id="proposalInfo.proposalReference" parent="proposalInfo.proposalReference-parent" />
+
+	<bean id="proposalInfo.proposalReferenceType-parent" abstract="true"
+		parent="baseKualiType">
+		<property name="name" value="proposalReferenceType" />
+	</bean>
+	<bean id="proposalInfo.proposalReferenceType" parent="proposalInfo.proposalReferenceType-parent" />
+
+	<bean id="proposalInfo.proposerOrg-parent" abstract="true"
+		parent="baseKualiOrgId">
+		<property name="name" value="proposerOrg" />
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	<bean id="proposalInfo.proposerOrg" parent="proposalInfo.proposerOrg-parent" />
+
+	<bean id="proposalInfo.proposerPerson-parent" abstract="true"
+		parent="baseKualiPersonId">
+		<property name="name" value="proposerPerson" />
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	<bean id="proposalInfo.proposerPerson" parent="proposalInfo.proposerPerson-parent" />
+
+	<bean id="proposalInfo.rationale-parent" abstract="true"
+		parent="baseKualiDescription">
+		<property name="name" value="rationale" />
+		<property name="minOccurs" value="1" />
+		<property name="maxOccurs" value="1" />		
+	</bean>
+	<bean id="proposalInfo.rationale" parent="proposalInfo.rationale-parent" />
+
+	<bean id="proposalInfo.state-parent" abstract="true"
+		parent="baseKualiStateRequired">
+		<property name="name" value="state" />
+	</bean>
+	<bean id="proposalInfo.state" parent="proposalInfo.state-parent" />
+
+	<bean id="proposalInfo.type-parent" abstract="true"
+		parent="baseKualiTypeRequired">
+		<property name="name" value="type" />
+	</bean>
+	<bean id="proposalInfo.type" parent="proposalInfo.type-parent" />
+</beans>

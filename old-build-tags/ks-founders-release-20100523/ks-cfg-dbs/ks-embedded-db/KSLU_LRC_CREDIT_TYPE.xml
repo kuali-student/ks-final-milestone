@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_LRC_CREDIT_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Credit 1"
+        TYPE_DESC="A Basic Credit 1" TYPE_KEY="lrcType.credit.1"/>
+    <KSLU_LRC_CREDIT_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Credit 2"
+        TYPE_DESC="A Basic Credit 2" TYPE_KEY="lrcType.credit.2"/>
+    <KSLU_LRC_CREDIT_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20001231000000" NAME="Credit 3"
+        TYPE_DESC="A Basic Credit 3" TYPE_KEY="lrcType.credit.3"/>
+</dataset>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KREW_USR_OPTN_T PRNCPL_ID="admin"
+        PRSN_OPTN_ID="PRIMARY_DELEGATE_FILTER"
+        VAL="Primary Delegates on Action List Page" VER_NBR="1"/>
+</dataset>

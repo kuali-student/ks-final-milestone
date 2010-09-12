@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:jee="http://www.springframework.org/schema/jee"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+      http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+  
+  <context:annotation-config/>
+  
+	<bean id="businessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.BusinessRuleDAOImpl">
+  </bean>
+
+   <bean id="businessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.BusinessRuleManagementService">
+    <property name="businessRuleDAO" ref="businessRuleDAO"/>    
+  </bean>
+
+  <bean id="ruleEngine"  class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+  </bean>
+
+  <bean id="agendaDiscovery"  class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">
+    <property name="ruleMgmtService" ref="businessRuleManagementService"/>    
+    <property name="ruleSetExecutor" ref="ruleEngine"/>    
+  </bean>  
+  
+  <bean id="enforceRule"  class="org.kuali.student.rules.validate.EnforceRule">
+  </bean>
+
+  <bean id="brmsDatabaseUtil" class="org.kuali.student.rules.validate.UtilBRMSDatabase">
+	<property name="businessRuleDAO" ref="businessRuleDAO"/>    
+  </bean>
+    
+  <bean id="loadDataBean" class="org.kuali.student.rules.brms.core.util.LoadDataBean">
+    <property name="contextLocation"	value="classpath:test-beans.xml" />
+  </bean>
+
+  <bean id="loadBeanListener" class="org.kuali.student.rules.brms.core.util.LoadBeanListener">
+    <property name="ldb" ref="loadDataBean" />
+  </bean>    
+    	
+	<bean id="droolsRepository" class="org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl">
+		<constructor-arg type="org.drools.repository.RulesRepository" ref="rulesRepository"/>
+	</bean>
+
+	<bean id="defaultDroolsRepositoryContainer" class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
+		  destroy-method="shutdown">
+		<constructor-arg type="java.lang.String" value="/drools-repository"/>
+	</bean>
+	
+	<bean id="rulesRepository"
+      factory-bean="defaultDroolsRepositoryContainer"
+      factory-method="getRepository"/>    	
+    	
+  <!-- bean post-processor for JPA annotations -->
+  <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+  <!-- Exception translation bean post processor -->
+  <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    
+</beans>	
+

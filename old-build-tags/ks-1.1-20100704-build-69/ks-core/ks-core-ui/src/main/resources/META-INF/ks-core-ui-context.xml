@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	
+	<bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:META-INF/ks-core-ui-config.xml</value>
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="propertyPlaceholder"
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
+
+	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+		<property name="localServiceName" value="KSCoreUIContext"/>	
+	</bean>
+	
+	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+		<property name="messageFiles">
+			<list>
+				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
+				<value>classpath:org\kuali\student\core\ui\gwt-messages.xml</value>
+			</list>
+		</property>
+	</bean>
+
+    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
+    <import resource="classpath:org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml" />
+
+	<bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
+		<property name="dataSource" ref="riceDataSource" />
+		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
+		<property name="transactionManager" ref="jtaTransactionManager" />
+		<property name="userTransaction" ref="jtaUserTransaction" />
+		<property name="rootConfig" ref="config" />
+		<property name="serviceNamespace" value="${serviceNamespace}" />
+		<property name="ksbConfigurer">
+			<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
+                <property name="serviceServletUrl" value="${serviceServletUrl}" />
+			</bean>
+		</property>
+	</bean>
+
+    <!-- JTA -->
+	<alias name="jtaUserTransaction" alias="userTransaction"/>    
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true"> 
+		<property name="userTransaction" ref="jtaUserTransaction"/>
+		<property name="transactionManager" ref="jtaTransactionManager"/>
+        <property name="allowCustomIsolationLevels" value="true"/>
+    </bean> 
+
+    <tx:annotation-driven transaction-manager="transactionManager" />  
+
+	<import resource="classpath:ks-spring-security.xml" />
+	
+</beans>

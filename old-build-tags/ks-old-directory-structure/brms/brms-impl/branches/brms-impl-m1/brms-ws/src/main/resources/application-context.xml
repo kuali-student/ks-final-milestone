@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+		
+	<import resource="classpath:data-beans.xml" />
+	<import resource="classpath:fact-data-beans.xml" />
+	<import resource="classpath:fact-metadata-beans.xml" />
+
+    <!--*****************************************-->
+    <!--*          Web Service Clients          *-->
+    <!--*****************************************-->
+    <bean id="ruleManagementClient"
+        class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+        <property name="wsdlLocation"
+            value="classpath:wsdl/RuleManagementService.wsdl" />
+        <property name="serviceEndpointInterface"
+            value="org.kuali.student.rules.rulemanagement.service.RuleManagementService" />
+        <property name="serviceQNameString"
+            value="{http://student.kuali.org/wsdl/brms/RuleManagement}RuleManagementService" />
+        <property name="address"
+            value="${ks.servicelocation.RuleManagementService}" />
+    </bean>
+
+    <!--*****************************************-->
+    <!--*      Web Service Implementations      *-->
+    <!--*****************************************-->
+
+    <bean id="ruleManagementServiceImpl"
+        class="org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl">
+		<property name="ruleManagementDao" ref="ruleManagementDAO"/>
+		<property name="repository" ref="ruleRepositoryClient"/>
+    </bean>
+
+	<bean id="ruleManagementDAO"
+		class="org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl">
+	</bean>	
+	
+	<bean id="ruleManagementEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/rulemanagement-persistence.xml" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaProperties">
+			<bean
+				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
+				<property name="propertyFile"
+					value="classpath:application.properties" />
+				<property name="prefix" value="jpa.rulemanagement" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--*****************************************-->
+	<!--*          Web Service Clients          *-->
+	<!--*****************************************-->
+	<bean id="factFinderClient"
+		class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:wsdl/FactFinderService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.rules.factfinder.service.FactFinderService" />
+		<property name="serviceQNameString"
+			value="{http://student.kuali.org/wsdl/brms/FactFinder}FactFinderService" />
+		<property name="address"
+			value="${ks.servicelocation.FactFinderService}" />
+	</bean>
+
+	<!--*****************************************-->
+	<!--*      Web Service Implementations      *-->
+	<!--*****************************************-->
+
+	<bean id="factFinderServiceImpl"
+		class="org.kuali.student.rules.factfinder.service.impl.FactFinderServiceImpl">
+		<property name="factDataSupport" ref="factDataSupport" />
+		<property name="factFinderDAO" ref="factFinderDAO"/>
+	</bean>
+
+	<bean id="factFinderDAO"
+		class="org.kuali.student.rules.factfinder.dao.impl.FactFinderDAOImpl">
+	</bean>	
+	
+	<bean id="factFinderEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/factfinder-persistence.xml" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaProperties">
+			<bean
+				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
+				<property name="propertyFile"
+					value="classpath:application.properties" />
+				<property name="prefix" value="jpa.factfinder" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="dataSource"
+		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+		destroy-method="close">
+		<property name="uniqueResourceName" value="dataSource" />
+		<property name="xaDataSourceClassName"
+			value="${jdbc.xaDataSourceClassName}" />
+		<property name="xaProperties">
+			<bean
+				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
+				<property name="propertyFile"
+					value="classpath:application.properties" />
+				<property name="prefix"
+					value="jdbc.xaDataSourceProperties" />
+			</bean>
+		</property>
+		<property name="maxPoolSize" value="10" />
+	</bean>
+
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="databasePlatform" value="${jpa.platform}" />
+		<property name="showSql" value="${jpa.showSql}" />
+		<property name="generateDdl" value="${jpa.generateDdl}" />
+	</bean>
+
+	<bean id="AtomikosTxMgr"
+		class="com.atomikos.icatch.jta.UserTransactionManager"
+		init-method="init" destroy-method="close">
+		<property name="forceShutdown" value="true" />
+		<property name="startupTransactionService" value="true" />
+		<property name="transactionTimeout" value="60" />
+	</bean>
+	
+	<bean id="AtomikosUsrTx"
+		class="com.atomikos.icatch.jta.UserTransactionImp" />
+
+	<bean id="JtaTxManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager" ref="AtomikosTxMgr" />
+		<property name="userTransaction" ref="AtomikosUsrTx" />
+		<property name="transactionSynchronizationName"
+			value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<tx:annotation-driven transaction-manager="JtaTxManager" />
+
+
+ 	<bean id="preloadBeans" 
+		class="org.kuali.student.poc.common.util.jpa.LoadJpaBeanListener">
+		<property name="loadJpaBean">
+			<bean
+				class="org.kuali.student.poc.common.util.jpa.LoadJpaBean" />
+		</property>
+ 		<property name="preloadMap"> 		
+			<map>			
+				<entry key="RuleManagement">
+					<ref bean="persistList" />
+				</entry>
+ 				<entry key="FactFinder">
+					<ref bean="factDataBeanList" />
+				</entry> 
+			</map> 
+		</property>
+	</bean>				
+
+</beans>

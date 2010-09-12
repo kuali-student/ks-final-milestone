@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ********************************************** -->
+<!-- object structure for object.cluCluRelationInfo -->
+<!-- ********************************************** -->
+<!-- Detailed information about a CLU to CLU relationship. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.cluCluRelationInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo" parent="object.cluCluRelationInfo.abstract"/>
+
+<dict:type key="*" id="type.cluCluRelationInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.cluCluRelationInfo"/>
+</dict:type>
+<dict:type key="*" id="type.cluCluRelationInfo" parent="type.cluCluRelationInfo.abstract"/>
+
+<!-- ****************************************************** -->
+<!-- State for state.cluCluRelationInfo.(default).(default) -->
+<!-- ****************************************************** -->
+
+<dict:state key="*" id="state.cluCluRelationInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluCluRelationInfo.cluId"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.relatedCluId"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.isCluRelationRequired"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.expirationDate"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.metaInfo"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.type"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.state"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.cluCluRelationInfo" parent="state.cluCluRelationInfo.abstract"/>
+
+
+<dict:field key="cluId" id="field.cluCluRelationInfo.cluId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.cluId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.cluId.cd"/>
+</dict:field>
+<dict:field key="cluId" id="field.cluCluRelationInfo.cluId" parent="field.cluCluRelationInfo.cluId.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.cluId.fd.abstract" abstract="true">
+	<dict:name>CLU Identifier</dict:name>
+	<dict:desc>Unique identifier for a Canonical Learning Unit (CLU). This is the &quot;From&quot; or &quot;Parent&quot; in the relation.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.cluId.fd" parent="field.cluCluRelationInfo.cluId.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Id of an existing CLU -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.cluId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="cluId" id="field.cluCluRelationInfo.cluId.cd" parent="field.cluCluRelationInfo.cluId.cd.abstract"/>
+
+<dict:field key="relatedCluId" id="field.cluCluRelationInfo.relatedCluId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.relatedCluId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.relatedCluId.cd"/>
+</dict:field>
+<dict:field key="relatedCluId" id="field.cluCluRelationInfo.relatedCluId" parent="field.cluCluRelationInfo.relatedCluId.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.relatedCluId.fd.abstract" abstract="true">
+	<dict:name>Related CLU Identifier</dict:name>
+	<dict:desc>Unique identifier for a Canonical Learning Unit (CLU). This is the &quot;To&quot; or &quot;Child&quot; of the relation.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.relatedCluId.fd" parent="field.cluCluRelationInfo.relatedCluId.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Id of an existing CLU -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.relatedCluId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="relatedCluId" id="field.cluCluRelationInfo.relatedCluId.cd" parent="field.cluCluRelationInfo.relatedCluId.cd.abstract"/>
+
+<dict:field key="isCluRelationRequired" id="field.cluCluRelationInfo.isCluRelationRequired.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.isCluRelationRequired.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.isCluRelationRequired.cd"/>
+</dict:field>
+<dict:field key="isCluRelationRequired" id="field.cluCluRelationInfo.isCluRelationRequired" parent="field.cluCluRelationInfo.isCluRelationRequired.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.isCluRelationRequired.fd.abstract" abstract="true">
+	<dict:name>Is CLU Relation Required</dict:name>
+	<dict:desc>Indicates if the relation is required upon instantiation of a LUI. Default is &quot;true&quot;.</dict:desc>
+	<dict:dataType>boolean</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.isCluRelationRequired.fd" parent="field.cluCluRelationInfo.isCluRelationRequired.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); True or False -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.isCluRelationRequired.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.boolean"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="isCluRelationRequired" id="field.cluCluRelationInfo.isCluRelationRequired.cd" parent="field.cluCluRelationInfo.isCluRelationRequired.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.cluCluRelationInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.cluCluRelationInfo.effectiveDate" parent="field.cluCluRelationInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this CLU to CLU relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.effectiveDate.fd" parent="field.cluCluRelationInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.cluCluRelationInfo.effectiveDate.cd" parent="field.cluCluRelationInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.cluCluRelationInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.cluCluRelationInfo.expirationDate" parent="field.cluCluRelationInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this CLU to CLU relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.expirationDate.fd" parent="field.cluCluRelationInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.cluCluRelationInfo.expirationDate.cd" parent="field.cluCluRelationInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.cluCluRelationInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.cluCluRelationInfo.metaInfo" parent="field.cluCluRelationInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluCluRelationInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.fd" parent="field.cluCluRelationInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.cluCluRelationInfo.metaInfo.cd" parent="field.cluCluRelationInfo.metaInfo.cd.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- object structure for object.field.cluCluRelationInfo.metaInfo.(default).(default) -->
+<!-- ********************************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo" parent="object.field.cluCluRelationInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluCluRelationInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo" parent="type.field.cluCluRelationInfo.metaInfo.abstract"/>
+
+<!-- ***************************************************************************************** -->
+<!-- State for state.field.cluCluRelationInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- ***************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluCluRelationInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluCluRelationInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluCluRelationInfo.metaInfo" parent="state.field.cluCluRelationInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.cluCluRelationInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.cluCluRelationInfo.metaInfo.versionInd" parent="field.cluCluRelationInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.versionInd.fd" parent="field.cluCluRelationInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.cluCluRelationInfo.metaInfo.versionInd.cd" parent="field.cluCluRelationInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.cluCluRelationInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.cluCluRelationInfo.metaInfo.createTime" parent="field.cluCluRelationInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.createTime.fd" parent="field.cluCluRelationInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.cluCluRelationInfo.metaInfo.createTime.cd" parent="field.cluCluRelationInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.cluCluRelationInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.cluCluRelationInfo.metaInfo.createId" parent="field.cluCluRelationInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.createId.fd" parent="field.cluCluRelationInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.cluCluRelationInfo.metaInfo.createId.cd" parent="field.cluCluRelationInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.cluCluRelationInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.cluCluRelationInfo.metaInfo.updateTime" parent="field.cluCluRelationInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.updateTime.fd" parent="field.cluCluRelationInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.cluCluRelationInfo.metaInfo.updateTime.cd" parent="field.cluCluRelationInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.cluCluRelationInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.cluCluRelationInfo.metaInfo.updateId" parent="field.cluCluRelationInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.updateId.fd" parent="field.cluCluRelationInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.cluCluRelationInfo.metaInfo.updateId.cd" parent="field.cluCluRelationInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.cluCluRelationInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.cluCluRelationInfo.type" parent="field.cluCluRelationInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.type.fd.abstract" abstract="true">
+	<dict:name>LU to LU Relation Type</dict:name>
+	<dict:desc>Unique identifier for the LU to LU relation type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.type.fd" parent="field.cluCluRelationInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured lul-lu relation types -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lu.lu.relation.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.cluCluRelationInfo.type.cd" parent="field.cluCluRelationInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.cluCluRelationInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="field.cluCluRelationInfo.state" parent="field.cluCluRelationInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.state.fd.abstract" abstract="true">
+	<dict:name>LU to LU Relation State</dict:name>
+	<dict:desc>Identifier for the current status of a CLU to CLU relationship. The values for this field are constrained to those in the luLuRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.state.fd" parent="field.cluCluRelationInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.cluCluRelationInfo.state.cd" parent="field.cluCluRelationInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.cluCluRelationInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.cluCluRelationInfo.id" parent="field.cluCluRelationInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.id.fd.abstract" abstract="true">
+	<dict:name>CLU to CLU Relation Identifier</dict:name>
+	<dict:desc>Unique identifier for a CLU to CLU relationship. This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluCluRelationInfo.id.fd" parent="field.cluCluRelationInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.cluCluRelationInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.cluCluRelationInfo.id.cd" parent="field.cluCluRelationInfo.id.cd.abstract"/>
+</beans>

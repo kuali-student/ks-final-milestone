@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="101" NM="College Type"
+        NMSPC_CD="KS-LUM" OBJ_ID="COLLEGETYPE000000000000000000TYP"
+        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="102" NM="Department Type"
+        NMSPC_CD="KS-LUM" OBJ_ID="DEPARTMTYPE000000000000000000TYP"
+        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="103" NM="Division Type"
+        NMSPC_CD="KS-LUM" OBJ_ID="DIVISIONTYPE00000000000000000TYP"
+        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="107"
+        NM="Derived Role: Org Admin Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="ORGADMINDERIVED00000000000000TYP"
+        SRVC_NM="ksOrgAdminRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="108"
+        NM="Derived Role: Org Committee Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="ORGCOMMITTEEDERIVED0000000000TYP"
+        SRVC_NM="ksOrgCommitteeRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="109"
+        NM="Derived Role: KS Non-Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="ORGADMINDERIVED000000T0000000TYP"
+        SRVC_NM="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="115"
+        NM="Derived Role: KS Completed Non-Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="ORGADMINDERIVEDED0000T0000000TYP"
+        SRVC_NM="ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="110"
+        NM="Derived Role: KS Route Log Role Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="ORGCOMMITTEEDERIVED0000000T00TYP"
+        SRVC_NM="ksRouteLogDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="111"
+        NM="Derived Role: KS Document Editor" NMSPC_CD="KS-SYS"
+        OBJ_ID="ORGCOMMITTEEDERIVED3600100T00TYP"
+        SRVC_NM="ksEditDocumentRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="112"
+        NM="Derived Role: KS Document Commenter" NMSPC_CD="KS-SYS"
+        OBJ_ID="ORGCOMMITTEEDERIVED3600129T00TYP"
+        SRVC_NM="ksCommentOnDocumentRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="113"
+        NM="Derived Role: KS Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="ORGCOMMITTEEDERIVED3689129T00TYP"
+        SRVC_NM="ksAdhocActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="116"
+        NM="Derived Role: KS Completed Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="ORGCOMMWSXEEDEIVED3689129T00TYP1"
+        SRVC_NM="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="114"
+        NM="Organization Role Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMTYPE000930000000012300TYP"
+        SRVC_NM="ksOrganizationHierarchyRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="120" NM="Field Permission Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="FIELDPERMISSION0000000000000TYP" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="121"
+        NM="Section Maintenance Permission Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMTYPE00093A106540012300TYP"
+        SRVC_NM="kimPermissionTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="130"
+        NM="Adhoc Permissions Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARUUUNTADMINREVIEWER000001237"
+        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
+</dataset>

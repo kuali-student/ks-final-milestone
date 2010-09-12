@@ -1,0 +1,414 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+.FlexTable {
+  border-top: thin solid #444444;
+  border-left: thin solid #444444;
+  border-right: thin solid #111111;
+  border-bottom: thin solid #111111;
+  border-collapse:separate;
+  empty-cells:hide;
+}
+
+.FlexTableColumn {
+
+	background-color:  #F0F0F0;
+}
+
+
+.KS-LUM-Section {
+	/*margin: 5px;
+	padding: 5px 5px 10px 5px;*/
+	/*width: 95%;*/
+}
+
+.KS-LUM-Section-Divider {
+	/*border-top: 1px solid orange;*/
+}
+
+.KS-LUM-Top-Divider {
+	border-top: 1px solid #444444;
+}
+
+.KS-LUM-Bottom-Divider {
+	border-bottom: 1px solid #444444;
+}
+.KS-FormLayout-Label {
+	width: 90px;
+	text-align: left;
+	font-size: 11px;
+	padding-bottom: 20px;
+	vertical-align: middle;	
+}
+
+.KS-FormLayout-Field {
+	padding-bottom: 20px;
+}
+
+.KS-Course-Section-Header {
+	font-size: 20px;
+	margin-bottom: 30px;
+}
+
+.KS-Course-Save-Button{
+	margin-left: 100px;	
+}
+
+.KS-Course-Number {
+	width: 50px;
+}
+
+.KS-LOPicker-Main-Panel {
+
+}
+.KS-LOPicker-TextArea {
+    height: auto;
+}
+
+.KS-LOBuilder-Section {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.KS-LOBuilder-Search-Panel {
+	padding: 0px;
+	width: 100%;
+	
+}
+
+.KS-LOBuilder-Spacer-Panel {
+	padding: 10px;
+	width: 250px;
+	
+}
+.KS-LOBuilder-Search-Image {
+	cursor: pointer;
+	
+}
+.KS-LOBuilder-Search-Link {
+	color: blue;
+	font-size: 70%;
+	cursor: pointer;
+	
+}
+
+.KS-LOBuilder-Instructions {
+    font-size:0.916em;
+}
+
+.KS-LOBuilder-Highlighted-Item {
+	background-color: #ffffcc;
+}
+
+.KS-LOBuilder-LO-Item-Active {
+	background-color: #FFFFCC;
+}
+
+.KS-LOBuilder-LO-Item-InActive {
+	background-color: #FFFFFF;
+}
+
+.KS-LOBuilder-LO-Panel {
+	margin: 10px;
+}
+
+.KS-LOWindow {
+	padding: 5px;
+	border: groove;
+}
+
+.KS-LOSearch-Title {
+
+}
+
+.KS-LOSearch-Type-Panel {
+	padding: 10px;
+    border-bottom: thin solid #cccccc;
+}
+
+.KS-LOSearch-Param-Panel {
+	padding: 5px;
+}
+
+.KS-LOSearch-Button-Panel {
+    padding: 5px;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+}
+
+.KS-LOSearch-Results-Header {
+    padding: 5px;
+    background-color: #cccccc;
+    font-weight:bold;
+
+}
+
+.KS-LOCategoryPicker {
+    padding: 5px;
+ /*   background-color: #FFE0C2; */
+    border-style: dashed;
+    font-size: 75%;
+}
+
+.KS-LOCategoryPicker-Button {
+    font-size: 75%;
+}
+.KS-LOMainPanel {
+}
+.KS-LONodePanel {
+}
+.KS-LONodeIndent {
+	width:50px;
+}
+.KS-LONodeIndentToolbar {
+    width:50px;
+    background-color: white;/* so class isn't merged with KS-LONodeIndent */
+}
+.KS-LOaNode {
+	width:400px;
+	height:50px;
+	border: 1px solid gray;
+	background-color: aliceBlue;
+}
+.KS-LOHNodePanel {
+}
+.KS-LOOutlineManagerToolbar {
+	width: 100%;
+	height: 32px;
+}
+.KS-LOButtonPanel {
+	border-top: 1px solid gray;
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;
+	border-bottom: none;
+	border-collapse: collapse;
+	width: 100%;
+}
+.KS-LOMoveUpButton{
+    background: url("images/ArrowUp.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LOMoveUpButtonDisabled{
+    background: url("images/ArrowUpDisabled.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LOMoveDownButton{
+    background: url("images/ArrowDown.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LOMoveDownButtonDisabled{
+    background: url("images/ArrowDownDisabled.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LOIndentButton{
+    background: url("images/IncreaseIndent.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 4px 0 0;
+}
+.KS-LOIndentButtonDisabled{
+    background: url("images/IncreaseIndentDisabled.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 4px 0 0;
+}
+.KS-LOOutdentButton{
+    background: url("images/DecreaseIndent.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LOOutdentButtonDisabled{
+    background: url("images/DecreaseIndentDisabled.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LODeleteButton{
+	background: transparent;
+	border: none;
+	color: blue;
+	font-size:0.916em;
+	margin: 8px 4px 1px 422px;
+}
+.KS-LODeleteButtonDisabled{
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size:0.916em;
+	margin: 8px 4px 1px 422px;
+}
+.KS-LOBuilder-New{
+	margin-top: 5px;
+	color: blue;
+	cursor: pointer;
+}
+.KS-LOTextArea {
+	width: 28em;
+	height: 2.75em;
+	margin: 8px;
+	border: 1px solid #888888;
+}
+.KS-LOSelectedCategories {
+    margin-left: 0px;	
+}
+.KS-LOSelectedCategories .ks-selected-list-value {
+	border: solid 1px #cdcdcd;
+	background: none repeat scroll 0 0 white;
+}
+.KSLOLightBox {
+}
+.KSLOLightBoxButtonPanel {
+	background-color: white;
+	height: 40px;
+	margin-bottom: 30px;
+    padding-top: 12px;
+	padding-bottom: 20px;
+	padding-left: 16px;
+	width: 100%;
+}
+.KSLOLightBoxButton {
+    padding-right: 10px;
+}
+.KSLOLightBoxButtonSecondary {
+    margin-right: 180px;
+}
+.KSLOLightBoxMainPanel {
+	background-color: #a7a7a7;
+}
+.KSLOCategoryManagementButtonPanel {
+	background-color: white;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+.KSLOCategoryManagementMainPanel {
+	background-color: white;
+	margin-top: 30px;
+    padding-top: 10px;
+    padding-left: 16px;
+}
+.KSLOCategoryManagementFilterPanel {
+}
+.KSLOCategoryManagementFilterLabel {
+	font-weight: bold;
+	font-size: 2em;
+}
+
+.KS-Action-List{
+	width: 100%;
+	height: 500px;
+	background-color: white;
+}
+
+.KS-ViewCourseDisplayTable {
+  border: thin solid #C0C0C0;
+  border-collapse: collapse;
+  margin-left: 3px;
+}
+
+.KS-ViewCourseDisplayTableHeaderCell {
+	font-weight: bold;
+	background-color: #E6E6E6;
+}
+
+.KS-ViewCourseDisplayTableCell {
+  border: 1px solid #C0C0C0;
+  padding: 2px;
+}
+
+.cluInfo-officialIdentifier-longName{}
+.cluInfo-officialIdentifier-division{}
+.cluInfo-officialIdentifier-suffixCode{}
+.proposalInfo-proposerPerson{}
+.proposalInfo-metaInfo-createTime{}
+.proposalInfo-metaInfo-updateTime{}
+.cluInfo-desc-plain{}
+.proposalInfo-state{}
+.proposalInfo-name{}
+.proposalInfo-proposerPerson{}
+.rationalle{}
+.rules{}
+.cluInfo-effectiveDate{}
+.cluInfo-expirationDate{}
+.cluInfo-feeType{width: 150px;}
+.cluInfo-feeAmount{width: 100px;}
+.cluInfo-taxable{}
+.cluInfo-feeDesc{}
+.cluInfo-internalNotation{}
+.cluInfo-adminOrg{}
+.cluInfo-campusLocationList{}
+.cluInfo-primaryAdminOrg-orgId{}
+.cluInfo-alternateAdminOrgs{}
+.cluInfo-officialIdentifier-division{width: 60px;}
+.cluInfo-officialIdentifier-suffixCode{width: 60px;}
+.cluInfo-alternateIdentifiers{}
+.cluInfo-offeredJointly{}
+.cluInfo-alternateIdentifiers{}
+.cluInfo-officialIdentifier-longName{width: 500px;}
+.cluInfo-officialIdentifier-shortName{}
+.cluInfo-desc{}
+.cluInfo-marketingDesc{}
+.orgId{}
+.code{}
+.suffixCode{}
+.id{}
+.variation{}
+.shortName{}
+.cluInfo-primaryInstructor-personId{width: 300px}
+.cluInfo-creditType{width: 150px;}
+.cluInfo-creditValue{width: 50px;}
+.cluInfo-maxCredits{width: 50px;}
+.cluInfo-evalType{}
+.cluInfo-offeredAtpTypes{}
+.cluInfo-stdDuration-timeQuantity{}
+.cluInfo-courseFormats{}
+.activities{}
+.type{}
+.creditInfo{}
+.evalType{}
+.term{}
+.stdDuration-timeQuantity{}
+.intensity-timeQuantity{}
+.defaultEnrollmentEstimate{}
+.orgId{}
+.personId{}
+.TableIndent-0{font-weight:bold;}
+.TableIndent-1{text-indent:10px;}
+.TableIndent-2{text-indent:20px;}
+.TableIndent-3{text-indent:30px;}
+.TableIndent-4{text-indent:40px;}
+.TableIndent-5{text-indent:50px;}
+.TableIndent-6{text-indent:60px;}
+.TableIndent-7{text-indent:70px;}
+.TableIndent-8{text-indent:80px;}
+.SummaryTable-EvenRow{background-color:  #FAFAFA;}
+.SummaryTable-OddRow{background-color: #F0F0F0;}

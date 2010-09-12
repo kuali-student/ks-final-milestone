@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.student</groupId>
+    <artifactId>student</artifactId>
+    <version>1.1.0-poc-M7-SNAPSHOT</version>
+  </parent>
+  <groupId>org.kuali.student.security</groupId>
+  <artifactId>ks-security</artifactId>
+  <packaging>pom</packaging>
+  <name>KS Security</name>
+  <description>KS Security Parent POM</description>
+  <modules>
+    <module>ks-standard-sec</module>
+    <module>ks-sts</module>
+  </modules>
+  <repositories>
+    <repository>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+</project>

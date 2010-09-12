@@ -1,0 +1,90 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	
+	<ui:style>
+  .outer {
+    border: 1px solid #AAAAAA;
+    cursor: pointer;
+    cursor: hand;
+  }
+
+   .header {
+    /*background:url('./images/background.png') repeat-x bottom left;*/
+  	background-color: #888888;
+    table-layout: fixed;
+    width: 100%;
+    height: 18px;
+  }
+  .tableHeaderControllerButton{
+  	background-color: #888888;
+    background-image:url("./images/gear.png");
+	background-position:center;
+	background-repeat:no-repeat;  	
+  	width:20px;
+  	height:35px;
+  }
+  .header td {
+  	height:35px;
+  	color: white;
+    font-weight: bold;
+    /*text-shadow: #fff 0 2px 2px;*/
+    padding: 2px 0 1px 10px;
+    border-bottom: 1px solid #999;
+    border-right: 1px solid #DDDDDD;
+  }
+  .table {
+    table-layout: fixed;
+    word-wrap:break-word;
+    width: 100%;
+  }
+
+  .table td {
+  	height:35px;
+    border-bottom: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    padding: 2px 0 2px 10px;
+  }
+    .tableColumnHeader{
+    valign:top;
+  }
+  </ui:style>
+  <ui:style field='selectionStyle' type='org.kuali.student.common.ui.client.widgets.table.scroll.Table.SelectionStyle'>
+  .selectedRow {
+    background: #C6D9FF;
+  }
+  .selectedRow td {
+    border-bottom: 1px solid #D6D6D6;
+  }
+  .columnAscending {
+  	  background: #686868;
+	  
+	  background-image:url("./images/common/up_arrow_white.png");
+	  background-position:center;
+	  background-repeat:no-repeat;
+  }
+  .columnDescending {
+  	  background: #686868;
+	  background-image:url("./images/common/down_arrow_white.png");
+	  background-position:center;
+	  background-repeat:no-repeat;
+  }
+
+  </ui:style>
+  <!-- background-image:url("./images/up_arrow_white.png"); -->
+  <g:HTMLPanel  styleName='{style.outer}'>
+      <table  cellSpacing='0' cellPadding='0'>
+        <tr><td class='{style.tableColumnHeader}'> 
+	      <g:FlexTable ui:field='header' styleName='{style.header}' cellSpacing='0' cellPadding='0'/>
+	      </td>
+<!-- 	      <td>
+	      <g:Label styleName='{style.tableHeaderControllerButton}'/>
+          </td> -->
+      </tr>
+      </table>
+      <g:ScrollPanel ui:field='scrollPanel'>
+        <g:FlexTable ui:field='table' styleName='{style.table}' cellSpacing='0' cellPadding='0'/>
+      </g:ScrollPanel>
+  </g:HTMLPanel>
+</ui:UiBinder> 

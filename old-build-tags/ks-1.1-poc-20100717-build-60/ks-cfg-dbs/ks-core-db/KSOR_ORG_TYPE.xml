@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Adhoc Committee" TYPE_DESC="An Adhoc Committee" TYPE_KEY="kuali.org.AdhocCommittee"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Advisory Group" TYPE_DESC="An Advisory Group" TYPE_KEY="kuali.org.AdvisoryGroup"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Association" TYPE_DESC="An Association" TYPE_KEY="kuali.org.Association"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Board" TYPE_DESC="A Board of Directors" TYPE_KEY="kuali.org.Board"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="COC" TYPE_DESC="A committee that approves curriculum" TYPE_KEY="kuali.org.COC"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Center" TYPE_DESC="A Center" TYPE_KEY="kuali.org.Center"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="College" TYPE_DESC="A College" TYPE_KEY="kuali.org.College"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Committee" TYPE_DESC="A Committee" TYPE_KEY="kuali.org.Committee"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Corporate Entity" TYPE_DESC="A legal corporate entity" TYPE_KEY="kuali.org.CorporateEntity"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Department" TYPE_DESC="A Department" TYPE_KEY="kuali.org.Department"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Division" TYPE_DESC="A Division" TYPE_KEY="kuali.org.Division"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Office" TYPE_DESC="An Office" TYPE_KEY="kuali.org.Office"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Program" TYPE_DESC="A Program" TYPE_KEY="kuali.org.Program"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="School" TYPE_DESC="A School" TYPE_KEY="kuali.org.School"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Section" TYPE_DESC="A Section" TYPE_KEY="kuali.org.Section"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Senate" TYPE_DESC="A Deliberative body" TYPE_KEY="kuali.org.Senate"/>
+    <KSOR_ORG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Work Group"
+        TYPE_DESC="A group organized for a particular purpose" TYPE_KEY="kuali.org.WorkGroup"/>
+</dataset>

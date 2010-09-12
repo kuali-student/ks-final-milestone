@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.google.gwt.http.HTTP"/>
+	
+	
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class="org.kuali.student.common.ui.client.CommonUI"/>
+	
+	<inherits name="org.kuali.student.common.CommonUtil" />
+	
+	<!-- Theme                  -->
+	<inherits name="org.kuali.student.common.ui.theme.standard.StandardTheme" />
+	
+	<inherits name="org.kuali.student.core.Core" />
+	<inherits name="org.kuali.student.core.dictionary.Dictionary" />
+	<inherits name="org.kuali.student.core.comment.Comment" />
+	<inherits name="org.kuali.student.core.document.Document" />
+	<inherits name="org.kuali.student.core.search.Search" />
+	<inherits name="org.kuali.student.core.validation.Validation" />
+	<inherits name="org.kuali.student.core.messages.Message"/>
+	<inherits name='org.kuali.student.core.assembly.Assembly'/>
+	<inherits name="org.kuali.student.core.CoreRice" />
+	<inherits name="org.kuali.student.core.statement.Statement" />
+
+  	<inherits name="com.google.gwt.visualization.Visualization"/>
+  	<inherits name="com.google.gwt.libideas.ImmutableResources" />
+    <inherits name='com.google.gwt.gen2.table.Table'/>
+
+ 
+	<script src="http://www.google.com/jsapi"/>
+    
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel"/>
+    </replace-with>
+
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>
+    </replace-with>
+<!--
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSStackPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSStackPanel"/>
+    </replace-with> -->
+
+</module>

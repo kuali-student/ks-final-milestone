@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="simpleDocumentActionsService" targetNamespace="http://rice.kuali.org/wsdl/kew" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://rice.kuali.org/wsdl/kew" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://rice.kuali.org/wsdl/kew" xmlns:tns="http://rice.kuali.org/wsdl/kew" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="acknowledge" type="tns:acknowledge"/>
+<xs:element name="acknowledgeResponse" type="tns:acknowledgeResponse"/>
+<xs:element name="addNote" type="tns:addNote"/>
+<xs:element name="addNoteResponse" type="tns:addNoteResponse"/>
+<xs:element name="approve" type="tns:approve"/>
+<xs:element name="approveResponse" type="tns:approveResponse"/>
+<xs:element name="blanketApprove" type="tns:blanketApprove"/>
+<xs:element name="blanketApproveResponse" type="tns:blanketApproveResponse"/>
+<xs:element name="cancel" type="tns:cancel"/>
+<xs:element name="cancelResponse" type="tns:cancelResponse"/>
+<xs:element name="create" type="tns:create"/>
+<xs:element name="createResponse" type="tns:createResponse"/>
+<xs:element name="deleteNote" type="tns:deleteNote"/>
+<xs:element name="deleteNoteResponse" type="tns:deleteNoteResponse"/>
+<xs:element name="disapprove" type="tns:disapprove"/>
+<xs:element name="disapproveResponse" type="tns:disapproveResponse"/>
+<xs:element name="fyi" type="tns:fyi"/>
+<xs:element name="fyiResponse" type="tns:fyiResponse"/>
+<xs:element name="getDocument" type="tns:getDocument"/>
+<xs:element name="getDocumentResponse" type="tns:getDocumentResponse"/>
+<xs:element name="isUserInRouteLog" type="tns:isUserInRouteLog"/>
+<xs:element name="isUserInRouteLogResponse" type="tns:isUserInRouteLogResponse"/>
+<xs:element name="requestAdHocAckToGroup" type="tns:requestAdHocAckToGroup"/>
+<xs:element name="requestAdHocAckToGroupResponse" type="tns:requestAdHocAckToGroupResponse"/>
+<xs:element name="requestAdHocAckToPrincipal" type="tns:requestAdHocAckToPrincipal"/>
+<xs:element name="requestAdHocAckToPrincipalResponse" type="tns:requestAdHocAckToPrincipalResponse"/>
+<xs:element name="requestAdHocApproveToGroup" type="tns:requestAdHocApproveToGroup"/>
+<xs:element name="requestAdHocApproveToGroupResponse" type="tns:requestAdHocApproveToGroupResponse"/>
+<xs:element name="requestAdHocApproveToPrincipal" type="tns:requestAdHocApproveToPrincipal"/>
+<xs:element name="requestAdHocApproveToPrincipalResponse" type="tns:requestAdHocApproveToPrincipalResponse"/>
+<xs:element name="requestAdHocFyiToGroup" type="tns:requestAdHocFyiToGroup"/>
+<xs:element name="requestAdHocFyiToGroupResponse" type="tns:requestAdHocFyiToGroupResponse"/>
+<xs:element name="requestAdHocFyiToPrincipal" type="tns:requestAdHocFyiToPrincipal"/>
+<xs:element name="requestAdHocFyiToPrincipalResponse" type="tns:requestAdHocFyiToPrincipalResponse"/>
+<xs:element name="returnToPreviousNode" type="tns:returnToPreviousNode"/>
+<xs:element name="returnToPreviousNodeResponse" type="tns:returnToPreviousNodeResponse"/>
+<xs:element name="returnToPreviousNodeWithUpdates" type="tns:returnToPreviousNodeWithUpdates"/>
+<xs:element name="returnToPreviousNodeWithUpdatesResponse" type="tns:returnToPreviousNodeWithUpdatesResponse"/>
+<xs:element name="route" type="tns:route"/>
+<xs:element name="routeResponse" type="tns:routeResponse"/>
+<xs:element name="save" type="tns:save"/>
+<xs:element name="saveDocumentContent" type="tns:saveDocumentContent"/>
+<xs:element name="saveDocumentContentResponse" type="tns:saveDocumentContentResponse"/>
+<xs:element name="saveResponse" type="tns:saveResponse"/>
+<xs:element name="updateNote" type="tns:updateNote"/>
+<xs:element name="updateNoteResponse" type="tns:updateNoteResponse"/>
+<xs:complexType name="updateNote">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="noteId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="noteText" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateNoteResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:noteResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="noteResponse">
+<xs:complexContent>
+<xs:extension base="tns:errorResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="author" type="xs:string"/>
+<xs:element minOccurs="0" name="noteId" type="xs:string"/>
+<xs:element minOccurs="0" name="noteText" type="xs:string"/>
+<xs:element minOccurs="0" name="timestamp" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="errorResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="errorMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="approve">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="docTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="docContent" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="approveResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="standardResponse">
+<xs:complexContent>
+<xs:extension base="tns:errorResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="appDocId" type="xs:string"/>
+<xs:element minOccurs="0" name="createDate" type="xs:string"/>
+<xs:element minOccurs="0" name="docStatus" type="xs:string"/>
+<xs:element minOccurs="0" name="initiatorName" type="xs:string"/>
+<xs:element minOccurs="0" name="initiatorPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="routedByPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="routedByUserName" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="requestAdHocApproveToGroup">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="recipientGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocApproveToGroupResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteNote">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="noteId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteNoteResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:errorResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocFyiToPrincipal">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="recipientPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocFyiToPrincipalResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocFyiToGroup">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="recipientGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocFyiToGroupResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="blanketApprove">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="docTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="docContent" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="blanketApproveResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocAckToGroup">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="recipientGroupId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocAckToGroupResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocAckToPrincipal">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="recipientPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocAckToPrincipalResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="returnToPreviousNodeWithUpdates">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+<xs:element minOccurs="0" name="nodeName" type="xs:string"/>
+<xs:element minOccurs="0" name="docTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="docContent" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="returnToPreviousNodeWithUpdatesResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="disapprove">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="disapproveResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="cancel">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="cancelResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="create">
+<xs:sequence>
+<xs:element minOccurs="0" name="initiatorPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="appDocId" type="xs:string"/>
+<xs:element minOccurs="0" name="docType" type="xs:string"/>
+<xs:element minOccurs="0" name="docTitle" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentResponse">
+<xs:complexContent>
+<xs:extension base="tns:standardResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="actionRequested" type="xs:string"/>
+<xs:element minOccurs="0" name="docContent" type="xs:string"/>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="notes" nillable="true" type="tns:noteDetail"/>
+<xs:element minOccurs="0" name="title" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="noteDetail">
+<xs:sequence>
+<xs:element minOccurs="0" name="author" type="xs:string"/>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="noteText" type="xs:string"/>
+<xs:element minOccurs="0" name="timestamp" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="returnToPreviousNode">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+<xs:element minOccurs="0" name="nodeName" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="returnToPreviousNodeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addNote">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="noteText" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addNoteResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:noteResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="acknowledge">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="acknowledgeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="fyi">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="fyiResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="save">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="docTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="docContent" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="saveResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isUserInRouteLog">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isUserInRouteLogResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:userInRouteLogResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="userInRouteLogResponse">
+<xs:complexContent>
+<xs:extension base="tns:errorResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="isUserInRouteLog" type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="getDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="saveDocumentContent">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="docTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="docContent" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="saveDocumentContentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="route">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="docTitle" type="xs:string"/>
+<xs:element minOccurs="0" name="docContent" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocApproveToPrincipal">
+<xs:sequence>
+<xs:element minOccurs="0" name="docId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="recipientPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="annotation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="requestAdHocApproveToPrincipalResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:standardResponse"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="blanketApproveResponse">
+    <wsdl:part element="tns:blanketApproveResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fyi">
+    <wsdl:part element="tns:fyi" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="returnToPreviousNodeWithUpdates">
+    <wsdl:part element="tns:returnToPreviousNodeWithUpdates" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addNote">
+    <wsdl:part element="tns:addNote" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="create">
+    <wsdl:part element="tns:create" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="acknowledgeResponse">
+    <wsdl:part element="tns:acknowledgeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="returnToPreviousNodeResponse">
+    <wsdl:part element="tns:returnToPreviousNodeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fyiResponse">
+    <wsdl:part element="tns:fyiResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="approve">
+    <wsdl:part element="tns:approve" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocFyiToPrincipal">
+    <wsdl:part element="tns:requestAdHocFyiToPrincipal" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteNoteResponse">
+    <wsdl:part element="tns:deleteNoteResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="saveDocumentContent">
+    <wsdl:part element="tns:saveDocumentContent" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateNote">
+    <wsdl:part element="tns:updateNote" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disapprove">
+    <wsdl:part element="tns:disapprove" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocFyiToGroupResponse">
+    <wsdl:part element="tns:requestAdHocFyiToGroupResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disapproveResponse">
+    <wsdl:part element="tns:disapproveResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="saveDocumentContentResponse">
+    <wsdl:part element="tns:saveDocumentContentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocFyiToPrincipalResponse">
+    <wsdl:part element="tns:requestAdHocFyiToPrincipalResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="route">
+    <wsdl:part element="tns:route" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocApproveToGroupResponse">
+    <wsdl:part element="tns:requestAdHocApproveToGroupResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocAckToGroup">
+    <wsdl:part element="tns:requestAdHocAckToGroup" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="blanketApprove">
+    <wsdl:part element="tns:blanketApprove" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancel">
+    <wsdl:part element="tns:cancel" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocAckToGroupResponse">
+    <wsdl:part element="tns:requestAdHocAckToGroupResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocument">
+    <wsdl:part element="tns:getDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocApproveToPrincipal">
+    <wsdl:part element="tns:requestAdHocApproveToPrincipal" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="routeResponse">
+    <wsdl:part element="tns:routeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentResponse">
+    <wsdl:part element="tns:getDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="returnToPreviousNode">
+    <wsdl:part element="tns:returnToPreviousNode" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="acknowledge">
+    <wsdl:part element="tns:acknowledge" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addNoteResponse">
+    <wsdl:part element="tns:addNoteResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="returnToPreviousNodeWithUpdatesResponse">
+    <wsdl:part element="tns:returnToPreviousNodeWithUpdatesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="save">
+    <wsdl:part element="tns:save" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocApproveToPrincipalResponse">
+    <wsdl:part element="tns:requestAdHocApproveToPrincipalResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createResponse">
+    <wsdl:part element="tns:createResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocApproveToGroup">
+    <wsdl:part element="tns:requestAdHocApproveToGroup" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateNoteResponse">
+    <wsdl:part element="tns:updateNoteResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocAckToPrincipal">
+    <wsdl:part element="tns:requestAdHocAckToPrincipal" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserInRouteLog">
+    <wsdl:part element="tns:isUserInRouteLog" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocAckToPrincipalResponse">
+    <wsdl:part element="tns:requestAdHocAckToPrincipalResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelResponse">
+    <wsdl:part element="tns:cancelResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="approveResponse">
+    <wsdl:part element="tns:approveResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteNote">
+    <wsdl:part element="tns:deleteNote" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="saveResponse">
+    <wsdl:part element="tns:saveResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserInRouteLogResponse">
+    <wsdl:part element="tns:isUserInRouteLogResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAdHocFyiToGroup">
+    <wsdl:part element="tns:requestAdHocFyiToGroup" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="simpleDocumentActionsService">
+    <wsdl:operation name="updateNote">
+      <wsdl:input message="tns:updateNote" name="updateNote">
+    </wsdl:input>
+      <wsdl:output message="tns:updateNoteResponse" name="updateNoteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="approve">
+      <wsdl:input message="tns:approve" name="approve">
+    </wsdl:input>
+      <wsdl:output message="tns:approveResponse" name="approveResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocApproveToGroup">
+      <wsdl:input message="tns:requestAdHocApproveToGroup" name="requestAdHocApproveToGroup">
+    </wsdl:input>
+      <wsdl:output message="tns:requestAdHocApproveToGroupResponse" name="requestAdHocApproveToGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteNote">
+      <wsdl:input message="tns:deleteNote" name="deleteNote">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteNoteResponse" name="deleteNoteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocFyiToPrincipal">
+      <wsdl:input message="tns:requestAdHocFyiToPrincipal" name="requestAdHocFyiToPrincipal">
+    </wsdl:input>
+      <wsdl:output message="tns:requestAdHocFyiToPrincipalResponse" name="requestAdHocFyiToPrincipalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocFyiToGroup">
+      <wsdl:input message="tns:requestAdHocFyiToGroup" name="requestAdHocFyiToGroup">
+    </wsdl:input>
+      <wsdl:output message="tns:requestAdHocFyiToGroupResponse" name="requestAdHocFyiToGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="blanketApprove">
+      <wsdl:input message="tns:blanketApprove" name="blanketApprove">
+    </wsdl:input>
+      <wsdl:output message="tns:blanketApproveResponse" name="blanketApproveResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocAckToGroup">
+      <wsdl:input message="tns:requestAdHocAckToGroup" name="requestAdHocAckToGroup">
+    </wsdl:input>
+      <wsdl:output message="tns:requestAdHocAckToGroupResponse" name="requestAdHocAckToGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocAckToPrincipal">
+      <wsdl:input message="tns:requestAdHocAckToPrincipal" name="requestAdHocAckToPrincipal">
+    </wsdl:input>
+      <wsdl:output message="tns:requestAdHocAckToPrincipalResponse" name="requestAdHocAckToPrincipalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnToPreviousNodeWithUpdates">
+      <wsdl:input message="tns:returnToPreviousNodeWithUpdates" name="returnToPreviousNodeWithUpdates">
+    </wsdl:input>
+      <wsdl:output message="tns:returnToPreviousNodeWithUpdatesResponse" name="returnToPreviousNodeWithUpdatesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disapprove">
+      <wsdl:input message="tns:disapprove" name="disapprove">
+    </wsdl:input>
+      <wsdl:output message="tns:disapproveResponse" name="disapproveResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancel">
+      <wsdl:input message="tns:cancel" name="cancel">
+    </wsdl:input>
+      <wsdl:output message="tns:cancelResponse" name="cancelResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="create">
+      <wsdl:input message="tns:create" name="create">
+    </wsdl:input>
+      <wsdl:output message="tns:createResponse" name="createResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnToPreviousNode">
+      <wsdl:input message="tns:returnToPreviousNode" name="returnToPreviousNode">
+    </wsdl:input>
+      <wsdl:output message="tns:returnToPreviousNodeResponse" name="returnToPreviousNodeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNote">
+      <wsdl:input message="tns:addNote" name="addNote">
+    </wsdl:input>
+      <wsdl:output message="tns:addNoteResponse" name="addNoteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="acknowledge">
+      <wsdl:input message="tns:acknowledge" name="acknowledge">
+    </wsdl:input>
+      <wsdl:output message="tns:acknowledgeResponse" name="acknowledgeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fyi">
+      <wsdl:input message="tns:fyi" name="fyi">
+    </wsdl:input>
+      <wsdl:output message="tns:fyiResponse" name="fyiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save">
+      <wsdl:input message="tns:save" name="save">
+    </wsdl:input>
+      <wsdl:output message="tns:saveResponse" name="saveResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserInRouteLog">
+      <wsdl:input message="tns:isUserInRouteLog" name="isUserInRouteLog">
+    </wsdl:input>
+      <wsdl:output message="tns:isUserInRouteLogResponse" name="isUserInRouteLogResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocument">
+      <wsdl:input message="tns:getDocument" name="getDocument">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentResponse" name="getDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveDocumentContent">
+      <wsdl:input message="tns:saveDocumentContent" name="saveDocumentContent">
+    </wsdl:input>
+      <wsdl:output message="tns:saveDocumentContentResponse" name="saveDocumentContentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="route">
+      <wsdl:input message="tns:route" name="route">
+    </wsdl:input>
+      <wsdl:output message="tns:routeResponse" name="routeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocApproveToPrincipal">
+      <wsdl:input message="tns:requestAdHocApproveToPrincipal" name="requestAdHocApproveToPrincipal">
+    </wsdl:input>
+      <wsdl:output message="tns:requestAdHocApproveToPrincipalResponse" name="requestAdHocApproveToPrincipalResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="simpleDocumentActionsServiceSoapBinding" type="tns:simpleDocumentActionsService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="approve">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="approve">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="approveResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateNote">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateNote">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateNoteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocApproveToGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="requestAdHocApproveToGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestAdHocApproveToGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteNote">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteNote">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteNoteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocFyiToPrincipal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="requestAdHocFyiToPrincipal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestAdHocFyiToPrincipalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="blanketApprove">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="blanketApprove">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="blanketApproveResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocFyiToGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="requestAdHocFyiToGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestAdHocFyiToGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocAckToGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="requestAdHocAckToGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestAdHocAckToGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocAckToPrincipal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="requestAdHocAckToPrincipal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestAdHocAckToPrincipalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnToPreviousNodeWithUpdates">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="returnToPreviousNodeWithUpdates">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="returnToPreviousNodeWithUpdatesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disapprove">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="disapprove">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="disapproveResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancel">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="cancel">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cancelResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="create">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="create">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnToPreviousNode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="returnToPreviousNode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="returnToPreviousNodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="acknowledge">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="acknowledge">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="acknowledgeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNote">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addNote">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addNoteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fyi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="fyi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="fyiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserInRouteLog">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isUserInRouteLog">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isUserInRouteLogResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="save">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="save">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="saveResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocument">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDocument">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDocumentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="route">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="route">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="routeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveDocumentContent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="saveDocumentContent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="saveDocumentContentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestAdHocApproveToPrincipal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="requestAdHocApproveToPrincipal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestAdHocApproveToPrincipalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="simpleDocumentActionsService">
+    <wsdl:port binding="tns:simpleDocumentActionsServiceSoapBinding" name="simpleDocumentActionsServicePort">
+      <soap:address location="http://localhost:8081/ks-rice-dev/remoting/simpleDocumentActionsService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.prereqAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.coreqAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.enrollAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.antireqAcademicReadiness" STMT_TYPE_ID="kuali.luStatementType.course"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.programEntrance" STMT_TYPE_ID="kuali.luStatementType.program"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.programSatisfactoryProgress" STMT_TYPE_ID="kuali.luStatementType.program"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.luStatementType.programCompletion" STMT_TYPE_ID="kuali.luStatementType.program"/>
+</dataset>

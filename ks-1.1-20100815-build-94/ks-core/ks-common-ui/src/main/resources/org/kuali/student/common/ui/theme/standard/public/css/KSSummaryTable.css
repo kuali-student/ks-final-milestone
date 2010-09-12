@@ -1,0 +1,52 @@
+.summaryTable{
+    width: 100%;
+    border-bottom: 1px solid #999;
+    border-right: 1px solid #999;
+    border-left: 1px solid #999;
+    border-collapse: collapse;
+}
+.rowTitleColunm{
+	width:20%;
+}
+.cell1Colunm{
+	width:40%;
+}
+.cell2Colunm{
+	width:40%;
+	
+}
+    
+.sectionTitleRow{
+    border-bottom: 1px solid #999;
+	border-top: 1px solid #999;
+	background-color: #CCCCCC;
+}
+.sectionTitle{
+  	font-size: 18px;
+  	font-weight: bold;
+	
+}
+.sectionEditLink{
+  	font-size: 14px;
+  	font-weight: bold;
+	margin-left:30px;
+	margin-bottom:0px;
+    padding-bottom:0px;	
+	text-decoration: none;
+}
+.rowTitle{
+	width:70%;
+  	font-size: 16px;
+  	font-weight: bold;
+  	float:left; 	
+}
+.columnTitle{
+  	font-size: 16px;
+  	font-weight: bold;
+}
+.rowHighlight{
+    background-color: pink;
+}
+.cellHighlight{
+    background-color: pink;
+}

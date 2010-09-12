@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!--
+    Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+    License, Version 2.0 (the "License"); you may not use this file except in
+    compliance with the License. You may obtain a copy of the License at
+    http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
+    agreed to in writing, software distributed under the License is distributed
+    on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+    express or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student</groupId>
+  <artifactId>student</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>Kuali Student</name>
+  <modules>
+    <module>ks-security</module>
+    <module>ks-core</module>
+    <module>brms</module>
+    <module>ks-lum</module>
+    <module>ks-web</module>
+  </modules>
+  <repositories>
+    <repository>
+      <id>kuali.release</id>
+      <name>Main Kuali Repository</name>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.s3.release</id>
+      <name>Main Kuali Repository</name>
+      <url>http://maven.kuali.org/release</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.0.0</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.0.0</developerConnection>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>kuali.release</id>
+      <name>Main Kuali Repository</name>
+      <url>s3://maven.kuali.org/release</url>
+    </repository>
+    <snapshotRepository>
+      <id>kuali.snapshot</id>
+      <name>Kuali Snapshot Repository</name>
+      <url>s3://maven.kuali.org/snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.kuali.maven</groupId>
+        <artifactId>kuali-wagon-s3</artifactId>
+        <version>1.0.6</version>
+      </extension>
+    </extensions>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.0</version>
+        <configuration>
+          <preparationGoals>clean install</preparationGoals>
+          <arguments>-Dmaven.test.skip=true</arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

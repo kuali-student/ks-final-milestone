@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright 2010 The Kuali Foundation Licensed under the
+  ~ Educational Community License, Version 2.0 (the "License"); you may
+  ~ not use this file except in compliance with the License. You may
+  ~ obtain a copy of the License at
+  ~
+  ~ http://www.osedu.org/licenses/ECL-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an "AS IS"
+  ~ BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  ~ or implied. See the License for the specific language governing
+  ~ permissions and limitations under the License.
+  -->
+
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_LU_CODE ID="MAJOR-1" CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
+                  DESCR="CIP 2000 code" TYPE="kuali.lu.code.CIP2000"
+                  VALUE="450202" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="MAJOR-2" CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
+                  DESCR="CIP 2010 code" TYPE="kuali.lu.code.CIP2010"
+                  VALUE="450201" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="MAJOR-3" CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
+                  DESCR="Hegis code" TYPE="kuali.lu.code.HEGIS"
+                  VALUE="HEGISCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="MAJOR-4" CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
+                  DESCR="Classification code" TYPE="kuali.lu.code.UniversityClassification"
+                  VALUE="UNIVERSITYCLASSIFICATIONCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="MAJOR-5" CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
+                  DESCR="Selective Enrollment code" TYPE="kuali.lu.code.SelectiveEnrollment"
+                  VALUE="SELECTIVEENROLLMENTCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-201" CLU_ID="VAR-200"
+                  DESCR="CIP 2000 code" TYPE="kuali.lu.code.CIP2000"
+                  VALUE="450202" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-202" CLU_ID="VAR-200"
+                  DESCR="CIP 2010 code" TYPE="kuali.lu.code.CIP2010"
+                  VALUE="450201" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-203" CLU_ID="VAR-200"
+                  DESCR="Hegis code" TYPE="kuali.lu.code.HEGIS"
+                  VALUE="HEGISCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-204" CLU_ID="VAR-200"
+                  DESCR="Classification code" TYPE="kuali.lu.code.UniversityClassification"
+                  VALUE="UNIVERSITYCLASSIFICATIONCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-205" CLU_ID="VAR-200"
+                  DESCR="Selective Enrollment code" TYPE="kuali.lu.code.SelectiveEnrollment"
+                  VALUE="SELECTIVEENROLLMENTCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-301" CLU_ID="VAR-300"
+                  DESCR="CIP 2000 code" TYPE="kuali.lu.code.CIP2000"
+                  VALUE="450202" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-302" CLU_ID="VAR-300"
+                  DESCR="CIP 2010 code" TYPE="kuali.lu.code.CIP2010"
+                  VALUE="450201" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-303" CLU_ID="VAR-300"
+                  DESCR="Hegis code" TYPE="kuali.lu.code.HEGIS"
+                  VALUE="HEGISCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-304" CLU_ID="VAR-300"
+                  DESCR="Classification code" TYPE="kuali.lu.code.UniversityClassification"
+                  VALUE="UNIVERSITYCLASSIFICATIONCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+    <KSLU_LU_CODE ID="VAR-305" CLU_ID="VAR-300"
+                  DESCR="Selective Enrollment code" TYPE="kuali.lu.code.SelectiveEnrollment"
+                  VALUE="SELECTIVEENROLLMENTCODE" CREATEID="admin"
+                  CREATETIME="20100809120536" VERSIONIND="0"/>
+
+</dataset>
