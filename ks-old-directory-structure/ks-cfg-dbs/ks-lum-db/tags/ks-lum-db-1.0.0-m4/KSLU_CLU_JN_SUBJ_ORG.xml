@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_CLU_JN_SUBJ_ORG CLU_ID="45cb6e9c-9076-4f29-9c6e-6d4c3d091663" ID="656086b8-ab22-4b89-82d6-470c9489482f"/>
+    <KSLU_CLU_JN_SUBJ_ORG CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d"
+        ID="SUBJ-ORG-1" ORG_ID="42"/>
+    <KSLU_CLU_JN_SUBJ_ORG CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d"
+        ID="SUBJ-ORG-2" ORG_ID="101"/>
+</dataset>

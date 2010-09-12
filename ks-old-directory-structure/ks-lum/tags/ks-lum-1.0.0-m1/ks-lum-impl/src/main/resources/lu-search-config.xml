@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+	<import resource="lu-dictionary-config.xml" />
+
+    <search:searchType id="lu.search.clus">
+        <search:name>Lum Search for Clus</search:name>
+        <search:desc>Returns all available Clus</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.luClus" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+           <ref bean="lu.criteria.all"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="lu.result.luClus">
+        <search:name>Lu Clu</search:name>
+        <search:desc>List Lu Clus</search:desc>
+        <search:resultColumns>
+            <ref bean="lu.resultColumn.cluId" />
+            <ref bean="lu.resultColumn.cluOfficialIdentifier.longName" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:resultColumn id="lu.resultColumn.cluId">
+        <search:name>Clu Identifier</search:name>
+        <search:desc>Identifier of a Clu</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.longName">
+        <search:name>Clu Long Name</search:name>
+        <search:desc>Official identifier long name of a Clu</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.all">
+        <search:name>LuClu</search:name>
+        <search:desc>Placeholder Criteria</search:desc>
+     </search:searchCriteriaTypeInfo>
+
+	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="lu.search.foo">
+					<value>SELECT org.id, org.shortName FROM Org org WHERE
+						org.type.id = :org_queryParam_orgType</value>
+				</entry>
+                <entry key="lu.search.clus">
+                    <value>SELECT clu.id, clu.officialIdentifier.longName FROM Clu clu
+                    	WHERE clu.state NOT IN ('draft') ORDER BY clu.officialIdentifier.longName </value>
+                </entry>
+            </map>
+		</property>
+	</bean>
+
+</beans>

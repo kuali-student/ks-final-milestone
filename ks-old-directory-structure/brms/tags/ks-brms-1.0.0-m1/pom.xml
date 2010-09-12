@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.brms</groupId>
+	<artifactId>ks-brms</artifactId>
+	<version>1.0.0-m1</version>
+	<packaging>pom</packaging>
+	<name>KS BRMS</name>
+	<description>KS Business Rule Management System POM</description>
+
+    <parent>
+		<groupId>org.kuali.student.core</groupId>
+		<artifactId>ks-core</artifactId>
+		<version>1.0.0-m1</version>
+	</parent>
+
+    
+    <url>http://student.kuali.org/site/brms/${project.version}</url>
+	
+	<properties>
+        <drools.version>5.0.1</drools.version>
+        <velocity.version>1.5</velocity.version>
+        <velocity.tools.version>1.4</velocity.tools.version>
+        <mvel.dep.version>2.0.12</mvel.dep.version>
+        <ks-core.version>1.0.0-m1</ks-core.version>
+	</properties>
+	
+	<modules>
+		<module>ks-brms-api</module>
+		<module>ks-brms-impl</module>
+		<!-- <module>brms-ui</module> -->
+		<module>ks-brms-web</module>
+		<module>ks-brms-execution-api</module>
+		<module>ks-brms-execution-impl</module>
+	</modules>
+	
+	<repositories>
+		<repository>
+			<id>kuali.release</id>
+			<url>http://archiva.kuali.umd.edu/repository/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>kuali.snapshot</id>
+			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+        <repository>
+            <id>maven2</id>
+            <url>http://repository.jboss.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+	</repositories>
+	
+	<scm>
+		<connection>scm:svn:https://test.kuali.org/svn/student/brms/tags/ks-brms-1.0.0-m1</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/brms/tags/ks-brms-1.0.0-m1</developerConnection>
+	</scm>
+    
+    <distributionManagement>
+        <site>
+            <id>ks.site</id>
+            <url>
+                dav:https://student.kuali.org:8443/student/site/brms/${project.version}
+            </url>
+        </site>
+    </distributionManagement>
+    
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadoc.plugin.version}</version>
+                
+                <configuration>
+                    <maxmemory>256m</maxmemory>
+                    <aggregate>true</aggregate>
+                    <show>private</show>
+                    <source>1.6</source>
+                    <links>
+                        <link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
+                        <link>
+                            http://java.sun.com/javase/6/docs/api/
+                        </link>
+                        <link>
+                            http://java.sun.com/javaee/5/docs/api/
+                        </link>
+                        <link>
+                            http://static.springframework.org/spring/docs/${spring.version}/api/
+                        </link>
+                        <link>
+                            http://student.kuali.org/site/core/${ks-core.version}/apidocs/
+                        </link>
+                    </links>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+
+            </plugin>
+        </plugins>
+    </reporting>			
+</project>
