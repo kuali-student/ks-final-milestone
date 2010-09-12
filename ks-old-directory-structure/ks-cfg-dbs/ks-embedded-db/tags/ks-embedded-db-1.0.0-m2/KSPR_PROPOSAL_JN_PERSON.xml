@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
-<dataset>
-    <KSPR_PROPOSAL_JN_PERSON ID="b6ada046-8084-4d5c-a32b-6399d688479a"
-        PERSONREF_ID="dev1" PROPOSAL_ID="3f4bebf4-92a0-405b-8055-e4af2d0250b9"/>
-    <KSPR_PROPOSAL_JN_PERSON ID="ea309d65-3d91-47e6-a999-2d81fd84ed8c"
-        PERSONREF_ID="admin" PROPOSAL_ID="fd4705e5-b378-4cb5-aacf-cfe28b167ec1"/>
-</dataset>

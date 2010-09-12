@@ -1,0 +1,172 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ <import resource="classpath:ks-base-dictionary-context.xml"/>
+
+ <!-- StatementInfo-->
+ <bean id="org.kuali.student.core.statement.dto.StatementInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.statement.dto.StatementInfo"/>
+  <property name="attributes">
+   <list>
+    <ref bean="statementInfo.desc"/>
+    <ref bean="statementInfo.id"/>
+    <ref bean="statementInfo.name"/>
+    <ref bean="statementInfo.operator"/>
+    <ref bean="statementInfo.parentId"/>
+    <ref bean="statementInfo.reqComponentIds"/>
+    <ref bean="statementInfo.state"/>
+    <ref bean="statementInfo.statementIds"/>
+    <ref bean="statementInfo.type"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.core.statement.dto.StatementInfo" parent="org.kuali.student.core.statement.dto.StatementInfo-parent"/>
+
+ <bean id="statementInfo.desc-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="desc"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+ </bean>
+ <bean id="statementInfo.desc" parent="statementInfo.desc-parent"/>
+
+ <bean id="statementInfo.id-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="statementInfo.id" parent="statementInfo.id-parent"/>
+
+ <bean id="statementInfo.name-parent" abstract="true" parent="baseKualiName">
+  <property name="name" value="name"/>
+ </bean>
+ <bean id="statementInfo.name" parent="statementInfo.name-parent"/>
+
+ <bean id="statementInfo.operator-parent" abstract="true" parent="baseString">
+  <property name="name" value="operator"/>
+  <property name="minOccurs" value="1" />
+  <property name="minLength" value="2" />
+  <property name="maxLength" value="3" />
+  <property name="validChars" ref="ANDorOR"/>
+ </bean>
+ <bean id="statementInfo.operator" parent="statementInfo.operator-parent"/>
+ 
+ <bean id="ANDorOR" parent="ValidCharDefinition">
+  <property name="value" value="regex:AND|OR" />
+  <property name="labelKey" value="validation.validChars.ANDorOR"/>
+ </bean>
+
+ <bean id="statementInfo.parentId-parent" abstract="true" parent="baseKualiStatementId">
+  <property name="name" value="parentId"/>
+ </bean>
+ <bean id="statementInfo.parentId" parent="statementInfo.parentId-parent"/>
+
+ <bean id="statementInfo.reqComponentIds-parent" abstract="true" parent="baseKualiReqComponentIdRepeating">
+  <property name="name" value="reqComponentIds"/>
+ </bean>
+ <bean id="statementInfo.reqComponentIds" parent="statementInfo.reqComponentIds-parent"/>
+
+ <bean id="statementInfo.state-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="state"/>
+ </bean>
+ <bean id="statementInfo.state" parent="statementInfo.state-parent"/>
+
+ <bean id="statementInfo.statementIds-parent" abstract="true" parent="baseKualiStatementIdRepeating">
+  <property name="name" value="statementIds"/>
+ </bean>
+ <bean id="statementInfo.statementIds" parent="statementInfo.statementIds-parent"/>
+
+ <bean id="statementInfo.type-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="type"/>
+ </bean>
+ <bean id="statementInfo.type" parent="statementInfo.type-parent"/>
+
+<!-- ReqComponentInfo-->
+<bean id="org.kuali.student.core.statement.dto.ReqComponentInfo-parent" abstract="true" parent="objectStructureDefinition">
+<property name="name" value="org.kuali.student.core.statement.dto.ReqComponentInfo"/>
+<property name="attributes">
+<list>
+<ref bean="reqComponentInfo.desc"/>
+<ref bean="reqComponentInfo.effectiveDate"/>
+<ref bean="reqComponentInfo.expirationDate"/>
+<ref bean="reqComponentInfo.id"/>
+<ref bean="reqComponentInfo.naturalLanguageTranslation"/>
+<ref bean="reqComponentInfo.reqCompFields"/>
+<ref bean="reqComponentInfo.state"/>
+<ref bean="reqComponentInfo.type"/>
+</list>
+</property>
+<property name="hasMetaData" value="true"/>
+</bean>
+<bean id="org.kuali.student.core.statement.dto.ReqComponentInfo" parent="org.kuali.student.core.statement.dto.ReqComponentInfo-parent"/>
+
+<bean id="reqComponentInfo.desc-parent" abstract="true" parent="baseComplex">
+<property name="name" value="desc"/>
+<property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+</bean>
+<bean id="reqComponentInfo.desc" parent="reqComponentInfo.desc-parent"/>
+
+<bean id="reqComponentInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+<property name="name" value="effectiveDate"/>
+</bean>
+<bean id="reqComponentInfo.effectiveDate" parent="reqComponentInfo.effectiveDate-parent"/>
+
+<bean id="reqComponentInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+<property name="name" value="expirationDate"/>
+</bean>
+<bean id="reqComponentInfo.expirationDate" parent="reqComponentInfo.expirationDate-parent"/>
+
+<bean id="reqComponentInfo.id-parent" abstract="true" parent="baseKualiId">
+<property name="name" value="id"/>
+</bean>
+<bean id="reqComponentInfo.id" parent="reqComponentInfo.id-parent"/>
+
+<bean id="reqComponentInfo.naturalLanguageTranslation-parent" abstract="true" parent="baseStringReallyLong">
+<property name="name" value="naturalLanguageTranslation"/>
+</bean>
+<bean id="reqComponentInfo.naturalLanguageTranslation" parent="reqComponentInfo.naturalLanguageTranslation-parent"/>
+
+<bean id="reqComponentInfo.reqCompFields-parent" abstract="true" parent="baseComplexRepeating">
+<property name="name" value="reqCompFields"/>
+<property name="dataObjectStructure" ref="org.kuali.student.core.statement.dto.ReqCompFieldInfo"/>
+</bean>
+<bean id="reqComponentInfo.reqCompFields" parent="reqComponentInfo.reqCompFields-parent"/>
+
+<bean id="reqComponentInfo.state-parent" abstract="true" parent="baseKualiState">
+<property name="name" value="state"/>
+</bean>
+<bean id="reqComponentInfo.state" parent="reqComponentInfo.state-parent"/>
+
+<bean id="reqComponentInfo.type-parent" abstract="true" parent="baseKualiType">
+<property name="name" value="type"/>
+</bean>
+<bean id="reqComponentInfo.type" parent="reqComponentInfo.type-parent"/>
+
+<!-- ReqCompFieldInfo-->
+<bean id="org.kuali.student.core.statement.dto.ReqCompFieldInfo-parent" abstract="true" parent="objectStructureDefinition">
+<property name="name" value="org.kuali.student.core.statement.dto.ReqCompFieldInfo"/>
+<property name="attributes">
+<list>
+<ref bean="reqCompFieldInfo.id"/>
+<ref bean="reqCompFieldInfo.type"/>
+<ref bean="reqCompFieldInfo.value"/>
+</list>
+</property>
+<property name="hasMetaData" value="true"/>
+</bean>
+<bean id="org.kuali.student.core.statement.dto.ReqCompFieldInfo" parent="org.kuali.student.core.statement.dto.ReqCompFieldInfo-parent"/>
+
+<bean id="reqCompFieldInfo.id-parent" abstract="true" parent="baseKualiId">
+<property name="name" value="id"/>
+</bean>
+<bean id="reqCompFieldInfo.id" parent="reqCompFieldInfo.id-parent"/>
+
+<bean id="reqCompFieldInfo.type-parent" abstract="true" parent="baseKualiType">
+<property name="name" value="type"/>
+</bean>
+<bean id="reqCompFieldInfo.type" parent="reqCompFieldInfo.type-parent"/>
+
+<bean id="reqCompFieldInfo.value-parent" abstract="true" parent="baseStringLong">
+ <!--TODO: change validation depending on the type-->
+<property name="name" value="value"/>
+</bean>
+<bean id="reqCompFieldInfo.value" parent="reqCompFieldInfo.value-parent"/>
+
+</beans>

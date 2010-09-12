@@ -1,0 +1,16 @@
+.transcriptTitle {
+	width: 37.5em;
+}
+
+.description-plain {
+	width: 37.5em;
+}
+
+.instructors .gwt-SuggestBox {
+	width: 30em;
+}
+
+/* The title for Description and Rationale section */
+.cluProposalTitleSection {
+	border-bottom: 1px solid #D8D8D8;
+}

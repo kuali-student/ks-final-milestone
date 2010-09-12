@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ProxyTicketValidationService" targetNamespace="http://org.kuali.student/security/saml" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://org.kuali.student/security/saml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/security/saml" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/security/saml">
+    <xs:element name="validateProxyTicket" type="tns:validateProxyTicket"/>
+    <xs:element name="validateProxyTicketResponse" type="tns:validateProxyTicketResponse"/>
+    <xs:complexType name="validateProxyTicket">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="proxyTicketId" type="xs:string"/>
+            <xs:element minOccurs="0" name="proxyTargetService" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateProxyTicketResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="validateProxyTicketResponse">
+    <wsdl:part name="parameters" element="tns:validateProxyTicketResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateProxyTicket">
+    <wsdl:part name="parameters" element="tns:validateProxyTicket">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ProxyTicketValidationService">
+    <wsdl:operation name="validateProxyTicket">
+      <wsdl:input name="validateProxyTicket" message="tns:validateProxyTicket">
+    </wsdl:input>
+      <wsdl:output name="validateProxyTicketResponse" message="tns:validateProxyTicketResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProxyTicketValidationServiceServiceSoapBinding" type="tns:ProxyTicketValidationService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="validateProxyTicket">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateProxyTicket">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateProxyTicketResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProxyTicketValidationService">
+    <wsdl:port name="ProxyTicketValidationServicePort" binding="tns:ProxyTicketValidationServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ProxyTicketValidationServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="kimPermissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl">
+		<property name="permissionDao" ref="kimPermissionDao" />
+		<property name="roleService" ref="kimRoleService" />
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
+		<property name="serviceDefinition">
+			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
+				p:localServiceName="kimPermissionServiceUnsecure">
+				<property name="busSecurity" value="false" />
+				<property name="jaxWsService" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
+		<property name="serviceDefinition">
+			<bean parent="kimSoapService" p:service-ref="kimIdentityService"
+				p:localServiceName="kimIdentityServiceSOAPUnsecure">
+				<property name="busSecurity" value="false" />
+				<property name="jaxWsService" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="studentRiceModule" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+		<property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
+	</bean>
+
+	<bean id="studentRiceModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+		<property name="namespaceCode" value="KS-SYS" />
+		<property name="initializeDataDictionary" value="true" />
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+			</list>
+		</property>
+		<property name="packagePrefixes">
+			<list>
+				<value>org.kuali.rice.student.</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
+	<bean id="ksOrgAdminRoleTypeService"
+		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		<property name="includedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.Chair</value>
+			</list>
+		</property>
+		<!--<property name="orgService" ref="orgClient"/>-->
+	</bean>
+
+	<!-- Org Derived role (anyone that's related to this org) -->
+	<bean id="ksOrgCommitteeRoleTypeService"
+		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		<property name="excludedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.Chair</value>
+			</list>
+		</property>
+		<!--<property name="orgService" ref="orgClient"/>-->
+	</bean>
+
+	<!-- Action Request Derived role -->
+	<bean id="ksActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSActionRequestDerivedRoleTypeServiceImpl"/>
+
+	<!-- Route Log Derived role -->
+	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl"/>
+
+	<!-- Hierarchy Derived role -->
+<!--
+	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.HierarchyNodeTestRoleTypeServiceBase" />
+-->
+</beans>

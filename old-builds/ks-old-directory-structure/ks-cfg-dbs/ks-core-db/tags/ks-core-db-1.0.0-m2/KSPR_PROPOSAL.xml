@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSPR_PROPOSAL CREATETIME="20091007131944" NAME="test1"
+        PROPOSAL_ID="ae24cb9a-0c9a-4d9d-bed1-4976e31aa36a"
+        STATE="draft.private" TYPE="kuali.proposal.type.course.create"
+        UPDATETIME="20091007131944" VERSIONIND="0"/>
+</dataset>

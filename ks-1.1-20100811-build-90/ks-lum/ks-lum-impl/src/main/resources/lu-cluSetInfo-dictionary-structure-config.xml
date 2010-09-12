@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ************************************** -->
+<!-- object structure for object.cluSetInfo -->
+<!-- ************************************** -->
+<!-- Detailed information about a single CLU Set. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluSetInfo" id="object.cluSetInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.cluSetInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluSetInfo" id="object.cluSetInfo" parent="object.cluSetInfo.abstract"/>
+
+<dict:type key="*" id="type.cluSetInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.cluSetInfo"/>
+</dict:type>
+<dict:type key="*" id="type.cluSetInfo" parent="type.cluSetInfo.abstract"/>
+
+<!-- ********************************************** -->
+<!-- State for state.cluSetInfo.(default).(default) -->
+<!-- ********************************************** -->
+
+<dict:state key="*" id="state.cluSetInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluSetInfo.name"/>
+	<dict:fieldRef bean="field.cluSetInfo.desc"/>
+	<dict:fieldRef bean="field.cluSetInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.cluSetInfo.expirationDate"/>
+	<dict:fieldRef bean="field.cluSetInfo.membershipQuery"/>
+	<dict:fieldRef bean="field.cluSetInfo.cluSetIds"/>
+	<dict:fieldRef bean="field.cluSetInfo.cluIds"/>
+	<dict:fieldRef bean="field.cluSetInfo.metaInfo"/>
+	<dict:fieldRef bean="field.cluSetInfo.type"/>
+	<dict:fieldRef bean="field.cluSetInfo.state"/>
+	<dict:fieldRef bean="field.cluSetInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.cluSetInfo" parent="state.cluSetInfo.abstract"/>
+
+
+<dict:field key="name" id="field.cluSetInfo.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.name.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.name.cd"/>
+</dict:field>
+<dict:field key="name" id="field.cluSetInfo.name" parent="field.cluSetInfo.name.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.name.fd.abstract" abstract="true">
+	<dict:name>CLU Set Name</dict:name>
+	<dict:desc>Friendly name of the CLU Set.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.name.fd" parent="field.cluSetInfo.name.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
+<dict:constraintDescriptor id="field.cluSetInfo.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="field.cluSetInfo.name.cd" parent="field.cluSetInfo.name.cd.abstract"/>
+
+<dict:field key="desc" id="field.cluSetInfo.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.desc.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="field.cluSetInfo.desc" parent="field.cluSetInfo.desc.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.fd.abstract" abstract="true">
+	<dict:name>CLU Set Description</dict:name>
+	<dict:desc>Narrative description of the CLU Set.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluSetInfo.desc"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.fd" parent="field.cluSetInfo.desc.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.cluSetInfo.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="field.cluSetInfo.desc.cd" parent="field.cluSetInfo.desc.cd.abstract"/>
+
+<!-- ********************************************************************* -->
+<!-- object structure for object.field.cluSetInfo.desc.(default).(default) -->
+<!-- ********************************************************************* -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluSetInfo.desc.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluSetInfo.desc"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluSetInfo.desc" parent="object.field.cluSetInfo.desc.abstract"/>
+
+<dict:type key="*" id="type.field.cluSetInfo.desc.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluSetInfo.desc"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluSetInfo.desc" parent="type.field.cluSetInfo.desc.abstract"/>
+
+<!-- ***************************************************************************** -->
+<!-- State for state.field.cluSetInfo.desc.(default).(default).(default).(default) -->
+<!-- ***************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluSetInfo.desc.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluSetInfo.desc.plain"/>
+	<dict:fieldRef bean="field.cluSetInfo.desc.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluSetInfo.desc" parent="state.field.cluSetInfo.desc.abstract"/>
+
+
+<dict:field key="plain" id="field.cluSetInfo.desc.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.desc.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.desc.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.cluSetInfo.desc.plain" parent="field.cluSetInfo.desc.plain.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.plain.fd" parent="field.cluSetInfo.desc.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.cluSetInfo.desc.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.cluSetInfo.desc.plain.cd" parent="field.cluSetInfo.desc.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.cluSetInfo.desc.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.desc.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.desc.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.cluSetInfo.desc.formatted" parent="field.cluSetInfo.desc.formatted.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.formatted.fd" parent="field.cluSetInfo.desc.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.cluSetInfo.desc.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.cluSetInfo.desc.formatted.cd" parent="field.cluSetInfo.desc.formatted.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.cluSetInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.cluSetInfo.effectiveDate" parent="field.cluSetInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this CLU Set became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.effectiveDate.fd" parent="field.cluSetInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.cluSetInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.cluSetInfo.effectiveDate.cd" parent="field.cluSetInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.cluSetInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.cluSetInfo.expirationDate" parent="field.cluSetInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this CLU Set expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.expirationDate.fd" parent="field.cluSetInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.cluSetInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.cluSetInfo.expirationDate.cd" parent="field.cluSetInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="membershipQuery" id="field.cluSetInfo.membershipQuery.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.membershipQuery.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.membershipQuery.cd"/>
+</dict:field>
+<dict:field key="membershipQuery" id="field.cluSetInfo.membershipQuery" parent="field.cluSetInfo.membershipQuery.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.fd.abstract" abstract="true">
+	<dict:name>Membership Query</dict:name>
+	<dict:desc>Specifies a search for CLU identifiers. Present for dynamic CLU Sets</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluSetInfo.membershipQuery"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.fd" parent="field.cluSetInfo.membershipQuery.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="membershipQuery" id="field.cluSetInfo.membershipQuery.cd" parent="field.cluSetInfo.membershipQuery.cd.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- object structure for object.field.cluSetInfo.membershipQuery.(default).(default) -->
+<!-- ******************************************************************************** -->
+<!-- Specifies a search for CLU identifiers. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.MembershipQueryInfo" id="object.field.cluSetInfo.membershipQuery.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluSetInfo.membershipQuery"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.MembershipQueryInfo" id="object.field.cluSetInfo.membershipQuery" parent="object.field.cluSetInfo.membershipQuery.abstract"/>
+
+<dict:type key="*" id="type.field.cluSetInfo.membershipQuery.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluSetInfo.membershipQuery"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluSetInfo.membershipQuery" parent="type.field.cluSetInfo.membershipQuery.abstract"/>
+
+<!-- **************************************************************************************** -->
+<!-- State for state.field.cluSetInfo.membershipQuery.(default).(default).(default).(default) -->
+<!-- **************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluSetInfo.membershipQuery.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluSetInfo.membershipQuery.searchTypeKey"/>
+	<dict:fieldRef bean="field.cluSetInfo.membershipQuery.queryParamValueList"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluSetInfo.membershipQuery" parent="state.field.cluSetInfo.membershipQuery.abstract"/>
+
+
+<dict:field key="searchTypeKey" id="field.cluSetInfo.membershipQuery.searchTypeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.membershipQuery.searchTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.membershipQuery.searchTypeKey.cd"/>
+</dict:field>
+<dict:field key="searchTypeKey" id="field.cluSetInfo.membershipQuery.searchTypeKey" parent="field.cluSetInfo.membershipQuery.searchTypeKey.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.searchTypeKey.fd.abstract" abstract="true">
+	<dict:name>search Type Key</dict:name>
+	<dict:desc>Identifier for a search type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.searchTypeKey.fd" parent="field.cluSetInfo.membershipQuery.searchTypeKey.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid search types -->
+<dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.searchTypeKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.search.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="searchTypeKey" id="field.cluSetInfo.membershipQuery.searchTypeKey.cd" parent="field.cluSetInfo.membershipQuery.searchTypeKey.cd.abstract"/>
+
+<dict:field key="queryParamValueList" id="field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.membershipQuery.queryParamValueList.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.membershipQuery.queryParamValueList.cd"/>
+</dict:field>
+<dict:field key="queryParamValueList" id="field.cluSetInfo.membershipQuery.queryParamValueList" parent="field.cluSetInfo.membershipQuery.queryParamValueList.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.fd.abstract" abstract="true">
+	<dict:name>query Parameter Value List</dict:name>
+	<dict:desc>List of query parameter values. Not required if the search doesn&apos;t extend beyond the included object.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluSetInfo.membershipQuery.queryParamValueList"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.fd.abstract"/>
+<!-- Optional; Repeating -->
+<dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="queryParamValueList" id="field.cluSetInfo.membershipQuery.queryParamValueList.cd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.cd.abstract"/>
+
+<!-- ************************************************************************************************************************ -->
+<!-- object structure for object.field.cluSetInfo.membershipQuery.(default).(default).queryParamValueList.(default).(default) -->
+<!-- ************************************************************************************************************************ -->
+<!-- Value(s) for a given query parameter. -->
+<dict:objectStructure key="org.kuali.student.core.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluSetInfo.membershipQuery.queryParamValueList"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList" parent="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract"/>
+
+<dict:type key="*" id="type.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluSetInfo.membershipQuery.queryParamValueList"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluSetInfo.membershipQuery.queryParamValueList" parent="type.field.cluSetInfo.membershipQuery.queryParamValueList.abstract"/>
+
+<!-- ******************************************************************************************************************************** -->
+<!-- State for state.field.cluSetInfo.membershipQuery.(default).(default).queryParamValueList.(default).(default).(default).(default) -->
+<!-- ******************************************************************************************************************************** -->
+
+<dict:state key="*" id="state.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluSetInfo.membershipQuery.queryParamValueList.value"/>
+	<dict:fieldRef bean="field.cluSetInfo.membershipQuery.queryParamValueList.key"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluSetInfo.membershipQuery.queryParamValueList" parent="state.field.cluSetInfo.membershipQuery.queryParamValueList.abstract"/>
+
+
+<dict:field key="value" id="field.cluSetInfo.membershipQuery.queryParamValueList.value.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.membershipQuery.queryParamValueList.value.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.membershipQuery.queryParamValueList.value.cd"/>
+</dict:field>
+<dict:field key="value" id="field.cluSetInfo.membershipQuery.queryParamValueList.value" parent="field.cluSetInfo.membershipQuery.queryParamValueList.value.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.value.fd.abstract" abstract="true">
+	<dict:name>Query Parameter Value</dict:name>
+	<dict:desc>Value(s) for the query parameter.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.value.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.value.fd.abstract"/>
+<!-- Optional; Repeating -->
+<dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.value.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="value" id="field.cluSetInfo.membershipQuery.queryParamValueList.value.cd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.value.cd.abstract"/>
+
+<dict:field key="key" id="field.cluSetInfo.membershipQuery.queryParamValueList.key.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.membershipQuery.queryParamValueList.key.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.membershipQuery.queryParamValueList.key.cd"/>
+</dict:field>
+<dict:field key="key" id="field.cluSetInfo.membershipQuery.queryParamValueList.key" parent="field.cluSetInfo.membershipQuery.queryParamValueList.key.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.key.fd.abstract" abstract="true">
+	<dict:name>Query Parameter Identifier</dict:name>
+	<dict:desc>Identifier for a query parameter.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.key.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.key.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid query parameter types for searches -->
+<dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.key.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.query.param.value.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="key" id="field.cluSetInfo.membershipQuery.queryParamValueList.key.cd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.key.cd.abstract"/>
+
+<dict:field key="cluSetIds" id="field.cluSetInfo.cluSetIds.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.cluSetIds.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.cluSetIds.cd"/>
+</dict:field>
+<dict:field key="cluSetIds" id="field.cluSetInfo.cluSetIds" parent="field.cluSetInfo.cluSetIds.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.cluSetIds.fd.abstract" abstract="true">
+	<dict:name>Contained CLU Set Identifiers</dict:name>
+	<dict:desc>List of identifiers of directly contained CLU Sets. Present for enumerated CLU Sets.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.cluSetIds.fd" parent="field.cluSetInfo.cluSetIds.fd.abstract"/>
+<!-- Optional; Repeating; Id of an existing CLU Set Id -->
+<dict:constraintDescriptor id="field.cluSetInfo.cluSetIds.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.clu.set.id"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="cluSetIds" id="field.cluSetInfo.cluSetIds.cd" parent="field.cluSetInfo.cluSetIds.cd.abstract"/>
+
+<dict:field key="cluIds" id="field.cluSetInfo.cluIds.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.cluIds.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.cluIds.cd"/>
+</dict:field>
+<dict:field key="cluIds" id="field.cluSetInfo.cluIds" parent="field.cluSetInfo.cluIds.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.cluIds.fd.abstract" abstract="true">
+	<dict:name>Contained CLU Identifiers</dict:name>
+	<dict:desc>List of identifiers of directly contained CLUs. Present for enumerated CLU Sets.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.cluIds.fd" parent="field.cluSetInfo.cluIds.fd.abstract"/>
+<!-- Optional; Repeating; Id of an existing CLU -->
+<dict:constraintDescriptor id="field.cluSetInfo.cluIds.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.cluId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="cluIds" id="field.cluSetInfo.cluIds.cd" parent="field.cluSetInfo.cluIds.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.cluSetInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.cluSetInfo.metaInfo" parent="field.cluSetInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.cluSetInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.fd" parent="field.cluSetInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.cluSetInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.cluSetInfo.metaInfo.cd" parent="field.cluSetInfo.metaInfo.cd.abstract"/>
+
+<!-- ************************************************************************* -->
+<!-- object structure for object.field.cluSetInfo.metaInfo.(default).(default) -->
+<!-- ************************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluSetInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluSetInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluSetInfo.metaInfo" parent="object.field.cluSetInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.cluSetInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.cluSetInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.cluSetInfo.metaInfo" parent="type.field.cluSetInfo.metaInfo.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- State for state.field.cluSetInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- ********************************************************************************* -->
+
+<dict:state key="*" id="state.field.cluSetInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluSetInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.cluSetInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.cluSetInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.cluSetInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.cluSetInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.cluSetInfo.metaInfo" parent="state.field.cluSetInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.cluSetInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.cluSetInfo.metaInfo.versionInd" parent="field.cluSetInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.versionInd.fd" parent="field.cluSetInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.cluSetInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.cluSetInfo.metaInfo.versionInd.cd" parent="field.cluSetInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.cluSetInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.cluSetInfo.metaInfo.createTime" parent="field.cluSetInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.createTime.fd" parent="field.cluSetInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.cluSetInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.cluSetInfo.metaInfo.createTime.cd" parent="field.cluSetInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.cluSetInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.cluSetInfo.metaInfo.createId" parent="field.cluSetInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.createId.fd" parent="field.cluSetInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.cluSetInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.cluSetInfo.metaInfo.createId.cd" parent="field.cluSetInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.cluSetInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.cluSetInfo.metaInfo.updateTime" parent="field.cluSetInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.updateTime.fd" parent="field.cluSetInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.cluSetInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.cluSetInfo.metaInfo.updateTime.cd" parent="field.cluSetInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.cluSetInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.cluSetInfo.metaInfo.updateId" parent="field.cluSetInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.updateId.fd" parent="field.cluSetInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.cluSetInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.cluSetInfo.metaInfo.updateId.cd" parent="field.cluSetInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.cluSetInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.cluSetInfo.type" parent="field.cluSetInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.type.fd.abstract" abstract="true">
+	<dict:name>CLU Set Type</dict:name>
+	<dict:desc>Unique identifier for a clu set type. Once set at create time, this field may not be updated.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.type.fd" parent="field.cluSetInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid clu set types -->
+<dict:constraintDescriptor id="field.cluSetInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.clu.set.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.cluSetInfo.type.cd" parent="field.cluSetInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.cluSetInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.state.cd"/>
+</dict:field>
+<dict:field key="state" id="field.cluSetInfo.state" parent="field.cluSetInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.state.fd.abstract" abstract="true">
+	<dict:name>CLU Set State</dict:name>
+	<dict:desc>The current status of the clu set. The values for this field are constrained to those in the cluSetState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.state.fd" parent="field.cluSetInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE; In list of valid clu set states -->
+<dict:constraintDescriptor id="field.cluSetInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.clu.set.states"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.cluSetInfo.state.cd" parent="field.cluSetInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.cluSetInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.cluSetInfo.id" parent="field.cluSetInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.id.fd.abstract" abstract="true">
+	<dict:name>CLU Set Identifier</dict:name>
+	<dict:desc>Unique identifier for a CLU Set. This is optional, due to the identifier being set at the time of creation. Once the CLU Set has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.cluSetInfo.id.fd" parent="field.cluSetInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.cluSetInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.cluSetInfo.id.cd" parent="field.cluSetInfo.id.cd.abstract"/>
+</beans>

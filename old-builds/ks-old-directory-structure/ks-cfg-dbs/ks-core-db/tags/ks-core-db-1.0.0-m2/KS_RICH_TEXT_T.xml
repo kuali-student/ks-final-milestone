@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Comment 1&lt;/p>"
+        ID="RT-DESC-COMMENT-1" PLAIN="Comment 1"/>
+    <KS_RICH_TEXT_T ID="RT-DESC-DOCUMENT-1" PLAIN="Documents attached to a proposal"/>
+    <KS_RICH_TEXT_T ID="RT-DESC-DOCUMENT-2" PLAIN="Documents attached to a Course"/>
+</dataset>

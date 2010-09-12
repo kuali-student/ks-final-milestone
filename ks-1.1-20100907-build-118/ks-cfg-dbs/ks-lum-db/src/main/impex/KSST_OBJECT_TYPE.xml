@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSST_OBJECT_TYPE NAME="Kuali CLU" TYPE_DESC="Kuali CLU" TYPE_KEY="clu"/>
+</dataset>

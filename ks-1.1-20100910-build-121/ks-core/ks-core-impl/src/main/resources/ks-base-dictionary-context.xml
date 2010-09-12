@@ -1,0 +1,303 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+ <import resource="classpath:common-lookup-context.xml"/>
+ <bean id="objectStructureDefinition"
+       class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition"
+       abstract="true" />
+ <bean id="constraint" abstract="true"
+       class="org.kuali.student.core.dictionary.dto.Constraint" />
+ <bean id="caseConstraint" abstract="true"
+       class="org.kuali.student.core.dictionary.dto.CaseConstraint" />
+ <bean id="whenConstraint" abstract="true"
+       class="org.kuali.student.core.dictionary.dto.WhenConstraint" />
+ <!--TODO: rename the java dto to be requiresConstraint-->
+ <bean id="requiresConstraint" abstract="true"
+       class="org.kuali.student.core.dictionary.dto.RequiredConstraint" />
+
+
+ <bean id="ValidCharDefinition" abstract="true"
+       class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint" />
+
+ <bean id="alphanumericHyphenPeriod" parent="ValidCharDefinition">
+  <property name="value" value="regex:[A-Za-z0-9.\-]*" />
+  <property name="labelKey" value="validation.validChars.alphanumericHyphenPeriod"/>
+ </bean>
+ <bean id="digits" parent="ValidCharDefinition">
+  <property name="value" value="regex:[0-9]*"/>
+  <property name="labelKey" value="validation.validChars.digits"/>
+ </bean>
+ <bean id="numeric" parent="ValidCharDefinition">
+  <!--TODO: make this so it allows in only values that can be converted to a number-->
+  <property name="value" value="regex:[0-9]*"/>
+  <property name="labelKey" value="validation.validChars.numeric"/>
+ </bean>
+ <bean id="alpha" parent="ValidCharDefinition">
+  <property name="value" value="regex:[A-Za-z]*"/>
+ </bean>
+ <bean id="upperCase" parent="ValidCharDefinition">
+  <property name="value" value="regex:[A-Z0-9.\-]*"/>
+ </bean>
+ <bean id="upperAlpha" parent="ValidCharDefinition">
+  <property name="value" value="regex:[A-Z]*"/>
+ </bean>
+ <bean id="lineText" parent="ValidCharDefinition">
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;/\-;:&#34;'&amp;%$#@!\t ]*"/>
+ </bean>
+ <bean id="multiLineText" parent="ValidCharDefinition">
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;/\-;:&#34;'&amp;%$#@!\t\n\r ]*"/>
+ </bean>
+
+ <bean id="customEditorConfigurer"
+       class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+  <property name="customEditors">
+   <map>
+    <entry key="org.kuali.student.core.dictionary.dto.DataType">
+     <bean
+      class="org.kuali.student.common.util.spring.SimpleEnumPropertyEditor">
+      <constructor-arg
+       value="org.kuali.student.core.dictionary.dto.DataType" />
+     </bean>
+    </entry>
+   </map>
+  </property>
+ </bean>
+
+ <bean id="baseFieldDefinition"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition"
+       abstract="true">
+  <property name="maxOccurs" value="1" />
+ </bean>
+ <bean id="baseFieldDefinitionRequired" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseFieldDefinitionRepeating" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+
+ <bean id="baseFieldDefinitionRepeatingRequired" parent="baseFieldDefinitionRepeating"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition"
+       abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+
+ <bean id="baseIntegerRepeating" parent="baseFieldDefinitionRepeating"
+       abstract="true">
+  <property name="dataType" value="INTEGER" />
+ </bean>
+ <bean id="baseLongRepeating" parent="baseFieldDefinitionRepeating"
+       abstract="true">
+  <property name="dataType" value="LONG" />
+ </bean>
+ <bean id="baseDoubleRepeating" parent="baseFieldDefinitionRepeating"
+       abstract="true">
+  <property name="dataType" value="DOUBLE" />
+ </bean>
+ <bean id="baseFloatRepeating" parent="baseFieldDefinitionRepeating"
+       abstract="true">
+  <property name="dataType" value="FLOAT" />
+ </bean>
+ <bean id="baseBooleanRepeating" parent="baseFieldDefinitionRepeating"
+       abstract="true">
+  <property name="dataType" value="BOOLEAN" />
+ </bean>
+ <bean id="baseBooleanRequired" parent="baseFieldDefinitionRequired"
+       abstract="true">
+  <property name="dataType" value="BOOLEAN" />
+ </bean>
+ <bean id="baseDateRepeating" parent="baseFieldDefinitionRepeating"
+       abstract="true">
+  <property name="dataType" value="DATE" />
+ </bean>
+ <bean id="baseStringRepeating" parent="baseFieldDefinitionRepeating"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+ </bean>
+ <bean id="baseStringRepeatingRequired" parent="baseFieldDefinitionRepeatingRequired"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+ </bean>
+ <bean id="baseInteger" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="INTEGER" />
+ </bean>
+ <bean id="baseNumericString" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="String" />
+  <property name="validChars" ref="numeric"/>
+ </bean>
+ <bean id="baseLong" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="LONG" />
+ </bean>
+ <bean id="baseDouble" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="maxOccurs" value="1" />
+  <property name="dataType" value="DOUBLE" />
+ </bean>
+ <bean id="baseFloat" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="FLOAT" />
+ </bean>
+ <bean id="baseBoolean" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="BOOLEAN" />
+ </bean>
+ <bean id="baseDate" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="DATE" />
+ </bean>
+ <bean id="baseString" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="255" />
+ </bean>
+ <bean id="baseStringLong" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="1999" />
+ </bean>
+ <bean id="baseStringReallyLong" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="14000" />
+ </bean>
+ <bean id="baseComplex" parent="baseFieldDefinition" abstract="true">
+  <property name="dataType" value="COMPLEX" />
+ </bean>
+ <bean id="baseComplexRequired" parent="baseComplex" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseComplexRepeating" parent="baseComplex" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiId" parent="baseString" abstract="true">
+  <property name="minLength" value="1" />
+  <property name="maxLength" value="36" />
+ </bean>
+ <bean id="baseKualiIdRequired" parent="baseKualiId" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiOrgId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid org -->
+ </bean>
+ <bean id="baseKualiCluId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid clu -->
+ </bean>
+<bean id="baseKualiCluSetId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid cluSet -->
+ </bean>
+ <bean id="baseKualiPersonId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid person -->
+ </bean>
+ <bean id="baseKualiStatementId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid statement -->
+ </bean>
+ <bean id="baseKualiReqComponentId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid requirement component -->
+ </bean>
+ <bean id="baseKualiOrgIdRequired" parent="baseKualiOrgId" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiCluIdRequired" parent="baseKualiCluId" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiPersonIdRequired" parent="baseKualiPersonId" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiOrgIdRepeating" parent="baseKualiOrgId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiCluIdRepeating" parent="baseKualiCluId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiPersonIdRepeating" parent="baseKualiPersonId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiStatementIdRepeating" parent="baseKualiStatementId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiReqComponentIdRepeating" parent="baseKualiReqComponentId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseDateRequired" parent="baseDate">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiEffectiveDate" parent="baseDate">
+ </bean>
+ <!--TODO: Need to add	cross field field validation with effective date-->
+ <bean id="baseKualiExpirationDate" parent="baseDate">
+ </bean>
+
+
+ <bean id="baseKualiCode" parent="baseString" abstract="true">
+  <property name="minLength" value="1" />
+  <property name="maxLength" value="60" />
+  <property name="validChars" ref="alphanumericHyphenPeriod"/>
+ </bean>
+ <bean id="baseKualiCodeRepeating" parent="baseKualiCode" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiCodeRequired" parent="baseKualiCode" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiName" parent="baseString" abstract="true">
+  <property name="minLength" value="1" />
+  <property name="validChars" ref="lineText"/>
+ </bean>
+ <bean id="baseKualiNameRequired" parent="baseKualiName" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiDescription" parent="baseStringLong" abstract="true">
+  <property name="minLength" value="1" />
+  <property name="validChars" ref="multiLineText"/>
+ </bean>
+ <bean id="baseKualiDescriptionRequired" parent="baseKualiDescription" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiRichText" parent="baseStringReallyLong" abstract="true">
+  <property name="minLength" value="1" />
+  <property name="validChars" ref="multiLineText"/>
+ </bean>
+ <bean id="baseKualiRichTextRequired" parent="baseKualiRichText" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiTypeRequired" parent="baseKualiType" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+ <bean id="baseKualiTypeRepeating" parent="baseKualiType" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiType" parent="baseKualiCode" abstract="true">
+ </bean>
+ <bean id="baseKualiState" parent="baseKualiCode" abstract="true">
+ </bean>
+ <bean id="baseKualiStateRequired" parent="baseKualiState" abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
+
+  <!-- RichTextInfo-->
+ <bean id="org.kuali.student.core.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.core.dto.RichTextInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="richTextInfo.formatted" />
+    <ref bean="richTextInfo.plain" />
+   </list>
+  </property>
+ </bean>
+ <bean id="org.kuali.student.core.dto.RichTextInfo" parent="org.kuali.student.core.dto.RichTextInfo-parent" />
+
+ <bean id="richTextInfo.formatted-parent" abstract="true" parent="baseKualiRichText">
+  <property name="name" value="formatted" />
+ </bean>
+ <bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
+
+ <bean id="richTextInfo.plain-parent" abstract="true" parent="baseKualiRichText">
+  <property name="name" value="plain" />
+ </bean>
+ <bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
+</beans>
