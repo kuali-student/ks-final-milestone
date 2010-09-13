@@ -1,4 +1,4 @@
-package org.apache.torque.mojo;
+package org.apache.torque.util;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isEmpty;

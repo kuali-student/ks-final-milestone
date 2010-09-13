@@ -1,6 +1,7 @@
 package org.apache.torque.mojo;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.torque.util.ChangeDetector;
 
 /**
  * Generates SQL from schema XML files

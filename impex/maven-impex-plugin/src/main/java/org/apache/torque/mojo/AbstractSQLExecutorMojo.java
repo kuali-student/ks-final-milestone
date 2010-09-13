@@ -35,6 +35,8 @@ import org.apache.maven.settings.Server;
 import org.apache.maven.shared.filtering.MavenFileFilter;
 import org.apache.torque.engine.platform.Platform;
 import org.apache.torque.engine.platform.PlatformFactory;
+import org.apache.torque.util.JdbcConfigurer;
+import org.apache.torque.util.MojoDatabaseListener;
 import org.kuali.core.db.torque.PropertyHandlingException;
 import org.kuali.core.db.torque.Utils;
 import org.kuali.db.ConnectionHandler;

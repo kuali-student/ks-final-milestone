@@ -1,4 +1,4 @@
-package org.apache.torque.mojo;
+package org.apache.torque.util;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.tools.ant.BuildEvent;

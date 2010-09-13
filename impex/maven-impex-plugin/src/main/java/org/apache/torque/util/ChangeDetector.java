@@ -1,4 +1,4 @@
-package org.apache.torque.mojo;
+package org.apache.torque.util;
 
 import java.io.File;
 import java.util.List;

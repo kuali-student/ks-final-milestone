@@ -27,6 +27,8 @@ import java.util.Vector;
 
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.torque.util.SimpleScanner;
+import org.apache.torque.util.TransactionComparator;
 import org.kuali.db.Transaction;
 
 /**

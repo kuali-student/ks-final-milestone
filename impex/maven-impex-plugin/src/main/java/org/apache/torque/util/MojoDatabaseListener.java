@@ -1,4 +1,4 @@
-package org.apache.torque.mojo;
+package org.apache.torque.util;
 
 import org.kuali.core.db.torque.PrettyPrint;
 import org.kuali.core.db.torque.Utils;

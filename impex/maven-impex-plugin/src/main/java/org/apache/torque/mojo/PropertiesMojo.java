@@ -2,6 +2,7 @@ package org.apache.torque.mojo;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.torque.util.BeanPropertiesLoader;
 import org.kuali.core.db.torque.PropertyHandlingException;
 
 public class PropertiesMojo extends BaseMojo {

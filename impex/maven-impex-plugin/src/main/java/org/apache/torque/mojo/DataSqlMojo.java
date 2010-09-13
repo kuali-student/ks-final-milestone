@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.torque.util.ChangeDetector;
+import org.apache.torque.util.SimpleScanner;
 import org.kuali.core.db.torque.KualiTorqueDataSQLTask;
 
 /**

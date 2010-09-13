@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.torque.task.TorqueDataModelTask;
+import org.apache.torque.util.JdbcConfigurer;
+import org.apache.torque.util.SimpleScanner;
 import org.kuali.core.db.torque.PropertyHandlingException;
 import org.kuali.db.DatabaseType;
 

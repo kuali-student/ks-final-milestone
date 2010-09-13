@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
+import org.apache.torque.util.TransactionComparator;
 import org.junit.Test;
 import org.kuali.db.Transaction;
 
