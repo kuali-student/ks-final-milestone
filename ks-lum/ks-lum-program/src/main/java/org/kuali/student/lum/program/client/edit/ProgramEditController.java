@@ -31,8 +31,8 @@ public class ProgramEditController extends ProgramController {
      *
      * @param programModel
      */
-    public ProgramEditController(DataModel programModel, ViewContext viewContext) {
-        super(programModel, viewContext);
+    public ProgramEditController(String name, DataModel programModel, ViewContext viewContext) {
+        super(name, programModel, viewContext);
         configurer = GWT.create(ProgramEditConfigurer.class);
         initHandlers();
         initializeConfirmDialog();

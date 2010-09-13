@@ -14,7 +14,7 @@ public class VariationViewController extends ProgramController{
 	public static final String parentLinkbaseURL = GWT.getModuleBaseURL() + "LUMMain.jsp#/HOME/CURRICULUM_HOME/PROGRAM_VIEW";
 	
 	public VariationViewController(DataModel programModel, ViewContext viewContext) {
-		super(programModel, viewContext);
+		super("Variations", programModel, viewContext);
         configurer = GWT.create(VariationViewConfigurer.class);   
 	}
 

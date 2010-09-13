@@ -28,7 +28,7 @@ public class ProgramManager {
     public ProgramViewController getProgramViewController() {
         if (programViewController == null) {
             programModel.resetRoot();
-            programViewController = new ProgramViewController(programModel, viewContext);
+            programViewController = new ProgramViewController("Programs", programModel, viewContext);
         } else {
             programModel.resetRoot();
         }
@@ -45,7 +45,7 @@ public class ProgramManager {
     public ProgramEditController getProgramEditController() {
         if (programEditController == null) {
             programModel.resetRoot();
-            programEditController = new ProgramEditController(programModel, viewContext);
+            programEditController = new ProgramEditController("Programs", programModel, viewContext);
         } else {
             programModel.resetRoot();
         }

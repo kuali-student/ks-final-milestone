@@ -30,8 +30,8 @@ public class ProgramController extends MenuSectionController {
      *
      * @param programModel
      */
-    public ProgramController(DataModel programModel, ViewContext viewContext) {
-        super("");
+    public ProgramController(String name, DataModel programModel, ViewContext viewContext) {
+        super(name);
         this.programModel = programModel;
         setViewContext(viewContext);
         initializeModel();
