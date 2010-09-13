@@ -388,7 +388,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         AttributeSet qualification = new AttributeSet();
     	// FIXME: change this value to use constants from rice
         String DOCUMENT_TYPE_NAME = "documentTypeName";
-        qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourseProposal");
+        qualification.put(DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.create");
         qualification.put(idType, id);
         return qualification;
     }

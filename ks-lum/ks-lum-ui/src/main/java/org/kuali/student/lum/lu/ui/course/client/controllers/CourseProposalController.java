@@ -83,6 +83,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * Controller for course proposal screens
@@ -197,7 +198,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
-            getNewProposalWithCopyOfClu(callback, workCompleteCallback);
+            createModifyCluProposalModel("courseVersionIndId", "versionComment", callback, workCompleteCallback);
         } else{
             createNewCluProposalModel(callback, workCompleteCallback);
         }
@@ -377,30 +378,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	});
     }
 
-    @SuppressWarnings("unchecked")
-    private void getNewProposalWithCopyOfClu(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-    	KSBlockingProgressIndicator.addTask(loadDataTask);
-        cluProposalRpcServiceAsync.getNewVersionOfClu(getViewContext().getId(),"VERSION_COMMENT_HERE", new KSAsyncCallback<Data>(){
-
-            @Override
-            public void handleFailure(Throwable caught) {
-                Window.alert("Error loading Proposal: "+caught.getMessage());
-                createNewCluProposalModel(callback, workCompleteCallback);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
-            }
-
-            @Override
-            public void onSuccess(Data result) {
-                cluProposalModel.setRoot(result);
-		        setProposalHeaderTitle();
-		        setLastUpdated();
-                callback.onModelReady(cluProposalModel);
-                workCompleteCallback.exec(true);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
-            }
-
-        });
-    }
 
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
@@ -412,6 +389,25 @@ public class CourseProposalController extends MenuEditableSectionController impl
         workCompleteCallback.exec(true);
     }
 
+    @SuppressWarnings("unchecked")
+    private void createModifyCluProposalModel(String courseVersionIndId, String versionComment, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+        cluProposalModel.setRoot(new LuData());
+        
+        cluProposalModel.set(QueryPath.parse("proposal/proposalType"), "kuali.proposal.type.course.modify");
+        cluProposalModel.set(QueryPath.parse("versionInfo/versionIndId"), courseVersionIndId);
+        cluProposalModel.set(QueryPath.parse("versionInfo/versionComment"), versionComment);
+        cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>() {
+			public void onSuccess(DataSaveResult result) {
+				//TODO
+		        callback.onModelReady(cluProposalModel);
+		        workCompleteCallback.exec(true);
+			}
+			
+			public void onFailure(Throwable caught) {
+				//TODO
+			}
+		});
+    }
 
     public void doSaveAction(final SaveActionEvent saveActionEvent){
         requestModel(new ModelRequestCallback<DataModel>() {

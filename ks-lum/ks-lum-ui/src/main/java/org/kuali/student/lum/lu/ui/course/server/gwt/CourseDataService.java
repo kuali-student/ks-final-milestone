@@ -15,16 +15,14 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.assembly.transform.WorkflowFilter;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 
@@ -52,13 +50,21 @@ public class CourseDataService extends AbstractDataService {
 	}
 
 	@Override
-	protected Object save(Object dto) throws Exception {
+	protected Object save(Object dto, Map<String, String> properties) throws Exception {
 		CourseInfo courseInfo = (CourseInfo)dto;
-		
-		if (courseInfo.getId() == null){
-			courseInfo = courseService.createCourse(courseInfo);
-		} else {
-			courseInfo = courseService.updateCourse(courseInfo);
+		if(properties!=null&&"kuali.proposal.type.course.modify".equals(properties.get(WorkflowFilter.WORKFLOW_DOC_TYPE))){
+			//For Modify Course, see if we need to create a new version instead of create
+			if(courseInfo.getId() == null){
+				courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
+			}else{
+				courseInfo = courseService.updateCourse(courseInfo);
+			}
+		}else{
+			if (courseInfo.getId() == null){
+				courseInfo = courseService.createCourse(courseInfo);
+			} else {
+				courseInfo = courseService.updateCourse(courseInfo);
+			}
 		}
 		return courseInfo;
 	}
@@ -70,7 +76,7 @@ public class CourseDataService extends AbstractDataService {
 
 	@Override
 	protected String getDefaultWorkflowDocumentType() {
-		return "CluCreditCourseProposal";
+		return "kuali.proposal.type.course.create";
 	}
 
 	@Override

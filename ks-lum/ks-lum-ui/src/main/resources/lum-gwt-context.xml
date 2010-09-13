@@ -364,7 +364,7 @@
 
     <bean id="courseWorkflowFilter" parent="parentWorkflowFilter">
         <property name="dtoClass" value="org.kuali.student.lum.course.dto.CourseInfo"/>
-        <property name="docType" value="CluCreditCourseProposal"/>
+        <property name="docType" value="kuali.proposal.type.course.create"/>
         <property name="docFieldPaths">
             <map>
                 <entry key="cluId" value="id"/>

@@ -16,9 +16,7 @@
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 
 public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
@@ -28,15 +26,5 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public Data getNewVersionOfClu(String cluId,String versionComment)
-			throws OperationFailedException {
-		try {
-			return ((CourseDataService) getDataService()).createNewCourseVersion(cluId, versionComment);
-		} catch (Exception e) {
-			LOG.error("Create new version failed on id:"+cluId, e);
-			throw new OperationFailedException("Create new version failed on id:"+cluId,e);
-		}
-	}
 
 }

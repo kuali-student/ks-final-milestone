@@ -47,10 +47,13 @@
     <ref bean="courseInfo.variations" />
     <ref bean="courseInfo.pilotCourse" />
     <ref bean="courseInfo.specialTopicsCourse" />
+    <ref bean="courseInfo.versionInfo" />
+    
     <!-- Dynamic Attributes -->
     <ref bean="courseInfo.finalExamStatus" />
     <ref bean="courseInfo.finalExamRationale"/>
     <ref bean="courseInfo.outOfClassHours" />
+    
     <!-- Searches -->
     <!--TODO: remove these searches making them their own thing by reconfiguring 
          their model structure 
@@ -398,6 +401,12 @@
   <property name="defaultValue" value="kuali.lu.type.CreditCourse"/>
  </bean>
  <bean id="courseInfo.type" parent="courseInfo.type-parent" />
+
+<bean id="courseInfo.versionInfo-parent" abstract="true" parent="baseComplex">
+<property name="name" value="versionInfo"/>
+<property name="dataObjectStructure" ref="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+</bean>
+<bean id="courseInfo.versionInfo" parent="courseInfo.versionInfo-parent"/>
 
  <bean id="courseInfo.variations-parent" abstract="true" parent="cluInfo.alternateIdentifiers-parent">
   <property name="name" value="variations" />
@@ -1012,6 +1021,52 @@
  		<property name="name" value="fixedCreditValue"/>
  		<property name="dynamic" value="true"/>
 	</bean>
+<!-- VersionInfo-->
+<bean id="org.kuali.student.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
+<property name="name" value="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+<property name="attributes">
+<list>
+<ref bean="versionInfo.currentVersionEnd"/>
+<ref bean="versionInfo.currentVersionStart"/>
+<ref bean="versionInfo.sequenceNumber"/>
+<ref bean="versionInfo.versionComment"/>
+<ref bean="versionInfo.versionIndId"/>
+<ref bean="versionInfo.versionedFromId"/>
+</list>
+</property>
+</bean>
+<bean id="org.kuali.student.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.core.versionmanagement.dto.VersionInfo-parent"/>
+
+<bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
+<property name="name" value="currentVersionEnd"/>
+</bean>
+<bean id="versionInfo.currentVersionEnd" parent="versionInfo.currentVersionEnd-parent"/>
+
+<bean id="versionInfo.currentVersionStart-parent" abstract="true" parent="baseDate">
+<property name="name" value="currentVersionStart"/>
+</bean>
+<bean id="versionInfo.currentVersionStart" parent="versionInfo.currentVersionStart-parent"/>
+
+<bean id="versionInfo.sequenceNumber-parent" abstract="true" parent="baseLong">
+<property name="name" value="sequenceNumber"/>
+</bean>
+<bean id="versionInfo.sequenceNumber" parent="versionInfo.sequenceNumber-parent"/>
+
+<bean id="versionInfo.versionComment-parent" abstract="true" parent="baseString">
+<property name="name" value="versionComment"/>
+</bean>
+<bean id="versionInfo.versionComment" parent="versionInfo.versionComment-parent"/>
+
+<bean id="versionInfo.versionIndId-parent" abstract="true" parent="baseString">
+<property name="name" value="versionIndId"/>
+</bean>
+<bean id="versionInfo.versionIndId" parent="versionInfo.versionIndId-parent"/>
+
+<bean id="versionInfo.versionedFromId-parent" abstract="true" parent="baseString">
+<property name="name" value="versionedFromId"/>
+</bean>
+<bean id="versionInfo.versionedFromId" parent="versionInfo.versionedFromId-parent"/>
+
 
  <!-- activity TimeAmountInfo-->
  <bean id="activityInfo.duration.TimeAmountInfo-parent"

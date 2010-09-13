@@ -110,7 +110,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected boolean WITH_DIVIDER = true;
     protected boolean NO_DIVIDER = false;
 
-    public static final String WORKFLOW_DOC_TYPE = "CluCreditCourseProposal";
+    public static final String WORKFLOW_DOC_TYPE = "kuali.proposal.type.course.create";
     public static final String PROPOSAL_PATH = "proposal";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String COURSE_TITLE_PATH = "/courseTitle";

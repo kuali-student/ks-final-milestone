@@ -87,11 +87,10 @@ public abstract class AbstractDataService implements DataService{
 	@Override
 	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
 		Map<String, String> filterProperties = getDefaultFilterProperties();
-		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("proposalId"));
-
+		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, (String)data.query("proposal/proposalType"));
 		try {
 			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);
-			dto = save(dto);
+			dto = save(dto, filterProperties);
 				
 			Data persistedData = transformationManager.transform(dto, filterProperties);
 			return new DataSaveResult(null, persistedData);
@@ -146,7 +145,7 @@ public abstract class AbstractDataService implements DataService{
 			filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
 
 			Object dto = transformationManager.transform(data, getDtoClass(),filterProperties);
-			dto = save(dto);
+			dto = save(dto, filterProperties);
 				
 			Data persistedData = transformationManager.transform(dto,filterProperties);
 			return new DataSaveResult(null, persistedData);
@@ -210,7 +209,7 @@ public abstract class AbstractDataService implements DataService{
 	 * @return the dto retrieved by calling the appropriate service method
 	 * @throws Exception
 	 */ 
-	protected abstract Object save(Object dto) throws Exception;
+	protected abstract Object save(Object dto, Map<String, String> properties) throws Exception;
 	
 	/**
 	 * Implement this method to return the type of the dto object.
