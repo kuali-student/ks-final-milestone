@@ -72,9 +72,18 @@ public class ProgramController extends MenuSectionController {
             public void onSuccess(Data result) {
                 super.onSuccess(result);
                 programModel.setRoot(result);
+                setContentTitle(getProgramName());
                 callback.onModelReady(programModel);
             }
         });
+    }
+
+    private String getProgramName() {
+        String name = (String) programModel.get("/" + ProgramConstants.LONG_TITLE);
+        if (name == null) {
+            name = "Create New Program";
+        }
+        return name;
     }
 
     /**
@@ -132,7 +141,6 @@ public class ProgramController extends MenuSectionController {
         addStyleName("programController");
         configurer.setModelDefinition(programModel.getDefinition());
         configurer.configure(this);
-        this.setContentTitle("Programs");
     }
 
     @Override
