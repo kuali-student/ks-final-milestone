@@ -67,7 +67,11 @@ public class WorkflowFilter extends AbstractDTOFilter {
         //Get the workflow id
         String workflowId = properties.get(WORKFLOW_DOC_ID);
         
-
+        String docType = properties.get(WORKFLOW_DOC_TYPE);
+        if (docType == null){
+        	docType = getDocumentType();
+        }
+       
         //Get the workflow document or create one if workflow document doesn't exist
         DocumentDetailDTO docDetail;
         if (workflowId != null){
@@ -82,14 +86,14 @@ public class WorkflowFilter extends AbstractDTOFilter {
 				docTitle = getDocumentTitle(data);
 			}
             
-            DocumentResponse docResponse = simpleDocService.create(username, appId, getDocumentType(), docTitle);
+            DocumentResponse docResponse = simpleDocService.create(username, appId, docType, docTitle);
             if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
             }
             
             //Lookup the workflow document detail to see if create was successful
 			try {
-				docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDocumentType(), appId);
+				docDetail = workflowUtilityService.getDocumentDetailFromAppId(docType, appId);
 			} catch (Exception e) {
             	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
 			}

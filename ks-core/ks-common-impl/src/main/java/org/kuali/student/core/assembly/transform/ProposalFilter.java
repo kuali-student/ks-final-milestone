@@ -49,7 +49,11 @@ public class ProposalFilter extends AbstractDataFilter implements MetadataFilter
 		
 		//Create/Update new proposal
 		if (proposalInfo.getId() == null){
-			proposalInfo.setType(getProposalType());
+			String proposalType = properties.get(WorkflowFilter.WORKFLOW_DOC_TYPE);
+			if (proposalType == null){
+				proposalType = getProposalType();
+			}
+			proposalInfo.setType(proposalType);
 			proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
 		} else {
 			proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
