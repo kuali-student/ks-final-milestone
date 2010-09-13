@@ -2,11 +2,8 @@ package org.apache.torque.mojo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -28,7 +25,8 @@ public class BeanPropertiesLoader {
 	String location;
 	String encoding;
 	Object bean;
-	boolean override = true;
+	boolean overrideExistingPropertyValues = true;
+	boolean overrideSystemProperties = false;
 	String description;
 
 	public BeanPropertiesLoader() {
@@ -47,6 +45,22 @@ public class BeanPropertiesLoader {
 		return utils.isFileOrResource(location);
 	}
 
+	protected boolean isSkip(Map<String, Object> description, String key) {
+		Object value = description.get(key);
+		if (value != null && !isOverrideExistingPropertyValues()) {
+			// The property is already set, don't override it unless they have asked us to
+			log.debug("Skipping property " + key + " it is already set to " + value);
+			return true;
+		}
+		Set<String> beanProperties = description.keySet();
+		if (!beanProperties.contains(key)) {
+			// This is not a property of the bean
+			log.debug("Skipping property " + key + " as it is not a property of this bean");
+			return true;
+		}
+		return false;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void loadToBean() throws PropertyHandlingException {
 		if (!utils.isFileOrResource(location)) {
@@ -59,20 +73,13 @@ public class BeanPropertiesLoader {
 		}
 		try {
 			Properties properties = getProperties();
-			properties.putAll(System.getProperties());
+			if (!overrideSystemProperties) {
+				properties.putAll(System.getProperties());
+			}
 			Set<String> keys = properties.stringPropertyNames();
 			Map<String, Object> description = BeanUtils.describe(bean);
 			for (String key : keys) {
-				Object value = description.get(key);
-				if (value != null && !isOverride()) {
-					// The property is already set, don't override it unless they have asked us to
-					log.debug("Skipping property " + key + " it is already set to " + value);
-					continue;
-				}
-				Set<String> beanProperties = description.keySet();
-				if (!beanProperties.contains(key)) {
-					// This is not a property of the bean
-					log.debug("Skipping property " + key + " as it is not a property of this bean");
+				if (isSkip(description, key)) {
 					continue;
 				}
 				// Extract the value and set it on the bean
@@ -85,6 +92,9 @@ public class BeanPropertiesLoader {
 		}
 	}
 
+	/**
+	 * Don't display password'ish type properties
+	 */
 	protected String getLogValue(String key, String value) {
 		int pos = key.toLowerCase().indexOf("password");
 		if (pos == -1) {
@@ -94,6 +104,9 @@ public class BeanPropertiesLoader {
 		}
 	}
 
+	/**
+	 * Load the properties file into a Properties object
+	 */
 	public Properties getProperties() throws PropertyHandlingException {
 		try {
 			Reader reader = getReader();
@@ -105,14 +118,22 @@ public class BeanPropertiesLoader {
 		}
 	}
 
-	protected Reader getReader() throws FileNotFoundException, UnsupportedEncodingException, IOException {
-		File file = new File(location);
-		if (file.exists()) {
-			return new InputStreamReader(new FileInputStream(file), getEncoding());
+	/**
+	 * Return a Reader for reading in the properties file. First check the file system to see if the file exists. If
+	 * not, return a Reader using Spring Resource loading
+	 */
+	protected Reader getReader() throws PropertyHandlingException {
+		try {
+			File file = new File(location);
+			if (file.exists()) {
+				return new InputStreamReader(new FileInputStream(file), getEncoding());
+			}
+			ResourceLoader loader = new DefaultResourceLoader();
+			Resource resource = loader.getResource(location);
+			return new InputStreamReader(resource.getInputStream(), getEncoding());
+		} catch (Exception e) {
+			throw new PropertyHandlingException(e);
 		}
-		ResourceLoader loader = new DefaultResourceLoader();
-		Resource resource = loader.getResource(location);
-		return new InputStreamReader(resource.getInputStream(), getEncoding());
 	}
 
 	public String getLocation() {
@@ -139,12 +160,12 @@ public class BeanPropertiesLoader {
 		this.bean = bean;
 	}
 
-	public boolean isOverride() {
-		return override;
+	public boolean isOverrideExistingPropertyValues() {
+		return overrideExistingPropertyValues;
 	}
 
-	public void setOverride(boolean override) {
-		this.override = override;
+	public void setOverrideExistingPropertyValues(boolean override) {
+		this.overrideExistingPropertyValues = override;
 	}
 
 	public String getDescription() {
@@ -153,6 +174,14 @@ public class BeanPropertiesLoader {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean isOverrideSystemProperties() {
+		return overrideSystemProperties;
+	}
+
+	public void setOverrideSystemProperties(boolean overrideSystemProperties) {
+		this.overrideSystemProperties = overrideSystemProperties;
 	}
 
 }
