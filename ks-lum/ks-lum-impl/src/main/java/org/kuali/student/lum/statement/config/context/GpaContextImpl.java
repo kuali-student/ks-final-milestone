@@ -25,9 +25,10 @@ import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 /**
  * This class creates the template context for grade check type.
  */
-public class GPAContextImpl extends BasicContextImpl {
+public class GpaContextImpl extends BasicContextImpl {
 	/** GPA template token */ 
 	public final static String GPA_TOKEN = "gpa";
+	
 	
     /**
      * Creates the context map (template data) for the requirement component.
@@ -37,7 +38,8 @@ public class GPAContextImpl extends BasicContextImpl {
      */
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
     	Map<String, Object> contextMap = new HashMap<String, Object>();
-    	contextMap.put(GPA_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getId()));
+    	String gpa = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getId());
+    	contextMap.put(GPA_TOKEN, Double.valueOf(gpa));
 
         return contextMap;
     }

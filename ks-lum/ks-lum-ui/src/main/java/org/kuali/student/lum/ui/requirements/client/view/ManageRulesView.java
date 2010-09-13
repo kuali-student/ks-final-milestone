@@ -643,7 +643,7 @@ public class ManageRulesView extends ViewComposite {
     private void updateNaturalLanguage() {                 
         
         requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(model.getValue().getCluId(),
-        									model.getValue().getStatementVO(), "KUALI.RULEEDIT", RuleComponentEditorView.TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+        									model.getValue().getStatementVO(), "KUALI.RULE", RuleComponentEditorView.TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 GWT.log("NL failed", caught);

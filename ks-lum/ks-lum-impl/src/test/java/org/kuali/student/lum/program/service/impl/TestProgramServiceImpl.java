@@ -102,7 +102,7 @@ public class TestProgramServiceImpl {
     @Test
     @Ignore
     public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", "KUALI.RULEEDIT", "en");
+        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", "KUALI.RULE", "en");
         assertNotNull(progReqInfo);
 
         checkTreeView(progReqInfo, true);

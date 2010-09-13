@@ -136,7 +136,7 @@ public class NaturalLanguageUtil {
     }
 	
     public static ReqComponent createReqComponent(String reqComponentType, List<ReqComponentField> fieldList) {
-    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.RULEEDIT", reqComponentType);
+    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.RULE", reqComponentType);
 		
 		ReqComponent reqComp = new ReqComponent();
 		reqComp.setReqComponentFields(fieldList);
@@ -247,12 +247,12 @@ public class NaturalLanguageUtil {
 //		List<StatementTypeHeaderTemplate> headerList = new ArrayList<StatementTypeHeaderTemplate>();
 //		StatementTypeHeaderTemplate header1 = new StatementTypeHeaderTemplate();
 //		header1.setLanguage("en");
-//		header1.setNlUsageTypeKey("KUALI.RULEEDIT");
+//		header1.setNlUsageTypeKey("KUALI.RULE");
 //		header1.setTemplate("Requirement for $clu.getOfficialIdentifier().getLongName(): ");
 //		headerList.add(header1);
 //		StatementTypeHeaderTemplate header2 = new StatementTypeHeaderTemplate();
 //		header2.setLanguage("de");
-//		header2.setNlUsageTypeKey("KUALI.RULEEDIT");
+//		header2.setNlUsageTypeKey("KUALI.RULE");
 //		header2.setTemplate("Voraussetzung fur die $clu.getOfficialIdentifier().getLongName(): ");
 //		headerList.add(header2);
 //		

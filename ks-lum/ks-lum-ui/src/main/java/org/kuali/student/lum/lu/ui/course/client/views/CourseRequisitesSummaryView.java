@@ -75,7 +75,7 @@ public class CourseRequisitesSummaryView extends SectionView {
             final RuleInfo ruleInfo = getRuleInfo(statementType);
             if (ruleInfo != null && ruleInfo.getStatementVO().getAllReqComponentVOs().size() > 0) {
                 requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(
-                        ruleInfo.getCluId(), ruleInfo.getStatementVO(), "KUALI.RULEEDIT",
+                        ruleInfo.getCluId(), ruleInfo.getStatementVO(), "KUALI.RULE",
                         RuleComponentEditorView.TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
                     public void handleFailure(Throwable cause) {
                         GWT.log("Failed to get NL for " + ruleInfo.getCluId(), cause);

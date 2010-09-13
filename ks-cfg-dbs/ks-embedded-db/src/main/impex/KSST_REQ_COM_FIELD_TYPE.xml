@@ -17,10 +17,14 @@
         DESCR="Grade point average value"
         ID="kuali.reqComponent.field.type.gpa"
         NAME="Grade Point Average Value" READ_ONLY="0"/>
-    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="Grade value identifier"
-        ID="kuali.reqComponent.field.type.grade.id" NAME="Grade Value Id" READ_ONLY="0"/>
-    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="Grade type identifier"
-        ID="kuali.reqComponent.field.type.gradeType.id" NAME="Grade Type Id" READ_ONLY="0"/>
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string"
+        DESCR="Grade value identifier"
+        ID="kuali.reqComponent.field.type.grade.id"
+        NAME="Grade Value Id" READ_ONLY="0"/>
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string"
+        DESCR="Grade type identifier"
+        ID="kuali.reqComponent.field.type.gradeType.id"
+        NAME="Grade Type Id" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string"
         DESCR="Relational Operator"
         ID="kuali.reqComponent.field.type.operator"

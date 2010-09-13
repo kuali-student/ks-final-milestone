@@ -23,7 +23,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
     }
 
     protected static final String TEMLATE_LANGUAGE = "en";
-    protected static final String RULEEDIT_TEMLATE = "KUALI.RULEEDIT";
+    protected static final String RULEEDIT_TEMLATE = "KUALI.RULE";
     protected static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";    
 
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
