@@ -10,19 +10,25 @@ public class PropertiesMojo extends BaseMojo {
 	/**
 	 * @parameter expression="${properties}"
 	 */
-	String properties;
+	String properties = System.getProperty("file.separator") + FS + "impex.properties";
 
 	/**
-	 * @parameter expression="${propertiesDescription}"
+	 * A descripiton of the properties file
+	 * 
+	 * @parameter expression="${propertiesDescription}" default-value="Impex"
 	 */
 	String propertiesDescription;
 
 	/**
+	 * If true, properties found in the file will be used instead of plugin configuration
+	 * 
 	 * @parameter expression="${overridePluginConfiguration}" default-value="true"
 	 */
 	boolean overridePluginConfiguration;
 
 	/**
+	 * If true, properties found in the file will override properties specified as System properties
+	 * 
 	 * @parameter expression="${overrideSystemProperties}" default-value="false"
 	 */
 	boolean overrideSystemProperties;
