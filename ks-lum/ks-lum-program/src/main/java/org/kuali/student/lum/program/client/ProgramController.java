@@ -78,7 +78,7 @@ public class ProgramController extends MenuSectionController {
         });
     }
 
-    private String getProgramName() {
+    public String getProgramName() {
         String name = (String) programModel.get("/" + ProgramConstants.LONG_TITLE);
         if (name == null) {
             name = "Create New Program";

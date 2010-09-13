@@ -34,8 +34,9 @@ public class ProgramManager {
     }
 
     public VariationViewController getVariationViewController() {
+        String name = programViewController.getProgramName();
         programModel.setRoot(VariationRegistry.getData());
-        variationViewController = new VariationViewController(programModel, viewContext);
+        variationViewController = new VariationViewController(name, programModel, viewContext);
         return variationViewController;
     }
 
