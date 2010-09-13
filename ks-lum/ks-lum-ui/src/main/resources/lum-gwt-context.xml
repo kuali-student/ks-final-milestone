@@ -269,7 +269,6 @@
     <bean id="CourseProposalRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
         <property name="dataService" ref="CourseProposalDataService"/>
-        <property name="modifyCourseManager" ref="modifyCreditCourseProposalManager"/>        
     </bean>
     
     <bean id="CourseDataService"

@@ -21,6 +21,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface CreditCourseProposalRpcServiceAsync extends CourseRpcServiceAsync{
 
-    public void getNewProposalWithCopyOfClu(String cluId, AsyncCallback<Data> callback);
+    public void getNewVersionOfClu(String cluId, String versionComment, AsyncCallback<Data> callback);
 
 }

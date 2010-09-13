@@ -17,7 +17,14 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 
@@ -78,6 +85,17 @@ public class CourseDataService extends AbstractDataService {
 
 	public void setCourseService(CourseService courseService) {
 		this.courseService = courseService;
+	}
+
+	public Data createNewCourseVersion(String courseId, String versionComment) throws OperationFailedException {
+		try {
+			//FIXME calling getData after createNewCourseVersion is inefficient, but we need to have the transformations/filters be applied
+			CourseInfo course = this.courseService.createNewCourseVersion(courseId, versionComment);
+			return getData(course.getId());
+		} catch (Exception e) {
+			throw new OperationFailedException("Error getting data",e);
+		} 
+		
 	}	
 
 }

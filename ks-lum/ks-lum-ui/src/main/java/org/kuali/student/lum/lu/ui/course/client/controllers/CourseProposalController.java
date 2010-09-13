@@ -380,7 +380,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @SuppressWarnings("unchecked")
     private void getNewProposalWithCopyOfClu(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
-        cluProposalRpcServiceAsync.getNewProposalWithCopyOfClu(getViewContext().getId(), new KSAsyncCallback<Data>(){
+        cluProposalRpcServiceAsync.getNewVersionOfClu(getViewContext().getId(),"VERSION_COMMENT_HERE", new KSAsyncCallback<Data>(){
 
             @Override
             public void handleFailure(Throwable caught) {

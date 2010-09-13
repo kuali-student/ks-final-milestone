@@ -22,6 +22,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/CreditCourseProposalRpcService")
 public interface CreditCourseProposalRpcService extends CourseRpcService{
 
-	public Data getNewProposalWithCopyOfClu(String cluId) throws OperationFailedException;
+	public Data getNewVersionOfClu(String cluId, String versionComment) throws OperationFailedException;
 
 }
