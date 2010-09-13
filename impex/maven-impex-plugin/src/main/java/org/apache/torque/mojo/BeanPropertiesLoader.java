@@ -41,7 +41,7 @@ public class BeanPropertiesLoader {
 		this.description = description;
 	}
 
-	public boolean exists() {
+	public boolean isPropertiesExist() {
 		return utils.isFileOrResource(location);
 	}
 
