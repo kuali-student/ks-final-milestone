@@ -9,8 +9,8 @@ import org.kuali.student.common.ui.client.mvc.View;
  *
  * @author Igor
  */
-public interface Configuration<T extends Configurer> {
-    void setConfigurer(T configurer);
+public interface Configuration {
+    void setConfigurer(Configurer configurer);
 
     View getView();
 

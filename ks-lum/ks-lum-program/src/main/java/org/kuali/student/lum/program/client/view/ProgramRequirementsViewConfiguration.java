@@ -8,7 +8,7 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSumm
 
 import java.util.List;
 
-public class ProgramRequirementsViewConfiguration extends AbstractSectionConfiguration<ProgramViewConfigurer> {
+public class ProgramRequirementsViewConfiguration extends AbstractSectionConfiguration {
 
     public ProgramRequirementsViewConfiguration() {
         List<String> programRequirements = null;

@@ -12,7 +12,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class SpecializationsViewConfiguration extends AbstractSectionConfiguration<ProgramViewConfigurer> {
+public class SpecializationsViewConfiguration extends AbstractSectionConfiguration {
 
     public SpecializationsViewConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.SPECIALIZATIONS, ProgramProperties.get().program_menu_sections_specializations(), ProgramConstants.PROGRAM_MODEL_ID);

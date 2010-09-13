@@ -13,16 +13,16 @@ import org.kuali.student.lum.program.client.framework.EditableConfiguration;
  *
  * @author Igor
  */
-public class ProgramViewConfigurer extends AbstractProgramConfigurer<ProgramViewConfigurer> {
+public class ProgramViewConfigurer extends AbstractProgramConfigurer {
 
     public ProgramViewConfigurer() {
-        programSectionConfigManager = new ConfigurationManager<ProgramViewConfigurer>(this);
-        programSectionConfigManager.registerConfiguration(GWT.<EditableConfiguration<ProgramViewConfigurer>>create(ProgramInformationViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(ManagingBodiesViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(SpecializationsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<EditableConfiguration<ProgramViewConfigurer>>create(CatalogInformationViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(ProgramRequirementsEditConfiguration.class));  //TODO change to View
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(LearningObjectivesViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramViewConfigurer>>create(ViewAllSectionConfiguration.class));
+        programSectionConfigManager = new ConfigurationManager(this);
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationViewConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SpecializationsViewConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsEditConfiguration.class));  //TODO change to View
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesViewConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ViewAllSectionConfiguration.class));
     }
 }

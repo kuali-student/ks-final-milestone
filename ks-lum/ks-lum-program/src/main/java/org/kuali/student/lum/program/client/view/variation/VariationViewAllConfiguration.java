@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.view;
+package org.kuali.student.lum.program.client.view.variation;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -9,13 +9,17 @@ import org.kuali.student.lum.program.client.framework.AbstractSectionConfigurati
 import org.kuali.student.lum.program.client.framework.Configuration;
 import org.kuali.student.lum.program.client.framework.ConfigurationManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.view.CatalogInformationViewConfiguration;
+import org.kuali.student.lum.program.client.view.LearningObjectivesViewConfiguration;
+import org.kuali.student.lum.program.client.view.ManagingBodiesViewConfiguration;
+import org.kuali.student.lum.program.client.view.ProgramInformationViewConfiguration;
 
 /**
  * @author Igor
  */
-public class ViewAllSectionConfiguration extends AbstractSectionConfiguration {
+public class VariationViewAllConfiguration extends AbstractSectionConfiguration {
 
-    public ViewAllSectionConfiguration() {
+    public VariationViewAllConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.VIEW_ALL, ProgramProperties.get().program_menu_sections_viewAll(), ProgramConstants.PROGRAM_MODEL_ID, false);
     }
 
@@ -24,7 +28,6 @@ public class ViewAllSectionConfiguration extends AbstractSectionConfiguration {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
         configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(SpecializationsViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
         //configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsEditConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesViewConfiguration.class));

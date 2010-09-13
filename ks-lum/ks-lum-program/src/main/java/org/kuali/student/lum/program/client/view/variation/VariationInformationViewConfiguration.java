@@ -10,7 +10,7 @@ import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
-public class VariationInformationViewConfiguration extends AbstractSectionConfiguration<VariationViewConfigurer>{
+public class VariationInformationViewConfiguration extends AbstractSectionConfiguration{
     public VariationInformationViewConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().variation_menu_sections_variationInformation(), ProgramConstants.PROGRAM_MODEL_ID);
         rootSection.addStyleName("programInformationView");

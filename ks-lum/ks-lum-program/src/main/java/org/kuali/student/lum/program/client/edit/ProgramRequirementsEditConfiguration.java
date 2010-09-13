@@ -12,7 +12,7 @@ import org.kuali.student.lum.program.client.view.ProgramViewConfigurer;
 /**
  *
  */
-public class ProgramRequirementsEditConfiguration extends AbstractConfiguration<ProgramViewConfigurer> {
+public class ProgramRequirementsEditConfiguration extends AbstractConfiguration {
 
     private ProgramController viewController;
 

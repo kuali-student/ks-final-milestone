@@ -9,6 +9,6 @@ import org.kuali.student.lum.program.client.framework.Configuration;
  *
  * @author Igor
  */
-public interface EditableConfiguration<T extends Configurer> extends Configuration<T> {
+public interface EditableConfiguration extends Configuration {
     View getEditView();
 }

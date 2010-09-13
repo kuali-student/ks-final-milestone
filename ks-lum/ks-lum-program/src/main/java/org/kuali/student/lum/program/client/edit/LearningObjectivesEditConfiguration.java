@@ -18,7 +18,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class LearningObjectivesEditConfiguration extends AbstractSectionConfiguration<ProgramEditConfigurer> {
+public class LearningObjectivesEditConfiguration extends AbstractSectionConfiguration{
 
     public LearningObjectivesEditConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_EDIT, ProgramProperties.get().program_menu_sections_learningObjectives(), ProgramConstants.PROGRAM_MODEL_ID);

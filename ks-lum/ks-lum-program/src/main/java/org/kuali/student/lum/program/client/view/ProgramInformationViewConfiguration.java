@@ -13,7 +13,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class ProgramInformationViewConfiguration extends AbstractSectionConfiguration<ProgramViewConfigurer> {
+public class ProgramInformationViewConfiguration extends AbstractSectionConfiguration {
 
     public ProgramInformationViewConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
