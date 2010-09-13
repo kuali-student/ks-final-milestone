@@ -45,6 +45,7 @@ public class ExportSchemaMojo extends ExportMojo {
 	 * Configure the Ant task
 	 */
 	protected void configureTask() throws MojoExecutionException {
+		
 		KualiTorqueSchemaDumpTask task = new KualiTorqueSchemaDumpTask();
 		setAntTask(task);
 		super.configureTask();

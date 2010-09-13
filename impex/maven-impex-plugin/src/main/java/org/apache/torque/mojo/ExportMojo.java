@@ -96,7 +96,6 @@ public abstract class ExportMojo extends AntTaskMojo {
 	 * For example:<br>
 	 * ks-embedded-db becomes KSEMBEDDED for Oracle and ksembedded for MySQL
 	 * 
-	 * 
 	 * @parameter expression="${password}"
 	 */
 	private String password;
