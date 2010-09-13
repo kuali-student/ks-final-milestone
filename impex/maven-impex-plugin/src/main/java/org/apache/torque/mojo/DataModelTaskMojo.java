@@ -29,14 +29,6 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	String url;
 
 	/**
-	 * Pointer to a properties file containing Impex properties. Default value is
-	 * <code>${user.home}/impex.properties</code>. Any properties specified do not override System properties.
-	 * 
-	 * @parameter expression="${impexProperties}"
-	 */
-	String impexProperties = System.getProperty("user.home") + FS + "impex.properties";
-
-	/**
 	 * The suffix of the generated sql files.
 	 */
 	String suffix = "";
@@ -64,7 +56,6 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		try {
-			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding(), "Impex").loadToBean();
 			new JdbcConfigurer().updateConfiguration(this);
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);
@@ -350,14 +341,6 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public String getImpexProperties() {
-		return impexProperties;
-	}
-
-	public void setImpexProperties(String impexProperties) {
-		this.impexProperties = impexProperties;
 	}
 
 	public String getSuffix() {

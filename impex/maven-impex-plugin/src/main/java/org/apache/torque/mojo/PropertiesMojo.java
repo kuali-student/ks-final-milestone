@@ -2,7 +2,6 @@ package org.apache.torque.mojo;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.kuali.core.db.torque.PropertyHandlingException;
 
 public class PropertiesMojo extends BaseMojo {
@@ -28,7 +27,7 @@ public class PropertiesMojo extends BaseMojo {
 	boolean overrideSystemProperties;
 
 	@Override
-	protected void executeMojo() throws MojoExecutionException, MojoFailureException {
+	protected void executeMojo() throws MojoExecutionException {
 		try {
 			BeanPropertiesLoader loader = new BeanPropertiesLoader(this, properties, getEncoding(), propertiesDescription);
 			loader.setOverrideExistingPropertyValues(overridePluginConfiguration);
@@ -42,5 +41,37 @@ public class PropertiesMojo extends BaseMojo {
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);
 		}
+	}
+
+	public String getProperties() {
+		return properties;
+	}
+
+	public void setProperties(String properties) {
+		this.properties = properties;
+	}
+
+	public String getPropertiesDescription() {
+		return propertiesDescription;
+	}
+
+	public void setPropertiesDescription(String propertiesDescription) {
+		this.propertiesDescription = propertiesDescription;
+	}
+
+	public boolean isOverridePluginConfiguration() {
+		return overridePluginConfiguration;
+	}
+
+	public void setOverridePluginConfiguration(boolean overridePluginConfiguration) {
+		this.overridePluginConfiguration = overridePluginConfiguration;
+	}
+
+	public boolean isOverrideSystemProperties() {
+		return overrideSystemProperties;
+	}
+
+	public void setOverrideSystemProperties(boolean overrideSystemProperties) {
+		this.overrideSystemProperties = overrideSystemProperties;
 	}
 }

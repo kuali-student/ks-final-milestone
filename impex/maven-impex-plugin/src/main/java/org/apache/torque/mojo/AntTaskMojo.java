@@ -8,7 +8,7 @@ import org.kuali.core.db.torque.FilteredPropertyCopier;
 /**
  * A base class for mojos that wrap an Ant Task
  */
-public class AntTaskMojo extends BaseMojo {
+public class AntTaskMojo extends PropertiesMojo {
 
 	/**
 	 * The ant task to be executed by this mojo.
@@ -45,6 +45,8 @@ public class AntTaskMojo extends BaseMojo {
 	 * Configure the Ant task and then execute it
 	 */
 	public void executeMojo() throws MojoExecutionException {
+		setPropertiesDescription("Impex");
+		super.executeMojo();
 		configureTask();
 		getAntTask().execute();
 	}

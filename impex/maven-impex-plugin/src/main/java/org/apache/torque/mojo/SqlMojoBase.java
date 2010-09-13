@@ -74,8 +74,4 @@ public abstract class SqlMojoBase extends DataModelTaskMojo {
 		task.addFileset(fileSet);
 	}
 
-	public String getImpexProperties() {
-		return impexProperties;
-	}
-
 }

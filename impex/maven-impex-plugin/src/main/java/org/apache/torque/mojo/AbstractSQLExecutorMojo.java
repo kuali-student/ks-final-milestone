@@ -48,7 +48,7 @@ import static org.apache.commons.lang.StringUtils.*;
 /**
  * Abstract mojo for making use of SQLExecutor
  */
-public abstract class AbstractSQLExecutorMojo extends BaseMojo {
+public abstract class AbstractSQLExecutorMojo extends PropertiesMojo {
 	Utils utils = new Utils();
 	JDBCUtils jdbcUtils;
 	ConnectionHandler connectionHandler;
@@ -226,15 +226,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	boolean append = false;
 
 	/**
-	 * Optional properties file containing any of these properties. Default value is
-	 * <code>${user.home}/impex.properties</code>. Any properties from the file override plugin configuration but do not
-	 * override system properties.
-	 * 
-	 * @parameter expression="${impexProperties}"
-	 */
-	String impexProperties = System.getProperty("user.home") + FS + "impex.properties";
-
-	/**
 	 * Argument to Statement.setEscapeProcessing If you want the driver to use regular SQL syntax then set this to
 	 * false.
 	 * 
@@ -312,6 +303,8 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 * @throws MojoExecutionException
 	 */
 	public void executeMojo() throws MojoExecutionException {
+		super.setPropertiesDescription("Impex");
+		super.executeMojo();
 		jdbcUtils = new JDBCUtils();
 		updateConfiguration();
 		Credentials credentials = getNewCredentials();
@@ -435,7 +428,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		try {
-			new BeanPropertiesLoader(this, getImpexProperties(), getEncoding(), "Impex").loadToBean();
 			new JdbcConfigurer().updateConfiguration(this);
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);
@@ -795,14 +787,6 @@ public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 
 	public Credentials getCredentials() {
 		return credentials;
-	}
-
-	public String getImpexProperties() {
-		return impexProperties;
-	}
-
-	public void setImpexProperties(String impexProperties) {
-		this.impexProperties = impexProperties;
 	}
 
 }
