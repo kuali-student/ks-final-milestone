@@ -25,9 +25,8 @@ public abstract class BaseMojo extends AbstractMojo {
 	private boolean startMavenLogger;
 
 	/**
-	 * When <code>true</code>, skip the execution.
+	 * When <code>true</code>, skip the execution of this mojo
 	 * 
-	 * @since 1.0
 	 * @parameter default-value="false"
 	 */
 	private boolean skip;

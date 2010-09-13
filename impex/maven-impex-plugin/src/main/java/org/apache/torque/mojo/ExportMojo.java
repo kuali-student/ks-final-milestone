@@ -12,7 +12,8 @@ import org.kuali.core.db.torque.StringFilter;
 public abstract class ExportMojo extends AntTaskMojo {
 
 	/**
-	 * The XML file contains a name attribute for the schema being exported. This value is what will end up there
+	 * The Maven artifactId. Included here as a simple property of the mojo itself to facilitate usage of
+	 * <code>BeanUtils.copyProperties()</code> to copy properties between Mojo's and Ant tasks
 	 * 
 	 * @parameter expression="${artifactId}" default-value="${project.artifactId}"
 	 * @required
@@ -52,7 +53,7 @@ public abstract class ExportMojo extends AntTaskMojo {
 	private String targetDatabase;
 
 	/**
-	 * The schema containing the tables to dump
+	 * The schema to export
 	 * 
 	 * @parameter expression="${schema}"
 	 * @required

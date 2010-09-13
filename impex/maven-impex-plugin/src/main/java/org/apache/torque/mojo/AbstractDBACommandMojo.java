@@ -46,7 +46,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	 * <br>
 	 * 
 	 * For example:<br>
-	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL)
+	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL
 	 * 
 	 * @parameter expression="${databaseUser}"
 	 */
@@ -58,7 +58,7 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	 * <br>
 	 * 
 	 * For example:<br>
-	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL)
+	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL
 	 * 
 	 * @parameter expression="${databasePassword}"
 	 */
@@ -82,7 +82,9 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String dbaPassword;
 
 	/**
-	 * Lookup DBA credentials in settings.xml using this key
+	 * Lookup DBA credentials in settings.xml using this key. If nothing is found under
+	 * <code>impex.dba.${project.artifactId}</code> a second attempt will be made to locate a set of credentials under
+	 * <code>impex.dba.${url}</code>
 	 * 
 	 * @parameter expression="${dbaSettingsKey}" default-value="impex.dba.${project.artifactId}"
 	 */
