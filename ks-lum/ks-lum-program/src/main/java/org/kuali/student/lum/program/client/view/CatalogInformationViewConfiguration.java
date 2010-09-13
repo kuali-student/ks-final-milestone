@@ -12,7 +12,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class CatalogInformationViewConfiguration extends AbstractSectionConfiguration<ProgramViewConfigurer> {
+public class CatalogInformationViewConfiguration extends AbstractSectionConfiguration {
 
     public CatalogInformationViewConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, ProgramProperties.get().program_menu_sections_catalogInfo(), ProgramConstants.PROGRAM_MODEL_ID);

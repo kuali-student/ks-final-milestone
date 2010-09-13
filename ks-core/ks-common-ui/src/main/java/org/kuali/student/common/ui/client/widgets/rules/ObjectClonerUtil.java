@@ -21,10 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.*;
 
 public class ObjectClonerUtil {
 
@@ -130,6 +127,7 @@ public class ObjectClonerUtil {
             clonedReqComponentInfo.setType(inReqComponentInfo.getType());
             clonedReqComponentInfo.setState(inReqComponentInfo.getState());
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
+            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
             clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
         }
         return clonedReqComponentInfo;
@@ -152,6 +150,27 @@ public class ObjectClonerUtil {
             clonedField = new ReqCompFieldInfo();
             clonedField.setValue(inReqCompFieldInfo.getValue());
             clonedField.setId(inReqCompFieldInfo.getId());
+        }
+        return clonedField;
+    }
+
+     private static ReqComponentTypeInfo clone(ReqComponentTypeInfo inReqComponentTypeInfo) {
+        ReqComponentTypeInfo clonedField = null;
+        if (inReqComponentTypeInfo != null) {
+            clonedField = new ReqComponentTypeInfo();
+            clonedField.setId(inReqComponentTypeInfo.getId());
+
+            List<ReqCompFieldTypeInfo> clonedFieldTypeList  = null;
+            if (inReqComponentTypeInfo.getReqCompFieldTypeInfos() != null) {
+                clonedFieldTypeList = new ArrayList<ReqCompFieldTypeInfo>();
+                for (ReqCompFieldTypeInfo  reqCompFieldTypeInfo : inReqComponentTypeInfo.getReqCompFieldTypeInfos()) {
+                    ReqCompFieldTypeInfo clonedFieldType = new ReqCompFieldTypeInfo();
+                    clonedFieldType.setId(reqCompFieldTypeInfo.getId());
+                    //TODO clone file descriptor fields
+                    clonedFieldTypeList.add(clonedFieldType);
+                }
+            }
+            clonedField.setReqCompFieldTypeInfos(clonedFieldTypeList);
         }
         return clonedField;
     }

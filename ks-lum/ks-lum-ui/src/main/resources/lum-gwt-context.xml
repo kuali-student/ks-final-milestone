@@ -336,6 +336,7 @@
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
                 <ref bean="idTranslatorFilter"/>
+                <ref bean="credentialProgramFilter"/>
             </list>
         </property>
     </bean>
@@ -371,6 +372,11 @@
                 <entry key="orgId" value="curriculumOversightOrgs[0]"/>
             </map>
         </property>
+    </bean>
+
+    <bean id="credentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CredentialProgramFilter">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="programService" ref="programClient"/>
     </bean>
 
     <bean id="modifyCreditCourseProposalManager"

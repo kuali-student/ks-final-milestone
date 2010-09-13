@@ -16,11 +16,12 @@ public class RuleManageWidget extends FlowPanel {
 
     private RuleTableWidget manageRule = new RuleTableWidget();
     private KSLabel logicalExpression = new KSLabel();
-    //private KSLabel naturalLanguage = new KSLabel();
     private SubrulePreviewWidget preview = new SubrulePreviewWidget(null, true);
+    private KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
 
     //widget's data
     private StatementTreeViewInfo rule = null;
+    private static final String objectView = "Edit with Object";
 
     //TODO use application context for all labels
    
@@ -28,9 +29,7 @@ public class RuleManageWidget extends FlowPanel {
         super();
 
         Map<String, Widget> tabLayoutMap = new HashMap<String, Widget>();
-        KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
 
-        String objectView = "Edit with Object";
         tabLayoutMap.put(objectView, manageRule);
         panel.addTab(objectView, objectView, manageRule);
 
@@ -43,16 +42,6 @@ public class RuleManageWidget extends FlowPanel {
                 updateLogicView();
             }
         });
-
-        /*
-        tabLayoutMap.put("Natural Language View", naturalLanguage);
-        panel.addTab("Natural Language View", "Natural Language View", naturalLanguage);
-        panel.addTabCustomCallback("Natural Language View", new Callback<String>() {
-            @Override
-            public void exec(String result) {
-                updateNaturalLanguageView();
-            }
-        });  */
         
         tabLayoutMap.put("Preview", preview);
         panel.addTab("Preview", "Preview", preview);
@@ -69,10 +58,8 @@ public class RuleManageWidget extends FlowPanel {
 
     public void redraw(StatementTreeViewInfo rule) {
         this.rule = rule;
+        panel.selectTab(objectView);        
         updateObjectView();
-      //  updateLogicView();
-      //  updateNaturalLanguageView();
-      //  updatePreview();
     }
 
     //show rule in a table
@@ -81,16 +68,12 @@ public class RuleManageWidget extends FlowPanel {
     }
 
     private void updateLogicView() {
-       logicalExpression.setText(getLogicExpression());
+        logicalExpression.setText(getLogicExpression().trim().isEmpty() ? "No rules have been added" : getLogicExpression());
+
        //rule.populateExpression();
        //rule.setPreviewedExpression(rule.getExpression());
        //TODO add a link to RuleExpressionEditor
     }
-
-    /*
-    private void updateNaturalLanguageView() {
-        naturalLanguage.setText(rule.getNaturalLanguageTranslation());
-    } */
 
     public String getLogicExpression() {
         return (manageRule.getRule().getStatementVO() == null ? "" : manageRule.getRule().getStatementVO().convertToExpression());
@@ -106,5 +89,9 @@ public class RuleManageWidget extends FlowPanel {
 
     public StatementTreeViewInfo getStatementTreeViewInfo() {
         return manageRule.getRule().getStatementVO().getStatementTreeViewInfo();
+    }
+
+    public void setEanbled(boolean enabled) {
+        manageRule.setEnabledView(enabled);    
     }
 }

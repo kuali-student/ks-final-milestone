@@ -68,37 +68,84 @@ public class SubrulePreviewWidget extends FlowPanel {
     }
 
     private void buildRequirement(StatementTreeViewInfo stmtTreeInfo) {
-        this.add(new HTML(buildOneRequirement(stmtTreeInfo).toString()));
+        this.add(new HTML(buildOneRequirement(stmtTreeInfo, null, true, true).toString()));
     }
 
-    private StringBuffer buildOneRequirement(StatementTreeViewInfo stmtTreeInfo) {
+    private StringBuffer buildOneRequirement(StatementTreeViewInfo stmtTreeInfo, StatementOperatorTypeKey upperLevelOperator, boolean firstLevel, boolean firstRequirement) {
 
-        List<StatementTreeViewInfo> stmtTree = stmtTreeInfo.getStatements();
-        if ((stmtTree != null) && (stmtTree.size() > 0)) {
-            for (StatementTreeViewInfo subTree : stmtTreeInfo.getStatements()) {
-                buildOneRequirement(subTree);
+        StringBuffer htmlText = new StringBuffer();
+        List<StatementTreeViewInfo> stmtTreeList = stmtTreeInfo.getStatements();
+
+        if ((stmtTreeList != null) && (stmtTreeList.size() > 0)) {
+            StringBuffer htmlOneLevelText = new StringBuffer();
+            firstRequirement = true;
+            for (StatementTreeViewInfo subTree : stmtTreeList) {
+                boolean trueFirstLevel = (firstLevel && (stmtTreeList.size() <= 1));
+                htmlOneLevelText.append(buildOneRequirement(subTree, stmtTreeInfo.getOperator(), trueFirstLevel, firstRequirement));
+                firstRequirement = htmlOneLevelText.toString().trim().isEmpty();
             }
-        } else if (stmtTreeInfo.getReqComponents() != null) {
-            List<ReqComponentInfo> reqComponents = stmtTreeInfo.getReqComponents();
-            boolean firstComp = true;
-            StringBuffer htmlText = new StringBuffer();
-            htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
-            for (ReqComponentInfo reqComp : reqComponents) {
-                htmlText.append("<li style=\"padding-top: 5px;\">");
-                if (!firstComp) {
-                    htmlText.append("<span class=\"KS-Program-Rule-Preview-Subrule-ORAND\">");
-                    htmlText.append((stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ? "AND " : "OR "));
-                    htmlText.append("</span>");        
+
+            //only if we have other statements within this statement we indent
+            if (firstLevel || stmtTreeInfo.getStatements().size() > 1) {
+
+                if (!firstLevel) {
+                    String operatorText = (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ?
+                                            "Must meet all of the following:" : "Must meet 1 of the following:");
+                    htmlText.append(addRequirementToList(upperLevelOperator, operatorText, firstRequirement));
                 }
-                firstComp = false;
-                htmlText.append(reqComp.getNaturalLanguageTranslation());
-                htmlText.append("</li>");
+
+                htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
+                htmlText.append(htmlOneLevelText);
+                htmlText.append("</ul>");
+            } else {
+                htmlText.append(htmlOneLevelText);
             }
-            htmlText.append("</ul>");
-            return htmlText;
+
+        } else if ((stmtTreeInfo.getReqComponents() != null) && !stmtTreeInfo.getReqComponents().isEmpty()) {
+            List<ReqComponentInfo> reqComponents = stmtTreeInfo.getReqComponents();
+            StringBuffer htmlListText = new StringBuffer();
+
+            //build a bullet list of requirements
+            boolean firstListRequirement = firstRequirement;
+            if (!firstLevel && reqComponents.size() > 1) {
+                firstListRequirement = true;   // we indent if we have more than one requirement on second or lower levels which means first requirement
+            }
+            for (ReqComponentInfo reqComp : reqComponents) {
+                StatementOperatorTypeKey operator = (reqComponents.size() > 1 ? stmtTreeInfo.getOperator() : upperLevelOperator);
+                htmlListText.append(addRequirementToList(operator, reqComp.getNaturalLanguageTranslation(), firstListRequirement));
+                firstListRequirement = false;
+            }
+
+            //indent if we have more than one requirement on second or lower levels
+            if (firstLevel || reqComponents.size() == 1) {               
+                htmlText.append(htmlListText);
+            } else {
+                String operatorText = (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ?
+                                        "Must meet all of the following:" : "Must meet 1 of the following:");
+                htmlText.append(addRequirementToList(upperLevelOperator, operatorText, firstRequirement));
+              //  firstRequirement = false;
+                htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
+                htmlText.append(htmlListText);                
+                htmlText.append("</ul>");
+            }
+        } else {
+            return new StringBuffer("No rules have been added");    
         }
 
-        return new StringBuffer("");
+        return htmlText;
+    }
+
+    private StringBuffer addRequirementToList(StatementOperatorTypeKey operator, String requirement, boolean firstRequirement) {
+        StringBuffer html = new StringBuffer();
+        html.append("<li style=\"padding-top: 5px;\">");        
+        if (!firstRequirement) {
+            html.append("<span class=\"KS-Program-Rule-Preview-Subrule-ORAND\">");
+            html.append(operator == StatementOperatorTypeKey.AND ? "AND " : "OR ");
+            html.append("</span>");
+        }
+        html.append(requirement);
+        html.append("</li>");        
+        return html;
     }
 
     public void addEditButtonClickHandler(ClickHandler handler) {

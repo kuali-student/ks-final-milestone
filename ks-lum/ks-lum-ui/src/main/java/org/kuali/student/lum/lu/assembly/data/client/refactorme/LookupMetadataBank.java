@@ -459,7 +459,7 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
-        param = new LookupParamMetadata ();
+  param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalPrimaryAdminOrgId");
 		param.setName ("Primary Admin Org Id");
 		param.setDesc ("Primary Admin Org Id");
@@ -490,7 +490,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValueString ("activated");
+		param.setDefaultValueString ("Active");
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
@@ -1632,7 +1632,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValueString ("activated");
+		param.setDefaultValueString ("Active");
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
@@ -1925,7 +1925,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValueString ("activated");
+		param.setDefaultValueString ("Active");
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);

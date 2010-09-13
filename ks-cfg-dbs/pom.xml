@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1.0-ver-M8-SNAPSHOT</version>
+    <version>1.1.0-M8-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-db</artifactId>
@@ -24,21 +24,10 @@
       </snapshots>
     </repository>
   </repositories>
-  <modules>
-    <module>ks-embedded-db</module>
-    <module>ks-core-db</module>
-    <module>ks-lum-db</module>
-    <module>ks-rice-db</module>
-    <module>ks-rice-client-db</module>
-    <module>ks-rice-server-db</module>
-  </modules>
   <build>
     <resources>
       <resource>
         <directory>${project.build.directory}/generated-impex</directory>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql</directory>
       </resource>
     </resources>
     <plugins>
@@ -53,69 +42,148 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.kuali.maven.properties</groupId>
-        <artifactId>maven-kuali-properties-plugin</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <configuration>
-          <locations>
-            <param>${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
-            <param>${additional.config.locations}</param>
-          </locations>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
         <configuration>
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
-          <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}-schema.xml</schemaXMLFile>
-          <trimArtifactId>true</trimArtifactId>
+          <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
         </configuration>
-        <executions>
-          <execution>
-            <id>morph-xml</id>
-            <goals>
-              <goal>morphschema</goal>
-              <goal>morphdata</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-data-dtd</id>
-            <goals>
-              <goal>datadtd</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-oracle-sql</id>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-            <configuration>
-              <targetDatabase>oracle</targetDatabase>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-mysql-sql</id>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-            <configuration>
-              <targetDatabase>mysql</targetDatabase>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>${oracle.ojdbc.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>reset-db</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>purge-db</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>drop</goal>
+                  <goal>create</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>import-data</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>import</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <modules>
+    <module>ks-embedded-db</module>
+    <!-- 
+    <module>ks-core-db</module>
+    <module>ks-lum-db</module>
+    <module>ks-rice-db</module>
+    <module>ks-rice-client-db</module>
+    <module>ks-rice-server-db</module>
+     -->
+  </modules>
 </project>

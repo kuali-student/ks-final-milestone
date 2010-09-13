@@ -217,9 +217,9 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 			helper = (SingleUseLoHelper) node.getOpaque();
 		} else {
     		helper = SingleUseLoHelper.wrap(new Data());
-    		// Clu's "draft", but associated lo's and their categories are "active"
+    		// Clu's "draft", but associated lo's and their categories are "Active"
 			// TODO - here, or down in persistence code?
-    		helper.setState("active");
+    		helper.setState("Active");
 			// TODO - here, or down in persistence code?
     		helper.setEffectiveDate(new Date());
     		// TODO - these shouldn't be hardcoded

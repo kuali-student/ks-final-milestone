@@ -30,6 +30,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -50,7 +51,7 @@ public class CurriculumHomeView extends ViewComposite{
             
             final KSLightBox pop = new KSLightBox();
             VerticalPanel mainPanel = new VerticalPanel();
-            mainPanel.add(new CategoryManagement());
+            mainPanel.add(new CategoryManagement(true,SelectionPolicy.MULTI_ROW));
             mainPanel.add(closeButton);
             
             closeButton.addClickHandler(new ClickHandler(){

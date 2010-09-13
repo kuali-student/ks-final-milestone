@@ -3335,6 +3335,13 @@
         <column name="PRI_INSTR_ID" size="255" type="VARCHAR"/>
         <column name="LAST_ATP" size="255" type="VARCHAR"/>
         <column name="LAST_ADMIT_ATP" size="255" type="VARCHAR"/>
+        <column name="VER_IND_ID" size="255" type="VARCHAR"/>
+        <column name="SEQ_NUM" size="19" type="DECIMAL"/>
+        <column name="CURR_VER_START" type="TIMESTAMP"/>
+        <column name="CURR_VER_END" type="TIMESTAMP"/>
+        <column name="PREV_VER_ID" size="255" type="VARCHAR"/>
+        <column name="VER_CMT" size="255" type="VARCHAR"/>
+        <column name="VER_FROM_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="FK1C27ACBEA8DCF088">
             <reference foreign="ID" local="PRI_INSTR_ID"/>
         </foreign-key>
@@ -5091,7 +5098,7 @@
     </table>
     <table name="KSST_REQ_COM_FIELD">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="REQ_COM_FIELD_KEY" size="255" type="VARCHAR"/>
+        <column name="REQ_COM_FIELD_TYPE" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
     </table>
     <table name="KSST_REQ_COM_FIELD_TYPE">

@@ -120,6 +120,9 @@
     <bean id="majorDisciplineInfo.cip2010Code" parent="majorDisciplineInfo.cip2010Code-parent"/>
     <bean id="majorDisciplineInfo.hegisCode-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="hegisCode"/>
+        <property name="minLength" value="6"/>
+        <property name="maxLength" value="6"/>
+        <property name="validChars" ref="digits"/>
     </bean>
     <bean id="majorDisciplineInfo.hegisCode" parent="majorDisciplineInfo.hegisCode-parent"/>
 

@@ -8,7 +8,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 /**
  * @author Igor
  */
-public abstract class AbstractSectionConfiguration<T extends Configurer> extends AbstractConfiguration<T> {
+public abstract class AbstractSectionConfiguration extends AbstractConfiguration {
 
     protected SectionView rootSection;
 

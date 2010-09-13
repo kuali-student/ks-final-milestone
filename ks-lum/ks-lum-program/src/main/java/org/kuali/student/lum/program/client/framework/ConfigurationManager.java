@@ -14,39 +14,39 @@ import java.util.HashMap;
  * @see Configuration
  * @see AbstractConfiguration
  */
-public class ConfigurationManager<T extends Configurer> {
+public class ConfigurationManager {
 
-    private ArrayList<Configuration<T>> configurations = new ArrayList<Configuration<T>>();
+    private ArrayList<Configuration> configurations = new ArrayList<Configuration>();
 
-    private HashMap<Enum<?>, Configuration<T>> configurationMap = new HashMap<Enum<?>, Configuration<T>>();
+    private HashMap<Enum<?>, Configuration> configurationMap = new HashMap<Enum<?>, Configuration>();
 
-    private T configurer;
+    private Configurer configurer;
 
-    public ConfigurationManager(T configurer) {
+    public ConfigurationManager(Configurer configurer) {
         this.configurer = configurer;
         ConfigurationRegistry.register(configurer.getClass().getName(), this);
     }
 
-    public void registerConfiguration(Configuration<T> configuration) {
+    public void registerConfiguration(Configuration configuration) {
         configurations.add(configuration);
         configurationMap.put(configuration.getName(), configuration);
         setConfigurerOn(configuration);
     }
 
-    public void removeConfiguration(Configuration<T> configuration) {
+    public void removeConfiguration(Configuration configuration) {
         configurations.remove(configuration);
         configurationMap.remove(configuration.getName());
     }
 
-    public Configuration<T> getConfiguration(Enum<?> name) {
+    public Configuration getConfiguration(Enum<?> name) {
         return configurationMap.get(name);
     }
 
-    public ArrayList<Configuration<T>> getConfigurations() {
+    public ArrayList<Configuration> getConfigurations() {
         return configurations;
     }
 
-    private void setConfigurerOn(Configuration<T> configuration) {
+    private void setConfigurerOn(Configuration configuration) {
         configuration.setConfigurer(configurer);
     }
 }

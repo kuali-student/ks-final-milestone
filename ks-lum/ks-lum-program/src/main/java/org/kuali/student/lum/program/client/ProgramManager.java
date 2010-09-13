@@ -26,26 +26,24 @@ public class ProgramManager {
     }
 
     public ProgramViewController getProgramViewController() {
+        programModel.resetRoot();
         if (programViewController == null) {
-            programViewController = new ProgramViewController(programModel, viewContext);
-        } else {
-            programModel.resetRoot();
+            programViewController = new ProgramViewController("Programs", programModel, viewContext);
         }
         return programViewController;
     }
 
     public VariationViewController getVariationViewController() {
-        if (variationViewController == null) {
-            variationViewController = new VariationViewController(programModel, viewContext);
-        }
+        String name = programViewController.getProgramName();
+        programModel.setRoot(VariationRegistry.getData());
+        variationViewController = new VariationViewController(name, programModel, viewContext);
         return variationViewController;
     }
 
     public ProgramEditController getProgramEditController() {
+        programModel.resetRoot();
         if (programEditController == null) {
-            programEditController = new ProgramEditController(programModel, viewContext);
-        } else {
-            programModel.resetRoot();
+            programEditController = new ProgramEditController("Programs", programModel, viewContext);
         }
         return programEditController;
     }

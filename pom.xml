@@ -9,7 +9,8 @@
     express or implied. See the License for the specific language governing
     permissions and limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
@@ -18,7 +19,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.0-ver-M8-SNAPSHOT</version>
+  <version>1.1.0-M9-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <organization>
@@ -89,6 +90,7 @@
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
+    <mysql.connector.version>5.1.13</mysql.connector.version>
 
     <!-- plugin versions -->
     <cobertura.plugin.version>2.4</cobertura.plugin.version>
@@ -101,6 +103,7 @@
 
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
+    <ks.java2ws.phase>none</ks.java2ws.phase>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm z</maven.build.timestamp.format>
   </properties>
   <profiles>
@@ -1088,7 +1091,6 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-javamail_1.4_spec</artifactId>
           </exclusion>
-
           <!--
                         These dependencies conflict with gwt-dev for running hosted mode via eclipse
                         launch file.
@@ -1125,6 +1127,11 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
         <groupId>com.oracle</groupId>
         <artifactId>ojdbc14</artifactId>
         <version>${oracle.ojdbc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.connector.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

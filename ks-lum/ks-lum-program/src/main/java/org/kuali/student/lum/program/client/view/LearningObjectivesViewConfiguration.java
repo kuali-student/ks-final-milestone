@@ -12,7 +12,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class LearningObjectivesViewConfiguration extends AbstractSectionConfiguration<ProgramViewConfigurer> {
+public class LearningObjectivesViewConfiguration extends AbstractSectionConfiguration {
 
     public LearningObjectivesViewConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_VIEW, ProgramProperties.get().program_menu_sections_learningObjectives(), ProgramConstants.PROGRAM_MODEL_ID);

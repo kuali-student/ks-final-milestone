@@ -12,11 +12,11 @@ import java.util.ArrayList;
 /**
  * @author Igor
  */
-public abstract class AbstractProgramConfigurer<T extends Configurer> extends Configurer {
+public abstract class AbstractProgramConfigurer extends Configurer {
 
     private ProgramController viewController;
 
-    protected ConfigurationManager<T> programSectionConfigManager;
+    protected ConfigurationManager programSectionConfigManager;
 
     public void configure(ProgramController viewController) {
         this.viewController = viewController;
@@ -29,8 +29,8 @@ public abstract class AbstractProgramConfigurer<T extends Configurer> extends Co
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
         viewController.addMenu(programSectionLabel);
-        ArrayList<Configuration<T>> configurations = programSectionConfigManager.getConfigurations();
-        for (Configuration<T> configuration : configurations) {
+        ArrayList<Configuration> configurations = programSectionConfigManager.getConfigurations();
+        for (Configuration configuration : configurations) {
             if (configuration instanceof ProgramRequirementsEditConfiguration) {
                 ((ProgramRequirementsEditConfiguration) configuration).setViewController(viewController);
             }

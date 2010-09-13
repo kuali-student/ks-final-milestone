@@ -331,7 +331,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 List<CluInfo> cluInfos = luService.getClusByIdList(cluSetInfo.getCluIds());
                 result.setApprovedClus(new Data());
                 for (CluInfo cluInfo : cluInfos) {
-                    if (cluInfo.getState().equals("activated")) {
+                    if (cluInfo.getState().equals("Active")) {
                         result.getApprovedClus().add(cluInfo.getId());
                     } else {
                         result.getProposedClus().add(cluInfo.getId());

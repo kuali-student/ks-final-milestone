@@ -8,15 +8,15 @@ import org.kuali.student.lum.program.client.framework.ConfigurationManager;
 /**
  * @author Igor
  */
-public class ProgramEditConfigurer extends AbstractProgramConfigurer<ProgramEditConfigurer> {
+public class ProgramEditConfigurer extends AbstractProgramConfigurer {
 
     public ProgramEditConfigurer() {
-        programSectionConfigManager = new ConfigurationManager<ProgramEditConfigurer>(this);
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(ProgramInformationEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(ManagingBodiesEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(SpecializationsEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(CatalogInformationEditConfiguration.class));
+        programSectionConfigManager = new ConfigurationManager(this);
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationEditConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesEditConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SpecializationsEditConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationEditConfiguration.class));
         //programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(ProgramRequirementsViewConfiguration.class));  //TODO change to Edit
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration<ProgramEditConfigurer>>create(LearningObjectivesEditConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesEditConfiguration.class));
     }
 }

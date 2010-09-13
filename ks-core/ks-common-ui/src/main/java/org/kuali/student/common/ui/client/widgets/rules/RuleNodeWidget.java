@@ -23,16 +23,21 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.*;
 
 public class RuleNodeWidget extends FocusPanel {
-    
+
+    //widgets
     private Node node;
-    private boolean showControls;
-    HTML html = new HTML();
-    CheckBox checkBox = new CheckBox();
-    KSLabel edit = new KSLabel("Edit");
-    AndOrButton toggle = new AndOrButton();
-    HorizontalPanel checkBoxAndEdit;
-    HandlerRegistration editClauseHandlerRegistration;
-    
+    private HTML html = new HTML();
+    private HorizontalPanel checkBoxAndEdit;
+    private CheckBox checkBox = new CheckBox();
+    private KSLabel edit = new KSLabel("Edit");
+    private KSLabel toggle = new KSLabel("");
+
+    //data
+    private HandlerRegistration editClauseHandlerRegistration;
+    private ClickHandler editClickHandler;
+    private boolean editMode = false;
+    private boolean showCheckbox;
+
     public RuleNodeWidget(Node n) {
         init(n, true);
     }
@@ -43,14 +48,14 @@ public class RuleNodeWidget extends FocusPanel {
     
     private void init(Node n, boolean showControls) {
         node = n;
-        this.showControls = showControls;
+        this.showCheckbox = showControls;
         drawNode(n, null, -1, -1); 
     }
     
     public void drawNode(Node n, RuleTable ruleTable, int rowIndex, int columnIndex) {
         node = n;
 
-        if (node.getUserObject() instanceof Token == false) {
+        if (!(node.getUserObject() instanceof Token)) {
             super.setWidget(html);
             html.setHTML(node.getUserObject().toString());
             checkBox.setHTML(node.getUserObject().toString());
@@ -58,91 +63,65 @@ public class RuleNodeWidget extends FocusPanel {
         }
 
         Token userObject = (Token) node.getUserObject();
+        String selectionStyle = (userObject.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected");
+
+        //true if the node is AND/OR operator
         if (userObject.isTokenOperator()) {
-            checkBox.setStyleName("KS-Rules-Table-Cell-ANDOR-Checkbox");
             VerticalPanel checkBoxAndToggle = new VerticalPanel();
             super.setWidget(checkBoxAndToggle);
             this.addStyleName(userObject.isCheckBoxOn() ? "KS-Rules-Table-Cell-Selected" : "KS-Rules-Table-Cell-DeSelected");            
-            if (showControls) {
+            if (showCheckbox) {
                 checkBoxAndToggle.add(checkBox);
-                if (userObject.getType()==  Token.Or) {
-                    toggle.setValue(AndOrButton.Or);
-                } else {
-                    toggle.setValue(AndOrButton.And);
-                }
-                checkBoxAndToggle.add(toggle);
-                if (ruleTable != null) {
-                    String selectionStyle = (userObject.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected");
-                    ruleTable.getCellFormatter().setStyleName(rowIndex, columnIndex, selectionStyle);
-                    ruleTable.getCellFormatter().addStyleName(rowIndex, columnIndex, "KS-Toggle");
-                }
-            } else {
-                checkBoxAndToggle.add(html);
-                checkBoxAndToggle.setStyleName("KS-ReqComp-DeSelected");
             }
-            html.setHTML(node.getUserObject().toString());
-            checkBox.setValue(userObject.isCheckBoxOn(), false);
-            
-        } else { //we have a rule to display in this node  //if (userObject instanceof ReqComponentVO) {
-            KSLabel rcLabel = null;
-            HorizontalPanel tableCell = new HorizontalPanel();
+            toggle.setText(userObject.getType() == Token.Or ? Token.createOrToken().value.toUpperCase() : Token.createAndToken().value.toUpperCase());
+            toggle.addStyleName("KS-Rules-Table-Cell-ANDOR");
+            checkBoxAndToggle.add(toggle);
+            if (ruleTable != null) {
+                ruleTable.getCellFormatter().setStyleName(rowIndex, columnIndex, selectionStyle);
+                ruleTable.getCellFormatter().addStyleName(rowIndex, columnIndex, "KS-Toggle");
+            }
+        } else { //we have a rule to display in this node 
             checkBoxAndEdit = new HorizontalPanel();
+            HorizontalPanel tableCell = new HorizontalPanel();
             super.setWidget(tableCell);
             this.setStyleName(userObject.isCheckBoxOn() ? "KS-Rules-Table-Cell-Selected" : "KS-Rules-Table-Cell-DeSelected");
             if (userObject.getTokenID() != null) {
                 Node parent = node.getParent();
                 if (parent != null) {
-                    rcLabel = new KSLabel(userObject.getTokenID());
+                    KSLabel rcLabel = new KSLabel(userObject.getTokenID());
                     rcLabel.setStyleName("KS-Rules-Table-Cell-ID");
                     tableCell.add(rcLabel);
-        //            checkBoxAndEdit.add(rcLabel);
                 }
-            }
-            
+            }            
             tableCell.add(checkBoxAndEdit);
             
-            if (showControls) {
+            if (showCheckbox) {
                 checkBoxAndEdit.add(checkBox);
-                edit.addStyleName("KS-Rules-URL-Link");
-                checkBoxAndEdit.add(edit);
-                if (ruleTable != null) {
-                    String selectionStyle = (userObject.isCheckBoxOn() ? "KS-ReqComp-Selected" : "KS-ReqComp-DeSelected");
-                    //ruleTable.getCellFormatter().setStyleName(rowIndex, columnIndex, selectionStyle);  this does not work all the time
-                    checkBoxAndEdit.setStyleName(selectionStyle);
-                }
-            } else {
-                checkBoxAndEdit.add(html);
-                checkBoxAndEdit.setStyleName("KS-ReqComp-DeSelected");                
             }
-            html.setHTML(node.getUserObject().toString());
+            edit.addStyleName("KS-Rules-URL-Link");
+            checkBoxAndEdit.add(edit);
+            if (ruleTable != null) {
+                checkBoxAndEdit.setStyleName(selectionStyle);
+            }
+            
             html.addStyleName("KS-ReqComp-Panel");
             checkBox.setHTML(node.getUserObject().toString());
-            checkBox.setValue(userObject.isCheckBoxOn());
-            
-        } /*else {
-            super.setWidget(html);
-            html.setHTML(node.getUserObject().toString());
-            checkBox.setHTML(node.getUserObject().toString());
-        } */
+        }
+
+        checkBox.setValue(userObject.isCheckBoxOn());
+        html.setHTML(node.getUserObject().toString());
     }
 
     public boolean isSelected(){
-        return checkBox.getValue() == true;
-    }
-    public void addToggleHandler(ClickHandler ch) {
-        toggle.addClickHandler(ch);
+        return checkBox.getValue();
     }
 
-    public void clearToggleHandler() {
-        toggle.removeClickHandler();
+    public boolean isShowCheckbox() {
+        return showCheckbox;
     }
 
-    public boolean isShowControls() {
-        return showControls;
-    }
-
-    public void setShowControls(boolean showControls) {
-        this.showControls = showControls;
+    public void setShowCheckbox(boolean showCheckbox) {
+        this.showCheckbox = showCheckbox;
     }
 
     public Node getNode() {
@@ -150,6 +129,7 @@ public class RuleNodeWidget extends FocusPanel {
     }
 
     public void addEditClauseHandler(ClickHandler ch) {
+        editClickHandler = ch;
         editClauseHandlerRegistration = edit.addClickHandler(ch);
     }
 
@@ -157,5 +137,26 @@ public class RuleNodeWidget extends FocusPanel {
         if (editClauseHandlerRegistration != null) {
             editClauseHandlerRegistration.removeHandler();
         }
-    }    
+    }  
+
+    public void setEnabled(boolean enabled) {
+        checkBox.setEnabled(enabled);
+        if (enabled) {
+            edit.removeStyleName("KS-Rules-URL-Link-Readonly");
+            edit.addStyleName("KS-Rules-URL-Link");
+            addEditClauseHandler(editClickHandler);
+        } else {
+            edit.removeStyleName("KS-Rules-URL-Link");
+            edit.addStyleName("KS-Rules-URL-Link-Readonly");            
+            clearEditClauseHandler();
+        }
+    }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
 }

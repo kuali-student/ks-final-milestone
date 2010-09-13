@@ -47,6 +47,6 @@
         CREATEID="CREATEID" CREATETIME="20091201090000"
         EFF_DT="20090101000000" ID="MAJOR-1"
         LO_ID="FDE6421E-64B4-41AF-BAC5-269005101C2A" ST="active"
-        TYPE="cluLoType.default" UPDATEID="UPDATEID"
+        TYPE="cluLoType.default" UPDATEID="UPDATEID"                                                     
         UPDATETIME="20091201100000" VERSIONIND="1"/>
 </dataset>

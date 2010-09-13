@@ -13,7 +13,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguration<ProgramViewConfigurer> {
+public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguration {
 
     public ManagingBodiesViewConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID);

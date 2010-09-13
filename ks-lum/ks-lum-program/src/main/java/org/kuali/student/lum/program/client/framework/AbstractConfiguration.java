@@ -9,11 +9,11 @@ import org.kuali.student.common.ui.client.mvc.View;
  *
  * @author Igor
  */
-public abstract class AbstractConfiguration<T extends Configurer> implements Configuration<T> {
+public abstract class AbstractConfiguration implements Configuration {
 
-    protected T configurer;
+    protected Configurer configurer;
 
-    public void setConfigurer(T configurer) {
+    public void setConfigurer(Configurer configurer) {
         this.configurer = configurer;
     }
 }

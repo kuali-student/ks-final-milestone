@@ -15,6 +15,9 @@
 
 package org.kuali.student.common.ui.client.widgets.rules;
 
+import org.kuali.student.common.ui.client.widgets.table.Node;
+import org.kuali.student.common.ui.client.widgets.table.TreeTable;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -24,8 +27,6 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.common.ui.client.widgets.table.TreeTable;
 
 public class RuleTable extends Composite {
 
@@ -82,16 +83,7 @@ public class RuleTable extends Composite {
     
     public CellFormatter getCellFormatter() {
         return treeTable.getCellFormatter();
-    }
-    
-    public void addToggleHandler(ClickHandler toggleHandler) {
-        for (int i = 0; i < treeTable.getRowCount(); i++) {
-            for (int j = 0; j < treeTable.getCellCount(i); j++) {
-                RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
-                w.addToggleHandler(toggleHandler);
-            }
-        }
-    }
+    }    
 
     public HandlerRegistration addTextClickHandler(ClickHandler textClickHandler) {
         return addDomHandler(textClickHandler, ClickEvent.getType());
@@ -125,13 +117,22 @@ public class RuleTable extends Composite {
             if (child.isLeaf()) {
                 int childRowIndex = getRowIndexAmongSibings(child);
                 RuleNodeWidget childNodeWidget = (RuleNodeWidget) ((FlexTable)treeTable).getWidget(childRowIndex, columnIndex + 1);
-                childNodeWidget.setShowControls(this.showControls);
+                childNodeWidget.setShowCheckbox(this.showControls);
                 childNodeWidget.drawNode(child, this, childRowIndex, columnIndex + 1);
             } else {
                 buildTable(child, columnIndex + 1);
             }
         }
 
+    }
+
+    public void setEnabled(boolean enabled) {
+        for (int i = 0; i < treeTable.getRowCount(); i++) {
+            for (int j = treeTable.getCellCount(i) - 1; j >= 0; j--) {
+                RuleNodeWidget w = (RuleNodeWidget) treeTable.getWidget(i, j);
+                w.setEnabled(enabled);
+            }
+        }
     }
     
     public RuleNodeWidget getRuleNodeWidget(Node node) {

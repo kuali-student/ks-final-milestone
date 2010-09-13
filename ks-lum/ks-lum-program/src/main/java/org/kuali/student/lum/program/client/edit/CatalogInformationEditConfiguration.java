@@ -7,7 +7,7 @@ import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
-public class CatalogInformationEditConfiguration extends AbstractSectionConfiguration<ProgramEditConfigurer> {
+public class CatalogInformationEditConfiguration extends AbstractSectionConfiguration {
 
     public CatalogInformationEditConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.CATALOG_INFO_EDIT, ProgramProperties.get().program_menu_sections_catalogInfo(), ProgramConstants.PROGRAM_MODEL_ID);

@@ -432,10 +432,30 @@
         ID="918040df-964b-46f0-aef9-f8db92b07a41"
         LNG_NAME="Anthropology" LVL=""
         SHRT_NAME="Anthropology" SUFX_CD="" ST="active" />
-    <KSLU_CLU_IDENT CD="TRAN" DIV=""
+    <KSLU_CLU_IDENT CD="ANTH" DIV=""
         ID="MAJOR-1" TYPE="kuali.lu.type.program.identifier.transcript"
         SHRT_NAME="TRANSCRIPT-TITLE" ST="active" />
-    <KSLU_CLU_IDENT CD="DIPL" DIV=""
+    <KSLU_CLU_IDENT CD="ANTH" DIV=""
         ID="MAJOR-2" TYPE="kuali.lu.type.program.identifier.diploma"
         SHRT_NAME="DIPLOMA-TITLE" ST="active" />
+    <KSLU_CLU_IDENT CD="ZOOA" DIV=""  ID="VAR-201"
+        TYPE="kuali.lu.type.program.identifier.official"
+        LNG_NAME="Zooarchaeology" LVL=""
+        SHRT_NAME="ZooArch" SUFX_CD="" ST="active" />
+    <KSLU_CLU_IDENT CD="ZOOA" DIV="" ID="VAR-202"
+        TYPE="kuali.lu.type.program.identifier.transcript"
+        SHRT_NAME="ZOOARCHAEOLOGY" ST="active" />
+    <KSLU_CLU_IDENT CD="ZOOA" DIV="" ID="VAR-203"
+        TYPE="kuali.lu.type.program.identifier.diploma"
+        SHRT_NAME="Zooarchaeology" ST="active" />
+    <KSLU_CLU_IDENT CD="ARCB" DIV="" ID="VAR-301"
+        TYPE="kuali.lu.type.program.identifier.official"
+        LNG_NAME="Archaeobotany" LVL=""
+        SHRT_NAME="ArcBot" SUFX_CD="" ST="active" />
+    <KSLU_CLU_IDENT CD="ARCB" DIV="" ID="VAR-302"
+        TYPE="kuali.lu.type.program.identifier.transcript"
+        SHRT_NAME="ARCHAEOBOTANY" ST="active" />
+    <KSLU_CLU_IDENT CD="ARCB" DIV=""  ID="VAR-303"
+        TYPE="kuali.lu.type.program.identifier.diploma"
+        SHRT_NAME="Archaeobotany" ST="active" />
 </dataset>

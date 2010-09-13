@@ -283,20 +283,18 @@ public class RuleInfo {
      //       statementVO = null;
      //   }
     }
-    
+
     public boolean isAddToGroupOK() {
         List<StatementVO> selectedStatementVOs = getSelectedStatementVOs();
         List<ReqComponentVO> selectedReqComponentVOs = getSelectedReqComponentVOs();
         return isAddToGroupOK(selectedStatementVOs, selectedReqComponentVOs);
     }
-    
+
     private boolean isAddToGroupOK(List<StatementVO> selectedStatementVOs, List<ReqComponentVO> selectedReqComponentVOs) {
-        boolean addToGroupOk = false;
         int numSelectedS = (selectedStatementVOs == null)? 0 : selectedStatementVOs.size();
         int numSelectedRC = (selectedReqComponentVOs == null)? 0 : selectedReqComponentVOs.size();
         // one or more rules are selected as well as a single AND or OR cell
-        addToGroupOk = numSelectedS == 1 && numSelectedRC > 0;
-        return addToGroupOk;
+        return (numSelectedS == 1 && numSelectedRC > 0);
     }
     
     public void addToGroup() {

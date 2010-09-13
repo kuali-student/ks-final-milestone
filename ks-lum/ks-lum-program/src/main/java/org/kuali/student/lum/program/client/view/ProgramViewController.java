@@ -20,8 +20,8 @@ public class ProgramViewController extends ProgramController {
      *
      * @param programModel
      */
-    public ProgramViewController(DataModel programModel, ViewContext viewContext) {
-        super(programModel, viewContext);
+    public ProgramViewController(String name, DataModel programModel, ViewContext viewContext) {
+        super(name, programModel, viewContext);
         configurer = GWT.create(ProgramViewConfigurer.class);
         addContentWidget(switchToEditButton);
         switchToEditButton.addClickHandler(new ClickHandler() {
