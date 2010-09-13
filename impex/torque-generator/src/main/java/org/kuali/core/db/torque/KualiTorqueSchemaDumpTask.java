@@ -268,7 +268,7 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 		log("Found " + tableList.size() + " tables");
 		StringFilter filterer = new StringFilter(includePatterns, excludePatterns);
 		filterer.filter(tableList.iterator());
-		log("Exporting " + tableList.size() + " tables after filtering is applied");
+		log("Processing " + tableList.size() + " tables after filtering is applied");
 
 		for (String curTable : tableList) {
 			processTable(curTable, platform, dbMetaData);
