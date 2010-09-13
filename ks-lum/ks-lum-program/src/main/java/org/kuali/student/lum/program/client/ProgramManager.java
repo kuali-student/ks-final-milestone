@@ -23,6 +23,7 @@ public class ProgramManager {
 
     public ProgramManager() {
         programModel = new DataModel();
+        VariationRegistry.setViewContext(viewContext);
     }
 
     public ProgramViewController getProgramViewController() {

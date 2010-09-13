@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -39,7 +40,7 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
         }
 
         @Override
-        public void setWidgetValue(VerticalPanel verticalPanel, DataModel model, String path) {
+        public void setWidgetValue(VerticalPanel verticalPanel, final DataModel model, String path) {
             verticalPanel.clear();
             Data variationMap = model.get(path);
             if (variationMap != null) {
@@ -50,7 +51,11 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
                         @Override
                         public void onClick(ClickEvent event) {
                             VariationRegistry.setData(variationData);
-                            HistoryManager.navigate("/HOME/CURRICULUM_HOME/VARIATION_VIEW");
+                            String id = (String) model.get("id");
+                            ViewContext viewContext = new ViewContext();
+                            viewContext.setId(id);
+                            viewContext.setIdType(ViewContext.IdType.OBJECT_ID);
+                            HistoryManager.navigate("/HOME/CURRICULUM_HOME/VARIATION_VIEW", viewContext);
                         }
                     });
                     verticalPanel.add(anchor);
