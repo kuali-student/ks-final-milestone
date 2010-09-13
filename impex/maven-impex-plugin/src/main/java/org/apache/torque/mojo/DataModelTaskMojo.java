@@ -112,7 +112,9 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	private String schemaExcludes;
 
 	/**
-	 * The database type (e.g. mysql, oracle, ...)
+	 * The type of database we are targeting (eg oracle, mysql). This is optional if <code>url</code> is supplied as the
+	 * database type will be automatically detected based on the <code>url</code>. If targetDatabase is explicitly
+	 * supplied it will override the type selected by the automatic detection logic.
 	 * 
 	 * @parameter expression="${targetDatabase}"
 	 */

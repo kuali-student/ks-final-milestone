@@ -72,9 +72,9 @@ public abstract class AbstractSQLExecutorMojo extends PropertiesMojo {
 	// ////////////////////////// User Info ///////////////////////////////////
 
 	/**
-	 * The type of database we are targeting (eg oracle, mysql). This is optional as the database type will be
-	 * automatically detected based on the <code>url</code> that is supplied. If targetDatabase is explicitly supplied
-	 * it will override the type selected by the automatic detection logic.
+	 * The type of database we are targeting (eg oracle, mysql). This is optional if <code>url</code> is supplied as the
+	 * database type will be automatically detected based on the <code>url</code>. If targetDatabase is explicitly
+	 * supplied it will override the type selected by the automatic detection logic.
 	 * 
 	 * @parameter expression="${targetDatabase}"
 	 */
