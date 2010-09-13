@@ -25,24 +25,26 @@ class VariationsBinding extends ModelWidgetBindingSupport<VerticalPanel> {
     public void setWidgetValue(VerticalPanel verticalPanel, DataModel model, String path) {
         verticalPanel.clear();
         Data variationMap = model.get(path);
-        for (Data.Property property : variationMap) {
-            final Data variationData = property.getValue();
-            Anchor anchor = new Anchor(getVariationName(variationData));
-            anchor.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(ClickEvent event) {
-                    VariationRegistry.setData(variationData);
-                    HistoryManager.navigate("/HOME/CURRICULUM_HOME/VARIATION_VIEW");
-                }
-            });
-            verticalPanel.add(anchor);
+        if (variationMap != null) {
+            for (Data.Property property : variationMap) {
+                final Data variationData = property.getValue();
+                Anchor anchor = new Anchor(getVariationName(variationData));
+                anchor.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        VariationRegistry.setData(variationData);
+                        HistoryManager.navigate("/HOME/CURRICULUM_HOME/VARIATION_VIEW");
+                    }
+                });
+                verticalPanel.add(anchor);
+            }
         }
     }
 
     private String getVariationName(Data data) {
         StringBuilder nameBuilder = new StringBuilder();
         nameBuilder.append(data.<Object>get(ProgramConstants.LONG_TITLE));
-        nameBuilder.append("(").append(data.<Object>get(ProgramConstants.CODE)).append(")");
+        nameBuilder.append(" (").append(data.<Object>get(ProgramConstants.CODE)).append(")");
         return nameBuilder.toString();
 
     }
