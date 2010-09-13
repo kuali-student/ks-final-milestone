@@ -273,14 +273,14 @@ public class TestStatementServiceImplForCourse {
 
     @Test
     public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_program_admitted_ProgramAsClu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        //req. type: 'kuali.reqComponent.type.course.program.notadmitted'
+        //req. type: 'kuali.reqComponent.type.course.program.admitted'
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-30a", "KUALI.RULE", "en");
         assertEquals("Must have been admitted to the Sociology program", nl);
     }
 
     @Test
     public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_program_admitted_ProgramAsCluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        //req. type: 'kuali.reqComponent.type.course.program.notadmitted'
+        //req. type: 'kuali.reqComponent.type.course.program.admitted'
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-30b", "KUALI.RULE", "en");
         assertEquals("Must have been admitted to the Sociology program", nl);
     }
