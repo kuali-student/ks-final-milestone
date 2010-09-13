@@ -42,6 +42,9 @@ public abstract class BaseMojo extends AbstractMojo {
 	private boolean forceMojoExecution;
 
 	/**
+	 * The encoding to use when reading/writing files. If not specified this defaults to the platform specific encoding
+	 * of whatever machine the build is running on.
+	 * 
 	 * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
 	 */
 	private String encoding;

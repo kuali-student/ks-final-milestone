@@ -28,9 +28,9 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String serverUrl;
 
 	/**
-	 * The name of the database to DROP/CREATE. If not specified this defaults to a database name that is compatible
-	 * with ${targetDatabase}. There is platform specific logic that will automatically convert the artifact id into a
-	 * compatible name.
+	 * The name of the database to DROP/CREATE. If not specified, this defaults to a database name that is compatible
+	 * with ${targetDatabase} based on platform specific logic that converts the artifact id.<br>
+	 * <br>
 	 * 
 	 * For example:<br>
 	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL)
@@ -40,20 +40,22 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String database;
 
 	/**
-	 * The user to DROP/CREATE when issuing DBA commands for creating/dropping a user. If not specified this defaults to
-	 * a user based on a conversion of the artifact id.<br>
+	 * The user to DROP/CREATE when issuing DBA commands for creating/dropping a user. If not specified, this defaults
+	 * to a user that is compatible with ${targetDatabase} based on platform specific logic that converts the artifact
+	 * id.<br>
+	 * <br>
 	 * 
 	 * For example:<br>
 	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL)
-	 * 
 	 * 
 	 * @parameter expression="${databaseUser}"
 	 */
 	String databaseUser;
 
 	/**
-	 * The password for the user to DROP/CREATE when issuing DBA commands for creating/dropping a user. If not specified
-	 * this defaults to a password based on a conversion of the artifact id.<br>
+	 * The password for the user that is DROPPED/CREATED. If not specified, this defaults to a password that is
+	 * compatible with ${targetDatabase} based on platform specific logic that converts the artifact id.<br>
+	 * <br>
 	 * 
 	 * For example:<br>
 	 * ks-embedded-db is converted to KSEMBEDDED for Oracle, and ksembedded for MySQL)
@@ -64,14 +66,16 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 
 	/**
 	 * A user with DBA privileges on the database. This is the user that Impex will connect to the database as to issue
-	 * DBA commands for dropping/creating databases and users. This overrides <code>username</code>
+	 * DBA commands for dropping/creating databases and users. This is used instead of <code>username</code>. If not
+	 * specified, <code>dbaUser</code> will attempt to be found under ${dbaSettingsKey}
 	 * 
 	 * @parameter expression="${dbaUser}"
 	 */
 	String dbaUser;
 
 	/**
-	 * The password for the DBA user. This overrides <code>password</code>
+	 * The password for the DBA user. This is used instead of <code>password</code>. If not specified,
+	 * <code>dbaPassword</code> will attempt to be found in settings.xml under ${dbaSettingsKey}
 	 * 
 	 * @parameter expression="${dbaPassword}"
 	 */
@@ -85,7 +89,8 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String dbaSettingsKey;
 
 	/**
-	 * Set this to true if you are you are including the username/password as part of the JDBC url
+	 * Set this to true if you are you are including the username/password as part of the JDBC url for DBA access. This
+	 * overrides <code>enableAnonymousPassword</code> and <code>enableAnonymousUsername</code>
 	 * 
 	 * @parameter expression="${enableAnonymousDbaAccess}" default-value="false"
 	 */
