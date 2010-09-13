@@ -64,7 +64,9 @@ public class BeanPropertiesLoader {
 	@SuppressWarnings("unchecked")
 	public void loadToBean() throws PropertyHandlingException {
 		if (!utils.isFileOrResource(location)) {
+			log.info("------------------------------------------------------------------------");
 			log.warn("No properties file located at " + location);
+			log.info("------------------------------------------------------------------------");
 			return;
 		} else {
 			log.info("------------------------------------------------------------------------");

@@ -1,6 +1,5 @@
 package org.apache.torque.mojo;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.torque.util.BeanPropertiesLoader;
 import org.kuali.core.db.torque.PropertyHandlingException;
@@ -10,7 +9,7 @@ public class PropertiesMojo extends BaseMojo {
 	/**
 	 * @parameter expression="${properties}"
 	 */
-	String properties = System.getProperty("file.separator") + FS + "impex.properties";
+	String properties = System.getProperty("user.home") + FS + "impex.properties";
 
 	/**
 	 * If true, properties found in the file will be used instead of plugin configuration
@@ -28,15 +27,14 @@ public class PropertiesMojo extends BaseMojo {
 
 	@Override
 	protected void executeMojo() throws MojoExecutionException {
+		loadPropertiesToMojo();
+	}
+
+	protected void loadPropertiesToMojo() throws MojoExecutionException {
 		try {
 			BeanPropertiesLoader loader = new BeanPropertiesLoader(this, properties, getEncoding(), "Impex");
 			loader.setOverrideExistingPropertyValues(overridePluginConfiguration);
 			loader.setOverrideSystemProperties(overrideSystemProperties);
-			if (!StringUtils.isEmpty(properties) && !loader.isPropertiesExist()) {
-				getLog().warn("Unable to locate properties at " + properties);
-				return;
-			}
-			getLog().info("Loading properties from " + properties);
 			loader.loadToBean();
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);
