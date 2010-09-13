@@ -305,7 +305,6 @@ public abstract class AbstractSQLExecutorMojo extends PropertiesMojo {
 	 * @throws MojoExecutionException
 	 */
 	public void executeMojo() throws MojoExecutionException {
-		super.setPropertiesDescription("Impex");
 		super.executeMojo();
 		jdbcUtils = new JDBCUtils();
 		updateConfiguration();

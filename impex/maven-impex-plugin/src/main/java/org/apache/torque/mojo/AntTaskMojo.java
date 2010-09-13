@@ -46,7 +46,6 @@ public class AntTaskMojo extends PropertiesMojo {
 	 * Configure the Ant task and then execute it
 	 */
 	public void executeMojo() throws MojoExecutionException {
-		setPropertiesDescription("Impex");
 		super.executeMojo();
 		configureTask();
 		getAntTask().execute();

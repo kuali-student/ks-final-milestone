@@ -13,13 +13,6 @@ public class PropertiesMojo extends BaseMojo {
 	String properties = System.getProperty("file.separator") + FS + "impex.properties";
 
 	/**
-	 * A descripiton of the properties file
-	 * 
-	 * @parameter expression="${propertiesDescription}" default-value="Impex"
-	 */
-	String propertiesDescription;
-
-	/**
 	 * If true, properties found in the file will be used instead of plugin configuration
 	 * 
 	 * @parameter expression="${overridePluginConfiguration}" default-value="true"
@@ -36,7 +29,7 @@ public class PropertiesMojo extends BaseMojo {
 	@Override
 	protected void executeMojo() throws MojoExecutionException {
 		try {
-			BeanPropertiesLoader loader = new BeanPropertiesLoader(this, properties, getEncoding(), propertiesDescription);
+			BeanPropertiesLoader loader = new BeanPropertiesLoader(this, properties, getEncoding(), "Impex");
 			loader.setOverrideExistingPropertyValues(overridePluginConfiguration);
 			loader.setOverrideSystemProperties(overrideSystemProperties);
 			if (!StringUtils.isEmpty(properties) && !loader.isPropertiesExist()) {
@@ -56,14 +49,6 @@ public class PropertiesMojo extends BaseMojo {
 
 	public void setProperties(String properties) {
 		this.properties = properties;
-	}
-
-	public String getPropertiesDescription() {
-		return propertiesDescription;
-	}
-
-	public void setPropertiesDescription(String propertiesDescription) {
-		this.propertiesDescription = propertiesDescription;
 	}
 
 	public boolean isOverridePluginConfiguration() {
