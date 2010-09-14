@@ -132,7 +132,7 @@ public class StringFilter {
 		while (itr.hasNext()) {
 			String s = itr.next();
 			if (!isInclude(s)) {
-				// This string does not match inclusion criteria
+				// This string does not match an inclusion pattern
 				log.debug("No inclusion pattern match. Removing '" + s + "'");
 				itr.remove();
 				continue;
