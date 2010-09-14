@@ -172,7 +172,7 @@ public class CluPostProcessor implements PostProcessor{
 			LOG.info("CluApprovalPostProcessor: Status change to APPROVED");
 			WorkflowInfo workflowInfo = new WorkflowInfo();
 			DocumentContentDTO document = workflowInfo.getDocumentContent(statusChangeEvent.getRouteHeaderId());
-			updateCluStatus(document);						
+			updateCluStatus(document);	
 		}
         return new ProcessDocReport(true, "");
 	}
@@ -193,6 +193,7 @@ public class CluPostProcessor implements PostProcessor{
 			CluInfo clu = luService.getClu(cluId);
 	    	clu.setState(CLU_STATE_ACTIVE);
 			luService.updateClu(cluId, clu);
+			luService.setCurrentCluVersion(cluId, null);
 		} catch (Exception e) {
 			LOG.error(e);
 			throw new RuntimeException(e);
