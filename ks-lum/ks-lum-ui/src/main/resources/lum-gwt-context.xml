@@ -364,11 +364,21 @@
 
     <bean id="courseWorkflowFilter" parent="parentWorkflowFilter">
         <property name="dtoClass" value="org.kuali.student.lum.course.dto.CourseInfo"/>
-        <property name="docType" value="kuali.proposal.type.course.create"/>
-        <property name="docFieldPaths">
+        <property name="defaultDocType" value="kuali.proposal.type.course.create"/>
+        <property name="docTypeFieldPaths">
             <map>
-                <entry key="cluId" value="id"/>
-                <entry key="orgId" value="curriculumOversightOrgs[0]"/>
+            	<entry key="kuali.proposal.type.course.create">
+           			<map>
+	                	<entry key="cluId" value="id"/>
+	                	<entry key="orgId" value="curriculumOversightOrgs[0]"/>
+           			</map>
+				</entry>
+            	<entry key="kuali.proposal.type.course.modify">
+           			<map>
+	                	<entry key="cluId" value="id"/>
+	                	<entry key="orgId" value="curriculumOversightOrgs[0]"/>
+           			</map>
+				</entry>
             </map>
         </property>
     </bean>

@@ -67,13 +67,17 @@ public class TestFilterStuff {
 		docFieldPaths.put("userId", "user");
 		docFieldPaths.put("foo", "foo");				//Non-existant property
 		
+		Map<String, Map<String,String>> docTypeFieldPaths = new HashMap<String, Map<String,String>>();
+		docTypeFieldPaths.put("testDocType", docFieldPaths);
+		
 		workflowFilter.setDtoClass(MockProposal.class);
+		workflowFilter.setDefaultDocType("testDocType");
 		workflowFilter.setDocTitlePath("proposalTitle");
-		workflowFilter.setDocFieldPaths(docFieldPaths);
+		workflowFilter.setDocTypeFieldPaths(docTypeFieldPaths);
 						
 		assertEquals("Test Proposal", workflowFilter.getDocumentTitle(proposal));
 		
-		String docContent = workflowFilter.getDocumentContent(proposal);
+		String docContent = workflowFilter.getDocumentContent(proposal, "testDocType");
 		assertTrue(docContent.contains("<proposalId>123456789</proposalId>"));
 	}
 }

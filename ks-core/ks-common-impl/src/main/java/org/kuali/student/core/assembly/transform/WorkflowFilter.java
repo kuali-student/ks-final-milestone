@@ -25,6 +25,40 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
+/**
+ * The WorkflowFilter can be added to dto/data TransformationManager to create and update a KEW
+ * workflow document. The workflow filter can be configured as follows:
+ * 
+ * 1) defaultDocType: The workflow document type is normally determined by WORKFLOW_DOC_TYPE property.
+ * However, when this property is not found it will use the default doc type.
+ * 
+ * 2) docTitlePath: The workflow document title is normally determined by the ProposalFilter.PROPOSAL_NAME property.
+ * However, when this property is not found it will use the docTitlePath to use a field from the dto object as the title.
+ * 
+ * 3) docTypeFieldPaths: Use this to provide the field paths to use when creating the workflow document content for
+ * each document type. Below is an example spring configuration for this property:
+ * 
+ *   <map>
+ *     <entry key="kuali.proposal.type.docType1">
+ *       <map>
+ *	       <entry key="field1" value="field1Path"/>
+ *         <entry key="field2" value="field2Array[0]"/>
+ *       </map>
+ *	   </entry>
+ *     <entry key="kuali.proposal.type.docType2">
+ *        <map>
+ *	       	<entry key="field1" value="field1Path"/>
+ *	        <entry key="field2" value="field2Path"/>
+ *        </map>
+ *     </entry>
+ *   </map>
+ *
+ *   Note: At this time this does not allow us to directly obtain values from the proposalInfo structure. To easily allow
+ *   this in the future the WorkflowFilter and ProposalFilter should really be combined.
+ *    
+ * @author Will
+ *
+ */
 public class WorkflowFilter extends AbstractDTOFilter {
     
 	public static final String WORKFLOW_ACTION		= "WorkflowFilter.Action";
@@ -43,9 +77,9 @@ public class WorkflowFilter extends AbstractDTOFilter {
     private WorkflowUtility workflowUtilityService;
 	private SimpleDocumentActionsWebService simpleDocService;
 	
-	private Map<String, String> docFieldMap;
+	private Map<String, Map<String, String>> docTypeFieldMap;
 	private String docTitlePath;
-	private String docType;
+	private String defaultDocType;
 	private Class<?> dtoClass;
     
 	/**
@@ -102,7 +136,7 @@ public class WorkflowFilter extends AbstractDTOFilter {
 		}
 
         //Generate the document content xml
-        String docContent = getDocumentContent(data);
+        String docContent = getDocumentContent(data, docType);
         
         //Save
         StandardResponse stdResp;
@@ -148,7 +182,7 @@ public class WorkflowFilter extends AbstractDTOFilter {
 	 * @return The doctype of the workflow document to be associated with this workflow process.
 	 */
 	public String getDocumentType(){
-		return docType;
+		return defaultDocType;
 	}
 		
 	/**
@@ -168,9 +202,10 @@ public class WorkflowFilter extends AbstractDTOFilter {
 	 * @param data
 	 * @return the document content required by the workflow process
 	 */
-	public String getDocumentContent(Object dto) throws FilterException {
+	public String getDocumentContent(Object dto, String docType) throws FilterException {
 		String docContentString = "";
 		
+		Map<String, String> docFieldMap = docTypeFieldMap.get(docType);
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -197,6 +232,8 @@ public class WorkflowFilter extends AbstractDTOFilter {
 	        transformer.transform(domSource, sr);
 
 	        docContentString = sw.toString();
+	        
+	        LOG.debug("Generated workflow doc content: " + docContentString);
 		} catch (Exception e) {
 			LOG.error(e);
 			throw new FilterException("Error creating document content",e);
@@ -205,6 +242,14 @@ public class WorkflowFilter extends AbstractDTOFilter {
 		return docContentString;
 	}
 
+	/**
+	 * This method inspects the dto for the fieldName and gets it's value.
+	 * 
+	 * @param dto
+	 * @param fieldName
+	 * @return The value of dto.fieldName property
+	 * @throws Exception
+	 */
 	private String getString(Object dto, String fieldName) throws Exception{
 		String value = "";
 		try {
@@ -241,18 +286,36 @@ public class WorkflowFilter extends AbstractDTOFilter {
 	}
 	
 
-	public void setDocFieldPaths(Map<String,String> docFieldMap) {
-		this.docFieldMap = docFieldMap;
+	/**
+	 * Set the field paths to be used to generate the workflow document content from the dto object
+	 * for each document type.
+	 * 
+	 * @param docFieldMap
+	 */
+	public void setDocTypeFieldPaths(Map<String, Map<String,String>> docFieldMap) {
+		this.docTypeFieldMap = docFieldMap;
 	}
 
 
+	/**
+	 * The path in the dto object from which to set the default workflow document title. By default
+	 * this is set to the proposal title.
+	 * 
+	 * @param docTitlePath
+	 */
 	public void setDocTitlePath(String docTitlePath) {
 		this.docTitlePath = docTitlePath;
 	}
 
 
-	public void setDocType(String docType) {
-		this.docType = docType;
+	/**
+	 * The default workflow document type to create for workflow. The default is used when workflow
+	 * document type could not be obtained from the WORKFLOW_DOC_TYPE filter property.
+	 * 
+	 * @param docType
+	 */
+	public void setDefaultDocType(String docType) {
+		this.defaultDocType = docType;
 	}
 
 
