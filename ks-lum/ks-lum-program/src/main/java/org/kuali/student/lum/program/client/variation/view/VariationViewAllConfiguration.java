@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.variation;
+package org.kuali.student.lum.program.client.variation.view;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
