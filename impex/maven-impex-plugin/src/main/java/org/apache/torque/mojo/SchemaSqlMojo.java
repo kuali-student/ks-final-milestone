@@ -12,8 +12,11 @@ import org.apache.torque.util.ChangeDetector;
  * enforcing relationships between tables.<br>
  * Type 2: DDL statements for creating and enforcing relationships between tables<br>
  * <br>
- * This allows data to be imported into multiple tables concurrently. Run the first type of SQL file to generate the
- * empty tables, then run data imports as needed, and then layer on the relationship constraints.<br>
+ * This allows data to be imported into multiple tables concurrently. Running the first type of SQL file will create the
+ * empty tables without any foreign key constraints. Data can then be loaded concurrently into the tables (using
+ * optimized high speed tools if desired) without needing to worry about the order in which the tables are loaded. After
+ * data has been loaded, the second type of SQL file can be run to add the relationships between the tables. As long as
+ * the data set is consistent and correct, all the relationships will get created correctly.<br>
  * <br>
  * The database platform to generate SQL for is determined by ${targetDatabase}. See also <code>impex:datasql</code>
  * 
