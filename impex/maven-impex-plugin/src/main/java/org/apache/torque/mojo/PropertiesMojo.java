@@ -7,7 +7,7 @@ import org.kuali.core.db.torque.PropertyHandlingException;
 public class PropertiesMojo extends BaseMojo {
 
 	/**
-	 * Optional file containing Impex properties. See also <code>overridePluginConfiguration</code> and
+	 * Optional file containing mojo properties. See also <code>overridePluginConfiguration</code> and
 	 * <code>overrideSystemProperties</code><br>
 	 * <b>Default value is:</b> <code>${user.home}/impex.properties</code>
 	 * 
