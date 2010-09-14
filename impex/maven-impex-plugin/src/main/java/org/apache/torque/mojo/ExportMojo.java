@@ -51,23 +51,31 @@ public abstract class ExportMojo extends AntTaskMojo {
 	 * supplied it will override the type selected by the automatic detection logic.
 	 * 
 	 * @parameter expression="${targetDatabase}"
-	 * @required
 	 */
 	private String targetDatabase;
 
 	/**
-	 * The schema to export
+	 * The schema to export. This parameter is optional, as the schema to export is automatically derived from platform
+	 * specific logic that converts the artifactId.<br>
+	 * <br>
+	 * 
+	 * For example:<br>
+	 * ks-embedded-db becomes KSEMBEDDED for Oracle, and ksembedded for MySQL
+	 * 
+	 * If <code>schema</code> is supplied, the supplied value will be used instead of the value derived from the
+	 * artifactId
 	 * 
 	 * @parameter expression="${schema}"
-	 * @required
 	 */
 	private String schema;
 
 	/**
-	 * The fully qualified class name of the database driver.
+	 * Database driver classname. This parameter is optional, as the correct JDBC driver to use is detected from the
+	 * <code>url</code> in almost all cases (works for Oracle, MySQL, Derby, PostGresSQL, DB2, H2, HSQL, SQL Server). If
+	 * a driver is explicitly supplied, it will be used in place of the JDBC driver the automatic detection logic would
+	 * have chosen.
 	 * 
 	 * @parameter expression="${driver}"
-	 * @required
 	 */
 	private String driver;
 
