@@ -83,8 +83,7 @@
   <distributionManagement>
     <site>
       <id>ks.site</id>
-      <url>file://C:/site</url>
-      <!-- <url>scp://student.kuali.org:/opt/www/student/site/maven-plugins/impex/${project.version}</url> -->
+      <url>scp://student.kuali.org:/opt/www/student/site/maven-plugins/impex/${project.version}</url>
     </site>
   </distributionManagement>
 </project>
