@@ -125,27 +125,37 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	/**
 	 * Extract a column value from the result set, converting as needed
 	 */
-	protected Object getColumnValue(ResultSet rs, int index, Column column) throws SQLException {
+	protected Object getColumnValue(ResultSet rs, int index, Column column, int rowCount, String tableName) {
 		// Extract a raw object
-		Object columnValue = rs.getObject(index);
+		Object columnValue = null;
+		try {
+			columnValue = rs.getObject(index);
 
-		// If it is null we're done
-		if (columnValue == null) {
-			return null;
+			// If it is null we're done
+			if (columnValue == null) {
+				return null;
+			}
+			// Handle special types
+			switch (column.getJdbcType()) {
+			case (CLOB):
+				// Extract a CLOB
+				return getClob((Clob) columnValue);
+			case (DATE):
+			case (TIMESTAMP):
+				// Extract dates and timestamps
+				return getDate(rs, index);
+			default:
+				// Otherwise return the raw object
+				return columnValue;
+			}
+		} catch (Exception e) {
+			// Don't let an issue extracting a value from one column in one row stop the process
+			// Log the row/column and continue
+			log("Problem reading row " + rowCount + " column " + column.getName() + " from " + tableName, Project.MSG_ERR);
+			log(e.getClass().getName() + " : " + e.getMessage(), Project.MSG_ERR);
+
 		}
-		// Handle special types
-		switch (column.getJdbcType()) {
-		case (CLOB):
-			// Extract a CLOB
-			return getClob((Clob) columnValue);
-		case (DATE):
-		case (TIMESTAMP):
-			// Extract dates and timestamps
-			return getDate(rs, index);
-		default:
-			// Otherwise return the raw object
-			return columnValue;
-		}
+		return null;
 	}
 
 	/**
@@ -183,19 +193,12 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	protected Element getRow(DocumentImpl doc, String tableName, ResultSetMetaData md, ResultSet rs, Column[] columns, int rowCount) throws SQLException {
 		// Generate a row object
 		Element row = doc.createElement(tableName);
-		// Cycle through the result set columns
-		int colCount = md.getColumnCount();
-		for (int i = 1; i <= colCount; i++) {
-			// Attempt to extract a column value
-			Object columnValue = null;
-			try {
-				columnValue = getColumnValue(rs, i, columns[i]);
-			} catch (Exception ex) {
-				// Don't let an issue extracting a value stop the process
-				// Log the row/column and continue
-				log("Problem reading row " + rowCount + " column " + columns[i] + " from " + tableName, Project.MSG_ERR);
-				log(ex.getClass().getName() + " : " + ex.getMessage(), Project.MSG_ERR);
-			}
+
+		// Cycle through the columns
+		for (int i = 1; i <= md.getColumnCount(); i++) {
+
+			// Extract a column value
+			Object columnValue = getColumnValue(rs, i, columns[i], rowCount, tableName);
 
 			// Null values can be omitted from the XML
 			if (columnValue == null) {
@@ -205,7 +208,8 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 			// Otherwise, escape the String and add it to the row Element
 			row.setAttribute(columns[i].getName(), xmlEscape(columnValue.toString()));
 		}
-		// Return our Element that represents one row of JDBC data from the ResultSet
+
+		// Return an Element representing one row of data from the ResultSet
 		return row;
 	}
 
