@@ -12,9 +12,9 @@ import org.apache.torque.util.ChangeDetector;
  * enforcing relationships between tables.<br>
  * 2) DDL statements for creating and enforcing relationships between tables<br>
  * <br>
- * This enables data imports to be run concurrently against multiple tables by running the first SQL file, then running
- * data imports as needed, and then layering on the relationship constraints. The database platform to generate SQL for
- * is determined by ${targetDatabase}. See also <code>impex:datasql</code>
+ * This allows data to be imported into multiple tables concurrently. Run the first SQL file to generate the empty
+ * tables, then run data imports as needed, and then layer on the relationship constraints. The database platform to
+ * generate SQL for is determined by ${targetDatabase}. See also <code>impex:datasql</code>
  * 
  * @goal schemasql
  * @phase generate-sources
