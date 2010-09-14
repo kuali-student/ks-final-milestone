@@ -262,6 +262,8 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 		DocumentTypeImpl docType = new DocumentTypeImpl(null, "dataset", null, getSystemId());
 		// Generate an empty document
 		DocumentImpl doc = new DocumentImpl(docType);
+		// Append a comment
+		doc.appendChild(doc.createComment(" " + getComment() + " "));
 		// Extract the data from the table
 		Element datasetNode = getDatasetNode(helper, doc, tableName);
 		if (datasetNode == null) {
