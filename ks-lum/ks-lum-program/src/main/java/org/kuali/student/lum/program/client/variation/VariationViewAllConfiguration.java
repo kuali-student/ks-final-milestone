@@ -1,13 +1,13 @@
-package org.kuali.student.lum.program.client.view.variation;
+package org.kuali.student.lum.program.client.variation;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.framework.AbstractSectionConfiguration;
-import org.kuali.student.lum.program.client.framework.Configuration;
-import org.kuali.student.lum.program.client.framework.ConfigurationManager;
+import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
+import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.view.CatalogInformationViewConfiguration;
 import org.kuali.student.lum.program.client.view.LearningObjectivesViewConfiguration;

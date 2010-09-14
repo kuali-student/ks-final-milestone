@@ -2869,12 +2869,15 @@ public class LuServiceImpl implements LuService {
 
     private void clearCluIds(CluInfo clu) {
 	    // Clear out all ids so a copy can be made
-    	
+    	clu.setState("draft");//TODO check if this should be set from outside/or switch to constant
     	clu.setId(null);
 	    	    	    
-	    clu.getAccountingInfo().setId(null);
-	    for(AffiliatedOrgInfo affiliatedOrg:clu.getAccountingInfo().getAffiliatedOrgs()){
-	    	affiliatedOrg.setId(null);
+	    if(clu.getAccountingInfo()!=null){
+	    	clu.getAccountingInfo().setId(null);
+	    
+		    for(AffiliatedOrgInfo affiliatedOrg:clu.getAccountingInfo().getAffiliatedOrgs()){
+		    	affiliatedOrg.setId(null);
+		    }
 	    }
 	    for(AccreditationInfo accredation:clu.getAccreditations()){
 	    	accredation.setId(null);
@@ -2885,20 +2888,24 @@ public class LuServiceImpl implements LuService {
 	    for(CluIdentifierInfo alternateIdentifier:clu.getAlternateIdentifiers()){
 	    	alternateIdentifier.setId(null);
 	    }
-	    clu.getFeeInfo().setId(null);
-	    for(CluFeeRecordInfo cluFeeRecord:clu.getFeeInfo().getCluFeeRecords()){
-	    	cluFeeRecord.setId(null);
-	    	for(AffiliatedOrgInfo affiliatedOrg:cluFeeRecord.getAffiliatedOrgs()){
-	    		affiliatedOrg.setId(null);
-	    	}
-	    	for(CurrencyAmountInfo feeAmount:cluFeeRecord.getFeeAmounts()){
-	    		feeAmount.setId(null);
-	    	}
+	    if(clu.getFeeInfo()!=null){
+		    clu.getFeeInfo().setId(null);
+		    for(CluFeeRecordInfo cluFeeRecord:clu.getFeeInfo().getCluFeeRecords()){
+		    	cluFeeRecord.setId(null);
+		    	for(AffiliatedOrgInfo affiliatedOrg:cluFeeRecord.getAffiliatedOrgs()){
+		    		affiliatedOrg.setId(null);
+		    	}
+		    	for(CurrencyAmountInfo feeAmount:cluFeeRecord.getFeeAmounts()){
+		    		feeAmount.setId(null);
+		    	}
+		    }
 	    }
 	    for(LuCodeInfo luCode:clu.getLuCodes()){
 	    	luCode.setId(null);
 	    }
-	    clu.getOfficialIdentifier().setId(null);
+	    if(clu.getOfficialIdentifier()!=null){
+	    	clu.getOfficialIdentifier().setId(null);
+	    }
 	}
 
 	@Override

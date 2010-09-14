@@ -4,7 +4,7 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.edit.ProgramEditController;
 import org.kuali.student.lum.program.client.view.ProgramViewController;
-import org.kuali.student.lum.program.client.view.variation.VariationViewController;
+import org.kuali.student.lum.program.client.variation.VariationViewController;
 
 /**
  * @author Igor
@@ -23,7 +23,6 @@ public class ProgramManager {
 
     public ProgramManager() {
         programModel = new DataModel();
-        VariationRegistry.setViewContext(viewContext);
     }
 
     public ProgramViewController getProgramViewController() {

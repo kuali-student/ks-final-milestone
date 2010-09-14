@@ -265,6 +265,26 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="22" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.org.program.admitted" TEMPLATE="Must be admitted to any program offered at the course campus location"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="220" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.program.admitted.org.duration" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program> no more than &lt;reqCompFieldType=kuali.reqComponent.field.type.value;reqCompFieldLabel=Course(s)> in &lt;reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Department> in &lt;reqCompFieldType=kuali.reqComponent.field.type.duration;reqCompFieldLabel=Department> type &lt;reqCompFieldType=kuali.reqComponent.field.type.durationType.id;reqCompFieldLabel=Department>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="221" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.program.notadmitted.org.duration" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program> no more than &lt;reqCompFieldType=kuali.reqComponent.field.type.value;reqCompFieldLabel=Course(s)> in &lt;reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Department> in &lt;reqCompFieldType=kuali.reqComponent.field.type.duration;reqCompFieldLabel=Department> type &lt;reqCompFieldType=kuali.reqComponent.field.type.durationType.id;reqCompFieldLabel=Department>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="222" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION" OWNER="kuali.reqComponent.type.course.org.program.admitted"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="223" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.program.notadmitted" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="224" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.credits.repeat.max" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value;reqCompFieldLabel=Credits>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="225" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.org.credits.completed.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value;reqCompFieldLabel=Credits> from courses in &lt;reqCompFieldType=kuali.reqComponent.field.type.org.id;reqCompFieldLabel=Department>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="226" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.program.admitted" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="23" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.program.notadmitted" TEMPLATE="Must not have been admitted to the $NLHelper.getCluOrCluSetAsShortNames($clu,$cluSet) program"/>

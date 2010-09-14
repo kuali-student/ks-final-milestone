@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.framework;
+package org.kuali.student.lum.common.client.configuration;
 
 import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;

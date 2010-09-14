@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.framework;
+package org.kuali.student.lum.program.client.rpc;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;

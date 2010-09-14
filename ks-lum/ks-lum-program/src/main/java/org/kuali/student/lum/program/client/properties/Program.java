@@ -313,6 +313,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_specializations();
 
   /**
+   * Translated "Supporting Documents".
+   * 
+   * @return translated "Supporting Documents"
+   */
+  @DefaultMessage("Supporting Documents")
+  @Key("program.menu.sections.supportingDocuments")
+  String program_menu_sections_supportingDocuments();
+
+  /**
    * Translated "View All Sections".
    * 
    * @return translated "View All Sections"
@@ -626,16 +635,49 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Completion of a specialization is required for this program")
   @Key("programSpecialization.instructions")
   String programSpecialization_instructions();
-  
+
+  /**
+   * Translated "Variation Sections".
+   * 
+   * @return translated "Variation Sections"
+   */
+  @DefaultMessage("Variation Sections")
+  @Key("variation.menu.sections")
+  String variation_menu_sections();
+
+  /**
+   * Translated "Key Specialization Information".
+   * 
+   * @return translated "Key Specialization Information"
+   */
   @DefaultMessage("Key Specialization Information")
   @Key("variation.menu.sections.variationInformation")
   String variation_menu_sections_variationInformation();
- 
-  @DefaultMessage("Specialization Title")
-  @Key("variationInformation.variationTitle")
-  String variationInformation_variationTitle();
-  
+
+  /**
+   * Translated "Specialization Description".
+   * 
+   * @return translated "Specialization Description"
+   */
   @DefaultMessage("Specialization Description")
   @Key("variationCatalogInformation.descr")
   String variationCatalogInformation_descr();
+
+  /**
+   * Translated "Key Specialization Information".
+   * 
+   * @return translated "Key Specialization Information"
+   */
+  @DefaultMessage("Key Specialization Information")
+  @Key("variationInformation.title")
+  String variationInformation_title();
+
+  /**
+   * Translated "Specialization Title".
+   * 
+   * @return translated "Specialization Title"
+   */
+  @DefaultMessage("Specialization Title")
+  @Key("variationInformation.variationTitle")
+  String variationInformation_variationTitle();
 }
