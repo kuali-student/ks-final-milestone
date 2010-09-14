@@ -1,10 +1,9 @@
 package org.kuali.student.lum.program.client;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.program.client.edit.ProgramRequirementsEditConfiguration;
-import org.kuali.student.lum.program.client.framework.Configuration;
-import org.kuali.student.lum.program.client.framework.ConfigurationManager;
-import org.kuali.student.lum.program.client.framework.ConfigurationRegistry;
+import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import java.util.ArrayList;

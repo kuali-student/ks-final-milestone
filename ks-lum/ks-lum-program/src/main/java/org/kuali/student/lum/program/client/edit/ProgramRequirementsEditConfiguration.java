@@ -4,10 +4,9 @@ import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.framework.AbstractConfiguration;
+import org.kuali.student.lum.common.client.configuration.AbstractConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
-import org.kuali.student.lum.program.client.view.ProgramViewConfigurer;
 
 /**
  *

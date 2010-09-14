@@ -1,12 +1,10 @@
 package org.kuali.student.lum.program.client.view;
 
 import com.google.gwt.core.client.GWT;
+import org.kuali.student.lum.common.client.configuration.Configuration;
+import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import org.kuali.student.lum.program.client.edit.ProgramRequirementsEditConfiguration;
-import org.kuali.student.lum.program.client.framework.Configuration;
-import org.kuali.student.lum.program.client.framework.ConfigurationManager;
-import org.kuali.student.lum.program.client.framework.ConfigurationRegistry;
-import org.kuali.student.lum.program.client.framework.EditableConfiguration;
 
 /**
  * This class represents configuration for  {@link org.kuali.student.lum.program.client.view.ProgramViewController}.

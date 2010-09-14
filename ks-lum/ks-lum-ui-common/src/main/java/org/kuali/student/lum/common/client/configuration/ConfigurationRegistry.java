@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.framework;
+package org.kuali.student.lum.common.client.configuration;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 
