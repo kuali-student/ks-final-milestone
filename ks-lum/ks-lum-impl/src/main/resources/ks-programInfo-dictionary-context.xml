@@ -99,7 +99,9 @@
 
     <bean id="majorDisciplineInfo.code-parent" abstract="true" parent="cluIdentifierInfo.code-parent">
     </bean>
-    <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent"/>
+    <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent">
+      <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.cip2000Code-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="cip2000Code"/>
@@ -129,9 +131,10 @@
     <bean id="majorDisciplineInfo.universityClassification-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="universityClassification"/>
     </bean>
-    <bean id="majorDisciplineInfo.universityClassification"
-          parent="majorDisciplineInfo.universityClassification-parent"/>
-
+    <bean id="majorDisciplineInfo.universityClassification" parent="majorDisciplineInfo.universityClassification-parent">
+      <property name="minOccurs" value="1"/>
+    </bean>
+    
     <bean id="majorDisciplineInfo.selectiveEnrollmentCode-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="selectiveEnrollmentCode"/>
     </bean>
@@ -150,7 +153,9 @@
     <bean id="majorDisciplineInfo.startTerm-parent" abstract="true" parent="cluInfo.expectedFirstAtp-parent">
         <property name="name" value="startTerm"/>
     </bean>
-    <bean id="majorDisciplineInfo.startTerm" parent="majorDisciplineInfo.startTerm-parent"/>
+    <bean id="majorDisciplineInfo.startTerm" parent="majorDisciplineInfo.startTerm-parent">
+      <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.endTerm-parent" abstract="true" parent="cluInfo.lastAtp-parent">
         <property name="name" value="endTerm"/>
@@ -176,19 +181,25 @@
         <property name="name" value="shortTitle"/>
         <property name="maxLength" value="34"/>
     </bean>
-    <bean id="majorDisciplineInfo.shortTitle" parent="majorDisciplineInfo.shortTitle-parent"/>
+    <bean id="majorDisciplineInfo.shortTitle" parent="majorDisciplineInfo.shortTitle-parent">
+      <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.longTitle-parent" abstract="true" parent="cluIdentifierInfo.longName-parent">
         <property name="name" value="longTitle"/>
         <property name="maxLength" value="34"/>
     </bean>
-    <bean id="majorDisciplineInfo.longTitle" parent="majorDisciplineInfo.longTitle-parent"/>
+    <bean id="majorDisciplineInfo.longTitle" parent="majorDisciplineInfo.longTitle-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.transcriptTitle-parent" abstract="true" parent="cluIdentifierInfo.shortName-parent">
         <property name="name" value="transcriptTitle"/>
         <property name="maxLength" value="34"/>
     </bean>
-    <bean id="majorDisciplineInfo.transcriptTitle" parent="majorDisciplineInfo.transcriptTitle-parent"/>
+    <bean id="majorDisciplineInfo.transcriptTitle" parent="majorDisciplineInfo.transcriptTitle-parent">
+      <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.diplomaTitle-parent" abstract="true" parent="cluIdentifierInfo.longName-parent">
         <property name="name" value="diplomaTitle"/>
@@ -209,8 +220,9 @@
     <bean id="majorDisciplineInfo.catalogPublicationTargets-parent" abstract="true" parent="baseKualiTypeRepeating">
         <property name="name" value="catalogPublicationTargets"/>
     </bean>
-    <bean id="majorDisciplineInfo.catalogPublicationTargets"
-          parent="majorDisciplineInfo.catalogPublicationTargets-parent"/>
+    <bean id="majorDisciplineInfo.catalogPublicationTargets" parent="majorDisciplineInfo.catalogPublicationTargets-parent">
+      <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.learningObjectives-parent" abstract="true" parent="baseComplexRepeating">
         <property name="name" value="learningObjectives"/>
