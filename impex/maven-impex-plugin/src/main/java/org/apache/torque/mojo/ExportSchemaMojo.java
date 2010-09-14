@@ -6,7 +6,7 @@ import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
 /**
  * Examines the JDBC metadata of a proprietary database and exports the schema information to database agnostic XML. The
  * generated XML contains information about tables, primary keys, unique constraints, foreign keys, indexes, sequences,
- * and views. This mojo does not export any data. See also <code>impex:exportdata</code> and <code>impex:import</code>
+ * and views. This goal does not export any data. See also <code>impex:exportdata</code> and <code>impex:import</code>
  * 
  * @goal exportschema
  * @phase generate-sources

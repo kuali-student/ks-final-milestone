@@ -10,7 +10,7 @@ import org.apache.torque.util.SimpleScanner;
 import org.kuali.core.db.torque.KualiTorqueDataSQLTask;
 
 /**
- * Generates platform specific SQL from database agnostic XML files. Each SQL file created by this mojo contains data
+ * Generates platform specific SQL from database agnostic XML files. Each SQL file created by this goal contains data
  * for a single table. The database platform to generate SQL for is determined by ${targetDatabase}. See also
  * <code>impex:schemasql</code>
  * 

@@ -6,15 +6,16 @@ import org.apache.torque.util.ChangeDetector;
 /**
  * Generates platform specific SQL from database agnostic XML files.<br>
  * <br>
- * There are two types of SQL files created by this mojo:<br>
+ * There are two types of SQL files created by this goal:<br>
  * <br>
- * 1) DDL statements for creating tables, primary keys, indexes, and unique constraints. Does not contain DDL for
+ * Type 1: DDL statements for creating tables, primary keys, indexes, and unique constraints. Does not contain DDL for
  * enforcing relationships between tables.<br>
- * 2) DDL statements for creating and enforcing relationships between tables<br>
+ * Type 2: DDL statements for creating and enforcing relationships between tables<br>
  * <br>
- * This allows data to be imported into multiple tables concurrently. Run the first SQL file to generate the empty
- * tables, then run data imports as needed, and then layer on the relationship constraints. The database platform to
- * generate SQL for is determined by ${targetDatabase}. See also <code>impex:datasql</code>
+ * This allows data to be imported into multiple tables concurrently. Run the first type of SQL file to generate the
+ * empty tables, then run data imports as needed, and then layer on the relationship constraints.<br>
+ * <br>
+ * The database platform to generate SQL for is determined by ${targetDatabase}. See also <code>impex:datasql</code>
  * 
  * @goal schemasql
  * @phase generate-sources
