@@ -84,7 +84,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentTypeNLTemplateCount() {
     	List<ReqComponentTypeNLTemplate> reqComponentTypeNLTemplates = this.dao.find(ReqComponentTypeNLTemplate.class);
-    	Assert.assertEquals(113, reqComponentTypeNLTemplates.size());
+    	Assert.assertEquals(120, reqComponentTypeNLTemplates.size());
     }
 
     @Test
