@@ -12,8 +12,8 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * This class provides logic for filtering strings based on regular expressions. Given a list of includePatterns and
- * excludePatterns the filter method will remove any strings from an Iterator<String> if there is not a match on an
- * inclusion pattern or there is a match on an exclusion pattern,
+ * excludePatterns the filter method will remove strings from an Iterator<String> if there is no match on an inclusion
+ * pattern or there is a match on an exclusion pattern
  */
 public class StringFilter {
 	private static final Log log = LogFactory.getLog(StringFilter.class);
