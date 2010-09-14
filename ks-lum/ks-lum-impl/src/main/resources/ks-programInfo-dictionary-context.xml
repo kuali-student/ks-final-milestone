@@ -259,10 +259,12 @@
     <bean id="majorDisciplineInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsContentOwner"/>
     </bean>
-    <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent" />
-
+    <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent" >
+      <property name="minOccurs" value="1"/>
+    </bean>
+    
     <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo.divisionsStudentOversight-parent" />
-
+    
     <bean id="majorDisciplineInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
       <property name="name" value="divisionsStudentOversight" />
      </bean>
