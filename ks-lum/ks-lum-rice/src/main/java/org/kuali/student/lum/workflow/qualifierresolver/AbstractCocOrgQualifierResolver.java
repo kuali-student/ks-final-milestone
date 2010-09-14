@@ -178,22 +178,23 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	
 	protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgShortNameKey,String orgIdKey){
 		List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
-		List<OrgInfo> ancestorOrgs = null;
+		List<OrgInfo> orgsForRouting = null;
 		
 		if(orgId!=null){
 			try {
-				List<String> ancestorIds = getOrganizationService().getAllAncestors(orgId, KUALI_ORG_HIERARCHY_CURRICULUM);
-				if(ancestorIds != null && ancestorIds.size() > 0) {
-					ancestorOrgs = getOrganizationService().getOrganizationsByIdList(ancestorIds);
-				}
+				List<String> orgIds = new ArrayList<String>(); 
+				// add the existing org in to the list to check for the given type
+				orgIds.add(orgId);
+				orgIds.addAll(getOrganizationService().getAllAncestors(orgId, KUALI_ORG_HIERARCHY_CURRICULUM));
+				orgsForRouting = getOrganizationService().getOrganizationsByIdList(orgIds);
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
 				throw new RuntimeException(e);
 			}
-			if(ancestorOrgs!=null){
-				for(OrgInfo ancestorOrg:ancestorOrgs){
-					if(orgType!=null && orgType.equals(ancestorOrg.getType())){
-						List<SearchResultRow> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
+			if(orgsForRouting!=null){
+				for(OrgInfo orgForRouting:orgsForRouting){
+					if(orgType!=null && orgType.equals(orgForRouting.getType())){
+						List<SearchResultRow> results = relatedOrgsFromOrgId(orgForRouting.getId(),KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
 						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgShortNameKey,orgIdKey));
 					}
 				}

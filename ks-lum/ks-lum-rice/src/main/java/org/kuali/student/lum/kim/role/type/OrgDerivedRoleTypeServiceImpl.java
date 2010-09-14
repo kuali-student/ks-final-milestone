@@ -62,7 +62,11 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		
 		String orgId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
 		String org = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG);
-		
+		if (LOG.isDebugEnabled()) {
+    		LOG.debug("Using Org Values:");
+    		LOG.debug("------ Org ID: " + orgId);
+    		LOG.debug("------ Org Short Name: " + org);
+    	}
 		//Put the org name into the attribute set
 		AttributeSet attributes = new AttributeSet();
 		attributes.put(KualiStudentKimAttributes.QUALIFICATION_ORG, org);

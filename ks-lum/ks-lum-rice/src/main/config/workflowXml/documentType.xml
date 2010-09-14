@@ -65,6 +65,7 @@
       <parent>KualiStudentDocument</parent>
       <description>Kuali Student Credit Course Parent Document</description>
       <label>Kuali Student Credit Course Parent Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
       <active>true</active>
       <attributes>
         <attribute>
@@ -197,21 +198,16 @@
       <parent>CluCreditCourseParentDocument</parent>
       <description>Credit Course Proposal</description>
       <label>Credit Course Proposal</label>
-      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
       <postProcessorName>org.kuali.student.lum.workflow.CluPostProcessor</postProcessorName>
       <active>true</active>
       <routePaths>
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
-          <requests name="Department Review" nextNode="Division Review" />
-<!--
-          <requests name="Division Review" nextNode="Undergrad Affairs Review" />
-          <requests name="Undergrad Affairs Review" nextNode="College Review" />
--->
-          <requests name="Division Review" nextNode="College Review" />
-          <requests name="College Review" nextNode="Senate Review" />
-          <requests name="Senate Review" nextNode="Publication Review" />
-          <requests name="Publication Review"  />
+          <role name="Department Review" nextNode="Division Review" />
+          <role name="Division Review" nextNode="College Review" />
+          <role name="College Review" nextNode="Senate Review" />
+          <role name="Senate Review" nextNode="Publication Review" />
+          <role name="Publication Review" />
         </routePath>
       </routePaths>
       <routeNodes>
@@ -220,42 +216,37 @@
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </start>
-        
-        <!-- OrgAdmin Derived role (checks OrgService for members who are admins of the orgId)-->
         <role name="Department Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Department</organizationTypeCode>
+          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+          <organizationShortNameQualifierKey>department</organizationShortNameQualifierKey>
         </role>
-        
-        <!-- Department Committee Reviewer Role -->
         <role name="Division Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Division</organizationTypeCode>
+          <organizationIdQualifierKey>divisionId</organizationIdQualifierKey>
+          <organizationShortNameQualifierKey>division</organizationShortNameQualifierKey>
         </role>
-        
-<!--
-        <role name="Undergrad Affairs Review">
-          <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.UnderGradAffairsCommitteeQualifierResolver</qualifierResolverClass>
-        </role>
--->
-        
-        <!-- College Committee Reviewer Role -->
         <role name="College Review">
           <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver</qualifierResolverClass>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.College</organizationTypeCode>
+          <organizationIdQualifierKey>collegeId</organizationIdQualifierKey>
+          <organizationShortNameQualifierKey>college</organizationShortNameQualifierKey>
         </role>
-        
         <role name="Senate Review">
-	      <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
         </role>
-        
         <role name="Publication Review">
-	      <activationType>P</activationType>
-          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
         </role>
-        
       </routeNodes>
     </documentType>
 <!-- END CREDIT COURSE DOCUMENTS -->

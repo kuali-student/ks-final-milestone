@@ -188,9 +188,14 @@ public class CluPostProcessor implements PostProcessor{
 		Matcher matcher = pattern.matcher(document.getApplicationContent());
 		matcher.find();
 		String cluId = matcher.group(1);
-    	
-		CluInfo clu = luService.getClu(cluId);
-    	clu.setState(CLU_STATE_ACTIVE);
-		luService.updateClu(cluId, clu);
+
+		try {
+			CluInfo clu = luService.getClu(cluId);
+	    	clu.setState(CLU_STATE_ACTIVE);
+			luService.updateClu(cluId, clu);
+		} catch (Exception e) {
+			LOG.error(e);
+			throw new RuntimeException(e);
+		}
     }
 }
