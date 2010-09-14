@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
@@ -458,7 +459,7 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 
-        param = new LookupParamMetadata ();
+  param = new LookupParamMetadata ();
 		param.setKey ("lu.queryParam.luOptionalPrimaryAdminOrgId");
 		param.setName ("Primary Admin Org Id");
 		param.setDesc ("Primary Admin Org Id");
@@ -489,7 +490,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValueString ("activated");
+		param.setDefaultValueString ("Active");
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
@@ -1631,7 +1632,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValueString ("activated");
+		param.setDefaultValueString ("Active");
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
@@ -1924,7 +1925,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValueString ("activated");
+		param.setDefaultValueString ("Active");
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
@@ -2119,17 +2120,18 @@ public class LookupMetadataBank
 		if (lookup == null)
 		{
 			Window.alert ("Could not find lookupKey=" + lookupKey);
+			return null;
 		}
 		return findParam (lookup, paramKey);
 	}
 	
 	private static LookupParamMetadata findParam (LookupMetadata lookup, String paramKey)
 	{
-		for (LookupParamMetadata param : lookup.getParams ())
-		{
-			if (param.getKey ().equalsIgnoreCase (paramKey))
-			{
-				return param;
+		if(lookup!=null){
+			for (LookupParamMetadata param : lookup.getParams ()){
+				if (param.getKey ().equalsIgnoreCase (paramKey)){
+					return param;
+				}
 			}
 		}
 		Window.alert ("Could not find paramKey=" + paramKey + " in lookup=" + lookup.getId());

@@ -16,12 +16,11 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
-import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper.Properties;
+import org.kuali.student.lum.common.client.lo.MetaInfoHelper.Properties;
 
 
 public class MetaInfoMetadata

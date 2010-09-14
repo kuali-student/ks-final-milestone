@@ -26,12 +26,15 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleExpressionParser;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -54,8 +57,7 @@ public class RuleExpressionEditor extends ViewComposite {
     private KSButton btnPreview = new KSButton("Preview");
     private Panel pnlMissingExpressions = new VerticalPanel();
     private RuleTable ruleTable = new RuleTable();
-    private KSButton btnDone = new KSButton("Done");
-    private KSButton btnCancel = new KSButton("Cancel");
+    private ConfirmCancelGroup doneCancelButtons = new ConfirmCancelGroup();
     private HTML htmlErrorMessage = new HTML();
     private HTML htmlMissingExpressionNotice = new HTML();
 
@@ -65,11 +67,12 @@ public class RuleExpressionEditor extends ViewComposite {
     
     // helper object
     private RuleExpressionParser ruleExpressionParser = new RuleExpressionParser();
-
+    public enum Views{RULES_EXPRESSION}
     public RuleExpressionEditor(Controller controller) {
-        super(controller, "Rule Expression Editor");
+        super(controller, "Rule Expression Editor", Views.RULES_EXPRESSION);
         super.initWidget(mainPanel);
         setupHandlers();
+        doneCancelButtons.getButton(ConfirmCancelEnum.CONFIRM).setText("Done");
     }
     
     @Override
@@ -112,7 +115,7 @@ public class RuleExpressionEditor extends ViewComposite {
             }
         });
         
-        btnDone.addClickHandler(new ClickHandler() {
+        doneCancelButtons.getButton(ConfirmCancelEnum.CONFIRM).addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 RuleInfo prereqInfo = model.getValue();
                 List<String> errorMessages = new ArrayList<String>();
@@ -140,7 +143,7 @@ public class RuleExpressionEditor extends ViewComposite {
             }
         });
         
-        btnCancel.addClickHandler(new ClickHandler() {
+        doneCancelButtons.getButton(ConfirmCancelEnum.CANCEL).addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 model.getValue().setPreviewedExpression(null);
                 getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
@@ -207,17 +210,8 @@ public class RuleExpressionEditor extends ViewComposite {
         flexTable.setWidget(rowNum, 0, verticalSpacer);
         // row 10
         rowNum++;
-       
-        HorizontalPanel buttonsPanel = new HorizontalPanel();
-        buttonsPanel.setSpacing(0);
-        btnDone.addStyleName("KS-Rules-Tight-Button");  
-        buttonsPanel.add(btnDone);
-        SimplePanel horizSpacer = new SimplePanel();
-        horizSpacer.setWidth("30px");        
-        buttonsPanel.add(horizSpacer);
-        btnCancel.addStyleName("KS-Rules-Tight-Grey-Button"); 
-        buttonsPanel.add(btnCancel);                
-        flexTable.setWidget(rowNum, 0, buttonsPanel);
+                     
+        flexTable.setWidget(rowNum, 0, doneCancelButtons);
         
         RuleInfo prereqInfo = model.getValue();
         if (prereqInfo != null) {
@@ -317,8 +311,8 @@ public class RuleExpressionEditor extends ViewComposite {
     
     class RCTableItems implements ListItems {
         private List<ReqComponentVO> rcs = new ArrayList<ReqComponentVO>();
-        private final String ATTR_KEY_LABEL = "Label";
-        private final String ATTR_KEY_DESCR = "Description";
+        private static final String ATTR_KEY_LABEL = "Label";
+        private static final String ATTR_KEY_DESCR = "Description";
         
         public List<ReqComponentVO> getRcs() {
             return rcs;

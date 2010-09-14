@@ -17,7 +17,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.List;
 
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -31,8 +31,13 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
+import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ObjectClonerUtil;
@@ -48,7 +53,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -57,6 +61,7 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class ManageRulesView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
+    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
     
     //view's widgets
     private Panel mainPanel = new SimplePanel();
@@ -90,9 +95,13 @@ public class ManageRulesView extends ViewComposite {
     //view's data
     private CollectionModel<RuleInfo> model;   //contains only RuleInfo object for selected rule
     private boolean isInitialized = false;
-
+    public enum Views{MANAGE_RULES}
+    
+    //cluset data
+    private DataModel clusetModel = new DataModel();
+    
     public ManageRulesView(Controller controller) {
-        super(controller, "Complex View");
+        super(controller, "Complex View", Views.MANAGE_RULES);
         super.initWidget(mainPanel);                
     }
     
@@ -123,7 +132,19 @@ public class ManageRulesView extends ViewComposite {
             public void onRequestFail(Throwable cause) {
                 throw new RuntimeException("Unable to connect to model", cause);
             }
-        });        
+        });    
+        
+        getController().requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelRequestCallback<DataModel>(){
+	           @Override
+	            public void onModelReady(DataModel model) {
+	        	    clusetModel = model;
+	           }       			
+	           
+	            @Override
+	            public void onRequestFail(Throwable cause) {
+	                throw new RuntimeException("Unable to connect to model", cause);
+	            }       	
+        });
     }
 
     private void setupHandlers() {            
@@ -133,7 +154,7 @@ public class ManageRulesView extends ViewComposite {
             public void onClick(ClickEvent event) {
                 Cell cell = ruleTable.getCellForEvent(event);
                 if (cell == null) {
-                    System.out.println("Cell is NULL");
+                    GWT.log("Cell is NULL", null);
                     return;
                 }
                 
@@ -202,8 +223,35 @@ public class ManageRulesView extends ViewComposite {
                 Object userObject = widget.getNode().getUserObject();   
                 if (userObject instanceof ReqComponentVO) {
                     final ReqComponentVO rule = (ReqComponentVO) userObject;
-                    ((CourseReqManager)getController()).setComponentToEdit(rule);  //selected rule to be given to rule component editor                                                                 
-                    getController().showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
+                    ((CourseReqManager)getController()).setComponentToEdit(rule);  //selected rule to be given to rule component editor      
+                    
+                    //get cluset data
+                    if(rule.getClusetId() != null){
+                    	String clusetId = rule.getClusetId();
+                    	
+                    	cluSetManagementRpcServiceAsync.getData(clusetId, new KSAsyncCallback<Data>() {
+                            @Override
+                            public void handleFailure(Throwable caught) {
+            	                Window.alert(caught.getMessage());
+            	                GWT.log("Failed to retrieve cluset with id " + rule.getClusetId(), caught);
+                            }
+
+                            @Override
+                            public void onSuccess(Data result) {
+                            	if(result != null){
+                            		clusetModel.getRoot().set("cluset", (Data)result.get("cluset"));
+                            		getController().showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
+                            	}
+                            	else{
+                   	                Window.alert("Cannot find Cluset with id " + rule.getClusetId());
+                	                GWT.log("Cannot find Cluset with id " + rule.getClusetId());
+                            	}
+                            		
+                            }
+                    	});
+                    }
+                    else
+                    	getController().showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
                 }
             }
         };
@@ -384,7 +432,7 @@ public class ManageRulesView extends ViewComposite {
                     	if (managedRule.getStatementVO() == null) {
                     	    ((CourseReqManager)getController()).removeRule(managedRule); 
                     	} else {
-                            managedRule.setNaturalLanguage(naturalLanguage);                     	    
+                            managedRule.setNaturalLanguageForRuleEdit(naturalLanguage);                     	    
                     	}
                     	
                         //switch to first page
@@ -474,9 +522,9 @@ public class ManageRulesView extends ViewComposite {
         VerticalPanel arrowButtonsPanel = new VerticalPanel();
         tempPanel2.add(ruleTable);
         arrowButtonsPanel.add(btnMoveRuleUp);
-        btnMoveRuleUp.setStyleName("KS-RuleTable-UpArrow");
+        btnMoveRuleUp.addStyleName("KS-RuleTable-UpArrow");
         arrowButtonsPanel.add(btnMoveRuleDown);
-        btnMoveRuleDown.setStyleName("KS-RuleTable-DownArrow");
+        btnMoveRuleDown.addStyleName("KS-RuleTable-DownArrow");
         tableButtonsPanel.add(arrowButtonsPanel);
         tempPanel2.add(tableButtonsPanel);
         complexView.add(tempPanel2);
@@ -595,10 +643,10 @@ public class ManageRulesView extends ViewComposite {
     private void updateNaturalLanguage() {                 
         
         requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(model.getValue().getCluId(),
-        									model.getValue().getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
+        									model.getValue().getStatementVO(), "KUALI.RULE", RuleComponentEditorView.TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+            public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
-                caught.printStackTrace();
+                GWT.log("NL failed", caught);
            }
             
             public void onSuccess(final String statementNaturalLanguage) { 

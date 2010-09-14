@@ -254,24 +254,23 @@
     margin: 4px 0 0;
 }
 .KS-LODeleteButton{
-    background: url("images/delete_blue_12px.png") no-repeat 2px 2px;
-    width: 22px;
-    height:22px;
-    border:none;
-    margin: 8px 4px 1px 422px;
+	background: transparent;
+	border: none;
+	color: blue;
+	font-size:0.916em;
+	margin: 8px 4px 1px 422px;
 }
 .KS-LODeleteButtonDisabled{
-    background: url("images/delete_gray_12px.png") no-repeat 2px 2px;
-    width: 22px;
-    height:22px;
-    border:none;
-    margin: 8px 4px 1px 442px;
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size:0.916em;
+	margin: 8px 4px 1px 422px;
 }
 .KS-LOBuilder-New{
+	margin-top: 5px;
 	color: blue;
-	font-size: 0.916em;
 	cursor: pointer;
-	width: 24px;
 }
 .KS-LOTextArea {
 	width: 28em;
@@ -281,6 +280,10 @@
 }
 .KS-LOSelectedCategories {
     margin-left: 0px;	
+}
+.KS-LOSelectedCategories .ks-selected-list-value {
+	border: solid 1px #cdcdcd;
+	background: none repeat scroll 0 0 white;
 }
 .KSLOLightBox {
 }
@@ -326,19 +329,41 @@
 	background-color: white;
 }
 
-.KS-ViewCourseFlexTable {
+.KS-ViewCourseDisplayTable {
   border: thin solid #C0C0C0;
   border-collapse: collapse;
+  margin-left: 3px;
 }
 
-.KS-ViewCourseFlexTableHeaderCell {
+.KS-ViewCourseDisplayTableHeaderCell {
 	font-weight: bold;
 	background-color: #E6E6E6;
 }
 
-.KS-ViewCourseFlexTableCell {
+.KS-ViewCourseDisplayTableCell {
   border: 1px solid #C0C0C0;
   padding: 2px;
+}
+
+.KS-MultiplicityTable {
+  margin-left: 3px;
+}
+
+.KS-MultiplicityTableBorder {
+  border: thin solid #C0C0C0;
+  border-collapse: collapse;
+}
+
+.KS-MultiplicityTableHeaderCell {
+	font-weight: bold;
+	background-color: #E6E6E6;
+}
+
+.KS-MultiplicityTableCell {
+  padding: 2px;
+}
+.KS-MultiplicityTableCellBorder {
+  border: 1px solid #C0C0C0;
 }
 
 .cluInfo-officialIdentifier-longName{}

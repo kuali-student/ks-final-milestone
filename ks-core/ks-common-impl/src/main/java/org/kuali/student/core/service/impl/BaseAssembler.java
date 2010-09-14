@@ -30,7 +30,9 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.Meta;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.Type;
+import org.kuali.student.core.entity.Version;
 import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
 
 public class BaseAssembler {
@@ -124,8 +126,10 @@ public class BaseAssembler {
 	public static <T extends TypeInfo, S extends Type<?>> List<T> toGenericTypeInfoList(
 			Class<T> typeInfoClass, List<S> typeEntities) {
 		List<T> typeInfoList = new ArrayList<T>();
-		for (S typeEntity : typeEntities) {
-			typeInfoList.add(toGenericTypeInfo(typeInfoClass, typeEntity));
+		if(typeEntities!=null){
+			for (S typeEntity : typeEntities) {
+				typeInfoList.add(toGenericTypeInfo(typeInfoClass, typeEntity));
+			}
 		}
 		return typeInfoList;
 	}
@@ -169,4 +173,19 @@ public class BaseAssembler {
         
         return dto;
     }
+	
+	public static VersionInfo toVersionInfo(Version version) {
+		if(version==null){
+			return null;
+		}
+		VersionInfo versionInfo = new VersionInfo();
+		versionInfo.setCurrentVersionStart(version.getCurrentVersionStart());
+		versionInfo.setCurrentVersionEnd(version.getCurrentVersionEnd());
+		versionInfo.setSequenceNumber(version.getSequenceNumber());
+		versionInfo.setVersionComment(version.getVersionComment());
+		versionInfo.setVersionIndId(version.getVersionIndId());
+		versionInfo.setVersionedFromId(version.getVersionedFromId());
+		
+		return versionInfo;
+	}
 }

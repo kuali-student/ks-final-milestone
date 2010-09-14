@@ -17,18 +17,16 @@ package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ModifyActionEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
-import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.theme.OrgTreeImages;
-
-
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,17 +34,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeImages;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.TreeImages;
 
 public class OrgTree  extends Composite{
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
@@ -94,23 +88,14 @@ public class OrgTree  extends Composite{
     protected void onLoad(){
         if (!loaded){
             loaded = true;
-        orgRpcServiceAsync.getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-            }
+        orgRpcServiceAsync.getOrgHierarchies(new KSAsyncCallback<List<OrgHierarchyInfo>>(){
 
             public void onSuccess(List<OrgHierarchyInfo> result) {
                 if(result != null){
                     for(final OrgHierarchyInfo orgHInfo:result){
 
                         // setting maxLevel to -1 to obtain only the root Node
-                        orgRpcServiceAsync.getOrgDisplayTree(orgHInfo.getRootOrgId(), orgHInfo.getId(), -1, new AsyncCallback<List<OrgTreeInfo> >(){
-
-                            @Override
-                            public void onFailure(Throwable caught) {
-                                Window.alert(caught.getMessage());
-                                
-                            }
+                        orgRpcServiceAsync.getOrgDisplayTree(orgHInfo.getRootOrgId(), orgHInfo.getId(), -1, new KSAsyncCallback<List<OrgTreeInfo> >(){
 
                             @Override
                             public void onSuccess(List<OrgTreeInfo> result) {
@@ -132,12 +117,7 @@ public class OrgTree  extends Composite{
     
     protected void getOrgTree(final String orgId, final String hierarchyId, final TreeItem node){
         //Setting Max level to 1 to obtain relations at the first level.
-        orgRpcServiceAsync.getOrgDisplayTree(orgId, hierarchyId, 1, new AsyncCallback<List<OrgTreeInfo> >(){
-
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-            }
+        orgRpcServiceAsync.getOrgDisplayTree(orgId, hierarchyId, 1, new KSAsyncCallback<List<OrgTreeInfo> >(){
 
             @Override
             public void onSuccess(List<OrgTreeInfo> result) {

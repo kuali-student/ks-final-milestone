@@ -21,10 +21,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.security.SecurityContext;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.core.messages.dto.Message;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 public class ApplicationContext {
+	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
+	
 	private boolean loggedIn = true;
 	private String userId = "testuser";
 	private List<String> roles = new ArrayList<String>();
@@ -32,9 +38,9 @@ public class ApplicationContext {
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
 	private List<Message> messagesList = new ArrayList<Message>();
-	Map<String, ObjectStructure> dictionaryData = new HashMap<String, ObjectStructure>();
 	
 	private SecurityContext securityContext;
+	private String applicationContextUrl;
 	
 	/**
 	 * This constructor should only be visible to the common application package. If ApplicationContext is 
@@ -43,6 +49,19 @@ public class ApplicationContext {
 	protected ApplicationContext() {
 		roles.add("role1");
 		roles.add("role2");
+		
+		serverPropertiesRpcService.getContextPath(new AsyncCallback<String>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				throw new RuntimeException("Fatal - Unable to initialze application context");
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				applicationContextUrl = result;
+			}			
+		});
 	}
 
 	public void setLoggedIn(boolean loggedIn) {
@@ -68,29 +87,6 @@ public class ApplicationContext {
 	public List<String> getRoles() {
 		return roles;
 	}
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-	@Deprecated
-	public void addDictionaryData(String name, ObjectStructure objStructure){
-	    dictionaryData.put(name, objStructure);
-	}
-
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-	@Deprecated
-    public ObjectStructure getDictionaryData(String name){
-       return dictionaryData.get(name);
-    }
-    
-	/**
-	 * Dictionary data should be accessed through the orchestration/assembler layer now
-	 */
-    @Deprecated
-	public boolean containsDictionaryKey(String key){
-        return dictionaryData.containsKey(key);
-    }
 
     public void addMessages(List<Message> messages) {
 		messagesList.addAll(messages);
@@ -140,7 +136,8 @@ public class ApplicationContext {
      * @param state
      * @param fieldId
      * @return
-     */public String getUILabel(String groupName, String type, String state, String fieldId) {
+     */
+	 public String getUILabel(String groupName, String type, String state, String fieldId) {
 
         String label = getMessage(groupName, type + ":" + state + ":" + fieldId);
         
@@ -162,5 +159,8 @@ public class ApplicationContext {
         this.securityContext = securityContext;
     }
 	
+	public String getApplicationContextUrl() {
+		return applicationContextUrl;
+	}
 	
 }

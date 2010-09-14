@@ -17,8 +17,9 @@ package org.kuali.student.common.assembly.dictionary;
 
 import java.util.List;
 
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -31,35 +32,19 @@ public class MockDictionaryService implements DictionaryService{
     private DictionaryService dictionaryServiceDelegate;
     
     /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectStructure(java.lang.String)
+     * @see org.kuali.student.core.dictionary.service.old.DictionaryService#getObjectStructure(java.lang.String)
      */
     @Override
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
     /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectTypes()
+     * @see org.kuali.student.core.dictionary.service.old.DictionaryService#getObjectTypes()
      */
     @Override
     public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
-    }
-
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateObject(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
-    }
-
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateStructureData(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
     }
 
     public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {

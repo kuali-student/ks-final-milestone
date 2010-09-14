@@ -73,7 +73,7 @@
       </attributes>
     </documentType>
     <documentType>
-      <name>CluCreditCourseRetirement</name>
+      <name>kuali.proposal.type.course.retire</name>
       <parent>CluCreditCourseParentDocument</parent>
       <description>Credit Course Retirement</description>
       <label>Credit Course Retirement</label>
@@ -102,7 +102,7 @@
       </routeNodes>
     </documentType>
     <documentType>
-      <name>CluCreditCourseModification</name>
+      <name>kuali.proposal.type.course.modify</name>
       <parent>CluCreditCourseParentDocument</parent>
       <description>Credit Course Modification</description>
       <label>Credit Course Modification</label>
@@ -193,7 +193,7 @@
       </routeNodes>
     </documentType>
     <documentType>
-      <name>CluCreditCourseProposal</name>
+      <name>kuali.proposal.type.course.create</name>
       <parent>CluCreditCourseParentDocument</parent>
       <description>Credit Course Proposal</description>
       <label>Credit Course Proposal</label>

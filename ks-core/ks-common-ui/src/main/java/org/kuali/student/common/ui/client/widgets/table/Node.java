@@ -17,10 +17,12 @@ package org.kuali.student.common.ui.client.widgets.table;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.student.common.ui.client.widgets.rules.Token;
 /**
  * A generic tree node. 
  * */
-public class Node<T> {
+public class Node<T> implements Cloneable{
     /** Children are stored in a list*/
     List<Node> childrenList = new ArrayList<Node>();
     /** Parent Node. null if node has no parent*/

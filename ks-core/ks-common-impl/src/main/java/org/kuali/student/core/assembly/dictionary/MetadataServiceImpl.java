@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,39 +27,39 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.UILookupConfig;
+import org.kuali.student.core.assembly.data.UILookupData;
 import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.core.dictionary.dto.ConstraintDescriptor;
-import org.kuali.student.core.dictionary.dto.ConstraintSelector;
-import org.kuali.student.core.dictionary.dto.Field;
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.dto.State;
-import org.kuali.student.core.dictionary.dto.Type;
+import org.kuali.student.core.dictionary.dto.CaseConstraint;
+import org.kuali.student.core.dictionary.dto.CommonLookupParam;
+import org.kuali.student.core.dictionary.dto.Constraint;
+import org.kuali.student.core.dictionary.dto.FieldDefinition;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.dto.WhenConstraint;
 import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.util.StringUtils;
 
 /**
- * This class provides metadata lookup services for orchestration objects.
- * 
- *  TODO: 
- *      1) Handle type state configuration & better caching
- *      2) Differentiate b/w metadata structure required for client vs. assemblers
- *      3) Namespace collision b/w service dictionaries and orchestration dictionary?      
- * 
+ * This class provides metadata lookup for service dto objects.
+ *  
  * @author Kuali Student Team
  *
  */
 public class MetadataServiceImpl {
     final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
-    
+     
     private Map<String, Object> metadataRepository = null;
     
     private Map<String, DictionaryService> dictionaryServiceMap;
+    private Map<String, UILookupConfig> lookupObjectStructures;
+    private String uiLookupContext; 
     
     private static class RecursionCounter{
         public static final int MAX_DEPTH = 4;
@@ -88,36 +89,14 @@ public class MetadataServiceImpl {
         }
     }
     
-    /**
-     * Create a Metadata service initialized using a given classpath metadata context file
-     * 
-     * @param metadataContext the classpath metadata context file
-     */
-    public MetadataServiceImpl(String metadataContext){
-        init(metadataContext, (DictionaryService[])null);
-    }
-    
-    public MetadataServiceImpl(DictionaryService...dictionaryServices){        
-        init(null, dictionaryServices);
-    }
 
-    public MetadataServiceImpl(String metadataContext, DictionaryService...dictionaryServices){        
-        init(metadataContext, dictionaryServices);
-    }
     
-    @SuppressWarnings("unchecked")
-    private void init(String metadataContext, DictionaryService...dictionaryServices){
-        if (metadataContext != null){
-        	String[] locations = StringUtils.tokenizeToStringArray(metadataContext, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
-    		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(locations);
-                    
-            Map<String, DataObjectStructure> beansOfType = (Map<String, DataObjectStructure>) context.getBeansOfType(DataObjectStructure.class);
-            metadataRepository = new HashMap<String, Object>();
-            for (DataObjectStructure dataObjStr : beansOfType.values()){
-                metadataRepository.put(dataObjStr.getName(), getProperties(dataObjStr, new RecursionCounter()));
-            }
-        }
-        
+    /**
+     * Create a metadata service initializing it with all known dictionary services
+     * 
+     * @param dictionaryServices
+     */
+    public MetadataServiceImpl(DictionaryService...dictionaryServices){        
         if (dictionaryServices != null){
             this.dictionaryServiceMap = new HashMap<String, DictionaryService>();
             for (DictionaryService d:dictionaryServices){
@@ -127,119 +106,43 @@ public class MetadataServiceImpl {
                 }            
             }            
         }
-        
     }
     
+   
     /** 
-     * This method gets the metadata for the given object key
+     * This method gets the metadata for the given object key, type and state
      * 
      * @param objectKey
      * @param type
      * @param state
      * @return
      */
-    @SuppressWarnings("unchecked")
     public Metadata getMetadata(String objectKey, String type, String state){
         if (metadataRepository == null || metadataRepository.get(objectKey) == null){
             return getMetadataFromDictionaryService(objectKey, type, state);
-        } else {        
-            Metadata metadata = new Metadata ();
-            metadata.setWriteAccess(WriteAccess.ALWAYS);
-            metadata.setOnChangeRefreshMetadata(false);
-            metadata.setDataType(DataType.DATA);
-
-            metadata.setProperties((Map<String, Metadata>)metadataRepository.get(objectKey));
-            
-            //return the clone
-            return new Metadata(metadata);
-        }        
+        }
+        
+        return null;
     }    
-    
+       
     /**
-     * Retreives data object structure from the spring file and caches the properties
-     * 
-     * @param properties
-     * @param fields
+     * This method gets the metadata for the given object key and state
      */
-    protected void loadProperties(Map<String, Metadata> properties, List<DataFieldDescriptor> fields, RecursionCounter counter){
-
-        for (DataFieldDescriptor field:fields){
-            Metadata metadata = new Metadata();
-            metadata.setWriteAccess(WriteAccess.valueOf(field.getWriteAccess()));
-            metadata.setDataType(DataType.valueOf(field.getDataType()));
-            metadata.setAdditionalLookups(field.getAdditionalLookups());
-            metadata.setLookupContextPath(field.getLookupContextPath());
-            
-            metadata.setConstraints(field.getConstraints());
-            metadata.setName(field.getName());
-            metadata.setCanEdit(field.isCanEdit());
-            metadata.setCanView(field.isCanView());
-            metadata.setCanUnmask(field.isCanUnmask());
-            metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), field.getDefaultValue()));
-            metadata.setInitialLookup(field.getInitialLookup());
-            
-            if (isRepeating(field)){
-                Metadata repeatingMetadata = new Metadata();
-                metadata.setDataType(DataType.LIST);
-                
-                repeatingMetadata.setWriteAccess(WriteAccess.ALWAYS);
-                repeatingMetadata.setOnChangeRefreshMetadata(false);
-                repeatingMetadata.setDataType(DataType.valueOf(field.getDataType()));
-                                
-                if (field.getDataObjectStructure() != null){                   
-                    repeatingMetadata.setProperties(getProperties(field.getDataObjectStructure(), counter));
-                }
-                
-                Map<String, Metadata> repeatingProperty = new HashMap<String, Metadata>();
-                repeatingProperty.put("*", repeatingMetadata);
-                metadata.setProperties(repeatingProperty);
-            } else if (field.getDataObjectStructure() != null){
-                metadata.setProperties(getProperties(field.getDataObjectStructure(), counter));
-            }
-
-            properties.put(field.getName(), metadata);
-        }        
+    public Metadata getMetadata(String objectKey, String state){
+    	return getMetadata(objectKey, null, state);
     }
-    
-    /** 
-     * This method determines if a field is a repeating field
+
+    /**
+     * This method gets the metadata for the given object key for state DRAFT.
      * 
-     * @param field
+     * @see MetadataServiceImpl#getMetadata(String, String)
+     * @param objectKey
      * @return
      */
-    protected boolean isRepeating(DataFieldDescriptor field){
-        if (field.getConstraints() != null) {
-            for (ConstraintMetadata c : field.getConstraints()) {
-                if (c.getId() != null && c.getId().equals("repeating")) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public Metadata getMetadata(String objectKey){        
+        return getMetadata(objectKey, null, null);
     }
-    
-    @SuppressWarnings("unchecked")
-    protected Map<String, Metadata> getProperties(DataObjectStructure dataObjectStructure, RecursionCounter counter){
-        String objectId = dataObjectStructure.getName();
-        int hits = counter.increment(objectId);
-        
-        Map<String, Metadata> properties = null;
-        
-        if (hits == 1 && metadataRepository.containsKey(objectId)){
-            properties =  (Map<String, Metadata>)metadataRepository.get(objectId);
-        } else if (hits < RecursionCounter.MAX_DEPTH){
-            properties = new HashMap<String, Metadata>();
-            if (hits == 1){
-                metadataRepository.put(objectId, properties);
-            }
-            loadProperties(properties, dataObjectStructure.getFields(), counter);
-        }
-        
-        counter.decrement(objectId);
-        return properties;
-    }
-    
-    
+
     /** 
      * This invokes the appropriate dictionary service to get the object structure and then
      * converts it to a metadata structure.
@@ -253,18 +156,14 @@ public class MetadataServiceImpl {
 
         Metadata metadata = new Metadata();      
 
-        ObjectStructure objectStructure = getObjectStructure(objectKey);
-        State objectState = getObjectState(objectStructure, type, state);
+        ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
         
-        ConstraintDescriptor constraintDescriptor = objectState.getConstraintDescriptor(); 
-        metadata.setConstraints(copyConstraints(constraintDescriptor));
-        
-        List<Field> fields = objectState.getField();
-        metadata.setProperties(getProperties(fields, type, state));
+            
+        metadata.setProperties(getProperties(objectStructure, type, state, new RecursionCounter()));
         
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
-        
+        addLookupstoMetadata(metadata);
         return metadata;
     }
     
@@ -276,80 +175,82 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    private Map<String, Metadata> getProperties(List<Field> fields, String type, String state){
-        Map<String, Metadata> properties = new HashMap<String, Metadata>();
+    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, RecursionCounter counter){
+    	String objectId = objectStructure.getName();
+    	int hits = counter.increment(objectId);
         
-        for (Field field:fields){
-            FieldDescriptor fd = field.getFieldDescriptor();
-            
-            Metadata metadata = new Metadata();
-            metadata.setWriteAccess(WriteAccess.ALWAYS);
-            metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
-            metadata.setConstraints(copyConstraints(field.getConstraintDescriptor()));            
-            
-            //Where to get values for defaultValue, lookupMetdata (SearchSelector,fd.getSearch()), 
-                                   
-            Map<String, Metadata> nestedProperties = null;
-            if (fd.getDataType().equals("complex")){                                                                  
-                ObjectStructure objectStructure;
-                if (fd.getObjectStructure() != null){
-                    objectStructure = fd.getObjectStructure();
-                } else {
-                    String objectKey = fd.getObjectStructureRef();
-                    objectStructure = getObjectStructure(objectKey);
-                }
-
-                State objectState = getObjectState(objectStructure, type, state);
-                nestedProperties = getProperties(objectState.getField(), type, state);
-                
-                //Cross field constraints for nested object fields? What to do about them?
-                //ConstraintDescriptor constraintDescriptor = objectState.getConstraintDescriptor()
-
-            }
-            
-            
-            if (isRepeating(field)){
-                Metadata repeatingMetadata = new Metadata();
-                metadata.setDataType(DataType.LIST);
-                
-                repeatingMetadata.setWriteAccess(WriteAccess.ALWAYS);
-                repeatingMetadata.setOnChangeRefreshMetadata(false);
-                repeatingMetadata.setDataType(convertDictionaryDataType(fd.getDataType()));
-                
-                if (nestedProperties != null){
-                    repeatingMetadata.setProperties(nestedProperties);
-                }
-                
-                Map<String, Metadata> repeatingProperty = new HashMap<String, Metadata>();
-                repeatingProperty.put("*", repeatingMetadata);
-                metadata.setProperties(repeatingProperty);
-            } else if (nestedProperties != null){
-                metadata.setProperties(nestedProperties);
-            }
-            
-            properties.put(fd.getName(), metadata);
-            
-        }
+    	Map<String, Metadata> properties = null;
+    	
+    	if (hits < RecursionCounter.MAX_DEPTH){   	    
+    		properties = new HashMap<String, Metadata>();
+    		
+    		List<FieldDefinition> attributes = objectStructure.getAttributes();
+	    	for (FieldDefinition fd:attributes){
+	            
+	            Metadata metadata = new Metadata();
+	           
+	            //Set constraints, authz flags, default value
+	            metadata.setWriteAccess(WriteAccess.ALWAYS);
+	            metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
+	            metadata.setConstraints(getConstraints(fd,type,state));
+	            metadata.setCanEdit(!fd.isReadOnly());
+	            metadata.setCanUnmask(!fd.isMask());
+	            metadata.setCanView(!fd.isHide());
+	            metadata.setDynamic(fd.isDynamic());
+	            metadata.setLabelKey(fd.getLabelKey());
+	           	metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));            	
+	                       	                                  
+	            //Get properties for nested object structure
+	            Map<String, Metadata> nestedProperties = null;
+	            if (fd.getDataType() == org.kuali.student.core.dictionary.dto.DataType.COMPLEX && fd.getDataObjectStructure() != null){
+	                nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, counter );                
+	            }
+	            
+	            //For repeating field, create a LIST with wildcard in metadata structure
+	            if (isRepeating(fd)){
+	                Metadata repeatingMetadata = new Metadata();
+	                metadata.setDataType(DataType.LIST);
+	                
+	                repeatingMetadata.setWriteAccess(WriteAccess.ALWAYS);
+	                repeatingMetadata.setOnChangeRefreshMetadata(false);
+	                repeatingMetadata.setDataType(convertDictionaryDataType(fd.getDataType()));
+	                
+	                if (nestedProperties != null){
+	                    repeatingMetadata.setProperties(nestedProperties);
+	                }
+	                
+	                Map<String, Metadata> repeatingProperty = new HashMap<String, Metadata>();
+	                repeatingProperty.put("*", repeatingMetadata);
+	                metadata.setProperties(repeatingProperty);
+	            } else if (nestedProperties != null){
+	                metadata.setProperties(nestedProperties);
+	            }
+	            
+	            properties.put(fd.getName(), metadata);
+	            
+	        }
+    	}
         
+    	counter.decrement(objectId);
         return properties;
     }
     
-    
-    /** 
+	/** 
      * This method determines if a field is repeating
      * 
-     * @param field
+     * @param fd
      * @return
      */
-    protected boolean isRepeating(Field field){
-        if (field.getConstraintDescriptor() != null && field.getConstraintDescriptor().getConstraint() != null){
-            for (ConstraintSelector c:field.getConstraintDescriptor().getConstraint()){
-                if (c.getKey().equals("repeating")){
-                    return true;
-                }
-            }
-        }
-        return false;
+    protected boolean isRepeating(FieldDefinition fd){
+    	boolean isRepeating = false;
+    	try {
+    		int maxOccurs = Integer.parseInt(fd.getMaxOccurs());
+    		isRepeating = maxOccurs > 1;
+    	} catch (NumberFormatException nfe){
+    		isRepeating = FieldDefinition.UNBOUNDED.equals(fd.getMaxOccurs());
+    	}
+    	
+        return isRepeating; 
     }
     
     /** 
@@ -358,121 +259,345 @@ public class MetadataServiceImpl {
      * @param objectKey
      * @return
      */
-    protected ObjectStructure getObjectStructure(String objectKey){
+    protected ObjectStructureDefinition getObjectStructure(String objectKey){
         DictionaryService dictionaryService = dictionaryServiceMap.get(objectKey);
+        
+        if (dictionaryService == null){
+        	throw new RuntimeException("Dictionary service not provided for objectKey=[" + objectKey+"].");
+        }
         
         return dictionaryService.getObjectStructure(objectKey);
     }
     
-    /**
-     * This method retrieves the desire object state for the object structure. 
-     *
-     * @param objectStructure
-     * @param type
-     * @param state
-     * @return
-     */
-    protected State getObjectState(ObjectStructure objectStructure, String type, String state){
-        //This method would not be required if we could just get objectStructure for a particular 
-        //type/state from the dictionary service
-        for (Type t:objectStructure.getType()){
-            if (t.getKey().equals(type)){
-                for (State s:t.getState()){
-                    if (s.getKey().equals(state)){
-                        return s;
-                    }
-                }
-            }
-        }
-        
-        return null;
-    }
-           
-    protected List<ConstraintMetadata> copyConstraints(ConstraintDescriptor constraintDescriptor){
-        List<ConstraintMetadata> constraints = null;
+          
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state){
+        List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
        
-        if (constraintDescriptor != null && constraintDescriptor.getConstraint() != null){           
-            constraints = new ArrayList<ConstraintMetadata>();
-            
-            
-            for (ConstraintSelector dictConstraint:constraintDescriptor.getConstraint()){
-               ConstraintMetadata constraintMetadata = new ConstraintMetadata();
-               
-               constraintMetadata.setId(dictConstraint.getKey());
-               if (dictConstraint.getMaxLength() != null){
-                   constraintMetadata.setMaxLength(Integer.valueOf(dictConstraint.getMaxLength()));
-               }
-               constraintMetadata.setMinLength(dictConstraint.getMinLength());
-               constraintMetadata.setMinOccurs(dictConstraint.getMinOccurs());
-               constraintMetadata.setMinValue(dictConstraint.getMinValue());
-               
-               if (dictConstraint.getValidChars() != null){
-                   constraintMetadata.setValidChars(dictConstraint.getValidChars().getValue());
-               }
-               
-               constraintMetadata.setMessageId("kuali.msg.validation." + dictConstraint.getKey());
-               
-               //Skipping cross field constraints (eg. case, occurs, require)
-               
-              constraints.add(constraintMetadata);
-           }
-        }
+        ConstraintMetadata constraintMetadata = new ConstraintMetadata();
         
-       return constraints;
+        updateConstraintMetadata(constraintMetadata, (Constraint)fd, type, state);
+        constraints.add(constraintMetadata);
+        
+        return constraints;
     }
     
+
+    /**
+     * This updates the constraintMetadata with defintions from the dictionary constraint field.
+     * 
+     * @param constraintMetadata
+     * @param constraint
+     */
+    protected void updateConstraintMetadata(ConstraintMetadata constraintMetadata, Constraint constraint, String type, String state){
+        //For now ignoring the serverSide flag and making determination of which constraints
+        //should be passed up to the UI via metadata.
+
+    	//Min Length
+    	if (constraint.getMinLength() != null){
+    		constraintMetadata.setMinLength(constraint.getMinLength());
+    	}
+        
+        //Max Length
+        try {
+        	if(constraint.getMaxLength()!=null){
+        		constraintMetadata.setMaxLength(Integer.parseInt(constraint.getMaxLength()));
+        	}
+    		//Do we need to add another constraint and label it required if minOccurs = 1
+        } catch (NumberFormatException nfe) {
+			// Ignoring an unbounded length, cannot be handled in metadata structure, maybe change Metadata to string or set to -1
+        	constraintMetadata.setMaxLength(9999);
+        }
+        
+        //Min Occurs
+        if (constraint.getMinOccurs() != null){
+        	constraintMetadata.setMinOccurs(constraint.getMinOccurs());
+        }
+        
+        //Max Occurs
+    	String maxOccurs = constraint.getMaxOccurs();
+    	if (maxOccurs != null){
+	    	try {        	
+	        	constraintMetadata.setMaxOccurs(Integer.parseInt(maxOccurs));
+	        	if (!FieldDefinition.SINGLE.equals(maxOccurs)){
+	        		constraintMetadata.setId("repeating");
+	        	}
+	        } catch (NumberFormatException nfe){
+	        	// Setting unbounded to a value of 9999, since unbounded not handled by metadata
+	        	if (FieldDefinition.UNBOUNDED.equals(maxOccurs)){
+		        	constraintMetadata.setId("repeating");
+		        	constraintMetadata.setMaxOccurs(9999);
+	        	}
+	        }
+    	}
+        
+        //Min Value
+    	if (constraint.getExclusiveMin() != null){
+    		constraintMetadata.setMinValue(constraint.getExclusiveMin());
+    	}
+        
+        //Max Value
+    	if (constraint.getInclusiveMax() != null){
+    		constraintMetadata.setMaxValue(constraint.getInclusiveMax());
+    	}
+                        
+        if (constraint.getValidChars() != null){
+        	constraintMetadata.setValidChars(constraint.getValidChars().getValue());
+        	constraintMetadata.setValidCharsMessageId(constraint.getValidChars().getLabelKey());
+        }
+        
+        //Case constraints         
+    	if (constraint.getCaseConstraint() != null){
+    		processCaseConstraint(constraintMetadata, constraint.getCaseConstraint(), type, state);
+    	}    	
+    }
+    
+    protected void processCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state){
+    	String fieldPath = caseConstraint.getFieldPath();
+        List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
+
+        fieldPath = (fieldPath !=null ? fieldPath.toUpperCase():fieldPath);
+    	if ("STATE".equals(fieldPath)){
+    		//Process a state constraint
+    		
+    		//Determine nextState for required for next state indicator
+    		String nextState = null;
+            if (state==null || "DRAFT".equals(state.toUpperCase())){
+            	state = "DRAFT";
+            	nextState = "SUBMITTED";        	
+            } else if ("SUBMITTED".equals(state.toUpperCase())){
+            	nextState = "ACTIVE";
+            }
+
+    		if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null){    			
+    			for (WhenConstraint whenConstraint:whenConstraints){
+    				List<Object> values = whenConstraint.getValues();
+    				if (values != null) {
+    					Constraint constraint = whenConstraint.getConstraint();
+    					
+    					//Set the required for next state flag
+    					if (values.contains(nextState)){
+	    					if (constraint.getMinOccurs() > 0){
+	    						constraintMetadata.setRequiredForNextState(true);
+	    					}
+    					}
+    					
+    					//Update constraints based on state constraints
+    					if (values.contains(state.toUpperCase())){
+    						updateConstraintMetadata(constraintMetadata, constraint, type, state);
+    					}
+    				}	
+    			}
+    		}
+    	} else if ("TYPE".equals(fieldPath)){
+    		//Process a type constraint
+    		
+    		if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null){    			
+    			for (WhenConstraint whenConstraint:whenConstraints){
+    				List<Object> values = whenConstraint.getValues();
+    				if (values != null && values.contains(type)) {
+    					Constraint constraint = whenConstraint.getConstraint();
+   						updateConstraintMetadata(constraintMetadata, constraint, type, state);
+    				}	
+    			}
+    		}    		
+    	}
+    }
+    
+    /**
+     * Convert Object value to respective DataType. Method return null for object Value.
+     * 
+     * @param dataType
+     * @param value
+     * @return
+     */
     protected Value convertDefaultValue(DataType dataType, Object value){
         Value v = null;
         if (value instanceof String){
             String s = (String)value;
             switch (dataType){
                 case STRING:
-                    value = new Data.StringValue(s);
+                    v = new Data.StringValue(s);
                     break; 
                 case BOOLEAN:
-                    value = new Data.BooleanValue(Boolean.valueOf(s));
+                    v = new Data.BooleanValue(Boolean.valueOf(s));
                     break;
                 case FLOAT:
-                    value = new Data.FloatValue(Float.valueOf(s));
+                    v = new Data.FloatValue(Float.valueOf(s));
                     break;
                 case DATE:
                     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");                    
                     try {
-                        value = new Data.DateValue(format.parse(s));
+                        v = new Data.DateValue(format.parse(s));
                     } catch (ParseException e) {
                         LOG.error("Unable to get default date value from metadata definition");
                     }
                     break;
                 case LONG:
                 	if (!s.isEmpty()){
-                		value = new Data.LongValue(Long.valueOf(s));
+                		v = new Data.LongValue(Long.valueOf(s));
                 	}
                     break;
                 case DOUBLE:
-                    value = new Data.DoubleValue(Double.valueOf(s));
+                    v = new Data.DoubleValue(Double.valueOf(s));
                     break;
                 case INTEGER:
-                    value = new Data.IntegerValue(Integer.valueOf(s));
+                    v = new Data.IntegerValue(Integer.valueOf(s));
                     break;                    
             }
+        } else {
+        	v = convertDefaultValue(value);
         }
         
         return v;
     }
     
-    protected DataType convertDictionaryDataType(String dataType){
-        if ("string".equals(dataType)){
-            return DataType.STRING;
-        } else if ("boolean".equals(dataType)){
-            return DataType.BOOLEAN;
-        } else if ("integer".equals(dataType)){
-            return DataType.INTEGER;
-        } else if ("datetime".equals(dataType)){
-            return DataType.DATE;
-        } else if ("complex".equals(dataType)){
-            return DataType.DATA;
-        }            
+    protected Value convertDefaultValue(Object value) {
+    	Value v = null;
+    	
+    	if (value instanceof String){
+    		v = new Data.StringValue((String)value);
+    	} else if (value instanceof Boolean){
+    		v = new Data.BooleanValue((Boolean)value);
+    	} else if (value instanceof Integer){
+    		v = new Data.IntegerValue((Integer)value);
+    	} else if (value instanceof Double){
+    		v = new Data.DoubleValue((Double)value);
+    	} else if (value instanceof Long){
+    		v = new Data.LongValue((Long)value);
+    	} else if (value instanceof Short){
+    		v = new Data.ShortValue((Short)value);
+    	} else if (value instanceof Float){
+    		v = new Data.FloatValue((Float)value);
+    	}
+    	
+		return v;
+	}
+
+    
+    protected DataType convertDictionaryDataType(org.kuali.student.core.dictionary.dto.DataType dataType){
+        switch (dataType){
+        	case STRING:  	return DataType.STRING;
+        	case BOOLEAN: 	return DataType.BOOLEAN;
+        	case INTEGER: 	return DataType.INTEGER;
+        	case FLOAT:		return DataType.FLOAT;
+        	case COMPLEX: 	return DataType.DATA;
+        	case DATE:		return DataType.DATE;
+        	case DOUBLE:	return DataType.DOUBLE;
+        	case LONG:		return DataType.LONG;
+        }
         
         return null;        
+    }
+    
+    public void setUiLookupContext(String uiLookupContext){
+    	this.uiLookupContext=uiLookupContext;
+    	init();
+    	
+    }
+    
+    @SuppressWarnings("unchecked")
+	private void init(){
+    	ApplicationContext ac = new ClassPathXmlApplicationContext(uiLookupContext);
+
+		Map<String, UILookupConfig> beansOfType = (Map<String, UILookupConfig>) ac.getBeansOfType(UILookupConfig.class);
+		lookupObjectStructures = new HashMap<String, UILookupConfig>();
+		for (UILookupConfig objStr : beansOfType.values()){
+			lookupObjectStructures.put(objStr.getPath(), objStr);
+		}
+		System.out.println("UILookup loaded");
+    }
+    
+    private void addLookupstoMetadata(Metadata metadata){
+    	if (lookupObjectStructures != null){
+	    	Collection<UILookupConfig> lookups = lookupObjectStructures.values();
+	    	for(UILookupConfig lookup: lookups){
+	    		Map<String,Metadata> parsedMetadataMap = metadata.getProperties();
+	    		Metadata parsedMetadata = null;
+	    		String lookupFieldPath = lookup.getPath();
+	    		String[] lookupPathTokens = getPathTokens(lookupFieldPath);
+	            for(int i = 1; i < lookupPathTokens.length; i++) {
+	                if(parsedMetadataMap == null) {
+	                    break;
+	                }
+	                if(i==lookupPathTokens.length-1){
+	                	//get the metadata on the last path key token
+	                	parsedMetadata=parsedMetadataMap.get(lookupPathTokens[i]);
+	                }
+	                if(parsedMetadataMap.get(lookupPathTokens[i])!=null){
+	                	parsedMetadataMap = parsedMetadataMap.get(lookupPathTokens[i]).getProperties();
+	                }
+	                else if(parsedMetadataMap.get("*")!=null){
+	                	//Lookup wildcard in case of unbounded elements in metadata.
+	                	parsedMetadataMap = parsedMetadataMap.get("*").getProperties();
+	                	i--;
+	                }
+	
+	            }
+	            if (parsedMetadata != null) {
+	            	UILookupData initialLookup =lookup.getInitialLookup();
+	            	if(initialLookup!=null){
+	            		mapLookupDatatoMeta(initialLookup);
+	            		parsedMetadata.setInitialLookup(mapLookupDatatoMeta(lookup.getInitialLookup()));
+	            	}
+	            	List<LookupMetadata> additionalLookupMetadata = null;
+	            	if (lookup.getAdditionalLookups() != null) {
+						additionalLookupMetadata = new ArrayList<LookupMetadata>();
+						for (UILookupData additionallookup : lookup.getAdditionalLookups()) {
+							additionalLookupMetadata
+									.add(mapLookupDatatoMeta(additionallookup));
+						}
+						parsedMetadata
+								.setAdditionalLookups(additionalLookupMetadata);
+					}
+	            }
+	    	}
+    	}                    
+    }
+    
+    private LookupMetadata mapLookupDatatoMeta(UILookupData lookupData){
+    	LookupMetadata lookupMetadata = new LookupMetadata();
+    	List<LookupParamMetadata> paramsMetadata;
+		BeanUtils.copyProperties(lookupData,lookupMetadata, new String[]{"widget","usage","widgetOptions","params"});
+		if(lookupData.getWidget()!=null){
+			lookupMetadata.setWidget(org.kuali.student.core.assembly.data.LookupMetadata.Widget.valueOf(lookupData.getWidget().toString()));
+		}
+		if(lookupData.getUsage()!=null){
+			lookupMetadata.setUsage(org.kuali.student.core.assembly.data.LookupMetadata.Usage.valueOf(lookupData.getUsage().toString()));
+		}
+		if(lookupData.getParams()!=null){
+			paramsMetadata = new ArrayList<LookupParamMetadata>();
+			for(CommonLookupParam param: lookupData.getParams()){
+				paramsMetadata.add(mapLookupParamMetadata(param));
+			}
+			lookupMetadata.setParams(paramsMetadata);
+		}
+		//WidgetOptions is not used as of now. So not setting it into metadata.
+    	return lookupMetadata;
+    }
+    
+    private LookupParamMetadata mapLookupParamMetadata(CommonLookupParam param){
+    	LookupParamMetadata paramMetadata = new LookupParamMetadata();
+		BeanUtils.copyProperties(param,paramMetadata,new String[]{"childLookup","dataType","writeAccess","usage","widget"});
+		if(param.getChildLookup()!=null){
+			paramMetadata.setChildLookup(mapLookupDatatoMeta((UILookupData) param.getChildLookup()));
+		}
+		if(param.getDataType()!=null){
+			paramMetadata.setDataType(org.kuali.student.core.assembly.data.Data.DataType.valueOf(param.getDataType().toString()));
+		}
+		if(param.getWriteAccess()!=null){
+			paramMetadata.setWriteAccess(org.kuali.student.core.assembly.data.Metadata.WriteAccess.valueOf(param.getWriteAccess().toString()));
+		}
+		if(param.getUsage()!=null){
+			paramMetadata.setUsage(org.kuali.student.core.assembly.data.LookupMetadata.Usage.valueOf(param.getUsage().toString()));
+		}
+		if(param.getWidget()!=null){
+			paramMetadata.setWidget(org.kuali.student.core.assembly.data.LookupParamMetadata.Widget.valueOf(param.getWidget().toString()));
+		}
+		
+    	return paramMetadata;
+    }
+    
+    private static String[] getPathTokens(String fieldPath) {
+        return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
 }

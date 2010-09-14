@@ -18,7 +18,7 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
+import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 
 
 public class CreditCourseProposalInfoHelper

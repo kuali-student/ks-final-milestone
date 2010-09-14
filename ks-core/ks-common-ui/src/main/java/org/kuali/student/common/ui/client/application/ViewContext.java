@@ -25,10 +25,11 @@ import org.kuali.student.core.rice.authorization.PermissionType;
  * to pass along that information from a different controller or view.
  *
  */
-public class ViewContext {
+public class ViewContext implements Comparable<ViewContext>{
 	public enum IdType {
 		// FIXME: remove hard coded strings below for KIM constants
-		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID("documentNumber"), OBJECT_ID("objectId"), COPY_OF_OBJECT_ID("copyOfObjectId");
+		//	TODO: OBJECT_ID has no references
+		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID(StudentIdentityConstants.QUALIFICATION_KEW_DOCUMENT_ID), OBJECT_ID("objectId"), COPY_OF_OBJECT_ID("copyOfObjectId");
         
 		final String stringValue;
 
@@ -39,7 +40,20 @@ public class ViewContext {
         public String toString() {
             return stringValue;
         }
+        
+        static IdType fromString(String name) {
+            for (IdType idTypeEnum : values()) {
+                if (name.equals(idTypeEnum.toString())) {
+                    return idTypeEnum;
+                }
+            }
+            return null;   
+        }
+
 	}
+	
+	public static final String ID_ATR = "docId";
+	public static final String ID_TYPE_ATR = "idType";
 	
 	private String id = "";
 	private IdType idType = null;
@@ -63,6 +77,10 @@ public class ViewContext {
 	public void setIdType(IdType idType) {
 		this.idType = idType;
 	}
+	
+	public void setIdType(String idTypeString){
+		this.idType = IdType.fromString(idTypeString);
+	}
 
 	public String getState() {
 		return state;
@@ -79,5 +97,15 @@ public class ViewContext {
 	public void setPermissionType(PermissionType permissionType) {
     	this.permissionType = permissionType;
     }
+
+	@Override
+	public int compareTo(ViewContext o) {
+		if(o.getId().equals(id) && o.getIdType() == idType ){
+			return 0;
+		}
+		else{
+			return -1;
+		}
+	}
 
 }

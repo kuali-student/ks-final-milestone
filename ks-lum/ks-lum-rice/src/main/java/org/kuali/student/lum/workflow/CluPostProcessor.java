@@ -57,7 +57,7 @@ import org.kuali.student.lum.lu.service.LuService;
 public class CluPostProcessor implements PostProcessor{
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CluPostProcessor.class);
 
-	private static final String CLU_STATE_ACTIVATED = "activated";
+	private static final String CLU_STATE_ACTIVE = "Active";
 
 	public ProcessDocReport afterProcess(AfterProcessEvent arg0) throws Exception {
         return new ProcessDocReport(true, "");
@@ -190,7 +190,7 @@ public class CluPostProcessor implements PostProcessor{
 		String cluId = matcher.group(1);
     	
 		CluInfo clu = luService.getClu(cluId);
-    	clu.setState(CLU_STATE_ACTIVATED);
+    	clu.setState(CLU_STATE_ACTIVE);
 		luService.updateClu(cluId, clu);
     }
 }

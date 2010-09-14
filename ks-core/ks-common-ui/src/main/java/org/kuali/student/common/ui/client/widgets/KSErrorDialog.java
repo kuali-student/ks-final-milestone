@@ -22,7 +22,6 @@ import org.kuali.student.common.ui.client.logging.Logger;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.SendCancelEnum;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
@@ -46,7 +45,7 @@ public class KSErrorDialog {
         public String toString() {
             return this.messageId;
         }
-    }  
+    }
 
     public static void bindUncaughtExceptionHandler() {
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
@@ -59,31 +58,31 @@ public class KSErrorDialog {
 
     public static void show(final Throwable error) {
         final KSLightBox lightbox = new KSLightBox();
-        
+
         final VerticalPanel panel = new VerticalPanel();
-        panel.addStyleName(KSStyles.KS_ERROR_DIALOG);
+        panel.addStyleName("KS-Error-Dialog");
 
         final KSLabel title = new KSLabel(context.getMessage(MessagesRequired.DIALOG_TITLE.toString()));
-        title.addStyleName(KSStyles.KS_ERROR_DIALOG_TITLE);
-        
+        title.addStyleName("KS-Error-Dialog-Title");
+
         final KSLabel errorDescriptionLabel = new KSLabel(context.getMessage(MessagesRequired.ERROR_DESCRIPTION.toString()));
-        errorDescriptionLabel.addStyleName(KSStyles.KS_ERROR_DIALOG_LABEL);
+        errorDescriptionLabel.addStyleName("KS-Error-Dialog-Label");
 
         final SimplePanel errorDescriptionPanel = new SimplePanel();
-        errorDescriptionPanel.addStyleName(KSStyles.KS_ERROR_DIALOG_PANEL);
-        
+        errorDescriptionPanel.addStyleName("KS-Error-Dialog-Panel");
+
         final KSTextArea errorDescription = new KSTextArea();
         errorDescription.setText(getErrorDescription(error));
-        errorDescription.addStyleName(KSStyles.KS_ERROR_DIALOG_TEXTAREA);
+        errorDescription.addStyleName("KS-Error-Dialog-TextArea");
         errorDescription.setReadOnly(true);
         //errorDescription.setEnabled(false);
         errorDescriptionPanel.add(errorDescription);
 
 /*        final KSLabel describeActionLabel = new KSLabel(context.getMessage(MessagesRequired.DESCRIBE_ACTION.toString()));
         describeActionLabel.addStyleName(KSStyles.KS_ERROR_DIALOG_LABEL);
-        
+
         final SimplePanel actionDescriptionPanel = new SimplePanel();
-        actionDescriptionPanel.addStyleName(KSStyles.KS_ERROR_DIALOG_PANEL);    
+        actionDescriptionPanel.addStyleName(KSStyles.KS_ERROR_DIALOG_PANEL);
 
         final KSTextArea actionDescription = new KSTextArea();
         actionDescription.addStyleName(KSStyles.KS_ERROR_DIALOG_TEXTAREA);
@@ -112,7 +111,7 @@ public class KSErrorDialog {
 //        panel.add(describeActionLabel);
 //        panel.add(actionDescriptionPanel);
         panel.add(buttonPanel);
-        
+
         panel.setSize("100", "100");
 
         lightbox.setWidget(panel);
@@ -124,7 +123,7 @@ public class KSErrorDialog {
         // TODO maybe retrieve more error info
         return error.getMessage();
     }
-    
+
     private static void sendReport(final Throwable error/*, final String actionDescription*/) {
         // TODO actually gather client context info, such as browser version, user id, etc
         Logger.getClientContextInfo().put("logType", "clientError");

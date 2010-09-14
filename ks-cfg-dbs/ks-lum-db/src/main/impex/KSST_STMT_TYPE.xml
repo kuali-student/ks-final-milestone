@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Academic Readiness Rules"
+        TYPE_DESC="Rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Academic Readiness Anti Reqs"
+        TYPE_DESC="Anti-requisite rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.antireq"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Academic Readiness Co Reqs"
+        TYPE_DESC="Co-requisite rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.coreq"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Academic Readiness Pre Reqs"
+        TYPE_DESC="Pre-requisite rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.prereq"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Academic Readiness Student Eligibilities"
+        TYPE_DESC="Enrollment eligibility rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibility"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Repeatable for Credit"
+        TYPE_DESC="Rules used for courses which are repeatable for credit." TYPE_KEY="kuali.statement.type.course.credit.repeatable"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Courses that Restrict Credit"
+        TYPE_DESC="Rules used for courses that restrict the awarding of credit in other courses." TYPE_KEY="kuali.statement.type.course.credit.restriction"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Recommended Preparation"
+        TYPE_DESC="Non-enforceable rules used for recommended course preparation." TYPE_KEY="kuali.statement.type.course.recommendedPreparation"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Program Requirements List"
+        TYPE_DESC="List of program requirements (rules)." TYPE_KEY="kuali.statement.type.program"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Program Completion Requirements"
+        TYPE_DESC="Program requirements (rules) used in the evaluation of a person's program completion." TYPE_KEY="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Program Entrance Requirements"
+        TYPE_DESC="Program requirements (rules) used in the evaluation of a person's entry into a program." TYPE_KEY="kuali.statement.type.program.entrance"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Program Satisfactory Progress Requirements"
+        TYPE_DESC="Program requirements (rules) used in maintaining minimum scholarship standards." TYPE_KEY="kuali.statement.type.program.satisfactoryProgress"/>
+</dataset>

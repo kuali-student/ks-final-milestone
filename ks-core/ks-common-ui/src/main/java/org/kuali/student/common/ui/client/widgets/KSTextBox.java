@@ -29,16 +29,19 @@ import com.google.gwt.user.client.ui.TextBox;
 /**
  * KSTextArea wraps gwt TextArea.  This class provides most of the same functionality, but sets KS css styles
  * for its default look and a variety of TextArea events (for improved browser compatibility and customizability).
- * 
+ *
  * @author Kuali Student Team
  *
  *
  */
-public class KSTextBox extends TextBox{
-
+public class KSTextBox extends TextBox implements HasWatermark{
+	private boolean hasWatermark = false;
+	private boolean watermarkShowing = false;
+	private String watermarkText;
+	
     /**
      * Creates an empty text box.
-     * 
+     *
      */
     public KSTextBox() {
         super();
@@ -47,50 +50,157 @@ public class KSTextBox extends TextBox{
 
     /**
      *  Creates a new text box using the text box element specified.
-     * 
+     *
      * @param element a <input> element of type 'text'
      */
     public KSTextBox(Element element) {
         super(element);
         setupDefaultStyle();
     }
-    
+
     /**
      * This method sets the default style for the text box and text box events.
-     * 
+     *
      */
     private void setupDefaultStyle() {
-        addStyleName(KSStyles.KS_TEXTBOX_STYLE);
-        
+        addStyleName("KS-Textbox");
+
         this.addBlurHandler(new BlurHandler(){
             public void onBlur(BlurEvent event) {
-                KSTextBox.this.removeStyleName(KSStyles.KS_TEXTBOX_FOCUS_STYLE);
-                
-            }   
-        }); 
+                KSTextBox.this.removeStyleName("KS-Textbox-Focus");
+
+            }
+        });
 
         this.addFocusHandler(new FocusHandler(){
             public void onFocus(FocusEvent event) {
-                KSTextBox.this.addStyleName(KSStyles.KS_TEXTBOX_FOCUS_STYLE);
+                KSTextBox.this.addStyleName("KS-Textbox-Focus");
 
-            }       
+            }
         });
-        
+
         this.addMouseOverHandler(new MouseOverHandler(){
             public void onMouseOver(MouseOverEvent event) {
-                KSTextBox.this.addStyleName(KSStyles.KS_TEXTBOX_HOVER_STYLE);
-                
-            }       
+                KSTextBox.this.addStyleName("KS-Textbox-Hover");
+
+            }
         });
-        
+
         this.addMouseOutHandler(new MouseOutHandler(){
 
             public void onMouseOut(MouseOutEvent event) {
-                KSTextBox.this.removeStyleName(KSStyles.KS_TEXTBOX_HOVER_STYLE);
-                
+                KSTextBox.this.removeStyleName("KS-Textbox-Hover");
+
             }
-            
+
         });
-        
+
     }
+
+	@Override
+	public void setWatermarkText(String text) {
+		if(!hasWatermark){
+			hasWatermark = true;
+			watermarkText = text;
+			if(getText() == null || getText().isEmpty()){
+				addStyleName("watermark-text");
+				super.setText(watermarkText);
+				watermarkShowing = true;
+			}
+			
+			this.addFocusHandler(new FocusHandler(){
+	
+				@Override
+				public void onFocus(FocusEvent event) {
+					if(watermarkShowing){
+						removeStyleName("watermark-text");
+						KSTextBox.super.setText("");
+						watermarkShowing = false;
+					}
+				}
+			});
+			
+			this.addBlurHandler(new BlurHandler(){
+	
+				@Override
+				public void onBlur(BlurEvent event) {
+					if(getText() == null || getText().isEmpty()){
+						addStyleName("watermark-text");
+						KSTextBox.super.setText(watermarkText);
+						watermarkShowing = true;
+					}
+				}
+			});
+		}
+		else{
+			watermarkText = text;
+			if(getText() == null || getText().isEmpty()){
+				addStyleName("watermark-text");
+				KSTextBox.super.setText(watermarkText);
+				watermarkShowing = true;
+			}
+		}
+	}
+	
+	@Override
+	public boolean hasWatermark(){
+		return hasWatermark;
+	}
+	
+	@Override
+	public boolean watermarkShowing() {
+		return watermarkShowing;
+	}
+	
+	@Override
+	public String getText() {
+		if(!watermarkShowing){
+			return super.getText();
+		}
+		return null;
+	}
+	
+	@Override
+	public String getValue() {
+		if(!watermarkShowing){
+			return super.getValue();
+		}
+		return null;
+	}
+	
+	@Override
+	public void setValue(String value) {
+		if(hasWatermark){
+			if(value == null || (value != null && value.isEmpty())){
+				super.setValue(watermarkText);
+				addStyleName("watermark-text");
+				watermarkShowing = true;
+			}
+			else{
+				super.setValue(value);
+				removeStyleName("watermark-text");
+			}
+		}
+		else{
+			super.setValue(value);
+		}
+	}
+	
+	@Override
+	public void setText(String text) {
+		if(hasWatermark){
+			if(text == null || (text != null && text.isEmpty())){
+				super.setText(watermarkText);
+				addStyleName("watermark-text");
+				watermarkShowing = true;
+			}
+			else{
+				super.setText(text);
+				removeStyleName("watermark-text");
+			}
+		}
+		else{
+			super.setText(text);
+		}
+	}
 }

@@ -16,10 +16,11 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 import java.util.Date;
+
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
+import org.kuali.student.lum.common.client.lo.RichTextInfoHelper;
+import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 
 public class CreditCourseHelper
 {
@@ -36,7 +37,6 @@ public class CreditCourseHelper
 		TRANSCRIPT_TITLE ("transcriptTitle"),
 		COURSE_TITLE ("courseTitle"),
 		DESCRIPTION ("description"),
-		DEPARTMENT ("department"),
 		SUBJECT_AREA ("subjectArea"),
 		COURSE_NUMBER_SUFFIX ("courseNumberSuffix"),
 		CROSS_LISTINGS ("crossListings"),
@@ -50,12 +50,14 @@ public class CreditCourseHelper
 		TYPE ("type"),
 		EFFECTIVE_DATE ("effectiveDate"),
 		EXPIRATION_DATE ("expirationDate"),
-		ACADEMIC_SUBJECT_ORGS ("academicSubjectOrgs"),
 		CAMPUS_LOCATIONS ("campusLocations"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
+		INSTRUCTORS ("instructors"),
 		COURSE_SPECIFIC_LOS ("courseSpecificLOs"),
 		GRADING_OPTIONS("gradingOptions"),
 		OUTCOME_OPTIONS("outcomeOptions"),
+		ADMIN_ORGS("administeringOrgs"),
+		CURR_SUBJ_ORGS("curriculumOversightOrgs"),
 		META_INFO ("metaInfo"),
 		_RUNTIME_DATA ("_runtimeData");
 		
@@ -199,18 +201,6 @@ public class CreditCourseHelper
 	public RichTextInfoHelper getDescription ()
 	{
 		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESCRIPTION.getKey ()));
-	}
-	
-	
-	public void setDepartment (String value)
-	{
-		data.set (Properties.DEPARTMENT.getKey (), value);
-	}
-	
-	
-	public String getDepartment ()
-	{
-		return (String) data.get (Properties.DEPARTMENT.getKey ());
 	}
 	
 	
@@ -370,15 +360,26 @@ public class CreditCourseHelper
 	}
 	
 	
-	public void setAcademicSubjectOrgs (Data value)
+	public void setCurriculumOversightOrgs (Data value)
 	{
-		data.set (Properties.ACADEMIC_SUBJECT_ORGS.getKey (), value);
+		data.set (Properties.CURR_SUBJ_ORGS.getKey (), value);
 	}
 	
 	
-	public Data getAcademicSubjectOrgs ()
+	public Data getCurriculumOversightOrgs ()
 	{
-		return (Data) data.get (Properties.ACADEMIC_SUBJECT_ORGS.getKey ());
+		return (Data) data.get (Properties.CURR_SUBJ_ORGS.getKey ());
+	}
+	
+	public void setAdministeringOrgs (Data value)
+	{
+		data.set (Properties.ADMIN_ORGS.getKey (), value);
+	}
+	
+	
+	public Data getAdministeringOrgs ()
+	{
+		return (Data) data.get (Properties.ADMIN_ORGS.getKey ());
 	}
 	
 	
@@ -403,6 +404,20 @@ public class CreditCourseHelper
 	public String getPrimaryInstructor ()
 	{
 		return (String) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ());
+	}
+	
+	public void setInstructors (Data value)
+	{
+		data.set (Properties.INSTRUCTORS.getKey(), value);
+	}
+	
+	public Data getInstructors() {
+        Data instructorsData = data.get(Properties.INSTRUCTORS.getKey());
+        if (instructorsData == null) {
+            instructorsData = new Data();
+            setInstructors(instructorsData);
+        }
+        return instructorsData;
 	}
 	
 	

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.prerequisites"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.corequisites"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.antirequisites"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.eligibilities"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.credit.repeatable"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.credit.restriction"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.credit.recommendedpreparation"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="program" REF_STMT_REL_TYPE_ID="clu.entrance"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="program" REF_STMT_REL_TYPE_ID="clu.satisfactoryprogress"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="program" REF_STMT_REL_TYPE_ID="clu.completion"/>
+</dataset>

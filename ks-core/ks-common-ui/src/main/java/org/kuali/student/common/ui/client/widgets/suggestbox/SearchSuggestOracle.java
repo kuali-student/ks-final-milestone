@@ -18,11 +18,13 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
+import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -30,7 +32,6 @@ import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasText;
 
 public class SearchSuggestOracle extends IdableSuggestOracle{
@@ -78,7 +79,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         		this.searchTextKey = param.getKey();
         	}
         	//Add in any writeaccess never default values to the additional params
-        	if(param.getWriteAccess().equals("NEVER")||param.getDefaultValueString()!=null||param.getDefaultValueList()!=null){
+        	if(WriteAccess.NEVER.equals(param.getWriteAccess())||param.getDefaultValueString()!=null||param.getDefaultValueList()!=null){
         		SearchParam searchParam = new SearchParam();
         		searchParam.setKey(param.getKey());
 				if(param.getDefaultValueList()==null){
@@ -90,8 +91,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         	}
         }
         if (this.searchTextKey == null) {
-        	//FIXME deal with missing default key
-        	GWT.log("Cannot find searchTextKey for " + searchTypeKey, null);
+        	KSErrorDialog.show(new Throwable("Cannot find searchTextKey for " + searchTypeKey) );
         }
         
         this.searchIdKey = lookupMetadata.getSearchParamIdKey();
@@ -188,12 +188,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         
         //case-sensitive?
         if(query.length() > 0){
-        	searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
-
-            	@Override
-                public void onFailure(Throwable caught) {
-                    // TODO Auto-generated method stub
-                }
+        	searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
     
                 @Override
                 public void onSuccess(SearchResult results) {
@@ -298,13 +293,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     @Override
     public void getSuggestionByIdSearch(String id, final org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
         SearchRequest searchRequest = buildSearchRequestById(null, id);
-        searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
-            
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-            }
-
+        searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){            
             @Override
             public void onSuccess(SearchResult results) {
                 IdableSuggestion theSuggestion = null;

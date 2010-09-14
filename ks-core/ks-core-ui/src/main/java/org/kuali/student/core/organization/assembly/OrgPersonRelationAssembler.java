@@ -25,6 +25,7 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.assembly.Assembler;
@@ -37,13 +38,14 @@ import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgPersonHelper;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgPersonHelper;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelper>{
+	final Logger LOG = Logger.getLogger(OrgPersonRelationAssembler.class);
     private OrganizationService orgService;
     private Metadata metadata;
     private DataModel orgPersonModel = new DataModel();
@@ -82,7 +84,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
             
         }
         catch(Exception e){
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return orgRelationMap;
     }
@@ -131,13 +133,15 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                 }
             }
             else if(isDeleted(orgPersonHelper.getData())){
+            	OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
+            	long t = new java.util.Date().getTime();
+            	orgPersonRelationInfo.setExpirationDate(new java.sql.Date(t)); 
                 try{
-                    if(orgPersonHelper.getId()!=null){
-                        StatusInfo  result = orgService.removeOrgPersonRelation(orgPersonHelper.getId());
-                    }
+                    OrgPersonRelationInfo result = orgService.updateOrgPersonRelation(orgPersonHelper.getId(), orgPersonRelationInfo);
+                    addVersionIndicator(orgPersonHelper.getData(), OrgPersonRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                	LOG.error(e);
                     throw(new AssemblyException());
                 }
             }
@@ -150,7 +154,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                     addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                	LOG.error(e);
                     throw new AssemblyException();
                 }
             }
@@ -161,22 +165,23 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
     
     private OrgPersonRelationInfo buildOrgPersonRelationInfo(OrgPersonHelper orgPersonHelper){
         OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();
-        orgPersonRelationInfo.setOrgId(orgPersonHelper.getOrgId());
+        orgPersonRelationInfo.setOrgId(orgPersonHelper.getOrgId());      
         orgPersonRelationInfo.setPersonId(orgPersonHelper.getPersonId());
         orgPersonRelationInfo.setType(orgPersonHelper.getTypeKey());
         orgPersonRelationInfo.setEffectiveDate(orgPersonHelper.getEffectiveDate());
         orgPersonRelationInfo.setExpirationDate(orgPersonHelper.getExpirationDate());
-        
+        if (orgPersonHelper.getState()!=null)
+        	orgPersonRelationInfo.setState(orgPersonHelper.getState());
+        else
+        	orgPersonHelper.setState("Active");
+        	
+       
         if (isModified(orgPersonHelper.getData())) {
-            if (isUpdated(orgPersonHelper.getData())) {
+            if (isUpdated(orgPersonHelper.getData())||isDeleted(orgPersonHelper.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
                 orgPersonRelationInfo.setMetaInfo(metaInfo);
                 orgPersonRelationInfo.setId(orgPersonHelper.getId());
             }
-            else if (isDeleted(orgPersonHelper.getData())) {
-            }
-            else if (isCreated(orgPersonHelper.getData())) {
-            } 
         }
         if(orgPersonRelationInfo.getMetaInfo()!=null){
             orgPersonRelationInfo.getMetaInfo().setVersionInd(getVersionIndicator(orgPersonHelper.getData()));
@@ -217,7 +222,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
         }
         }
         catch(Exception e){
-            e.printStackTrace();
+        	LOG.error(e);
         }
         return orgRelations;
     }

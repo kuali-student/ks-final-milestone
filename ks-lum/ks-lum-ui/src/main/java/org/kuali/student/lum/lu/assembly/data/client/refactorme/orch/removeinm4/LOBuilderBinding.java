@@ -35,15 +35,17 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.lum.common.client.lo.LOBuilder;
+import org.kuali.student.lum.common.client.lo.LOPicker;
+import org.kuali.student.lum.common.client.lo.OutlineNode;
+import org.kuali.student.lum.common.client.lo.RichTextInfoHelper;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.LoCategoryInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoChildSingleUseLosHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.SingleUseLoHelper;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
-import org.kuali.student.lum.lu.ui.course.client.widgets.OutlineNode;
+
+import com.google.gwt.core.client.GWT;
 
 /**
  * @author Jim Tomlinson
@@ -86,7 +88,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 				helper = createLoHelper(node);
 			} catch (AssemblyException e) {
 				// TODO - what to do in this situation?
-				e.printStackTrace();
+				GWT.log("Assembly Exception was caught",e);
 				return;
 			}
 		    		
@@ -215,9 +217,9 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 			helper = (SingleUseLoHelper) node.getOpaque();
 		} else {
     		helper = SingleUseLoHelper.wrap(new Data());
-    		// Clu's "draft", but associated lo's and their categories are "active"
+    		// Clu's "draft", but associated lo's and their categories are "Active"
 			// TODO - here, or down in persistence code?
-    		helper.setState("active");
+    		helper.setState("Active");
 			// TODO - here, or down in persistence code?
     		helper.setEffectiveDate(new Date());
     		// TODO - these shouldn't be hardcoded

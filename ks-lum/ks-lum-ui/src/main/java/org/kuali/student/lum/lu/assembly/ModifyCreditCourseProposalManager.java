@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
@@ -45,6 +45,8 @@ import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
  * the credit course proposal with that id. 
  *
  */
+
+//TODO: Rewrite to extend/use CreditCourseRpcService or replace with filters
 public class ModifyCreditCourseProposalManager{
 
     private final Logger LOG = Logger.getLogger(ModifyCreditCourseProposalManager.class);
@@ -96,7 +98,7 @@ public class ModifyCreditCourseProposalManager{
         List<RuleInfo> rules = ruleInfoBean.fetchRules(cluId);
 		
         //Clear out ids from resultInfo object and anything else with external ids
-    	Integer tempId= new Integer(0);
+    	Integer tempId = 0;
         for(RuleInfo rule:rules){
     		rule.setCluId(null);
     		clearStatementIds(rule.getStatementVO(),tempId);

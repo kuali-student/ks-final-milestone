@@ -159,7 +159,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		if (StringUtils.isEmpty(documentTypeName)) {
 			String ksObjectType = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
 			if (StringUtils.equals(ksObjectType, "referenceType.clu.proposal")) {
-	            documentTypeName = "CluCreditCourseProposal";
+	            documentTypeName = "kuali.proposal.type.course.create";
 			}
 		}
 		String appId = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );

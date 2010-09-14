@@ -15,205 +15,126 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.WorkQueue;
-import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogMetadata;
+
+import com.google.gwt.core.client.GWT;
 
 
 public class CatalogBrowserController extends TabbedSectionLayout
 {
- private MetadataRpcServiceAsync metadataService = GWT.create(MetadataRpcService.class);
- private final DataModel dataModel = new DataModel ();
- private WorkQueue modelRequestQueue;
- private boolean initialized = false;
- final KSLightBox progressWindow = new KSLightBox ();
- private Controller controller;
- private static KSTitleContainerImpl container = new KSTitleContainerImpl("Catalog Browser");
+	private MetadataRpcServiceAsync metadataService = GWT.create(MetadataRpcService.class);
+	private final DataModel dataModel = new DataModel ();
+	private boolean initialized = false;
+	private Controller controller;
+	private static KSTitleContainerImpl container = new KSTitleContainerImpl("Catalog Browser");
+	private BlockingTask initializingTask = new BlockingTask("Loading");
 
- public CatalogBrowserController (Controller controller)
- {
-  super (CatalogBrowserController.class.getName (), container);
-  this.controller = controller;
-//  Window.alert ("about to initialize controller");
-  initialize ();
- }
+	public CatalogBrowserController (Controller controller)	{
+		super (CatalogBrowserController.class.getName (), container);
+		this.controller = controller;
+		initialize();
+	}
 
- private void initialize ()
- {
-  super.setDefaultModelId (CatalogBrowserConfigurer.CATALOG_BROWSER_MODEL);
-  super.registerModel (CatalogBrowserConfigurer.CATALOG_BROWSER_MODEL,
-                       new ModelProvider<DataModel> ()
-  {
+	private void initialize ()	{
+		dataModel.setRoot(new Data ());
+		
+		super.setDefaultModelId (CatalogBrowserConfigurer.CATALOG_BROWSER_MODEL);
+		super.registerModel (CatalogBrowserConfigurer.CATALOG_BROWSER_MODEL, new ModelProvider<DataModel> () {
 
-   @Override
-   public void requestModel (final ModelRequestCallback<DataModel> callback)
-   {
-    if (modelRequestQueue == null)
-    {
-     modelRequestQueue = new WorkQueue ();
-    }
+			@Override
+			public void requestModel (final ModelRequestCallback<DataModel> callback) {
+				callback.onModelReady (dataModel);
+			}
+		});
+	}
 
-    WorkItem workItem = new WorkItem ()
-    {
+	private void init (final Callback<Boolean> onReadyCallback)
+	{
 
-     @Override
-     public void exec (Callback<Boolean> workCompleteCallback)
-     {
-      dataModel.setRoot (new Data ());
-      callback.onModelReady (dataModel);
-      workCompleteCallback.exec (true);
+		if (initialized) {
+			onReadyCallback.exec (true);
+		} else	{
+    		KSBlockingProgressIndicator.addTask(initializingTask);
+    		
+			metadataService.getMetadata ("BrowseCourseCatalog", "default", "default", new KSAsyncCallback<Metadata> (){
 
-     }
+				@Override
+				public void handleFailure (Throwable caught)
+				{
+					onReadyCallback.exec (false);
+		    		KSBlockingProgressIndicator.removeTask(initializingTask);
+					throw new RuntimeException ("Failed to get model definition.", caught);
+				}
 
-    };
-    modelRequestQueue.submit (workItem);
-   }
+				@Override
+				public void onSuccess (Metadata result)
+				{
+					DataModelDefinition def = new DataModelDefinition (result);
+					dataModel.setDefinition (def);
+					configure (def);
+					initialized = true;
+					onReadyCallback.exec (true);
+		    		KSBlockingProgressIndicator.removeTask(initializingTask);
+				}
+			});
+		}
+	}
 
-  });
+	private void configure (DataModelDefinition modelDefinition)	{
+		CatalogBrowserConfigurer cfg = new CatalogBrowserConfigurer ();
+		cfg.setModelDefinition (modelDefinition);
+		cfg.setController (controller);
+		cfg.configureCatalogBrowser (this);
+	}
 
- }
+	/**
+	 * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
+	 */
+	@Override
+	public Class<? extends Enum<?>> getViewsEnum (){
+		return CatalogBrowserConfigurer.Sections.class;
+	}
+	
+	@Override
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+		dataModel.setRoot(new Data ());
+		init (new Callback<Boolean> ()	{
 
- private void init (final Callback<Boolean> onReadyCallback)
- {
-  KSProgressIndicator progressInd = new KSProgressIndicator ();
-  progressInd.setText ("Loading");
-  progressInd.show ();
-  progressWindow.setWidget (progressInd);
+			@Override
+			public void exec (Boolean result)
+			{
+				if (result)	{
+					showDefaultView (onReadyCallback);
+				} else	{
+					onReadyCallback.exec (false);
+				}
+			}
 
-  if (initialized)
-  {
-   onReadyCallback.exec (true);
-  }
-  else
-  {
-   progressWindow.show ();
+		});
+	}
 
-   // TODO: replace this with some sort of asynch call like below
-//   Metadata result =
-    new BrowseCourseCatalogMetadata ().getMetadata ("", "");
-//   DataModelDefinition def = new DataModelDefinition (result);
-//   dataModel.setDefinition (def);
-//   init (def);
-//   initialized = true;
-//   onReadyCallback.exec (true);
-//   progressWindow.hide ();
+	@Override
+	public Enum<?> getViewEnumValue (String enumValue){
+		return null;
+	}
 
-   metadataService.getMetadata ("BrowseCourseCatalog", "default", "default", new AsyncCallback<Metadata> ()
-   {
-
-    @Override
-    public void onFailure (Throwable caught)
-    {
-     onReadyCallback.exec (false);
-     progressWindow.hide ();
-     throw new RuntimeException ("Failed to get model definition.", caught);
-    }
-
-    @Override
-    public void onSuccess (Metadata result)
-    {
-     DataModelDefinition def = new DataModelDefinition (result);
-     dataModel.setDefinition (def);
-     init (def);
-     initialized = true;
-     onReadyCallback.exec (true);
-     progressWindow.hide ();
-    }
-
-   });
-  }
- }
-
- private void init (DataModelDefinition modelDefinition)
- {
-
-  CatalogBrowserConfigurer cfg = new CatalogBrowserConfigurer ();
-  cfg.setModelDefinition (modelDefinition);
-  cfg.setController (controller);
-  cfg.configureCatalogBrowser (this);
-
-  if ( ! initialized)
-  {
-  }
-
-  initialized = true;
- }
-
- /**
-  * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-  */
- @Override
- public Class<? extends Enum<?>> getViewsEnum ()
- {
-  return CatalogBrowserConfigurer.Sections.class;
- }
-
- @SuppressWarnings("unchecked")
- @Override
- public void requestModel (Class modelType, final ModelRequestCallback callback)
- {
- }
-
- public void doSaveAction (final SaveActionEvent saveActionEvent)
- {
- }
-
- @Override
- public void showDefaultView (final Callback<Boolean> onReadyCallback)
- {
-  init (new Callback<Boolean> ()
-  {
-
-   @Override
-   public void exec (Boolean result)
-   {
-    if (result)
-    {
-     doShowDefaultView (onReadyCallback);
-    }
-    else
-    {
-     onReadyCallback.exec (false);
-    }
-   }
-
-  });
- }
-
- private void doShowDefaultView (final Callback<Boolean> onReadyCallback)
- {
-  super.showDefaultView (onReadyCallback);
- }
-
- @Override
- public Enum<?> getViewEnumValue (String enumValue)
- {
-  // TODO Auto-generated method stub
-  return null;
- }
-
- @Override
- public void setParentController (Controller controller)
- {
-  // TODO Auto-generated method stub
-  super.setParentController (controller);
- }
+	@Override
+	public void setParentController (Controller controller)	{
+		super.setParentController (controller);
+	}
 
 }

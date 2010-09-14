@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -37,10 +37,6 @@ public interface BaseRpcServiceAsync {
     public void getObjectTypes(AsyncCallback<List<String>> callback);
 
     public void getObjectStructure(String objectTypeKey, AsyncCallback<ObjectStructure> callback);
-
-    void validateObject(String objectTypeKey, String stateKey, String info, AsyncCallback<Boolean> callback);
-    
-    void validateStructureData(String objectTypeKey, String stateKey, String info, AsyncCallback<Boolean> callback);
 
     void getSearchCriteriaType(String searchCriteriaTypeKey, AsyncCallback<SearchCriteriaTypeInfo> callback);
     
