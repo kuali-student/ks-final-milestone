@@ -9,7 +9,7 @@ import org.kuali.db.SQLGenerator;
 import org.kuali.db.Transaction;
 
 /**
- * Does a DROP->CREATE of the database
+ * Does a DROP->CREATE of the database and the corresponding default user
  * 
  * @goal reset
  */

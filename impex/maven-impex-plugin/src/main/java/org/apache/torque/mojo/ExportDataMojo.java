@@ -8,7 +8,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.KualiTorqueDataDumpTask;
 
 /**
- * Reads the content of tables from the database and exports the data to XML files.
+ * Reads the content of tables from a database and exports the data in a database agnostic format to XML files.
  * 
  * @goal exportdata
  * @phase generate-sources

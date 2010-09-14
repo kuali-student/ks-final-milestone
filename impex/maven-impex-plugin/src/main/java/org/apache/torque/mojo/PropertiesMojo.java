@@ -16,14 +16,14 @@ public class PropertiesMojo extends BaseMojo {
 	String properties = System.getProperty("user.home") + FS + "impex.properties";
 
 	/**
-	 * If true, properties found in the file will override properties specified in the plugin configuration
+	 * If true, properties found in ${properties} will override properties specified in the plugin configuration
 	 * 
 	 * @parameter expression="${overridePluginConfiguration}" default-value="true"
 	 */
 	boolean overridePluginConfiguration;
 
 	/**
-	 * If true, properties found in the file will override properties specified as System properties
+	 * If true, properties found in ${properties} will override properties specified as System properties
 	 * 
 	 * @parameter expression="${overrideSystemProperties}" default-value="false"
 	 */

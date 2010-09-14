@@ -4,8 +4,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.kuali.core.db.torque.KualiTorqueSchemaDumpTask;
 
 /**
- * Export a description of a database to XML. This generates DDL information. Tables, primary keys, foreign keys,
- * indexes, sequences, and views. It does not export data.
+ * Examines the JDBC metadata of a proprietary database and exports the schema information to database agnostic XML. The
+ * generated XML contains information about tables, primary keys, unique constraints, foreign keys, indexes, sequences,
+ * and views. This mojo does not export any data. See also <code>impex:exportdata</code> and <code>impex:import</code>
  * 
  * @goal exportschema
  * @phase generate-sources
@@ -45,7 +46,7 @@ public class ExportSchemaMojo extends ExportMojo {
 	 * Configure the Ant task
 	 */
 	protected void configureTask() throws MojoExecutionException {
-		
+
 		KualiTorqueSchemaDumpTask task = new KualiTorqueSchemaDumpTask();
 		setAntTask(task);
 		super.configureTask();

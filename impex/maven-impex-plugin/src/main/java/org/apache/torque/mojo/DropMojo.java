@@ -1,7 +1,8 @@
 package org.apache.torque.mojo;
 
 /**
- * Drops a database
+ * Authenticates to a database server using credentials with DBA authority and drops a database along with the default
+ * user that was created for accessing that database. See also <code>impex:create</code>
  * 
  * @goal drop
  */

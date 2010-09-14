@@ -32,7 +32,8 @@ import org.apache.torque.util.TransactionComparator;
 import org.kuali.db.Transaction;
 
 /**
- * Executes SQL for creating a database and populating it with a dataset
+ * Executes SQL for creating tables, primary keys, constraints, indexes, relationships, and views inside a database.
+ * Also populates the tables with a default set of data.
  * 
  * @goal import
  */

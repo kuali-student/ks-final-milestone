@@ -4,7 +4,17 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.torque.util.ChangeDetector;
 
 /**
- * Generates SQL from schema XML files
+ * Generates platform specific SQL from database agnostic XML files.<br>
+ * <br>
+ * There are two types of SQL files created by this mojo:<br>
+ * <br>
+ * 1) DDL statements for creating tables, primary keys, and unique constraints. It does not contain DDL for for
+ * enforcing relationships between tables.<br>
+ * 2) DDL statements for creating and enforcing relationships.<br>
+ * <br>
+ * This enables data imports to be run concurrently against multiple tables by running the first SQL file, then running
+ * data imports as needed, and then layering on the relationship constraints. The database platform to generate SQL for
+ * is determined by ${targetDatabase}. See also <code>impex:datasql</code>
  * 
  * @goal schemasql
  * @phase generate-sources

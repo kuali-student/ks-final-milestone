@@ -1,8 +1,8 @@
 package org.apache.torque.mojo;
 
-
 /**
- * Creates a database
+ * Authenticates to a database server using credentials with DBA authority and creates an empty database along with a
+ * default user for accessing the newly created database. See also <code>impex:drop</code>
  * 
  * @goal create
  */
