@@ -9,7 +9,8 @@ import org.kuali.db.SQLGenerator;
 import org.kuali.db.Transaction;
 
 /**
- * Does a DROP->CREATE of the database and the corresponding default user
+ * Does a DROP->CREATE of a database and the corresponding default user. See also <code>impex:create</code> and
+ * <code>impex:drop</code>
  * 
  * @goal reset
  */

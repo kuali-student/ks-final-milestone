@@ -8,9 +8,9 @@ import org.apache.torque.util.ChangeDetector;
  * <br>
  * There are two types of SQL files created by this mojo:<br>
  * <br>
- * 1) DDL statements for creating tables, primary keys, and unique constraints. It does not contain DDL for for
+ * 1) DDL statements for creating tables, primary keys, indexes, and unique constraints. Does not contain DDL for
  * enforcing relationships between tables.<br>
- * 2) DDL statements for creating and enforcing relationships.<br>
+ * 2) DDL statements for creating and enforcing relationships between tables<br>
  * <br>
  * This enables data imports to be run concurrently against multiple tables by running the first SQL file, then running
  * data imports as needed, and then layering on the relationship constraints. The database platform to generate SQL for

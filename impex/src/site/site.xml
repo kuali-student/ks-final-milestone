@@ -40,10 +40,6 @@ under the License.
         'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(ga, s); })();</script>
     </head>
-    <breadcrumbs>
-      <item name="Kuali" href="http://www.kuali.org/"/>
-      <item name="Student" href="http://student.kuali.org/"/>
-    </breadcrumbs>
     <menu ref="modules"/>
     <menu ref="reports" inherit="bottom"/>
   </body>
