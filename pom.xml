@@ -19,10 +19,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
  <modelVersion>4.0.0</modelVersion>
  <groupId>org.kuali.student.mojo</groupId>
- <artifactId>maven-ksdictionary-generator-plugin</artifactId>
+ <artifactId>ks-tools</artifactId>
  <version>1.0.0-SNAPSHOT</version>
- <packaging>maven-plugin</packaging>
- <name>KS Tools - Dictionary Generator</name>
+ <packaging>jar</packaging>
+ <name>KS Tools</name>
  <properties>
   <cxf.version>2.2.10</cxf.version>
  </properties>
@@ -40,6 +40,13 @@
    <releases>
     <enabled>false</enabled>
    </releases>
+  </repository>
+  <repository>
+   <id>onejar-maven-plugin.googlecode.com</id>
+   <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo/</url>
+   <snapshots>
+    <enabled>false</enabled>
+   </snapshots>
   </repository>
   <repository>
    <id>repository.jboss.org</id>
@@ -63,6 +70,13 @@
   </repository>
  </repositories>
 -->
+ <pluginRepositories>
+  <pluginRepository>
+   <id>onejar-maven-plugin.googlecode.com</id>
+   <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+  </pluginRepository>
+ </pluginRepositories>
+
  <dependencies>
   <dependency>
    <groupId>org.apache.cxf</groupId>
@@ -188,7 +202,39 @@
      </archive>
     </configuration>
    </plugin>
-  <!--
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <configuration>
+     <archive>
+      <manifest>
+       <mainClass>org.kuali.student.loader.CreditCourseLoaderFromCommandLine</mainClass>
+      </manifest>
+     </archive>
+    </configuration>
+   </plugin>
+   <plugin>
+    <groupId>org.dstovall</groupId>
+    <artifactId>onejar-maven-plugin</artifactId>
+    <version>1.4.3</version>
+    <executions>
+     <execution>
+      <configuration>
+       <!-- Optional -->
+       <onejarVersion>0.97</onejarVersion>
+       <!-- Optional, default is false -->
+       <attachToBuild>true</attachToBuild>
+       <!-- Optional, default is "onejar" -->
+       <classifier>onejar</classifier>
+      </configuration>
+      <goals>
+       <goal>one-jar</goal>
+      </goals>
+     </execution>
+    </executions>
+   </plugin>
+
+   <!--
    <plugin>
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>axistools-maven-plugin</artifactId>
@@ -224,14 +270,14 @@
        <wsdlOptions>
         <wsdlOption>
          <wsdl>${basedir}/src/main/resources/wsdl/CourseService.wsdl</wsdl>
-         
+
          <wsdl>${basedir}/src/main/resources/wsdl/EnumerationManagementService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/OrganizationService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/AtpService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/CommentService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/DocumentService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/ProposalService.wsdl</wsdl>
-         
+
         </wsdlOption>
        </wsdlOptions>
       </configuration>
