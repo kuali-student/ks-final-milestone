@@ -19,7 +19,6 @@
 
 
     <inherits name="org.kuali.student.common.ui.CommonUI"/>
-    <inherits name="org.kuali.student.lum.lu.ui.home.LUMHome"/>
     <inherits name="org.kuali.student.lum.lu.ui.course.Course"/>
     <inherits name="org.kuali.student.lum.lu.ui.tools.Tools"/>
     <inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
