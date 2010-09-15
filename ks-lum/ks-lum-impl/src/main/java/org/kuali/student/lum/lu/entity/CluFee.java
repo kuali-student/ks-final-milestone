@@ -27,7 +27,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
@@ -54,11 +53,12 @@ public class CluFee extends MetaEntity implements
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluFeeAttribute> attributes;
 
-	@PrePersist
-	public void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
+    @Override
+    protected void onPrePersist() {
+        super.onPrePersist();
+        this.id = UUIDHelper.genStringUUID(this.id);
+    }
+    
 	public List<CluFeeAttribute> getAttributes() {
 		if (attributes == null) {
 			attributes = new ArrayList<CluFeeAttribute>();
