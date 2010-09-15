@@ -388,14 +388,6 @@
         <property name="programService" ref="programClient"/>
     </bean>
 
-    <bean id="modifyCreditCourseProposalManager"
-          class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">
-        <property name="creditCourseAssembler" ref="courseAssemblerFilterManager"/>
-        <property name="luService" ref="luClient"/>
-        <property name="statementService" ref="statementServiceClient"/>
-        <property name="proposalService" ref="proposalClient"/>
-    </bean>
-
     <bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="metadataService" ref="metadataServiceImpl"/>
@@ -447,23 +439,6 @@
 
     <bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.IdTranslatorAssemblerFilter">
         <constructor-arg ref="idTranslator"/>
-    </bean>
-
-    <bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler" parent="baseAssembler">
-        <property name="loService" ref="loClient"/>
-        <property name="luService" ref="luClient"/>
-        <property name="statementService" ref="statementServiceClient"/>
-        <property name="orgService" ref="orgClient"/>
-        <property name="atpService" ref="atpClient"/>
-    </bean>
-
-    <bean id="courseAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
-        <constructor-arg ref="courseAssembler"/>
-        <property name="filters">
-            <list>
-                <ref bean="idTranslatorAssemblerFilter"/>
-            </list>
-        </property>
     </bean>
 
     <bean id="ServerPropertiesServlet"
