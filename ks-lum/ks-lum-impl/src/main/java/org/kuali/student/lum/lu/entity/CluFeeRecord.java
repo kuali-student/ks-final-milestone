@@ -64,6 +64,7 @@ public class CluFeeRecord extends MetaEntity implements
 
 	@Override
     public void onPrePersist() {
+        super.onPrePersist();
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	

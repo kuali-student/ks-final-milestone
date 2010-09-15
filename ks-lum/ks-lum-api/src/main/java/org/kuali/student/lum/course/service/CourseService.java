@@ -43,7 +43,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
  * @Since Tue May 18 11:30:50 PDT 2010
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Course+Service">CourseService</>
  */
-@WebService(name = "CourseService", targetNamespace = "http://student.kuali.org/wsdl/course")
+@WebService(name = "CourseService", targetNamespace = CourseServiceConstants.COURSE_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseService extends DictionaryService, VersionManagementService {
     /**

@@ -40,7 +40,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
  * and CluCluRelationInfo.
@@ -352,7 +352,10 @@ public class CourseServiceImpl implements CourseService {
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return luService.getCurrentVersion(refObjectTypeURI, refObjectId);
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	@Override
@@ -360,7 +363,10 @@ public class CourseServiceImpl implements CourseService {
 			String refObjectId, Date date) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return luService.getCurrentVersionOnDate(refObjectTypeURI, refObjectId, date);
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	@Override
@@ -368,7 +374,11 @@ public class CourseServiceImpl implements CourseService {
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return luService.getFirstVersion(refObjectTypeURI, refObjectId);
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
+
 	}
 
 	@Override
@@ -377,7 +387,10 @@ public class CourseServiceImpl implements CourseService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return luService.getVersionBySequenceNumber(refObjectTypeURI, refObjectId, sequence);
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence);	
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	@Override
@@ -385,7 +398,10 @@ public class CourseServiceImpl implements CourseService {
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return luService.getVersions(refObjectTypeURI, refObjectId);
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	@Override
@@ -394,6 +410,9 @@ public class CourseServiceImpl implements CourseService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return luService.getVersionsInDateRange(refObjectTypeURI, refObjectId, from, to);
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 }
