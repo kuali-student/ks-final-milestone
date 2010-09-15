@@ -205,12 +205,14 @@
         DOC_TYP_NM="kuali.proposal.type.course.retire"
         DOC_TYP_VER_NBR="0" LBL="Credit Course Retirement"
         OBJ_ID="6BF30ECF-C627-F88C-A4F1-EEB866D0A9B7" PARNT_ID="3001"
+        POST_PRCSR="org.kuali.student.lum.workflow.CluPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
         DOC_TYP_DESC="Credit Course Modification" DOC_TYP_ID="3003"
         DOC_TYP_NM="kuali.proposal.type.course.modify"
         DOC_TYP_VER_NBR="0" LBL="Credit Course Modification"
         OBJ_ID="2A6CD5BB-3B9D-0E31-A35C-64115FE51E05" PARNT_ID="3001"
+        POST_PRCSR="org.kuali.student.lum.workflow.CluPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
         DOC_TYP_DESC="Credit Course Proposal" DOC_TYP_ID="3004"
