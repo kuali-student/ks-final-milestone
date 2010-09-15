@@ -15,39 +15,26 @@
 
 package org.kuali.student.common.ui.server.gwt.old;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.dto.DocumentContentDTO;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
-import org.kuali.rice.kew.webservice.StandardResponse;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -55,6 +42,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * Generic implementation of data orchestration calls and workflow calls
  *
  */
+@Deprecated
 public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteServiceServlet implements BaseDataOrchestrationRpcService {
 	//FIXME issues:
 	// -The Type/state config is hardcoded here which will cause troubles with different types and states
@@ -84,10 +72,14 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
-	public Metadata getMetadata(String idType, String id) {
+	public Metadata getMetadata(String id, Map<String,String> idAttributes) {
 
 		try {
 		    //FIXME: should not pass empty id. What to do here?
+			String idType = "";
+			if (idAttributes != null){
+				idType = idAttributes.get(IdAttributes.ID_TYPE);
+			}
 			return assembler.getMetadata(idType, id, getDefaultMetaDataType(), getDefaultMetaDataState());
 		} catch (AssemblyException e) {
 			LOG.error("Error getting Metadata.",e);

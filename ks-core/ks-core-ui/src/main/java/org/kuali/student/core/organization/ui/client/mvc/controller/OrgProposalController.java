@@ -18,7 +18,9 @@ package org.kuali.student.core.organization.ui.client.mvc.controller;
 
 import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -49,6 +51,7 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -182,7 +185,9 @@ public class OrgProposalController extends TabbedSectionLayout{
                 viewContextId = getViewContext().getId();
             }
 
-            orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, viewContextId,
+            Map<String,String> idAttributes = new HashMap<String,String>();
+            idAttributes.put(IdAttributes.ID_TYPE, QUALIFICATION_ORG_ID);
+            orgProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, 
                     new KSAsyncCallback<Metadata>(){
 
                         @Override
@@ -349,7 +354,9 @@ public class OrgProposalController extends TabbedSectionLayout{
    public void doModifyAction(final ModifyActionEvent modifyActionEvent){
         GWT.log("Reached modify action", null);
 
-        orgProposalRpcServiceAsync.getMetadata( QUALIFICATION_ORG_ID, modifyActionEvent.getId(),
+        Map<String,String> idAttributes = new HashMap<String,String>();
+        idAttributes.put(IdAttributes.ID_TYPE, QUALIFICATION_ORG_ID);
+        orgProposalRpcServiceAsync.getMetadata(modifyActionEvent.getId(),idAttributes,
                 new KSAsyncCallback<Metadata>(){
 
                     @Override

@@ -242,7 +242,7 @@ public class CluSetsManagementController extends TabbedSectionLayout {
         } else {
             progressWindow.show();
 
-            cluSetManagementRpcServiceAsync.getMetadata("", "", new KSAsyncCallback<Metadata>(){
+            cluSetManagementRpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {

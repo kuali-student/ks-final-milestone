@@ -145,7 +145,7 @@ public class ViewCourseController extends TabbedSectionLayout {
             onReadyCallback.exec(true);
         } else {
         	KSBlockingProgressIndicator.addTask(initTask);
-            rpcServiceAsync.getMetadata("", "", 
+            rpcServiceAsync.getMetadata("", null, 
                     new KSAsyncCallback<Metadata>(){
     
                         @Override

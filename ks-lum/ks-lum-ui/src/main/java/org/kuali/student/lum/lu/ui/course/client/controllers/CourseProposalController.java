@@ -24,7 +24,6 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -61,6 +60,8 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGrou
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.shared.IdAttributes;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -243,12 +244,16 @@ public class CourseProposalController extends MenuEditableSectionController impl
     		if(getViewContext().getIdType() != null){
                 idType = getViewContext().getIdType().toString();
                 viewContextId = getViewContext().getId();
-                if(getViewContext().getIdType()==ViewContext.IdType.COPY_OF_OBJECT_ID){
+                if(getViewContext().getIdType()==IdAttributes.IdType.COPY_OF_OBJECT_ID){
                 	viewContextId = null;
                 }
 
     		}
-	        cluProposalRpcServiceAsync.getMetadata(idType, viewContextId, new KSAsyncCallback<Metadata>(){
+    		HashMap<String, String> idAttributes = new HashMap<String, String>();
+    		idAttributes.put(IdAttributes.ID_TYPE, idType);
+    		idAttributes.put(IdAttributes.DOC_TYPE, cfg.getWorkflowDocumentType());
+    		
+	        cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
 
 	        	public void handleFailure(Throwable caught) {
 	        		initialized = false;

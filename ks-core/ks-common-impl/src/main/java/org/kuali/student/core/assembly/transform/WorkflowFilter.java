@@ -125,14 +125,16 @@ public class WorkflowFilter extends AbstractDTOFilter {
             	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
             }
             
+            workflowId = docResponse.getDocId();
+            
             //Lookup the workflow document detail to see if create was successful
 			try {
-				docDetail = workflowUtilityService.getDocumentDetailFromAppId(docType, appId);
+				docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
 			} catch (Exception e) {
             	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
 			}
 			
-			properties.put(WORKFLOW_DOC_ID, String.valueOf(docDetail.getRouteHeaderId()));
+			properties.put(WORKFLOW_DOC_ID, workflowId);
 		}
 
         //Generate the document content xml

@@ -66,5 +66,7 @@
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSStackPanel"/>
     </replace-with> 
     -->
-
+	
+	<source path='client' />
+	<source path='shared' />	
 </module>

@@ -51,9 +51,9 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
-	public Metadata getMetadata(String idType, String id) throws OperationFailedException {
+	public Metadata getMetadata(String id, Map<String, String> idAttributes) throws OperationFailedException {
 		try{
-			return dataService.getMetadata(idType, id);
+			return dataService.getMetadata(id, idAttributes);
 		} catch (Exception e) {
 			LOG.error("Could not get metadata ", e);
 			throw new OperationFailedException("Failed to get metadata");

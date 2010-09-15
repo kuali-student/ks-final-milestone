@@ -1,16 +1,18 @@
 package org.kuali.student.lum.program.client.variation;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.VariationRegistry;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author Igor
@@ -43,7 +45,7 @@ public class VariationsBinding extends ModelWidgetBindingSupport<VerticalPanel> 
                         String id = (String) model.get("id");
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(id);
-                        viewContext.setIdType(ViewContext.IdType.OBJECT_ID);
+                        viewContext.setIdType(IdType.OBJECT_ID);
                         HistoryManager.navigate(url, viewContext);
                     }
                 });

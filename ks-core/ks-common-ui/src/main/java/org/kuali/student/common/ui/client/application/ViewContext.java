@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.application;
 
-import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
 /**
@@ -26,38 +26,12 @@ import org.kuali.student.core.rice.authorization.PermissionType;
  *
  */
 public class ViewContext implements Comparable<ViewContext>{
-	public enum IdType {
-		// FIXME: remove hard coded strings below for KIM constants
-		//	TODO: OBJECT_ID has no references
-		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID(StudentIdentityConstants.QUALIFICATION_KEW_DOCUMENT_ID), OBJECT_ID("objectId"), COPY_OF_OBJECT_ID("copyOfObjectId");
-        
-		final String stringValue;
-
-		private IdType(String value) {
-            this.stringValue = value;
-        }
-
-        public String toString() {
-            return stringValue;
-        }
-        
-        static IdType fromString(String name) {
-            for (IdType idTypeEnum : values()) {
-                if (name.equals(idTypeEnum.toString())) {
-                    return idTypeEnum;
-                }
-            }
-            return null;   
-        }
-
-	}
 	
 	public static final String ID_ATR = "docId";
 	public static final String ID_TYPE_ATR = "idType";
 	
 	private String id = "";
 	private IdType idType = null;
-//	private IdType idType = IdType.OBJECT_ID;
 	// FIXME: change state to proper default or null
 	private String state = "draft";
 	private PermissionType permissionType;

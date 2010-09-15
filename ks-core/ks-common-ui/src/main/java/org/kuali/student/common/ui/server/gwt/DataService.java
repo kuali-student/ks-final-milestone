@@ -16,7 +16,7 @@ public interface DataService {
 	//Data operations
 	public Data getData(String dataId) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 	
-	public Metadata getMetadata(String idType, String id) throws OperationFailedException;
+	public Metadata getMetadata(String id, Map<String, String> attributes) throws OperationFailedException;
 
 	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException;
 	

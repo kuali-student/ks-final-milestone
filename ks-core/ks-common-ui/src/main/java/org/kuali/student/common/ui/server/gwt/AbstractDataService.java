@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -66,16 +67,27 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
-	public Metadata getMetadata(String idType, String id) {
+	public Metadata getMetadata(String id, Map<String, String> attributes) {
 		Map<String, String> filterProperties = getDefaultFilterProperties();
+
+		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
+		//Place id attributes into filter properties
+		String idType = (attributes != null? attributes.get(IdAttributes.ID_TYPE):null);
+		String docType = (attributes != null ?attributes.get(IdAttributes.DOC_TYPE):null);
+				
 		if (idType == null){
 			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
 		} else {
 			filterProperties.put(MetadataFilter.METADATA_ID_TYPE, idType);
 		}
-		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
-		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
+	
+		if (docType == null){
+			filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
+		} else {
+			filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, docType);
+		}
+
 		if (checkDocumentLevelPermissions()){
 			filterProperties.put(AuthorizationFilter.DOC_LEVEL_PERM_CHECK, Boolean.TRUE.toString());
 		}
