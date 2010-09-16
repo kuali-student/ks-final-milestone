@@ -20,12 +20,10 @@ public class PropertiesMojo extends BaseMojo {
 	/**
 	 * The location of a properties file to load. This can be a path on the file system, or a Spring style resource
 	 * location eg <code>classpath:my.properties</code><br>
-	 * <b>Default value is:<br>
-	 * ${user.home}/${project.artifactId}.properties
 	 * 
-	 * @parameter expression="${location}"
+	 * @parameter expression="${location}" default-value="${user.home}/${project.artifactId}.properties"
 	 */
-	String location = System.getProperty("user.home") + FS + getProject().getArtifactId() + ".properties";
+	String location;
 
 	/**
 	 * If set to true, values supplied in the properties files will override system properties.
