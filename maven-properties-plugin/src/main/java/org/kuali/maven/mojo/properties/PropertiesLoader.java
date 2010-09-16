@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,10 +51,10 @@ public class PropertiesLoader {
 		try {
 			File file = new File(location);
 			if (file.exists()) {
-				log.info("Loading " + format + " properties from the file system at " + file.getCanonicalPath());
+				log.info("Loading " + format.toLowerCase() + " properties from the file system at " + file.getCanonicalPath());
 				return new FileInputStream(file);
 			}
-			log.info("Loading " + format + " properties as a resource from " + location);
+			log.info("Loading " + format.toLowerCase() + " properties as a resource from " + location);
 			Resource resource = loader.getResource(location);
 			return resource.getInputStream();
 		} catch (Exception e) {
@@ -117,9 +118,21 @@ public class PropertiesLoader {
 		}
 		Properties properties = getProperties(Format.valueOf(format.toUpperCase()));
 		if (!overrideSystemProperties) {
-			properties.putAll(System.getProperties());
+			updateFromSystemProperties(properties);
 		}
 		return properties;
+	}
+
+	protected void updateFromSystemProperties(Properties properties) {
+		Properties sysProps = System.getProperties();
+		Set<String> names = properties.stringPropertyNames();
+		Set<String> sysNames = sysProps.stringPropertyNames();
+		for (String name : names) {
+			if (!sysNames.contains(name)) {
+				continue;
+			}
+			properties.setProperty(name, sysProps.getProperty(name));
+		}
 	}
 
 	protected Properties getProperties(Format format) throws PropertyHandlingException {
