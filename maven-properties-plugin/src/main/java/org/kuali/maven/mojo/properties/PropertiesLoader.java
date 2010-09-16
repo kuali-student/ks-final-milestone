@@ -50,10 +50,10 @@ public class PropertiesLoader {
 		try {
 			File file = new File(location);
 			if (file.exists()) {
-				log.info("Loading properties from the file system: " + file.getCanonicalPath());
+				log.info("Loading " + format + " properties from the file system at " + file.getCanonicalPath());
 				return new FileInputStream(file);
 			}
-			log.info("Loading properties as a resource from: " + location);
+			log.info("Loading " + format + " properties as a resource from " + location);
 			Resource resource = loader.getResource(location);
 			return resource.getInputStream();
 		} catch (Exception e) {
@@ -115,7 +115,6 @@ public class PropertiesLoader {
 			log.warn("No properties located at \"" + location + '"');
 			return new Properties();
 		}
-		log.info("Loading " + format + " properties from " + location);
 		Properties properties = getProperties(Format.valueOf(format.toUpperCase()));
 		if (!overrideSystemProperties) {
 			properties.putAll(System.getProperties());

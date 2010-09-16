@@ -21,9 +21,9 @@ public class PropertiesMojo extends BaseMojo {
 	 * The location of a properties file to load. This can be a path on the file system, or a Spring style resource
 	 * location eg <code>classpath:my.properties</code><br>
 	 * 
-	 * @parameter expression="${location}" default-value="${user.home}/${project.artifactId}.properties"
+	 * @parameter expression="${properties}" default-value="${user.home}/${project.artifactId}.properties"
 	 */
-	String location;
+	String properties;
 
 	/**
 	 * If set to true, values supplied in the properties files will override system properties.
@@ -37,6 +37,7 @@ public class PropertiesMojo extends BaseMojo {
 			Properties projectProperties = getProject().getProperties();
 			PropertiesLoader loader = new PropertiesLoader();
 			loader.setContextProperties(projectProperties);
+			loader.setLocation(properties);
 			BeanUtils.copyProperties(loader, this);
 			Properties properties = loader.getProperties();
 			projectProperties.putAll(properties);
@@ -61,12 +62,12 @@ public class PropertiesMojo extends BaseMojo {
 		this.format = format;
 	}
 
-	public String getLocation() {
-		return location;
+	public String getProperties() {
+		return properties;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setProperties(String location) {
+		this.properties = location;
 	}
 
 }
