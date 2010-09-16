@@ -1489,4 +1489,171 @@
 		</property>
 	</bean>
 	
+	<bean id="kuali.common.enumeration.management.search.cip2000Code" parent="lookup">
+		<property name="id" value="kuali.common.enumeration.management.search.cip2000Code" />
+		<property name="name" value="Get cip2000code enumerations" />
+		<property name="desc" value="Get enumerated cip2000code lists of values given context" />
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.type.cip2000" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key"
+						value="enumeration.queryParam.enumerationOptionalCode" />
+					<property name="name" value="cip2000 code" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="usage" value="DEFAULT" />
+					<property name="optional" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	</bean>	
+	
+	<bean id="kuali.common.enumeration.management.search.cip2010Code" parent="lookup">
+		<property name="id" value="kuali.common.enumeration.management.search.cip2010Code" />
+		<property name="name" value="Get cip2010code enumerations" />
+		<property name="desc" value="Get enumerated cip2010code lists of values given context" />
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.type.cip2010" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key"
+						value="enumeration.queryParam.enumerationOptionalCode" />
+					<property name="name" value="cip2010 code" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="usage" value="DEFAULT" />
+					<property name="optional" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	</bean>	
+	
+	<bean id="kuali.common.enumeration.management.search.universityClassification" parent="lookup">
+		<property name="id" value="kuali.common.enumeration.management.search.universityClassification" />
+		<property name="name" value="Get UniversityClassification enumerations" />
+		<property name="desc" value="Get enumerated UniversityClassification lists of values given context" />
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.lu.code.UniversityClassification" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key"
+						value="enumeration.queryParam.enumerationOptionalCode" />
+					<property name="name" value="UniversityClassification code" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="usage" value="DEFAULT" />
+					<property name="optional" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	</bean>	
+	
+	<bean id="kuali.common.enumeration.management.search.advanced.cip2000Code" parent="lookup">
+		<property name="id" value="kuali.common.enumeration.management.search.advanced.cip2000Code" />
+		<property name="searchTypeId" value="enumeration.management.search" />		
+		<property name="name" value="Get cip2000code enumerations" />
+		<property name="desc" value="Get enumerated cip2000code lists of values given context" />	
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.type.cip2000" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key"
+						value="enumeration.queryParam.enumerationOptionalCode" />
+					<property name="name" value="cip2000 code" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="caseSensitive" value="true" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />					
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	</bean>		
+	
+	<bean id="kuali.common.enumeration.management.search.advanced.cip2010Code" parent="lookup">
+		<property name="id" value="kuali.common.enumeration.management.search.advanced.cip2010Code" />
+		<property name="searchTypeId" value="enumeration.management.search" />		
+		<property name="name" value="Get cip2010code enumerations" />
+		<property name="desc" value="Get enumerated cip2010code lists of values given context" />	
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.enum.type.cip2010" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key"
+						value="enumeration.queryParam.enumerationOptionalCode" />
+					<property name="name" value="cip2010 code" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="caseSensitive" value="true" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />					
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	</bean>		
 </beans>
