@@ -1900,4 +1900,203 @@
 	 <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
 		<property name="path" value="majorDisciplineInfo.divisionsStudentOversight" />
 	</bean>
+	
+	<bean id="majorDisciplineInfo.cip2000Code" parent="uilookup">
+		<property name="path" value="majorDisciplineInfo.cip2000Code" />
+		<property name="initialLookup" ref="kuali.enumeration.management.search.cip2000Code" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.enumeration.management.search.advanced.cip2000Code" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="kuali.enumeration.management.search.cip2000Code" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.enumeration.management.search.cip2000Code">
+		<property name="id" value="kuali.enumeration.management.search.cip2000Code" />
+		<property name="name" value="Get cip2000code enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="widget" value="SUGGEST_BOX" />
+		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
+		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc"
+						value="The internal code of the enumeration value" />
+					<property name="hidden" value="true" />
+					<property name="key" value="enumeration.resultColumn.code" />
+					<property name="name" value="Code" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The description of the enumeration value" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.value" />
+					<property name="name" value="Description of the code" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="kuali.enumeration.management.search.advanced.cip2000Code" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.enumeration.management.search.advanced.cip2000Code">
+		<property name="id" value="kuali.enumeration.management.search.advanced.cip2000Code" />
+		<property name="name" value="Get cip2000code enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
+		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc"
+						value="The internal code of the enumeration value" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.code" />
+					<property name="name" value="Code" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The description of the enumeration value" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.value" />
+					<property name="name" value="Description of the code" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="desc" value="The date the enumeration became effective" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.effectiveDate" />
+					<property name="name" value="Effective date" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="desc"
+						value="The date the enumeration became non-effective" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.expirationDate" />
+					<property name="name" value="Expiration date" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="majorDisciplineInfo.cip2010Code" parent="uilookup">
+		<property name="path" value="majorDisciplineInfo.cip2010Code" />
+		<property name="initialLookup" ref="kuali.enumeration.management.search.cip2010Code" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.enumeration.management.search.advanced.cip2010Code" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="kuali.enumeration.management.search.cip2010Code" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.enumeration.management.search.cip2010Code">
+		<property name="id" value="kuali.enumeration.management.search.cip2010Code" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="widget" value="SUGGEST_BOX" />
+		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
+		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The internal code of the enumeration value" />
+					<property name="hidden" value="true" />
+					<property name="key" value="enumeration.resultColumn.code" />
+					<property name="name" value="Code" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The description of the enumeration value" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.value" />
+					<property name="name" value="Description of the code" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="kuali.enumeration.management.search.advanced.cip2010Code" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.enumeration.management.search.advanced.cip2010Code">
+		<property name="id" value="kuali.enumeration.management.search.advanced.cip2010Code" />
+		<property name="name" value="Get cip2010code enumerations" />
+		<property name="desc" value="Get enumerated cip2010code lists of values given context" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
+		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The internal code of the enumeration value" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.code" />
+					<property name="name" value="Code" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The description of the enumeration value" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.value" />
+					<property name="name" value="Description of the code" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="desc" value="The date the enumeration became effective" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.effectiveDate" />
+					<property name="name" value="Effective date" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="desc"
+						value="The date the enumeration became non-effective" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.expirationDate" />
+					<property name="name" value="Expiration date" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="majorDisciplineInfo.universityClassification" parent="uilookup">
+		<property name="path" value="majorDisciplineInfo.universityClassification" />
+		<property name="initialLookup"
+			ref="kuali.enumeration.management.search.universityClassification" />
+	</bean>
+	
+	<bean id="kuali.enumeration.management.search.universityClassification" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.enumeration.management.search.universityClassification">
+		<property name="id" value="kuali.enumeration.management.search.universityClassification" />
+		<property name="name" value="Get UniversityClassification enumerations" />
+		<property name="desc" value="Get enumerated UniversityClassification lists of values given context" />
+		<property name="widget" value="DROP_DOWN" />
+		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
+		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc"
+						value="The internal code of the enumeration value" />
+					<property name="hidden" value="true" />
+					<property name="key" value="enumeration.resultColumn.code" />
+					<property name="name" value="Code" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The description of the enumeration value" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.value" />
+					<property name="name" value="Description of the code" />
+				</bean>
+			</list>
+		</property>
+	</bean>	
 </beans>
