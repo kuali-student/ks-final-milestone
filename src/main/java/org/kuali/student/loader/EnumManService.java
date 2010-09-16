@@ -26,10 +26,15 @@ import org.kuali.student.wsdl.enumerationmanagement.DoesNotExistException;
 import org.kuali.student.wsdl.enumerationmanagement.EnumeratedValueInfo;
 import org.kuali.student.wsdl.enumerationmanagement.EnumerationManagementService;
 import org.kuali.student.wsdl.enumerationmanagement.EnumerationManagementService_Service;
+import org.kuali.student.wsdl.enumerationmanagement.EnumerationMetaInfo;
 import org.kuali.student.wsdl.enumerationmanagementservice.AddEnumeratedValue;
 import org.kuali.student.wsdl.enumerationmanagementservice.AddEnumeratedValueResponse;
 import org.kuali.student.wsdl.enumerationmanagementservice.GetEnumeration;
+import org.kuali.student.wsdl.enumerationmanagementservice.GetEnumerationMetas;
+import org.kuali.student.wsdl.enumerationmanagementservice.GetEnumerationMetasResponse;
 import org.kuali.student.wsdl.enumerationmanagementservice.GetEnumerationResponse;
+import org.kuali.student.wsdl.enumerationmanagementservice.RemoveEnumeratedValue;
+import org.kuali.student.wsdl.enumerationmanagementservice.RemoveEnumeratedValueResponse;
 import org.kuali.student.wsdl.enumerationmanagementservice.UpdateEnumeratedValue;
 import org.kuali.student.wsdl.enumerationmanagementservice.UpdateEnumeratedValueResponse;
 
@@ -39,8 +44,10 @@ import org.kuali.student.wsdl.enumerationmanagementservice.UpdateEnumeratedValue
  */
 public class EnumManService
 {
+//http://localhost:9393/ks-embedded-dev/services/EnumerationManagementService?wsdl
 
- private static final String ENUMERATION_MANAGEMENT_SERVICE_NAME = "EnumerationManagementService";
+ private static final String ENUMERATION_MANAGEMENT_SERVICE_NAME =
+                             "EnumerationManagementService";
  private static final QName ENUMERATION_MANAGEMENT_SERVICE_QNAME =
                             EnumerationManagementService_Service.SERVICE;
  private String hostUrl;
@@ -76,13 +83,15 @@ public class EnumManService
 
 //  System.out.println (wsdlURL);
   EnumerationManagementService_Service oss =
-                        new EnumerationManagementService_Service (wsdlURL,
-                                                   ENUMERATION_MANAGEMENT_SERVICE_QNAME);
+                                       new EnumerationManagementService_Service (
+    wsdlURL,
+    ENUMERATION_MANAGEMENT_SERVICE_QNAME);
   EnumerationManagementService port = oss.getEnumerationManagementServicePort ();
   return port;
  }
 
- public EnumeratedValueInfo addEnumeratedValue (String enumerationKey, EnumeratedValueInfo info)
+ public EnumeratedValueInfo addEnumeratedValue (String enumerationKey,
+                                                EnumeratedValueInfo info)
    throws AlreadyExistsException
  {
   EnumerationManagementService port = getEnumerationManagementService ();
@@ -108,8 +117,10 @@ public class EnumManService
   return result;
  }
 
-  public EnumeratedValueInfo updateEnumeratedValue (String enumerationKey, EnumeratedValueInfo info)
-    throws DoesNotExistException
+ public EnumeratedValueInfo updateEnumeratedValue (String enumerationKey,
+                                                   String code,
+                                                   EnumeratedValueInfo info)
+   throws DoesNotExistException
  {
   EnumerationManagementService port = getEnumerationManagementService ();
 //  System.out.println ("Invoking get course request...");
@@ -120,7 +131,7 @@ public class EnumManService
    UpdateEnumeratedValue param = new UpdateEnumeratedValue ();
    param.setEnumeratedValue (info);
    param.setEnumerationKey (enumerationKey);
-   param.setCode (info.getCode ());
+   param.setCode (code);
    response = port.updateEnumeratedValue (param);
    result = response.getReturn ();
   }
@@ -135,12 +146,15 @@ public class EnumManService
   return result;
  }
 
- public List<EnumeratedValueInfo> getEnumeration (String enumerationKey, String contextType, String contextValue, Date contextDate)
+ public List<EnumeratedValueInfo> getEnumeration (String enumerationKey,
+                                                  String contextType,
+                                                  String contextValue,
+                                                  Date contextDate)
    throws DoesNotExistException
  {
   EnumerationManagementService port = getEnumerationManagementService ();
 //  System.out.println ("Invoking get course request...");
-  List <EnumeratedValueInfo> result = null;
+  List<EnumeratedValueInfo> result = null;
   GetEnumerationResponse response = null;
   try
   {
@@ -163,5 +177,47 @@ public class EnumManService
   return result;
  }
 
+ public boolean removeEnumeratedValue (String enumerationKey, String code)
+   throws DoesNotExistException
+ {
+  EnumerationManagementService port = getEnumerationManagementService ();
+//  System.out.println ("Invoking get course request...");
+  EnumeratedValueInfo result = null;
+  RemoveEnumeratedValueResponse response = null;
+  try
+  {
+   RemoveEnumeratedValue param = new RemoveEnumeratedValue ();
+   param.setEnumerationKey (enumerationKey);
+   param.setCode (code);
+   response = port.removeEnumeratedValue (param);
+   return response.getReturn ().isSuccess ();
+  }
+  catch (DoesNotExistException ex)
+  {
+   throw ex;
+  }
+  catch (Exception ex)
+  {
+   throw new RuntimeException (ex);
+  }
+ }
 
+ public List<EnumerationMetaInfo> getEnumerationMetas ()
+ {
+  EnumerationManagementService port = getEnumerationManagementService ();
+//  System.out.println ("Invoking get course request...");
+  List<EnumerationMetaInfo> result = null;
+  GetEnumerationMetasResponse response = null;
+  try
+  {
+   GetEnumerationMetas param = new GetEnumerationMetas ();
+   response = port.getEnumerationMetas (param);
+   result = response.getReturn ();
+  }
+  catch (Exception ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  return result;
+ }
 }

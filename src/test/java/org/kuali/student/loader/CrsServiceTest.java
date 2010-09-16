@@ -65,6 +65,7 @@ public class CrsServiceTest
   System.out.println ("getCourse");
   String id = "a079e6e4-9d4c-4296-8db3-5fa353fcfec9";
   CrsService instance = new CrsService ();
+  instance.setHostUrl (CreditCourseLoaderModelFactory.LOCAL_HOST_URL);
   CourseInfo result = null;
   try
   {
@@ -93,6 +94,7 @@ public class CrsServiceTest
   info.setCourseTitle ("Intro to English");
   info.setEffectiveDate (new DateHelper ().asXmlDate ("2010-01-01"));
   CrsService instance = new CrsService ();
+  instance.setHostUrl (CreditCourseLoaderModelFactory.LOCAL_HOST_URL);
   CourseInfo result = null;
   try
   {

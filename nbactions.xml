@@ -32,5 +32,15 @@
                 <goal>install</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-one jar</actionName>
+            <displayName>one jar</displayName>
+            <goals>
+                <goal>package</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
         
     </actions>

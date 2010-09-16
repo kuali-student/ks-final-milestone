@@ -208,7 +208,8 @@
     <configuration>
      <archive>
       <manifest>
-       <mainClass>org.kuali.student.loader.CreditCourseLoaderFromCommandLine</mainClass>
+    <!--   <mainClass>org.kuali.student.loader.CreditCourseLoaderFromCommandLine</mainClass>    -->
+       <mainClass>org.kuali.student.loader.EnumeratedValueLoaderFromCommandLine</mainClass>
       </manifest>
      </archive>
     </configuration>

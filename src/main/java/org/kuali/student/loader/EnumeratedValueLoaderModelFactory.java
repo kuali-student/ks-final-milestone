@@ -30,7 +30,7 @@ public class EnumeratedValueLoaderModelFactory
 {
 
  public static final String RESOURCES_DIRECTORY = "resources/krudata";
- public static String ENUMERATED_VALUES_CIP_2010_XLS = "EnumeratedValues.xls";
+ public static String ENUMERATED_VALUES_CIP_2010_XLS = "EnumeratedValuesCIPCode2010.xls";
  public static final String EXCEL_FILES_DEFAULT_DIRECTORY_KEY =
                             "loader.model.excel.default.directory";
  public static final String EXCEL_FILES_KEY =

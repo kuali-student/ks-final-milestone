@@ -15,10 +15,11 @@
  */
 package org.kuali.student.loader;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -39,10 +40,18 @@ public class DateHelper
   // Can't use SimpleDateFormat inside GWT
   // but don't want to use GWT specific code so this is indepdent of GWT
   // so...
-  int yyyy = Integer.parseInt (str.substring (0, 4)) - 1900;
-  int mm = Integer.parseInt (str.substring (5, 7)) - 1;
-  int dd = Integer.parseInt (str.substring (8, 10));
-  Date date = new Date (yyyy, mm, dd);
+  // yyyy-mm-dd
+  // 01234567890
+  DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
+  Date date;
+  try
+  {
+   date = df.parse (str);
+  }
+  catch (ParseException ex)
+  {
+   throw new RuntimeException (ex);
+  }
   return date;
  }
 
@@ -58,7 +67,7 @@ public class DateHelper
    return null;
   }
   GregorianCalendar gc = new GregorianCalendar ();
-  gc.set (date.getYear (), date.getMonth (), date.getDay ());
+  gc.setTime (date);
   try
   {
    return DatatypeFactory.newInstance ().newXMLGregorianCalendar (gc);
@@ -69,11 +78,9 @@ public class DateHelper
   }
  }
 
- public String asYYYYMMDD (Date date)
+ public String asYYYY_MM_DD (Date date)
  {
-  // Can't use SimpleDateFormat inside GWT
-  // but don't want to use GWT specific code so this is indepdent of GWT
-  // so...
+  DateFormat df = new SimpleDateFormat ("yyyy-MM-dd");
   int yyyy = date.getYear () + 1900;
   int mm = date.getMonth () + 1;
   int dd = date.getDate ();
