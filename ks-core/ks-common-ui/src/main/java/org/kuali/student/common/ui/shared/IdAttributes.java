@@ -31,5 +31,5 @@ public class IdAttributes {
         }
 	}
 	
-	public static final String DOC_TYPE = "DOC_TYPE";	
+	public static final String DOC_TYPE = "documentTypeName";	
 }

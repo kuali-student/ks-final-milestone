@@ -123,8 +123,14 @@ public abstract class AbstractDataService implements DataService{
 			}
 			String namespaceCode = type.getPermissionNamespace();
 			String permissionTemplateName = type.getPermissionTemplateName();
-			AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
+			
+			AttributeSet roleQuals = new AttributeSet();
 			if (attributes != null) {
+				String docType = attributes.get(IdAttributes.DOC_TYPE);
+				if (docType == null){
+					docType = getDefaultWorkflowDocumentType();
+				}
+				attributes.put(IdAttributes.DOC_TYPE, docType);
 				roleQuals.putAll(attributes);
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
