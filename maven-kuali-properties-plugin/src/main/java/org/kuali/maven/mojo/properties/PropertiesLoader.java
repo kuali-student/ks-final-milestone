@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.plexus.util.StringUtils;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.config.JAXBConfigImpl;
@@ -16,6 +18,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 public class PropertiesLoader {
+	private static final Log log = LogFactory.getLog(PropertiesLoader.class);
+
 	ResourceLoader loader = new DefaultResourceLoader();
 	String format;
 	String location;
@@ -105,11 +109,24 @@ public class PropertiesLoader {
 	}
 
 	public Properties getProperties() throws PropertyHandlingException {
-		if (format.toUpperCase().equals(Format.KUALI.toString())) {
+		if (!exists()) {
+			log.warn("No properties located at '" + location + '"');
+			return new Properties();
+		}
+		log.info("Loading " + format + " properties from " + location);
+		Properties properties = getProperties(Format.valueOf(format.toUpperCase()));
+		if (!overrideSystemProperties) {
+			properties.putAll(System.getProperties());
+		}
+		return properties;
+	}
+
+	protected Properties getProperties(Format format) throws PropertyHandlingException {
+		if (format.equals(Format.KUALI)) {
 			return getKualiProperties();
-		} else if (format.toUpperCase().equals(Format.STANDARD.toString())) {
+		} else if (format.equals(Format.STANDARD)) {
 			return getStandardProperties();
-		} else if (format.toUpperCase().equals(Format.XML.toString())) {
+		} else if (format.equals(Format.XML)) {
 			return getXmlProperties();
 		} else {
 			throw new PropertyHandlingException("Unknown properties format: '" + format + '"');
