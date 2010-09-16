@@ -23,6 +23,9 @@ public class PropertiesLoader {
 	Properties contextProperties;
 	String encoding;
 
+	/**
+	 * Return true if there is a file on the file system or Spring can locate it as a Resource. False otherwise
+	 */
 	protected boolean exists() {
 		if (StringUtils.isBlank(location)) {
 			return false;
@@ -36,8 +39,8 @@ public class PropertiesLoader {
 	}
 
 	/**
-	 * Return an InputStream for reading in a properties file. First check the file system to see if the file exists. If
-	 * not, return a Reader using Spring Resource loading
+	 * Return an InputStream for reading in a properties file. First check the file system, then use a Spring
+	 * ResourceLoader
 	 */
 	protected InputStream getInputStream() throws PropertyHandlingException {
 		try {
@@ -83,9 +86,8 @@ public class PropertiesLoader {
 
 	protected Properties getStandardProperties() throws PropertyHandlingException {
 		try {
-			Reader reader = getReader();
 			Properties properties = new Properties();
-			properties.load(reader);
+			properties.load(getReader());
 			return properties;
 		} catch (Exception e) {
 			throw new PropertyHandlingException(e);
