@@ -104,13 +104,13 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
 
-    private List<String> administeringOrgs;  // this is a temp fix. Change it back to list of AdminOrgInfo
+    private List<String> unitsDeployment;  
 
     private RichTextInfo feeJustification;
 
 
     @XmlElement
-    private List<String> curriculumOversightOrgs; // this is a temp fix. Change it back to list of AdminOrgInfo
+    private List<String> unitsContentOwner; 
 
     private List<CourseFeeInfo> fees;
 
@@ -365,12 +365,13 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public List<String> getAdministeringOrgs() {
-    	if(administeringOrgs == null){
-    		administeringOrgs = new ArrayList<String>(0);
+    public List<String> getUnitsDeployment() {
+    	if(unitsDeployment == null){
+    		unitsDeployment = new ArrayList<String>(0);
     	}
-        return administeringOrgs;
+        return unitsDeployment;
     }
+    
     /**
      * Narrative description of overall course fee justification.
      */
@@ -380,20 +381,22 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public void setAdministeringOrgs(List<String> administeringOrgs) {
-        this.administeringOrgs = administeringOrgs;
+    public void setUnitsDeployment(List<String> unitsDeployment) {
+        this.unitsDeployment = unitsDeployment;
     }
+    
     public void setFeeJustification(RichTextInfo feeJustification) {
         this.feeJustification = feeJustification;
 
     }
 
-    public List<String> getCurriculumOversightOrgs() {
-    	if(curriculumOversightOrgs == null){
-    		curriculumOversightOrgs = new ArrayList<String>(0);
+    public List<String> getUnitsContentOwner() {
+    	if(unitsContentOwner == null){
+    		unitsContentOwner = new ArrayList<String>(0);
     	}
-    	return curriculumOversightOrgs;
+    	return unitsContentOwner;
     }
+    
     /**
      * Fees information associated with this Course.
      */
@@ -405,13 +408,12 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     }
 
-
-    public void setCurriculumOversightOrgs(List<String> curriculumOversightOrgs) {
-        this.curriculumOversightOrgs = curriculumOversightOrgs;
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
     }
+    
     public void setFees(List<CourseFeeInfo> fees) {
         this.fees = fees;
-
     }
 
     /**

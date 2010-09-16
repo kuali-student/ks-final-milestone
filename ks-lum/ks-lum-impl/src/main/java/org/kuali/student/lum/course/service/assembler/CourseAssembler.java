@@ -111,11 +111,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		course.setVariations(variations);
 		
 //		course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
-		if(course.getAdministeringOrgs()==null){
-			course.setAdministeringOrgs(new ArrayList<String>());
+		if(course.getUnitsDeployment()==null){
+			course.setUnitsDeployment(new ArrayList<String>());
 		}
-		if(course.getCurriculumOversightOrgs()==null){
-			course.setCurriculumOversightOrgs(new ArrayList<String>());
+		if(course.getUnitsContentOwner()==null){
+			course.setUnitsContentOwner(new ArrayList<String>());
 		}
 		List<String> courseAdminOrgs = new ArrayList<String>();
 		List<String> courseSubjectOrgs = new ArrayList<String>();
@@ -127,8 +127,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				courseSubjectOrgs.add(adminOrg.getOrgId());
 			}
 		}
-		course.setAdministeringOrgs(courseAdminOrgs);
-		course.setCurriculumOversightOrgs(courseSubjectOrgs);
+		course.setUnitsDeployment(courseAdminOrgs);
+		course.setUnitsContentOwner(courseSubjectOrgs);
 		course.setDescr(clu.getDescr());
 		course.setDuration(clu.getStdDuration());
 		course.setEffectiveDate(clu.getEffectiveDate());
@@ -356,11 +356,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 
 		List<AdminOrgInfo> adminOrgInfos = new ArrayList<AdminOrgInfo>();
-		for(String org:course.getAdministeringOrgs()){
-//			if(org.getType().equals(CourseAssemblerConstants.ADMIN_ORG)){
-//				adminOrgInfos.add(org);
-//			}
-			//This is a temporary fix because list type in CourseInfo is changed from AdminOrgInfo to String
+		for(String org:course.getUnitsDeployment()){
 			AdminOrgInfo adminOrg = new AdminOrgInfo();
 			adminOrg.setType(CourseAssemblerConstants.ADMIN_ORG);
 			adminOrg.setOrgId(org);
@@ -369,10 +365,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.getAdminOrgs().addAll(adminOrgInfos);
 		
 		List<AdminOrgInfo> subjectOrgs = new ArrayList<AdminOrgInfo>();
-		for (String subOrg : course.getCurriculumOversightOrgs()) {
-//			if(subOrg.getType().equals(CourseAssemblerConstants.SUBJECT_ORG)){
-//				subjectOrgs.add(subOrg);
-//			}
+		for (String subOrg : course.getUnitsContentOwner()) {
 			AdminOrgInfo subjectOrg = new AdminOrgInfo();
 			subjectOrg.setType(CourseAssemblerConstants.SUBJECT_ORG);
 			subjectOrg.setOrgId(subOrg);

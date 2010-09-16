@@ -370,13 +370,13 @@
             	<entry key="kuali.proposal.type.course.create">
            			<map>
 	                	<entry key="cluId" value="id"/>
-	                	<entry key="orgId" value="curriculumOversightOrgs[0]"/>
+	                	<entry key="orgId" value="unitsContentOwner[0]"/>
            			</map>
 				</entry>
             	<entry key="kuali.proposal.type.course.modify">
            			<map>
 	                	<entry key="cluId" value="id"/>
-	                	<entry key="orgId" value="curriculumOversightOrgs[0]"/>
+	                	<entry key="orgId" value="unitsContentOwner[0]"/>
            			</map>
 				</entry>
             </map>

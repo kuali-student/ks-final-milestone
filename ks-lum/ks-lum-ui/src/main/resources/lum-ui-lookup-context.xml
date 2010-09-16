@@ -86,12 +86,12 @@
 		</property>
 	</bean>
 	
-	<bean id="course.curriculumOversightOrgs" parent="department-lookup-binding-parent">
-		<property name="path" value="courseInfo.curriculumOversightOrgs" />
+	<bean id="course.unitsContentOwner" parent="department-lookup-binding-parent">
+		<property name="path" value="courseInfo.unitsContentOwner" />
 	</bean>
 
-	<bean id="course.administeringOrgs" parent="department-lookup-binding-parent">
-		<property name="path" value="courseInfo.administeringOrgs" />
+	<bean id="course.unitsDeployment" parent="department-lookup-binding-parent">
+		<property name="path" value="courseInfo.unitsDeployment" />
 	</bean>
 
 	<bean id="department-lookup-binding-parent" parent="uilookup"
