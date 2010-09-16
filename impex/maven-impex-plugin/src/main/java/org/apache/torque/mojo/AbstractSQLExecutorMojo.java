@@ -305,6 +305,8 @@ public abstract class AbstractSQLExecutorMojo extends PropertiesMojo {
 	 * @throws MojoExecutionException
 	 */
 	public void executeMojo() throws MojoExecutionException {
+		getLog().info("username=" + getUsername());
+		/*
 		super.executeMojo();
 		jdbcUtils = new JDBCUtils();
 		updateConfiguration();
@@ -337,7 +339,7 @@ public abstract class AbstractSQLExecutorMojo extends PropertiesMojo {
 			executor.execute();
 		} catch (SQLException e) {
 			throw new MojoExecutionException("Error executing SQL", e);
-		}
+		}*/
 	}
 
 	/**

@@ -4,8 +4,6 @@ import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Server;
-import org.kuali.db.ConnectionHandler;
-import org.kuali.db.Credentials;
 import org.kuali.db.DatabaseCommand;
 
 import static org.apache.commons.lang.StringUtils.*;
@@ -65,23 +63,6 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	String databasePassword;
 
 	/**
-	 * A user with DBA privileges on the database. This is the user that Impex will connect to the database as to issue
-	 * DBA commands for dropping/creating databases and users. This is used instead of <code>username</code>. If not
-	 * specified, <code>dbaUser</code> will attempt to be found under ${dbaSettingsKey}
-	 * 
-	 * @parameter expression="${dbaUser}"
-	 */
-	String dbaUser;
-
-	/**
-	 * The password for the DBA user. This is used instead of <code>password</code>. If not specified,
-	 * <code>dbaPassword</code> will attempt to be found in settings.xml under ${dbaSettingsKey}
-	 * 
-	 * @parameter expression="${dbaPassword}"
-	 */
-	String dbaPassword;
-
-	/**
 	 * Lookup DBA credentials in settings.xml using this key. If nothing is found under
 	 * <code>impex.dba.${project.artifactId}</code> a second attempt will be made to locate a set of credentials under
 	 * <code>impex.dba.${url}</code>
@@ -89,14 +70,6 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	 * @parameter expression="${dbaSettingsKey}" default-value="impex.dba.${project.artifactId}"
 	 */
 	String dbaSettingsKey;
-
-	/**
-	 * Set this to true if you are you are including the username/password as part of the JDBC url for DBA access. This
-	 * overrides <code>enableAnonymousPassword</code> and <code>enableAnonymousUsername</code>
-	 * 
-	 * @parameter expression="${enableAnonymousDbaAccess}" default-value="false"
-	 */
-	boolean enableAnonymousDbaAccess;
 
 	protected String getTransactionDescription(DatabaseCommand command) {
 		return command + " " + getDatabase();
@@ -149,15 +122,6 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 	}
 
 	@Override
-	protected ConnectionHandler getNewConnectionHandler() throws MojoExecutionException {
-		ConnectionHandler connectionHandler = super.getNewConnectionHandler();
-		connectionHandler.setEnableAnonymousPassword(enableAnonymousDbaAccess);
-		connectionHandler.setEnableAnonymousUsername(enableAnonymousDbaAccess);
-		connectionHandler.setUrl(serverUrl);
-		return connectionHandler;
-	}
-
-	@Override
 	protected Properties getContextProperties() {
 		Properties properties = super.getContextProperties();
 		properties.setProperty(DATABASE_PROPERTY, getDatabase());
@@ -185,28 +149,6 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		}
 	}
 
-	@Override
-	protected Credentials getNewCredentials() {
-		Credentials credentials = new Credentials();
-		credentials.setUsername(getDbaUser());
-		credentials.setPassword(getDbaPassword());
-		return credentials;
-	}
-
-	@Override
-	protected void validateCredentials(Credentials credentials) throws MojoExecutionException {
-		StringBuffer sb = new StringBuffer();
-		sb.append("\n\n\n");
-		sb.append("Username and password for a DBA user must be specified.\n");
-		sb.append("Specify them in the plugin configuration or as a system property.\n");
-		sb.append("\n");
-		sb.append("For example:\n");
-		sb.append("-DdbaUsername=system\n");
-		sb.append("-DdbaPassword=password\n");
-		sb.append("\n\n.");
-		validateCredentials(credentials, enableAnonymousDbaAccess, sb.toString());
-	}
-
 	public String getDatabase() {
 		return database;
 	}
@@ -231,22 +173,6 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 		this.databaseUser = databaseUsername;
 	}
 
-	public String getDbaUser() {
-		return dbaUser;
-	}
-
-	public void setDbaUser(String dbaUsername) {
-		this.dbaUser = dbaUsername;
-	}
-
-	public String getDbaPassword() {
-		return dbaPassword;
-	}
-
-	public void setDbaPassword(String dbaPassword) {
-		this.dbaPassword = dbaPassword;
-	}
-
 	public String getServerUrl() {
 		return serverUrl;
 	}
@@ -261,13 +187,5 @@ public abstract class AbstractDBACommandMojo extends AbstractSQLExecutorMojo {
 
 	public void setDbaSettingsKey(String dbaSettingsKey) {
 		this.dbaSettingsKey = dbaSettingsKey;
-	}
-
-	public boolean isEnableAnonymousDbaAccess() {
-		return enableAnonymousDbaAccess;
-	}
-
-	public void setEnableAnonymousDbaAccess(boolean enableAnonymousDbaAccess) {
-		this.enableAnonymousDbaAccess = enableAnonymousDbaAccess;
 	}
 }

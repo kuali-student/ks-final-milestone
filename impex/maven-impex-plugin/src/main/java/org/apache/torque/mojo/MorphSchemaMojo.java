@@ -36,6 +36,9 @@ public class MorphSchemaMojo extends BaseMojo {
 	 */
 	private File oldSchemaXMLFile;
 
+	/**
+	 * Add logic to the basic skip() method for skipping based on a morph being needed
+	 */
 	@Override
 	protected boolean skipMojo() {
 		// We may be skipping based on packaging of type 'pom'
@@ -43,7 +46,7 @@ public class MorphSchemaMojo extends BaseMojo {
 			return true;
 		}
 
-		// We can skip if the file hasn't changed since the last run
+		// If a morph is needed, we can't skip
 		boolean morphNeeded = isMorphNeeded();
 		if (morphNeeded) {
 			return false;
@@ -59,10 +62,11 @@ public class MorphSchemaMojo extends BaseMojo {
 			return true;
 		}
 
+		// Extract the last modified timestamps
 		long oldLastModified = oldSchemaXMLFile.lastModified();
 		long newLastModified = newSchemaXMLFile.lastModified();
 
-		// If old file has been updated since the new file was created, we need to morph
+		// If old file has been modified since the new file was last modified, we need to morph
 		return oldLastModified > newLastModified;
 	}
 
