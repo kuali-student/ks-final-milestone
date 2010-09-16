@@ -220,7 +220,7 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="searchManager" ref="statementSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionary"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
         <property name="validator" ref="serviceValidator"/>
         <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
@@ -482,7 +482,7 @@
     <bean id="lumDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
-	        <value>classpath:ks-courseInfo-dictionary-context.xml;classpath:ks-programInfo-dictionary-context.xml</value>
+	        <value>classpath:ks-courseInfo-dictionary-context.xml;classpath:ks-programInfo-dictionary-context.xml;classpath:ks-statement-dictionary-context.xml</value>
         </constructor-arg>
     </bean>
 
