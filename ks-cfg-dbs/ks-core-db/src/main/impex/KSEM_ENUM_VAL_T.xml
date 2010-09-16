@@ -1165,6 +1165,10 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="14.23" CD="14.23"
         ENUM_KEY="kuali.enum.type.cip2010"
         ID="151713c1-594f-4423-b8bf-454672fb62ee" SORT_KEY="476" VAL="Nuclear Engineering."/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="UG"
+        CD="kuali.lu.program.level.UnderGraduate"
+        ENUM_KEY="kuali.enum.lu.program.level"
+        ID="153022d6-6790-4887-b246-eddce416e807" SORT_KEY="1" VAL="Undergraduate"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="05.0199" CD="05.0199"
         ENUM_KEY="kuali.enum.type.cip2000"
         ID="155235bb-0411-41a5-878f-a12c359444ee" SORT_KEY="170" VAL="Area Studies, Other."/>
@@ -7495,6 +7499,10 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0556" CD="60.0556"
         ENUM_KEY="kuali.enum.type.cip2010"
         ID="8c5f9189-ea7a-4a58-8931-d3cfe2c52a76" SORT_KEY="2287" VAL="Pediatric Infectious Diseases Residency Program."/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="PR"
+        CD="kuali.lu.program.level.Professional"
+        ENUM_KEY="kuali.enum.lu.program.level"
+        ID="8c68cfd1-94ef-4e80-97d8-d946e939525f" SORT_KEY="3" VAL="Professional"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0227" CD="60.0227"
         ENUM_KEY="kuali.enum.type.cip2010"
         ID="8c6c92e0-46c5-4519-9f25-fdfacb10cb77" SORT_KEY="2127" VAL="Infectious Disease."/>
@@ -13066,6 +13074,10 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.0999" CD="51.0999"
         ENUM_KEY="kuali.enum.type.cip2000"
         ID="fafa53dc-4462-4873-a4a9-7927266693c8" SORT_KEY="1534" VAL="Allied Health Diagnostic, Intervention, and Treatment Professions, Other."/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="GR"
+        CD="kuali.lu.program.level.Graduate"
+        ENUM_KEY="kuali.enum.lu.program.level"
+        ID="fafd519f-ab1d-4807-90d0-f1db4676b0d4" SORT_KEY="2" VAL="Graduate"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="16.0907" CD="16.0907"
         ENUM_KEY="kuali.enum.type.cip2000"
         ID="fb0e7272-9d49-4ab8-b36b-7175c060b52b" SORT_KEY="664" VAL="Catalan Language and Literature."/>
