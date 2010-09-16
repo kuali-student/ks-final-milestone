@@ -103,20 +103,25 @@
       <property name="minOccurs" value="1"/>
     </bean>
 
+    <bean id="validchars.cip.codes" parent="ValidCharDefinition">
+     <property name="value" value="regex:[0-9][0-9]\.|[0-9][0-9]\.[0-9][0-9]|[0-9][0-9]\.[0-9][0-9][0-9][0-9]"/>
+<!--     <property name="labelKey" value="validation.validChars.digits"/>-->
+    </bean>
+
     <bean id="majorDisciplineInfo.cip2000Code-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="cip2000Code"/>
-        <property name="minLength" value="6"/>
-        <property name="maxLength" value="6"/>
-        <property name="validChars" ref="digits"/>
+        <property name="minLength" value="3"/>
+        <property name="maxLength" value="7"/>
+        <property name="validChars" ref="validchars.cip.codes"/>
         <!--TODO: add in a lookup-->
     </bean>
     <bean id="majorDisciplineInfo.cip2000Code" parent="majorDisciplineInfo.cip2000Code-parent"/>
 
     <bean id="majorDisciplineInfo.cip2010Code-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="cip2010Code"/>
-        <property name="minLength" value="6"/>
-        <property name="maxLength" value="6"/>
-        <property name="validChars" ref="digits"/>
+        <property name="minLength" value="3"/>
+        <property name="maxLength" value="7"/>
+        <property name="validChars" ref="validchars.cip.codes"/>
         <!--TODO: add in a lookup-->
     </bean>
     <bean id="majorDisciplineInfo.cip2010Code" parent="majorDisciplineInfo.cip2010Code-parent"/>
@@ -388,12 +393,12 @@
 </bean>
 <bean id="programVariationInfo.catalogPublicationTargets" parent="programVariationInfo.catalogPublicationTargets-parent"/>
 
-<bean id="programVariationInfo.cip2000Code-parent" abstract="true" parent="baseString">
+<bean id="programVariationInfo.cip2000Code-parent" abstract="true" parent="majorDisciplineInfo.cip2000Code-parent">
  <property name="name" value="cip2000Code"/>
 </bean>
 <bean id="programVariationInfo.cip2000Code" parent="programVariationInfo.cip2000Code-parent"/>
 
-<bean id="programVariationInfo.cip2010Code-parent" abstract="true" parent="baseString">
+<bean id="programVariationInfo.cip2010Code-parent" abstract="true" parent="majorDisciplineInfo.cip2010Code-parent">
  <property name="name" value="cip2010Code"/>
 </bean>
 <bean id="programVariationInfo.cip2010Code" parent="programVariationInfo.cip2010Code-parent"/>
