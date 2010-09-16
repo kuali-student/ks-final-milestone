@@ -35,6 +35,8 @@ public class AntTaskMojo extends PropertiesMojo {
 		try {
 			// Copy configuration from the mojo to the task
 			FilteredPropertyCopier copier = new FilteredPropertyCopier();
+			// There is a setProject() method on an Ant Task that expects an Ant Project. This conflicts with
+			// getProject() from the mojo which returns a Maven Project
 			copier.addExclude("project");
 			copier.copyProperties(getAntTask(), this);
 		} catch (Exception e) {
