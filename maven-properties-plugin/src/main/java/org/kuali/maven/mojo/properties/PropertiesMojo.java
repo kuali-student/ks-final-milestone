@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * @goal properties
+ * @phase initialize
  */
 public class PropertiesMojo extends BaseMojo {
 
