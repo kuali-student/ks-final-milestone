@@ -17,13 +17,19 @@ package org.kuali.student.loader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.wsdl.organization.AlreadyExistsException;
+import org.kuali.student.wsdl.organization.DataValidationErrorException;
+import org.kuali.student.wsdl.organization.DoesNotExistException;
 import org.kuali.student.wsdl.organization.OrgInfo;
 import org.kuali.student.wsdl.organization.OrgTypeInfo;
+import org.kuali.student.wsdl.organization.VersionMismatchException;
 import org.kuali.student.wsdl.search.SearchTypeInfo;
 import static org.junit.Assert.*;
 
@@ -59,35 +65,6 @@ public class OrgServiceTest
  }
 
  /**
-  * Test of find method, of class OrgFinder.
-  */
- @Test
- public void testFindMatch ()
- {
-  System.out.println ("findMatch");
-  String orgName = "";
-  List<String> types = null;
-  OrgService instance = new OrgService ();
-  String expResult = "";
-  String result = instance.findMatch (orgName, types);
-  assertEquals (expResult, result);
- }
-
-  /**
-  * Test of getAll
-  */
- @Test
- public void testGetAll ()
- {
-  System.out.println ("getAll");
-  OrgService instance = new OrgService ();
-  List<OrgResultGeneric> expResult = new ArrayList ();
-  List<OrgResultGeneric> result = instance.getAll ();
-  assertEquals (expResult, result);
- }
-
-
- /**
   * Test of getTypes method in OrgFinder
   */
  @Test
@@ -121,30 +98,7 @@ public class OrgServiceTest
    System.out.print (typeInfo.getExpirationDate ());
    System.out.println ("|");
   }
-  assertEquals (17, result.size ());
- }
-
- /**
-  * Test of getTypes method in OrgFinder
-  */
- @Test
- public void testGetSearchTypes ()
- {
-  System.out.println ("getSearchTypes");
-  OrgService instance = new OrgService ();
-//  List<OrgTypeInfo> expResult = new ArrayList ();
-  List<SearchTypeInfo> result = instance.getSearchTypes ();
-  System.out.println (result.size () + " rows returned");
-  for (SearchTypeInfo type : result)
-  {
-   System.out.print (type.getKey ());
-   System.out.print ("|");
-   System.out.print (type.getName ());
-   System.out.print ("|");
-   System.out.print (type.getDesc ());
-   System.out.println ("|");
-  }
-  assertEquals (16, result.size ());
+  assertEquals (18, result.size ());
  }
 
  /**
@@ -157,7 +111,15 @@ public class OrgServiceTest
   OrgService instance = new OrgService ();
 //  List<OrgTypeInfo> expResult = new ArrayList ();
   String id = "1";
-  OrgInfo result = instance.getOrganization (id);
+  OrgInfo result;
+  try
+  {
+   result = instance.getOrganization (id);
+  }
+  catch (DoesNotExistException ex)
+  {
+   throw new RuntimeException (ex);
+  }
   assertNotNull (result);
   System.out.print (result.getId ());
   System.out.print ("|");
@@ -166,11 +128,11 @@ public class OrgServiceTest
 
  }
 
-  /**
+ /**
   * Test of CreateOrganization method in OrgFinder
   */
  @Test
- public void testCreateOrganization ()
+ public void testOrganizationLifeCycle ()
  {
   System.out.println ("createOrganization");
   OrgService instance = new OrgService ();
@@ -180,14 +142,101 @@ public class OrgServiceTest
   info.setState ("active");
   info.setShortName ("short name");
   info.setLongName ("long name that is longer than the short name");
-  OrgInfo result = instance.createOrganization (info);
+  info.setSortName ("sort name");
+  OrgInfo result = null;
+  try
+  {
+   result = instance.createOrganization (info);
+  }
+  catch (AlreadyExistsException ex)
+  {
+   throw new RuntimeException (ex);
+  }
   assertNotNull (result);
   assertNotNull (result.getId ());
   assertEquals (info.getType (), result.getType ());
   assertEquals (info.getState (), result.getState ());
   assertEquals (info.getShortName (), result.getShortName ());
   assertEquals (info.getLongName (), result.getLongName ());
+//  assertEquals (info.getSortName (), result.getSortName ());
   System.out.println ("id=" + result.getId ());
+
+  // get it now
+  info = result;
+  try
+  {
+   result = instance.getOrganization (info.getId ());
+  }
+  catch (DoesNotExistException ex)
+  {
+   fail ("org was just created by cannot get it");
+  }
+  assertNotNull (result.getId ());
+  assertEquals (info.getType (), result.getType ());
+  assertEquals (info.getState (), result.getState ());
+  assertEquals (info.getShortName (), result.getShortName ());
+  assertEquals (info.getLongName (), result.getLongName ());
+
+  // now update it
+  info = result;
+  info.setLongName ("new long name");
+  try
+  {
+   result = instance.updateOrganization (info);
+  }
+  catch (DoesNotExistException ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  catch (VersionMismatchException ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  catch (DataValidationErrorException ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  assertNotNull (result.getId ());
+  assertEquals (info.getType (), result.getType ());
+  assertEquals (info.getState (), result.getState ());
+  assertEquals (info.getShortName (), result.getShortName ());
+  assertEquals (info.getLongName (), result.getLongName ());
+
+
+  // now delete
+  info = result;
+  boolean success = false;
+  try
+  {
+   success = instance.deleteOrganization (info.getId ());
+  }
+  catch (DoesNotExistException ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  catch (DataValidationErrorException ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  assertTrue (success);
+
+  // get it now
+  info = result;
+  try
+  {
+   result = instance.getOrganization (info.getId ());
+   fail ("should not be able to get the org");
+  }
+  catch (DoesNotExistException ex)
+  {
+   System.out.println ("as expected org does not exist");
+  }
+  catch (Exception ex)
+  {
+   System.out.println (
+     "The server does not throw a DoesNotExistException but oh well");
+  }
+
 
  }
 }

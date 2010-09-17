@@ -20,10 +20,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.namespace.QName;
+import org.kuali.student.wsdl.organization.AlreadyExistsException;
+import org.kuali.student.wsdl.organization.DataValidationErrorException;
+import org.kuali.student.wsdl.organization.DoesNotExistException;
 import org.kuali.student.wsdl.organization.OrgInfo;
 import org.kuali.student.wsdl.organization.OrgTypeInfo;
 import org.kuali.student.wsdl.organization.OrganizationService;
 import org.kuali.student.wsdl.organization.OrganizationService_Service;
+import org.kuali.student.wsdl.organization.StatusInfo;
+import org.kuali.student.wsdl.organization.VersionMismatchException;
 import org.kuali.student.wsdl.search.GetSearchTypes;
 import org.kuali.student.wsdl.search.GetSearchTypesResponse;
 import org.kuali.student.wsdl.search.SearchParam;
@@ -84,108 +89,6 @@ public class OrgService
   return port;
  }
 
-
- public List<OrgResultGeneric> getAll ()
- {
-  OrganizationService port = getOrganizationService ();
-
-//  System.out.println ("Invoking search request to get all org result generics...");
-  SearchRequest req = new SearchRequest ();
-  req.setSearchKey ("org.search.generic");
-//  System.out.println ("getSearchKey ()=" + req.getSearchKey ());
-  SearchResult result = null;
-  try
-  {
-   result = port.search (req);
-  }
-  catch (Exception ex)
-  {
-   throw new RuntimeException (ex);
-  }
-//  System.out.println (result.getRows ().size () + " rows returned");
-  List<OrgResultGeneric> list = new ArrayList ();
-  for (SearchResultRow row : result.getRows ())
-  {
-   OrgResultGeneric org = new OrgResultGeneric ();
-   org.setOrgId (row.getCells ().get (0).getValue ());
-   org.setShortName (row.getCells ().get (1).getValue ());
-   org.setLongName (row.getCells ().get (2).getValue ());
-   org.setType (row.getCells ().get (3).getValue ());
-  }
-  return list;
- }
-
- public List<OrgResultGeneric> getAllWithType (String type)
- {
-  OrganizationService port = getOrganizationService ();
-
-//  System.out.println ("Invoking search request to get all org result generics...");
-  SearchRequest req = new SearchRequest ();
-  req.setSearchKey ("org.search.generic");
-  SearchParam param = new SearchParam ();
-  param.setKey ("org.queryParam.orgOptionalType");
-  param.setValue (type);
-  req.getParams ().add (param);
-//  System.out.println ("getSearchKey ()=" + req.getSearchKey ());
-  SearchResult result = null;
-  try
-  {
-   result = port.search (req);
-  }
-  catch (Exception ex)
-  {
-   throw new RuntimeException (ex);
-  }
-//  System.out.println (result.getRows ().size () + " rows returned");
-  List<OrgResultGeneric> list = new ArrayList ();
-  for (SearchResultRow row : result.getRows ())
-  {
-   OrgResultGeneric org = new OrgResultGeneric ();
-   org.setOrgId (row.getCells ().get (0).getValue ());
-   org.setShortName (row.getCells ().get (1).getValue ());
-   org.setLongName (row.getCells ().get (2).getValue ());
-   org.setType (row.getCells ().get (3).getValue ());
-  }
-  return list;
- }
-
-
-
- /**
-  * find matching org
-  * @param orgName
-  * @param types
-  * @return the orgId of the matching org, null if none found
-  */
- public String findMatch (String orgName, List<String> types)
- {
-  if (orgName == null)
-  {
-   return null;
-  }
-
-  OrgResultGeneric org = new OrgMatcher ().findMatch (orgName, types, getAll ());
-  return org.getOrgId ();
- }
-
- public List<SearchTypeInfo> getSearchTypes ()
- {
-  OrganizationService port = getOrganizationService ();
-
-//  System.out.println ("Invoking get search types search request...");
-  GetSearchTypes parameters = new GetSearchTypes ();
-  GetSearchTypesResponse result = null;
-  try
-  {
-   result = port.getSearchTypes (parameters);
-  }
-  catch (Exception ex)
-  {
-   throw new RuntimeException (ex);
-  }
-  return result.getReturn ();
- }
-
  public List<OrgTypeInfo> getOrgTypes ()
  {
   OrganizationService port = getOrganizationService ();
@@ -204,6 +107,7 @@ public class OrgService
  }
 
  public OrgInfo getOrganization (String id)
+   throws DoesNotExistException
  {
   OrganizationService port = getOrganizationService ();
 
@@ -213,6 +117,10 @@ public class OrgService
   {
    result = port.getOrganization (id);
   }
+  catch (DoesNotExistException ex)
+  {
+   throw ex;
+  }
   catch (Exception ex)
   {
    throw new RuntimeException (ex);
@@ -221,6 +129,7 @@ public class OrgService
  }
 
  public OrgInfo createOrganization (OrgInfo info)
+   throws AlreadyExistsException
  {
   OrganizationService port = getOrganizationService ();
 
@@ -230,10 +139,69 @@ public class OrgService
   {
    result = port.createOrganization (info.getType (), info);
   }
+  catch (AlreadyExistsException ex)
+  {
+   throw ex;
+  }
   catch (Exception ex)
   {
    throw new RuntimeException (ex);
   }
   return result;
+ }
+
+ public OrgInfo updateOrganization (OrgInfo info)
+   throws DoesNotExistException,
+          VersionMismatchException,
+          DataValidationErrorException
+ {
+  OrganizationService port = getOrganizationService ();
+
+//  System.out.println ("Invoking create org request...");
+  OrgInfo result = null;
+  try
+  {
+   result = port.updateOrganization (info.getId (), info);
+  }
+  catch (DoesNotExistException ex)
+  {
+   throw ex;
+  }
+  catch (VersionMismatchException ex)
+  {
+   throw ex;
+  }
+  catch (DataValidationErrorException ex)
+  {
+   throw ex;
+  }
+  catch (Exception ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  return result;
+ }
+
+ public boolean deleteOrganization (String id)
+   throws DoesNotExistException,
+          DataValidationErrorException
+ {
+  OrganizationService port = getOrganizationService ();
+
+//  System.out.println ("Invoking create org request...");
+  StatusInfo result = null;
+  try
+  {
+   result = port.deleteOrganization (id);
+  }
+  catch (DoesNotExistException ex)
+  {
+   throw ex;
+  }
+  catch (Exception ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  return result.isSuccess ();
  }
 }

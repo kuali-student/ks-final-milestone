@@ -209,7 +209,8 @@
      <archive>
       <manifest>
     <!--   <mainClass>org.kuali.student.loader.CreditCourseLoaderFromCommandLine</mainClass>    -->
-       <mainClass>org.kuali.student.loader.EnumeratedValueLoaderFromCommandLine</mainClass>
+       <mainClass>org.kuali.student.loader.OrganizationLoaderFromCommandLine</mainClass>
+ <!--      <mainClass>org.kuali.student.loader.EnumeratedValueLoaderFromCommandLine</mainClass>    -->
       </manifest>
      </archive>
     </configuration>
@@ -277,8 +278,12 @@
          <wsdl>${basedir}/src/main/resources/wsdl/AtpService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/CommentService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/DocumentService.wsdl</wsdl>
+         <wsdl>${basedir}/src/main/resources/wsdl/DocumentRelationService.wsdl</wsdl>
          <wsdl>${basedir}/src/main/resources/wsdl/ProposalService.wsdl</wsdl>
-
+         <wsdl>${basedir}/src/main/resources/wsdl/StatementService.wsdl</wsdl>
+         <wsdl>${basedir}/src/main/resources/wsdl/MessageService.wsdl</wsdl>
+         <wsdl>${basedir}/src/main/resources/wsdl/LearningResultService.wsdl</wsdl>
+        <wsdl>${basedir}/src/main/resources/wsdl/LearningObjectiveService.wsdl</wsdl>
         </wsdlOption>
        </wsdlOptions>
       </configuration>

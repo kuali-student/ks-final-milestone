@@ -69,6 +69,6 @@ public class AdminOrgInfoHelper
   List<String> types = new ArrayList ();
   types.add (DEPARTMENT);
   types.add (OFFICE);
-  return new OrgService ().findMatch (orgName, types);
+  return new OrgFinderService ().findMatch (orgName, types);
  }
 }
