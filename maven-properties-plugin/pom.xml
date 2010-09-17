@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
@@ -10,7 +9,7 @@
   <groupId>org.kuali.maven.properties</groupId>
   <artifactId>maven-properties-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>Maven Properties Plugin</name>
   <description>Maven plugin for working with properties files.  Supports standard properties files and Kuali style XML config files</description>
   <build>
@@ -200,9 +199,9 @@
     </plugins>
   </reporting>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-properties-plugin</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-properties-plugin</developerConnection>
-    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/maven-properties-plugin</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-properties-plugin-1.0.0</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/maven-properties-plugin-1.0.0</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/tags/maven-properties-plugin-1.0.0</url>
   </scm>
   <distributionManagement>
     <site>
