@@ -208,10 +208,6 @@
         <property name="statementTranslator" ref="statementTranslator" />
     </bean>
 
-    <bean id="statementTestDictionary" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl" autowire-candidate="false">
-        <constructor-arg index="0" value="classpath:statement-dictionary-config.xml" />
-    </bean>
-
     <bean id="statementAssembler"
         class="org.kuali.student.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="StatementDaoImpl"/>
@@ -226,17 +222,27 @@
         </property>
     </bean>
 
-    <bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
-        <property name="messageService" ref="ks.messageServiceMock"/>
-    </bean>
-
-
    <bean id="StatementServiceImpl"
         class="org.kuali.student.core.statement.service.impl.StatementServiceImpl" autowire="no">
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="StatementDaoImpl"/>
-        <property name="dictionaryServiceDelegate" ref="statementTestDictionary" />
+        <property name="dictionaryServiceDelegate">
+		    <bean class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+		        <constructor-arg>
+			        <value>classpath:ks-statement-dictionary-context.xml;</value>
+		        </constructor-arg>
+		    </bean>
+        </property>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
-        <property name="validator" ref="serviceValidator" />
+		<property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validator" ref="serviceValidator"/>
     </bean>
+    
+    <bean id="serviceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl"/>
+
+    <bean id="validatorFactory"
+          class="org.kuali.student.common.validator.ValidatorFactory">
+        <property name="defaultValidator" ref="serviceValidator"/>
+    </bean>       
+    
 </beans>

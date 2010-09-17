@@ -20,9 +20,10 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.old.Validator;
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -73,6 +74,7 @@ public class StatementServiceImpl implements StatementService {
     private DictionaryService dictionaryServiceDelegate;
     private StatementAssembler statementAssembler;
     private Validator validator;
+    private ValidatorFactory validatorFactory;
     // private StatementTreeViewAssembler statementTreeViewAssembler;
 
     public Validator getValidator() {
@@ -519,7 +521,12 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 
-        return validator.validateTypeStateObject(reqComponentInfo, getObjectStructure("org.kuali.student.core.statement.dto.ReqComponentInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ReqComponentInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(reqComponentInfo, objStructure);
+
+        return validationResults;
     }
 
     @Override
@@ -527,11 +534,16 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(statementInfo, "statementInfo");
 
-        return validator.validateTypeStateObject(statementInfo, getObjectStructure("org.kuali.student.core.statement.dto.StatementInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(StatementInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementInfo, objStructure);
+
+        return validationResults;
     }
 
     @Override
-    public ObjectStructure getObjectStructure(final String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
@@ -706,7 +718,12 @@ public class StatementServiceImpl implements StatementService {
 	@Override
 	public List<ValidationResultInfo> validateRefStatementRelation(final String validationType, RefStatementRelationInfo refStatementRelationInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return validator.validateTypeStateObject(refStatementRelationInfo, getObjectStructure("refStatementRelationInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(RefStatementRelationInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refStatementRelationInfo, objStructure);
+
+		return validationResults;
 	}
 
     @Override
@@ -1027,4 +1044,8 @@ public class StatementServiceImpl implements StatementService {
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
+
+	public void setValidatorFactory(ValidatorFactory validatorFactory) {
+		this.validatorFactory = validatorFactory;
+	}		
 }
