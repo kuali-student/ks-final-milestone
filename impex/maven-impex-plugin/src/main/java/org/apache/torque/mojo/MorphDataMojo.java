@@ -127,10 +127,6 @@ public class MorphDataMojo extends BaseMojo {
 		}
 	}
 
-	protected String getMorphedContents(String contents) {
-		return StringUtils.replace(contents, "\"data.dtd\"", '"' + getProject().getArtifactId() + "-data.dtd\"");
-	}
-
 	public File getNewDataOutputDir() {
 		return newDataOutputDir;
 	}
