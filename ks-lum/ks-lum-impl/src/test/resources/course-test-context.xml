@@ -348,9 +348,11 @@
 		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="lumDictionary" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService" />
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
         <property name="statementAssembler" ref="statementAssembler"/>
+		<property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validator" ref="businessServiceValidator"/>                
 	</bean>
 
 	<!-- Learning Objective service config -->
