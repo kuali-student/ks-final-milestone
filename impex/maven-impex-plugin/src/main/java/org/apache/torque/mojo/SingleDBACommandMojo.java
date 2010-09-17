@@ -17,6 +17,7 @@ public abstract class SingleDBACommandMojo extends AbstractDBACommandMojo {
 
 	@Override
 	protected void configureTransactions() throws MojoExecutionException {
+		getLog().info("configureTransactions");
 		Properties properties = getContextProperties();
 		SQLGenerator generator = new SQLGenerator(properties, url, DatabaseCommand.valueOf(getCommand().toUpperCase()));
 		try {
