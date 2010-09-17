@@ -190,4 +190,24 @@
       </exclusions>
     </dependency>
   </dependencies>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>2.5.1</version>
+      </plugin>
+    </plugins>
+  </reporting>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-properties-plugin</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-properties-plugin</developerConnection>
+    <url>http://test.kuali.org/svn/student/deploymentlab/trunk/maven-properties-plugin</url>
+  </scm>
+  <distributionManagement>
+    <site>
+      <id>ks.site</id>
+      <url>scp://student.kuali.org:/opt/www/student/site/maven-plugins/maven-properties-plugin/${project.version}</url>
+    </site>
+  </distributionManagement>
 </project>
