@@ -58,7 +58,7 @@ public abstract class DataModelTaskMojo extends TexenTaskMojo {
 	 */
 	protected void updateConfiguration() throws MojoExecutionException {
 		try {
-			loadPropertiesToMojo();
+			// loadPropertiesToMojo();
 			new JdbcConfigurer().updateConfiguration(this);
 		} catch (PropertyHandlingException e) {
 			throw new MojoExecutionException("Error handling properties", e);

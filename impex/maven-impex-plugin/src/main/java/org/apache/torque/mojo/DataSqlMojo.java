@@ -95,7 +95,7 @@ public class DataSqlMojo extends DataModelTaskMojo {
 
 	@Override
 	public void executeMojo() throws MojoExecutionException {
-		loadPropertiesToMojo();
+		// loadPropertiesToMojo();
 		updateConfiguration();
 		validateConfiguration();
 		generateContextProperties();
