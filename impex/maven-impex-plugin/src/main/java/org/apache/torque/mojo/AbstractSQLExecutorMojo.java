@@ -50,7 +50,7 @@ import static org.apache.commons.lang.StringUtils.*;
 /**
  * Abstract mojo for making use of SQLExecutor
  */
-public abstract class AbstractSQLExecutorMojo extends PropertiesMojo {
+public abstract class AbstractSQLExecutorMojo extends BaseMojo {
 	Utils utils = new Utils();
 	JDBCUtils jdbcUtils;
 	ConnectionHandler connectionHandler;
@@ -305,7 +305,6 @@ public abstract class AbstractSQLExecutorMojo extends PropertiesMojo {
 	 * @throws MojoExecutionException
 	 */
 	public void executeMojo() throws MojoExecutionException {
-		super.executeMojo();
 		jdbcUtils = new JDBCUtils();
 		updateConfiguration();
 		Credentials credentials = getNewCredentials();
