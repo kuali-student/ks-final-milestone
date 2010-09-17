@@ -27,7 +27,7 @@ public abstract class Morpher {
 	protected abstract String getMorphedContents(String contents);
 
 	public void executeMorph() throws IOException {
-		// Read the "old" schema XML data into a string
+		// Read the "old" data into a string
 		String contents = IOUtils.toString(morphRequest.getInputStream(), morphRequest.getEncoding());
 
 		// May not need to morph
@@ -37,7 +37,7 @@ public abstract class Morpher {
 			log.debug("Skipping morph on " + morphRequest.getName());
 		}
 
-		// Write the schema to the output stream
+		// Write the morphed data to the output stream
 		IOUtils.write(contents, morphRequest.getOutputStream(), morphRequest.getEncoding());
 	}
 
