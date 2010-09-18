@@ -101,6 +101,14 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 //    private KSButton addMore = new KSButton("Add Another");
     private KSLabel loadingDocuments = new KSLabel("Loading Documents...");
     private FormPanel form = new FormPanel();
+    private Callback<String> deleteCallback = new Callback<String>(){
+
+		@Override
+		public void exec(String result) {
+			refreshDocuments();
+		}
+    	
+    };
 
     private KSLightBox progressWindow = new KSLightBox();
     private VerticalFlowPanel progressPanel = new VerticalFlowPanel();
@@ -471,96 +479,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		uploadList.add(createUploadForm());
 	}
 	
-	private class DocumentList extends Composite{
-	    private FlexTable tableLayout = new FlexTable();
-	    private List<RefDocRelationInfoMock> docInfos;
-	    public DocumentList() {
-	        this.initWidget(tableLayout);
-	    }
-	    
-	    public DocumentList(List<RefDocRelationInfoMock> docInfos) {
-	        setDocInfos(docInfos);
-            this.initWidget(tableLayout);
-	    }
-	    
-	    public void setDocInfos(List<RefDocRelationInfoMock> docInfos) {
-	        this.docInfos = docInfos;
-	        redraw();
-	    }
-	    
-	    public void add(RefDocRelationInfoMock docInfo) {
-	        docInfos = (docInfos == null)? new ArrayList<RefDocRelationInfoMock>() :
-	            docInfos;
-	        docInfos.add(docInfo);
-	        redraw();
-	    }
-	    
-	    private void redraw() {
-            tableLayout.clear();
-            if (docInfos != null) {
-                int rowIndex = 0;
-                
-                for (final RefDocRelationInfoMock docInfo : docInfos) {
-                    HTML name = new HTML("No file exists");
-                    HTML documentText = new HTML();
-                    AbbrButton delete = new AbbrButton(AbbrButtonType.DELETE);
-                    int columnIndex = 0;
 
-                    // display header
-                    if (rowIndex == 0) {
-                        StringBuilder titleTextSb = new StringBuilder();
-                        titleTextSb.append("Attached Documents (").append(docInfos.size()).append(")");
-                        SectionTitle uploadedFileSectionHeader = SectionTitle.generateH3Title(titleTextSb.toString());
-                        uploadedFileSectionHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
-                        tableLayout.setWidget(rowIndex, columnIndex, uploadedFileSectionHeader);
-                        tableLayout.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 3);
-                        rowIndex++;
-                    }
-                    tableLayout.setWidget(rowIndex, columnIndex, name);
-                    name.setHTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + docInfo.getDocumentId() + "\" target=\"_blank\"><b>" + docInfo.getTitle() + "</b></a>");
-                    name.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
-                    tableLayout.setWidget(rowIndex, columnIndex, name);
-                    columnIndex++;
-                    documentText.setHTML(docInfo.getDesc().getPlain());
-                    documentText.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
-                    tableLayout.setWidget(rowIndex, columnIndex, documentText);
-                    columnIndex++;
-                    tableLayout.setWidget(rowIndex, columnIndex, delete);
-                    delete.addClickHandler(new ClickHandler(){
-                        @Override
-                        public void onClick(ClickEvent event) {
-                             try {
-                                 //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
-                                 //before delete
-                                documentRelationRpc.deleteRefDocRelation(docInfo.getId(), new KSAsyncCallback<StatusInfo>(){
-                                    @Override
-                                    public void onSuccess(StatusInfo result) {
-                                        try {
-                                            documentServiceAsync.deleteDocument(docInfo.getDocumentId(), new KSAsyncCallback<StatusInfo>(){
-                                                @Override
-                                                public void onSuccess(StatusInfo result) {
-                                                    refreshDocuments();
-                                                }
-
-                                            });
-                                        } catch (Exception e) {
-                                            GWT.log("deleteDocument failed", e);
-                                        }
-
-                                    }
-                                });
-                            } catch (Exception e) {
-                                GWT.log("deleteRefDocRelation failed", e);
-                            }
-
-
-                        }
-                    });
-                    rowIndex++;
-                }
-            }
-	    }
-	}
 
 	private static class DocumentForm extends Composite{
 		private KSLabel file = new KSLabel("File Name");
@@ -637,7 +556,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 					public void onSuccess(List<RefDocRelationInfoMock> result) {
 						documentList.clear();
 						if(result != null && !(result.isEmpty())){
-						    documentList.add(new DocumentList(result));
+						    documentList.add(new DocumentList(result, deleteCallback));
 						}
 						documentList.remove(loadingDocuments);
 					}

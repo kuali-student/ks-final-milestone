@@ -1411,6 +1411,14 @@
 				</bean>
 				<bean parent="result" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="proposal.resultColumn.proposalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type for the proposal." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<bean parent="result" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key"
 						value="proposal.resultColumn.proposalOptionalName" />
 					<property name="name" value="Name" />

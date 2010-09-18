@@ -601,7 +601,7 @@ public class SearchPanel extends Composite{
             for (ResultRow row : selectedRows) {
                 String displayKey = row.getValue(activeSearchParametersWidget.getLookupMetadata().getResultDisplayKey());
                 String returnKey = row.getValue(activeSearchParametersWidget.getLookupMetadata().getResultReturnKey());
-                selectedValues.add(new SelectedResults(displayKey, returnKey));
+                selectedValues.add(new SelectedResults(displayKey, returnKey, row));
                 if (multiSelect == false) {
                     break;
                 }

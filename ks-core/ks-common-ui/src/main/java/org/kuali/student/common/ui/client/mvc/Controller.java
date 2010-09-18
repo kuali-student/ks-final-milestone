@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.mvc;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -440,11 +441,18 @@ public abstract class Controller extends Composite implements HistorySupport, Br
                 	if(theView instanceof Controller){
                 		
                 		ViewContext newContext = new ViewContext();
-                		if(tokenMap.get(ViewContext.ID_ATR) != null){
-                			newContext.setId(tokenMap.get(ViewContext.ID_ATR));
-                		}
-                		if(tokenMap.get(ViewContext.ID_TYPE_ATR) != null){
-                			newContext.setIdType(tokenMap.get(ViewContext.ID_TYPE_ATR));
+                		Iterator<String> tokenIt = tokenMap.keySet().iterator();
+                		while(tokenIt.hasNext()){
+                			String key = tokenIt.next();
+                			if(key.equals(ViewContext.ID_ATR)){
+                				newContext.setId(tokenMap.get(ViewContext.ID_ATR));
+                			}
+                			else if(key.equals(ViewContext.ID_TYPE_ATR)){
+                				newContext.setIdType(tokenMap.get(ViewContext.ID_TYPE_ATR));
+                			}
+                			else{
+                				newContext.setAttribute(key, tokenMap.get(key));
+                			}
                 		}
                 		
                 		ViewContext viewContext = ((Controller) theView).getViewContext();

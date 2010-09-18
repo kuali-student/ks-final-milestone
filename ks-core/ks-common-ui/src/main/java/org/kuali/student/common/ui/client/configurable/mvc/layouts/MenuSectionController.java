@@ -68,6 +68,10 @@ public class MenuSectionController extends LayoutController implements ContentNa
         layout.add(rightPanel);
         this.initWidget(layout);
     }
+    
+    public void removeMenuNavigation(){
+    	collapsablePanel.removeFromParent();
+    }
 
     public void setContentTitle(String title){
         header.setTitle(title);

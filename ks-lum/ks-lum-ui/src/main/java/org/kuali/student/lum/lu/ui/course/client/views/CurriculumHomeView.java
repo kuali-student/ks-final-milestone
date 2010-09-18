@@ -8,6 +8,7 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
@@ -18,6 +19,7 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -156,16 +158,31 @@ public class CurriculumHomeView extends ViewComposite{
             @Override
             public void onSuccess(Metadata metadata) {
                 metadata = metadata.getProperties().get("findProposal");                
-                KSPicker proposalSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
-                proposalSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
+                final KSPicker proposalSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+                proposalSearchWindow.setAdvancedSearchCallback(new Callback<List<SelectedResults>>(){
+
+					@Override
+					public void exec(List<SelectedResults> result) {
+						SelectedResults value = result.get(0);
+						ViewContext viewContext = new ViewContext();
+						viewContext.setId(value.getResultRow().getId());
+						viewContext.setAttribute(IdAttributes.DOC_TYPE, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
+						viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+						Application.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
+						proposalSearchWindow.getSearchWindow().hide();
+					}
+				});
+                /*(new ValueChangeHandler<List<String>>(){
                     public void onValueChange(ValueChangeEvent<List<String>> event) {
                         List<String> selection = event.getValue();
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(selection.get(0));
+                        //viewContext.setAttribute("type", selection.get(1));
+                        viewContext.setPermissionType(PermissionType.OPEN);
                         viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
                         Application.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
                     }                    
-                });
+                });*/
                 list.add(proposalSearchWindow);
             }
         });       

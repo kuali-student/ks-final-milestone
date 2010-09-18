@@ -3,7 +3,6 @@
     max-width: 800px;
     border-bottom: 1px solid #999;
     border-right: 1px solid #999;
-    border-left: 1px solid #999;
     border-collapse: collapse;
 }
 
@@ -32,6 +31,7 @@
 	padding-bottom: 3px;
     padding-top: 3px;
     padding-left: 5px;
+    border-left: 1px solid #999;
 }
 .sectionTitle{
   	font-size: 18px;
@@ -52,16 +52,25 @@
   	padding-bottom: 3px;
     padding-top: 3px;
     padding-left: 5px;
+    border-left: 1px solid #999;
 }
 .columnTitle{
-  	font-size: 16px;
-  	font-weight: bold;
+  	background-color:gainsboro;
+	border-left:1px solid #999;
+	border-top:1px solid #999;
+	font-size:14px;
+	font-weight:bold;
+	padding:5px;
 }
 .rowHighlight{
-    background-color: pink;
+    background-color: #FFE0E9;
 }
 .cellHighlight{
-    background-color: pink;
+    background-color: #FFE0E9;
+}
+
+.rowDiffHighlight{
+    background-color: #FFF8C6;
 }
 
 .summary-table-multiplicity-level-1{
@@ -76,4 +85,8 @@
 	margin: 0;
 	padding-left: 1.1em;
 	list-style: inherit outside none;
+}
+
+.firstRowInUnnamedBlock{
+	border-top: 1px solid #999;
 }

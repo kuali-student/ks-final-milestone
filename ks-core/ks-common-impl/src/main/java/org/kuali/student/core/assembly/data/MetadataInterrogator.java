@@ -168,6 +168,9 @@ public class MetadataInterrogator {
 	public static boolean isRequiredForNextState(Metadata meta){
 		boolean required = false;
 		
+		if(meta == null){
+			return false;
+		}
 		//This flag is only set when using the new dictionary, in which case there should
 		//never be more than one constraint.
 		if (meta.getConstraints() != null && meta.getConstraints().size() == 1){

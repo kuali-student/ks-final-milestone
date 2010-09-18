@@ -27,6 +27,10 @@ public class ListToTextBinding implements ModelWidgetBinding<HasText> {
 
 	@Override
 	public void setWidgetValue(HasText widget, DataModel model, String path) {
+		widget.setText(getStringList(model, path));
+	}
+	
+	public String getStringList(DataModel model, String path) {
 		Data data = model.get(path);
 		String resultString = "";
 		if(data!=null){
@@ -51,7 +55,7 @@ public class ListToTextBinding implements ModelWidgetBinding<HasText> {
 			resultString = resultString.trim();
 			resultString = resultString.substring(0, resultString.length() - 1);
 		}
-		widget.setText(resultString);
+		return resultString;
 	}
 
 	/**

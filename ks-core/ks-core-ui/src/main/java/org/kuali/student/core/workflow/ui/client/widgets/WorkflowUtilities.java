@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -52,6 +53,8 @@ public class WorkflowUtilities{
 	
 	boolean loaded=false;
     
+	private boolean workflowWidgetsEnabled = true;
+	
 	private KSMenuItemData wfApproveItem;
 	private KSMenuItemData wfDisApproveItem;
 	private KSMenuItemData wfAcknowledgeItem;
@@ -83,6 +86,13 @@ public class WorkflowUtilities{
 		
 		this.parentController = parentController;
 		this.onSubmitSuccessHandler = onSubmitSuccessHandler;
+		this.proposalPath = proposalPath;
+		setupWFButtons();
+		setupDialog();
+	}
+	
+	public WorkflowUtilities(LayoutController parentController, String proposalPath) {
+		this.parentController = parentController;
 		this.proposalPath = proposalPath;
 		setupWFButtons();
 		setupDialog();
@@ -153,11 +163,29 @@ public class WorkflowUtilities{
 	}
 	
 	public Widget getWorkflowActionsWidget(){
+		//InfoMessage infoContainer = new InfoMessage();
 		StylishDropDown workflowActionsDropDown = new StylishDropDown("Workflow Actions");
+		workflowActionsDropDown.makeAButtonWhenOneItem(true);
 		workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
 		workflowWidgets.add(workflowActionsDropDown);
+		workflowActionsDropDown.setVisible(false);
 		refresh();
+/*		infoContainer.add(workflowActionsDropDown);
+		infoContainer.showWarnStyling(false);
+		infoContainer.setVisible(true);*/
+		//workflowActionsDropDown
 		return workflowActionsDropDown;
+	}
+	
+	public void enableWorkflowActionsWidgets(boolean enable){
+		workflowWidgetsEnabled = enable;
+		for(StylishDropDown widget: workflowWidgets){	
+			widget.setEnabled(enable);
+		}
+	}
+	
+	public void doValidationCheck(Callback<List<ValidationResultInfo>> callback){
+		dataModel.validateNextState(callback);
 	}
 	
 	public KSLabel getWorkflowStatusLabel(){
@@ -205,8 +233,16 @@ public class WorkflowUtilities{
 					if(result.contains("F")){
 						items.add(wfFYIWorkflowItem);
 					}
-					for(StylishDropDown widget: workflowWidgets){	
+					for(StylishDropDown widget: workflowWidgets){
+						
 						widget.setItems(items);
+						widget.setEnabled(workflowWidgetsEnabled);
+						if(items.isEmpty()){
+							widget.setVisible(false);
+						}
+						else{
+							widget.setVisible(true);
+						}
 					}
 				}
 			});

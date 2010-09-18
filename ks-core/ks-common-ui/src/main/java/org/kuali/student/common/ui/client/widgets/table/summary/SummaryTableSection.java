@@ -20,6 +20,8 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -77,6 +79,37 @@ public class SummaryTableSection extends VerticalSection {
 
     public void addSummaryTableFieldBlock(SummaryTableFieldBlock section) {
         summaryTableModel.addSection(section);
+    }
+    
+    @Override
+    public ErrorLevel processValidationResults(
+    		List<ValidationResultInfo> results) {
+    	ErrorLevel status = ErrorLevel.OK;
+    	for(int i = 0; i < results.size(); i++){
+    		if(summaryTable.containsKey(results.get(i).getElement())){
+    			System.out.println(results.get(i).getElement() + " *** " + results.get(i).getErrorLevel() + " *** " + results.get(i).getMessage());
+    			if(results.get(i).getLevel().getLevel() > status.getLevel()){
+    				status = results.get(i).getLevel();
+    			}
+    			if(this.isValidationEnabled){
+        			summaryTable.highlightRow(results.get(i).getElement(), "rowHighlight");
+        		}
+    		}
+    	}
+    	return status;
+    }
+    
+    @Override
+    public ErrorLevel processValidationResults(
+    		List<ValidationResultInfo> results, boolean clearAllValidation) {
+    	if(clearAllValidation){
+    		this.removeValidationHighlighting();
+    	}
+    	return this.processValidationResults(results);
+    }
+    
+    public void removeValidationHighlighting(){
+    	summaryTable.clearHighlightedRows("rowHighlight");
     }
     
     private int buildMultiplicityRows(DataModel model, DataModel compModel, SummaryTableMultiplicityFieldRow parentRow, 
@@ -261,6 +294,7 @@ public class SummaryTableSection extends VerticalSection {
     
     @Override
     public void updateWidgetData(final DataModel model) {
+    	
         controller.requestModel("ComparisonModel", new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel otherModel) {
@@ -311,6 +345,7 @@ public class SummaryTableSection extends VerticalSection {
             	buildSummaryTableMultiplicity(model, comparisonModel, fieldBlock);
             }
             List<SummaryTableRow> rowList = fieldBlock.getSectionRowList();
+            
             for (int j = 0; j < rowList.size(); j++) {
                 SummaryTableFieldRow fieldRow = (SummaryTableFieldRow) rowList.get(j);
                 FieldDescriptor field = fieldRow.getFieldDescriptor1();
@@ -329,13 +364,17 @@ public class SummaryTableSection extends VerticalSection {
                 	
 	                	Object value = model.get(QueryPath.parse(fieldPath));
 	                	if(value != null){
-                    		if(value instanceof String && !((String)value).isEmpty()){
-		                		firstValueEmpty = false;
+                    		if(value instanceof String && ((String)value).isEmpty()){
+		                		firstValueEmpty = true;
 		                	}
+                    		else if(value instanceof Data && ((Data) value).size() == 0){
+                    			firstValueEmpty = true;
+                    		}
                     		else{
                     			firstValueEmpty = false;
                     		}
 	                	}
+	                	
 		                
 	                	ModelWidgetBinding binding = field.getModelWidgetBinding();
 	                
@@ -346,13 +385,17 @@ public class SummaryTableSection extends VerticalSection {
 		                    GWT.log(field.getFieldKey() + " has no widget binding.", null);
 		                }
 	                }
+                	
                 }
+
                 // the second column
                 if (comparisonModel == null) {
                 	if(fieldRow.getContentCellCount() == 2){
                 		fieldRow.setContentCellCount(1);
                 	}
                 }else{
+                	summaryTableModel.setContentColumnHeader1(model.getModelName());
+                	summaryTableModel.setContentColumnHeader2(comparisonModel.getModelName());
                 	if(fieldRow.getContentCellCount() == 1){
                 		fieldRow.setContentCellCount(2);
                 	}
@@ -363,9 +406,12 @@ public class SummaryTableSection extends VerticalSection {
 	                    	
 	                    	Object value = model.get(QueryPath.parse(fieldPath2));
 	                    	if(value != null){
-	                    		if(value instanceof String && !((String)value).isEmpty()){
-			                		secondValueEmpty = false;
+	                    		if(value instanceof String && ((String)value).isEmpty()){
+			                		secondValueEmpty = true;
 			                	}
+	                    		else if(value instanceof Data && ((Data) value).size() == 0){
+	                    			secondValueEmpty = true;
+	                    		}
 	                    		else{
 	                    			secondValueEmpty = false;
 	                    		}
@@ -375,7 +421,7 @@ public class SummaryTableSection extends VerticalSection {
 	                    	
 		                    if (binding2 != null) {
 		                        Widget w = field2.getFieldWidget();
-		                        binding2.setWidgetValue(w, model, fieldPath2);
+		                        binding2.setWidgetValue(w, comparisonModel, fieldPath2);
 		                    } else {
 		                        GWT.log(field2.getFieldKey() + " has no widget binding for the ComparisonModel.", null);
 		                    }
@@ -388,9 +434,11 @@ public class SummaryTableSection extends VerticalSection {
                 }
                 processShowConditions(fieldRow, model, comparisonModel);
             }
+            
         }
-        
+
         summaryTable.doLayout();
+        summaryTable.markDiffs("rowDiffHighlight");
     }
 
     @Override

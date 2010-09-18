@@ -51,7 +51,8 @@ public class DataModel implements Model {
      *
      */
     private static final long serialVersionUID = 1L;
-
+    
+    private String modelName = "";
     private ModelDefinition definition;
     private DataModelValidator validator = new DataModelValidator();
 
@@ -63,6 +64,10 @@ public class DataModel implements Model {
     public DataModel() {
         // do nothing
     }
+    
+    public DataModel(String name) {
+        this.modelName = name;
+    }
 
     public DataModel(final ModelDefinition definition, final Data root) {
         this.definition = definition;
@@ -70,7 +75,15 @@ public class DataModel implements Model {
         validator.setDateParser((DateParser) GWT.create(ClientDateParser.class));
     }
 
-    public <T> T get(final QueryPath path) {
+    public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public <T> T get(final QueryPath path) {
         return (T) root.query(path);
     }
 

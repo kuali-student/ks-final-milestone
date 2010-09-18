@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.mvc.history;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -185,6 +186,15 @@ public class HistoryManager {
 		}
 		if(context.getIdType() != null){
 			path = path + "&" + ViewContext.ID_TYPE_ATR + "=" + context.getIdType();
+		}
+		if(!context.getAttributes().isEmpty()){
+			Map<String,String> attributes = context.getAttributes();
+			Iterator<String> it = attributes.keySet().iterator();
+			while(it.hasNext()){
+				String key = it.next();
+				String value = attributes.get(key);
+				path = path + "&" + key + "=" + value;
+			}
 		}
 		//TODO add the ability for view context to add a variety of additional attributes
 		return path;

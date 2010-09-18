@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.Composite;
 
 // Skeleton for an action list for View Course.  Actions don't go anywhere yet as most functionality
 // hasn't been coded yet.
-
+@Deprecated
 public class ViewCourseActionList extends Composite {
 	DataModel dataModel=null;
 	

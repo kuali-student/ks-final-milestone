@@ -27,16 +27,25 @@ public class KSDocumentHeader extends Composite {
 	@UiField
 	SpanPanel widgetPanel;
 	
+	private boolean hasSeparator = true;
 	public KSDocumentHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+	
+	public KSDocumentHeader(boolean hasContentWidgetSeparator) {
+		this.hasSeparator = hasContentWidgetSeparator;
+		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
 	public void setTitle(String header){
 		headerHTML.setHTML("<h2>"+header+"</h2>");
 	}
     public void addWidget(Widget w){
     	if(w != null){
-    		if(widgetPanel.getElement().hasChildNodes()){
-    			widgetPanel.add(new HTML("<span style='float: left; margin-left: .7em; margin-right: .7em'>|</span>"));
+    		if(hasSeparator){
+	    		if(widgetPanel.getElement().hasChildNodes()){
+	    			widgetPanel.add(new HTML("<span style='float: left; margin-left: .7em; margin-right: .7em'>|</span>"));
+	    		}
     		}
     		widgetPanel.add(w);
     	}

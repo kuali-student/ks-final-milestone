@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -44,43 +45,92 @@ public class SummaryTable  extends FlexTable{
         }
         
     }
-    public void highLightRow(String rowKey){
-        this.getRowFormatter().setStyleName(rowMap.get(rowKey).intValue(),"rowHighlight");
+    
+    public void markDiffs(String style){
+    	//skip first row, will always be title related
+    	for(int i = 1; i < rowIndex; i++){
+    		if(getFlexCellFormatter().getColSpan(i, 0) == 1 && getFlexCellFormatter().getColSpan(i, 1) == 1
+    				&& getFlexCellFormatter().getColSpan(i, 2) == 1){
+	    		Element cell1 = this.getCellFormatter().getElement(i, 1);
+	    		Element cell2 = this.getCellFormatter().getElement(i, 2);
+	    		if(!cell1.getInnerText().equals(cell2.getInnerText())){
+	    			this.getRowFormatter().addStyleName(i, style);
+	    		}
+	    		else{
+	    			this.getRowFormatter().removeStyleName(i, style);
+	    		}
+    		}
+    	}
     }
-    public void highLightCell(String rowKey, int cellIndex){
-        this.getCellFormatter().setStyleName(rowMap.get(rowKey).intValue(),cellIndex,"cellHighlight");
+    
+    public boolean containsKey(String key){
+    	return rowMap.containsKey(key);
     }
-    public void clearHighLightRow(String rowKey){
-        this.getRowFormatter().setStyleName(rowMap.get(rowKey).intValue(),"");
+    
+    public void highlightRow(String rowKey, String style){
+    	if(rowMap.containsKey(rowKey)){
+    		this.getRowFormatter().setStyleName(rowMap.get(rowKey).intValue(), style);
+    	}
     }
-    public void clearHighLightCell(String rowKey, int cellIndex){
-        this.getCellFormatter().setStyleName(rowMap.get(rowKey).intValue(),cellIndex,"");
+
+    public void clearHighlightRow(String rowKey, String removeThisStyle){
+    	if(rowMap.containsKey(rowKey)){
+    		this.getRowFormatter().removeStyleName(rowMap.get(rowKey).intValue(), removeThisStyle);
+    	}
+    }
+    
+    public void clearHighlightedRows(String removeThisStyle){
+    	for(int i = 0; i < rowIndex; i++){
+    		this.getRowFormatter().removeStyleName(i, removeThisStyle);
+    	}
+    }
+    
+    public void highlightCell(String rowKey, int cellIndex, String style){
+    	if(rowMap.containsKey(rowKey)){
+    		this.getCellFormatter().setStyleName(rowMap.get(rowKey).intValue(),cellIndex, style);
+    	}
+    }
+    
+    public void clearHighlightCell(String rowKey, int cellIndex){
+    	if(rowMap.containsKey(rowKey)){
+    		this.getCellFormatter().setStyleName(rowMap.get(rowKey).intValue(),cellIndex,"");
+    	}
         
     }
     private void addSection(SummaryTableBlock section){
-        getFlexCellFormatter().setStyleName(rowIndex,0, "sectionTitleRow");
-        getFlexCellFormatter().setColSpan(rowIndex, 0, 3); 
-        getFlexCellFormatter().setVerticalAlignment(rowIndex, 0, HasVerticalAlignment.ALIGN_BOTTOM);
-        HorizontalPanel sectionTitlePanel = new HorizontalPanel();
-        Label sectionTitle = new Label(section.getTitle());
-        sectionTitlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-        sectionTitle.setStyleName("sectionTitle");
-        sectionTitlePanel.add(sectionTitle);
-    
-        if(model.isEditable()){
-            Anchor sectionEditLink = new Anchor("Edit");
-            sectionEditLink.setStyleName("sectionEditLink");
-            if(section.getEditingHandler() != null){
-                sectionEditLink.addClickHandler(section.getEditingHandler());
-            }
-            sectionTitlePanel.add(sectionEditLink);
-            
-        }
-        setWidget(rowIndex,0, sectionTitlePanel);
-        rowIndex++;
-        
+    	int topRowIndex = -1;
+    	if(section.getTitle() != null && !section.getTitle().isEmpty()){
+	        getFlexCellFormatter().setStyleName(rowIndex,0, "sectionTitleRow");
+	        getFlexCellFormatter().setColSpan(rowIndex, 0, 3); 
+	        getFlexCellFormatter().setVerticalAlignment(rowIndex, 0, HasVerticalAlignment.ALIGN_BOTTOM);
+	        HorizontalPanel sectionTitlePanel = new HorizontalPanel();
+	        Label sectionTitle = new Label(section.getTitle());
+	        sectionTitlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+	        sectionTitle.setStyleName("sectionTitle");
+	        sectionTitlePanel.add(sectionTitle);
+	    
+	        if(model.isEditable()){
+	            Anchor sectionEditLink = new Anchor("Edit");
+	            sectionEditLink.setStyleName("sectionEditLink");
+	            if(section.getEditingHandler() != null){
+	                sectionEditLink.addClickHandler(section.getEditingHandler());
+	            }
+	            sectionTitlePanel.add(sectionEditLink);
+	            
+	        }
+	        setWidget(rowIndex,0, sectionTitlePanel);
+	        rowIndex++;
+    	}
+    	else{
+    		topRowIndex = rowIndex;
+    	}
+    	
         for(SummaryTableRow row: section.getSectionRowList()){
             addSectionRow(row);
+        }
+        
+        if(topRowIndex != -1){
+        	this.getRowFormatter().addStyleName(topRowIndex, "firstRowInUnnamedBlock");
         }
         
     }

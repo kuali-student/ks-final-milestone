@@ -221,9 +221,9 @@ public abstract class BaseSection extends SpanPanel implements Section{
 							//System.out.println("Checking validation on field " + f.getFieldKey());
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
-/*								if(fieldStatus == ErrorLevel.ERROR){
+								if(fieldStatus == ErrorLevel.ERROR){
 									System.out.println("Error: " + f.getFieldKey());
-								}*/
+								}
 								if(fieldStatus.getLevel() > status.getLevel()){
 
 									status = fieldStatus;

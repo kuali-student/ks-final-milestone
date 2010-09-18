@@ -99,7 +99,8 @@ public class CollaboratorTool extends Composite implements ToolView{
 	
 	public static class CollaboratorModel extends AbstractSimpleModel {
 		private String dataId;
-
+		private String workflowDocType;
+		
 		public String getDataId() {
 			return dataId;
 		}
@@ -108,9 +109,17 @@ public class CollaboratorTool extends Composite implements ToolView{
 			this.dataId = dataId;
 			super.fireChangeEvent(Action.UPDATE);
 		}
+
+		public void setWorkflowDocType(String workflowDocType) {
+			this.workflowDocType = workflowDocType;
+		}
+
+		public String getWorkflowDocType() {
+			return workflowDocType;
+		}
 	}
     
-    public CollaboratorTool(Enum<?> viewEnum, String viewName, String workflowDocType, SectionTitle title){
+    public CollaboratorTool(Enum<?> viewEnum, String viewName, SectionTitle title){
     	if(title != null){
     		section = new GroupSection(title);
     	}
@@ -119,7 +128,6 @@ public class CollaboratorTool extends Composite implements ToolView{
     	}
         this.viewEnum = viewEnum;
         this.viewName = viewName;
-        this.workflowDocType = workflowDocType;
     	this.initWidget(layout);
     }
 
@@ -226,7 +234,7 @@ public class CollaboratorTool extends Composite implements ToolView{
 					
 					dataId = model.getDataId();
 					if(workflowId == null){
-						workflowRpcServiceAsync.getWorkflowIdFromDataId(workflowDocType, dataId, new KSAsyncCallback<String>(){
+						workflowRpcServiceAsync.getWorkflowIdFromDataId(model.getWorkflowDocType(), dataId, new KSAsyncCallback<String>(){
 							@Override
 							public void handleFailure(Throwable caught) {
 								//Window.alert("Getting workflowId failed");

@@ -172,11 +172,11 @@ h7.ks-layout-header{
 	background-color: #f4e271; padding: 6px 6px 6px 15px; position:relative; color: #000; margin-bottom: 10px;
 }
 
-.ks-message-static img {
-	position:absolute; top: -5px; left: -5px; z-index: 900;
+.ks-message-static-image {
+	position:absolute; top: -5px; left: -5px; z-index: 2;
 }
 
-.ks-message-static a { margin-left: 10px;}
+.ks-message-static a { }
 
 /*** Comments ***/
 

@@ -1,31 +1,43 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
+import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.documenttool.DocumentList;
+import org.kuali.student.common.ui.client.widgets.documenttool.DocumentListBinding;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableModel;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedController;
+import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
@@ -44,9 +56,14 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseSummaryConfigurer implements
@@ -68,6 +85,8 @@ public class CourseSummaryConfigurer implements
     public static final String PROPOSAL = "";
     public static final String COURSE = "";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
+    private List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
+    private boolean showingValidation = false;
     private static final String OPTIONAL = "o";
     
     protected String type = "course";
@@ -77,6 +96,8 @@ public class CourseSummaryConfigurer implements
     
     private Controller controller;
     private SummaryTableSection tableSection;
+    
+    
     
     public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
     
@@ -159,18 +180,115 @@ public class CourseSummaryConfigurer implements
         tableSection.addSummaryTableFieldBlock(generateLearningObjectivesSection());
         tableSection.addSummaryTableFieldBlock(generateActiveDatesSection());
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
-        
-        VerticalSectionView verticalSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
-        if(controller instanceof WorkflowEnhancedController){
-        	verticalSection.addWidget(((WorkflowEnhancedController)controller).getWfUtilities().getWorkflowActionsWidget());
+        tableSection.addSummaryTableFieldBlock(generateProposalDocumentsSection());
+        if(controller instanceof WorkflowEnhancedNavController){
+	        final WarnContainer infoContainer1;
+	        final WarnContainer infoContainer2;
+	        
+	        infoContainer1 = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController)controller).getWfUtilities().getWorkflowActionsWidget());
+	        infoContainer2 = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController)controller).getWfUtilities().getWorkflowActionsWidget());
+
+	        //Override beforeShow for summary section here to allow for custom validation mechanism on the table
+	        VerticalSectionView verticalSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL){
+	        	@Override
+	        	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+	        		
+	        		super.beforeShow(new Callback<Boolean>(){
+	
+						@Override
+						public void exec(final Boolean result) {
+							if(result){
+								((WorkflowEnhancedNavController)controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>(){
+	
+									@Override
+									public void exec(
+											List<ValidationResultInfo> validationResult) {
+										//validationInfos = validationResult;
+										tableSection.enableValidation(showingValidation);
+										ErrorLevel isValid = tableSection.processValidationResults(validationResult, true);
+										
+										validationInfos = validationResult;
+			                        	if(isValid != ErrorLevel.ERROR){
+			                				infoContainer1.showWarningLayout(false);
+			                				infoContainer2.showWarningLayout(false);
+			                				((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(true);
+			                        	}
+			                        	else{
+			                        		infoContainer1.showWarningLayout(true);
+			                        		infoContainer2.showWarningLayout(true);
+			                        		((WorkflowEnhancedNavController)controller).getWfUtilities().enableWorkflowActionsWidgets(false);
+			                        	}                            
+										onReadyCallback.exec(result);
+										
+									}});
+							}
+							else{
+								onReadyCallback.exec(result);
+							}
+						}});
+	        		
+	        	}
+	        };
+	        
+	        verticalSection.addWidget(infoContainer1);
+	        verticalSection.addSection(tableSection);
+	        verticalSection.addWidget(infoContainer2);
+	        return verticalSection;
         }
-        verticalSection.addSection(tableSection);
-        if(controller instanceof WorkflowEnhancedController){
-        	verticalSection.addWidget(((WorkflowEnhancedController)controller).getWfUtilities().getWorkflowActionsWidget());
+        else{
+        	VerticalSectionView verticalSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
+        	verticalSection.addSection(tableSection);
+        	GWT.log("CourseSummaryConfigurer - Summary table needs a workflow controller to provide submit/validation mechanism");
+        	return verticalSection;
         }
-        
-        return verticalSection;        
+                
    
+    }
+    
+    private SummaryTableFieldBlock generateProposalDocumentsSection() {
+    	SummaryTableFieldBlock block = new SummaryTableFieldBlock();
+        block.addEditingHandler(new EditHandler(CourseSections.DOCUMENTS));
+        block.setTitle(getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
+    	block.addSummaryTableFieldRow(getFieldRow("proposal/id", generateMessageInfo(LUConstants.TOOL_DOCUMENTS_LABEL_KEY), 
+         		new DocumentList(false, false), new DocumentList(false, false), null, new DocumentListBinding("proposal/id"), false));
+		return block;
+	}
+
+	private List<Anchor> validateLinks = new ArrayList<Anchor>();
+    private WarnContainer generateWorkflowWidgetContainer(Widget w){
+    	WarnContainer warnContainer = new WarnContainer();
+        warnContainer.add(w);
+        //TODO use messages here
+        KSLabel label = new KSLabel("This proposal has missing fields.");
+        final String showText = "Show what's missing.";
+        final String hideText = "Hide error highlighting.";
+        final Anchor link = new Anchor(showText);
+        validateLinks.add(link);
+        link.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if(!showingValidation){
+					for(int i=0; i< validateLinks.size(); i++){
+						validateLinks.get(i).setText(hideText);
+					}
+					showingValidation = true;
+					tableSection.enableValidation(showingValidation);
+					tableSection.processValidationResults(validationInfos, true);
+				}
+				else{
+					for(int i=0; i< validateLinks.size(); i++){
+						validateLinks.get(i).setText(showText);
+					}
+					showingValidation = false;
+					tableSection.enableValidation(showingValidation);
+					tableSection.removeValidationHighlighting();
+				}
+			}
+		});
+        warnContainer.addWarnWidget(label);
+        warnContainer.addWarnWidget(link);
+        return warnContainer;
     }
     
     @SuppressWarnings("unchecked")
@@ -183,7 +301,7 @@ public class CourseSummaryConfigurer implements
         tableSection.addSummaryTableFieldBlock(generateActiveDatesSection());
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
         
-        VerticalSectionView verticalSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL);
+        VerticalSectionView verticalSection = new VerticalSectionView(ViewCourseSections.DETAILED, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL, false);
         verticalSection.addSection(tableSection);
         
         return verticalSection;        
@@ -218,7 +336,8 @@ public class CourseSummaryConfigurer implements
         
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow("proposal/rationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY)));
-
+       
+        
         return block;
     }
     
@@ -231,7 +350,7 @@ public class CourseSummaryConfigurer implements
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + TRANSCRIPT_TITLE, generateMessageInfo(LUConstants.SHORT_TITLE_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + SUBJECT_AREA, generateMessageInfo(LUConstants.SUBJECT_CODE_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.COURSE_NUMBER_LABEL_KEY)));
-        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUConstants.INSTRUCTORS_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUConstants.INSTRUCTORS_LABEL_KEY), null, null, null, new KeyListModelWigetBinding("personId"), false));
         
         block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + CROSS_LISTINGS,
 		        LUConstants.CROSS_LISTED_ITEM_LABEL_KEY,
@@ -249,7 +368,7 @@ public class CourseSummaryConfigurer implements
 		                Arrays.asList("variationTitle", LUConstants.TITLE_LABEL_KEY))));
         
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY)));
-        //block.addSummaryTableFieldRow(getFieldRow("proposal/rationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY)));
+       
         return block;
     }
     
@@ -481,4 +600,173 @@ public class CourseSummaryConfigurer implements
         }
         return fd;
     }
+
+	public VerticalSectionView generateCourseBriefSection() {
+		SummaryTableSection courseBriefSection = new SummaryTableSection(controller);
+		courseBriefSection.setEditable(false);
+		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUConstants.COURSE_TITLE_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + "code", generateMessageInfo(LUConstants.COURSE_NUMBER_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + ADMIN_ORGS, generateMessageInfo(LUConstants.ADMIN_ORG_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + CAMPUS_LOCATIONS, generateMessageInfo(LUConstants.CAMPUS_LOCATION_LABEL_KEY)));
+
+        Map<String, ModelWidgetBinding> customBindings = new HashMap<String, ModelWidgetBinding>();
+        ListToTextBinding resultValuesBinding = new ListToTextBinding();
+        customBindings.put("resultValues", resultValuesBinding);
+        String outcomesKey = COURSE + QueryPath.getPathSeparator() + CREDIT_OPTIONS;
+        MultiplicityConfiguration outcomesConfig = getMultiplicityConfig(outcomesKey,
+        		LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
+		        Arrays.asList(
+		                Arrays.asList(CreditCourseConstants.TYPE, LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY),
+		                Arrays.asList(CREDIT_OPTION_FIXED_CREDITS, LUConstants.CONTACT_HOURS_LABEL_KEY, OPTIONAL),
+		                Arrays.asList(CREDIT_OPTION_MIN_CREDITS, LUConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY, OPTIONAL),
+		                Arrays.asList(CREDIT_OPTION_MAX_CREDITS, LUConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY, OPTIONAL),
+		                Arrays.asList("resultValues", LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY, OPTIONAL)),
+		                customBindings);
+		                
+        //Massive workaround for result values problem where we dont want to show them on certain selections,
+        //in most cases you want to just use the optional flag and have it be based on empty/null data
+        //but since this data is sometimes not empty/null when we dont want to show it, it requires a show
+        //condition callback
+        courseBriefSection.addShowRowCallback(new ShowRowConditionCallback(){
+			@Override
+			public void processShowConditions(SummaryTableFieldRow row,
+					DataModel column1, DataModel column2) {
+				if(row.getFieldDescriptor1() != null && 
+						row.getFieldDescriptor1().getFieldKey().contains(CREDIT_OPTIONS) &&
+						row.getFieldDescriptor1().getFieldKey().contains("resultValues")){
+		    		String type = row.getFieldDescriptor1().getFieldKey().replace("resultValues", CreditCourseConstants.TYPE);
+		    		Object data1 = null;
+		    		Object data2 = null;
+		    		if(column1 != null){
+		    			data1 = column1.get(type);
+		    		}
+		    		if(column2 != null){
+		    			data2 = column2.get(type);
+		    		}
+		    		
+		    		if(data1 != null && data1 instanceof String){
+		    			if(!((String)data1).equals("kuali.resultComponentType.credit.degree.multiple")){
+		    				row.setShown(false);
+		    			}
+		    		}
+		    		else if(data2 != null && data2 instanceof String){
+		    			if(!((String)data2).equals("kuali.resultComponentType.credit.degree.multiple")){
+		    				row.setShown(false);
+		    			}
+		    		}
+		    	}
+			}
+		});
+        block.addSummaryMultiplicity(outcomesConfig);
+        
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + TERMS_OFFERED, generateMessageInfo(LUConstants.TERMS_OFFERED_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + GRADING_OPTIONS, generateMessageInfo(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + PASS_FAIL, generateMessageInfo(LUConstants.LEARNING_RESULT_PASS_FAIL_LABEL_KEY), true));
+        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_AUDIT_LABEL_KEY), true));
+        MultiplicityConfiguration formatsConfig = getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + FORMATS,
+		        LUConstants.FORMAT_LABEL_KEY,
+		        null);
+        MultiplicityConfiguration activitiesConfig = getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + FORMATS + QueryPath.getPathSeparator() 
+        		+ QueryPath.getWildCard() + QueryPath.getPathSeparator() + ACTIVITIES,
+		        LUConstants.ACTIVITY_LITERAL_LABEL_KEY,
+		        Arrays.asList(
+		                Arrays.asList(ACTIVITY_TYPE, LUConstants.ACTIVITY_TYPE_LABEL_KEY),
+		                Arrays.asList(CONTACT_HOURS + "/" + "unitQuantity", LUConstants.CONTACT_HOURS_LABEL_KEY),
+		                Arrays.asList(CONTACT_HOURS + "/" + "unitType", "per"),
+		                Arrays.asList(CreditCourseActivityConstants.DURATION + "/" + "atpDurationTypeKey", LUConstants.DURATION_TYPE_LABEL_KEY),
+		                Arrays.asList(CreditCourseActivityConstants.DURATION + "/" + "timeQuantity", LUConstants.DURATION_LITERAL_LABEL_KEY),
+		                Arrays.asList(DEFAULT_ENROLLMENT_ESTIMATE, LUConstants.CLASS_SIZE_LABEL_KEY)));
+        formatsConfig.setNestedConfig(activitiesConfig);
+        block.addSummaryMultiplicity(formatsConfig);
+        //Fees
+        MultiplicityConfiguration feesConfig = getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + FEES,
+        		LUConstants.FEE,
+		        Arrays.asList(
+		                Arrays.asList("rateType", "Rate Type"),
+		                Arrays.asList("feeType", "Fee Type")));
+        //Note the use of empty string to remove the additional row from display in the summary table
+        MultiplicityConfiguration amountsConfig = getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + FEES + QueryPath.getPathSeparator()
+        		+ QueryPath.getWildCard() + QueryPath.getPathSeparator() + "feeAmounts",
+        		"",
+		        Arrays.asList(
+		                Arrays.asList("currencyQuantity", "Amount")));
+		feesConfig.setNestedConfig(amountsConfig);
+		block.addSummaryMultiplicity(feesConfig);
+/*        block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + CROSS_LISTINGS,
+		        LUConstants.CROSS_LISTED_ITEM_LABEL_KEY,
+		        Arrays.asList(
+		                Arrays.asList(SUBJECT_AREA, LUConstants.SUBJECT_CODE_LABEL_KEY),
+		                Arrays.asList(COURSE_NUMBER_SUFFIX, LUConstants.COURSE_NUMBER_LABEL_KEY))));
+        block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + JOINTS,
+		        LUConstants.JOINT_OFFER_ITEM_LABEL_KEY,
+		        Arrays.asList(
+		                Arrays.asList(CreditCourseJointsConstants.COURSE_ID, LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY))));
+        block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + VERSIONS,
+		        LUConstants.VERSION_CODE_LABEL_KEY,
+		        Arrays.asList(
+		                Arrays.asList("variationCode", LUConstants.VERSION_CODE_LABEL_KEY),
+		                Arrays.asList("variationTitle", LUConstants.TITLE_LABEL_KEY))));*/
+		courseBriefSection.addSummaryTableFieldBlock(block);
+        VerticalSectionView verticalSection = new VerticalSectionView(ViewCourseSections.BRIEF, "At a Glance", CourseConfigurer.CLU_PROPOSAL_MODEL, false);
+        verticalSection.addSection(courseBriefSection);
+        
+        return verticalSection;
+	}
+
+	public VerticalSectionView generateCourseCatalogSection() {
+		VerticalSectionView verticalSection = new VerticalSectionView(ViewCourseSections.CATALOG, "Catalog View", CourseConfigurer.CLU_PROPOSAL_MODEL, false);
+		FieldDescriptorReadOnly catalogField = new FieldDescriptorReadOnly("", null, null, new HTML());
+		catalogField.showLabel(false);
+		catalogField.setWidgetBinding(new ModelWidgetBinding<HTML>(){
+
+			@Override
+			public void setModelValue(HTML widget, DataModel model, String path) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void setWidgetValue(HTML widget, DataModel model, String path) {
+				String code = model.get("code");
+				String title = model.get(COURSE + "/" + COURSE_TITLE);
+				String credits = "";
+				String outcomesKey = COURSE + QueryPath.getPathSeparator() + CREDIT_OPTIONS;
+				Data outcomes = model.get(outcomesKey);
+				if(outcomes !=null){
+					Iterator<Property> iter = outcomes.realPropertyIterator();
+					String list = "";
+					ListToTextBinding binding = new ListToTextBinding();
+					while(iter.hasNext()){
+						Property prop = iter.next();
+						if (prop.getKey() instanceof Integer){
+		                	Integer number = (Integer)prop.getKey();
+		                	Object value = outcomes.get(number);
+		                	if(value instanceof Data){
+		                		list = list + binding.getStringList(model, outcomesKey + "/" + number +"/" + "resultValues") + ", ";
+		                	}
+		                }
+					}
+					
+					if(!list.isEmpty()){
+						list = list.trim();
+						list = list.substring(0, list.length() - 1);
+            			credits = "(" + list + ")";
+            		}
+				}
+				
+				String description = model.get(COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN);
+				String catalogText = "<b> " + code + " " + title + " " + credits + "</b> " + description + " ";
+				catalogText.replace(" null ", "");
+				catalogText.trim();
+				widget.setHTML(catalogText);
+				
+			}
+		});
+		verticalSection.addField(catalogField);
+		
+		return verticalSection;
+	}
 }

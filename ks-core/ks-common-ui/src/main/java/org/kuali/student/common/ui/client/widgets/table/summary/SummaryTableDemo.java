@@ -113,7 +113,7 @@ public class SummaryTableDemo extends Composite {
         model.addSection(section);
         summaryTable.setModel(model);
         //summaryTable.highLightRow("key1");
-        summaryTable.highLightCell("key1",1);
+        summaryTable.highlightCell("key1",1, "cellHighlight");
         p.add(summaryTable);
         return p;
     }    

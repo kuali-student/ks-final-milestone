@@ -28,11 +28,16 @@ public class VerticalSectionView extends SectionView {
     public VerticalSectionView(Enum<?> viewEnum, String name, String modelId, boolean showTitle) {
         super(viewEnum, name);
         this.modelId = modelId;
-        SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
-        if (showTitle) {
-            layout = new VerticalFieldLayout(sectionTitle);
-        } else {
-            layout = new VerticalFieldLayout();
+        if(name != null && !name.isEmpty()){
+	        SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
+	        if (showTitle) {
+	            layout = new VerticalFieldLayout(sectionTitle);
+	        } else {
+	            layout = new VerticalFieldLayout();
+	        }
+        }
+        else{
+        	layout = new VerticalFieldLayout();
         }
         this.add(layout);
     }
