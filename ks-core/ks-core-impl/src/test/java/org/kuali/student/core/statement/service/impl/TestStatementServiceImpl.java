@@ -1395,24 +1395,28 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 	private ReqComponentInfo createBadReqComponent1() {
 		ReqComponentInfo reqCompInfo = new ReqComponentInfo();
-		reqCompInfo.setId("REQCOMP-NL-X");
+//		reqCompInfo.setId("REQCOMP-NL-X");
+		reqCompInfo.setId("1234567890123456789012345678901234567890");
 		reqCompInfo.setType("kuali.reqComponent.type.courseList.nof");
 		reqCompInfo.setState("active");
 
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
+		field1.setId("1234567890123456789012345678901234567890");
+		field1.setType(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
 		field1.setValue("-1");
 		fieldList.add(field1);
 
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getType());
+		field2.setId("2");
+		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
 		field2.setValue("greater_than_or_equal_to42");
 		fieldList.add(field2);
 
 		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
-		field3.setId(ReqComponentFieldTypes.CLUSET_KEY.getType());
+		field3.setId("3");
+		field3.setType(ReqComponentFieldTypes.CLUSET_KEY.getType());
 		field3.setValue("CLUSET-NL-Y");
 		fieldList.add(field3);
 
@@ -1421,10 +1425,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	}
 
     @Test
+    // TODO: This should test valid ReqCompFieldInfo types and values, too
     public void testValidateReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	ReqComponentInfo reqInfo = createBadReqComponent1();
     	List<ValidationResultInfo> resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
-    	assertNotNull(resultInfo);
+
+		assertNotNull(resultInfo);
     	assertEquals(2, resultInfo.size());
 
     	reqInfo = new ReqComponentInfo();

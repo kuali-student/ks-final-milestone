@@ -28,6 +28,7 @@ import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -193,7 +194,7 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return null;
     }
 
