@@ -65,7 +65,6 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.Key;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
@@ -82,7 +81,6 @@ import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
 import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.util.StringKey;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -152,6 +150,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     private void initialize() {
     	//TODO get from messages
+
+   		proposalPath = cfg.getProposalPath();
+   		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath, createOnWorkflowSubmitSuccessHandler());
 
         super.setDefaultModelId(cfg.getModelId());
         super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
@@ -261,6 +262,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 				@Override
 				public void onModelReady(DataModel model) {
+					//Setup View Context
 					String idType = null;
 		    		String viewContextId = "";
 		    		if(getViewContext().getIdType() != null){
@@ -279,7 +281,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    			currentDocType = MODIFY_TYPE;
 		    		}
 		    		idAttributes.put(IdAttributes.DOC_TYPE, currentDocType);
-			        cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
+
+		    		//Get metadata and complete initializing the screen
+		    		cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
 
 			        	public void handleFailure(Throwable caught) {
 			        		initialized = false;
@@ -293,7 +297,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		                    cluProposalModel.setDefinition(def);
 		                    comparisonModel.setDefinition(def);
 
-		                    init(def);
+		                    configureScreens(def);
 		                    onReadyCallback.exec(true);
 		                    KSBlockingProgressIndicator.removeTask(initializingTask);
 		                }
@@ -312,9 +316,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	}
     }
 
-    private void init(DataModelDefinition modelDefinition){
-    	proposalPath = cfg.getProposalPath();
-        workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath, createOnWorkflowSubmitSuccessHandler());
+    private void configureScreens(DataModelDefinition modelDefinition){
         workflowUtil.requestAndSetupModel();
 
     	cfg.setModelDefinition(modelDefinition);
@@ -769,8 +771,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 										e.setActionCompleteCallback(new ActionCompleteCallback(){
 
 											@Override
-											public void onActionComplete(
-													ActionEvent action) {
+											public void onActionComplete(ActionEvent action) {
 												if(e.isSaveSuccessful()){
 													okToChange.exec(true);
 												}
