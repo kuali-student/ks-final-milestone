@@ -187,8 +187,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(core.getReferenceURL());
             assertEquals("http://www.google.ca", core.getReferenceURL());
-//            assertNotNull(major.getUniversityClassification());
-//            assertEquals(major.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
+            assertNotNull(core.getUniversityClassification());
+            assertEquals(core.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
             assertNotNull(core.getStartTerm());
             assertEquals("start_term", core.getStartTerm());
             assertNotNull(core.getEndTerm());
@@ -203,11 +203,9 @@ public class TestProgramServiceImpl {
             assertEquals("Bachelor of Science", core.getLongTitle());
             assertNotNull(core.getTranscriptTitle());
             assertEquals(core.getTranscriptTitle(), "TRANSCRIPT-TITLE");
+            assertNotNull(core.getDescr());
+            assertEquals("Anthropology Major", core.getDescr().getPlain());
 
-            //TODO: add descr in test db
-//            assertNotNull(core.getDescr());
-//            assertEquals("Anthropology Major", core.getDescr().getPlain());
-//
 //            //TODO catalog descr
 //            //TODO catalog pub targets
              //TODO: add lo in test db
