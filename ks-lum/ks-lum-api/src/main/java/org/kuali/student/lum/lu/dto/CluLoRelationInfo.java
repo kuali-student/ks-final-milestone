@@ -178,7 +178,7 @@ public class CluLoRelationInfo  implements Serializable, Idable, HasTypeState, H
 
     @Override
     public String toString() {
-    	return "CLuLoRelaionInfo[id=" + id + ", cluId=" + cluId + ", loId=" + loId + "]";
+    	return "CLuLoRelationInfo[id=" + id + ", cluId=" + cluId + ", loId=" + loId + "]";
     }
 
 }
