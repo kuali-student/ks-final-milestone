@@ -1004,7 +1004,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CLU
 		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		Clu clu = new Clu();
@@ -1178,7 +1178,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CLU
 		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
@@ -1576,7 +1576,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluCluRelationInfo
 		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 
@@ -1622,7 +1622,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluCluRelationInfo
 		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		final CluCluRelation cluCluRelation = luDao.fetch(CluCluRelation.class,
@@ -1739,7 +1739,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluResult
 		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		cluResultInfo.setType(cluResultTypeKey);
@@ -1793,7 +1793,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluResult
 		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		CluResult result = luDao.fetch(CluResult.class, cluResultId);
@@ -1901,7 +1901,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluLoRelation
 		List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
@@ -1946,7 +1946,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluLoRelation
 		List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		CluLoRelation reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
@@ -2051,7 +2051,7 @@ public class LuServiceImpl implements LuService {
 			throw new DataValidationErrorException("Validation error! " + e.getMessage());
 		}
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		List<String> cluIdList = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
@@ -2135,7 +2135,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluSet
 		List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		cluSetInfo.setId(cluSetId);
@@ -2390,7 +2390,7 @@ public class LuServiceImpl implements LuService {
 		// Validate Lui
 		List<ValidationResultInfo> val = validateLui("SYSTEM", luiInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		Lui lui = new Lui();
@@ -2420,7 +2420,7 @@ public class LuServiceImpl implements LuService {
 		// Validate Lui
 		List<ValidationResultInfo> val = validateLui("SYSTEM", luiInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		Lui lui = luDao.fetch(Lui.class, luiId);
@@ -2508,7 +2508,7 @@ public class LuServiceImpl implements LuService {
 		// Validate LuiLuiRelation
 		List<ValidationResultInfo> val = validateLuiLuiRelation("SYSTEM", luiLuiRelationInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		if (luiId.equals(relatedLuiId)) {
@@ -2554,7 +2554,7 @@ public class LuServiceImpl implements LuService {
 		// Validate LuiLuiRelation
 		List<ValidationResultInfo> val = validateLuiLuiRelation("SYSTEM", luiLuiRelationInfo);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!");
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		LuiLuiRelation luiLuiRelation = luDao.fetch(LuiLuiRelation.class,
