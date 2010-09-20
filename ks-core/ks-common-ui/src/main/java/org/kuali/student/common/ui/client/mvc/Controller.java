@@ -450,7 +450,8 @@ public abstract class Controller extends Composite implements HistorySupport, Br
                 			else if(key.equals(ViewContext.ID_TYPE_ATR)){
                 				newContext.setIdType(tokenMap.get(ViewContext.ID_TYPE_ATR));
                 			}
-                			else{
+                			//do not add view attribute from the token map to the context
+                			else if(!key.equals("view")){
                 				newContext.setAttribute(key, tokenMap.get(key));
                 			}
                 		}
