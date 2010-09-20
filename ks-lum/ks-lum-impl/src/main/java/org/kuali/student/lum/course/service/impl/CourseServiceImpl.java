@@ -316,7 +316,7 @@ public class CourseServiceImpl implements CourseService {
 	private void resetIds(CourseInfo course) {
 		//Clear/Reset Joint info ids
 		for(CourseJointInfo joint:course.getJoints()){
-			joint.setCourseId(course.getId());
+			joint.setRelationId(null);
 		}
 		//Clear Los
 		for(LoDisplayInfo lo:course.getCourseSpecificLOs()){
