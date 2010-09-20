@@ -636,7 +636,7 @@ class Curriculum
           }
         )
         
-        @request.add("DEBUG/lo_category_id_var_name/%%_#{opts[:lo_category_id_var_name]}%%", {}, {'subst' => 'true'})
+        #@request.add("DEBUG/lo_category_id_var_name/%%_#{opts[:lo_category_id_var_name]}%%", {}, {'subst' => 'true'})
         
       else
         @request.add('/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService',
@@ -688,7 +688,7 @@ class Curriculum
     )
 
     #@request.add("DEBUG/result_com_var_name/%%_#{opts[:result_com_var_name]}%%", {}, {'subst' => 'true'})
-    @request.add("DEBUG/lo_category_var_name/%%_#{opts[:lo_category_var_name]}%%", {}, {'subst' => 'true'})
+    #@request.add("DEBUG/lo_category_var_name/%%_#{opts[:lo_category_var_name]}%%", {}, {'subst' => 'true'})
     #@request.add("DEBUG/joints_var_name/%%_#{opts[:joints_var_name]}%%", {}, {'subst' => 'true'})
 
     @request.add_thinktime(2)
