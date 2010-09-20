@@ -284,14 +284,21 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 		    		//Get metadata and complete initializing the screen
 		    		cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
+						public void handleTimeout(Throwable caught) {
+		                	initializeFailed(); 
+						}
 
-			        	public void handleFailure(Throwable caught) {
-			        		initialized = false;
-		                	onReadyCallback.exec(false);
-		                	KSBlockingProgressIndicator.removeTask(initializingTask);
+						public void handleFailure(Throwable caught) {
+							initializeFailed();
 		                    throw new RuntimeException("Failed to get model definition.", caught);
 		                }
 
+						public void initializeFailed(){
+			        		initialized = false;
+		                	onReadyCallback.exec(false);
+		                	KSBlockingProgressIndicator.removeTask(initializingTask);							
+						}
+						
 		                public void onSuccess(Metadata result) {
 		                	DataModelDefinition def = new DataModelDefinition(result);
 		                    cluProposalModel.setDefinition(def);
