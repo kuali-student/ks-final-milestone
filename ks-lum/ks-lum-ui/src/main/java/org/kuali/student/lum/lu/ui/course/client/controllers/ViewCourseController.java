@@ -142,6 +142,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 					ViewContext viewContext = new ViewContext();
 					viewContext.setId((String)cluModel.get("versionInfo/versionIndId"));
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+                    viewContext.setAttribute(IdAttributes.DOC_TYPE, "kuali.proposal.type.course.modify");
 					HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
 				}
 			}
