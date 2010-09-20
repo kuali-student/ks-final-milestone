@@ -30,7 +30,7 @@ public class ProgramServiceMethodInvoker extends LumServiceMethodInvoker{
 			CircularRelationshipException, UnsupportedActionException,
 			UnsupportedOperationException, CircularReferenceException {
 		Object node = results.getNodeData();
-		LOG.warn(node);
+		LOG.warn(results.getOperation() + ": " + node);
 		super.invokeServiceCallOnResult(results);
 	}
 }

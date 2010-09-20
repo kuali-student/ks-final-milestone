@@ -375,7 +375,7 @@
         <property name="statementDao" ref="statementDao"/>
     </bean>
 
-    <bean id="statementServiceImpl"
+    <bean id="statementService"
         class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao" />
@@ -495,11 +495,11 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
+        <property name="statementService" ref="statementService"/>
    </bean>
 
     <bean name="programRequirementAssembler" class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
+        <property name="statementService" ref="statementService"/>
         <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/>
         <property name="luService" ref="luServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
@@ -546,7 +546,7 @@
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
-        <property name="statementService" ref="statementServiceImpl"/>
+        <property name="statementService" ref="statementService"/>
     </bean>
 
     <bean id="cluAssemblerUtils"
@@ -571,6 +571,6 @@
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
-        <property name="statementService" ref="statementServiceImpl"/>
+        <property name="statementService" ref="statementService"/>
     </bean>
 </beans>

@@ -89,5 +89,11 @@ public class StatementDaoImpl extends AbstractSearchableCrudDaoImpl implements S
         List<RefStatementRelation> resultList = query.getResultList();
         return resultList;
     }
-    
+
+    @Override
+    public Statement getParentStatement(String childId) {
+        Query query = em.createNamedQuery("Statement.getParentStatement");
+        query.setParameter("childId", childId);
+        return (Statement)query.getSingleResult();
+    }
 }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
+import javax.persistence.NoResultException;
 
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
@@ -427,10 +428,24 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(statementId, "statementId");
 
         Statement stmt = statementDao.fetch(Statement.class, statementId);
-
         if(stmt==null){
             throw new DoesNotExistException("Statement does not exist for id: "+statementId);
         }
+
+
+		try {
+			Statement parent = statementDao.getParentStatement(statementId);
+        	List<Statement> children = parent.getChildren();
+        	for (int i = 0; i < children.size(); i++) {
+        		if (children.get(i).getId().equals(statementId)) {
+        			children.remove(i);
+        			break;
+        		}
+        	}
+        	statementDao.update(parent);
+		} catch (NoResultException e) {
+			// Ignore in this case
+		}
 
         statementDao.delete(stmt);
 
@@ -927,7 +942,6 @@ public class StatementServiceImpl implements StatementService {
     private void updateStatementTreeViewHelper(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         if (statementTreeViewInfo.getStatements() != null) {
             for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
-                subStatement.setParentId(statementTreeViewInfo.getId());
                 updateStatementTreeViewHelper(subStatement);
             }
         }
@@ -950,7 +964,6 @@ public class StatementServiceImpl implements StatementService {
         StatementInfo newStatementInfo = null;
         if (statementTreeViewInfo.getStatements() != null) {
             for (StatementTreeViewInfo subTreeInfo : statementTreeViewInfo.getStatements()) {
-                subTreeInfo.setParentId(statementTreeViewInfo.getId());
                 updateSTVHelperCreateStatements(subTreeInfo);
             }
         }
@@ -1047,5 +1060,5 @@ public class StatementServiceImpl implements StatementService {
 
 	public void setValidatorFactory(ValidatorFactory validatorFactory) {
 		this.validatorFactory = validatorFactory;
-	}		
+	}
 }

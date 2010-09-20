@@ -23,12 +23,14 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -52,11 +54,14 @@ public class TestProgramServiceImpl {
 
     @Autowired
     public ProgramService programService;
+    @Autowired
+    public StatementService statementService;
     private static final String OTHER_LO_CAT_ID = "550e8400-e29b-41d4-a716-446655440000";
 
     @Test
     public void testProgramServiceSetup() {
     	assertNotNull(programService);
+    	assertNotNull(statementService);
     }
 
 	@Test
@@ -670,13 +675,14 @@ public class TestProgramServiceImpl {
 		assertNotNull(created);
 		assertTrue(EqualsBuilder.reflectionEquals(orig, created, new String[]{"id", "descr", "learningObjectives","statement","attributes","metaInfo"}));
     	checkLoDisplays(orig.getLearningObjectives(), created.getLearningObjectives());
-		if (orig.getId() != null) {
+    	if (orig.getId() == null && created.getId() == null) {
+    		fail("both ProgramRequirements ids are null");
+    	} else if (orig.getId() != null) {
 			assertEquals(orig.getId(), created.getId());
 		}
 
-    	StatementTreeViewInfo statement2 = created.getStatement();
+    	checkRichText(orig.getDescr(), created.getDescr());
     	checkStatementTreeView(orig.getStatement(), created.getStatement());
-    	assertNotNull(statement2);
 	}
 
 	private static void checkStatementTreeView(StatementTreeViewInfo statement,
@@ -684,7 +690,9 @@ public class TestProgramServiceImpl {
 		assertNotNull(statement);
 		assertNotNull(statement2);
 		assertTrue(EqualsBuilder.reflectionEquals(statement, statement2, new String[]{"id", "desc", "attributes", "metaInfo", "statements", "reqComponents"}));
-		if (statement.getId() != null) {
+		if (statement.getId() == null && statement2.getId() == null) {
+			fail("Both StatementTreeView ids are null");
+		} else if (statement.getId() != null) {
 			assertEquals(statement.getId(), statement2.getId());
 		}
 		checkRichText(statement.getDesc(), statement2.getDesc());
@@ -707,7 +715,9 @@ public class TestProgramServiceImpl {
 		assertNotNull(reqComponent);
 		assertNotNull(reqComponent2);
 		assertTrue(EqualsBuilder.reflectionEquals(reqComponent, reqComponent2, new String[]{"id", "desc", "reqCompFields", "requiredComponentType", "naturalLanguageTranslation", "metaInfo"}));
-		if (reqComponent.getId() != null) {
+		if (reqComponent.getId() == null && reqComponent2.getId() == null) {
+			fail("Both ReqComponent ids are null");
+		} else if (reqComponent.getId() != null) {
 			assertEquals(reqComponent.getId(), reqComponent2.getId());
 		}
 		checkRichText(reqComponent.getDesc(), reqComponent2.getDesc());
@@ -739,7 +749,7 @@ public class TestProgramServiceImpl {
 			ReqCompFieldTypeInfo reqCompFieldTypeInfo2) {
 		assertNotNull(reqCompFieldTypeInfo);
 		assertNotNull(reqCompFieldTypeInfo2);
-		
+
 	}
 
 	private static void checkReqCompFields(List<ReqCompFieldInfo> reqCompFields,
@@ -899,6 +909,34 @@ public class TestProgramServiceImpl {
 		richTextInfo.setPlain(text);
 		richTextInfo.setFormatted("<p>" + text + "</p>");
 		return richTextInfo;
+	}
+
+	@Test(expected=DoesNotExistException.class)
+	@Ignore
+	public void testUpdateProgramRequirement() throws Exception {
+		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
+        StatementTreeViewInfo treeView = progReq.getStatement();
+
+        List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
+        subTree1.setDesc(toRichText("STMT-5"));
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setType("kuali.statement.type.program.entrance");
+        reqCompList1.add(rc1);
+        reqCompList1.add(rc2);
+        subTree1.setReqComponents(reqCompList1);
+
+        StatementTreeViewInfo oldSubTree1 = treeView.getStatements().get(0);
+        treeView.getStatements().set(0, subTree1);
+        ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq);
+        checkProgramRequirement(progReq, updated);
+        statementService.getStatement(oldSubTree1.getId());
 	}
 
     @Test

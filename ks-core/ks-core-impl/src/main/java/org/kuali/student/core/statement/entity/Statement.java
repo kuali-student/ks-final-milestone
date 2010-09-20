@@ -33,17 +33,18 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 
 @Entity
 @Table(name = "KSST_STMT")
 @NamedQueries( {
     @NamedQuery(name = "Statement.getStatementsForStatementType", query = "SELECT ls FROM Statement ls WHERE ls.statementType.id = :statementTypeKey"),
     @NamedQuery(name = "Statement.getStatements", query = "SELECT ls FROM Statement ls WHERE ls.id IN (:statementIdList)"),
-    @NamedQuery(name = "Statement.getStatementsForReqComponent", query = "SELECT ls FROM Statement ls JOIN ls.requiredComponents req WHERE req.id = :reqComponentId")
+    @NamedQuery(name = "Statement.getStatementsForReqComponent", query = "SELECT ls FROM Statement ls JOIN ls.requiredComponents req WHERE req.id = :reqComponentId"),
+    @NamedQuery(name = "Statement.getParentStatement", query = "SELECT DISTINCT stmt FROM Statement stmt JOIN stmt.children children WHERE children.id = :childId")
 })
 public class Statement extends MetaEntity implements AttributeOwner<StatementAttribute>{
     @Id
@@ -56,24 +57,21 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private StatementRichText descr;
-    
+
     @Column(name="ST")
     private String state;
 
     @Column(name="OPERATOR")
     @Enumerated(EnumType.STRING)
     private StatementOperatorTypeKey operator;
-    
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "PARENT_STMT_ID")
-    private Statement parent;
 
-    @OneToMany(mappedBy = "parent")
-    private List<Statement> children = new ArrayList<Statement>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "KSST_STMT_JN_STMT", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_ID"))
+    private List<Statement> children = new ArrayList<Statement>(0);
 
     @ManyToMany
     @JoinTable(name = "KSST_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_ID"))
-    private List<ReqComponent> requiredComponents = new ArrayList<ReqComponent>();
+    private List<ReqComponent> requiredComponents = new ArrayList<ReqComponent>(0);
 
     @ManyToOne
     @JoinColumn(name = "STMT_TYPE_ID")
@@ -81,10 +79,10 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER")
-    private List<StatementAttribute> attributes;
-    
+    private List<StatementAttribute> attributes = new ArrayList<StatementAttribute>(0);
+
     @OneToMany(mappedBy = "statement")
-    private List<RefStatementRelation> refStatementRelations = new ArrayList<RefStatementRelation>();
+    private List<RefStatementRelation> refStatementRelations = new ArrayList<RefStatementRelation>(0);
 
     /**
      * AutoGenerate the Id
@@ -93,21 +91,13 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     public void onPrePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
     }
-    
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Statement getParent() {
-        return parent;
-    }
-
-    public void setParent(Statement parent) {
-        this.parent = parent;
     }
 
     public List<Statement> getChildren() {
@@ -160,9 +150,6 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
     @Override
     public List<StatementAttribute> getAttributes() {
-        if(attributes==null){
-            attributes = new ArrayList<StatementAttribute>();
-        }
         return attributes;
     }
 
@@ -190,8 +177,8 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
 	@Override
 	public String toString() {
-		return "Statement[id=" + id + ", statementType=" 
-		+ (statementType == null ? "null" : statementType.getId()) 
+		return "Statement[id=" + id + ", statementType="
+		+ (statementType == null ? "null" : statementType.getId())
 		+ ", operator=" + operator + "]";
 	}
 }

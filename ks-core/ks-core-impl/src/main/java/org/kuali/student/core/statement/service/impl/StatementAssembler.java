@@ -342,10 +342,6 @@ public class StatementAssembler extends BaseAssembler {
             stmtList.add(nestedStmt);
         }
         stmt.setChildren(stmtList);
-        if (stmtInfo.getParentId() != null) {
-            Statement parentStatement = this.statementDao.fetch(Statement.class, stmtInfo.getParentId());
-            stmt.setParent(parentStatement);
-        }
 
         // Copy nested requirements
         List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
@@ -359,12 +355,6 @@ public class StatementAssembler extends BaseAssembler {
             reqCompList.add(reqComp);
         }
         stmt.setRequiredComponents(reqCompList);
-
-        // TODO populate the parent of the Statement here
-//        if(stmtInfo.getParentId() != null) {
-//            Statement parent = dao.fetch(Statement.class, stmtInfo.getParentId());
-//            stmt.setParent(parent);
-//        }
 
         stmt.setDescr(toRichText(StatementRichText.class, stmtInfo.getDesc()));
 
@@ -489,7 +479,6 @@ public class StatementAssembler extends BaseAssembler {
         toStatementInfo.setOperator(fromStatementInfo.getOperator());
         toStatementInfo.setState(fromStatementInfo.getState());
         toStatementInfo.setType(fromStatementInfo.getType());
-        toStatementInfo.setParentId(fromStatementInfo.getParentId());
     }
 
     public Statement toStatement(final StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
@@ -547,7 +536,6 @@ public class StatementAssembler extends BaseAssembler {
 		for(StatementTreeViewInfo luNlStmt : stmtInfo.getStatements()) {
 			Statement stmt = new Statement();
 	        stmt.setName(luNlStmt.getName());
-	        stmt.setParent(rootLuStatement);
 	        stmt.setOperator(luNlStmt.getOperator());
 			if(luNlStmt.getType() != null) {
 				//TODO: Fix with LuService RC1.4 changes

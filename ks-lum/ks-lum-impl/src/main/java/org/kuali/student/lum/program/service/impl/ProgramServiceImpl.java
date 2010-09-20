@@ -484,14 +484,17 @@ public class ProgramServiceImpl implements ProgramService {
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
     	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
-    	deleteProgramRequirement(programRequirementInfo.getId());
-    	ProgramRequirementInfo newOne;
-		try {
-			newOne = createProgramRequirement(programRequirementInfo);
-		} catch (AlreadyExistsException e) {
-			throw new InvalidParameterException();
+        // Validate
+        List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo);
+        if (isNotEmpty(validationResults)) {
+        	throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+
+        try {
+			return processProgramRequirement(programRequirementInfo, NodeOperation.UPDATE);
+		} catch (AssemblyException e) {
+			throw new OperationFailedException("Unable to update ProgramRequirement", e);
 		}
-    	return newOne;
     }
 
     @Override
@@ -669,6 +672,8 @@ public class ProgramServiceImpl implements ProgramService {
         // Use the results to make the appropriate service calls here
         try {
             programServiceMethodInvoker.invokeServiceCalls(results);
+        } catch (AssemblyException e) {
+        	throw e;
         } catch (Exception e) {
             throw new AssemblyException(e);
         }

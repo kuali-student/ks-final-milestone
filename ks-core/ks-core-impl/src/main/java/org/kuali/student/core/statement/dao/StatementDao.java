@@ -31,4 +31,5 @@ public interface StatementDao extends CrudDao, SearchableDao {
     public List<ReqComponent> getReqComponentsByType(String reqComponentTypeKey);
     public List<Statement> getStatementsForReqComponent(String reqComponentId);
     public List<RefStatementRelation> getRefStatementRelations(String refObjectTypeKey, String refObjectId);
+    public Statement getParentStatement(String childId);
 }
