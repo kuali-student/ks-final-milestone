@@ -61,6 +61,7 @@ import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
+import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 /**
@@ -1083,7 +1084,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Get the current joints and put them in a map of joint id/relation
 		// id
-		Set<String> currentJointIds = new HashSet<String>();
+		Map<String, CluCluRelationInfo> currentJointIds = new HashMap<String, CluCluRelationInfo>();
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
@@ -1092,7 +1093,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				for (CluCluRelationInfo jointRelation : jointRelationships) {
 					if (CourseAssemblerConstants.JOINT_RELATION_TYPE
 							.equals(jointRelation.getType())) {
-						currentJointIds.add(jointRelation.getId());
+						currentJointIds.put(jointRelation.getId(),jointRelation);
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -1110,10 +1111,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 			// If this is a course create then all joints will be created
 			if (NodeOperation.UPDATE.equals(operation) && joint.getRelationId() != null
-					&& currentJointIds.contains(joint.getRelationId())) {
+					&& currentJointIds.containsKey(joint.getRelationId())) {
 				// remove this entry from the map so we can tell what needs to
 				// be deleted at the end
-				currentJointIds.remove(joint.getRelationId());
+				CluCluRelationInfo relation = currentJointIds.remove(joint.getRelationId());
+				relation.setRelatedCluId(joint.getCourseId());
+				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(courseJointAssembler);
+				jointNode.setBusinessDTORef(joint);
+				jointNode.setNodeData(relation);
+				jointNode.setOperation(NodeOperation.UPDATE);
+				results.add(jointNode);
 			} else if (!NodeOperation.DELETE.equals(operation)) {
 				// the joint does not exist, so create cluclurelation
 				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = courseJointAssembler
@@ -1125,7 +1132,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         // Now any leftover joint ids are no longer needed, so delete
         // joint relations
-        for (String id : currentJointIds) {
+        for (String id : currentJointIds.keySet()) {
             // Create a new relation with the id of the relation we want to
             // delete
             CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
