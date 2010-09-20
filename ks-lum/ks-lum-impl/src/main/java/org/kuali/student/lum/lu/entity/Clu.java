@@ -445,9 +445,6 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
 
 
       public List<CluAdminOrg> getAdminOrgs() {
-          if (adminOrgs == null) {
-              adminOrgs = new ArrayList<CluAdminOrg>();
-          }
           return adminOrgs;
       }
 

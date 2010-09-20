@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name = "KSLU_LO_TYPE")
+@Table(name = "KSLO_LO_TYPE")
 public class LoType implements AttributeOwner<LoTypeAttribute> {
 	@Id
 	@Column(name = "ID")

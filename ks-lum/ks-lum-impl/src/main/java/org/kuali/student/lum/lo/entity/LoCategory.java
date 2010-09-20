@@ -38,7 +38,7 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_CATEGORY")
+@Table(name = "KSLO_LO_CATEGORY")
 public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryAttribute> {
 	@Id
 	@Column(name = "ID")

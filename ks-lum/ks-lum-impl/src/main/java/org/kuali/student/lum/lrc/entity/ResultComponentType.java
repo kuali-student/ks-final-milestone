@@ -25,7 +25,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSLU_LRC_RESCOMP_TYPE")
+@Table(name = "KSLR_RESCOMP_TYPE")
 public class ResultComponentType extends Type<ResultComponentTypeAttribute> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ResultComponentTypeAttribute> attributes;

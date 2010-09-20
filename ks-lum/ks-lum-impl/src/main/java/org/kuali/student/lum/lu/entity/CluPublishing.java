@@ -85,9 +85,6 @@ public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
 	}
 
 	public List<CluInstructor> getInstructors() {
-		if (instructors == null) {
-			instructors = new ArrayList<CluInstructor>();
-		}
 		return instructors;
 	}
 
@@ -96,9 +93,6 @@ public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
 	}
 
 	public List<CluPublishingAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluPublishingAttribute>();
-		}
 		return attributes;
 	}
 

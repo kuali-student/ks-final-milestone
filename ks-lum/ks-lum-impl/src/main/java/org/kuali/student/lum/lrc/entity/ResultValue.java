@@ -42,7 +42,7 @@ import org.kuali.student.common.util.UUIDHelper;
  */
 
 @Entity
-@Table(name="KSLU_LRC_RESULT_VALUE")
+@Table(name="KSLR_RESULT_VALUE")
 public class ResultValue {
     @Id
     @Column(name = "ID")

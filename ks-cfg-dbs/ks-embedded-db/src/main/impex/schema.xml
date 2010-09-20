@@ -3973,7 +3973,7 @@
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO">
+    <table name="KSLO_LO">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -3987,17 +3987,17 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="LO_REPO_ID" size="255" type="VARCHAR"/>
         <column name="LOTYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO_REPOSITORY" name="FK116CA3915CEF039A">
+        <foreign-key foreignTable="KSLO_LO_REPOSITORY" name="FK116CA3915CEF039A">
             <reference foreign="ID" local="LO_REPO_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="FK116CA391604442A3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSLU_LO_TYPE" name="FK116CA391F0D1299B">
+        <foreign-key foreignTable="KSLO_LO_TYPE" name="FK116CA391F0D1299B">
             <reference foreign="ID" local="LOTYPE_ID"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LOLO_ALLOWED_RELTN_TYPE">
+    <table name="KSLO_LO_ALLOWED_RELTN_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -4010,7 +4010,7 @@
         <column name="LO_REL_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LOLO_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSLU_LOLO_RELTN">
+    <table name="KSLO_LO_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -4023,26 +4023,26 @@
         <column name="LO_ID" size="255" type="VARCHAR"/>
         <column name="LO_LO_RELATION_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="RELATED_LO_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LOLO_RELTN_TYPE" name="FK43828D88ED64FBFA">
+        <foreign-key foreignTable="KSLO_LO_RELTN_TYPE" name="FK43828D88ED64FBFA">
             <reference foreign="ID" local="LO_LO_RELATION_TYPE_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSLU_LO" name="FK43828D888DD0E03B">
+        <foreign-key foreignTable="KSLO_LO" name="FK43828D888DD0E03B">
             <reference foreign="ID" local="LO_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSLU_LO" name="FK43828D88A473D327">
+        <foreign-key foreignTable="KSLO_LO" name="FK43828D88A473D327">
             <reference foreign="ID" local="RELATED_LO_ID"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LOLO_RELTN_ATTR">
+    <table name="KSLO_LO_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LOLO_RELTN" name="FK267A32483FCC956">
+        <foreign-key foreignTable="KSLO_LO_RELTN" name="FK267A32483FCC956">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LOLO_RELTN_TYPE">
+    <table name="KSLO_LO_RELTN_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="DESCR" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
@@ -4051,25 +4051,25 @@
         <column name="REV_DESCR" size="255" type="VARCHAR"/>
         <column name="REV_NAME" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSLU_LOLO_RELTN_TYPE_ATTR">
+    <table name="KSLO_LO_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LOLO_RELTN_TYPE" name="FKC6FDB5DFC0C2C330">
+        <foreign-key foreignTable="KSLO_LO_RELTN_TYPE" name="FKC6FDB5DFC0C2C330">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO_ATTR">
+    <table name="KSLO_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO" name="FK14C979DF8DFF0197">
+        <foreign-key foreignTable="KSLO_LO" name="FK14C979DF8DFF0197">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO_CATEGORY">
+    <table name="KSLO_LO_CATEGORY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -4083,53 +4083,53 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="LO_CATEGORY_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LO_REPO_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO_REPOSITORY" name="FK1FC1ADEC5CEF039A">
+        <foreign-key foreignTable="KSLO_LO_REPOSITORY" name="FK1FC1ADEC5CEF039A">
             <reference foreign="ID" local="LO_REPO_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="FK1FC1ADEC604442A3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSLU_LO_CATEGORY_TYPE" name="FK1FC1ADEC9FBA4F97">
+        <foreign-key foreignTable="KSLO_LO_CATEGORY_TYPE" name="FK1FC1ADEC9FBA4F97">
             <reference foreign="ID" local="LO_CATEGORY_TYPE_ID"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO_CATEGORY_ATTR">
+    <table name="KSLO_LO_CATEGORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO_CATEGORY" name="FK5F53B06484E0FEB5">
+        <foreign-key foreignTable="KSLO_LO_CATEGORY" name="FK5F53B06484E0FEB5">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO_CATEGORY_TYPE">
+    <table name="KSLO_LO_CATEGORY_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="DESCR" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSLU_LO_CATEGORY_TYPE_ATTR">
+    <table name="KSLO_LO_CATEGORY_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO_CATEGORY_TYPE" name="FK602AA9431FBF310F">
+        <foreign-key foreignTable="KSLO_LO_CATEGORY_TYPE" name="FK602AA9431FBF310F">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO_JN_LOCATEGORY">
+    <table name="KSLO_LO_JN_LOCATEGORY">
         <column name="LO_ID" required="true" size="255" type="VARCHAR"/>
         <column name="LOCATEGORY_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO_CATEGORY" name="FK931B812ECF832A9B">
+        <foreign-key foreignTable="KSLO_LO_CATEGORY" name="FK931B812ECF832A9B">
             <reference foreign="ID" local="LOCATEGORY_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSLU_LO" name="FK931B812E8DD0E03B">
+        <foreign-key foreignTable="KSLO_LO" name="FK931B812E8DD0E03B">
             <reference foreign="ID" local="LO_ID"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO_REPOSITORY">
+    <table name="KSLO_LO_REPOSITORY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -4141,39 +4141,39 @@
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="LO_ROOT_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO" name="FK5D0D44B8BF253DC0">
+        <foreign-key foreignTable="KSLO_LO" name="FK5D0D44B8BF253DC0">
             <reference foreign="ID" local="LO_ROOT_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="FK5D0D44B8604442A3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO_REPOSITORY_ATTR">
+    <table name="KSLO_LO_REPOSITORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO_REPOSITORY" name="FKBF279183CCD6C01">
+        <foreign-key foreignTable="KSLO_LO_REPOSITORY" name="FKBF279183CCD6C01">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LO_TYPE">
+    <table name="KSLO_LO_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="DESCR" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSLU_LO_TYPE_ATTR">
+    <table name="KSLO_LO_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LO_TYPE" name="FK9BCE94A8927CF2F1">
+        <foreign-key foreignTable="KSLO_LO_TYPE" name="FK9BCE94A8927CF2F1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LRC_RESCOMP">
+    <table name="KSLR_RESCOMP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -4186,59 +4186,59 @@
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RICH_TEXT_T" name="FK8C377A7F7A849F63">
+        <foreign-key foreignTable="KSLR_RICH_TEXT_T" name="FK8C377A7F7A849F63">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSLU_LRC_RESCOMP_TYPE" name="FK8C377A7F680AC1FB">
+        <foreign-key foreignTable="KSLR_RESCOMP_TYPE" name="FK8C377A7F680AC1FB">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LRC_RESCOMP_ATTR">
+    <table name="KSLR_RESCOMP_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RESCOMP" name="FK8B75C7B1C6D5ED9A">
+        <foreign-key foreignTable="KSLR_RESCOMP" name="FK8B75C7B1C6D5ED9A">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LRC_RESCOMP_JN_RESVALUE">
+    <table name="KSLR_RESCOMP_JN_RESVALUE">
         <column name="COMPONENT_ID" required="true" size="255" type="VARCHAR"/>
         <column name="RESULT_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RESCOMP" name="FK294993ACA2C1D284">
+        <foreign-key foreignTable="KSLR_RESCOMP" name="FK294993ACA2C1D284">
             <reference foreign="ID" local="COMPONENT_ID"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LRC_RESCOMP_TYPE">
+    <table name="KSLR_RESCOMP_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSLU_LRC_RESCOMP_TYPE_ATTR">
+    <table name="KSLR_RESCOMP_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RESCOMP_TYPE" name="FK3C241A166E282574">
+        <foreign-key foreignTable="KSLR_RESCOMP_TYPE" name="FK3C241A166E282574">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LRC_RESULT_VALUE">
+    <table name="KSLR_RESULT_VALUE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
         <column name="RSLT_COMP_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RESCOMP" name="FK4C076DBF138ECC7C">
+        <foreign-key foreignTable="KSLR_RESCOMP" name="FK4C076DBF138ECC7C">
             <reference foreign="ID" local="RSLT_COMP_ID"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LRC_RICH_TEXT_T">
+    <table name="KSLR_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
     </table>
-    <table name="KSLU_LRC_SCALE">
+    <table name="KSLR_SCALE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -4249,16 +4249,16 @@
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_RICH_TEXT_T" name="FKA9E2E41A7A849F63">
+        <foreign-key foreignTable="KSLR_RICH_TEXT_T" name="FKA9E2E41A7A849F63">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LRC_SCALE_ATTR">
+    <table name="KSLR_SCALE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LRC_SCALE" name="FK760326F6C5C79E44">
+        <foreign-key foreignTable="KSLR_SCALE" name="FK760326F6C5C79E44">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>

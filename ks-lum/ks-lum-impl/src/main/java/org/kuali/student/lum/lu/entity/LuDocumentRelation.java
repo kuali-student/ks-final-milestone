@@ -147,9 +147,6 @@ public class LuDocumentRelation extends MetaEntity implements
 	}
 
 	public List<LuDocumentRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LuDocumentRelationAttribute>();
-		}
 		return attributes;
 	}
 

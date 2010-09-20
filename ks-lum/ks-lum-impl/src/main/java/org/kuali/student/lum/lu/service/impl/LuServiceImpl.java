@@ -745,8 +745,10 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 		List<String> ids = new ArrayList<String>(cluSet.getClus().size());
-		for (CluSet cluSet2 : cluSet.getCluSets()) {
-			ids.add(cluSet2.getId());
+		if(cluSet.getCluSets()!=null){
+			for (CluSet cluSet2 : cluSet.getCluSets()) {
+				ids.add(cluSet2.getId());
+			}
 		}
 		return ids;
 	}
@@ -1097,7 +1099,7 @@ public class LuServiceImpl implements LuService {
 		if (cluInfo.getFeeInfo() != null) {
 			CluFee cluFee = null;
 			try {
-				cluFee = LuServiceAssembler.toCluFee(false, cluInfo
+				cluFee = LuServiceAssembler.toCluFee(clu, false, cluInfo
 						.getFeeInfo(), luDao);
 			} catch (VersionMismatchException e) {
 				// Version Mismatch Should Happen only for updates
@@ -1347,10 +1349,10 @@ public class LuServiceImpl implements LuService {
 
 		if (cluInfo.getFeeInfo() != null) {
 			if (clu.getFee() == null) {
-				clu.setFee(LuServiceAssembler.toCluFee(false, cluInfo
+				clu.setFee(LuServiceAssembler.toCluFee(clu, false, cluInfo
 						.getFeeInfo(), luDao));
 			} else {
-				clu.setFee(LuServiceAssembler.toCluFee(true, cluInfo
+				clu.setFee(LuServiceAssembler.toCluFee(clu, true, cluInfo
 						.getFeeInfo(), luDao));
 			}
 		} else if (clu.getFee() != null) {
@@ -1457,8 +1459,10 @@ public class LuServiceImpl implements LuService {
 		// Get a map of Id->object of all the currently persisted objects in the
 		// list
 		Map<String, CluAdminOrg> oldAdminOrgsMap = new HashMap<String, CluAdminOrg>();
-		for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
-			oldAdminOrgsMap.put(cluOrg.getOrgId(), cluOrg);
+		if(clu.getAdminOrgs()!=null){
+			for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
+				oldAdminOrgsMap.put(cluOrg.getOrgId(), cluOrg);
+			}
 		}
 		
 		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
@@ -2156,7 +2160,11 @@ public class LuServiceImpl implements LuService {
 		}
 
 		// update the cluIds
-		cluSet.setClus(null);
+		
+		cluSet.setClus(new ArrayList<Clu>());
+		if(cluSet.getCluSets()==null){
+			cluSet.setCluSets(new ArrayList<CluSet>());
+		}
 		if(!cluSetInfo.getCluIds().isEmpty()) {
 			Set<String> newCluIds = new HashSet<String>(cluSetInfo.getCluIds());
 			for (Iterator<Clu> i = cluSet.getClus().iterator(); i.hasNext();) {
@@ -2189,9 +2197,11 @@ public class LuServiceImpl implements LuService {
 		cluSet.setCluSets(null);
 		if(!cluSetInfo.getCluSetIds().isEmpty()) {
 			Set<String> newCluSetIds = new HashSet<String>(cluSetInfo.getCluSetIds());
-			for (Iterator<CluSet> i = cluSet.getCluSets().iterator(); i.hasNext();) {
-				if (!newCluSetIds.remove(i.next().getId())) {
-					i.remove();
+			if(cluSet.getCluSets()!=null){
+				for (Iterator<CluSet> i = cluSet.getCluSets().iterator(); i.hasNext();) {
+					if (!newCluSetIds.remove(i.next().getId())) {
+						i.remove();
+					}
 				}
 			}
 			List<CluSet> cluSetList = luDao.getCluSetInfoByIdList(new ArrayList<String>(newCluSetIds));
@@ -2251,6 +2261,9 @@ public class LuServiceImpl implements LuService {
 
 		checkCluSetCircularReference(addedCluSet, cluSetId);
 
+		if(cluSet.getCluSets()==null){
+			cluSet.setCluSets(new ArrayList<CluSet>());
+		}
 		cluSet.getCluSets().add(addedCluSet);
 
 		luDao.update(cluSet);
@@ -2272,16 +2285,17 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(removedCluSetId, "removedCluSetId");
 
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
-
-		for (Iterator<CluSet> i = cluSet.getCluSets().iterator(); i.hasNext();) {
-			CluSet childCluSet = i.next();
-			if (childCluSet.getId().equals(removedCluSetId)) {
-				i.remove();
-				luDao.update(cluSet);
-				StatusInfo statusInfo = new StatusInfo();
-				statusInfo.setSuccess(true);
-
-				return statusInfo;
+		if(cluSet.getCluSets()!=null){
+			for (Iterator<CluSet> i = cluSet.getCluSets().iterator(); i.hasNext();) {
+				CluSet childCluSet = i.next();
+				if (childCluSet.getId().equals(removedCluSetId)) {
+					i.remove();
+					luDao.update(cluSet);
+					StatusInfo statusInfo = new StatusInfo();
+					statusInfo.setSuccess(true);
+	
+					return statusInfo;
+				}
 			}
 		}
 
@@ -2675,10 +2689,12 @@ public class LuServiceImpl implements LuService {
 
 	private void checkCluSetAlreadyAdded(CluSet cluSet, String cluSetIdToAdd)
 			throws OperationFailedException {
-		for (CluSet childCluSet : cluSet.getCluSets()) {
-			if (childCluSet.getId().equals(cluSetIdToAdd)) {
-				throw new OperationFailedException("CluSet (id=" + cluSet.getId() +
-						") already contains CluSet (id='" + cluSetIdToAdd + "')");
+		if(cluSet.getCluSets()!=null){
+			for (CluSet childCluSet : cluSet.getCluSets()) {
+				if (childCluSet.getId().equals(cluSetIdToAdd)) {
+					throw new OperationFailedException("CluSet (id=" + cluSet.getId() +
+							") already contains CluSet (id='" + cluSetIdToAdd + "')");
+				}
 			}
 		}
 	}
@@ -2689,14 +2705,16 @@ public class LuServiceImpl implements LuService {
 			throw new CircularRelationshipException(
 					"Cannot add a CluSet (id=" + hostCluSetId + ") to ifself");
 		}
-		for (CluSet childSet : addedCluSet.getCluSets()) {
-			if (childSet.getId().equals(hostCluSetId)) {
-				throw new CircularRelationshipException(
-						"CluSet (id=" + hostCluSetId +
-						") already contains this CluSet (id=" +
-						childSet.getId() + ")");
+		if(addedCluSet.getCluSets()!=null){
+			for (CluSet childSet : addedCluSet.getCluSets()) {
+				if (childSet.getId().equals(hostCluSetId)) {
+					throw new CircularRelationshipException(
+							"CluSet (id=" + hostCluSetId +
+							") already contains this CluSet (id=" +
+							childSet.getId() + ")");
+				}
+				checkCluSetCircularReference(childSet, hostCluSetId);
 			}
-			checkCluSetCircularReference(childSet, hostCluSetId);
 		}
 	}
 
@@ -2708,8 +2726,10 @@ public class LuServiceImpl implements LuService {
 			}
 		}
 		// Recursion possible problem? Stack overflow
-		for (CluSet cluSet : parentCluSet.getCluSets()) {
-			findClusInCluSet(clus, cluSet);
+		if(parentCluSet.getCluSets()!=null){
+			for (CluSet cluSet : parentCluSet.getCluSets()) {
+				findClusInCluSet(clus, cluSet);
+			}
 		}
 	}
 

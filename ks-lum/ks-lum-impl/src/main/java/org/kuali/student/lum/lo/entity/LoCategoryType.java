@@ -34,7 +34,7 @@ import org.kuali.student.core.entity.AttributeOwner;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_CATEGORY_TYPE")
+@Table(name = "KSLO_LO_CATEGORY_TYPE")
 public class LoCategoryType implements AttributeOwner<LoCategoryTypeAttribute> {
 	@Id
 	@Column(name = "ID")

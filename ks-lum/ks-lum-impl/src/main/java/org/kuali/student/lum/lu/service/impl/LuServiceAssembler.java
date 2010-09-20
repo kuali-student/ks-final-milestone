@@ -27,13 +27,11 @@ import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.entity.Amount;
 import org.kuali.student.core.entity.CurrencyAmount;
 import org.kuali.student.core.entity.TimeAmount;
-import org.kuali.student.core.entity.Version;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.service.impl.BaseAssembler;
-import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
@@ -290,6 +288,9 @@ public class LuServiceAssembler extends BaseAssembler {
 		}
 		for (String cluSetId : cluSetInfo.getCluSetIds()) {
 			CluSet c = luDao.fetch(CluSet.class, cluSetId);
+			if(cluSet.getCluSets()==null){
+				cluSet.setCluSets(new ArrayList<CluSet>());
+			}
 			cluSet.getCluSets().add(c);
 		}
 		cluSet.setMembershipQuery(toMembershipQueryEntity(cluSetInfo.getMembershipQuery()));
@@ -308,12 +309,14 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		dto.setDescr(toRichTextInfo(entity.getDescr()));
 		// TODO dto.setCluCriteria()
-		List<String> cluSetIds = new ArrayList<String>(entity.getCluSets()
-				.size());
-		for (CluSet id : entity.getCluSets()) {
-			cluSetIds.add(id.getId());
+		if(entity.getCluSets()!=null){
+			List<String> cluSetIds = new ArrayList<String>(entity.getCluSets()
+					.size());
+			for (CluSet id : entity.getCluSets()) {
+				cluSetIds.add(id.getId());
+			}
+			dto.setCluSetIds(cluSetIds);
 		}
-		dto.setCluSetIds(cluSetIds);
 
 		List<String> cluIds = new ArrayList<String>(entity.getClus().size());
 		for (Clu id : entity.getClus()) {
@@ -914,6 +917,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setFeeAmounts(toFeeAmounts(entity.getFeeAmounts()));
 		dto.setDescr(toRichTextInfo(entity.getDescr()));
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 	}
@@ -1110,36 +1114,35 @@ public class LuServiceAssembler extends BaseAssembler {
 		return toGenericTypeInfo(LuPublicationTypeInfo.class, entity);
 	}
 
-	public static CluFee toCluFee(boolean isUpdate, CluFeeInfo feeInfo,
+	public static CluFee toCluFee(Clu clu, boolean isUpdate, CluFeeInfo feeInfo,
 			LuDao dao) throws DoesNotExistException, VersionMismatchException,
 			InvalidParameterException {
 		if (feeInfo == null) {
 			return null;
 		}
 
-		CluFee fee;
+		CluFee fee = null;
 
 		if (isUpdate) {
-			fee = dao.fetch(CluFee.class, feeInfo.getId());
-			if (null == fee) {
-				throw new DoesNotExistException((new StringBuilder()).append(
-						"CluFee does not exist for id: ").append(
-						feeInfo.getId()).toString());
-			}
+			fee = clu.getFee();
 			if (!String.valueOf(fee.getVersionInd()).equals(
 					feeInfo.getMetaInfo().getVersionInd())) {
 				throw new VersionMismatchException(
 						"CluFee to be updated is not the current version");
 			}
-		} else {
+		} 
+		if(fee == null){
 			fee = new CluFee();
 		}
 
-		if (feeInfo.getDescr() != null) {
-		    LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, feeInfo.getDescr());
-		    if (descr.getPlain() != null || descr.getFormatted() != null) {
-		        fee.setDescr(descr);
-		    }
+		if (feeInfo.getDescr() != null && (feeInfo.getDescr().getPlain() != null || feeInfo.getDescr().getFormatted() != null)) {
+			if (fee.getDescr() == null) {
+				fee.setDescr(new LuRichText());
+			}
+			BeanUtils.copyProperties(feeInfo.getDescr(), fee.getDescr());
+		} else if (isUpdate && fee.getDescr() != null) {
+			dao.delete(fee.getDescr());
+			fee.setDescr(null);
 		}
 
 		fee.setAttributes(LuServiceAssembler.toGenericAttributes(
@@ -1168,15 +1171,20 @@ public class LuServiceAssembler extends BaseAssembler {
 				feeRec.setAttributes(LuServiceAssembler.toGenericAttributes(
 						CluFeeRecordAttribute.class, feeRecordInfo
 								.getAttributes(), feeRec, dao));
+				if(cluFee.getCluFeeRecords()==null){
+					cluFee.setCluFeeRecords(new ArrayList<CluFeeRecord>());
+				}
 				cluFee.getCluFeeRecords().add(feeRec);
 			}
 		} else {
 			Map<String, CluFeeRecord> oldFeeRecMap = new HashMap<String, CluFeeRecord>();
-			for (CluFeeRecord feeRec : cluFee.getCluFeeRecords()) {
-				oldFeeRecMap.put(feeRec.getId(), feeRec);
+			if(cluFee.getCluFeeRecords()!=null){
+				for (CluFeeRecord feeRec : cluFee.getCluFeeRecords()) {
+					oldFeeRecMap.put(feeRec.getId(), feeRec);
+				}
+				cluFee.getCluFeeRecords().clear();
 			}
-			cluFee.getCluFeeRecords().clear();
-
+			
 			// Loop through the new list, if the item exists already update and
 			// remove from the list
 			// otherwise create a new entry
@@ -1194,7 +1202,9 @@ public class LuServiceAssembler extends BaseAssembler {
 				feeRec.setAttributes(LuServiceAssembler.toGenericAttributes(
 						CluFeeRecordAttribute.class, feeRecordInfo
 								.getAttributes(), feeRec, dao));
-
+				if(cluFee.getCluFeeRecords()==null){
+					cluFee.setCluFeeRecords(new ArrayList<CluFeeRecord>());
+				}
 				cluFee.getCluFeeRecords().add(feeRec);
 			}
 
@@ -1209,7 +1219,10 @@ public class LuServiceAssembler extends BaseAssembler {
 		if(null == affiliatedOrgInfoList) {
 			return orgList;
 		}
-
+		if(orgList==null){
+			orgList = new ArrayList<AffiliatedOrg>();
+		}
+		
 		if (!isUpdate) {
 
 			for (AffiliatedOrgInfo orgInfo : affiliatedOrgInfoList) {
@@ -1247,6 +1260,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static List<CluFeeAmount> toFeeAmounts(boolean isUpdate, List<CluFeeAmount> caList, List<CurrencyAmountInfo> caInfoList, LuDao dao){
 		if(null == caInfoList) {
 			return caList;
+		}
+		if(caList==null){
+			caList = new ArrayList<CluFeeAmount>(caInfoList.size());
 		}
 		
 		if (!isUpdate) {

@@ -77,9 +77,6 @@ AttributeOwner<CluLoRelationAttribute> {
 	
 	@Override
 	public List<CluLoRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluLoRelationAttribute>();
-		}
 		return attributes;
 	}
 

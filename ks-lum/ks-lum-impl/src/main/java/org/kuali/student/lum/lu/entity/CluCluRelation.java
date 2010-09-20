@@ -152,9 +152,6 @@ public class CluCluRelation extends MetaEntity implements
 	
 	@Override
     public List<CluCluRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluCluRelationAttribute>();
-		}
 		return attributes;
 	}
 

@@ -78,9 +78,6 @@ public class CluAdminOrg implements AttributeOwner<CluAdminOrgAttribute>  {
 
     
     public List<CluAdminOrgAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluAdminOrgAttribute>();
-        }
         return attributes;
     }
 
