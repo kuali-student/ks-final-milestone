@@ -1,10 +1,14 @@
 package org.kuali.student.lum.program.client.edit;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
@@ -56,7 +60,7 @@ public class ProgramInformationEditConfiguration extends AbstractSectionConfigur
         configurer.addField(section, ProgramConstants.LONG_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleFull()));
         configurer.addField(section, ProgramConstants.SHORT_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleShort()));
         configurer.addField(section, ProgramConstants.TRANSCRIPT, new MessageKeyInfo(ProgramProperties.get().programInformation_titleTranscript()));
-        configurer.addField(section, ProgramConstants.DIPLOMA, new MessageKeyInfo(ProgramProperties.get().programInformation_titleDiploma()));
+        configurer.addField(section, ProgramConstants.DIPLOMA, new MessageKeyInfo(ProgramProperties.get().programInformation_titleDiploma())).setWidgetBinding(new DiplomaBinding());
         return section;
     }
 
@@ -84,4 +88,29 @@ public class ProgramInformationEditConfiguration extends AbstractSectionConfigur
         configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
         return section;
     }
+    
+    public class DiplomaBinding extends ModelWidgetBindingSupport<KSTextBox> {
+		private boolean isEmpty(String value){
+			return value == null || (value != null && "".equals(value));
+		}
+
+		@Override
+		public void setModelValue(KSTextBox widget, DataModel model, String path) {
+			String 	diplomaTitle = 	widget.getText();
+			if(diplomaTitle != null)
+				model.set(QueryPath.concat(null, "/" + ProgramConstants.DIPLOMA), diplomaTitle);
+		}
+
+		@Override
+		public void setWidgetValue(KSTextBox widget, DataModel model, String path) {
+			String diplomaTitle = model.get("/" + ProgramConstants.DIPLOMA);
+			if(isEmpty(diplomaTitle)){
+				String programTitle = model.get("/" + ProgramConstants.LONG_TITLE);
+				if (!isEmpty(programTitle))
+					widget.setText(programTitle);
+			}
+			else
+				widget.setText(diplomaTitle);
+		}
+	}
 }
