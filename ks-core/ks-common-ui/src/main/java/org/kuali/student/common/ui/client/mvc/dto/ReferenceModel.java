@@ -15,6 +15,9 @@
 
 package org.kuali.student.common.ui.client.mvc.dto;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
@@ -35,6 +38,7 @@ public class ReferenceModel implements HasReferenceId, Model {
     String referenceTypeKey;
     String referenceType;
     String referenceState;
+    Map<String, String> referenceAttributes;  // Use referenceAttributes to store misc data from the parent Model
 	private HandlerManager handlers = new HandlerManager(this);
 
 	@Override
@@ -93,4 +97,16 @@ public class ReferenceModel implements HasReferenceId, Model {
 		handlers.fireEvent(new ModelChangeEvent(Action.RELOAD, this));
 	}
     
+    public Map<String, String> getReferenceAttributes(){
+    	if(referenceAttributes!=null){
+    		return referenceAttributes;
+    	}
+    	else{
+    		return new HashMap<String,String>();
+    	}
+    }
+    public void setReferenceAttributes(Map<String, String> referenceAttributes){
+    	this.referenceAttributes = referenceAttributes;
+    	handlers.fireEvent(new ModelChangeEvent(Action.RELOAD, this));
+    }
 }
