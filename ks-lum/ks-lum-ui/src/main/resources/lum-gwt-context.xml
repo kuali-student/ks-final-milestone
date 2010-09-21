@@ -384,7 +384,6 @@
     </bean>
 
     <bean id="credentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CredentialProgramFilter">
-        <property name="metadataService" ref="metadataServiceImplPOC"/>
         <property name="programService" ref="programClient"/>
     </bean>
 

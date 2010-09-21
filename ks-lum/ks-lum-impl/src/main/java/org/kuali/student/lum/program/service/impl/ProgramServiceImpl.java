@@ -8,8 +8,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -503,8 +503,11 @@ public class ProgramServiceImpl implements ProgramService {
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(CredentialProgramInfo.class.getName());
-        List<ValidationResultInfo> validationResults = validator.validateObject(credentialProgramInfo, objStructure);
+        List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
+        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
+            ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
+            validationResults.addAll(validator.validateObject(credentialProgramInfo, objStructure));
+        }
 
         return validationResults;
     }
@@ -524,9 +527,11 @@ public class ProgramServiceImpl implements ProgramService {
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName());
-        List<ValidationResultInfo> validationResults = validator.validateObject(majorDisciplineInfo, objStructure);
-
+        List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
+        if ( ! ProgramAssemblerConstants.DRAFT.equals(majorDisciplineInfo.getState()) ) {
+            ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
+            validationResults.addAll(validator.validateObject(majorDisciplineInfo, objStructure));
+        }
         return validationResults;
     }
 
@@ -822,9 +827,11 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public List<ValidationResultInfo> validateCoreProgram(String validationType, CoreProgramInfo coreProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
-        List<ValidationResultInfo> validationResults = validator.validateObject(coreProgramInfo, objStructure);
-
+        List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
+        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
+	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
+            validationResults.addAll(validator.validateObject(coreProgramInfo, objStructure));
+        }
         return validationResults;
     }
 

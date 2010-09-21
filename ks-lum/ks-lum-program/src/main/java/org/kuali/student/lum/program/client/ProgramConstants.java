@@ -1,6 +1,7 @@
 package org.kuali.student.lum.program.client;
 
 
+
 /**
  * @author Igor
  */
@@ -63,4 +64,5 @@ public class ProgramConstants {
     
     //Program Specializations
     public static final String VARIATIONS = "variations";
+    public static final String DRAFT = "draft";
 }
