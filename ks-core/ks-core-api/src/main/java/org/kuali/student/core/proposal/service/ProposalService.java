@@ -200,6 +200,16 @@ public interface ProposalService extends DictionaryService, SearchService{
     public List<ProposalInfo> getProposalsByState(@WebParam(name="proposalState")String proposalState, @WebParam(name="proposalTypeKey")String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
+     * @param workflowId Workflow id
+     * @return Proposal Information
+     * @throws DoesNotExistException workflowId not found
+     * @throws InvalidParameterException invalid workflowId
+     * @throws MissingParameterException missing workflowId
+     * @throws OperationFailedException unable to complete request
+     */
+    public ProposalInfo getProposalByWorkflowId(@WebParam(name="workflowId")String workflowId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
      * Retrieves a getProposalDocRelation by its identifier
      * @param proposalDocRelationId proposalDocRelation identifier
      * @return proposalDocRelation information

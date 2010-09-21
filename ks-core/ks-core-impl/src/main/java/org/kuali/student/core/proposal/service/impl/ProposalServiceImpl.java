@@ -326,6 +326,19 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
+     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalByWorkflowId()
+     */
+	@Override
+	public ProposalInfo getProposalByWorkflowId(String workflowId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(workflowId, "workflowId");
+		
+        Proposal entity = proposalDao.getProposalByWorkflowId(workflowId);
+        return ProposalAssembler.toProposalInfo(entity);
+	}
+
+    /**
      * @see org.kuali.student.core.proposal.service.ProposalService#getReferenceTypes()
      */
     @Override
@@ -511,4 +524,5 @@ public class ProposalServiceImpl implements ProposalService {
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
 		return searchManager.search(searchRequest, proposalDao);
 	}
+
 }
