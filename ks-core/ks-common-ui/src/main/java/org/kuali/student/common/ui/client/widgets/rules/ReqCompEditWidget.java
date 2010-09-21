@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.service.MetadataRpcService;
+import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -26,6 +28,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ReqCompEditWidget extends FlowPanel {
+
+    MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 
     //widgets
     private FlowPanel reqCompTypePanel = new FlowPanel();
@@ -257,6 +261,19 @@ public class ReqCompEditWidget extends FlowPanel {
             String fieldValue = getFieldValue(reqCompFields, fieldType);
 
             //TODO replace with metadata and check on req. comp. field type
+
+       /*     metadataServiceAsync.getMetadata("addressInfo", "FOREIGN_ADDRESS", "DRAFT", new KSAsyncCallback<Metadata>() {
+                @Override
+                public void handleFailure(Throwable caught) {
+                    throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
+                }
+                @Override
+                public void onSuccess(Metadata metadata) {
+                    metadata = metadata.getProperties().get("findCourseTmp");  //TEMP until we have new home page screen where we have suggest box instead of a link
+
+                }
+            });       */  
+
             if (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.program.admitted.credits")) {
                 final KSTextBox valueWidget = new KSTextBox();
                 valueWidget.setName(fieldType);

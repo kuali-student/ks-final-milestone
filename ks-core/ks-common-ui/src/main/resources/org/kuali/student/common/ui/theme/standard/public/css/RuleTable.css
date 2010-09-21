@@ -20,6 +20,7 @@
 	border-style: solid;
 	border-color: black;
 	border-collapse: collapse;
+    max-width: 800px;
 }
 
 .KS-Rules-Toggle-Button{

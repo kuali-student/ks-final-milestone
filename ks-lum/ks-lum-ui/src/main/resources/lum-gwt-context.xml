@@ -295,6 +295,7 @@
 
     <bean id="programRpcServlet" class="org.kuali.student.lum.program.server.ProgramRpcServlet">
 		<property name="dataService" ref="programDataService"/>
+		<property name="programService" ref="programClient"/>
     </bean>
 
     <bean id="programDataService" class="org.kuali.student.lum.program.server.ProgramDataService">

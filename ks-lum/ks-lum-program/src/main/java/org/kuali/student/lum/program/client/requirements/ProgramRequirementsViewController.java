@@ -22,58 +22,43 @@ public class ProgramRequirementsViewController extends BasicLayout {
         MANAGE
     }
 
+    //TODO remove after testing
     protected static final String TEMLATE_LANGUAGE = "en";
     protected static final String RULEEDIT_TEMLATE = "KUALI.RULE";
     protected static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";    
 
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
+    private ProgramRequirementsSummaryView preview;
+    private static ProgramRequirementsDataModel dataInstance;
 
-    public ProgramRequirementsViewController(Controller controller, String name, Enum<?> viewType) {
+    public ProgramRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
 		super(ProgramRequirementsViewController.class.getName());
 		super.setController(controller);
 		super.setName(name);
 		super.setViewEnum(viewType);
+        
 		this.setDefaultView(ProgramRequirementsViews.PREVIEW);
 
+        //not used
         super.registerModel(PROGRAM_RULES_MODEL_ID, new ModelProvider<DataModel>() {
-
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-
-                //TODO: how do we store and retrieve rules?
-                DataModel programModel = new DataModel();
-                callback.onModelReady(programModel);
-
-                /*
-                if (modelRequestQueue == null) {
-                    modelRequestQueue = new WorkQueue();
-                }
-
-                WorkQueue.WorkItem workItem = new WorkQueue.WorkItem() {
-                    @Override
-                    public void exec(Callback<Boolean> workCompleteCallback) {
-                        if (programModel.getRoot() == null || programModel.getRoot().size() == 0) {
-                            initModel(callback, workCompleteCallback);
-                        } else {
-                            callback.onModelReady(programModel);
-                            workCompleteCallback.exec(true);
-                        }
-                    }
-
-                };
-                modelRequestQueue.submit(workItem); */
+                callback.onModelReady(new DataModel());
             }
         });
 
+        if (dataInstance == null) {
+             dataInstance = new ProgramRequirementsDataModel(this);
+        }
+
         //no name for the view so that breadcrumbs do not extra link
-        List<String> programRequirements = null; // TODO retrieve a list of program requirements
-        ProgramRequirementsSummaryView summaryView = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.PREVIEW, "", PROGRAM_RULES_MODEL_ID, programRequirements);
-        super.addView(summaryView);
-        
-        ProgramRequirementsManageView manageView =
-                new ProgramRequirementsManageView(this, ProgramRequirementsViews.MANAGE, "Add and Combine Rules", PROGRAM_RULES_MODEL_ID);
-        super.addView(manageView);
-             
+        preview = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.PREVIEW, (isReadOnly ? "Program Requirements" : ""), PROGRAM_RULES_MODEL_ID, dataInstance, isReadOnly);
+        super.addView(preview);
+
+        if (!isReadOnly) {
+            ProgramRequirementsManageView manageView = new ProgramRequirementsManageView(this, ProgramRequirementsViews.MANAGE, "Add and Combine Rules", PROGRAM_RULES_MODEL_ID);
+            super.addView(manageView);
+        }
     }
 
     @Override
@@ -127,10 +112,11 @@ public class ProgramRequirementsViewController extends BasicLayout {
             }
         });
     }
+    
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
+        //TODO
 	//	init(new Callback<Boolean>() {
-
 	//		@Override
 	//		public void exec(Boolean result) {
 	//			if (result) {
@@ -142,8 +128,12 @@ public class ProgramRequirementsViewController extends BasicLayout {
 	//	});
 	}
 
+    public ProgramRequirementsSummaryView getProgramRequirementsView() {
+        return preview;
+    }
+
     //TODO remove after testing done
-    public StatementTreeViewInfo getTestStatement() {
+    static public StatementTreeViewInfo getTestStatement() {
 
         StatementTreeViewInfo stmtTreeInfo = new StatementTreeViewInfo();
         stmtTreeInfo.setId("123");

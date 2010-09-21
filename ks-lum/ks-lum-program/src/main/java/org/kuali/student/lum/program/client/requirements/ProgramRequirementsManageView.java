@@ -333,6 +333,10 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         return userClickedSaveButton;
     }
 
+    public void setUserClickedSaveButton(boolean userClickedSaveButton) {
+        this.userClickedSaveButton = userClickedSaveButton;
+    }
+
     public String getRelatedProgramReqInfoId() {
         return relatedProgramReqInfoId;
     }

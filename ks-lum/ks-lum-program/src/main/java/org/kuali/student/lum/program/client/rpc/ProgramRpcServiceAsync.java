@@ -1,13 +1,19 @@
 package org.kuali.student.lum.program.client.rpc;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
+import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * @author Igor
- */
 public interface ProgramRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync {
-    public void getProgramRequirement(String programRequirementId, AsyncCallback<ProgramRequirementInfo> callback);
+    public void getProgramRequirements(List<String> programRequirementIds, AsyncCallback<List<ProgramRequirementInfo>> callback);
+    public void addProgramRequirement(ProgramRequirementInfo programRequirement, String programId, AsyncCallback<ProgramRequirementInfo> callback);
+    public void createProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback);
+    public void updateMajorDiscipline(MajorDisciplineInfo majorDisciplineInfo, AsyncCallback<MajorDisciplineInfo> callback);
+    public void deleteProgramRequirement(String programRequirementId, AsyncCallback<StatusInfo> callback);
+    public void updateProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback);
 }
