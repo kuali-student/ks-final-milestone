@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -60,24 +61,36 @@ public abstract class SectionView extends BaseSection implements View{
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
     	
     	super.clearValidation();
-        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
+        if (getController() != null) {
+            getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
 
-            @Override
-            public void onRequestFail(Throwable cause) {
-                Window.alert("Failed to get model: " + getName());
-                onReadyCallback.exec(false);
-            }
+                @Override
+                public void onRequestFail(Throwable cause) {
+                    Window.alert("Failed to get model: " + getName());
+                    onReadyCallback.exec(false);
+                }
 
-            @Override
-            public void onModelReady(DataModel m) {
-                model = m;
-                updateWidgetData(m);
-                resetFieldInteractionFlags();
-                onReadyCallback.exec(true);
+                @Override
+                public void onModelReady(DataModel m) {
+                    model = m;
+                    updateWidgetData(m);
+                    resetFieldInteractionFlags();
+                    onReadyCallback.exec(true);
+                }
+
+            });
+        }
+
+        for (Section section : sections) {
+            if (section instanceof SectionView) {
+                ((SectionView)section).beforeShow(new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {
+                    }
+                });
             }
-            
-        });
-       
+        }
+
     }
 
 	/**
