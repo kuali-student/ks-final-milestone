@@ -702,11 +702,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
 			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
 		}
-		String type = getViewContext().getAttribute(IdAttributes.DOC_TYPE);
-		if(type != null && !type.isEmpty()){
-			attributes.put(IdAttributes.DOC_TYPE, type);
-		}
-    	cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
+
+		cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {

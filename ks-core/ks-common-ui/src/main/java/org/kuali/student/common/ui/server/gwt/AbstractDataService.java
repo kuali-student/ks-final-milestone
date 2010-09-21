@@ -125,12 +125,24 @@ public abstract class AbstractDataService implements DataService{
 			String permissionTemplateName = type.getPermissionTemplateName();
 			
 			AttributeSet roleQuals = new AttributeSet();
-			if (attributes != null) {
-				String docType = attributes.get(IdAttributes.DOC_TYPE);
-				if (docType == null){
-					docType = getDefaultWorkflowDocumentType();
+			if (attributes != null) {				
+				if (proposalService != null){
+					ProposalInfo proposalInfo = null;
+					try {
+						if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
+							proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()));
+						} else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
+							proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()));
+						}
+						if (proposalInfo != null){
+							attributes.put(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString(), proposalInfo.getId());
+							attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
+							attributes.put(IdAttributes.DOC_TYPE, proposalInfo.getType());
+						}
+					} catch (Exception e){
+						LOG.error("Could not retrieve proposal to determine permission qualifiers.");
+					}
 				}
-				attributes.put(IdAttributes.DOC_TYPE, docType);
 				roleQuals.putAll(attributes);
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
