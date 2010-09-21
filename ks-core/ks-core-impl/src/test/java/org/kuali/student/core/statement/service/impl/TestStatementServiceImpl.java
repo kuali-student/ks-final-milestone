@@ -53,6 +53,10 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.statement.config.context.lu.CluInfo;
 import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
@@ -1452,4 +1456,36 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertNotNull(resultInfo);
 		assertEquals(0, resultInfo.size());
     }
+
+	@Test
+	public void testSearchForCluInReqComponentTypes() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("stmt.search.cluInReqComponent");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam1 = new SearchParam();
+        searchParam1.setKey("stmt.queryParam.reqComponentFieldType");
+        searchParam1.setValue("kuali.reqComponent.field.type.clu.id");
+        queryParamValues.add(searchParam1);
+
+        SearchParam searchParam2 = new SearchParam();
+        searchParam2.setKey("stmt.queryParam.reqComponentFieldValue");
+        searchParam2.setValue("CLU-NL-3");
+        queryParamValues.add(searchParam2);
+        
+		searchRequest.setParams(queryParamValues);
+		SearchResult result = statementService.search(searchRequest);
+		List<SearchResultCell> resultRow1Columns = result.getRows().get(0).getCells();
+		List<SearchResultCell> resultRow2Columns = result.getRows().get(1).getCells();
+
+		assertEquals(2, result.getRows().size());
+		assertEquals("REQCOMP-NL-3", resultRow1Columns.get(0).getValue());
+		assertEquals("REQCOMP-NL-5", resultRow2Columns.get(0).getValue());
+		assertEquals("kuali.reqComponent.type.courseList.1of1", resultRow2Columns.get(1).getValue());
+		assertEquals("One required course", resultRow2Columns.get(2).getValue());
+		assertEquals("Student must have completed <kuali.reqComponent.field.type.clu.id>", resultRow2Columns.get(3).getValue());
+		assertEquals("kuali.statement.type.course.academicReadiness.prereq", resultRow2Columns.get(4).getValue());
+		assertEquals("Academic Readiness Pre Reqs", resultRow2Columns.get(5).getValue());
+		assertEquals("Pre req rules used in the evaluation of a person's academic readiness for enrollment in a LU.", resultRow2Columns.get(6).getValue());
+	}
 }

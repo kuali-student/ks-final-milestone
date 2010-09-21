@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.messagebuilder.MessageBuilder;
 import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
@@ -165,10 +166,12 @@ public class StatementTranslatorTest {
 	}
 
 	@Test
+	@Ignore
 	public void testTranslateStatement1b() throws Exception {
 		// Rule = R1
 		Statement stmt1 = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.AND);
 
+		//Comma separated lists of clu ids no longer supported
 		List<ReqComponentField> fieldList = NaturalLanguageUtil.createReqComponentFieldsForClu("1", "greater_than_or_equal_to", "CLU-NL-1,CLU-NL-3");
 		ReqComponent reqComp = NaturalLanguageUtil.createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.1of2");
 		reqComp.setId("req-1");

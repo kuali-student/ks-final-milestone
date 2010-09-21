@@ -113,13 +113,26 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return A new CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public CluSetInfo getClusAsCluSet(String cluIds) throws OperationFailedException {
+    /*public CluSetInfo getClusAsCluSet(String cluIds) throws OperationFailedException {
     	String[] cluIdArray = cluIds.split("\\s*,\\s*");
     	List<CluInfo> list = new ArrayList<CluInfo>();
     	for(String cluId : cluIdArray) {
     		CluInfo clu = getCluInfo(cluId);
     		list.add(clu);
     	}
+    	return new CluSetInfo(null, list);
+    }*/
+    /**
+     * Gets a new CLU set from a CLU id.
+     * 
+     * @param cluIds CLU id
+     * @return A new CLU set
+     * @throws OperationFailedException If building a custom CLU set fails
+     */
+    public CluSetInfo getCluAsCluSet(String cluId) throws OperationFailedException {
+    	List<CluInfo> list = new ArrayList<CluInfo>();
+		CluInfo clu = getCluInfo(cluId);
+		list.add(clu);
     	return new CluSetInfo(null, list);
     }
 
@@ -135,7 +148,8 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     	CluSetInfo cluSet = null;
     	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getType())) {
         	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getType());
-        	cluSet = getClusAsCluSet(cluIds);
+//        	cluSet = getClusAsCluSet(cluIds);
+        	cluSet = getCluAsCluSet(cluIds);
         } else if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getType())) {
         	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getType());
             cluSet = getCluSet(cluSetId);

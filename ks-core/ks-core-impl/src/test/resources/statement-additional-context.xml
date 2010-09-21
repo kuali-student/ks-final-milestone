@@ -25,6 +25,27 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
+    <bean id="lumSearchDispatcher"
+          class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+        <property name="services">
+            <list>
+                <ref bean="StatementServiceImpl"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="lumCrossServiceSearchManager"
+          class="org.kuali.student.core.search.service.impl.CrossSearchManager">
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+    <bean id="statementSearchManager"
+          class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:statement-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+
+
+
     <!--  Preloaded data -->
     <bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
@@ -236,6 +257,7 @@
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
 		<property name="validatorFactory" ref="validatorFactory"/>
         <property name="validator" ref="serviceValidator"/>
+        <property name="searchManager" ref="statementSearchManager"/>
     </bean>
     
     <bean id="serviceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl"/>

@@ -68,7 +68,7 @@ public class ReqComponent extends MetaEntity {
     
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "KSST_RC_JN_RC_FIELD", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_FIELD_ID"))
-    private List<ReqComponentField> reqCompField;
+    private List<ReqComponentField> reqComponentFields;
     
     /**
      * AutoGenerate the Id
@@ -127,11 +127,11 @@ public class ReqComponent extends MetaEntity {
     }
 
     public List<ReqComponentField> getReqComponentFields() {
-        return reqCompField;
+        return reqComponentFields;
     }
 
     public void setReqComponentFields(List<ReqComponentField> reqCompField) {
-        this.reqCompField = reqCompField;
+        this.reqComponentFields = reqCompField;
     }
 
 	@Override

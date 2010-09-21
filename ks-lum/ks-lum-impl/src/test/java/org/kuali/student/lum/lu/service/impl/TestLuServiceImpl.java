@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -2281,7 +2282,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-        assertEquals(108, createdCluSet.getCluIds().size());
+        assertEquals(109, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
@@ -3377,4 +3378,71 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.get(2));
 	}
 
+	@Test
+	public void testSearchForCluInCluSets() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("cluset.search.generic");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setValue("CLU-5");
+        queryParamValues.add(searchParam);
+
+		searchRequest.setParams(queryParamValues);
+		SearchResult cluSets = client.search(searchRequest);
+
+		Assert.assertEquals(2, cluSets.getRows().size());
+	}
+
+	@Test
+	public void testSearchForCluInCluSets_EmptyResult() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("cluset.search.generic");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setValue("XXX");
+        queryParamValues.add(searchParam);
+
+		searchRequest.setParams(queryParamValues);
+		SearchResult cluSets = client.search(searchRequest);
+
+		Assert.assertEquals(0, cluSets.getRows().size());
+	}
+
+	@Test
+	public void testSearchForCluInCluRelations() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("lu.search.cluCluRelation");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setValue("CLU-1");
+        queryParamValues.add(searchParam);
+
+		searchRequest.setParams(queryParamValues);
+		SearchResult clus = client.search(searchRequest);
+
+		Assert.assertEquals(2, clus.getRows().size());
+	}
+
+	@Test
+	public void testSearchForCluInCluRelations_EmptyResult() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("lu.search.cluCluRelation");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setValue("XXX");
+        queryParamValues.add(searchParam);
+
+		searchRequest.setParams(queryParamValues);
+		SearchResult clus = client.search(searchRequest);
+
+		Assert.assertEquals(0, clus.getRows().size());
+	}
 }

@@ -51,7 +51,7 @@ INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-3'
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-4', 'kuali.reqComponent.field.type.gpa', '3.5')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-5', 'kuali.reqComponent.field.type.requiredCount', '1')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-6', 'kuali.reqComponent.field.type.operator', 'greater_than_or_equal_to')
-INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-7', 'kuali.reqComponent.field.type.clu.id', 'CLU-NL-3,CLU-NL-4')
+INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-7', 'kuali.reqComponent.field.type.clu.id', 'CLU-NL-3')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-8', 'kuali.reqComponent.field.type.operator', 'greater_than_or_equal_to')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-9', 'kuali.reqComponent.field.type.requiredCount', '2')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-10', 'kuali.reqComponent.field.type.cluSet.id', 'CLUSET-NL-2')
