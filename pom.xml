@@ -279,7 +279,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
                 <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-                <Hudson-Build-Number>${env.BUILD_NUMBER}</Hudson-Build-Number>
+                <Bundle-BuildNumber>${env.BUILD_NUMBER}</Bundle-BuildNumber>
               </manifestEntries>
             </archive>
           </configuration>
