@@ -548,7 +548,7 @@
  </bean>
  <bean id="cluIdentifierInfo.code" parent="cluIdentifierInfo.code-parent" />
 
- <bean id="cluIdentifierInfo.division-parent" abstract="true" parent="baseKualiCode">
+ <bean id="cluIdentifierInfo.division-parent" abstract="true" parent="baseKualiCodeLoose">
   <property name="name" value="division" />
  </bean>
  <bean id="cluIdentifierInfo.division" parent="cluIdentifierInfo.division-parent" />
