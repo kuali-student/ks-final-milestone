@@ -43,10 +43,10 @@
   <property name="value" value="regex:[A-Z]*"/>
  </bean>
  <bean id="lineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;\\/\-\?()\[\];:&#34;'&amp;%$#@!\t ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t ]*"/>
  </bean>
  <bean id="multiLineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;\\/\-\?()\[\];:&#34;'&amp;%$#@!\t\n\r ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r ]*"/>
  </bean>
 
  <bean id="customEditorConfigurer"
@@ -232,7 +232,11 @@
  <bean id="baseKualiExpirationDate" parent="baseDate">
  </bean>
 
-
+ <bean id="baseKualiCodeLoose" parent="baseString" abstract="true">
+  <property name="minLength" value="1" />
+  <property name="maxLength" value="60" />
+  <property name="validChars" ref="lineText"/>
+ </bean>
  <bean id="baseKualiCode" parent="baseString" abstract="true">
   <property name="minLength" value="1" />
   <property name="maxLength" value="60" />
