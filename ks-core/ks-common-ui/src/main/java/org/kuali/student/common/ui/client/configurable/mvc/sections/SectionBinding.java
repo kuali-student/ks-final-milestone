@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -49,18 +50,21 @@ public class SectionBinding extends ModelWidgetBindingSupport<Section> {
         List<FieldDescriptor> fields = section.getUnnestedFields();
         Map<String, Object> selectedData = null;
         for (int i = 0; i < fields.size(); i++) {
-            FieldDescriptor field = (FieldDescriptor) fields.get(i);
-            String fieldPath = path + QueryPath.getPathSeparator() + field.getFieldKey();
-            fieldPath = fieldPath.trim();
-            if (fieldPath.startsWith(QueryPath.getPathSeparator())) {
-                fieldPath = fieldPath.substring(QueryPath.getPathSeparator().length());
-            }
-            ModelWidgetBinding binding = field.getModelWidgetBinding();
-            if (binding != null) {
-                Widget w = field.getFieldWidget();
-                binding.setModelValue(w, model, fieldPath);
-            } else {
-                GWT.log(field.getFieldKey() + " has no widget binding.", null);
+        	if(!(fields.get(i) instanceof FieldDescriptorReadOnly)){
+        		FieldDescriptor field = (FieldDescriptor) fields.get(i);
+            
+	            String fieldPath = path + QueryPath.getPathSeparator() + field.getFieldKey();
+	            fieldPath = fieldPath.trim();
+	            if (fieldPath.startsWith(QueryPath.getPathSeparator())) {
+	                fieldPath = fieldPath.substring(QueryPath.getPathSeparator().length());
+	            }
+	            ModelWidgetBinding binding = field.getModelWidgetBinding();
+	            if (binding != null) {
+	                Widget w = field.getFieldWidget();
+	                binding.setModelValue(w, model, fieldPath);
+	            } else {
+	                GWT.log(field.getFieldKey() + " has no widget binding.", null);
+	            }
             }
         }
         
