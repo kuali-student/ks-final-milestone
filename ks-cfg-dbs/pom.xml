@@ -25,7 +25,7 @@
     </repository>
   </repositories>
   <properties>
-    <!-- Some example values for database specific properties -->
+    <!-- Example values for db specific properties -->
 
     <!-- Oracle JDBC url's don't contain a database name -->
     <ks.impex.url.oracle>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.url.oracle>
@@ -37,31 +37,33 @@
     <ks.impex.dba.username.mysql>root</ks.impex.dba.username.mysql>
     <ks.impex.dba.password.mysql></ks.impex.dba.password.mysql>
 
-    <!-- These 3 properties are required -->
-    <ks.impex.url>${ks.impex.url.oracle}</ks.impex.url> <!-- JDBC url -->
-    <ks.impex.dba.username>${ks.impex.dba.username.oracle}</ks.impex.dba.username> <!-- User with DBA privileges -->
-    <ks.impex.dba.password>${ks.impex.dba.password.oracle}</ks.impex.dba.password> <!-- Password for the DBA user -->
+    <!-- *** REQUIRED properties *** -->
+    <!-- JDBC url -->
+    <ks.impex.url>${ks.impex.url.oracle}</ks.impex.url> 
+    <!-- User with DBA privileges -->
+    <ks.impex.dba.username>${ks.impex.dba.username.oracle}</ks.impex.dba.username>
+    <!-- Password for the DBA user -->
+    <ks.impex.dba.password>${ks.impex.dba.password.oracle}</ks.impex.dba.password>
+    <!-- *** End of REQUIRED properties *** -->
 
-    <!-- These properties are optional -->
-    <!-- Platform specific logic generates default values for these -->
-    
+    <!-- *** OPTIONAL properties *** -->
+    <!-- Platform specific logic generates default values for these if they are not specified -->
     <!-- A url for connecting directly to the database server ie no database specified -->
     <ks.impex.server.url></ks.impex.server.url>
 
-    <!-- Aka "schema" for Oracle. This database/schema gets dropped / created by the DBA user-->
+    <!-- Aka "schema" for Oracle. This database/schema gets dropped/created by the DBA user-->
     <ks.impex.database.name></ks.impex.database.name>
     
     <!-- This is the user the application will connect to the database as. -->
     <!-- This user gets dropped / created by the DBA user -->
     <ks.impex.database.user></ks.impex.database.user>
-
-    <!-- The password for the user -->
     <ks.impex.database.password></ks.impex.database.password>
 
     <!--  This is the format dates will be exported/imported as -->
     <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
+    <!-- *** End of OPTIONAL properties *** -->
     
-    <!-- Any properties located in the properties file, override POM properties, but not system properties -->
+    <!-- Properties located in the properties file, override POM properties, but not system properties -->
     <ks.impex.properties>${user.home}/impex.properties</ks.impex.properties>
   </properties>
   <build>
@@ -277,7 +279,7 @@
           <plugin>
             <groupId>org.kuali.maven.properties</groupId>
             <artifactId>maven-properties-plugin</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
             <executions>
               <execution>
                 <id>properties</id>
