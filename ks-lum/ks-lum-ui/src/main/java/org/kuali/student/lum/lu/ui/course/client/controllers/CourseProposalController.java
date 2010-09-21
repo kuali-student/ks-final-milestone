@@ -363,6 +363,15 @@ public class CourseProposalController extends MenuEditableSectionController impl
         		} else {
         			ref.setReferenceId(null);
         		}
+        		
+        		//Use the referenceAttribute to store misc data from the parent model like reference name, etc
+        		if(cluProposalModel.get(cfg.getProposalPath()) != null){
+        			Map<String, String> attributes = new HashMap<String, String>();
+        			attributes.put("name", (String)cluProposalModel.get(cfg.getProposalPath()+"/name"));
+        			ref.setReferenceAttributes(attributes);
+        		} else {
+        			ref.setReferenceAttributes(null);
+        		}
 
         		ref.setReferenceTypeKey(cfg.getProposalReferenceTypeKey());
         		ref.setReferenceType(cfg.getProposalReferenceObjectType());

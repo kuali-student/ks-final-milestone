@@ -366,6 +366,20 @@
   border: 1px solid #C0C0C0;
 }
 
+.KS-CommentButton{
+	background: transparent;
+	border: none;
+	color: blue;
+	font-size:0.916em;
+}
+
+.KS-CommentButtonDisabled{
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size:0.916em;
+}
+
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}
