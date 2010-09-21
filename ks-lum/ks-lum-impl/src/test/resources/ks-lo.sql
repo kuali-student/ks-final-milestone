@@ -31,6 +31,7 @@ INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-19', '<p>E
 INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-20', '<p>Destroy Wiki</p>', 'Destroy Wiki')
 INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-21', '<p>Annihilate Wiki</p>', 'Annihilate Wiki')
 INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-22', '<p>Learning objectives mandated by the state</p>', 'Learning objectives mandated by the state')
+INSERT INTO KSLO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-23', '<p>Core Program Learning objectives</p>', 'Core Program Learning objectives')
 
 // LoType
 INSERT INTO KSLO_LO_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('kuali.lo.type.governed', 'Governed','LO governed by an organization external to department, e.g., the college at large, or a state or accrediting organization', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
@@ -71,6 +72,7 @@ INSERT INTO KSLO_LO (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, LOTYPE
 INSERT INTO KSLO_LO (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, LOTYPE_ID, ST, VERSIONIND) VALUES ('7bcd7c0e-3e6b-4527-ac55-254c58cecc22', 'Modify Wiki', 'RICHTEXT-17', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 'kuali.lo.type.singleUse', 'draft', 1)
 INSERT INTO KSLO_LO (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, LOTYPE_ID, ST, VERSIONIND) VALUES ('91a91860-d796-4a17-976b-a6165b1a0b05', 'Destroy Wiki', 'RICHTEXT-20', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 'kuali.lo.type.singleUse', 'draft', 1)
 INSERT INTO KSLO_LO (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, LOTYPE_ID, ST, VERSIONIND) VALUES ('fde6421e-64b4-41af-bac5-269005101c2a', 'Annihilate Wiki', 'RICHTEXT-21', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 'kuali.lo.type.singleUse', 'draft', 1)
+INSERT INTO KSLO_LO (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, LOTYPE_ID, ST, VERSIONIND) VALUES ('LO-111', 'Core Program LO', 'RICHTEXT-23', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 'kuali.lo.type.singleUse', 'draft', 1)
 
 // Lo-Lo relation join table
 INSERT INTO KSLO_LO_RELTN (ID, LO_ID, RELATED_LO_ID, LO_LO_RELATION_TYPE_ID, ST, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('4abf0d00-37d3-4178-b52b-32bd48728fc7', '81abea67-3bcc-4088-8348-e265f3670145', 'e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf', 'kuali.lo.relation.type.includes', 'draft', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 1)
