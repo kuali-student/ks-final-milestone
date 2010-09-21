@@ -21,6 +21,7 @@
 	<classpathentry kind="src" output="ks-lum-program/target/test-classes" path="ks-lum-program/src/test/resources"/>
 	<classpathentry kind="src" output="ks-lum-ui-common/target/classes" path="ks-lum-ui-common/src/main/java"/>
 	<classpathentry kind="src" output="ks-lum-ui-common/target/classes" path="ks-lum-ui-common/src/main/resources"/>
+	<classpathentry kind="src" path="ks-lum-sql/src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
