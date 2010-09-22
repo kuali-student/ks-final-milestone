@@ -275,6 +275,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 public void exec(List<SelectedResults> results) {
                     if (advancedSearchCallback != null) {
                         advancedSearchCallback.exec(results);
+                        if (results.size() > 0) {
+                        	advSearchWindow.hide();
+                        }
                     } else {
                         if (results.size() > 0) {
                             basicWidget.setResults(results);
