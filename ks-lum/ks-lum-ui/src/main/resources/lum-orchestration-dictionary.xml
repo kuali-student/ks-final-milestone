@@ -7281,7 +7281,7 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="name" value="Find an existing course" />
+				<property name="name" value="Find Courses" />
 				<property name="desc" value="Search for courses" />
 				<property name="widget" value="NO_WIDGET"/>
 			</bean>
@@ -7433,8 +7433,8 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="name" value="Find an existing proposal" />
-				<property name="desc" value="Search for proposals" />
+				<property name="name" value="Find Course Proposals" />
+				<property name="desc" value="Search for Course Proposals" />
 				<property name="widget" value="NO_WIDGET"/>
 			</bean>
 		</property>
@@ -7848,7 +7848,7 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="name" value="Find an existing Major Discipline" />
+				<property name="name" value="Find Programs (major disciplines)" />
 				<property name="desc" value="Search for Major Disciplines" />
 				<property name="widget" value="NO_WIDGET"/>
 			</bean>

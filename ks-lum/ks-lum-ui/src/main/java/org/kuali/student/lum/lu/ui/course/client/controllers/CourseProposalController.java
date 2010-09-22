@@ -243,14 +243,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	}
     }
 
-    private KSButton getSaveButton(){
-        return new KSButton("Save & Continue", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        fireApplicationEvent(new SaveActionEvent(true));
-                    }
-                });
-    }
-
     private void init(final Callback<Boolean> onReadyCallback) {
     	if (initialized) {
     		onReadyCallback.exec(true);
@@ -329,7 +321,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	cfg.setModelDefinition(modelDefinition);
     	cfg.configure(this);
 
-        addCommonButton(LUConstants.COURSE_SECTIONS, getSaveButton());
+        
     }
 
     private CloseHandler<KSLightBox> createOnWorkflowSubmitSuccessHandler() {

@@ -58,6 +58,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
@@ -89,6 +90,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInf
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseRequisitesSectionView;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -132,8 +134,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         this.modelDefinition = modelDefinition;
     }
 
-    @Override
-    public void configure(final WorkflowEnhancedNavController layout) {
+    public void configure(final CourseProposalController layout) {
         groupName = LUConstants.COURSE_GROUP_NAME;
 
         groupName = LUConstants.COURSE_GROUP_NAME;
@@ -174,6 +175,16 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(), "Review and Submit");
             
+            //Add common buttons to sections except for sections with specific button behavior
+            List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
+            excludedViews.add(CourseSections.PEOPLE_PERMISSOMS);
+            excludedViews.add(CourseSections.DOCUMENTS);
+            layout.addCommonButton(LUConstants.COURSE_SECTIONS, getSaveAndContinueButton(layout), excludedViews);
+            
+            //Specific buttons for certain views
+            //TODO people and permissions will use a different button than continue
+            layout.addButtonForView(CourseSections.PEOPLE_PERMISSOMS, getContinueButton(layout));
+            layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
         	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout);
@@ -195,6 +206,22 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 commentTool.show();
             }
         }));
+    }
+    
+    protected KSButton getSaveAndContinueButton(final CourseProposalController layout){
+        return new KSButton("Save and Continue", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        layout.fireApplicationEvent(new SaveActionEvent(true));
+                    }
+                });
+    }
+    
+    protected KSButton getContinueButton(final CourseProposalController layout){
+        return new KSButton("Continue", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                    	layout.showNextViewOnMenu();
+                    }
+                });
     }
 
     public void addCluStartSection(WorkflowEnhancedNavController layout) {
