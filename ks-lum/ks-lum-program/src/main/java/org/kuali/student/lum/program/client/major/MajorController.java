@@ -55,8 +55,8 @@ public class MajorController extends ProgramController {
     }
 
     private Widget createCommentPanel() {
-        final CommentTool commentTool = new CommentTool(ProgramSections.COMMENTS, "Comments", "kuali.comment.type.generalRemarks");
-        addView(commentTool);
+        final CommentTool commentTool = new CommentTool(ProgramSections.COMMENTS, "Comments", "kuali.comment.type.generalRemarks", "Program Comments");
+        commentTool.setController(this);
         KSButton commentsButton = new KSButton(ProgramProperties.get().comments_button(), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
 
             @Override
