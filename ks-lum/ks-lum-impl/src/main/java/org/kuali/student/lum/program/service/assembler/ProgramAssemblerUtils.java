@@ -335,6 +335,12 @@ public class ProgramAssemblerUtils {
                     diplomaInfo.setShortName(value);
                     diplomaInfo.setType(ProgramAssemblerConstants.DIPLOMA);
                 }
+            }
+            catch (NoSuchMethodException e)        {
+                //ignore - only Major and Variation have diploma title and transcript title
+            }
+            
+            try{
                 method = o.getClass().getMethod("getTranscriptTitle", null);
                 value = (String)method.invoke(o, null);
                 if (value != null) {
