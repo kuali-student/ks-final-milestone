@@ -336,8 +336,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
 			@Override
 			public void onClose(CloseEvent<KSLightBox> event) {
-				//TODO actually make this 
-				Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), getViewContext());
+				removeMenuNavigation();
 			}
     	};
 		return handler;

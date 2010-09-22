@@ -42,6 +42,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -66,8 +67,8 @@ public class CommentTool implements HasReferenceId, ToolView {
     private Controller controller;    
     private Enum<?> viewEnum;
     private String viewName;    //View name is being used as menu item label   
-    VerticalPanel loggedInLabelsPanel = new VerticalPanel();
-    VerticalPanel commentEditPanel = new VerticalPanel();
+    VerticalFlowPanel loggedInLabelsPanel = new VerticalFlowPanel();
+    VerticalFlowPanel commentEditPanel = new VerticalFlowPanel();
     KSLabel notAuthorizedToAddComments = new KSLabel("The document must be saved before Comments can be added.");
     private EditMode editMode = EditMode.ADD_COMMENT;
     private CommentInfo selectedComment;
@@ -198,7 +199,7 @@ public class CommentTool implements HasReferenceId, ToolView {
         loggedInUserNameLabel.setText(userId);
         loggedInLabelsPanel.add(loggedInUserNameLabel);
         commentEditPanel.add(commentTextArea);
-        HorizontalPanel buttonsPanel = new HorizontalPanel();
+        FlowPanel buttonsPanel = new FlowPanel();
         buttonsPanel.add(cancelEditButton);
         cancelEditButton.addClickHandler(new ClickHandler() {
             @Override
@@ -209,6 +210,7 @@ public class CommentTool implements HasReferenceId, ToolView {
         buttonsPanel.add(submitCommentButton);
         submitCommentButton.setEnabled(false);
         commentEditPanel.add(buttonsPanel);
+        buttonsPanel.addStyleName("KS-Comment-Button-Panel");
         
         commentTextArea.addKeyUpHandler(new KeyUpHandler() {
             @Override
@@ -350,7 +352,7 @@ public class CommentTool implements HasReferenceId, ToolView {
                     commentsTableLayout.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 3);
                     rowIndex++;
                 }
-                VerticalPanel userNameAndTime = new VerticalPanel();
+                VerticalFlowPanel userNameAndTime = new VerticalFlowPanel();
                 // TODO use user id for now change to user name
                 String userId = commentInfo.getMetaInfo().getUpdateId();
                 Date createTime = commentInfo.getMetaInfo().getCreateTime();
