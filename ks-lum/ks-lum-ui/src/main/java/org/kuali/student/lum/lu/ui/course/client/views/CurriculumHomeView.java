@@ -27,6 +27,7 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.common.client.lo.CategoryManagement;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeConfigurer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,66 +43,37 @@ import com.google.gwt.user.client.ui.Widget;
 public class CurriculumHomeView extends ViewComposite{
 	
 	private final SpanPanel container = new SpanPanel();
-	private final KSListPanel list = new KSListPanel();
 	MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
-	
-	private final KSButton categoryManagement = new KSButton("Category Management", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
-
-		@Override
-		public void onClick(ClickEvent event) {
-            Button closeButton = new Button("Close");
-            
-            final KSLightBox pop = new KSLightBox();
-            VerticalPanel mainPanel = new VerticalPanel();
-            mainPanel.add(new CategoryManagement(true,SelectionPolicy.MULTI_ROW));
-            mainPanel.add(closeButton);
-            
-            closeButton.addClickHandler(new ClickHandler(){
-                @Override
-                public void onClick(ClickEvent event) {
-                    pop.hide();
-                }
-            });
-            
-            pop.setWidget(mainPanel);
-            pop.show();
-		}
-	});
+	CurriculumHomeConfigurer configurer = GWT.create(CurriculumHomeConfigurer.class);
 	
 	public CurriculumHomeView(Controller controller, Enum<?> viewType) {
 		super(controller, "", viewType);
-		container.add(SectionTitle.generateH2Title("Curriculum Management"));
-		container.add(list);
 		this.initWidget(container);
-		this.setupLinks();
+		setup();
+	}
+	
+	protected void setup(){
+        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
+            @Override
+            public void handleFailure(Throwable caught) {
+            	container.add(configurer.configure(null));
+                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
+            }
+            @Override
+            public void onSuccess(Metadata metadata) {
+            	container.add(configurer.configure(metadata));
+            }
+        });       
 	}
 	
 	
-	
-	public void addWidget(Widget w){
-		container.insert(w, 0);
-	}
-	
-	private void setupLinks(){
-		list.add(new Hyperlink("Start Blank Proposal", "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL"));
-		list.add(new Hyperlink("Clu Set Management", "/HOME/CURRICULUM_HOME/CLU_SETS"));
-		list.add(new Hyperlink("Course Catalog", "/HOME/CURRICULUM_HOME/COURSE_CATALOG"));
-//		list.add(new Hyperlink("Program", "/HOME/CURRICULUM_HOME/PROGRAM_VIEW"));
-		list.add(categoryManagement);
-		addIfPermitted(PermissionType.SEARCH, "Courses");
-        addIfPermitted(PermissionType.SEARCH, "Proposals");
-        addIfPermitted(PermissionType.SEARCH, "Majors");
-        list.add(new Hyperlink("Create a Major Discipline", "/HOME/CURRICULUM_HOME/PROGRAM_CREATE"));
-		//list.add(new Hyperlink("Variation", "/HOME/CURRICULUM_HOME/VARIATION_VIEW"));
-        list.addStyleName("KS-CurriculumHome-LinkList");
-
-	}
-	
+	@Deprecated
     private void addIfPermitted(PermissionType permType, String searchType) {
     	addIfPermitted(permType, searchType, new HashMap<String,String>());
     }
     
+    @Deprecated
     private void addIfPermitted(PermissionType permType, final String searchType, Map<String,String> permissionAttributes) {
         cluProposalRpcServiceAsync.isAuthorized(permType, permissionAttributes, new KSAsyncCallback<Boolean>() {
             @Override
@@ -112,104 +84,17 @@ public class CurriculumHomeView extends ViewComposite{
             public void onSuccess(Boolean result) {
                 //NOTE: quick hack; does not matter because this all goes away with new Curriculum Management home screen
                 if(result) {
-                    if (searchType.equals("Courses")) {
+/*                    if (searchType.equals("Courses")) {
                         addCourseSearchWindow(); 
                     } else if (searchType.equals("Majors")){
                         addMajorSearchWindow();
                     } else {
                         addProposalSearchWindow();
-                    }
+                    }*/
                 }                
             }
         });
     }
 	
-    private void addCourseSearchWindow(){
-        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
-            @Override
-            public void handleFailure(Throwable caught) {
-                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
-            }
-            @Override
-            public void onSuccess(Metadata metadata) {
-                metadata = metadata.getProperties().get("findCourseTmp");  //TEMP until we have new home page screen where we have suggest box instead of a link
-                KSPicker courseSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
-                courseSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
-                    public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = event.getValue();
-                        ViewContext viewContext = new ViewContext();
-                        viewContext.setId(selection.get(0));
-                        viewContext.setIdType(IdType.OBJECT_ID);
-                        Application.navigate("/HOME/CURRICULUM_HOME/VIEW_COURSE", viewContext);
-                    }                    
-                }); 
-                list.add(courseSearchWindow);
-            }
-        });         
-    }
-
-    private void addProposalSearchWindow(){
-                        
-        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
-            @Override
-            public void handleFailure(Throwable caught) {
-                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
-            }
-            @Override
-            public void onSuccess(Metadata metadata) {
-                metadata = metadata.getProperties().get("findProposal");                
-                final KSPicker proposalSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
-                proposalSearchWindow.setAdvancedSearchCallback(new Callback<List<SelectedResults>>(){
-
-					@Override
-					public void exec(List<SelectedResults> result) {
-						SelectedResults value = result.get(0);
-						ViewContext viewContext = new ViewContext();
-						viewContext.setId(value.getResultRow().getId());
-						viewContext.setAttribute(IdAttributes.DOC_TYPE, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
-						viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-						Application.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
-						proposalSearchWindow.getSearchWindow().hide();
-					}
-				});
-                /*(new ValueChangeHandler<List<String>>(){
-                    public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = event.getValue();
-                        ViewContext viewContext = new ViewContext();
-                        viewContext.setId(selection.get(0));
-                        //viewContext.setAttribute("type", selection.get(1));
-                        viewContext.setPermissionType(PermissionType.OPEN);
-                        viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-                        Application.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
-                    }                    
-                });*/
-                list.add(proposalSearchWindow);
-            }
-        });       
-    }
-    
-    private void addMajorSearchWindow(){
-        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
-            @Override
-            public void handleFailure(Throwable caught) {
-                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
-            }
-            @Override
-            public void onSuccess(Metadata metadata) {
-                metadata = metadata.getProperties().get("findMajor");  
-                KSPicker searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
-                searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
-                    public void onValueChange(ValueChangeEvent<List<String>> event) {
-                        List<String> selection = event.getValue();
-                        ViewContext viewContext = new ViewContext();
-                        viewContext.setId(selection.get(0));
-                        viewContext.setIdType(IdType.OBJECT_ID);
-                        Application.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", viewContext);
-                    }                    
-                }); 
-                list.add(searchWindow);
-            }
-        });         
-    }
 
 }

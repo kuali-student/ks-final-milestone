@@ -37,6 +37,31 @@
 		<property name="locale" value="en" />
 		<property name="groupName" value="clusetmanagement" />
 	</bean>
+	<!-- Curriculum Home messages -->
+	<bean parent="enCourse" p:id="curriculumManagement" p:value="Curriculum Management" />
+	<bean parent="enCourse" p:id="howTo" p:value="How do I...?" />
+	<bean parent="enCourse" p:id="create" p:value="Create" />
+	<bean parent="enCourse" p:id="createDesc" p:value="Curriculum Management" />
+	<bean parent="enCourse" p:id="howTo" p:value="How do I...?" />
+	<bean parent="enCourse" p:id="create" p:value="Create" />
+	<bean parent="enCourse" p:id="createDesc" p:value="Propose new courses, start a new program." />
+	<bean parent="enCourse" p:id="viewModify" p:value="View + Modify" />
+	<bean parent="enCourse" p:id="viewModifyDesc" p:value="Search for proposals, courses and
+programs to view, modify or retire." />
+	<bean parent="enCourse" p:id="tools" p:value="Tools" />
+	<bean parent="enCourse" p:id="toolsDesc" p:value="Support tools for courses and programs." />
+	<bean parent="enCourse" p:id="createCourse" p:value="Create Course Proposal" />
+	<bean parent="enCourse" p:id="findProposals" p:value="Find Course Proposals" />
+	<bean parent="enCourse" p:id="createProgram" p:value="Create New Program" />
+	<bean parent="enCourse" p:id="actionList" p:value="Actionlist" />
+	<bean parent="enCourse" p:id="actionListDesc" p:value="" />
+	<bean parent="enCourse" p:id="browseCatalog" p:value="Browse Course Catalog" />
+	<bean parent="enCourse" p:id="findCourses" p:value="Find Courses" />
+	<bean parent="enCourse" p:id="findMajors" p:value="Find Major Disciplines" />
+	<bean parent="enCourse" p:id="courseSets" p:value="Course Set Management" />
+	<bean parent="enCourse" p:id="loCategories" p:value="Learning Objective Categories" />
+	<bean parent="enCourse" p:id="depAnalysis" p:value="Dependency Analysis (coming soon)" />
+	<bean parent="enCourse" p:id="los" p:value="Learning Objectives (coming soon)" />
 
 	<bean parent="enCourse" p:id="beginTitle" p:value="Begin Proposal" />
 	<bean parent="enCourse" p:id="beginDirections">
