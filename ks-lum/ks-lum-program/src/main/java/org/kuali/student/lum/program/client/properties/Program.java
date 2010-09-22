@@ -70,6 +70,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String catalogInformation_stdDuration();
 
   /**
+   * Translated "Add/View Comments".
+   * 
+   * @return translated "Add/View Comments"
+   */
+  @DefaultMessage("Add/View Comments")
+  @Key("comments.button")
+  String comments_button();
+
+  /**
    * Translated "Cancel".
    * 
    * @return translated "Cancel"
@@ -77,6 +86,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Cancel")
   @Key("common.cancel")
   String common_cancel();
+
+  /**
+   * Translated "Edit".
+   * 
+   * @return translated "Edit"
+   */
+  @DefaultMessage("Edit")
+  @Key("common.edit")
+  String common_edit();
 
   /**
    * Translated "Retrieving Data...".

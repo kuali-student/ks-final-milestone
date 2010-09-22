@@ -314,6 +314,7 @@ public class CommentTool implements HasReferenceId, ToolView {
 
             @Override
             public void onSuccess(Boolean result) {
+                result = true;
                 GWT.log("User is " + ((result) ? "" : "not ") + 
                         "authorized to add comment.", null);
                 if(referenceId != null && !(referenceId.isEmpty())){

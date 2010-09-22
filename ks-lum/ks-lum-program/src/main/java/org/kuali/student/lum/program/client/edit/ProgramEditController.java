@@ -14,13 +14,14 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
 import org.kuali.student.lum.program.client.ProgramController;
-import org.kuali.student.lum.program.client.rpc.AbstractCallback;
+import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
 /**
  * @author Igor
  */
-public class ProgramEditController extends ProgramController {
+public class ProgramEditController extends MajorController {
 
     private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
@@ -89,7 +90,6 @@ public class ProgramEditController extends ProgramController {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-                ProgramEditController.this.updateModel();
             }
 
             @Override

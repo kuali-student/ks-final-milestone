@@ -9,6 +9,8 @@ public class ProgramConstants {
     public static final String PROGRAM_MODEL_ID = "programModelId";
     public static final String CREDENTIAL_PROGRAM_ID = "credentialProgramId";
     public static final String ID = "id";
+    public static final String MAJOR_OBJECT_ID = "kuali.lu.type.MajorDiscipline";
+    public static final String MAJOR_TYPE_ID = "referenceType.clu";
 
     //Identifying Details
     public static final String CODE = "code";
