@@ -132,6 +132,7 @@ public class SearchPanel extends Composite{
         if (lookups.size() == 1) {
             searchParamPanel = createSearchParamPanel(lookups.get(0));
             selectedLookupName = lookups.get(0).getName();
+            activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookupName);
         } else {
             LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
             LinkedHashMap<String, LookupMetadata> searchLookups = new LinkedHashMap<String, LookupMetadata>();
@@ -182,9 +183,6 @@ public class SearchPanel extends Composite{
         ParamListItems listItems = new ParamListItems(meta);
         final AdvancedSearch advancedSearch = new AdvancedSearch(meta);
         LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, advancedSearch);
-        if (activeSearchParametersWidget == null) {
-            activeSearchParametersWidget = advancedSearch;
-        }
         searchParameterWidgetMap.put(meta.getName(), advancedSearch);
 
         //check whether we need custom tab i.e. whether we have at least one parameter that should appear on custom tab
