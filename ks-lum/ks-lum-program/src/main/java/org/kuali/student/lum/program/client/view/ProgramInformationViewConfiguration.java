@@ -82,7 +82,6 @@ public class ProgramInformationViewConfiguration extends AbstractSectionConfigur
         MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.TABLE, MultiplicityConfiguration.StyleType.BORDERLESS_TABLE, metadata);
         config.setShowHeaders(false);
         config.setUpdateable(false);
-        config.setTitle(SectionTitle.generateH4Title(ProgramProperties.get().programSpecialization_instructions()));
 
         config.setParent(ProgramConstants.DEGREE_TYPE , ProgramProperties.get().programInformation_degreeType(),  null, metadata);
 
