@@ -543,7 +543,7 @@
  </bean>
  <bean id="org.kuali.student.lum.lu.dto.CluIdentifierInfo" parent="org.kuali.student.lum.lu.dto.CluIdentifierInfo-parent" />
 
- <bean id="cluIdentifierInfo.code-parent" abstract="true" parent="baseKualiCode">
+ <bean id="cluIdentifierInfo.code-parent" abstract="true" parent="baseKualiCodeLoose">
   <property name="name" value="code" />
  </bean>
  <bean id="cluIdentifierInfo.code" parent="cluIdentifierInfo.code-parent" />
