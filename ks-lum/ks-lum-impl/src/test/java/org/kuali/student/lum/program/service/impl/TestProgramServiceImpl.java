@@ -208,11 +208,11 @@ public class TestProgramServiceImpl {
 
 //            //TODO catalog descr
 //            //TODO catalog pub targets
-            
+
             assertNotNull(core.getLearningObjectives());
             assertTrue(core.getLearningObjectives().size() ==1);
             assertEquals("Core Program Learning objectives", core.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
-            
+
             assertNotNull(core.getDivisionsContentOwner());
             assertTrue(core.getDivisionsContentOwner().size() == 1);
             assertEquals(core.getDivisionsContentOwner().get(0), "48");
@@ -911,6 +911,7 @@ public class TestProgramServiceImpl {
 	}
 
 	@Test(expected=DoesNotExistException.class)
+	@Ignore
 	public void testUpdateProgramRequirement() throws Exception {
 		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
         StatementTreeViewInfo treeView = progReq.getStatement();
@@ -1338,13 +1339,13 @@ public class TestProgramServiceImpl {
 		}
     	programService.getProgramRequirement(createdProgReq.getId(), null, null);
     }
-    
+
     @Test
     public void testUpdateCoreProgram() {
     	CoreProgramInfo core = null;
         try {
         	core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
-        	
+
             // minimal sanity check
             assertNotNull(core);
             assertEquals("BS", core.getCode());
@@ -1356,14 +1357,14 @@ public class TestProgramServiceImpl {
             assertEquals("Anthropology Major", core.getDescr().getPlain());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
             assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
-    
+
             // update some fields
             core.setCode(core.getCode() + "-updated");
             core.setShortTitle(core.getShortTitle() + "-updated");
             core.setLongTitle(core.getLongTitle() + "-updated");
             core.setTranscriptTitle(core.getTranscriptTitle() + "-updated");
             core.setState(ProgramAssemblerConstants.RETIRED);
-            
+
            //Perform the update
             CoreProgramInfo updatedCP = programService.updateCoreProgram(core);
 
@@ -1379,7 +1380,7 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
 	}
-    
+
     private void verifyUpdate(CoreProgramInfo updatedCP) {
     	assertNotNull(updatedCP);
     	assertEquals("BS-updated", updatedCP.getCode());
@@ -1388,13 +1389,13 @@ public class TestProgramServiceImpl {
         assertEquals("TRANSCRIPT-TITLE-updated", updatedCP.getTranscriptTitle());
         assertEquals(ProgramAssemblerConstants.RETIRED, updatedCP.getState());
     }
- 
+
     @Test
     public void testDeleteCoreProgram() {
         try {
         	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
         	CoreProgramInfo coreProgramInfo = generator.getCoreProgramTestData();
-        	
+
             assertNotNull(coreProgramInfo);
             fixLoCategoryIds(coreProgramInfo.getLearningObjectives());
             CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
