@@ -34,4 +34,19 @@
         NAME="Satisfactory/unsatisfactory"
         RT_DESCR_ID="RICHTEXT-LRC-RC-107"
         TYPE="kuali.resultComponentType.grade.finalGrade" VERSIONIND="1"/>
+    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.degree.ba"
+        NAME="Bachelor of Arts"
+        RT_DESCR_ID="DEGREE-BA"
+        TYPE="kuali.resultComponentType.degree" VERSIONIND="1"/>
+    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.degree.bsc"
+        NAME="Bachelor of Science"
+        RT_DESCR_ID="DEGREE-BSC"
+        TYPE="kuali.resultComponentType.degree" VERSIONIND="1"/>
+    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+        ID="kuali.resultComponent.degree.bmus"
+        NAME="Bachelor of Music"
+        RT_DESCR_ID="DEGREE-BMUS"
+        TYPE="kuali.resultComponentType.degree" VERSIONIND="1"/>
 </dataset>

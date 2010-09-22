@@ -12,5 +12,5 @@
         TYPE_DESC="Final learning result for a Certificate Program." TYPE_KEY="kuali.resultType.certificate"/>
     <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" EXPIR_DT="20201231000000"
         NAME="Degree"
-        TYPE_DESC="Final learning result for a Major." TYPE_KEY="kuali.resultType.degree"/>
+        TYPE_DESC="Final learning result for a degree" TYPE_KEY="kuali.resultType.degree"/>
 </dataset>

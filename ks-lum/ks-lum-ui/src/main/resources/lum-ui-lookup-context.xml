@@ -2106,5 +2106,46 @@
 				</bean>
 			</list>
 		</property>
-	</bean>	
+	</bean>
+
+    <bean id="majorDisciplineInfo.resultOptions" parent="uilookup">
+		<property name="path" value="majorDisciplineInfo.resultOptions" />
+		<property name="initialLookup" ref="kuali.lu.lookup.degree.types" />
+	</bean>
+    
+    <bean id="kuali.lu.lookup.degree.types" parent="kuali.common.lookup.degree.types" class="org.kuali.student.core.assembly.data.UILookupData">
+        <property name="name" value="Result Options Scale" />
+        <property name="desc" value="Degree Types" />
+        <property name="widget" value="CHECKBOX_LIST" />
+        <property name="results">
+            <list>
+                <bean parent="result">
+                    <property name="dataType" value="STRING" />
+                    <property name="desc" value="The id of the result component" />
+                    <property name="hidden" value="false" />
+                    <property name="key" value="lrc.resultColumn.resultComponent.id" />
+                    <property name="name" value="Result Component Id" />
+                </bean>
+                <bean parent="result">
+                    <property name="dataType" value="STRING" />
+                    <property name="desc" value="The name of the result component" />
+                    <property name="hidden" value="false" />
+                    <property name="key" value="lrc.resultColumn.resultComponent.name" />
+                    <property name="name" value="Result Component Name" />
+                </bean>
+                <bean parent="result">
+                    <property name="dataType" value="STRING" />
+                    <property name="desc" value="The result component type" />
+                    <property name="hidden" value="true" />
+                    <property name="key" value="lrc.resultColumn.resultComponent.type" />
+                    <property name="name" value="Result Component Type" />
+                </bean>				
+            </list>
+        </property>
+        <property name="resultDisplayKey" value="lrc.resultColumn.resultComponent.name" />
+        <property name="resultSortKey" value="lrc.resultColumn.resultComponent.id" />
+        <property name="usage" value="DEFAULT" />
+        <property name="id" value="kuali.lu.lookup.degree.types" />
+    </bean>
+    
 </beans>

@@ -290,8 +290,9 @@ public class TestProgramServiceImpl {
             assertEquals("SELECTIVEENROLLMENTCODE", major.getSelectiveEnrollmentCode());
 
             assertNotNull(major.getResultOptions());
-            assertTrue(major.getResultOptions().size() == 1);
-            assertEquals("kuali.certificateType.degree", major.getResultOptions().get(0));
+            assertTrue(major.getResultOptions().size() == 2);
+            assertEquals("kuali.resultComponent.degree.ba", major.getResultOptions().get(0));
+            assertEquals("kuali.resultComponent.degree.bsc", major.getResultOptions().get(1));
 
             assertNotNull(major.getStdDuration());
             assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());

@@ -9,4 +9,7 @@
     <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-105" PLAIN="Completed notation"/>
     <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-106" PLAIN="This course can be audited"/>
     <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-107" PLAIN="Satisfactory/unsatisfactory"/>
+    <KSLR_RICH_TEXT_T ID="DEGREE-BA" PLAIN="Bachelor of Arts (BA)"/>
+    <KSLR_RICH_TEXT_T ID="DEGREE-BSC" PLAIN="Bachelor of Science (BSc)"/>
+    <KSLR_RICH_TEXT_T ID="DEGREE-BMUS" PLAIN="Bachelor of Music (BSc)"/>
 </dataset>

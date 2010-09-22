@@ -77,7 +77,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
         if (!shallowBuild) {
             mdInfo.setCredentialProgramId(programAssemblerUtils.getCredentialProgramID(clu.getId()));
-            mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
+            mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
             mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
             mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
@@ -203,10 +203,12 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     private void disassembleResultOptions(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
-        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
+        //TODO Check for ProgramAssemblerConstants.CERTIFICATE_RESULTS too
+        
+        BaseDTOAssemblyNode<?, ?> degreeResults = cluAssemblerUtils.disassembleCluResults(
                 major.getId(), major.getState(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
-        if (resultOptions != null) {
-            result.getChildNodes().add(resultOptions);           
+        if (degreeResults != null) {
+            result.getChildNodes().add(degreeResults);
         }
     }
 

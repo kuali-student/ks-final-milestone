@@ -40,6 +40,10 @@ INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-12', '<
 /
 INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RT-DESC-LCR-13', '<p>Scale 3</p>', 'Scale 3')
 /
+INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('DEGREE-BA', '<p>Bachelor of Arts (BA)</p>', 'Bachelor of Arts (BA)')
+/
+INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('DEGREE-BSC', '<p>Bachelor of Science (BSc)</p>', 'Bachelor of Science (BSc)')
+/
 
 
 
@@ -50,6 +54,8 @@ INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) valu
 /
 INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('resultComponentType.grade', 'A Basic ResultComponent 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 3')
 /
+INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.resultComponentType.degree', 'This indicates the type of degree that can be awarded for a program', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Degree Type')
+/
 
 // ResultComponent
 INSERT INTO KSLR_RESCOMP (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VERSIONIND) VALUES ('LRC-RESCOMP-1', 'ResultComponent 1', 'RT-DESC-LCR-7',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.credential', 'Active', 0)
@@ -59,6 +65,8 @@ INSERT INTO KSLR_RESCOMP (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, 
 INSERT INTO KSLR_RESCOMP (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VERSIONIND) VALUES ('LRC-RESCOMP-3', 'ResultComponent 3', 'RT-DESC-LCR-9',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
 /
 INSERT INTO KSLR_RESCOMP (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VERSIONIND) VALUES ('LRC-RESCOMP-4', 'ResultComponent 4', 'RT-DESC-LCR-9',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
+/
+INSERT INTO KSLR_RESCOMP (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VERSIONIND) VALUES ('kuali.resultComponent.degree.ba', 'Bachelor of Arts', 'DEGREE-BA',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
 /
 
 // ResultValue

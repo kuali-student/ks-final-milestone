@@ -17,10 +17,9 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSLU_CLU_RSLT ID="VAR-201" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" CLU_ID="VAR-200"
-            TYPE_KEY_ID="kuali.resultType.certificate" ST="active" />
+            TYPE_KEY_ID="kuali.resultType.degree" ST="active" />
     <KSLU_CLU_RSLT ID="VAR-301" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" CLU_ID="VAR-300"
-            TYPE_KEY_ID="kuali.resultType.certificate" ST="active" />
-
-
-
+            TYPE_KEY_ID="kuali.resultType.degree" ST="active" />
+    <KSLU_CLU_RSLT ID="MAJOR-101" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
+            TYPE_KEY_ID="kuali.resultType.degree" ST="active" />
 </dataset>

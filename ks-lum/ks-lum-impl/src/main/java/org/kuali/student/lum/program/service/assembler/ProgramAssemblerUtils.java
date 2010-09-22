@@ -531,12 +531,16 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-    public List<String> assembleResultOptions(String cluId, String resultType) throws AssemblyException {
+    public List<String> assembleResultOptions(String cluId) throws AssemblyException {
         List<String> resultOptions = null;
         try{
             List<CluResultInfo> cluResults = luService.getCluResultByClu(cluId);
 
-            resultOptions = cluAssemblerUtils.assembleCluResults(resultType, cluResults);
+            List<String> resultTypes = new ArrayList<String>();
+            resultTypes.add(ProgramAssemblerConstants.DEGREE_RESULTS);
+            resultTypes.add(ProgramAssemblerConstants.CERTIFICATE_RESULTS);
+
+            resultOptions = cluAssemblerUtils.assembleCluResults(resultTypes, cluResults);
 
         } catch (DoesNotExistException e){
         } catch (Exception e) {

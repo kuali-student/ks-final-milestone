@@ -1488,7 +1488,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="kuali.common.enumeration.management.search.cip2000Code" parent="lookup">
 		<property name="id" value="kuali.common.enumeration.management.search.cip2000Code" />
 		<property name="name" value="Get cip2000code enumerations" />
@@ -1655,5 +1655,47 @@
 			</list>
 		</property>
 		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
-	</bean>		
+	</bean>
+
+    <bean id="kuali.common.lookup.degree.types" parent="lookup">
+		<property name="id" value="kuali.common.lookup.degree.types"/>
+		<property name="searchTypeId" value="lrc.search.resultComponent"/>
+		<property name="name" value="Outcome"/>
+		<property name="desc" value="Search for program degree types"/>
+		<property name="resultReturnKey" value="lrc.resultColumn.resultComponent.id"/>
+		<property name="searchParamIdKey" value="lrc.queryParam.resultComponent.id"/>
+		<property name="params">
+            <list>
+                <bean parent="param">
+                    <property name="key" value="lrc.queryParam.resultComponent.id"/>
+                    <property name="name" value="Result Component"/>
+                    <property name="desc" value="Result Component Id"/>
+                    <property name="dataType" value="STRING"/>
+                    <property name="writeAccess" value="ALWAYS"/>
+                </bean>
+                <bean parent="param">
+                    <property name="key" value="lrc.queryParam.resultComponent.type"/>
+                    <property name="name" value="Result Component Type"/>
+                    <property name="desc" value="Result Component Type"/>
+                    <property name="dataType" value="STRING"/>
+                    <property name="writeAccess" value="NEVER"/>
+                    <property name="defaultValueString" value="kuali.resultComponentType.degree"/>
+                </bean>
+                <!--<bean parent="param">-->
+                    <!--<property name="key" value="lrc.queryParam.resultComponent.idRestrictionList"/>-->
+                    <!--<property name="name" value="Result Component Id Restriction"/>-->
+                    <!--<property name="desc" value="Restrict result components to the specified Ids"/>-->
+                    <!--<property name="dataType" value="STRING"/>-->
+                    <!--<property name="writeAccess" value="NEVER"/>-->
+                    <!--<property name="defaultValueList">-->
+                        <!--<list>-->
+                            <!--<value>kuali.resultComponent.degree.ba</value>-->
+                            <!--<value>kuali.resultComponent.degree.bsc</value>-->
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
+            </list>
+
+		</property>
+	</bean>
 </beans>
