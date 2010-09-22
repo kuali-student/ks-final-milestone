@@ -45,11 +45,6 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 	}
 
 	/**
-	 * @parameter expression="${schema}" default-value="${project.artifactId}"
-	 */
-	private String schema;
-
-	/**
 	 * This is the directory to scan for SQL files to import. ${targetDatabase} gets appended to this value
 	 * 
 	 * @parameter expression="${importDir}" default-value="${project.build.directory}/classes/sql"
@@ -137,14 +132,6 @@ public class ImportMojo extends AbstractSQLExecutorMojo {
 
 	public void setImportDirExcludes(String importDirectoryExcludes) {
 		this.importDirExcludes = importDirectoryExcludes;
-	}
-
-	public String getSchema() {
-		return schema;
-	}
-
-	public void setSchema(String schema) {
-		this.schema = schema;
 	}
 
 	public String getOrder() {
