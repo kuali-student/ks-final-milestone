@@ -328,20 +328,55 @@ public class StatementAssembler extends BaseAssembler {
         stmt.setStatementType(stmtType);
 
         // Copy nested statements
-        List<Statement> stmtList = new ArrayList<Statement>();
-        for(String stmtId : stmtInfo.getStatementIds()) {
-            if(stmtId.equals(stmtInfo.getId())) {
-                throw new OperationFailedException("Statement nested within itself. Statement Id: " + stmtInfo.getId());
-            }
+        if (false) {
+        	List<Statement> stmtList = new ArrayList<Statement>(stmtInfo.getStatementIds().size());
+        	for(String stmtId : stmtInfo.getStatementIds()) {
+        		if(stmtId.equals(stmtInfo.getId())) {
+        			throw new OperationFailedException("Statement nested within itself. Statement Id: " + stmtInfo.getId());
+        		}
 
-            Statement nestedStmt = this.statementDao.fetch(Statement.class, stmtId);
-            if (null == nestedStmt) {
-                throw new DoesNotExistException("Nested Statement does not exist for id: " + stmtId + ". Parent Statement: " + stmtInfo.getId());
-            }
+        		boolean exists = false;
+        		if (stmt.getChildren() != null) {
+        			for (Statement child : stmt.getChildren()) {
+        				if (child.getId().equals(stmtId)) {
+        					stmtList.add(child);
+        					exists = true;
+        					break;
+        				}
+        			}
+        		}
+        		if (!exists) {
+        			try {
+        				Statement nestedStmt = this.statementDao.fetch(Statement.class, stmtId);
+        				stmtList.add(nestedStmt);
+        			} catch (DoesNotExistException e) {
+        				throw new DoesNotExistException("Nested Statement does not exist for id: " + stmtId + ". Parent Statement: " + stmtInfo.getId(), e);
+        			}
+        		}
+        	}
+        	if (stmt.getChildren() != null) {
+        		stmt.getChildren().clear();
+        		stmt.getChildren().addAll(stmtList);
+        	} else {
+        		stmt.setChildren(stmtList);
+        	}
 
-            stmtList.add(nestedStmt);
+        } else {
+        	List<Statement> stmtList = new ArrayList<Statement>();
+        	for(String stmtId : stmtInfo.getStatementIds()) {
+        		if(stmtId.equals(stmtInfo.getId())) {
+        			throw new OperationFailedException("Statement nested within itself. Statement Id: " + stmtInfo.getId());
+        		}
+
+        		Statement nestedStmt = this.statementDao.fetch(Statement.class, stmtId);
+        		if (null == nestedStmt) {
+        			throw new DoesNotExistException("Nested Statement does not exist for id: " + stmtId + ". Parent Statement: " + stmtInfo.getId());
+        		}
+
+        		stmtList.add(nestedStmt);
+        	}
+        	stmt.setChildren(stmtList);
         }
-        stmt.setChildren(stmtList);
 
         // Copy nested requirements
         List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();

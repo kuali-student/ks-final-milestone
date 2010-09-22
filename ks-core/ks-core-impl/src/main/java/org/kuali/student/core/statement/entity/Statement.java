@@ -64,7 +64,7 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     @Enumerated(EnumType.STRING)
     private StatementOperatorTypeKey operator;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "KSST_STMT_JN_STMT", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_ID"))
     private List<Statement> children;
 

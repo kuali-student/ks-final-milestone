@@ -911,7 +911,6 @@ public class TestProgramServiceImpl {
 	}
 
 	@Test(expected=DoesNotExistException.class)
-	@Ignore
 	public void testUpdateProgramRequirement() throws Exception {
 		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
         StatementTreeViewInfo treeView = progReq.getStatement();
