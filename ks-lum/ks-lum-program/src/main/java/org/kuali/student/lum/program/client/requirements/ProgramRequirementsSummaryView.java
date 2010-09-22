@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCanc
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
@@ -79,12 +80,13 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             return;
         }
 
-        if (!isRulesDisplayed) {
-            displayRules();
-        }
+    //    if (!isRulesDisplayed) {
+    //        displayRules();
+    //    }
 
         //for read-only view, we don't need to worry about rules being added or modified
         if (isReadOnly) {
+            displayRules();            
             onReadyCallback.exec(true);
             return;
         }
@@ -209,8 +211,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     private void updateModelFromLocalData(final Object dto) {
         for (final StatementTypeInfo stmtTypeInfo : rules.getStoredStatementTypes()) {
             for (final ProgramRequirementInfo rule : rules.getStoredProgRequirements(stmtTypeInfo)) {
-                switch (rules.getStoredProgReqsAndStates(stmtTypeInfo).get(rule)) {
+                final ProgramRequirementsDataModel.requirementState ruleState = rules.getStoredProgReqsAndStates(stmtTypeInfo).get(rule);
+                switch (ruleState) {
                     case STORED:
+                        //rule was not changed so continue
                         break;
                     case ADDED:
                         programRemoteService.createProgramRequirement(rule, new KSAsyncCallback<ProgramRequirementInfo>() {
@@ -221,29 +225,68 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                             }
                             @Override
                             public void onSuccess(ProgramRequirementInfo programReqInfo) {
-                                updateProgReqId(dto, programReqInfo.getId());
+                                updateProgReqId(dto, programReqInfo.getId(), ruleState);
+                                rules.getStoredProgReqsAndStates(stmtTypeInfo).put(programReqInfo, ProgramRequirementsDataModel.requirementState.STORED);
                             }
                         });
                         break;
                     case EDITED:
+                        programRemoteService.updateProgramRequirement(rule, new KSAsyncCallback<ProgramRequirementInfo>() {
+                            @Override
+                            public void handleFailure(Throwable caught) {
+                                Window.alert(caught.getMessage());
+                                GWT.log("updateProgramRequirement failed", caught);
+                            }
+                            @Override
+                            public void onSuccess(ProgramRequirementInfo programReqInfo) {
+                                updateProgReqId(dto, programReqInfo.getId(), ruleState);
+                                rules.getStoredProgReqsAndStates(stmtTypeInfo).put(programReqInfo, ProgramRequirementsDataModel.requirementState.STORED);
+                            }
+                        });
                         break;
                     case DELETED:
+                        programRemoteService.deleteProgramRequirement(rule.getId(), new KSAsyncCallback<StatusInfo>() {
+                            @Override
+                            public void handleFailure(Throwable caught) {
+                                Window.alert(caught.getMessage());
+                                GWT.log("deleteProgramRequirement failed", caught);
+                            }
+                            @Override
+                            public void onSuccess(StatusInfo statusInfo) {
+                                updateProgReqId(dto, rule.getId(), ruleState);
+                                rules.getStoredProgRequirements(stmtTypeInfo).remove(rule);
+                            }
+                        });
                         break;
                     default:
                         break;
                 }
             }
-        }
+        }        
     }
 
     //now update the program this requirement belongs to    
-    private void updateProgReqId(Object dto, String progReqId) {
+    private void updateProgReqId(Object dto, String progReqId, ProgramRequirementsDataModel.requirementState op) {
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
-            mdInfo.getProgramRequirements().add(progReqId);
+            //mdInfo.getProgramRequirements().add(progReqId);
+            updateProgramInfo(mdInfo.getProgramRequirements(), progReqId, op);
         } else {
             Window.alert("Only persistence of MajorDiscipline is currently implemented");
             GWT.log("Unable to retrieve model for program requirements view", null);
+        }
+    }
+
+    private void updateProgramInfo(List<String> requirements, String id, ProgramRequirementsDataModel.requirementState op) {
+        switch (op) {
+            case ADDED:
+                requirements.add(id);
+                break;
+            case DELETED:
+                requirements.remove(id);
+                break;
+            default:
+                break;
         }
     }
 
@@ -312,11 +355,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         }
 
         addWidget(layout);
-
-        //display 'Save and Continue' button
-        if (!isReadOnly) {
-            displaySaveButton();
-        }
     }
 
     private void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, boolean firstRequirement) {
@@ -408,12 +446,14 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
 
         /* SUB-RULE edit/delete/add link&buttons handlers */
-
         rulePreviewWidget.addSubRuleAddButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                     StatementTreeViewInfo newRule = new StatementTreeViewInfo();
                     newRule.setId(generateStatementTreeId());
                     newRule.setType(stmtTypeInfo.getId());
+                    RichTextInfo text = new RichTextInfo();
+                    text.setPlain(new String());
+                    newRule.setDesc(text);
                     ((ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE))
                                                                         .setRuleTree(newRule, stmtTypeInfo.getId(), true, progReqInfo.getId());
                     parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
@@ -422,90 +462,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         rulePreviewWidget.addSubRuleEditCallback(editRuleCallback);
     }
-
-    private void displaySaveButton() {
-        ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
-        actionCancelButtons.addStyleName("KS-Program-Requirements-Preview-SaveContinue");
-        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-             @Override
-            public void exec(ButtonEnumerations.ButtonEnum result) {
-                if (result == ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE) {
-                    
-                    for (final StatementTypeInfo stmtTypeInfo : rules.getStoredStatementTypes()) {
-                        for (final ProgramRequirementInfo rule : rules.getStoredProgRequirements(stmtTypeInfo)) {
-                            switch (rules.getStoredProgReqsAndStates(stmtTypeInfo).get(rule)) {
-                                case STORED:
-                                    break;
-                                case ADDED:
-                                    programRemoteService.addProgramRequirement(rule, "123", new KSAsyncCallback<ProgramRequirementInfo>() {
-                                        @Override
-                                        public void handleFailure(Throwable caught) {
-                                            Window.alert(caught.getMessage());
-                                            GWT.log("createProgramRequirement failed", caught);
-                                        }
-
-                                        @Override
-                                        public void onSuccess(ProgramRequirementInfo programReqInfo) {
-                                            rules.getStoredProgReqsAndStates(stmtTypeInfo).put(programReqInfo, ProgramRequirementsDataModel.requirementState.STORED);
-                                        }
-                                    });
-
-                                    /*
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
-            @Override
-            public void onSuccess(DataSaveResult result) {
-                super.onSuccess(result);
-                programModel.setRoot(result.getValue());
-            }
-        });       */
-
-                                    /*
-                                    programRemoteService.createProgramRequirement(rule, new KSAsyncCallback<ProgramRequirementInfo>() {
-                                        @Override
-                                        public void handleFailure(Throwable caught) {
-                                            Window.alert(caught.getMessage());
-                                            GWT.log("createProgramRequirement failed", caught);
-                                        }
-
-                                        @Override
-                                        public void onSuccess(ProgramRequirementInfo programReqInfo) {
-                                            //now update the program this requirement belongs to
-
-                                        }
-                                    }); */
-                                    break;
-                                case EDITED:
-                                    break;
-                                case DELETED:
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        layout.add(actionCancelButtons);
-    }
-
-    /*
-    private void updateProgramEntity(String programId) {
-        //TODO how we choose which service method to call based on the type of program we are dealing with ?
-        programRemoteService.updateMajorDiscipline(rule, new KSAsyncCallback<MajorDisciplineInfo>() {
-            @Override
-            public void handleFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                GWT.log("createProgramRequirement failed", caught);
-            }
-
-            @Override
-            public void onSuccess(MajorDisciplineInfo majorDisciplineInfo) {
-                //now update the program this requirement belongs to
-
-            }
-        });
-    } */
 
     private void showAddProgramRequirementDialog(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo) {
 
@@ -524,6 +480,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
                     ProgramRequirementInfo newProgramInfo = new ProgramRequirementInfo();
                     newProgramInfo.setId(NEW_PROG_REQ_ID + Integer.toString(tempProgReqInfoID++));   //set unique id
+                    newProgramInfo.setType("kuali.lu.type.Requirement");
                     //TODO remove after dialog fields implemented:
                     RichTextInfo text = new RichTextInfo();
                     text.setPlain("These are classes or sequences that a student must have completed in order to register" +
@@ -535,6 +492,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
                     stmtTree.setId(generateStatementTreeId());
                     stmtTree.setType(stmtTypeInfo.getId());
+                    RichTextInfo text2 = new RichTextInfo();
+                    text2.setPlain(new String());
+                    stmtTree.setDesc(text2);                    
                     stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
 
                     //add new statement to the rule because even if user cancel on rule manage screen, we want to have at least one statement present

@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
@@ -40,7 +41,7 @@ public class ProgramRequirementsDataModel {
     private Controller parentController;
     private boolean isInitialized = false;    
 
-    private static int tempProgReqInfoID = 9999;   //TODO: remove after testing
+    private static int tempProgReqInfoID = 8888;   //TODO: remove after testing
 
     //keeping track of rules and rule state (UPDATED, ADDED, DELETED)
     public enum requirementState {STORED, ADDED, EDITED, DELETED;}
@@ -64,7 +65,7 @@ public class ProgramRequirementsDataModel {
 
     //retrieve rules based on IDs stored in this program
     public void retrieveProgramRequirements(final Callback<Boolean> onReadyCallback) {
-        parentController.requestModel(new ModelRequestCallback() {
+        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
 
             @Override
             public void onRequestFail(Throwable cause) {

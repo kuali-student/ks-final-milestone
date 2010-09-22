@@ -36,6 +36,8 @@ public class ProgramRequirementsViewController extends BasicLayout {
 		super.setController(controller);
 		super.setName(name);
 		super.setViewEnum(viewType);
+        super.setDefaultModelId(PROGRAM_RULES_MODEL_ID);
+        super.setParentController(controller);
         
 		this.setDefaultView(ProgramRequirementsViews.PREVIEW);
 
@@ -127,6 +129,12 @@ public class ProgramRequirementsViewController extends BasicLayout {
 	//		}
 	//	});
 	}
+
+    /*
+    @Override
+    public View getCurrentView() {
+        return this;
+    } */
 
     public ProgramRequirementsSummaryView getProgramRequirementsView() {
         return preview;
