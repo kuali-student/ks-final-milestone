@@ -7381,6 +7381,36 @@
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
+							
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionIndId"/>
+								<property name="name" value="VersionIndId"/>
+								<property name="desc" value="Version Independent Id of this course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionedFromId"/>
+								<property name="name" value="VersionedFromId"/>
+								<property name="desc" value="Id of this course this was versioned from."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionStartDate"/>
+								<property name="name" value="VersionStartDate"/>
+								<property name="desc" value="Version Start Date"/>
+								<property name="dataType" value="DATE"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionEndDate"/>
+								<property name="name" value="VersionEndDate"/>
+								<property name="desc" value="Version End Date"/>
+								<property name="dataType" value="DATE"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							
 						</list>
 					</property>
 				</bean>

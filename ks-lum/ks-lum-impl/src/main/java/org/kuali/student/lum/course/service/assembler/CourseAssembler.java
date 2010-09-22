@@ -23,8 +23,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
@@ -61,7 +61,6 @@ import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
-import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 /**
@@ -315,6 +314,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			identifier.setCode(course.getSubjectArea()+course.getCourseNumberSuffix());			
 		}else{
 			identifier.setCode(null);
+		}
+		
+		//Custom logic to set the level
+		if(course.getCourseNumberSuffix()!=null&&course.getCourseNumberSuffix().length()>=3){
+			identifier.setLevel(course.getCourseNumberSuffix().substring(0, 1)+"00");
 		}
 		
 		clu.setOfficialIdentifier(identifier);

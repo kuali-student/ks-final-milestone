@@ -142,6 +142,10 @@
 			<ref bean="lu.resultColumn.luOptionalDescr"/>
 			<ref bean="lu.resultColumn.luOptionalStudySubjectArea"/>
 			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.luOptionalVersionIndId"/>
+			<ref bean="lu.resultColumn.luOptionalVersionedFromId"/>
+			<ref bean="lu.resultColumn.luOptionalVersionStartDate"/>
+			<ref bean="lu.resultColumn.luOptionalVersionEndDate"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -199,6 +203,32 @@
 		<search:desc>Department</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionIndId" parent="lu.resultColumn.luOptionalVersionIndId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionIndId-parent"  abstract="true">
+		<search:name>VersionIndId</search:name>
+		<search:desc>Version Independent Id</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionedFromId" parent="lu.resultColumn.luOptionalVersionedFromId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionedFromId-parent"  abstract="true">
+		<search:name>VersionedFromId</search:name>
+		<search:desc>Versioned From Id</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionStartDate" parent="lu.resultColumn.luOptionalVersionStartDate-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionStartDate-parent"  abstract="true">
+		<search:name>VersionStartDate</search:name>
+		<search:desc>Version Start Date</search:desc>
+		<search:dataType>date</search:dataType>
+	</search:resultColumn>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionEndDate" parent="lu.resultColumn.luOptionalVersionEndDate-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionEndDate-parent"  abstract="true">
+		<search:name>VersionEndDate</search:name>
+		<search:desc>Version End Date</search:desc>
+		<search:dataType>date</search:dataType>
+	</search:resultColumn>
+
 
     <search:searchType id="lu.search.clus" parent="lu.search.clus-parent"/>
 	<search:searchType id="lu.search.clus-parent"  abstract="true">
@@ -626,7 +656,8 @@
  -->
                     <value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
-                    cludesc.plain, clu.studySubjectArea, clu.state
+                    cludesc.plain, clu.studySubjectArea, clu.state, 
+                    clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
                     
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
