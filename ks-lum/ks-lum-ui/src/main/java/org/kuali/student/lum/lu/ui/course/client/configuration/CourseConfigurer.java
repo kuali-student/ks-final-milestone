@@ -194,15 +194,13 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         
         layout.setDefaultView(CourseSections.SUMMARY);
         layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
-//        layout.addView(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
-        final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks");
-        layout.addView(commentTool);
+        final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
+        commentTool.setController((Controller)layout);
         
         layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
             
             @Override
             public void onClick(ClickEvent event) {
-//                layout.showView(CourseSections.COMMENTS);
                 commentTool.show();
             }
         }));

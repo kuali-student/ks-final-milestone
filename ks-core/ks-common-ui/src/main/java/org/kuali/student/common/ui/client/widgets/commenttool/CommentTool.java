@@ -26,8 +26,10 @@ import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -40,16 +42,14 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
+//import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CommentTool implements HasReferenceId, ToolView {
+public class CommentTool implements HasReferenceId {
 
     private CommentRpcServiceAsync commentServiceAsync = GWT.create(CommentRpcService.class);
     private String referenceId;
@@ -57,7 +57,7 @@ public class CommentTool implements HasReferenceId, ToolView {
     private String referenceType;
     private String referenceState;
     private KSLightBox commentLightBox;
-    private KSLabel loggedInUserNameLabel = new KSLabel();
+    private HTML loggedInUserNameHTML = new HTML();
     private String loggedInUserId;
     private KSTextArea commentTextArea = new KSTextArea();
     private KSButton cancelEditButton = new KSButton("Cancel");
@@ -76,61 +76,26 @@ public class CommentTool implements HasReferenceId, ToolView {
     private String commentTypeKey;
     private Map<String, String> referenceAttributes;
     private KSLabel proposalTitle = new KSLabel();
+    private String title;
 
     private enum EditMode {
         ADD_COMMENT, UPDATE_COMMENT
     }
     
-    public CommentTool(Enum<?> viewEnum, String viewName, String commentTypeKey) {
+    public CommentTool(Enum<?> viewEnum, String viewName, String commentTypeKey, String title) {
         this.viewName = viewName;
         this.viewEnum = viewEnum;
         this.commentTypeKey = commentTypeKey;
+        this.title = title;
         init();
+        
     }
     
-    @Override
-    public void beforeShow(final Callback<Boolean> onReadyCallback){
-        onReadyCallback.exec(true);
-    }
-
-    /**
-     * @see org.kuali.student.common.ui.client.mvc.View#beforeHide()
-     */
-    @Override
-    public boolean beforeHide() {
-        return true;
-    }
-
-
-    /**
-     * @see org.kuali.student.common.ui.client.mvc.View#getController()
-     */
-    @Override
     public Controller getController() {
         return this.controller;
     }
 
 
-    /**
-     * @see org.kuali.student.common.ui.client.mvc.View#getName()
-     */
-    @Override
-    public String getName() {
-        return this.viewName;
-    }
-
-    public Enum<?> getViewEnum() {
-        return viewEnum;
-    }
-
-    /**
-     * @see org.kuali.student.common.ui.client.mvc.View#updateModel()
-     */
-    @Override
-    public void updateModel() {
-        //There is no model to update here, reference model is read-only        
-    }
-    
     public void setController(Controller controller){
         this.controller = controller;
     }
@@ -140,22 +105,6 @@ public class CommentTool implements HasReferenceId, ToolView {
         return commentLightBox.getWidget();
     }
     
-    @Override
-    public String collectHistory(String historyStack) {
-        return null;
-    }
-
-    @Override
-    public void onHistoryEvent(String historyStack) {
-        
-    }
-
-    @Override
-    public void collectBreadcrumbNames(List<String> names) {
-        names.add(this.getName());
-        
-    }
-
     private OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
 
         @Override
@@ -166,19 +115,14 @@ public class CommentTool implements HasReferenceId, ToolView {
         }
     });
     
-    @Override
-    public void clear() {
-    }
-
     private void init() {
         commentLightBox = new KSLightBox();
-        ScrollPanel scrollPanel = new ScrollPanel();
         VerticalFlowPanel contentPanel = new VerticalFlowPanel();
         // light box title and instructions
-        SectionTitle title = SectionTitle.generateH1Title("Proposal Comments");
+        SectionTitle title = SectionTitle.generateH2Title(this.title);
         title.addStyleName("ks-layout-header");
-        HTML htmlLabel = new HTML("All comments posted here will be visible to authors, <b>and</b> " +
-        		"to reviewers after you submit the proposal.");
+        HTML htmlLabel = new HTML("<b>All comments posted here will be visible to authors, and " +
+        		"to reviewers after you submit the proposal.</b>");
         title.setStyleName("cluProposalTitleSection");
         proposalTitle.setVisible(false);
         contentPanel.add(proposalTitle);
@@ -186,18 +130,19 @@ public class CommentTool implements HasReferenceId, ToolView {
         contentPanel.add(htmlLabel);
         
         // comments section title
-        KSLabel leaveACommentLabel = new KSLabel("Leave a Comment");
-        leaveACommentLabel.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
-        leaveACommentLabel.getElement().getStyle().setProperty("marginTop", "2em");
-        contentPanel.add(leaveACommentLabel);
+        SectionTitle leaveACommentTitle = SectionTitle.generateH3Title("Leave a Comment");
+        leaveACommentTitle.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
+        leaveACommentTitle.getElement().getStyle().setProperty("marginTop", "2em");
+        contentPanel.add(leaveACommentTitle);
         
         // comments section
-        KSLabel loggedInAsLabel = new KSLabel("Logged in as:");
+        HTML loggedInAsLabel = new HTML("<b>Logged in as:<b/>");
         loggedInLabelsPanel.add(loggedInAsLabel);
         String userId = Application.getApplicationContext().getUserId();
         loggedInUserId = userId;
-        loggedInUserNameLabel.setText(userId);
-        loggedInLabelsPanel.add(loggedInUserNameLabel);
+        loggedInUserNameHTML.setHTML("<b>" + userId + "</b>");
+        loggedInLabelsPanel.add(loggedInUserNameHTML);
+        commentTextArea.setSize("500", "250");
         commentEditPanel.add(commentTextArea);
         FlowPanel buttonsPanel = new FlowPanel();
         buttonsPanel.add(cancelEditButton);
@@ -293,8 +238,7 @@ public class CommentTool implements HasReferenceId, ToolView {
         contentPanel.add(commentSectionPanel);
         
         // comments table
-        scrollPanel.add(commentsTableLayout);
-        contentPanel.add(scrollPanel);
+        contentPanel.add(commentsTableLayout);
         
         
 //        scrollPanel.setHeight(height)
@@ -341,6 +285,7 @@ public class CommentTool implements HasReferenceId, ToolView {
         
         if (commentInfos != null) {
             int rowIndex = 0;
+            int commentCounter = 0;
             for (final CommentInfo commentInfo : commentInfos) {
                 int columnIndex = 0;
                 if (rowIndex == 0) {
@@ -352,11 +297,18 @@ public class CommentTool implements HasReferenceId, ToolView {
                     commentsTableLayout.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 3);
                     rowIndex++;
                 }
+                if (commentCounter > 0) {
+                    VerticalFlowPanel space = new VerticalFlowPanel();
+                    space.getElement().getStyle().setPaddingBottom(5d, Style.Unit.PX);
+                    commentsTableLayout.setWidget(rowIndex, columnIndex, space);
+                    commentsTableLayout.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 3);
+                    rowIndex++;
+                }
                 VerticalFlowPanel userNameAndTime = new VerticalFlowPanel();
                 // TODO use user id for now change to user name
                 String userId = commentInfo.getMetaInfo().getUpdateId();
                 Date createTime = commentInfo.getMetaInfo().getCreateTime();
-                userNameAndTime.add(new KSLabel(userId));
+                userNameAndTime.add(new HTML("<b>" + userId + "</b>"));
                 userNameAndTime.add(new KSLabel(df.format(createTime)));
                 userNameAndTime.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
                 commentsTableLayout.setWidget(rowIndex, columnIndex, userNameAndTime);
@@ -366,26 +318,27 @@ public class CommentTool implements HasReferenceId, ToolView {
                 String commentText = commentRT.getPlain();
                 KSLabel commentTextLabel = new KSLabel(commentText);
                 commentTextLabel.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
-                commentTextLabel.setWidth("150px");
+                commentTextLabel.setWidth("120px");
                 commentTextLabel.getElement().getStyle().setProperty("wordWrap", "break-word");
                 commentsTableLayout.setWidget(rowIndex, columnIndex, commentTextLabel);
                 columnIndex++;
                 
-                final Button editButton = new Button("Edit");
-                final Button deleteButton = new Button("Delete");
+                final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
+                final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
+                editButton.getElement().getStyle().setPadding(5d, Style.Unit.PX);
                 editControlsCallbacks.add(new Callback<EditMode>() {
                     @Override
                     public void exec(EditMode result) {
                         switch (editMode) {
                             case UPDATE_COMMENT:
-                                editButton.setStyleName("KS-CommentButtonDisabled");
-                                deleteButton.setStyleName("KS-CommentButtonDisabled");
+//                                editButton.setStyleName("KS-CommentButtonDisabled");
+//                                deleteButton.setStyleName("KS-CommentButtonDisabled");
                                 editButton.setEnabled(false);
                                 deleteButton.setEnabled(false);
                                 break;
                             case ADD_COMMENT:
-                                editButton.setStyleName("KS-CommentButton");
-                                deleteButton.setStyleName("KS-CommentButton");
+//                                editButton.setStyleName("KS-CommentButton");
+//                                deleteButton.setStyleName("KS-CommentButton");
                                 editButton.setEnabled(true);
                                 deleteButton.setEnabled(true);
                                 break;
@@ -401,32 +354,44 @@ public class CommentTool implements HasReferenceId, ToolView {
                                     commentInfo.getCommentText().getPlain();
                         selectedComment = commentInfo;
                         commentTextArea.setText(commentText);
+                        commentTextArea.setFocus(true);
                         setEditMode(EditMode.UPDATE_COMMENT);
                     }
                 });
                 deleteButton.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        try {
-                            commentServiceAsync.removeComment(commentInfo.getId(), referenceId, referenceTypeKey, new KSAsyncCallback<StatusInfo>(){
-
+                            ConfirmationDialog confirmDeletion = 
+                                new ConfirmationDialog("Delete Comment",  
+                                    "You are about to delete a comment.  Are you sure?");
+                            confirmDeletion.getConfirmButton().addClickHandler(new ClickHandler(){
                                 @Override
-                                public void handleFailure(Throwable caught) {
-                                    GWT.log("remove Comment Failed", caught);
-                                }
+                                public void onClick(ClickEvent event) {
+                                    try {
+                                        commentServiceAsync.removeComment(commentInfo.getId(), 
+                                                referenceId, referenceTypeKey, 
+                                                new KSAsyncCallback<StatusInfo>(){
 
-                                @Override
-                                public void onSuccess(StatusInfo result) {
-                                    if(result.getSuccess()){
-                                        Window.alert("Your comment was deleted successfully");
+                                            @Override
+                                            public void handleFailure(Throwable caught) {
+                                                GWT.log("remove Comment Failed", caught);
+                                            }
+
+                                            @Override
+                                            public void onSuccess(StatusInfo result) {
+                                                if(result.getSuccess()){
+                                                    Window.alert("Your comment was deleted successfully");
+                                                }
+                                                refreshComments();
+                                            }
+
+                                        });
+                                    } catch (Exception e) {
+                                        GWT.log("remove Comment Failed", e);
                                     }
-                                    refreshComments();
                                 }
-
                             });
-                        } catch (Exception e) {
-                            GWT.log("remove Comment Failed", e);
-                        }
+                            confirmDeletion.show();
                     }
                 });
                 commentsTableLayout.setWidget(rowIndex, columnIndex, editButton);
@@ -439,6 +404,8 @@ public class CommentTool implements HasReferenceId, ToolView {
                 }
                 
                 rowIndex++;
+                
+                commentCounter++;
             }
             setEditMode(EditMode.ADD_COMMENT);
         }
@@ -518,11 +485,6 @@ public class CommentTool implements HasReferenceId, ToolView {
 //        tableLayout.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 3);
 //    }
     
-    @Override
-    public KSImage getImage() {
-        return Theme.INSTANCE.getCommonImages().getCommentIcon();
-    }
-
     @Override
     public String getReferenceId() {
         return referenceId;
