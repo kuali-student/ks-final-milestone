@@ -1386,8 +1386,7 @@ public class TestProgramServiceImpl {
     	assertEquals("BS-updated", updatedCP.getCode());
         assertEquals("B.S.-updated", updatedCP.getShortTitle());
         assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
-        //TODO: TranscriptTitle not updated
-        //assertEquals("TRANSCRIPT-TITLE-updated", updatedCP.getTranscriptTitle());
+        assertEquals("TRANSCRIPT-TITLE-updated", updatedCP.getTranscriptTitle());
         assertEquals(ProgramAssemblerConstants.RETIRED, updatedCP.getState());
     }
  
