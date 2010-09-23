@@ -4,6 +4,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.lum.lu.ui.course.client.views.CategoryManagementView;
 import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CatalogBrowserController;
@@ -11,8 +12,6 @@ import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetsManagementC
 import org.kuali.student.lum.program.client.ProgramManager;
 
 public class CurriculumHomeController extends LayoutController {
-
-    private final boolean loaded = false;
 
     private CurriculumHomeView home;
     private final SpanPanel panel = new SpanPanel();
@@ -33,7 +32,8 @@ public class CurriculumHomeController extends LayoutController {
         CLU_SETS,
         VARIATION_VIEW,
         VARIATION_EDIT,
-        COURSE_CATALOG
+        COURSE_CATALOG,
+        LO_CATEGORIES
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
@@ -74,13 +74,19 @@ public class CurriculumHomeController extends LayoutController {
                 return programManager.getVariationViewController();
             case VARIATION_EDIT:
                 return programManager.getVariationEditController();
+            case LO_CATEGORIES:
+                return getCategoryManagementController();
             default:
                 return home;
         }
     }
 
 
-    private CourseProposalController getCourseProposalController() {
+    private View getCategoryManagementController() {
+		return new CategoryManagementView(this, "Learning Objective Categories", LUMViews.LO_CATEGORIES);
+	}
+
+	private CourseProposalController getCourseProposalController() {
         courseProposalController = new CourseProposalController();
         return courseProposalController;
     }

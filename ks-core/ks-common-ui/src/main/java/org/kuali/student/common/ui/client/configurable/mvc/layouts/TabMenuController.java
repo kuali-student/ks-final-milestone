@@ -68,7 +68,9 @@ public class TabMenuController extends LayoutController{
 	@Override
 	public void showDefaultView(Callback<Boolean> onReadyCallback) {
 		super.showDefaultView(onReadyCallback);
-		tabPanel.selectTab(this.defaultView.toString());
+		if(this.defaultView != null){
+			tabPanel.selectTab(this.defaultView.toString());
+		}
 	}
 	
 	public void addTab(final View view, String tabName){

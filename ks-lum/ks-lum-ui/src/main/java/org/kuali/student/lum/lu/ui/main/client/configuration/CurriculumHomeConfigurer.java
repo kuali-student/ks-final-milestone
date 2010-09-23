@@ -13,18 +13,14 @@ import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.lum.common.client.lo.CategoryManagement;
 import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
@@ -58,7 +54,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
     			getMessage(TOOLS), 
     			getMessage(TOOLS_DESC));
     	tools.addNavLinkWidget(getMessage(COURSE_SETS), AppLocations.Locations.MANAGE_CLU_SETS.getLocation());
-    	tools.add(getCategoryManagementWidget());
+    	tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
     	//Coming soon
     	Label depAnalysis = new Label(getMessage(DEP_ANALYSIS));
     	depAnalysis.setStyleName("contentBlock-navLink-disabled");
@@ -147,34 +143,6 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 			searchWidget.setStyleName("contentBlock-navLink-disabled");
 		}
         return searchWidget;
-	}
-	
-	protected Widget getCategoryManagementWidget(){
-		Anchor categoryManagement = new Anchor(getMessage(LO_CATEGORIES));
-		categoryManagement.addClickHandler(new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-	            Button closeButton = new Button("Close");
-	            
-	            final KSLightBox pop = new KSLightBox();
-	            VerticalPanel mainPanel = new VerticalPanel();
-	            mainPanel.add(new CategoryManagement(true,SelectionPolicy.MULTI_ROW));
-	            mainPanel.add(closeButton);
-	            
-	            closeButton.addClickHandler(new ClickHandler(){
-	                @Override
-	                public void onClick(ClickEvent event) {
-	                    pop.hide();
-	                }
-	            });
-	            
-	            pop.setWidget(mainPanel);
-	            pop.show();
-			}
-		});
-		categoryManagement.setStyleName("contentBlock-navLink");
-		return categoryManagement;
 	}
 	
 	protected Widget getHowToWidget(){
