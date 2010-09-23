@@ -1848,7 +1848,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>kuali.org.College</value>
+							<value>kuali.org.AccreditingBodies</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="false" />

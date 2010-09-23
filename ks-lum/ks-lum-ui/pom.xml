@@ -123,5 +123,11 @@
             <artifactId>ks-lum-program</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
