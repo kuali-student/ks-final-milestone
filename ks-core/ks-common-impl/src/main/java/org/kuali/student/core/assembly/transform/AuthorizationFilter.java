@@ -32,7 +32,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
 	final Logger LOG = Logger.getLogger(AuthorizationFilter.class);
     
     @Override
-	public void applyInboundDataFilter(Data data, Metadata metadata, Map<String,String> filterProperties) throws Exception {       
+	public void applyInboundDataFilter(Data data, Metadata metadata, Map<String,Object> filterProperties) throws Exception {       
         if(metadata != null && !metadata.isCanEdit()) {
             throw new Exception("Document is read only");
         }
@@ -52,23 +52,23 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
     }
 
 	@Override
-	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,String> filterProperties)
+	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,Object> filterProperties)
 			throws Exception {
 		//TODO: Need to apply authz to the output (mostly full data should not be sent to UI if masked or hidden)
 	}
 
 	@Override
-	public void applyMetadataFilter(String dtoName, Metadata metadata, Map<String, String> metadataProperties) {       
+	public void applyMetadataFilter(String dtoName, Metadata metadata, Map<String, Object> metadataProperties) {       
 		applyPermissionsToMetadata(dtoName, metadata, metadataProperties);
 	}
 	
-    protected void applyPermissionsToMetadata(String dtoName, Metadata metadata, Map<String, String> metadataProperties){
+    protected void applyPermissionsToMetadata(String dtoName, Metadata metadata, Map<String, Object> metadataProperties){
         Boolean authorized = null;
     
-        String idType = metadataProperties.get(METADATA_ID_TYPE);
-        String id = metadataProperties.get(METADATA_ID_VALUE);
-        String docLevelPerm = metadataProperties.get(DOC_LEVEL_PERM_CHECK);
-        String docType = metadataProperties.get(WorkflowFilter.WORKFLOW_DOC_TYPE);
+        String idType = (String)metadataProperties.get(METADATA_ID_TYPE);
+        String id = (String)metadataProperties.get(METADATA_ID_VALUE);
+        String docLevelPerm = (String)metadataProperties.get(DOC_LEVEL_PERM_CHECK);
+        String docType = (String)metadataProperties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE);
         
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions(docLevelPerm)) {
             AttributeSet qualification = getQualification(idType, id, docType);

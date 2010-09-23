@@ -27,7 +27,7 @@ public class CredentialProgramFilter extends AbstractDataFilter {
      */
 	@Override
 	public void applyInboundDataFilter(Data data, Metadata metadata,
-			Map<String, String> properties) throws Exception {
+			Map<String, Object> properties) throws Exception {
         // remove the CredentialProgram from the data passed in
         data.remove(new Data.StringKey(ProgramConstants.CREDENTIAL_PROGRAM));
 	}
@@ -37,7 +37,7 @@ public class CredentialProgramFilter extends AbstractDataFilter {
 	 */
 	@Override
 	public void applyOutboundDataFilter(Data data, Metadata metadata,
-			Map<String, String> properties) throws Exception {
+			Map<String, Object> properties) throws Exception {
 		
         // Get CredentialProgram associated with this data
         String credentialProgramId = data.get(ProgramConstants.CREDENTIAL_PROGRAM_ID);

@@ -47,7 +47,7 @@ public class ProgramDataService extends AbstractDataService {
     }
 
     @Override
-    protected Object save(Object dto, Map<String, String> properties) throws Exception {
+    protected Object save(Object dto, Map<String, Object> properties) throws Exception {
     	//TODO Just Major Discipline for now - need to check for other types later
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;

@@ -475,7 +475,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         LuData data = new LuData();
         
         Data proposalData = new Data();
-        proposalData.set(new Data.StringKey("proposalType"), MODIFY_TYPE);
+        proposalData.set(new Data.StringKey("type"), MODIFY_TYPE);
         data.set(new Data.StringKey("proposal"), proposalData);
         
         Data versionData = new Data();
