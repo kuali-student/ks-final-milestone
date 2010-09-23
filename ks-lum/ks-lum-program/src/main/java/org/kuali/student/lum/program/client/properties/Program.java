@@ -349,6 +349,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_viewAll();
 
   /**
+   * Translated "Modify".
+   * 
+   * @return translated "Modify"
+   */
+  @DefaultMessage("Modify")
+  @Key("programAction.modify")
+  String programAction_modify();
+
+  /**
+   * Translated "Program Actions: Modify, Retire...".
+   * 
+   * @return translated "Program Actions: Modify, Retire..."
+   */
+  @DefaultMessage("Program Actions: Modify, Retire...")
+  @Key("programAction.title")
+  String programAction_title();
+
+  /**
    * Translated "Accreditation".
    * 
    * @return translated "Accreditation"

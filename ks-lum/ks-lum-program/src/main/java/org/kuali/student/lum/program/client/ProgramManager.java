@@ -6,6 +6,7 @@ import org.kuali.student.lum.program.client.edit.ProgramEditController;
 import org.kuali.student.lum.program.client.variation.edit.VariationEditController;
 import org.kuali.student.lum.program.client.variation.view.VariationViewController;
 import org.kuali.student.lum.program.client.view.ProgramViewController;
+import com.google.gwt.event.shared.HandlerManager;
 
 /**
  * @author Igor
@@ -23,6 +24,8 @@ public class ProgramManager {
     protected DataModel programModel;
 
     private ViewContext viewContext = new ViewContext();
+
+    private HandlerManager eventBus = new HandlerManager(null);
 
     public ProgramManager() {
         programModel = new DataModel();
