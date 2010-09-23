@@ -49,7 +49,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
@@ -116,7 +115,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public static final String PROPOSAL_PATH = "proposal";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String COURSE_TITLE_PATH = "/courseTitle";
-    private DocumentTool documentTool;
+    protected DocumentTool documentTool;
 
     //Override paths for course and proposal so they are root
     public static final String PROPOSAL = "";
@@ -353,7 +352,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return result;
     }
     
-    private void addFeeMultiplicityFields(Section section,  
+    protected void addFeeMultiplicityFields(Section section,  
             String path, String addItemlabelMessageKey,
             String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
             Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
@@ -369,7 +368,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     }
     
-    private MultiplicityConfiguration setupMultiplicityConfig(
+    protected MultiplicityConfiguration setupMultiplicityConfig(
             MultiplicityConfiguration.MultiplicityType multiplicityType,
             MultiplicityConfiguration.StyleType styleType,
             String path, String addItemlabelMessageKey,
@@ -399,7 +398,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return config;
     }
 
-    private void addMultiplicityFields(Section section,  
+    protected void addMultiplicityFields(Section section,  
             String path, String addItemlabelMessageKey,
             String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
             Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
@@ -414,11 +413,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         section.addSection(ms);
     }
 
-    private Metadata getMetaData(String fieldKey) {
+    protected Metadata getMetaData(String fieldKey) {
         return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
     }
 
-    private MultiplicityFieldConfiguration buildMultiplicityFD(
+    protected MultiplicityFieldConfiguration buildMultiplicityFD(
             String fieldKey, String labelKey, String parentPath) {
 
         QueryPath fieldPath = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
@@ -432,7 +431,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     }
 
-    private FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
+    protected FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
 
@@ -475,7 +474,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return section;
     }
 
-    private Section generateLearningResultsSection() {
+    protected Section generateLearningResultsSection() {
         VerticalSection learningResults = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
         learningResults.setInstructions(getLabel(LUConstants.LEARNING_RESULTS_LABEL_KEY + "-instruct") + "<br><br><br>");
 
@@ -487,7 +486,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return learningResults;
     }
 
-    private Section generateOutcomesSection() {
+    protected Section generateOutcomesSection() {
 
         String path = COURSE + QueryPath.getPathSeparator() + CREDIT_OPTIONS;
         QueryPath creditTypeFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CreditCourseConstants.TYPE);
@@ -591,7 +590,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     }
 
-    private Section generateStudentRegistrationOptionsSection() {
+    protected Section generateStudentRegistrationOptionsSection() {
         VerticalSection studentRegistrationOptionsSection = initSection(getH3Title(LUConstants.LEARNING_RESULTS_STUDENT_REGISTRATION_LABEL_KEY), WITH_DIVIDER);
 
         addField(studentRegistrationOptionsSection, COURSE + "/" + AUDIT, generateMessageInfo(LUConstants.LEARNING_RESULT_AUDIT_LABEL_KEY), new KSCheckBox(getLabel(LUConstants.LEARNING_RESULT_AUDIT_TEXT_LABEL_KEY)));
@@ -600,7 +599,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return studentRegistrationOptionsSection;
     }
 
-    private Section generateGradesAssessmentsSection() {
+    protected Section generateGradesAssessmentsSection() {
         VerticalSection gradesAssessments = initSection(getH3Title(LUConstants.LEARNING_RESULTS_GRADES_ASSESSMENTS_LABEL_KEY), WITH_DIVIDER);
 
         addField(gradesAssessments, COURSE + "/" + GRADING_OPTIONS, generateMessageInfo(LUConstants.LEARNING_RESULT_ASSESSMENT_SCALE_LABEL_KEY));
@@ -796,94 +795,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             SimpleListItems list = new SimpleListItems();
 
             super.setListItems(list);
-        }
-    }
-
-    public class OfferedJointlyList extends UpdatableMultiplicityComposite {
-        {
-            setAddItemLabel(getLabel(LUConstants.ADD_EXISTING_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.JOINT_OFFER_ITEM_LABEL_KEY));
-            //setMinEmptyItems(1);
-        }
-
-        private final String parentPath;
-
-        public OfferedJointlyList(String parentPath) {
-            super(StyleType.TOP_LEVEL);
-            this.parentPath = parentPath;
-        }
-
-        /*        @Override
-        public MultiplicityItem getItemDecorator(StyleType style) {
-            return new RemovableItem();
-        }*/
-
-        @Override
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
-            GroupSection ns = new GroupSection();
-            addField(ns, CreditCourseJointsConstants.COURSE_ID, generateMessageInfo(LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY), null, path);
-            return ns;
-        }
-    }
-
-    public class CrossListedList extends UpdatableMultiplicityComposite {
-        {
-            setAddItemLabel(getLabel(LUConstants.ADD_CROSS_LISTED_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.CROSS_LISTED_ITEM_LABEL_KEY));
-        }
-
-        private final String parentPath;
-
-        public CrossListedList(String parentPath) {
-            super(StyleType.TOP_LEVEL);
-            this.parentPath = parentPath;
-        }
-
-        /*        @Override
-        public MultiplicityItem getItemDecorator(StyleType style) {
-            return new RemovableItem();
-        }*/
-
-        @Override
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
-            GroupSection ns = new GroupSection();
-//            addField(ns, DEPARTMENT, generateMessageInfo(LUConstants.DEPT_LABEL_KEY), null, path);
-//            ns.nextLine();
-            addField(ns, SUBJECT_AREA, generateMessageInfo(LUConstants.SUBJECT_CODE_LABEL_KEY), path);
-            addField(ns, COURSE_NUMBER_SUFFIX, generateMessageInfo(LUConstants.COURSE_NUMBER_LABEL_KEY), path);
-
-            return ns;
-        }
-    }
-
-    public class VersionCodeList extends UpdatableMultiplicityComposite {
-        {
-            setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
-            setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
-        }
-
-        private final String parentPath;
-
-        public VersionCodeList(String parentPath) {
-            super(StyleType.TOP_LEVEL);
-            this.parentPath = parentPath;
-        }
-
-        /*        @Override
-            public MultiplicityItem getItemDecorator(StyleType style) {
-                return new RemovableItem();
-            }*/
-
-        @Override
-        public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(getAddItemKey())).toString();
-            GroupSection ns = new GroupSection();
-            addField(ns, "variationCode", generateMessageInfo(LUConstants.CODE_LABEL_KEY), path);
-            addField(ns, "variationTitle", generateMessageInfo(LUConstants.TITLE_LITERAL_LABEL_KEY), path);
-
-            return ns;
         }
     }
 
@@ -1143,7 +1054,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         return section;
     }
     
-    private void setupRevenueSection(Section parentSection) {
+    protected void setupRevenueSection(Section parentSection) {
         // TODO customize multiplicity and change "Percentage" label into LUConstants.AMOUNT
         QueryPath revenuePath = QueryPath.concat(COURSE, "revenues");
         QueryPath affiliatedOrgIdSubPath = QueryPath.concat("affiliatedOrgs", "0", "orgId");
@@ -1165,7 +1076,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         );
     }
     
-    private void setupExpenditureSection(Section parentSection) {
+    protected void setupExpenditureSection(Section parentSection) {
         // TODO customize multiplicity and change "Percentage" label into LUConstants.AMOUNT
         QueryPath expenditureAffiliatedOrgPath = QueryPath.concat(COURSE, "expenditure", "affiliatedOrgs");
         QueryPath affiliatedOrgIdSubPath = QueryPath.concat("orgId");
@@ -1187,7 +1098,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         );
     }
     
-    private SwapCondition makeCondition(QueryPath fieldPath, String messageLabelKey, 
+    protected SwapCondition makeCondition(QueryPath fieldPath, String messageLabelKey, 
             String value) {
         SwapCondition swapCondition = new SwapCondition();
         swapCondition.setFd(new FieldDescriptor(
@@ -1251,7 +1162,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
 
 class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
-    private String key;
+    protected String key;
     HasDataValueBinding hasDataValueBinding = HasDataValueBinding.INSTANCE;
 
     public KeyListModelWigetBinding(String key) {
@@ -1345,8 +1256,8 @@ class KeyListModelWigetBinding extends ModelWidgetBindingSupport<HasDataValue> {
 
 
 class MultiplicityFieldConfig {
-    private String fieldKey;
-    private String labelKey;
+    protected String fieldKey;
+    protected String labelKey;
     boolean nextLine;
     
     public MultiplicityFieldConfig() {

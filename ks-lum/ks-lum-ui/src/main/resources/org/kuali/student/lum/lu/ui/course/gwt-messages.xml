@@ -61,6 +61,8 @@
 	 <bean parent="enCourse" p:id="loCategories" p:value="Learning Objective Categories" />
 	 <bean parent="enCourse" p:id="depAnalysis" p:value="Dependency Analysis (coming soon)" />
 	 <bean parent="enCourse" p:id="los" p:value="Learning Objectives (coming soon)" />
+	 	 <bean parent="enCourse" p:id="recentlyViewed" p:value="Recently Viewed" />
+	 <bean parent="enCourse" p:id="recentlyViewedDesc" p:value="View courses and programs that you have recently visited." />
 
 	<bean parent="enCourse" p:id="beginTitle" p:value="Begin Proposal" />
 	<bean parent="enCourse" p:id="beginDirections">

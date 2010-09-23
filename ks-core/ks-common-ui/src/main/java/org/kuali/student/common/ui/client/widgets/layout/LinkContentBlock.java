@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class LinkContentBlock extends ContentBlock{
 
-	private KSListPanel listLayout = new KSListPanel();
+	protected KSListPanel listLayout = new KSListPanel();
 	
 	public LinkContentBlock(String blockTitle, String blockDescriptionHtml,
 			int blockSize) {

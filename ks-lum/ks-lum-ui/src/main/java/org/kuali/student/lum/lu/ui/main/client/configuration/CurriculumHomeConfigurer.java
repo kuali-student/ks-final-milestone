@@ -13,6 +13,7 @@ import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -63,10 +64,16 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
     	learningObjectives.setStyleName("contentBlock-navLink-disabled");
     	tools.add(learningObjectives);
     	
+    	//RecentlyViewed
+    	RecentlyViewedBlock recent = new RecentlyViewedBlock(
+    			getMessage(RECENTLY_VIEWED), 
+    			getMessage(RV_DESC));
+    	
     	//Add all blocks
     	layout.addContentBlock(create);
     	layout.addContentBlock(viewModify);
     	layout.addContentBlock(tools);
+    	layout.addContentBlock(recent);
     	
     	return layout;
 	}
