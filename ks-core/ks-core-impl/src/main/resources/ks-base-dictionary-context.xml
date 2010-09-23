@@ -33,6 +33,14 @@
   <property name="value" value="regex:[0-9]*"/>
   <property name="labelKey" value="validation.validChars.numeric"/>
  </bean>
+ <bean id="gpa4.0" parent="ValidCharDefinition">
+  <property name="value" value="regex:[0-4]\.[0-9]"/>
+  <property name="labelKey" value="validation.validChars.gpa9.9"/>
+ </bean>
+ <bean id="relationalOperator" parent="ValidCharDefinition">
+  <property name="value" value="regex:\&lt;|=|\&lt;=|\&gt;|\&gt;=|&lt;&gt;"/>
+  <property name="labelKey" value="validation.validChars.relationalOperator"/>
+ </bean>
  <bean id="alpha" parent="ValidCharDefinition">
   <property name="value" value="regex:[A-Za-z]*"/>
  </bean>

@@ -14,6 +14,7 @@ import org.kuali.student.core.dictionary.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.dto.LookupConstraint;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.dto.RequiredConstraint;
+import org.kuali.student.core.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.core.dictionary.dto.WhenConstraint;
 
 public class DictionaryFormatter
@@ -88,7 +89,8 @@ public class DictionaryFormatter
   builder.append (rowSeperator);
   if (clazz != null)
   {
-   builder.append ("The corresponding java class for this dictionary object is " + os.getName ());
+   builder.append ("The corresponding java class for this dictionary object is "
+                   + os.getName ());
   }
   if (os.isHasMetaData ())
   {
@@ -133,26 +135,12 @@ public class DictionaryFormatter
   {
    builder.append (colSeperator);
    builder.append (pad (fd.getName (), 30));
-   builder.append (colSeperator);
-   builder.append (pad (calcRequired (fd), 10));
-   builder.append (colSeperator);
-   builder.append (pad (calcDataType (fd), 25));
-   builder.append (colSeperator);
-   builder.append (pad (calcLength (fd), 15));
-   builder.append (colSeperator);
-   builder.append (pad (calcDynamic (fd), 7));
-   builder.append (colSeperator);
-   builder.append (pad (calcDefaultValue (fd), 15));
-   builder.append (colSeperator);
-   builder.append (calcRepeating (fd));
-   builder.append (colSeperator);
-   builder.append (calcValidCharsMinMax (fd));
-   builder.append (colSeperator);
-   builder.append (calcLookup (fd));
-   builder.append (colSeperator);
+   this.writeRowCells (fd, fd);
    builder.append (calcCrossField (fd));
    builder.append (colSeperator);
    builder.append (rowSeperator);
+
+   this.writeCrossFieldWhen (fd);
   }
   List<String> discrepancies =
                new Dictionary2BeanComparer (clazz, os).compare ();
@@ -168,13 +156,15 @@ public class DictionaryFormatter
 
 //  builder.append ("======= end dump of object structure definition ========");
   builder.append (rowSeperator);
-  Set<ObjectStructureDefinition> subStructuresAlreadyProcessedBeforeProcessingSubStructures = new HashSet ();
+  Set<ObjectStructureDefinition> subStructuresAlreadyProcessedBeforeProcessingSubStructures =
+                                 new HashSet ();
   subStructuresAlreadyProcessedBeforeProcessingSubStructures.addAll (
     subStructuresAlreadyProcessed);
   for (String subName : this.subStructuresToProcess.keySet ())
   {
    ObjectStructureDefinition subOs = this.subStructuresToProcess.get (subName);
-   if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (subOs))
+   if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (
+     subOs))
    {
     this.subStructuresAlreadyProcessed.add (subOs);
 //    System.out.println ("formatting substructure " + subName);
@@ -190,6 +180,27 @@ public class DictionaryFormatter
   }
 
   return builder.toString ();
+ }
+
+ private void writeRowCells (FieldDefinition fd, Constraint cons)
+ {
+  builder.append (colSeperator);
+  builder.append (pad (calcRequired (cons), 10));
+  builder.append (colSeperator);
+  builder.append (pad (calcDataType (fd), 25));
+  builder.append (colSeperator);
+  builder.append (pad (calcLength (cons), 15));
+  builder.append (colSeperator);
+  builder.append (pad (calcDynamic (fd), 7));
+  builder.append (colSeperator);
+  builder.append (pad (calcDefaultValue (fd), 15));
+  builder.append (colSeperator);
+  builder.append (calcRepeating (fd));
+  builder.append (colSeperator);
+  builder.append (calcValidCharsMinMax (cons));
+  builder.append (colSeperator);
+  builder.append (calcLookup (cons));
+  builder.append (colSeperator);
  }
 
  private Class getClass (String className)
@@ -291,7 +302,7 @@ public class DictionaryFormatter
   return fieldName + "." + simpleName;
  }
 
- private String calcRequired (FieldDefinition fd)
+ private String calcRequired (Constraint fd)
  {
   if (fd.getMaxOccurs () != null)
   {
@@ -318,7 +329,7 @@ public class DictionaryFormatter
  private static final String LINK_TO_DEFINITIONS =
                              "KULSTG:Formatted View of Base Dictionary#Valid Character Definitions";
 
- private String calcValidChars (FieldDefinition fd)
+ private String calcValidChars (Constraint fd)
  {
   if (fd.getValidChars () == null)
   {
@@ -338,22 +349,39 @@ public class DictionaryFormatter
  private String escapeWiki (String str)
  {
   StringBuilder bldr = new StringBuilder (str.length ());
+  boolean precededByBackSlash = false;
   for (int i = 0; i < str.length (); i ++)
   {
    char c = str.charAt (i);
    switch (c)
    {
+    case '\\':
     case '[':
+    case '*':
     case ']':
     case '|':
-     bldr.append ('\\');
+     if ( ! precededByBackSlash)
+     {
+      bldr.append ('\\');
+     }
+     break;
+    default:
+     break;
    }
    bldr.append (c);
+   if (c == '\\')
+   {
+    precededByBackSlash = true;
+   }
+   else
+   {
+    precededByBackSlash = false;
+   }
   }
   return bldr.toString ();
  }
 
- private String calcLookup (FieldDefinition fd)
+ private String calcLookup (Constraint fd)
  {
   if (fd.getLookupDefinition () == null)
   {
@@ -406,7 +434,7 @@ public class DictionaryFormatter
   return builder.toString ();
  }
 
- private String calcValidCharsMinMax (FieldDefinition fd)
+ private String calcValidCharsMinMax (Constraint fd)
  {
   String validChars = calcValidChars (fd);
   String minMax = calcMinMax (fd);
@@ -422,7 +450,7 @@ public class DictionaryFormatter
   return validChars + "\\\\\n" + minMax;
  }
 
- private String calcMinMax (FieldDefinition fd)
+ private String calcMinMax (Constraint fd)
  {
   if (fd.getExclusiveMin () == null)
   {
@@ -550,7 +578,7 @@ public class DictionaryFormatter
   return "repeating: maximum " + fd.getMaxOccurs () + " times";
  }
 
- private String calcLength (FieldDefinition fd)
+ private String calcLength (Constraint fd)
  {
   if (fd.getMaxLength () != null)
   {
@@ -582,13 +610,13 @@ public class DictionaryFormatter
    semicolon = "; ";
    b.append (cfr);
   }
-  String cfw = calcCrossFieldWhen (fd);
-  if (cfw != null)
-  {
-   b.append (semicolon);
-   semicolon = "; ";
-   b.append (cfw);
-  }
+//  String cfw = calcCrossFieldWhen (fd);
+//  if (cfw != null)
+//  {
+//   b.append (semicolon);
+//   semicolon = "; ";
+//   b.append (cfw);
+//  }
   if (b.length () == 0)
   {
    return " ";
@@ -627,42 +655,52 @@ public class DictionaryFormatter
   return b.toString ();
  }
 
- private String calcCrossFieldWhen (FieldDefinition fd)
+ private void writeCrossFieldWhen (FieldDefinition fd)
  {
   if (fd.getCaseConstraint () == null)
   {
-   return null;
+   return;
   }
   StringBuilder b = new StringBuilder ();
   CaseConstraint cc = fd.getCaseConstraint ();
   for (WhenConstraint wc : cc.getWhenConstraint ())
   {
-   b.append ("\\\\");
-   b.append ("\n");
-   b.append ("when ");
-   b.append (cc.getFieldPath ());
-   b.append (" ");
-   if ( ! cc.isCaseSensitive ())
-   {
-    b.append ("ignoring case ");
-   }
-   b.append (cc.getOperator ());
-   b.append (" ");
-
-   b.append ("\\\\");
-   b.append ("\n");
-   String comma = "";
-   for (Object value : wc.getValues ())
-   {
-    b.append (comma);
-    comma = " or ";
-    b.append (asString (value));
-   }
-   b.append ("\\\\");
-   b.append ("\n");
-   b.append ("then override constraint:"
-             + calcOverride (fd, wc.getConstraint ()));
+   builder.append (colSeperator);
+   builder.append (pad (" ", 30));
+   this.writeRowCells (fd, wc.getConstraint ());
+   builder.append (calcCrossFieldWhen (cc, wc));
+   builder.append (colSeperator);
+   builder.append (rowSeperator);
   }
+ }
+
+ private String calcCrossFieldWhen (CaseConstraint cc, WhenConstraint wc)
+ {
+  StringBuilder b = new StringBuilder ();
+  b.append ("\\\\");
+  b.append ("\n");
+  b.append ("when ");
+  b.append (cc.getFieldPath ());
+  b.append (" ");
+  if ( ! cc.isCaseSensitive ())
+  {
+   b.append ("ignoring case ");
+  }
+  b.append (cc.getOperator ());
+  b.append (" ");
+
+//  b.append ("\\\\");
+//  b.append ("\n");
+  String comma = "";
+  for (Object value : wc.getValues ())
+  {
+   b.append (comma);
+   comma = " or ";
+   b.append (asString (value));
+  }
+  b.append ("\\\\");
+  b.append ("\n");
+  b.append ("then override constraint");
   return b.toString ();
  }
 
@@ -676,11 +714,13 @@ public class DictionaryFormatter
   b.append (calcOverride ("inclusiveMax", fd.getInclusiveMax (),
                           cons.getInclusiveMax ()));
   b.append (calcOverride ("minOccurs", fd.getMinOccurs (), cons.getMinOccurs ()));
+  b.append (calcOverride ("maxOccurs", fd.getMaxOccurs (), cons.getMaxOccurs ()));
+  b.append (calcOverride ("minLength", fd.getMinLength (), cons.getMinLength ()));
+  b.append (calcOverride ("maxLength", fd.getMaxLength (), cons.getMaxLength ()));
   b.append (calcOverride ("validchars", fd.getValidChars (),
                           cons.getValidChars ()));
-  b.append (calcOverride ("validchars", fd.getLookupDefinition (),
+  b.append (calcOverride ("lookup", fd.getLookupDefinition (),
                           cons.getLookupDefinition ()));
-  //TODO: other more complex constraints
   return b.toString ();
  }
 
@@ -705,13 +745,35 @@ public class DictionaryFormatter
   }
   if (val1 == null)
   {
-   return attribute + "=" + val2;
+   return " " + attribute + "=" + escapeWiki (val2);
   }
   if (val1.equals (val2))
   {
    return "";
   }
-  return " " + attribute + "=" + val2;
+  return " " + attribute + "=" + escapeWiki (val2);
+ }
+
+ private String calcOverride (String attribute, ValidCharsConstraint val1,
+                              ValidCharsConstraint val2)
+ {
+  if (val1 == null && val2 == null)
+  {
+   return "";
+  }
+  if (val1 == val2)
+  {
+   return "";
+  }
+  if (val1 == null)
+  {
+   return " " + attribute + "=" + escapeWiki (val2.getValue ());
+  }
+  if (val1.equals (val2))
+  {
+   return "";
+  }
+  return calcOverride (attribute, val1.getValue (), val2.getValue ());
  }
 
  private String calcOverride (String attribute, Object val1, Object val2)
@@ -726,13 +788,13 @@ public class DictionaryFormatter
   }
   if (val1 == null)
   {
-   return attribute + "=" + val2;
+   return " " + attribute + "=" + escapeWiki (asString (val2));
   }
   if (val1.equals (val2))
   {
    return "";
   }
-  return " " + attribute + "=" + asString (val2);
+  return " " + attribute + "=" + escapeWiki (asString (val2));
  }
 
  private String asString (Object value)
