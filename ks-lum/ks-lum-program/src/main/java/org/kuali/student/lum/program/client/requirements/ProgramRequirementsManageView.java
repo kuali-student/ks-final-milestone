@@ -256,7 +256,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
                         editedReqCompInfo.setReqCompFields(reqComp.getReqCompFields());
-                        editedReqCompInfo.setRequiredComponentType(reqComp.getRequiredComponentType());
+                        //editedReqCompInfo.setRequiredComponentType(reqComp.getRequiredComponentType());
                         editedReqCompInfo = null;  //de-reference from existing req. component
                     }
 

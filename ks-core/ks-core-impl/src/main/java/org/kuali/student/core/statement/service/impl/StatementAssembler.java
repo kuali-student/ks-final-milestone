@@ -195,7 +195,7 @@ public class StatementAssembler extends BaseAssembler {
 
         dto.setType(entity.getRequiredComponentType().getId());
         dto.setReqCompFields(toReqCompFieldInfos(entity.getReqComponentFields()));
-        dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
+        //dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setDesc(toRichTextInfo(entity.getDescr()));
         if(nlUsageTypeKey != null && language != null) {
@@ -541,7 +541,7 @@ public class StatementAssembler extends BaseAssembler {
 		stmt.setStatementType(type);
 
         if(statementInfo.getStatements() == null || statementInfo.getStatements().isEmpty()) {
-        	setReqComponentType(statementInfo.getReqComponents());
+        	//setReqComponentType(statementInfo.getReqComponents());
         	List<ReqComponent> customReqList = toReqComponents(statementInfo.getReqComponents());
         	stmt.setRequiredComponents(customReqList);
         } else {
@@ -551,7 +551,7 @@ public class StatementAssembler extends BaseAssembler {
         return stmt;
 	}
 
-	private void setReqComponentType(List<ReqComponentInfo> reqList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	/*private void setReqComponentType(List<ReqComponentInfo> reqList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		for(ReqComponentInfo req : reqList) {
 			setReqComponentType(req);
 		}
@@ -564,7 +564,7 @@ public class StatementAssembler extends BaseAssembler {
 			ReqComponentType type = this.statementDao.fetch(ReqComponentType.class, req.getType());
 			req.setRequiredComponentType(toReqComponentTypeInfo(type));
 		}
-	}
+	}*/
 
 	private void createStatement(final StatementTreeViewInfo stmtInfo, Statement rootLuStatement)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {

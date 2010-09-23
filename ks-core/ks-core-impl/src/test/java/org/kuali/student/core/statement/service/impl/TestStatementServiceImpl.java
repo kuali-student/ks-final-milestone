@@ -281,7 +281,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		ReqComponentInfo reqComp = new ReqComponentInfo();
 		reqComp.setReqCompFields(fieldList);
 		reqComp.setType(reqComponentType);
-		reqComp.setRequiredComponentType(reqCompType);
+		//reqComp.setRequiredComponentType(reqCompType);
 
 		return reqComp;
     }
