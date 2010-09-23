@@ -56,8 +56,6 @@
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.admitted" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
     <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.completed" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
-    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.all" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.nof" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
