@@ -14,6 +14,9 @@
         NAME="Academic Readiness Pre-requisites"
         TYPE_DESC="Pre-requisite rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.prereq"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Academic Readiness Student Eligibilities"
+        TYPE_DESC="Enrollment eligibility rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibility"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Academic Readiness Student Eligibilities and Pre-requisite"
         TYPE_DESC="Enrollment eligibility rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"

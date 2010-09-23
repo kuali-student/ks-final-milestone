@@ -32,7 +32,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testStatementTypeCount() {
     	List<StatementType> statementTypes = this.dao.find(StatementType.class);
-    	Assert.assertEquals(12, statementTypes.size());
+    	Assert.assertEquals(13, statementTypes.size());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testStatementSubTypesForCourseStatementType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course");
-    	Assert.assertEquals(7, statementType.getAllowedStatementTypes().size());
+    	Assert.assertEquals(8, statementType.getAllowedStatementTypes().size());
     }
 
     @Test
@@ -178,12 +178,30 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
 
     @Test
     public void testReqComponentTypesForStudentEligibilityType() throws DoesNotExistException {
+    	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.studentEligibility");
+    	Assert.assertEquals(4, statementType.getAllowedReqComponentTypes().size());
+    }
+
+    @Test
+    public void testValidReqComponentTypesForStudentEligibilityType() throws DoesNotExistException {
+    	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
+    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.programList.enroll.oneof"));
+    	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.programList.enroll.none"));
+    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.program.notadmitted.org.duration"));
+    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.org.program.admitted"));
+    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.program.notadmitted"));
+    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.program.admitted"));
+    }
+
+    @Test
+    public void testReqComponentTypesForStudentEligibilityPreReqType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
     	Assert.assertEquals(17, statementType.getAllowedReqComponentTypes().size());
     }
 
     @Test
-    public void testValidReqComponentTypesForStudentEligibilityType() throws DoesNotExistException {
+    public void testValidReqComponentTypesForStudentEligibilityPreReqType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
     	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.programList.enroll.oneof"));
