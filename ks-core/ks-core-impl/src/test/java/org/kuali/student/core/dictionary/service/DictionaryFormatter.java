@@ -195,7 +195,7 @@ public class DictionaryFormatter
   builder.append (colSeperator);
   builder.append (pad (calcDefaultValue (fd), 15));
   builder.append (colSeperator);
-  builder.append (calcRepeating (fd));
+  builder.append (calcRepeating (cons));
   builder.append (colSeperator);
   builder.append (calcValidCharsMinMax (cons));
   builder.append (colSeperator);
@@ -464,7 +464,7 @@ public class DictionaryFormatter
   {
    return "Must be > " + fd.getExclusiveMin ();
   }
-  return "Must be > " + fd.getExclusiveMin () + " and < "
+  return "Must be > " + fd.getExclusiveMin () + " and <= "
          + fd.getInclusiveMax ();
  }
  private static final String PAGE_PREFIX = "Formatted View of ";
@@ -543,7 +543,7 @@ public class DictionaryFormatter
   return list;
  }
 
- private String calcRepeating (FieldDefinition fd)
+ private String calcRepeating (Constraint fd)
  {
   if (fd.getMaxOccurs () == null)
   {
@@ -569,6 +569,10 @@ public class DictionaryFormatter
 
   if (fd.getMinOccurs () != null)
   {
+   if (fd.getMinOccurs () == Integer.parseInt (fd.getMaxOccurs ()))
+   {
+    return "exactly " + fd.getMaxOccurs () + " occurences";
+   }
    if (fd.getMinOccurs () > 1)
    {
     return "repeating: " + fd.getMinOccurs () + " to " + fd.getMaxOccurs ()
@@ -677,8 +681,8 @@ public class DictionaryFormatter
  private String calcCrossFieldWhen (CaseConstraint cc, WhenConstraint wc)
  {
   StringBuilder b = new StringBuilder ();
-  b.append ("\\\\");
-  b.append ("\n");
+//  b.append ("\\\\");
+//  b.append ("\n");
   b.append ("when ");
   b.append (cc.getFieldPath ());
   b.append (" ");
@@ -704,98 +708,98 @@ public class DictionaryFormatter
   return b.toString ();
  }
 
- private String calcOverride (FieldDefinition fd, Constraint cons)
- {
-  StringBuilder b = new StringBuilder ();
-  b.append (calcOverride ("serviceSide", fd.isServerSide (),
-                          cons.isServerSide ()));
-  b.append (calcOverride ("exclusiveMin", fd.getExclusiveMin (),
-                          cons.getExclusiveMin ()));
-  b.append (calcOverride ("inclusiveMax", fd.getInclusiveMax (),
-                          cons.getInclusiveMax ()));
-  b.append (calcOverride ("minOccurs", fd.getMinOccurs (), cons.getMinOccurs ()));
-  b.append (calcOverride ("maxOccurs", fd.getMaxOccurs (), cons.getMaxOccurs ()));
-  b.append (calcOverride ("minLength", fd.getMinLength (), cons.getMinLength ()));
-  b.append (calcOverride ("maxLength", fd.getMaxLength (), cons.getMaxLength ()));
-  b.append (calcOverride ("validchars", fd.getValidChars (),
-                          cons.getValidChars ()));
-  b.append (calcOverride ("lookup", fd.getLookupDefinition (),
-                          cons.getLookupDefinition ()));
-  return b.toString ();
- }
+// private String calcOverride (FieldDefinition fd, Constraint cons)
+// {
+//  StringBuilder b = new StringBuilder ();
+//  b.append (calcOverride ("serviceSide", fd.isServerSide (),
+//                          cons.isServerSide ()));
+//  b.append (calcOverride ("exclusiveMin", fd.getExclusiveMin (),
+//                          cons.getExclusiveMin ()));
+//  b.append (calcOverride ("inclusiveMax", fd.getInclusiveMax (),
+//                          cons.getInclusiveMax ()));
+//  b.append (calcOverride ("minOccurs", fd.getMinOccurs (), cons.getMinOccurs ()));
+//  b.append (calcOverride ("maxOccurs", fd.getMaxOccurs (), cons.getMaxOccurs ()));
+//  b.append (calcOverride ("minLength", fd.getMinLength (), cons.getMinLength ()));
+//  b.append (calcOverride ("maxLength", fd.getMaxLength (), cons.getMaxLength ()));
+//  b.append (calcOverride ("validchars", fd.getValidChars (),
+//                          cons.getValidChars ()));
+//  b.append (calcOverride ("lookup", fd.getLookupDefinition (),
+//                          cons.getLookupDefinition ()));
+//  return b.toString ();
+// }
 
- private String calcOverride (String attribute, boolean val1, boolean val2)
- {
-  if (val1 == val2)
-  {
-   return "";
-  }
-  return " " + attribute + "=" + val2;
- }
+// private String calcOverride (String attribute, boolean val1, boolean val2)
+// {
+//  if (val1 == val2)
+//  {
+//   return "";
+//  }
+//  return " " + attribute + "=" + val2;
+// }
 
- private String calcOverride (String attribute, String val1, String val2)
- {
-  if (val1 == null && val2 == null)
-  {
-   return "";
-  }
-  if (val1 == val2)
-  {
-   return "";
-  }
-  if (val1 == null)
-  {
-   return " " + attribute + "=" + escapeWiki (val2);
-  }
-  if (val1.equals (val2))
-  {
-   return "";
-  }
-  return " " + attribute + "=" + escapeWiki (val2);
- }
+// private String calcOverride (String attribute, String val1, String val2)
+// {
+//  if (val1 == null && val2 == null)
+//  {
+//   return "";
+//  }
+//  if (val1 == val2)
+//  {
+//   return "";
+//  }
+//  if (val1 == null)
+//  {
+//   return " " + attribute + "=" + escapeWiki (val2);
+//  }
+//  if (val1.equals (val2))
+//  {
+//   return "";
+//  }
+//  return " " + attribute + "=" + escapeWiki (val2);
+// }
 
- private String calcOverride (String attribute, ValidCharsConstraint val1,
-                              ValidCharsConstraint val2)
- {
-  if (val1 == null && val2 == null)
-  {
-   return "";
-  }
-  if (val1 == val2)
-  {
-   return "";
-  }
-  if (val1 == null)
-  {
-   return " " + attribute + "=" + escapeWiki (val2.getValue ());
-  }
-  if (val1.equals (val2))
-  {
-   return "";
-  }
-  return calcOverride (attribute, val1.getValue (), val2.getValue ());
- }
+// private String calcOverride (String attribute, ValidCharsConstraint val1,
+//                              ValidCharsConstraint val2)
+// {
+//  if (val1 == null && val2 == null)
+//  {
+//   return "";
+//  }
+//  if (val1 == val2)
+//  {
+//   return "";
+//  }
+//  if (val1 == null)
+//  {
+//   return " " + attribute + "=" + escapeWiki (val2.getValue ());
+//  }
+//  if (val1.equals (val2))
+//  {
+//   return "";
+//  }
+//  return calcOverride (attribute, val1.getValue (), val2.getValue ());
+// }
 
- private String calcOverride (String attribute, Object val1, Object val2)
- {
-  if (val1 == null && val2 == null)
-  {
-   return "";
-  }
-  if (val1 == val2)
-  {
-   return "";
-  }
-  if (val1 == null)
-  {
-   return " " + attribute + "=" + escapeWiki (asString (val2));
-  }
-  if (val1.equals (val2))
-  {
-   return "";
-  }
-  return " " + attribute + "=" + escapeWiki (asString (val2));
- }
+// private String calcOverride (String attribute, Object val1, Object val2)
+// {
+//  if (val1 == null && val2 == null)
+//  {
+//   return "";
+//  }
+//  if (val1 == val2)
+//  {
+//   return "";
+//  }
+//  if (val1 == null)
+//  {
+//   return " " + attribute + "=" + escapeWiki (asString (val2));
+//  }
+//  if (val1.equals (val2))
+//  {
+//   return "";
+//  }
+//  return " " + attribute + "=" + escapeWiki (asString (val2));
+// }
 
  private String asString (Object value)
  {
