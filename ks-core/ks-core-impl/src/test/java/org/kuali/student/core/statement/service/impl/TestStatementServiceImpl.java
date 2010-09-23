@@ -231,7 +231,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
 		field2.setId("2");
 		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
-		field2.setValue("greater_than_or_equal_to");
+		field2.setValue(">=");
 		fieldList.add(field2);
 
 		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
@@ -1434,8 +1434,13 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	ReqComponentInfo reqInfo = createBadReqComponent1();
     	List<ValidationResultInfo> resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
 
-		assertNotNull(resultInfo);
-    	assertEquals(2, resultInfo.size());
+	   	assertNotNull(resultInfo);
+//     System.out.println (resultInfo.size () + " errors");
+//     for (ValidationResultInfo vri: resultInfo)
+//     {
+//      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
+//     }
+    	assertEquals(4, resultInfo.size());
 
     	reqInfo = new ReqComponentInfo();
     	resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
@@ -1444,6 +1449,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	reqInfo = createReqComponent1();
     	resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
     	assertNotNull(resultInfo);
+     System.out.println (resultInfo.size () + " errors");
+     for (ValidationResultInfo vri: resultInfo)
+     {
+      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
+     }
     	assertEquals(0, resultInfo.size());
     }
 
