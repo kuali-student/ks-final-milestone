@@ -31,6 +31,7 @@ import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -51,6 +52,7 @@ public class TestMetadataServiceDictionary
   startingClasses.add (CluSetInfo.class);
   startingClasses.add (StatementInfo.class);
   startingClasses.add (ReqComponentInfo.class);
+  startingClasses.add (ReqCompFieldInfo.class);
 
   DictionaryService courseDictService = new DictionaryServiceImpl (
     "classpath:ks-courseInfo-dictionary-context.xml");

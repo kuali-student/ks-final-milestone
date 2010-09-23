@@ -92,10 +92,10 @@ public class MetadataFormatter
    builder.append (rowSeperator);
 //  builder.append ("======= start dump of object structure definition ========");
    builder.append (rowSeperator);
-   builder.append ("h" + level + ". " + calcNotSoSimpleName (structureName));
+   builder.append ("h" + level + ". " + this.calcSimpleName (structureName));
    builder.append ("{anchor:" + structureName + "}");
    builder.append (rowSeperator);
-   builder.append ("The DTO for these fields is " + structureMetadata.getName ());
+   builder.append ("The object key is " + structureName);
    builder.append (rowSeperator);
    builder.append (colSeperator);
    builder.append (colSeperator);
