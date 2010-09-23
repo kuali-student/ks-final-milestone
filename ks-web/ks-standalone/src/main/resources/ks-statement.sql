@@ -401,7 +401,6 @@ INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kual
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.statement.type.course.academicReadiness.studentEligibilityPrereq','kuali.reqComponent.type.course.courseset.nof.grade.min')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.statement.type.course.academicReadiness.studentEligibilityPrereq','kuali.reqComponent.type.course.program.admitted.org.duration')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.statement.type.course.academicReadiness.studentEligibilityPrereq','kuali.reqComponent.type.course.org.credits.completed.min')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.statement.type.course.academicReadiness.studentEligibilityPrereq','kuali.reqComponent.type.course.completed')
 
 // Courses - Repeatable for Credit
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) values ('kuali.statement.type.course.credit.repeatable','kuali.reqComponent.type.course.credits.repeat.max')

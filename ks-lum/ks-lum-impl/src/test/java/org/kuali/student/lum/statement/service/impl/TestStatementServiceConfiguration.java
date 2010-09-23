@@ -179,7 +179,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentTypesForStudentEligibilityType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
-    	Assert.assertEquals(18, statementType.getAllowedReqComponentTypes().size());
+    	Assert.assertEquals(17, statementType.getAllowedReqComponentTypes().size());
     }
 
     @Test
