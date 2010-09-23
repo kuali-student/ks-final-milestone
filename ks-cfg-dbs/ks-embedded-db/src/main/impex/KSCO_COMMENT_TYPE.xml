@@ -6,9 +6,19 @@
     <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Submitted" TYPE_DESC="Credit Course Submitted" TYPE_KEY="commentType.kuali.lu.type.CreditCourse.submitted"/>
     <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="General" TYPE_DESC="General Comment" TYPE_KEY="kuali.comment.type.generalRemarks"/>
-    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Comment 1" TYPE_DESC="A Basic Comment 1" TYPE_KEY="commentType.type1"/>
     <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Comment 2" TYPE_DESC="A Basic Comment 2" TYPE_KEY="commentType.type2"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="General" TYPE_DESC="General Comment" TYPE_KEY="kuali.comment.type.generalRemarks"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Ack Decision" TYPE_DESC="Decision Rationale Ack" TYPE_KEY="kuali.comment.type.workflowDecisionRationale.acknowledge"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Approve Decision " TYPE_DESC="Decision Rationale Approve" TYPE_KEY="kuali.comment.type.workflowDecisionRationale.approve"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="FYI Decision" TYPE_DESC="Decision Rationale FYI" TYPE_KEY="kuali.comment.type.workflowDecisionRationale.fyi"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Reject Decision" TYPE_DESC="Decision Rationale Reject" TYPE_KEY="kuali.comment.type.workflowDecisionRationale.reject"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Return Decision" TYPE_DESC="Decision Rationale Return" TYPE_KEY="kuali.comment.type.workflowDecisionRationale.return"/>
 </dataset>
