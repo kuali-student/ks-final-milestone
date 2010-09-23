@@ -569,7 +569,7 @@ public class RuleComponentEditorView extends ViewComposite {
             return "Course";
         } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
             return "Courses";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.VALUE_KEY.getId())) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId())) {
             return "count";
         } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.GPA_KEY.getId())) {
             return "GPA";
@@ -963,12 +963,12 @@ public class RuleComponentEditorView extends ViewComposite {
             }
             tagCounts.put(tag, tagCount);
 
-            if (tag.equals(ReqComponentFieldTypes.VALUE_KEY.getId()) || 
+            if (tag.equals(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId()) || 
             		tag.equals(ReqComponentFieldTypes.GPA_KEY.getId()) || 
             		tag.equals(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId()) || 
             		tag.equals(ReqComponentFieldTypes.PERSON_KEY.getId()) ||
                     tag.equals(ReqComponentFieldTypes.ORGANIZATION_KEY.getId()) ||     
-                    tag.equals(ReqComponentFieldTypes.VALUE_KEY.getId()) || 
+                    tag.equals(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId()) || 
                     tag.equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getId()) ||                    
                             tag.equals(ReqComponentFieldTypes.GRADE_KEY.getId())) {
                 final KSTextBox valueWidget = new KSTextBox();
