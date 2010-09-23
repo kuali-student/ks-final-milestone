@@ -284,4 +284,25 @@ public class TestStatementServiceImplForCourse {
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-30b", "KUALI.RULE", "en");
         assertEquals("Must have been admitted to the Sociology program", nl);
     }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_completed() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.admitted'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-31", "KUALI.RULE", "en");
+        assertEquals("Must have successfully completed MATH152", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_enrolled() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.admitted'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-32", "KUALI.RULE", "en");
+        assertEquals("Must be concurrently enrolled in MATH152", nl);
+    }
+
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_notcompleted() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.program.admitted'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-33", "KUALI.RULE", "en");
+        assertEquals("Must not have successfully completed MATH152", nl);
+    }
 }

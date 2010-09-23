@@ -4,9 +4,6 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.completed.none" TEMPLATE="#if($cluSet.getCluList().size() == 1)Must not have successfully completed $cluSet.getCluSetAsCode()#{else}Must not have successfully completed any courses from $cluSet.getCluSetAsCode()#end"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="10" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.RULE"
-        OWNER="kuali.reqComponent.type.courseList.coreq.oneof" TEMPLATE="Must be enrolled in one of of $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="1001" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.programset.completed.nof" TEMPLATE="Must have successfully completed a minimum of $value $NLHelper.getProperGrammar($value, &quot;program&quot;) from $cluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($cluSet.getCluList().size(), &quot;program&quot;)"/>
@@ -73,21 +70,6 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="108" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqComponent.type.course.courseset.gpa.min" TEMPLATE="Must have earned a minimum GPA of 2.00 in (MATH111, 140, 220, and  STAT100)"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="109" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqComponent.type.courseList.coreq.all" TEMPLATE="Must be enrolled in all of MATH100, MATH101"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="11" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.RULE"
-        OWNER="kuali.reqComponent.type.programList.enroll.oneof" TEMPLATE="Restricted to students in the $cluSet.getCluSetAsCode() only"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="110" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqComponent.type.courseList.coreq.oneof" TEMPLATE="Must be enrolled in one of MATH100, MATH101, MATH102"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="111" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqComponent.type.programList.enroll.oneof" TEMPLATE="Must be in one of the following program(s): Creative Writing Major"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="112" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
-        OWNER="kuali.reqComponent.type.programList.enroll.none" TEMPLATE="Not for students in a Music Major or Minor"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="113" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqComponent.type.course.courseset.grade.min" TEMPLATE="Must have earned a minimum grade of letter B in (MATH111, 140, 220, and STAT100)"/>
@@ -109,9 +91,6 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="119" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqComponent.type.course.courseset.nof.grade.min" TEMPLATE="Must have successfully completed a minimum of 1 course from (MATH111, 140, 220, or STAT100) with a minimum grade of letter B"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="12" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.RULE"
-        OWNER="kuali.reqComponent.type.programList.enroll.none" TEMPLATE="Not for students in $cluSet.getCluSetAsCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="120" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqComponent.type.course.program.admitted.org.duration" TEMPLATE="Students admitted to Sociology may take no more than 2 courses in the Math department in 1 year"/>
@@ -133,6 +112,15 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="126" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
         OWNER="kuali.reqComponent.type.course.program.admitted" TEMPLATE="Must have been admitted to the Sociology program"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="127" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqComponent.type.course.completed" TEMPLATE="Must have successfully completed MATH111"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="128" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqComponent.type.course.enrolled" TEMPLATE="Must be concurrently enrolled in MATH111"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="129" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.EXAMPLE"
+        OWNER="kuali.reqComponent.type.course.notcompleted" TEMPLATE="Must not have successfully completed MATH111"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="13" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.grade.min" TEMPLATE="Must have earned a minimum grade of $gradeType.getName().toLowerCase() $grade in $cluSet.getCluSetAsCode()"/>
@@ -226,21 +214,9 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="208" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqComponent.type.course.courseset.gpa.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.gpa;reqCompFieldLabel=GPA> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="209" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.courseList.coreq.all" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="21" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.program.notadmitted.org.duration" TEMPLATE="Students not admitted to $NLHelper.getCluOrCluSetAsShortNames($clu,$cluSet) may take no more than $value $NLHelper.getProperGrammar($value, &quot;course&quot;) in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="210" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.courseList.coreq.oneof" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="211" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.programList.enroll.oneof" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="212" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.programList.enroll.none" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="213" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqComponent.type.course.courseset.grade.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.gradeType.id;reqCompFieldLabel=Grade Type> of &lt;reqCompFieldType=kuali.reqComponent.field.type.grade.id;reqCompFieldLabel=Grade> in &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
@@ -285,6 +261,15 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="226" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqComponent.type.course.program.admitted" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="227" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.completed" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Course>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="228" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.enrolled" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Course>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="229" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.notcompleted" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Course>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="23" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.program.notadmitted" TEMPLATE="Must not have been admitted to the $NLHelper.getCluOrCluSetAsShortNames($clu,$cluSet) program"/>
@@ -297,6 +282,15 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="26" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.program.admitted" TEMPLATE="Must have been admitted to the $NLHelper.getCluOrCluSetAsShortNames($clu,$cluSet) program"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="27" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE"
+        OWNER="kuali.reqComponent.type.course.completed" TEMPLATE="Must have successfully completed $clu.getOfficialIdentifier().getCode()"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="28" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE"
+        OWNER="kuali.reqComponent.type.course.enrolled" TEMPLATE="Must be concurrently enrolled in $clu.getOfficialIdentifier().getCode()"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="29" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE"
+        OWNER="kuali.reqComponent.type.course.notcompleted" TEMPLATE="Must not have successfully completed $clu.getOfficialIdentifier().getCode()"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.completed.nof" TEMPLATE="#if($value == 1 &amp;&amp; $cluSet.getCluList().size() == 1)Must have successfully completed $cluSet.getCluSetAsCode()#{else}Must have successfully completed a minimum of $value $NLHelper.getProperGrammar($value, &quot;course&quot;) from $cluSet.getCluSetAsCode()#end"/>
@@ -356,7 +350,4 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="8" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.gpa.min" TEMPLATE="Must have earned a minimum GPA of $gpa in $cluSet.getCluSetAsCode()"/>
-    <KSST_REQ_COM_TYPE_NL_TMPL ID="9" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.RULE"
-        OWNER="kuali.reqComponent.type.courseList.coreq.all" TEMPLATE="Must be enrolled in all of $cluSet.getCluSetAsCode()"/>
 </dataset>
