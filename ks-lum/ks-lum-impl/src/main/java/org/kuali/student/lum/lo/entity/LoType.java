@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,10 +28,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_LO_TYPE")
+@Table(name = "KSLO_LO_TYPE")
 public class LoType implements AttributeOwner<LoTypeAttribute> {
 	@Id
 	@Column(name = "ID")
@@ -144,9 +142,6 @@ public class LoType implements AttributeOwner<LoTypeAttribute> {
 	 */
 	@Override
 	public List<LoTypeAttribute> getAttributes() {
-		if (null == attributes) {
-			attributes = new ArrayList<LoTypeAttribute>(0);
-		}
 		return attributes;
 	}
 

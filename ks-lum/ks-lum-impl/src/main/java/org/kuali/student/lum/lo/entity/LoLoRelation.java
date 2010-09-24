@@ -34,7 +34,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_LOLO_RELTN")
+@Table(name = "KSLO_LO_RELTN")
 public class LoLoRelation extends MetaEntity implements AttributeOwner<LoLoRelationAttribute> {
 	
 	@Id

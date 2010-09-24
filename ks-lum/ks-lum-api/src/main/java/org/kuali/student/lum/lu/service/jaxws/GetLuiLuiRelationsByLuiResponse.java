@@ -39,6 +39,10 @@ public class GetLuiLuiRelationsByLuiResponse {
     private java.util.List<LuiLuiRelationInfo> _return;
 
     public java.util.List<LuiLuiRelationInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<LuiLuiRelationInfo>(0);
+		}
+
         return this._return;
     }
 

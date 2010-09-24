@@ -46,7 +46,7 @@
             value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties">
             <props>
-                <prop key="databaseName">
+                <prop key="url">
                     ${jdbc.xaDataSourceProperties.databaseName}
                 </prop>
                 <prop key="user">

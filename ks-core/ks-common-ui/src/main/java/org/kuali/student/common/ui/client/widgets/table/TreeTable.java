@@ -15,22 +15,25 @@
 
 package org.kuali.student.common.ui.client.widgets.table;
 
+import org.kuali.student.common.ui.client.widgets.rules.Token;
+
 import com.google.gwt.user.client.ui.FlexTable;
+
 /**
  * Layout the token tree in GWT FlexTable.
  * 
  * */
 public class TreeTable extends FlexTable {
+
     public TreeTable() {
         super();
         setBorderWidth(1);
-        
-       // super.setWidth("800px");
-        //super.setHeight("800px");
     }
+
     public NodeWidget getRootNodeWidget(){
         return (NodeWidget)super.getWidget(0, 0);
     }
+
     private void initTable(Node root) {
         super.clear();
         int column = root.getMaxLevelDistance() + 1; // 1 is for root

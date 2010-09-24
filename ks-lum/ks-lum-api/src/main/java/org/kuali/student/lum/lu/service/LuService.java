@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -28,6 +29,7 @@ import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -36,6 +38,7 @@ import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
@@ -44,6 +47,7 @@ import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
 import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
 import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
@@ -64,10 +68,11 @@ import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/LU+Service+v1.0-rc4">LUService</>
  *
  */
-@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu") // TODO CHECK THESE VALUES
+@WebService(name = "LuService", targetNamespace = LuServiceConstants.LU_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuService extends DictionaryService, SearchService { 
-    /** 
+public interface LuService extends DictionaryService, SearchService, VersionManagementService { 
+
+	/** 
      * Retrieves the list of delivery method types
      * @return list of delivery method type information
      * @throws OperationFailedException unable to complete request
@@ -575,6 +580,20 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public CluSetInfo getCluSetInfo(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /** 
+     * Retrieve information on a CLU set and its sub clu set fully expanded.
+     * @param cluSetId Identifier of the CLU set
+     * @return The retrieved CLU set tree view information
+     * @throws DoesNotExistException cluSet not found
+     * @throws InvalidParameterException invalid cluSetId
+     * @throws MissingParameterException missing cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public CluSetTreeViewInfo getCluSetTreeView(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /** 
      * Retrieve information on CLU sets from a list of cluSet Ids.
      * @param cluSetIdList List of identifiers of CLU sets
@@ -599,6 +618,19 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public List<String> getCluSetIdsFromCluSet(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /** 
+     * Check if the given CluSet is dynamic
+     * @param cluSetId Identifier of the CLU set
+     * @return The retrieved list of CLU Set Ids within the specified CLU set
+     * @throws DoesNotExistException cluSet not found
+     * @throws InvalidParameterException invalid cluSetId
+     * @throws MissingParameterException missing cluSetId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public Boolean isCluSetDynamic(@WebParam(name="cluSetId")String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
     /** 
      * Retrieves the list of CLUs in a CLU set. This only retrieves the direct members.
      * @param cluSetId Identifier of the CLU set
@@ -853,6 +885,40 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws PermissionDeniedException authorization failure
 	 */
     public StatusInfo deleteClu(@WebParam(name="cluId")String cluId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;
+
+
+    /** 
+     * Creates a new CLU version based on the current clu
+     * @param cluId identifier for the CLU to be versioned
+     * @param versionComment comment for the current version
+     * @return the new versioned CLU information
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException cluId not found
+     * @throws InvalidParameterException invalid cluId
+     * @throws MissingParameterException missing cluId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     */
+    public CluInfo createNewCluVersion(@WebParam(name="cluId")String cluId, @WebParam(name="versionComment")String versionComment) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    
+    /** 
+     * Sets a specific version of the Clu as current. The sequence number must be greater than the existing current Clu version.
+     * This will truncate the current version's end date to the currentVersionStart param.
+     * If a Clu exists which is set to become current in the future, that clu's currentVersionStart and CurrentVersionEnd will be nullified.
+     * The currentVersionStart must be in the future to prevent changing historic data. 
+     * @param cluVersionId Version Specific Id of the Clu
+     * @param currentVersionStart Date when this clu becomes current. Must be in the future and be after the most current clu's start date. 
+     * @return status of the operation
+     * @throws DoesNotExistException cluVersionId not found
+     * @throws InvalidParameterException invalid cluVersionId, previousState, newState
+     * @throws MissingParameterException missing cluVersionId, previousState, newState
+     * @throws IllegalVersionSequencingException a Clu with higher sequence number from the one provided is marked current
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo setCurrentCluVersion(@WebParam(name="cluVersionId")String cluVersionId, @WebParam(name="currentVersionStart")Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates the state of the specified CLU
@@ -1387,5 +1453,7 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws PermissionDeniedException authorization failure
 	 */
     public StatusInfo deleteLuiLuiRelation(@WebParam(name="luiLuiRelationId")String luiLuiRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
 
 }

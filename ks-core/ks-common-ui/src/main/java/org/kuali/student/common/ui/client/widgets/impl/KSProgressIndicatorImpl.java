@@ -15,8 +15,6 @@
 
 package org.kuali.student.common.ui.client.widgets.impl;
 
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_PROGRESS_INDICATOR;
-
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -25,16 +23,16 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicatorAbstract;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class KSProgressIndicatorImpl extends KSProgressIndicatorAbstract {
-    
+
     HorizontalPanel main = new HorizontalPanel();
     private KSImage image = Theme.INSTANCE.getCommonImages().getProgressSpinner();
     private KSLabel label = new KSLabel();
-        
-    public KSProgressIndicatorImpl(){ 
+
+    public KSProgressIndicatorImpl(){
         super();
         main.add(image);
         main.add(label);
-        main.addStyleName(KS_PROGRESS_INDICATOR);
+        main.addStyleName("KSProgressIndicator");
         this.initWidget(main);
     }
 
@@ -46,12 +44,12 @@ public class KSProgressIndicatorImpl extends KSProgressIndicatorAbstract {
     @Override
     public void show() {
         main.setVisible(true);
-      
+
     }
 
     @Override
     public void setText(String labelText) {
         label.setText(labelText);
-       
+
     }
 }

@@ -15,13 +15,22 @@
 
 package org.kuali.student.common.ui.client.widgets.search;
 
+import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
+
 public class SelectedResults {
     private String displayKey;
 	private String returnKey;
+	private ResultRow resultRow;
     
     public SelectedResults(String resultReturnKey, String resultDisplayKey) {
     	displayKey = resultReturnKey;
     	returnKey = resultDisplayKey;
+    }
+    
+    public SelectedResults(String resultReturnKey, String resultDisplayKey, ResultRow row) {
+    	displayKey = resultReturnKey;
+    	returnKey = resultDisplayKey;
+    	this.resultRow = row;
     }
 
 	public String getDisplayKey() {
@@ -30,5 +39,13 @@ public class SelectedResults {
 
 	public String getReturnKey() {
 		return returnKey;
+	}
+
+	public void setResultRow(ResultRow resultRow) {
+		this.resultRow = resultRow;
+	}
+
+	public ResultRow getResultRow() {
+		return resultRow;
 	}   
 }

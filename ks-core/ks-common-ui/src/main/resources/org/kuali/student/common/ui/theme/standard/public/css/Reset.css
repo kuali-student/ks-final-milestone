@@ -28,7 +28,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	font-style: inherit;
 	font-size: 100%;
 	font-family: inherit;
-	vertical-align: baseline;
+	vertical-align: top;
 }
 /* remember to define focus styles! */
 :focus {

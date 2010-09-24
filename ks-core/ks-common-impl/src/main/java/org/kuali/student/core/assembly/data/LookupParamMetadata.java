@@ -18,14 +18,10 @@ package org.kuali.student.core.assembly.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-
 import org.kuali.student.core.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+
 public class LookupParamMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,7 +40,7 @@ public class LookupParamMetadata implements Serializable {
     private boolean caseSensitive;
     private Usage usage;
 
-    @XmlType(name="ParamWidget")
+    //TODO none of these are used
     public enum Widget {
         SUGGEST_BOX, DROPDOWN_LIST, RADIO_BUTTONS, CHECK_BOXES, TEXT_BOX, CALENDAR, PICKER
     }

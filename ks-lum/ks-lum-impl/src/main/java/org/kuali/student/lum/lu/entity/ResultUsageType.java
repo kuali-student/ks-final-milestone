@@ -33,9 +33,6 @@ public class ResultUsageType extends Type<ResultUsageTypeAttribute> {
     private List<ResultUsageTypeAttribute> attributes;
     
     public List<ResultUsageTypeAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<ResultUsageTypeAttribute>();
-        }
         return attributes;
     }
 

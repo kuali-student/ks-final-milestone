@@ -84,6 +84,16 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         return proposals;
     }
 
+	@Override
+	public Proposal getProposalByWorkflowId(String workflowId)
+			throws DoesNotExistException {
+        Query query = em.createNamedQuery("Proposal.getProposalByWorkflowId");
+        query.setParameter("workflowId", workflowId);
+
+        Proposal proposal = (Proposal)query.getSingleResult();
+		return proposal;
+	}
+
     @Override
     public List<ProposalType> getProposalTypesForReferenceType(String referenceTypeId) throws DoesNotExistException {
         Query query = em.createNamedQuery("Proposal.getProposalTypesForReferenceType");
@@ -162,4 +172,5 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         List<ProposalDocRelationType> proposalDocRelationTypeList = query.getResultList();
         return proposalDocRelationTypeList;
     }
+
 }

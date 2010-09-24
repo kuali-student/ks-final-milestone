@@ -27,6 +27,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -54,6 +55,11 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	@JoinColumn(name="CLU_ID")
 	private Clu clu;
 	
+    @Override
+    public void onPrePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+	
 	public String getDescr() {
 		return descr;
 	}
@@ -71,9 +77,6 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	}
 
 	public List<LuCodeAttribute> getAttributes() {
-		if (attributes == null) {
-		    attributes = new ArrayList<LuCodeAttribute>();
-		}
 		return attributes;
 	}
 

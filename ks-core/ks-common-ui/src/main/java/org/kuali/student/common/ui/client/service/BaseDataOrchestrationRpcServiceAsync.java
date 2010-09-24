@@ -23,11 +23,12 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface BaseDataOrchestrationRpcServiceAsync extends WorkflowRpcServiceAsync{
+public interface BaseDataOrchestrationRpcServiceAsync{
 	
 	//Data operations
 	public void getData(String dataId, AsyncCallback<Data> callback);
-	public void getMetadata(String idType, String id, AsyncCallback<Metadata> callback);
+	
+	public void getMetadata(String id, Map<String,String> idType, AsyncCallback<Metadata> callback);
 
 	public void saveData(Data data, AsyncCallback<DataSaveResult> callback);
 	

@@ -28,20 +28,21 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author wilj
  */
 @SuppressWarnings({"serial", "unchecked"})
 public class Data implements Serializable, Iterable<Data.Property>, HasChangeCallbacks {
-
+	@XmlType(name="lookUpDataType")
     public enum DataType {
         STRING, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, DATE, TRUNCATED_DATE, DATA, LIST
     }
 
     @XmlRootElement
     public static class BooleanValue implements Value {
-        Boolean value;
+        private Boolean value;
 
         protected BooleanValue() {
 
@@ -64,7 +65,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         @Override
         public String toString() {
             if (value == null) {
-                return null;
+                return "";
             } else {
                 return String.valueOf(value);
             }
@@ -73,7 +74,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DataValue implements Value {
-        Data value;
+        private Data value;
 
         protected DataValue() {
 
@@ -105,7 +106,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DateValue implements Value {
-        Date value;
+        private Date value;
 
         protected DateValue() {
 
@@ -137,7 +138,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class DoubleValue implements Value {
-        Double value;
+        private Double value;
 
         protected DoubleValue() {
 
@@ -169,7 +170,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class FloatValue implements Value {
-        Float value;
+        private Float value;
 
         protected FloatValue() {
 
@@ -254,7 +255,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class IntegerValue implements Value {
-        Integer value;
+        private Integer value;
 
         protected IntegerValue() {
 
@@ -293,7 +294,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class LongValue implements Value {
-        Long value;
+        private Long value;
 
         protected LongValue() {
 
@@ -339,7 +340,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class ShortValue implements Value {
-        Short value;
+        private Short value;
 
         protected ShortValue() {
 
@@ -371,7 +372,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class StringKey implements Key {
-        String key;
+        private String key;
 
         protected StringKey() {
 
@@ -425,7 +426,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class StringValue implements Value {
-        String value;
+        private String value;
 
         protected StringValue() {
 
@@ -457,7 +458,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class TimestampValue implements Value {
-        Timestamp value;
+        private Timestamp value;
 
         protected TimestampValue() {
 
@@ -489,7 +490,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     @XmlRootElement
     public static class TimeValue implements Value {
-        Time value;
+        private Time value;
 
         protected TimeValue() {
 
@@ -654,7 +655,9 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (final Entry<Key, Value> e : map.entrySet()) {
             if (recurse && e.getValue().getType().equals(Data.class)) {
                 Data value = e.getValue().get();
-                value = value.copy();
+                if(value != null){
+                	value = value.copy();
+                }
                 target.map.put(e.getKey(), new DataValue(value));
             } else {
                 target.map.put(e.getKey(), e.getValue());
@@ -710,8 +713,9 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
      */
     public Iterator<Property> realPropertyIterator(){
     	HashMap<Key, Value> propertyMap = new HashMap<Key, Value>(map);
-    	propertyMap.remove("_runtimeData");
+//    	propertyMap.remove("_runtimeData");
     	propertyMap.remove(new StringKey("_runtimeData"));
+
         final Iterator<Map.Entry<Key, Value>> impl = propertyMap.entrySet().iterator();
 
         return new Iterator<Property>() {
@@ -839,7 +843,15 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (final Iterator itr = path.iterator(); itr.hasNext() && d != null;) {
             final Key k = (Key) itr.next();
             if (itr.hasNext()) {
-                d = d.get(k);
+                Object obj = d.get(k);
+                if (obj != null && !(obj instanceof Data)) {
+                    // TODO what should be done if we try to query
+                    // cluset/clus/0/_runtimeData where cluset/0 returns a string instead of Data
+                    // throw an exception here?
+                    throw new java.lang.IllegalArgumentException();
+                } else {
+                    d = d.get(k);
+                }
             } else {
                 result = (T) d.get(k);
             }
@@ -1033,7 +1045,10 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         dataString.append("{");
         for (Iterator itr = this.iterator(); itr.hasNext();) {
             Property p = (Property) itr.next();
-            dataString.append(p.getKey() + "=" + p.getValue() + ", ");
+            dataString.append(p.getKey() + "=" + p.getValue());
+            if(itr.hasNext()){
+            	dataString.append(", ");
+            }
         }
         dataString.append("}");
 

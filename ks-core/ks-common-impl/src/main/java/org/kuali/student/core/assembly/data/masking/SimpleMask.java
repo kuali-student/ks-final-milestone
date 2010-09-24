@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.assembly.data.masking;
 
+@Deprecated
 public class SimpleMask extends Mask {
     private static final long serialVersionUID = 1L;
 

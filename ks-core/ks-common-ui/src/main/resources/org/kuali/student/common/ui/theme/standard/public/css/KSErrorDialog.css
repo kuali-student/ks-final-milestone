@@ -17,7 +17,7 @@
 	border: 1px solid black;
 	padding: 8px;
 	background-color: #f0f0f0;
-	
+
 }
 
 .KS-Error-Dialog-Title {
@@ -27,16 +27,12 @@
 	border: 1px outset grey;
 		text-align: center;
 		padding: 5px;
-	
-	
+
+
 }
 
 .KS-Error-Dialog-Label {
-	
-}
 
-.KS-Error-Dialog-Description {
-	
 }
 
 .KS-Error-Dialog-TextArea {
@@ -46,9 +42,5 @@
 
 .KS-Error-Dialog-Panel {
 	border: 1px inset grey;
-		
-}
 
-.KS-Error-Dialog-Button {
-	
 }

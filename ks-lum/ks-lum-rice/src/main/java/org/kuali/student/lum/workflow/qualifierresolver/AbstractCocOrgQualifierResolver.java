@@ -42,19 +42,22 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(AbstractCocOrgQualifierResolver.class);
 	
-	protected static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
-	protected static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
-	protected static final String KUALI_ORG_DEPARTMENT 			  = "kuali.org.Department";
-	protected static final String KUALI_ORG_COLLEGE    			  = "kuali.org.College";
-	protected static final String KUALI_ORG_COC        			  = "kuali.org.COC";
-	protected static final String KUALI_ORG_DIVISION   			  = "kuali.org.Division";
-	protected static final String KUALI_ORG_PROGRAM    			  = "kuali.org.Program";
+	public static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
+	public static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
+	public static final String KUALI_ORG_DEPARTMENT 			  = "kuali.org.Department";
+	public static final String KUALI_ORG_COLLEGE    			  = "kuali.org.College";
+	public static final String KUALI_ORG_COC        			  = "kuali.org.COC";
+	public static final String KUALI_ORG_DIVISION   			  = "kuali.org.Division";
+	public static final String KUALI_ORG_PROGRAM    			  = "kuali.org.Program";
+
+	// below string MUST match org.kuali.student.core.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
 
 	protected OrganizationService orgService;
 
 	private static final String ORG_RESOLVER_CONFIG =
 									"<resolverConfig>" +
-										"<baseXPathExpression>/documentContent/applicationContent/cluProposalDocInfo</baseXPathExpression>" +
+										"<baseXPathExpression>/documentContent/applicationContent/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME + "</baseXPathExpression>" +
 										"<qualifier name=\"" + KualiStudentKimAttributes.QUALIFICATION_ORG_ID +  "\">" +
 											"<xPathExpression>./orgId</xPathExpression>" + 
 										"</qualifier>" +
@@ -110,7 +113,7 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	}
 	
 	protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-		SearchResult result = null;
+		List<SearchResultRow> results = null;
 		if (null != orgId) {
 			List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
 			SearchParam qpRelType = new SearchParam();
@@ -132,13 +135,14 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
 	        searchRequest.setParams(queryParamValues);
 			try {
-				result = getOrganizationService().search(searchRequest);
+				SearchResult result = getOrganizationService().search(searchRequest);
+				results = result.getRows();
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
 				throw new RuntimeException(e);
 			}
 		}
-		return result.getRows();
+		return results;
 	}
 
 	protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results,
@@ -174,22 +178,23 @@ public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierReso
 	
 	protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgShortNameKey,String orgIdKey){
 		List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
-		List<OrgInfo> ancestorOrgs = null;
+		List<OrgInfo> orgsForRouting = null;
 		
 		if(orgId!=null){
 			try {
-				List<String> ancestorIds = getOrganizationService().getAllAncestors(orgId, KUALI_ORG_HIERARCHY_CURRICULUM);
-				if(ancestorIds != null && ancestorIds.size() > 0) {
-					ancestorOrgs = getOrganizationService().getOrganizationsByIdList(ancestorIds);
-				}
+				List<String> orgIds = new ArrayList<String>(); 
+				// add the existing org in to the list to check for the given type
+				orgIds.add(orgId);
+				orgIds.addAll(getOrganizationService().getAllAncestors(orgId, KUALI_ORG_HIERARCHY_CURRICULUM));
+				orgsForRouting = getOrganizationService().getOrganizationsByIdList(orgIds);
 			} catch (Exception e) {
 				LOG.error("Error calling org service");
 				throw new RuntimeException(e);
 			}
-			if(ancestorOrgs!=null){
-				for(OrgInfo ancestorOrg:ancestorOrgs){
-					if(orgType!=null && orgType.equals(ancestorOrg.getType())){
-						List<SearchResultRow> results = relatedOrgsFromOrgId(ancestorOrg.getId(),KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
+			if(orgsForRouting!=null){
+				for(OrgInfo orgForRouting:orgsForRouting){
+					if(orgType!=null && orgType.equals(orgForRouting.getType())){
+						List<SearchResultRow> results = relatedOrgsFromOrgId(orgForRouting.getId(),KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
 						returnAttributeSets.addAll(attributeSetFromSearchResult(results,orgShortNameKey,orgIdKey));
 					}
 				}

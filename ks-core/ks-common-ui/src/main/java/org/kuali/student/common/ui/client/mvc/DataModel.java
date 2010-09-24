@@ -14,37 +14,29 @@
  */
 
 /**
- * 
+ *
  */
 package org.kuali.student.common.ui.client.mvc;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
-import org.kuali.student.common.ui.client.validator.ClientDateParser;
-import org.kuali.student.common.ui.client.validator.DataModelValidator;
-import org.kuali.student.common.validator.DateParser;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.ModelDefinition;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataType;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Key;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.data.Data.Value;
-import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallback;
-import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallbackRegistration;
-import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeType;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
+import org.kuali.student.common.ui.client.validator.ClientDateParser;
+import org.kuali.student.common.ui.client.validator.DataModelValidator;
+import org.kuali.student.common.validator.old.DateParser;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Data.*;
+import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallback;
+import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallbackRegistration;
+import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeType;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.ModelDefinition;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+
+import java.util.*;
 
 /**
  * @author wilj
@@ -56,10 +48,11 @@ public class DataModel implements Model {
     }
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-
+    
+    private String modelName = "";
     private ModelDefinition definition;
     private DataModelValidator validator = new DataModelValidator();
 
@@ -69,7 +62,11 @@ public class DataModel implements Model {
     private Data root;
 
     public DataModel() {
-    // do nothing
+        // do nothing
+    }
+    
+    public DataModel(String name) {
+        this.modelName = name;
     }
 
     public DataModel(final ModelDefinition definition, final Data root) {
@@ -78,7 +75,15 @@ public class DataModel implements Model {
         validator.setDateParser((DateParser) GWT.create(ClientDateParser.class));
     }
 
-    public <T> T get(final QueryPath path) {
+    public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public <T> T get(final QueryPath path) {
         return (T) root.query(path);
     }
 
@@ -93,6 +98,27 @@ public class DataModel implements Model {
         return root;
     }
 
+    public void resetRoot() {
+        root = null;
+    }
+
+    public void remove(final QueryPath path) {
+        QueryPath parent = null;
+        QueryPath leavePath = null;
+        if (path != null && path.size() >= 2) {
+            parent = path.subPath(0, path.size() - 1);
+            leavePath = path.subPath(path.size() - 1, path.size());
+            Object parentData = this.get(parent);
+            if (parentData != null && parentData instanceof Data) {
+                ((Data) parentData).remove(
+                        new Data.StringKey(leavePath.toString()));
+            }
+
+        } else if (path != null) {
+            root.remove(new Data.StringKey(path.toString()));
+        }
+    }
+
     public Map<QueryPath, Object> query(final QueryPath path) {
         Map<QueryPath, Object> result = new HashMap<QueryPath, Object>();
         queryRelative(root, path, result);
@@ -103,7 +129,17 @@ public class DataModel implements Model {
         return query(QueryPath.parse(path));
     }
 
+    /**
+     * @param branch The data branch on which to perform the query
+     * @param path   The path string relative to the root of the branch
+     * @param result A map containing all matching paths and the corresponding data value. For a non-wildcard path
+     *               this should return a single entry in the map of the path supplied and the corresponding value. For
+     *               a path containing wildcard, an entry in the map will exist for each matching path and their corresponding values.
+     *               Note: A path ending in a wild card will not match the _runtimeData element.
+     */
     private void queryRelative(final Data branch, final QueryPath path, Map<QueryPath, Object> result) {
+        //Should this add the entire branch to the result when query path is an empty string?
+
         Data d = branch;
 
         for (int i = 0; i < path.size(); i++) {
@@ -114,28 +150,30 @@ public class DataModel implements Model {
             final Key key = path.get(i);
             if (key.equals(Data.WILDCARD_KEY)) {
                 final QueryPath relative = path.subPath(i + 1, path.size());
-                if (!relative.isEmpty()){
-	                for (final Property p : d) {
-	                    // TODO this won't work with wildcarded leafnodes either
-	                    if (p.getValueType().equals(Data.class)) {
-	                        queryRelative((Data) p.getValue(), relative, result);
-	                    }
-	                }
+                if (!relative.isEmpty()) {
+                    //Handle remaining path after wildcard
+                    for (final Property p : d) {
+                        if (p.getValueType().equals(Data.class)) {
+                            queryRelative((Data) p.getValue(), relative, result);
+                        }
+                    }
                 } else {
-                	//The wildcard is last element in path, so add all sub-elements to result
-                	Set<Key> keys = d.keySet();
-                	for (Key wildcardKey:keys){
-                		QueryPath wildcardPath = path.subPath(0, path.size()-1);
-                		wildcardPath.add(wildcardKey);
-                		result.put(wildcardPath, d.get(wildcardKey));
-                	}
+                    //The wildcard is last element in path, so add all sub-elements to result
+                    //The wildcard will not match a _runtimeData path
+                    Set<Key> keys = d.keySet();
+                    for (Key wildcardKey : keys) {
+                        if (!("_runtimeData".equals(wildcardKey.get()))) {
+                            QueryPath wildcardPath = path.subPath(0, path.size() - 1);
+                            wildcardPath.add(wildcardKey);
+                            result.put(wildcardPath, d.get(wildcardKey));
+                        }
+                    }
                 }
+                break; //No need to continue once we process wildcard
             } else if (i < path.size() - 1) {
                 d = d.get(key);
             } else {
                 final QueryPath resultPath = d.getQueryPath();
-                // TODO this won't work for leaf nodes that are wildcarded, e.g. myobj.mysubobj.*, probably need to enable
-                // leaf nodes to track their keys
                 resultPath.add(key);
                 Object resultValue = d.get(key);
                 result.put(resultPath, resultValue);
@@ -181,9 +219,13 @@ public class DataModel implements Model {
 
     public void set(final QueryPath path, final Value value) {
         definition.ensurePath(root, path, value instanceof DataValue);
-        final QueryPath q = path.subPath(0, path.size() - 1);
-        final Data d = root.query(q);
-        d.set(path.get(path.size() - 1), value);
+        if (path.size() > 1) {
+            final QueryPath q = path.subPath(0, path.size() - 1);
+            final Data d = root.query(q);
+            d.set(path.get(path.size() - 1), value);
+        } else {
+            root.set(path.get(0), value);
+        }
     }
 
     public DataType getType(final QueryPath path) {
@@ -195,8 +237,7 @@ public class DataModel implements Model {
     }
 
     /**
-     * @param root
-     *            the root to set
+     * @param root the root to set
      */
     public void setRoot(final Data root) {
         if (bridgeCallbackReg != null) {
@@ -237,4 +278,34 @@ public class DataModel implements Model {
         List<ValidationResultInfo> result = validator.validate(this);
         callback.exec(result);
     }
+
+    public void validateNextState(final Callback<List<ValidationResultInfo>> callback) {
+        List<ValidationResultInfo> result = validator.validateNextState(this);
+        callback.exec(result);
+    }
+
+    public void validateField(FieldDescriptor fd, final Callback<List<ValidationResultInfo>> callback) {
+        List<ValidationResultInfo> result = validator.validate(fd, this);
+        callback.exec(result);
+    }
+
+    public boolean isValidPath(String sPath) {
+        QueryPath path = QueryPath.parse(sPath);
+        boolean result = false;
+        Data root = this.getRoot();
+        for (int i = 0; i < path.size(); i++) {
+            Data.Key key = path.get(i);
+            if (!root.containsKey(key)) {
+                result = false;
+                break;
+            } else if (i < path.size() - 1) {
+                root = (Data) root.get(key);
+            } else {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
 }

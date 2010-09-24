@@ -52,7 +52,7 @@ public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements 
 		if (permissionDetails != null) {
 			permDetails = new AttributeSet(permissionDetails);
 		}
-		return new Boolean(permissionService.isAuthorizedByTemplateName(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
+		return  Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
 	}
 
 	protected String getCurrentUser() {

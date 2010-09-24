@@ -28,10 +28,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_LOLO_RELTN_TYPE")
+@Table(name = "KSLO_LO_RELTN_TYPE")
 public class LoLoRelationType implements AttributeOwner<LoLoRelationTypeAttribute> {
 	@Id
 	@Column(name = "ID")
@@ -160,7 +159,6 @@ public class LoLoRelationType implements AttributeOwner<LoLoRelationTypeAttribut
 
 	@Override
 	public List<LoLoRelationTypeAttribute> getAttributes() {
-		// TODO Auto-generated method stub
 		return attributes;
 	}
 

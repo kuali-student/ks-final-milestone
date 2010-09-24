@@ -15,9 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets.impl;
 
-
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutHandler;
@@ -31,16 +29,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSButtonImpl extends KSButtonAbstract{
 
-	
-	public class SpanPanel extends ComplexPanel{
-		
+
+	private static class SpanPanel extends ComplexPanel{
+
 		public SpanPanel(){
 			setElement(DOM.createSpan());
 		}
-		
+
 		  /**
 		   * Adds a new child widget to the panel.
-		   * 
+		   *
 		   * @param w the widget to be added
 		   */
 		  @Override
@@ -50,7 +48,7 @@ public class KSButtonImpl extends KSButtonAbstract{
 
 		  /**
 		   * Inserts a widget before the specified index.
-		   * 
+		   *
 		   * @param w the widget to be inserted
 		   * @param beforeIndex the index before which it will be inserted
 		   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of
@@ -60,15 +58,13 @@ public class KSButtonImpl extends KSButtonAbstract{
 		    insert(w, getElement(), beforeIndex, true);
 		  }
 	}
-	
+
 	private SpanPanel panel = new SpanPanel();
 	private Anchor anchor;
 	private InlineLabel disabledLabel = new InlineLabel();
 	private boolean enabled = true;
 	private ButtonStyle currentStyle;
-	private String text;
-	private Widget widget;
-	
+
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -82,22 +78,19 @@ public class KSButtonImpl extends KSButtonAbstract{
 		else{
 			panel.remove(anchor);
 			panel.add(disabledLabel);
-
 		}
 	}
-	
+
 	@Override
 	public HandlerRegistration addClickHandler(ClickHandler handler) {
 		return anchor.addClickHandler(handler);
 	}
-	
+
 	@Override
 	public void setText(String text){
-		this.text = text;
 		anchor.setText(text);
 		disabledLabel.setText(text);
 	}
-	
 
 	@Override
 	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
@@ -117,7 +110,6 @@ public class KSButtonImpl extends KSButtonAbstract{
 	@Override
 	public void init(String text, ButtonStyle style) {
 
-		this.text = text;
 		this.currentStyle = style;
 		disabledLabel.setText(text);
 		anchor = new Anchor();
@@ -136,22 +128,42 @@ public class KSButtonImpl extends KSButtonAbstract{
 		anchor.setHref("javascript:return false;");
 
 		panel.add(anchor);
-		
-		this.initWidget(panel);
-		
-	}
+		anchor.setTabIndex(0);
 
+		this.initWidget(panel);
+	}
+	
 	@Override
+    public void addStyleName(String style) {
+        anchor.addStyleName(style);
+        disabledLabel.addStyleName(style);
+    }
+
+    @Override
+    public void removeStyleName(String style) {
+        anchor.removeStyleName(style);
+        disabledLabel.removeStyleName(style);        
+    }
+
+    @Override
+    public void setStyleName(String style) {
+        anchor.setStyleName(style);
+        disabledLabel.setStyleName(style);        
+    }
+
+    @Override
 	public void init() {
 		init("", ButtonStyle.PRIMARY);
-		
 	}
 
 	@Override
 	public void init(String text, ClickHandler handler) {
 		init(text, ButtonStyle.PRIMARY);
 		anchor.addClickHandler(handler);
-		
 	}
-	
+
+    public void init(String text, ButtonStyle style, ClickHandler handler) {
+        init(text, style);
+        anchor.addClickHandler(handler);
+    }
 }

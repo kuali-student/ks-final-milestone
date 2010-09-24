@@ -34,9 +34,6 @@ public class LuDocumentRelationType extends
 	private List<LuDocumentRelationTypeAttribute> attributes;
 
 	public List<LuDocumentRelationTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LuDocumentRelationTypeAttribute>();
-		}
 		return attributes;
 	}
 

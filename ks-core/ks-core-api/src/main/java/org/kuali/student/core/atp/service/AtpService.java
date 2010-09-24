@@ -40,7 +40,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 
 /**
@@ -173,7 +173,7 @@ public interface AtpService extends SearchService {
      * @throws MissingParameterException missing validationTypeKey, atpInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateAtp(@WebParam(name="validationType")String validationType, @WebParam(name="atpInfo")AtpInfo atpInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateAtp(@WebParam(name="validationType")String validationType, @WebParam(name="atpInfo")AtpInfo atpInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a milestone. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained subobjects or expanded to perform all tests related to this object. If an identifier is present for the milestone and a record is found for that identifier, the validation checks if the milestone can be shifted to the new values. If a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object. This is a slightly different pattern from the standard validation as the caller provides the identifier in the create statement instead of the server assigning an identifier.
@@ -185,7 +185,7 @@ public interface AtpService extends SearchService {
      * @throws MissingParameterException missing validationTypeKey, milestoneInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateMilestone(@WebParam(name="validationType")String validationType, @WebParam(name="milestoneInfo")MilestoneInfo milestoneInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateMilestone(@WebParam(name="validationType")String validationType, @WebParam(name="milestoneInfo")MilestoneInfo milestoneInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a date range. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained subobjects or expanded to perform all tests related to this object. If an identifier is present for the date range and a record is found for that identifier, the validation checks if the academic time period can be shifted to the new values. If a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object. This is a slightly different pattern from the standard validation as the caller provides the identifier in the create statement instead of the server assigning an identifier.
@@ -197,7 +197,7 @@ public interface AtpService extends SearchService {
      * @throws MissingParameterException missing validationTypeKey, dateRangeInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateDateRange(@WebParam(name="validationType")String validationType, @WebParam(name="dateRangeInfo")DateRangeInfo dateRangeInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateDateRange(@WebParam(name="validationType")String validationType, @WebParam(name="dateRangeInfo")DateRangeInfo dateRangeInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single Academic Time Period by atpKey

@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.server.serialization;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.SerializationException;
@@ -31,7 +32,7 @@ public class KSSerializationPolicy extends StandardSerializationPolicy {
     LegacySerializationPolicy legacySerializationPolicy = LegacySerializationPolicy.getInstance();
     
     public KSSerializationPolicy(Map<Class<?>, Boolean> whitelist) {
-        super(whitelist);
+        super(whitelist, whitelist, new HashMap<Class<?>, String>());
     }
 
     /**

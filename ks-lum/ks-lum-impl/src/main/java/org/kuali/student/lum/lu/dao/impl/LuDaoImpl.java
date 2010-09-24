@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,6 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
@@ -32,6 +34,8 @@ import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 
@@ -216,6 +220,16 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 	}
 
 	@Override
+    public List<String> getCluIdsByRelatedCluId(String relatedCluId, String luLuRelationTypeId) {
+        Query query = em.createNamedQuery("CluCluRelation.getCluIdsByRelatedCluId");
+        query.setParameter("relatedCluId", relatedCluId);
+        query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+        @SuppressWarnings("unchecked")
+        List<String> relatedCluIds = query.getResultList();
+        return relatedCluIds;
+    }
+
+    @Override
 	public List<Clu> getRelatedClusByCluId(String cluId,
 			String luLuRelationTypeId) {
 		Query query = em
@@ -400,4 +414,111 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		List<CluResult> resultList = query.getResultList();
 		return resultList;
 	}
+
+    @Override
+    public Clu getLatestCluVersion(String cluVersionIndId) {
+        Query query = em.createNamedQuery("Clu.findLatestClu");
+        query.setParameter("versionIndId", cluVersionIndId);
+        Clu clu = (Clu)query.getSingleResult();
+        return clu;
+    }
+
+	@Override
+	public Clu getCurrentCluVersion(String cluVersionIndId) {
+        Query query = em.createNamedQuery("Clu.findCurrentClu");
+        query.setParameter("versionIndId", cluVersionIndId);
+        query.setParameter("currentTime", new Date());
+        Clu clu = (Clu)query.getSingleResult();
+        return clu;
+	}
+
+	@Override
+	public VersionDisplayInfo getCurrentCluVersionInfo(String cluVersionIndId, String objectTypeURI) {
+        Query query = em.createNamedQuery("Clu.findCurrentVersionInfo");
+        query.setParameter("versionIndId", cluVersionIndId);
+        query.setParameter("currentTime", new Date());
+        VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
+        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        return versionDisplayInfo;
+	}
+
+	@Override
+	public VersionDisplayInfo getCurrentVersionOnDate(String versionIndId,
+			String objectTypeURI, Date date) {
+        Query query = em.createNamedQuery("Clu.findCurrentVersionOnDate");
+        query.setParameter("versionIndId", versionIndId);
+        query.setParameter("date", date);
+        VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
+        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        return versionDisplayInfo;
+	}
+
+	@Override
+	public VersionDisplayInfo getFirstVersion(String versionIndId,
+			String objectTypeURI) {
+        Query query = em.createNamedQuery("Clu.findFirstVersion");
+        query.setParameter("versionIndId", versionIndId);
+        VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
+        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        return versionDisplayInfo;
+	}
+
+	@Override
+	public VersionDisplayInfo getVersionBySequenceNumber(String versionIndId,
+			String objectTypeURI, Long sequenceNumber) {
+        Query query = em.createNamedQuery("Clu.findVersionBySequence");
+        query.setParameter("versionIndId", versionIndId);
+        query.setParameter("sequenceNumber", sequenceNumber);
+        VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
+        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        return versionDisplayInfo;
+	}
+
+	@Override
+	public List<VersionDisplayInfo> getVersions(String versionIndId,
+			String objectTypeURI) {
+        Query query = em.createNamedQuery("Clu.findVersions");
+        query.setParameter("versionIndId", versionIndId);
+        List<VersionDisplayInfo> versionDisplayInfos = (List<VersionDisplayInfo>)query.getResultList();
+        if(versionDisplayInfos==null){
+        	versionDisplayInfos = Collections.emptyList();
+        }
+        for(VersionDisplayInfo versionDisplayInfo:versionDisplayInfos){
+        	versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        }
+        return versionDisplayInfos;
+	}
+
+	@Override
+	public List<VersionDisplayInfo> getVersionsInDateRange(String versionIndId,
+			String objectTypeURI, Date from, Date to) {
+		if(from==null&&to==null){
+			throw new IllegalArgumentException("from and to dates can not both be null");
+		}
+		Query query;
+		if(from==null){
+			query = em.createNamedQuery("Clu.findVersionsBeforeDate");
+	        query.setParameter("versionIndId", versionIndId);
+	        query.setParameter("date", to);			
+		}else if(to==null){
+			query = em.createNamedQuery("Clu.findVersionsAfterDate");
+	        query.setParameter("versionIndId", versionIndId);
+	        query.setParameter("date", from);
+		}else{
+			query = em.createNamedQuery("Clu.findVersionsInDateRange");
+	        query.setParameter("versionIndId", versionIndId);
+	        query.setParameter("from", from);
+	        query.setParameter("to", to);
+		}
+		
+        List<VersionDisplayInfo> versionDisplayInfos = (List<VersionDisplayInfo>)query.getResultList();
+        if(versionDisplayInfos==null){
+        	versionDisplayInfos = Collections.emptyList();
+        }
+        for(VersionDisplayInfo versionDisplayInfo:versionDisplayInfos){
+        	versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        }
+        return versionDisplayInfos;
+	}
+	
 }

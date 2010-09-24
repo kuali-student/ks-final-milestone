@@ -36,4 +36,9 @@ public class SearchResultRow implements Serializable {
 	public void setCells(List<SearchResultCell> cells) {
 		this.cells = cells;
 	}
+
+	@Override
+	public String toString() {
+		return "SearchResultRow[cells=" + cells + "]";
+	}
 }

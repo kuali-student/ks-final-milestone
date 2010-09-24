@@ -28,7 +28,6 @@ import org.kuali.student.core.atp.entity.DateRange;
 import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneType;
-import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 
 public class AtpDaoImpl extends AbstractSearchableCrudDaoImpl implements AtpDao {

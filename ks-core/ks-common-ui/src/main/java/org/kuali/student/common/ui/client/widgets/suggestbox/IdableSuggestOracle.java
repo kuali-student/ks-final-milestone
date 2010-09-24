@@ -18,8 +18,6 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.core.search.dto.SearchResult;
-
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 public abstract class IdableSuggestOracle extends SuggestOracle{

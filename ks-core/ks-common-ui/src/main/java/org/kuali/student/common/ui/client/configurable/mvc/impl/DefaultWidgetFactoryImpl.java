@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.impl;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
+import org.kuali.student.common.ui.client.widgets.BooleanDisplayLabel;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -31,6 +32,7 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.MetadataInterrogator;
+import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.MetadataInterrogator.ConstraintIds;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -61,6 +63,26 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		}
 		return _getWidget(config);
 	}
+	
+	@Override
+	public Widget getReadOnlyWidget(Metadata meta){
+		WidgetConfigInfo config = new WidgetConfigInfo();
+		if (meta != null) {
+			config.access = meta.getWriteAccess();
+			config.isMultiLine = MetadataInterrogator.isMultilined(meta);
+			config.isRepeating = MetadataInterrogator.isRepeating(meta);
+			config.isRichText = MetadataInterrogator.hasConstraint(meta, ConstraintIds.RICH_TEXT);
+			config.maxLength = MetadataInterrogator.getSmallestMaxLength(meta);
+			config.type = meta.getDataType();
+			config.metadata = meta;
+			config.lookupMeta = meta.getInitialLookup();
+			config.additionalLookups = meta.getAdditionalLookups();
+			config.canEdit = false;
+			config.canUnmask = meta.isCanUnmask();
+			config.canView = meta.isCanView();
+		}
+		return _getWidget(config);
+	}
 
 	@Override
 	public Widget getWidget(LookupParamMetadata meta) {
@@ -79,7 +101,12 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		    result =  new KSPlaceholder();
 		    result.setVisible(config.canView);
 		} else if(!config.canEdit && (config.lookupMeta == null || config.lookupMeta.getWidget() == null)) {
-		    result = new KSLabel();
+			if(config.type == DataType.BOOLEAN){
+				result = new BooleanDisplayLabel();
+			}
+			else{
+				result = new KSLabel();
+			}
 		} else {
 		    if (config.lookupMeta != null && config.lookupMeta.getWidget() != null) {
 		    	//All repeating fields should use the KSSelectedList for multiplicities (Except checkboxes)
@@ -169,6 +196,4 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
         }
 		return result;
 	}
-
-
 }

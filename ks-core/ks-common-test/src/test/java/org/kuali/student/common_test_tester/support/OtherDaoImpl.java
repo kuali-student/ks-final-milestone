@@ -15,10 +15,12 @@
 
 package org.kuali.student.common_test_tester.support;
 
-public class OtherDaoImpl implements OtherDao {
+import org.apache.log4j.Logger;
 
+public class OtherDaoImpl implements OtherDao {
+	final Logger LOG = Logger.getLogger(OtherDaoImpl.class);
 	public void foo() {
-		System.out.println("FOO!!!!!!!!!!!!!!!!!!!!!");
+		LOG.warn("FOO!!!!!!!!!!!!!!!!!!!!!");
 	}
 
 }
