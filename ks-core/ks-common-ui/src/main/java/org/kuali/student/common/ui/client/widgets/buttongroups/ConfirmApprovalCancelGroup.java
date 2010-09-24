@@ -17,25 +17,25 @@ package org.kuali.student.common.ui.client.widgets.buttongroups;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmApprovalCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonRow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
-public class ConfirmCancelGroup extends ButtonGroup<ConfirmCancelEnum>{
+public class ConfirmApprovalCancelGroup extends ButtonGroup<ConfirmApprovalCancelEnum>{
     
-    public ConfirmCancelGroup(Callback<ConfirmCancelEnum> callback){
+    public ConfirmApprovalCancelGroup(Callback<ConfirmApprovalCancelEnum> callback){
         layout = new ButtonRow();
         this.addCallback(callback);
         
-        addButton(ConfirmCancelEnum.CONFIRM);
-        addButtonToSecondaryGroup(ConfirmCancelEnum.CANCEL);
+        addButton(ConfirmApprovalCancelEnum.CONFIRM);
+        addButtonToSecondaryGroup(ConfirmApprovalCancelEnum.CANCEL);
         
         this.initWidget(layout);
     }
     
-    private void addButton(final ConfirmCancelEnum type){
+    private void addButton(final ConfirmApprovalCancelEnum type){
         KSButton button = new KSButton(type.getText(), new ClickHandler(){
             
             @Override
@@ -47,7 +47,7 @@ public class ConfirmCancelGroup extends ButtonGroup<ConfirmCancelEnum>{
         buttonMap.put(type, button);
     }
     
-    private void addButtonToSecondaryGroup(final ConfirmCancelEnum type){
+    private void addButtonToSecondaryGroup(final ConfirmApprovalCancelEnum type){
         KSButton button = new KSButton(type.getText(), new ClickHandler(){
             
             @Override

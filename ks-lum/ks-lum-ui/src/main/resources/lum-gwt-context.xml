@@ -472,6 +472,8 @@
     <bean id="OrgRpcGwtServlet"
           class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
         <property name="service" ref="orgClient"/>
+        <property name="identityService" ref="identityServiceClient"/>
+        
     </bean>
 
     <bean id="atpRpcGwtServlet"
