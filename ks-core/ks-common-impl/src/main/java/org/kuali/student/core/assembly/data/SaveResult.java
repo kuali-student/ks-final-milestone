@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
+@Deprecated
 public class SaveResult<T> implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

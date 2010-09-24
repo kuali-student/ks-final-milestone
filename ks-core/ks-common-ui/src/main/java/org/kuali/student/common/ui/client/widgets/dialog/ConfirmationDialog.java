@@ -30,8 +30,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ConfirmationDialog {
 	private KSLightBox dialog;
-	
-	//TODO use button grouping here
+
 	private KSButton cancel = new KSButton("Cancel", ButtonStyle.DEFAULT_ANCHOR);
 	private KSButton confirm = new KSButton("Confirm", ButtonStyle.PRIMARY_SMALL);
 	private HorizontalBlockFlowPanel buttonPanel = new HorizontalBlockFlowPanel();

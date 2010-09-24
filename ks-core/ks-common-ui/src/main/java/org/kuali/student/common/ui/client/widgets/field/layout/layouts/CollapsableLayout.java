@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 
@@ -26,9 +27,14 @@ public class CollapsableLayout extends FieldLayout{
 	private VerticalFieldLayout verticalLayout = new VerticalFieldLayout();
 	private CollapsablePanel panel;
 	
+	public CollapsableLayout(String title){
+		panel = new CollapsablePanel(title, verticalLayout, false);
+		this.add(panel);
+	}
+	
 	public CollapsableLayout(String title, boolean isOpen){
 		panel = new CollapsablePanel(title, verticalLayout, isOpen);
-		this.initWidget(panel);
+		this.add(panel);
 	}
 	
 	@Override
@@ -63,6 +69,12 @@ public class CollapsableLayout extends FieldLayout{
 	@Override
 	public void setLayoutTitle(SectionTitle layoutTitle) {
 		verticalLayout.setLayoutTitle(layoutTitle);
+		
+	}
+
+	@Override
+	public void addButtonLayoutToLayout(ButtonLayout buttonLayout) {
+		verticalLayout.addButtonLayout(buttonLayout);
 		
 	}
 

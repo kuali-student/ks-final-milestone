@@ -15,12 +15,14 @@
 
 package org.kuali.student.common.assembly;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.PassThroughAssemblerFilter;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.SaveResult;
 
 public class MultiplyFilter extends PassThroughAssemblerFilter<Integer,Integer> {
-
+	final Logger LOG = Logger.getLogger(MultiplyFilter.class);
+	
 	@Override
 	public void doSaveFilter(
 			org.kuali.student.core.assembly.AssemblerFilter.FilterParamWrapper<Integer> request,
@@ -28,12 +30,12 @@ public class MultiplyFilter extends PassThroughAssemblerFilter<Integer,Integer> 
 			org.kuali.student.core.assembly.AssemblerFilter.SaveFilterChain<Integer, Integer> chain)
 			throws AssemblyException {
 		request.setValue(request.getValue()+1);
-		System.out.println("In TestMultiplyFilter before chain was called and adding 1. Request:"+request.getValue());
+		LOG.info("In TestMultiplyFilter before chain was called and adding 1. Request:"+request.getValue());
 		chain.doSaveFilter(request, response);
 		response.getValue().setValue(response.getValue().getValue()*2);
-		System.out.println("In TestMultiplyFilter after chain was called and multiplied by 2. Response:"+response.getValue().getValue());
-		System.out.println("Filtered call to get yields:" + chain.getManager().get("12345"));
-		System.out.println("UnFiltered call to get yields:" + chain.getManager().getTarget().get("12345"));
+		LOG.info("In TestMultiplyFilter after chain was called and multiplied by 2. Response:"+response.getValue().getValue());
+		LOG.info("Filtered call to get yields:" + chain.getManager().get("12345"));
+		LOG.info("UnFiltered call to get yields:" + chain.getManager().getTarget().get("12345"));
 		
 	}
 

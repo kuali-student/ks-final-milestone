@@ -68,9 +68,6 @@ public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
     }
     
     public List<CluInstructorAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluInstructorAttribute>();
-        }
         return attributes;
     }
 

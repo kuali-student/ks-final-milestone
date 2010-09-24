@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
+import org.kuali.student.common.ui.client.widgets.HasWatermark;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
@@ -27,6 +28,8 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -34,7 +37,7 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 // TODO implement some form of focus handling for SuggestBox
-public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandlers, TranslatableValueWidget {
+public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandlers, TranslatableValueWidget, HasWatermark{
     
     private IdableSuggestion currentSuggestion = null;
     private IdableSuggestOracle oracle;
@@ -241,5 +244,20 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
         // TODO ryan - THIS METHOD NEEDS JAVADOCS
         
     }
+    
+	@Override
+	public void setWatermarkText(String text) {
+		((KSTextBox)super.getTextBox()).setWatermarkText(text);
+	}
+	
+	@Override
+	public boolean hasWatermark(){
+		return ((KSTextBox)super.getTextBox()).hasWatermark();
+	}
+	
+	@Override
+	public boolean watermarkShowing() {
+		return ((KSTextBox)super.getTextBox()).hasWatermark();
+	}
 
 }

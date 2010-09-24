@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Credits, Fixed"
+        TYPE_DESC="This records a single fixed number of credits that are awarded if the student passes the course." TYPE_KEY="kuali.resultComponentType.credit.degree.fixed"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Credits, Multiple"
+        TYPE_DESC="This records multiple numbers of credits that can be awarded for this course." TYPE_KEY="kuali.resultComponentType.credit.degree.multiple"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Credits, Variable"
+        TYPE_DESC="This records a range of number of credits that can be awarded for this course." TYPE_KEY="kuali.resultComponentType.credit.degree.range"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Final Grade"
+        TYPE_DESC="This records that a final grade is a result for this course" TYPE_KEY="kuali.resultComponentType.grade.finalGrade"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Degree"
+        TYPE_DESC="This records a degree is awarded if the student completes the program" TYPE_KEY="kuali.resultComponentType.degree"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Certificate"
+        TYPE_DESC="This records an awarded certificate" TYPE_KEY="kuali.resultComponentType.certificate"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Overall GPA "
+        TYPE_DESC="This records the overall GPA of a student in a program " TYPE_KEY="kuali.resultComponentType.gpa"/>    
+</dataset>

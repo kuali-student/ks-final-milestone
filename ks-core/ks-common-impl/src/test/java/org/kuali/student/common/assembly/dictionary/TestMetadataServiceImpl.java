@@ -1,82 +1,78 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 package org.kuali.student.common.assembly.dictionary;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl;
+import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 
-/**
- * Tests for MetadataServiceImpl 
- * 
- * @author Kuali Student Team
- *
- */
 public class TestMetadataServiceImpl {
 
-    public static final String DICTIONARY_CONFIG_LOCATION = "classpath:messages-test-dictionary-config.xml"; 
-    public static final String ORCH_DICTIONARY_CONFIG_LOCATION = "classpath:test-orchestration-dictionary.xml";
-
+	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:test-validator-context.xml");
+    
     
     @Test
-    public void testDictionaryBasedMetadata(){
+    public void testMetadataService(){
         MockDictionaryService mockDictionaryService = new MockDictionaryService();
-        mockDictionaryService.setDictionaryServiceDelegate(new DictionaryServiceSpringImpl(DICTIONARY_CONFIG_LOCATION));
+        mockDictionaryService.setDictionaryServiceDelegate(dictionaryDelegate);
         
         MetadataServiceImpl metadataService = new MetadataServiceImpl(mockDictionaryService);
-        Metadata metadata = metadataService.getMetadata("Message", "default", "default");
+        Metadata metadata = metadataService.getMetadata("objectStructure1");
         
         Map<String, Metadata> properties = metadata.getProperties();
-        assertTrue(properties.containsKey("groupName"));
-        assertTrue(properties.containsKey("locale"));
-        assertTrue(properties.containsKey("value"));
+        assertTrue(properties.containsKey("firstName"));
+        assertTrue(properties.containsKey("dob"));
+        assertTrue(properties.containsKey("gpa"));
         
+        assertEquals(1, properties.get("firstName").getConstraints().size());
+        assertEquals(1, properties.get("dob").getConstraints().size());
+        assertEquals(1, properties.get("gpa").getConstraints().size());
+        
+        ConstraintMetadata nameConstraints = properties.get("firstName").getConstraints().get(0);
+        assertTrue(nameConstraints.getMinLength()==2);
+        assertTrue(nameConstraints.getMaxLength()==20);
+        
+        //Check requiredness for default state of draft
+        ConstraintMetadata gpaConstraints = properties.get("gpa").getConstraints().get(0);
+        assertTrue(gpaConstraints.isRequiredForNextState());                
+
+        //Check requiredness for state of RETIRED (there should be no next state)
+        metadata = metadataService.getMetadata("objectStructure1", "RETIRED");
+        gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
+        assertFalse(gpaConstraints.isRequiredForNextState());
+        
+        
+        //Check type and nested state
+        metadata = metadataService.getMetadata("addressInfo");
+        ConstraintMetadata addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
+        assertEquals(2, addrLineConstraint.getMinLength().intValue());
+        assertEquals(1, addrLineConstraint.getMinOccurs().intValue());
+        assertEquals(20, addrLineConstraint.getMaxLength().intValue());
+
+        metadata = metadataService.getMetadata("addressInfo", "US_ADDRESS", "SUBMITTED");
+        addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
+        assertEquals(5, addrLineConstraint.getMinLength().intValue());
+        assertEquals(1, addrLineConstraint.getMinOccurs().intValue());
+        assertEquals(20, addrLineConstraint.getMaxLength().intValue());
+
+        metadata = metadataService.getMetadata("addressInfo", "US_ADDRESS", "DRAFT");
+        addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
+        assertEquals(5, addrLineConstraint.getMinLength().intValue());
+        assertEquals(0, addrLineConstraint.getMinOccurs().intValue());
+        assertEquals(20, addrLineConstraint.getMaxLength().intValue());
+
+        metadata = metadataService.getMetadata("addressInfo", "FOREIGN_ADDRESS", "DRAFT");
+        addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
+        assertEquals(2, addrLineConstraint.getMinLength().intValue());
+        assertEquals(0, addrLineConstraint.getMinOccurs().intValue());
+        assertEquals(100, addrLineConstraint.getMaxLength().intValue());
     }
     
-    @Test
-    public void testOrchestrationDictionaryMetadata(){
-        MetadataServiceImpl metadataService = new MetadataServiceImpl(ORCH_DICTIONARY_CONFIG_LOCATION);
-                      
-        Metadata metadata = metadataService.getMetadata("CreditCourseProposal", "default", "default");
-        
-        Map<String, Metadata> properties = metadata.getProperties();        
-        assertTrue(properties.containsKey("course"));        
-        metadata = properties.get("course");
-        
-        properties = metadata.getProperties();        
-        assertTrue(properties.containsKey("formats"));
-        metadata = properties.get("formats");
-        
-        properties = metadata.getProperties();
-        assertTrue(properties.containsKey("*"));
-        metadata = properties.get("*");
-               
-        properties = metadata.getProperties();
-        assertTrue(properties.containsKey("activities"));
-        
-        metadata = metadataService.getMetadata("joints", "default", "default");
-        properties = metadata.getProperties();
-        
-        metadata = properties.get("_runtimeData");
-        properties = metadata.getProperties();
-        assertTrue(properties.containsKey("created"));
-    }
+    
 }

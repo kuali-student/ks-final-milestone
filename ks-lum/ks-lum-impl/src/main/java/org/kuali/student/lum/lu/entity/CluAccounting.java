@@ -53,9 +53,6 @@ public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
 	}
 	
     public List<CluAccountingAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluAccountingAttribute>();
-        }
         return attributes;
     }
 
@@ -72,10 +69,6 @@ public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
     }
 
 	public List<AffiliatedOrg> getAffiliatedOrgs() {
-		if(null == this.affiliatedOrgs) {
-			this.affiliatedOrgs = new ArrayList<AffiliatedOrg>();
-		}
-		
 		return this.affiliatedOrgs;
 	}
 

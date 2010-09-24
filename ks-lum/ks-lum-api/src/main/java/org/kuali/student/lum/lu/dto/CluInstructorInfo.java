@@ -42,6 +42,9 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
     private String personId;
 
     @XmlElement
+    private String personInfoOverride;
+    
+    @XmlElement
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
 
@@ -80,4 +83,18 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
     public void setAttributes(Map<String,String> attributes) {
         this.attributes = attributes;
     }
+
+    /**
+     * @return the personInfoOverride
+     */
+    public String getPersonInfoOverride() {
+        return personInfoOverride;
+    }
+
+    /**
+     * @param personInfoOverride the personInfoOverride to set
+     */
+    public void setPersonInfoOverride(String personInfoOverride) {
+        this.personInfoOverride = personInfoOverride;
+    }     
 }

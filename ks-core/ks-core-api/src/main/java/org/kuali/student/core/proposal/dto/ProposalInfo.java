@@ -74,6 +74,9 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
 
     @XmlElement
     private Date expirationDate;
+    
+    @XmlElement
+    private String workflowId;
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -256,4 +259,18 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
     public void setId(String id) {
         this.id = id;
     }
+
+    /**
+     * The workflow document associated with this proposal.
+     * @return
+     */
+	public String getWorkflowId() {
+		return workflowId;
+	}
+
+	public void setWorkflowId(String workflowId) {
+		this.workflowId = workflowId;
+	}
+    
+    
 }

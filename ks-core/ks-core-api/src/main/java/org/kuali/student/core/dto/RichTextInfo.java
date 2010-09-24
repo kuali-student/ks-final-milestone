@@ -14,7 +14,7 @@
  */
 
 package org.kuali.student.core.dto;
- 
+
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -46,5 +46,10 @@ public class RichTextInfo implements Serializable {
 
     public void setFormatted(String formatted) {
         this.formatted = formatted;
+    }
+
+    @Override
+    public String toString() {
+    	return "RichTextInfo[plain=" + plain + ", formatted=" + formatted + "]";
     }
 }

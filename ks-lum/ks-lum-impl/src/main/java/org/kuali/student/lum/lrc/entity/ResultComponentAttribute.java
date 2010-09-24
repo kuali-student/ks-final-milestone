@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSLU_LRC_RESCOMP_ATTR")
+@Table(name = "KSLR_RESCOMP_ATTR")
 public class ResultComponentAttribute extends Attribute<ResultComponent> {
 
     @ManyToOne

@@ -16,8 +16,7 @@
 package org.kuali.student.lum.lu.ui.tools.server.gwt;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
+import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 
@@ -26,10 +25,7 @@ public class CluSetManagementRpcGwtServlet extends
 		CluSetManagementRpcService {
 
 	private static final long serialVersionUID = 1L;
-	final Logger LOG = Logger.getLogger(CluSetManagementRpcGwtServlet.class);
-    private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
-	private static final String DEFAULT_METADATA_STATE = "draft";
-	private static final String DEFAULT_METADATA_TYPE = null;
+	final static Logger LOG = Logger.getLogger(CluSetManagementRpcGwtServlet.class);
     
 	@Override
 	protected String getDefaultMetaDataState() {
@@ -48,13 +44,11 @@ public class CluSetManagementRpcGwtServlet extends
 	
 	@Override
 	protected String deriveAppIdFromData(Data data) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String deriveDocContentFromData(Data data) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

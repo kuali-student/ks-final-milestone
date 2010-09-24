@@ -85,21 +85,25 @@ public class LoadDataBean implements ApplicationContextAware{
 				    }
 					BufferedReader in
 					   = new BufferedReader(new FileReader(sqlFile));
-					String ln = "";
-					int lnNr = 0;
-
 					try {
-                        while((ln=in.readLine())!=null){
-                            lnNr++;
-                        	if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
-                        		ln=ln.replaceFirst("[;/]\\s*$","");
-                        		em.createNativeQuery(ln).executeUpdate();
-                        	}
+    					String ln = "";
+    					int lnNr = 0;
+
+    					try {
+                            while((ln=in.readLine())!=null){
+                                lnNr++;
+                            	if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
+                            		ln=ln.replaceFirst("[;/]\\s*$","");
+                            		em.createNativeQuery(ln).executeUpdate();
+                            	}
+                            }
+                        } catch (PersistenceException e) {
+                            LOG.error("Failed statement at line " + lnNr + ": " + ln);
+                            throw e;
                         }
-                    } catch (PersistenceException e) {
-                        LOG.error("Failed statement at line " + lnNr + ": " + ln);
-                        throw e;
-                    }
+					} finally {
+					    in.close();
+					}
 				}
 
 			} catch (Exception e) {

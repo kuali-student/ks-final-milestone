@@ -16,204 +16,128 @@
 package org.kuali.student.lum.lu.ui.tools.client.widgets;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.HasDataValue;
-import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
-import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
-import org.kuali.student.core.assembly.data.Data.Value;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.application.ViewContext.IdType;
-import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
-public class KSBrowser extends Composite implements HasFocusLostCallbacks,
-                                                    HasValueChangeHandlers<String>,
-                                                    HasDataValue,
-                                                    TranslatableValueWidget
-{
+public class KSBrowser extends Composite {
 
- private List<BrowsePanel> browsePanels;
- private LookupMetadata fieldLookup;
- private List<LookupMetadata> cascadingLookups;
- private List<LookupParamMetadata> cascadingChildParameters;
- private WidgetConfigInfo config;
- private VerticalFlowPanel layout = new VerticalFlowPanel ();
- private Controller controller;
+	private List<BrowsePanel> browsePanels;
+	private LookupMetadata fieldLookup;
+	private List<LookupMetadata> cascadingLookups;
+	private List<LookupParamMetadata> cascadingChildParameters;
+	private WidgetConfigInfo config;
+	private VerticalFlowPanel layout = new VerticalFlowPanel ();
 
- public KSBrowser (LookupMetadata fieldLookup, Controller controller)
- {
-  this.fieldLookup = fieldLookup;
-  this.controller = controller;
-  if (this.fieldLookup == null)
-  {
-   KSErrorDialog errorDialog = new KSErrorDialog ();
-   errorDialog.show (new Throwable ("Invalid lookup configuration: missing initial lookup metadata."));
-   return;
-  }
+	public KSBrowser (LookupMetadata fieldLookup, Controller controller)
+	{
+		this.fieldLookup = fieldLookup;
+		if (this.fieldLookup == null)
+		{			
+			KSErrorDialog.show (new Throwable ("Invalid lookup configuration: missing initial lookup metadata."));
+			return;
+		}
 
-  if (config == null)
-  {
-   config = new WidgetConfigInfo ();
-  }
+		if (config == null)
+		{
+			config = new WidgetConfigInfo ();
+		}
 
-  browsePanels = new ArrayList ();
-  cascadingLookups = new ArrayList ();
-  cascadingChildParameters = new ArrayList ();
-  cascadingLookups.add (this.fieldLookup);
-  this.addChildLookups (this.fieldLookup);
-//  Window.alert (cascadingLookups.size () + " cascading lookups found");
-  Collections.reverse (cascadingChildParameters);
-  Collections.reverse (cascadingLookups);
+		browsePanels = new ArrayList<BrowsePanel> ();
+		cascadingLookups = new ArrayList<LookupMetadata> ();
+		cascadingChildParameters = new ArrayList<LookupParamMetadata> ();
+		cascadingLookups.add (this.fieldLookup);
+		this.addChildLookups (this.fieldLookup);
+		Collections.reverse (cascadingChildParameters);
+		Collections.reverse (cascadingLookups);
 
-  for (LookupMetadata lookupMetadata : cascadingLookups)
-  {
-   BrowsePanel browsePanel = new BrowsePanel (lookupMetadata);
-   browsePanels.add (browsePanel);
-   layout.add (browsePanel);
-  }
-  for (int i = 0; i < browsePanels.size () - 1; i ++)
-  {
-   BrowsePanel currentBP = browsePanels.get (i);
-   LookupParamMetadata nextParamMetadata = this.cascadingChildParameters.get (i);
-   BrowsePanel nextBP = browsePanels.get (i + 1);
-   currentBP.setOnSelectectedCallback (new ExecuteNextSearchCallback (nextBP, nextParamMetadata));
-  }
-  browsePanels.get (browsePanels.size () - 1).setOnSelectectedCallback (new ViewCourseCallback (controller));
+		for (LookupMetadata lookupMetadata : cascadingLookups)
+		{
+			BrowsePanel browsePanel = new BrowsePanel (lookupMetadata);
+			browsePanels.add (browsePanel);
+			layout.add (browsePanel);
+		}
+		for (int i = 0; i < browsePanels.size () - 1; i ++)
+		{
+			BrowsePanel currentBP = browsePanels.get (i);
+			LookupParamMetadata nextParamMetadata = this.cascadingChildParameters.get (i);
+			BrowsePanel nextBP = browsePanels.get (i + 1);
+			currentBP.setOnSelectectedCallback (new ExecuteNextSearchCallback (nextBP, nextParamMetadata));
+		}
+		browsePanels.get (browsePanels.size () - 1).setOnSelectectedCallback (new ViewCourseCallback (controller));
 
-  this.initWidget (layout);
-  browsePanels.get (0).executeSearch ();
- }
+		this.initWidget (layout);
+		browsePanels.get (0).executeSearch ();
+	}
 
- private class ExecuteNextSearchCallback implements
-  BrowsePanel.OnSelectedCallback
- {
+	private class ExecuteNextSearchCallback implements BrowsePanel.OnSelectedCallback {
 
-  private BrowsePanel nextBrowsePanel;
-  private LookupParamMetadata nextParamMetadata;
+		private BrowsePanel nextBrowsePanel;
+		private LookupParamMetadata nextParamMetadata;
 
-  public ExecuteNextSearchCallback (BrowsePanel nextBrowsePanel,
-                                    LookupParamMetadata nextParamMetadata)
-  {
-   this.nextBrowsePanel = nextBrowsePanel;
-   this.nextParamMetadata = nextParamMetadata;
-  }
+		public ExecuteNextSearchCallback (BrowsePanel nextBrowsePanel,
+				LookupParamMetadata nextParamMetadata) {
+			this.nextBrowsePanel = nextBrowsePanel;
+			this.nextParamMetadata = nextParamMetadata;
+		}
 
-  @Override
-  public void selected (List<String> selectedIds)
-  {
-   if (selectedIds.size () == 0)
-   {
-    Window.alert ("Please select a row before clicking");
-    return;
-   }
-   Map<String, Object> parameters = new LinkedHashMap ();
-   parameters.put (nextParamMetadata.getKey (), selectedIds.get (0));
-   nextBrowsePanel.setParameters (parameters);
-   nextBrowsePanel.executeSearch ();
-  }
+		@Override
+		public void selected (List<String> selectedIds)	{
+			if (selectedIds.size () == 0) {
+				Window.alert ("Please select a row before clicking");
+				return;
+			}
+			Map<String, Object> parameters = new LinkedHashMap<String, Object> ();
+			parameters.put (nextParamMetadata.getKey (), selectedIds.get (0));
+			nextBrowsePanel.setParameters (parameters);
+			nextBrowsePanel.executeSearch ();
+		}
+	}
 
- }
+	private class ViewCourseCallback implements BrowsePanel.OnSelectedCallback {
 
- private class ViewCourseCallback implements BrowsePanel.OnSelectedCallback
- {
+		private Controller controller;
 
-  private Controller controller;
+		public ViewCourseCallback (Controller controller)
+		{
+			this.controller = controller;
+		}
 
-  public ViewCourseCallback (Controller controller)
-  {
-   this.controller = controller;
-  }
+		@Override
+		public void selected (List<String> selectedIds)	{
+			if (selectedIds.size () == 0) {
+				Window.alert ("Please select a row before clicking");
+				return;
+			}
+			ViewContext viewContext = new ViewContext ();
+			viewContext.setId (selectedIds.get (0));
+			viewContext.setIdType (IdType.OBJECT_ID);
+			Application.navigate("/HOME/CURRICULUM_HOME/VIEW_COURSE", viewContext);
+		}
+	}
 
-  @Override
-  public void selected (List<String> selectedIds)
-  {
-   if (selectedIds.size () == 0)
-   {
-    Window.alert ("Please select a row before clicking");
-    return;
-   }
-   ViewContext viewContext = new ViewContext ();
-   viewContext.setId (selectedIds.get (0));
-   viewContext.setIdType (IdType.OBJECT_ID);
-   controller.fireApplicationEvent (new ChangeViewActionEvent<LUMViews> (LUMViews.VIEW_COURSE, viewContext));
-   // TODO: worry about hiding this page?
-  }
-
- }
-
- private void addChildLookups (LookupMetadata current)
- {
-//  Window.alert ("Looking for children of " + current.getId ());
-  for (LookupParamMetadata param : current.getParams ())
-  {
-   if (param.getChildLookup () != null)
-   {
-//    Window.alert (param.getKey () + " childlookup " + param.getChildLookup ());
-    cascadingChildParameters.add (param);
-    cascadingLookups.add (param.getChildLookup ());
-    addChildLookups (param.getChildLookup ());
-   }
-  }
- }
-
- @Override
- public void addFocusLostCallback (Callback<Boolean> callback)
- {
-  return;
- }
-
- @Override
- public HandlerRegistration addValueChangeHandler (
-  ValueChangeHandler<String> handler)
- {
-  return null;
- }
-
- @Override
- public void addValueChangeCallback (Callback<Value> callback)
- {
-  return;
- }
-
- @Override
- public Value getValue ()
- {
-  return null;
- }
-
- @Override
- public void setValue (Value value)
- {
-  return;
- }
-
- @Override
- public void setValue (String id, String translation)
- {
-  return;
- }
-
- @Override
- public void setValue (Map<String, String> translations)
- {
-  return;
- }
+	private void addChildLookups (LookupMetadata current) {
+		for (LookupParamMetadata param : current.getParams ())	{
+			if (param.getChildLookup () != null) {
+				cascadingChildParameters.add (param);
+				cascadingLookups.add (param.getChildLookup ());
+				addChildLookups (param.getChildLookup ());
+			}
+		}
+	}
 
 }

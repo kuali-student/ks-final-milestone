@@ -30,6 +30,7 @@ public interface ServerPropertiesRpcService extends RemoteService {
      * @return the property value
      */
     public String get(String property);
+    
     /**
      * Gets the list of properties from the server for use on the client side.
      * 
@@ -37,4 +38,9 @@ public interface ServerPropertiesRpcService extends RemoteService {
      * @return a map of the properties and values, null if no property exists by the names given
      */
     public Map<String,String> get(List<String> properties);
+        
+    /** 
+     * @return the context path of the app
+     */
+    public String getContextPath();
 }

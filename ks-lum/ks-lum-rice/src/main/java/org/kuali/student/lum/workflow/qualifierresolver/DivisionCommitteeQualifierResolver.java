@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.List;
@@ -21,8 +20,8 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 
-public class DivisionCommitteeQualifierResolver extends
-		AbstractCocOrgQualifierResolver {
+public class DivisionCommitteeQualifierResolver extends AbstractCocOrgQualifierResolver {
+
 	@Override
 	public List<AttributeSet> resolve(RouteContext routeContext) {
 		List<AttributeSet> attributeSets = super.resolve(routeContext);
@@ -32,5 +31,5 @@ public class DivisionCommitteeQualifierResolver extends
 		}
 		return cocAttributeSetsFromAncestors(orgId,KUALI_ORG_DIVISION,KualiStudentKimAttributes.QUALIFICATION_DIVISION,KualiStudentKimAttributes.QUALIFICATION_DIVISION_ID);
 	}
-	
+
 }

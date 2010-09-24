@@ -19,42 +19,39 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasLayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.user.client.ui.Widget;
 
 public interface Section extends HasLayoutController{
-	public static enum SectionState{NORMAL, ERROR, HIGHLIGHT};
-	public void addField(FieldDescriptor field);
+	public String addField(FieldDescriptor field);
+	public String addSection(Section section);
+	public String addSection(String key, Section section);
+	public FieldLayout getLayout();
+	public void removeField(String fieldKey);
+	public void removeSection(String sectionKey);
+	public void removeSection(Section section);
+	public void removeField(FieldDescriptor field);
+	public FieldDescriptor getField(String fieldKey);
+	public Section getSection(String sectionKey);
 	public List<FieldDescriptor> getUnnestedFields();
-	public void addSection(BaseSection section);
-	public void addWidget(Widget w);
-	public void setInstructions(String instructions);
-	public void setMessage(String text, boolean show);
-	public void showMessage(boolean show);
-	public void clearValidation();
-	public void clearValidationMessage(String fieldPath);
-	public ErrorLevel processValidationResults(List<ValidationResultInfo> results);
-	public void setHighlight(SectionState state);
-	public void clearHighlight();
-	public void showValidationMessage(String fieldPath);
-	public List<FieldDescriptor> getFields();
-	public List<Section> getSections();
-	public void setRequiredState(RequiredEnum required);
-	public RequiredEnum getRequiredState();
-	public SectionTitle getSectionTitle();
-	public void setSectionTitle(SectionTitle sectionTitle);
-	public void clear();
-	public void redraw();
+	public String addWidget(Widget widget);
+	public void removeWidget(Widget widget);
+	public void removeWidget(String key);
 	public void resetFieldInteractionFlags();
 	public void setFieldHasHadFocusFlags(boolean hadFocus);
-	public void updateView(DataModel model);
+	public void updateWidgetData(DataModel model);
 	public void updateModel(DataModel model);
-	public void setSectionValidationPanel(ValidationMessagePanel validationPanel);
-	public void removeSection(BaseSection section);
+	public List<FieldDescriptor> getFields();
+	public List<Section> getSections();
 	public void enableValidation(boolean enableValidation);
+	public boolean isValidationEnabled();
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results);
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation);
+	public boolean isDirty();
+	public void resetDirtyFlags();
+	
 }

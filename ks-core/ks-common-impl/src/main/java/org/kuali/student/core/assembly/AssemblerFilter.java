@@ -22,6 +22,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
+@Deprecated
 public interface AssemblerFilter<TargetType, SourceType> {
 
 	public void doGetMetadataFilter(TypeStateFilterParamWrapper request, FilterParamWrapper<Metadata> response, GetMetadataFilterChain<TargetType, SourceType> chain) throws AssemblyException;

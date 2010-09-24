@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLO_LO_ALLOWED_RELTN_TYPE EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000"
+        ID="DEC1364F-EFF0-41C6-9803-06A56CA5F192"
+        LOLO_RELTN_TYPE_ID="kuali.lo.relation.type.includes"
+        LO_REL_TYPE_ID="kuali.lo.type.singleUse"
+        LO_TYPE_ID="kuali.lo.type.singleUse" VERSIONIND="1"/>
+</dataset>

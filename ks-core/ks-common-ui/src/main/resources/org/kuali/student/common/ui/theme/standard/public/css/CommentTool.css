@@ -12,6 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+ 
+ .KS-Comment-Button-Panel{
+ 	float: right;
+ }
 
 .KS-Comment-Image-Button{
 	margin: 2px;
@@ -91,6 +95,7 @@
 .KS-Comment-Create-Editor{
 	width: 550px;
 	height: 250px;
+	border: 1px solid black;
 }
 
 .KS-Comment-Inline-Edit-Editor{

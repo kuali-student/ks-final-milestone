@@ -22,9 +22,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.search.dto.SearchResultRow;
 
-public class DepartmentCommitteeQualifierResolver extends
-		AbstractCocOrgQualifierResolver {
-
+public class DepartmentCommitteeQualifierResolver extends AbstractCocOrgQualifierResolver {
 
 	@Override
 	public List<AttributeSet> resolve(RouteContext routeContext) {
@@ -36,7 +34,5 @@ public class DepartmentCommitteeQualifierResolver extends
 		List<SearchResultRow> results = relatedOrgsFromOrgId(orgId,KUALI_ORG_TYPE_CURRICULUM_PARENT,KUALI_ORG_COC);
 		return attributeSetFromSearchResult(results,KualiStudentKimAttributes.QUALIFICATION_DEPARTMENT,KualiStudentKimAttributes.QUALIFICATION_DEPARTMENT_ID);
 	}
-
-
 
 }
