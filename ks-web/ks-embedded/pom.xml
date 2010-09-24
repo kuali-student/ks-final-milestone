@@ -13,7 +13,6 @@
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
     <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
-    <gwt.draftCompile>false</gwt.draftCompile>
   </properties>
   <build>
     <plugins>
@@ -40,9 +39,6 @@
             <module>${ks.gwt.module.org}</module>
             <module>${ks.gwt.module.lum}</module>
           </modules>
-          <style>PRETTY</style>
-          <soyc>false</soyc>
-          <draftCompile>${gwt.draftCompile}</draftCompile>
         </configuration>
       </plugin>
       <plugin>
