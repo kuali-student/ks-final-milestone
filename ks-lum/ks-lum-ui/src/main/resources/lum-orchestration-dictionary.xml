@@ -6690,8 +6690,8 @@
 						<list>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDivision"/>
-								<property name="name" value="Department"/>
-								<property name="desc" value="Department of a course."/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Course Number"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
