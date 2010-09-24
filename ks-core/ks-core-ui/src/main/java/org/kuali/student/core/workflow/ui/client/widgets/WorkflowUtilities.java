@@ -304,7 +304,7 @@ public class WorkflowUtilities{
 		final KSRichEditor rationaleEditor = new KSRichEditor();
 		wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {	   
-	        	addRationale(rationaleEditor,REJECT_DECISION);
+	        	addRationale(rationaleEditor,FYI_DECISION);
 				workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
 					public void handleFailure(Throwable caught) {
 						Window.alert("Error FYIing Proposal");
@@ -381,8 +381,7 @@ public class WorkflowUtilities{
 		KSMenuItemData wfDisApproveItem;
 		wfDisApproveItem = new KSMenuItemData("Reject Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {   
-				final KSLightBox submitSuccessDialog = new KSLightBox();
-				submitSuccessDialog.setSize(580, 400);
+	        	setupSubmitSuccessDialog();
 				final KSRichEditor rationaleEditor = new KSRichEditor();
 				RejectCancelGroup approvalButton = new RejectCancelGroup(new Callback<RejectCancelEnum>(){
 
@@ -427,7 +426,7 @@ public class WorkflowUtilities{
 //				rationaleEditor.addStyleName("ks-textarea-width");
 //				rationaleEditor.addStyleName("ks-textarea-large-height");
 				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
-				
+				dialogPanel.clear();
 				dialogPanel.add(headerTitle);	
 				dialogPanel.add(dialogLabel);
 				dialogPanel.add(fieldLabel);
