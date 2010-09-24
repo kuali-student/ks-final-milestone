@@ -41,13 +41,14 @@ public class OrgApplicationManager extends Controller{
         CREATE_ORG
     }
     @Override
-    protected <V extends Enum<?>> View getView(V viewType) {
+    protected <V extends Enum<?>> void getView(V viewType, Callback<View> callback) {
+    	
         switch ((ORGViews) viewType) {
             case CREATE_ORG:
                 initOrgView();
-                return createOrgView;
+                callback.exec(createOrgView);
             default:
-                return null;
+            	callback.exec(null);
         }
         
     }
