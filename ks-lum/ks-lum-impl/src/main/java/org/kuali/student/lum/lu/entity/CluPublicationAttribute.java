@@ -24,18 +24,19 @@ import org.kuali.student.core.entity.Attribute;
 
 @Entity
 @Table(name = "KSLU_CLU_PUBL_ATTR")
-public class CluPublishingAttribute extends Attribute<CluPublishing> {
+public class CluPublicationAttribute extends Attribute<CluPublication> {
+	
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
-	private CluPublishing owner;
+	private CluPublication owner;
 
 	@Override
-	public CluPublishing getOwner() {
+	public CluPublication getOwner() {
 		return owner;
 	}
 
 	@Override
-	public void setOwner(CluPublishing owner) {
+	public void setOwner(CluPublication owner) {
 		this.owner = owner;
 	}
 }
