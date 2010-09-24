@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+>
+
+    <bean id="DateRange" parent="DateRange-parentBean" />
+
+    <bean id="DateRange-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.DateRange" />
+        <property name="titleAttribute" value="id" />
+        <property name="objectLabel" value="Date Range" />
+        <property name="lookupDefinition">
+            <ref bean="DateRange-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="DateRange-inquiryDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="DateRange-id" />
+                <ref bean="DateRange-name" />
+                <ref bean="DateRange-description" />
+                <ref bean="DateRange-state" />
+                <ref bean="DateRange-createId" />
+                <ref bean="DateRange-createDate" />
+                <ref bean="DateRange-updateId" />
+                <ref bean="DateRange-updateDate" />
+                <ref bean="DateRange-typeId" />
+                <ref bean="DateRange-startDate" />
+                <ref bean="DateRange-endDate" />
+                <ref bean="DateRange-atpId" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DateRange-id" parent="DateRange-id-parentBean" />
+
+    <bean id="DateRange-id-parentBean" abstract="true" parent="AttributeReferenceKualiType-id">
+    </bean>
+
+    <bean id="DateRange-name" parent="DateRange-name-parentBean" />
+
+    <bean id="DateRange-name-parentBean" abstract="true" parent="AttributeReferenceKualiType-name">
+    </bean>
+
+    <bean id="DateRange-description" parent="DateRange-description-parentBean" />
+
+    <bean id="DateRange-description-parentBean" abstract="true" parent="AttributeReferenceKualiType-description">
+    </bean>
+
+    <bean id="DateRange-startDate" parent="DateRange-startDate-parentBean" />
+
+    <bean id="DateRange-startDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Start Dt" />
+        <property name="summary" value="Start date for the range" />
+        <property name="name" value="startDate" />
+        <property name="label" value="Start Date" />
+        <property name="description" value="Start date for the range" />
+    </bean>
+
+    <bean id="DateRange-endDate" parent="DateRange-endDate-parentBean" />
+
+    <bean id="DateRange-endDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="End Dt" />
+        <property name="summary" value="End date for the range" />
+        <property name="name" value="endDate" />
+        <property name="label" value="End Date" />
+        <property name="description" value="End date for the range" />
+    </bean>
+
+    <bean id="DateRange-state" parent="DateRange-state-parentBean" />
+
+    <bean id="DateRange-state-parentBean" abstract="true" parent="AttributeReferenceKualiType-state">
+    </bean>
+
+    <bean id="DateRange-createId" parent="DateRange-createId-parentBean" />
+
+    <bean id="DateRange-createId-parentBean" abstract="true" parent="AttributeReferenceKualiType-createId">
+    </bean>
+
+    <bean id="DateRange-createDate" parent="DateRange-createDate-parentBean" />
+
+    <bean id="DateRange-createDate-parentBean" abstract="true" parent="AttributeReferenceKualiType-createDate">
+    </bean>
+
+    <bean id="DateRange-updateId" parent="DateRange-updateId-parentBean" />
+
+    <bean id="DateRange-updateId-parentBean" abstract="true" parent="AttributeReferenceKualiType-updateId">
+    </bean>
+
+    <bean id="DateRange-updateDate" parent="DateRange-updateDate-parentBean" />
+
+    <bean id="DateRange-updateDate-parentBean" abstract="true" parent="AttributeReferenceKualiType-updateDate">
+    </bean>
+
+    <bean id="DateRange-typeId" parent="DateRange-typeId-parentBean" />
+
+    <bean id="DateRange-typeId-parentBean" abstract="true" parent="AttributeReferenceKualiType-typeId">
+    </bean>
+
+    <bean id="DateRange-atpId" parent="DateRange-atpId-parentBean" />
+
+    <bean id="DateRange-atpId-parentBean" abstract="true" parent="Atp-id">
+        <property name="shortLabel" value="Atp" />
+        <property name="summary" value="Id for the Atp that contains the date range" />
+        <property name="name" value="atpId" />
+        <property name="label" value="Atp Id" />
+        <property name="description" value="Id for the Atp that contains the date range" />
+    </bean>
+
+
+    <bean id="DateRange-lookupDefinition" parent="DateRange-lookupDefinition-parentBean" />
+
+    <bean id="DateRange-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" />
+                <bean parent="FieldDefinition" p:attributeName="startDate" />
+                <bean parent="FieldDefinition" p:attributeName="endDate" />
+                <bean parent="FieldDefinition" p:attributeName="state" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
+                <bean parent="FieldDefinition" p:attributeName="startDate" />
+                <bean parent="FieldDefinition" p:attributeName="endDate" />
+                <bean parent="FieldDefinition" p:attributeName="state" />
+            </list>
+        </property>
+        <property name="title" value="Date Range Lookup" />
+    </bean>
+
+    <bean id="DateRange-inquiryDefinition" parent="DateRange-inquiryDefinition-parentBean" />
+
+    <bean id="DateRange-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Date Range Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Date Range" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" />
+                            <bean parent="FieldDefinition" p:attributeName="name" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
+                            <bean parent="FieldDefinition" p:attributeName="startDate" />
+                            <bean parent="FieldDefinition" p:attributeName="endDate" />
+                            <bean parent="FieldDefinition" p:attributeName="state" />
+                            <bean parent="FieldDefinition" p:attributeName="createId" />
+                            <bean parent="FieldDefinition" p:attributeName="createDate" />
+                            <bean parent="FieldDefinition" p:attributeName="updateId" />
+                            <bean parent="FieldDefinition" p:attributeName="updateDate" />
+                            <bean parent="FieldDefinition" p:attributeName="atpId" p:alternateDisplayAttributeName="atp.name"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Extension Attributes" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="attributes" />
+                                <property name="businessObjectClass" value="org.kuali.rice.kns.bo.BusinessObjectExtensionAttributeImpl" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Attribute" />
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="name" />
+                                        <bean parent="FieldDefinition" p:attributeName="value" />
+                                    </list>
+                                </property>
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="name" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>                
+            </list>
+        </property>
+    </bean>
+
+</beans>

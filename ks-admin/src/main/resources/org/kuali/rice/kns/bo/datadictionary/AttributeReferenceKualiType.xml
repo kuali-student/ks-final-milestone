@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="AttributeReferenceKualiType" parent="AttributeReferenceKualiType-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.rice.kns.bo.AttributeReferenceKualiType"/>
+    <property name="attributes">
+      <list>
+        <ref bean="AttributeReferenceKualiType-id"/>
+        <ref bean="AttributeReferenceKualiType-name"/>
+        <ref bean="AttributeReferenceKualiType-description"/>
+        <ref bean="AttributeReferenceKualiType-state"/>
+        <ref bean="AttributeReferenceKualiType-createId"/>
+        <ref bean="AttributeReferenceKualiType-createDate"/>
+        <ref bean="AttributeReferenceKualiType-updateId"/>
+        <ref bean="AttributeReferenceKualiType-updateDate"/>
+        <ref bean="AttributeReferenceKualiType-typeId"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Attribute Reference Kuali Type"/>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AttributeReferenceKualiType-id" parent="AttributeReferenceKualiType-id-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="summary" value="Unique id for type"/>
+    <property name="name" value="id"/>
+    <property name="label" value="Id"/>
+    <property name="description" value="Unique identifer for the type assigned by the system"/>
+  </bean>
+  
+  <bean id="AttributeReferenceKualiType-name" parent="AttributeReferenceKualiType-name-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="summary" value="Name for the type"/>
+    <property name="name" value="name"/>
+    <property name="label" value="Name"/>
+    <property name="description" value="Name that identifies the type"/>
+  </bean>
+  
+  <bean id="AttributeReferenceKualiType-description" parent="AttributeReferenceKualiType-description-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Desc"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="80"/>
+    </property>
+    <property name="summary" value="Description for the type"/>
+    <property name="name" value="description"/>
+    <property name="label" value="Description"/>
+    <property name="description" value="Description for the type"/>
+  </bean>
+  
+  <bean id="AttributeReferenceKualiType-state" parent="AttributeReferenceKualiType-state-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-state-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="State"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder"/>
+    </property>
+    <property name="summary" value="State of the record"/>
+    <property name="name" value="state"/>
+    <property name="label" value="State"/>
+    <property name="description" value="State of the record"/>
+  </bean>
+  
+  <bean id="AttributeReferenceKualiType-createId" parent="AttributeReferenceKualiType-createId-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-createId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Create Id"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+    <property name="summary" value="Id for the entity that created the record"/>
+    <property name="name" value="createId"/>
+    <property name="label" value="Create Id"/>
+    <property name="description" value="Id for the entity that created the record"/>
+  </bean>  
+  
+  <bean id="AttributeReferenceKualiType-createDate" parent="AttributeReferenceKualiType-createDate-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="shortLabel" value="Create Dt"/>
+    <property name="summary" value="Date the record was created"/>
+    <property name="name" value="createDate"/>
+    <property name="label" value="Create Date"/>
+    <property name="description" value="Date the record was created"/>
+  </bean>   
+  
+  <bean id="AttributeReferenceKualiType-updateId" parent="AttributeReferenceKualiType-updateId-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-updateId-parentBean" abstract="true" parent="AttributeReferenceKualiType-createId">
+    <property name="shortLabel" value="Update Id"/>
+    <property name="summary" value="Id of the entity that last updated the record"/>
+    <property name="name" value="updateId"/>
+    <property name="label" value="Update Id"/>
+    <property name="description" value="Id of the entity that last updated the record"/>
+  </bean>   
+  
+  <bean id="AttributeReferenceKualiType-updateDate" parent="AttributeReferenceKualiType-updateDate-parentBean"/>
+
+  <bean id="AttributeReferenceKualiType-updateDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="shortLabel" value="Update Dt"/>
+    <property name="summary" value="Date the record was last updated"/>
+    <property name="name" value="updateDate"/>
+    <property name="label" value="Update Date"/>
+    <property name="description" value="Date the record was last updated"/>
+  </bean> 
+  
+  <bean id="AttributeReferenceKualiType-typeId" parent="AttributeReferenceKualiType-typeId-parentBean"/>
+    
+  <bean id="AttributeReferenceKualiType-typeId-parentBean" abstract="true" parent="AttributeReferenceKualiType-id">
+    <property name="shortLabel" value="Type"/>
+    <property name="summary" value="Id of the Type"/>
+    <property name="name" value="typeId"/>
+    <property name="label" value="Type Id"/>
+    <property name="description" value="Id of the Type"/>
+  </bean>      
+</beans>
