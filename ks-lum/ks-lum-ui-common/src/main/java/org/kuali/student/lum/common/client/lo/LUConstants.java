@@ -77,6 +77,7 @@ public class LUConstants {
     
     //Tools
     public static final String TOOL_COMMENTS_LABEL_KEY = "toolComments";
+    public static final String TOOL_DECISION_LABEL_KEY = "toolDecision";
     public static final String TOOL_DOCUMENTS_LABEL_KEY = "toolDocuments";
     public static final String SECTION_ATTACHMENTS = "Attachments";
     public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
