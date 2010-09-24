@@ -27,7 +27,6 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -37,9 +36,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -131,11 +127,12 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 
 						@Override
 						public void onSuccess(final List<CommentInfo> result) {
-							if(result!=null){
-								getPersonNames(result);
+							if(result==null||result.isEmpty()){
+								initializeDecisionTable();
+								
 							}
 							else{
-								initializeDecisionTable();
+								getPersonNames(result);
 							}
 
 						}
