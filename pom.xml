@@ -51,8 +51,8 @@
     <url>http://ci.ks.kuali.org</url>
   </ciManagement>
   <modules>
-    <module>ks-security</module>
     <module>ks-core</module>
+    <module>ks-security</module>
     <module>ks-lum</module>
     <module>ks-web</module>    
   </modules>
