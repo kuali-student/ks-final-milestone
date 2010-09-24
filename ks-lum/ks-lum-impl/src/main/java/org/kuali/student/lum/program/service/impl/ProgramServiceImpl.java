@@ -766,17 +766,18 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public StatusInfo deleteCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        try {
-        	CoreProgramInfo coreProgramInfo = getCoreProgram(coreProgramId);
-
-            processCoreProgramInfo(coreProgramInfo, NodeOperation.DELETE);
-
-            return getStatus();
-
-        } catch (AssemblyException e) {
-            LOG.error("Error disassembling CoreProgram", e);
-            throw new OperationFailedException("Error disassembling CoreProgram");
-        }
+//        try {
+//        	CoreProgramInfo coreProgramInfo = getCoreProgram(coreProgramId);
+//
+//            processCoreProgramInfo(coreProgramInfo, NodeOperation.DELETE);
+//
+//            return getStatus();
+//
+//        } catch (AssemblyException e) {
+//            LOG.error("Error disassembling CoreProgram", e);
+//            throw new OperationFailedException("Error disassembling CoreProgram");
+//        }
+    	throw new OperationFailedException("Deletion of CoreProgram is not supported."); 
     }
 
     @Override
