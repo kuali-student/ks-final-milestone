@@ -1408,11 +1408,14 @@ public class TestProgramServiceImpl {
             CoreProgramInfo retrievedCP = programService.getCoreProgram(coreProgramId);
             assertNotNull(retrievedCP);
 
-            programService.deleteCoreProgram(coreProgramId);
-            try {
-            	retrievedCP = programService.getCoreProgram(coreProgramId);
-                fail("Retrieval of deleted coreProgram should have thrown exception");
-            } catch (DoesNotExistException e) {}
+            try{
+	            programService.deleteCoreProgram(coreProgramId);
+	            try {
+	            	retrievedCP = programService.getCoreProgram(coreProgramId);
+	                fail("Retrieval of deleted coreProgram should have thrown exception");
+	            } catch (DoesNotExistException e) {}
+            }catch (OperationFailedException e) {}
+            
         } catch (Exception e) {
             fail(e.getMessage());
         }
