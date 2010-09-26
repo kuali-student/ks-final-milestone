@@ -34,7 +34,7 @@ public class ProgramManager {
     public ProgramViewController getProgramViewController() {
         programModel.resetRoot();
         if (programViewController == null) {
-            programViewController = new ProgramViewController("Programs", programModel, viewContext);
+            programViewController = new ProgramViewController("Programs", programModel, viewContext, eventBus);
         }
         return programViewController;
     }
@@ -42,21 +42,21 @@ public class ProgramManager {
     public VariationViewController getVariationViewController() {
         String name = programViewController.getProgramName();
         programModel.setRoot(VariationRegistry.getData());
-        variationViewController = new VariationViewController(name, programModel, viewContext);
+        variationViewController = new VariationViewController(name, programModel, viewContext, eventBus);
         return variationViewController;
     }
 
     public VariationEditController getVariationEditController() {
         String name = programEditController.getProgramName();
         programModel.setRoot(VariationRegistry.getData());
-        variationEditController = new VariationEditController(name, programModel, viewContext);
+        variationEditController = new VariationEditController(name, programModel, viewContext, eventBus);
         return variationEditController;
     }
 
     public ProgramEditController getProgramEditController() {
         programModel.resetRoot();
         if (programEditController == null) {
-            programEditController = new ProgramEditController("Programs", programModel, viewContext);
+            programEditController = new ProgramEditController("Programs", programModel, viewContext, eventBus);
         }
         return programEditController;
     }
