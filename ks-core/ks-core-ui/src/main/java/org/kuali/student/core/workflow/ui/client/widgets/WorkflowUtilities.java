@@ -96,7 +96,7 @@ public class WorkflowUtilities{
     private String proposalName="";
         
 	private List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
-    private CloseHandler<KSLightBox> onSubmitSuccessHandler;
+    private CloseHandler onSubmitSuccessHandler;
 	private ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
 	private AbbrPanel required; 
 	private KSLightBox submitSuccessDialog;
