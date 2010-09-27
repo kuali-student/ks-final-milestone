@@ -99,7 +99,9 @@ public class ProgramEditController extends MajorController {
                     public void onSuccess(DataSaveResult result) {
                         super.onSuccess(result);
                         programModel.setRoot(result.getValue());
-                    }
+                        setHeaderTitle();                      
+                        HistoryManager.logHistoryChange();
+                   }
                 });
             }
 

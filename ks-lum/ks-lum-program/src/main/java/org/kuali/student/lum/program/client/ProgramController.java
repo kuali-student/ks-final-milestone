@@ -81,7 +81,7 @@ public class ProgramController extends MenuSectionController {
             public void onSuccess(Data result) {
                 super.onSuccess(result);
                 programModel.setRoot(result);
-                setContentTitle(getProgramName());
+                setHeaderTitle();
                 callback.onModelReady(programModel);
             }
         });
@@ -90,7 +90,7 @@ public class ProgramController extends MenuSectionController {
     public String getProgramName() {
         String name = (String) programModel.get("/" + ProgramConstants.LONG_TITLE);
         if (name == null) {
-            name = "Create New Program";
+            name = "New Program";
         }
         return name;
     }
@@ -173,5 +173,12 @@ public class ProgramController extends MenuSectionController {
     private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
         configureView();
         onReadyCallback.exec(true);
+    }
+
+    protected void setHeaderTitle(){
+    	String title = getProgramName();
+
+    	this.setContentTitle(title);
+    	this.setName(title);
     }
 }
