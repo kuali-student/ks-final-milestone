@@ -7,4 +7,6 @@ public interface TableModel {
 	public Row getRow(int rowIndex) ;
 	public Column getColumn(int columnIndex);
 	public int getColumnCount();
+	
+	public boolean isMultipleSelectable();
 }

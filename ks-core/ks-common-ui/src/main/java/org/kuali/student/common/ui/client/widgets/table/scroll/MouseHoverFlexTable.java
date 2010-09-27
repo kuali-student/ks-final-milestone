@@ -25,7 +25,6 @@ public class MouseHoverFlexTable extends FlexTable {
             return;
        
         switch (DOM.eventGetType(event)) {
-
             case Event.ONMOUSEOVER: {
                 Element tr = DOM.getParent(td);
                 DOM.setStyleAttribute(tr, "backgroundColor", "#2b60ec");

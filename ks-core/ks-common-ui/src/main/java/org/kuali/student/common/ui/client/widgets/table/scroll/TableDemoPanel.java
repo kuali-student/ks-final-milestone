@@ -16,7 +16,7 @@ public class TableDemoPanel extends Composite{
 	}
 	private Widget createDemoPage(){
 		VerticalPanel p = new VerticalPanel();
-		//tableModel.setMultipleSelectable(false);
+		tableModel.setMultipleSelectable(true);
 		final Table table = createTable();
 		p.add(table);
 		table.getScrollPanel().addScrollHandler(new ScrollHandler(){
