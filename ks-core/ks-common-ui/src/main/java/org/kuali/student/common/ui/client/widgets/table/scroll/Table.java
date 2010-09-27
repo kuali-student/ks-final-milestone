@@ -11,6 +11,9 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -36,7 +39,7 @@ public class Table extends Composite {
 	@UiField
 	FlexTable header;
 	@UiField
-	FlexTable table;
+	MouseHoverFlexTable table;
 	@UiField
 	SelectionStyle selectionStyle;
 	@UiField
@@ -46,6 +49,8 @@ public class Table extends Composite {
 
 	public Table() {
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		
 	}
     public FlexTable getHeader(){
         return header;
@@ -59,6 +64,7 @@ public class Table extends Composite {
 
 	public void setTableModel(TableModel m) {
 		tableModel = m;
+		table.setModel(tableModel);
 		if(m instanceof AbstractTableModel){
 			((AbstractTableModel)tableModel).addTableModelListener(new TableModelListener() {
 				@Override
@@ -69,6 +75,7 @@ public class Table extends Composite {
 			((AbstractTableModel)tableModel).fireTableStructureChanged();
 		}
 	}
+
 	@UiHandler("table")
 	void onTableClicked(ClickEvent event) {
 		Cell cell = table.getCellForEvent(event);
@@ -84,6 +91,7 @@ public class Table extends Composite {
 		Row row = tableModel.getRow(rowIndex);
 		
 		row.setSelected(!row.isSelected());
+		
     	updateTableSelection();
     	updateTableCell(rowIndex, 0);
 	}
