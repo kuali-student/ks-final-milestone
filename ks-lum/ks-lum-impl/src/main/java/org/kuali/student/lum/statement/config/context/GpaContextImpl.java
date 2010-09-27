@@ -39,8 +39,9 @@ public class GpaContextImpl extends BasicContextImpl {
     public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
     	Map<String, Object> contextMap = new HashMap<String, Object>();
     	String gpa = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GPA_KEY.getId());
-    	contextMap.put(GPA_TOKEN, Double.valueOf(gpa));
-
+    	if(gpa != null) {
+    		contextMap.put(GPA_TOKEN, Double.valueOf(gpa));
+    	}
         return contextMap;
     }
 }

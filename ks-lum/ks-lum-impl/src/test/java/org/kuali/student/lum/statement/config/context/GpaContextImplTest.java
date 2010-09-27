@@ -15,6 +15,7 @@ import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 public class GpaContextImplTest {
 	private GpaContextImpl gpaContext = new GpaContextImpl();
 	private ReqComponent reqComponent1;
+	private ReqComponent reqComponent2;
 
 	private void setupReqComponent1() {
 		reqComponent1 = new ReqComponent();
@@ -26,9 +27,20 @@ public class GpaContextImplTest {
 		reqComponent1.setReqComponentFields(reqCompFieldList);
 	}
 
+	private void setupReqComponent2() {
+		reqComponent2 = new ReqComponent();
+        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
+        ReqComponentField reqCompField1 = new ReqComponentField();
+        reqCompField1.setType(ReqComponentFieldTypes.GPA_KEY.getId());
+        reqCompField1.setValue(null);
+        reqCompFieldList.add(reqCompField1);
+        reqComponent2.setReqComponentFields(reqCompFieldList);
+	}
+
 	@Before
 	public void beforeMethod() {
 		setupReqComponent1();
+		setupReqComponent2();
 	}
 
 	@Test
@@ -36,5 +48,12 @@ public class GpaContextImplTest {
 		Map<String, Object> contextMap = gpaContext.createContextMap(reqComponent1);
 		Double gpa = (Double) contextMap.get(GpaContextImpl.GPA_TOKEN);
 		Assert.assertEquals(2.75d, gpa.doubleValue(), 0d);
+    }
+
+	@Test
+    public void testCreateContextMap_NullGpa() throws OperationFailedException {
+		Map<String, Object> contextMap = gpaContext.createContextMap(reqComponent2);
+		Double gpa = (Double) contextMap.get(GpaContextImpl.GPA_TOKEN);
+		Assert.assertEquals(null, gpa);
     }
 }

@@ -16,6 +16,7 @@ public class BasicContextImplTest {
 	private BasicContextImpl basicContext = new BasicContextImpl();
 	private ReqComponent reqComponent1;
 	private ReqComponent reqComponent2;
+	private ReqComponent reqComponent3;
 	
 	private void setupReqComponent1() {
 		reqComponent1 = new ReqComponent();
@@ -41,10 +42,21 @@ public class BasicContextImplTest {
 		reqComponent2.setReqComponentFields(reqCompFieldList);
 	}
 	
+	private void setupReqComponent3() {
+		reqComponent3 = new ReqComponent();
+        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
+        ReqComponentField reqCompField1 = new ReqComponentField();
+        reqCompField1.setType(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
+        reqCompField1.setValue(null);
+        reqCompFieldList.add(reqCompField1);
+		reqComponent3.setReqComponentFields(reqCompFieldList);
+	}
+	
 	@Before
 	public void beforeMethod() {
 		setupReqComponent1();
 		setupReqComponent2();
+		setupReqComponent3();
 	}
 	
 	@Test
@@ -63,5 +75,13 @@ public class BasicContextImplTest {
 		
 		Assert.assertEquals(Integer.class.getName(), value.getClass().getName());
 		Assert.assertEquals("1", value.toString());
+    }
+
+	@Test
+    public void testCreateContextMap_CheckTokenValueDataType_NullInteger() throws OperationFailedException {
+		Map<String, Object> contextMap = basicContext.createContextMap(reqComponent3);
+		Object value = contextMap.get(BasicContextImpl.INTEGER_VALUE_TOKEN);
+		
+		Assert.assertEquals(null, value);
     }
 }
