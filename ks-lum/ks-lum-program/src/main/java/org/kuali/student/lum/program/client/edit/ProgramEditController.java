@@ -93,6 +93,14 @@ public class ProgramEditController extends MajorController {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
+                ProgramEditController.this.updateModel();
+                programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+                    @Override
+                    public void onSuccess(DataSaveResult result) {
+                        super.onSuccess(result);
+                        programModel.setRoot(result.getValue());
+                    }
+                });
             }
 
             @Override
@@ -100,13 +108,6 @@ public class ProgramEditController extends MajorController {
                 GWT.log("Unable to retrieve model for validation and save", cause);
             }
 
-        });
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
-            @Override
-            public void onSuccess(DataSaveResult result) {
-                super.onSuccess(result);
-                programModel.setRoot(result.getValue());
-            }
         });
     }
 }

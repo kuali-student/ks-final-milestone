@@ -376,6 +376,26 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programInformation_accreditation();
 
   /**
+   * Translated "Accreditations".
+   * 
+   * @return translated "Accreditations"
+   */
+  @DefaultMessage("Accreditations")
+  @Key("programInformation.accreditations")
+  String programInformation_accreditations();
+
+  /**
+   * Translated "Add Accreditation".
+   * 
+   * @return translated "Add Accreditation"
+   */
+  @DefaultMessage("Add Accreditation")
+  @Key("programInformation.addAccreditation")
+  String programInformation_addAccreditation();
+
+
+  
+  /**
    * Translated "End Inst Admit Term".
    * 
    * @return translated "End Inst Admit Term"
