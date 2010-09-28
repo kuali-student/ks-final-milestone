@@ -2180,7 +2180,11 @@
 		<property name="path" value="majorDisciplineInfo.resultOptions" />
 		<property name="initialLookup" ref="kuali.lu.lookup.degree.types" />
 	</bean>
-    
+    <bean id="programVariationInfo.resultOptions" parent="uilookupconfig-parent">
+		<property name="path" value="majorDisciplineInfo.variations.resultOptions" />
+		<property name="initialLookup" ref="kuali.lu.lookup.degree.types" />
+	</bean>
+
     <bean id="kuali.lu.lookup.degree.types" parent="kuali.common.lookup.degree.types" class="org.kuali.student.core.assembly.data.UILookupData">
         <property name="name" value="Result Options Scale" />
         <property name="desc" value="Degree Types" />
