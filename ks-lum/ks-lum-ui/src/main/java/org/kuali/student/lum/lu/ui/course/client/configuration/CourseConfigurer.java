@@ -466,7 +466,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected VerticalSection generateDescriptionRationaleSection() {
-        SectionTitle title = getH1Title(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY);
+        SectionTitle title = getH4Title(LUConstants.PROPOSAL_TITLE_SECTION_LABEL_KEY);
         VerticalSection description = initSection(title, !WITH_DIVIDER);
         title.setStyleName("cluProposalTitleSection");
         //FIXME [KSCOR-225] Temporary fix til we have a real rich text editor
