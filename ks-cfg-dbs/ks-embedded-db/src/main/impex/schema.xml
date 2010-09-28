@@ -5388,7 +5388,7 @@
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>
     <sequence name="KRSB_BAM_S" nextval="2000"/>
-    <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1158"/>
+    <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="1158"/>
+    <sequence name="KRSB_SVC_DEF_S" nextval="1000"/>
 </database>
