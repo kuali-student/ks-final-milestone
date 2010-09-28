@@ -15,8 +15,8 @@
 
 package org.kuali.student.core.enumerationmanagement.dto;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -24,34 +24,43 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.TypeInfo;
+
 
 /**
  *Descriptive information about an enumeration, including field constraints and supported contexts.
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EnumerationMetaInfo implements Serializable, Idable {
+public class EnumerationInfo extends TypeInfo {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String name;
-
-    @XmlElement
-    private String desc;
-
-    @XmlElement
-    private List<EnumeratedValueFieldInfo> enumeratedValueFields;
-
-    @XmlElement
-    private List<EnumContextInfo> contextDescriptors;
-
     @XmlAttribute(name="key")
     private String id;
+    
+    @XmlElement
+    private String name;
+    
+    @XmlElement(name ="desc")
+    private String descr;
 
-    /**
-     * Name of the enumeration.
-     */
+    @XmlElement
+    private Date effectiveDate;
+    
+    @XmlElement
+    private Date expirationDate;
+    
+    @XmlElement
+    private List<String> contextDescriptors;
+    
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -60,53 +69,41 @@ public class EnumerationMetaInfo implements Serializable, Idable {
         this.name = name;
     }
 
-    /**
-     * Description of the enumeration. This may describe potential source for the enumeration (ex. standards body, etc.)
-     */
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
-    /**
-     * Description of the constraints on the fields of this enumeration. Ex. the code field may only take a alphanumeric two character string.
-     */
-    public List<EnumeratedValueFieldInfo> getEnumeratedValueFields() {
-        if (enumeratedValueFields == null) {
-            enumeratedValueFields = new ArrayList<EnumeratedValueFieldInfo>();
-        }
-        return enumeratedValueFields;
+    public Date getEffectiveDate() {
+        return effectiveDate;
     }
 
-    public void setEnumeratedValueFields(List<EnumeratedValueFieldInfo> enumeratedValueFields) {
-        this.enumeratedValueFields = enumeratedValueFields;
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     /**
      * List of contexts supported by this enumeration
      */
-    public List<EnumContextInfo> getContextDescriptors() {
+    public List<String> getContextDescriptors() {
         if (contextDescriptors == null) {
-            contextDescriptors = new ArrayList<EnumContextInfo>();
+            contextDescriptors = new ArrayList<String>();
         }
         return contextDescriptors;
     }
 
-    public void setContextDescriptors(List<EnumContextInfo> contextDescriptors) {
+    public void setContextDescriptors(List<String> contextDescriptors) {
         this.contextDescriptors = contextDescriptors;
-    }
-
-    /**
-     * Identifier for an enumeration.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

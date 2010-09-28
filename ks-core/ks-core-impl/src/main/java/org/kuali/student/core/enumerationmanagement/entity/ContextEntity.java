@@ -43,7 +43,7 @@ public class ContextEntity {
     String contextValue;
 
     @ManyToMany(mappedBy="contextEntityList", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    List<EnumeratedValueEntity> enumeratedValueEntityList;
+    List<EnumeratedValue> enumeratedValueList;
     
     /**
      * AutoGenerate the id
@@ -76,12 +76,12 @@ public class ContextEntity {
         this.contextValue = value;
     }
     
-	public List<EnumeratedValueEntity> getEnumeratedValueEntityList() {
-		return enumeratedValueEntityList;
+	public List<EnumeratedValue> getEnumeratedValueList() {
+		return enumeratedValueList;
 	}
-	public void setEnumeratedValueEntityList(
-			List<EnumeratedValueEntity> enumeratedValueEntityList) {
-		this.enumeratedValueEntityList = enumeratedValueEntityList;
+	public void setEnumeratedValueList(
+			List<EnumeratedValue> enumeratedValueList) {
+		this.enumeratedValueList = enumeratedValueList;
 	}
     
 }

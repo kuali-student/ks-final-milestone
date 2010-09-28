@@ -22,13 +22,14 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerationmanagement.EnumerationException;
 import org.kuali.student.core.enumerationmanagement.dao.EnumerationManagementDAO;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.dto.EnumerationMetaInfo;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity;
+import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
+import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
+import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.core.enumerationmanagement.service.impl.util.EnumerationAssembler;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -61,58 +62,30 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	
 	public EnumerationManagementServiceImpl() {}
     
-    private List<ValidationResultInfo> validateEnumeratedValue(EnumerationMetaInfo meta, EnumeratedValueInfo value){
-//    	
-//    	DictValidationResultContainer result = new DictValidationResultContainer(meta.g);
-//    	List<EnumeratedValueFieldInfo> fields = meta.getEnumeratedValueFields();
-//        for(EnumeratedValueFieldInfo field: fields){
-//        	if(field.getId().equalsIgnoreCase("code")){
-//        		result = DictValidationResultContainer.validate(value.getCode(), field.getFieldDescriptor().toMap());
-//        	}
-//        	else if(field.getId().equalsIgnoreCase("abbrevValue")){
-//        		result = DictValidationResultContainer.validate(value.getAbbrevValue(), field.getFieldDescriptor().toMap());
-//        	}
-//        	else if(field.getId().equalsIgnoreCase("value")){
-//        		result = DictValidationResultContainer.validate(value.getValue(), field.getFieldDescriptor().toMap());
-//        	}
-//        	else if(field.getId().equalsIgnoreCase("effectiveDate")){
-//        		result = DictValidationResultContainer.validate(value.getEffectiveDate(), field.getFieldDescriptor().toMap());
-//        	}
-//        	else if(field.getId().equalsIgnoreCase("expirationDate")){
-//        		result = DictValidationResultContainer.validate(value.getExpirationDate(), field.getFieldDescriptor().toMap());
-//        	}
-//        	else if(field.getId().equalsIgnoreCase("sortKey")){
-//        		result = DictValidationResultContainer.validate(value.getSortKey(), field.getFieldDescriptor().toMap());
-//        	}
-//        	
-//        	if(result.getErrorLevel() == DictValidationResultInfo.ErrorLevel.ERROR){
-//        		break;
-//        	}
-//        }
-//        return result;
+    private List<ValidationResultInfo> validateEnumeratedValue(EnumerationInfo meta, EnumeratedValueInfo value){
     	return null; //FIXME need real validation
     }
      
 	@Override
-	public EnumerationMetaInfo getEnumerationMeta(String enumerationKey)
+	public EnumerationInfo getEnumeration(String enumerationKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
         
-        EnumerationMetaEntity enumerationMetaEntity = enumDAO.fetchEnumerationMeta(enumerationKey);
-        EnumerationMetaInfo enumerationMeta = null;
+        Enumeration enumerationMetaEntity = enumDAO.fetchEnumeration(enumerationKey);
+        EnumerationInfo enumerationMeta = null;
         if(enumerationMetaEntity != null){
-        	enumerationMeta = new EnumerationMetaInfo();
-	        EnumerationAssembler.toEnumeratedMetaInfo(enumerationMetaEntity, enumerationMeta);
+        	enumerationMeta = new EnumerationInfo();
+	        EnumerationAssembler.toEnumerationInfo(enumerationMetaEntity, enumerationMeta);
         }
         return enumerationMeta;
 	}
 
 	@Override
-	public List<EnumerationMetaInfo> getEnumerationMetas()
+	public List<EnumerationInfo> getEnumerations()
 			throws OperationFailedException {
-        List<EnumerationMetaEntity> entities =  this.enumDAO.findEnumerationMetas();
+        List<Enumeration> entities =  this.enumDAO.findEnumerations();
         
-        List<EnumerationMetaInfo> dtos = EnumerationAssembler.toEnumerationMetaList(entities);
+        List<EnumerationInfo> dtos = EnumerationAssembler.toEnumerationMetaList(entities);
        
         return dtos;
 	}
@@ -122,11 +95,11 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			EnumeratedValueInfo enumeratedValue) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-    	EnumerationMetaInfo meta;
+    	EnumerationInfo meta;
 		try {
-			meta = this.getEnumerationMeta(enumerationKey);
+			meta = this.getEnumeration(enumerationKey);
 		} catch (DoesNotExistException e) {
-			throw new InvalidParameterException("Enumeration Meta does not exist for key:"+enumerationKey);
+			throw new InvalidParameterException("Enumeration does not exist for key:"+enumerationKey);
 		}
 		
     	if(meta != null){
@@ -139,7 +112,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	    	}
     	}
     	
-    	EnumeratedValueEntity valueEntity = new EnumeratedValueEntity();
+    	EnumeratedValue valueEntity = new EnumeratedValue();
     	EnumerationAssembler.toEnumeratedValueEntity(enumeratedValue, valueEntity);
         enumDAO.addEnumeratedValue(enumerationKey, valueEntity);
 
@@ -147,23 +120,23 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 	@Override
-	public List<EnumeratedValueInfo> getEnumeration(String enumerationKey,
+	public List<EnumeratedValueInfo> getEnumeratedValues(String enumerationKey,
 			String contextType, String contextValue, Date contextDate)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
-        List<EnumeratedValueEntity> enumeratedValueEntityList = new ArrayList<EnumeratedValueEntity>();
+        List<EnumeratedValue> enumeratedValueEntityList = new ArrayList<EnumeratedValue>();
         if(enumerationKey != null && contextType != null && contextValue != null && contextDate != null){
-        	enumeratedValueEntityList = enumDAO.fetchEnumerationWithContextAndDate(enumerationKey, contextType, contextValue, contextDate);
+        	enumeratedValueEntityList = enumDAO.fetchEnumeratedValuesWithContextAndDate(enumerationKey, contextType, contextValue, contextDate);
         }
         else if(enumerationKey != null && contextType != null && contextValue != null){
-        	enumeratedValueEntityList = enumDAO.fetchEnumerationWithContext(enumerationKey, contextType, contextValue);
+        	enumeratedValueEntityList = enumDAO.fetchEnumeratedValuesWithContext(enumerationKey, contextType, contextValue);
         }
         else if(enumerationKey != null && contextDate != null){
-        	enumeratedValueEntityList = enumDAO.fetchEnumerationWithDate(enumerationKey, contextDate);
+        	enumeratedValueEntityList = enumDAO.fetchEnumeratedValuesWithDate(enumerationKey, contextDate);
         }
         else if(enumerationKey != null){
-        	enumeratedValueEntityList = enumDAO.fetchEnumeration(enumerationKey);
+        	enumeratedValueEntityList = enumDAO.fetchEnumeratedValues(enumerationKey);
         }
         
         List<EnumeratedValueInfo> enumeratedValueList = EnumerationAssembler.toEnumeratedValueList(enumeratedValueEntityList);
@@ -178,7 +151,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
         
-    	EnumerationMetaInfo meta = this.getEnumerationMeta(enumerationKey);
+    	EnumerationInfo meta = this.getEnumeration(enumerationKey);
     	if(meta != null){
 	        List<ValidationResultInfo> results = this.validateEnumeratedValue(meta, enumeratedValue);
     	
@@ -189,7 +162,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	    	}
     	}
 
-	    EnumeratedValueEntity enumeratedValueEntity = new EnumeratedValueEntity();    
+	    EnumeratedValue enumeratedValueEntity = new EnumeratedValue();    
 	    EnumerationAssembler.toEnumeratedValueEntity(enumeratedValue, enumeratedValueEntity);
 	    enumeratedValueEntity =  enumDAO.updateEnumeratedValue(enumerationKey, code, enumeratedValueEntity);
 	    EnumerationAssembler.toEnumeratedValueInfo(enumeratedValueEntity, enumeratedValue);
@@ -202,6 +175,8 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         enumDAO.removeEnumeratedValue(enumerationKey, code);
         return new StatusInfo();
     }
+	
+
 	
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
@@ -290,4 +265,16 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	public void setEnumDAO(EnumerationManagementDAO enumDAO) {
 		this.enumDAO = enumDAO;
 	}
+
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getObjectTypes() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 }
