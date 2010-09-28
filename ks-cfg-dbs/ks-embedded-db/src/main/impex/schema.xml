@@ -3246,16 +3246,6 @@
             <reference foreign="ID" local="ENUM_VAL_ID"/>
         </foreign-key>
     </table>
-    <table name="KSEM_CTX_META_ENT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="DATA_TYPE" size="255" type="VARCHAR"/>
-        <column name="ENUM_KEY" size="255" type="VARCHAR"/>
-        <column name="MAX_LGTH" size="10" type="DECIMAL"/>
-        <column name="MAX_OCCRS" size="10" type="DECIMAL"/>
-        <column name="MIN_LGTH" size="10" type="DECIMAL"/>
-        <column name="MIN_OCCRS" size="10" type="DECIMAL"/>
-        <column name="TYPE" size="255" type="VARCHAR"/>
-    </table>
     <table name="KSEM_CTX_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CTX_KEY" size="255" type="VARCHAR"/>
@@ -3265,28 +3255,12 @@
             <unique-column name="CTX_VAL"/>
         </unique>
     </table>
-    <table name="KSEM_ENUM_META_ENT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ENUM_KEY" size="255" type="VARCHAR"/>
-        <column name="ENUM_META_KEY_DESC" size="255" type="VARCHAR"/>
+    <table name="KSEM_ENUM_T">
+        <column name="ENUM_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="DESCR" size="255" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEM_ENUM_VAL_FLD_ENT">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="DATA_TYPE" size="255" type="VARCHAR"/>
-        <column name="FLD_KEY" size="255" type="VARCHAR"/>
-        <column name="INVLD_CHARS" size="255" type="VARCHAR"/>
-        <column name="MAX_LGTH" size="255" type="VARCHAR"/>
-        <column name="MAX_OCCRS" size="255" type="VARCHAR"/>
-        <column name="MAX_VAL" size="255" type="VARCHAR"/>
-        <column name="MIN_LGTH" size="10" type="DECIMAL"/>
-        <column name="MIN_OCCRS" size="10" type="DECIMAL"/>
-        <column name="MIN_VAL" size="255" type="VARCHAR"/>
-        <column name="VALID_CHARS" size="255" type="VARCHAR"/>
-        <column name="ENUM_META_ENT_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEM_ENUM_META_ENT" name="FKA52CFC1D32448E4B">
-            <reference foreign="ID" local="ENUM_META_ENT_ID"/>
-        </foreign-key>
     </table>
     <table name="KSEM_ENUM_VAL_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5414,7 +5388,7 @@
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>
     <sequence name="KRSB_BAM_S" nextval="2000"/>
-    <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
+    <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1158"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="1000"/>
+    <sequence name="KRSB_SVC_DEF_S" nextval="1158"/>
 </database>
