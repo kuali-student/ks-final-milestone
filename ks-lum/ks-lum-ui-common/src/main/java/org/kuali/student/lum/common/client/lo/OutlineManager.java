@@ -54,6 +54,7 @@ public class OutlineManager extends Composite {
 			nodePanel.setOutlineNode(aNode);
 
 			mainPanel.add(nodePanel);
+			showAllToolbar();
 		}
 	}
 	public void closeAllToolbar(){
@@ -61,6 +62,14 @@ public class OutlineManager extends Composite {
 			if(mainPanel.getWidget(i) instanceof NodePanel){
 				NodePanel p = (NodePanel)mainPanel.getWidget(i);
 				p.hideToolbar();
+			}
+		}
+	}
+	public void showAllToolbar(){
+		for(int i=0;i< mainPanel.getWidgetCount();i++){
+			if(mainPanel.getWidget(i) instanceof NodePanel){
+				NodePanel p = (NodePanel)mainPanel.getWidget(i);
+				p.showToolbar();
 			}
 		}
 	}
@@ -118,13 +127,13 @@ public class OutlineManager extends Composite {
 		public void onBrowserEvent(Event event) {
 			switch (DOM.eventGetType(event)) {
 			case Event.ONMOUSEMOVE: {
-				closeAllToolbar();
+//				closeAllToolbar();
 
 
 				outlineModel.setCurrentNode(currentNode);
 
-				showToolbar();
-				toolbar.updateButtonStates();
+//				showToolbar();
+//				toolbar.updateButtonStates();
 				break;
 			}
 			case Event.ONMOUSEOUT:
