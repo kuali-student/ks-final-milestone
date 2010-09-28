@@ -49,8 +49,8 @@ public class ConfirmationDialog {
 	}
 	
 	private void setupLayout(String titleText, String message){
-		title.setText(titleText);
-		dialog = new KSLightBox(title);
+		//title.setText(titleText);
+		dialog = new KSLightBox(titleText);
 
 		cancel.addClickHandler(new ClickHandler(){
 
@@ -85,7 +85,7 @@ public class ConfirmationDialog {
 		dialog.removeCloseLink();
 	}
 	
-	public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
+	public HandlerRegistration addCloseHandler(CloseHandler handler){
 		return dialog.addCloseHandler(handler);
 	}
 	

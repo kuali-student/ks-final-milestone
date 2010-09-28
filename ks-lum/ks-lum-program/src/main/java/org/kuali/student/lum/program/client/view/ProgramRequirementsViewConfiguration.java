@@ -8,19 +8,23 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsView
 
 public class ProgramRequirementsViewConfiguration extends AbstractSectionConfiguration {
 
-    private ProgramController viewController;
+    private ProgramController parentController;
+    private ProgramRequirementsViewController progReqcontroller;
 
     public ProgramRequirementsViewConfiguration() {
-        ProgramRequirementsViewController controller = new ProgramRequirementsViewController(viewController, ProgramProperties.get().program_menu_sections_requirements(),
+        progReqcontroller = new ProgramRequirementsViewController(parentController, ProgramProperties.get().program_menu_sections_requirements(),
                                                                                                     ProgramSections.PROGRAM_REQUIREMENTS_VIEW, true);
-        rootSection = controller.getProgramRequirementsView();
+        rootSection = progReqcontroller.getProgramRequirementsView();
     }
 
     @Override
     protected void buildLayout() {
     }
 
-    public void setViewController(ProgramController viewController) {
-        this.viewController = viewController;
+    public void setViewController(ProgramController controller) {
+        this.parentController = controller;
+        if (progReqcontroller != null) {
+            progReqcontroller.setParentController(controller);
+        }
     }
 }

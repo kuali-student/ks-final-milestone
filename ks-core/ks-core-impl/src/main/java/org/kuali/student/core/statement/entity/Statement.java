@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -65,13 +64,13 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     @Enumerated(EnumType.STRING)
     private StatementOperatorTypeKey operator;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "KSST_STMT_JN_STMT", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_ID"))
-    private List<Statement> children = new ArrayList<Statement>(0);
+    private List<Statement> children;
 
     @ManyToMany
     @JoinTable(name = "KSST_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_ID"))
-    private List<ReqComponent> requiredComponents = new ArrayList<ReqComponent>(0);
+    private List<ReqComponent> requiredComponents;
 
     @ManyToOne
     @JoinColumn(name = "STMT_TYPE_ID")
@@ -79,10 +78,10 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER")
-    private List<StatementAttribute> attributes = new ArrayList<StatementAttribute>(0);
+    private List<StatementAttribute> attributes;
 
     @OneToMany(mappedBy = "statement")
-    private List<RefStatementRelation> refStatementRelations = new ArrayList<RefStatementRelation>(0);
+    private List<RefStatementRelation> refStatementRelations;
 
     /**
      * AutoGenerate the Id

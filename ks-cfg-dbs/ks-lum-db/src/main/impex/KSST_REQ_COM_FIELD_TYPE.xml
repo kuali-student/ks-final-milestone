@@ -37,11 +37,7 @@
         ID="kuali.reqComponent.field.type.person.id" NAME="Person Id" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="Test score"
         ID="kuali.reqComponent.field.type.test.score" NAME="Test Score" READ_ONLY="0"/>
-    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string"
-        DESCR="Value like Date, String, Integer, Double etc."
-        ID="kuali.reqComponent.field.type.value" NAME="Value" READ_ONLY="0"/>
-    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string"
-        DESCR="Value data type like Date, String, Integer, Double etc."
-        ID="kuali.reqComponent.field.type.valueDataType"
-        NAME="Value Data Type" READ_ONLY="0"/>
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="integer" DESCR="Integer Value"
+        ID="kuali.reqComponent.field.type.value.positive.integer"
+        NAME="Integer Value" READ_ONLY="0"/>
 </dataset>

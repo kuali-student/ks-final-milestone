@@ -26,15 +26,14 @@ package org.kuali.student.lum.statement.typekey;
  * <ul>
  * <li><code>kuali.reqComponent.field.type.clu</code> maps to <code>clu</code></li>
  * <li><code>kuali.reqComponent.field.type.cluSet</code> maps to <code>cluSet</code></li>
- * <li><code>kuali.reqComponent.field.type.value</code> maps to <code>value</code></li>
+ * <li><code>kuali.reqComponent.field.type.value.positive.integer</code> maps to <code>value</code></li>
  * <li><code>kuali.reqComponent.field.type.operator</code> maps to <code>relationalOperator</code></li>
  * </ul>
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
 public enum ReqComponentFieldTypes {
-	VALUE_KEY("kuali.reqComponent.field.type.value"),
-	VALUE_DATA_TYPE_KEY("kuali.reqComponent.field.type.valueDataType"),
+	INTEGER_VALUE1_KEY("kuali.reqComponent.field.type.value.positive.integer"),
 	OPERATOR_KEY("kuali.reqComponent.field.type.operator"),
 	CLU_KEY("kuali.reqComponent.field.type.clu.id"),
 	CLUSET_KEY("kuali.reqComponent.field.type.cluSet.id"),
@@ -58,10 +57,10 @@ public enum ReqComponentFieldTypes {
 	public String getId() {
 		return this.id;
 	}
-
-	public enum ValueDataType {
-		STRING,
-		INTEGER,
-		DOUBLE,
-	}
+//
+//	public enum ValueDataType {
+//		STRING,
+//		INTEGER,
+//		DOUBLE,
+//	}
 }

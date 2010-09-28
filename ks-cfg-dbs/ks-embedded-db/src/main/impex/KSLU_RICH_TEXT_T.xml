@@ -122,4 +122,6 @@
     <KSLU_RICH_TEXT_T ID="VAR-202" FORMATTED="Zooarchaeology" PLAIN="Zooarchaeology"/>
     <KSLU_RICH_TEXT_T ID="VAR-301" FORMATTED="Archaeobotany" PLAIN="Archaeobotany"/>
     <KSLU_RICH_TEXT_T ID="VAR-302" FORMATTED="Archaeobotany" PLAIN="Archaeobotany"/>
+    <KSLU_RICH_TEXT_T ID="MAJOR-101" FORMATTED="Bachelor of Arts" PLAIN="Bachelor of Arts"/>
+    <KSLU_RICH_TEXT_T ID="MAJOR-102" FORMATTED="Bachelor of Science" PLAIN="Bachelor of Science"/>
 </dataset>

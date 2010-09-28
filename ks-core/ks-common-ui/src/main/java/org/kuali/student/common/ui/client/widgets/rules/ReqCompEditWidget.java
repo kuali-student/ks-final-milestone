@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
@@ -18,6 +19,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -45,7 +47,7 @@ public class ReqCompEditWidget extends FlowPanel {
     private Map<String, String> compositionTemplates = new HashMap<String, String>();    
     private ReqComponentInfo editedReqComp;						//Req. Component that user is editing or adding
     private ReqComponentTypeInfo selectedReqType;
-    private ReqComponentTypeInfo originalReqType;
+    //private ReqComponentTypeInfo originalReqType;
     private boolean addingNewReqComp;                           //adding (true) or editing (false) req. component
     private Callback reqCompConfirmCallback;
     private Callback newReqCompSelectedCallback;
@@ -133,7 +135,7 @@ public class ReqCompEditWidget extends FlowPanel {
                  if (addingNewReqComp) {
                      createReqComp(selectedReqType);
                  } else {
-                	 editedReqComp.setRequiredComponentType(selectedReqType);
+                	 //editedReqComp.setRequiredComponentType(selectedReqType);
                      editedReqComp.setType(selectedReqType.getId());
                  }
 
@@ -145,7 +147,7 @@ public class ReqCompEditWidget extends FlowPanel {
     public void setupNewReqComp() {
         addingNewReqComp = true;
         selectedReqType = null;        
-        originalReqType = null;
+        //originalReqType = null;
         createReqComp(null);
         redraw();        
     }
@@ -159,7 +161,7 @@ public class ReqCompEditWidget extends FlowPanel {
         editedReqComp.setDesc(desc);
         editedReqComp.setId(Integer.toString(tempCounterID++));  
         editedReqComp.setReqCompFields(null);
-        editedReqComp.setRequiredComponentType(reqCompTypeInfo);
+        //editedReqComp.setRequiredComponentType(reqCompTypeInfo);
         if (reqCompTypeInfo != null) {
             editedReqComp.setType(reqCompTypeInfo.getId());
         }
@@ -173,7 +175,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
         addingNewReqComp = false;
         editedReqComp = existingReqComp;
-        originalReqType = editedReqComp.getRequiredComponentType();
+        //originalReqType = editedReqComp.getRequiredComponentType();
 
         selectedReqType = null;
         for (ReqComponentTypeInfo aReqCompTypeInfoList : reqCompTypeInfoList) {
@@ -256,25 +258,25 @@ public class ReqCompEditWidget extends FlowPanel {
                 }
             }
 
-            String fieldType = fieldProperties.get("reqCompFieldType");
+            final String fieldType = fieldProperties.get("reqCompFieldType");
             String fieldLabel = fieldProperties.get("reqCompFieldLabel");
             String fieldValue = getFieldValue(reqCompFields, fieldType);
 
             //TODO replace with metadata and check on req. comp. field type
-
-       /*     metadataServiceAsync.getMetadata("addressInfo", "FOREIGN_ADDRESS", "DRAFT", new KSAsyncCallback<Metadata>() {
+           // String fieldType = "kuali.reqComponent.field.type.gpa";
+            metadataServiceAsync.getMetadata("org.kuali.student.core.statement.dto.ReqCompFieldInfo", selectedReqType.getId(), "DRAFT", new KSAsyncCallback<Metadata>() {
                 @Override
                 public void handleFailure(Throwable caught) {
-                    throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
+                    throw new RuntimeException("Could not get metadata for field type '" + selectedReqType.getId() + "' : " + caught.getMessage(), caught);
                 }
                 @Override
                 public void onSuccess(Metadata metadata) {
                     metadata = metadata.getProperties().get("findCourseTmp");  //TEMP until we have new home page screen where we have suggest box instead of a link
 
                 }
-            });       */  
+            });         
 
-            if (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.program.admitted.credits")) {
+            if (editedReqComp.getType().equals("kuali.reqComponent.type.program.admitted.credits")) {
                 final KSTextBox valueWidget = new KSTextBox();
                 valueWidget.setName(fieldType);
                 reqCompWidgetsPanel.add(new KSLabel(fieldLabel + ":"));

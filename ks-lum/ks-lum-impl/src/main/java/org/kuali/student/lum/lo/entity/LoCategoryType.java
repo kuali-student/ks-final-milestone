@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -108,9 +107,6 @@ public class LoCategoryType implements AttributeOwner<LoCategoryTypeAttribute> {
 	 */
 	@Override
 	public List<LoCategoryTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoCategoryTypeAttribute>(0);
-		}
 		return attributes;
 	}
 

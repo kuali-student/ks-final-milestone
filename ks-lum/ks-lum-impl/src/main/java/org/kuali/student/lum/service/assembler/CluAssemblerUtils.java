@@ -67,19 +67,18 @@ public class CluAssemblerUtils {
     }
 
 
-    public List<String> assembleCluResults(String courseResultType, List<CluResultInfo> cluResults) throws AssemblyException{
-		if(courseResultType==null){
-			throw new AssemblyException("courseResultType can not be null");
+    public List<String> assembleCluResults(List<String> resultTypes, List<CluResultInfo> cluResults) throws AssemblyException{
+		if(resultTypes==null){
+			throw new AssemblyException("result types can not be null");
 		}
 		List<String> results = new ArrayList<String>();
-		//Loop through all the CluResults to find the one with the matching type
+		//Loop through all the CluResults to find those with the matching types
 		for(CluResultInfo cluResult:cluResults){
-			if(courseResultType.equals(cluResult.getType())){
+			if(resultTypes.contains(cluResult.getType())){
 				//Loop through all options and add to the list of Strings
 				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
 					results.add(resultOption.getResultComponentId());
 				}
-				break;
 			}
 		}
 		return results;
@@ -98,14 +97,14 @@ public class CluAssemblerUtils {
 
 		CluResultInfo cluResult = null;
 
+        //TODO Check this for proper handling of multiple CluResultInfos?  
 		//If this is not a create, lookup the results for this clu
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
 				List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
 
 				for (CluResultInfo currentResult : cluResultList) {
-					if (resultType
-							.equals(currentResult.getType())) {
+					if (resultType.equals(currentResult.getType())) {
 						cluResult = currentResult;
 						if(NodeOperation.DELETE.equals(operation)){
 							//if this is a delete, then we only need the CluResultInfo
@@ -117,7 +116,6 @@ public class CluAssemblerUtils {
 								currentResults.put(resultOption.getResultComponentId(), resultOption);
 							}
 						}
-						break;
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -147,7 +145,7 @@ public class CluAssemblerUtils {
 
 			cluResult.setResultOptions(new ArrayList<ResultOptionInfo>());
 
-			// Loop through all the credit options in this course
+			// Loop through all the credit options in this clu
 			for (String optionType : options) {
 				if(currentResults.containsKey(optionType)){
 					//If the option exists already copy it to the new list of result options

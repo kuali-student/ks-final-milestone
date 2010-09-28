@@ -73,6 +73,7 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
@@ -119,6 +120,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	public static final String CREATE_TYPE = "kuali.proposal.type.course.create";
 	private String currentDocType = CREATE_TYPE;
 	private String proposalPath = "";
+	private String currentTitle;
 
 	private DateFormat df = DateFormat.getInstance();
 
@@ -243,14 +245,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	}
     }
 
-    private KSButton getSaveButton(){
-        return new KSButton("Save & Continue", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        fireApplicationEvent(new SaveActionEvent(true));
-                    }
-                });
-    }
-
     private void init(final Callback<Boolean> onReadyCallback) {
     	if (initialized) {
     		onReadyCallback.exec(true);
@@ -329,15 +323,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	cfg.setModelDefinition(modelDefinition);
     	cfg.configure(this);
 
-        addCommonButton(LUConstants.COURSE_SECTIONS, getSaveButton());
+        
     }
 
     private CloseHandler<KSLightBox> createOnWorkflowSubmitSuccessHandler() {
     	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
 			@Override
 			public void onClose(CloseEvent<KSLightBox> event) {
-				//TODO actually make this 
-				Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), getViewContext());
+				removeMenuNavigation();
 			}
     	};
 		return handler;
@@ -362,6 +355,15 @@ public class CourseProposalController extends MenuEditableSectionController impl
             		ref.setReferenceId((String)cluProposalModel.get(cfg.getProposalPath()+"/id"));
         		} else {
         			ref.setReferenceId(null);
+        		}
+        		
+        		//Use the referenceAttribute to store misc data from the parent model like reference name, etc
+        		if(cluProposalModel.get(cfg.getProposalPath()) != null){
+        			Map<String, String> attributes = new HashMap<String, String>();
+        			attributes.put("name", (String)cluProposalModel.get(cfg.getProposalPath()+"/name"));
+        			ref.setReferenceAttributes(attributes);
+        		} else {
+        			ref.setReferenceAttributes(null);
         		}
 
         		ref.setReferenceTypeKey(cfg.getProposalReferenceTypeKey());
@@ -475,7 +477,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         LuData data = new LuData();
         
         Data proposalData = new Data();
-        proposalData.set(new Data.StringKey("proposalType"), MODIFY_TYPE);
+        proposalData.set(new Data.StringKey("type"), MODIFY_TYPE);
         data.set(new Data.StringKey("proposal"), proposalData);
         
         Data versionData = new Data();
@@ -617,8 +619,15 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	                    }
                 	}else{
                 		saveActionEvent.setSaveSuccessful(true);
+                		cluProposalModel.setRoot(result.getValue());
+                		String title = getProposalTitle();
+                		if(isNew){
+                			RecentlyViewedHelper.addCurrentDocument(title);
+                		}
+                		else if(!currentTitle.equals(title)){
+                			RecentlyViewedHelper.updateTitle(currentTitle, title);
+                		}
                 		isNew = false;
-	    				cluProposalModel.setRoot(result.getValue());
 	    	            View currentView = getCurrentView();
 	    				if (currentView instanceof SectionView){
 	    					((SectionView)currentView).updateView(cluProposalModel);
@@ -639,6 +648,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				setProposalHeaderTitle();
 	    				setLastUpdated();
 	    				HistoryManager.logHistoryChange();
+	    				
 	    				if(saveActionEvent.gotoNextView()){
 	    					CourseProposalController.this.showNextViewOnMenu();
 	    				}
@@ -693,11 +703,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
 			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
 		}
-		String type = getViewContext().getAttribute(IdAttributes.DOC_TYPE);
-		if(type != null && !type.isEmpty()){
-			attributes.put(IdAttributes.DOC_TYPE, type);
-		}
-    	cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
+
+		cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {
@@ -730,22 +737,16 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 
     protected void setProposalHeaderTitle(){
-    	StringBuffer sb = new StringBuffer();
-    	if (cluProposalModel.get("course/copyOfCourseId") != null){
-    		sb.append(cluProposalModel.get("course/courseCode"));
-    		sb.append(" - ");
-    		sb.append(cluProposalModel.get("course/transcriptTitle"));
-    		sb.append(" (Proposed Modification)");
-    	} else if (cluProposalModel.get(cfg.getProposalTitlePath()) != null){
-    		sb.append(cluProposalModel.get(cfg.getProposalTitlePath()));
-    		sb.append(" (Proposal)");
+    	String title;
+    	if (cluProposalModel.get(cfg.getProposalTitlePath()) != null){
+    		title = getProposalTitle();
     	}
     	else{
-    		sb.append("New Course (Proposal)");
+    		title = "New Course (Proposal)";
     	}
-
-    	this.setContentTitle(sb.toString());
-    	this.setName(sb.toString());
+    	this.setContentTitle(title);
+    	this.setName(title);
+		currentTitle = title;
     }
 
 	@Override
@@ -832,5 +833,21 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				}
 			}
 		});
+	}
+	
+	@Override
+	public void onHistoryEvent(String historyStack) {
+		super.onHistoryEvent(historyStack);
+		if(cluProposalModel.get(cfg.getProposalTitlePath()) != null){
+			RecentlyViewedHelper.addCurrentDocument(getProposalTitle());
+
+		}
+	}
+	
+	private String getProposalTitle(){
+		StringBuffer sb = new StringBuffer();
+		sb.append(cluProposalModel.get(cfg.getProposalTitlePath()));
+		sb.append(" (Proposal)");
+		return sb.toString();
 	}
 }

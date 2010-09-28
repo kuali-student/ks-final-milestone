@@ -2,6 +2,9 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Completed course"
+        TYPE_DESC="Must have successfully completed &lt;course>" TYPE_KEY="kuali.reqComponent.type.course.completed"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="All of required courses"
         TYPE_DESC="Must have successfully completed all courses from &lt;courses>" TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.all"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
@@ -38,6 +41,12 @@
         NAME="Course repeatable for maximum credit"
         TYPE_DESC="May be repeated for a maximum of &lt;n> credits" TYPE_KEY="kuali.reqComponent.type.course.credits.repeat.max"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Enrolled in course"
+        TYPE_DESC="Must be concurrently enrolled in &lt;course> " TYPE_KEY="kuali.reqComponent.type.course.enrolled"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Not completed course"
+        TYPE_DESC="Must not have successfully completed &lt;course> " TYPE_KEY="kuali.reqComponent.type.course.notcompleted"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum credit completion in organization/department"
         TYPE_DESC="Must have successfully completed a minimum of &lt;n> credits from courses in the &lt;org>" TYPE_KEY="kuali.reqComponent.type.course.org.credits.completed.min"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
@@ -67,12 +76,6 @@
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum score on test"
         TYPE_DESC="Must have achieved a minimum score of &lt;score> on &lt;tests>" TYPE_KEY="kuali.reqComponent.type.course.test.score.min"/>
-    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="All of required courses"
-        TYPE_DESC="Must be enrolled in all of the following courses" TYPE_KEY="kuali.reqComponent.type.courseList.coreq.all"/>
-    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="One of required courses"
-        TYPE_DESC="Must be enrolled in one of the following courses" TYPE_KEY="kuali.reqComponent.type.courseList.coreq.oneof"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Earning n credits"
         TYPE_DESC="Must be admitted to program prior to earning &lt;n> credits" TYPE_KEY="kuali.reqComponent.type.program.admitted.credits"/>
@@ -115,10 +118,4 @@
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program final credits in residence"
         TYPE_DESC="&lt;program> student smust take their final &lt;n> credits in residence" TYPE_KEY="kuali.reqComponent.type.program.residence.credits.final"/>
-    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="None of required programs"
-        TYPE_DESC="Enrollment is not available to students in the following programs" TYPE_KEY="kuali.reqComponent.type.programList.enroll.none"/>
-    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="One of required programs"
-        TYPE_DESC="Enrollment is limited to students in the following programs" TYPE_KEY="kuali.reqComponent.type.programList.enroll.oneof"/>
 </dataset>

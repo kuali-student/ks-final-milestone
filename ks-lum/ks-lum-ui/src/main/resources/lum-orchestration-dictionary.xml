@@ -6690,8 +6690,8 @@
 						<list>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDivision"/>
-								<property name="name" value="Department"/>
-								<property name="desc" value="Department of a course."/>
+								<property name="name" value="Course Number"/>
+								<property name="desc" value="Course Number"/>
 								<property name="dataType" value="STRING"/>
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
@@ -7281,7 +7281,7 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="name" value="Find an existing course" />
+				<property name="name" value="Find Courses" />
 				<property name="desc" value="Search for courses" />
 				<property name="widget" value="NO_WIDGET"/>
 			</bean>
@@ -7381,6 +7381,36 @@
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
+							
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionIndId"/>
+								<property name="name" value="VersionIndId"/>
+								<property name="desc" value="Version Independent Id of this course."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionedFromId"/>
+								<property name="name" value="VersionedFromId"/>
+								<property name="desc" value="Id of this course this was versioned from."/>
+								<property name="dataType" value="STRING"/>
+								<property name="hidden" value="true"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionStartDate"/>
+								<property name="name" value="VersionStartDate"/>
+								<property name="desc" value="Version Start Date"/>
+								<property name="dataType" value="DATE"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+								<property name="key" value="lu.resultColumn.luOptionalVersionEndDate"/>
+								<property name="name" value="VersionEndDate"/>
+								<property name="desc" value="Version End Date"/>
+								<property name="dataType" value="DATE"/>
+								<property name="hidden" value="false"/>
+							</bean>
+							
 						</list>
 					</property>
 				</bean>
@@ -7403,8 +7433,8 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="name" value="Find an existing proposal" />
-				<property name="desc" value="Search for proposals" />
+				<property name="name" value="Find Course Proposals" />
+				<property name="desc" value="Search for Course Proposals" />
 				<property name="widget" value="NO_WIDGET"/>
 			</bean>
 		</property>
@@ -7818,7 +7848,7 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="name" value="Find an existing Major Discipline" />
+				<property name="name" value="Find Programs (major disciplines)" />
 				<property name="desc" value="Search for Major Disciplines" />
 				<property name="widget" value="NO_WIDGET"/>
 			</bean>

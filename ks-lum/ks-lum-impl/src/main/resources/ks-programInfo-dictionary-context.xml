@@ -615,13 +615,13 @@
 </bean>
 <bean id="org.kuali.student.lum.program.dto.CoreProgramInfo" parent="org.kuali.student.lum.program.dto.CoreProgramInfo-parent"/>
 
-<bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="baseComplex">
+<bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
  <property name="name" value="catalogDescr"/>
  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
 </bean>
 <bean id="coreProgramInfo.catalogDescr" parent="coreProgramInfo.catalogDescr-parent"/>
 
-<bean id="coreProgramInfo.catalogPublicationTargets-parent" abstract="true" parent="baseStringRepeating">
+<bean id="coreProgramInfo.catalogPublicationTargets-parent" abstract="true" parent="majorDisciplineInfo.catalogPublicationTargets-parent">
  <property name="name" value="catalogPublicationTargets"/>
 </bean>
 <bean id="coreProgramInfo.catalogPublicationTargets" parent="coreProgramInfo.catalogPublicationTargets-parent"/>
@@ -631,18 +631,18 @@
 </bean>
 <bean id="coreProgramInfo.code" parent="coreProgramInfo.code-parent"/>
 
-<bean id="coreProgramInfo.descr-parent" abstract="true" parent="baseComplex">
+<bean id="coreProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
  <property name="name" value="descr"/>
  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
 </bean>
 <bean id="coreProgramInfo.descr" parent="coreProgramInfo.descr-parent"/>
 
-<bean id="coreProgramInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+<bean id="coreProgramInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
  <property name="name" value="divisionsContentOwner"/>
 </bean>
 <bean id="coreProgramInfo.divisionsContentOwner" parent="coreProgramInfo.divisionsContentOwner-parent"/>
 
-<bean id="coreProgramInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+<bean id="coreProgramInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
  <property name="name" value="divisionsStudentOversight"/>
 </bean>
 <bean id="coreProgramInfo.divisionsStudentOversight" parent="coreProgramInfo.divisionsStudentOversight-parent"/>
@@ -662,7 +662,7 @@
 </bean>
 <bean id="coreProgramInfo.id" parent="coreProgramInfo.id-parent"/>
 
-<bean id="coreProgramInfo.learningObjectives-parent" abstract="true" parent="baseComplexRepeating">
+<bean id="coreProgramInfo.learningObjectives-parent" abstract="true" parent="majorDisciplineInfo.learningObjectives-parent">
  <property name="name" value="learningObjectives"/>
  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
 </bean>
@@ -678,7 +678,7 @@
 </bean>
 <bean id="coreProgramInfo.programRequirements" parent="coreProgramInfo.programRequirements-parent"/>
 
-<bean id="coreProgramInfo.referenceURL-parent" abstract="true" parent="cluInfo.referenceURL-parent">
+<bean id="coreProgramInfo.referenceURL-parent" abstract="true" parent="majorDisciplineInfo.referenceURL-parent">
  <property name="name" value="referenceURL"/>
 </bean>
 <bean id="coreProgramInfo.referenceURL" parent="coreProgramInfo.referenceURL-parent"/>
@@ -708,17 +708,17 @@
 </bean>
 <bean id="coreProgramInfo.type" parent="coreProgramInfo.type-parent"/>
 
-<bean id="coreProgramInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+<bean id="coreProgramInfo.unitsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.unitsContentOwner-parent">
  <property name="name" value="unitsContentOwner"/>
 </bean>
 <bean id="coreProgramInfo.unitsContentOwner" parent="coreProgramInfo.unitsContentOwner-parent"/>
 
-<bean id="coreProgramInfo.unitsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+<bean id="coreProgramInfo.unitsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.unitsStudentOversight-parent">
  <property name="name" value="unitsStudentOversight"/>
 </bean>
 <bean id="coreProgramInfo.unitsStudentOversight" parent="coreProgramInfo.unitsStudentOversight-parent"/>
 
-<bean id="coreProgramInfo.universityClassification-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+<bean id="coreProgramInfo.universityClassification-parent" abstract="true" parent="majorDisciplineInfo.universityClassification-parent">
  <property name="name" value="universityClassification"/>
 </bean>
 <bean id="coreProgramInfo.universityClassification" parent="coreProgramInfo.universityClassification-parent"/>

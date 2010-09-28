@@ -304,7 +304,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
     public void getResultComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ResultComponentTypeInfo> rctis = client.getResultComponentTypes();
         assertNotNull(rctis);
-        assertEquals(6, rctis.size());
+        assertEquals(7, rctis.size());
     }
 
     @Test

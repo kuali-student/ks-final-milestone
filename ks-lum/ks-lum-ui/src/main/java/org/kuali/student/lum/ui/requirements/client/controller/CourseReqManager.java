@@ -170,21 +170,21 @@ public class CourseReqManager extends Controller {
     }
 
     @Override
-    protected <V extends Enum<?>> View getView(V viewType) {
+    protected <V extends Enum<?>> void getView(V viewType, Callback<View> callback) {
         switch ((PrereqViews) viewType) {
             case RULES_LIST:
-	            return courseRequisiteView;
+	            callback.exec(courseRequisiteView);
 	        case MANAGE_RULES:
-                return manageRulesView;
+	        	callback.exec(manageRulesView);
             case RULE_COMPONENT_EDITOR:
                 ruleCompEditorView.setEditedStatementVO(getRuleInfo(selectedLuStatementType).getStatementVO());
                 ruleCompEditorView.setEditedReqCompVO(componentToEdit);
                 ruleCompEditorView.setFieldsWithLookup(fieldsWithLookup);
-                return ruleCompEditorView;
+                callback.exec(ruleCompEditorView);
             case RULE_EXPRESSION_EDITOR:
-                return ruleExpressionEditorView;
+            	callback.exec(ruleExpressionEditorView);
             default:
-                return null;
+            	callback.exec(null);
         }
     }
 

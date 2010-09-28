@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class MetadataServiceImpl {
     private Map<String, Object> metadataRepository = null;
     
     private Map<String, DictionaryService> dictionaryServiceMap;
-    private Map<String, UILookupConfig> lookupObjectStructures;
+    private List<UILookupConfig> lookupObjectStructures;
     private String uiLookupContext; 
     
     private static class RecursionCounter{
@@ -163,7 +162,7 @@ public class MetadataServiceImpl {
         
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
-        addLookupstoMetadata(metadata);
+        addLookupstoMetadata(objectKey, metadata, type);
         return metadata;
     }
     
@@ -500,19 +499,74 @@ public class MetadataServiceImpl {
     	ApplicationContext ac = new ClassPathXmlApplicationContext(uiLookupContext);
 
 		Map<String, UILookupConfig> beansOfType = (Map<String, UILookupConfig>) ac.getBeansOfType(UILookupConfig.class);
-		lookupObjectStructures = new HashMap<String, UILookupConfig>();
+		lookupObjectStructures = new ArrayList <UILookupConfig>();
 		for (UILookupConfig objStr : beansOfType.values()){
-			lookupObjectStructures.put(objStr.getPath(), objStr);
+			lookupObjectStructures.add(objStr);
 		}
 		System.out.println("UILookup loaded");
     }
-    
-    private void addLookupstoMetadata(Metadata metadata){
+
+   private String calcSimpleName (String objectKey)
+   {
+    int lastDot = objectKey.lastIndexOf (".");
+    if (lastDot == -1)
+    {
+     return objectKey;
+    }
+    return objectKey.substring (lastDot + 1);
+
+   }
+
+   private boolean matchesObjectKey (String objectKey, String path) {
+    String simpleName = calcSimpleName (objectKey);
+     if (path.toLowerCase ().startsWith (simpleName.toLowerCase ())) {
+//System.out.println ("matchesObjectKey: is TRUE for " + objectKey + " and " + path);
+      return true;
+     }
+//System.out.println ("matchesObjectKey: is FALSE for " + objectKey + " and " + path);
+     return false;
+    }
+
+   private boolean matchesType (String paramType, String lookupType) {
+    // both null
+     if (paramType == null && lookupType == null) {
+       return true;
+     }
+     // not asking for type specific but the lookup defnition is type specific then
+     // no match
+     if (paramType == null && lookupType != null) {
+       return false;
+     }
+     // if looking for type specific but the lookup is not specific then
+     // take as default
+     // If configuration has both a null type (i.e. default) AND has a type
+     // specific one the type specific one has to be entered into the configuration
+     // file first so it is found first
+     if (paramType != null && lookupType == null) {
+       return true;
+     }
+     if (paramType.equalsIgnoreCase(lookupType)) {
+//System.out.println ("matchesType: is TRUE for " + paramType + " and " + lookupType);
+       return true;
+      }
+//System.out.println ("matchesType: is FALSE for " + paramType + " and " + lookupType);
+     return false;
+    }
+
+
+    private void addLookupstoMetadata(String objectKey, Metadata metadata, String type){
     	if (lookupObjectStructures != null){
-	    	Collection<UILookupConfig> lookups = lookupObjectStructures.values();
-	    	for(UILookupConfig lookup: lookups){
+	    	for(UILookupConfig lookup: lookupObjectStructures){
+       if ( ! matchesObjectKey (objectKey, lookup.getPath ())) {
+        continue;
+       }
+       if ( ! matchesType (type, lookup.getType ())) {
+        continue;
+       }
+       //TODO: figure out why path=courseInfo.creditOptions.type matches any structure that has a type on it so that lookup gets returned for all types
 	    		Map<String,Metadata> parsedMetadataMap = metadata.getProperties();
 	    		Metadata parsedMetadata = null;
+       String parsedMetadataKey = "";
 	    		String lookupFieldPath = lookup.getPath();
 	    		String[] lookupPathTokens = getPathTokens(lookupFieldPath);
 	            for(int i = 1; i < lookupPathTokens.length; i++) {
@@ -522,6 +576,7 @@ public class MetadataServiceImpl {
 	                if(i==lookupPathTokens.length-1){
 	                	//get the metadata on the last path key token
 	                	parsedMetadata=parsedMetadataMap.get(lookupPathTokens[i]);
+                  parsedMetadataKey = parsedMetadataKey + "." + lookupPathTokens[i];
 	                }
 	                if(parsedMetadataMap.get(lookupPathTokens[i])!=null){
 	                	parsedMetadataMap = parsedMetadataMap.get(lookupPathTokens[i]).getProperties();
@@ -534,6 +589,7 @@ public class MetadataServiceImpl {
 	
 	            }
 	            if (parsedMetadata != null) {
+//  System.out.println ("addLookupstoMetadata:" + parsedMetadataKey + " was found as a match for " + lookup.getPath ());
 	            	UILookupData initialLookup =lookup.getInitialLookup();
 	            	if(initialLookup!=null){
 	            		mapLookupDatatoMeta(initialLookup);

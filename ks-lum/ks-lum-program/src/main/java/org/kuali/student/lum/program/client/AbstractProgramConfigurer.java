@@ -1,7 +1,5 @@
 package org.kuali.student.lum.program.client;
 
-import java.util.ArrayList;
-
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
@@ -9,6 +7,8 @@ import org.kuali.student.lum.program.client.edit.ProgramRequirementsEditConfigur
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.view.ProgramRequirementsViewConfiguration;
 import org.kuali.student.lum.program.client.view.ViewAllSectionConfiguration;
+
+import java.util.ArrayList;
 
 /**
  * @author Igor
@@ -34,11 +34,9 @@ public abstract class AbstractProgramConfigurer extends Configurer {
         for (Configuration configuration : configurations) {
             if (configuration instanceof ProgramRequirementsEditConfiguration) {
                 ((ProgramRequirementsEditConfiguration) configuration).setViewController(viewController);
-            }
-            if (configuration instanceof ProgramRequirementsViewConfiguration) {
+            } else if (configuration instanceof ProgramRequirementsViewConfiguration) {
                 ((ProgramRequirementsViewConfiguration) configuration).setViewController(viewController);
-            }
-            if (configuration instanceof ViewAllSectionConfiguration) {
+            } else if (configuration instanceof ViewAllSectionConfiguration) {
                 ((ViewAllSectionConfiguration) configuration).setViewController(viewController);
             }
             viewController.addMenuItem(programSectionLabel, configuration.getView());

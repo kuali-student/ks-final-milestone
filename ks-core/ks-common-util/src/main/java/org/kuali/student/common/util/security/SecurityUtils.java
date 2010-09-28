@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.util.security;
 
-import org.kuali.student.security.spring.UserWithId;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;

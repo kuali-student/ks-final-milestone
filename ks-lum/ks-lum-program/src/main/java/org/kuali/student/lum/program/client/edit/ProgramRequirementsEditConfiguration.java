@@ -14,20 +14,25 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ProgramRequirementsEditConfiguration extends AbstractConfiguration {
 
-    private ProgramController viewController;
+    private ProgramController parentController;
+    private ProgramRequirementsViewController progReqcontroller;
 
     @Override
     public View getView() {
-        return new ProgramRequirementsViewController(viewController, ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false);
+        progReqcontroller = new ProgramRequirementsViewController(parentController, ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT, false);
+        return progReqcontroller;
     }
 
-    public void setViewController(ProgramController viewController) {
-        this.viewController = viewController;
+    public void setViewController(ProgramController controller) {
+        this.parentController = controller;
+        if (progReqcontroller != null) {
+            progReqcontroller.setParentController(controller);
+        }
     }
 
     @Override
     public Widget asWidget() {
-        return viewController;
+        return parentController;
     }
 
     @Override

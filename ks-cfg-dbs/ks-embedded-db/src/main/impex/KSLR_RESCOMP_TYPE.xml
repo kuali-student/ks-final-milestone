@@ -13,4 +13,13 @@
     <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
         EXPIR_DT="20200101000000" NAME="Final Grade"
         TYPE_DESC="This records that a final grade is a result for this course" TYPE_KEY="kuali.resultComponentType.grade.finalGrade"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Degree"
+        TYPE_DESC="This records a degree is awarded if the student completes the program" TYPE_KEY="kuali.resultComponentType.degree"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Certificate"
+        TYPE_DESC="This records an awarded certificate" TYPE_KEY="kuali.resultComponentType.certificate"/>
+    <KSLR_RESCOMP_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="20200101000000" NAME="Overall GPA "
+        TYPE_DESC="This records the overall GPA of a student in a program " TYPE_KEY="kuali.resultComponentType.gpa"/>    
 </dataset>

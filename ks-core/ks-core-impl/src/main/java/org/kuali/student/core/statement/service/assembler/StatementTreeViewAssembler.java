@@ -105,7 +105,7 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 		return result;
 	}
 
-	private String disassembleStatementTreeHelper(StatementTreeViewInfo statementTreeViewInfo, NodeOperation operation, String parentId, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result2) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	private String disassembleStatementTreeHelper(StatementTreeViewInfo statementTreeViewInfo, NodeOperation operation, StatementTreeViewInfo parent, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result2) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		if (statementTreeViewInfo == null) {
 			return null;
 		}
@@ -122,37 +122,50 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 		statementResult.setNodeData(statement);
 		statementResult.setBusinessDTORef(statementTreeViewInfo);
 		statementResult.setAssembler(new SetMetadata());
-
-		copyValues(statement, statementTreeViewInfo);
 		statementResult.setOperation(myOperation);
 
-		statement.setId(UUIDHelper.genStringUUID(statement.getId()));
-		if (statementTreeViewInfo.getId() == null || statementTreeViewInfo.getId().isEmpty()) {
-			statementTreeViewInfo.setId(statement.getId());
+		if (operation == NodeOperation.DELETE) {
+			statement.setId(statementTreeViewInfo.getId());
+		} else {
+			copyValues(statement, statementTreeViewInfo);
+			statement.setId(UUIDHelper.genStringUUID(statement.getId()));
+			if (statementTreeViewInfo.getId() == null || statementTreeViewInfo.getId().isEmpty()) {
+				statementTreeViewInfo.setId(statement.getId());
+			}
 		}
 
 		if (operation == NodeOperation.UPDATE) {
-			for (StatementInfo deleted : notIn(statement, statementTreeViewInfo)) {
-				BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> delete = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(null);
-				delete.setNodeData(deleted);
-				delete.setOperation(NodeOperation.DELETE);
-				statementResult.getChildNodes().add(delete);
+			for (String deleteId : notIn(statement, statementTreeViewInfo)) {
+				for (String deleteTree : statement.getStatementIds()) {
+					if (deleteTree.equals(deleteId)) {
+						StatementTreeViewInfo delete = new StatementTreeViewInfo();
+						delete.setId(deleteId);
+						disassembleStatementTreeHelper(delete, NodeOperation.DELETE, null, result, result2);
+						List<String> children = statement.getStatementIds();
+						for (int i = 0; i < children.size(); i++) {
+							if (children.get(i).equals(deleteId)) {
+								children.remove(i);
+								break;
+							}
+						}
+					}
+				}
 			}
 		}
 
 		for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
-			statement.getStatementIds().add(disassembleStatementTreeHelper(subStatement, operation, statementTreeViewInfo.getId(),result, result2));
+			statement.getStatementIds().add(disassembleStatementTreeHelper(subStatement, operation, statementTreeViewInfo,result, result2));
 		}
 
 		if (myOperation == NodeOperation.CREATE) {
-			doReqComponents(statementTreeViewInfo, result, myOperation, statement);			
+			doReqComponents(statementTreeViewInfo, result, myOperation, statement);
 		}
 		result.getChildNodes().add(statementResult);
 
 		if (operation == NodeOperation.DELETE) {
 			doReqComponents(statementTreeViewInfo, result, myOperation, statement);
 		}
-		
+
 		return statement.getId();
 	}
 
@@ -214,63 +227,24 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
     }
 
 
-    /**
-    *
-    * @return a list of relationships in the first list but not in the second
-    */
-   private List<String> notIn(
-           StatementTreeViewInfo oldTree,
-           StatementTreeViewInfo newTree) {
-       List<String> results = new ArrayList<String>(17);
-       List<String> oldStatementIds = new ArrayList<String>(17);
-       List<String> newStatementIds = new ArrayList<String>(17);
-       getStatementIds(oldTree, oldStatementIds);
-       getStatementIds(newTree, newStatementIds);
-       if (oldStatementIds != null) {
-           for (String oldStatementId : oldStatementIds) {
-               boolean inNewStatementIds = false;
-               if (newStatementIds != null) {
-                   for (String newStatementId : newStatementIds) {
-                       if (oldStatementId.equals(newStatementId)) {
-                           inNewStatementIds = true;
-                       }
-                   }
-               }
-               if (!inNewStatementIds) {
-                   results.add(oldStatementId);
-               }
-           }
-       }
-       return results;
-   }
-
-	private List<StatementInfo> notIn(StatementInfo oldTree,
+	private List<String> notIn(StatementInfo oldTree,
 			StatementTreeViewInfo newTree) {
-		List<StatementInfo> results = new ArrayList<StatementInfo>(17);
+		List<String> results = new ArrayList<String>(oldTree.getStatementIds().size());
 		for (String oldStatementId : oldTree.getStatementIds()) {
 			boolean inNewStatementIds = false;
-			for (StatementTreeViewInfo newStatement : newTree.getStatements()) {
-				if (oldStatementId.equals(newStatement.getId())) {
-					inNewStatementIds = true;
+			if (newTree.getStatements() != null) {
+				for (StatementTreeViewInfo newStatement : newTree.getStatements()) {
+					if (oldStatementId.equals(newStatement.getId())) {
+						inNewStatementIds = true;
+					}
 				}
 			}
 			if (!inNewStatementIds) {
-				StatementInfo deleted = new StatementInfo();
-				deleted.setId(oldStatementId);
-				results.add(deleted);
+				results.add(oldStatementId);
 			}
 		}
 		return results;
 	}
-
-   private void getStatementIds(StatementTreeViewInfo statementTreeViewInfo, List<String> statementIds) {
-       if (statementTreeViewInfo.getStatements() != null) {
-           for (StatementTreeViewInfo subTree : statementTreeViewInfo.getStatements()) {
-               getStatementIds(subTree, statementIds);
-           }
-       }
-       statementIds.add(statementTreeViewInfo.getId());
-   }
 
    private void updateStatementTreeViewHelper(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
        if (statementTreeViewInfo.getStatements() != null) {

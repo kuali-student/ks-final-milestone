@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -144,9 +143,6 @@ public class LoRepository extends MetaEntity implements AttributeOwner<LoReposit
 	 */
 	@Override
 	public List<LoRepositoryAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoRepositoryAttribute>(0);
-		}
 		return attributes;
 	}
 

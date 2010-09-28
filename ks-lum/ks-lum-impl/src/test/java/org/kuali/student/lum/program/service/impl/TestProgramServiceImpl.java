@@ -208,10 +208,10 @@ public class TestProgramServiceImpl {
 
 //            //TODO catalog descr
 //            //TODO catalog pub targets
-             //TODO: add lo in test db
-//            assertNotNull(major.getLearningObjectives());
-//            assertTrue(major.getLearningObjectives().size() ==1);
-//            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
+
+            assertNotNull(core.getLearningObjectives());
+            assertTrue(core.getLearningObjectives().size() ==1);
+            assertEquals("Core Program Learning objectives", core.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
 
             assertNotNull(core.getDivisionsContentOwner());
             assertTrue(core.getDivisionsContentOwner().size() == 1);
@@ -290,8 +290,9 @@ public class TestProgramServiceImpl {
             assertEquals("SELECTIVEENROLLMENTCODE", major.getSelectiveEnrollmentCode());
 
             assertNotNull(major.getResultOptions());
-            assertTrue(major.getResultOptions().size() == 1);
-            assertEquals("kuali.certificateType.degree", major.getResultOptions().get(0));
+            assertTrue(major.getResultOptions().size() == 2);
+            assertEquals("kuali.resultComponent.degree.ba", major.getResultOptions().get(0));
+            assertEquals("kuali.resultComponent.degree.bsc", major.getResultOptions().get(1));
 
             assertNotNull(major.getStdDuration());
             assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
@@ -1337,5 +1338,86 @@ public class TestProgramServiceImpl {
 			fail(e.getMessage());
 		}
     	programService.getProgramRequirement(createdProgReq.getId(), null, null);
+    }
+
+    @Test
+    public void testUpdateCoreProgram() {
+    	CoreProgramInfo core = null;
+        try {
+        	core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
+
+            // minimal sanity check
+            assertNotNull(core);
+            assertEquals("BS", core.getCode());
+            assertNotNull(core.getShortTitle());
+            assertEquals("B.S.", core.getShortTitle());
+            assertNotNull(core.getLongTitle());
+            assertEquals("Bachelor of Science", core.getLongTitle());
+            assertNotNull(core.getDescr());
+            assertEquals("Anthropology Major", core.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
+
+            // update some fields
+            core.setCode(core.getCode() + "-updated");
+            core.setShortTitle(core.getShortTitle() + "-updated");
+            core.setLongTitle(core.getLongTitle() + "-updated");
+            core.setTranscriptTitle(core.getTranscriptTitle() + "-updated");
+            core.setState(ProgramAssemblerConstants.RETIRED);
+
+           //Perform the update
+            CoreProgramInfo updatedCP = programService.updateCoreProgram(core);
+
+            //Verify the update
+            verifyUpdate(updatedCP);
+
+            // Now explicitly get it
+            CoreProgramInfo retrievedCP = programService.getCoreProgram(core.getId());
+            verifyUpdate(retrievedCP);
+
+            //TODO: update versioning
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+	}
+
+    private void verifyUpdate(CoreProgramInfo updatedCP) {
+    	assertNotNull(updatedCP);
+    	assertEquals("BS-updated", updatedCP.getCode());
+        assertEquals("B.S.-updated", updatedCP.getShortTitle());
+        assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
+        assertEquals("TRANSCRIPT-TITLE-updated", updatedCP.getTranscriptTitle());
+        assertEquals(ProgramAssemblerConstants.RETIRED, updatedCP.getState());
+    }
+
+    @Test
+    public void testDeleteCoreProgram() {
+        try {
+        	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
+        	CoreProgramInfo coreProgramInfo = generator.getCoreProgramTestData();
+
+            assertNotNull(coreProgramInfo);
+            fixLoCategoryIds(coreProgramInfo.getLearningObjectives());
+            CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
+            assertNotNull(createdCP);
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
+
+
+            String coreProgramId = createdCP.getId();
+            CoreProgramInfo retrievedCP = programService.getCoreProgram(coreProgramId);
+            assertNotNull(retrievedCP);
+
+            try{
+	            programService.deleteCoreProgram(coreProgramId);
+	            try {
+	            	retrievedCP = programService.getCoreProgram(coreProgramId);
+	                fail("Retrieval of deleted coreProgram should have thrown exception");
+	            } catch (DoesNotExistException e) {}
+            }catch (OperationFailedException e) {}
+            
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 }

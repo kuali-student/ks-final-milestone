@@ -15,7 +15,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.transform.AuthorizationFilter;
 import org.kuali.student.core.assembly.transform.MetadataFilter;
 import org.kuali.student.core.assembly.transform.TransformationManager;
-import org.kuali.student.core.assembly.transform.WorkflowFilter;
+import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -41,7 +41,7 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	public Data getData(String id) throws OperationFailedException {
-		Map<String, String> filterProperties = getDefaultFilterProperties();
+		Map<String, Object> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
 		String dtoId = id;
@@ -50,7 +50,7 @@ public abstract class AbstractDataService implements DataService{
 		try{
 			if (proposalService != null){
 				ProposalInfo proposalInfo = proposalService.getProposal(dtoId);
-				filterProperties.put(WorkflowFilter.WORKFLOW_DOC_ID, proposalInfo.getWorkflowId());
+				filterProperties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
 				dtoId = proposalInfo.getProposalReference().get(0);
 			}			
 
@@ -68,13 +68,13 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	public Metadata getMetadata(String id, Map<String, String> attributes) {
-		Map<String, String> filterProperties = getDefaultFilterProperties();
+		Map<String, Object> filterProperties = getDefaultFilterProperties();
 
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
 		//Place id attributes into filter properties
 		String idType = (attributes != null? attributes.get(IdAttributes.ID_TYPE):null);
-		String docType = (attributes != null ?attributes.get(IdAttributes.DOC_TYPE):null);
+		String docType = (attributes != null ? attributes.get(IdAttributes.DOC_TYPE):null);
 				
 		if (idType == null){
 			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
@@ -83,9 +83,9 @@ public abstract class AbstractDataService implements DataService{
 		}
 	
 		if (docType == null){
-			filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
+			filterProperties.put(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, getDefaultWorkflowDocumentType());
 		} else {
-			filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, docType);
+			filterProperties.put(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, docType);
 		}
 
 		if (checkDocumentLevelPermissions()){
@@ -98,8 +98,7 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
-		Map<String, String> filterProperties = getDefaultFilterProperties();
-		filterProperties.put(WorkflowFilter.WORKFLOW_DOC_TYPE, (String)data.query("proposal/proposalType"));
+		Map<String, Object> filterProperties = getDefaultFilterProperties();
 		try {
 			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);
 			dto = save(dto, filterProperties);
@@ -125,12 +124,24 @@ public abstract class AbstractDataService implements DataService{
 			String permissionTemplateName = type.getPermissionTemplateName();
 			
 			AttributeSet roleQuals = new AttributeSet();
-			if (attributes != null) {
-				String docType = attributes.get(IdAttributes.DOC_TYPE);
-				if (docType == null){
-					docType = getDefaultWorkflowDocumentType();
+			if (attributes != null) {				
+				if (proposalService != null){
+					ProposalInfo proposalInfo = null;
+					try {
+						if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
+							proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()));
+						} else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
+							proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()));
+						}
+						if (proposalInfo != null){
+							attributes.put(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString(), proposalInfo.getId());
+							attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
+							attributes.put(IdAttributes.DOC_TYPE, proposalInfo.getType());
+						}
+					} catch (Exception e){
+						LOG.error("Could not retrieve proposal to determine permission qualifiers.");
+					}
 				}
-				attributes.put(IdAttributes.DOC_TYPE, docType);
 				roleQuals.putAll(attributes);
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
@@ -150,15 +161,15 @@ public abstract class AbstractDataService implements DataService{
 		return Boolean.valueOf(result);
 	}
 	
-	public Map<String,String> getDefaultFilterProperties(){
-		Map<String, String> filterProperties = new HashMap<String,String>();
+	public Map<String, Object> getDefaultFilterProperties(){
+		Map<String, Object> filterProperties = new HashMap<String,Object>();
 		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
-		filterProperties.put(WorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
+		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
 		
 		return filterProperties;
 	}
 	
-	protected DataSaveResult _saveData(Data data, Map<String,String> filterProperties) throws OperationFailedException{
+	protected DataSaveResult _saveData(Data data, Map<String, Object> filterProperties) throws OperationFailedException{
 		try {
 			filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
 
@@ -227,7 +238,7 @@ public abstract class AbstractDataService implements DataService{
 	 * @return the dto retrieved by calling the appropriate service method
 	 * @throws Exception
 	 */ 
-	protected abstract Object save(Object dto, Map<String, String> properties) throws Exception;
+	protected abstract Object save(Object dto, Map<String, Object> properties) throws Exception;
 	
 	/**
 	 * Implement this method to return the type of the dto object.

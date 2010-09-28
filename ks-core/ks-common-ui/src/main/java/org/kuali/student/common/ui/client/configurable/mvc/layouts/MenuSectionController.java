@@ -104,6 +104,19 @@ public class MenuSectionController extends LayoutController implements ContentNa
             }
         }
     }
+    
+    public void addCommonButton(String parentMenu, KSButton button, List<Enum<?>> excludedViews){
+        if(parentMenu != null){
+            List<View> views = menuViewMap.get(parentMenu);
+            if(views != null){
+                for(int i=0; i < views.size(); i++){
+                	if(!excludedViews.contains(views.get(i).getViewEnum())){
+                		addButtonForView(views.get(i).getViewEnum(), button);
+                	}
+                }
+            }
+        }
+    }
 
     public void showNextViewOnMenu(){
         int i = menuOrder.indexOf(this.getCurrentView());

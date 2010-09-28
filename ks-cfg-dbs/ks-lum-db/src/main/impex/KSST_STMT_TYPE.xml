@@ -5,17 +5,20 @@
         NAME="Academic Readiness Rules"
         TYPE_DESC="Rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Academic Readiness Anti Reqs"
+        NAME="Academic Readiness Anti-requisite"
         TYPE_DESC="Anti-requisite rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.antireq"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Academic Readiness Co Reqs"
+        NAME="Academic Readiness Co-requisite"
         TYPE_DESC="Co-requisite rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.coreq"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Academic Readiness Pre Reqs"
+        NAME="Academic Readiness Pre-requisites"
         TYPE_DESC="Pre-requisite rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.prereq"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Academic Readiness Student Eligibilities"
         TYPE_DESC="Enrollment eligibility rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibility"/>
+    <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Academic Readiness Student Eligibilities and Pre-requisite"
+        TYPE_DESC="Enrollment eligibility rules used in the evaluation of a person's academic readiness for enrollment." TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Repeatable for Credit"
         TYPE_DESC="Rules used for courses which are repeatable for credit." TYPE_KEY="kuali.statement.type.course.credit.repeatable"/>

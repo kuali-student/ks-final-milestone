@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -160,9 +159,6 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	 */
 	@Override
 	public List<LoCategoryAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoCategoryAttribute>(0);
-		}
 		return attributes;
 	}
 

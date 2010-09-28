@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,6 +31,9 @@ import org.kuali.student.core.entity.Type;
 @Table(name="KSST_REQ_COM_TYPE")
 public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     
+    @ManyToMany(mappedBy="allowedReqComponentTypes")
+    private List<StatementType> statementTypes;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ReqComponentTypeAttribute> attributes;
 
@@ -43,9 +45,6 @@ public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     private List<ReqComponentFieldType> reqCompFieldTypes;
 
     public List<ReqComponentTypeAttribute> getAttributes() {
-        if(null == attributes) {
-            attributes = new ArrayList<ReqComponentTypeAttribute>();
-        }
         return attributes;
     }
 
@@ -68,6 +67,14 @@ public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     public void setNlUsageTemplates(List<ReqComponentTypeNLTemplate> nlUsageTemplates) {
         this.nlUsageTemplates = nlUsageTemplates;
     }
+
+	public List<StatementType> getStatementTypes() {
+		return statementTypes;
+	}
+
+	public void setStatementTypes(List<StatementType> statementTypes) {
+		this.statementTypes = statementTypes;
+	}
 
 	@Override
 	public String toString() {

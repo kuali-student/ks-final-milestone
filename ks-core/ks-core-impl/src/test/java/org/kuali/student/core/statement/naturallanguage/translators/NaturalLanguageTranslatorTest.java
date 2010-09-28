@@ -31,6 +31,7 @@ import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.impl.BooleanOperators;
 import org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl;
 import org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
@@ -126,7 +127,7 @@ public class NaturalLanguageTranslatorTest {
     }
     
     private void createTranslator() {
-    	ContextRegistry<Context<ReqComponent>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
+    	ContextRegistry<Context<ReqComponentInfo>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
 //    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = NaturalLanguageUtil.getStatementContextRegistry(luService);
 
     	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();

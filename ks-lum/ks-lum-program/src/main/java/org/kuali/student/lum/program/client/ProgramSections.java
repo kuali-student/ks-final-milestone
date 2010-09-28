@@ -20,5 +20,6 @@ public enum ProgramSections {
     SUPPORTING_DOCUMENTS_VIEW,
     SUPPORTING_DOCUMENTS_EDIT,
     VIEW_ALL,
+    COMMENTS,
     EMPTY
 }

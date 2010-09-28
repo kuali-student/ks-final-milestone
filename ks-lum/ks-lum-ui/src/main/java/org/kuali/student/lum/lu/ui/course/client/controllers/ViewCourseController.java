@@ -48,6 +48,7 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 
@@ -319,22 +320,20 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     protected void setHeaderTitle() {
                
-    	StringBuffer sb = new StringBuffer();
+    	String title; 
     	if (cluModel.get("transcriptTitle") != null){
-    		sb.append(cluModel.get("code"));
-    		sb.append(" - ");
-    		sb.append(cluModel.get("transcriptTitle"));
+    		title = getCourseTitle();
     	}
     	else{
-    		sb.append("Course");
+    		title = "Course";
     	}
 
     	if(cluModel.get("state") != null){
     		statusLabel.setText("Status: " + cluModel.get("state"));
     	}
     	
-    	this.setContentTitle(sb.toString());
-    	this.setName(sb.toString());
+    	this.setContentTitle(title);
+    	this.setName(title);
 
     }
     
@@ -352,6 +351,22 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	public Widget getStatusLabel() {
 		statusLabel.setStyleName("courseStatusLabel");
 		return statusLabel;
+	}
+	
+	@Override
+	public void onHistoryEvent(String historyStack) {
+		super.onHistoryEvent(historyStack);
+		if (cluModel.get("transcriptTitle") != null){
+			RecentlyViewedHelper.addCurrentDocument(getCourseTitle());
+		}
+	}
+	
+	private String getCourseTitle(){
+		StringBuffer sb = new StringBuffer();
+		sb.append(cluModel.get("code"));
+		sb.append(" - ");
+		sb.append(cluModel.get("transcriptTitle"));
+		return sb.toString();
 	}
 
 }

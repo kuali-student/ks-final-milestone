@@ -18,7 +18,7 @@ package org.kuali.student.lum.statement.config.context;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
@@ -35,7 +35,7 @@ public class PersonContextImpl extends BasicContextImpl {
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(PERSON_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.PERSON_KEY.getId()));
         return contextMap;

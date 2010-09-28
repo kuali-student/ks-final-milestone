@@ -28,8 +28,8 @@ public class ButtonMessageDialog<T extends ButtonEnum> {
 	}
 	
 	private void setupLayout(String titleText, String message){
-		title.setText(titleText);
-		dialog = new KSLightBox(title);		
+		//title.setText();
+		dialog = new KSLightBox(titleText);		
 		messageLabel.setText(message);
 		layout.add(messageLabel);
 		layout.add(buttons);
@@ -50,7 +50,7 @@ public class ButtonMessageDialog<T extends ButtonEnum> {
 		dialog.removeCloseLink();
 	}
 	
-	public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
+	public HandlerRegistration addCloseHandler(CloseHandler handler){
 		return dialog.addCloseHandler(handler);
 	}
 	

@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -34,7 +35,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import com.google.gwt.core.client.GWT;
 
 
-public class CatalogBrowserController extends TabbedSectionLayout
+public class CatalogBrowserController extends TabMenuController
 {
 	private MetadataRpcServiceAsync metadataService = GWT.create(MetadataRpcService.class);
 	private final DataModel dataModel = new DataModel ();
@@ -44,7 +45,7 @@ public class CatalogBrowserController extends TabbedSectionLayout
 	private BlockingTask initializingTask = new BlockingTask("Loading");
 
 	public CatalogBrowserController (Controller controller)	{
-		super (CatalogBrowserController.class.getName (), container);
+		super(CatalogBrowserController.class.getName());
 		this.controller = controller;
 		initialize();
 	}
@@ -100,6 +101,7 @@ public class CatalogBrowserController extends TabbedSectionLayout
 		cfg.setController (controller);
 		cfg.configureCatalogBrowser (this);
 	}
+	
 
 	/**
 	 * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()

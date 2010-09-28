@@ -115,6 +115,7 @@ public class KSErrorDialog {
         panel.setSize("100", "100");
 
         lightbox.setWidget(panel);
+        lightbox.setSize(440, 200);
         lightbox.show();
 
     }

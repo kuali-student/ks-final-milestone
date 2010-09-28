@@ -47,11 +47,13 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationTypeInfo;
+import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
 import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
+import org.kuali.student.lum.lu.dto.FieldInfo;
 import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeTypeInfo;
@@ -83,6 +85,8 @@ import org.kuali.student.lum.lu.entity.CluIdentifier;
 import org.kuali.student.lum.lu.entity.CluInstructor;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelationType;
+import org.kuali.student.lum.lu.entity.CluPublication;
+import org.kuali.student.lum.lu.entity.CluPublicationVariant;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -1340,4 +1344,76 @@ public class LuServiceAssembler extends BaseAssembler {
             clu.getAlternateIdentifiers().add(identifier);
         }
     }
+
+	public static List<CluPublicationVariant> toCluPublicationVariants(
+			List<FieldInfo> variantInfos, CluPublication cluPub, LuDao luDao) {
+		List<CluPublicationVariant> variants = new ArrayList<CluPublicationVariant>();
+
+		if(cluPub.getVariants()==null){
+			cluPub.setVariants(new ArrayList<CluPublicationVariant>());
+		}
+		
+		// Delete all the old attributes(if the owner is not null)
+		for (CluPublicationVariant variant : cluPub.getVariants()) {
+			luDao.delete(variant);
+		}
+		cluPub.getVariants().clear();
+
+		for (FieldInfo variantInfo: variantInfos) {
+			CluPublicationVariant variant = new CluPublicationVariant();
+			variant.setKey(variantInfo.getId());
+			variant.setValue(variantInfo.getValue());
+			variant.setOwner(cluPub);
+			variants.add(variant);
+		}
+
+		return variants;
+	}
+
+	public static CluPublicationInfo toCluPublicationInfo(CluPublication cluPub) {
+		if(cluPub==null){
+			return null;
+		}
+		CluPublicationInfo cluPubInfo = new CluPublicationInfo();
+		cluPubInfo.setCluId(cluPub.getClu().getId());
+		cluPubInfo.setId(cluPub.getId());
+		cluPubInfo.setEndCycle(cluPub.getEndCycle());
+		cluPubInfo.setStartCycle(cluPub.getStartCycle());
+		cluPubInfo.setEffectiveDate(cluPub.getEffectiveDate());
+		cluPubInfo.setExpirationDate(cluPub.getExpirationDate());
+		cluPubInfo.setState(cluPub.getState());
+		cluPubInfo.setType(cluPub.getType().getId());
+		cluPubInfo.setMetaInfo(toMetaInfo(cluPub.getMeta(), cluPub.getVersionInd()));
+		cluPubInfo.setAttributes(LuServiceAssembler.toAttributeMap(cluPub.getAttributes()));
+		cluPubInfo.setVariants(LuServiceAssembler.toCluPublicationVariantInfos(cluPub.getVariants()));
+		
+		return cluPubInfo;
+	}
+
+	private static List<FieldInfo> toCluPublicationVariantInfos(
+			List<CluPublicationVariant> variants) {
+		if(variants == null){
+			return  new ArrayList<FieldInfo>(0);
+		}
+		List<FieldInfo> fields = new ArrayList<FieldInfo>();
+		for(CluPublicationVariant variant:variants){
+			FieldInfo field = new FieldInfo();
+			field.setId(variant.getKey());
+			field.setValue(variant.getValue());
+			fields.add(field);
+		}
+		return fields;
+	}
+
+	public static List<CluPublicationInfo> toCluPublicationInfos(
+			List<CluPublication> cluPublications) {
+		if(cluPublications == null){
+			return new ArrayList<CluPublicationInfo>(0);
+		}
+		List<CluPublicationInfo> cluPublicationInfos = new ArrayList<CluPublicationInfo>(cluPublications.size());
+		for(CluPublication cluPublication:cluPublications){
+			cluPublicationInfos.add(toCluPublicationInfo(cluPublication));
+		}
+		return cluPublicationInfos;
+	}
 }
