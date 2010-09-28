@@ -1078,7 +1078,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
         //     After tree is updated
         //                          STMT-TV-1:OR
         //          STMT TV 2:AND                   STMT TV 3:AND
@@ -1129,11 +1129,31 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         subStatements.add(subTreeView2);
         treeView.setStatements(subStatements);
 
-        StatementTreeViewInfo returnedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
+        StatementTreeViewInfo returnedTreeView = statementService.createStatementTreeView(treeView);
         testStatementTreeView(returnedTreeView);
 
         StatementTreeViewInfo retrievedUpdatedTreeView = statementService.getStatementTreeView(returnedTreeView.getId());
         testStatementTreeView(retrievedUpdatedTreeView);
+        
+        StatusInfo status = statementService.deleteStatementTreeView(retrievedUpdatedTreeView.getId());
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getStatements().get(0).getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getStatements().get(1).getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
     }
 
     private void testStatementTreeView(StatementTreeViewInfo treeView) {

@@ -16,6 +16,7 @@
 package org.kuali.student.core.statement.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -406,6 +407,16 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
+    public StatementTreeViewInfo createStatementTreeView(final StatementTreeViewInfo statementTreeViewInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, CircularReferenceException {
+    	try {
+			return updateStatementTreeView(null, statementTreeViewInfo);
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException("Create failed.", e);
+		}
+    }
+
+    
+    @Override
     public StatusInfo deleteReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentId, "reqComponentId");
 
@@ -443,7 +454,7 @@ public class StatementServiceImpl implements StatementService {
         		}
         	}
         	statementDao.update(parent);
-		} catch (NoResultException e) {
+		} catch (DoesNotExistException e) {
 			// Ignore in this case
 		}
 
@@ -454,8 +465,51 @@ public class StatementServiceImpl implements StatementService {
         statusInfo.setMessage("Statement successfully deleted");
         return statusInfo;
     }
-
+    
     @Override
+    public StatusInfo deleteStatementTreeView(final String statementId) throws DoesNotExistException{
+        Statement stmt = statementDao.fetch(Statement.class, statementId);
+        
+        try{
+        	Statement parent = statementDao.getParentStatement(statementId);
+        	
+        	//remove the child from the parent
+            if(parent.getChildren()!=null){
+		        for(Iterator<Statement> iter = parent.getChildren().iterator();iter.hasNext();){
+		        	Statement childStmt = iter.next();
+		        	if(stmt.getId().equals(childStmt.getId())){
+		        		iter.remove();
+		        		break;
+		        	}
+		        }
+	        }
+	        statementDao.update(parent);
+    	}catch(DoesNotExistException e){
+    		//Ignore in this case
+    	}
+        
+        //delete the tree hierarchy;
+        deleteRecursively(stmt);
+        
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        statusInfo.setMessage("Statement Tree successfully deleted");
+        return statusInfo;
+    }
+
+    private void deleteRecursively(Statement stmt) {
+    	if(stmt.getChildren()!=null){
+    		List<Statement> childStmts = new ArrayList<Statement>(stmt.getChildren());
+	    	stmt.getChildren().clear();
+	    	stmt = statementDao.update(stmt);
+	    	for(Statement childStmt:childStmts){
+	    		deleteRecursively(childStmt);
+	    	}
+    	}
+    	statementDao.delete(stmt);
+	}
+
+	@Override
     public ReqComponentInfo getReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return statementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId), null, null);
     }
