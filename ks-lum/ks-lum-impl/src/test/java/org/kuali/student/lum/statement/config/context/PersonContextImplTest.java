@@ -8,24 +8,24 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 public class PersonContextImplTest {
 
 	private PersonContextImpl personContext = new PersonContextImpl();
 
-	private ReqComponent reqComponent1;
+	private ReqComponentInfo reqComponent1;
 	
 	private void setupReqComponent1() {
-		reqComponent1 = new ReqComponent();
-        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
-        ReqComponentField reqCompField1 = new ReqComponentField();
+		reqComponent1 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
         reqCompField1.setType(ReqComponentFieldTypes.PERSON_KEY.getId());
         reqCompField1.setValue("1234567890");
         reqCompFieldList.add(reqCompField1);
-		reqComponent1.setReqComponentFields(reqCompFieldList);
+		reqComponent1.setReqCompFields(reqCompFieldList);
 	}
 
 	@Before

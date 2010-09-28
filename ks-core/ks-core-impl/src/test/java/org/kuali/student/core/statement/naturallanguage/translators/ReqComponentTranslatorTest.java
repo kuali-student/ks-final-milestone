@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
 import org.kuali.student.core.statement.entity.ReqComponentType;
@@ -50,7 +51,7 @@ public class ReqComponentTranslatorTest {
     }
     
     private static void createTranslator() {
-    	ContextRegistry<Context<ReqComponent>> contextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
+    	ContextRegistry<Context<ReqComponentInfo>> contextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
 
     	englishTranslator.setContextRegistry(contextRegistry);
 		englishTranslator.setLanguage("en");

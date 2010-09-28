@@ -8,33 +8,33 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 public class GpaContextImplTest {
 	private GpaContextImpl gpaContext = new GpaContextImpl();
-	private ReqComponent reqComponent1;
-	private ReqComponent reqComponent2;
+	private ReqComponentInfo reqComponent1;
+	private ReqComponentInfo reqComponent2;
 
 	private void setupReqComponent1() {
-		reqComponent1 = new ReqComponent();
-        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
-        ReqComponentField reqCompField1 = new ReqComponentField();
+		reqComponent1 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
         reqCompField1.setType(ReqComponentFieldTypes.GPA_KEY.getId());
         reqCompField1.setValue("2.75");
         reqCompFieldList.add(reqCompField1);
-		reqComponent1.setReqComponentFields(reqCompFieldList);
+		reqComponent1.setReqCompFields(reqCompFieldList);
 	}
 
 	private void setupReqComponent2() {
-		reqComponent2 = new ReqComponent();
-        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
-        ReqComponentField reqCompField1 = new ReqComponentField();
+		reqComponent2 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
         reqCompField1.setType(ReqComponentFieldTypes.GPA_KEY.getId());
         reqCompField1.setValue(null);
         reqCompFieldList.add(reqCompField1);
-        reqComponent2.setReqComponentFields(reqCompFieldList);
+        reqComponent2.setReqCompFields(reqCompFieldList);
 	}
 
 	@Before

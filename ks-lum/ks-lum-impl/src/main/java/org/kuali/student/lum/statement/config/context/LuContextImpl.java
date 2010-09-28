@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
@@ -79,7 +79,7 @@ public class LuContextImpl extends BasicContextImpl {
 		}
     }
 
-    private CluInfo getClu(ReqComponent reqComponent) throws OperationFailedException {
+    private CluInfo getClu(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
         if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
 	    	String cluId = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
@@ -173,7 +173,7 @@ public class LuContextImpl extends BasicContextImpl {
      * @return custom CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public NLCluSet getCluSet(ReqComponent reqComponent) throws OperationFailedException {
+    public NLCluSet getCluSet(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	NLCluSet cluSet = null;
     	/*if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
@@ -192,7 +192,7 @@ public class LuContextImpl extends BasicContextImpl {
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
         CluInfo clu = getClu(reqComponent);
         if(clu != null) {

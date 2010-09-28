@@ -67,7 +67,7 @@ public class StatementAssembler extends BaseAssembler {
 		this.naturalLanguageTranslator = translator;
 	}
 
-	public List<RefStatementRelationInfo> toRefStatementRelationInfos(List<RefStatementRelation> entities) {
+	public static List<RefStatementRelationInfo> toRefStatementRelationInfos(List<RefStatementRelation> entities) {
 		List<RefStatementRelationInfo> list = new ArrayList<RefStatementRelationInfo>();
 		for(RefStatementRelation entity : entities) {
 			list.add(toRefStatementRelationInfo(entity));
@@ -75,7 +75,7 @@ public class StatementAssembler extends BaseAssembler {
 		return list;
 	}
 
-	public RefStatementRelationInfo toRefStatementRelationInfo(RefStatementRelation entity) {
+	public static RefStatementRelationInfo toRefStatementRelationInfo(RefStatementRelation entity) {
 		RefStatementRelationInfo dto = new RefStatementRelationInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[]{
@@ -91,7 +91,7 @@ public class StatementAssembler extends BaseAssembler {
         return dto;
 	}
 
-	public List<RefStatementRelationTypeInfo> toRefStatementRelationTypeInfos(List<RefStatementRelationType> entities) {
+	public static List<RefStatementRelationTypeInfo> toRefStatementRelationTypeInfos(List<RefStatementRelationType> entities) {
 		List<RefStatementRelationTypeInfo> list = new ArrayList<RefStatementRelationTypeInfo>();
 		for(RefStatementRelationType entity : entities) {
 			list.add(toRefStatementRelationTypeInfo(entity));
@@ -99,7 +99,7 @@ public class StatementAssembler extends BaseAssembler {
 		return list;
 	}
 
-	public RefStatementRelationTypeInfo toRefStatementRelationTypeInfo(RefStatementRelationType entity) {
+	public static RefStatementRelationTypeInfo toRefStatementRelationTypeInfo(RefStatementRelationType entity) {
 		RefStatementRelationTypeInfo dto = new RefStatementRelationTypeInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[]{
@@ -111,7 +111,7 @@ public class StatementAssembler extends BaseAssembler {
         return dto;
 	}
 
-	public List<String> toRefObjectSubTypeIds(ObjectType objectType) {
+	public static List<String> toRefObjectSubTypeIds(ObjectType objectType) {
 		List<String> ids = new ArrayList<String>();
 		for(ObjectSubType objectSubType : objectType.getObjectSubTypes()) {
 			ids.add(objectSubType.getId());
@@ -119,12 +119,12 @@ public class StatementAssembler extends BaseAssembler {
 		return ids;
 	}
 
-	public NlUsageTypeInfo toNlUsageTypeInfo(NlUsageType entity) throws OperationFailedException {
+	public static NlUsageTypeInfo toNlUsageTypeInfo(NlUsageType entity) throws OperationFailedException {
 		NlUsageTypeInfo info = toGenericTypeInfo(NlUsageTypeInfo.class, entity);
 		return info;
 	}
 
-	public List<NlUsageTypeInfo> toNlUsageTypeInfos(List<NlUsageType> entities) throws OperationFailedException {
+	public static List<NlUsageTypeInfo> toNlUsageTypeInfos(List<NlUsageType> entities) throws OperationFailedException {
 		List<NlUsageTypeInfo> infoList = new ArrayList<NlUsageTypeInfo>();
 		for(NlUsageType entity : entities) {
 			NlUsageTypeInfo info = toNlUsageTypeInfo(entity);
@@ -187,7 +187,7 @@ public class StatementAssembler extends BaseAssembler {
 
     }
 
-    public ReqComponentInfo toReqComponentInfo(ReqComponent entity, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
+    public static ReqComponentInfo toReqComponentInfo(ReqComponent entity) throws DoesNotExistException, OperationFailedException {
         ReqComponentInfo dto = new ReqComponentInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[] {
@@ -198,14 +198,23 @@ public class StatementAssembler extends BaseAssembler {
         //dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setDesc(toRichTextInfo(entity.getDescr()));
-        if(nlUsageTypeKey != null && language != null) {
-	        String nl = this.naturalLanguageTranslator.translateReqComponent(entity, nlUsageTypeKey);
+//        if(nlUsageTypeKey != null && language != null) {
+//	        String nl = this.naturalLanguageTranslator.translateReqComponent(entity, nlUsageTypeKey, language);
+//	        dto.setNaturalLanguageTranslation(nl);
+//        }
+        return dto;
+    }
+
+    public ReqComponentInfo toReqComponentInfo(ReqComponent entity, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
+    	ReqComponentInfo dto = toReqComponentInfo(entity);
+    	if(nlUsageTypeKey != null && language != null) {
+	        String nl = this.naturalLanguageTranslator.translateReqComponent(entity, nlUsageTypeKey, language);
 	        dto.setNaturalLanguageTranslation(nl);
         }
         return dto;
     }
 
-    public List<ReqComponentTypeInfo> toReqComponentTypeInfos(List<ReqComponentType> entities) {
+    public static List<ReqComponentTypeInfo> toReqComponentTypeInfos(List<ReqComponentType> entities) {
         List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(entities.size());
         for (ReqComponentType entity : entities) {
             dtos.add(toReqComponentTypeInfo(entity));
@@ -214,14 +223,14 @@ public class StatementAssembler extends BaseAssembler {
 
     }
 
-    public ReqComponentTypeInfo toReqComponentTypeInfo(ReqComponentType entity) {
+    public static ReqComponentTypeInfo toReqComponentTypeInfo(ReqComponentType entity) {
         ReqComponentTypeInfo dto = toGenericTypeInfo(ReqComponentTypeInfo.class, entity);
         dto.setReqCompFieldTypeInfos(toReqCompFieldTypeInfos(entity.getReqCompFieldTypes()));
         dto.setDescr(entity.getDescr());
         return dto;
     }
 
-    public List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
+    public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
             List<ReqComponentFieldType> entities) {
         List<ReqCompFieldTypeInfo> dtos = new ArrayList<ReqCompFieldTypeInfo>(
                 entities.size());
@@ -231,8 +240,7 @@ public class StatementAssembler extends BaseAssembler {
         return dtos;
     }
 
-    public ReqCompFieldTypeInfo toReqCompFieldTypeInfo(
-            ReqComponentFieldType entity) {
+    public static ReqCompFieldTypeInfo toReqCompFieldTypeInfo(ReqComponentFieldType entity) {
         ReqCompFieldTypeInfo dto = new ReqCompFieldTypeInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[] { "fieldDescriptor" });
@@ -245,16 +253,18 @@ public class StatementAssembler extends BaseAssembler {
         return dto;
     }
 
-    public List<ReqCompFieldInfo> toReqCompFieldInfos(
-            List<ReqComponentField> entities) {
-        List<ReqCompFieldInfo> dtos = new ArrayList<ReqCompFieldInfo>(entities.size());
+    public static List<ReqCompFieldInfo> toReqCompFieldInfos(List<ReqComponentField> entities) {
+        if(entities == null) {
+        	return null;
+        }
+    	List<ReqCompFieldInfo> dtos = new ArrayList<ReqCompFieldInfo>(entities.size());
         for (ReqComponentField entity : entities) {
             dtos.add(toReqCompFieldInfo(entity));
         }
         return dtos;
     }
 
-    public ReqCompFieldInfo toReqCompFieldInfo(ReqComponentField entity) {
+    public static ReqCompFieldInfo toReqCompFieldInfo(ReqComponentField entity) {
         if (null == entity) {
             return null;
         }
@@ -396,7 +406,7 @@ public class StatementAssembler extends BaseAssembler {
         return stmt;
     }
 
-    public StatementInfo toStatementInfo(Statement entity) {
+    public static StatementInfo toStatementInfo(Statement entity) {
         if(entity==null){
             return null;
         }
@@ -425,7 +435,7 @@ public class StatementAssembler extends BaseAssembler {
         return dto;
     }
 
-    public List<StatementInfo> toStatementInfos(
+    public static List<StatementInfo> toStatementInfos(
             List<Statement> entities) {
         List<StatementInfo> dtos = new ArrayList<StatementInfo>(entities
                 .size());
@@ -436,7 +446,7 @@ public class StatementAssembler extends BaseAssembler {
 
     }
 
-    public List<StatementTypeInfo> toStatementTypeInfos(List<StatementType> entities) {
+    public static List<StatementTypeInfo> toStatementTypeInfos(List<StatementType> entities) {
     	List<StatementTypeInfo> list = new ArrayList<StatementTypeInfo>();
     	for(StatementType type : entities) {
     		StatementTypeInfo dto = toStatementTypeInfo(type);
@@ -445,7 +455,7 @@ public class StatementAssembler extends BaseAssembler {
     	return list;
     }
 
-    public StatementTypeInfo toStatementTypeInfo(StatementType entity) {
+    public static StatementTypeInfo toStatementTypeInfo(StatementType entity) {
         if(entity==null){
             return null;
         }

@@ -32,28 +32,28 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class AtpContextImplTest {
 	private AtpService atpService = new AtpServiceMock();
 	private AtpContextImpl atpContext = new AtpContextImpl();
-	private ReqComponent reqComponent;
+	private ReqComponentInfo reqComponent;
 	
 	private void setupReqComponent() {
-		reqComponent = new ReqComponent();
-        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
-        ReqComponentField reqCompField1 = new ReqComponentField();
+		reqComponent = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
         reqCompField1.setType("kuali.reqComponent.field.type.duration");
         reqCompField1.setValue("2");
         reqCompFieldList.add(reqCompField1);
-        ReqComponentField reqCompField2 = new ReqComponentField();
+        ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
         reqCompField2.setType("kuali.reqComponent.field.type.durationType.id");
         reqCompField2.setValue("kuali.atp.duration.Year");
         reqCompFieldList.add(reqCompField2);
 
-		reqComponent.setReqComponentFields(reqCompFieldList);
+		reqComponent.setReqCompFields(reqCompFieldList);
 	}
 	
 	@Before
