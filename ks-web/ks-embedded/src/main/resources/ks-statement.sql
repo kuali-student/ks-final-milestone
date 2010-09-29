@@ -336,7 +336,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3011', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program> for final credits of <reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number>', 'kuali.reqComponent.type.program.residence.credits.final', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3012', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program> for final credits of <reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number>', 'kuali.reqComponent.type.program.enrolled.credits.final', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3013', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Minors>', 'kuali.reqComponent.type.program.minors.nof', 'en')
-INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3014', 'KUALI.COMPOSITION', null, 'kuali.reqComponent.type.program.minors.nof', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3014', 'KUALI.COMPOSITION', null, 'kuali.reqComponent.type.program.minor.admitted.classstanding', 'en')
 
 
 // STMT_TYPE <-> REQ_COM_TYPE
