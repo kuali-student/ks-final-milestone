@@ -53,11 +53,10 @@ public class ProgramManager {
         return variationEditController;
     }
 
-    public ProgramEditController getProgramEditController() {
+    public ProgramEditController getProgramEditController() {   	
         programModel.resetRoot();
-        if (programEditController == null) {
-            programEditController = new ProgramEditController("Programs", programModel, viewContext, eventBus);
-        }
+        programEditController = new ProgramEditController("Programs", programModel, viewContext, eventBus);
+        
         return programEditController;
     }
 }
