@@ -33,7 +33,6 @@ public class VariationController extends ProgramController {
         super.configureView();
         this.setContentTitle("Specialization of " + getProgramName());
         this.addContentWidget(createParentAnchor());
-        initialized = true;
     }
 
     private Widget createParentAnchor() {
