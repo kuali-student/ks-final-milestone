@@ -2254,4 +2254,33 @@
 			</list>
 		</property>
 	</bean>
+
+ <bean id="ReqCompFieldInfo.value.person.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.person.id" />
+		<property name="initialLookup" ref="ks.lookup.person.suggest" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="ks.lookup.person.advanced" />
+			</list>
+		</property>
+	</bean>
+
+ <bean id="ReqCompFieldInfo.value.org.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.org.id" />
+		<property name="initialLookup" ref="kuali.lu.lookup.admin.departments.suggest" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.admin.departments.advanced" />
+			</list>
+		</property>
+	</bean>
+
+ <bean id="ReqCompFieldInfo.value.gradeType.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.gradeType.id" />
+		<property name="initialLookup" ref="kuali.lu.lookup.assessmentScale" />
+	</bean>
+
 </beans>
