@@ -375,7 +375,7 @@
 	        		<property name="docContentFieldMap">
 	           			<map>
 		                	<entry key="cluId" value="id"/>
-		                	<entry key="orgId" value="unitsContentOwner[0]"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
 	           			</map>
 					</property>
 	            </bean>
@@ -385,7 +385,7 @@
 					<property name="docContentFieldMap">					
 	           			<map>
 		                	<entry key="cluId" value="id"/>
-		                	<entry key="orgId" value="unitsContentOwner[0]"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
 	           			</map>
 	           		</property>
 				</bean>
