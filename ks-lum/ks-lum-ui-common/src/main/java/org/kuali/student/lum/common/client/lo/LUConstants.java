@@ -171,6 +171,7 @@ public class LUConstants {
     public static final String ACTIVITY_LITERAL_LABEL_KEY = "cluActivityLiteral";
     public static final String ACTIVITY_TYPE_LABEL_KEY = "cluActivityType";
     public static final String CONTACT_HOURS_LABEL_KEY = "cluContactHours";
+    public static final String CONTACT_HOURS_FREQUENCY_LABEL_KEY = "cluContactFrequency";
     public static final String CLASS_SIZE_LABEL_KEY = "cluClassSize";
 
     //Information labels
