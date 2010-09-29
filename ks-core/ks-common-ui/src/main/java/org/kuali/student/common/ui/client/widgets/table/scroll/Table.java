@@ -11,6 +11,9 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -36,7 +39,7 @@ public class Table extends Composite {
 	@UiField
 	FlexTable header;
 	@UiField
-	FlexTable table;
+	MouseHoverFlexTable table;
 	@UiField
 	SelectionStyle selectionStyle;
 	@UiField
@@ -46,6 +49,8 @@ public class Table extends Composite {
 
 	public Table() {
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		
 	}
     public FlexTable getHeader(){
         return header;
@@ -59,6 +64,7 @@ public class Table extends Composite {
 
 	public void setTableModel(TableModel m) {
 		tableModel = m;
+		table.setModel(tableModel);
 		if(m instanceof AbstractTableModel){
 			((AbstractTableModel)tableModel).addTableModelListener(new TableModelListener() {
 				@Override
@@ -69,6 +75,7 @@ public class Table extends Composite {
 			((AbstractTableModel)tableModel).fireTableStructureChanged();
 		}
 	}
+
 	@UiHandler("table")
 	void onTableClicked(ClickEvent event) {
 		Cell cell = table.getCellForEvent(event);
@@ -82,10 +89,23 @@ public class Table extends Composite {
 		}
 		int rowIndex = cell.getRowIndex();
 		Row row = tableModel.getRow(rowIndex);
-		
-		row.setSelected(!row.isSelected());
-    	updateTableSelection();
-    	updateTableCell(rowIndex, 0);
+
+	    if(tableModel.isMultipleSelectable() == false){
+	        for (int r = 0; r < tableModel.getRowCount(); r++) {
+	            if(r != rowIndex){
+	                tableModel.getRow(r).setSelected(false);
+	            }
+            }
+	        row.setSelected(!row.isSelected());
+	        updateTableSelection();
+            for (int r = 0; r < tableModel.getRowCount(); r++) {
+                updateTableCell(r, 0);                    
+            }	        
+	    }else{
+	        row.setSelected(!row.isSelected());
+	        updateTableSelection();
+	        updateTableCell(rowIndex, 0);
+	    }
 	}
 
 	@UiHandler("header")
@@ -114,16 +134,15 @@ public class Table extends Composite {
 	}
 
 	private void updateTableSelection() {
-		String style = selectionStyle.selectedRow();
 		int count = tableModel.getRowCount();
-		for (int i = 0; i < count; i++) {
-			table.getRowFormatter().removeStyleName(i, style);
-		}
-		for (int r = 0; r < count; r++) {
-			if (tableModel.getRow(r).isSelected()) {
-				table.getRowFormatter().addStyleName(r, style);
-			}
-		}
+	    for (int i = 0; i < count; i++) {
+           Element tr = table.getRowFormatter().getElement(i);
+           if (tableModel.getRow(i).isSelected()) {
+               DOM.setStyleAttribute(tr, "backgroundColor", "#C6D9FF");
+           }else{
+               DOM.setStyleAttribute(tr, "backgroundColor", "#FFFFFF");
+           }   
+	    }
 	}
 
 	public void updateTable(TableModelEvent event) {
@@ -165,7 +184,6 @@ public class Table extends Composite {
 			v = "";
 		}
 		if("RowHeader".equals(columnId) == false){
-		//if(row.isCellEditable(columnId)==false){
 			table.setText(r, c, v.toString());
 			return;
 		}

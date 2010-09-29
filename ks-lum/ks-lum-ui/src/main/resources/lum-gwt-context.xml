@@ -86,6 +86,8 @@
                         value-ref="LogRpcGwtServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService"
                        value-ref="metadataGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataPOCRpcService"
+                       value-ref="metadataPOCGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/programRpcService"
                        value-ref="programRpcServletController"/>
             </map>
@@ -229,6 +231,11 @@
         <property name="servletInstance" ref="MetadataRpcGwtServlet"/>
     </bean>
 
+    <bean id="metadataPOCGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="MetadataPOCRpcGwtServlet"/>
+        <property name="servletInstance" ref="MetadataPOCRpcGwtServlet"/>
+    </bean>
+
     <!-- GWT Servlets -->
 
     <!--Course Servlet Declaration-->
@@ -261,9 +268,9 @@
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
 
-    <bean id="CourseRpcGwtServlet"
-          class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
-        <property name="dataService" ref="CourseDataService"/>        
+    <bean id="CourseRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
+        <property name="courseService" ref="courseClient"/>
+        <property name="dataService" ref="CourseDataService"/>
     </bean>
 
     <bean id="CourseProposalRpcGwtServlet"
@@ -526,6 +533,10 @@
 
     <bean id="MetadataRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.MetadataRpcGwtServlet">
         <property name="serviceImpl" ref="metadataServiceImpl"/>
+    </bean>
+
+    <bean id="MetadataPOCRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.MetadataPOCRpcGwtServlet">
+        <property name="serviceImpl" ref="metadataServiceImplPOC"/>
     </bean>
 
     <!-- Service clients -->

@@ -68,7 +68,8 @@ public class ProgramInformationViewConfiguration extends AbstractSectionConfigur
     private TableSection createOtherInformationSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_otherInformation()));
         configurer.addReadOnlyField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()));
-        // configurer.addReadOnlyField(section, ProgramConstants.ACCREDITING_AGENCY, new MessageKeyInfo(ProgramProperties.get().programInformation_accreditation()));
+        section.addSection(createAccreditingAgenciesSection());
+//        configurer.addReadOnlyField(section, ProgramConstants.ACCREDITING_AGENCY, new MessageKeyInfo(ProgramProperties.get().programInformation_accreditation()));
         configurer.addReadOnlyField(section, ProgramConstants.CIP_2000, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2000()));
         configurer.addReadOnlyField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()));
         configurer.addReadOnlyField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegis()));
@@ -89,4 +90,23 @@ public class ProgramInformationViewConfiguration extends AbstractSectionConfigur
 
         return section;
     }
+    
+
+    private Section createAccreditingAgenciesSection() {
+
+        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY)) ;
+        MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.TABLE, MultiplicityConfiguration.StyleType.BORDERLESS_TABLE, metadata);
+        config.setShowHeaders(false);
+        config.setUpdateable(false);
+
+        config.setParent(ProgramConstants.ACCREDITING_AGENCY , ProgramProperties.get().programInformation_accreditation(),  null, metadata);
+
+        Metadata orgMetadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY, QueryPath.getWildCard(), ProgramConstants.ORG_ID)) ;
+        config.addField(ProgramConstants.ORG_ID, null, ProgramConstants.ACCREDITING_AGENCY, orgMetadata);
+
+        MultiplicitySection section = new MultiplicitySection(config);
+
+        return section;
+    }
+
 }

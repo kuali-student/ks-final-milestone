@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.client.variation;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -20,9 +21,10 @@ public class VariationController extends ProgramController {
      * Constructor.
      *
      * @param programModel
+     * @param eventBus
      */
-    public VariationController(String name, DataModel programModel, ViewContext viewContext) {
-        super("", programModel, viewContext);
+    public VariationController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super("", programModel, viewContext, eventBus);
         this.name = name;
     }
 

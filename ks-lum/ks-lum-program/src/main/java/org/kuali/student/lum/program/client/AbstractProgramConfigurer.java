@@ -42,4 +42,8 @@ public abstract class AbstractProgramConfigurer extends Configurer {
             viewController.addMenuItem(programSectionLabel, configuration.getView());
         }
     }
+
+    public ProgramController getViewController() {
+        return viewController;
+    }
 }

@@ -80,7 +80,6 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
@@ -107,7 +106,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		public void exec(String result) {
 			refreshDocuments();
 		}
-    	
+
     };
 
     private KSLightBox progressWindow = new KSLightBox();
@@ -277,7 +276,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		super(viewEnum, viewName);
 	}
 
-	private void isAuthorizedUploadDocuments() {
+	protected void isAuthorizedUploadDocuments() {
         documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
 
 			@Override
@@ -291,10 +290,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
 				if(referenceId != null && !(referenceId.isEmpty())){
 					//buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
-		        	saveWarning.setVisible(false);
-		        	buttonPanel.setVisible(result);
-					documentList.setVisible(true);
-					refreshDocuments();
+		        	processUi(result);
 				}
 				else{
 					saveWarning.setVisible(true);
@@ -306,7 +302,14 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 		});
 	}
-	
+
+    protected void processUi(Boolean result){
+       saveWarning.setVisible(false);
+	   buttonPanel.setVisible(result);
+	   documentList.setVisible(true);
+	   refreshDocuments();
+    }
+
     private Metadata getMetaData(String fieldKey) {
         return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
     }
@@ -316,12 +319,12 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         // UI label framework.
         return labelKey;
     }
-    
+
     private MultiplicityConfiguration setupMultiplicityConfig(
             MultiplicityConfiguration.MultiplicityType multiplicityType,
             MultiplicityConfiguration.StyleType styleType,
             String path, String addItemlabelMessageKey,
-            String itemLabelMessageKey, 
+            String itemLabelMessageKey,
             Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
             List<String> deletionParentKeys) {
         QueryPath parentPath = QueryPath.concat(path);
@@ -341,10 +344,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
             public ModelWidgetBinding getModelWidgetBindingInstance() {
                 return new ModelWidgetBinding<DocumentForm>() {
                     public void setModelValue(DocumentForm widget, DataModel model, String path) {
-                        
+
                     }
                     public void setWidgetValue(DocumentForm widget, DataModel model, String path){
-                        
+
                     }
                 };
             }
@@ -382,7 +385,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
         MultiplicityFieldConfiguration fd = new MultiplicityFieldConfiguration(
                 fieldPath.toString(), generateMessageInfo(labelKey), meta, null);
-        
+
 
         return fd;
 
@@ -398,14 +401,14 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	            MultiplicityConfiguration.MultiplicityType.GROUP,
 	            MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
 	            "path", "Include More Files",
-	            "File Name", 
+	            "File Name",
 	            null,
 	            null);
         MultiplicitySection ms = null;
         ms = new MultiplicitySection(uploadFileMultiplicityConfig);
         verticalSection.addSection(ms);
         verticalSection.getLayout().setWidth("100");
-	    
+
         return verticalSection;
 	}
 
@@ -478,7 +481,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		uploadList.clear();
 		uploadList.add(createUploadForm());
 	}
-	
+
 
 
 	private static class DocumentForm extends Composite{

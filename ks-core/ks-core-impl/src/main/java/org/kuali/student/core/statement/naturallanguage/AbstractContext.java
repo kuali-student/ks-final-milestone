@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 
 /**
  * This is an abstract class for creating a map (containing token/data) used
@@ -49,10 +49,11 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param reqComponent Requirement component
      * @return Map of requirement component fields
      */
-	protected Map<String, String> getReqComponentFieldMap(ReqComponent reqComponent) {
-        List<ReqComponentField> fields = reqComponent.getReqComponentFields();
+	protected Map<String, String> getReqComponentFieldMap(ReqComponentInfo reqComponent) {
+//        List<ReqComponentField> fields = reqComponent.getReqComponentFields();
+        List<ReqCompFieldInfo> fields = reqComponent.getReqCompFields();
         Map<String, String> map = new HashMap<String, String>();
-        for (ReqComponentField field : fields) {
+        for (ReqCompFieldInfo field : fields) {
             String type = field.getType();
             String value = field.getValue();
             map.put(type, value);
@@ -68,7 +69,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param key <code>ReqCompFieldInfo</code> key
      * @return Value of <code>ReqCompFieldInfo</code>
      */
-	protected String getReqComponentFieldValue(ReqComponent reqComponent, String key) {
+	protected String getReqComponentFieldValue(ReqComponentInfo reqComponent, String key) {
         return getReqComponentFieldMap(reqComponent).get(key);
     }
 
@@ -79,7 +80,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param reqComponent Requirement component
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
         return contextMap;

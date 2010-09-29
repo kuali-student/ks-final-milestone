@@ -47,6 +47,7 @@ public class OrgApplicationManager extends Controller{
             case CREATE_ORG:
                 initOrgView();
                 callback.exec(createOrgView);
+                break;
             default:
             	callback.exec(null);
         }

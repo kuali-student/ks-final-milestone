@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
@@ -53,7 +53,7 @@ public class OrganizationContextImpl extends BasicContextImpl {
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         String orgId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
         OrgInfo org = getOrganization(orgId);
         

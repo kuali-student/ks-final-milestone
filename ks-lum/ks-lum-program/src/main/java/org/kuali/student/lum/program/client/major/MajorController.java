@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.client.major;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -28,8 +29,8 @@ public class MajorController extends ProgramController {
      *
      * @param programModel
      */
-    public MajorController(String name, DataModel programModel, ViewContext viewContext) {
-        super(name, programModel, viewContext);
+    public MajorController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(name, programModel, viewContext, eventBus);
     }
 
     @Override

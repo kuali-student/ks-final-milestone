@@ -24,9 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.rice.core.config.ConfigContext;
-import org.springframework.security.Authentication;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.userdetails.UserDetails;
+import org.kuali.student.common.util.security.SecurityUtils;
 
 public class IndexPageServlet extends HttpServlet {
 
@@ -50,18 +48,7 @@ public class IndexPageServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		//Get the username
-		String username = "";
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		if (auth != null) {
-			Object obj = auth.getPrincipal();
-
-			if (obj instanceof UserDetails) {
-				username = ((UserDetails) obj).getUsername();
-			} else {
-				username = obj.toString();
-			}
-		}
+		String username = SecurityUtils.getPrincipalUserName();
 		
 		//Get the Rice Application Url
 		String riceUrl = ConfigContext.getCurrentContextConfig().getProperty("ks.rice.url");

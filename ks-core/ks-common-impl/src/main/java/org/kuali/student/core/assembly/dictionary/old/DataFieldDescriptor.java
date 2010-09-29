@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.masking.Mask;
 
 
 /**
@@ -64,9 +63,7 @@ public class DataFieldDescriptor {
     protected List<LookupMetadata> additionalLookups;   
     
     protected DataObjectStructure dataObjectStructure;
-    
-    protected Mask mask;
-    
+        
     public String getName() {
         return name;
     }
@@ -165,14 +162,6 @@ public class DataFieldDescriptor {
 
     public void setDataObjectStructure(DataObjectStructure dataObjectStructure) {
         this.dataObjectStructure = dataObjectStructure;
-    }
-
-    public Mask getMask() {
-        return mask;
-    }
-
-    public void setMask(Mask mask) {
-        this.mask = mask;
     }
 
     public boolean isCanUnmask() {

@@ -37,31 +37,31 @@
     <ks.impex.dba.username.mysql>root</ks.impex.dba.username.mysql>
     <ks.impex.dba.password.mysql></ks.impex.dba.password.mysql>
 
-    <!-- *** REQUIRED properties *** -->
+    <!-- *** Start REQUIRED properties *** -->
     <!-- JDBC url -->
     <ks.impex.url>${ks.impex.url.oracle}</ks.impex.url> 
     <!-- User with DBA privileges -->
     <ks.impex.dba.username>${ks.impex.dba.username.oracle}</ks.impex.dba.username>
     <!-- Password for the DBA user -->
     <ks.impex.dba.password>${ks.impex.dba.password.oracle}</ks.impex.dba.password>
-    <!-- *** End of REQUIRED properties *** -->
+    <!-- *** End REQUIRED properties *** -->
 
-    <!-- *** OPTIONAL properties *** -->
+    <!-- *** Start OPTIONAL properties *** -->
     <!-- Platform specific logic generates default values for these if they are not specified -->
     <!-- A url for connecting directly to the database server ie no database specified -->
     <ks.impex.server.url></ks.impex.server.url>
 
     <!-- Aka "schema" for Oracle. This database/schema gets dropped/created by the DBA user-->
-    <ks.impex.database.name></ks.impex.database.name>
+    <ks.impex.database></ks.impex.database>
     
     <!-- This is the user the application will connect to the database as. -->
-    <!-- This user gets dropped / created by the DBA user -->
-    <ks.impex.database.user></ks.impex.database.user>
-    <ks.impex.database.password></ks.impex.database.password>
+    <!-- This user gets dropped/created by the DBA user -->
+    <ks.impex.username></ks.impex.username>
+    <ks.impex.password></ks.impex.password>
 
     <!--  This is the format dates will be exported/imported as -->
     <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
-    <!-- *** End of OPTIONAL properties *** -->
+    <!-- *** End OPTIONAL properties *** -->
     
     <!-- Properties located in the properties file, override POM properties, but not system properties -->
     <ks.impex.properties>${user.home}/impex.properties</ks.impex.properties>
@@ -297,8 +297,8 @@
             <artifactId>maven-impex-plugin</artifactId>
             <configuration>
               <url>${ks.impex.url}</url>
-              <username>${ks.impex.database.user}</username>
-              <password>${ks.impex.database.password}</password>
+              <username>${ks.impex.username}</username>
+              <password>${ks.impex.password}</password>
             </configuration>
             <executions>
               <execution>
@@ -332,9 +332,9 @@
                   <serverUrl>${ks.impex.server.url}</serverUrl>
                   <username>${ks.impex.dba.username}</username>
                   <password>${ks.impex.dba.password}</password>
-                  <database>${ks.impex.database.name}</database>
-                  <databaseUser> ${ks.impex.database.user}</databaseUser>
-                  <databasePassword>${ks.impex.database.password}</databasePassword>
+                  <database>${ks.impex.database}</database>
+                  <databaseUsername>${ks.impex.username}</databaseUsername>
+                  <databasePassword>${ks.impex.password}</databasePassword>
                 </configuration>
               </execution>
               <execution>

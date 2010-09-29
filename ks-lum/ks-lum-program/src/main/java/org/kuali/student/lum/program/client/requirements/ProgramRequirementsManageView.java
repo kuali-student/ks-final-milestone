@@ -138,7 +138,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     }
 
     // called by requirement display widget when user wants to edit or add a sub-rule
-    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, String ruleType, boolean newRuleFlag, String relatedProgramReqInfoId) {
+    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, boolean newRuleFlag, String relatedProgramReqInfoId) {
 
         if (!isInitialized) {
             editReqCompWidget = new ReqCompEditWidget();

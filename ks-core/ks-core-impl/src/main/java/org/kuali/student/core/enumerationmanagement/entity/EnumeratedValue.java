@@ -36,20 +36,23 @@ import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
 @Table(name="KSEM_ENUM_VAL_T")
-public class EnumeratedValueEntity {
+public class EnumeratedValue {
     @Id
     @Column(name="ID")
     String id;
 
-    @Column(name="ENUM_KEY")
-    String enumerationKey;
     @Column(name="CD")
     String code;
-    @Column(name="ABBREV_VAL")
-    String abbrevValue;
+    
     @Column(name="VAL")
     String value;
-    
+
+    @Column(name="ENUM_KEY")
+    String enumerationKey;
+        
+    @Column(name="ABBREV_VAL")
+    String abbrevValue;
+        
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="EFF_DT")
     Date effectiveDate;
@@ -140,11 +143,12 @@ public class EnumeratedValueEntity {
     public void setSortKey(int sortKey) {
         this.sortKey = sortKey;
     }
+    
     public List<ContextEntity> getContextEntityList() {
         return contextEntityList;
     }
+    
     public void setContextEntityList(List<ContextEntity> contextEntityList) {
         this.contextEntityList = contextEntityList;
     }
-
 }

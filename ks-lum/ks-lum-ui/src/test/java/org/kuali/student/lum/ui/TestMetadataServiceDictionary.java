@@ -65,7 +65,11 @@ public class TestMetadataServiceDictionary
   typesForClass.add ("kuali.reqComponent.field.type.operator");
   typesForClass.add ("kuali.reqComponent.field.type.clu.id");
   typesForClass.add ("kuali.reqComponent.field.type.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.person.id");
+  typesForClass.add ("kuali.reqComponent.field.type.org.id");
   typesForClass.add ("kuali.reqComponent.field.type.value.positive.integer");
+  typesForClass.add ("kuali.reqComponent.field.type.gradeType.id");
+  typesForClass.add ("kuali.reqComponent.field.type.grade");
 
   DictionaryService courseDictService = new DictionaryServiceImpl (
     "classpath:ks-courseInfo-dictionary-context.xml");
