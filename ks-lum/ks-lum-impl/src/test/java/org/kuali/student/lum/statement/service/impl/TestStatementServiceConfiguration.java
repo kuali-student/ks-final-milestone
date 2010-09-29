@@ -32,20 +32,33 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testStatementTypeCount() {
     	List<StatementType> statementTypes = this.dao.find(StatementType.class);
-    	Assert.assertEquals(13, statementTypes.size());
+    	Assert.assertEquals(15, statementTypes.size());
     }
 
     @Test
     public void testValidStatementSubTypesForCourse() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course");
     	List<StatementType> subTypes = statementType.getAllowedStatementTypes();
-    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.academicReadiness.prereq"));
-    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.academicReadiness.coreq"));
-    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.academicReadiness.antireq"));
+    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.enrollmentEligibility"));
+    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.creditConstraints"));
+    }
+
+    @Test
+    public void testValidStatementSubTypesForEnrollmentEligibility() throws DoesNotExistException {
+    	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.enrollmentEligibility");
+    	List<StatementType> subTypes = statementType.getAllowedStatementTypes();
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"));
-    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.credit.repeatable"));
-    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.credit.restriction"));
+    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.academicReadiness.coreq"));
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.recommendedPreparation"));
+    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.academicReadiness.antireq"));
+    }
+
+    @Test
+    public void testValidStatementSubTypesForCreditConstraints() throws DoesNotExistException {
+    	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.creditConstraints");
+    	List<StatementType> subTypes = statementType.getAllowedStatementTypes();
+    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.credit.restriction"));
+    	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.credit.repeatable"));
     }
 
     @Test
@@ -60,7 +73,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testStatementSubTypesForCourseStatementType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course");
-    	Assert.assertEquals(8, statementType.getAllowedStatementTypes().size());
+    	Assert.assertEquals(2, statementType.getAllowedStatementTypes().size());
     }
 
     @Test
