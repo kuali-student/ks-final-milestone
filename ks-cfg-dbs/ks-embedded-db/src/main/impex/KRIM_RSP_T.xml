@@ -7,6 +7,14 @@
         OBJ_ID="5ADFE1V2441D6320E04AAAA189D85169" RSP_ID="1000"
         RSP_TMPL_ID="2" VER_NBR="0"/>
     <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Publication Decision Review" NM="Review"
+        NMSPC_CD="KS-LUM" OBJ_ID="87BF0F95-368E-8863-F65E-6AE4FDF96373"
+        RSP_ID="306" RSP_TMPL_ID="1" VER_NBR="1"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Document Organization Review" NM="Review"
+        NMSPC_CD="KS-LUM" OBJ_ID="294E015D-D736-802E-2B98-0B8D62B66442"
+        RSP_ID="307" RSP_TMPL_ID="1" VER_NBR="1"/>
+    <KRIM_RSP_T ACTV_IND="Y"
         DESC_TXT="Responsibility for Department Review" NM="Review"
         NMSPC_CD="KS-LUM" OBJ_ID="DepartmentReview0000000000000RSP"
         RSP_ID="300" RSP_TMPL_ID="1" VER_NBR="0"/>
