@@ -142,25 +142,25 @@
 	</bean>
 	
 	<bean id="activities.activityType" parent="uilookupconfig-parent">
-		<property name="path" value="course.formats.activities.activityType" />
+		<property name="path" value="courseInfo.formats.activities.activityType" />
 		<property name="initialLookup" ref="kuali.lookup.lutypes.activity" />
 	</bean>
 
 	<!-- TODO: Should not have to define separate paths for duration -->
-	<bean id="course.duration.atpDurationTypeKey" parent="uilookupconfig-parent">
-		<property name="path" value="course.duration.atpDurationTypeKey" />
+	<bean id="courseInfo.duration.atpDurationTypeKey" parent="uilookupconfig-parent">
+		<property name="path" value="courseInfo.duration.atpDurationTypeKey" />
 		<property name="initialLookup" ref="kuali.lookup.durations" />
 	</bean>
 
 	<bean id="activity.duration" parent="uilookupconfig-parent">
 		<property name="path"
-			value="course.formats.activities.duration.atpDurationTypeKey" />
+			value="courseInfo.formats.activities.duration.atpDurationTypeKey" />
 		<property name="initialLookup" ref="kuali.lookup.durations" />
 	</bean>
 
 	<bean id="activity.unitType" parent="uilookupconfig-parent">
 		<property name="path"
-			value="course.formats.activities.contactHours.unitType" />
+			value="courseInfo.formats.activities.contactHours.unitType" />
 		<property name="initialLookup" ref="kuali.lu.lookup.amountInfo.unitType" />
 	</bean>
 
