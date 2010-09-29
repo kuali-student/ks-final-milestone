@@ -139,6 +139,7 @@
 	<bean parent="enCourse" p:id="cluActivityType" p:value="Activity Type" />
 	<bean parent="enCourse" p:id="cluContactHours" p:value="Contact Hours" />
 	<bean parent="enCourse" p:id="cluContactHours-instruct" p:value="Sum of contact hours will validate with credits (from learning results)" />
+	<bean parent="enCourse" p:id="cluContactFrequency" p:value="Frequency" />
 	<bean parent="enCourse" p:id="cluClassSize" p:value="Anticipated Class Size" />
 	<bean parent="enCourse" p:id="cluClassSize-help" p:value="This does not have to be exact - it will be used as an estimate for evaluation purposes only." />
 
