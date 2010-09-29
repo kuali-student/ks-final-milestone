@@ -1,10 +1,17 @@
 package org.kuali.student.lum.program.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
@@ -62,6 +69,24 @@ public class ProgramController extends MenuSectionController {
             }
         });
     }
+
+
+    @Override
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
+        if (modelType == ReferenceModel.class) {
+            ReferenceModel referenceModel = new ReferenceModel();
+            referenceModel.setReferenceId((String) programModel.get("id"));
+            referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_TYPE_ID);
+            referenceModel.setReferenceType(ProgramConstants.MAJOR_OBJECT_ID);
+            Map<String, String> attributes = new HashMap<String, String>();
+            attributes.put("name", (String) programModel.get("name"));
+            referenceModel.setReferenceAttributes(attributes);
+            callback.onModelReady(referenceModel);
+        } else {
+            super.requestModel(modelType, callback);
+        }
+    }
+
 
     /**
      * Loads data model from the server.
@@ -175,10 +200,22 @@ public class ProgramController extends MenuSectionController {
         onReadyCallback.exec(true);
     }
 
-    protected void setHeaderTitle(){
-    	String title = getProgramName();
+    protected void setHeaderTitle() {
+        String title = getProgramName();
+        this.setContentTitle(title);
+        this.setName(title);
+    }
 
-    	this.setContentTitle(title);
-    	this.setName(title);
+    protected Widget createCommentPanel() {
+        final CommentTool commentTool = new CommentTool(ProgramSections.COMMENTS, "Comments", "kuali.comment.type.generalRemarks", "Program Comments");
+        commentTool.setController(this);
+        KSButton commentsButton = new KSButton(ProgramProperties.get().comments_button(), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                commentTool.show();
+            }
+        });
+        return commentsButton;
     }
 }
