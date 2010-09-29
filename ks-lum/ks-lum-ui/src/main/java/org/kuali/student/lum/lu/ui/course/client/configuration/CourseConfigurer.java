@@ -654,7 +654,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 false),
                         new MultiplicityFieldConfig(
                                 CONTACT_HOURS + "/" + "unitType",
-                                "",
+                                LUConstants.CONTACT_HOURS_FREQUENCY_LABEL_KEY,
                                 null,
                                 null,
                                 true),
