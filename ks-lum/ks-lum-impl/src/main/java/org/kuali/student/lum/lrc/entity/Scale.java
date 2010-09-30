@@ -33,7 +33,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_LRC_SCALE")
+@Table(name = "KSLR_SCALE")
 public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
     @Id
     @Column(name = "ID")

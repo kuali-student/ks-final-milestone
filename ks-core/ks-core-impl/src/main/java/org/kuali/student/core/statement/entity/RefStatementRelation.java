@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class RefStatementRelation extends MetaEntity implements AttributeOwner<R
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER")
-    private List<RefStatementRelationAttribute> attributes = new ArrayList<RefStatementRelationAttribute>();
+    private List<RefStatementRelationAttribute> attributes;
 
     /**
      * AutoGenerate the Id

@@ -67,13 +67,13 @@
                 </plugins>
             </build>
 
-            <!-- Required dependencies for testing core-ui -->
+            <!-- Required dependencies for testing lum-ui -->
             <dependencies>
                 <dependency>
                     <!--
-                             Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
-                             which has problems finding exception beans.
-                         -->
+                      Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
+                      which has problems finding exception beans.
+                    -->
                     <groupId>org.kuali.student.core</groupId>
                     <artifactId>ks-cxf</artifactId>
                     <version>${project.version}</version>
@@ -107,6 +107,12 @@
                     <groupId>org.kuali.rice</groupId>
                     <artifactId>rice-impl</artifactId>
                 </dependency>
+			    <dependency>
+			      <groupId>org.kuali.student.security</groupId>
+			      <artifactId>ks-standard-sec</artifactId>
+			      <version>${project.version}</version>
+			    </dependency> 
+
             </dependencies>
         </profile>
     </profiles>
@@ -122,6 +128,12 @@
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-program</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -132,9 +132,6 @@ public class LuiLuiRelation extends MetaEntity implements
 	}
 
 	public List<LuiLuiRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LuiLuiRelationAttribute>();
-		}
 		return attributes;
 	}
 

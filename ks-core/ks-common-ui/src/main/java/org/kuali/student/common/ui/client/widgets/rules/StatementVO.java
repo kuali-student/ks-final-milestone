@@ -60,23 +60,23 @@ public class StatementVO extends Token implements Serializable {
         return stmtTreeInfo;
     }
 
-    public StatementVO() {        
+    public StatementVO() {
     }
-    
+
     public StatementVO(StatementInfo statementInfo) {
         setStatementInfo(statementInfo);
-    }        
-    
-    public void printTree(Node node) {        
+    }
+
+    public void printTree(Node node) {
         int level = 0;
         ReqComponentVO content;
 //        level++;
-        
+
         if (node == null) {
             GWT.log("null node found",null);
             return;
         }
-        
+
         level = node.getDistance(node);
         if (node.getUserObject() != null) {
             Token token = (Token) node.getUserObject();
@@ -95,7 +95,7 @@ public class StatementVO extends Token implements Serializable {
             }
         }
     }
-       
+
     /**
      * Gets the immediate parent statement of reqComponentVO
      * Example: (a and b) or (c and d) or (e)
@@ -108,12 +108,12 @@ public class StatementVO extends Token implements Serializable {
     public StatementVO getEnclosingStatementVO(StatementVO root, ReqComponentVO reqComponentVO) {
         return doGetEnclosingStatementVO(root, reqComponentVO);
     }
-    
+
     private StatementVO doGetEnclosingStatementVO(StatementVO statementVO, ReqComponentVO reqComponentVO) {
         StatementVO result = null;
         List<StatementVO> statementVOs = (statementVO == null)? null : statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = (statementVO == null)? null : statementVO.getReqComponentVOs();
-        
+
         if (statementVOs != null && !statementVOs.isEmpty()) {
             for (StatementVO subStatementVO : statementVOs) {
                 List<ReqComponentVO>subStatementReqComponentVOs = subStatementVO.getReqComponentVOs();
@@ -141,7 +141,7 @@ public class StatementVO extends Token implements Serializable {
         }
         return result;
     }
-    
+
     public StatementVO getParentStatementVO(StatementVO root, StatementVO nodeStatement) {
         StatementVO parentStatementVO = null;
         if (nodeStatement == root) {
@@ -151,7 +151,7 @@ public class StatementVO extends Token implements Serializable {
         }
         return parentStatementVO;
     }
-    
+
     private StatementVO doGetParentStatementVO(StatementVO statementVO, StatementVO nodeStatement) {
         StatementVO parentStatementVO = null;
         if (statementVO.getStatementVOCount() > 0) {
@@ -165,11 +165,11 @@ public class StatementVO extends Token implements Serializable {
         }
         return parentStatementVO;
     }
-    
+
     /**
      * returns the number of leaf requirement componentVO of the this statement
      * excluding those compound sub statements.
-     * e.g. if this method is called on S1, the return value will be 2. 
+     * e.g. if this method is called on S1, the return value will be 2.
      * <pre>
      *                    S1:OR
      *           S2:OR    S3:OR   S4:AND
@@ -194,7 +194,7 @@ public class StatementVO extends Token implements Serializable {
         }
         return result;
     } */
-    
+
     private void validate() {
         if (statementVOs != null && !statementVOs.isEmpty() && reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
             throw new IllegalStateException("Requirement components and statements can not exist together in a statement");
@@ -222,15 +222,15 @@ public class StatementVO extends Token implements Serializable {
             }
         }
     }
-    
+
     public void addStatementVO(StatementVO statementVO) {
         doAddStatementVO(statementVO);
         validate();
     }
-    
+
     private void doAddStatementVO(StatementVO statementVO) {
         // if there are currently requirement components in this StatementVO
-        // move all the existing requirement components into separate wrapping 
+        // move all the existing requirement components into separate wrapping
         // StatementVOs
         if (reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
             List<ReqComponentVO> tempReqComponentVOs = new ArrayList<ReqComponentVO>(reqComponentVOs);
@@ -243,12 +243,12 @@ public class StatementVO extends Token implements Serializable {
         }
         statementVOs.add(statementVO);
     }
-    
+
     public void addReqComponentVO(ReqComponentVO reqComponentVO) {
         doAddReqComponentVO(reqComponentVO);
         validate();
     }
-    
+
     private void doAddReqComponentVO(ReqComponentVO reqComponentVO) {
         // if there are sub statements in this statement already
         // add a new sub statement with the same operator as this statement
@@ -264,22 +264,22 @@ public class StatementVO extends Token implements Serializable {
             reqComponentVOs.add(reqComponentVO);
         }
     }
-    
+
     public void removeStatementVO(StatementVO statementVO) {
         statementVOs.remove(statementVO);
         validate();
-    }   
+    }
 
     public void removeReqComponentVO(ReqComponentVO reqComponentVO) {
         doRemoveReqComponentVO(reqComponentVO);
         validate();
     }
-    
+
     private void doRemoveReqComponentVO(ReqComponentVO reqComponentVO) {
         if (statementVOs != null && !statementVOs.isEmpty()) {
             List<StatementVO> tempStatementVOs = new ArrayList<StatementVO>(statementVOs);
             for (StatementVO subStatementVO : tempStatementVOs) {
-                List<ReqComponentVO> subStatementReqComponentVOs = 
+                List<ReqComponentVO> subStatementReqComponentVOs =
                     (subStatementVO == null)? null : subStatementVO.getReqComponentVOs();
                 if (subStatementReqComponentVOs != null &&
                         subStatementReqComponentVOs.size() == 1 &&
@@ -289,11 +289,11 @@ public class StatementVO extends Token implements Serializable {
                     statementVOs.remove(subStatementVO);
                 }
             }
-        } else { 
+        } else {
             reqComponentVOs.remove(reqComponentVO);
         }
     }
-    
+
     public StatementInfo getStatementInfo() {
         return statementInfo;
     }
@@ -301,8 +301,8 @@ public class StatementVO extends Token implements Serializable {
     public void setStatementInfo(StatementInfo statementInfo) {
         this.statementInfo = statementInfo;
         this.setType(statementInfo.getOperator() == StatementOperatorTypeKey.OR ? Token.Or : Token.And);
-    }    
-    
+    }
+
     public List<ReqComponentVO> getReqComponentVOs() {
         return reqComponentVOs;
     }
@@ -310,7 +310,7 @@ public class StatementVO extends Token implements Serializable {
     public List<StatementVO> getStatementVOs() {
         return statementVOs;
     }
-    
+
     public void clearStatementAndReqComponents() {
         if (statementVOs != null) {
             statementVOs.clear();
@@ -319,7 +319,7 @@ public class StatementVO extends Token implements Serializable {
             reqComponentVOs.clear();
         }
     }
-    
+
     public void shiftReqComponent(String shiftType, final ReqComponentVO reqComponentVO) {
         if (statementVOs != null && !statementVOs.isEmpty()) {
             // the statementVO that wraps the reqComponentVO
@@ -339,7 +339,7 @@ public class StatementVO extends Token implements Serializable {
             swapElement(reqComponentVOs, reqComponentVO, shiftType);
         }
     }
-    
+
     private <T> void swapElement(List<T> elements, T element, String direction) {
         int elementIndex = 0;
         if (elements != null && elements.size() > 1) {
@@ -359,7 +359,7 @@ public class StatementVO extends Token implements Serializable {
             }
         }
     }
-    
+
     /**
      * returns A, B, C, ... etc depending on the number of
      * Requirement components in the list.
@@ -370,7 +370,7 @@ public class StatementVO extends Token implements Serializable {
         int charCode = 65; // ASCII code for capitalized A
         int newCharCode = -1;
         String guiRCId = null;
-        
+
         while (newCharCode == -1) {
             boolean charUsed = false;
             if (rcs != null) {
@@ -387,7 +387,7 @@ public class StatementVO extends Token implements Serializable {
                 newCharCode = charCode;
             }
         }
-        
+
         // the next GUI id will be A - Z, and A1, A2, A3 afterwards.
         if (newCharCode < 65 + 26) {
             guiRCId = Character.toString((char)newCharCode);
@@ -398,15 +398,15 @@ public class StatementVO extends Token implements Serializable {
         }
         return guiRCId;
     }
-    
+
     private void assignGuiRCId() {
         doAssignGuiRCId(this, new ArrayList<ReqComponentVO>());
     }
-    
+
     private void doAssignGuiRCId(StatementVO statementVO, List<ReqComponentVO> rcs) {
         List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
-        
+
         if (statementVOs != null) {
 //            node.setUserObject(statementVO);
             for (int i = 0; i < statementVOs.size(); i++) {
@@ -426,21 +426,21 @@ public class StatementVO extends Token implements Serializable {
                 }
                 rcs.add(childReqComponentVO);
             }
-        }        
+        }
     }
-    
-    public Node getTree() {        
+
+    public Node getTree() {
         Node node = new Node();
         assignGuiRCId();
         addChildrenNodes(node, this);
         //printTree(node);
         return node;
     }
-    
+
     private void addChildrenNodes(Node node, StatementVO statementVO) {
         List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
-        
+
         if (statementVOs != null) {
             node.setUserObject(statementVO);
             setOperatorNode(node, statementVO);
@@ -462,9 +462,9 @@ public class StatementVO extends Token implements Serializable {
                     node.setUserObject(childReqComponentVO);
                 }
             }
-        }        
+        }
     }
-    
+
     private void setOperatorNode(Node node, StatementVO statementVO) {
         if (statementVO.getStatementInfo() != null && statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.AND) {
             statementVO.type = Token.And;
@@ -476,12 +476,12 @@ public class StatementVO extends Token implements Serializable {
             node.setUserObject(statementVO);
         }
     }
-    
+
     public List<StatementVO> getSelectedStatementVOs() {
         List<StatementVO> selectedStatementVOs = new ArrayList<StatementVO>();
         return doGetSelectedStatmentVOs(this, selectedStatementVOs);
     }
-    
+
     private List<StatementVO> doGetSelectedStatmentVOs(StatementVO statementVO, List<StatementVO> selectedStatementVOs) {
         List<StatementVO> childrenStatementVOs = statementVO.getStatementVOs();
         if (statementVO.isCheckBoxOn()) {
@@ -495,7 +495,7 @@ public class StatementVO extends Token implements Serializable {
         }
         return selectedStatementVOs;
     }
-    
+
     /**
      * goes through the entire tree recursively and returns the list of all RCs
      * @return
@@ -503,7 +503,7 @@ public class StatementVO extends Token implements Serializable {
     public List<ReqComponentVO> getAllReqComponentVOs() {
         return doGetAllReqComponentVOs(this, new ArrayList<ReqComponentVO>());
     }
-    
+
     public ReqComponentVO getReqComponentVOByGuiKey(String guiKey) {
         ReqComponentVO result = null;
         List<ReqComponentVO> allRCs = getAllReqComponentVOs();
@@ -515,7 +515,7 @@ public class StatementVO extends Token implements Serializable {
         }
         return result;
     }
-    
+
     private List<ReqComponentVO> doGetAllReqComponentVOs(StatementVO statementVO,
             List<ReqComponentVO> allRCs) {
         List<ReqComponentVO> childrenReqComponentVOs = statementVO.getReqComponentVOs();
@@ -532,12 +532,12 @@ public class StatementVO extends Token implements Serializable {
         }
         return allRCs;
     }
-    
+
     public List<ReqComponentVO> getSelectedReqComponentVOs() {
         List<ReqComponentVO> selectedReqComponentVOs = new ArrayList<ReqComponentVO>();
         return doGetSelectedReqComponentVOs(this, selectedReqComponentVOs);
     }
-    
+
     private List<ReqComponentVO> doGetSelectedReqComponentVOs(StatementVO statementVO, List<ReqComponentVO> selectedReqComponentVOs) {
         List<ReqComponentVO> childrenReqComponentVOs = statementVO.getReqComponentVOs();
         List<StatementVO> childrenStatementVOs = statementVO.getStatementVOs();
@@ -585,7 +585,7 @@ public class StatementVO extends Token implements Serializable {
         if (childrenReqComponentVOs != null && !childrenReqComponentVOs.isEmpty()) {
             isLast = true;
             for (ReqComponentVO childReqComponentVO : childrenReqComponentVOs) {
-                isLast = childReqComponentVO.isCheckBoxOn();                
+                isLast = childReqComponentVO.isCheckBoxOn();
             }
         }
         return isLast;
@@ -598,7 +598,7 @@ public class StatementVO extends Token implements Serializable {
     public int getNestingDepth() {
         return doGetNestingDepth(this);
     }
-    
+
     private int doGetNestingDepth(StatementVO statementVO) {
         int depth = 0;
         List<StatementVO> statementVOs = getStatementVOs();
@@ -616,15 +616,15 @@ public class StatementVO extends Token implements Serializable {
     public int getReqComponentVOCount() {
         return (reqComponentVOs == null)? 0 : reqComponentVOs.size();
     }
-    
+
     public int getStatementVOCount() {
         return (statementVOs == null)? 0 : statementVOs.size();
     }
-    
+
     public int getChildCount() {
         return getReqComponentVOCount() + getStatementVOCount();
     }
-    
+
     public boolean isWrapperStatementVO() {
         boolean result = false;
         if (getReqComponentVOCount() == 1 && getStatementVOCount() == 0) {
@@ -632,7 +632,7 @@ public class StatementVO extends Token implements Serializable {
         }
         return result;
     }
-    
+
     public void addStatementVOs(List<StatementVO> statementVOs) {
         if (statementVOs != null && !statementVOs.isEmpty()) {
             for (StatementVO s : statementVOs) {
@@ -640,7 +640,7 @@ public class StatementVO extends Token implements Serializable {
             }
         }
     }
-    
+
     public void addReqComponentVOs(List<ReqComponentVO> reqComponentVOs) {
         if (reqComponentVOs != null && !reqComponentVOs.isEmpty()) {
             for (ReqComponentVO rc : reqComponentVOs) {
@@ -659,8 +659,8 @@ public class StatementVO extends Token implements Serializable {
         structureChanged = structureChanged || doCleanupStatementVO(this, null);
         structureChanged = structureChanged || doUnwrapRCs(this, 0);
         return structureChanged;
-    } 
-    
+    }
+
     private boolean doSimplify(StatementVO statementVO, StatementVO parent) {
         boolean structureChanged = false;
         StatementOperatorTypeKey op = (statementVO == null || statementVO.getStatementInfo() == null)? null :
@@ -737,18 +737,18 @@ public class StatementVO extends Token implements Serializable {
         return structureChanged;
     }
 
-    /*************************************************************************************************/    
+    /*************************************************************************************************/
 
     public String getPrintableStatement() {
-        return doConvertToExpression(new StringBuilder(), this, true).toString();       
+        return doConvertToExpression(new StringBuilder(), this, true).toString();
     }
-    
+
     public String convertToExpression() {
         assignGuiRCId();
         return doConvertToExpression(new StringBuilder(), this, false).toString();
     }
-    
-    private StringBuilder doConvertToExpression(StringBuilder inSbResult, 
+
+    private StringBuilder doConvertToExpression(StringBuilder inSbResult,
             StatementVO statementVO,
             boolean extraBrackets) {
         List<StatementVO> currStatementVOs = (statementVO == null)? null : statementVO.getStatementVOs();
@@ -765,7 +765,7 @@ public class StatementVO extends Token implements Serializable {
                 if (extraBrackets || !childStatementVO.isWrapperStatementVO()) {
                     inSbResult.append("(");
                 }
-                inSbResult.append(doConvertToExpression(new StringBuilder(), childStatementVO, 
+                inSbResult.append(doConvertToExpression(new StringBuilder(), childStatementVO,
                         extraBrackets).toString());
                 if (extraBrackets || !childStatementVO.isWrapperStatementVO()) {
                     inSbResult.append(")");
@@ -791,7 +791,7 @@ public class StatementVO extends Token implements Serializable {
     }
 
     public void clearSelections() {
-        doClearSelections(this);    
+        doClearSelections(this);
     }
 
     private void doClearSelections(StatementVO statementVO) {
@@ -806,7 +806,7 @@ public class StatementVO extends Token implements Serializable {
             }
         }
     }
-    
+
     public boolean isSimple() {
         boolean simple = false;
         if (getStatementVOCount() == 0 && getReqComponentVOCount() <= 1) {
@@ -840,7 +840,6 @@ public class StatementVO extends Token implements Serializable {
             List<StatementTreeViewInfo> subStatementTVInfos = new ArrayList<StatementTreeViewInfo>();
             for (StatementVO statement : statementVOs) {
                 StatementTreeViewInfo subStatementTVInfo = new StatementTreeViewInfo();
-                subStatementTVInfo.setParentId(statementVO.getStatementInfo().getId());
                 statement.setFieldsTo(subStatementTVInfo);
                 rc = composeStatementTreeViewInfo(statement, subStatementTVInfo); // inside set the children of this statementTreeViewInfo
                 subStatementTVInfos.add(subStatementTVInfo);
@@ -855,7 +854,7 @@ public class StatementVO extends Token implements Serializable {
             }
             statementTreeViewInfo.setReqComponents(reqComponentList);
         }
-        
+
         return rc;
     }
 
@@ -889,7 +888,7 @@ public class StatementVO extends Token implements Serializable {
             for (StatementTreeViewInfo statement : statements) {
                 StatementVO newStatementVO = new StatementVO();
                 newStatementVO.setFields(statement);
-                newStatementVO.getStatementInfo().setId("123"); //TODO testing, put back: statementTreeViewInfo.getParentId());
+                newStatementVO.getStatementInfo().setId("123");
                 rc = composeStatementVO(statement, newStatementVO); // inside set the children of this statementTreeViewInfo
                 newStatementList.add(newStatementVO);
             }
@@ -918,7 +917,7 @@ public class StatementVO extends Token implements Serializable {
         getStatementInfo().setOperator(statementTreeViewInfo.getOperator());
         getStatementInfo().setState(statementTreeViewInfo.getState());
         getStatementInfo().setType(statementTreeViewInfo.getType());
-    }    
+    }
 
     @Override
     public String toString() {

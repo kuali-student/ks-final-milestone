@@ -60,7 +60,7 @@ public class KSBlockingProgressIndicator{
 		//popupIndicator.setShowCloseLink(false);
 		
 		popupIndicator.setWidget(mainPanel);
-	//	popupIndicator.setSize(400, 50);
+		popupIndicator.setSize(400, 50);
 		setupDefaultStyle();
 		initialized = true;
 	}

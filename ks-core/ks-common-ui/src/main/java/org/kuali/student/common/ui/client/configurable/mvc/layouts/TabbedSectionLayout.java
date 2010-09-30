@@ -271,8 +271,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
     }
 
 	@Override
-	public <V extends Enum<?>> View getView(V viewType) {
-		return viewMap.get(viewType);
+	public <V extends Enum<?>> void getView(V viewType, Callback<View> callback) {
+		callback.exec(viewMap.get(viewType));
 	}
 
 	@Override

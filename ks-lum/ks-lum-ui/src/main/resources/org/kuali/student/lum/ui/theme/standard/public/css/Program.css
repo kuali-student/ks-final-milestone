@@ -66,3 +66,7 @@
 .programController .programInformationView {
     background-color: #F1F1F1;
 }
+
+.KS-Program-Rule-ObjectView-RulePanel label {
+    display: inline
+}

@@ -196,8 +196,8 @@ public class LuRuleInfoPersistanceBean {
 				try {
 				    nl = statementService.translateReqComponentToNL(childReqComponent, "KUALI.RULE", "en");
 				} catch(Exception e) {
-					LOG.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
-					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId());
+					LOG.error("Error fetching NL for req. component:" + childReqComponent.getType(), e);
+					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getType());
 				} 				
 				reqComponentVO.setTypeDesc(nl);
 				

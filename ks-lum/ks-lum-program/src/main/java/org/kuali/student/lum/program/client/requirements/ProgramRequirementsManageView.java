@@ -138,7 +138,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     }
 
     // called by requirement display widget when user wants to edit or add a sub-rule
-    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, String ruleType, boolean newRuleFlag, String relatedProgramReqInfoId) {
+    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, boolean newRuleFlag, String relatedProgramReqInfoId) {
 
         if (!isInitialized) {
             editReqCompWidget = new ReqCompEditWidget();
@@ -256,7 +256,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
                         editedReqCompInfo.setReqCompFields(reqComp.getReqCompFields());
-                        editedReqCompInfo.setRequiredComponentType(reqComp.getRequiredComponentType());
+                        //editedReqCompInfo.setRequiredComponentType(reqComp.getRequiredComponentType());
                         editedReqCompInfo = null;  //de-reference from existing req. component
                     }
 
@@ -331,6 +331,10 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     public boolean isUserClickedSaveButton() {
         return userClickedSaveButton;
+    }
+
+    public void setUserClickedSaveButton(boolean userClickedSaveButton) {
+        this.userClickedSaveButton = userClickedSaveButton;
     }
 
     public String getRelatedProgramReqInfoId() {

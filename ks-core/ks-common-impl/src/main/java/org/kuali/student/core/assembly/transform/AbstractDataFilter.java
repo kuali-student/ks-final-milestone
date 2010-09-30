@@ -13,7 +13,7 @@ public abstract class AbstractDataFilter implements TransformFilter {
 	 * @param data The inbound data object
 	 * @param metadata The metadata for the inbound data object. The metadata will be the unfiltered metadata.
 	 */
-	public void applyInboundDataFilter(Data data, Metadata metadata, Map<String, String> properties) throws Exception{
+	public void applyInboundDataFilter(Data data, Metadata metadata, Map<String, Object> properties) throws Exception{
 		
 	}
 
@@ -22,7 +22,7 @@ public abstract class AbstractDataFilter implements TransformFilter {
 	 * @param data The outbound data object
 	 * @param metadata The metadata for the outbound data object. The metadata will be the unfiltered meatadata
 	 */
-	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,String> properties) throws Exception{
+	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String, Object> properties) throws Exception{
 		
 	}
 

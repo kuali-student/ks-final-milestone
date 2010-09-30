@@ -26,11 +26,11 @@ public class KSLightBoxDemo extends Composite{
        KSButton button = new KSButton("Lightbox", new ClickHandler() {
            @Override
            public void onClick(ClickEvent event) {
-               final KSLightBox box = new KSLightBox(new HTML("Proposal Comments"));
+             //  final KSLightBox box = new KSLightBox(new HTML("Proposal Comments"));
               // box.setWidget(new Label("asdf"));
-               box.setSize(400, 200);
-               box.show();
-               box.setWidget(new Label("asdf"));
+              // box.setSize(400, 200);
+              // box.show();
+              // box.setWidget(new Label("asdf"));
                
            }
        });

@@ -1,15 +1,17 @@
 package org.kuali.student.lum.program.client;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
@@ -20,7 +22,8 @@ import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 
-import com.google.gwt.core.client.GWT;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Igor
@@ -35,13 +38,16 @@ public class ProgramController extends MenuSectionController {
 
     protected AbstractProgramConfigurer configurer;
 
+    protected HandlerManager eventBus;
+
     /**
      * Constructor.
      *
      * @param programModel
      */
-    public ProgramController(String name, DataModel programModel, ViewContext viewContext) {
+    public ProgramController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name);
+        this.eventBus = eventBus;
         this.programModel = programModel;
         setViewContext(viewContext);
         initializeModel();
@@ -64,6 +70,24 @@ public class ProgramController extends MenuSectionController {
         });
     }
 
+
+    @Override
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
+        if (modelType == ReferenceModel.class) {
+            ReferenceModel referenceModel = new ReferenceModel();
+            referenceModel.setReferenceId((String) programModel.get("id"));
+            referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_TYPE_ID);
+            referenceModel.setReferenceType(ProgramConstants.MAJOR_OBJECT_ID);
+            Map<String, String> attributes = new HashMap<String, String>();
+            attributes.put("name", (String) programModel.get("name"));
+            referenceModel.setReferenceAttributes(attributes);
+            callback.onModelReady(referenceModel);
+        } else {
+            super.requestModel(modelType, callback);
+        }
+    }
+
+
     /**
      * Loads data model from the server.
      *
@@ -82,7 +106,7 @@ public class ProgramController extends MenuSectionController {
             public void onSuccess(Data result) {
                 super.onSuccess(result);
                 programModel.setRoot(result);
-                setContentTitle(getProgramName());
+                setHeaderTitle();
                 callback.onModelReady(programModel);
             }
         });
@@ -91,7 +115,7 @@ public class ProgramController extends MenuSectionController {
     public String getProgramName() {
         String name = (String) programModel.get("/" + ProgramConstants.LONG_TITLE);
         if (name == null) {
-            name = "Create New Program";
+            name = "New Program";
         }
         return name;
     }
@@ -129,9 +153,9 @@ public class ProgramController extends MenuSectionController {
                 viewContextId = null;
             }
         }
-        Map<String,String> idAttributes = new HashMap<String,String>();
+        Map<String, String> idAttributes = new HashMap<String, String>();
         idAttributes.put(IdAttributes.ID_TYPE, idType);
-        
+
         programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
 
             @Override
@@ -174,5 +198,24 @@ public class ProgramController extends MenuSectionController {
     private void afterMetadataLoaded(Callback<Boolean> onReadyCallback) {
         configureView();
         onReadyCallback.exec(true);
+    }
+
+    protected void setHeaderTitle() {
+        String title = getProgramName();
+        this.setContentTitle(title);
+        this.setName(title);
+    }
+
+    protected Widget createCommentPanel() {
+        final CommentTool commentTool = new CommentTool(ProgramSections.COMMENTS, "Comments", "kuali.comment.type.generalRemarks", "Program Comments");
+        commentTool.setController(this);
+        KSButton commentsButton = new KSButton(ProgramProperties.get().comments_button(), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                commentTool.show();
+            }
+        });
+        return commentsButton;
     }
 }

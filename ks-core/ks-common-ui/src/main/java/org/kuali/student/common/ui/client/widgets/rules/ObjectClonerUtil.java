@@ -127,7 +127,7 @@ public class ObjectClonerUtil {
             clonedReqComponentInfo.setType(inReqComponentInfo.getType());
             clonedReqComponentInfo.setState(inReqComponentInfo.getState());
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
-            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
+//            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
             clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
         }
         return clonedReqComponentInfo;

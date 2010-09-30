@@ -61,8 +61,13 @@
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.CluPublishing</class>
-		<class>org.kuali.student.lum.lu.entity.CluPublishingAttribute</class>
+
+		<class>org.kuali.student.lum.lu.entity.CluPublication</class>
+		<class>org.kuali.student.lum.lu.entity.CluPublicationAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluPublicationType</class>
+		<class>org.kuali.student.lum.lu.entity.CluPublicationTypeAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluPublicationVariant</class>
+		
 		<class>org.kuali.student.lum.lu.entity.CluResult</class>
 		<class>org.kuali.student.lum.lu.entity.CluResultType</class>
 		<class>org.kuali.student.lum.lu.entity.CluResultTypeAttribute</class>

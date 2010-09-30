@@ -335,6 +335,12 @@ public class ProgramAssemblerUtils {
                     diplomaInfo.setShortName(value);
                     diplomaInfo.setType(ProgramAssemblerConstants.DIPLOMA);
                 }
+            }
+            catch (NoSuchMethodException e)        {
+                //ignore - only Major and Variation have diploma title and transcript title
+            }
+            
+            try{
                 method = o.getClass().getMethod("getTranscriptTitle", null);
                 value = (String)method.invoke(o, null);
                 if (value != null) {
@@ -531,12 +537,16 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-    public List<String> assembleResultOptions(String cluId, String resultType) throws AssemblyException {
+    public List<String> assembleResultOptions(String cluId) throws AssemblyException {
         List<String> resultOptions = null;
         try{
             List<CluResultInfo> cluResults = luService.getCluResultByClu(cluId);
 
-            resultOptions = cluAssemblerUtils.assembleCluResults(resultType, cluResults);
+            List<String> resultTypes = new ArrayList<String>();
+            resultTypes.add(ProgramAssemblerConstants.DEGREE_RESULTS);
+            resultTypes.add(ProgramAssemblerConstants.CERTIFICATE_RESULTS);
+
+            resultOptions = cluAssemblerUtils.assembleCluResults(resultTypes, cluResults);
 
         } catch (DoesNotExistException e){
         } catch (Exception e) {

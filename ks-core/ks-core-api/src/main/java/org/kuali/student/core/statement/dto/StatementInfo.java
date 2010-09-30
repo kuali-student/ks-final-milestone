@@ -62,7 +62,7 @@ public class StatementInfo extends AbstractStatementInfo {
 
     @Override
 	public String toString() {
-		return "StatementInfo[id=" + getId() + ", operator=" + getOperator() + ", type="
+		return "StatementInfo[id=" + getId() + (getDesc() == null ? "" : ", desc=" + getDesc().getPlain()) + ", operator=" + getOperator() + ", type="
 				+ getType() + ", state=" + getState() + "]";
 	}
 }

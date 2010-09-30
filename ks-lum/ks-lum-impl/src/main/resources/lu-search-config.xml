@@ -142,6 +142,10 @@
 			<ref bean="lu.resultColumn.luOptionalDescr"/>
 			<ref bean="lu.resultColumn.luOptionalStudySubjectArea"/>
 			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.luOptionalVersionIndId"/>
+			<ref bean="lu.resultColumn.luOptionalVersionedFromId"/>
+			<ref bean="lu.resultColumn.luOptionalVersionStartDate"/>
+			<ref bean="lu.resultColumn.luOptionalVersionEndDate"/>
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -200,6 +204,32 @@
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionIndId" parent="lu.resultColumn.luOptionalVersionIndId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionIndId-parent"  abstract="true">
+		<search:name>VersionIndId</search:name>
+		<search:desc>Version Independent Id</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionedFromId" parent="lu.resultColumn.luOptionalVersionedFromId-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionedFromId-parent"  abstract="true">
+		<search:name>VersionedFromId</search:name>
+		<search:desc>Versioned From Id</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionStartDate" parent="lu.resultColumn.luOptionalVersionStartDate-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionStartDate-parent"  abstract="true">
+		<search:name>VersionStartDate</search:name>
+		<search:desc>Version Start Date</search:desc>
+		<search:dataType>date</search:dataType>
+	</search:resultColumn>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionEndDate" parent="lu.resultColumn.luOptionalVersionEndDate-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionEndDate-parent"  abstract="true">
+		<search:name>VersionEndDate</search:name>
+		<search:desc>Version End Date</search:desc>
+		<search:dataType>date</search:dataType>
+	</search:resultColumn>
+
+
     <search:searchType id="lu.search.clus" parent="lu.search.clus-parent"/>
 	<search:searchType id="lu.search.clus-parent"  abstract="true">
         <search:name>Lum Search for Clus</search:name>
@@ -211,6 +241,44 @@
            <ref bean="lu.criteria.all"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
+
+	<search:searchType id="lu.search.cluCluRelation" parent="lu.search.cluCluRelation-parent"/>
+	<search:searchType id="lu.search.cluCluRelation-parent"  abstract="true">
+	    <search:name>Basic and Advanced Search</search:name>
+	    <search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+	    <search:searchResultTypeInfo>  <!--  could be defined as stand alone -->
+	        <ref bean="lu.result.cluCluRelation"/>
+	    </search:searchResultTypeInfo>
+	    <search:searchCriteriaTypeInfo>
+	        <ref bean="lu.criteria.cluCluRelation"/>
+	    </search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="lu.result.cluCluRelation" parent="lu.result.cluCluRelation-parent"/>
+	<search:searchResultTypeInfo id="lu.result.cluCluRelation-parent"  abstract="true">
+	    <search:name>Lu Full View</search:name>
+	    <search:desc>Full view of clus</search:desc>
+	    <search:resultColumns>
+	        <ref bean="lu.resultColumn.cluId" />
+	        <ref bean="lu.resultColumn.relatedCluId" />
+	    </search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluCluRelation" parent="lu.criteria.cluCluRelation-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluCluRelation-parent"  abstract="true">
+	    <search:name>cluCluRelation</search:name>
+	    <search:desc>Advanced criteria</search:desc>
+	    <search:queryParams>
+	        <ref bean="lu.queryParam.luOptionalId"/>
+	    </search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:resultColumn id="lu.resultColumn.relatedCluId" parent="lu.resultColumn.relatedCluId-parent"/>
+	<search:resultColumn id="lu.resultColumn.relatedCluId-parent"  abstract="true">
+	    <search:name>Related Clu Id</search:name>
+	    <search:desc>Identifier of a related Clu</search:desc>
+	    <search:dataType>string</search:dataType>
+	</search:resultColumn>
 
 	<search:searchType id="lu.search.allLoQuickView" parent="lu.search.allLoQuickView-parent"/>
 	<search:searchType id="lu.search.allLoQuickView-parent"  abstract="true">
@@ -425,6 +493,7 @@
 			<ref bean="cluset.queryParam.optionalSubCluSetName"/>
 			<ref bean="cluset.queryParam.optionalReusable"/>
             <ref bean="cluset.queryParam.optionalReferenceable"/>
+            <ref bean="lu.queryParam.luOptionalId"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -479,7 +548,7 @@
     <search:queryParam id="cluset.queryParam.optionalReferenceable-parent" optional="true" abstract="true">
         <dict:fieldDescriptor>
             <dict:name>Referenceable Clu Set</dict:name>
-            <dict:desc>Whether a Clu Set can be referenced by ReqComponets and other entities.</dict:desc>
+            <dict:desc>Whether a Clu Set can be referenced by ReqComponents and other entities.</dict:desc>
             <dict:dataType>boolean</dict:dataType>
             <dict:readOnly>true</dict:readOnly>
         </dict:fieldDescriptor>
@@ -587,7 +656,8 @@
  -->
                     <value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
-                    cludesc.plain, clu.studySubjectArea, clu.state
+                    cludesc.plain, clu.studySubjectArea, clu.state, 
+                    clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
                     
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
@@ -601,6 +671,9 @@
 		            LEFT JOIN cluset.cluSets subcluset
 		            </value>
 		        </entry>
+				<entry key="lu.search.cluCluRelation">
+				    <value>SELECT rel.clu.id, rel.relatedClu.id FROM CluCluRelation rel</value>
+				</entry>
 				<entry key="lu.queryParam.luOptionalId">
 					<value>clu.id = :lu_queryParam_luOptionalId</value>
 				</entry>

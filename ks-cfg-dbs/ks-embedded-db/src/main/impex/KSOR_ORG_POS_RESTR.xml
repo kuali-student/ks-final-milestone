@@ -18,15 +18,15 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="100" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="166"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Geology COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Geology COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="101" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="167"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the GenderStudies COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the GenderStudies COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="102" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="147"
@@ -169,12 +169,6 @@
         TM_QUANTITY="1" TTL="Member of the GenderStudies COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000" ID="123" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" ORG="166"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
-        TM_QUANTITY="1" TTL="Member of the Geology COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-    <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="124" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="147"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
@@ -196,8 +190,7 @@
         CREATETIME="20000101000000" ID="127" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="150"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
-        TM_QUANTITY="1"
-        TTL="Administrative Member of the Geography COC"
+        TM_QUANTITY="1" TTL="Administrative Member of the Geography COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="128" MAX_NUM_RELTN="100"
@@ -211,14 +204,6 @@
         MIN_NUM_RELTN="1" ORG="152"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
         TM_QUANTITY="1" TTL="Administrative Member of the Music COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-    <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000"
-        DESCR="The Associate Provost for Equity and Diversity serves as an advocate for faculty and staff diversity as well as a resource on equity and diversity issues at the Kuali University."
-        ID="13" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="19"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.AssocProvost"
-        TM_QUANTITY="1"
-        TTL="Associate Provost for Equity and Diversity"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="130" MAX_NUM_RELTN="100"
@@ -243,8 +228,7 @@
         CREATETIME="20000101000000" ID="133" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="156"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
-        TM_QUANTITY="1"
-        TTL="Administrative Member of the Sociology COC"
+        TM_QUANTITY="1" TTL="Administrative Member of the Sociology COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="134" MAX_NUM_RELTN="100"
@@ -285,14 +269,6 @@
         TM_QUANTITY="1" TTL="Administrative Member of the Biology COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000"
-        DESCR="The Associate Provost for Academic Planning &amp; Programs provides guidance and oversight of proposals for academic program, curriculum, and unit changes at all stages. Oversees development of new degrees, certificates, and minors as well as curriculum and p"
-        ID="14" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="19"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.AssocProvost"
-        TM_QUANTITY="1"
-        TTL="Associate Provost for Academic Planning and Programs"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-    <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="140" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="163"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
@@ -309,8 +285,7 @@
         CREATETIME="20000101000000" ID="142" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="165"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
-        TM_QUANTITY="1"
-        TTL="Administrative Member of the Chemistry COC"
+        TM_QUANTITY="1" TTL="Administrative Member of the Chemistry COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="143" MAX_NUM_RELTN="100"
@@ -326,12 +301,6 @@
         TTL="Administrative Member of the GenderStudies COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000" ID="145" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" ORG="166"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
-        TM_QUANTITY="1" TTL="Administrative Member of the Geology COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-    <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="Composed of ALL the Administrative Members of each of the Departmental COCs"
         ID="146" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="142"
@@ -341,9 +310,9 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" DESCR="Named Chair" ID="147"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="171"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Geology CIC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Geology CIC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="8 Other Named Faculty members from the department"
@@ -357,13 +326,6 @@
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="171"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Ex-Officio"
         TM_QUANTITY="1" TTL="Ex-Officio Member of the Geology CIC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-    <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000"
-        DESCR="Associate Provost for Academic Affairs reports directly to the Provost and serves on the Academic Affairs Council. The APAA plays a key role in assisting the Provost in the daily operations of the Division of Academic Affairs. This includes matters pertai"
-        ID="15" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="19"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.AssocProvost"
-        TM_QUANTITY="1" TTL="Associate Provost for Academic  Affairs"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
@@ -392,28 +354,27 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="153" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="175"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Social Science Division COC"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Social Science Division COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="154" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="174"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
         TTL="Chair of the Behavioral Science Division COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="155" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="178"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Biology Division COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Biology Division COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="156" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="179"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Chemistry Division COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Chemistry Division COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="157" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="175"
@@ -434,13 +395,6 @@
         TM_QUANTITY="1" TTL="Member of the Biology Division COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000"
-        DESCR="Serves as a member of the Presidentï¿½s Cabinet, reports to the Provost and provides leadership and vision in support of the ongoing teaching, research, and outreach mission of Kuali University. Oversee recruitment and retention of talented faculty members."
-        ID="16" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="19"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.AssocProvost"
-        TM_QUANTITY="1" TTL="Associate Provost for Faculty Affairs"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-    <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="160" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="179"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
@@ -449,9 +403,9 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="161" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="177"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Undergrad Program COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Undergrad Program COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="162" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="177"
@@ -461,9 +415,9 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="163" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="172"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Biology Life Division COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Biology Life Division COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="164" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="172"
@@ -473,8 +427,7 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="165" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="173"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
         TTL="Chair of the Biology Chemical Division COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
@@ -487,8 +440,7 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="167" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="144"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
         TTL="Chair of the Behavioral and Social Science College COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
@@ -501,8 +453,8 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="169" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="145"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Life and Biology College COC"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Life and Biology College COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
@@ -515,15 +467,14 @@
         CREATETIME="20000101000000" ID="170" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="145"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
-        TM_QUANTITY="1"
-        TTL="Member of the Life and Biology College COC"
+        TM_QUANTITY="1" TTL="Member of the Life and Biology College COC"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="171" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="176"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of Publishing COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of Publishing COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="172" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="176"
@@ -552,39 +503,39 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="20" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="50"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the English Department"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the English Department" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="21" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="51"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Fine Arts Department"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Fine Arts Department" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="22" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="52"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the French Department"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the French Department" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="23" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="53"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Geography Department"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Geography Department" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="24" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="54"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Linguistics Department"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Linguistics Department" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="25" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="55"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Music Department"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Music Department" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="26" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="29"
@@ -594,21 +545,21 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="27" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="56"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the History Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the History Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="28" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="57"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Political Science Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Political Science Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="29" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="58"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Psychology Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Psychology Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="Appointed by the Board of Regents.  The Chancellor is the administrative and executive head of Kuali University and exercises complete executive authority over the University, subject to the direction of the President.   The Chancellor is responsible for "
@@ -619,9 +570,9 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="30" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="59"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Sociology Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Sociology Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="31" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="60"
@@ -637,27 +588,27 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="33" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="61"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Chemical Engineering Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Chemical Engineering Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="34" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="62"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Civil Engineering Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Civil Engineering Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="35" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="63"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Mechanical Engineering Dept"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Mechanical Engineering Dept"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="36" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="64"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Computer Science Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Computer Science Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="37" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="30"
@@ -667,15 +618,15 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="38" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="65"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Biology Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Biology Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="39" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="66"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Biochemistry Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Biochemistry Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="4" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="3"
@@ -686,21 +637,21 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="40" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="67"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Botany Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Botany Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="41" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="68"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Chemistry Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Chemistry Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="42" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="69"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Geology Dept"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Geology Dept" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="43" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="32"
@@ -759,9 +710,9 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="51" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="39"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Extended Studies Program"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Extended Studies Program" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="Administers and supervises the implementation of all university financial aid policies, office procedures and funding programs. Supervise all office personnel. Plans, organizes and supervises the operational functions of the Financial Aid Office."
@@ -843,12 +794,6 @@
         TM_QUANTITY="1" UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
-        DESCR="This committee consists of: Council of Deans member, Department Chairs Cabinet, Executive Vice President &amp; Provost, Faculty, Senate Past President, Senate President, Senate President-Elect,  Student Government Association member"
-        ID="62" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="113"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
-        TM_QUANTITY="1" UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
-    <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
-        CREATETIME="20000101000000"
         DESCR="This committee consists of: Associate Vice President - Budget &amp; Planning, Executive Vice President &amp; Provost, President of Kuali University, Vice President for Business &amp; Finance, Vice President for Student Affairs"
         ID="63" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="114"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
@@ -912,39 +857,39 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="71" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="135"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the AAC" UPDATEID="TESTUSER"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the AAC" UPDATEID="TESTUSER"
         UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="72" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="136"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the FDARC" UPDATEID="TESTUSER"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the FDARC" UPDATEID="TESTUSER"
         UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="73" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="137"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of  the RPAC" UPDATEID="TESTUSER"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of  the RPAC" UPDATEID="TESTUSER"
         UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="74" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="138"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the JAC" UPDATEID="TESTUSER"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the JAC" UPDATEID="TESTUSER"
         UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="75" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="140"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Faculty Governance Council"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Faculty Governance Council"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="Must be a faculty member, term for 3 years" ID="76"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="141"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the COC" UPDATEID="TESTUSER"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the COC" UPDATEID="TESTUSER"
         UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
@@ -984,124 +929,123 @@
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="81" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="147"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the English COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the English COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="Two Co-Chairs one from the Studio Art section and one from the Art History sections"
         ID="82" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="148"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Co-Chair of the FineArts COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Co-Chair of the FineArts COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="83" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="149"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the French COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the French COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="84" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="150"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Geography COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Geography COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="85" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="151"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Linguistics COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Linguistics COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="86" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="152"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Music COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Music COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="87" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="153"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the History COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the History COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="88" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="154"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the PolySci COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the PolySci COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="89" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="155"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Psychology COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Psychology COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="9" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="16"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.VicePresident"
-        TM_QUANTITY="1"
-        TTL="VP for Business Administration and Finance"
+        TM_QUANTITY="1" TTL="VP for Business Administration and Finance"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="90" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="156"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Sociology COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Sociology COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="There is really no COC and the Chair is by definition the head of the Interdisciplinary Office"
         ID="91" MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="157"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the InterdiscBSOS COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the InterdiscBSOS COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="92" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="158"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Chemical COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Chemical COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="93" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="159"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Civil COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Civil COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="94" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="160"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Mechanical COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Mechanical COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="95" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="161"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the CompSci COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the CompSci COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="96" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="162"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Biology COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Biology COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="97" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="163"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Biochemistry COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Biochemistry COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="98" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="164"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Botany COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Botany COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000" ID="99" MAX_NUM_RELTN="100"
         MIN_NUM_RELTN="1" ORG="165"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TM_QUANTITY="1" TTL="Chair of the Chemistry COC"
-        UPDATEID="TESTUSER" UPDATETIME="20000101000000" VERSIONIND="1"/>
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair" TM_QUANTITY="1"
+        TTL="Chair of the Chemistry COC" UPDATEID="TESTUSER"
+        UPDATETIME="20000101000000" VERSIONIND="1"/>
 </dataset>

@@ -70,6 +70,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String catalogInformation_stdDuration();
 
   /**
+   * Translated "Add/View Comments".
+   * 
+   * @return translated "Add/View Comments"
+   */
+  @DefaultMessage("Add/View Comments")
+  @Key("comments.button")
+  String comments_button();
+
+  /**
    * Translated "Cancel".
    * 
    * @return translated "Cancel"
@@ -77,6 +86,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Cancel")
   @Key("common.cancel")
   String common_cancel();
+
+  /**
+   * Translated "Edit".
+   * 
+   * @return translated "Edit"
+   */
+  @DefaultMessage("Edit")
+  @Key("common.edit")
+  String common_edit();
 
   /**
    * Translated "Retrieving Data...".
@@ -331,6 +349,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_viewAll();
 
   /**
+   * Translated "Modify".
+   * 
+   * @return translated "Modify"
+   */
+  @DefaultMessage("Modify")
+  @Key("programAction.modify")
+  String programAction_modify();
+
+  /**
+   * Translated "Program Actions: Modify, Retire...".
+   * 
+   * @return translated "Program Actions: Modify, Retire..."
+   */
+  @DefaultMessage("Program Actions: Modify, Retire...")
+  @Key("programAction.title")
+  String programAction_title();
+
+  /**
    * Translated "Accreditation".
    * 
    * @return translated "Accreditation"
@@ -339,6 +375,26 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("programInformation.accreditation")
   String programInformation_accreditation();
 
+  /**
+   * Translated "Accreditations".
+   * 
+   * @return translated "Accreditations"
+   */
+  @DefaultMessage("Accreditations")
+  @Key("programInformation.accreditations")
+  String programInformation_accreditations();
+
+  /**
+   * Translated "Add Accreditation".
+   * 
+   * @return translated "Add Accreditation"
+   */
+  @DefaultMessage("Add Accreditation")
+  @Key("programInformation.addAccreditation")
+  String programInformation_addAccreditation();
+
+
+  
   /**
    * Translated "End Inst Admit Term".
    * 

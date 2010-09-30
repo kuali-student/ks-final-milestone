@@ -70,9 +70,6 @@ public class CluAccreditation extends MetaEntity implements
 	}
 
 	public List<CluAccreditationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluAccreditationAttribute>();
-		}
 		return attributes;
 	}
 

@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_LOLO_ALLOWED_RELTN_TYPE")
+@Table(name = "KSLO_LO_ALLOWED_RELTN_TYPE")
 public class AllowedLoLoRelationType extends MetaEntity {
 	@Id
 	@Column(name = "ID")

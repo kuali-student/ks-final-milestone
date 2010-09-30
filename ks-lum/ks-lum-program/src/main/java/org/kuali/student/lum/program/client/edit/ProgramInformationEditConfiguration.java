@@ -1,10 +1,18 @@
 package org.kuali.student.lum.program.client.edit;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
@@ -47,7 +55,7 @@ public class ProgramInformationEditConfiguration extends AbstractSectionConfigur
         VerticalSection section = new VerticalSection();
         configurer.addField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
         configurer.addField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
-        // configurer.addField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
+        configurer.addField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
         return section;
     }
 
@@ -56,7 +64,7 @@ public class ProgramInformationEditConfiguration extends AbstractSectionConfigur
         configurer.addField(section, ProgramConstants.LONG_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleFull()));
         configurer.addField(section, ProgramConstants.SHORT_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleShort()));
         configurer.addField(section, ProgramConstants.TRANSCRIPT, new MessageKeyInfo(ProgramProperties.get().programInformation_titleTranscript()));
-        configurer.addField(section, ProgramConstants.DIPLOMA, new MessageKeyInfo(ProgramProperties.get().programInformation_titleDiploma()));
+        configurer.addField(section, ProgramConstants.DIPLOMA, new MessageKeyInfo(ProgramProperties.get().programInformation_titleDiploma())).setWidgetBinding(new DiplomaBinding());
         return section;
     }
 
@@ -75,6 +83,7 @@ public class ProgramInformationEditConfiguration extends AbstractSectionConfigur
         configurer.addField(section, ProgramConstants.CIP_2000, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2000()));
         configurer.addField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()));
         configurer.addField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegis()));
+        section.addSection(createAccreditingAgenciesSection());
         return section;
     }
 
@@ -84,4 +93,47 @@ public class ProgramInformationEditConfiguration extends AbstractSectionConfigur
         configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
         return section;
     }
+
+    private Section createAccreditingAgenciesSection() {
+
+        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY)) ;
+        MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP, MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP, metadata);
+        config.setAddItemLabel(ProgramProperties.get().programInformation_addAccreditation());
+        config.setUpdateable(true);
+        config.setItemLabel(ProgramProperties.get().programInformation_accreditation());
+
+        config.setParent(ProgramConstants.ACCREDITING_AGENCY , ProgramProperties.get().programInformation_accreditations(),  null, metadata);
+
+        Metadata orgMetadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY, QueryPath.getWildCard(), ProgramConstants.ORG_ID)) ;
+        config.addField(ProgramConstants.ORG_ID, null, ProgramConstants.ACCREDITING_AGENCY, orgMetadata);
+
+        MultiplicitySection section = new MultiplicitySection(config);
+
+        return section;
+    }
+    
+    public class DiplomaBinding extends ModelWidgetBindingSupport<KSTextBox> {
+		private boolean isEmpty(String value){
+			return value == null || (value != null && "".equals(value));
+		}
+
+		@Override
+		public void setModelValue(KSTextBox widget, DataModel model, String path) {
+			String 	diplomaTitle = 	widget.getText();
+			if(diplomaTitle != null)
+				model.set(QueryPath.concat(null, "/" + ProgramConstants.DIPLOMA), diplomaTitle);
+		}
+
+		@Override
+		public void setWidgetValue(KSTextBox widget, DataModel model, String path) {
+			String diplomaTitle = model.get("/" + ProgramConstants.DIPLOMA);
+			if(isEmpty(diplomaTitle)){
+				String programTitle = model.get("/" + ProgramConstants.LONG_TITLE);
+				if (!isEmpty(programTitle))
+					widget.setText(programTitle);
+			}
+			else
+				widget.setText(diplomaTitle);
+		}
+	}
 }

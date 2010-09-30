@@ -4,7 +4,7 @@
 package org.kuali.student.lum.program.service.impl;
 
 import java.util.List;
-
+import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
@@ -12,9 +12,6 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -58,22 +55,26 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
 		progReq.setDescr(clu.getDescr());
 
-		try {
-			List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", clu.getId());
+		if (progReq.getStatement() == null) {
+			try {
+				List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", clu.getId());
 
 
-			StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
-			if (relations != null) {
-				statementTreeViewAssembler.assemble(statementService.getStatement(relations.get(0).getStatementId()), statementTree, shallowBuild);
+				StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
+				if (relations != null) {
+					statementTreeViewAssembler.assemble(statementService.getStatement(relations.get(0).getStatementId()), statementTree, shallowBuild);
+				}
+				progReq.setStatement(statementTree);
+			} catch (AssemblyException e) {
+				throw e;
+			} catch (Exception e) {
+				throw new AssemblyException(e);
 			}
-			progReq.setStatement(statementTree);
-		} catch (AssemblyException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new AssemblyException(e);
 		}
 
-		progReq.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+		if (isEmpty(progReq.getLearningObjectives())) {
+			progReq.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
+		}
 
 		progReq.setMetaInfo(clu.getMetaInfo());
 		progReq.setType(clu.getType());
@@ -95,27 +96,9 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 			throw new AssemblyException("ProgramRequirementInfo can not be null");
 		}
 
-		BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo>(this);
+		BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo>(null);
 
-		CluInfo clu;
-		try {
-			clu = (NodeOperation.UPDATE == operation) ?  luService.getClu(progReq.getId()) : new CluInfo();
-        } catch (Exception e) {
-			throw new AssemblyException("Error getting existing learning unit during program requirement update", e);
-        }
-
-        programAssemblerUtils.disassembleBasics(clu, progReq, operation);
-        progReq.setId(clu.getId());
-        if (clu.getOfficialIdentifier() == null) {
-        	clu.setOfficialIdentifier(new CluIdentifierInfo());
-        }
-        clu.getOfficialIdentifier().setLongName(progReq.getLongTitle());
-        clu.getOfficialIdentifier().setShortName(progReq.getShortTitle());
-        if (progReq.getLearningObjectives() != null) {
-            disassembleLearningObjectives(progReq, operation, result);
-        }
-
-        // Add the Statement to the result
+		// Create the Statement Tree
         StatementTreeViewInfo statement = progReq.getStatement();
         statement.setId(UUIDHelper.genStringUUID(statement.getId()));
         BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> statementTree;
@@ -127,6 +110,33 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 			throw new AssemblyException(e);
 		}
         result.getChildNodes().add(statementTree);
+
+		CluInfo clu;
+		try {
+			clu = (NodeOperation.UPDATE == operation) ?  luService.getClu(progReq.getId()) : new CluInfo();
+        } catch (Exception e) {
+			throw new AssemblyException("Error getting existing learning unit during program requirement update", e);
+        }
+
+        BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> cluResult = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo>(this);
+
+        cluResult.setNodeData(clu);
+        cluResult.setBusinessDTORef(progReq);
+        cluResult.setOperation(operation);
+        result.getChildNodes().add(cluResult);
+
+        programAssemblerUtils.disassembleBasics(clu, progReq, operation);
+        progReq.setId(clu.getId());
+        if (clu.getOfficialIdentifier() == null) {
+        	clu.setOfficialIdentifier(new CluIdentifierInfo());
+        }
+        clu.getOfficialIdentifier().setLongName(progReq.getLongTitle());
+        clu.getOfficialIdentifier().setShortName(progReq.getShortTitle());
+        clu.setDescr(progReq.getDescr());
+
+        if (progReq.getLearningObjectives() != null) {
+            disassembleLearningObjectives(progReq, operation, result);
+        }
 
         RefStatementRelationInfo relation;
         if (operation == NodeOperation.CREATE) {
@@ -148,12 +158,10 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo> relationNode = new BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo>(null);
         relationNode.setNodeData(relation);
         relationNode.setOperation(operation);
-        result.getChildNodes().add(relationNode);
 
-        result.setNodeData(clu);
-        result.setOperation(operation);
+        result.getChildNodes().add(relationNode);
         result.setBusinessDTORef(progReq);
-        result.setAssembler(null);
+        result.setOperation(operation);
 		return result;
 	}
 

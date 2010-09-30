@@ -23,12 +23,14 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -52,11 +54,14 @@ public class TestProgramServiceImpl {
 
     @Autowired
     public ProgramService programService;
+    @Autowired
+    public StatementService statementService;
     private static final String OTHER_LO_CAT_ID = "550e8400-e29b-41d4-a716-446655440000";
 
     @Test
     public void testProgramServiceSetup() {
     	assertNotNull(programService);
+    	assertNotNull(statementService);
     }
 
 	@Test
@@ -182,8 +187,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(core.getReferenceURL());
             assertEquals("http://www.google.ca", core.getReferenceURL());
-//            assertNotNull(major.getUniversityClassification());
-//            assertEquals(major.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
+            assertNotNull(core.getUniversityClassification());
+            assertEquals(core.getUniversityClassification(), "UNIVERSITYCLASSIFICATIONCODE");
             assertNotNull(core.getStartTerm());
             assertEquals("start_term", core.getStartTerm());
             assertNotNull(core.getEndTerm());
@@ -198,17 +203,15 @@ public class TestProgramServiceImpl {
             assertEquals("Bachelor of Science", core.getLongTitle());
             assertNotNull(core.getTranscriptTitle());
             assertEquals(core.getTranscriptTitle(), "TRANSCRIPT-TITLE");
+            assertNotNull(core.getDescr());
+            assertEquals("Anthropology Major", core.getDescr().getPlain());
 
-            //TODO: add descr in test db
-//            assertNotNull(core.getDescr());
-//            assertEquals("Anthropology Major", core.getDescr().getPlain());
-//
 //            //TODO catalog descr
 //            //TODO catalog pub targets
-             //TODO: add lo in test db
-//            assertNotNull(major.getLearningObjectives());
-//            assertTrue(major.getLearningObjectives().size() ==1);
-//            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
+
+            assertNotNull(core.getLearningObjectives());
+            assertTrue(core.getLearningObjectives().size() ==1);
+            assertEquals("Core Program Learning objectives", core.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
 
             assertNotNull(core.getDivisionsContentOwner());
             assertTrue(core.getDivisionsContentOwner().size() == 1);
@@ -276,19 +279,20 @@ public class TestProgramServiceImpl {
             assertNotNull(major.getCode());
             assertEquals("ANTH", major.getCode());
             assertNotNull(major.getCip2000Code());
-            assertEquals("450202", major.getCip2000Code());
+            assertEquals("45.0202", major.getCip2000Code());
             assertNotNull(major.getCip2010Code());
-            assertEquals("450201", major.getCip2010Code());
+            assertEquals("45.0201", major.getCip2010Code());
             assertNotNull(major.getHegisCode());
-            assertEquals("HEGISCODE", major.getHegisCode());
+            assertEquals("220200", major.getHegisCode());
             assertNotNull(major.getUniversityClassification());
             assertEquals("UNIVERSITYCLASSIFICATIONCODE", major.getUniversityClassification());
             assertNotNull(major.getSelectiveEnrollmentCode());
             assertEquals("SELECTIVEENROLLMENTCODE", major.getSelectiveEnrollmentCode());
 
             assertNotNull(major.getResultOptions());
-            assertTrue(major.getResultOptions().size() == 1);
-            assertEquals("kuali.certificateType.degree", major.getResultOptions().get(0));
+            assertTrue(major.getResultOptions().size() == 2);
+            assertEquals("kuali.resultComponent.degree.ba", major.getResultOptions().get(0));
+            assertEquals("kuali.resultComponent.degree.bsc", major.getResultOptions().get(1));
 
             assertNotNull(major.getStdDuration());
             assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
@@ -670,13 +674,14 @@ public class TestProgramServiceImpl {
 		assertNotNull(created);
 		assertTrue(EqualsBuilder.reflectionEquals(orig, created, new String[]{"id", "descr", "learningObjectives","statement","attributes","metaInfo"}));
     	checkLoDisplays(orig.getLearningObjectives(), created.getLearningObjectives());
-		if (orig.getId() != null) {
+    	if (orig.getId() == null && created.getId() == null) {
+    		fail("both ProgramRequirements ids are null");
+    	} else if (orig.getId() != null) {
 			assertEquals(orig.getId(), created.getId());
 		}
 
-    	StatementTreeViewInfo statement2 = created.getStatement();
+    	checkRichText(orig.getDescr(), created.getDescr());
     	checkStatementTreeView(orig.getStatement(), created.getStatement());
-    	assertNotNull(statement2);
 	}
 
 	private static void checkStatementTreeView(StatementTreeViewInfo statement,
@@ -684,7 +689,9 @@ public class TestProgramServiceImpl {
 		assertNotNull(statement);
 		assertNotNull(statement2);
 		assertTrue(EqualsBuilder.reflectionEquals(statement, statement2, new String[]{"id", "desc", "attributes", "metaInfo", "statements", "reqComponents"}));
-		if (statement.getId() != null) {
+		if (statement.getId() == null && statement2.getId() == null) {
+			fail("Both StatementTreeView ids are null");
+		} else if (statement.getId() != null) {
 			assertEquals(statement.getId(), statement2.getId());
 		}
 		checkRichText(statement.getDesc(), statement2.getDesc());
@@ -707,7 +714,9 @@ public class TestProgramServiceImpl {
 		assertNotNull(reqComponent);
 		assertNotNull(reqComponent2);
 		assertTrue(EqualsBuilder.reflectionEquals(reqComponent, reqComponent2, new String[]{"id", "desc", "reqCompFields", "requiredComponentType", "naturalLanguageTranslation", "metaInfo"}));
-		if (reqComponent.getId() != null) {
+		if (reqComponent.getId() == null && reqComponent2.getId() == null) {
+			fail("Both ReqComponent ids are null");
+		} else if (reqComponent.getId() != null) {
 			assertEquals(reqComponent.getId(), reqComponent2.getId());
 		}
 		checkRichText(reqComponent.getDesc(), reqComponent2.getDesc());
@@ -739,7 +748,7 @@ public class TestProgramServiceImpl {
 			ReqCompFieldTypeInfo reqCompFieldTypeInfo2) {
 		assertNotNull(reqCompFieldTypeInfo);
 		assertNotNull(reqCompFieldTypeInfo2);
-		
+
 	}
 
 	private static void checkReqCompFields(List<ReqCompFieldInfo> reqCompFields,
@@ -901,6 +910,34 @@ public class TestProgramServiceImpl {
 		return richTextInfo;
 	}
 
+	@Test(expected=DoesNotExistException.class)
+	@Ignore
+	public void testUpdateProgramRequirement() throws Exception {
+		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
+        StatementTreeViewInfo treeView = progReq.getStatement();
+
+        List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
+        subTree1.setDesc(toRichText("STMT-5"));
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setType("kuali.statement.type.program.entrance");
+        reqCompList1.add(rc1);
+        reqCompList1.add(rc2);
+        subTree1.setReqComponents(reqCompList1);
+
+        StatementTreeViewInfo oldSubTree1 = treeView.getStatements().get(0);
+        treeView.getStatements().set(0, subTree1);
+        ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq);
+        checkProgramRequirement(progReq, updated);
+        statementService.getStatement(oldSubTree1.getId());
+	}
+
     @Test
     public void testDeleteMajorDiscipline() {
         try {
@@ -1011,7 +1048,7 @@ public class TestProgramServiceImpl {
 //        assertEquals(1, updatedMD.getProgramRequirements().size());
 
         assertEquals("Anthropology-updated", updatedMD.getLongTitle());
-        assertEquals("450202-updated", updatedMD.getCip2000Code());
+        assertEquals("45.0202-updated", updatedMD.getCip2000Code());
         assertEquals("TRANSCRIPT-TITLE-updated", updatedMD.getTranscriptTitle());
         assertEquals("DIPLOMA-TITLE-updated", updatedMD.getDiplomaTitle() );
     }
@@ -1301,5 +1338,86 @@ public class TestProgramServiceImpl {
 			fail(e.getMessage());
 		}
     	programService.getProgramRequirement(createdProgReq.getId(), null, null);
+    }
+
+    @Test
+    public void testUpdateCoreProgram() {
+    	CoreProgramInfo core = null;
+        try {
+        	core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
+
+            // minimal sanity check
+            assertNotNull(core);
+            assertEquals("BS", core.getCode());
+            assertNotNull(core.getShortTitle());
+            assertEquals("B.S.", core.getShortTitle());
+            assertNotNull(core.getLongTitle());
+            assertEquals("Bachelor of Science", core.getLongTitle());
+            assertNotNull(core.getDescr());
+            assertEquals("Anthropology Major", core.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
+
+            // update some fields
+            core.setCode(core.getCode() + "-updated");
+            core.setShortTitle(core.getShortTitle() + "-updated");
+            core.setLongTitle(core.getLongTitle() + "-updated");
+            core.setTranscriptTitle(core.getTranscriptTitle() + "-updated");
+            core.setState(ProgramAssemblerConstants.RETIRED);
+
+           //Perform the update
+            CoreProgramInfo updatedCP = programService.updateCoreProgram(core);
+
+            //Verify the update
+            verifyUpdate(updatedCP);
+
+            // Now explicitly get it
+            CoreProgramInfo retrievedCP = programService.getCoreProgram(core.getId());
+            verifyUpdate(retrievedCP);
+
+            //TODO: update versioning
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+	}
+
+    private void verifyUpdate(CoreProgramInfo updatedCP) {
+    	assertNotNull(updatedCP);
+    	assertEquals("BS-updated", updatedCP.getCode());
+        assertEquals("B.S.-updated", updatedCP.getShortTitle());
+        assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
+        assertEquals("TRANSCRIPT-TITLE-updated", updatedCP.getTranscriptTitle());
+        assertEquals(ProgramAssemblerConstants.RETIRED, updatedCP.getState());
+    }
+
+    @Test
+    public void testDeleteCoreProgram() {
+        try {
+        	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
+        	CoreProgramInfo coreProgramInfo = generator.getCoreProgramTestData();
+
+            assertNotNull(coreProgramInfo);
+            fixLoCategoryIds(coreProgramInfo.getLearningObjectives());
+            CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
+            assertNotNull(createdCP);
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
+
+
+            String coreProgramId = createdCP.getId();
+            CoreProgramInfo retrievedCP = programService.getCoreProgram(coreProgramId);
+            assertNotNull(retrievedCP);
+
+            try{
+	            programService.deleteCoreProgram(coreProgramId);
+	            try {
+	            	retrievedCP = programService.getCoreProgram(coreProgramId);
+	                fail("Retrieval of deleted coreProgram should have thrown exception");
+	            } catch (DoesNotExistException e) {}
+            }catch (OperationFailedException e) {}
+            
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 }

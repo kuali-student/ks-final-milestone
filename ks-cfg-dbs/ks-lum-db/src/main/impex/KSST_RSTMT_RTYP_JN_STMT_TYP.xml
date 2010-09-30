@@ -9,6 +9,8 @@
     <KSST_RSTMT_RTYP_JN_STMT_TYP
         REF_STMT_REL_TYPE_ID="clu.eligibilities" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility"/>
     <KSST_RSTMT_RTYP_JN_STMT_TYP
+        REF_STMT_REL_TYPE_ID="clu.eligibilitiesandprerequisites" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"/>
+    <KSST_RSTMT_RTYP_JN_STMT_TYP
         REF_STMT_REL_TYPE_ID="clu.credit.repeatable" STMT_TYPE_ID="kuali.statement.type.course.credit.repeatable"/>
     <KSST_RSTMT_RTYP_JN_STMT_TYP
         REF_STMT_REL_TYPE_ID="clu.credit.restriction" STMT_TYPE_ID="kuali.statement.type.course.credit.restriction"/>

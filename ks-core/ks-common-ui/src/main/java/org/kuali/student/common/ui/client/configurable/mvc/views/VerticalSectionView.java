@@ -42,7 +42,6 @@ public class VerticalSectionView extends SectionView {
         this.add(layout);
     }
 
-
     /**
      * This updates the model
      *
@@ -59,8 +58,5 @@ public class VerticalSectionView extends SectionView {
     @Override
     public void clear() {
         // TODO Auto-generated method stub
-
     }
-
-
 }

@@ -69,7 +69,7 @@ public class TestManifestInspector {
 		Attributes attributes = manifest.getMainAttributes();
 		attributes.putValue(ManifestInspector.BUNDLE_NAME, name);
 		attributes.putValue(ManifestInspector.BUNDLE_VERSION, version);
-		attributes.putValue(ManifestInspector.HUDSON_BUILD_NUMBER, buildNumber);
+        attributes.putValue(ManifestInspector.BUNDLE_BUILD_NUMBER, buildNumber);
 		attributes.putValue(ManifestInspector.BUNDLE_TIMESTAMP, timestamp);
 		BuildInformation bi = mi.getBuildInformation(manifest);
 		Assert.assertFalse(mi.isNullOrEmpty(bi));

@@ -7,6 +7,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -17,14 +21,14 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCanc
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
-import org.kuali.student.lum.program.client.rpc.StatementRpcService;
-import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
+import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -36,7 +40,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     private final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
-    private StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
@@ -44,200 +47,257 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     //view's data
     private ProgramRequirementsViewController parentController;
+    private ProgramRequirementsDataModel rules;
     private boolean isReadOnly;
-    private boolean isInitialized = false;
+    private boolean isRulesDisplayed = false;
     private static int tempProgReqInfoID = 9999;
     private static final String NEW_PROG_REQ_ID = "NEWPROGREQ";
     private static final String NEW_STMT_TREE_ID = "NEWSTMTTREE";
 
-    private enum requirementState {STORED, ADDED, EDITED, DELETED;}
     private Map<String, SpanPanel> perProgramRequirementTypePanel = new HashMap<String, SpanPanel>();
-    //keeping track of rules and rule state (UPDATED, ADDED, DELETED)
-    private LinkedHashMap<StatementTypeInfo, LinkedHashMap<ProgramRequirementInfo, requirementState>> rules = new LinkedHashMap<StatementTypeInfo, LinkedHashMap<ProgramRequirementInfo, requirementState>>();
 
-    public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId, List<String> programRequirements) {
+    public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, Enum<?> viewEnum, String name,
+                                                            String modelId, ProgramRequirementsDataModel rulesData, boolean isReadOnly) {
         super(viewEnum, name, modelId);
-
         this.parentController = parentController;
-        isReadOnly = (parentController == null);
-
-        //retrieve available program requirement types
-        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", new KSAsyncCallback<List<StatementTypeInfo>>() {
-            @Override
-            public void handleFailure(Throwable caught) {
-	            Window.alert(caught.getMessage());
-	            GWT.log("getStatementTypes failed", caught);
-            }
-
-            @Override
-            public void onSuccess(List<StatementTypeInfo> stmtInfoTypes) {
-                for (StatementTypeInfo stmtInfoType : stmtInfoTypes) {
-                    rules.put(stmtInfoType, new LinkedHashMap<ProgramRequirementInfo, requirementState>());
-
-                    //TODO remove after testing
-                    if (stmtInfoType.getId().equals("kuali.statement.type.program.entrance")) {
-                        LinkedHashMap<ProgramRequirementInfo, requirementState> tempRulesList = new LinkedHashMap<ProgramRequirementInfo, requirementState>();
-                        ProgramRequirementInfo tempProgramInfo = new ProgramRequirementInfo();
-                        tempProgramInfo.setId(NEW_PROG_REQ_ID + Integer.toString(tempProgReqInfoID++));   //set unique id                        
-                        RichTextInfo text = new RichTextInfo();
-                        text.setPlain("These are classes or sequences that a student must have completed in order to register" +
-                                                    " in the course. For example, students must have completed 3 classes with a specific GPA.");
-                        tempProgramInfo.setDescr(text);
-                        tempProgramInfo.setShortTitle("Expected Total Credits: 50 - 60");
-                        tempProgramInfo.setStatement(parentController.getTestStatement());
-                        tempRulesList.put(tempProgramInfo, requirementState.STORED);
-                        rules.put(stmtInfoType, tempRulesList);
-                    }
-                }
-
-                //retrieve program requirements
-                /* TODO test when program service is ready
-                for (String programReq : programRequirements) {
-                    programRemoteService.getProgramRequirement(programReq, new KSAsyncCallback<ProgramRequirementInfo>() {
-                        @Override
-                        public void handleFailure(Throwable caught) {
-                            Window.alert(caught.getMessage());
-                            GWT.log("getProgramRequirement failed", caught);
-                        }
-
-                        @Override
-                        public void onSuccess(ProgramRequirementInfo programReqInfo) {
-                            //update list with new program requirements
-                            for (StatementTypeInfo stmtInfo : rules.keySet()) {
-                                if (stmtInfo.getId() == programReqInfo.getType()) {
-                                    if (rules.get(stmtInfo) != null) {
-                                        Window.alert("Found 2 same program requirements? ("+programReqInfo.getType());
-                                        GWT.log("Found 2 same program requirements? ("+programReqInfo.getType());
-                                    }
-                                    programReqInfo.setType(stmtInfo.getId());
-                                    rules.put(stmtInfo, programReqInfo);
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                }*/
-            }
-        });
+        rules = rulesData;
+        rules.setInitialized(false);        
+        this.isReadOnly = isReadOnly;
     }
 
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
-        if (!isInitialized) {
-            displayRules();
-            isInitialized = true;
+
+        //only when user wants to see rules then load requirements from database if they haven't been loaded yet
+        if (!rules.isInitialized()) {
+            rules.retrieveProgramRequirements(new Callback<Boolean>() {
+                @Override
+                public void exec(Boolean result) {
+                    if (result) {
+                        displayRules();
+                    }
+                    onReadyCallback.exec(result);
+                }
+            });                
+            return;
         }
 
-        //update rule if user added or edited this rule
-        ProgramRequirementsManageView manageView = (ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
-        if (manageView.isDirty() && manageView.isUserClickedSaveButton()) {
-            ((SectionView)parentController.getCurrentView()).setIsDirty(false);
+    //    if (!isRulesDisplayed) {
+    //        displayRules();
+    //    }
 
-            final StatementTreeViewInfo newTree = manageView.getRuleTree();
+        //for read-only view, we don't need to worry about rules being added or modified
+        if (isReadOnly) {
+            displayRules();            
+            onReadyCallback.exec(true);
+            return;
+        }
 
-            //find the affected program requirement
-            LinkedHashMap<ProgramRequirementInfo, requirementState> reqInfo = null;
-            ProgramRequirementInfo affectedProgramRequirement = null;
-            StatementTypeInfo affectedStatementTypeInfo = null;
-            boolean progReqFound = false;
-            for (StatementTypeInfo statementTypeInfo : rules.keySet()) {
-                for (ProgramRequirementInfo progReqInfo : rules.get(statementTypeInfo).keySet()) {
-                    String originalProgramReqId = manageView.getRelatedProgramReqInfoId();
-                    if (manageView.isNewRule()) {
-                        if (!progReqInfo.getId().equals(originalProgramReqId)) {
-                            continue;
-                        }
-                    } else {
-                        //if (!compareStatementTrees(Info.getStatement(), newTree)) {
-                        if (!findStatementBasedOnID(newTree.getId(), progReqInfo.getStatement())) {
-                            continue;
-                        }                        
-                    }
+        
+        parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
+			@Override
+			public void exec(View result) {
+				ProgramRequirementsManageView manageView = (ProgramRequirementsManageView) result;
+                
+				//return if user did not added or updated a rule
+				if (!manageView.isDirty() || !manageView.isUserClickedSaveButton()) {
+		            onReadyCallback.exec(true);
+		            return;                        
+		        }
 
-                    reqInfo = rules.get(statementTypeInfo);
-                    affectedProgramRequirement = progReqInfo;
-                    affectedStatementTypeInfo = statementTypeInfo;
-                    progReqFound = true;
-                    break;
-                }
+		        //update the rule because user added or edited the rule
+		        ((SectionView)parentController.getCurrentView()).setIsDirty(false);
+		        manageView.setUserClickedSaveButton(false);
 
-                if (progReqFound) {
-                    break;
-                }
+		        final StatementTreeViewInfo newTree = manageView.getRuleTree();
+
+		        //find the affected program requirement
+		        LinkedHashMap<ProgramRequirementInfo, ProgramRequirementsDataModel.requirementState> reqInfo = null;
+		        ProgramRequirementInfo affectedProgramRequirement = null;
+		        StatementTypeInfo affectedStatementTypeInfo = null;
+		        boolean progReqFound = false;
+		        for (StatementTypeInfo statementTypeInfo : rules.getStoredStatementTypes()) {
+		            for (ProgramRequirementInfo progReqInfo : rules.getStoredProgRequirements(statementTypeInfo)) {
+		                String originalProgramReqId = manageView.getRelatedProgramReqInfoId();
+		                if (manageView.isNewRule()) {
+		                    if (!progReqInfo.getId().equals(originalProgramReqId)) {
+		                        continue;
+		                    }
+		                } else {
+		                    if (!findStatementBasedOnID(newTree.getId(), progReqInfo.getStatement())) {
+		                        continue;
+		                    }
+		                }
+
+		                reqInfo = rules.getStoredProgReqsAndStates(statementTypeInfo);
+		                affectedProgramRequirement = progReqInfo;
+		                affectedStatementTypeInfo = statementTypeInfo;
+		                progReqFound = true;
+		                break;
+		            }
+
+		            if (progReqFound) {
+		                break;
+		            }
+		        }
+
+		        if (reqInfo == null) {
+		            Window.alert("Cannot find program requirement with a statement that has id: '" + newTree.getId() + "'");
+		            GWT.log("Cannot find program requirement with a statement that has id: '" + newTree.getId() + "'", null);
+		            onReadyCallback.exec(true);
+		            return;
+		        }
+
+		        if (reqInfo.get(affectedProgramRequirement) == ProgramRequirementsDataModel.requirementState.STORED) {
+		            reqInfo.put(affectedProgramRequirement, ProgramRequirementsDataModel.requirementState.EDITED);
+		        }
+
+		        //if we don't have top level req. components wrapped in statement, do so before we add another statement
+		        StatementTreeViewInfo affectedRule = affectedProgramRequirement.getStatement();
+		        if ((affectedRule.getReqComponents() != null) && !affectedRule.getReqComponents().isEmpty()) {
+		            StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
+		            stmtTree.setId(generateStatementTreeId());
+		            stmtTree.setType(affectedStatementTypeInfo.getId());
+		            stmtTree.setReqComponents(affectedRule.getReqComponents());
+		            List<StatementTreeViewInfo> stmtList = new ArrayList<StatementTreeViewInfo>();
+		            stmtList.add(stmtTree);
+		            affectedRule.setStatements(stmtList);
+		        }
+
+		        List<StatementTreeViewInfo> affectedStatements = affectedRule.getStatements();
+		        if (manageView.isNewRule()) {
+		            affectedStatements.add(newTree);
+		        } else {
+		            //update rule
+		            if (affectedStatements == null || affectedStatements.isEmpty()) {
+		                affectedProgramRequirement.setStatement(newTree);
+		            } else { //replace rule with new version
+		                for (StatementTreeViewInfo tree : affectedStatements) {
+		                    if (tree.getId().equals(newTree.getId())) {
+		                        int treeIx = affectedStatements.indexOf(tree);
+		                        //only update if the rule is not empty
+		                        if (!isEmptyRule(newTree)) {
+		                            affectedStatements.add(treeIx, newTree);
+		                        }
+		                        affectedStatements.remove(tree);
+		                        break;
+		                    }
+		                }
+		            }
+		        }
+
+		        //update display of the rule
+		        SpanPanel reqPanel = perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId());
+		        for (int i = 0; i < perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId()).getWidgetCount(); i++) {
+		            RulePreviewWidget rulePreviewWidget = (RulePreviewWidget)reqPanel.getWidget(i);
+		            if (compareStatementTrees(affectedProgramRequirement.getStatement(), rulePreviewWidget.getStatementTreeViewInfo())) {
+		                    RulePreviewWidget newRulePreviewWidget = getUpdatedProgramRequirement(reqPanel, affectedStatementTypeInfo, affectedProgramRequirement);
+		                    reqPanel.insert(newRulePreviewWidget, i);
+		                    reqPanel.remove(rulePreviewWidget);
+		            }
+		        }
+
+		        onReadyCallback.exec(true);
+			}
+		});
+        
+    }
+
+    @Override
+    public void updateModel() {
+        parentController.requestModel(new ModelRequestCallback() {
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert(cause.getMessage());
+                GWT.log("Unable to retrieve model for program requirements view", cause);
             }
-
-            if (reqInfo == null) {
-	            Window.alert("Cannot find program requirement with a statement that has id: '" + newTree.getId() + "'");
-	            GWT.log("Cannot find program requirement with a statement that has id: '" + newTree.getId() + "'", null);
-                onReadyCallback.exec(true);
-                return;
+            @Override
+            public void onModelReady(Model model) {
+                updateModelFromLocalData(((DataModel)model).getRoot());
             }
+        });
+    }
 
-            if (reqInfo.get(affectedProgramRequirement) == requirementState.STORED) {
-                reqInfo.put(affectedProgramRequirement, requirementState.EDITED);
-            }
-
-            //if we don't have top level req. components wrapped in statement, do so before we add another statement
-            StatementTreeViewInfo affectedRule = affectedProgramRequirement.getStatement();
-            if ((affectedRule.getReqComponents() != null) && !affectedRule.getReqComponents().isEmpty()) {
-                StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
-                stmtTree.setId(generateStatementTreeId());
-                stmtTree.setType(affectedStatementTypeInfo.getId());
-                stmtTree.setReqComponents(affectedRule.getReqComponents());
-                List<StatementTreeViewInfo> stmtList = new ArrayList<StatementTreeViewInfo>();
-                stmtList.add(stmtTree);
-                affectedRule.setStatements(stmtList);
-            }
-
-            List<StatementTreeViewInfo> affectedStatements = affectedRule.getStatements();
-            if (manageView.isNewRule()) {
-                affectedStatements.add(newTree);
-            } else {
-                //update rule
-                if (affectedStatements == null || affectedStatements.isEmpty()) {
-                    affectedProgramRequirement.setStatement(newTree);
-                } else { //replace rule with new version                    
-                    for (StatementTreeViewInfo tree : affectedStatements) {
-                        if (tree.getId().equals(newTree.getId())) {
-                            int treeIx = affectedStatements.indexOf(tree);
-                            //only update if the rule is not empty
-                            if (!isEmptyRule(newTree)) {
-                                affectedStatements.add(treeIx, newTree);
+    private void updateModelFromLocalData(final Object dto) {
+        for (final StatementTypeInfo stmtTypeInfo : rules.getStoredStatementTypes()) {
+            for (final ProgramRequirementInfo rule : rules.getStoredProgRequirements(stmtTypeInfo)) {
+                final ProgramRequirementsDataModel.requirementState ruleState = rules.getStoredProgReqsAndStates(stmtTypeInfo).get(rule);
+                switch (ruleState) {
+                    case STORED:
+                        //rule was not changed so continue
+                        break;
+                    case ADDED:
+                        programRemoteService.createProgramRequirement(rule, new KSAsyncCallback<ProgramRequirementInfo>() {
+                            @Override
+                            public void handleFailure(Throwable caught) {
+                                Window.alert(caught.getMessage());
+                                GWT.log("createProgramRequirement failed", caught);
                             }
-                            affectedStatements.remove(tree);
-                            break;
-                        }
-                    }
+                            @Override
+                            public void onSuccess(ProgramRequirementInfo programReqInfo) {
+                                updateProgReqId(dto, programReqInfo.getId(), ruleState);
+                                rules.getStoredProgReqsAndStates(stmtTypeInfo).put(programReqInfo, ProgramRequirementsDataModel.requirementState.STORED);
+                            }
+                        });
+                        break;
+                    case EDITED:
+                        programRemoteService.updateProgramRequirement(rule, new KSAsyncCallback<ProgramRequirementInfo>() {
+                            @Override
+                            public void handleFailure(Throwable caught) {
+                                Window.alert(caught.getMessage());
+                                GWT.log("updateProgramRequirement failed", caught);
+                            }
+                            @Override
+                            public void onSuccess(ProgramRequirementInfo programReqInfo) {
+                                updateProgReqId(dto, programReqInfo.getId(), ruleState);
+                                rules.getStoredProgReqsAndStates(stmtTypeInfo).put(programReqInfo, ProgramRequirementsDataModel.requirementState.STORED);
+                            }
+                        });
+                        break;
+                    case DELETED:
+                        programRemoteService.deleteProgramRequirement(rule.getId(), new KSAsyncCallback<StatusInfo>() {
+                            @Override
+                            public void handleFailure(Throwable caught) {
+                                Window.alert(caught.getMessage());
+                                GWT.log("deleteProgramRequirement failed", caught);
+                            }
+                            @Override
+                            public void onSuccess(StatusInfo statusInfo) {
+                                updateProgReqId(dto, rule.getId(), ruleState);
+                                rules.getStoredProgRequirements(stmtTypeInfo).remove(rule);
+                            }
+                        });
+                        break;
+                    default:
+                        break;
                 }
             }
+        }        
+    }
 
-            //update display of the rule
-            SpanPanel reqPanel = perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId());
-            for (int i = 0; i < perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId()).getWidgetCount(); i++) {
-                RulePreviewWidget rulePreviewWidget = (RulePreviewWidget)reqPanel.getWidget(i);
-                if (compareStatementTrees(affectedProgramRequirement.getStatement(), rulePreviewWidget.getStatementTreeViewInfo())) {
-                        RulePreviewWidget newRulePreviewWidget = getUpdatedProgramRequirement(reqPanel, affectedStatementTypeInfo, affectedProgramRequirement);
-                        reqPanel.insert(newRulePreviewWidget, i);
-                        reqPanel.remove(rulePreviewWidget);
-                }
-            }
-
-            //update NL for the rule
-            /* not needed because the service does not care about NL in statement tree view info object
-            statementRpcServiceAsync.translateStatementTreeViewToNL(newTree, ProgramRequirementsViewController.RULEEDIT_TEMLATE, ProgramRequirementsViewController.TEMLATE_LANGUAGE,
-                                                                            new KSAsyncCallback<String>() {
-                public void handleFailure(Throwable caught) {
-                    Window.alert(caught.getMessage());
-                    GWT.log("translateStatementTreeViewToNL failed", caught);
-               }
-
-                public void onSuccess(final String statementNaturalLanguage) {
-                    newTree.setNaturalLanguageTranslation(statementNaturalLanguage);
-                }
-            }); */
+    //now update the program this requirement belongs to    
+    private void updateProgReqId(Object dto, String progReqId, ProgramRequirementsDataModel.requirementState op) {
+        if (dto instanceof MajorDisciplineInfo) {
+            MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
+            //mdInfo.getProgramRequirements().add(progReqId);
+            updateProgramInfo(mdInfo.getProgramRequirements(), progReqId, op);
+        } else {
+            Window.alert("Only persistence of MajorDiscipline is currently implemented");
+            GWT.log("Unable to retrieve model for program requirements view", null);
         }
+    }
 
-        onReadyCallback.exec(true);
+    private void updateProgramInfo(List<String> requirements, String id, ProgramRequirementsDataModel.requirementState op) {
+        switch (op) {
+            case ADDED:
+                requirements.add(id);
+                break;
+            case DELETED:
+                requirements.remove(id);
+                break;
+            default:
+                break;
+        }
     }
 
     private boolean compareStatementTrees(StatementTreeViewInfo tree1, StatementTreeViewInfo tree2) {
@@ -276,40 +336,38 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         return found;
     }
 
-    private void displayRules() {
+    public void displayRules() {
+        isRulesDisplayed = true;        
         remove(layout);
         layout.clear();
 
-        //display 'Program Requirements' page title
-        SectionTitle pageTitle = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
-        pageTitle.setStyleName("KS-Program-Requirements-Page-Title");  //make the header orange
-        layout.add(pageTitle);
+        //display 'Program Requirements' page title (don't add if read only because the section itself will display the title)
+        if (!isReadOnly) {
+            SectionTitle pageTitle = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
+            pageTitle.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
+            layout.add(pageTitle);
+        }
         
         //iterate and display rules for each Program Requirement type e.g. Entrance Requirements, Completion Requirements
         Boolean firstRequirement = true;
-        for (StatementTypeInfo stmtTypeInfo : rules.keySet()) {
+        for (StatementTypeInfo stmtTypeInfo : rules.getStoredStatementTypes()) {
 
             //create and display one type of program requirement section
             SpanPanel requirementsPanel = new SpanPanel();
             perProgramRequirementTypePanel.put(stmtTypeInfo.getId(), requirementsPanel);
-            displayRequirementSectionForGivenType(requirementsPanel, stmtTypeInfo, rules.get(stmtTypeInfo), firstRequirement);
+            displayRequirementSectionForGivenType(requirementsPanel, stmtTypeInfo, firstRequirement);
             firstRequirement = false;
 
             //now display each requirement for this Program Requirement type
-            for (ProgramRequirementInfo ruleInfo : rules.get(stmtTypeInfo).keySet()) {
-                addProgramRequirement(requirementsPanel, stmtTypeInfo, ruleInfo, requirementState.STORED);
+            for (ProgramRequirementInfo ruleInfo : rules.getStoredProgRequirements(stmtTypeInfo)) {
+                addProgramRequirement(requirementsPanel, stmtTypeInfo, ruleInfo, ProgramRequirementsDataModel.requirementState.STORED);
             }
-
         }
 
         addWidget(layout);
-
-        //display 'Save and Continue' button
-        displaySaveButton();
     }
 
-    private void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, LinkedHashMap<ProgramRequirementInfo,
-                                                                    requirementState> rules, boolean firstRequirement) {
+    private void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, boolean firstRequirement) {
 
         //display header for this Program Requirement type e.g. Entrance Requirements; make the header plural
         SectionTitle title = SectionTitle.generateH3Title(getWordPlural(stmtTypeInfo.getName()));
@@ -340,9 +398,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     private void addProgramRequirement(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, final ProgramRequirementInfo progReqInfo,
-                                       requirementState ruleInitialState) {
+                                       ProgramRequirementsDataModel.requirementState ruleInitialState) {
         //first add new program requirement into the map of rules
-        rules.get(stmtTypeInfo).put(progReqInfo, ruleInitialState);
+        rules.getStoredProgReqsAndStates(stmtTypeInfo).put(progReqInfo, ruleInitialState);
         final RulePreviewWidget rulePreviewWidget = new RulePreviewWidget(stmtTypeInfo.getName(), progReqInfo.getShortTitle(), progReqInfo.getDescr().getPlain(),
                                                     progReqInfo.getStatement(), isReadOnly);
 
@@ -362,7 +420,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     private void addRulePreviewWidgetHandlers(final SpanPanel requirementsPanel, final RulePreviewWidget rulePreviewWidget, final StatementTypeInfo stmtTypeInfo,
                                               final ProgramRequirementInfo progReqInfo) {
 
-        final LinkedHashMap<ProgramRequirementInfo, requirementState> rulesPerType = rules.get(stmtTypeInfo);
+        final LinkedHashMap<ProgramRequirementInfo, ProgramRequirementsDataModel.requirementState> rulesPerType = rules.getStoredProgReqsAndStates(stmtTypeInfo);
 
         rulePreviewWidget.addRequirementEditButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -379,11 +437,11 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 dialog.getConfirmButton().addClickHandler(new ClickHandler(){
                     @Override
                     public void onClick(ClickEvent event) {
-                        if (rulesPerType.get(progReqInfo) == requirementState.ADDED) {
+                        if (rulesPerType.get(progReqInfo) == ProgramRequirementsDataModel.requirementState.ADDED) {
                             //we completely remove a rule that was added and then deleted without any save between
                             rulesPerType.remove(progReqInfo);
                         } else {
-                            rulesPerType.put(progReqInfo, requirementState.DELETED);  //overwrite previous state
+                            rulesPerType.put(progReqInfo, ProgramRequirementsDataModel.requirementState.DELETED);  //overwrite previous state
                         }
 
                         //remove rule from display
@@ -398,37 +456,26 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
 
         /* SUB-RULE edit/delete/add link&buttons handlers */
-
         rulePreviewWidget.addSubRuleAddButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                    StatementTreeViewInfo newRule = new StatementTreeViewInfo();
+                    final StatementTreeViewInfo newRule = new StatementTreeViewInfo();
                     newRule.setId(generateStatementTreeId());
                     newRule.setType(stmtTypeInfo.getId());
-                    ((ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE))
-                                                                        .setRuleTree(newRule, stmtTypeInfo.getId(), true, progReqInfo.getId());
-                    parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
+                    RichTextInfo text = new RichTextInfo();
+                    text.setPlain("");
+                    newRule.setDesc(text);
+                	parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
+
+        				@Override
+        				public void exec(View result) {
+        					((ProgramRequirementsManageView) result).setRuleTree(newRule, true, progReqInfo.getId());
+        					parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
+        				}
+        			});
             }
         });
 
         rulePreviewWidget.addSubRuleEditCallback(editRuleCallback);
-    }
-
-    private void displaySaveButton() {
-        ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
-        actionCancelButtons.addStyleName("KS-Program-Requirements-Preview-SaveContinue");
-        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-             @Override
-            public void exec(ButtonEnumerations.ButtonEnum result) {
-                if (result == ButtonEnumerations.SaveContinueCancelEnum.CANCEL) {
-                    //TODO remove NL from tree because it is not current
-                } else {
-                    //save all changes to program requirements
-                    //for ()
-
-                }
-            }
-        });
-        layout.add(actionCancelButtons);
     }
 
     private void showAddProgramRequirementDialog(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo) {
@@ -448,7 +495,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
                     ProgramRequirementInfo newProgramInfo = new ProgramRequirementInfo();
                     newProgramInfo.setId(NEW_PROG_REQ_ID + Integer.toString(tempProgReqInfoID++));   //set unique id
-                    //TODO remove after dialog fields implemented
+                    newProgramInfo.setType("kuali.lu.type.Requirement");
+                    //TODO remove after dialog fields implemented:
                     RichTextInfo text = new RichTextInfo();
                     text.setPlain("These are classes or sequences that a student must have completed in order to register" +
                                                 " in the course. For example, students must have completed 3 classes with a specific GPA.");
@@ -459,12 +507,15 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
                     stmtTree.setId(generateStatementTreeId());
                     stmtTree.setType(stmtTypeInfo.getId());
+                    RichTextInfo text2 = new RichTextInfo();
+                    text2.setPlain("");
+                    stmtTree.setDesc(text2);                    
                     stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
 
                     //add new statement to the rule because even if user cancel on rule manage screen, we want to have at least one statement present
                     newProgramInfo.setStatement(stmtTree);
 
-                    addProgramRequirement(requirementsPanel, stmtTypeInfo, newProgramInfo, requirementState.ADDED);
+                    addProgramRequirement(requirementsPanel, stmtTypeInfo, newProgramInfo, ProgramRequirementsDataModel.requirementState.ADDED);
                 }
                 dialog.hide();
             }
@@ -515,22 +566,20 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     private void setupNoRuleText(StatementTypeInfo stmtTypeInfo) {
-        boolean showNoRuleText = true;
-        if (rules.get(stmtTypeInfo) != null && !rules.get(stmtTypeInfo).isEmpty()) {       
-            for (ProgramRequirementInfo ruleInfo : rules.get(stmtTypeInfo).keySet()) {
-                if (rules.get(stmtTypeInfo).get(ruleInfo) != requirementState.DELETED) {
-                    showNoRuleText = false;
-                }
-            }
-        }
-        noRuleTextMap.get(stmtTypeInfo.getName()).setVisible(showNoRuleText);
+        noRuleTextMap.get(stmtTypeInfo.getName()).setVisible(rules.isRuleExists(stmtTypeInfo));
     }
 
     protected Callback<StatementTreeViewInfo> editRuleCallback = new Callback<StatementTreeViewInfo>(){
-        public void exec(StatementTreeViewInfo stmtTreeInfo) {
-            ((ProgramRequirementsManageView)parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE))
-                                                                            .setRuleTree(stmtTreeInfo, stmtTreeInfo.getType(), false, null);
-            parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
+        public void exec(final StatementTreeViewInfo stmtTreeInfo) {
+        	parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
+
+				@Override
+				public void exec(View result) {
+					((ProgramRequirementsManageView) result).setRuleTree(stmtTreeInfo, false, null);
+					parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
+				}
+			});
+            
         }
     };
 

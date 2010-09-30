@@ -47,7 +47,7 @@ public class FieldDescriptor {
     private Callback<Boolean> validationRequestCallback;
     private boolean dirty = false;
     private boolean hasHadFocus = false;
-    private FieldElement fieldElement;
+    private final FieldElement fieldElement;
     private String modelId;
     private MessageKeyInfo messageKey;
     private boolean optional = false;
@@ -82,7 +82,7 @@ public class FieldDescriptor {
     	}
     }
 
-    private void setupField(){
+    protected void setupField() {
     	if(metadata != null){
     		if(MetadataInterrogator.isRequired(metadata)){
     			fieldElement.setRequiredString("requiredMarker");

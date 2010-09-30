@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -60,9 +59,6 @@ public class CluFee extends MetaEntity implements
     }
     
 	public List<CluFeeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluFeeAttribute>();
-		}
 		return attributes;
 	}
 
@@ -79,9 +75,6 @@ public class CluFee extends MetaEntity implements
 	}
 
 	public List<CluFeeRecord> getCluFeeRecords() {
-		if(null == cluFeeRecords) {
-			this.cluFeeRecords = new ArrayList<CluFeeRecord>();
-		}
 		return this.cluFeeRecords;
 	}
 

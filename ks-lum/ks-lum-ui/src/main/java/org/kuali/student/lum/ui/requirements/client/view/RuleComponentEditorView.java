@@ -125,7 +125,8 @@ public class RuleComponentEditorView extends ViewComposite {
     private ReqComponentVO editedReqCompVO;   					//Req. Component of the rule being edited by the user (plus extra UI data)
     private ReqComponentInfo editedReqComp;						//Req. Component that user is editing or adding
     private ReqComponentTypeInfo selectedReqType;
-    private ReqComponentTypeInfo originalReqType;
+    //private ReqComponentTypeInfo originalReqType;
+    private String originalReqType;
     private CollectionModel<RuleInfo> model;
 
     //view's data
@@ -211,7 +212,8 @@ public class RuleComponentEditorView extends ViewComposite {
                  if (editedReqCompVO != null) {
                     addingNewReqComp = false;
                     editedReqComp = editedReqCompVO.getReqComponentInfo();
-                    originalReqType = editedReqComp.getRequiredComponentType();
+                    //originalReqType = editedReqComp.getRequiredComponentType();
+                    originalReqType = editedReqComp.getType();
                     for (int i = 0; i < reqCompTypeList.size(); i++) {
                         if (editedReqComp.getType().equals(reqCompTypeList.get(i).getId())) {
                             selectedReqType = reqCompTypeList.get(i);
@@ -306,7 +308,7 @@ public class RuleComponentEditorView extends ViewComposite {
                             if (addingNewReqComp) {
                                 setupNewEditedReqComp(selectedReqType);
                             } else {
-                                editedReqComp.setRequiredComponentType(selectedReqType);
+                                //editedReqComp.setRequiredComponentType(selectedReqType);
                                 editedReqComp.setType(selectedReqType.getId());
                             }
                             displayReqComponentDetails();
@@ -436,8 +438,9 @@ public class RuleComponentEditorView extends ViewComposite {
                 } else {
                     if (!addingNewReqComp) {
                         //revert changes to the existing Req. Component
-                        editedReqComp.setRequiredComponentType(originalReqType);
-                        editedReqComp.setType(originalReqType.getId());
+                        //editedReqComp.setRequiredComponentType(originalReqType);
+                        //editedReqComp.setType(originalReqType.getId());
+                    	editedReqComp.setType(originalReqType);
                     }
 
                     //updateNLAndExit();
@@ -491,7 +494,7 @@ public class RuleComponentEditorView extends ViewComposite {
                  if (addingNewReqComp) {
                      setupNewEditedReqComp(selectedReqType);
                  } else {
-                	 editedReqComp.setRequiredComponentType(selectedReqType);
+                	 //editedReqComp.setRequiredComponentType(selectedReqType);
                      editedReqComp.setType(selectedReqType.getId());
                  }
                  displayReqComponentDetails();
@@ -550,13 +553,14 @@ public class RuleComponentEditorView extends ViewComposite {
     }
 
     private boolean isReqCompFieldType(String fieldType) {
-        List<ReqCompFieldTypeInfo> fieldTypes = editedReqComp.getRequiredComponentType().getReqCompFieldTypeInfos();
-        for (ReqCompFieldTypeInfo fieldInfo : fieldTypes) {
+        /*List<ReqCompFieldTypeInfo> fieldTypes = editedReqComp.getRequiredComponentType().getReqCompFieldTypeInfos();
+    	for (ReqCompFieldTypeInfo fieldInfo : fieldTypes) {
             if (fieldInfo.getId().equals(fieldType)) {
                 return true;
             }
         }
-        return false;
+        return false;*/
+    	throw new RuntimeException("ReqComponentInfo does not contain ReqComponentTypeInfo anymore!");
     }
     
     private String getFieldName(ReqCompFieldInfo fieldInfo) {
@@ -565,7 +569,7 @@ public class RuleComponentEditorView extends ViewComposite {
             return "Course";
         } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
             return "Courses";
-        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.VALUE_KEY.getId())) {
+        } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId())) {
             return "count";
         } else if (fieldInfo.getId().equals(ReqComponentFieldTypes.GPA_KEY.getId())) {
             return "GPA";
@@ -959,12 +963,12 @@ public class RuleComponentEditorView extends ViewComposite {
             }
             tagCounts.put(tag, tagCount);
 
-            if (tag.equals(ReqComponentFieldTypes.VALUE_KEY.getId()) || 
+            if (tag.equals(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId()) || 
             		tag.equals(ReqComponentFieldTypes.GPA_KEY.getId()) || 
             		tag.equals(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId()) || 
             		tag.equals(ReqComponentFieldTypes.PERSON_KEY.getId()) ||
                     tag.equals(ReqComponentFieldTypes.ORGANIZATION_KEY.getId()) ||     
-                    tag.equals(ReqComponentFieldTypes.VALUE_KEY.getId()) || 
+                    tag.equals(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId()) || 
                     tag.equals(ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getId()) ||                    
                             tag.equals(ReqComponentFieldTypes.GRADE_KEY.getId())) {
                 final KSTextBox valueWidget = new KSTextBox();
@@ -1042,8 +1046,8 @@ public class RuleComponentEditorView extends ViewComposite {
          	}
             	
             //need a better way to determine what pickers to use for given req. component type field
-            if ((editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.programList.enroll.oneof")) ||
-                        (editedReqComp.getRequiredComponentType().getId().equals("kuali.reqComponent.type.programList.enroll.none")))
+            if ((editedReqComp.getType().equals("kuali.reqComponent.type.programList.enroll.oneof")) ||
+                        (editedReqComp.getType().equals("kuali.reqComponent.type.programList.enroll.none")))
             {
                 final ReqCompPicker valueWidget;
                 valueWidget = configureProgramCluSetSearch(fieldLabel);
@@ -1117,7 +1121,7 @@ public class RuleComponentEditorView extends ViewComposite {
         editedReqComp.setDesc(desc);      						 //will be set after user is finished with all changes
         editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO
         editedReqComp.setReqCompFields(null);
-        editedReqComp.setRequiredComponentType(reqCompTypeInfo);
+        //editedReqComp.setRequiredComponentType(reqCompTypeInfo);
         if (reqCompTypeInfo != null) editedReqComp.setType(reqCompTypeInfo.getId());
         editedReqCompVO = new ReqComponentVO(editedReqComp);
     }

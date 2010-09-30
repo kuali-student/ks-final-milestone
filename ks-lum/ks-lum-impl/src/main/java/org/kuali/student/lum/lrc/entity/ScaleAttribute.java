@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSLU_LRC_SCALE_ATTR")
+@Table(name = "KSLR_SCALE_ATTR")
 public class ScaleAttribute extends Attribute<Scale> {
     @ManyToOne
     @JoinColumn(name = "OWNER")

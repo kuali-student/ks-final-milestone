@@ -12,8 +12,15 @@
 -- or implied. See the License for the specific language governing
 -- permissions and limitations under the License.
 --
+-- Enumerations 
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.subjectArea', 'Subject Area Enumeration', 'Subject Area Enumeration' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.campusLocation', 'Campus Location Enumeration', 'Campus Location Enumeration' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.atptype.duration', 'ATP Durations', 'ATP Durations' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.state', 'KS Data States', 'KS Data States' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.fee.feeType', 'Learning Unit Fee Type', 'Learning Unit Fee Type' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.fee.rateType', 'Learning Unit Rate Type', 'Learning Unit Rate Type' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
 
---Enumerations
+--Enumerated Values
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('1', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 1, 'Robotics');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('2', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 2, 'CompSci');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('3', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 3, 'Mechanical');

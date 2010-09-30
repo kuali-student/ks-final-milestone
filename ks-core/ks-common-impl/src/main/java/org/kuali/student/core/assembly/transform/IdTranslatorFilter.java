@@ -29,7 +29,7 @@ public class IdTranslatorFilter extends AbstractDataFilter {
 	 * data object and add translations to the data map's runtime data field.
 	 */
 	@Override
-	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,String> properties) {
+	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,Object> properties) {
         if (data != null && metadata != null) {
     		translateIds(data, metadata);
         }

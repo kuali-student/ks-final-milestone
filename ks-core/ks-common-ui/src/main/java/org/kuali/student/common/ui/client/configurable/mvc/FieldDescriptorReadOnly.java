@@ -41,5 +41,8 @@ public class FieldDescriptorReadOnly extends FieldDescriptor{
     	}
 	}
 
-
+	@Override
+    protected void setupField() {
+	    // do nothing for read-only fields
+    }
 }

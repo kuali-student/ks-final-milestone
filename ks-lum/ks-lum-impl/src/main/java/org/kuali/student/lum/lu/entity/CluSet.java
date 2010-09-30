@@ -110,9 +110,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public List<Clu> getClus() {
-		if(clus == null){
-			return new ArrayList<Clu>();
-		}
 		return clus;
 	}
 
@@ -153,9 +150,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public List<CluSet> getCluSets() {
-		if (cluSets == null) {
-			return new ArrayList<CluSet>();
-		}
 		return cluSets;
 	}
 
@@ -164,9 +158,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public List<CluSetAttribute> getAttributes() {
-		if (attributes == null) {
-			return new ArrayList<CluSetAttribute>();
-		}
 		return attributes;
 	}
 

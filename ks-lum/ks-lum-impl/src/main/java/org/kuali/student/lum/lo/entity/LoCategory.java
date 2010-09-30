@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +37,7 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_CATEGORY")
+@Table(name = "KSLO_LO_CATEGORY")
 public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryAttribute> {
 	@Id
 	@Column(name = "ID")
@@ -160,9 +159,6 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	 */
 	@Override
 	public List<LoCategoryAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoCategoryAttribute>(0);
-		}
 		return attributes;
 	}
 

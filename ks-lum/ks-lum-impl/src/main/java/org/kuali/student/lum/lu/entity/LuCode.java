@@ -77,9 +77,6 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	}
 
 	public List<LuCodeAttribute> getAttributes() {
-		if (attributes == null) {
-		    attributes = new ArrayList<LuCodeAttribute>();
-		}
 		return attributes;
 	}
 

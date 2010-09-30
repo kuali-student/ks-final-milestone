@@ -23,6 +23,10 @@
         EXPIR_DT="21001231000000" NAME="CLU Eligibilities"
         TYPE_DESC="CLU Eligibilities" TYPE_KEY="clu.eligibilities"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="21001231000000"
+        NAME="CLU Eligibilities and Pre-requisites"
+        TYPE_DESC="CLU Eligibilities and Pre-requisites" TYPE_KEY="clu.eligibilitiesandprerequisites"/>
+    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Entrance Requirements"
         TYPE_DESC="CLU Entrance Requirements" TYPE_KEY="clu.entrance"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"

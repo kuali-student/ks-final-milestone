@@ -39,6 +39,25 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 
     private StatementService statementService;
 
+    private class SetMetadata implements BOAssembler<StatementTreeViewInfo, StatementInfo>{
+
+		@Override
+		public StatementTreeViewInfo assemble(StatementInfo baseDTO,
+				StatementTreeViewInfo businessDTO, boolean shallowBuild)
+				throws AssemblyException {
+			businessDTO.setMetaInfo(baseDTO.getMetaInfo());
+			return null;
+		}
+
+		@Override
+		public BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> disassemble(
+				StatementTreeViewInfo businessDTO, NodeOperation operation)
+				throws AssemblyException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+    }
+
 	@Override
 	public StatementTreeViewInfo assemble(StatementInfo statementInfo, StatementTreeViewInfo treeViewInfo,
 			boolean shallowBuild)
@@ -47,7 +66,7 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 		StatementTreeViewInfo treeInfo = (treeViewInfo == null ? new StatementTreeViewInfo() : treeViewInfo);
 
 		try {
-			getStatementTreeViewHelper(statementInfo, treeInfo, shallowBuild);
+			assembleStatementTreeViewHelper(statementInfo, treeInfo, shallowBuild);
 		} catch (DoesNotExistException e) {
 			throw new AssemblyException(e);
 		} catch (InvalidParameterException e) {
@@ -75,50 +94,98 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 		}
 
 		BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(null);
+		BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result2 = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(null);
 		try {
-			disassembleStatementTreeHelper(newTree, operation, null, result);
+			disassembleStatementTreeHelper(newTree, operation, null, result, result2);
+			result.getChildNodes().addAll(result2.getChildNodes());
 		} catch (Exception e) {
 			throw new AssemblyException("Problems dissasembling StatementTreeView", e);
 		}
 		return result;
 	}
 
-	private void disassembleStatementTreeHelper(StatementTreeViewInfo statementTreeViewInfo, NodeOperation operation, String parentId, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	private String disassembleStatementTreeHelper(StatementTreeViewInfo statementTreeViewInfo, NodeOperation operation, StatementTreeViewInfo parent, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result, BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result2) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		if (statementTreeViewInfo == null) {
-			return;
+			return null;
 		}
 
-		StatementInfo statement = new StatementInfo();
-		copyValues(statement, statementTreeViewInfo);
-		statement.setId(UUIDHelper.genStringUUID(statement.getId()));
-		statement.setParentId(parentId);
+		NodeOperation myOperation = operation;
+		if (operation == NodeOperation.UPDATE) {
+			if (statementTreeViewInfo.getId() == null || statementTreeViewInfo.getId().isEmpty()) {
+				myOperation = NodeOperation.CREATE;
+			}
+		}
+		StatementInfo statement = (myOperation == NodeOperation.UPDATE ? statementService.getStatement(statementTreeViewInfo.getId()) : new StatementInfo());
+		BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> statementResult = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(null);
 
+		statementResult.setNodeData(statement);
+		statementResult.setBusinessDTORef(statementTreeViewInfo);
+		statementResult.setAssembler(new SetMetadata());
+		statementResult.setOperation(myOperation);
+
+		if (operation == NodeOperation.DELETE) {
+			statement.setId(statementTreeViewInfo.getId());
+		} else {
+			copyValues(statement, statementTreeViewInfo);
+			statement.setId(UUIDHelper.genStringUUID(statement.getId()));
+			if (statementTreeViewInfo.getId() == null || statementTreeViewInfo.getId().isEmpty()) {
+				statementTreeViewInfo.setId(statement.getId());
+			}
+		}
+
+		if (operation == NodeOperation.UPDATE) {
+			for (String deleteId : notIn(statement, statementTreeViewInfo)) {
+				for (String deleteTree : statement.getStatementIds()) {
+					if (deleteTree.equals(deleteId)) {
+						StatementTreeViewInfo delete = new StatementTreeViewInfo();
+						delete.setId(deleteId);
+						disassembleStatementTreeHelper(delete, NodeOperation.DELETE, null, result, result2);
+						List<String> children = statement.getStatementIds();
+						for (int i = 0; i < children.size(); i++) {
+							if (children.get(i).equals(deleteId)) {
+								children.remove(i);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
+			statement.getStatementIds().add(disassembleStatementTreeHelper(subStatement, operation, statementTreeViewInfo,result, result2));
+		}
+
+		if (myOperation == NodeOperation.CREATE) {
+			doReqComponents(statementTreeViewInfo, result, myOperation, statement);
+		}
+		result.getChildNodes().add(statementResult);
+
+		if (operation == NodeOperation.DELETE) {
+			doReqComponents(statementTreeViewInfo, result, myOperation, statement);
+		}
+
+		return statement.getId();
+	}
+
+
+	private void doReqComponents(StatementTreeViewInfo statementTreeViewInfo,
+			BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> result,
+			NodeOperation myOperation, StatementInfo statement) {
 		if (statementTreeViewInfo.getReqComponents() != null) {
 			for (ReqComponentInfo reqComponentInfo : statementTreeViewInfo.getReqComponents()) {
 				BaseDTOAssemblyNode<StatementTreeViewInfo, ReqComponentInfo> reqResult = new BaseDTOAssemblyNode<StatementTreeViewInfo, ReqComponentInfo>(null);
 				String reqId = UUIDHelper.genStringUUID(reqComponentInfo.getId());
 				reqComponentInfo.setId(reqId);
 				reqResult.setNodeData(reqComponentInfo);
-				reqResult.setOperation(operation);
+				reqResult.setOperation(myOperation);
 				result.getChildNodes().add(reqResult);
 				statement.getReqComponentIds().add(reqId);
 			}
 		}
-
-		BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> statementResult = new BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo>(null);
-
-		statementResult.setNodeData(statement);
-		statementResult.setBusinessDTORef(statementTreeViewInfo);
-		statementResult.setOperation(operation);
-		result.getChildNodes().add(statementResult);
-
-		for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
-			disassembleStatementTreeHelper(subStatement, operation, statementTreeViewInfo.getId(),result);
-		}
 	}
 
     /**
-     * @deprecated
      *
      * Goes through the list of statementIds in statementInfo and retrieves all
      * information regarding to the current statementInfo and all the
@@ -131,10 +198,12 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-    private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo,
+    private void assembleStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo,
     		final boolean shallowBuild)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        if (statementInfo == null) return;
+        if (statementInfo == null) {
+        	return;
+        }
 
         copyValues(statementTreeViewInfo, statementInfo);
         statementTreeViewInfo.setReqComponents(getReqComponentInfos(statementInfo));
@@ -148,7 +217,7 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 
         		if (!shallowBuild) {
         			// recursive call to get subStatementTreeViewInfo
-        			getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo, shallowBuild);
+        			assembleStatementTreeViewHelper(subStatement, subStatementTreeViewInfo, shallowBuild);
         		}
         		statements.add(subStatementTreeViewInfo);
         		statementTreeViewInfo.setStatements(statements);
@@ -157,49 +226,28 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
     }
 
 
-    /**
-    *
-    * @return a list of relationships in the first list but not in the second
-    */
-   private List<String> notIn(
-           StatementTreeViewInfo oldTree,
-           StatementTreeViewInfo newTree) {
-       List<String> results = new ArrayList<String>(17);
-       List<String> oldStatementIds = new ArrayList<String>(17);
-       List<String> newStatementIds = new ArrayList<String>(17);
-       getStatementIds(oldTree, oldStatementIds);
-       getStatementIds(newTree, newStatementIds);
-       if (oldStatementIds != null) {
-           for (String oldStatementId : oldStatementIds) {
-               boolean inNewStatementIds = false;
-               if (newStatementIds != null) {
-                   for (String newStatementId : newStatementIds) {
-                       if (oldStatementId.equals(newStatementId)) {
-                           inNewStatementIds = true;
-                       }
-                   }
-               }
-               if (!inNewStatementIds) {
-                   results.add(oldStatementId);
-               }
-           }
-       }
-       return results;
-   }
-
-   private void getStatementIds(StatementTreeViewInfo statementTreeViewInfo, List<String> statementIds) {
-       if (statementTreeViewInfo.getStatements() != null) {
-           for (StatementTreeViewInfo subTree : statementTreeViewInfo.getStatements()) {
-               getStatementIds(subTree, statementIds);
-           }
-       }
-       statementIds.add(statementTreeViewInfo.getId());
-   }
+	private List<String> notIn(StatementInfo oldTree,
+			StatementTreeViewInfo newTree) {
+		List<String> results = new ArrayList<String>(oldTree.getStatementIds().size());
+		for (String oldStatementId : oldTree.getStatementIds()) {
+			boolean inNewStatementIds = false;
+			if (newTree.getStatements() != null) {
+				for (StatementTreeViewInfo newStatement : newTree.getStatements()) {
+					if (oldStatementId.equals(newStatement.getId())) {
+						inNewStatementIds = true;
+					}
+				}
+			}
+			if (!inNewStatementIds) {
+				results.add(oldStatementId);
+			}
+		}
+		return results;
+	}
 
    private void updateStatementTreeViewHelper(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
        if (statementTreeViewInfo.getStatements() != null) {
            for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
-               subStatement.setParentId(statementTreeViewInfo.getId());
                updateStatementTreeViewHelper(subStatement);
            }
        }
@@ -248,7 +296,6 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
        StatementInfo newStatementInfo = null;
        if (statementTreeViewInfo.getStatements() != null) {
            for (StatementTreeViewInfo subTreeInfo : statementTreeViewInfo.getStatements()) {
-               subTreeInfo.setParentId(statementTreeViewInfo.getId());
                updateSTVHelperCreateStatements(subTreeInfo);
            }
        }
@@ -326,6 +373,16 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
         to.setOperator(from.getOperator());
         to.setState(from.getState());
         to.setType(from.getType());
+    }
+
+    public static void copyStatementValues(final StatementInfo to, final StatementInfo from) {
+    	copyValues(to, from);
+    	for (String id : from.getStatementIds()) {
+    		to.getStatementIds().add(id);
+    	}
+    	for (String id : from.getReqComponentIds()) {
+    		to.getReqComponentIds().add(id);
+    	}
     }
 
     /**

@@ -1,7 +1,11 @@
 package org.kuali.student.lum.program.client.edit;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -20,6 +24,13 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
 
     @Override
     protected void buildLayout() {
-        configurer.addReadOnlyField(rootSection, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new VerticalPanel()).setWidgetBinding(new VariationsBinding("/HOME/CURRICULUM_HOME/VARIATION_EDIT"));
+    	VerticalSection section = new VerticalSection();
+    	
+    	KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(ProgramProperties.get().programSpecialization_instructions());
+    	//isVariationRequiredCheckBox.setStyleName(style);
+    	configurer.addField(section, ProgramConstants.ISVARIATIONREQUIRED, null, isVariationRequiredCheckBox);
+        configurer.addField(section, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new VerticalPanel()).setWidgetBinding(new VariationsBinding("/HOME/CURRICULUM_HOME/VARIATION_EDIT"));
+        rootSection.addSection(section);
     }
+   
 }
