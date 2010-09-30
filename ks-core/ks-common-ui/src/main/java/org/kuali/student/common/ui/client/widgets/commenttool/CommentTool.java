@@ -116,7 +116,7 @@ public class CommentTool implements HasReferenceId {
     });
     
     private void init() {
-        commentLightBox = new KSLightBox();
+        commentLightBox = new KSLightBox("Comments");
         VerticalFlowPanel contentPanel = new VerticalFlowPanel();
         // light box title and instructions
         SectionTitle title = SectionTitle.generateH2Title(this.title);
@@ -142,7 +142,7 @@ public class CommentTool implements HasReferenceId {
         loggedInUserId = userId;
         loggedInUserNameHTML.setHTML("<b>" + userId + "</b>");
         loggedInLabelsPanel.add(loggedInUserNameHTML);
-        commentTextArea.setSize("500", "250");
+        commentTextArea.setSize("500", "100");
         commentEditPanel.add(commentTextArea);
         FlowPanel buttonsPanel = new FlowPanel();
         buttonsPanel.add(cancelEditButton);
@@ -244,7 +244,6 @@ public class CommentTool implements HasReferenceId {
 //        scrollPanel.setHeight(height)
         
         commentLightBox.setWidget(contentPanel);
-        commentLightBox.setSize(400, 400);
         setEditMode(EditMode.ADD_COMMENT);
     }
     

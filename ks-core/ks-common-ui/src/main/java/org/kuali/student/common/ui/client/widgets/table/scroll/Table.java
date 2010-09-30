@@ -1,5 +1,12 @@
 package org.kuali.student.common.ui.client.widgets.table.scroll;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -7,6 +14,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -16,16 +26,19 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 /**
  * A table with UiBinder.
  * 
  * */
-public class Table extends Composite {
+public class Table extends Composite implements HasRetrieveAdditionalDataHandlers{
 
 	private static TableUiBinder uiBinder = GWT.create(TableUiBinder.class);
+	private List<RetrieveAdditionalDataHandler> retrieveDataHandlers = new ArrayList<RetrieveAdditionalDataHandler>();
 
 	interface TableUiBinder extends UiBinder<Widget, Table> {
 	}
@@ -44,13 +57,30 @@ public class Table extends Composite {
 	SelectionStyle selectionStyle;
 	@UiField
 	ScrollPanel scrollPanel;
+	@UiField
+	HTMLPanel panel;
 
 	private TableModel tableModel;
+	private LoadingDiv loading = new LoadingDiv();
 
 	public Table() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		
+		scrollPanel.addScrollHandler(new ScrollHandler(){
+			@Override
+			public void onScroll(ScrollEvent event) {
+				int position = scrollPanel.getScrollPosition();
+				int size = scrollPanel.getWidget().getOffsetHeight();
+				int diff = size - scrollPanel.getOffsetHeight();
+				if(position == diff){
+					for(int i = 0; i < retrieveDataHandlers.size(); i++){
+						retrieveDataHandlers.get(i).onAdditionalDataRequest();
+					}
+				}
+			}
+		});
+			
+
 	}
     public FlexTable getHeader(){
         return header;
@@ -84,9 +114,6 @@ public class Table extends Composite {
 			return;
 		}
 		int cellIndex = cell.getCellIndex();
-		if(cellIndex == 0){
-			return;
-		}
 		int rowIndex = cell.getRowIndex();
 		Row row = tableModel.getRow(rowIndex);
 
@@ -102,6 +129,9 @@ public class Table extends Composite {
                 updateTableCell(r, 0);                    
             }	        
 	    }else{
+			if(cellIndex == 0){
+				return;
+			}
 	        row.setSelected(!row.isSelected());
 	        updateTableSelection();
 	        updateTableCell(rowIndex, 0);
@@ -235,6 +265,36 @@ public class Table extends Composite {
 				
 			}
 			header.getColumnFormatter().setWidth(i, col.getWidth());
+		}
+	}
+	@Override
+	public HandlerRegistration addRetrieveAdditionalDataHandler(
+			final RetrieveAdditionalDataHandler handler) {
+		retrieveDataHandlers.add(handler);
+        HandlerRegistration result = new HandlerRegistration() {
+            @Override
+            public void removeHandler() {
+            	retrieveDataHandlers.remove(handler);
+            }
+        };
+        return result;
+	}
+	
+	public void displayLoading(boolean isLoading){
+		
+		final int x = scrollPanel.getAbsoluteLeft() + scrollPanel.getOffsetWidth();
+		final int y = scrollPanel.getAbsoluteTop() + scrollPanel.getOffsetHeight();
+		if(isLoading){
+			loading.setPopupPositionAndShow(new PositionCallback(){
+
+				@Override
+				public void setPosition(int offsetWidth, int offsetHeight) {
+					loading.setPopupPosition(x - offsetWidth, y + 1);
+				}
+			});
+		}
+		else{
+			loading.hide();
 		}
 	}
 }

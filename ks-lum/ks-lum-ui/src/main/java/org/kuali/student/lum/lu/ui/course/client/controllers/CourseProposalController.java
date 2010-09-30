@@ -52,6 +52,7 @@ import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
@@ -157,7 +158,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	//TODO get from messages
 
    		proposalPath = cfg.getProposalPath();
-   		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath, createOnWorkflowSubmitSuccessHandler());
+   		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath);
 
         super.setDefaultModelId(cfg.getModelId());
         super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
@@ -321,16 +322,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         
     }
-
-    private CloseHandler<KSLightBox> createOnWorkflowSubmitSuccessHandler() {
-    	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
-			@Override
-			public void onClose(CloseEvent<KSLightBox> event) {
-				removeMenuNavigation();
-			}
-    	};
-		return handler;
-	}
 
 	/**
      * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
@@ -798,6 +789,38 @@ public class CourseProposalController extends MenuEditableSectionController impl
 			}
 		});
 	}
+	
+    public KSButton getSaveButton(){
+    	if(isNew){
+	        return new KSButton("Save and Continue", new ClickHandler(){
+	                    public void onClick(ClickEvent event) {
+	                    	CourseProposalController.this.fireApplicationEvent(new SaveActionEvent(true));
+	                    }
+	                });
+    	}
+    	else{
+    		return new KSButton("Save", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    CourseProposalController.this.fireApplicationEvent(new SaveActionEvent(false));
+                }
+            });
+    	}
+    }
+    
+    public KSButton getCancelButton(final Enum<?> summaryView){
+    	
+        return new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                    	if(!isNew){
+                    		CourseProposalController.this.showView(summaryView);
+                    	}
+                    	else{
+                    		Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+                    	}
+                    }
+                });
+
+    }
 	
 	@Override
 	public void onHistoryEvent(String historyStack) {

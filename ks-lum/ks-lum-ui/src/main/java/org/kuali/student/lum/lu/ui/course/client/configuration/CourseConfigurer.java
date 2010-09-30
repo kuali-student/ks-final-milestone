@@ -121,9 +121,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
         groupName = LUConstants.COURSE_GROUP_NAME;
 
-        addCluStartSection(layout);
-
         if (modelDefinition.getMetadata().isCanEdit()) {
+        	addCluStartSection(layout);
             String sections = getLabel(LUConstants.COURSE_SECTIONS);
 
             //ProposalInformation
@@ -155,13 +154,14 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             
             //Summary
             CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout);
-            layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(), "Review and Submit");
+            layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
             List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
             excludedViews.add(CourseSections.PEOPLE_PERMISSOMS);
             excludedViews.add(CourseSections.DOCUMENTS);
-            layout.addCommonButton(LUConstants.COURSE_SECTIONS, getSaveAndContinueButton(layout), excludedViews);
+            layout.addCommonButton(LUConstants.COURSE_SECTIONS, layout.getSaveButton(), excludedViews);
+            layout.addCommonButton(LUConstants.COURSE_SECTIONS, layout.getCancelButton(CourseSections.SUMMARY), excludedViews);
             
             //Specific buttons for certain views
             //TODO people and permissions will use a different button than continue
@@ -171,7 +171,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         else{
         	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout);
         	 layout.removeMenuNavigation();
-             layout.addView(summaryConfigurer.generateProposalSummarySection());
+             layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
         
         layout.setDefaultView(CourseSections.SUMMARY);
@@ -198,48 +198,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             }
         }));
 
-//      addCluStartSection(layout);
-//
-//      if(modelDefinition.getMetadata().isCanEdit()) {
-//          String editTabLabel = getLabel(LUConstants.EDIT_TAB_LABEL_KEY);
-//
-//          //ProposalInformation
-//          layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateAuthorsRationaleSection());
-//
-//          //Course Content
-//          layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
-//
-//          layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseLogisticsSection());
-//          /*
-//              layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
-//            */
-//
-//          //Student Eligibility
-//          layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
-//
-//              //Administrative
-//              layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateGovernanceSection());
-//              layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
-//              //layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
-//      }
-//      //Review Proposal Tab
-//      ViewCourseProposalSummaryConfigurer summaryConfigurer = new ViewCourseProposalSummaryConfigurer(type, state, groupName, modelDefinition);
-//      layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, summaryConfigurer.generateSummarySection());
-//
-//      //Tool Tabs
-//          layout.addTool(new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
-//              getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
-//          layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
-//          layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
-
-    }
-    
-    protected KSButton getSaveAndContinueButton(final CourseProposalController layout){
-        return new KSButton("Save and Continue", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        layout.fireApplicationEvent(new SaveActionEvent(true));
-                    }
-                });
     }
     
     protected KSButton getContinueButton(final CourseProposalController layout){
@@ -250,13 +208,14 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                 });
     }
 
-    public void addCluStartSection(WorkflowEnhancedNavController layout) {
+    public void addCluStartSection(CourseProposalController layout) {
         VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
 
         //addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
         layout.addStartViewPopup(section);
+        layout.getStartPopup().setMaxHeight(200);
     }
 
     protected View generateCourseRequisitesSection(Controller layout) {
@@ -654,7 +613,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 false),
                         new MultiplicityFieldConfig(
                                 CONTACT_HOURS + "/" + "unitType",
-                                LUConstants.CONTACT_HOURS_FREQUENCY_LABEL_KEY,
+                                "",
                                 null,
                                 null,
                                 true),
@@ -811,32 +770,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             super.setListItems(list);
         }
     }
-
-    /*
-     * Configuring Program specific screens.
-     */
-
-    public void configureProgramProposal(WorkflowEnhancedNavController layout, String objectKey, String typeKey, String stateKey) {
-
-        groupName = LUConstants.PROGRAM_GROUP_NAME;
-
-        addCluStartSection(layout);
-
-        String programSections = "Program Sections";
-
-        layout.addMenu(programSections);
-        layout.addMenuItem(programSections, generateProgramInfoSection());
-
-        String tools = "Tools";
-        layout.addMenu(tools);
-        layout.addMenuItem(tools, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
-               getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
-        layout.addMenuItem(tools, new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
-        layout.addMenuItem(tools, new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
-
-        groupName = LUConstants.PROGRAM_GROUP_NAME;
-    }
-
 
     public SectionView generateProgramInfoSection() {
         VerticalSectionView section = initSectionView(CourseSections.PROGRAM_INFO, LUConstants.INFORMATION_LABEL_KEY);

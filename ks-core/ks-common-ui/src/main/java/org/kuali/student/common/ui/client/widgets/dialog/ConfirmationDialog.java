@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class ConfirmationDialog {
 	private KSLightBox dialog;
 
-	private KSButton cancel = new KSButton("Cancel", ButtonStyle.DEFAULT_ANCHOR);
+	private KSButton cancel = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED);
 	private KSButton confirm = new KSButton("Confirm", ButtonStyle.PRIMARY_SMALL);
 	private HorizontalBlockFlowPanel buttonPanel = new HorizontalBlockFlowPanel();
 	private KSLabel messageLabel = new KSLabel();
@@ -61,16 +61,14 @@ public class ConfirmationDialog {
 		});
 		
 		messageLabel.setText(message);
-		buttonPanel.add(cancel);
-		buttonPanel.add(confirm);
+		dialog.addButton(confirm);
+		dialog.addButton(cancel);
 		layout.add(messageLabel);
 		layout.add(buttonPanel);
-		cancel.addStyleName("ks-button-spacing");
-		confirm.addStyleName("ks-buttton-spacing");
 		layout.addStyleName("ks-confirmation-message-layout");
 		messageLabel.setStyleName("ks-confirmation-message-label");
 		dialog.setWidget(layout);
-		
+		dialog.setSize(600, 100);
 	}
 	
 	public void show(){

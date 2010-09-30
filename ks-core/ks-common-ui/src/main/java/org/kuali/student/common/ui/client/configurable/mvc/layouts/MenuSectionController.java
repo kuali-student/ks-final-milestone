@@ -34,7 +34,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
     private KSDocumentHeader header = new KSDocumentHeader();
     private FlowPanel rightPanel = new FlowPanel();
     private FlowPanel contentPanel = new FlowPanel();
-    private HorizontalBlockFlowPanel buttonPanel = new HorizontalBlockFlowPanel();
+    private FlowPanel buttonPanel = new FlowPanel();
     private boolean refreshMenuOnAdd = true;
     private VerticalCollapsableDrawer collapsablePanel = new VerticalCollapsableDrawer();
 
@@ -129,6 +129,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
         List<KSButton> buttons = viewButtonsMap.get(viewType);
         if(buttons == null){
             buttons = new ArrayList<KSButton>();
+            button.addStyleName("ks-button-spacing");
             buttons.add(button);
             viewButtonsMap.put(viewType, buttons);
         }

@@ -32,10 +32,11 @@ public class ButtonMessageDialog<T extends ButtonEnum> {
 		dialog = new KSLightBox(titleText);		
 		messageLabel.setText(message);
 		layout.add(messageLabel);
-		layout.add(buttons);
+		dialog.addButtonGroup(buttons);
 		layout.addStyleName("ks-confirmation-message-layout");
 		messageLabel.setStyleName("ks-confirmation-message-label");
 		dialog.setWidget(layout);
+		dialog.setSize(600, 100);
 	}
 	
 	public void show(){

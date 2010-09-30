@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -69,7 +70,9 @@ public class SearchPanel extends Composite{
     private String criteriaInstructions = getMessage("searchPanelEnterFields");
     private KSLabel enteredCriteriaHeading = new KSLabel(getMessage("searchPanelCriteria"));
     private SearchResultsTable table;
-    public static enum SearchStyle{ADVANCED, CUSTOM}; 
+    private boolean isMultiSelect = true;
+
+	public static enum SearchStyle{ADVANCED, CUSTOM}; 
     private ActionCancelGroup actionCancelButtons;
 
     private String actionLabel = getMessage("search");  //set default action label
@@ -107,6 +110,15 @@ public class SearchPanel extends Composite{
         this.initWidget(layout);
     }
 
+    @SuppressWarnings("unchecked")
+	public ButtonGroup getButtons(){
+    	return actionCancelButtons;
+    }
+    
+    public void setMutipleSelect(boolean isMultiSelect){
+    	this.isMultiSelect = isMultiSelect;
+    }
+    
     public void setupButtons() {
         if (actionCancelButtons != null) {
             actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
@@ -171,6 +183,7 @@ public class SearchPanel extends Composite{
         resultsTablePanel.add(enteredCriteriaString);
         resultsTablePanel.setVisible(false);        
         table = new SearchResultsTable();
+        table.setMutipleSelect(isMultiSelect);
         table.addStyleName("KS-Advanced-Search-Results-Table");
         resultsTablePanel.add(table);
         layout.add(resultsTablePanel); 

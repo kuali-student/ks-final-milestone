@@ -73,7 +73,8 @@ html,body {
   margin: 0em 0.25em 0.25em 0.25em;
   font-size: 1.2em;
   color: #000000;
-	
+  pointer: move;
+  cursor: move;
 }
 
 .ks-lightbox-mainPanel{
@@ -92,8 +93,8 @@ html,body {
 	display:block;
 	z-index:9999;
 	position:absolute;
-	right:-20px;
-    top:-20px;
+	right:-18px;
+    top:-18px;
 	cursor:pointer;
 	float:right;
 }
@@ -125,9 +126,9 @@ html,body {
 }
 .gwt-PopupPanelGlass {
   background-color: #000;
-  opacity: 0.1;
+  opacity: 0.3;
   filter: literal("alpha(opacity=30)");
-  z-index: -1;
+  z-index: 1;
 }
 
 .ks-lightbox .popupContent {
@@ -166,8 +167,8 @@ html,body {
 	display:block;
 	z-index:9999;
 	position:absolute;
-	top:2px;
-	right:0px;
+	top:5px;
+	right:5px;
 	cursor:pointer;
 	clear: both;
 }
@@ -175,10 +176,14 @@ html,body {
 	background: url('images/common/lightbox_close_hover.png') no-repeat;
 }
 
+.ks-button-spacing{
+	margin-right: 10px;
+}
+
 .ks-notification-container {
 	position: absolute;
 	right: 25px;
-	bottom: 100px;
+	bottom: 25px;
 	overflow: visible;
 }
 
