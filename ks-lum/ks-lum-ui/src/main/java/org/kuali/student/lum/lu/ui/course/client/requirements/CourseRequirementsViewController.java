@@ -165,7 +165,7 @@ public class CourseRequirementsViewController extends BasicLayout {
         reqComponents.add(reqComp1);
         reqComponents.add(reqComp2);
         subTree1.setReqComponents(reqComponents);
-        subTree1.setNaturalLanguageTranslation("Permission of English Department required or May be repeated for a maximum of 3 credits");
+//        subTree1.setNaturalLanguageTranslation("Permission of English Department required or May be repeated for a maximum of 3 credits");
         subTree1.setOperator(StatementOperatorTypeKey.OR);
 
         subTree2.setId("STMT-TV-3");
@@ -182,12 +182,12 @@ public class CourseRequirementsViewController extends BasicLayout {
         reqComponents2.add(reqComp3);
         reqComponents2.add(reqComp4);
         subTree2.setReqComponents(reqComponents2);
-        subTree2.setNaturalLanguageTranslation("Permission of Math Department required and May be repeated for a maximum of 5 credits");
+//        subTree2.setNaturalLanguageTranslation("Permission of Math Department required and May be repeated for a maximum of 5 credits");
         subTree2.setOperator(StatementOperatorTypeKey.AND);
 
-       stmtTreeInfo.setNaturalLanguageTranslation(
-               "Permission of English Department required or May be repeated for a maximum of 3 credits " +
-        		"and Permission of Math Department required and May be repeated for a maximum of 5 credits");
+//       stmtTreeInfo.setNaturalLanguageTranslation(
+//               "Permission of English Department required or May be repeated for a maximum of 3 credits " +
+//        		"and Permission of Math Department required and May be repeated for a maximum of 5 credits");
        stmtTreeInfo.setOperator(StatementOperatorTypeKey.AND);
 
         return stmtTreeInfo;

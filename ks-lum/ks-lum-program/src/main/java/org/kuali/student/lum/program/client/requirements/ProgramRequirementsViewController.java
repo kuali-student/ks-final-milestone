@@ -170,8 +170,8 @@ public class ProgramRequirementsViewController extends BasicLayout {
         reqComponents.add(reqComp1);
         reqComponents.add(reqComp2);
         subTree1.setReqComponents(reqComponents);
-        subTree1.setNaturalLanguageTranslation("Must have successfully completed all of (Sociology and CORE Advanced Studies) programs " +
-        		"or must have earned a minimum GPA of 2.00 in (MATH111, 140, 220, and STAT100)");
+//        subTree1.setNaturalLanguageTranslation("Must have successfully completed all of (Sociology and CORE Advanced Studies) programs " +
+//        		"or must have earned a minimum GPA of 2.00 in (MATH111, 140, 220, and STAT100)");
         subTree1.setOperator(StatementOperatorTypeKey.OR);
 
         subTree2.setId("STMT-TV-3");
@@ -188,13 +188,13 @@ public class ProgramRequirementsViewController extends BasicLayout {
         reqComponents2.add(reqComp3);
         reqComponents2.add(reqComp4);
         subTree2.setReqComponents(reqComponents2);
-        subTree2.setNaturalLanguageTranslation("Must have successfully completed a minimum of 14 courses from ( Sociology and CORE Advanced Studies) programs " +
-                "and must be admitted to program prior to earning 60 credits");
+//        subTree2.setNaturalLanguageTranslation("Must have successfully completed a minimum of 14 courses from ( Sociology and CORE Advanced Studies) programs " +
+//                "and must be admitted to program prior to earning 60 credits");
         subTree2.setOperator(StatementOperatorTypeKey.AND);
 
-       stmtTreeInfo.setNaturalLanguageTranslation(
-               "(Student must have completed all of MATH 152, MATH 180 or Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        		"and (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)");
+//       stmtTreeInfo.setNaturalLanguageTranslation(
+//               "(Student must have completed all of MATH 152, MATH 180 or Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
+//        		"and (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)");
        stmtTreeInfo.setOperator(StatementOperatorTypeKey.AND);
 
         return stmtTreeInfo;
