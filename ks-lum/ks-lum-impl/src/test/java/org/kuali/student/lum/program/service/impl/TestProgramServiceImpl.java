@@ -23,7 +23,6 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -911,7 +910,6 @@ public class TestProgramServiceImpl {
 	}
 
 	@Test(expected=DoesNotExistException.class)
-	@Ignore
 	public void testUpdateProgramRequirement() throws Exception {
 		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
         StatementTreeViewInfo treeView = progReq.getStatement();

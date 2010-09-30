@@ -24,6 +24,7 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.service.assembler.LoCategoryRelationInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -289,6 +290,25 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				break;
 			case DELETE:
 				statementService.deleteReqComponent(reqComp.getId());
+				break;
+			}
+		}else if(nodeData instanceof StatementTreeViewInfo){
+			StatementTreeViewInfo treeView = (StatementTreeViewInfo) nodeData;
+			switch(results.getOperation()){
+			case CREATE:
+				StatementTreeViewInfo created = statementService.createStatementTreeView(treeView);
+				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
+					results.getAssembler().assemble(created, results.getBusinessDTORef(), true);
+				}
+				break;
+			case UPDATE:
+				StatementTreeViewInfo updated = statementService.updateStatementTreeView(treeView.getId(), treeView);
+				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
+					results.getAssembler().assemble(updated, results.getBusinessDTORef(), true);
+				}
+				break;
+			case DELETE:
+				statementService.deleteStatementTreeView(treeView.getId());
 				break;
 			}
 		}else{
