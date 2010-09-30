@@ -516,7 +516,6 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
     <bean id="programRequirementAssembler"
