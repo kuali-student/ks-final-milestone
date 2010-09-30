@@ -16,9 +16,7 @@ import com.google.gwt.core.client.GWT;
 /**
  * @author Igor
  */
-public class ViewAllSectionConfiguration extends AbstractSectionConfiguration {
-
-    private ProgramController viewController;
+public class ViewAllSectionConfiguration extends AbstractControllerConfiguration{
 
     public ViewAllSectionConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.VIEW_ALL, ProgramProperties.get().program_menu_sections_viewAll(), ProgramConstants.PROGRAM_MODEL_ID, false);
@@ -35,13 +33,9 @@ public class ViewAllSectionConfiguration extends AbstractSectionConfiguration {
         configurationManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesViewConfiguration.class));
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
-            ((AbstractControllerConfiguration) configuration).setController(viewController);
+            ((AbstractControllerConfiguration) configuration).setController(controller);
             }
             rootSection.addSection((Section) configuration.getView());
         }
-    }
-
-    public void setViewController(ProgramController viewController) {
-        this.viewController = viewController;            
     }
 }

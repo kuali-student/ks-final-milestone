@@ -39,8 +39,4 @@ public class BaccViewAllSectionsConfiguration extends AbstractSectionConfigurati
             rootSection.addSection((Section) configuration.getView());
         }
     }
-
-    public void setViewController(ProgramController viewController) {
-        this.viewController = viewController;
-    }
 }
