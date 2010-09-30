@@ -478,6 +478,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				cluProposalModel.setRoot(result.getValue());
 				setProposalHeaderTitle();
 		        setLastUpdated();
+		        //add to recently viewed now that we know the id of proposal
+		        ViewContext docContext = new ViewContext();
+		        docContext.setId((String) cluProposalModel.get(cfg.getProposalPath()+"/id"));
+		        docContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+		        RecentlyViewedHelper.addDocument(getProposalTitle(), 
+		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext) 
+		        		+ "/SUMMARY");
 		        getCourseComparisonModel(callback, workCompleteCallback);
 			}
 			
@@ -584,7 +591,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 			RecentlyViewedHelper.addCurrentDocument(title);
                 		}
                 		else if(!currentTitle.equals(title)){
-                			RecentlyViewedHelper.updateTitle(currentTitle, title);
+                			RecentlyViewedHelper.updateTitle(currentTitle, title, (String)cluProposalModel.get(proposalPath+"/id"));
                 		}
                 		isNew = false;
 	    	            View currentView = getCurrentView();
@@ -791,7 +798,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 	
     public KSButton getSaveButton(){
-    	if(isNew){
+    	if(currentDocType != MODIFY_TYPE){
 	        return new KSButton("Save and Continue", new ClickHandler(){
 	                    public void onClick(ClickEvent event) {
 	                    	CourseProposalController.this.fireApplicationEvent(new SaveActionEvent(true));
@@ -825,9 +832,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	@Override
 	public void onHistoryEvent(String historyStack) {
 		super.onHistoryEvent(historyStack);
-		if(cluProposalModel.get(cfg.getProposalTitlePath()) != null){
+		//we dont want to add proposals that are brand new before saving, or copy addresses (as they will initiate
+		//the modify/copy logic again if called)
+		if(cluProposalModel.get(cfg.getProposalTitlePath()) != null && 
+				this.getViewContext().getIdType() != IdType.COPY_OF_OBJECT_ID){
 			RecentlyViewedHelper.addCurrentDocument(getProposalTitle());
-
 		}
 	}
 	

@@ -195,7 +195,7 @@
 	<bean parent="enCourse" p:id="cluSubjectCode-watermark" p:value="AAAA" />
 	<bean parent="enCourse" p:id="cluCourseNumber" p:value="Course Number" />
 	<bean parent="enCourse" p:id="cluCourseNumber-constraints" p:value="Must be 3 digit number" />
-	<bean parent="enCourse" p:id="cluCourseNumber-watermark" p:value="000" />
+	<bean parent="enCourse" p:id="cluCourseNumber-watermark" p:value="111" />
 	<bean parent="enCourse" p:id="cluCrossListedVersionJoin" p:value="Cross List, Offer Jointly, Add Version Codes" />
 	<bean parent="enCourse" p:id="cluCourseNumberOrTitle" p:value="Course Number or Title" />
 	<bean parent="enCourse" p:id="cluCourseNumberOrTitle-instruct" p:value="Enter an existing course or proposal." />

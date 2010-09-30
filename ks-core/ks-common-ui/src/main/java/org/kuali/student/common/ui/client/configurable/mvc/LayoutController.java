@@ -281,6 +281,10 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		this.defaultView = viewType;
 	}
 	
+	public Enum<?> getDefaultView(){
+		return this.defaultView;
+	}
+	
 	public abstract void updateModel();
 	
 	public void updateModelFromView(Enum<?> viewType){
