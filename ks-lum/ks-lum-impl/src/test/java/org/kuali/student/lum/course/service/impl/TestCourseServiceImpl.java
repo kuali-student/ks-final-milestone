@@ -15,12 +15,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.CurrencyAmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
@@ -34,6 +36,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
@@ -60,7 +63,7 @@ public class TestCourseServiceImpl {
     CourseService courseService;
 
     Set<String> subjectAreaSet = new TreeSet<String>(Arrays.asList(CourseDataGenerator.subjectAreas));
-    
+
     @Test
     public void testCreateCourse() throws Exception {
      System.out.println ("testCreateCourse");
@@ -74,11 +77,11 @@ public class TestCourseServiceImpl {
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getType());
             assertEquals(cInfo.getStartTerm(),createdCourse.getStartTerm());
             assertEquals(cInfo.getEndTerm(),createdCourse.getEndTerm());
-        } 
+        }
         catch (DataValidationErrorException e)
         {
            dumpValidationErrors (cInfo);
-           fail("DataValidationError: " + e.getMessage());         
+           fail("DataValidationError: " + e.getMessage());
         }  catch (Exception e) {
         	e.printStackTrace();
             fail(e.getMessage());
@@ -107,7 +110,7 @@ public class TestCourseServiceImpl {
             // get it fresh from database
             CourseInfo retrievedCourse = courseService.getCourse(createdCourse.getId());
             assertNotNull(retrievedCourse);
-                        
+
             // confirm it has the right contents
             assertEquals("323", retrievedCourse.getCode().substring(4));
             assertEquals("323", retrievedCourse.getCourseNumberSuffix());
@@ -173,7 +176,7 @@ public class TestCourseServiceImpl {
 
             String atpType = retrievedCourse.getTermsOffered().get(0);
             CluInstructorInfo instructor = retrievedCourse.getPrimaryInstructor();
-                   
+
 
 
             assertTrue("termsOffered-48".equals(atpType) || "termsOffered-49".equals(atpType));
@@ -194,10 +197,10 @@ public class TestCourseServiceImpl {
 
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-31"));
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-32"));
-            
+
             assertEquals(createdCourse.isPilotCourse(),cInfo.isPilotCourse());
             assertEquals(createdCourse.isSpecialTopicsCourse(), cInfo.isSpecialTopicsCourse());
-            
+
             // TODO - check variotions
         } catch (Exception e) {
         	e.printStackTrace();
@@ -258,7 +261,7 @@ public class TestCourseServiceImpl {
             assertEquals(2, createdCourse.getFormats().get(0).getActivities().size());
             createdCourse.getFormats().get(0).getActivities().remove(0);
             String updActFrmtId = createdCourse.getFormats().get(0).getId();
-            
+
             // Add two New formats
             FormatInfo newFormat = new FormatInfo();
             newFormat.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
@@ -266,7 +269,7 @@ public class TestCourseServiceImpl {
             Map<String, String> attrMap = new HashMap<String, String>();
             attrMap.put("FRMT", "value");
             newFormat.setAttributes(attrMap);
-            
+
             // Add two new activities to new formats
             ActivityInfo newActivity1 = new ActivityInfo();
             newActivity1.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
@@ -297,10 +300,10 @@ public class TestCourseServiceImpl {
             createdCourse.getCreditOptions().add(rsltComp);
             createdCourse.getGradingOptions().remove(1);
             createdCourse.getGradingOptions().add("NewGradingOption");
-            
+
             createdCourse.setSpecialTopicsCourse(false);
             createdCourse.setPilotCourse(false);
-            
+
             createdCourse.getCourseSpecificLOs().get(0).getLoInfo().getDesc().setPlain("UPDATED!!!");
             createdCourse.getCourseSpecificLOs().remove(1);
             LoDisplayInfo displayInfo = new LoDisplayInfo();
@@ -310,7 +313,7 @@ public class TestCourseServiceImpl {
             createdCourse.getCourseSpecificLOs().get(1).getLoInfo().getDesc().setPlain("BrandNew!!!");
             createdCourse.getCourseSpecificLOs().get(1).getLoCategoryInfoList().add(new LoCategoryInfo());
             createdCourse.getCourseSpecificLOs().get(1).getLoCategoryInfoList().get(0).setId("category-3");
-            
+
             createdCourse.getFeeJustification().setFormatted("NEWJUSTIFICATION");
             createdCourse.getFees().clear();
             createdCourse.getFees().add(new CourseFeeInfo());
@@ -323,8 +326,8 @@ public class TestCourseServiceImpl {
             createdCourse.getRevenues().get(0).getAffiliatedOrgs().add(new AffiliatedOrgInfo());
             createdCourse.getRevenues().get(0).getAffiliatedOrgs().get(0).setOrgId("NEWORG");
             createdCourse.getRevenues().get(0).getAffiliatedOrgs().get(0).setPercentage(Long.valueOf(99));
-            
-            
+
+
             //Perform the update
             try {
             System.out.println ("updating course...");
@@ -345,7 +348,7 @@ public class TestCourseServiceImpl {
                     String actType = uFrmt.getActivities().get(0).getActivityType();
                     assertTrue(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE.equals(actType) || CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE.equals(actType));
                 }
-             
+
                 // Check to see if activity is deleted from an existing format
                 if(updActFrmtId.equals(uFrmt.getId())) {
                     assertEquals(1, uFrmt.getActivities().size());
@@ -398,7 +401,7 @@ public class TestCourseServiceImpl {
         assertEquals(5, updatedCourse.getAttributes().size());
         assertNotNull(updatedCourse.getAttributes().get("testKey"));
         assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
-        
+
         assertEquals(2,updatedCourse.getCreditOptions().size());
 //        assertTrue(updatedCourse.getCreditOptions().contains("creditOptions-18"));
 //        assertTrue(updatedCourse.getCreditOptions().contains("NewCreditOption"));
@@ -407,11 +410,11 @@ public class TestCourseServiceImpl {
 
         assertTrue(updatedCourse.getGradingOptions().contains("gradingOptions-31"));
         assertTrue(updatedCourse.getGradingOptions().contains("NewGradingOption"));
-        
+
         assertFalse(updatedCourse.isSpecialTopicsCourse());
         assertFalse(updatedCourse.isPilotCourse());
-        
-        
+
+
         assertEquals("NEWJUSTIFICATION",updatedCourse.getFeeJustification().getFormatted());
         assertEquals("UpdatedFeeType",updatedCourse.getFees().get(0).getFeeType());
         assertEquals(Integer.valueOf(10),updatedCourse.getFees().get(0).getFeeAmounts().get(0).getCurrencyQuantity());
@@ -445,7 +448,7 @@ public class TestCourseServiceImpl {
         }
     }
 
-   
+
     @Test
     public void testDynamicAttributes() {
      System.out.println ("testDynamicAttributes");
@@ -453,13 +456,13 @@ public class TestCourseServiceImpl {
          try {
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
-                     
+
             Map<String, String> attrMap = new HashMap<String, String>();
             attrMap.put("finalExamStatus","GRD");
             attrMap.put("altFinalExamStatusDescr", "Some123description");
             attrMap.put("proposalTitle", "proposalTitle-1");
             attrMap.put("proposalRationale", "proposalRationale");
-            
+
             cInfo.setAttributes(attrMap);
 
             try {
@@ -472,9 +475,9 @@ public class TestCourseServiceImpl {
              fail("failed creating course:" + e.getMessage());
             }
             // Check in LuService if the attributes are mapped properly
-            
+
             //CourseInfo rInfo = courseService.getCourse(cInfo.getId());
-            
+
             assertEquals("GRD", cInfo.getAttributes().get("finalExamStatus"));
             assertEquals("Some123description", cInfo.getAttributes().get("altFinalExamStatusDescr"));
 
@@ -484,38 +487,38 @@ public class TestCourseServiceImpl {
             e.printStackTrace (System.out);
             e.printStackTrace();
             fail (e.getMessage ());
-        } 
-        
+        }
+
 
     }
-    
-    
-    
+
+
+
     @Test
     public void testCluIsUpdated() {
-        
+
     }
-    
+
 	@Test
 	public void testGetMetadata(){
   System.out.println ("testGetMetadata");
 		MetadataServiceImpl metadataService = new MetadataServiceImpl(courseService);
 		metadataService.setUiLookupContext("classpath:lum-ui-test-lookup-context.xml");
         Metadata metadata = metadataService.getMetadata("org.kuali.student.lum.course.dto.CourseInfo");
-            
+
         Map<String, Metadata> properties = metadata.getProperties();
         assertTrue(properties.size() > 0);
-        
+
         assertTrue(properties.containsKey("state"));
         assertTrue(properties.containsKey("campusLocations"));
-           
+
         assertTrue(properties.containsKey("formats"));
         metadata = properties.get("formats");
-        
+
         properties = metadata.getProperties();
         assertTrue(properties.containsKey("*"));
         metadata = properties.get("*");
-               
+
         properties = metadata.getProperties();
         assertTrue(properties.containsKey("activities"));
         metadata = properties.get("activities");
@@ -526,36 +529,121 @@ public class TestCourseServiceImpl {
 
         properties = metadata.getProperties();
         assertFalse(properties.containsKey("foo"));
-        
+
         return;
 	}
-	
+
 	@Test
 	public void testCourseVersioning() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, IllegalVersionSequencingException{
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo);
-        
+
         try{
         	courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version");
         	assertTrue(false);
         }catch(Exception e){
         	assertTrue(true);
         }
-        
+
         //Make the created the current version
         courseService.setCurrentCourseVersion(createdCourse.getId(), null);
-        
-        CourseInfo newCourse = null; 
+
+        CourseInfo newCourse = null;
         try{
         	newCourse = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version");
         	assertTrue(true);
         }catch(Exception e){
         	assertTrue(false);
         }
-        
-        
+
+
         assertNotNull(newCourse);
-        
+
 	}
+
+	@Test
+	public void testGetCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+		String courseId = "COURSE-STMT-1";
+		String nlUsageTypeKey = null;
+		String language = null;
+		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+		checkTreeView(courseStatements.get(0), false);
+	}
+
+	@Test
+	@Ignore
+	public void testCreateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		final String courseId = "COURSE-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo );
+		assertNotNull(createdTree);
+	}
+
+	@Test
+	@Ignore
+	public void testDeleteCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		String courseId = null;
+		StatementTreeViewInfo statementTreeViewInfo = null;
+		StatusInfo status = courseService.deleteCourseStatement(courseId, statementTreeViewInfo);
+		assertTrue(status.getSuccess());
+	}
+
+	@Test
+	@Ignore
+	public void testUpdateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		String courseId = null;
+		StatementTreeViewInfo statementTreeViewInfo = null;
+		StatementTreeViewInfo updatedTree = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
+		assertNotNull(updatedTree);
+	}
+
+	private static void checkTreeView(final StatementTreeViewInfo rootTree,  final boolean checkNaturalLanguage) {
+        assertNotNull(rootTree);
+        List<StatementTreeViewInfo> subTreeView = rootTree.getStatements();
+        assertNotNull(subTreeView);
+        assertEquals(2, subTreeView.size());
+        StatementTreeViewInfo subTree1 = subTreeView.get(0);
+        StatementTreeViewInfo subTree2 = subTreeView.get(1);
+
+        // Check root tree
+        assertNotNull(rootTree);
+        assertEquals(2, subTreeView.size());
+        assertNotNull(subTree1);
+        assertNotNull(subTree2);
+
+        // Check reqComps of sub-tree 1
+        assertEquals("STMT-TV-2", subTree1.getId());
+        assertEquals(2, subTree1.getReqComponents().size());
+        assertEquals("REQCOMP-TV-1", subTree1.getReqComponents().get(0).getId());
+        assertEquals("REQCOMP-TV-2", subTree1.getReqComponents().get(1).getId());
+        if (checkNaturalLanguage) {
+        	assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
+        	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
+        	assertEquals("Student must have completed all of MATH 152, MATH 180 " +
+        			"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
+        			subTree1.getNaturalLanguageTranslation());
+        }
+
+        // Check reqComps of sub-tree 2
+        assertEquals("STMT-TV-3", subTree2.getId());
+        assertEquals(2, subTree2.getReqComponents().size());
+        assertEquals("REQCOMP-TV-3", subTree2.getReqComponents().get(0).getId());
+        assertEquals("REQCOMP-TV-4", subTree2.getReqComponents().get(1).getId());
+        if (checkNaturalLanguage) {
+        	assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
+        	assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
+        	assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
+        			"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
+        			subTree2.getNaturalLanguageTranslation());
+
+        	assertEquals(
+        			"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
+        			"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
+        			rootTree.getNaturalLanguageTranslation());
+        }
+	}
+
 }

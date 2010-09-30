@@ -414,6 +414,7 @@
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="validator" ref="pocServiceValidator"/>
         <property name="validatorFactory" ref="validatorFactory"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
