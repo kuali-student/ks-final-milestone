@@ -8,7 +8,7 @@
 
     <bean id="Enumeration-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.student.core.enumerationmanagement.bo.Enumeration" />
-        <property name="titleAttribute" value="name" />
+        <property name="titleAttribute" value="key" />
         <property name="objectLabel" value="Enumeration" />
         <property name="lookupDefinition">
             <ref bean="Enumeration-lookupDefinition" />
@@ -30,6 +30,7 @@
                 <ref bean="Enumeration-description" />
                 <ref bean="Enumeration-activeFromDate" />
                 <ref bean="Enumeration-activeToDate" />
+                <ref bean="Enumeration-active" />
             </list>
         </property>
     </bean>
@@ -89,6 +90,11 @@
     <bean id="Enumeration-activeToDate" parent="Enumeration-activeToDate-parentBean" />
     <bean id="Enumeration-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate" />
 	
+	<bean id="Enumeration-active" parent="Enumeration-active-parentBean" />
+    <bean id="Enumeration-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active" />
+    </bean>
+    
     <!-- Lookup Definition -->
     <bean id="Enumeration-lookupDefinition" parent="Enumeration-lookupDefinition-parentBean" />
 
@@ -97,6 +103,7 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="key" />
                 <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields">
@@ -104,6 +111,8 @@
                 <bean parent="FieldDefinition" p:attributeName="key" />
                 <bean parent="FieldDefinition" p:attributeName="name" />
                 <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                <bean parent="FieldDefinition" p:attributeName="activeToDate" />
             </list>
         </property>
         <property name="title" value="Enumeration Lookup" />

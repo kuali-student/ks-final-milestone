@@ -27,6 +27,7 @@
                 <ref bean="EnumeratedValue-sortKey" />
                 <ref bean="EnumeratedValue-activeFromDate" />
                 <ref bean="EnumeratedValue-activeToDate" />
+                <ref bean="EnumeratedValue-active" />
             </list>
         </property>
     </bean>
@@ -118,6 +119,11 @@
     <bean id="EnumeratedValue-activeToDate" parent="EnumeratedValue-activeToDate-parentBean" />
     <bean id="EnumeratedValue-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate" />
 
+	<bean id="EnumeratedValue-active" parent="EnumeratedValue-active-parentBean" />
+    <bean id="EnumeratedValue-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active" />
+    </bean>
+    
     <bean id="EnumeratedValue-sortKey" parent="EnumeratedValue-sortKey-parentBean" />
 
     <bean id="EnumeratedValue-sortKey-parentBean" abstract="true" parent="AttributeDefinition">
@@ -141,6 +147,7 @@
                 <bean parent="FieldDefinition" p:attributeName="id" />
                 <bean parent="FieldDefinition" p:attributeName="enumerationKey" />
                 <bean parent="FieldDefinition" p:attributeName="code" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields">
@@ -150,6 +157,8 @@
                 <bean parent="FieldDefinition" p:attributeName="code" />
                 <bean parent="FieldDefinition" p:attributeName="abbrevValue" />
                 <bean parent="FieldDefinition" p:attributeName="value" />
+                <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                <bean parent="FieldDefinition" p:attributeName="activeToDate" />
             </list>
         </property>
         <property name="title" value="Enumeration Value Lookup" />
