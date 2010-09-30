@@ -10,7 +10,6 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.lum.program.client.events.CancelEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.variation.VariationController;
@@ -42,7 +41,6 @@ public class VariationEditController extends VariationController {
             @Override
             public void onClick(ClickEvent event) {
                 doCancel();
-                eventBus.fireEvent(new CancelEvent());
             }
         });
     }

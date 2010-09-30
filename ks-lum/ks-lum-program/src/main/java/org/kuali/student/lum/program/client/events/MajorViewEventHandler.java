@@ -5,6 +5,6 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * @author Igor
  */
-public interface CancelEventHandler extends EventHandler{
-    void onEvent(CancelEvent event);
+public interface MajorViewEventHandler extends EventHandler{
+    void onEvent(MajorViewEvent event);
 }

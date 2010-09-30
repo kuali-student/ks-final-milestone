@@ -8,8 +8,8 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
-import org.kuali.student.lum.program.client.events.CancelEvent;
-import org.kuali.student.lum.program.client.events.CancelEventHandler;
+import org.kuali.student.lum.program.client.events.MajorViewEvent;
+import org.kuali.student.lum.program.client.events.MajorViewEventHandler;
 import org.kuali.student.lum.program.client.major.ActionType;
 import org.kuali.student.lum.program.client.major.MajorController;
 
@@ -39,9 +39,9 @@ public class ProgramViewController extends MajorController {
                 }
             }
         });
-        eventBus.addHandler(CancelEvent.TYPE, new CancelEventHandler() {
+        eventBus.addHandler(MajorViewEvent.TYPE, new MajorViewEventHandler() {
             @Override
-            public void onEvent(CancelEvent event) {
+            public void onEvent(MajorViewEvent event) {
                 actionBox.setSelectedIndex(0);
             }
         });

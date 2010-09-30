@@ -11,7 +11,6 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
-import org.kuali.student.lum.program.client.events.CancelEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
@@ -80,7 +79,6 @@ public class ProgramEditController extends MajorController {
             @Override
             public void onClick(ClickEvent event) {
                 doCancel();
-                eventBus.fireEvent(new CancelEvent());
             }
         });
     }
