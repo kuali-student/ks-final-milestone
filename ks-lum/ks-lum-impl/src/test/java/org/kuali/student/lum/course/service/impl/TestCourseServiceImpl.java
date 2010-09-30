@@ -576,7 +576,7 @@ public class TestCourseServiceImpl {
 	}
 
 	@Test
-	@Ignore
+	@Ignore // FIXME
 	public void testGetCourseStatement_nl() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 		String courseId = "COURSE-STMT-1";

@@ -104,7 +104,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
+    @Ignore // FIXME
     public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", "KUALI.RULE", "en");
         assertNotNull(progReqInfo);
@@ -1413,7 +1413,7 @@ public class TestProgramServiceImpl {
 	                fail("Retrieval of deleted coreProgram should have thrown exception");
 	            } catch (DoesNotExistException e) {}
             }catch (OperationFailedException e) {}
-            
+
         } catch (Exception e) {
             fail(e.getMessage());
         }
