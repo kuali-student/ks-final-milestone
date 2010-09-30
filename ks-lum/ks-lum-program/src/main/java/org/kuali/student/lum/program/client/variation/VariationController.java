@@ -30,6 +30,7 @@ public class VariationController extends ProgramController {
 
     @Override
     protected void configureView() {
+        setStatus();
         super.configureView();
         setContentTitle("Specialization of " + getProgramName());
         addContentWidget(createParentAnchor());

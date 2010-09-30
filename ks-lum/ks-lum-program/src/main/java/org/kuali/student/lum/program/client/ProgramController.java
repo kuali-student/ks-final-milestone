@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
@@ -39,6 +40,8 @@ public class ProgramController extends MenuSectionController {
     protected AbstractProgramConfigurer configurer;
 
     protected HandlerManager eventBus;
+
+    protected Label statusLabel = new Label();
 
     /**
      * Constructor.
@@ -107,9 +110,14 @@ public class ProgramController extends MenuSectionController {
                 super.onSuccess(result);
                 programModel.setRoot(result);
                 setHeaderTitle();
+                setStatus();
                 callback.onModelReady(programModel);
             }
         });
+    }
+
+    protected void setStatus() {
+        statusLabel.setText(ProgramProperties.get().common_status(programModel.<String>get(ProgramConstants.STATE)));
     }
 
     public String getProgramName() {
@@ -178,6 +186,7 @@ public class ProgramController extends MenuSectionController {
         addStyleName("programController");
         configurer.setModelDefinition(programModel.getDefinition());
         configurer.configure(this);
+        addContentWidget(statusLabel);
     }
 
     @Override

@@ -124,6 +124,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_savingData();
 
   /**
+   * Translated "Status: {0}".
+   * 
+   * @return translated "Status: {0}"
+   */
+  @DefaultMessage("Status: {0}")
+  @Key("common.status")
+  String common_status(String arg0);
+
+  /**
    * Translated "Do you want to save data?".
    * 
    * @return translated "Do you want to save data?"
@@ -393,8 +402,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("programInformation.addAccreditation")
   String programInformation_addAccreditation();
 
-
-  
   /**
    * Translated "End Inst Admit Term".
    * 
@@ -691,6 +698,33 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Completion of a specialization is required for this program")
   @Key("programSpecialization.instructions")
   String programSpecialization_instructions();
+
+  /**
+   * Translated "Active".
+   * 
+   * @return translated "Active"
+   */
+  @DefaultMessage("Active")
+  @Key("status.active")
+  String status_active();
+
+  /**
+   * Translated "Approve".
+   * 
+   * @return translated "Approve"
+   */
+  @DefaultMessage("Approve")
+  @Key("status.approve")
+  String status_approve();
+
+  /**
+   * Translated "Draft".
+   * 
+   * @return translated "Draft"
+   */
+  @DefaultMessage("Draft")
+  @Key("status.draft")
+  String status_draft();
 
   /**
    * Translated "Variation Sections".
