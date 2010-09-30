@@ -569,7 +569,24 @@ public class TestCourseServiceImpl {
 		String nlUsageTypeKey = null;
 		String language = null;
 		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
-		checkTreeView(courseStatements.get(0), false);
+		assertEquals(2, courseStatements.size());
+		for (StatementTreeViewInfo tree : courseStatements) {
+			checkTreeView(tree, false);
+		}
+	}
+
+	@Test
+	@Ignore
+	public void testGetCourseStatement_nl() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+		String courseId = "COURSE-STMT-1";
+		String nlUsageTypeKey = "KUALI.RULE";
+		String language = "en";
+		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+		assertEquals(2, courseStatements.size());
+		for (StatementTreeViewInfo tree : courseStatements) {
+			checkTreeView(tree, true);
+		}
 	}
 
 	@Test

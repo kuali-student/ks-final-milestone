@@ -172,9 +172,11 @@ public class CourseServiceImpl implements CourseService {
 		if (relations == null) {
 			throw new DoesNotExistException();
 		}
-		
-		List<StatementTreeViewInfo> tree = new ArrayList<StatementTreeViewInfo>(0);
-		tree.add(statementService.getStatementTreeView(relations.get(0).getStatementId()));
+
+		List<StatementTreeViewInfo> tree = new ArrayList<StatementTreeViewInfo>(relations.size());
+		for (RefStatementRelationInfo relation : relations) {
+			tree.add(statementService.getStatementTreeView(relation.getStatementId()));
+		}
     	return tree;
     }
 
