@@ -73,7 +73,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
 
 		if (isEmpty(progReq.getLearningObjectives())) {
-			progReq.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+			progReq.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
 		}
 
 		progReq.setMetaInfo(clu.getMetaInfo());

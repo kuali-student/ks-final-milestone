@@ -259,7 +259,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 			
 			//Learning Objectives
-            course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLearningObjectives(course.getId(), shallowBuild));
+            course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLos(course.getId(), shallowBuild));
 			
 		}
 
