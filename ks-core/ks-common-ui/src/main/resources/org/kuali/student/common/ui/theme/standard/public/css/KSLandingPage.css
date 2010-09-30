@@ -12,52 +12,92 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-.KS-LandingPage-Description{
-	font-size: 30px;
-	margin-bottom: .5em;
+ 
+.blockLayout{
+	padding-top: 20px;
+	padding-left: 20px;
+}
+ 
+.blockLayout-row{
+	width: 1050px;
+	clear: both;
 }
 
-.KS-LandingPage-Title{
+.blockLayout-title{
+	display: inline;
 	font-weight: bold;
-	font-size: 30px;
-
-	color: #7b1918;
 }
 
-.KS-LandingPage-TitleWidgetsPanel{
-	float: right;
-}
-
-.KS-LandingPage-Panel{
-	width: 850px;
-	margin-top: 60px;
-	margin-bottom: 60px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.KS-LandingPage{
-	width: 100%;
-	height: 100%;
-	background-color: white;
-	text-align: center;
-}
-
-.KS-LandingPage-ContentPanel{
-	width: 100%;
-	background-color: white;
-	border: 2px solid #c2c2c2;
-	\-moz-border-radius: 1em;
-	\-webkit-border-radius: 1em;
-	border-radius: 1em;
-	padding: 2px;
-	padding-top: 30px;
-}
-
-.KS-LandingPage-TitlePanel{
-	width: 100%;
+.blockLayout-titlePanel{
+	width: 1000px;
+	border-bottom: 3px solid gray;
+	margin-bottom: 15px;
 	padding-bottom: 10px;
 }
 
+.blockLayout-content{
+}
 
+.blockLayout-title-widget{
+	float: right;
+	padding-top: 10px;
+}
+
+.blockLayout-blockPadding{
+	margin-right: 50px;
+	margin-bottom: 30px;
+	float: left;
+}
+
+.contentBlock-titlePanel{
+	border-bottom: 1px solid black;
+	height: 8em;
+	overflow: hidden;
+}
+
+.contentBlock-title{
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.contentBlock-desc{
+	font-size: 1.25em;
+	color: gray;
+}
+
+.contentBlock-size3{
+	width: 1000px;
+}
+
+.contentBlock-size2{
+	width: 650px;
+}
+
+.contentBlock-size1{
+	width: 300px;
+}
+
+.contentBlock-list{
+	list-style-type: none;
+	padding: 0;
+	
+}
+
+.contentBlock-list ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.contentBlock-list li{
+	margin-top: 15px;
+}
+
+.contentBlock-navLink{
+	font-size: 1.6em;
+}
+
+.contentBlock-navLink-disabled{
+	font-size: 1.6em;
+	color: gray;
+}

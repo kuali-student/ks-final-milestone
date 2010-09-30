@@ -34,6 +34,7 @@
         <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
         <module>ks-core-web</module>
       </modules>
@@ -54,6 +55,7 @@
         <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>
@@ -73,6 +75,7 @@
         <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>
@@ -92,6 +95,7 @@
         <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>
@@ -111,6 +115,7 @@
         <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>
@@ -130,6 +135,7 @@
         <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
+        <module>ks-core-sql</module>
         <module>ks-core-ui</module>
       </modules>
     </profile>

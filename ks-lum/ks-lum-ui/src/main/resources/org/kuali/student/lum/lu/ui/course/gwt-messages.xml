@@ -37,6 +37,32 @@
 		<property name="locale" value="en" />
 		<property name="groupName" value="clusetmanagement" />
 	</bean>
+	<!-- Curriculum Home messages -->
+	<bean parent="enCourse" p:id="curriculumManagement" p:value="Curriculum Management" />
+	 <bean parent="enCourse" p:id="howTo" p:value="How do I...?" />
+	 <bean parent="enCourse" p:id="create" p:value="Proposals" />
+	 <bean parent="enCourse" p:id="createDesc" p:value="Curriculum Management" />
+	 <bean parent="enCourse" p:id="howTo" p:value="How do I...?" />
+	 <bean parent="enCourse" p:id="create" p:value="Proposals" />
+	 <bean parent="enCourse" p:id="createDesc" p:value="Propose a new course, start a new program, or find and review submitted proposals." />
+	 <bean parent="enCourse" p:id="viewModify" p:value="Find Courses and Programs" />
+	 <bean parent="enCourse" p:id="viewModifyDesc" p:value="Search for proposals, courses and programs to view, modify or retire." />
+	 <bean parent="enCourse" p:id="tools" p:value="Management Tools" />
+	 <bean parent="enCourse" p:id="toolsDesc" p:value="Support tools for courses and programs." />
+	 <bean parent="enCourse" p:id="createCourse" p:value="Propose a Course" />
+	 <bean parent="enCourse" p:id="createProgram" p:value="Create a Program" />
+	 <bean parent="enCourse" p:id="findProposals" p:value="Find Course Proposals" />
+	 <bean parent="enCourse" p:id="actionList" p:value="My Actionlist" />
+	 <bean parent="enCourse" p:id="actionListDesc" p:value="" />
+	 <bean parent="enCourse" p:id="browseCatalog" p:value="Browse Course Catalog" />
+	 <bean parent="enCourse" p:id="findCourses" p:value="Find Courses" />
+	 <bean parent="enCourse" p:id="findMajors" p:value="Find Programs (major disciplines)" />
+	 <bean parent="enCourse" p:id="courseSets" p:value="Course Set Management" />
+	 <bean parent="enCourse" p:id="loCategories" p:value="Learning Objective Categories" />
+	 <bean parent="enCourse" p:id="depAnalysis" p:value="Dependency Analysis (coming soon)" />
+	 <bean parent="enCourse" p:id="los" p:value="Learning Objectives (coming soon)" />
+	 	 <bean parent="enCourse" p:id="recentlyViewed" p:value="Recently Viewed" />
+	 <bean parent="enCourse" p:id="recentlyViewedDesc" p:value="View courses and programs that you have recently visited." />
 
 	<bean parent="enCourse" p:id="beginTitle" p:value="Begin Proposal" />
 	<bean parent="enCourse" p:id="beginDirections">
@@ -113,6 +139,7 @@
 	<bean parent="enCourse" p:id="cluActivityType" p:value="Activity Type" />
 	<bean parent="enCourse" p:id="cluContactHours" p:value="Contact Hours" />
 	<bean parent="enCourse" p:id="cluContactHours-instruct" p:value="Sum of contact hours will validate with credits (from learning results)" />
+	<bean parent="enCourse" p:id="cluContactFrequency" p:value="Frequency" />
 	<bean parent="enCourse" p:id="cluClassSize" p:value="Anticipated Class Size" />
 	<bean parent="enCourse" p:id="cluClassSize-help" p:value="This does not have to be exact - it will be used as an estimate for evaluation purposes only." />
 
@@ -164,7 +191,11 @@
 	<bean parent="enCourse" p:id="courseTitle" p:value="Course Title" />
 	<bean parent="enCourse" p:id="courseTitle-instruct" p:value="It is highly recommended that you use the same name for the course and proposal title." />
 	<bean parent="enCourse" p:id="cluSubjectCode" p:value="Subject Code" />
+	<bean parent="enCourse" p:id="cluSubjectCode-constraints" p:value="Must be 4 letter code" />
+	<bean parent="enCourse" p:id="cluSubjectCode-watermark" p:value="AAAA" />
 	<bean parent="enCourse" p:id="cluCourseNumber" p:value="Course Number" />
+	<bean parent="enCourse" p:id="cluCourseNumber-constraints" p:value="Must be 3 digit number" />
+	<bean parent="enCourse" p:id="cluCourseNumber-watermark" p:value="111" />
 	<bean parent="enCourse" p:id="cluCrossListedVersionJoin" p:value="Cross List, Offer Jointly, Add Version Codes" />
 	<bean parent="enCourse" p:id="cluCourseNumberOrTitle" p:value="Course Number or Title" />
 	<bean parent="enCourse" p:id="cluCourseNumberOrTitle-instruct" p:value="Enter an existing course or proposal." />

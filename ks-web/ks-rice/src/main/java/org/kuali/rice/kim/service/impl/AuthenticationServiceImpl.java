@@ -18,7 +18,7 @@ package org.kuali.rice.kim.service.impl;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.rice.kim.service.AuthenticationService;
-import org.kuali.student.security.spring.UserWithId;
+import org.kuali.student.common.util.security.UserWithId;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;

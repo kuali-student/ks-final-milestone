@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -30,7 +29,7 @@ import org.kuali.student.core.entity.Type;
 public class ObjectSubType extends Type<ObjectSubTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<ObjectSubTypeAttribute> attributes = new ArrayList<ObjectSubTypeAttribute>();
+	private List<ObjectSubTypeAttribute> attributes;
 	
 	@Override
 	public List<ObjectSubTypeAttribute> getAttributes() {

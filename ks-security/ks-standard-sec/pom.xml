@@ -45,8 +45,22 @@
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-databinding-aegis</artifactId>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    <dependency>
+       <groupId>org.kuali.student.core</groupId>
+       <artifactId>ks-common-util</artifactId>
+       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>

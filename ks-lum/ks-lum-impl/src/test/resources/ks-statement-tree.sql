@@ -41,7 +41,7 @@ INSERT INTO KSST_REQ_COM (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIO
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-1', 'kuali.reqComponent.field.type.cluSet.id', 'CLUSET-NL-1')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-2', 'kuali.reqComponent.field.type.gpa', '3.5')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-3', 'kuali.reqComponent.field.type.cluSet.id', 'CLUSET-NL-1')
-INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-4', 'kuali.reqComponent.field.type.value', '1')
+INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-4', 'kuali.reqComponent.field.type.value.positive.integer', '1')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-5', 'kuali.reqComponent.field.type.cluSet.id', 'CLUSET-NL-1')
 INSERT INTO KSST_REQ_COM_FIELD (ID, REQ_COM_FIELD_TYPE, VALUE) VALUES ('FIELD-6', 'kuali.reqComponent.field.type.person.id', 'Smith')
 

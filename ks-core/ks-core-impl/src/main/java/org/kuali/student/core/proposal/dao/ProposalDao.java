@@ -41,6 +41,7 @@ public interface ProposalDao extends CrudDao, SearchableDao {
     public List<Proposal> getProposalsByProposalType(String proposalTypeId) throws DoesNotExistException;
     public List<Proposal> getProposalsByReference(String referenceTypeId, String referenceId) throws DoesNotExistException;
     public List<Proposal> getProposalsByState(String proposalState, String proposalTypeId) throws DoesNotExistException;
+    public Proposal getProposalByWorkflowId(String workflowId) throws DoesNotExistException;
     public List<ProposalType> getProposalTypesForReferenceType(String referenceTypeId) throws DoesNotExistException;
     public List<ProposalDocRelation> getProposalDocRelationsByDocument(String documentId) throws DoesNotExistException;
     public List<ProposalDocRelation> getProposalDocRelationsByIdList(List<String> idList) throws DoesNotExistException;

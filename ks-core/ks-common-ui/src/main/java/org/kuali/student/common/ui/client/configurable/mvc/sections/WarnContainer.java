@@ -5,16 +5,18 @@ import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class WarnContainer extends Composite{
 	private KSImage icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();
-	private VerticalFlowPanel layout = new VerticalFlowPanel();
-	private VerticalFlowPanel normalLayout = new VerticalFlowPanel();
-	private VerticalFlowPanel warnLayout = new VerticalFlowPanel();
+	private FlowPanel layout = new FlowPanel();
+	private FlowPanel normalLayout = new FlowPanel();
+	private FlowPanel warnLayout = new FlowPanel();
 	
 	public WarnContainer(){
 		icon.addStyleName("ks-message-static-image");
+		normalLayout.addStyleName("ks-message-static-margin");
 		layout.add(icon);
 		layout.add(normalLayout);
 		layout.add(warnLayout);
@@ -27,6 +29,7 @@ public class WarnContainer extends Composite{
 	
 	public void addWarnWidget(Widget w){
 		warnLayout.add(w);
+		w.getElement().setAttribute("style", "display: inline");
 	}
 	
 	public void showWarningLayout(boolean show){

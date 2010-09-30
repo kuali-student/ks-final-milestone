@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,11 +32,11 @@ import org.kuali.student.core.entity.Type;
 public class ObjectType extends Type<ObjectTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<ObjectTypeAttribute> attributes = new ArrayList<ObjectTypeAttribute>();
+	private List<ObjectTypeAttribute> attributes;
 	
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "KSST_OBJ_TYP_JN_OBJ_SUB_TYP", joinColumns = @JoinColumn(name = "OBJ_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "OBJ_SUB_TYPE_ID"))
-	private List<ObjectSubType> objectSubTypes = new ArrayList<ObjectSubType>();
+	private List<ObjectSubType> objectSubTypes;
 
 	@Override
 	public List<ObjectTypeAttribute> getAttributes() {

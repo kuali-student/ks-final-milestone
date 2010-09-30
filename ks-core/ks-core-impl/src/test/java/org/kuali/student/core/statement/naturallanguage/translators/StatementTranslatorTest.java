@@ -22,12 +22,14 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.messagebuilder.MessageBuilder;
 import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.impl.BooleanOperators;
 import org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl;
 import org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
@@ -47,7 +49,7 @@ public class StatementTranslatorTest {
     }
 
     private static void createTranslator() {
-    	ContextRegistry<Context<ReqComponent>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
+    	ContextRegistry<Context<ReqComponentInfo>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
 
 		BooleanOperators bo = new BooleanOperators("and", "or");
 		MessageTreeBuilder tnmBuilder = new SuccessFailureMessageBuilder(bo);
@@ -165,10 +167,12 @@ public class StatementTranslatorTest {
 	}
 
 	@Test
+	@Ignore
 	public void testTranslateStatement1b() throws Exception {
 		// Rule = R1
 		Statement stmt1 = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.AND);
 
+		//Comma separated lists of clu ids no longer supported
 		List<ReqComponentField> fieldList = NaturalLanguageUtil.createReqComponentFieldsForClu("1", "greater_than_or_equal_to", "CLU-NL-1,CLU-NL-3");
 		ReqComponent reqComp = NaturalLanguageUtil.createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.1of2");
 		reqComp.setId("req-1");

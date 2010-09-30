@@ -15,6 +15,7 @@ public class UILookupConfig{
 	private String name;
 	private String path;
 	private String dataType;
+ private String type;
 
 	public UILookupData getInitialLookup() {
 		return initialLookup;
@@ -56,4 +57,11 @@ public class UILookupConfig{
 		this.dataType = dataType;
 	}
 
+ public String getType () {
+  return type;
+ }
+
+ public void setType (String type) {
+  this.type = type;
+ }
 }

@@ -93,7 +93,7 @@ public class MessageUtils {
      *            the String from which to extract the interpolation targets
      * @return Set<String> containing the field names of the interpolation targets
      */
-    private static Set<String> findFields(String input) {
+    public static Set<String> findFields(String input) {
         Set<String> result = new HashSet<String>();
         int begin = input.indexOf("${");
         while (begin != -1) {

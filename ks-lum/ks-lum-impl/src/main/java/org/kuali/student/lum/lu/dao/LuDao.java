@@ -24,6 +24,7 @@ import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
+import org.kuali.student.lum.lu.entity.CluPublication;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -92,5 +93,8 @@ public interface LuDao extends CrudDao, SearchableDao  {
 			String refObjectTypeURI);
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectId,
 			String refObjectTypeURI, Date date);
+	public List<CluPublication> getCluPublicationsByType(
+			String luPublicationTypeKey);
+	public List<CluPublication> getCluPublicationsByCluId(String cluId);
 
 }

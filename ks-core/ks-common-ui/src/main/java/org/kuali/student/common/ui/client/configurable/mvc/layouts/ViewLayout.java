@@ -35,8 +35,8 @@ public abstract class ViewLayout extends Controller{
 	}
 
 	@Override
-	protected <V extends Enum<?>> View getView(V viewType) {
-		return viewMap.get(viewType);
+	protected <V extends Enum<?>> void getView(V viewType, Callback<View> callback) {
+		callback.exec(viewMap.get(viewType));
 	}
 
 	@Override

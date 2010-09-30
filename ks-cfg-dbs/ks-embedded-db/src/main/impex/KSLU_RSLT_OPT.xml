@@ -17,11 +17,11 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSLU_RSLT_OPT ID="VAR-201" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" RT_DESCR_ID="VAR-202"
-            RES_COMP_ID="kuali.certificateType.degree" ST="active" />
+            RES_COMP_ID="kuali.resultComponent.degree.ba" ST="active" />
     <KSLU_RSLT_OPT ID="VAR-301" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" RT_DESCR_ID="VAR-302"
-            RES_COMP_ID="kuali.certificateType.degree" ST="active" />
-
-
-
-
+            RES_COMP_ID="kuali.resultComponent.degree.bsc" ST="active" />
+    <KSLU_RSLT_OPT ID="MAJOR-101" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" RT_DESCR_ID="MAJOR-101"
+            RES_COMP_ID="kuali.resultComponent.degree.ba" ST="active"  />
+    <KSLU_RSLT_OPT ID="MAJOR-102" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" RT_DESCR_ID="MAJOR-102"
+            RES_COMP_ID="kuali.resultComponent.degree.bsc" ST="active"  />
 </dataset>

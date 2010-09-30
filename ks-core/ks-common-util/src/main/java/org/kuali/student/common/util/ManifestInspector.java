@@ -26,8 +26,7 @@ import static org.apache.commons.io.IOUtils.*;
 import static org.apache.commons.lang.StringUtils.*;
 
 /**
- * Obtains version information about the application from the
- * META-INF/MANIFEST.MF file contained inside a .war file
+ * Obtains version information about the application from the META-INF/MANIFEST.MF file contained inside a .war file
  */
 public class ManifestInspector {
 
@@ -38,7 +37,7 @@ public class ManifestInspector {
 	public static final String BUNDLE_NAME = "Bundle-Name";
 	public static final String BUNDLE_VERSION = "Bundle-Version";
 	public static final String BUNDLE_TIMESTAMP = "Bundle-Timestamp";
-	public static final String HUDSON_BUILD_NUMBER = "Hudson-Build-Number";
+	public static final String BUNDLE_BUILD_NUMBER = "Bundle-BuildNumber";
 	public static final String NO_BUILD_INFORMATION_AVAILABLE = "No build information available";
 
 	/**
@@ -61,8 +60,7 @@ public class ManifestInspector {
 	}
 
 	/**
-	 * Examine the manifest provided for build information. Returns null if
-	 * manifest is null
+	 * Examine the manifest provided for build information. Returns null if manifest is null
 	 */
 	protected BuildInformation getBuildInformation(Manifest manifest) {
 		// No Manifest is available
@@ -76,7 +74,7 @@ public class ManifestInspector {
 		// Manifest attributes containing the build information
 		String name = attributes.getValue(BUNDLE_NAME);
 		String version = attributes.getValue(BUNDLE_VERSION);
-		String buildNumber = attributes.getValue(HUDSON_BUILD_NUMBER);
+		String buildNumber = attributes.getValue(BUNDLE_BUILD_NUMBER);
 		String timestamp = attributes.getValue(BUNDLE_TIMESTAMP);
 
 		// Create and populate a BuildInformation object
@@ -103,8 +101,7 @@ public class ManifestInspector {
 	}
 
 	/**
-	 * Return true if BuildInformation is null or does not contain any
-	 * meaningful information.
+	 * Return true if BuildInformation is null or does not contain any meaningful information.
 	 */
 	protected boolean isNullOrEmpty(BuildInformation bi) {
 		if (bi == null) {
@@ -130,11 +127,10 @@ public class ManifestInspector {
 	 */
 	public String toString(BuildInformation bi) {
 		/**
-		 * For developers pointed at a local build, MANIFEST.MF may not be
-		 * present
+		 * For developers pointed at a local build, MANIFEST.MF may not be present
 		 * 
-		 * Since we overlay the Rice war file, the MANIFEST.MF from Rice may be
-		 * present but doesn't contain build information
+		 * Since we overlay the Rice war file, the MANIFEST.MF from Rice may be present but doesn't contain build
+		 * information
 		 */
 		if (isNullOrEmpty(bi)) {
 			return NO_BUILD_INFORMATION_AVAILABLE;

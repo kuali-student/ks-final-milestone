@@ -3,7 +3,7 @@ package org.kuali.student.lum.program.client.variation.edit;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
-import org.kuali.student.lum.program.client.edit.*;
+import org.kuali.student.lum.program.client.major.edit.*;
 
 import com.google.gwt.core.client.GWT;
 

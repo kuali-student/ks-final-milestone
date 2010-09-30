@@ -14,6 +14,7 @@ public class DefaultTableModel extends AbstractTableModel {
 	private ArrayList<Column> sortedColumnList = new ArrayList<Column>();
 	private int sortableColumnCount = 1;
 	private boolean moreData = true;
+	private boolean multipleSelectable = true;
 	
 	Column rowHeader = new Column();
     public void installCheckBoxRowHeaderColumn(){
@@ -51,14 +52,12 @@ public class DefaultTableModel extends AbstractTableModel {
 	public void insertColumn(int index, Column col){
 		columnList.add(index, col);
 	}
-//	public void setSortableColumnCount(int count){
-	//	sortableColumnCount	 = count;
-//	}
-//	public int getSortableColumnCount(){
-	//  return sortableColumnCount;	
-//	}
-
-
+	public boolean isMultipleSelectable(){
+	    return multipleSelectable;	    
+	}
+    public void setMultipleSelectable(boolean value){
+        multipleSelectable = value;      
+    }
 	public void setMoreData(boolean hasMoreData){
 		moreData	 = hasMoreData;
 	}

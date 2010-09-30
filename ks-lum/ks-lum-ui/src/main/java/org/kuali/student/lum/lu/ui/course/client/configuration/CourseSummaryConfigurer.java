@@ -12,6 +12,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOn
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
@@ -22,7 +23,9 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentListBinding;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -57,6 +60,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoCons
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
+import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -64,6 +68,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseSummaryConfigurer implements
@@ -172,8 +177,8 @@ public class CourseSummaryConfigurer implements
     }
     
     @SuppressWarnings("unchecked")
-	public VerticalSectionView generateProposalSummarySection(){
-        tableSection.setEditable(true);
+	public VerticalSectionView generateProposalSummarySection(boolean canEditSections){
+        tableSection.setEditable(canEditSections);
         tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposal());
         tableSection.addSummaryTableFieldBlock(generateGovernanceSection());
         tableSection.addSummaryTableFieldBlock(generateCourseLogisticsSection());
@@ -187,7 +192,20 @@ public class CourseSummaryConfigurer implements
 	        
 	        infoContainer1 = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController)controller).getWfUtilities().getWorkflowActionsWidget());
 	        infoContainer2 = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController)controller).getWfUtilities().getWorkflowActionsWidget());
+	        
+	        ((WorkflowEnhancedNavController)controller).getWfUtilities().addSubmitCallback(new Callback<Boolean>(){
 
+				@Override
+				public void exec(Boolean result) {
+					if(result){
+						tableSection.setEditable(false);
+						if(controller instanceof MenuSectionController){
+							((MenuSectionController) controller).removeMenuNavigation();
+						}
+					}
+					
+				}
+			});
 	        //Override beforeShow for summary section here to allow for custom validation mechanism on the table
 	        VerticalSectionView verticalSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUConstants.SUMMARY_LABEL_KEY), CourseConfigurer.CLU_PROPOSAL_MODEL){
 	        	@Override
@@ -258,8 +276,16 @@ public class CourseSummaryConfigurer implements
     private WarnContainer generateWorkflowWidgetContainer(Widget w){
     	WarnContainer warnContainer = new WarnContainer();
         warnContainer.add(w);
+        w.addStyleName("ks-button-spacing");
+        warnContainer.add(new KSButton("Return to Curriculum Management", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+			}
+		}));
         //TODO use messages here
-        KSLabel label = new KSLabel("This proposal has missing fields.");
+        KSLabel label = new KSLabel("This proposal has missing fields.  ");
         final String showText = "Show what's missing.";
         final String hideText = "Hide error highlighting.";
         final Anchor link = new Anchor(showText);

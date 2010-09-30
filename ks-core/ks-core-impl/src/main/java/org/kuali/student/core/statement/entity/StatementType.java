@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -47,12 +46,9 @@ public class StatementType extends Type<StatementTypeAttribute> {
 //    private List<StatementTypeHeaderTemplate> statementHeaders;
     
     @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "statementTypeList") //, fetch = FetchType.EAGER)
-    private List<RefStatementRelationType> refStatementRelationTypes = new ArrayList<RefStatementRelationType>();
+    private List<RefStatementRelationType> refStatementRelationTypes;
 
 	public List<StatementTypeAttribute> getAttributes() {
-        if(null == attributes){
-            attributes = new ArrayList<StatementTypeAttribute>();
-        }        
         return attributes;
     }
 
@@ -61,10 +57,6 @@ public class StatementType extends Type<StatementTypeAttribute> {
     }
         
     public List<ReqComponentType> getAllowedReqComponentTypes() {
-        if(null == allowedReqComponentTypes) {
-            allowedReqComponentTypes = new ArrayList<ReqComponentType>();
-        }
-        
         return allowedReqComponentTypes;
     }
 
@@ -73,10 +65,6 @@ public class StatementType extends Type<StatementTypeAttribute> {
     }
 
     public List<StatementType> getAllowedStatementTypes() {
-        if(null == allowedStatementTypes) {
-            allowedStatementTypes = new ArrayList<StatementType>();
-        }
-        
         return allowedStatementTypes;
     }
 
@@ -96,8 +84,7 @@ public class StatementType extends Type<StatementTypeAttribute> {
 		return refStatementRelationTypes;
 	}
 
-	public void setRefStatementRelationTypes(
-			List<RefStatementRelationType> refStatementRelationTypes) {
+	public void setRefStatementRelationTypes(List<RefStatementRelationType> refStatementRelationTypes) {
 		this.refStatementRelationTypes = refStatementRelationTypes;
 	}
 

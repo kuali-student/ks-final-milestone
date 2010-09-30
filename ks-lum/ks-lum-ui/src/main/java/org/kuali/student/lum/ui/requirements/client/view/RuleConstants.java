@@ -19,7 +19,7 @@ public class RuleConstants {
     public static final String KS_STATEMENT_TYPE_PREREQ = "kuali.statement.type.course.academicReadiness.prereq";
     public static final String KS_STATEMENT_TYPE_COREQ = "kuali.statement.type.course.academicReadiness.coreq";
     public static final String KS_STATEMENT_TYPE_ANTIREQ = "kuali.statement.type.course.academicReadiness.antireq";
-    public static final String KS_STATEMENT_TYPE_ENROLLREQ = "kuali.statement.type.course.academicReadiness.studentEligibility";    
+    public static final String KS_STATEMENT_TYPE_ENROLLREQ = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq";    
 
     public static final String KS_STATEMENT_TYPE_PREREQ_TEXT = "Prerequisite";
     public static final String KS_STATEMENT_TYPE_COREQ_TEXT = "Corequisite";
@@ -29,5 +29,5 @@ public class RuleConstants {
     public static final String KS_STATEMENT_TYPE_PREREQ_RATIONALE = "kuali.statement.type.course.academicReadiness.prereq.rationale";
     public static final String KS_STATEMENT_TYPE_COREQ_RATIONALE = "kuali.statement.type.course.academicReadiness.coreq.rationale";
     public static final String KS_STATEMENT_TYPE_ANTIREQ_RATIONALE = "kuali.statement.type.course.academicReadiness.antireq.rationale";
-    public static final String KS_STATEMENT_TYPE_ENROLLREQ_RATIONALE = "kuali.statement.type.course.academicReadiness.studentEligibility.rationale";    
+    public static final String KS_STATEMENT_TYPE_ENROLLREQ_RATIONALE = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq.rationale";    
 }

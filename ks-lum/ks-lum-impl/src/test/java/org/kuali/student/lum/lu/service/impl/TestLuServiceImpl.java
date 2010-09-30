@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -72,9 +73,11 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
+import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
+import org.kuali.student.lum.lu.dto.FieldInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
@@ -2281,7 +2284,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-        assertEquals(108, createdCluSet.getCluIds().size());
+        assertEquals(109, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
@@ -3377,4 +3380,199 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.get(2));
 	}
 
+	@Test
+	public void testSearchForCluInCluSets() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("cluset.search.generic");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setValue("CLU-5");
+        queryParamValues.add(searchParam);
+
+		searchRequest.setParams(queryParamValues);
+		SearchResult cluSets = client.search(searchRequest);
+
+		Assert.assertEquals(2, cluSets.getRows().size());
+	}
+
+	@Test
+	public void testSearchForCluInCluSets_EmptyResult() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("cluset.search.generic");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setValue("XXX");
+        queryParamValues.add(searchParam);
+
+		searchRequest.setParams(queryParamValues);
+		SearchResult cluSets = client.search(searchRequest);
+
+		Assert.assertEquals(0, cluSets.getRows().size());
+	}
+
+	@Test
+	public void testSearchForCluInCluRelations() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("lu.search.cluCluRelation");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setValue("CLU-1");
+        queryParamValues.add(searchParam);
+
+		searchRequest.setParams(queryParamValues);
+		SearchResult clus = client.search(searchRequest);
+
+		Assert.assertEquals(2, clus.getRows().size());
+	}
+
+	@Test
+	public void testSearchForCluInCluRelations_EmptyResult() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("lu.search.cluCluRelation");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setValue("XXX");
+        queryParamValues.add(searchParam);
+
+		searchRequest.setParams(queryParamValues);
+		SearchResult clus = client.search(searchRequest);
+
+		Assert.assertEquals(0, clus.getRows().size());
+	}
+	
+	@Test
+	public void testCluPublicationCrud() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException{
+		//Setup
+		FieldInfo variant;
+		
+		CluPublicationInfo cluPublication1 = new CluPublicationInfo();
+		cluPublication1.setEffectiveDate(DF.parse("20120203"));
+		cluPublication1.setExpirationDate(DF.parse("20130203"));
+		cluPublication1.setStartCycle("StartCycle1");
+		cluPublication1.setEndCycle("EndCycle1");
+		cluPublication1.setState("clupubState1");
+		cluPublication1.setType("cluPublication.Test.Type.1");
+		cluPublication1.setCluId("CLU-1");
+		variant = new FieldInfo();
+		variant.setId("field1.one");
+		variant.setValue("value1.one");
+		cluPublication1.getVariants().add(variant);
+		variant = new FieldInfo();
+		variant.setId("field1.two");
+		variant.setValue("value1.two");
+		cluPublication1.getVariants().add(variant);
+		
+		CluPublicationInfo cluPublication2 = new CluPublicationInfo();
+		cluPublication2.setEffectiveDate(DF.parse("20120203"));
+		cluPublication2.setExpirationDate(DF.parse("20130203"));
+		cluPublication2.setStartCycle("StartCycle2");
+		cluPublication2.setEndCycle("EndCycle2");
+		cluPublication2.setState("clupubState2");
+		cluPublication2.setType("cluPublication.Test.Type.1");
+		cluPublication2.setCluId("CLU-2");
+		variant = new FieldInfo();
+		variant.setId("field2.one");
+		variant.setValue("value2.one");
+		cluPublication2.getVariants().add(variant);
+		variant = new FieldInfo();
+		variant.setId("field2.two");
+		variant.setValue("value2.two");
+		cluPublication2.getVariants().add(variant);
+		
+		CluPublicationInfo cluPublication3 = new CluPublicationInfo();
+		cluPublication3.setEffectiveDate(DF.parse("20120203"));
+		cluPublication3.setExpirationDate(DF.parse("20130203"));
+		cluPublication3.setStartCycle("StartCycle3");
+		cluPublication3.setEndCycle("EndCycle3");
+		cluPublication3.setState("clupubState3");
+		cluPublication3.setType("cluPublication.Test.Type.2");
+		cluPublication3.setCluId("CLU-2");
+		variant = new FieldInfo();
+		variant.setId("field3.one");
+		variant.setValue("value3.one");
+		cluPublication3.getVariants().add(variant);
+		variant = new FieldInfo();
+		variant.setId("field3.two");
+		variant.setValue("value3.two");
+		cluPublication3.getVariants().add(variant);
+		
+		
+		CluPublicationInfo createdCluPub1 = client.createCluPublication(cluPublication1.getCluId(), cluPublication1.getType(), cluPublication1);
+		CluPublicationInfo createdCluPub2 = client.createCluPublication(cluPublication2.getCluId(), cluPublication2.getType(), cluPublication2);
+		CluPublicationInfo createdCluPub3 = client.createCluPublication(cluPublication3.getCluId(), cluPublication3.getType(), cluPublication3);
+
+		
+		assertNotNull(createdCluPub1.getId());
+		assertEquals(cluPublication1.getEffectiveDate(),createdCluPub1.getEffectiveDate());
+		assertEquals(cluPublication1.getExpirationDate(),createdCluPub1.getExpirationDate());
+		assertEquals(cluPublication1.getStartCycle(),createdCluPub1.getStartCycle());
+		assertEquals(cluPublication1.getEndCycle(),createdCluPub1.getEndCycle());
+		assertEquals(cluPublication1.getState(),createdCluPub1.getState());
+		assertEquals(cluPublication1.getType(),createdCluPub1.getType());
+		assertEquals(cluPublication1.getCluId(),createdCluPub1.getCluId());
+		assertNotNull(createdCluPub3);
+		
+		//Test gets
+		CluPublicationInfo gotCluPub1 = client.getCluPublication(createdCluPub1.getId());
+		assertEquals(createdCluPub1.getId(),gotCluPub1.getId());
+		
+		List<CluPublicationInfo> gotCluPubsByType = client.getCluPublicationsByType("cluPublication.Test.Type.1");
+		assertEquals(2,gotCluPubsByType.size());
+		
+		List<CluPublicationInfo> gotCluPubsByClu = client.getCluPublicationsByCluId("CLU-2");
+		assertEquals(2,gotCluPubsByClu.size());
+
+		//Change some values
+		createdCluPub2.setEffectiveDate(DF.parse("20020203"));
+		createdCluPub2.setExpirationDate(DF.parse("20030203"));
+		createdCluPub2.setStartCycle("StartCycle2U");
+		createdCluPub2.setEndCycle("EndCycle2U");
+		createdCluPub2.setState("clupubState2U");
+		createdCluPub2.setType("cluPublication.Test.Type.2");
+		createdCluPub2.setCluId("CLU-1");
+		createdCluPub2.getVariants().clear();
+		variant = new FieldInfo();
+		variant.setId("field2.oneU");
+		variant.setValue("value2.oneU");
+		createdCluPub2.getVariants().add(variant);
+		variant = new FieldInfo();
+		variant.setId("field2.twoU");
+		variant.setValue("value2.twoU");
+		createdCluPub2.getVariants().add(variant);
+		
+		CluPublicationInfo updated = client.updateCluPublication(createdCluPub2.getId(), createdCluPub2);
+		//Test version mismatch
+		try{
+			client.updateCluPublication(createdCluPub2.getId(), createdCluPub2);
+			assertTrue(false);
+		}catch(	VersionMismatchException e){
+			assertTrue(true);
+		}
+		
+		
+		//check that updated has correct values 
+		assertEquals(createdCluPub2.getId(),updated.getId());
+		assertEquals(createdCluPub2.getEffectiveDate(),updated.getEffectiveDate());
+		assertEquals(createdCluPub2.getExpirationDate(),updated.getExpirationDate());
+		assertEquals(createdCluPub2.getStartCycle(),updated.getStartCycle());
+		assertEquals(createdCluPub2.getEndCycle(),updated.getEndCycle());
+		assertEquals(createdCluPub2.getState(),updated.getState());
+		assertEquals(createdCluPub2.getType(),updated.getType());
+		assertEquals(createdCluPub2.getCluId(),updated.getCluId());
+		
+		assertEquals(2,updated.getVariants().size());
+		assertTrue(("field2.oneU".equals(updated.getVariants().get(0).getId())
+				&&"value2.oneU".equals(updated.getVariants().get(0).getValue()))
+						||
+				("field2.twoU".equals(updated.getVariants().get(0).getId())
+				&&"value2.twoU".equals(updated.getVariants().get(0).getValue())));
+	}
 }

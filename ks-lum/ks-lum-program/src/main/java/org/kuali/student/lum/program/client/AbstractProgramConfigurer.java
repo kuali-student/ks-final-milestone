@@ -1,14 +1,13 @@
 package org.kuali.student.lum.program.client;
 
-import java.util.ArrayList;
-
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
-import org.kuali.student.lum.program.client.edit.ProgramRequirementsEditConfiguration;
+import org.kuali.student.lum.program.client.major.edit.ProgramSummaryConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.view.ProgramRequirementsViewConfiguration;
-import org.kuali.student.lum.program.client.view.ViewAllSectionConfiguration;
+
+import java.util.ArrayList;
 
 /**
  * @author Igor
@@ -32,16 +31,18 @@ public abstract class AbstractProgramConfigurer extends Configurer {
         viewController.addMenu(programSectionLabel);
         ArrayList<Configuration> configurations = programSectionConfigManager.getConfigurations();
         for (Configuration configuration : configurations) {
-            if (configuration instanceof ProgramRequirementsEditConfiguration) {
-                ((ProgramRequirementsEditConfiguration) configuration).setViewController(viewController);
+            if (configuration instanceof AbstractControllerConfiguration) {
+                ((AbstractControllerConfiguration) configuration).setController(viewController);
             }
-            if (configuration instanceof ProgramRequirementsViewConfiguration) {
-                ((ProgramRequirementsViewConfiguration) configuration).setViewController(viewController);
+            if (configuration instanceof ProgramSummaryConfiguration) {
+                viewController.addSpecialMenuItem(configuration.getView(), programSectionLabel);
+            } else {
+                viewController.addMenuItem(programSectionLabel, configuration.getView());
             }
-            if (configuration instanceof ViewAllSectionConfiguration) {
-                ((ViewAllSectionConfiguration) configuration).setViewController(viewController);
-            }
-            viewController.addMenuItem(programSectionLabel, configuration.getView());
         }
+    }
+
+    public ProgramController getViewController() {
+        return viewController;
     }
 }

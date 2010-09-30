@@ -23,7 +23,6 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -105,7 +104,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
+    @Ignore // FIXME
     public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", "KUALI.RULE", "en");
         assertNotNull(progReqInfo);
@@ -113,7 +112,7 @@ public class TestProgramServiceImpl {
         checkTreeView(progReqInfo, true);
     }
 
-	private void checkTreeView(final ProgramRequirementInfo progReqInfo,  final boolean checkNaturalLanguage) {
+	private void checkTreeView(final ProgramRequirementInfo progReqInfo, final boolean checkNaturalLanguage) {
 		StatementTreeViewInfo rootTree = progReqInfo.getStatement();
         assertNotNull(rootTree);
         List<StatementTreeViewInfo> subTreeView = rootTree.getStatements();
@@ -136,9 +135,6 @@ public class TestProgramServiceImpl {
         if (checkNaturalLanguage) {
         	assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
         	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
-        	assertEquals("Student must have completed all of MATH 152, MATH 180 " +
-        			"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
-        			subTree1.getNaturalLanguageTranslation());
         }
 
         // Check reqComps of sub-tree 2
@@ -149,14 +145,6 @@ public class TestProgramServiceImpl {
         if (checkNaturalLanguage) {
         	assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
         	assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
-        	assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
-        			"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
-        			subTree2.getNaturalLanguageTranslation());
-
-        	assertEquals(
-        			"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        			"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
-        			rootTree.getNaturalLanguageTranslation());
         }
 	}
 
@@ -208,10 +196,10 @@ public class TestProgramServiceImpl {
 
 //            //TODO catalog descr
 //            //TODO catalog pub targets
-             //TODO: add lo in test db
-//            assertNotNull(major.getLearningObjectives());
-//            assertTrue(major.getLearningObjectives().size() ==1);
-//            assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
+
+            assertNotNull(core.getLearningObjectives());
+            assertTrue(core.getLearningObjectives().size() ==1);
+            assertEquals("Core Program Learning objectives", core.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
 
             assertNotNull(core.getDivisionsContentOwner());
             assertTrue(core.getDivisionsContentOwner().size() == 1);
@@ -290,8 +278,9 @@ public class TestProgramServiceImpl {
             assertEquals("SELECTIVEENROLLMENTCODE", major.getSelectiveEnrollmentCode());
 
             assertNotNull(major.getResultOptions());
-            assertTrue(major.getResultOptions().size() == 1);
-            assertEquals("kuali.certificateType.degree", major.getResultOptions().get(0));
+            assertTrue(major.getResultOptions().size() == 2);
+            assertEquals("kuali.resultComponent.degree.ba", major.getResultOptions().get(0));
+            assertEquals("kuali.resultComponent.degree.bsc", major.getResultOptions().get(1));
 
             assertNotNull(major.getStdDuration());
             assertEquals("kuali.atp.duration.Week", major.getStdDuration().getAtpDurationTypeKey());
@@ -910,7 +899,6 @@ public class TestProgramServiceImpl {
 	}
 
 	@Test(expected=DoesNotExistException.class)
-	@Ignore
 	public void testUpdateProgramRequirement() throws Exception {
 		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
         StatementTreeViewInfo treeView = progReq.getStatement();
@@ -1337,5 +1325,86 @@ public class TestProgramServiceImpl {
 			fail(e.getMessage());
 		}
     	programService.getProgramRequirement(createdProgReq.getId(), null, null);
+    }
+
+    @Test
+    public void testUpdateCoreProgram() {
+    	CoreProgramInfo core = null;
+        try {
+        	core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
+
+            // minimal sanity check
+            assertNotNull(core);
+            assertEquals("BS", core.getCode());
+            assertNotNull(core.getShortTitle());
+            assertEquals("B.S.", core.getShortTitle());
+            assertNotNull(core.getLongTitle());
+            assertEquals("Bachelor of Science", core.getLongTitle());
+            assertNotNull(core.getDescr());
+            assertEquals("Anthropology Major", core.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
+
+            // update some fields
+            core.setCode(core.getCode() + "-updated");
+            core.setShortTitle(core.getShortTitle() + "-updated");
+            core.setLongTitle(core.getLongTitle() + "-updated");
+            core.setTranscriptTitle(core.getTranscriptTitle() + "-updated");
+            core.setState(ProgramAssemblerConstants.RETIRED);
+
+           //Perform the update
+            CoreProgramInfo updatedCP = programService.updateCoreProgram(core);
+
+            //Verify the update
+            verifyUpdate(updatedCP);
+
+            // Now explicitly get it
+            CoreProgramInfo retrievedCP = programService.getCoreProgram(core.getId());
+            verifyUpdate(retrievedCP);
+
+            //TODO: update versioning
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+	}
+
+    private void verifyUpdate(CoreProgramInfo updatedCP) {
+    	assertNotNull(updatedCP);
+    	assertEquals("BS-updated", updatedCP.getCode());
+        assertEquals("B.S.-updated", updatedCP.getShortTitle());
+        assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
+        assertEquals("TRANSCRIPT-TITLE-updated", updatedCP.getTranscriptTitle());
+        assertEquals(ProgramAssemblerConstants.RETIRED, updatedCP.getState());
+    }
+
+    @Test
+    public void testDeleteCoreProgram() {
+        try {
+        	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
+        	CoreProgramInfo coreProgramInfo = generator.getCoreProgramTestData();
+
+            assertNotNull(coreProgramInfo);
+            fixLoCategoryIds(coreProgramInfo.getLearningObjectives());
+            CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
+            assertNotNull(createdCP);
+            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
+
+
+            String coreProgramId = createdCP.getId();
+            CoreProgramInfo retrievedCP = programService.getCoreProgram(coreProgramId);
+            assertNotNull(retrievedCP);
+
+            try{
+	            programService.deleteCoreProgram(coreProgramId);
+	            try {
+	            	retrievedCP = programService.getCoreProgram(coreProgramId);
+	                fail("Retrieval of deleted coreProgram should have thrown exception");
+	            } catch (DoesNotExistException e) {}
+            }catch (OperationFailedException e) {}
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 }

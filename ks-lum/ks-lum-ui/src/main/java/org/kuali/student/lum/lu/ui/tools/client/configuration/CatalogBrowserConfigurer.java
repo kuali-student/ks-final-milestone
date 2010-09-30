@@ -59,19 +59,12 @@ public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCo
 	}
 
 
-	public void configureCatalogBrowser (ConfigurableLayout layout)
+	public void configureCatalogBrowser (CatalogBrowserController layout)
 	{
-
-		layout.addSection (new String[]
-		                              {
-				"Browse by Subject Area"
-				//    getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA_LABEL_KEY)
-		                              }, createBrowseBySubjectAreaSection ());
-		layout.addSection (new String[]
-		                              {
-				"Browse by School"
-				//    getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL_LABEL_KEY)
-		                              }, createBrowseBySchoolSection ());
+		layout.setContentTitle("Browse Course Catalog");
+		layout.addTab(createBrowseBySubjectAreaSection (), "Browse By Subject Area");
+		layout.addTab(createBrowseBySchoolSection (), "Browse By School");
+		layout.setDefaultView(Sections.BROWSE_BY_SUBJECT_AREA);
 	}
 
 	private SectionView createBrowseBySubjectAreaSection ()
@@ -111,20 +104,8 @@ public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCo
 		return Application.getApplicationContext ().getUILabel ("course", "course", "draft", labelKey);
 	}
 
-	protected FieldDescriptor addField(Section section, String fieldKey) {
-		return addField(section, fieldKey, null, null, null);
-	} 
-	
-	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
-		return addField(section, fieldKey, messageKey, null, null);
-	}
-	
 	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
 		return addField(section, fieldKey, messageKey, widget, null);
-	}
-	
-	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, String parentPath) {
-		return addField(section, fieldKey, messageKey, null, parentPath);
 	}
 	
 	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget, String parentPath) {

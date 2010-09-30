@@ -127,7 +127,7 @@ public class ObjectClonerUtil {
             clonedReqComponentInfo.setType(inReqComponentInfo.getType());
             clonedReqComponentInfo.setState(inReqComponentInfo.getState());
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
-            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
+//            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
             clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
         }
         return clonedReqComponentInfo;
@@ -187,7 +187,7 @@ public class ObjectClonerUtil {
             clonedStatementTreeViewInfoInfo.setType(inStatementTreeViewInfo.getType());
             clonedStatementTreeViewInfoInfo.setState(inStatementTreeViewInfo.getState());
             clonedStatementTreeViewInfoInfo.setId(inStatementTreeViewInfo.getId());
-            clonedStatementTreeViewInfoInfo.setNaturalLanguageTranslation(inStatementTreeViewInfo.getNaturalLanguageTranslation());
+//            clonedStatementTreeViewInfoInfo.setNaturalLanguageTranslation(inStatementTreeViewInfo.getNaturalLanguageTranslation());
 
             List<StatementTreeViewInfo> inStatements = inStatementTreeViewInfo.getStatements();
             List<ReqComponentInfo> inReqComponentInfos = inStatementTreeViewInfo.getReqComponents();

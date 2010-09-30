@@ -19,13 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 /**
  * This class creates the template context for grade condition type.
  */
-public class CreditContextImpl extends AbstractLuContext<ReqComponent> {
+public class CreditContextImpl extends AbstractLuContext<ReqComponentInfo> {
 	/** Total credits template token */ 
 	private final static String TOTAL_CREDITS_TOKEN = "totalCredits";
 
@@ -36,7 +36,7 @@ public class CreditContextImpl extends AbstractLuContext<ReqComponent> {
      * @throws DoesNotExistException
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(TOTAL_CREDITS_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.TOTAL_CREDIT_KEY.getType()));
         return contextMap;

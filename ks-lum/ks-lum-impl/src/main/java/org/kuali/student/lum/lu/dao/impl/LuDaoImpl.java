@@ -28,6 +28,7 @@ import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
+import org.kuali.student.lum.lu.entity.CluPublication;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -519,6 +520,23 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         	versionDisplayInfo.setObjectTypeURI(objectTypeURI);
         }
         return versionDisplayInfos;
+	}
+
+	@Override
+	public List<CluPublication> getCluPublicationsByType(
+			String luPublicationTypeKey) {
+        Query query = em.createNamedQuery("CluPublication.findCluPublicationsByType");
+        query.setParameter("luPublicationTypeKey", luPublicationTypeKey);
+        List<CluPublication> cluPublications = query.getResultList();
+        return cluPublications;
+	}
+
+	@Override
+	public List<CluPublication> getCluPublicationsByCluId(String cluId) {
+        Query query = em.createNamedQuery("CluPublication.findPublicationsByCluId");
+        query.setParameter("cluId", cluId);
+        List<CluPublication> cluPublications = query.getResultList();
+        return cluPublications;
 	}
 	
 }

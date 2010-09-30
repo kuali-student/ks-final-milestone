@@ -172,6 +172,10 @@ h7.ks-layout-header{
 	background-color: #f4e271; padding: 6px 6px 6px 15px; position:relative; color: #000; margin-bottom: 10px;
 }
 
+.ks-message-static-margin{
+	margin-bottom: 1em;
+}
+
 .ks-message-static-image {
 	position:absolute; top: -5px; left: -5px; z-index: 2;
 }
@@ -879,6 +883,16 @@ a.ks-button-secondary-small:hover {
 }
 
 .ks-link{
+	
+}
+
+.ks-link-large{
+	line-height: 2.25em;
+	font-size: 1.167em;
+}
+
+.ks-link-large-disabled{
+	color: #999999;
 }
 
 .ks-help-popup{

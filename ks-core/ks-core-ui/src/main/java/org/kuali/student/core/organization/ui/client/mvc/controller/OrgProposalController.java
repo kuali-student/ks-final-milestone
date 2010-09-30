@@ -135,40 +135,42 @@ public class OrgProposalController extends TabbedSectionLayout{
 
     private KSButton getModifyButton(){
         return new KSButton(getLabel("orgModify"), new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        List<Section> sections = null;
-                        String fieldKey = null;
-                        Value val = null;
-                        View view = getView(SectionsEnum.SEARCH);
+                    public void onClick(ClickEvent event) { 
+                        getView(SectionsEnum.SEARCH, new Callback<View>(){
+							@Override
+							public void exec(View result) {
+								List<Section> sections = null;
+		                        String fieldKey = null;
+		                        Value val = null;
+								View view = result;
+								if(view instanceof SectionView){
+		                            List<FieldDescriptor> lfd = ((SectionView)view).getFields();
+		                            for(FieldDescriptor fd : lfd){
+		                                Widget widget = fd.getFieldWidget();
+		                                if(widget instanceof KSPicker){
+		                                    val = ((KSPicker)widget).getValue();
+		                                    fieldKey = fd.getFieldKey();
+		                                }
+		                            }
+		                            sections = ((SectionView)view).getSections();
+		                            String strval = ((StringValue)val).get();
+		                            if(strval != null && !strval.equals("")){
+		                                getCurrentView().updateModel();
+		                                fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
+		                            } else{
+		                                // display error message
+		                                for(Section section : sections){
+		                                    if(section instanceof BaseSection){
 
-
-                        if(view instanceof SectionView){
-                            List<FieldDescriptor> lfd = ((SectionView)view).getFields();
-                            for(FieldDescriptor fd : lfd){
-                                Widget widget = fd.getFieldWidget();
-                                if(widget instanceof KSPicker){
-                                    val = ((KSPicker)widget).getValue();
-                                    fieldKey = fd.getFieldKey();
-                                }
-                            }
-                            sections = ((SectionView)view).getSections();
-                        }
-
-                        String strval = ((StringValue)val).get();
-                        if(strval != null && !strval.equals("")){
-                            getCurrentView().updateModel();
-                            fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
-                        } else{
-                            // display error message
-                            for(Section section : sections){
-                                if(section instanceof BaseSection){
-
-                                    ValidationResultInfo vr = new ValidationResultInfo();
-                                    vr.setError(getLabel("orgFieldCantBeEmpty"));
-                                    section.getField(fieldKey).getFieldElement().processValidationResult(vr);
-                                }
-                            }
-                        }
+		                                        ValidationResultInfo vr = new ValidationResultInfo();
+		                                        vr.setError(getLabel("orgFieldCantBeEmpty"));
+		                                        section.getField(fieldKey).getFieldElement().processValidationResult(vr);
+		                                    }
+		                                }
+		                            }
+		                        }
+							}
+						});
                     }
                 });
     }
@@ -283,45 +285,48 @@ public class OrgProposalController extends TabbedSectionLayout{
     public void doSaveAction(final SaveActionEvent saveActionEvent){
         GWT.log("Reached save action",null);
 
-        View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
-        tempView2.updateModel();
-        getCurrentView().updateModel();
+        //View tempView2 = 
+        getView(CommonConfigurer.SectionsEnum.ORG_INFO, new Callback<View>(){
+			@Override
+			public void exec(View result) {
+				View tempView2 = result;
+				tempView2.updateModel();
+		        getCurrentView().updateModel();
+		        requestModel(new ModelRequestCallback<DataModel>() {
+		            @Override
+		            public void onModelReady(DataModel model) {
+		                model.validate(new Callback<List<ValidationResultInfo>>() {
 
+		                    @Override
+		                    public void exec(List<ValidationResultInfo> result) {
+		                        boolean save = true;
+		                            View v = getCurrentView();
+		                            if(v instanceof Section){
+		                                ((Section) v).setFieldHasHadFocusFlags(true);
+		                                ErrorLevel status = ((Section) v).processValidationResults(result);
+		                                if(status == ErrorLevel.ERROR){
+		                                    save = false;
+		                                }
+		                            }
 
+		                            if(save){
+		                            	GWT.log(" model updated ", null);
+		                                saveProposalOrg(saveActionEvent);
+		                                GWT.log("Reached summit 1 ", null);
+		                            }
+		                    }
 
-        requestModel(new ModelRequestCallback<DataModel>() {
-            @Override
-            public void onModelReady(DataModel model) {
-                model.validate(new Callback<List<ValidationResultInfo>>() {
+		                });
+		            }
 
-                    @Override
-                    public void exec(List<ValidationResultInfo> result) {
-                        boolean save = true;
-                            View v = getCurrentView();
-                            if(v instanceof Section){
-                                ((Section) v).setFieldHasHadFocusFlags(true);
-                                ErrorLevel status = ((Section) v).processValidationResults(result);
-                                if(status == ErrorLevel.ERROR){
-                                    save = false;
-                                }
-                            }
+		            @Override
+		            public void onRequestFail(Throwable cause) {
+		                GWT.log("Unable to retrieve model for validation and save", cause);
 
-                            if(save){
-                            	GWT.log(" model updated ", null);
-                                saveProposalOrg(saveActionEvent);
-                                GWT.log("Reached summit 1 ", null);
-                            }
-                    }
-
-                });
-            }
-
-            @Override
-            public void onRequestFail(Throwable cause) {
-                GWT.log("Unable to retrieve model for validation and save", cause);
-
-            }
-        });
+		            }
+		        });
+			}
+		});
     }
 
     private void setButtonPermission(){
@@ -397,21 +402,25 @@ public class OrgProposalController extends TabbedSectionLayout{
                commonConfigurer.positionTable.fetchPosition();
                commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
                getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
-               final View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
-               setButtonPermission();
+               getView(CommonConfigurer.SectionsEnum.ORG_INFO, new Callback<View>(){
+					@Override
+					public void exec(View result) {
+						final View orgView = result;
+						setButtonPermission();
 
-               if (orgView instanceof VerticalSectionView) {
-                   ((VerticalSectionView) orgView).beforeShow(new Callback<Boolean>(){
+			               if (orgView instanceof VerticalSectionView) {
+			                   ((VerticalSectionView) orgView).beforeShow(new Callback<Boolean>(){
 
-                    @Override
-                    public void exec(Boolean result) {
-                        renderView(orgView);
-                    }
+			                    @Override
+			                    public void exec(Boolean result) {
+			                        renderView(orgView);
+			                    }
 
-                   });
+			                   });
 
-               }
-
+			               }
+					}
+               });
            }
        });
    }

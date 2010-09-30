@@ -188,7 +188,6 @@
         OBJ_ID="606763510FCD96D3E0404F8189D857A2" PERM_ID="264"
         PERM_TMPL_ID="47" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Allows users to access the XML Ingester screen."
         NM="Use Screen" NMSPC_CD="KR-WKFLW"
         OBJ_ID="606763510FF296D3E0404F8189D857A2" PERM_ID="265"
         PERM_TMPL_ID="29" VER_NBR="1"/>
@@ -394,4 +393,7 @@
         NM="Use Screen" NMSPC_CD="KR-BUS"
         OBJ_ID="97469975-D110-9A65-5EE5-F21FD1BEB5B2" PERM_ID="840"
         PERM_TMPL_ID="29" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Add Message to Route Log"
+        NMSPC_CD="KUALI" OBJ_ID="65677409-89e4-11df-98b1-1300c9ee50c1"
+        PERM_ID="841" PERM_TMPL_ID="51" VER_NBR="1"/>
 </dataset>

@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.search.dto.SearchRequest;
 
@@ -58,13 +59,16 @@ public class AdvancedSearchWindow {
 		layout.add(panel);
 		layout.add(actionCancelButtons);
 		//dialog.setWidget(layout);
-		dialog.setSize(600,400);
+		dialog.setMaxHeight(600);
+		ButtonGroup buttons = panel.getButtons();
+		buttons.removeFromParent();
+		dialog.addButtonGroup(buttons);
 	}
 	
     public void show(){
         searchPanel.setupSearch();
         dialog.setWidget(layout);
-        dialog.setSize(500, 500);
+        dialog.setMaxHeight(600);
         dialog.show();
     }
 
