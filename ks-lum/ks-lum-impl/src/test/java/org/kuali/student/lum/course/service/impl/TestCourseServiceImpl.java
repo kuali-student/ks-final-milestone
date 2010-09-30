@@ -639,9 +639,6 @@ public class TestCourseServiceImpl {
         if (checkNaturalLanguage) {
         	assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
         	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
-        	assertEquals("Student must have completed all of MATH 152, MATH 180 " +
-        			"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
-        			subTree1.getNaturalLanguageTranslation());
         }
 
         // Check reqComps of sub-tree 2
@@ -652,14 +649,6 @@ public class TestCourseServiceImpl {
         if (checkNaturalLanguage) {
         	assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
         	assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
-        	assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
-        			"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
-        			subTree2.getNaturalLanguageTranslation());
-
-        	assertEquals(
-        			"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        			"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
-        			rootTree.getNaturalLanguageTranslation());
         }
 	}
 

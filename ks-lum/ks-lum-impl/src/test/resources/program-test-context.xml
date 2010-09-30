@@ -570,6 +570,6 @@
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
-        <property name="statementService" ref="statementService"/>
+        <!--property name="statementService" ref="statementService"/-->
     </bean>
 </beans>

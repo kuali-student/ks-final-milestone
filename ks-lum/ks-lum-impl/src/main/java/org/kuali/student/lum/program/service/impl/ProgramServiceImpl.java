@@ -61,7 +61,7 @@ public class ProgramServiceImpl implements ProgramService {
     private ProgramRequirementAssembler programRequirementAssembler;
     private CredentialProgramAssembler credentialProgramAssembler;
     private CoreProgramAssembler coreProgramAssembler;
-    private StatementService statementService;
+//    private StatementService statementService;
 
     @Override
     public CredentialProgramInfo createCredentialProgram(
@@ -362,9 +362,9 @@ public class ProgramServiceImpl implements ProgramService {
 		try {
 			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false);
 			StatementTreeViewInfo statement = progReqInfo.getStatement();
-			if (nlUsageTypeKey != null && language != null) {
-				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
-			}
+//			if (nlUsageTypeKey != null && language != null) {
+//				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
+//			}
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
@@ -723,13 +723,13 @@ public class ProgramServiceImpl implements ProgramService {
 		this.coreProgramAssembler = coreProgramAssembler;
 	}
 
-	public StatementService getStatementService() {
-		return statementService;
-	}
-
-	public void setStatementService(StatementService statementService) {
-		this.statementService = statementService;
-	}
+//	public StatementService getStatementService() {
+//		return statementService;
+//	}
+//
+//	public void setStatementService(StatementService statementService) {
+//		this.statementService = statementService;
+//	}
 
 	private StatusInfo getStatus(){
         StatusInfo status = new StatusInfo();

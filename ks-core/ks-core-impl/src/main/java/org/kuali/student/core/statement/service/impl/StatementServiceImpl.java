@@ -112,13 +112,13 @@ public class StatementServiceImpl implements StatementService {
         return statementDao;
     }
 
-    public NaturalLanguageTranslator getNaturalLanguageTranslator() {
-        return naturalLanguageTranslator;
-    }
-
     public void setStatementDao(final StatementDao statementDao) {
 		this.statementDao = statementDao;
 	}
+
+    public NaturalLanguageTranslator getNaturalLanguageTranslator() {
+        return naturalLanguageTranslator;
+    }
 
 	public void setNaturalLanguageTranslator(final NaturalLanguageTranslator translator) {
 		this.naturalLanguageTranslator = translator;
@@ -897,8 +897,6 @@ public class StatementServiceImpl implements StatementService {
                 List<StatementTreeViewInfo> statements =
                     (statementTreeViewInfo.getStatements() == null) ? new ArrayList<StatementTreeViewInfo>() : statementTreeViewInfo.getStatements();
                 StatementTreeViewInfo subStatementTreeViewInfo = new StatementTreeViewInfo();
-    	        String nl = translateStatement(statementId, nlUsageTypeKey, language);
-                subStatementTreeViewInfo.setNaturalLanguageTranslation(nl);
 
                 // recursive call to get subStatementTreeViewInfo
                 getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo, nlUsageTypeKey, language);
@@ -906,17 +904,6 @@ public class StatementServiceImpl implements StatementService {
                 statementTreeViewInfo.setStatements(statements);
             }
         }
-        String nl = translateStatement(statementTreeViewInfo.getId(), nlUsageTypeKey, language);
-        statementTreeViewInfo.setNaturalLanguageTranslation(nl);
-    }
-
-    private String translateStatement(String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
-        Statement stmt = this.statementDao.fetch(Statement.class, statementId);
-        if(nlUsageTypeKey != null && language != null) {
-	        String nl = this.naturalLanguageTranslator.translateStatement(stmt, nlUsageTypeKey);
-	        return nl;
-        }
-        return null;
     }
 
     @Override
