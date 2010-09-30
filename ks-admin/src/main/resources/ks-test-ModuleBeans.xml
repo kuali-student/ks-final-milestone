@@ -23,16 +23,12 @@
         <property name="initializeDataDictionary" value="true"/>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/bo/datadictionary/EnumerationTable.xml</value>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/bo/datadictionary/EnumerationTableContextView.xml</value>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/bo/datadictionary/EnumerationContext.xml</value>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/bo/datadictionary/EnumerationContextValue.xml</value>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/bo/datadictionary/EnumerationValue.xml</value>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/document/datadictionary/EnumerationValueMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/document/datadictionary/EnumerationTableMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/document/datadictionary/EnumerationTableContextViewMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/student/core/messages/bo/datadictionary/MessageEntity.xml</value>
-                <value>classpath:org/kuali/student/core/messages/document/datadictionary/MessageEntityMaintenanceDocument.xml</value>
+                <value>org/kuali/student/core/enumerationmanagement/bo/datadictionary</value>
+                <!--
+                <value>org/kuali/student/core/enumerationmanagement/document/datadictionary</value>
+                -->
+                <value>org/kuali/student/core/messages/bo/datadictionary</value>
+                <value>org/kuali/student/core/messages/document/datadictionary</value>
                 <value>org/kuali/rice/kns/bo/datadictionary</value>
                 <value>org/kuali/student/core/atp/bo/datadictionary</value>
                 <value>org/kuali/student/core/atp/document/datadictionary</value>

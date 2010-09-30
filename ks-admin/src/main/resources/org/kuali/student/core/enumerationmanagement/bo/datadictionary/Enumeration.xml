@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="Enumeration" parent="Enumeration-parentBean" />
+
+    <bean id="Enumeration-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.enumerationmanagement.bo.Enumeration" />
+        <property name="titleAttribute" value="name" />
+        <property name="objectLabel" value="Enumeration" />
+        <property name="lookupDefinition">
+            <ref bean="Enumeration-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="Enumeration-inquiryDefinition" />
+        </property>
+        <property name="collections">
+            <list>
+                <bean parent="CollectionDefinition" p:name="enumeratedValueList" p:shortLabel="Enumeration Values"
+                    p:summary="Enumerated Value" p:label="Enumerated Value List"
+                    p:description="Enumerated Values that are a member of this Enumeration." />
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="Enumeration-key" />
+                <ref bean="Enumeration-name" />
+                <ref bean="Enumeration-description" />
+                <ref bean="Enumeration-activeFromDate" />
+                <ref bean="Enumeration-activeToDate" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Enumeration-key" parent="Enumeration-key-parentBean" />
+
+    <bean id="Enumeration-key-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Key" />
+        <property name="maxLength" value="255" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30" />
+        </property>
+        <property name="name" value="key" />
+        <property name="label" value="Enumeration Key" />
+    </bean>
+
+    <bean id="Enumeration-name" parent="Enumeration-name-parentBean" />
+
+    <bean id="Enumeration-name-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Name" />
+        <property name="maxLength" value="255" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+        <property name="name" value="name" />
+        <property name="label" value="Enumeration Name" />
+    </bean>
+
+    <bean id="Enumeration-description" parent="Enumeration-description-parentBean" />
+
+    <bean id="Enumeration-description-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="255" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+        <property name="name" value="description" />
+        <property name="label" value="Enumeration Description" />
+    </bean>
+
+	<bean id="Enumeration-activeFromDate" parent="Enumeration-activeFromDate-parentBean" />
+    <bean id="Enumeration-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate" />
+
+    <bean id="Enumeration-activeToDate" parent="Enumeration-activeToDate-parentBean" />
+    <bean id="Enumeration-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate" />
+	
+    <!-- Lookup Definition -->
+    <bean id="Enumeration-lookupDefinition" parent="Enumeration-lookupDefinition-parentBean" />
+
+    <bean id="Enumeration-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="key" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="key" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+            </list>
+        </property>
+        <property name="title" value="Enumeration Lookup" />
+    </bean>
+
+    <!-- Inquiry Definition -->
+    <bean id="Enumeration-inquiryDefinition" parent="Enumeration-inquiryDefinition-parentBean" />
+
+    <bean id="Enumeration-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Enumeration" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="key" />
+                            <bean parent="FieldDefinition" p:attributeName="name" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                            <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Enumerated Values" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="enumeratedValueList" />
+                                <property name="businessObjectClass"
+                                    value="org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Enumeration Value" />
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="id" />
+                                        <bean parent="FieldDefinition" p:attributeName="code" />
+                                        <bean parent="FieldDefinition" p:attributeName="abbrevValue" />
+                                        <bean parent="FieldDefinition" p:attributeName="value" />
+                                    </list>
+                                </property>
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="code" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
