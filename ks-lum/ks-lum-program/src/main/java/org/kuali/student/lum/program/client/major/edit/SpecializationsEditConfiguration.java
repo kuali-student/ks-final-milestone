@@ -1,11 +1,10 @@
-package org.kuali.student.lum.program.client.edit;
+package org.kuali.student.lum.program.client.major.edit;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;

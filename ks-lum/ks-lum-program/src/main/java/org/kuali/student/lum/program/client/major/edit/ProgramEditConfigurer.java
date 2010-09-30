@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.edit;
+package org.kuali.student.lum.program.client.major.edit;
 
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;

@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.edit;
+package org.kuali.student.lum.program.client.major.edit;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;

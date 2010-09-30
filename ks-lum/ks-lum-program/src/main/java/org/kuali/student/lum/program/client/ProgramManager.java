@@ -2,7 +2,7 @@ package org.kuali.student.lum.program.client;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.lum.program.client.edit.ProgramEditController;
+import org.kuali.student.lum.program.client.major.edit.ProgramEditController;
 import org.kuali.student.lum.program.client.variation.edit.VariationEditController;
 import org.kuali.student.lum.program.client.variation.view.VariationViewController;
 import org.kuali.student.lum.program.client.major.view.ProgramViewController;

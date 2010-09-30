@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.edit;
+package org.kuali.student.lum.program.client.major.edit;
 
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.program.client.ProgramController;

@@ -3,7 +3,7 @@ package org.kuali.student.lum.program.client;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
-import org.kuali.student.lum.program.client.edit.ProgramRequirementsEditConfiguration;
+import org.kuali.student.lum.program.client.major.edit.ProgramRequirementsEditConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.major.view.ProgramRequirementsViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.ViewAllSectionConfiguration;
