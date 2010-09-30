@@ -765,6 +765,26 @@
             <index-column name="ACTN_RQST_ID"/>
         </index>
     </table>
+    <table name="KREW_RIA_DOCTYPE_MAP_T">
+        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="RIA_DOC_TYPE_NAME" size="100" type="VARCHAR"/>
+        <column name="UPDATED_AT" type="DATE"/>
+        <column name="RIA_URL" size="255" type="VARCHAR"/>
+        <column name="HELP_URL" size="255" type="VARCHAR"/>
+        <column name="EDITABLE" size="1" type="CHAR"/>
+        <column name="INIT_GROUPS" size="255" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="SYS_GUID()" name="OBJ_ID" required="true"
+            size="36" type="VARCHAR"/>
+    </table>
+    <table name="KREW_RIA_DOC_T">
+        <column name="RIA_ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="XML_CONTENT" size="4000" type="VARCHAR"/>
+        <column name="RIA_DOC_TYPE_NAME" size="100" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="SYS_GUID()" name="OBJ_ID" required="true"
+            size="36" type="VARCHAR"/>
+    </table>
     <table name="KREW_RMV_RPLC_DOC_T">
         <column name="DOC_HDR_ID" primaryKey="true" size="14" type="DECIMAL"/>
         <column name="OPRN" required="true" size="1" type="CHAR"/>
@@ -1777,7 +1797,6 @@
         <column name="PRNCPL_ID" required="true" size="40" type="VARCHAR"/>
         <column name="PRNCPL_NM" required="true" size="100" type="VARCHAR"/>
         <column name="PRNCPL_PSWD" size="400" type="VARCHAR"/>
-        <column name="TAX_ID" size="100" type="VARCHAR"/>
         <column name="UNIV_ID" size="40" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
     </table>
@@ -2306,7 +2325,7 @@
         <column default="SYS_GUID()" name="OBJ_ID" required="true"
             size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="MIME_TYP" size="150" type="VARCHAR"/>
+        <column name="MIME_TYP" size="255" type="VARCHAR"/>
         <column name="FILE_NM" size="250" type="VARCHAR"/>
         <column name="ATT_ID" size="36" type="VARCHAR"/>
         <column name="FILE_SZ" size="14" type="DECIMAL"/>
@@ -2390,7 +2409,7 @@
         <column name="DOC_HDR_ID" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="ATT_CNTNT" required="true" type="BLOB"/>
         <column name="FILE_NM" size="150" type="VARCHAR"/>
-        <column name="CNTNT_TYP" size="50" type="VARCHAR"/>
+        <column name="CNTNT_TYP" size="255" type="VARCHAR"/>
         <column default="SYS_GUID()" name="OBJ_ID" required="true"
             size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -2782,6 +2801,7 @@
         <column name="POSTAL_CNTRY_NM" size="40" type="VARCHAR"/>
         <column name="PSTL_CNTRY_RSTRC_IND" required="true" size="1" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="ALT_POSTAL_CNTRY_CD" size="3" type="VARCHAR"/>
         <unique name="KR_COUNTRY_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -5340,6 +5360,7 @@
     <sequence name="KREW_EDL_S" nextval="2020"/>
     <sequence name="KREW_HLP_S" nextval="100"/>
     <sequence name="KREW_OUT_BOX_ITM_S" nextval="10043"/>
+    <sequence name="KREW_RIA_DOCTYPE_MAP_ID_S" nextval="1000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
     <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2619"/>
     <sequence name="KREW_RTE_NODE_S" nextval="2962"/>
