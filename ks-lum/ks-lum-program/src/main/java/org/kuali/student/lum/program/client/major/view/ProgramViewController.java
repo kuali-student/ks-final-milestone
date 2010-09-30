@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.view;
+package org.kuali.student.lum.program.client.major.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;

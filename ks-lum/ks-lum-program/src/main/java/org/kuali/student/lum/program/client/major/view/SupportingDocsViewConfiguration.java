@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.view;
+package org.kuali.student.lum.program.client.major.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;

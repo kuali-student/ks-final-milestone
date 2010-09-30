@@ -10,8 +10,8 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.view.ProgramRequirementsViewConfiguration;
-import org.kuali.student.lum.program.client.view.SupportingDocsViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.ProgramRequirementsViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfiguration;
 
 /**
  * @author Igor

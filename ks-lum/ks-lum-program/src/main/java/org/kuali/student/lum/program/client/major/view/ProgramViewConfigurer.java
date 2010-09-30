@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.view;
+package org.kuali.student.lum.program.client.major.view;
 
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
@@ -7,7 +7,7 @@ import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import com.google.gwt.core.client.GWT;
 
 /**
- * This class represents configuration for  {@link org.kuali.student.lum.program.client.view.ProgramViewController}.
+ * This class represents configuration for  {@link org.kuali.student.lum.program.client.major.view.ProgramViewController}.
  *
  * @author Igor
  */
