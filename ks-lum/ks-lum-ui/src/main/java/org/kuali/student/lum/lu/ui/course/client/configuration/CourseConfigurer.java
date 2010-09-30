@@ -310,7 +310,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     protected GroupSection generateCourseNumberSection() {
 
         //COURSE NUMBER
-        GroupSection courseNumber = new GroupSection(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY));
+        GroupSection courseNumber = new GroupSection(getH4Title(""));
         courseNumber.addStyleName(LUConstants.STYLE_SECTION);
         courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         addField(courseNumber, COURSE + "/" + SUBJECT_AREA, generateMessageInfo(LUConstants.SUBJECT_CODE_LABEL_KEY));
