@@ -44,6 +44,8 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -96,7 +98,7 @@ public class WorkflowUtilities{
     private String proposalName="";
         
 	private List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
-    private CloseHandler<KSLightBox> onSubmitSuccessHandler;
+	private Callback<Boolean> submitCallback;
 	private ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
 	private AbbrPanel required; 
 	private KSLightBox submitSuccessDialog;
@@ -105,15 +107,6 @@ public class WorkflowUtilities{
     private KSLabel workflowStatusLabel = new KSLabel("");
     
     private LayoutController parentController;
-    
-	public WorkflowUtilities(LayoutController parentController, String proposalPath, CloseHandler<KSLightBox> onSubmitSuccessHandler) {
-		
-		this.parentController = parentController;
-		this.onSubmitSuccessHandler = onSubmitSuccessHandler;
-		this.proposalPath = proposalPath;
-		setupWFButtons();
-		setupDialog();
-	}
 	
 	public WorkflowUtilities(LayoutController parentController, String proposalPath) {
 		this.parentController = parentController;
@@ -174,7 +167,6 @@ public class WorkflowUtilities{
 			@Override
 			public void onClick(ClickEvent event) {
 				dialog.getConfirmButton().setEnabled(false);
-				parentController.fireApplicationEvent(new SubmitProposalEvent());
 				workflowRpcServiceAsync.submitDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
 					public void handleFailure(Throwable caught) {
 						Window.alert("Error starting Proposal workflow");
@@ -185,8 +177,11 @@ public class WorkflowUtilities{
 							updateWorkflow(dataModel);						
 							dialog.hide();
 							dialog.getConfirmButton().setEnabled(true);
+							if(submitCallback != null){
+								submitCallback.exec(true);
+							}
 							//Notify the user that the document was submitted
-							showSuccessDialog("Proposal has been routed to workflow");
+							KSNotifier.add(new KSNotification("Proposal has been routed to workflow", false));
 						} else {
 							Window.alert("Error starting Proposal workflow");
 						}
@@ -313,8 +308,11 @@ public class WorkflowUtilities{
 							Boolean result) {
 						if(result){
 							updateWorkflow(dataModel);
+							if(submitCallback != null){
+								submitCallback.exec(true);
+							}
 							//Notify the user that the document was FYIed
-							showSuccessDialog("Proposal was FYIed");
+							KSNotifier.add(new KSNotification("Proposal was FYIed", false));
 						}else{
 							Window.alert("Error FYIing Proposal");
 						}
@@ -347,8 +345,11 @@ public class WorkflowUtilities{
 									submitSuccessDialog.hide();
 									if(result){
 										updateWorkflow(dataModel);
+										if(submitCallback != null){
+											submitCallback.exec(true);
+										}
 										//Notify the user that the document was acknowledged
-										showSuccessDialog("Proposal was acknowledged");
+										KSNotifier.add(new KSNotification("Proposal was acknowledged", false));
 									}else{
 										Window.alert("Error acknowledging Proposal");
 									}
@@ -400,8 +401,11 @@ public class WorkflowUtilities{
 									}
 									public void onSuccess(Boolean result) {
 										submitSuccessDialog.hide();
+										if(submitCallback != null){
+											submitCallback.exec(result);
+										}
 										if(result){
-											Window.alert("Proposal was rejected");
+											KSNotifier.add(new KSNotification("Proposal was rejected", false));
 											updateWorkflow(dataModel);
 										}else{
 											Window.alert("Error rejecting Proposal");
@@ -469,8 +473,11 @@ public class WorkflowUtilities{
 									submitSuccessDialog.hide();
 									if (result){
 										updateWorkflow(dataModel);
+										if(submitCallback != null){
+											submitCallback.exec(result);
+										}
 										//Notify the user that the document was approved
-										showSuccessDialog("Proposal was approved");
+										KSNotifier.add(new KSNotification("Proposal was approved", false));
 									} else {
 										Window.alert("Error approving Proposal");
 									}
@@ -523,8 +530,11 @@ public class WorkflowUtilities{
 								List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 								widget.setItems(items);
 							}
+							if(submitCallback != null){
+								submitCallback.exec(result);
+							}
 							//Notify the user that the document was Withdrawn
-							showSuccessDialog("Proposal was Withdrawn");
+							KSNotifier.add(new KSNotification("Proposal was Withdrawn", false));
 						}else{
 							Window.alert("Error Withdrawing Proposal");
 						}
@@ -613,29 +623,6 @@ public class WorkflowUtilities{
 		workflowStatusLabel.setText("Status: " + statusTranslation);	
 	}
 	
-	private void showSuccessDialog(String successMessage) {
-	
-		final KSLightBox submitSuccessDialog = new KSLightBox();
-		VerticalPanel dialogPanel = new VerticalPanel();
-		KSLabel dialogLabel = new KSLabel(successMessage);
-		dialogPanel.add(dialogLabel);
-
-		//Add an OK button that closes (hides) the dialog which will in turn call the onSubmitSuccessHandler
-		OkGroup okButton = new OkGroup(new Callback<OkEnum>(){
-			@Override
-			public void exec(OkEnum result) {
-				submitSuccessDialog.hide();
-			}
-		});
-		dialogPanel.add(okButton);
-		
-		submitSuccessDialog.setWidget(dialogPanel);
-		//Add in the onSubmitSuccessHandler so when the dialog is closed, the handler code is executed. This allows
-		// a hook into performing UI actions after a successful submit 
-		submitSuccessDialog.addCloseHandler(onSubmitSuccessHandler);
-		submitSuccessDialog.show();
-	}
-	
 	/**
 	 * Use to set the modelName to use when this widget requests the data model.
 	 * 
@@ -668,4 +655,9 @@ public class WorkflowUtilities{
     public void getDataIdFromWorkflowId(String workflowId, AsyncCallback<String> callback){
     	workflowRpcServiceAsync.getDataIdFromWorkflowId(workflowId, callback);
     }
+
+	public void addSubmitCallback(Callback<Boolean> callback) {
+		this.submitCallback = callback;
+		
+	}
 }

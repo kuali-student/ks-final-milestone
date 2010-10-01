@@ -80,29 +80,30 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 	}
 
 	private void init() {
-		if (commentLightBox == null) {
-			commentLightBox = new KSLightBox();
-		}
 		KSButton closeActionButton = new KSButton(getMessage("wrapperPanelClose"));
 		closeActionButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				commentLightBox.hide();
 			}
 		});
+		if (commentLightBox == null) {
+			commentLightBox = new KSLightBox("Proposal Decisions");
+			commentLightBox.addButton(closeActionButton);
+		}
 		scrollPanel = new VerticalPanel();
 		contentPanel = new VerticalFlowPanel();
-		titlePanel = new VerticalPanel();
+		//titlePanel = new VerticalPanel();
 		// contentPanel.add(htmlLabel);
 		table = new Table();
 		table.getScrollPanel().setHeight("400px");
 		table.setTableModel(tableModel);
 		scrollPanel.add(table);
-		scrollPanel.add(closeActionButton);
-		contentPanel.add(titlePanel);
+		
+		//contentPanel.add(titlePanel);
 		contentPanel.add(scrollPanel);
 		// commentLightBox.setWidget(titlePanel);
 		commentLightBox.setWidget(contentPanel);
-		commentLightBox.setSize(600, 400);
+		commentLightBox.setMaxHeight(600);
 
 	}
 
@@ -111,12 +112,12 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 		init();
 		StringBuilder titleTextSb = new StringBuilder();
 		titleTextSb.append(referenceAttributes.get("name"));
-		proposalNameHeader = SectionTitle.generateH3Title(titleTextSb
+/*		proposalNameHeader = SectionTitle.generateH3Title(titleTextSb
 				.toString());
 		titlePanel.add(proposalNameHeader);
 		title = SectionTitle.generateH1Title("Proposal Decisions");
 		title.addStyleName("ks-layout-header");
-		titlePanel.add(title);
+		titlePanel.add(title);*/
 		getDecisions();
 	}
 

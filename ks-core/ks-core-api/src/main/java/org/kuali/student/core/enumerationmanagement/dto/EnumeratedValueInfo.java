@@ -22,8 +22,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-
 
 /**
  *Value associated with a particular enumeration.
@@ -54,6 +54,9 @@ public class EnumeratedValueInfo implements Serializable {
     @XmlElement
     private List<EnumContextValueInfo> contexts;
 
+    @XmlAttribute
+    private String enumerationKey;    
+    
     /**
      * Typically coincides with a code representation. Likely the key if this is a reference to another object.
      */
@@ -133,4 +136,14 @@ public class EnumeratedValueInfo implements Serializable {
     public void setContexts(List<EnumContextValueInfo> contexts) {
         this.contexts = contexts;
     }
+
+    public String getEnumerationKey() {
+        return enumerationKey;
+    }
+
+    public void setEnumerationKey(String enumerationKey) {
+        this.enumerationKey = enumerationKey;
+    }
+
+    
 }

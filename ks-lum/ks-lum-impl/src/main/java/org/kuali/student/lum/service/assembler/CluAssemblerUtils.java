@@ -50,23 +50,6 @@ public class CluAssemblerUtils {
     private LearningObjectiveService loService;
     private LoAssembler loAssembler;
 
-    public List<LoDisplayInfo> assembleLearningObjectives(String cluId, boolean shallowBuild) throws AssemblyException {
-        List<LoDisplayInfo> loInfos = new ArrayList<LoDisplayInfo>();
-        try {
-            List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
-            for (CluLoRelationInfo cluLoRelation : cluLoRelations) {
-                String loId = cluLoRelation.getLoId();
-                LoInfo lo = loService.getLo(loId);
-                loInfos.add(loAssembler.assemble(lo, null, shallowBuild));
-            }
-        } catch (Exception e) {
-            throw new AssemblyException("Error getting learning objectives", e);
-        }
-
-        return loInfos;
-    }
-
-
     public List<String> assembleCluResults(List<String> resultTypes, List<CluResultInfo> cluResults) throws AssemblyException{
 		if(resultTypes==null){
 			throw new AssemblyException("result types can not be null");
@@ -169,6 +152,22 @@ public class CluAssemblerUtils {
 		return cluResultNode;
 	}
 
+    public List<LoDisplayInfo> assembleLos(String cluId, boolean shallowBuild) throws AssemblyException {
+        List<LoDisplayInfo> loInfos = new ArrayList<LoDisplayInfo>();
+        try {
+            List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
+            for (CluLoRelationInfo cluLoRelation : cluLoRelations) {
+                String loId = cluLoRelation.getLoId();
+                LoInfo lo = loService.getLo(loId);
+                loInfos.add(loAssembler.assemble(lo, null, shallowBuild));
+            }
+        } catch (Exception e) {
+            throw new AssemblyException("Error getting learning objectives", e);
+        }
+
+        return loInfos;
+    }
+    
 	public List<BaseDTOAssemblyNode<?, ?>> disassembleLos(String cluId, String cluState, List<LoDisplayInfo> loInfos,
 			NodeOperation operation) throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
 		// TODO Auto-generated method stub

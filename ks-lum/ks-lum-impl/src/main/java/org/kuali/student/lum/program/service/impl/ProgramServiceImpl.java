@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.service.AtpService;
+import org.kuali.student.core.dictionary.dto.DataType;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
@@ -61,8 +66,9 @@ public class ProgramServiceImpl implements ProgramService {
     private ProgramRequirementAssembler programRequirementAssembler;
     private CredentialProgramAssembler credentialProgramAssembler;
     private CoreProgramAssembler coreProgramAssembler;
-    private StatementService statementService;
-
+//    private StatementService statementService;
+    private AtpService atpService;
+    
     @Override
     public CredentialProgramInfo createCredentialProgram(
             CredentialProgramInfo credentialProgramInfo)
@@ -362,9 +368,9 @@ public class ProgramServiceImpl implements ProgramService {
 		try {
 			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false);
 			StatementTreeViewInfo statement = progReqInfo.getStatement();
-			if (nlUsageTypeKey != null && language != null) {
-				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
-			}
+//			if (nlUsageTypeKey != null && language != null) {
+//				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
+//			}
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
@@ -532,6 +538,7 @@ public class ProgramServiceImpl implements ProgramService {
             ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
             validationResults.addAll(validator.validateObject(majorDisciplineInfo, objStructure));
         }
+        validateMajorDisciplineAtps(majorDisciplineInfo,validationResults);
         return validationResults;
     }
 
@@ -723,13 +730,13 @@ public class ProgramServiceImpl implements ProgramService {
 		this.coreProgramAssembler = coreProgramAssembler;
 	}
 
-	public StatementService getStatementService() {
-		return statementService;
-	}
-
-	public void setStatementService(StatementService statementService) {
-		this.statementService = statementService;
-	}
+//	public StatementService getStatementService() {
+//		return statementService;
+//	}
+//
+//	public void setStatementService(StatementService statementService) {
+//		this.statementService = statementService;
+//	}
 
 	private StatusInfo getStatus(){
         StatusInfo status = new StatusInfo();
@@ -836,4 +843,54 @@ public class ProgramServiceImpl implements ProgramService {
         return validationResults;
     }
 
+	public void setAtpService(AtpService atpService) {
+		this.atpService = atpService;
+	}
+	
+	private void validateMajorDisciplineAtps(MajorDisciplineInfo majorDisciplineInfo, List<ValidationResultInfo> validationResults) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+		
+		String startTerm = majorDisciplineInfo.getStartTerm();
+		
+		if(!isEmpty(majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"))){
+			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term");
+		}
+		
+		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTerm())){
+			compareAtps(startTerm, majorDisciplineInfo.getEndProgramEntryTerm(), validationResults, "End Program Entry Term");
+		}
+		
+		if(!isEmpty(majorDisciplineInfo.getEndTerm())){
+			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Enroll Term");
+		}
+	}
+	
+	private AtpInfo getAtpInfo(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		return atpService.getAtp(atpKey);
+	}
+	
+	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+		AtpInfo atpInfo1 = null;
+		AtpInfo atpInfo2 = null;
+		
+		try{
+			atpInfo1 = getAtpInfo(aptKey1);
+			atpInfo2 = getAtpInfo(aptKey2);
+		}catch(DoesNotExistException e){}
+		
+		if(atpInfo1 != null && atpInfo1 != null){
+			//TODO: when data is right in db, use "greater_than"
+			boolean compareResult = ValidatorUtils.compareValues(atpInfo1.getEffectiveDate(), atpInfo2.getEffectiveDate(), DataType.DATE, "greater_than_equal", true, new ServerDateParser());
+			//boolean compareResult = ValidatorUtils.compareValues(atpInfo1.getEffectiveDate(), atpInfo2.getEffectiveDate(), DataType.DATE, "greater_than", true, new ServerDateParser());
+			if(!compareResult){
+				ValidationResultInfo vri = new ValidationResultInfo();
+				vri.setError(field + " should be equal or greater than Start Term");
+				validationResults.add(vri);
+			}
+		}
+			
+	}
+	
+	private boolean isEmpty(String value){
+		return value == null || (value != null && "".equals(value));
+	}
 }

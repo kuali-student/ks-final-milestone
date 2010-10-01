@@ -23,8 +23,8 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
@@ -40,21 +40,21 @@ import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 public class LrcContextImplTest {
 	private LrcService lrcService = new LrcServiceMock();
 	private LrcContextImpl lrcContext = new LrcContextImpl();
-	private ReqComponent reqComponent;
+	private ReqComponentInfo reqComponent;
 	
 	private void setupReqComponent() {
-		reqComponent = new ReqComponent();
-        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
-        ReqComponentField reqCompField1 = new ReqComponentField();
+		reqComponent = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
         reqCompField1.setType(ReqComponentFieldTypes.GRADE_KEY.getId());
         reqCompField1.setValue("A");
         reqCompFieldList.add(reqCompField1);
-        ReqComponentField reqCompField2 = new ReqComponentField();
+        ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
         reqCompField2.setType(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
         reqCompField2.setValue("kuali.resultComponent.grade.letter");
         reqCompFieldList.add(reqCompField2);
 
-		reqComponent.setReqComponentFields(reqCompFieldList);
+		reqComponent.setReqCompFields(reqCompFieldList);
 	}
 	
 	@Before

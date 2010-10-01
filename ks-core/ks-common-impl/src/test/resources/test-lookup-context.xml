@@ -28,7 +28,7 @@
   <property name="initialLookup" ref="uilookupdata.canadian.provinces" />
  </bean>
 
-<bean id="lookup.us.states" parent="lookup">
+<bean id="lookup.us.states" parent="commonLookup-parent">
 		<property name="searchTypeId" value="enumeration.management.search" />
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -148,7 +148,7 @@
 		<property name="id" value="uilookupdata.us.states" />
 	</bean>
 
- <bean id="lookup.canadian.provinces" parent="lookup">
+ <bean id="lookup.canadian.provinces" parent="commonLookup-parent">
   <property name="searchTypeId" value="enumeration.management.search" />
   <property name="name" value="Get enumerations" />
   <property name="desc" value="Get enumerated lists of values given context" />

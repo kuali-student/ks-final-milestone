@@ -22,9 +22,10 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.dto.EnumerationMetaInfo;
+import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -35,7 +36,7 @@ import org.kuali.student.core.search.service.SearchService;
 
 @WebService(name = "EnumerationManagementService", targetNamespace = "http://student.kuali.org/wsdl/enumerationmanagement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface EnumerationManagementService extends SearchService {
+public interface EnumerationManagementService extends DictionaryService, SearchService {
 
 	/**
 	 * Retrieves the list of meta information for the enumerations supported by
@@ -45,7 +46,7 @@ public interface EnumerationManagementService extends SearchService {
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<EnumerationMetaInfo> getEnumerationMetas()
+	public List<EnumerationInfo> getEnumerations()
 			throws OperationFailedException;
 
 	/**
@@ -65,7 +66,7 @@ public interface EnumerationManagementService extends SearchService {
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public EnumerationMetaInfo getEnumerationMeta(
+	public EnumerationInfo getEnumeration(
 			@WebParam(name = "enumerationKey") String enumerationKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
@@ -94,9 +95,9 @@ public interface EnumerationManagementService extends SearchService {
 	 * @throws OperationFailedException
 	 *             unable to complete request
 	 */
-	public List<EnumeratedValueInfo> getEnumeration(
+	public List<EnumeratedValueInfo> getEnumeratedValues(
 			@WebParam(name = "enumerationKey") String enumerationKey,
-			@WebParam(name = "contextType") String contextType,
+			@WebParam(name = "contextKey") String contextKey,
 			@WebParam(name = "contextValue") String contextValue,
 			@WebParam(name = "contextDate") Date contextDate)
 			throws DoesNotExistException, InvalidParameterException,

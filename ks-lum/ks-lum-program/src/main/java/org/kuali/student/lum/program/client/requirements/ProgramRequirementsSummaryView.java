@@ -61,6 +61,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
         rules = rulesData;
+        rules.setInitialized(false);        
         this.isReadOnly = isReadOnly;
     }
 
@@ -97,6 +98,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 			@Override
 			public void exec(View result) {
 				ProgramRequirementsManageView manageView = (ProgramRequirementsManageView) result;
+                
 				//return if user did not added or updated a rule
 				if (!manageView.isDirty() || !manageView.isUserClickedSaveButton()) {
 		            onReadyCallback.exec(true);
@@ -460,13 +462,13 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     newRule.setId(generateStatementTreeId());
                     newRule.setType(stmtTypeInfo.getId());
                     RichTextInfo text = new RichTextInfo();
-                    text.setPlain(new String());
+                    text.setPlain("");
                     newRule.setDesc(text);
                 	parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
 
         				@Override
         				public void exec(View result) {
-        					((ProgramRequirementsManageView) result).setRuleTree(newRule, stmtTypeInfo.getId(), true, progReqInfo.getId());
+        					((ProgramRequirementsManageView) result).setRuleTree(newRule, true, progReqInfo.getId());
         					parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
         				}
         			});
@@ -506,7 +508,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     stmtTree.setId(generateStatementTreeId());
                     stmtTree.setType(stmtTypeInfo.getId());
                     RichTextInfo text2 = new RichTextInfo();
-                    text2.setPlain(new String());
+                    text2.setPlain("");
                     stmtTree.setDesc(text2);                    
                     stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
 
@@ -573,7 +575,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
 				@Override
 				public void exec(View result) {
-					((ProgramRequirementsManageView) result).setRuleTree(stmtTreeInfo, stmtTreeInfo.getType(), false, null);
+					((ProgramRequirementsManageView) result).setRuleTree(stmtTreeInfo, false, null);
 					parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE);
 				}
 			});

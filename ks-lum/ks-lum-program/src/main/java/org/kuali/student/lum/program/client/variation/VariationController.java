@@ -30,10 +30,11 @@ public class VariationController extends ProgramController {
 
     @Override
     protected void configureView() {
+        setStatus();
         super.configureView();
-        this.setContentTitle("Specialization of " + getProgramName());
-        this.addContentWidget(createParentAnchor());
-        initialized = true;
+        setContentTitle("Specialization of " + getProgramName());
+        addContentWidget(createParentAnchor());
+        addContentWidget(createCommentPanel());
     }
 
     private Widget createParentAnchor() {

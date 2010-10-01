@@ -27,9 +27,10 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity;
+import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
+import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
 
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTest{
@@ -37,64 +38,61 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
     public EnumerationManagementDAOImpl enumerationManagementDAO;
 
     @Test
-    public void testFindEnumerationMetas(){
-        List<EnumerationMetaEntity> list = enumerationManagementDAO.findEnumerationMetas();
+    public void testFindEnumerations(){
+        List<Enumeration> list = enumerationManagementDAO.findEnumerations();
         
         assertEquals(list.size(),1);
         
-        EnumerationMetaEntity returnedEntity = list.get(0);
+        Enumeration returnedEntity = list.get(0);
         
         assertEquals(returnedEntity.getName(), "name 1");
-        assertEquals(returnedEntity.getEnumerationKey(), "key 1");
-        assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), "desc 1");
+        assertEquals(returnedEntity.getKey(), "key 1");
+        assertEquals(returnedEntity.getDescr(), "desc 1");
        
     }    
 
     @Test
-    public void testFetchEnumerationMeta(){
-    	EnumerationMetaEntity entity = new EnumerationMetaEntity();
+    public void testFetchEnumeration(){
+    	Enumeration entity = new Enumeration();
         entity.setName("Name3");
-        entity.setEnumerationKey("Key3");
-        entity.setEnumerationMetaKeyDesc("desc3");
-        entity.prePersist();
+        entity.setKey("Key3");
+
+        entity.setDescr("desc3");
         
-        enumerationManagementDAO.addEnumerationMeta(entity);
+        enumerationManagementDAO.addEnumeration(entity);
         
-        EnumerationMetaEntity returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key3");
+        Enumeration returnedEntity = enumerationManagementDAO.fetchEnumeration("Key3");
         assertEquals(returnedEntity.getName(), entity.getName());
-        assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
-        assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), entity.getEnumerationMetaKeyDesc());
-        assertEquals(returnedEntity.getId(), entity.getId());
+        assertEquals(returnedEntity.getKey(), entity.getKey());
+        assertEquals(returnedEntity.getDescr(), entity.getDescr());
         
-        returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Does not Exist");
+        returnedEntity = enumerationManagementDAO.fetchEnumeration("Does not Exist");
         assertNull(returnedEntity);
     }
 
     @Test
-    public void testRemoveEnumerationMeta(){
-    	EnumerationMetaEntity entity = new EnumerationMetaEntity();
+    public void testRemoveEnumeration(){
+    	Enumeration entity = new Enumeration();
         entity.setName("Name4");
-        entity.setEnumerationKey("Key4");
-        entity.setEnumerationMetaKeyDesc("desc4");
-        entity.prePersist();
+        entity.setKey("Key4");
+                
+        enumerationManagementDAO.addEnumeration(entity);
         
-        enumerationManagementDAO.addEnumerationMeta(entity);
-        
-        enumerationManagementDAO.removeEnumerationMeta("Key4");
-        List<EnumerationMetaEntity> list = enumerationManagementDAO.findEnumerationMetas();
-        for(EnumerationMetaEntity e: list){
-        	assertTrue("EnumerationMetaEntity still exists after remove", !e.getEnumerationKey().equals("Key4"));
+        enumerationManagementDAO.removeEnumeration("Key4");
+        List<Enumeration> list = enumerationManagementDAO.findEnumerations();
+        for(Enumeration e: list){
+        	assertTrue("EnumerationMetaEntity still exists after remove", !e.getKey().equals("Key4"));
         }
         
 
-        EnumerationMetaEntity returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
+        Enumeration returnedEntity = enumerationManagementDAO.fetchEnumeration("Key4");
         assertTrue("EnumerationMetaEntity still exists after remove", returnedEntity == null);
     }
     
     @Test
     public void testAddEnumeratedValue()
     {
-    	EnumeratedValueEntity entity = new EnumeratedValueEntity();
+    	EnumeratedValue entity = new EnumeratedValue();
         entity.setEnumerationKey("KeyA");
         entity.setAbbrevValue("AbbrevA");
         entity.setCode("CodeA");
@@ -108,17 +106,17 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         contextEntity.setContextValue("context value A");
         
         entity.getContextEntityList().add(contextEntity);
-        List<EnumeratedValueEntity> entityList = new ArrayList<EnumeratedValueEntity>();
+        List<EnumeratedValue> entityList = new ArrayList<EnumeratedValue>();
         entityList.add(entity);
-        contextEntity.setEnumeratedValueEntityList(entityList);
+        contextEntity.setEnumeratedValueList(entityList);
         
         enumerationManagementDAO.addEnumeratedValue("KeyA", entity);
 
-        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationWithContextAndDate(entity.getEnumerationKey(), 
+        List<EnumeratedValue> enumeratedValueList =  enumerationManagementDAO.fetchEnumeratedValuesWithContextAndDate(entity.getEnumerationKey(), 
                 contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
-        assertEquals(enumeratedValueEntityList.size(), 1);
+        assertEquals(enumeratedValueList.size(), 1);
         
-        EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
+        EnumeratedValue returnedEntity = enumeratedValueList.get(0); 
         
         assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
         assertEquals(returnedEntity.getCode(), entity.getCode());
@@ -138,19 +136,19 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
     }
 
     @Test
-    public void testFetchEnumeration(){
+    public void testFetchEnumeratedValues(){
     	long baseTime = System.currentTimeMillis();
     	
-    	EnumeratedValueEntity entity1 = new EnumeratedValueEntity();
+    	EnumeratedValue entity1 = new EnumeratedValue();
         entity1.setEnumerationKey("Key1");
-        entity1.setAbbrevValue("Abbrev1");
+        entity1.setAbbrevValue("Abbrev1");  
         entity1.setCode("Code1");
         entity1.setEffectiveDate(new Date(baseTime-10000000L));
         entity1.setExpirationDate(new Date(baseTime+10000000L));
         entity1.setSortKey(1);
         entity1.setValue("Value1");
         
-    	EnumeratedValueEntity entity2 = new EnumeratedValueEntity();
+    	EnumeratedValue entity2 = new EnumeratedValue();
         entity2.setEnumerationKey("Key1");
         entity2.setAbbrevValue("Abbrev2");
         entity2.setCode("Code2");
@@ -159,7 +157,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         entity2.setSortKey(1);
         entity2.setValue("Value2");
         
-    	EnumeratedValueEntity entity3 = new EnumeratedValueEntity();
+    	EnumeratedValue entity3 = new EnumeratedValue();
         entity3.setEnumerationKey("Key1");
         entity3.setAbbrevValue("Abbrev3");
         entity3.setCode("Code3");
@@ -168,7 +166,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         entity3.setSortKey(1);
         entity3.setValue("Value3");
         
-    	EnumeratedValueEntity entity4 = new EnumeratedValueEntity();
+    	EnumeratedValue entity4 = new EnumeratedValue();
         entity4.setEnumerationKey("Key1");
         entity4.setAbbrevValue("Abbrev4");
         entity4.setCode("Code4");
@@ -194,28 +192,24 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         contextEntity4.setContextValue("CA");
         
         entity1.getContextEntityList().add(contextEntity1);
-        List<EnumeratedValueEntity> entityList1 = new ArrayList<EnumeratedValueEntity>();
+        List<EnumeratedValue> entityList1 = new ArrayList<EnumeratedValue>();
         entityList1.add(entity1);
-        contextEntity1.setEnumeratedValueEntityList(entityList1);
-        
-        //bad
-        //entity1.getContextEntityList().add(contextEntity3);
-        //contextEntity3.setEnumeratedValueEntity(entity1);
-        
+        contextEntity1.setEnumeratedValueList(entityList1);
+                
         entity2.getContextEntityList().add(contextEntity3);
-        List<EnumeratedValueEntity> entityList2 = new ArrayList<EnumeratedValueEntity>();
+        List<EnumeratedValue> entityList2 = new ArrayList<EnumeratedValue>();
         entityList2.add(entity2);
-        contextEntity3.setEnumeratedValueEntityList(entityList2);
+        contextEntity3.setEnumeratedValueList(entityList2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        List<EnumeratedValueEntity> entityList3 = new ArrayList<EnumeratedValueEntity>();
+        List<EnumeratedValue> entityList3 = new ArrayList<EnumeratedValue>();
         entityList3.add(entity3);
-        contextEntity2.setEnumeratedValueEntityList(entityList3);
+        contextEntity2.setEnumeratedValueList(entityList3);
      
         entity4.getContextEntityList().add(contextEntity4);
-        List<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
+        List<EnumeratedValue> entityList4 = new ArrayList<EnumeratedValue>();
         entityList4.add(entity4);
-        contextEntity4.setEnumeratedValueEntityList(entityList4);
+        contextEntity4.setEnumeratedValueList(entityList4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);
@@ -223,22 +217,22 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         enumerationManagementDAO.addEnumeratedValue("Key1", entity4);
 
         
-        List<EnumeratedValueEntity> enumeratedValueEntityList =  
-        	enumerationManagementDAO.fetchEnumeration("Key1");
-        assertEquals(enumeratedValueEntityList.size(), 4);
+        List<EnumeratedValue> enumeratedValueList =  
+        	enumerationManagementDAO.fetchEnumeratedValues("Key1");
+        assertEquals(enumeratedValueList.size(), 4);
         
-        enumeratedValueEntityList =  
-        	enumerationManagementDAO.fetchEnumerationWithContext("Key1" , "country", "CA");
-        assertEquals(enumeratedValueEntityList.size(), 2);
+        enumeratedValueList =  
+        	enumerationManagementDAO.fetchEnumeratedValuesWithContext("Key1" , "country", "CA");
+        assertEquals(enumeratedValueList.size(), 2);
         
 
         
-        enumeratedValueEntityList =  
-        	enumerationManagementDAO.fetchEnumerationWithContext("Key1" , "country", "US");
-        assertEquals(enumeratedValueEntityList.size(), 2);
+        enumeratedValueList =  
+        	enumerationManagementDAO.fetchEnumeratedValuesWithContext("Key1" , "country", "US");
+        assertEquals(enumeratedValueList.size(), 2);
         
         //testing accuracy
-        EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
+        EnumeratedValue returnedEntity = enumeratedValueList.get(0); 
         
         assertEquals(returnedEntity.getAbbrevValue(), entity1.getAbbrevValue());
         assertEquals(returnedEntity.getCode(), entity1.getCode());
@@ -256,7 +250,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         	i++;
         }
         
-        returnedEntity = enumeratedValueEntityList.get(1); 
+        returnedEntity = enumeratedValueList.get(1); 
         
         assertEquals(returnedEntity.getAbbrevValue(), entity2.getAbbrevValue());
         assertEquals(returnedEntity.getCode(), entity2.getCode());
@@ -274,25 +268,25 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         	i++;
         }
         
-        enumeratedValueEntityList =  
-        	enumerationManagementDAO.fetchEnumerationWithDate("Key1", new Date(baseTime));
-        assertEquals(enumeratedValueEntityList.size(), 4);
+        enumeratedValueList =  
+        	enumerationManagementDAO.fetchEnumeratedValuesWithDate("Key1", new Date(baseTime));
+        assertEquals(enumeratedValueList.size(), 4);
         
-        enumeratedValueEntityList =  
-        	enumerationManagementDAO.fetchEnumerationWithDate("Key1", new Date(baseTime+40000000L));
-        assertEquals(enumeratedValueEntityList.size(), 2);
+        enumeratedValueList =  
+        	enumerationManagementDAO.fetchEnumeratedValuesWithDate("Key1", new Date(baseTime+40000000L));
+        assertEquals(enumeratedValueList.size(), 2);
         
-         enumeratedValueEntityList =  
-        	enumerationManagementDAO.fetchEnumerationWithContextAndDate("Key1" , "country", "US", new Date(baseTime+40000000L));
-        assertEquals(enumeratedValueEntityList.size(), 1);
+         enumeratedValueList =  
+        	enumerationManagementDAO.fetchEnumeratedValuesWithContextAndDate("Key1" , "country", "US", new Date(baseTime+40000000L));
+        assertEquals(enumeratedValueList.size(), 1);
         
-        enumeratedValueEntityList =  
-        	enumerationManagementDAO.fetchEnumerationWithContextAndDate("Key1" , "country", "CA", new Date(baseTime+40000000L));
-        assertEquals(enumeratedValueEntityList.size(), 1);
+        enumeratedValueList =  
+        	enumerationManagementDAO.fetchEnumeratedValuesWithContextAndDate("Key1" , "country", "CA", new Date(baseTime+40000000L));
+        assertEquals(enumeratedValueList.size(), 1);
         
-        enumeratedValueEntityList =  
-        	enumerationManagementDAO.fetchEnumerationWithContextAndDate("Key1" , "country", "CA", new Date(baseTime));
-        assertEquals(enumeratedValueEntityList.size(), 2);
+        enumeratedValueList =  
+        	enumerationManagementDAO.fetchEnumeratedValuesWithContextAndDate("Key1" , "country", "CA", new Date(baseTime));
+        assertEquals(enumeratedValueList.size(), 2);
         
 
     }
@@ -303,7 +297,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
     @Test
     public void testUpdateEnumeratedValue()
     {
-    	EnumeratedValueEntity entity = new EnumeratedValueEntity();
+    	EnumeratedValue entity = new EnumeratedValue();
         entity.setEnumerationKey("KeyA");
         entity.setAbbrevValue("AbbrevA");
         entity.setCode("CodeA");
@@ -317,16 +311,16 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         contextEntity.setContextValue("context value testA");
         
         entity.getContextEntityList().add(contextEntity);
-        List<EnumeratedValueEntity> entityList = new ArrayList<EnumeratedValueEntity>();
+        List<EnumeratedValue> entityList = new ArrayList<EnumeratedValue>();
         entityList.add(entity);
-        contextEntity.setEnumeratedValueEntityList(entityList);
+        contextEntity.setEnumeratedValueList(entityList);
 
         enumerationManagementDAO.addEnumeratedValue("KeyA", entity);
         
         entity.setAbbrevValue("newAbbrev");
         entity.setValue("newValue");
         
-        EnumeratedValueEntity returnedEntity = enumerationManagementDAO.updateEnumeratedValue("KeyA", "CodeA", entity);
+        EnumeratedValue returnedEntity = enumerationManagementDAO.updateEnumeratedValue("KeyA", "CodeA", entity);
         assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
         assertEquals(returnedEntity.getValue(), entity.getValue());
         
@@ -335,7 +329,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
     
     @Test
     public void testRemoveEnumeratedValue(){
-    	EnumeratedValueEntity entity = new EnumeratedValueEntity();
+    	EnumeratedValue entity = new EnumeratedValue();
         entity.setEnumerationKey("KeyB");
         entity.setAbbrevValue("AbbrevB");
         entity.setCode("CodeB");
@@ -349,14 +343,14 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         contextEntity.setContextValue("context value testB");
         
         entity.getContextEntityList().add(contextEntity);
-        List<EnumeratedValueEntity> entityList = new ArrayList<EnumeratedValueEntity>();
+        List<EnumeratedValue> entityList = new ArrayList<EnumeratedValue>();
         entityList.add(entity);
-        contextEntity.setEnumeratedValueEntityList(entityList);
+        contextEntity.setEnumeratedValueList(entityList);
 
         enumerationManagementDAO.addEnumeratedValue("Key3", entity);
         enumerationManagementDAO.removeEnumeratedValue("Key3", "CodeB");
-        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationWithContextAndDate(entity.getEnumerationKey(), 
+        List<EnumeratedValue> enumeratedValueList =  enumerationManagementDAO.fetchEnumeratedValuesWithContextAndDate(entity.getEnumerationKey(), 
                 contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
-        assertEquals(enumeratedValueEntityList.size(), 0);
+        assertEquals(enumeratedValueList.size(), 0);
     }
 }
