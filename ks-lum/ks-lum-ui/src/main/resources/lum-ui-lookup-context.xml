@@ -2006,7 +2006,7 @@
 		<property name="name" value="Get cip2000code enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
 		<property name="widget" value="SUGGEST_BOX" />
-		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
+		<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
 		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
 		<property name="results">
 			<list>
@@ -2020,8 +2020,15 @@
 				</bean>
 				<bean parent="result">
 					<property name="dataType" value="STRING" />
-					<property name="desc" value="The description of the enumeration value" />
+					<property name="desc" value="An abbreviation of the enumeration value" />
 					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.abbrevValue" />
+					<property name="name" value="Abbreviation of the code" />
+				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="The description of the enumeration value" />
+					<property name="hidden" value="true" />
 					<property name="key" value="enumeration.resultColumn.value" />
 					<property name="name" value="Description of the code" />
 				</bean>
@@ -2089,7 +2096,7 @@
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
 		<property name="widget" value="SUGGEST_BOX" />
-		<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
+		<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
 		<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
 		<property name="results">
 			<list>
@@ -2100,6 +2107,13 @@
 					<property name="key" value="enumeration.resultColumn.code" />
 					<property name="name" value="Code" />
 				</bean>
+				<bean parent="result">
+					<property name="dataType" value="STRING" />
+					<property name="desc" value="An abbreviation of the enumeration value" />
+					<property name="hidden" value="false" />
+					<property name="key" value="enumeration.resultColumn.abbrevValue" />
+					<property name="name" value="Abbreviation of the code" />
+				</bean>				
 				<bean parent="result">
 					<property name="dataType" value="STRING" />
 					<property name="desc" value="The description of the enumeration value" />
