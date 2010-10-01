@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSDO_REF_OBJ_TYPE NAME="CluInfo" TYPE_DESC="Clu Object Type" TYPE_KEY="kuali.org.RefObjectType.CluInfo"/>
+    <KSDO_REF_OBJ_TYPE NAME="ProposalInfo"
+        TYPE_DESC="Proposal Object Type" TYPE_KEY="kuali.org.RefObjectType.ProposalInfo"/>
+</dataset>

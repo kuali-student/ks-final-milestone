@@ -312,8 +312,10 @@ public interface DocumentService {
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException 
+     * @throws DoesNotExistException 
 	 */
-    public RefDocRelationInfo updateRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, @WebParam(name="refDocRelationInfo")RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public RefDocRelationInfo updateRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, @WebParam(name="refDocRelationInfo")RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException;
 
     /** 
      * Removes a relationship between a reference and a document.

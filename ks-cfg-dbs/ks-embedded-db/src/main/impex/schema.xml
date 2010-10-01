@@ -3251,6 +3251,106 @@
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
     </table>
+    <table name="KSDO_REF_DOC_RELTN">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="REF_OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="ST" size="255" type="VARCHAR"/>
+        <column name="TITLE" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="DOC_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="REF_OBJ_TYPE_KEY" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="FKFAE28EB474C732E5">
+            <reference foreign="TYPE_KEY" local="TYPE_KEY"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="FKFAE28EB4F88FDCEA">
+            <reference foreign="TYPE_KEY" local="REF_OBJ_TYPE_KEY"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSDO_RICH_TEXT_T" name="FKFAE28EB4B107314A">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSDO_DOCUMENT" name="FKFAE28EB4660DD60D">
+            <reference foreign="DOC_ID" local="DOC_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_DOC_RELTN_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSDO_REF_DOC_RELTN_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="FK425F300BA365F5BE">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_DOC_REL_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN" name="FKC352E456684B72E4">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_OBJ_SUB_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_OBJ_TYPE_KEY" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="FKDB972379F88FDCEA">
+            <reference foreign="TYPE_KEY" local="REF_OBJ_TYPE_KEY"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_OBJ_SUB_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_OBJ_SUB_TYPE" name="FK583AAAF7AEBC5AB">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_OBJ_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSDO_REF_OBJ_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="FK83DFD6563E49FD4F">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_REL_TYP_JN_SUB_TYP">
+        <column name="REF_DOC_RELTN_TYPE_KEY" required="true" size="255" type="VARCHAR"/>
+        <column name="REF_OBJ_SUB_TYPE_KEY" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_OBJ_SUB_TYPE" name="FKB98EEFC3AF48C665">
+            <reference foreign="TYPE_KEY" local="REF_OBJ_SUB_TYPE_KEY"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="FKB98EEFC3A9D795E4">
+            <reference foreign="TYPE_KEY" local="REF_DOC_RELTN_TYPE_KEY"/>
+        </foreign-key>
+    </table>
     <table name="KSDO_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
