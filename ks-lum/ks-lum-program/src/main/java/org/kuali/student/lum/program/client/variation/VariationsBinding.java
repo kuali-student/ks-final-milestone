@@ -9,6 +9,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.VariationRegistry;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -27,7 +28,7 @@ public class VariationsBinding extends ModelWidgetBindingSupport<VerticalPanel> 
 
     @Override
     public void setModelValue(VerticalPanel verticalPanel, DataModel model, String path) {
-        throw new UnsupportedOperationException("Method is not implemented");
+    	GWT.log("VariationsBinding.setModelValue...", null);
     }
 
     @Override
