@@ -217,6 +217,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
                         startViewWindow.hide();
                     }
                 });
+                
 
                 fireApplicationEvent(saveActionEvent);
             }

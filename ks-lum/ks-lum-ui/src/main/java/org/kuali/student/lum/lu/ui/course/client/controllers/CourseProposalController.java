@@ -524,7 +524,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                             }
                     	}
                     	else{
-                    		saveActionEvent.doActionComplete();
+                    		//saveActionEvent.doActionComplete();
                     		Window.alert("Save failed.  Please check fields for errors.");
                     	}
 
