@@ -431,7 +431,7 @@
     <KSLU_CLU_IDENT ST="Active" TYPE="kuali.lu.type.CreditCourse.identifier.official" CD="ANTH" DIV=""
         ID="918040df-964b-46f0-aef9-f8db92b07a41"
         LNG_NAME="Anthropology" LVL=""
-        SHRT_NAME="Anthropology" SUFX_CD="" />
+        SHRT_NAME="Anth" SUFX_CD="" />
     <KSLU_CLU_IDENT CD="ANTH" DIV=""
         ID="MAJOR-1" TYPE="kuali.lu.type.program.identifier.transcript"
         SHRT_NAME="TRANSCRIPT-TITLE" ST="active" />
