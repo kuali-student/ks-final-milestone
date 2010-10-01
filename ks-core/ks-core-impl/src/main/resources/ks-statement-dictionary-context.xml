@@ -316,41 +316,50 @@
  <bean id="reqCompFieldInfo.value" parent="reqCompFieldInfo.value-parent"/>
 
  <bean id="reqCompFieldInfo.value.gpa-parent" abstract="true" parent="baseKualiGPA" >
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="reqCompFieldInfo.value.gpa" parent="reqCompFieldInfo.value.gpa-parent"/>
 
  <bean id="reqCompFieldInfo.value.operator-parent" abstract="true" parent="baseString" >
   <property name="minLength" value="1" />
   <property name="maxLength" value="2" />
+  <property name="minOccurs" value="1" />
   <property name="validChars" ref="relationalOperator"/>
  </bean>
  <bean id="reqCompFieldInfo.value.operator" parent="reqCompFieldInfo.value.operator-parent"/>
 
  <bean id="reqCompFieldInfo.value.clu.id-parent" abstract="true" parent="baseKualiCluId" >
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="reqCompFieldInfo.value.clu.id" parent="reqCompFieldInfo.value.clu.id-parent"/>
 
  <bean id="reqCompFieldInfo.value.cluSet.id-parent" abstract="true" parent="baseKualiCluSetId" >
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="reqCompFieldInfo.value.cluSet.id" parent="reqCompFieldInfo.value.cluSet.id-parent"/>
 
-<bean id="reqCompFieldInfo.value.person.id-parent" abstract="true" parent="baseKualiPersonId" >
+ <bean id="reqCompFieldInfo.value.person.id-parent" abstract="true" parent="baseKualiPersonId" >
+  <property name="minOccurs" value="1" />
  </bean>
-<bean id="reqCompFieldInfo.value.person.id" parent="reqCompFieldInfo.value.person.id-parent"/>
+ <bean id="reqCompFieldInfo.value.person.id" parent="reqCompFieldInfo.value.person.id-parent"/>
 
-<bean id="reqCompFieldInfo.value.org.id-parent" abstract="true" parent="baseKualiOrgId" >
+ <bean id="reqCompFieldInfo.value.org.id-parent" abstract="true" parent="baseKualiOrgId" >
+  <property name="minOccurs" value="1" />
  </bean>
-<bean id="reqCompFieldInfo.value.org.id" parent="reqCompFieldInfo.value.org.id-parent"/>
+ <bean id="reqCompFieldInfo.value.org.id" parent="reqCompFieldInfo.value.org.id-parent"/>
 
-<bean id="reqCompFieldInfo.value.gradeType.id-parent" abstract="true" parent="baseKualiType" >
+ <bean id="reqCompFieldInfo.value.gradeType.id-parent" abstract="true" parent="baseKualiType" >
+  <property name="minOccurs" value="1" />
  </bean>
-<bean id="reqCompFieldInfo.value.gradeType.id" parent="reqCompFieldInfo.value.gradeType.id-parent"/>
+ <bean id="reqCompFieldInfo.value.gradeType.id" parent="reqCompFieldInfo.value.gradeType.id-parent"/>
 
-<bean id="reqCompFieldInfo.value.grade-parent" abstract="true" parent="baseKualiType" >
+ <bean id="reqCompFieldInfo.value.grade-parent" abstract="true" parent="baseKualiType" >
+  <property name="minOccurs" value="1" />
  </bean>
-<bean id="reqCompFieldInfo.value.grade" parent="reqCompFieldInfo.value.grade-parent"/>
+ <bean id="reqCompFieldInfo.value.grade" parent="reqCompFieldInfo.value.grade-parent"/>
 
  <bean id="reqCompFieldInfo.value.positive.integer-parent" abstract="true" parent="baseString" >
+  <property name="minOccurs" value="1" />
   <property name="minLength" value="1" />
   <property name="maxLength" value="6" />
   <property name="validChars" ref="positive.integer"/>
