@@ -21,7 +21,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>StudentAdminMaintenanceDocument</name>
-            <parent>RiceDocument</parent>
+            <parent>KualiStudentDocument</parent>
 			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<policies>

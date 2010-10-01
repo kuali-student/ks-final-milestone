@@ -70,6 +70,15 @@
         <field-descriptor name="sortKey" column="SORT_KEY" jbdc-type="BIGINT" />
         <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
+        
+        <reference-descriptor name="enumeration"
+                class-ref="org.kuali.student.core.enumerationmanagement.bo.Enumeration"
+                auto-retrieve="true"
+                auto-delete="none"
+                auto-update="none"
+                proxy="true">
+            <foreignkey field-ref="enumerationKey"/>
+        </reference-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.student.core.atp.bo.Atp" table="KSAP_ATP">

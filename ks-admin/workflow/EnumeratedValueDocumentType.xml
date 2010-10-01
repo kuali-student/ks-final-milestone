@@ -6,9 +6,9 @@
         
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
-      <name>EnumerationValueDocumentType</name>
-      <parent>RiceDocument</parent>
-      <label>Enumeration Value</label>
+      <name>EnumeratedValueDocumentType</name>
+      <parent>StudentAdminMaintenanceDocument</parent>
+      <label>Enumerated Value</label>
     </documentType>
   </documentTypes>
 </data>

@@ -1,5 +1,6 @@
 package org.kuali.student.core.enumerationmanagement.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -14,6 +15,10 @@ public class Enumeration extends InactivatableFromToImpl {
     private String description;
     
     List<EnumeratedValue> enumeratedValueList;
+    
+    public Enumeration() {
+        enumeratedValueList = new ArrayList<EnumeratedValue>();
+    }
     
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {

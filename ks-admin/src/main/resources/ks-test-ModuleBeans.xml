@@ -24,7 +24,7 @@
         <property name="dataDictionaryPackages">
             <list>
                 <value>org/kuali/student/core/enumerationmanagement/bo/datadictionary</value>
-                <value>classpath:org/kuali/student/core/enumerationmanagement/document/datadictionary/EnumerationMaintenanceDocument.xml</value>
+                <value>org/kuali/student/core/enumerationmanagement/document/datadictionary</value>
                 <value>org/kuali/student/core/messages/bo/datadictionary</value>
                 <value>org/kuali/student/core/messages/document/datadictionary</value>
                 <value>org/kuali/rice/kns/bo/datadictionary</value>

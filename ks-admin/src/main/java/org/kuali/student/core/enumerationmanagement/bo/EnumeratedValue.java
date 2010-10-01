@@ -21,6 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.kuali.rice.kns.bo.InactivatableFromToImpl;
 
@@ -49,6 +50,9 @@ public class EnumeratedValue extends InactivatableFromToImpl {
     
     @Column(name="SORT_KEY")
     int sortKey;
+    
+    @Transient
+    transient Enumeration enumeration;
     
     
     @Override
@@ -113,6 +117,14 @@ public class EnumeratedValue extends InactivatableFromToImpl {
 
     public void setEnumerationKey(String enumerationTableId) {
         this.enumerationKey = enumerationTableId;
+    }
+
+    public Enumeration getEnumeration() {
+        return enumeration;
+    }
+
+    public void setEnumeration(Enumeration enumeration) {
+        this.enumeration = enumeration;
     }
 
 }
