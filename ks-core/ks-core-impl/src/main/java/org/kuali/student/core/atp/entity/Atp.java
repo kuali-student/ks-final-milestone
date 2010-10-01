@@ -38,8 +38,8 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSAP_ATP")
 @NamedQueries( { 
 	@NamedQuery(name = "Atp.findAtpsByAtpType", query = "SELECT atp FROM Atp atp WHERE atp.type.id = :atpTypeId"),
-	@NamedQuery(name = "Atp.findAtpsByDate", query = "SELECT atp FROM Atp atp WHERE atp.effectiveDate <= :searchDate AND atp.expirationDate > :searchDate"),
-	@NamedQuery(name = "Atp.findAtpsByDates", query = "SELECT atp FROM Atp atp WHERE atp.effectiveDate >= :startDate AND atp.expirationDate <= :endDate")
+	@NamedQuery(name = "Atp.findAtpsByDate", query = "SELECT atp FROM Atp atp WHERE atp.startDate <= :searchDate AND atp.endDate > :searchDate"),
+	@NamedQuery(name = "Atp.findAtpsByDates", query = "SELECT atp FROM Atp atp WHERE atp.startDate >= :startDate AND atp.endDate <= :endDate")
 })
 public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 	@Id
@@ -54,12 +54,12 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 	private AtpRichText descr;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFF_DT")
-	private Date effectiveDate;
+	@Column(name = "START_DT")
+	private Date startDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIR_DT")
-	private Date expirationDate;
+	@Column(name = "END_DT")
+	private Date endDate;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<AtpAttribute> attributes;
@@ -101,20 +101,20 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 		this.descr = descr;
 	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
-	public Date getExpirationDate() {
-		return expirationDate;
+	public Date getEndDate() {
+		return endDate;
 	}
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public List<AtpAttribute> getAttributes() {
