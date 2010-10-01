@@ -16,12 +16,12 @@
 -->
 <descriptor-repository version="1.0">
 
-	<class-descriptor class="org.kuali.student.core.messages.bo.MessageEntity" table="KSMG_MESSAGE_T">
-		<field-descriptor name="databaseId" column="database_id" jbdc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="KSMG_MESSAGE_S"/>
-		<field-descriptor name="id" column="message_id" jbdc-type="VARCHAR"/>
+	<class-descriptor class="org.kuali.student.core.messages.bo.MessageEntity" table="KSMG_MESSAGE">
+		<field-descriptor name="databaseId" column="databaseid" jbdc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="KSMG_MESSAGE_DATABASE_ID_S"/>
+		<field-descriptor name="id" column="id" jbdc-type="VARCHAR"/>
 		<field-descriptor name="locale" column="locale" jbdc-type="VARCHAR"/>
-		<field-descriptor name="groupName" column="group_name" jbdc-type="VARCHAR"/>
-		<field-descriptor name="value" column="message_value" jbdc-type="VARCHAR"/>
+		<field-descriptor name="groupName" column="groupname" jbdc-type="VARCHAR"/>
+		<field-descriptor name="value" column="value" jbdc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
 		<field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <!-- 

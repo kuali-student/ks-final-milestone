@@ -24,66 +24,71 @@ import javax.persistence.Table;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 @Entity
-@Table(name = "KSMG_MESSAGE_T")
-public class MessageEntity extends PersistableBusinessObjectBase{
-	 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	 private Long databaseId;
-	 private String id; 
-	 private String locale;
-	 private String groupName;
-	 private String value;
-	 
-	 
-	 public String getLocale() {
-		 return locale;
-	 }
-	 public void setLocale(String locale) {
-		 this.locale = locale;
-	 }
-	 public String getGroupName() {
-		 return groupName;
-	 }
-	 public void setGroupName(String groupName) {
-		 this.groupName = groupName;
-	 }
-	 public String getId() {
-		 return id;
-	 }
-	 public void setId(String id) {
-		 this.id = id;
-	 }
-	 public String getValue() {
-		 return value;
-	 }
-	 public void setValue(String value) {
-		 this.value = value;
-	 }
-	public Long getDatabaseId() {
-		return databaseId;
-	}
-	public void setDatabaseId(Long databaseId) {
-		this.databaseId = databaseId;
-	}
+@Table(name = "KSMG_MESSAGE")
+public class MessageEntity extends PersistableBusinessObjectBase {
 
-	@Override
-	protected LinkedHashMap<String, Object> toStringMapper() {
+    private static final long serialVersionUID = 1L;
 
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		
-		toStringMap.put("databaseId", databaseId);
-		toStringMap.put("locale", locale);
-		toStringMap.put("groupName", groupName);
-		toStringMap.put("id", id);
-		toStringMap.put("value", value);
-		
-		return toStringMap;
-		
-	}
-	 
-	 
-	 
-	 
+    @Id
+    private Long databaseId;
+    private String id;
+    private String locale;
+    private String groupName;
+    private String value;
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public Long getDatabaseId() {
+        return databaseId;
+    }
+
+    public void setDatabaseId(Long databaseId) {
+        this.databaseId = databaseId;
+    }
+
+    @Override
+    protected LinkedHashMap<String, Object> toStringMapper() {
+
+        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+
+        toStringMap.put("databaseId", databaseId);
+        toStringMap.put("locale", locale);
+        toStringMap.put("groupName", groupName);
+        toStringMap.put("id", id);
+        toStringMap.put("value", value);
+
+        return toStringMap;
+
+    }
+
 }

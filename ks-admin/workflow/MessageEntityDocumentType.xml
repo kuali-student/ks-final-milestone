@@ -7,7 +7,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>MessageEntityDocumentType</name>
-      <parent>RiceDocument</parent>
+      <parent>StudentAdminMaintenanceDocument</parent>
       <label>Message</label>
     </documentType>
   </documentTypes>
