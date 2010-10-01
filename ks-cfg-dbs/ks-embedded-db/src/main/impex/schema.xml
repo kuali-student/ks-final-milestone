@@ -2867,9 +2867,9 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="END_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="START_DT" type="TIMESTAMP"/>
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
