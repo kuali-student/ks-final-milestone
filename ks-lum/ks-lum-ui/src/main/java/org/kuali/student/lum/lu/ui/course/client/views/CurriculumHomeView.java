@@ -31,7 +31,7 @@ public class CurriculumHomeView extends ViewComposite{
 	}
 	
 	protected void setup(){
-        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
+        metadataServiceAsync.getOldMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
             @Override
             public void handleFailure(Throwable caught) {
             	container.add(configurer.configure(null));

@@ -1,9 +1,8 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -17,12 +16,18 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCan
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.events.UpdateEventHandler;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 
 /**
  * @author Igor
@@ -49,8 +54,10 @@ public class ProgramEditController extends MajorController {
     protected void configureView() {
         super.configureView();
         if (!initialized) {
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton);
+            List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
+            excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
         }
     }

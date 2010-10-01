@@ -29,6 +29,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
     private ProgramRequirementsSummaryView preview;
     private static ProgramRequirementsDataModel dataInstance;
+    private boolean isReadOnly;
 
     public ProgramRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
 		super(ProgramRequirementsViewController.class.getName());
@@ -37,6 +38,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
 		super.setViewEnum(viewType);
         super.setDefaultModelId(PROGRAM_RULES_MODEL_ID);
         super.setParentController(controller);
+        this.isReadOnly = isReadOnly;
         
 		this.setDefaultView(ProgramRequirementsViews.PREVIEW);
 
@@ -89,7 +91,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
                 }
 
                 //no dialog if user clicks on the 'Save' button
-                if (((ProgramRequirementsManageView)getCurrentView()).isUserClickedSaveButton()) {                       
+                if (((ProgramRequirementsManageView)getCurrentView()).isUserClickedSaveButton()) {
                     okToChange.exec(true);
                     return;                    
                 }
@@ -116,7 +118,9 @@ public class ProgramRequirementsViewController extends BasicLayout {
     
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
-        //TODO
+        dataInstance = new ProgramRequirementsDataModel(this);
+        preview.setRules(dataInstance);
+
 	//	init(new Callback<Boolean>() {
 	//		@Override
 	//		public void exec(Boolean result) {
@@ -128,12 +132,6 @@ public class ProgramRequirementsViewController extends BasicLayout {
 	//		}
 	//	});
 	}
-
-    /*
-    @Override
-    public View getCurrentView() {
-        return this;
-    } */
 
     public ProgramRequirementsSummaryView getProgramRequirementsView() {
         return preview;

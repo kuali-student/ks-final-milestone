@@ -45,7 +45,7 @@ public class RulePreviewWidget extends FlowPanel {
         this.stmtTreeInfo = stmtTreeInfo;
         this.isReadOnly = isReadOnly;
 
-        this.addStyleName("KS-Program-Rule-Preview-Box");
+        this.addStyleName("KS-Rule-Preview-Box");
         displayRule();
     }
 
@@ -72,12 +72,12 @@ public class RulePreviewWidget extends FlowPanel {
 
         //button below has to be spaced
         SpanPanel spacer = new SpanPanel();
-        spacer.addStyleName("KS-Program-Rule-Last-Preview-Spacer");
+        spacer.addStyleName("KS-Rule-Last-Preview-Spacer");
         rulePanel.add(spacer);
 
         //add a button for user to add additional subrule
         if (!isReadOnly) {
-            addSubRuleBtn.addStyleName("KS-Program-Rule-Preview-Add-Subrule");
+            addSubRuleBtn.addStyleName("KS-Rule-Preview-Add-Subrule");
             rulePanel.add(addSubRuleBtn);
         }
 
@@ -86,7 +86,7 @@ public class RulePreviewWidget extends FlowPanel {
 
     private void displayNoRule() {
         KSLabel noRulesAddedYet = new KSLabel("No rules have been added yet.");
-        noRulesAddedYet.addStyleName("KS-Program-Rule-Preview-NoRule");
+        noRulesAddedYet.addStyleName("KS-Rule-Preview-NoRule");
         rulePanel.add(noRulesAddedYet);
     }
 
@@ -175,7 +175,7 @@ public class RulePreviewWidget extends FlowPanel {
         //build heading
         SectionTitle header = SectionTitle.generateH4Title("");
         header.setHTML("<b>" + ruleName + "</b>" + "  " + ruleCredits);
-        header.setStyleName("KS-Program-Rule-Preview-header");
+        header.setStyleName("KS-Rule-Preview-header");
 
         //do not show edit,delete etc. if user is only viewing the rule in non-edit mode
         if (!isReadOnly) {
@@ -184,16 +184,16 @@ public class RulePreviewWidget extends FlowPanel {
         this.add(header);
 
         rulePanel.clear();
-        rulePanel.addStyleName("KS-Program-Rule-Preview-Box1");
+        rulePanel.addStyleName("KS-Rule-Preview-Box1");
 
         KSLabel ruleDescLabel = new KSLabel(ruleDesc);
-        ruleDescLabel.addStyleName("KS-Program-Rule-Preview-Desc");
+        ruleDescLabel.addStyleName("KS-Rule-Preview-Desc");
         rulePanel.add(ruleDescLabel);
 
         //build subheading
         header = SectionTitle.generateH6Title("");
         header.setHTML("Must meet <b>all of the following</b> rules");
-        header.setStyleName("KS-Program-Rule-Preview-header-Subrule");
+        header.setStyleName("KS-Rule-Preview-header-Subrule");
         header.getElement().setAttribute("style", "font-weight: normal");        
         rulePanel.add(header);
     }
@@ -203,14 +203,14 @@ public class RulePreviewWidget extends FlowPanel {
         actions.add(editButton);
         actions.add(separator);
         actions.add(deleteButton);
-        actions.addStyleName("KS-Program-Rule-Preview-header-action");
+        actions.addStyleName("KS-Rule-Preview-header-action");
         header.add(actions);
         rulePanel.add(header);
     }
 
     private void buildANDOperator(StatementOperatorTypeKey operator) {
         KSLabel andLabel = new KSLabel((operator == StatementOperatorTypeKey.AND ? "AND" : "OR"));
-        andLabel.addStyleName("KS-Program-Rule-Preview-Operator");
+        andLabel.addStyleName("KS-Rule-Preview-Operator");
         rulePanel.add(andLabel);        
     }
 

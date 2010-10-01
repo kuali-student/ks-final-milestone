@@ -44,6 +44,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     //view's widgets
     private FlowPanel layout = new FlowPanel();
     private Map<String, KSLabel> noRuleTextMap = new HashMap<String, KSLabel>();
+    private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);    
 
     //view's data
     private ProgramRequirementsViewController parentController;
@@ -61,8 +62,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
         rules = rulesData;
-        rules.setInitialized(false);        
+        rules.setInitialized(false);
         this.isReadOnly = isReadOnly;
+        setupButtons();
     }
 
     @Override
@@ -78,7 +80,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     }
                     onReadyCallback.exec(result);
                 }
-            });                
+            });
             return;
         }
 
@@ -93,23 +95,23 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             return;
         }
 
-        
+        //return if user did not added or updated a rule
         parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
 			@Override
 			public void exec(View result) {
 				ProgramRequirementsManageView manageView = (ProgramRequirementsManageView) result;
                 
 				//return if user did not added or updated a rule
-				if (!manageView.isDirty() || !manageView.isUserClickedSaveButton()) {
-		            onReadyCallback.exec(true);
-		            return;                        
-		        }
+                if (!manageView.isDirty() || !manageView.isUserClickedSaveButton()) {
+                    onReadyCallback.exec(true);
+                    return;
+                }
 
-		        //update the rule because user added or edited the rule
-		        ((SectionView)parentController.getCurrentView()).setIsDirty(false);
-		        manageView.setUserClickedSaveButton(false);
+                //update the rule because user added or edited the rule
+                ((SectionView)parentController.getCurrentView()).setIsDirty(false);
+                manageView.setUserClickedSaveButton(false);
 
-		        final StatementTreeViewInfo newTree = manageView.getRuleTree();
+                final StatementTreeViewInfo newTree = manageView.getRuleTree();
 
 		        //find the affected program requirement
 		        LinkedHashMap<ProgramRequirementInfo, ProgramRequirementsDataModel.requirementState> reqInfo = null;
@@ -199,8 +201,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
 		        onReadyCallback.exec(true);
 			}
-		});
-        
+		});        
     }
 
     @Override
@@ -363,6 +364,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 addProgramRequirement(requirementsPanel, stmtTypeInfo, ruleInfo, ProgramRequirementsDataModel.requirementState.STORED);
             }
         }
+
+        //save and cancel buttons
+        layout.add(actionCancelButtons);
 
         addWidget(layout);
     }
@@ -583,6 +587,16 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         }
     };
 
+    private void setupButtons() {
+        actionCancelButtons.addStyleName("KS-Program-Requirements-Save-Button");
+        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
+             @Override
+            public void exec(ButtonEnumerations.ButtonEnum result) {
+               updateModel();
+            }
+        });
+    }
+
     private boolean isEmptyRule(StatementTreeViewInfo tree) {
         return (tree.getStatements() == null || tree.getStatements().isEmpty() && (tree.getReqComponents() == null || tree.getReqComponents().isEmpty()));
     }
@@ -593,5 +607,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     private String generateStatementTreeId() {
         return (NEW_STMT_TREE_ID + Integer.toString(tempProgReqInfoID++));
+    }
+
+    public void setRules(ProgramRequirementsDataModel rules) {
+        this.rules = rules;
+        this.rules.setInitialized(false);
     }
 }

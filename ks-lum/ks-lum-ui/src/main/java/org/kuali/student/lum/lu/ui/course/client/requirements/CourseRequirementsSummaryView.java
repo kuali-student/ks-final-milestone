@@ -11,7 +11,9 @@ import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -36,6 +38,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     //view's widgets
     private FlowPanel layout = new FlowPanel();
     private Map<String, KSLabel> noRuleTextMap = new HashMap<String, KSLabel>();
+    private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
 
     //view's data
     private CourseRequirementsViewController parentController;
@@ -55,6 +58,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         rules = rulesData;
         rules.setInitialized(false);
         this.isReadOnly = isReadOnly;
+        setupButtons();
     }
 
     @Override
@@ -90,7 +94,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 			@Override
 			public void exec(View result) {
 				CourseRequirementsManageView manageView = (CourseRequirementsManageView) result;        
-
+                
+				//return if user did not added or updated a rule
                 if (!manageView.isDirty() || !manageView.isUserClickedSaveButton()) {
                     onReadyCallback.exec(true);
                     return;
@@ -356,6 +361,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
             }
         }
 
+        //save and cancel buttons
+        layout.add(actionCancelButtons);
+
         addWidget(layout);
     }
 
@@ -460,6 +468,16 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         noRuleTextMap.get(stmtTypeInfo.getName()).setVisible(rules.isRuleExists(stmtTypeInfo));
     }
 
+    private void setupButtons() {
+        actionCancelButtons.addStyleName("KS-Program-Requirements-Save-Button");
+        actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
+             @Override
+            public void exec(ButtonEnumerations.ButtonEnum result) {
+               updateModel();
+            }
+        });
+    }
+
     private boolean isEmptyRule(StatementTreeViewInfo tree) {
         return (tree.getStatements() == null || tree.getStatements().isEmpty() && (tree.getReqComponents() == null || tree.getReqComponents().isEmpty()));
     }
@@ -470,5 +488,10 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
     private String generateStatementTreeId() {
         return (NEW_STMT_TREE_ID + Integer.toString(tempProgReqInfoID++));
+    }
+
+    public void setRules(CourseRequirementsDataModel rules) {
+        this.rules = rules;
+        this.rules.setInitialized(false);
     }
 }

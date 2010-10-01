@@ -22,7 +22,6 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
-import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
 import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
@@ -31,11 +30,9 @@ import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -316,7 +313,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     public String getDefaultModelId() {
         return defaultModelId;
     }
-    protected void setDefaultModelId(String defaultModelId) {
+    public void setDefaultModelId(String defaultModelId) {
         this.defaultModelId = defaultModelId;
     }
     

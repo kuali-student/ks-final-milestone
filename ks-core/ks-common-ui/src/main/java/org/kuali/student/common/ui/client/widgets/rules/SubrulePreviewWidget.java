@@ -25,7 +25,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         super();
         this.isReadOnly = isReadOnly;
 
-        addStyleName("KS-Program-Rule-Preview-Subrule-Box");
+        addStyleName("KS-Rule-Preview-Subrule-Box");
         showSubrule(stmtTreeInfo);
     }
 
@@ -48,7 +48,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         } else {
             header.setHTML("Must meet <b>1 of the following:</b>");
         }      
-        header.setStyleName("KS-Program-Rule-Preview-Subrule-header");
+        header.setStyleName("KS-Rule-Preview-Subrule-header");
         header.getElement().setAttribute("style", "font-weight: normal");
 
         //do not show edit,delete etc. if user is only viewing the rule in non-edit mode
@@ -62,7 +62,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         actions.add(editButton);
         actions.add(separator);
         actions.add(deleteButton);
-        actions.addStyleName("KS-Program-Rule-Preview-Subrule-header-action");
+        actions.addStyleName("KS-Rule-Preview-Subrule-header-action");
         header.add(actions);
         this.add(header);
     }

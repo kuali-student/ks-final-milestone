@@ -162,9 +162,10 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
             excludedViews.add(CourseSections.PEOPLE_PERMISSOMS);
             excludedViews.add(CourseSections.DOCUMENTS);
+            excludedViews.add(CourseSections.COURSE_REQUISITES);
             layout.addCommonButton(LUConstants.COURSE_SECTIONS, layout.getSaveButton(), excludedViews);
             layout.addCommonButton(LUConstants.COURSE_SECTIONS, layout.getCancelButton(CourseSections.SUMMARY), excludedViews);
-            
+
             //Specific buttons for certain views
             //TODO people and permissions will use a different button than continue
             layout.addButtonForView(CourseSections.PEOPLE_PERMISSOMS, getContinueButton(layout));

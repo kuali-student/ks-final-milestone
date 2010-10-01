@@ -21,12 +21,15 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.service.MetadataRpcService;
+import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.rules.ObjectClonerUtil;
 import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
@@ -43,6 +46,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class ProgramRequirementsManageView extends VerticalSectionView {
 
     private StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
+    private MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 
     private ProgramRequirementsViewController parentController;
 
@@ -51,7 +55,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     private ReqCompEditWidget editReqCompWidget;
     private RuleManageWidget ruleManageWidget;
     private SimplePanel twiddlerPanel = new SimplePanel();
-    private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);    
+    private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
 
     //view's data
     private StatementTreeViewInfo rule = null;
@@ -70,7 +74,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
     }
-    
+
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
@@ -84,13 +88,14 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         onReadyCallback.exec(true);
     }
 
-    private void setupHandlers() {                        
+    private void setupHandlers() {
         editReqCompWidget.setReqCompConfirmButtonClickCallback(actionButtonClickedReqCompCallback);
         editReqCompWidget.setNewReqCompSelectedCallbackCallback(newReqCompSelectedCallbackCallback);
         editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
+        editReqCompWidget.setRetrieveFieldsMetadataCallback(retrieveFieldsMetadataCallback);
         ruleManageWidget.setReqCompEditButtonClickCallback(editReqCompCallback);
     }
-      
+
     private void draw() {
 
         remove(layout);
@@ -142,20 +147,20 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
         if (!isInitialized) {
             editReqCompWidget = new ReqCompEditWidget();
-            ruleManageWidget = new RuleManageWidget();            
+            ruleManageWidget = new RuleManageWidget();
         }
 
         this.relatedProgramReqInfoId = relatedProgramReqInfoId;
         editedReqCompInfo = null;
-        userClickedSaveButton = false;        
+        userClickedSaveButton = false;
         rule = ObjectClonerUtil.clone(stmtTreeInfo);
         isNewRule = newRuleFlag;
-        originalReqCompNL = getAllReqCompNLs();        
+        originalReqCompNL = getAllReqCompNLs();
 
         //update screen elements
         editReqCompWidget.setupNewReqComp();
         ruleManageWidget.redraw(rule);
-        originalLogicExpression = ruleManageWidget.getLogicExpression();        
+        originalLogicExpression = ruleManageWidget.getLogicExpression();
     }
 
     //retrieve the latest version from rule table widget and update the local copy
@@ -194,12 +199,12 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 //        if (!ruleManageWidget.getLogicExpression().equals(originalLogicExpression)) {
 //            return true;
 //        }
-        
+
         //next check NL for req. components
       //  if ((originalNL == null) && (rule.getNaturalLanguageTranslation() == null)) {
       //      return !ruleManageWidget.getLogicExpression().equals(originalLogicExpression);
       //  }
-        //TODO how to check whether rule changed or not? 
+        //TODO how to check whether rule changed or not?
        // !(ruleManageWidget.getLogicExpression().equals(originalLogicExpression) && getAllReqCompNLs().equals(originalReqCompNL));
     }
 
@@ -217,7 +222,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     protected Callback<ReqComponentInfo> actionButtonClickedReqCompCallback = new Callback<ReqComponentInfo>(){
         public void exec(final ReqComponentInfo reqComp) {
 
-            setEnabled(true);            
+            editReqCompWidget.setupNewReqComp();
+            setEnabled(true);
 
             //true if user cancel adding/editing req. component
             if (reqComp == null) {
@@ -256,25 +262,10 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
                         editedReqCompInfo.setReqCompFields(reqComp.getReqCompFields());
-                        //editedReqCompInfo.setRequiredComponentType(reqComp.getRequiredComponentType());
+                        editedReqCompInfo.setType(reqComp.getType());
                         editedReqCompInfo = null;  //de-reference from existing req. component
                     }
-
-                    //3. update NL for the rule
-                    /* not needed because the service does not care about NL in statement tree view info object
-                    statementRpcServiceAsync.translateStatementTreeViewToNL(rule, ProgramRequirementsViewController.RULEEDIT_TEMLATE,
-                                                                            ProgramRequirementsViewController.TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
-                        public void handleFailure(Throwable caught) {
-                            Window.alert(caught.getMessage());
-                            GWT.log("translateStatementTreeViewToNL failed", caught);
-                       }
-
-                        public void onSuccess(final String reqCompNL) {
-                            rule.setNaturalLanguageTranslation(reqCompNL);
-                            ruleManageWidget.redraw(rule);
-                        }
-                    }); */
-
+                    
                     ruleManageWidget.redraw(rule);
                 }
             });
@@ -307,23 +298,33 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         });
     }
 
+    //called when user selects a rule type in the rule editor
     protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
         public void exec(final ReqComponentInfo reqComp) {
-
-            //create temp. req. component
-            //ReqComponentInfo reqComp = new ReqComponentInfo();
-            //reqComp.setReqCompFields(new ArrayList<ReqCompFieldInfo>());
-            //reqComp.setRequiredComponentType(reqCompTypeInfo);
-
             statementRpcServiceAsync.translateReqComponentToNL(reqComp, ProgramRequirementsViewController.COMPOSITION_TEMLATE,
                                                                 ProgramRequirementsViewController.TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
-                    GWT.log("translateReqComponentToNL failed",caught);
+                    GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);
                 }
 
                 public void onSuccess(final String compositionTemplate) {
-                    editReqCompWidget.displayReqComponentFields(compositionTemplate);    
+                    editReqCompWidget.displayFieldsStart(compositionTemplate);    
+                }
+            });
+        }
+    };
+
+    protected Callback<List<String>> retrieveFieldsMetadataCallback = new Callback<List<String>>(){
+        public void exec(final List<String> fieldTypes) {
+            metadataServiceAsync.getMetadataList("org.kuali.student.core.statement.dto.ReqCompFieldInfo", fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
+                public void handleFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                    GWT.log("getMetadataList failed for req. comp. types: '" + fieldTypes.toString() + "'",caught);
+                }
+
+                public void onSuccess(final List<Metadata> metadataList) {
+                    editReqCompWidget.displayFieldsEnd(metadataList);
                 }
             });
         }

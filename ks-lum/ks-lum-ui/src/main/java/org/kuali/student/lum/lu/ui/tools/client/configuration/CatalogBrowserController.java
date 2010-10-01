@@ -17,13 +17,7 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
@@ -71,7 +65,7 @@ public class CatalogBrowserController extends TabMenuController
 		} else	{
     		KSBlockingProgressIndicator.addTask(initializingTask);
     		
-			metadataService.getMetadata ("BrowseCourseCatalog", "default", "default", new KSAsyncCallback<Metadata> (){
+			metadataService.getOldMetadata ("BrowseCourseCatalog", "default", "default", new KSAsyncCallback<Metadata> (){
 
 				@Override
 				public void handleFailure (Throwable caught)

@@ -38,7 +38,7 @@ public class CourseRequirementsViewController extends BasicLayout {
 		super.setViewEnum(viewType);
         super.setDefaultModelId(COURSE_RULES_MODEL_ID);
         super.setParentController(controller);
-        
+
 		this.setDefaultView(CourseRequirementsViewController.CourseRequirementsViews.PREVIEW);
 
         //not used
@@ -61,6 +61,12 @@ public class CourseRequirementsViewController extends BasicLayout {
             CourseRequirementsManageView manageView = new CourseRequirementsManageView(this, CourseRequirementsViewController.CourseRequirementsViews.MANAGE, "Add and Combine Rules", COURSE_RULES_MODEL_ID);
             super.addView(manageView);
         }
+
+    }
+
+    @Override
+    public void updateModel() {
+        preview.updateModel();    
     }
 
     @Override
@@ -156,11 +162,11 @@ public class CourseRequirementsViewController extends BasicLayout {
         ReqComponentInfo reqComp1 = new ReqComponentInfo();
         reqComp1.setId("REQCOMP-TV-1");
         reqComp1.setNaturalLanguageTranslation("Permission of English Department required");
-        reqComp1.setType("course.permission.org.required ");
+        reqComp1.setType("org.kuali.reqComponent.type.course.permission.org.required ");
         ReqComponentInfo reqComp2 = new ReqComponentInfo();
         reqComp2.setId("REQCOMP-TV-2");
         reqComp2.setNaturalLanguageTranslation("May be repeated for a maximum of 3 credits");
-        reqComp2.setType("course.credits.repeat.max ");
+        reqComp2.setType("org.kuali.reqComponent.type.course.credits.repeat.max");
         List<ReqComponentInfo> reqComponents = new ArrayList<ReqComponentInfo>();
         reqComponents.add(reqComp1);
         reqComponents.add(reqComp2);
@@ -173,11 +179,11 @@ public class CourseRequirementsViewController extends BasicLayout {
         ReqComponentInfo reqComp3 = new ReqComponentInfo();
         reqComp3.setId("REQCOMP-TV-3");
         reqComp3.setNaturalLanguageTranslation("Permission of Math Department required");
-        reqComp3.setType("course.permission.org.required ");
+        reqComp3.setType("org.kuali.reqComponent.type.course.permission.org.required");
         ReqComponentInfo reqComp4 = new ReqComponentInfo();
         reqComp4.setId("REQCOMP-TV-4");
         reqComp4.setNaturalLanguageTranslation("May be repeated for a maximum of 5 credits");
-        reqComp4.setType("course.credits.repeat.max ");
+        reqComp4.setType("org.kuali.reqComponent.type.course.credits.repeat.max");
         List<ReqComponentInfo> reqComponents2 = new ArrayList<ReqComponentInfo>();
         reqComponents2.add(reqComp3);
         reqComponents2.add(reqComp4);

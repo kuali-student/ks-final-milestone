@@ -86,8 +86,6 @@
                         value-ref="LogRpcGwtServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService"
                        value-ref="metadataGwtController"/>
-                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataPOCRpcService"
-                       value-ref="metadataPOCGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/programRpcService"
                        value-ref="programRpcServletController"/>
             </map>
@@ -229,11 +227,6 @@
     <bean id="metadataGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="MetadataRpcGwtServlet"/>
         <property name="servletInstance" ref="MetadataRpcGwtServlet"/>
-    </bean>
-
-    <bean id="metadataPOCGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="MetadataPOCRpcGwtServlet"/>
-        <property name="servletInstance" ref="MetadataPOCRpcGwtServlet"/>
     </bean>
 
     <!-- GWT Servlets -->
@@ -532,11 +525,8 @@
     <bean id="LogRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet"/>
 
     <bean id="MetadataRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.MetadataRpcGwtServlet">
-        <property name="serviceImpl" ref="metadataServiceImpl"/>
-    </bean>
-
-    <bean id="MetadataPOCRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.MetadataPOCRpcGwtServlet">
-        <property name="serviceImpl" ref="metadataServiceImplPOC"/>
+        <property name="oldServiceImpl" ref="metadataServiceImpl"/>
+        <property name="serviceImpl" ref="metadataServiceImplPOC"/>        
     </bean>
 
     <!-- Service clients -->

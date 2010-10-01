@@ -159,6 +159,7 @@ public class FieldDescriptor {
     public void setValidationCallBack(Callback<Boolean> callback){
         validationRequestCallback = callback;
     }
+
     public Callback<Boolean> getValidationRequestCallback(){
         return validationRequestCallback;
     }
@@ -178,18 +179,23 @@ public class FieldDescriptor {
 	public void setHasHadFocus(boolean hasHadFocus) {
 		this.hasHadFocus = hasHadFocus;
 	}
-	public Metadata getMetadata() {
+
+    public Metadata getMetadata() {
 		return metadata;
 	}
-	public void setMetadata(Metadata metadata) {
+
+    public void setMetadata(Metadata metadata) {
 		this.metadata = metadata;
 	}
-	public void setFieldWidget(Widget fieldWidget) {
+
+    public void setFieldWidget(Widget fieldWidget) {
 		this.fieldElement.setWidget(fieldWidget);
 	}
+
 	public String getModelId() {
 		return modelId;
 	}
+
 	public void setModelId(String modelId) {
 		this.modelId = modelId;
 	}
