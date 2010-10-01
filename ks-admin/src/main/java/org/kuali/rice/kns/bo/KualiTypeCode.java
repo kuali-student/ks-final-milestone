@@ -1,6 +1,6 @@
 package org.kuali.rice.kns.bo;
 
-import java.sql.Date;
+import java.util.Date;
 
 public interface KualiTypeCode extends PersistableBusinessObject{
 

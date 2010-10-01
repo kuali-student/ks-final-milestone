@@ -90,11 +90,11 @@
         <field-descriptor name="typeId" column="TYPE" jbdc-type="VARCHAR" />
         <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
         <field-descriptor name="createId" column="CREATEID" jbdc-type="VARCHAR" />
-        <field-descriptor name="createDate" column="CREATETIME" jbdc-type="DATE" />
+        <field-descriptor name="createDate" column="CREATETIME" jbdc-type="TIMESTAMP" />
         <field-descriptor name="updateId" column="UPDATEID" jbdc-type="VARCHAR" />
-        <field-descriptor name="updateDate" column="UPDATETIME" jbdc-type="DATE" />
-        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="DATE" />
-        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="DATE" />
+        <field-descriptor name="updateDate" column="UPDATETIME" jbdc-type="TIMESTAMP" />
+        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
         
         <reference-descriptor name="type"
                 class-ref="org.kuali.student.core.atp.bo.AtpType"
@@ -135,10 +135,10 @@
         <field-descriptor name="typeId" column="MLSTN_TYPE_ID" jbdc-type="VARCHAR" />
         <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
         <field-descriptor name="createId" column="CREATEID" jbdc-type="VARCHAR" />
-        <field-descriptor name="createDate" column="CREATETIME" jbdc-type="DATE" />
+        <field-descriptor name="createDate" column="CREATETIME" jbdc-type="TIMESTAMP" />
         <field-descriptor name="updateId" column="UPDATEID" jbdc-type="VARCHAR" />
-        <field-descriptor name="updateDate" column="UPDATETIME" jbdc-type="DATE" />
-        <field-descriptor name="milestoneDate" column="MLSTN_DT" jdbc-type="DATE" />
+        <field-descriptor name="updateDate" column="UPDATETIME" jbdc-type="TIMESTAMP" />
+        <field-descriptor name="milestoneDate" column="MLSTN_DT" jdbc-type="TIMESTAMP" />
         <field-descriptor name="atpId" column="ATP_ID" jdbc-type="VARCHAR" />
         
         <reference-descriptor name="type"
@@ -169,11 +169,11 @@
         <field-descriptor name="typeId" column="DT_RANGE_TYPE_ID" jbdc-type="VARCHAR" />
         <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
         <field-descriptor name="createId" column="CREATEID" jbdc-type="VARCHAR" />
-        <field-descriptor name="createDate" column="CREATETIME" jbdc-type="DATE" />
+        <field-descriptor name="createDate" column="CREATETIME" jbdc-type="TIMESTAMP" />
         <field-descriptor name="updateId" column="UPDATEID" jbdc-type="VARCHAR" />
-        <field-descriptor name="updateDate" column="UPDATETIME" jbdc-type="DATE" />
-        <field-descriptor name="startDate" column="START_DT" jdbc-type="DATE" />
-        <field-descriptor name="endDate" column="END_DT" jdbc-type="DATE" />
+        <field-descriptor name="updateDate" column="UPDATETIME" jbdc-type="TIMESTAMP" />
+        <field-descriptor name="startDate" column="START_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="endDate" column="END_DT" jdbc-type="TIMESTAMP" />
         <field-descriptor name="atpId" column="ATP_ID" jdbc-type="VARCHAR" />
         
         <reference-descriptor name="type"
@@ -201,8 +201,8 @@
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
         <field-descriptor name="description" column="TYPE_DESC" jdbc-type="VARCHAR" />
-        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="DATE" />
-        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="DATE" />
+        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
     </class-descriptor>      
     
     <class-descriptor class="org.kuali.student.core.atp.bo.AtpSeasonalType" table="KSAP_ATP_SEASONAL_TYPE">
@@ -211,8 +211,8 @@
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
         <field-descriptor name="description" column="TYPE_DESC" jdbc-type="VARCHAR" />
-        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="DATE" />
-        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="DATE" />
+        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
     </class-descriptor>        
     
     <class-descriptor class="org.kuali.student.core.atp.bo.AtpType" table="KSAP_ATP_TYPE">
@@ -221,8 +221,8 @@
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
         <field-descriptor name="description" column="TYPE_DESC" jdbc-type="VARCHAR" />
-        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="DATE" />
-        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="DATE" />
+        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
         <field-descriptor name="seasonalTypeId" column="SEASONAL_TYPE" jbdc-type="VARCHAR" />
         <field-descriptor name="durationTypeId" column="DUR_TYPE" jdbc-type="VARCHAR" />   
         
@@ -251,8 +251,8 @@
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
         <field-descriptor name="description" column="TYPE_DESC" jdbc-type="VARCHAR" />
-        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="DATE" />
-        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="DATE" />
+        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
     </class-descriptor>   
     	
     <class-descriptor class="org.kuali.student.core.atp.bo.MilestoneType" table="KSAP_MLSTN_TYPE">
@@ -261,8 +261,8 @@
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
         <field-descriptor name="description" column="TYPE_DESC" jdbc-type="VARCHAR" />
-        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="DATE" />
-        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="DATE" />
+        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
     </class-descriptor>    
     
     <class-descriptor class="org.kuali.rice.kns.bo.BusinessObjectExtensionAttributeImpl" table="KSAP_ATTR">

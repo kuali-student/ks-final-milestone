@@ -1,6 +1,6 @@
 package org.kuali.rice.kns.bo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
