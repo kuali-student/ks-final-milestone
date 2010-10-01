@@ -7,6 +7,24 @@ package org.kuali.student.lum.program.client.properties;
 public interface Program extends com.google.gwt.i18n.client.Messages {
   
   /**
+   * Translated "Activate".
+   * 
+   * @return translated "Activate"
+   */
+  @DefaultMessage("Activate")
+  @Key("button.activate")
+  String button_activate();
+
+  /**
+   * Translated "Approve".
+   * 
+   * @return translated "Approve"
+   */
+  @DefaultMessage("Approve")
+  @Key("button.approve")
+  String button_approve();
+
+  /**
    * Translated "Catalog Description".
    * 
    * @return translated "Catalog Description"
@@ -124,6 +142,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_savingData();
 
   /**
+   * Translated "Status: {0}".
+   * 
+   * @return translated "Status: {0}"
+   */
+  @DefaultMessage("Status: {0}")
+  @Key("common.status")
+  String common_status(String arg0);
+
+  /**
    * Translated "Do you want to save data?".
    * 
    * @return translated "Do you want to save data?"
@@ -140,6 +167,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Program Save")
   @Key("confirmDialog.title")
   String confirmDialog_title();
+
+  /**
+   * Translated "Exit".
+   * 
+   * @return translated "Exit"
+   */
+  @DefaultMessage("Exit")
+  @Key("link.exit")
+  String link_exit();
 
   /**
    * Translated "Learning Objectives".
@@ -331,6 +367,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_specializations();
 
   /**
+   * Translated "Program Summary".
+   * 
+   * @return translated "Program Summary"
+   */
+  @DefaultMessage("Program Summary")
+  @Key("program.menu.sections.summary")
+  String program_menu_sections_summary();
+
+  /**
    * Translated "Supporting Documents".
    * 
    * @return translated "Supporting Documents"
@@ -374,6 +419,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Accreditation")
   @Key("programInformation.accreditation")
   String programInformation_accreditation();
+
+  /**
+   * Translated "Accreditations".
+   * 
+   * @return translated "Accreditations"
+   */
+  @DefaultMessage("Accreditations")
+  @Key("programInformation.accreditations")
+  String programInformation_accreditations();
+
+  /**
+   * Translated "Add Accreditation".
+   * 
+   * @return translated "Add Accreditation"
+   */
+  @DefaultMessage("Add Accreditation")
+  @Key("programInformation.addAccreditation")
+  String programInformation_addAccreditation();
 
   /**
    * Translated "End Inst Admit Term".
@@ -671,6 +734,33 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Completion of a specialization is required for this program")
   @Key("programSpecialization.instructions")
   String programSpecialization_instructions();
+
+  /**
+   * Translated "Active".
+   * 
+   * @return translated "Active"
+   */
+  @DefaultMessage("Active")
+  @Key("status.active")
+  String status_active();
+
+  /**
+   * Translated "Approve".
+   * 
+   * @return translated "Approve"
+   */
+  @DefaultMessage("Approve")
+  @Key("status.approve")
+  String status_approve();
+
+  /**
+   * Translated "Draft".
+   * 
+   * @return translated "Draft"
+   */
+  @DefaultMessage("Draft")
+  @Key("status.draft")
+  String status_draft();
 
   /**
    * Translated "Variation Sections".

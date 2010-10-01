@@ -1,5 +1,6 @@
 package org.kuali.student.lum.course.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -26,7 +27,9 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
@@ -35,12 +38,13 @@ import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
  * and CluCluRelationInfo.
@@ -57,6 +61,7 @@ public class CourseServiceImpl implements CourseService {
     private DictionaryService dictionaryServiceDelegate;
     private Validator validator;
     private ValidatorFactory validatorFactory;
+    private StatementService statementService;
 
     @Override
     public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
@@ -157,7 +162,22 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("GetCourseStatements");
+    	checkForMissingParameter(courseId, "courseId");
+
+    	CluInfo clu = luService.getClu(courseId);
+		if (!CourseAssemblerConstants.COURSE_TYPE.equals(clu.getType())) {
+			throw new DoesNotExistException("Specified CLU is not a Course");
+		}
+		List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", clu.getId());
+		if (relations == null) {
+			throw new DoesNotExistException();
+		}
+
+		List<StatementTreeViewInfo> tree = new ArrayList<StatementTreeViewInfo>(relations.size());
+		for (RefStatementRelationInfo relation : relations) {
+			tree.add(statementService.getStatementTreeView(relation.getStatementId()));
+		}
+    	return tree;
     }
 
     @Override
@@ -265,35 +285,43 @@ public class CourseServiceImpl implements CourseService {
         this.luService = luService;
     }
 
+	public StatementService getStatementService() {
+		return statementService;
+	}
+
+	public void setStatementService(StatementService statementService) {
+		this.statementService = statementService;
+	}
+
 	@Override
 	public CourseInfo createNewCourseVersion(String versionIndCourseId,
 			String versionComment) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
-		
+
 		//step one, get the original course
 		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, versionIndCourseId);
 		CourseInfo originalCourse = getCourse(currentVersion.getId());
-		
+
 		//Version the Clu
 		CluInfo newVersionClu = luService.createNewCluVersion(versionIndCourseId, versionComment);
 
 		try {
 	        BaseDTOAssemblyNode<CourseInfo, CluInfo> results;
-	        
+
 	        //Integrate changes into the original course. (should this just be just the id?)
 			courseAssembler.assemble(newVersionClu, originalCourse, true);
-			
-			//Clear Ids from the original course 
+
+			//Clear Ids from the original course
 			resetIds(originalCourse);
-			
+
 			//Disassemble the new course
 			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE);
-	        
+
 			// Use the results to make the appropriate service calls here
-			courseServiceMethodInvoker.invokeServiceCalls(results);		
-		    
+			courseServiceMethodInvoker.invokeServiceCalls(results);
+
 			return results.getBusinessDTORef();
 		} catch (AlreadyExistsException e) {
 			throw new OperationFailedException("Error creating new course version",e);
@@ -330,7 +358,7 @@ public class CourseServiceImpl implements CourseService {
 			}
 		}
 	}
-	
+
 	private void resetLoRecursively(LoDisplayInfo lo){
 		lo.getLoInfo().setId(null);
 		for(LoDisplayInfo nestedLo:lo.getLoDisplayInfoList()){
@@ -388,7 +416,7 @@ public class CourseServiceImpl implements CourseService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
-			return luService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence);	
+			return luService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -415,4 +443,19 @@ public class CourseServiceImpl implements CourseService {
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
+
+	/**
+	 * Check for missing parameter and throw localized exception if missing
+	 *
+	 * @param param
+	 * @param parameter name
+	 * @throws MissingParameterException
+	 */
+	private void checkForMissingParameter(Object param, String paramName)
+			throws MissingParameterException {
+		if (param == null) {
+			throw new MissingParameterException(paramName + " can not be null");
+		}
+	}
+
 }

@@ -9,6 +9,7 @@ public class ProgramConstants {
     public static final String PROGRAM_MODEL_ID = "programModelId";
     public static final String CREDENTIAL_PROGRAM_ID = "credentialProgramId";
     public static final String ID = "id";
+    public static final String STATE = "state";
     public static final String MAJOR_OBJECT_ID = "kuali.lu.type.MajorDiscipline";
     public static final String MAJOR_TYPE_ID = "referenceType.clu";
 
@@ -39,6 +40,7 @@ public class ProgramConstants {
     public static final String CIP_2010 = "cip2010Code";
     public static final String HEGIS_CODE = "hegisCode";
     public static final String INSTITUTION = "institution";
+    public static final String ORG_ID = "orgId";
 
     //Managing Bodies
     public static final String CURRICULUM_OVERSIGHT_DIVISION = "divisionsContentOwner";
@@ -66,7 +68,6 @@ public class ProgramConstants {
     
     //Program Specializations
     public static final String VARIATIONS = "variations";
-    public static final String DRAFT = "draft";
     
     //Dynamic attributes
     public static final String ISVARIATIONREQUIRED = "isVariationRequired";

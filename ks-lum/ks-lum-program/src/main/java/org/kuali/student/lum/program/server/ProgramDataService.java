@@ -5,7 +5,6 @@ import java.util.Map;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
@@ -61,11 +60,7 @@ public class ProgramDataService extends AbstractDataService {
             throw new InvalidParameterException("Only persistence of MajorDiscipline is currently implemented");
         }
 
-    }
-
-    public ProgramRequirementInfo getProgramRequirement(String programRequirementId) throws Exception {
-        return programService.getProgramRequirement(programRequirementId, null, null);
-    }    
+    }  
 
     @Override
     protected Class<?> getDtoClass() {

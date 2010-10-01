@@ -23,9 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.student.core.assembly.data.masking.Mask;
-
-// TODO this class, and referenced classes, need to be moved into a GWT module
 public class Metadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,26 +32,6 @@ public class Metadata implements Serializable {
         ALWAYS, NEVER, WHEN_NULL, REQUIRED
     }
 
-    public enum Permission {
-        EDIT("edit"), READ_ONLY("readonly"), UNMASK("unmask");
-        final String kimName;
-        private Permission(String kimName) {
-            this.kimName = kimName;
-        }
-        @Override
-        public String toString() {
-            return kimName;
-        }
-        public static Permission kimValueOf(String kimName) {
-            for(Permission p : values()) {
-                if(p.kimName.equals(kimName)) {
-                    return p;
-                }
-            }
-            //fall through
-            throw new IllegalArgumentException("The value " + kimName + " is not enumerated in Permission"); 
-        }
-    }
     private String name;
     private String labelKey;
     private WriteAccess writeAccess;
@@ -66,7 +43,6 @@ public class Metadata implements Serializable {
     
     private boolean onChangeRefreshMetadata;
 
-    private Mask mask;
     private Data.DataType dataType;
     
     private Data.Value defaultValue;
@@ -260,14 +236,6 @@ public class Metadata implements Serializable {
 
     public void setOnChangeRefreshMetadata(boolean onChangeRefereshMetadata) {
         this.onChangeRefreshMetadata = onChangeRefereshMetadata;
-    }
-
-    public Mask getMask() {
-        return mask;
-    }
-
-    public void setMask(Mask mask) {
-        this.mask = mask;
     }
 
     public boolean isCanUnmask() {

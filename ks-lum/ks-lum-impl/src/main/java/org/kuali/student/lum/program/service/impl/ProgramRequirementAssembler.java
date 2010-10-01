@@ -3,8 +3,10 @@
  */
 package org.kuali.student.lum.program.service.impl;
 
-import java.util.List;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
+
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.assembly.BOAssembler;
@@ -13,7 +15,6 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler;
@@ -62,7 +63,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 				StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
 				if (relations != null) {
-					statementTreeViewAssembler.assemble(statementService.getStatement(relations.get(0).getStatementId()), statementTree, shallowBuild);
+					statementTreeViewAssembler.assemble(statementService.getStatementTreeView(relations.get(0).getStatementId()), statementTree, shallowBuild);
 				}
 				progReq.setStatement(statementTree);
 			} catch (AssemblyException e) {
@@ -73,7 +74,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
 
 		if (isEmpty(progReq.getLearningObjectives())) {
-			progReq.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+			progReq.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
 		}
 
 		progReq.setMetaInfo(clu.getMetaInfo());
@@ -101,7 +102,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		// Create the Statement Tree
         StatementTreeViewInfo statement = progReq.getStatement();
         statement.setId(UUIDHelper.genStringUUID(statement.getId()));
-        BaseDTOAssemblyNode<StatementTreeViewInfo, StatementInfo> statementTree;
+        BaseDTOAssemblyNode<StatementTreeViewInfo, StatementTreeViewInfo> statementTree;
 		try {
 			statementTree = statementTreeViewAssembler.disassemble(statement, operation);
 		} catch (AssemblyException e) {

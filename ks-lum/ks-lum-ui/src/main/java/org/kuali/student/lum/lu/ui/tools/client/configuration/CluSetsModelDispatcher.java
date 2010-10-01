@@ -41,8 +41,8 @@ public class CluSetsModelDispatcher extends LayoutController implements Configur
     }
 
     @Override
-    public <V extends Enum<?>> View getView(V viewType) {
-        return null;
+    public <V extends Enum<?>> void getView(V viewType, Callback<View> callback) {
+        callback.exec(null);
     }
 
     @Override

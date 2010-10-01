@@ -334,7 +334,7 @@
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqComponent.type.program.minors.nof" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Minors>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3014" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION" OWNER="kuali.reqComponent.type.program.minors.nof"/>
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION" OWNER="kuali.reqComponent.type.program.minor.admitted.classstanding"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.enrolled.nof" TEMPLATE="Must be concurrently enrolled in a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $cluSet.getCluSetAsCode()"/>

@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -15,243 +16,240 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
-import org.kuali.student.common.ui.client.util.Elements;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.widgetideas.client.GlassPanel;
 
 /**
  * 
  * */
-public class KSLightBox implements HasCloseHandlers<KSLightBox> {
-	public interface Resizer {
-		public void resize(ScrollPanel scroll);
-	}
-	public static final Resizer DEFAULT_RESIZER = new Resizer() {
-		private static final int maxPercentX = 80;
-		private static final int maxPercentY = 80;
-		private static final int minPixelsX = 600;
-		private static final int minPixelsY = 400;
-		
-		@Override
-		public void resize(ScrollPanel scroll) {
-			Widget w = scroll.getWidget();
-			int width = Math.min(w.getOffsetWidth(), (Window.getClientWidth() * maxPercentX) / 100); 
-			width = Math.max(width, minPixelsX);
-			
-			int height = Math.min(w.getOffsetHeight(), (Window.getClientHeight() * maxPercentY) / 100); 
-			height = Math.max(height, minPixelsY);
-			
-			scroll.setPixelSize(width + 20, height + 20);
-		}
-	};
-	
-	
-	public enum Styles {
-		LIGHTBOX("ks-lightbox"),
-		TITLE("ks-lightbox-title"),
-		CONTENT("ks-lightbox-content"),
-		CLOSE("ks-lightbox-close"),
-		CLOSE_PANEL("ks-lightbox-close-panel");
-		private final String style;
-		private Styles(final String style) {
-			this.style = style;
-		}
-		public String getStyle() {
-			return this.style;
-		}
-	}
-    private final PopupPanel pop = new PopupPanel(false, true);
-    private final ScrollPanel scroll = new ScrollPanel();
-    private final GlassPanel glass = new GlassPanel(false);
-    // KSLightBox actually needs to bind to the RootPanel, unlike other widgets that should use ApplicationPanel
-    private final AbsolutePanel parentPanel = RootPanel.get();
-    private final Resizer resizer;
-    private final VerticalFlowPanel panel = new VerticalFlowPanel();
-    private final FlowPanel headerPanel = new FlowPanel();
-    private final Anchor closeLink = new Anchor();
-    private boolean addCloseLink = true;
-    private boolean showing = false;
-    private int width = 400;
-    private int height = 300;     
-/*
-    private final Timer resizeTimer = new Timer() {
-		@Override
-		public void run() {
-			try {
-				adjust();
-			} catch (Exception e){
-				this.cancel();
-				throw new RuntimeException("Error Resizing Lightbox", e);
-			}
-		}
-	};
-	*/
-	private final HandlerManager handlers = new HandlerManager(this);
-	
-	public KSLightBox() {
-		// TODO review with UX what the expected look/behavior is when no title is specified, right now the close image can get in the way of the scroll-up button
-		// this is a hack for now
-		this.resizer = DEFAULT_RESIZER;
-		final SimplePanel titlePlaceHolder = new SimplePanel();
-		titlePlaceHolder.setSize("0.5em", "0.5em");
-		construct(titlePlaceHolder);
-	}
-	public KSLightBox(boolean addCloseLink) {
-	        // TODO review with UX what the expected look/behavior is when no title is specified, right now the close image can get in the way of the scroll-up button
-	        // this is a hack for now
-	        this.resizer = DEFAULT_RESIZER;
-	        final SimplePanel titlePlaceHolder = new SimplePanel();
-	       // titlePlaceHolder.setSize("2em", "2em");
-	        this.addCloseLink=addCloseLink;
-	        construct(titlePlaceHolder);
-	}
-	public KSLightBox(String title) {
-		this(title, DEFAULT_RESIZER);
-	}
-    public KSLightBox(String title, Resizer resizer) {
-    	//this(new HTML("<h2>" + title + "</h2>"), resizer);
-        this(new HTML("<h5>" + title + "</h5>"), resizer);
+public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightBox> */{
+//  private final HandlerManager handlers = new HandlerManager(this);
+    private int maxWidth = 800;
+    private int maxHeight = 0;
+    private int minWidth = 400;
+    private int minHeight = 200;
+    private int permWidth = -1;
+    private int permHeight = -1;
+    private FlowPanel mainPanel = new FlowPanel();
+    private FlowPanel titlePanel = new FlowPanel();
+    private ScrollPanel scrollPanel = new ScrollPanel();
+    
+    private Anchor closeLink = new Anchor();
+    private KSDialogResizeHandler resizeHandler = new KSDialogResizeHandler();
+    private HandlerRegistration resizeHandlerRegistrater;
+    
+    private FlexTable verticalPanel = new FlexTable();
+    private HorizontalPanel buttonPanel = new HorizontalPanel();    
+    public KSLightBox() {
+    	((Widget) this.getCaption()).setVisible(false);
+        init();
     }
-	public KSLightBox(Widget title) {
-		this(title, DEFAULT_RESIZER);
-	}
-    public KSLightBox(Widget title, Resizer resizer) {
-    	this.resizer = resizer;
-    	construct(title);
-    }
-    public void setShowCloseLink(boolean b){
-        closeLink.setVisible(b);
-    }
-    protected void construct(Widget title) {
-    	pop.setStyleName(Styles.LIGHTBOX.getStyle());
-    	pop.addStyleName("KS-Drop-Shadow");
-    	scroll.addStyleName(Styles.CONTENT.getStyle());
-    	panel.addStyleName("ks-lightbox-flowpanel");
-    	title.addStyleName(Styles.TITLE.getStyle());
+    private void init(){
+        super.setStyleName("ks-lightbox");
+
+        mainPanel.setStyleName("ks-lightbox-mainPanel");
+        titlePanel.setStyleName("ks-lightbox-titlePanel");
+        closeLink.setStyleName("ks-lightbox-title-closeLink");
+        scrollPanel.setStyleName("ks-lightbox-title-scrollPanel");
+         
+        setGlassEnabled(true);
+        super.setWidget(mainPanel);
+        mainPanel.add(titlePanel);
+        mainPanel.add(scrollPanel);
+        titlePanel.add(closeLink);
         
-    	
-    	pop.setWidget(panel);
-    	panel.add(headerPanel);
-    	panel.add(scroll);
-    	
-    	headerPanel.add(title);
-        if(addCloseLink){
-            headerPanel.add(closeLink);
+        verticalPanel.setStyleName("ks-lightbox-layoutTable");
+        verticalPanel.setWidget(1, 0, buttonPanel);
+        verticalPanel.getRowFormatter().setStyleName(1, "ks-lightbox-buttonRow");
+        scrollPanel.add(verticalPanel);
+        
+        installResizeHandler();
+        //super.
+        closeLink.addClickHandler(new ClickHandler(){
+
+            @Override
+            public void onClick(ClickEvent event) {
+               hide();
+            }
+        });
+    }
+    public KSLightBox(boolean addCloseLink) {
+    	((Widget) this.getCaption()).setVisible(false);
+        init();
+        closeLink.setVisible(addCloseLink);
+    }
+    public KSLightBox(String title) {
+        init();
+        super.setText(title);
+    }
+    public void uninstallResizeHandler(){
+        if(resizeHandlerRegistrater != null){
+            resizeHandlerRegistrater.removeHandler();
+            resizeHandlerRegistrater = null;
+            
         }
-    	headerPanel.addStyleName(Styles.CLOSE_PANEL.getStyle());
-    	
-    	// TODO fetch this from i18n messages
-    	closeLink.setTitle("Close");
-    	closeLink.setStyleName(Styles.CLOSE.getStyle());
-    	closeLink.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				hide();
-			}
-		});
-    	
-        scroll.setPixelSize(width, height);
+    }
+    public void installResizeHandler(){
+        if(resizeHandlerRegistrater == null){
+            resizeHandlerRegistrater =  Window.addResizeHandler(resizeHandler);
+        }
+    }
+    public void setCloseLinkVisible(boolean visible){
+        closeLink.setVisible(visible);
+    }
+    public void addButton(Widget button){
+    	button.addStyleName("ks-button-spacing");
+        buttonPanel.add(button);
     }
     
-    protected void adjust() {
-      //  resizer.resize(scroll);
-        scroll.setPixelSize(width, height);
-        pop.center();
+    @SuppressWarnings("unchecked")
+	public void addButtonGroup(ButtonGroup group){
+    	buttonPanel.add(group);
+    }
+    
+    public void setWidget(Widget content){
+        verticalPanel.setWidget(0, 0, content);
+        verticalPanel.getRowFormatter().setStyleName(0, "ks-lightbox-contentRow");
+    }
+    public void setMaxWidth(int width){
+        this.maxWidth = width;
+    }
+    public void setMaxHeight(int height){
+        this.maxHeight = height;
     }
     public void setSize(int width, int height){
-       this.width = width;
-       this.height = height;
+        super.setSize(width+"px", height+"px");
+        this.permHeight = height;
+        this.permWidth = width;
+        scrollPanel.setSize((width+10)+"px", (height+10)+"px");
     }
-    public void show() {
-        if (!showing) {
-            glass.getElement().setAttribute("zIndex", "" + KSZIndexStack.pop());
-            parentPanel.add(glass, 0, 0);
-            pop.getElement().setAttribute("zIndex", "" + KSZIndexStack.pop());
-           // resizeTimer.scheduleRepeating(500);
-            Elements.setOpacity(pop, 0);
-            adjust();
-            Elements.setOpacity(pop, 100);
-        }
-        adjust();
-        showing = true;
-    }
-
-    public void hide() {
-    //	resizeTimer.cancel();
-    	if (showing) {
-	        pop.hide();
-	        KSZIndexStack.push();
-	        parentPanel.remove(glass);
-	        KSZIndexStack.push();
-	        showing = false;
-	        CloseEvent.fire(this, this);
-    	}
-    }
-
-    public Widget getWidget() {
-        return scroll.getWidget();
-    }
-
-    public void setWidget(Widget w) {
-        if(w != null){
-           width = w.getOffsetWidth();
-           height = w.getOffsetHeight();
-        }
-        if(width > 800){
-            width = 800;
-        }
-        if(height > 600){
-            height = 600;
-        }
-        if(width < 320){
-            width = 320;
-        }
-        if(height < 240){
-            height = 240;
-        }
-        scroll.setPixelSize(width, height);
-    	scroll.setWidget(w);
-    	scroll.getElement().getStyle().setMargin(5, Style.Unit.PX);
-    }
-    public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
-    	return handlers.addHandler(CloseEvent.getType(), handler);
-    }
-
-	public boolean isShowing() {
-		return showing;
-	}
-	@Override
-	public void fireEvent(GwtEvent<?> event) {
-		handlers.fireEvent(event);
-	}
-	
-    /*
-     * Call this method to remove the Close link from the light box
-     */
-    public void removeCloseLink(){
-        headerPanel.remove(closeLink);
-    }
-
-	
     
+    public void showButtons(boolean show){
+    	buttonPanel.setVisible(show);
+    }
+    
+    @Override
+    public void hide(){
+        super.hide();
+        uninstallResizeHandler();
+    }
+    @Override
+    public void show(){
+        resizeDialog();
+        installResizeHandler();
+        super.show();
+        super.center();
+    }
+    @Override
+    protected void onPreviewNativeEvent(NativePreviewEvent preview) {
+        super.onPreviewNativeEvent(preview);
+        NativeEvent evt = preview.getNativeEvent();
+        if (evt.getType().equals("keydown")) {
+            switch (evt.getKeyCode()) {
+            case KeyCodes.KEY_ESCAPE:
+                hide();
+                break;
+            }
+        }
+    }    
+    public Widget getWidget() {
+    	return verticalPanel.getWidget(0, 0);
+    }
+
+    public void removeCloseLink(){
+        closeLink.setVisible(false);
+    }
+//    public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
+  //      return handlers.addHandler(CloseEvent.getType(), handler);
+   // }
+
+    private void resizeDialog(){
+    	
+    	int width = maxWidth;
+        int height = maxHeight;
+        
+        //Width calculation
+        if(permWidth != -1){
+    		width = permWidth;
+    	}
+        else{
+        	if (Window.getClientWidth() < 850){
+                width = Window.getClientWidth() - 160;
+            }
+        	if(width > maxWidth){
+                width = maxWidth;
+            }
+        	if(width < minWidth){
+        		width = minWidth;
+        	}
+        }
+        
+        //Height calculation
+        if(permHeight != -1){
+    		height = permHeight;
+    	}
+        else{
+        	height = Window.getClientHeight() - 160;
+
+        	if(height > maxHeight && maxHeight != 0){
+                height = maxHeight;
+            }
+        	if(height < minHeight){
+        		height = minHeight;
+        	}
+        }
+
+        if(width > 0 && height > 0){
+            super.setSize(width + "px", height + "px");
+            scrollPanel.setSize((width+10)+"px", (height+10)+"px");
+        }
+        
+/*        DeferredCommand.addCommand(new Command(){
+
+            @Override
+            public void execute() {
+            	//center();
+                int left = (Window.getClientWidth() - getOffsetWidth()) >> 1;
+                int top = (Window.getClientHeight() - getOffsetHeight()) >> 1;
+                setPopupPosition(Math.max(Window.getScrollLeft() + left, 0), Math.max(
+                    Window.getScrollTop() + top, 0));
+            }
+        });  */      
+    }
+
+    class KSDialogResizeHandler implements ResizeHandler{
+        @Override
+        public void onResize(ResizeEvent event) {
+            DeferredCommand.addCommand(new Command(){
+
+                @Override
+                public void execute() {
+                    resizeDialog();
+                    int left = (Window.getClientWidth() - getOffsetWidth()) >> 1;
+                    int top = (Window.getClientHeight() - getOffsetHeight()) >> 1;
+                    setPopupPosition(Math.max(Window.getScrollLeft() + left, 0), Math.max(
+                        Window.getScrollTop() + top, 0));
+                }
+            });
+        }
+    }
+   
 }

@@ -23,7 +23,6 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -105,7 +104,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
+    @Ignore // FIXME
     public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", "KUALI.RULE", "en");
         assertNotNull(progReqInfo);
@@ -113,7 +112,7 @@ public class TestProgramServiceImpl {
         checkTreeView(progReqInfo, true);
     }
 
-	private void checkTreeView(final ProgramRequirementInfo progReqInfo,  final boolean checkNaturalLanguage) {
+	private void checkTreeView(final ProgramRequirementInfo progReqInfo, final boolean checkNaturalLanguage) {
 		StatementTreeViewInfo rootTree = progReqInfo.getStatement();
         assertNotNull(rootTree);
         List<StatementTreeViewInfo> subTreeView = rootTree.getStatements();
@@ -136,9 +135,6 @@ public class TestProgramServiceImpl {
         if (checkNaturalLanguage) {
         	assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
         	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
-        	assertEquals("Student must have completed all of MATH 152, MATH 180 " +
-        			"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
-        			subTree1.getNaturalLanguageTranslation());
         }
 
         // Check reqComps of sub-tree 2
@@ -149,14 +145,6 @@ public class TestProgramServiceImpl {
         if (checkNaturalLanguage) {
         	assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
         	assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
-        	assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
-        			"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
-        			subTree2.getNaturalLanguageTranslation());
-
-        	assertEquals(
-        			"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        			"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
-        			rootTree.getNaturalLanguageTranslation());
         }
 	}
 
@@ -911,7 +899,6 @@ public class TestProgramServiceImpl {
 	}
 
 	@Test(expected=DoesNotExistException.class)
-	@Ignore
 	public void testUpdateProgramRequirement() throws Exception {
 		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
         StatementTreeViewInfo treeView = progReq.getStatement();
@@ -1415,7 +1402,7 @@ public class TestProgramServiceImpl {
 	                fail("Retrieval of deleted coreProgram should have thrown exception");
 	            } catch (DoesNotExistException e) {}
             }catch (OperationFailedException e) {}
-            
+
         } catch (Exception e) {
             fail(e.getMessage());
         }

@@ -34,6 +34,14 @@
         <class>org.kuali.student.core.document.entity.DocumentTypeAttribute</class>
         <class>org.kuali.student.core.document.entity.DocumentCategory</class>
         <class>org.kuali.student.core.document.entity.DocumentCategoryAttribute</class>
+        <class>org.kuali.student.core.document.entity.RefDocRelation</class>
+		<class>org.kuali.student.core.document.entity.RefDocRelationAttribute</class>
+		<class>org.kuali.student.core.document.entity.RefDocRelationType</class>
+		<class>org.kuali.student.core.document.entity.RefDocRelationTypeAttribute</class>
+		<class>org.kuali.student.core.document.entity.RefObjectSubType</class>
+		<class>org.kuali.student.core.document.entity.RefObjectSubTypeAttribute</class>
+		<class>org.kuali.student.core.document.entity.RefObjectType</class>
+		<class>org.kuali.student.core.document.entity.RefObjectTypeAttribute</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
     </persistence-unit>
 </persistence>

@@ -18,11 +18,8 @@ package org.kuali.student.common.ws.beans;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.kuali.student.security.cxf.interceptors.SamlTokenCxfInInterceptor;
 
 public class CxfJaxWsProxyClientFactory extends JaxWsProxyFactoryBean implements JaxWsClientFactory {
-
-    private SamlTokenCxfInInterceptor samlTokenInInterceptor;
     
     @Override
     public Class<?> getServiceEndpointInterface() {
@@ -35,12 +32,7 @@ public class CxfJaxWsProxyClientFactory extends JaxWsProxyFactoryBean implements
     }
 
     @Override
-    public Object getObject() throws Exception {
-        
-        if(samlTokenInInterceptor != null){
-            this.getInInterceptors().add(samlTokenInInterceptor);
-        }
-        
+    public Object getObject() throws Exception {                
         return super.create();
     }
 
@@ -56,14 +48,6 @@ public class CxfJaxWsProxyClientFactory extends JaxWsProxyFactoryBean implements
     
     public void setServiceQNameString(String serviceName) {
         super.setServiceName(QName.valueOf(serviceName));
-    }
-
-    public SamlTokenCxfInInterceptor getSamlTokenInInterceptor() {
-        return samlTokenInInterceptor;
-    }
-
-    public void setSamlTokenInInterceptor(SamlTokenCxfInInterceptor samlTokenInInterceptor) {
-        this.samlTokenInInterceptor = samlTokenInInterceptor;
     }
 
 }

@@ -1056,9 +1056,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(subTree1.getReqComponents().get(1).getId(), "REQCOMP-TV-2");
         assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
         assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
-        assertEquals("Student must have completed all of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
-        		subTree1.getNaturalLanguageTranslation());
 
         // check reqComps of sub-tree 2
         assertEquals(subTree2.getId(), "STMT-TV-3");
@@ -1067,18 +1064,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(subTree2.getReqComponents().get(1).getId(), "REQCOMP-TV-4");
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
         assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
-        		subTree2.getNaturalLanguageTranslation());
-
-        assertEquals(
-        		"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        		"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
-        		rootTree.getNaturalLanguageTranslation());
     }
 
     @Test
-    public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
         //     After tree is updated
         //                          STMT-TV-1:OR
         //          STMT TV 2:AND                   STMT TV 3:AND
@@ -1129,11 +1118,31 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         subStatements.add(subTreeView2);
         treeView.setStatements(subStatements);
 
-        StatementTreeViewInfo returnedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
+        StatementTreeViewInfo returnedTreeView = statementService.createStatementTreeView(treeView);
         testStatementTreeView(returnedTreeView);
 
         StatementTreeViewInfo retrievedUpdatedTreeView = statementService.getStatementTreeView(returnedTreeView.getId());
         testStatementTreeView(retrievedUpdatedTreeView);
+        
+        StatusInfo status = statementService.deleteStatementTreeView(retrievedUpdatedTreeView.getId());
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getStatements().get(0).getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getStatements().get(1).getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
     }
 
     private void testStatementTreeView(StatementTreeViewInfo treeView) {

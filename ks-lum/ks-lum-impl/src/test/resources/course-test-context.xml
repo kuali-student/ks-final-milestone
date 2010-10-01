@@ -129,6 +129,36 @@
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
+    <!--  Preloaded data -->
+    <bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+        <property name="jtaTxManager" ref="JtaTxManager"/>
+        <property name="shouldLoadData" value="true"/>
+        <property name="preloadMap">
+			<map>
+               <entry key="Lu">
+                    <value>classpath:ks-lu.sql</value>
+                </entry>
+                <entry key="Lo">
+                    <value>classpath:ks-lo.sql</value>
+                </entry>
+                <entry key="Statement">
+                    <list>
+                        <value>classpath:ks-statement.sql</value>
+                        <value>classpath:ks-statement-tree.sql</value>
+                        <value>classpath:ks-statement-data.sql</value>
+                        <value>classpath:ks-course.sql</value>
+                    </list>
+                </entry>
+           <!--
+                <entry key="Lrc">
+                    <value>classpath:ks-lrc.sql</value>
+                </entry>
+             -->
+			</map>
+        </property>
+    </bean>
+
+
 	<!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
@@ -352,7 +382,7 @@
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
         <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
-        <property name="validator" ref="businessServiceValidator"/>                
+        <property name="validator" ref="businessServiceValidator"/>
 	</bean>
 
 	<!-- Learning Objective service config -->
@@ -440,6 +470,7 @@
 		<property name="courseAssembler" ref="courseAssembler"/>
 		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
+		<property name="statementService" ref="statementServiceImpl"/>
 	</bean>
 
 	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
@@ -522,7 +553,7 @@
 				<entry key-ref="emEntityManager">
 					<list>
 						<bean
-							class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity">
+							class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
 							<property name="id" value="33" />
 							<property name="abbrevValue" value="North" />
 							<property name="code" value="NORTH" />
@@ -531,7 +562,7 @@
 							<property name="value" value="North Campus" />
 						</bean>
 						<bean
-							class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity">
+							class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
 							<property name="id" value="34" />
 							<property name="abbrevValue" value="South" />
 							<property name="code" value="SOUTH" />
@@ -541,56 +572,16 @@
 						</bean>
 					</list>
 				</entry>
-				<entry key-ref="luEntityManager">
-					<list>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.CreditCourse"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.CreditCourseFormatShell"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Lab"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Discussion"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Tutorial"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Lecture"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.WebLecture"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.WebDiscussion"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuType" p:id="kuali.lu.type.activity.Directed"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="luLuRelationType.hasCourseFormat"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="kuali.lu.relation.type.co-located"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="kuali.lu.relation.type.copyOfClu"/>
-						<bean class="org.kuali.student.lum.lu.entity.LuLuRelationType" p:id="luLuRelationType.contains"/>
-						<!--<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.grades"/>
-						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.credits"/>-->
-						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.gradeCourseResult"/>
-						<bean class="org.kuali.student.lum.lu.entity.CluResultType" p:id="kuali.resultType.creditCourseResult"/>
-						<bean class="org.kuali.student.lum.lu.entity.CluLoRelationType" p:id="cluLuType.default"/>
-					</list>
-				</entry>
-				<entry key-ref="loEntityManager">
-					<list>
-						<bean class="org.kuali.student.lum.lo.entity.LoType" p:id="kuali.lo.type.singleUse" />
-						<bean class="org.kuali.student.lum.lo.entity.LoLoRelationType" p:id="kuali.lo.relation.type.includes" />
-						<ref bean="loCategoryType.skillarea"/>
-						<ref bean="loCatRepo"/>
-					</list>
-				</entry>
 				<entry key-ref="lrcEntityManager">
 					<list>
+                        <bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.multiple"/>
 						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.fixed"/>
 						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.range"/>
-						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.multiple"/>
 					</list>
 				</entry>
 			</map>
 		</property>
 	</bean>
 
-	<bean id="loCategoryType.skillarea" class="org.kuali.student.lum.lo.entity.LoCategoryType" p:id="loCategoryType.skillarea" />
-	<bean id="loCatRepo" class="org.kuali.student.lum.lo.entity.LoRepository" p:id="kuali.loRepository.key.singleUse">
-		<property name="categories">
-			<list>
-				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-1" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
-				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-2" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
-				<bean class="org.kuali.student.lum.lo.entity.LoCategory" p:id="category-3" p:loCategoryType-ref="loCategoryType.skillarea" p:loRepository-ref="loCatRepo"/>
-			</list>
-		</property>
-	</bean>
 
 </beans>

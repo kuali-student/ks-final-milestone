@@ -48,10 +48,10 @@ public class AtpInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private RichTextInfo desc;
 
     @XmlElement
-    private Date effectiveDate;
+    private Date startDate;
 
     @XmlElement
-    private Date expirationDate;
+    private Date endDate;
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -95,22 +95,22 @@ public class AtpInfo implements Serializable, Idable, HasTypeState, HasAttribute
      * Date and time the academic time period became effective. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
      */
     public Date getEffectiveDate() {
-        return effectiveDate;
+        return startDate;
     }
 
     public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
+        this.startDate = effectiveDate;
     }
 
     /**
      * Date and time the academic time period expires. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
      */
     public Date getExpirationDate() {
-        return expirationDate;
+        return endDate;
     }
 
     public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+        this.endDate = expirationDate;
     }
 
     /**

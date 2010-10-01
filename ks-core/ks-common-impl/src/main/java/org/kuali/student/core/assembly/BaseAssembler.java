@@ -28,7 +28,6 @@ import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.Metadata.Permission;
 import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -40,6 +39,28 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
 
     protected PermissionService permissionService;
     protected MetadataServiceImpl metadataService;
+    
+    public enum Permission {
+        EDIT("edit"), READ_ONLY("readonly"), UNMASK("unmask");
+        final String kimName;
+        private Permission(String kimName) {
+            this.kimName = kimName;
+        }
+        @Override
+        public String toString() {
+            return kimName;
+        }
+        public static Permission kimValueOf(String kimName) {
+            for(Permission p : values()) {
+                if(p.kimName.equals(kimName)) {
+                    return p;
+                }
+            }
+            //fall through
+            throw new IllegalArgumentException("The value " + kimName + " is not enumerated in Permission"); 
+        }
+    }
+    
 
     // TODO: Below must be changed to use constants from KualiStudentKimAttributes class (class is currently in LUM)
     protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id) {
@@ -124,7 +145,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
 	                    fieldMetadata = fieldMetadata.getProperties().get(fieldPathTokens[i]);
 	                }
 	                if (fieldMetadata != null) {
-	                    Permission perm = Metadata.Permission.kimValueOf(fieldAccessLevel);
+	                    Permission perm = Permission.kimValueOf(fieldAccessLevel);
 	                    if (Permission.EDIT.equals(perm)) {
 	                        setReadOnly(fieldMetadata, false);
 	                        //fieldMetadata.setCanEdit(true);

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.naturallanguage.AbstractContext;
 import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
@@ -143,7 +143,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return custom CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public CluSetInfo getCluSet(ReqComponent reqComponent) throws OperationFailedException {
+    public CluSetInfo getCluSet(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	CluSetInfo cluSet = null;
     	if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getType())) {
@@ -164,7 +164,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @param reqComponent Requirement component
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
 		contextMap.put(EXPECTED_VALUE_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType()));
         contextMap.put(OPERATOR_TOKEN, getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getType()));

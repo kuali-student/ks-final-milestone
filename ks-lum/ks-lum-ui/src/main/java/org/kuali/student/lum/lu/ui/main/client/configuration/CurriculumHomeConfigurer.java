@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
 import org.kuali.student.common.ui.client.widgets.layout.LinkContentBlock;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -84,6 +85,10 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 		if(searchMetadata != null){
 		Metadata metadata = searchMetadata.getProperties().get("findProposal");                
 	        searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+	        SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+	        if(panel != null){
+	        	panel.setMutipleSelect(false);
+	        }
 	        ((KSPicker) searchWidget).setAdvancedSearchCallback(new Callback<List<SelectedResults>>(){
 	
 				@Override
@@ -111,6 +116,10 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 		if(searchMetadata != null){
 			Metadata metadata = searchMetadata.getProperties().get("findCourseTmp");
 	        searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+	        SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+	        if(panel != null){
+	        	panel.setMutipleSelect(false);
+	        }
 	        ((KSPicker) searchWidget).addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
 	            public void onValueChange(ValueChangeEvent<List<String>> event) {
 	                List<String> selection = event.getValue();
@@ -134,6 +143,10 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 		if(searchMetadata != null){
 			Metadata metadata = searchMetadata.getProperties().get("findMajor");  
 	        searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+	        SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+	        if(panel != null){
+	        	panel.setMutipleSelect(false);
+	        }
 	        ((KSPicker) searchWidget).addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
 	            public void onValueChange(ValueChangeEvent<List<String>> event) {
 	                List<String> selection = event.getValue();

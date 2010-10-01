@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.statement.entity.RefStatementRelation;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.Statement;
@@ -31,5 +32,5 @@ public interface StatementDao extends CrudDao, SearchableDao {
     public List<ReqComponent> getReqComponentsByType(String reqComponentTypeKey);
     public List<Statement> getStatementsForReqComponent(String reqComponentId);
     public List<RefStatementRelation> getRefStatementRelations(String refObjectTypeKey, String refObjectId);
-    public Statement getParentStatement(String childId);
+    public Statement getParentStatement(String childId) throws DoesNotExistException;
 }

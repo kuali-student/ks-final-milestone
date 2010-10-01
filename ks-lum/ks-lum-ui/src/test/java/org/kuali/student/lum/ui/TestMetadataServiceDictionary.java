@@ -21,12 +21,15 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.dictionary.MetadataFormatter;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
@@ -45,14 +48,28 @@ public class TestMetadataServiceDictionary
  public void testMetadataService ()
  {
   Set<Class<?>> startingClasses = new LinkedHashSet ();
+  Map<String, Set<String>> types = new LinkedHashMap ();
   startingClasses.add (CourseInfo.class);
-//  startingClasses.add (StatementTreeViewInfo.class);
   startingClasses.add (MajorDisciplineInfo.class);
   startingClasses.add (ProposalInfo.class);
   startingClasses.add (CluSetInfo.class);
   startingClasses.add (StatementInfo.class);
   startingClasses.add (ReqComponentInfo.class);
   startingClasses.add (ReqCompFieldInfo.class);
+
+  //  startingClasses.add (StatementTreeViewInfo.class);
+
+  Set<String> typesForClass = new LinkedHashSet ();
+  types.put (ReqCompFieldInfo.class.getName (), typesForClass);
+  typesForClass.add ("kuali.reqComponent.field.type.gpa");
+  typesForClass.add ("kuali.reqComponent.field.type.operator");
+  typesForClass.add ("kuali.reqComponent.field.type.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.person.id");
+  typesForClass.add ("kuali.reqComponent.field.type.org.id");
+  typesForClass.add ("kuali.reqComponent.field.type.value.positive.integer");
+  typesForClass.add ("kuali.reqComponent.field.type.gradeType.id");
+  typesForClass.add ("kuali.reqComponent.field.type.grade");
 
   DictionaryService courseDictService = new DictionaryServiceImpl (
     "classpath:ks-courseInfo-dictionary-context.xml");
@@ -71,7 +88,7 @@ public class TestMetadataServiceDictionary
     proposalDictService,
     statementDictService);
   metadataService.setUiLookupContext ("classpath:lum-ui-lookup-context.xml");
-	 String outFile = "target/metadata.txt";
+  String outFile = "target/metadata.txt";
   File file = new File (outFile);
   OutputStream outputStream = null;
   try
@@ -82,9 +99,9 @@ public class TestMetadataServiceDictionary
   {
    throw new RuntimeException (ex);
   }
-  PrintStream out =new PrintStream (outputStream);
+  PrintStream out = new PrintStream (outputStream);
   out.println ("(!) This page was automatically generated on "
-                      + new Date ());
+               + new Date ());
   out.println ("DO NOT UPDATE MANUALLY!");
   out.println ("");
   out.print (
@@ -104,10 +121,25 @@ public class TestMetadataServiceDictionary
    Metadata metadata = metadataService.getMetadata (clazz.getName ());
    assertNotNull (metadata);
    MetadataFormatter formatter = new MetadataFormatter (clazz.getName (),
-                                                        metadata, null, new HashSet (),
+                                                        metadata, null,
+                                                        null, new HashSet (),
                                                         1);
    out.println (formatter.formatForWiki ());
-
+   if (types.get (clazz.getName ()) == null)
+   {
+    continue;
+   }
+   for (String type : types.get (clazz.getName ()))
+   {
+    System.out.println ("*** Generating formatted version for " + type);
+    metadata = metadataService.getMetadata (clazz.getName (), type, (String) null);
+    assertNotNull (metadata);
+    formatter = new MetadataFormatter (clazz.getName (),
+                                       metadata, type,
+                                       null, new HashSet (),
+                                       1);
+    out.println (formatter.formatForWiki ());
+   }
   }
  }
 }

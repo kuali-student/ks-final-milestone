@@ -15,9 +15,17 @@
 
 package org.kuali.student.lum.lu.ui.course.client.service;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
+import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface CourseRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
-
-
+    public void getCourseStatements(String courseId, String nlUsageTypeKey, String language, AsyncCallback<List<StatementTreeViewInfo>> callback);
+    public void updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
+    public void createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback);
+    public void deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatusInfo> callback);
 }

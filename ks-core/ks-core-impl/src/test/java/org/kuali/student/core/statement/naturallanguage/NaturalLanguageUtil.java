@@ -24,6 +24,7 @@ import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
 import org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
@@ -259,8 +260,8 @@ public class NaturalLanguageUtil {
 //		return headerList;
 //	}
     
-    public static ContextRegistry<Context<ReqComponent>> getReqComponentContextRegistry() {
-    	ContextRegistry<Context<ReqComponent>> contextRegistry = new ContextRegistry<Context<ReqComponent>>();
+    public static ContextRegistry<Context<ReqComponentInfo>> getReqComponentContextRegistry() {
+    	ContextRegistry<Context<ReqComponentInfo>> contextRegistry = new ContextRegistry<Context<ReqComponentInfo>>();
 
     	createData();
     	CourseListContextImpl.setCluInfo(cluList);

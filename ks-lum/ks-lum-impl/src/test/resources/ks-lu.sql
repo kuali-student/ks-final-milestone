@@ -609,7 +609,7 @@ insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('CORE-2', '
 insert into kslu_clu_accred (ID,CREATEID,CREATETIME,VERSIONIND, eff_dt, org_id) values ('MAJOR-1', 'admin', {ts '2010-08-05 10:00:00.0'}, 0,  {ts '2010-08-05 10:00:00.0'} , '23' )
 insert into kslu_clu_JN_ACCRED (CLU_ID, CLU_ACCRED_ID) values ('d4ea77dd-b492-4554-b104-863e42c5f8b7', 'MAJOR-1')
 
-INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('MAJOR-1', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', {ts '2009-01-01 00:00:00.0'},  'active', 'cluLuType.default')
+INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('MAJOR-1', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', {ts '2009-01-01 00:00:00.0'},  'active', 'kuali.lu.lo.relation.type.includes')
 
  update KSLU_CLU set ATP_DUR_TYP_KEY= 'kuali.atp.duration.Week', TM_QUANTITY= 100, LAST_ADMIT_ATP= 'end_admit_term', LAST_ATP = 'end_term', NEXT_REVIEW_PRD = 'kuali.atp.SU2009-2010S1', clu_intsty_type = 'kuali.atp.duration.full',  ref_url='http://www.google.ca' where ID = 'd4ea77dd-b492-4554-b104-863e42c5f8b7';
  update KSLU_CLU set LAST_ADMIT_ATP= 'end_admit_term', LAST_ATP = 'end_term',ref_url='http://www.google.ca' where ID = '00f5f8c5-fff1-4c8b-92fc-789b891e0849';
@@ -664,7 +664,7 @@ insert into KSLU_CLU_RSLT  (ID,  CREATEID, CREATETIME, versionind, eff_dt,  st, 
 insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VERSIONIND,RES_COMP_ID,ST, RT_DESCR_ID) Values ('VAR-201','admin',{ts '2010-04-15 10:00:00.0'}, 0, 'kuali.resultComponent.degree.ba','active', 'VAR-202');
 insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('VAR-201','VAR-201');
 
---INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('VAR-201', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'VAR-200', {ts '2009-01-01 00:00:00.0'},  'active', 'cluLuType.default')
+--INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('VAR-201', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'VAR-200', {ts '2009-01-01 00:00:00.0'},  'active', 'kuali.lu.lo.relation.type.includes')
 
 // Variation 2
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('VAR-301', '<b>Archaeobotany</b>', 'Archaeobotany')
@@ -705,9 +705,9 @@ insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VERSIONIND,RES_COMP_ID,ST, RT_
 insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('VAR-301','VAR-301');
 
 
---INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('VAR-301', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'VAR-300', {ts '2009-01-01 00:00:00.0'},  'active', 'cluLuType.default')
+--INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('VAR-301', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'fde6421e-64b4-41af-bac5-269005101c2a', 'VAR-300', {ts '2009-01-01 00:00:00.0'},  'active', 'kuali.lu.lo.relation.type.includes')
 
-INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('CORE-101', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'LO-111', '00f5f8c5-fff1-4c8b-92fc-789b891e0849', {ts '2009-01-01 00:00:00.0'},  'active', 'cluLuType.default')
+INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('CORE-101', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'LO-111', '00f5f8c5-fff1-4c8b-92fc-789b891e0849', {ts '2009-01-01 00:00:00.0'},  'active', 'kuali.lu.lo.relation.type.includes')
 --
 --
 --
@@ -717,4 +717,7 @@ insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID,VER_IND_ID,SEQ_NUM,CURR_VER_START,CURR_VER_END) values ('CLU-VERSIONTEST-V2', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture','CLU-VERSIONTEST-IND',2,{ts '2010-03-01 00:00:00.0'},{ts '2010-04-01 00:00:00.0'})
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID,VER_IND_ID,SEQ_NUM,CURR_VER_START,CURR_VER_END) values ('CLU-VERSIONTEST-V3', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture','CLU-VERSIONTEST-IND',3,{ts '2010-04-01 00:00:00.0'},{ts '2010-05-01 00:00:00.0'})
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID,VER_IND_ID,SEQ_NUM,CURR_VER_START,CURR_VER_END) values ('CLU-VERSIONTEST-V4', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture','CLU-VERSIONTEST-IND',4,{ts '2010-05-01 00:00:00.0'},null)
- 
+
+--Publication types
+INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('cluPublication.Test.Type.1', 'TestType1', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'TestType1')
+INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('cluPublication.Test.Type.2', 'TestType2', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'TestType2')

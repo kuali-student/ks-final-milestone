@@ -199,7 +199,7 @@
         DOC_TYP_VER_NBR="0"
         LBL="Kuali Student Credit Course Parent Document"
         OBJ_ID="DE30C093-E98A-2AFF-7DA8-5818E1A39D1C" PARNT_ID="3000"
-        RTE_VER_NBR="2" VER_NBR="4"/>
+        RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
         DOC_TYP_DESC="Credit Course Retirement" DOC_TYP_ID="3002"
         DOC_TYP_NM="kuali.proposal.type.course.retire"

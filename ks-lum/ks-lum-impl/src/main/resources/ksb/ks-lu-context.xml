@@ -414,6 +414,7 @@
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="validator" ref="pocServiceValidator"/>
         <property name="validatorFactory" ref="validatorFactory"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -516,7 +517,6 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
     <bean id="programRequirementAssembler"
@@ -596,6 +596,7 @@
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
+        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

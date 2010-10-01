@@ -50,33 +50,6 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
         }
         return statementTypes;
     }
-
-    //TODO do we need this?
-    public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, String language) throws Exception {
-        StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
-        
-        // first translate StatementVO to StatementTreeViewInfo object
-        String error = statementVO.composeStatementTreeViewInfo(statementVO, statementTreeViewInfo);
-        if (error.isEmpty() == false) {
-            throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);
-        }
-
-        // cluId can't be empty
-        if ((cluId != null) && cluId.isEmpty()) {
-            cluId = null;
-        }
-        
-        // then get natural language for the statement
-        String nlStatement = "";
-        try {
-            nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
-        } catch (Exception ex) {
-            LOG.error(ex);
-            throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
-        }
-        
-        return nlStatement;
-    }
     
     public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey) throws Exception {
                 

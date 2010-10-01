@@ -134,7 +134,13 @@ public class ButtonEnumerations {
     }
 	@Override
 	public ButtonStyle getStyle() {
-		return ButtonStyle.PRIMARY;
+		switch(this){
+			case CANCEL:
+				return ButtonStyle.ANCHOR_LARGE_CENTERED;
+			default:
+				return ButtonStyle.PRIMARY;
+		}
+		
 	}
     @Override
     public ButtonEnum getActionType() {
@@ -275,7 +281,7 @@ public class ButtonEnumerations {
             case SEARCH:
                 return ButtonStyle.PRIMARY;
             case CANCEL:
-                return ButtonStyle.DEFAULT_ANCHOR;
+                return ButtonStyle.ANCHOR_LARGE_CENTERED;
             }
             return ButtonStyle.PRIMARY;
         }
@@ -307,7 +313,7 @@ public class ButtonEnumerations {
             case ADD:
                 return ButtonStyle.PRIMARY;
             case CANCEL:
-                return ButtonStyle.DEFAULT_ANCHOR;
+                return ButtonStyle.ANCHOR_LARGE_CENTERED;
             }
             return ButtonStyle.PRIMARY;
         }
@@ -447,5 +453,101 @@ public class ButtonEnumerations {
         public ButtonEnum getCancelType() {
             return CANCEL;
         }
+    };
+    
+    public static enum ConfirmApprovalCancelEnum implements ButtonEnum{CONFIRM, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case CONFIRM:
+                return context.getMessage("confirmApproval");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+	@Override
+	public ButtonStyle getStyle() {
+        switch(this){
+        case CONFIRM:
+            return ButtonStyle.PRIMARY;
+        case CANCEL:
+            return ButtonStyle.DEFAULT_ANCHOR;
+        }
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return CONFIRM;
+    }
+    @Override
+    public ButtonEnum getCancelType() {
+        return CANCEL;
+    }	
+    };
+    
+    public static enum AcknowledgeCancelEnum implements ButtonEnum{ACKNOWLEDGE, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case ACKNOWLEDGE:
+                return context.getMessage("acknowledge");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+	@Override
+	public ButtonStyle getStyle() {
+        switch(this){
+        case ACKNOWLEDGE:
+            return ButtonStyle.PRIMARY;
+        case CANCEL:
+            return ButtonStyle.DEFAULT_ANCHOR;
+        }
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return ACKNOWLEDGE;
+    }
+    @Override
+    public ButtonEnum getCancelType() {
+        return CANCEL;
+    }	
+    };
+    
+    public static enum RejectCancelEnum implements ButtonEnum{REJECT, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case REJECT:
+                return context.getMessage("reject");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+	@Override
+	public ButtonStyle getStyle() {
+        switch(this){
+        case REJECT:
+            return ButtonStyle.PRIMARY;
+        case CANCEL:
+            return ButtonStyle.DEFAULT_ANCHOR;
+        }
+		return ButtonStyle.PRIMARY;
+	}
+    @Override
+    public ButtonEnum getActionType() {
+        return REJECT;
+    }
+    @Override
+    public ButtonEnum getCancelType() {
+        return CANCEL;
+    }	
     };
 }
