@@ -53,6 +53,8 @@ import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
@@ -867,7 +869,12 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 
         VerticalSection justiFee = initSection(getH3Title(LUConstants.COURSE_FEE_TITLE), WITH_DIVIDER);
-
+        SpanPanel courseFeeInstruction = new SpanPanel();
+        courseFeeInstruction.setStyleName("ks-form-module-elements-instruction");
+        courseFeeInstruction.setHTML(getLabel(LUConstants.COURSE_FEE_TITLE + FieldLayoutComponent.INSTRUCT_MESSAGE_KEY));
+        courseFeeInstruction.setVisible(true);
+        justiFee.addWidget(courseFeeInstruction);
+        
 //        addField(description, COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY));
 
         addField(justiFee, COURSE + "/" + "feeJustification" + "/" + RichTextInfoConstants.PLAIN,  generateMessageInfo(LUConstants.JUSTIFICATION_FEE));
@@ -995,6 +1002,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         
         
         VerticalSection financialSection = initSection(getH3Title(LUConstants.FINANCIAL_INFORMATION), WITH_DIVIDER);
+        SpanPanel financialInfoInstruction = new SpanPanel();
+        financialInfoInstruction.setStyleName("ks-form-module-elements-instruction");
+        financialInfoInstruction.setHTML(getLabel(LUConstants.FINANCIAL_INFORMATION + FieldLayoutComponent.INSTRUCT_MESSAGE_KEY));
+        financialInfoInstruction.setVisible(true);
+        financialSection.addWidget(financialInfoInstruction);
         setupRevenueSection(financialSection);
         setupExpenditureSection(financialSection);
         section.addSection(financialSection);

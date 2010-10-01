@@ -407,8 +407,11 @@
     <!-- Financial Section labels -->
     
 	<bean parent="enCourse" p:id="cluCourseFeesTitle"                   p:value="Course Fees"/>
+	<bean parent="enCourse" p:id="cluCourseFeesTitle-instruct"          p:value="These are the required fees for the course, for example lab, material, field trips."/>
 	<bean parent="enCourse" p:id="cluJustificationOfFees"               p:value="Justification of Fees"/>
+	<bean parent="enCourse" p:id="cluJustificationOfFees-instruct"      p:value="This is for internal use only and will not be seen by students."/>
 	<bean parent="enCourse" p:id="cluFinancialInformation"              p:value="Financial Information"/>
+	<bean parent="enCourse" p:id="cluFinancialInformation-instruct"     p:value="Enter the organizations that will receive (revenue) and are responsible for distributing (expenditure) the course fudns."/>
 	<bean parent="enCourse" p:id="cluRevenue"                           p:value="Revenue"/>
 	<bean parent="enCourse" p:id="cluAmount"                            p:value="Amount"/>
 	<bean parent="enCourse" p:id="cluExpenditure"                       p:value="Expenditure"/>
