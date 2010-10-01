@@ -596,6 +596,7 @@
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
+        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

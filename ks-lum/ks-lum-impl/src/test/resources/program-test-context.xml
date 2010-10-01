@@ -571,5 +571,6 @@
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <!--property name="statementService" ref="statementService"/-->
+        <property name="atpService" ref="atpServiceImpl"/>
     </bean>
 </beans>
