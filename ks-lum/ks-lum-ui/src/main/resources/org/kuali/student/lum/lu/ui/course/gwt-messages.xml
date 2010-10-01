@@ -93,7 +93,7 @@
 	<bean parent="enCourse" p:id="cluEvaluationType" p:value="Evaluation Type" />
 	<bean parent="enCourse" p:id="cluTermLiteral" p:value="Term" />
 	<bean parent="enCourse" p:id="cluDurationLiteral" p:value="Duration" />
-	<bean parent="enCourse" p:id="cluDurationLiteral-instruct" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
+	<bean parent="enCourse" p:id="cluDurationLiteral-help" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
 	<bean parent="enCourse" p:id="cluFinalExam" p:value="Final Exam" />
 	<bean parent="enCourse" p:id="cluFinalExamStatus" p:value="Final Exam Status" />
 	<bean parent="enCourse" p:id="cluFinalExamRationale" p:value="Final Exam Rationale" />
@@ -138,7 +138,7 @@
 	<bean parent="enCourse" p:id="cluActivityLiteral" p:value="Activity" />
 	<bean parent="enCourse" p:id="cluActivityType" p:value="Activity Type" />
 	<bean parent="enCourse" p:id="cluContactHours" p:value="Contact Hours" />
-	<bean parent="enCourse" p:id="cluContactHours-instruct" p:value="Sum of contact hours will validate with credits (from learning results)" />
+	<bean parent="enCourse" p:id="cluContactHours-help" p:value="Sum of contact hours will validate with credits (from learning results)" />
 	<bean parent="enCourse" p:id="cluContactFrequency" p:value="Frequency" />
 	<bean parent="enCourse" p:id="cluClassSize" p:value="Anticipated Class Size" />
 	<bean parent="enCourse" p:id="cluClassSize-help" p:value="This does not have to be exact - it will be used as an estimate for evaluation purposes only." />
