@@ -26,7 +26,7 @@ public class ProgramManager {
 
     private ViewContext viewContext = new ViewContext();
 
-    private HandlerManager eventBus = new HandlerManager(null);
+    private static HandlerManager eventBus = new HandlerManager(null);
 
     public ProgramManager() {
         programModel = new DataModel();
@@ -60,5 +60,9 @@ public class ProgramManager {
         programEditController = new ProgramEditController("Programs", programModel, viewContext, eventBus);
 
         return programEditController;
+    }
+
+    public static HandlerManager getEventBus() {
+        return eventBus;
     }
 }

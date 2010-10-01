@@ -7,6 +7,24 @@ package org.kuali.student.lum.program.client.properties;
 public interface Program extends com.google.gwt.i18n.client.Messages {
   
   /**
+   * Translated "Activate".
+   * 
+   * @return translated "Activate"
+   */
+  @DefaultMessage("Activate")
+  @Key("button.activate")
+  String button_activate();
+
+  /**
+   * Translated "Approve".
+   * 
+   * @return translated "Approve"
+   */
+  @DefaultMessage("Approve")
+  @Key("button.approve")
+  String button_approve();
+
+  /**
    * Translated "Catalog Description".
    * 
    * @return translated "Catalog Description"
@@ -149,6 +167,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Program Save")
   @Key("confirmDialog.title")
   String confirmDialog_title();
+
+  /**
+   * Translated "Exit".
+   * 
+   * @return translated "Exit"
+   */
+  @DefaultMessage("Exit")
+  @Key("link.exit")
+  String link_exit();
 
   /**
    * Translated "Learning Objectives".

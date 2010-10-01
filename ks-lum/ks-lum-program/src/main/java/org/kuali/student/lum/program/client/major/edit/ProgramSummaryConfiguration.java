@@ -10,6 +10,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.view.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.widgets.SummaryActionPanel;
 
 /**
  * @author Igor
@@ -17,11 +18,12 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 public class ProgramSummaryConfiguration extends AbstractControllerConfiguration {
 
     public ProgramSummaryConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().program_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, false);
+        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().program_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, true);
     }
 
     @Override
     protected void buildLayout() {
+        rootSection.addWidget(new SummaryActionPanel());
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
         configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
@@ -35,5 +37,6 @@ public class ProgramSummaryConfiguration extends AbstractControllerConfiguration
             }
             rootSection.addSection((Section) configuration.getView());
         }
+        rootSection.addWidget(new SummaryActionPanel());
     }
 }
