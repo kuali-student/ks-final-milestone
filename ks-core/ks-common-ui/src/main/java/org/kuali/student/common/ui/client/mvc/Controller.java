@@ -297,7 +297,9 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         } else if (getParentController() != null) {
             parentController.requestModel(modelId, callback);
         } else {
-            callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
+            if (callback != null) {
+                callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
+            }
         }
     }
 

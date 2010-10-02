@@ -399,6 +399,8 @@
           class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
         <property name="assembler" ref="CluSetManagementFilterManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="luService" ref="luClient"/>
+        <property name="lrcService" ref="lrcClient"/>
     </bean>
 
     <bean id="CluSetManagementFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">

@@ -159,6 +159,10 @@
 	background-color: #FFFFFF;	
 }
 
+.KS-CluSetManagement-chooser {
+	background: lightgrey;
+}
+
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}
