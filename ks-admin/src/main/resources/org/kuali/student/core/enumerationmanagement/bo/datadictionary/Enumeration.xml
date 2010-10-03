@@ -78,7 +78,7 @@
             </bean>
         </property>
         <property name="control">
-            <bean parent="TextControlDefinition" p:size="50" />
+            <bean parent="TextareaControlDefinition" />
         </property>
         <property name="name" value="description" />
         <property name="label" value="Enumeration Description" />

@@ -70,8 +70,8 @@
 			</bean>
 		</property>
 		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="30"/>
-    	</property>
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.messages.bo.options.LocaleEnumerationValuesFinder"/>
+	    </property>
     	<property name="name" value="locale"/>
     	<property name="label" value="Locale"/>
 	</bean>
@@ -87,7 +87,7 @@
 			</bean>
 		</property>
 		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="30"/>
+      		<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.messages.bo.options.GroupNameEnumerationValuesFinder"/>
     	</property>
     	<property name="name" value="groupName"/>
     	<property name="label" value="Group Name"/>
@@ -97,14 +97,14 @@
 	
 	<bean id="MessageEntity-value-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Value"/>
-		<property name="maxLength" value="256"/>
+		<property name="maxLength" value="2000"/>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="true"/>
 			</bean>
 		</property>
 		<property name="control">
-      		<bean parent="TextControlDefinition" p:size="30"/>
+      		<bean parent="TextareaControlDefinition" />
     	</property>
     	<property name="name" value="value"/>
     	<property name="label" value="Value"/>
