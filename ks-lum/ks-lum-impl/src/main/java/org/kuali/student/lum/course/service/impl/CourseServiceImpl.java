@@ -198,7 +198,7 @@ public class CourseServiceImpl implements CourseService {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
-    	try {
+        try {
 			List<RefStatementRelationInfo> course = statementService.getRefStatementRelationsByRef("clu", courseId);
 			for (RefStatementRelationInfo refRelation : course) {
 				if (refRelation.getStatementId().equals(statementTreeViewInfo.getId())) {
@@ -247,12 +247,27 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("updateCourseStatement");
+    	checkForMissingParameter(courseId, "courseId");
+    	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
+
+        try {
+			return statementService.updateStatementTreeView(statementTreeViewInfo.getId(), statementTreeViewInfo);
+		} catch (CircularReferenceException e) {
+			throw new OperationFailedException("Unable to update statementTreeView", e);
+		} catch (DataValidationErrorException e) {
+			throw new OperationFailedException("Unable to update statementTreeView", e);
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException("Unable to update statementTreeView", e);
+		}
     }
 
     @Override
     public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("validateCourseStatement");
+        ObjectStructureDefinition objStructure = this.getObjectStructure(StatementTreeViewInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementTreeViewInfo, objStructure);
+        return validationResults;
     }
 
     @Override
