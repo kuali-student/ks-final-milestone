@@ -1,5 +1,8 @@
 package org.kuali.student.lum.course.service.impl;
 
+import static org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants.COURSE_STATEMENT_RELATION_TYPE;
+import static org.apache.commons.collections.CollectionUtils.isEmpty;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -192,13 +195,55 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("createCourseStatement");
+    	checkForMissingParameter(courseId, "courseId");
+    	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
+
+    	try {
+			List<RefStatementRelationInfo> course = statementService.getRefStatementRelationsByRef("clu", courseId);
+			for (RefStatementRelationInfo refRelation : course) {
+				if (refRelation.getStatementId().equals(statementTreeViewInfo.getId())) {
+					throw new InvalidParameterException("Course already contains this Statement Tree View");
+				}
+			}
+		} catch (DoesNotExistException e1) {
+			// ignore
+		}
+
+		try {
+			StatementTreeViewInfo tree = statementService.createStatementTreeView(statementTreeViewInfo);
+			RefStatementRelationInfo relation = new RefStatementRelationInfo();
+			relation.setRefObjectId(courseId);
+			relation.setRefObjectTypeKey("clu");
+			relation.setStatementId(tree.getId());
+	        relation.setType(COURSE_STATEMENT_RELATION_TYPE);
+	        relation.setState("active");
+			statementService.createRefStatementRelation(relation);
+		} catch (Exception e) {
+			throw new OperationFailedException("Unable to create clu/tree relation", e);
+		}
+    	return statementTreeViewInfo;
     }
 
-    @Override
+	@Override
     public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("deleteCourseStatement");
-    }
+    	checkForMissingParameter(courseId, "courseId");
+    	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
+
+    	List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", courseId);
+    	if (isEmpty(relations)) {
+    		throw new DoesNotExistException("No StatementTrees for this course");
+    	}
+    	for (RefStatementRelationInfo relation : relations) {
+    		if (relation.getStatementId().equals(statementTreeViewInfo.getId())) {
+    	    	statementService.deleteRefStatementRelation(relation.getId());
+    	    	statementService.deleteStatementTreeView(statementTreeViewInfo.getId());
+    	    	StatusInfo result = new StatusInfo();
+    	    	return result;
+    		}
+    	}
+
+    	throw new DoesNotExistException("Course does not have this StatemenTree");
+	}
 
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,10 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
@@ -61,6 +65,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestCourseServiceImpl {
     @Autowired
     CourseService courseService;
+    @Autowired
+    StatementService statementService;
 
     Set<String> subjectAreaSet = new TreeSet<String>(Arrays.asList(CourseDataGenerator.subjectAreas));
 
@@ -566,9 +572,7 @@ public class TestCourseServiceImpl {
 	public void testGetCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 		String courseId = "COURSE-STMT-1";
-		String nlUsageTypeKey = null;
-		String language = null;
-		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, null, null);
 		assertEquals(2, courseStatements.size());
 		for (StatementTreeViewInfo tree : courseStatements) {
 			checkTreeView(tree, false);
@@ -590,22 +594,81 @@ public class TestCourseServiceImpl {
 	}
 
 	@Test
-	@Ignore
 	public void testCreateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		final String courseId = "COURSE-1";
+		final String courseId = "COURSE-STMT-1";
 
-		StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
 		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo );
 		assertNotNull(createdTree);
+		assertEquals(2, createdTree.getStatements().size());
 	}
 
-	@Test
-	@Ignore
+	@Test(expected=InvalidParameterException.class)
+	public void testCreateCourseStatement_duplicateTree() throws Exception {
+		String courseId = "COURSE-STMT-1";
+		String nlUsageTypeKey = "KUALI.RULE";
+		String language = "en";
+		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+		@SuppressWarnings("unused")
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, courseStatements.get(0));
+	}
+
+	@Test(expected=MissingParameterException.class)
+	public void testCreateCourseStatement_nullCourseId() throws Exception {
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		@SuppressWarnings("unused")
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(null, statementTreeViewInfo );
+	}
+
+	@Test(expected=MissingParameterException.class)
+	public void testCreateCourseStatement_nullTree() throws Exception {
+		String courseId = "COURSE-STMT-1";
+
+		@SuppressWarnings("unused")
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, null );
+	}
+
+	@Test(expected=DoesNotExistException.class)
 	public void testDeleteCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		String courseId = null;
-		StatementTreeViewInfo statementTreeViewInfo = null;
-		StatusInfo status = courseService.deleteCourseStatement(courseId, statementTreeViewInfo);
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo );
+		StatusInfo status = courseService.deleteCourseStatement(courseId, createdTree);
 		assertTrue(status.getSuccess());
+		List<StatementTreeViewInfo> statements = courseService.getCourseStatements(courseId, null, null);
+		for (StatementTreeViewInfo statement : statements) {
+			if (statement.getId().equals(createdTree.getId())) {
+				fail("StatementTree not deleted from course");
+			}
+		}
+		statementService.getStatementTreeView(createdTree.getId());
+	}
+
+	@Test(expected=DoesNotExistException.class)
+	public void testDeleteCourseStatement_badTree() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		courseService.deleteCourseStatement(courseId, statementTreeViewInfo);
+	}
+
+	@Test(expected=DoesNotExistException.class)
+	public void testDeleteCourseStatement_badCourse() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		courseService.deleteCourseStatement("xxx", statementTreeViewInfo);
+	}
+
+	@Test(expected=MissingParameterException.class)
+	public void testDeleteCourseStatement_nullCourseId() throws Exception {
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		courseService.deleteCourseStatement(null, statementTreeViewInfo);
+	}
+
+	@Test(expected=MissingParameterException.class)
+	public void testDeleteCourseStatement_nullTreeId() throws Exception {
+		courseService.deleteCourseStatement("xxx", null);
 	}
 
 	@Test
@@ -616,6 +679,73 @@ public class TestCourseServiceImpl {
 		StatementTreeViewInfo updatedTree = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
 		assertNotNull(updatedTree);
 	}
+
+	private static StatementTreeViewInfo createStatementTree() {
+        // Statement Tree
+        //                --------- STMT-1:OR ---------
+    	//                |                           |
+        //           STMT-2:AND                  STMT-3:AND
+    	//           |        |                  |        |
+        //      REQCOMP-1  REQCOMP-2        REQCOMP-3  REQCOMP-4
+
+        List<StatementTreeViewInfo> subStatements = new ArrayList<StatementTreeViewInfo>(3);
+        List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
+        List<ReqComponentInfo> reqCompList2 = new ArrayList<ReqComponentInfo>(3);
+
+        // req components
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        ReqComponentInfo rc3 = new ReqComponentInfo();
+        rc3.setDesc(toRichText("REQCOMP-3"));
+        rc3.setType("kuali.reqComponent.type.course.courseset.completed.nof");
+        ReqComponentInfo rc4 = new ReqComponentInfo();
+        rc4.setDesc(toRichText("REQCOMP-4"));
+        rc4.setType("kuali.reqComponent.type.course.permission.instructor.required");
+
+        // statement tree views
+        StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
+        statementTree.setDesc(toRichText("STMT-1"));
+        statementTree.setOperator(StatementOperatorTypeKey.OR);
+        statementTree.setType("kuali.statement.type.program.entrance");
+
+        StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
+        subTree1.setDesc(toRichText("STMT-2"));
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setType("kuali.statement.type.program.entrance");
+
+        StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
+        subTree2.setDesc(toRichText("STMT-3"));
+        subTree2.setOperator(StatementOperatorTypeKey.AND);
+        subTree2.setType("kuali.statement.type.program.entrance");
+
+        // construct tree with statements and req components
+        reqCompList1.add(rc1);
+        reqCompList1.add(rc2);
+        subTree1.setReqComponents(reqCompList1);
+        reqCompList2.add(rc3);
+        reqCompList2.add(rc4);
+        subTree2.setReqComponents(reqCompList2);
+        subStatements.add(subTree1);
+        subStatements.add(subTree2);
+        statementTree.setStatements(subStatements);
+
+        return statementTree;
+    }
+
+	private static RichTextInfo toRichText(String text) {
+		RichTextInfo richTextInfo = new RichTextInfo();
+		if (text == null) {
+			return null;
+		}
+		richTextInfo.setPlain(text);
+		richTextInfo.setFormatted("<p>" + text + "</p>");
+		return richTextInfo;
+	}
+
 
 	private static void checkTreeView(final StatementTreeViewInfo rootTree,  final boolean checkNaturalLanguage) {
         assertNotNull(rootTree);
