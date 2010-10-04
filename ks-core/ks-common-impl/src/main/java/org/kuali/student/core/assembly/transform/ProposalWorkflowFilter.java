@@ -40,15 +40,13 @@ import org.w3c.dom.Text;
  *
  */
 public class ProposalWorkflowFilter extends AbstractDataFilter implements MetadataFilter{
+	// Filter property keys
 	public static final String PROPOSAL_INFO 		= "ProposalWorkflowFilter.ProposalInfo";
 	public static final String WORKFLOW_ACTION		= "ProposalWorkflowFilter.Action";
 	public static final String WORKFLOW_DOC_ID		= "ProposalWorkflowFilter.DocumentId";
     public static final String WORKFLOW_DOC_TYPE	= "ProposalWorkflowFilter.DocumentType";
     public static final String WORKFLOW_USER		= "ProposalWorkflowFilter.WorkflowUser";
-    
-    public static final String WORKFLOW_SUBMIT		= "ProposalWorkflowFilter.Submit";
-    public static final String WORKFLOW_APPROVE		= "ProposalWorkflowFilter.Approve";
-    
+        
 	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractCocOrgQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
 
@@ -95,7 +93,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 
 		properties.put(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, proposalInfo.getType());
 		
-		//Save the proposal data in properties map, so outbound filter has access to this data.
+		//Place the proposal data in properties map, so outbound filter operation has access to this data.
 		properties.put(PROPOSAL_INFO, proposalInfo);		
 	}
 	
@@ -110,27 +108,30 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		//Get proposal associated with this data
 		ProposalInfo proposalInfo = (ProposalInfo)properties.get(PROPOSAL_INFO);
 
-		//If new proposal create proposal 
-		if (proposalInfo.getId() == null){			
-			String referenceId = data.query("id");
-			proposalInfo.setProposalReferenceType(getProposalReferenceType());
-			proposalInfo.getProposalReference().add(referenceId);
-			
-			proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
-		} 
-			
-		//Update the workflow process for this proposal
-		proposalInfo = updateWorkflow(proposalInfo, data, properties);
+		//Update proposal/workflow data for a save request
+		if (TransformFilterAction.SAVE == properties.get(TransformFilter.FILTER_ACTION)){
+			//If new proposal create proposal 
+			if (proposalInfo.getId() == null){			
+				String referenceId = data.query("id");
+				proposalInfo.setProposalReferenceType(getProposalReferenceType());
+				proposalInfo.getProposalReference().add(referenceId);
+				
+				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
+			} 
+				
+			//Update the workflow process for this proposal
+			proposalInfo = updateWorkflow(proposalInfo, data, properties);
+	
+			//Update the propsal service with new proposal info
+			proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
 
-		//Update the propsal service with new proposal info
-		proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);				
+			//Place updated info in properties in case other filters wish to make use of it
+			properties.put(PROPOSAL_INFO, proposalInfo);
+		}	
 		
 		//Tack on proposal data to data returned to UI client
 		Data proposalData = mapper.convertFromBean(proposalInfo);
-		data.set("proposal", proposalData);
-		
-		//Place updated info in properties in case other filters wish to make use of it
-		properties.put(PROPOSAL_INFO, proposalInfo);
+		data.set("proposal", proposalData);		
 	}
 
 	
