@@ -39,8 +39,7 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 		
 		Data collaboratorData = data.query("collaboratorInfo");
 		data.remove(new StringKey("collaboratorInfo"));
-		
-		
+				
 		if (collaboratorData != null){
 			CollaboratorInfo collabInfo = (CollaboratorInfo)mapper.convertFromData(collaboratorData, CollaboratorInfo.class, getCollaboratorMetadata());		
 			properties.put(COLLABORATOR_INFO, collabInfo);
@@ -87,15 +86,12 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 		List<WorkflowPersonInfo> collaborators = collaboratorHelper.getCollaborators(proposalInfo.getWorkflowId());
 
 		//Add the author notation to retrieved collaborators
-		try{
 		for (WorkflowPersonInfo wfPerson:collaborators){
 			String principal = wfPerson.getPrincipalId();
 			boolean isAuthor = (proposalInfo.getProposerPerson().contains(principal));
 			wfPerson.setAuthor(isAuthor);
 		}
-		} catch (Exception e){
-			throw new Exception("Failed setting author", e);
-		}
+
 		collabInfo.setCollaborators(collaborators);
 		
 		//Tack on updated collaborators data to data returned to UI client
