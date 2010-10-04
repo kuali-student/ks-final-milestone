@@ -779,10 +779,9 @@ public class ProgramAssemblerUtils {
 
         if (!NodeOperation.CREATE.equals(operation)) {
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(credentialId);
-                //TODO Fix this so that get is by related clu id,  i.e. programId
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(programId);
                 for (CluCluRelationInfo cluRelation : cluRelations) {
-                    if (relationType.equals(cluRelation.getType()) && cluRelation.getRelatedCluId().equals(programId)) {
+                    if (relationType.equals(cluRelation.getType()) ) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
                     }
                 }
