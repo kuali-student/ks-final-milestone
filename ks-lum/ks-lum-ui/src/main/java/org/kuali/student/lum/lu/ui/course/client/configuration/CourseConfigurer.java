@@ -29,7 +29,11 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -38,18 +42,31 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueB
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.*;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.*;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.CompositeConditionOperator;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldWidgetInitializer;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.HasDataValue;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
-import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -61,12 +78,11 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPanel;
-import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
-import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
+import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
 import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
 import org.kuali.student.lum.common.client.lo.LUConstants;
@@ -107,7 +123,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     public static final String COURSE = "";
 
     public enum CourseSections {
-        CLU_BEGIN, PEOPLE_PERMISSOMS, SUMMARY, AUTHORS_RATIONALE, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
+        CLU_BEGIN, PEOPLE_PERMISSONS, SUMMARY, AUTHORS_RATIONALE, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
         COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS,DECISIONS, DOCUMENTS,
         PROGRAM_INFO, ASSEMBLER_TEST
     }
@@ -146,8 +162,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, generateFinancialsSection());
             
             //Authors & Collaborators
-            layout.addMenuItem(sections, new CollaboratorTool(CourseSections.PEOPLE_PERMISSOMS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,
-                    getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+            layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,CLU_PROPOSAL_MODEL));
             
             //Documents
             documentTool = new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
@@ -160,7 +175,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             
             //Add common buttons to sections except for sections with specific button behavior
             List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
-            excludedViews.add(CourseSections.PEOPLE_PERMISSOMS);
             excludedViews.add(CourseSections.DOCUMENTS);
             excludedViews.add(CourseSections.COURSE_REQUISITES);
             layout.addCommonButton(LUConstants.COURSE_SECTIONS, layout.getSaveButton(), excludedViews);
@@ -168,7 +182,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
             //Specific buttons for certain views
             //TODO people and permissions will use a different button than continue
-            layout.addButtonForView(CourseSections.PEOPLE_PERMISSOMS, getContinueButton(layout));
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
@@ -773,12 +786,6 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
             super.setListItems(list);
         }
-    }
-
-    public SectionView generateProgramInfoSection() {
-        VerticalSectionView section = initSectionView(CourseSections.PROGRAM_INFO, LUConstants.INFORMATION_LABEL_KEY);
-        section.addSection(generateShortTitleSection());
-        return section;
     }
 
     protected VerticalSection generateShortTitleSection() {

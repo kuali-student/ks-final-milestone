@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
@@ -40,10 +39,10 @@ import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
@@ -143,7 +142,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 					ViewContext viewContext = new ViewContext();
 					viewContext.setId((String)cluModel.get("versionInfo/versionIndId"));
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                    viewContext.setAttribute(IdAttributes.DOC_TYPE, "kuali.proposal.type.course.modify");
+                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
 					HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
 				}
 			}

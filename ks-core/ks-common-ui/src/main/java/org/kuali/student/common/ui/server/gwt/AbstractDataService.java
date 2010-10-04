@@ -14,8 +14,8 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.transform.AuthorizationFilter;
 import org.kuali.student.core.assembly.transform.MetadataFilter;
-import org.kuali.student.core.assembly.transform.TransformationManager;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
+import org.kuali.student.core.assembly.transform.TransformationManager;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -74,7 +74,7 @@ public abstract class AbstractDataService implements DataService{
 		
 		//Place id attributes into filter properties
 		String idType = (attributes != null? attributes.get(IdAttributes.ID_TYPE):null);
-		String docType = (attributes != null ? attributes.get(IdAttributes.DOC_TYPE):null);
+		String docType = (attributes != null ? attributes.get(StudentIdentityConstants.DOCUMENT_TYPE_NAME):null);
 				
 		if (idType == null){
 			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
@@ -136,7 +136,7 @@ public abstract class AbstractDataService implements DataService{
 						if (proposalInfo != null){
 							attributes.put(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString(), proposalInfo.getId());
 							attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
-							attributes.put(IdAttributes.DOC_TYPE, proposalInfo.getType());
+							attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalInfo.getType());
 						}
 					} catch (Exception e){
 						LOG.error("Could not retrieve proposal to determine permission qualifiers.");

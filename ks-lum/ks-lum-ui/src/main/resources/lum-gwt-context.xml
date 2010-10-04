@@ -76,8 +76,6 @@
                         value-ref="searchRpcGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CourseRpcService"
                         value-ref="CourseRpcGwtServletController"/>
-                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowToolRpcService"
-                        value-ref="WorkflowToolRpcGwtServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowRpcService"
                         value-ref="WorkflowRpcGwtServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluSetManagementRpcService"
@@ -201,12 +199,6 @@
         <property name="servletInstance" ref="CourseRpcGwtServlet"/>
     </bean>
 
-    <bean id="WorkflowToolRpcGwtServletController"
-          class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="WorkflowToolRpcGwtServlet"/>
-        <property name="servletInstance" ref="WorkflowToolRpcGwtServlet"/>
-    </bean>
-
     <bean id="WorkflowRpcGwtServletController"
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="WorkflowRpcGwtServlet"/>
@@ -241,16 +233,6 @@
     <bean id="LuRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
         <property name="service" ref="luClient"/>
-    </bean>
-
-    <bean id="WorkflowToolRpcGwtServlet"
-          class="org.kuali.student.core.workflow.ui.server.gwt.WorkflowToolRpcGwtServlet">
-        <property name="metadataService" ref="metadataServiceImpl"/>
-        <property name="simpleDocService" ref="simpleDocActionsClient"/>
-        <property name="permissionService" ref="permissionServiceClient"/>
-        <property name="identityService" ref="identityServiceClient"/>
-        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
-        <property name="roleUpdateService" ref="roleUpdateServiceClient"/>
     </bean>
 
     <bean id="WorkflowRpcGwtServlet"
@@ -324,6 +306,7 @@
                 <ref bean="authzFilter"/>
                 <ref bean="idTranslatorFilter"/>
                 <ref bean="courseProposalWorkflowFilter"/>
+                <ref bean="collaboratorFilter"/>
             </list>
         </property>
     </bean>
@@ -350,6 +333,20 @@
         <constructor-arg ref="idTranslator"/>
     </bean>
 
+	<bean id="collaboratorHelper" class = "org.kuali.student.core.rice.authorization.CollaboratorHelper">
+		<property name="simpleDocService" ref="simpleDocActionsClient"/>
+		<property name="permissionService" ref="permissionServiceClient"/>
+        <property name="identityService" ref="identityServiceClient"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
+        <property name="roleUpdateService" ref="roleUpdateServiceClient"/>	
+	</bean>
+	
+	<bean id="collaboratorFilter" class = "org.kuali.student.core.assembly.transform.CollaboratorsFilter">
+		<property name="metadataService" ref="metadataServiceImplPOC"/>
+		<property name="collaboratorHelper" ref="collaboratorHelper"/>		
+		<property name="proposalService" ref="proposalClient"/>
+	</bean>
+	
     <bean id="parentProposalWorkflowFilter" class="org.kuali.student.core.assembly.transform.ProposalWorkflowFilter" abstract="true">
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
         <property name="simpleDocService" ref="simpleDocActionsClient"/>

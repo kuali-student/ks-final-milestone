@@ -14,6 +14,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
 /**
@@ -183,7 +184,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
 
     protected AttributeSet getQualification(String idType, String id, String docType) {
         AttributeSet qualification = new AttributeSet();
-        qualification.put("documentTypeName", docType);
+        qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
         qualification.put(idType, id);
         return qualification;
     }

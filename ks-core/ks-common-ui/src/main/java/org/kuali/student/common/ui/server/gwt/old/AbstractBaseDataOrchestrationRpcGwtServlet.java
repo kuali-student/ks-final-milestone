@@ -34,6 +34,7 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -124,7 +125,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			}
 			String namespaceCode = type.getPermissionNamespace();
 			String permissionTemplateName = type.getPermissionTemplateName();
-			AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
+			AttributeSet roleQuals = new AttributeSet(StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
 			if (attributes != null) {
 				roleQuals.putAll(attributes);
 			}

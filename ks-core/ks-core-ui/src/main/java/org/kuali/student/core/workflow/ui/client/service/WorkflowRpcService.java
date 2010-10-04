@@ -18,6 +18,7 @@ package org.kuali.student.core.workflow.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -25,9 +26,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/WorkflowRpcService")
 public interface WorkflowRpcService extends RemoteService {
 	
-	public enum RequestType{FYI,ACKNOWLEDGE,APPROVE};
-	
-
 	/**
 	 * @param dataId
 	 * @return The workflow document id associated with the object data id
@@ -72,5 +70,7 @@ public interface WorkflowRpcService extends RemoteService {
 	public Boolean fyiDocumentWithId(String workflowId) throws OperationFailedException;
 	public Boolean withdrawDocumentWithId(String workflowId) throws OperationFailedException;
 	
-	public Boolean adhocRequest(String docId, String recipientPrincipalId, RequestType requestType, String annotation) throws OperationFailedException;
+	public Boolean adhocRequest(String docId, String recipientPrincipalId, ActionRequestType requestType, String annotation) throws OperationFailedException;
+	
+    public Boolean isAuthorizedAddReviewer(String workflowId) throws OperationFailedException;
 }

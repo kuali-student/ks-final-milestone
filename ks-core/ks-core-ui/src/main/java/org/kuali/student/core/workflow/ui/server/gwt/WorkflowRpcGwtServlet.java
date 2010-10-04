@@ -16,13 +16,13 @@ import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 
@@ -62,7 +62,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
 	@Override
 	public Boolean adhocRequest(String workflowId, String recipientPrincipalId,
-			RequestType requestType, String annotation) throws OperationFailedException {
+			ActionRequestType requestType, String annotation) throws OperationFailedException {
 
         try {
             //Get a user name
@@ -72,19 +72,19 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             String approveAnnotation = "Approve";
             String ackAnnotation = "Ack";
 
-            if (RequestType.FYI.equals(requestType)) {
+            if (ActionRequestType.FYI.equals(requestType)) {
                 StandardResponse stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(workflowId,recipientPrincipalId, username, fyiAnnotation);
                 if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
                     throw new OperationFailedException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
                 }
             }
-            if (RequestType.APPROVE.equals(requestType)) {
+            if (ActionRequestType.APPROVE.equals(requestType)) {
                 StandardResponse stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(workflowId, recipientPrincipalId,username, approveAnnotation);
                 if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
                     throw new OperationFailedException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
                 }
             }
-            if (RequestType.ACKNOWLEDGE.equals(requestType)) {
+            if (ActionRequestType.ACKNOWLEDGE.equals(requestType)) {
                 StandardResponse stdResp = getSimpleDocService().requestAdHocAckToPrincipal(workflowId,recipientPrincipalId,username, ackAnnotation);
                 if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
                     throw new OperationFailedException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
@@ -242,7 +242,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             if (getPermissionService().isAuthorizedByTemplateName(principalId, 
             		PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
             		PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), null, 
-            		new AttributeSet(KimAttributes.DOCUMENT_NUMBER,workflowId))) {
+            		new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId))) {
             	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
 //            	actionsRequestedBuffer.append("W");
             }
@@ -359,6 +359,18 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
         return Boolean.TRUE;
 	}
 
+	@Override
+    public Boolean isAuthorizedAddReviewer(String docId) throws OperationFailedException{
+		if (docId != null && (!"".equals(docId.trim()))) {
+			AttributeSet permissionDetails = new AttributeSet();
+			AttributeSet roleQuals = new AttributeSet();
+			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
+			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
+					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
+		}
+		return Boolean.FALSE;
+    }
+	
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
 	}

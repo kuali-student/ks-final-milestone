@@ -13,7 +13,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
@@ -60,7 +59,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	private SimpleDocumentActionsWebService simpleDocService;
 	private ProposalService proposalService;
 	private MetadataServiceImpl metadataService;
-	private DataBeanMapper mapper = new DefaultDataBeanMapper();
+	private DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
 		
 	private Metadata proposalMetadata = null;
 	private String proposalReferenceType;
@@ -92,7 +91,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 				proposalType = getDefaultDocType();
 			}
 			proposalInfo.setType(proposalType);
-		}		
+		}			
 
 		properties.put(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, proposalInfo.getType());
 		
@@ -129,6 +128,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		//Tack on proposal data to data returned to UI client
 		Data proposalData = mapper.convertFromBean(proposalInfo);
 		data.set("proposal", proposalData);
+		
+		//Place updated info in properties in case other filters wish to make use of it
+		properties.put(PROPOSAL_INFO, proposalInfo);
 	}
 
 	
@@ -289,9 +291,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 
 	/**
 	 * This method returns the default metadata (w/o) regard to state. The intent is
-	 * to cut down on repeated metadata service calls, by having a cached version for 
-	 * passing into the DataBeanMapper which only uses to  map dynamic attributes and 
-	 * state does not matter.
+	 * to cut down on repeated metadata service calls by having a cached version. This 
+	 * metadata is passed into the DataBeanMapper where state does not matter. 
 	 * 
 	 * @return
 	 */

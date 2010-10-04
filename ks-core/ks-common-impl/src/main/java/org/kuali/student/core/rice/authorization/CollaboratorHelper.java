@@ -1,20 +1,6 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
+package org.kuali.student.core.rice.authorization;
 
-package org.kuali.student.core.workflow.ui.server.gwt;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,64 +17,29 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.service.RoleUpdateService;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
-import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.core.rice.StudentWorkflowConstants;
+import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.core.workflow.dto.WorkflowPersonInfo;
-import org.kuali.student.core.workflow.ui.client.service.WorkflowToolRpcService;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-public class WorkflowToolRpcGwtServlet extends RemoteServiceServlet implements WorkflowToolRpcService{
-
-	//FIXME: These constants inner classes are in here temporarily due to dependency issues, will be removed once ks-lum-rice module moved to core
-	public class StudentWorkflowConstants {
-		public static final String DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME = "PreRoute";
-		public static final String ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE = "KS-SYS";
-		public static final String ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME = "Adhoc Permissions: Edit Document";
-		public static final String ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE = "KS-SYS";
-		public static final String ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME = "Adhoc Permissions: Comment on Document";
-
-	}
-	
-	public class KualiStudentKimAttributes {
-		public static final String DOCUMENT_TYPE_NAME                   = KimAttributes.DOCUMENT_TYPE_NAME;		
-		public static final String QUALIFICATION_DATA_ID                = "dataId";
-	}
-	
-
-	private static final long serialVersionUID = 1L;
-	final static Logger LOG = Logger.getLogger(WorkflowToolRpcGwtServlet.class);
-
-	protected MetadataServiceImpl metadataService;
+public class CollaboratorHelper implements Serializable {
 	protected IdentityService identityService;
 	protected RoleUpdateService roleUpdateService;
 	private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
-	private PermissionService permissionService;    
+	private PermissionService permissionService;
 	
-	@Override
-	public Metadata getMetadata(String idType, String id) {
-		return metadataService.getMetadata(idType, null, null);
-	};
+	private static final long serialVersionUID = 1L;
+	final static Logger LOG = Logger.getLogger(CollaboratorHelper.class);
 	
-	public MetadataServiceImpl getMetadataService() {
-		return metadataService;
-	}
-
-	public void setMetadataService(MetadataServiceImpl metadataService) {
-		this.metadataService = metadataService;
-	}
-
-	@Override
-    public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException{
+	
+    public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException {
         if(getSimpleDocService()==null){
         	throw new OperationFailedException("Workflow Service is unavailable");
         }
@@ -140,23 +91,7 @@ public class WorkflowToolRpcGwtServlet extends RemoteServiceServlet implements W
         }
         return Boolean.TRUE;
     }
-
-	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) {
-		try {
-	    	DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.valueOf(docId));
-	    	DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
-	    	AttributeSet roleMemberQuals = new AttributeSet();
-	    	roleMemberQuals.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,docType.getName());
-	    	roleMemberQuals.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,dataId);
-	    	getRoleUpdateService().assignPrincipalToRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
-		}
-		catch (WorkflowException e) {
-			LOG.error("Workflow threw exception for document id: " + docId, e);
-			throw new RuntimeException("Workflow threw exception for document id: " + docId, e);
-		}
-	}
-	
-	@Override
+    
     public List<WorkflowPersonInfo> getCollaborators(String docId) throws OperationFailedException{
 		try{
 			LOG.info("Getting collaborators for docId: "+docId);
@@ -193,22 +128,15 @@ public class WorkflowToolRpcGwtServlet extends RemoteServiceServlet implements W
 	        					PermissionType.ADD_COMMENT.getPermissionTemplateName(), null, qualification));
 	        			
 	        			if(editAuthorized){
-	        				person.getPermList().add(PermissionType.EDIT.getLabel());
+	        				person.setPermission(PermissionType.EDIT.getCode());
+	        			} else if (commentAuthorized){
+	        				person.setPermission(PermissionType.ADD_COMMENT.getCode());
+	        			} else if (openAuthorized){
+	        				person.setPermission(PermissionType.OPEN.getCode());
 	        			}
 	        			
-	        			if(commentAuthorized){
-	        				person.getPermList().add(PermissionType.ADD_COMMENT.getLabel());
-	        			}
-	        			
-	        			if(openAuthorized){
-	        				person.getPermList().add(PermissionType.OPEN.getLabel());
-	        			}
-	        			
-	        			String request = item.getRequestLabel();
-	        			if (request == null || ("".equals(request))) {
-	        				request = KEWConstants.ACTION_REQUEST_CD.get(item.getActionRequested());
-	        			}
-	        			person.getActionList().add(request);
+        				String request = item.getActionRequested();
+	        			person.setAction(request);
 	        			
 	        			person.setActionRequestStatus(getActionRequestStatusLabel(item.getStatus()));
 	        			
@@ -227,19 +155,8 @@ public class WorkflowToolRpcGwtServlet extends RemoteServiceServlet implements W
             throw new OperationFailedException("Error getting actions Requested",e);
 		}
     }
-
-	@Override
-    public Boolean isAuthorizedAddReviewer(String docId) {
-		if (docId != null && (!"".equals(docId.trim()))) {
-			AttributeSet permissionDetails = new AttributeSet();
-			AttributeSet roleQuals = new AttributeSet();
-			roleQuals.put(KimAttributes.DOCUMENT_NUMBER,docId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
-					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
-		}
-		return Boolean.FALSE;
-    }
-
+    
+    // TODO: doesn't belong here - this was duplicated from WorkfowToolRpcGwtServlet
     private String getActionRequestStatusLabel(String key) {
         Map<String,String> newArStatusLabels = new HashMap<String,String>();
         newArStatusLabels.put(KEWConstants.ACTION_REQUEST_ACTIVATED, "Active");
@@ -247,7 +164,34 @@ public class WorkflowToolRpcGwtServlet extends RemoteServiceServlet implements W
         newArStatusLabels.put(KEWConstants.ACTION_REQUEST_DONE_STATE, "Completed");
         return newArStatusLabels.get(key);
     }
-
+	
+	// TODO: add helper class for roles - this was duplicated from WorkfowToolRpcGwtServlet
+	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) {
+		try {
+	    	DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.valueOf(docId));
+	    	DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
+	    	AttributeSet roleMemberQuals = new AttributeSet();
+	    	roleMemberQuals.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
+	    	roleMemberQuals.put(StudentIdentityConstants.QUALIFICATION_DATA_ID,dataId);
+	    	getRoleUpdateService().assignPrincipalToRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
+		}
+		catch (WorkflowException e) {
+			LOG.error("Workflow threw exception for document id: " + docId, e);
+			throw new RuntimeException("Workflow threw exception for document id: " + docId, e);
+		}
+	}
+	
+    public Boolean isAuthorizedAddReviewer(String docId) {
+		if (docId != null && (!"".equals(docId.trim()))) {
+			AttributeSet permissionDetails = new AttributeSet();
+			AttributeSet roleQuals = new AttributeSet();
+			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
+			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
+					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
+		}
+		return Boolean.FALSE;
+    }
+	
 	public IdentityService getIdentityService() {
 		return identityService;
 	}

@@ -7,9 +7,8 @@ public class IdAttributes {
 	public static final String ID_TYPE = "ID_TYPE";
 	
 	public enum IdType {
-		// FIXME: remove hard coded strings below for KIM constants
 		//	TODO: OBJECT_ID has no references
-		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID(StudentIdentityConstants.QUALIFICATION_KEW_DOCUMENT_ID), OBJECT_ID("objectId"), COPY_OF_OBJECT_ID("copyOfObjectId");
+		KS_KEW_OBJECT_ID(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID), DOCUMENT_ID(StudentIdentityConstants.DOCUMENT_NUMBER), OBJECT_ID("objectId"), COPY_OF_OBJECT_ID("copyOfObjectId");
         
 		final String stringValue;
 
@@ -29,7 +28,5 @@ public class IdAttributes {
             }
             return null;   
         }
-	}
-	
-	public static final String DOC_TYPE = "documentTypeName";	
+	}		
 }

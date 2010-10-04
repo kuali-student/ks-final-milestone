@@ -28,7 +28,8 @@ import org.kuali.student.core.assembly.data.Data.StringKey;
 
 
 public class DefaultDataBeanMapper implements DataBeanMapper {
-
+	public static DataBeanMapper INSTANCE = new DefaultDataBeanMapper();
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.core.assembly.data.DataBeanMapper#convertFromBean(java.lang.Object)
 	 */
