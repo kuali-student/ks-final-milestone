@@ -1,5 +1,6 @@
 package org.kuali.student.lum.course.service.impl;
 
+import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -26,6 +27,7 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
@@ -37,6 +39,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -594,7 +597,7 @@ public class TestCourseServiceImpl {
 	}
 
 	@Test
-	public void testCreateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public void testCreateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
 		final String courseId = "COURSE-STMT-1";
 
 		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
@@ -609,8 +612,7 @@ public class TestCourseServiceImpl {
 		String nlUsageTypeKey = "KUALI.RULE";
 		String language = "en";
 		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
-		@SuppressWarnings("unused")
-		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, courseStatements.get(0));
+		courseService.createCourseStatement(courseId, courseStatements.get(0));
 	}
 
 	@Test(expected=MissingParameterException.class)
@@ -630,7 +632,7 @@ public class TestCourseServiceImpl {
 	}
 
 	@Test(expected=DoesNotExistException.class)
-	public void testDeleteCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public void testDeleteCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
 		final String courseId = "COURSE-STMT-1";
 
 		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
@@ -672,7 +674,7 @@ public class TestCourseServiceImpl {
 	}
 
 	@Test
-	public void testUpdateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public void testUpdateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
 		final String courseId = "COURSE-STMT-1";
 
 		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
@@ -697,7 +699,63 @@ public class TestCourseServiceImpl {
         createdTree.getStatements().set(0, subTree1);
 		StatementTreeViewInfo updatedTree = courseService.updateCourseStatement(courseId, statementTreeViewInfo );
 		assertEquals(createdTree.getStatements().get(0).getDesc().getPlain(), updatedTree.getStatements().get(0).getDesc().getPlain());
-		
+
+	}
+
+	@Test
+	@Ignore // FIXME need a dictionary that defines StatamentTreeViewInfo
+	public void testValidataCourseStatement() throws Exception {
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		courseService.validateCourseStatement(courseId, statementTreeViewInfo);
+		List<ValidationResultInfo> validations = courseService.validateCourseStatement(courseId, statementTreeViewInfo);
+		assertTrue(isEmpty(validations));
+	}
+
+	@Test
+	@Ignore // FIXME need a dictionary that defines StatamentTreeViewInfo
+	public void testValidataCourseStatement_invalidStatement() throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		statementTreeViewInfo.setType("an.example.of.a.bad.statementType");
+		statementTreeViewInfo.getStatements().get(0).setType("fictional.program");
+		statementTreeViewInfo.getStatements().get(0).getReqComponents().set(0, createBadReqComponent());
+		List<ValidationResultInfo> validations = courseService.validateCourseStatement(courseId, statementTreeViewInfo);
+		assertFalse(isEmpty(validations));
+	}
+
+
+	private static ReqComponentInfo createBadReqComponent() {
+		ReqComponentInfo reqCompInfo = new ReqComponentInfo();
+//		reqCompInfo.setId("REQCOMP-NL-X");
+		reqCompInfo.setId("1234567890123456789012345678901234567890");
+		reqCompInfo.setType("kuali.reqComponent.type.courseList.nof");
+		reqCompInfo.setState("Active");
+
+		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
+
+		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
+		field1.setId("1234567890123456789012345678901234567890");
+		field1.setType("kuali.reqComponent.field.type.operator");
+		field1.setValue("-1");
+		fieldList.add(field1);
+
+		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
+		field2.setId("2");
+		field2.setType("kuali.reqComponent.field.type.operator");
+		field2.setValue("greater_than_or_equal_to42");
+		fieldList.add(field2);
+
+		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
+		field3.setId("3");
+		field3.setType("kuali.reqComponent.field.type.cluSet.id");
+		field3.setValue("CLUSET-NL-Y");
+		fieldList.add(field3);
+
+		reqCompInfo.setReqCompFields(fieldList);
+		return reqCompInfo;
 	}
 
 	private static StatementTreeViewInfo createStatementTree() {

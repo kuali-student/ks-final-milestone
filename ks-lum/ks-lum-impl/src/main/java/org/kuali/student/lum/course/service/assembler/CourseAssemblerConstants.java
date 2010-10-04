@@ -90,6 +90,9 @@ public class CourseAssemblerConstants {
 	public static final String COURSE_FINANCIALS_REVENUE_TYPE = "REVENUE";
 
 	// FIXME ask norm about this value
-	public static final String COURSE_STATEMENT_RELATION_TYPE = "clu.coursestatement";
+	public static final String COURSE_REFERENCE_TYPE = "kuali.referenceType.CLU";
+
+	// State
+	public static final String ACTIVE = "Active";
 
 }

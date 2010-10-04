@@ -1,6 +1,6 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants.COURSE_STATEMENT_RELATION_TYPE;
+import static org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants.COURSE_REFERENCE_TYPE;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
 import java.util.ArrayList;
@@ -209,20 +209,19 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
-        try {
-			List<RefStatementRelationInfo> course = statementService.getRefStatementRelationsByRef("clu", courseId);
-			for (RefStatementRelationInfo refRelation : course) {
-				if (refRelation.getStatementId().equals(statementTreeViewInfo.getId())) {
-					throw new InvalidParameterException("Course already contains this Statement Tree View");
-				}
-			}
-		} catch (DoesNotExistException e1) {
-			// ignore
-		}
+        // Validate
+        List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
+        if (!isEmpty(validationResults)) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+
+        if (findStatementReference(courseId, statementTreeViewInfo) != null) {
+        	throw new InvalidParameterException("Statement is already referenced by this course");
+        }
 
 		try {
 			StatementTreeViewInfo tree = statementService.createStatementTreeView(statementTreeViewInfo);
@@ -230,8 +229,8 @@ public class CourseServiceImpl implements CourseService {
 			relation.setRefObjectId(courseId);
 			relation.setRefObjectTypeKey("clu");
 			relation.setStatementId(tree.getId());
-	        relation.setType(COURSE_STATEMENT_RELATION_TYPE);
-	        relation.setState("active");
+	        relation.setType(COURSE_REFERENCE_TYPE);
+	        relation.setState(CourseAssemblerConstants.ACTIVE);
 			statementService.createRefStatementRelation(relation);
 		} catch (Exception e) {
 			throw new OperationFailedException("Unable to create clu/tree relation", e);
@@ -244,41 +243,47 @@ public class CourseServiceImpl implements CourseService {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
-    	List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", courseId);
-    	if (isEmpty(relations)) {
-    		throw new DoesNotExistException("No StatementTrees for this course");
-    	}
-    	for (RefStatementRelationInfo relation : relations) {
-    		if (relation.getStatementId().equals(statementTreeViewInfo.getId())) {
-    	    	statementService.deleteRefStatementRelation(relation.getId());
-    	    	statementService.deleteStatementTreeView(statementTreeViewInfo.getId());
-    	    	StatusInfo result = new StatusInfo();
-    	    	return result;
-    		}
+    	RefStatementRelationInfo relation = findStatementReference(courseId, statementTreeViewInfo);
+    	if (relation != null) {
+    		statementService.deleteRefStatementRelation(relation.getId());
+    		statementService.deleteStatementTreeView(statementTreeViewInfo.getId());
+    		StatusInfo result = new StatusInfo();
+    		return result;
     	}
 
     	throw new DoesNotExistException("Course does not have this StatemenTree");
 	}
 
     @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
-        try {
-			return statementService.updateStatementTreeView(statementTreeViewInfo.getId(), statementTreeViewInfo);
-		} catch (CircularReferenceException e) {
-			throw new OperationFailedException("Unable to update statementTreeView", e);
-		} catch (DataValidationErrorException e) {
-			throw new OperationFailedException("Unable to update statementTreeView", e);
-		} catch (VersionMismatchException e) {
-			throw new OperationFailedException("Unable to update statementTreeView", e);
-		}
+        // Validate
+        List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
+        if (!isEmpty(validationResults)) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+
+        if (findStatementReference(courseId, statementTreeViewInfo) == null) {
+        	throw new InvalidParameterException("Statement is not part of this course");
+        }
+
+        return statementService.updateStatementTreeView(statementTreeViewInfo.getId(), statementTreeViewInfo);
     }
 
     @Override
     public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        ObjectStructureDefinition objStructure = this.getObjectStructure(StatementTreeViewInfo.class.getName());
+    	checkForMissingParameter(courseId, "courseId");
+    	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
+
+    	try {
+			CluInfo clu = luService.getClu(courseId);
+		} catch (DoesNotExistException e) {
+			throw new InvalidParameterException("course does not exist");
+		}
+
+    	ObjectStructureDefinition objStructure = this.getObjectStructure(StatementTreeViewInfo.class.getName());
         validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementTreeViewInfo, objStructure);
@@ -533,4 +538,28 @@ public class CourseServiceImpl implements CourseService {
 		}
 	}
 
+	/**
+	 * @param courseId
+	 * @param statementTreeViewInfo
+	 * @return reference exists
+	 *
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws DoesNotExistException
+	 */
+	private RefStatementRelationInfo findStatementReference(String courseId,
+			StatementTreeViewInfo statementTreeViewInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, DoesNotExistException {
+		List<RefStatementRelationInfo> course = statementService.getRefStatementRelationsByRef("clu", courseId);
+		if (course != null) {
+			for (RefStatementRelationInfo refRelation : course) {
+				if (refRelation.getStatementId().equals(statementTreeViewInfo.getId())) {
+					return refRelation;
+				}
+			}
+		}
+		return null;
+	}
 }
