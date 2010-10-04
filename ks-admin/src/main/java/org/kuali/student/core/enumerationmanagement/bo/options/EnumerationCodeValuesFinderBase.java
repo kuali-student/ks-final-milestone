@@ -13,9 +13,13 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 
+/**
+ * This base class creates a KeyValuesFinder for EnumeratedValues consisting of
+ * key=EnumeratedValue.code and value=EnumeratedValue.value.  Simply override
+ * getEnumerationKey() to return the enumerationKey of the Enumeration you want
+ * a KeyValuesFinder for.
+ */
 public abstract class EnumerationCodeValuesFinderBase extends KeyValuesBase {
-
-    private static final String ENUMERATION_KEY = "enumerationKey";
     
     @SuppressWarnings("unchecked")
     @Override
@@ -23,9 +27,9 @@ public abstract class EnumerationCodeValuesFinderBase extends KeyValuesBase {
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         Map<String, Object> criteria = new HashMap<String,Object>();
         
-        criteria.put(ENUMERATION_KEY, getEnumerationKey());
+        criteria.put(EnumeratedValue.ENUMERATION_KEY, getEnumerationKey());
         BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
-        Collection<EnumeratedValue> values = boService.findMatching(org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue.class, criteria);
+        Collection<EnumeratedValue> values = boService.findMatching(EnumeratedValue.class, criteria);
         
         Iterator<EnumeratedValue> iterator = values.iterator(); 
         while(iterator.hasNext()) {

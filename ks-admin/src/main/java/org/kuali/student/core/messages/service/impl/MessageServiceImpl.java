@@ -1,7 +1,9 @@
 package org.kuali.student.core.messages.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 import org.kuali.student.core.messages.bo.MessageEntity;
 import org.kuali.student.core.messages.dto.LocaleKeyList;
 import org.kuali.student.core.messages.dto.Message;
@@ -32,14 +35,18 @@ public class MessageServiceImpl implements MessageService {
 
 	@SuppressWarnings("unchecked")
     public LocaleKeyList getLocales() {
-    	List<MessageEntity> messageList = (List<MessageEntity>) getBusinessObjectService().findAll(MessageEntity.class);
-    	List<String> keyList = new ArrayList<String>();
-    	
-    	for(MessageEntity message: messageList){
-    		if(keyList.contains(message.getLocale()) == false){
-    			keyList.add(message.getLocale());
-    		}
-    	}
+	    List<String> keyList = new ArrayList<String>();
+	    Map<String, Object> criteria = new HashMap<String,Object>();
+        
+        criteria.put(EnumeratedValue.ENUMERATION_KEY, MessageEntity.LOCALE_ENUMERATION);
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        Collection<EnumeratedValue> values = boService.findMatching(EnumeratedValue.class, criteria);
+        
+        Iterator<EnumeratedValue> iterator = values.iterator(); 
+        while(iterator.hasNext()) {
+            EnumeratedValue value = iterator.next();
+            keyList.add(value.getCode());
+        }
     	
     	LocaleKeyList localeKeyList = new LocaleKeyList();
     	localeKeyList.setLocales(keyList);
@@ -60,14 +67,18 @@ public class MessageServiceImpl implements MessageService {
 
     @SuppressWarnings("unchecked")
     public MessageGroupKeyList getMessageGroups() {
-    	List<MessageEntity> messageList = (List<MessageEntity>) getBusinessObjectService().findAll(MessageEntity.class);
-    	List<String> keyList = new ArrayList<String>();
-    	
-    	for(MessageEntity message: messageList){
-    		if(keyList.contains(message.getGroupName()) == false){
-    			keyList.add(message.getGroupName());
-    		}
-    	}
+        List<String> keyList = new ArrayList<String>();
+        Map<String, Object> criteria = new HashMap<String,Object>();
+        
+        criteria.put(EnumeratedValue.ENUMERATION_KEY, MessageEntity.GROUP_NAME_ENUMERATION);
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        Collection<EnumeratedValue> values = boService.findMatching(EnumeratedValue.class, criteria);
+        
+        Iterator<EnumeratedValue> iterator = values.iterator(); 
+        while(iterator.hasNext()) {
+            EnumeratedValue value = iterator.next();
+            keyList.add(value.getCode());
+        }
     	
     	MessageGroupKeyList messageGroupKeyList = new MessageGroupKeyList();
     	messageGroupKeyList.setMessageGroupKeys(keyList);

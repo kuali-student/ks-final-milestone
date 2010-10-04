@@ -30,6 +30,8 @@ import org.kuali.rice.kns.bo.InactivatableFromToImpl;
 @Table(name="KSEM_ENUM_VAL_T")
 public class EnumeratedValue extends InactivatableFromToImpl {
     
+    public static final String ENUMERATION_KEY = "enumerationKey";
+    
     private static final long serialVersionUID = 1L;
 
     @Id
