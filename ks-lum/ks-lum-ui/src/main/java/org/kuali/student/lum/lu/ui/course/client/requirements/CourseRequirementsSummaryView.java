@@ -400,7 +400,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         layout.add(requirementsPanel);
         
         //add widget for displaying "No entrance requirement currently exist for this program"
-        String noRuleText = ProgramProperties.get().programRequirements_summaryViewPageNoRule().replace("<*>", stmtTypeInfo.getName().toLowerCase());
+        String noRuleText = ProgramProperties.get().programRequirements_summaryViewPageNoRule(stmtTypeInfo.getName().toLowerCase());
         KSLabel ruleDesc = new KSLabel(noRuleText);
         ruleDesc.addStyleName("KS-Program-Requirements-Preview-No-Rule-Text");
         noRuleTextMap.put(stmtTypeInfo.getName(), ruleDesc);
