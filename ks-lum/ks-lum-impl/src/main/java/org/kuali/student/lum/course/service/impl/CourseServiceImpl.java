@@ -52,6 +52,21 @@ import org.springframework.transaction.annotation.Transactional;
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
  * and CluCluRelationInfo.
  *
+ * For Credits, there are three credit types that are set with a combination of type and dynamic attributes
+ * To set a variable(range) credit option,
+ * set the ResultComponentInfo type to CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE
+ * and add the dynamic attributes CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE and 
+ * CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE with respective credit min and max values.
+ * 
+ * To set a fixed credit option,
+ * set the ResultComponentInfo type to CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED
+ * and add the dynamic attribute CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE
+ * with the fixed credit value
+ * 
+ * To Set multiple credit options, 
+ * set the ResultComponentInfo type to CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE
+ * and add each credit as a numeric ResultValue on the ResultComponentInfo for each credit you desire
+ *
  * @author Kuali Student Team
  */
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
