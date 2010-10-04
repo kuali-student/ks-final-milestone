@@ -682,13 +682,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programRequirements_manageViewPageTitle();
 
   /**
-   * Translated "Add <*>".
+   * Translated "Add {0}".
    * 
-   * @return translated "Add <*>"
+   * @return translated "Add {0}"
    */
-  @DefaultMessage("Add <*>")
+  @DefaultMessage("Add {0}")
   @Key("programRequirements.summaryViewPageAddRule")
-  String programRequirements_summaryViewPageAddRule();
+  String programRequirements_summaryViewPageAddRule(String arg0);
 
   /**
    * Translated "Are you sure you want to delete this rule?".
@@ -709,13 +709,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programRequirements_summaryViewPageDeleteRuleDialogTitle();
 
   /**
-   * Translated "No <*> currently exist for this program".
+   * Translated "No {0} currently exist for this program".
    * 
-   * @return translated "No <*> currently exist for this program"
+   * @return translated "No {0} currently exist for this program"
    */
-  @DefaultMessage("No <*> currently exist for this program")
+  @DefaultMessage("No {0} currently exist for this program")
   @Key("programRequirements.summaryViewPageNoRule")
-  String programRequirements_summaryViewPageNoRule();
+  String programRequirements_summaryViewPageNoRule(String arg0);
 
   /**
    * Translated "Program Requirements".

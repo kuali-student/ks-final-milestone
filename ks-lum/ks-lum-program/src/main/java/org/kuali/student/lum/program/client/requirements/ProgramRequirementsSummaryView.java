@@ -380,7 +380,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         //display "Add Rule" button if user is in 'edit' mode
         if (!isReadOnly) {
-            String addRuleLabel = ProgramProperties.get().programRequirements_summaryViewPageAddRule().replace("<*>", stmtTypeInfo.getName());
+            String addRuleLabel = ProgramProperties.get().programRequirements_summaryViewPageAddRule(stmtTypeInfo.getName());
             KSButton addProgramReqBtn = new KSButton(addRuleLabel, KSButtonAbstract.ButtonStyle.FORM_SMALL);
             addProgramReqBtn.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
@@ -393,7 +393,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         layout.add(requirementsPanel);
         
         //add widget for displaying "No entrance requirement currently exist for this program"
-        String noRuleText = ProgramProperties.get().programRequirements_summaryViewPageNoRule().replace("<*>", stmtTypeInfo.getName().toLowerCase());
+        String noRuleText = ProgramProperties.get().programRequirements_summaryViewPageNoRule(stmtTypeInfo.getName().toLowerCase());
         KSLabel ruleDesc = new KSLabel(noRuleText);
         ruleDesc.addStyleName("KS-Program-Requirements-Preview-No-Rule-Text");
         noRuleTextMap.put(stmtTypeInfo.getName(), ruleDesc);
@@ -484,7 +484,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     private void showAddProgramRequirementDialog(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo) {
 
-        String addRuleText = ProgramProperties.get().programRequirements_summaryViewPageAddRule().replace("<*>", stmtTypeInfo.getName());
+        String addRuleText = ProgramProperties.get().programRequirements_summaryViewPageAddRule(stmtTypeInfo.getName());
         final KSLightBox dialog = new KSLightBox(addRuleText);
 
 	    ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.AddCancelEnum.ADD, ButtonEnumerations.AddCancelEnum.CANCEL);
@@ -539,7 +539,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     private void showEditProgramRequirementDialog(final SpanPanel requirementsPanel, final String ruleTypeName) {
 
-        String addRuleText = ProgramProperties.get().programRequirements_summaryViewPageAddRule().replace("<*>", ruleTypeName);
+        String addRuleText = ProgramProperties.get().programRequirements_summaryViewPageAddRule(ruleTypeName);
         final KSLightBox dialog = new KSLightBox(addRuleText);
 
 	    ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.UpdateCancelEnum.UPDATE, ButtonEnumerations.UpdateCancelEnum.CANCEL);
