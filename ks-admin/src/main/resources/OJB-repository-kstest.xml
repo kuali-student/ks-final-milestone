@@ -24,20 +24,6 @@
 		<field-descriptor name="value" column="value" jbdc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
 		<field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
-        <!-- 
-        <reference-descriptor name="enumeratedValue"
-                class-ref="org.kuali.student.core.enumerationmanagement.bo.EnumerationValue"
-                auto-retrieve="true"
-                auto-delete="none"
-                auto-update="none">
-            
-            <query-customizer class="org.kuali.rice.core.ojb.OjbQueryCustomizer">
-                <attribute attribute-name="enumerationKey" attribute-value="locale" />
-                <attribute attribute-name="enumerationCode" attribute-value="parent.locale"/>
-            </query-customizer>
-            
-        </reference-descriptor>
-        -->
 	</class-descriptor>
     
     <class-descriptor class="org.kuali.student.core.enumerationmanagement.bo.Enumeration" table="KSEM_ENUM_T">

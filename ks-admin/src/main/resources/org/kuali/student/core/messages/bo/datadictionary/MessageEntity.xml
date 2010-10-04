@@ -126,8 +126,8 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="databaseId"/>
         <bean parent="FieldDefinition" p:attributeName="id"/>
-        <bean parent="FieldDefinition" p:attributeName="locale"/>
-        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+        <bean parent="FieldDefinition" p:attributeName="locale" p:alternateDisplayAttributeName="localeEnumValue.value"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName" p:alternateDisplayAttributeName="groupNameEnumValue.value"/>
         <bean parent="FieldDefinition" p:attributeName="value"/>
       </list>
     </property>

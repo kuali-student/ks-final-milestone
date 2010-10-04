@@ -13,7 +13,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 
-public abstract class EnumerationValuesFinderBase extends KeyValuesBase {
+public abstract class EnumerationCodeValuesFinderBase extends KeyValuesBase {
 
     private static final String ENUMERATION_KEY = "enumerationKey";
     
@@ -30,7 +30,7 @@ public abstract class EnumerationValuesFinderBase extends KeyValuesBase {
         Iterator<EnumeratedValue> iterator = values.iterator(); 
         while(iterator.hasNext()) {
             EnumeratedValue value = iterator.next();
-            labels.add(new KeyLabelPair(value.getId(), value.getValue()));
+            labels.add(new KeyLabelPair(value.getCode(), value.getValue()));
         }
         
         return labels;

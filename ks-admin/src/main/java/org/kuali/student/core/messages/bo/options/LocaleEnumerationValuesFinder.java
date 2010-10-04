@@ -1,12 +1,13 @@
 package org.kuali.student.core.messages.bo.options;
 
-import org.kuali.student.core.enumerationmanagement.bo.options.EnumerationValuesFinderBase;
+import org.kuali.student.core.enumerationmanagement.bo.options.EnumerationCodeValuesFinderBase;
+import org.kuali.student.core.messages.bo.MessageEntity;
 
-public class LocaleEnumerationValuesFinder extends EnumerationValuesFinderBase {
+public class LocaleEnumerationValuesFinder extends EnumerationCodeValuesFinderBase {
 
     @Override
     public String getEnumerationKey() {
-        return "ks.message.locales";
+        return MessageEntity.LOCALE_ENUMERATION;
     }
 
 }
