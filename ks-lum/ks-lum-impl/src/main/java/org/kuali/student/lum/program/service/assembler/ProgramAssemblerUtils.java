@@ -308,6 +308,16 @@ public class ProgramAssemblerUtils {
             official.setState((null != existingState && existingState.length() > 0) ? existingState : ProgramAssemblerConstants.ACTIVE);
             // gotta be this type
             official.setType(ProgramAssemblerConstants.OFFICIAL);
+            
+            try {
+                method = o.getClass().getMethod("getProgramLevel", null);
+                String level = (String)method.invoke(o, null);
+                official.setLevel(level);
+            }
+            catch (NoSuchMethodException e)        {
+                //ignore - only CredentialProgram has programLevel
+            }
+            
             clu.setOfficialIdentifier(official);
 
             //Remove any existing diploma or transcript alt identifiers
@@ -518,7 +528,8 @@ public class ProgramAssemblerUtils {
         addAdminOrgs(clu, o, "getUnitsDeployment", ProgramAssemblerConstants.DEPLOYMENT_UNIT);
         addAdminOrgs(clu, o, "getUnitsFinancialResources", ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT);
         addAdminOrgs(clu, o, "getUnitsFinancialControl", ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT);
-
+        addAdminOrg(clu, o, "getInstitution", ProgramAssemblerConstants.INSTITUTION);
+        
         return clu;
 
     }
@@ -529,6 +540,21 @@ public class ProgramAssemblerUtils {
             clu.getAdminOrgs().addAll(orgs);
     }
 
+    private void addAdminOrg(CluInfo clu, Object o, String methodName, String adminOrgType){
+        AdminOrgInfo org = null;
+		try	{
+			Method method = o.getClass().getMethod(methodName, null);
+			org = (AdminOrgInfo) method.invoke(o, null);
+            if (org != null) {
+        		org.setType(adminOrgType);
+            	clu.getAdminOrgs().add(org);
+            }
+        }
+		catch (NoSuchMethodException ex) {} 
+        catch (IllegalArgumentException e) {} 
+        catch (IllegalAccessException e) {} 
+        catch (InvocationTargetException e) {}
+    }
     /**
      * Copy result option values from clu to program
      *
@@ -1010,7 +1036,7 @@ public class ProgramAssemblerUtils {
 
         return result;
     }
-
+    
      private void addLuCode(CluInfo clu, Object o, String methodName, String codeType ) throws AssemblyException {
 
         LuCodeInfo code = buildLuCodeFromProgram(o, methodName, codeType );
