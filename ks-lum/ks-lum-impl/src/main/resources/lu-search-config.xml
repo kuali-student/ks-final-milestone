@@ -228,7 +228,12 @@
 		<search:desc>Version End Date</search:desc>
 		<search:dataType>date</search:dataType>
 	</search:resultColumn>
-
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionSeqNum" parent="lu.resultColumn.luOptionalVersionSeqNum-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalVersionSeqNum-parent"  abstract="true">
+		<search:name>VersionSeqNum</search:name>
+		<search:desc>Version Seq Number</search:desc>
+		<search:dataType>int</search:dataType>
+	</search:resultColumn>
 
     <search:searchType id="lu.search.clus" parent="lu.search.clus-parent"/>
 	<search:searchType id="lu.search.clus-parent"  abstract="true">
@@ -657,10 +662,73 @@
 			<dict:readOnly>true</dict:readOnly>
 		</dict:fieldDescriptor>
 	</search:queryParam>
+	
+	
+	<!-- Clu Version search -->	
+	<search:searchType id="lu.search.clu.versions" parent="lu.search.clu.versions-parent"/>
+	<search:searchType id="lu.search.clu.versions-parent"  abstract="true">
+		<search:name>Find all versions of a clu</search:name>
+		<search:desc>Query to find all versions of a Clu</search:desc>
+		<search:searchResultTypeInfo> 
+			<ref bean="lu.result.clu.versions"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.cluVersionCriteria"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
 
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluVersionCriteria" parent="lu.criteria.cluVersionCriteria-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluVersionCriteria-parent"  abstract="true">
+		<search:name>Version Independent Id</search:name>
+		<search:desc>Version Independent Id</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.cluVersionIndId" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="lu.queryParam.cluVersionIndId" parent="lu.queryParam.cluVersionIndId-parent"/>
+    <search:queryParam id="lu.queryParam.cluVersionIndId-parent" optional="false" abstract="true">
+        <dict:fieldDescriptor>
+            <dict:name>Version Independent Id</dict:name>
+            <dict:desc>>Version Independent Id</dict:desc>
+            <dict:dataType>string</dict:dataType>
+            <dict:readOnly>true</dict:readOnly>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+	
+	<search:searchResultTypeInfo id="lu.result.clu.versions" parent="lu.result.clu.versions-parent"/>
+	<search:searchResultTypeInfo id="lu.result.clu.versions-parent"  abstract="true">
+		<search:name>Clu Versions</search:name>
+		<search:desc>Clu Versions</search:desc>
+     	<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalShortName"/>
+			<ref bean="lu.resultColumn.luOptionalLongName"/>
+			<ref bean="lu.resultColumn.luOptionalCode"/>
+			<ref bean="lu.resultColumn.luOptionalLevel"/>
+			<ref bean="lu.resultColumn.luOptionalDescr"/>
+			<ref bean="lu.resultColumn.luOptionalStudySubjectArea"/>
+			<ref bean="lu.resultColumn.luOptionalState"/>
+			<ref bean="lu.resultColumn.luOptionalVersionedFromId"/>
+			<ref bean="lu.resultColumn.luOptionalVersionStartDate"/>
+			<ref bean="lu.resultColumn.luOptionalVersionEndDate"/>
+			<ref bean="lu.resultColumn.luOptionalVersionSeqNum"/>
+     	</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
+				<entry key="lu.search.clu.versions">
+					<value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+                    officialIdentifier.code, officialIdentifier.level,
+                    cludesc.plain, clu.studySubjectArea, clu.state,
+                    clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd, clu.version.sequenceNumber
+                    FROM Clu clu
+                    LEFT JOIN clu.officialIdentifier officialIdentifier
+                    LEFT JOIN clu.descr cludesc
+                    WHERE clu.version.versionIndId = :lu_queryParam_cluVersionIndId</value>
+				</entry>
 		        <entry key="lu.search.clus">
 		            <value>SELECT clu.id, clu.officialIdentifier.longName FROM Clu clu
 		              WHERE clu.state NOT IN ('draft') ORDER BY clu.officialIdentifier.longName </value>

@@ -2856,6 +2856,17 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		client.setCurrentCluVersion(cluV3.getId(), null);
 		versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId());
 		assertEquals(versionDisplayInfo.getId(),cluV3.getId());
+		
+		
+		SearchRequest searchRequest = new SearchRequest();
+		SearchParam param = new SearchParam();
+		param.setKey("lu.queryParam.cluVersionIndId");
+		param.setValue(versionDisplayInfo.getVersionIndId());
+		searchRequest.getParams().add(param);
+		searchRequest.setSearchKey("lu.search.clu.versions");
+		SearchResult searchResult = client.search(searchRequest);
+		assertEquals(3,searchResult.getRows().size());
+		
 	}
 	
 	private CluSetInfo createCluSetInfo() throws ParseException {
