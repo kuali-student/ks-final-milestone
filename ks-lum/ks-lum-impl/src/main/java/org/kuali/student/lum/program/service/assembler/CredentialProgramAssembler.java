@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -104,8 +105,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         clu.setType(credential.getCredentialProgramType());
  
         if (credential.getCoreProgramIds() != null && credential.getCoreProgramIds().size() > 0) {
-        	//TODO: implement disassembleCorePrograms
-        	//disassembleCorePrograms(credential, operation, result);
+        	disassembleCorePrograms(credential, operation, result);
         }
         
 		// Add the Clu to the result
@@ -136,9 +136,14 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
     }
     
     private void disassembleCorePrograms(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result) throws AssemblyException{
-    	try{
+    	List<BaseDTOAssemblyNode<?, ?>> coreResults;
+    	
+    	try{    		
 	    	for (String coreProgramId : credential.getCoreProgramIds()){
-	    	
+	    		coreResults = programAssemblerUtils.addRelationNodes(credential.getId(), coreProgramId, ProgramAssemblerConstants.HAS_CORE_PROGRAM, operation);
+	            if (coreResults != null) {
+	                result.getChildNodes().addAll(coreResults);
+	            }
 	    	}
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling Core programs", e);

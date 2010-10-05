@@ -1048,6 +1048,9 @@ public class TestProgramServiceImpl {
     	CredentialProgramInfo credentialProgramInfo = null;
         try {
             assertNotNull(credentialProgramInfo = generator.getCPTestData());
+            List<String> coreProgramIds = new ArrayList<String>();
+            coreProgramIds.add("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
+            credentialProgramInfo.setCoreProgramIds(coreProgramIds);
             CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
             assertNotNull(createdCP);
             assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
