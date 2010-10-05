@@ -1,7 +1,6 @@
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
@@ -46,7 +45,6 @@ import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.search.dto.QueryParamInfo;
 import org.kuali.student.core.search.dto.SearchParam;
@@ -55,7 +53,6 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.lum.common.client.lo.LUConstants;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
@@ -129,26 +126,30 @@ public class ClusetView extends VerticalSectionView {
     public void beforeShow(Callback<Boolean> onReadyCallback) {
         super.beforeShow(onReadyCallback);
         if (viewEnum == CluSetsManagementViews.VIEW) {
-            if (this.selectedCluSetId != null) {
-                {
-                    KSBlockingProgressIndicator.addTask(retrievingTask);
-                    cluSetManagementRpcServiceAsync.getCluSetInformation(selectedCluSetId, 
-                            new AsyncCallback<CluSetInformation>() {
-                                @Override
-                                public void onFailure(Throwable caught) {
-                                    KSBlockingProgressIndicator.removeTask(retrievingTask);
-                                    Window.alert("failed to get Cluset information");
-                                }
-                                @Override
-                                public void onSuccess(CluSetInformation result) {
-                                    CluSetDetailsWidget clusetDetailsWidget = 
-                                        new CluSetDetailsWidget(result, cluSetManagementRpcServiceAsync);
-                                    cluSetDisplay.clear();
-                                    cluSetDisplay.setWidget(clusetDetailsWidget);
-                                    KSBlockingProgressIndicator.removeTask(retrievingTask);
-                                }
-                    });
-                }
+            refreshCluSetDisplay();
+        }
+    }
+    
+    private void refreshCluSetDisplay() {
+        if (this.selectedCluSetId != null) {
+            {
+                KSBlockingProgressIndicator.addTask(retrievingTask);
+                cluSetManagementRpcServiceAsync.getCluSetInformation(selectedCluSetId, 
+                        new AsyncCallback<CluSetInformation>() {
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                KSBlockingProgressIndicator.removeTask(retrievingTask);
+                                Window.alert("failed to get Cluset information");
+                            }
+                            @Override
+                            public void onSuccess(CluSetInformation result) {
+                                CluSetDetailsWidget clusetDetailsWidget = 
+                                    new CluSetDetailsWidget(result, cluSetManagementRpcServiceAsync);
+                                cluSetDisplay.clear();
+                                cluSetDisplay.setWidget(clusetDetailsWidget);
+                                KSBlockingProgressIndicator.removeTask(retrievingTask);
+                            }
+                });
             }
         }
     }
@@ -182,6 +183,16 @@ public class ClusetView extends VerticalSectionView {
         }
     }
     
+    @Override
+    public void onHistoryEvent(String historyStack) {
+        super.onHistoryEvent(historyStack);
+        CluSetsManagementController cluSetsManagementController = 
+            (CluSetsManagementController)getController();
+        selectedCluSetId = HistoryManager.getTokenMap(historyStack).get("docId");
+        cluSetsManagementController.getMainView().setSelectedCluSetId(selectedCluSetId);
+        cluSetsManagementController.showView(CluSetsManagementViews.VIEW);
+    }
+
     private void setupViewClusetView() {
         Anchor editCluSet = new Anchor("Edit Course Set");
         editCluSet.addClickHandler(new ClickHandler() {
@@ -862,11 +873,7 @@ public class ClusetView extends VerticalSectionView {
         
         @Override
         public void setModelValue(HasDataValue widget, DataModel model, String path) {
-            DataModel middleManModel = new DataModel();
-            if (model != null && model.getRoot() != null) {
-                middleManModel = new DataModel(model.getDefinition(), model.getRoot().copy());
-            }
-            binding.setModelValue(widget, middleManModel, path);
+            binding.setModelValue(widget, model, path);
         }
 
         @Override
