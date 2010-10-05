@@ -287,6 +287,11 @@ public class CommentTool implements HasReferenceId {
             int commentCounter = 0;
             for (final CommentInfo commentInfo : commentInfos) {
                 int columnIndex = 0;
+                if (commentInfo.getType() != null && 
+                        commentInfo.getType().startsWith("kuali.comment.type.workflowDecisionRationale")) {
+                    // do not display comments for workflow decision rationale.
+                    continue;
+                }
                 if (rowIndex == 0) {
                     StringBuilder titleTextSb = new StringBuilder();
                     titleTextSb.append("Comments (").append(commentInfos.size()).append(")");
