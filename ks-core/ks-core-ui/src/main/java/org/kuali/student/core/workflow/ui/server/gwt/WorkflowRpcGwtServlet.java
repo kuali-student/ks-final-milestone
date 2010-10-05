@@ -1,6 +1,7 @@
 package org.kuali.student.core.workflow.ui.server.gwt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +46,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			//get a user name
             String username= SecurityUtils.getCurrentUserId();
 
-	        String acknowledgeComment = "Acknowledged";
-
-	        StandardResponse stdResp = getSimpleDocService().acknowledge(workflowId, username, acknowledgeComment);
+	        StandardResponse stdResp = getSimpleDocService().acknowledge(workflowId, username, "");
 
 	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new OperationFailedException("Error found acknowledging document: " + stdResp.getErrorMessage());
@@ -68,9 +67,9 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             //Get a user name
             String username = SecurityUtils.getCurrentUserId();
 
-            String fyiAnnotation = "FYI";
-            String approveAnnotation = "Approve";
-            String ackAnnotation = "Ack";
+            String fyiAnnotation = "";
+            String approveAnnotation = "";
+            String ackAnnotation = "";
 
             if (ActionRequestType.FYI.equals(requestType)) {
                 StandardResponse stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(workflowId,recipientPrincipalId, username, fyiAnnotation);
@@ -106,15 +105,13 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             String username = SecurityUtils.getCurrentUserId();
 
             //Lookup the workflowId from the id
-            DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(workflowId));
-            if(docDetail==null){
-            	throw new OperationFailedException("Error found getting document. " );
-            }
-            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(workflowId));
-
-	        String approveComment = "Approved";
-
-	        StandardResponse stdResp = getSimpleDocService().approve(workflowId, username, docDetail.getDocTitle(), docContent.getApplicationContent(), approveComment);
+//            DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(workflowId));
+//            if(docDetail==null){
+//            	throw new OperationFailedException("Error found getting document. " );
+//            }
+//            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(workflowId));
+//	        StandardResponse stdResp = getSimpleDocService().approve(workflowId, username, docDetail.getDocTitle(), docContent.getApplicationContent(), approveComment);
+            StandardResponse stdResp = getSimpleDocService().approve(workflowId, username, null, null, "");
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
         	}
@@ -165,30 +162,59 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	}
 
 	@Override
-	public Boolean withdrawDocumentWithId(String dataId) {
+	public Boolean withdrawDocumentWithId(String workflowId) {
         if(simpleDocService==null){
         	LOG.error("Workflow Service is unavailable");
         	return Boolean.FALSE;
         }
 
 		try{
-			KimPrincipalInfo principal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
-			if (principal == null) {
+            String username = SecurityUtils.getCurrentUserId();
+			KimPrincipalInfo systemPrincipal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+			if (systemPrincipal == null) {
 				throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 			}
-			
-//			DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetailFromAppId(getDefaultWorkflowDocumentType(), dataId);
-//	        StandardResponse stdResp = simpleDocService.superUserDisapprove(docDetail.getRouteHeaderId().toString(), principal.getPrincipalId(), "");
-//	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-//        		LOG.error("Error withdrawing document: " + stdResp.getErrorMessage());
-//        		return Boolean.FALSE;
-//        	}
+			String annotation = "Document was withdrawn by " + username;
+
+			StandardResponse stdResp = simpleDocService.superUserDisapprove(workflowId, systemPrincipal.getPrincipalId(), null, null, annotation);
+	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+        		LOG.error("Error withdrawing document: " + stdResp.getErrorMessage());
+        		return Boolean.FALSE;
+        	}
 		}catch(Exception e){
             LOG.error("Error withdrawing document",e);
             return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
 	}
+	
+	@Override
+	public Boolean returnDocumentWithId(String workflowId, String nodeName) {
+
+        try{
+            //get the current user username
+            String username = SecurityUtils.getCurrentUserId();
+            StandardResponse stdResp = getSimpleDocService().returnToPreviousNode(workflowId, username, "", nodeName);
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+                throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
+            }
+
+        }catch(Exception e){
+            LOG.error("Error approving document",e);
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+	}
+
+    public List<String> getPreviousRouteNodeNames(String workflowId) throws OperationFailedException {
+        try {
+            String[] nodeNames = getWorkflowUtilityService().getPreviousRouteNodeNames(Long.parseLong(workflowId));
+            return Arrays.asList(nodeNames);
+        } catch (Exception e) {
+            LOG.error("Error approving document",e);
+            throw new OperationFailedException("Error getting previous node names");
+        }
+    }
 
 	@Override
 	public String getActionsRequested(String workflowId) throws OperationFailedException {
@@ -201,11 +227,11 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             //get a user name
             String principalId = SecurityUtils.getCurrentUserId();
 
-    		//Build up a string of actions requested from the attribute set.  The actions can be S, F,A,C,K. examples are "A" "AF" "FCK" "SCA"
+    		//Build up a string of actions requested from the attribute set.  The actions can be R,W,S,F,A,C,K. examples are "A" "AF" "FCK" "SCA"
             LOG.debug("Calling action requested with user:"+principalId+" and workflowId:" + workflowId);
 
             Map<String,String> results = new HashMap<String,String>();
-            AttributeSet kewActionsRequested = workflowUtilityService.getActionsRequested(principalId, Long.parseLong(workflowId));
+            AttributeSet kewActionsRequested = getWorkflowUtilityService().getActionsRequested(principalId, Long.parseLong(workflowId));
             for (String key : kewActionsRequested.keySet()) {
             	if ("true".equalsIgnoreCase(kewActionsRequested.get(key))) {
             		results.put(key,"true");
@@ -215,11 +241,11 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             //Use StringBuilder to avoid using string concatenations in the for loop.
             StringBuilder actionsRequestedBuffer = new StringBuilder();
 
-            String documentStatus = workflowUtilityService.getDocumentStatus(Long.parseLong(workflowId));
+            DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(workflowId));
 
             for(Map.Entry<String,String> entry:results.entrySet()){
             	// if saved or initiated status... must show only 'complete' button
-            	if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(documentStatus) || KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(documentStatus)) {
+            	if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus()) || KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) {
             		// show only complete button if complete or approve code in this doc status
             		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
             			actionsRequestedBuffer.append("S");
@@ -234,17 +260,22 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             	else {
                 	if("true".equals(entry.getValue())){
                 		actionsRequestedBuffer.append(entry.getKey());
+                        // show the return to previous button if there is a COMPLETE or APPROVE action request
+                        if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
+                            actionsRequestedBuffer.append("R");
+                        }
                 	}
             	}
             }
 
+            String docTypeName = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId()).getName();
             // if user can withdraw document then add withdraw button
             if (getPermissionService().isAuthorizedByTemplateName(principalId, 
-            		PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
-            		PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), null, 
+            		PermissionType.WITHDRAW.getPermissionNamespace(), 
+            		PermissionType.WITHDRAW.getPermissionTemplateName(), new AttributeSet(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName), 
             		new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId))) {
             	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
-//            	actionsRequestedBuffer.append("W");
+            	actionsRequestedBuffer.append("W");
             }
 
             return actionsRequestedBuffer.toString();
