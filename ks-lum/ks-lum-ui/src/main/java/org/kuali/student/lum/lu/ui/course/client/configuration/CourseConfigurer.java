@@ -165,7 +165,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS,CLU_PROPOSAL_MODEL));
             
             //Documents
-            documentTool = new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
+            documentTool = new DocumentTool(LUConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
             documentTool.setModelDefinition(modelDefinition);
             layout.addMenuItem(sections, documentTool);
             

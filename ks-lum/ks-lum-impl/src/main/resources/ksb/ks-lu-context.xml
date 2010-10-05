@@ -380,31 +380,6 @@
                   value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
     </bean>
 
-    <!-- Document Relation Mock Service Config -->
-    <!--Note: When this service is defined, move this declaration into core
-        context.
-    -->
-
-    <bean id="documentRelationServiceImpl"
-          class="org.kuali.student.lum.mock.service.impl.DocumentRelationServiceImpl">
-        <property name="proposalService" ref="proposalClient"/>
-    </bean>
-
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-                <property name="jaxWsService" value="true"/>
-                <property name="service" ref="documentRelationServiceImpl"/>
-                <property name="serviceInterface"
-                          value="org.kuali.student.core.mock.service.DocumentRelationService"/>
-                <property name="localServiceName" value="DocumentRelationService"/>
-                <property name="serviceNameSpaceURI"
-                          value="http://student.kuali.org/wsdl/documentRelation"/>
-                <property name="busSecurity" value="false"></property>
-            </bean>
-        </property>
-    </bean>
-
     <!-- CourseService config -->
     <bean id="courseServiceImpl"
           class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">

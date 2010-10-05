@@ -70,8 +70,6 @@
                         value-ref="documentUploadGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/UploadStatusRpcService"
                         value-ref="uploadStatusRpcGwtController"/>
-                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRelationMockRpcService"
-                        value-ref="documentRelationMockRpcGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService"
                         value-ref="searchRpcGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CourseRpcService"
@@ -181,11 +179,6 @@
     <bean id="uploadStatusRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="uploadStatusRpcGwtServlet"/>
         <property name="servletInstance" ref="uploadStatusRpcGwtServlet"/>
-    </bean>
-
-    <bean id="documentRelationMockRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="documentRelationMockRpcGwtServlet"/>
-        <property name="servletInstance" ref="documentRelationMockRpcGwtServlet"/>
     </bean>
 
     <bean id="searchRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -491,15 +484,9 @@
 
     <bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
         <property name="documentService" ref="documentService"/>
-        <property name="relationService" ref="relationService"/>
     </bean>
 
     <bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">
-    </bean>
-
-    <bean id="documentRelationMockRpcGwtServlet"
-          class="org.kuali.student.common.ui.server.gwt.DocumentRelationMockRpcGwtServlet">
-        <property name="service" ref="relationService"/>
     </bean>
 
     <bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
@@ -604,11 +591,6 @@
     <bean id="documentService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
-    </bean>
-
-    <bean id="relationService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.mock.service.DocumentRelationService"/>
-        <property name="serviceQName" value="{http://student.kuali.org/wsdl/documentRelation}DocumentRelationService"/>
     </bean>
 
     <bean id="searchService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
