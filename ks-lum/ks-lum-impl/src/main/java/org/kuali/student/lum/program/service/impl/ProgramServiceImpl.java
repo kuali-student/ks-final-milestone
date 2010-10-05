@@ -167,17 +167,18 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        try {
-        	CredentialProgramInfo credentialProgram = getCredentialProgram(credentialProgramId);
-
-            processCredentialProgramInfo(credentialProgram, NodeOperation.DELETE);
-
-            return getStatus();
-
-        } catch (AssemblyException e) {
-            LOG.error("Error disassembling CredentialProgram", e);
-            throw new OperationFailedException("Error disassembling CredentialProgram");
-        }
+//        try {
+//        	CredentialProgramInfo credentialProgram = getCredentialProgram(credentialProgramId);
+//
+//            processCredentialProgramInfo(credentialProgram, NodeOperation.DELETE);
+//
+//            return getStatus();
+//
+//        } catch (AssemblyException e) {
+//            LOG.error("Error disassembling CredentialProgram", e);
+//            throw new OperationFailedException("Error disassembling CredentialProgram");
+//        }
+    	throw new OperationFailedException("Deletion of CredentialProgram is not supported."); 
     }
 
     @Override
