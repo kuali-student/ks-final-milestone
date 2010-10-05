@@ -54,13 +54,13 @@ public class CollaboratorHelper implements Serializable {
         StandardResponse stdResp = null;
         // TODO: This below are hacked versions of what the call should be. See Jira issue KULRICE-4050 about SimpleDocumentActionsWebServiceImpl
         if (ActionRequestType.APPROVE.equals(actionRequestType)) {
-            stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(docId,recipientPrincipalId, currentUserPrincipalId, "");
+            stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(docId, currentUserPrincipalId, recipientPrincipalId, "");
         }
         else if (ActionRequestType.ACKNOWLEDGE.equals(actionRequestType)) {
-            stdResp = getSimpleDocService().requestAdHocAckToPrincipal(docId,recipientPrincipalId, currentUserPrincipalId, "");
+            stdResp = getSimpleDocService().requestAdHocAckToPrincipal(docId,currentUserPrincipalId, recipientPrincipalId, "");
         }
         else if (ActionRequestType.FYI.equals(actionRequestType)) {
-            stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(docId,recipientPrincipalId, currentUserPrincipalId, "");
+            stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(docId,currentUserPrincipalId, recipientPrincipalId, "");
         }
         else {
         	throw new RuntimeException("Invalid action request type '" + actionRequestType.getActionRequestLabel() + "'");
