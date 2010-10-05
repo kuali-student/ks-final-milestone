@@ -52,7 +52,6 @@ public class CollaboratorHelper implements Serializable {
         	throw new RuntimeException("No valid action request type found for code: " + actionRequestTypeCode);
         }
         StandardResponse stdResp = null;
-        // TODO: This below are hacked versions of what the call should be. See Jira issue KULRICE-4050 about SimpleDocumentActionsWebServiceImpl
         if (ActionRequestType.APPROVE.equals(actionRequestType)) {
             stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(docId, currentUserPrincipalId, recipientPrincipalId, "");
         }
