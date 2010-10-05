@@ -155,7 +155,6 @@ public class CollaboratorHelper implements Serializable {
 		}
     }
     
-    // TODO: doesn't belong here - this was duplicated from WorkfowToolRpcGwtServlet
     private String getActionRequestStatusLabel(String key) {
         Map<String,String> newArStatusLabels = new HashMap<String,String>();
         newArStatusLabels.put(KEWConstants.ACTION_REQUEST_ACTIVATED, "Active");
@@ -164,7 +163,6 @@ public class CollaboratorHelper implements Serializable {
         return newArStatusLabels.get(key);
     }
 	
-	// TODO: add helper class for roles - this was duplicated from WorkfowToolRpcGwtServlet
 	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) {
 		try {
 	    	DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.valueOf(docId));
