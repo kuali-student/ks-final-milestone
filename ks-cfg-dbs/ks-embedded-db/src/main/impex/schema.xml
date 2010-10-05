@@ -4987,56 +4987,6 @@
             <reference foreign="PROPOSAL_ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSPR_PROPOSAL_DOCREL">
-        <column name="DOCREL_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
-        <column name="DOCUMENT_ID" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="STATE" size="255" type="VARCHAR"/>
-        <column name="TITLE" size="255" type="VARCHAR"/>
-        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <column name="PROPOSAL_ID" size="255" type="VARCHAR"/>
-        <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL" name="FKAFE5E579F4EE03C1">
-            <reference foreign="PROPOSAL_ID" local="PROPOSAL_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSPR_RICH_TEXT_T" name="FKAFE5E579E5848F8">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL_TYPE" name="FKAFE5E57989B4986F">
-            <reference foreign="ID" local="TYPE"/>
-        </foreign-key>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL" name="FK10D528F785351E0E">
-            <reference foreign="DOCREL_ID" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_TYPE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="DESCRIPTION" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_TYPE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL_TYPE" name="FK37AC94908FD1FBE8">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-    </table>
     <table name="KSPR_PROPOSAL_JN_ORG">
         <column name="ORGREF_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>

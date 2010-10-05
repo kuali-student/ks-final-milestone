@@ -6,13 +6,11 @@ import java.util.List;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcService;
-import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
-import org.kuali.student.core.dto.RefDocRelationInfoMock;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -25,36 +23,41 @@ import com.google.gwt.user.client.ui.HTML;
 
 public class DocumentList extends Composite{
 	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
-	private DocumentRelationMockRpcServiceAsync documentRelationRpc = GWT.create(DocumentRelationMockRpcService.class);
     private FlexTable tableLayout = new FlexTable();
-    private List<RefDocRelationInfoMock> docInfos;
+    private List<RefDocRelationInfo> docInfos;
     private Callback<String> deleteCallback;
     private boolean canDelete = false;
     private boolean showDesc = true;
     private boolean showTitle = true;
+    private String refObjectType;
     
-    public DocumentList(boolean showTitle, boolean showDesc) {
+    public DocumentList(String refObjectType, boolean showTitle, boolean showDesc) {
     	this.showTitle = showTitle;
     	this.showDesc = showDesc;
+    	this.refObjectType = refObjectType;
         this.initWidget(tableLayout);
     }
     
-    public DocumentList(List<RefDocRelationInfoMock> docInfos, boolean showTitle, boolean showDesc) {
+    public DocumentList(String refObjectType, List<RefDocRelationInfo> docInfos, boolean showTitle, boolean showDesc) {
     	this.showTitle = showTitle;
     	this.showDesc = showDesc;
+    	this.refObjectType = refObjectType;
         setDocInfos(docInfos);
         this.initWidget(tableLayout);
     }
     
-    public DocumentList(List<RefDocRelationInfoMock> docInfos, Callback<String> deleteCallback) {
+    
+    public DocumentList(String refObjectType, List<RefDocRelationInfo> docInfos,
+			Callback<String> deleteCallback) {
     	canDelete = true;
+    	this.refObjectType = refObjectType;
     	this.deleteCallback = deleteCallback;
         setDocInfos(docInfos);
         this.initWidget(tableLayout);
-    }
-    
-    public void getAndSetDocInfos(String id){
-    	documentRelationRpc.getRefDocIdsForRef(id, new KSAsyncCallback<List<RefDocRelationInfoMock>>(){
+	}
+
+	public void getAndSetDocInfos(String id){
+		documentServiceAsync.getRefDocIdsForRef(refObjectType, id, new KSAsyncCallback<List<RefDocRelationInfo>>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {
@@ -63,19 +66,19 @@ public class DocumentList extends Composite{
 			}
 
 			@Override
-			public void onSuccess(List<RefDocRelationInfoMock> result) {
+			public void onSuccess(List<RefDocRelationInfo> result) {
 				setDocInfos(result);
 			}
 		});
     }
     
-    public void setDocInfos(List<RefDocRelationInfoMock> docInfos) {
+    public void setDocInfos(List<RefDocRelationInfo> docInfos) {
         this.docInfos = docInfos;
         redraw();
     }
     
-    public void add(RefDocRelationInfoMock docInfo) {
-        docInfos = (docInfos == null)? new ArrayList<RefDocRelationInfoMock>() :
+    public void add(RefDocRelationInfo docInfo) {
+        docInfos = (docInfos == null)? new ArrayList<RefDocRelationInfo>() :
             docInfos;
         docInfos.add(docInfo);
         redraw();
@@ -86,7 +89,7 @@ public class DocumentList extends Composite{
         if (docInfos != null) {
             int rowIndex = 0;
             
-            for (final RefDocRelationInfoMock docInfo : docInfos) {
+            for (final RefDocRelationInfo docInfo : docInfos) {
                 HTML name = new HTML("No file exists");
                 HTML documentText = new HTML();
                 
@@ -124,7 +127,7 @@ public class DocumentList extends Composite{
 	                         try {
 	                             //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
 	                             //before delete
-	                            documentRelationRpc.deleteRefDocRelation(docInfo.getId(), new KSAsyncCallback<StatusInfo>(){
+	                        	 documentServiceAsync.deleteRefDocRelation(docInfo.getId(), new KSAsyncCallback<StatusInfo>(){
 	                                @Override
 	                                public void onSuccess(StatusInfo result) {
 	                                    try {
