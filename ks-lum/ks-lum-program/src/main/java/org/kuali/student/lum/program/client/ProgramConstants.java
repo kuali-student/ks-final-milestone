@@ -71,4 +71,5 @@ public class ProgramConstants {
     
     //Dynamic attributes
     public static final String ISVARIATIONREQUIRED = "isVariationRequired";
+    public static final String LASTREVIEWDATE = "lastReviewDate";
 }
