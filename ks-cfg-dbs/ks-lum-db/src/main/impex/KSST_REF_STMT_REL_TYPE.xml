@@ -12,7 +12,7 @@
         TYPE_DESC="CLU Co-requisites" TYPE_KEY="clu.corequisites"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Recommended Preparations"
-        TYPE_DESC="CLU Recommended Preparations" TYPE_KEY="clu.credit.recommendedpreparation"/>
+        TYPE_DESC="CLU Recommended Preparations" TYPE_KEY="clu.recommendedpreparation"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Repeatable for Credit"
         TYPE_DESC="CLU Repeatable for Credit" TYPE_KEY="clu.credit.repeatable"/>

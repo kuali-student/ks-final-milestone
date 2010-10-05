@@ -15,7 +15,7 @@
     <KSST_RSTMT_RTYP_JN_STMT_TYP
         REF_STMT_REL_TYPE_ID="clu.credit.restriction" STMT_TYPE_ID="kuali.statement.type.course.credit.restriction"/>
     <KSST_RSTMT_RTYP_JN_STMT_TYP
-        REF_STMT_REL_TYPE_ID="clu.credit.recommendedpreparation" STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation"/>
+        REF_STMT_REL_TYPE_ID="clu.recommendedpreparation" STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation"/>
     <KSST_RSTMT_RTYP_JN_STMT_TYP REF_STMT_REL_TYPE_ID="clu.entrance" STMT_TYPE_ID="kuali.statement.type.program.entrance"/>
     <KSST_RSTMT_RTYP_JN_STMT_TYP
         REF_STMT_REL_TYPE_ID="clu.satisfactoryprogress" STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress"/>
