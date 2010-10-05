@@ -4,6 +4,7 @@
 package org.kuali.student.lum.program.service.impl;
 
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
+import static org.apache.commons.lang.StringUtils.isEmpty;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerUtils;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
@@ -128,11 +130,14 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
         programAssemblerUtils.disassembleBasics(clu, progReq, operation);
         progReq.setId(clu.getId());
-        if (clu.getOfficialIdentifier() == null) {
-        	clu.setOfficialIdentifier(new CluIdentifierInfo());
-        }
-        clu.getOfficialIdentifier().setLongName(progReq.getLongTitle());
-        clu.getOfficialIdentifier().setShortName(progReq.getShortTitle());
+        CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
+        official.setLongName(progReq.getLongTitle());
+        official.setShortName(progReq.getShortTitle());
+        official.setState(!isEmpty(clu.getState()) ? clu.getState() : ProgramAssemblerConstants.ACTIVE);
+        // gotta be this type
+        official.setType(ProgramAssemblerConstants.OFFICIAL);
+        clu.setOfficialIdentifier(official);
+
         clu.setDescr(progReq.getDescr());
 
         if (progReq.getLearningObjectives() != null) {
