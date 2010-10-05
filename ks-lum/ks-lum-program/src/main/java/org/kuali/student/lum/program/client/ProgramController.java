@@ -23,6 +23,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,8 @@ public class ProgramController extends MenuSectionController {
     protected HandlerManager eventBus;
 
     protected Label statusLabel = new Label();
+
+    protected ProgramSideBar sideBar = new ProgramSideBar();
 
     /**
      * Constructor.
@@ -189,6 +192,7 @@ public class ProgramController extends MenuSectionController {
         configurer.setModelDefinition(programModel.getDefinition());
         configurer.configure(this);
         addContentWidget(statusLabel);
+        setSideBarWidget(sideBar);
     }
 
     @Override

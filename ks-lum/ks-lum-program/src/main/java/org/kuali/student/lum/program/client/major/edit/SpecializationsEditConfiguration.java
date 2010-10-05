@@ -27,7 +27,7 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
     	
     	KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(ProgramProperties.get().programSpecialization_instructions());
     	//isVariationRequiredCheckBox.setStyleName(style);
-    	configurer.addField(section, ProgramConstants.ISVARIATIONREQUIRED, null, isVariationRequiredCheckBox);
+    	configurer.addField(section, ProgramConstants.IS_VARIATION_REQUIRED, null, isVariationRequiredCheckBox);
         configurer.addField(section, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new VerticalPanel()).setWidgetBinding(new VariationsBinding("/HOME/CURRICULUM_HOME/VARIATION_EDIT"));
         rootSection.addSection(section);
     }

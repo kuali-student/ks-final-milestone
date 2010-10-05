@@ -1,7 +1,6 @@
 package org.kuali.student.lum.program.client;
 
 
-
 /**
  * @author Igor
  */
@@ -65,11 +64,15 @@ public class ProgramConstants {
 
     //Learning Objectives
     public static final String LEARNING_OBJECTIVES = "learningObjectives";
-    
+
     //Program Specializations
     public static final String VARIATIONS = "variations";
-    
+
     //Dynamic attributes
-    public static final String ISVARIATIONREQUIRED = "isVariationRequired";
-    public static final String LASTREVIEWDATE = "lastReviewDate";
+    public static final String IS_VARIATION_REQUIRED = "isVariationRequired";
+    public static final String LAST_REVIEW_DATE = "lastReviewDate";
+
+    //History
+    public static final String SCHEDULED_REVIEW_DATE = "nextReviewPeriod";
+    public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
 }
