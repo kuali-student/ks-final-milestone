@@ -89,8 +89,8 @@ public class ProgramServiceImpl implements ProgramService {
         try {
             return processCredentialProgramInfo(credentialProgramInfo, NodeOperation.CREATE);
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling Major Discipline", e);
-            throw new OperationFailedException("Error disassembling Major Discipline");
+            LOG.error("Error disassembling Credential Program", e);
+            throw new OperationFailedException("Error disassembling Credential Program");
         }
     }
 
@@ -428,8 +428,8 @@ public class ProgramServiceImpl implements ProgramService {
             return processCredentialProgramInfo(credentialProgramInfo, NodeOperation.UPDATE);
 
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling majorDiscipline", e);
-            throw new OperationFailedException("Error disassembling majorDiscipline");
+            LOG.error("Error disassembling Credential Program", e);
+            throw new OperationFailedException("Error disassembling Credential Program");
         }
     }
 
