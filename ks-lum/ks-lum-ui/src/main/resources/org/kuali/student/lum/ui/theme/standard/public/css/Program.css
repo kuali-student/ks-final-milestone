@@ -82,3 +82,7 @@
     padding-left: 10px;
     border-spacing: 6px;
 }
+
+.programController .sideBar .history {
+    font-weight: bold;
+}

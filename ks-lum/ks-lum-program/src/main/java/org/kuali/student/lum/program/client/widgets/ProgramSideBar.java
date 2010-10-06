@@ -30,6 +30,7 @@ public class ProgramSideBar extends Composite {
     private HandlerManager eventBus;
 
     private String version = "1";
+    private Label historyLabel = new Label(ProgramProperties.get().sideBar_history());
     private Label lastUpdatedDate = new Label();
     private SimplePanel scheduledReviewDate = new SimplePanel();
     private Label lastReviewDate = new Label();
@@ -60,7 +61,7 @@ public class ProgramSideBar extends Composite {
 
     private void buildLayout() {
         content.clear();
-        content.add(new Label(ProgramProperties.get().sideBar_history()));
+        content.add(historyLabel);
         content.add(new Label(ProgramProperties.get().sideBar_version(version)));
         content.add(createDatePanel(ProgramProperties.get().sideBar_programLastUpdated(), lastUpdatedDate, false));
         content.add(createDatePanel(ProgramProperties.get().sideBar_scheduledReviewDate(), scheduledReviewDate, true));
@@ -94,6 +95,7 @@ public class ProgramSideBar extends Composite {
 
     private void setStyles() {
         content.addStyleName("sideBar");
+        historyLabel.addStyleName("history");
     }
 
     public static enum State {
