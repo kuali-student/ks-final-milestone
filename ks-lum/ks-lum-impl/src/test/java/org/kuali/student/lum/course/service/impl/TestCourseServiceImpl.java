@@ -788,17 +788,20 @@ public class TestCourseServiceImpl {
         StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
         statementTree.setDesc(toRichText("STMT-1"));
         statementTree.setOperator(StatementOperatorTypeKey.OR);
-        statementTree.setType("kuali.statement.type.program.entrance");
+//        statementTree.setType("kuali.statement.type.program.entrance");
+        statementTree.setType("kuali.statement.type.course.academicReadiness.coreq");
 
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
         subTree1.setDesc(toRichText("STMT-2"));
         subTree1.setOperator(StatementOperatorTypeKey.AND);
-        subTree1.setType("kuali.statement.type.program.entrance");
+//        subTree1.setType("kuali.statement.type.program.entrance");
+        subTree1.setType("kuali.statement.type.course.recommendedPreparation");
 
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
         subTree2.setDesc(toRichText("STMT-3"));
         subTree2.setOperator(StatementOperatorTypeKey.AND);
-        subTree2.setType("kuali.statement.type.program.entrance");
+//        subTree2.setType("kuali.statement.type.program.entrance");
+        subTree2.setType("kuali.statement.type.course.academicReadiness.antireq");
 
         // construct tree with statements and req components
         reqCompList1.add(rc1);

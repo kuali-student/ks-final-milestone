@@ -1,6 +1,5 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants.COURSE_REFERENCE_TYPE;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
 import java.util.ArrayList;
@@ -186,7 +185,7 @@ public class CourseServiceImpl implements CourseService {
 		if (!CourseAssemblerConstants.COURSE_TYPE.equals(clu.getType())) {
 			throw new DoesNotExistException("Specified CLU is not a Course");
 		}
-		List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", clu.getId());
+		List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, clu.getId());
 		if (relations == null) {
 			throw new DoesNotExistException();
 		}
@@ -227,9 +226,9 @@ public class CourseServiceImpl implements CourseService {
 			StatementTreeViewInfo tree = statementService.createStatementTreeView(statementTreeViewInfo);
 			RefStatementRelationInfo relation = new RefStatementRelationInfo();
 			relation.setRefObjectId(courseId);
-			relation.setRefObjectTypeKey("clu");
+			relation.setRefObjectTypeKey(CourseAssemblerConstants.COURSE_TYPE);
 			relation.setStatementId(tree.getId());
-	        relation.setType(COURSE_REFERENCE_TYPE);
+	        relation.setType(CourseAssemblerConstants.COURSE_REFERENCE_TYPE);
 	        relation.setState(CourseAssemblerConstants.ACTIVE);
 			statementService.createRefStatementRelation(relation);
 		} catch (Exception e) {
@@ -552,7 +551,7 @@ public class CourseServiceImpl implements CourseService {
 			StatementTreeViewInfo statementTreeViewInfo)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, DoesNotExistException {
-		List<RefStatementRelationInfo> course = statementService.getRefStatementRelationsByRef("clu", courseId);
+		List<RefStatementRelationInfo> course = statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, courseId);
 		if (course != null) {
 			for (RefStatementRelationInfo refRelation : course) {
 				if (refRelation.getStatementId().equals(statementTreeViewInfo.getId())) {

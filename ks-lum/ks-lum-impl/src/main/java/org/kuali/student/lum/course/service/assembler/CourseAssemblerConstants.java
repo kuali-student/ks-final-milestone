@@ -94,12 +94,4 @@ public class CourseAssemblerConstants {
 
 	// State
 	public static final String ACTIVE = "Active";
-
-	// Constants for reference statement relation types
-	public static final String COURSE_REF_STMT_REL_TYPE_ELIG_PREREQ = "clu.eligibilitiesandprerequisites";
-	public static final String COURSE_REF_STMT_REL_TYPE_CO_REQ = "clu.corequisites";
-	public static final String COURSE_REF_STMT_REL_TYPE_REC_PREP = "clu.recommendedpreparation";
-	public static final String COURSE_REF_STMT_REL_TYPE_ANTI_REQ = "clu.antirequisites";
-	public static final String COURSE_REF_STMT_REL_TYPE_CREDIT_RESTRICT = "clu.credit.restriction";
-	public static final String COURSE_REF_STMT_REL_TYPE_CREDIT_REPEAT = "clu.credit.repeatable";
 }
