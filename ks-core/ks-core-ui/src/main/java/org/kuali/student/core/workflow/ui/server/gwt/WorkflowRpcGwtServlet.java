@@ -270,9 +270,12 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
             String docTypeName = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId()).getName();
             // if user can withdraw document then add withdraw button
+            AttributeSet permDetails = new AttributeSet();
+            permDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
+            permDetails.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocRouteStatus());
             if (getPermissionService().isAuthorizedByTemplateName(principalId, 
             		PermissionType.WITHDRAW.getPermissionNamespace(), 
-            		PermissionType.WITHDRAW.getPermissionTemplateName(), new AttributeSet(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName), 
+            		PermissionType.WITHDRAW.getPermissionTemplateName(), permDetails, 
             		new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId))) {
             	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
             	actionsRequestedBuffer.append("W");
