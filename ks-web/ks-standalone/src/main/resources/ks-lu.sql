@@ -476,8 +476,8 @@ INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, V
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','a47e2d88-cb6d-4c52-901c-cc7b630a0d24');
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','37ecfd9e-b65d-4909-bdc5-6b1300447889');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NORTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SOUTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NO','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SO','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 insert into KSLU_CLU_JN_ALT_ADMIN_ORG (clu_ID, ALT_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-1');
 insert into KSLU_CLU_JN_ALT_ADMIN_ORG (clu_ID, alt_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-2');
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('c9047e2a-151a-4838-a16a-c500ca4fbc6b', 'ORG-2','edna');

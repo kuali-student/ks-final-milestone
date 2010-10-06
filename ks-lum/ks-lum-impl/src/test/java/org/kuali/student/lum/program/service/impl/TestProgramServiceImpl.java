@@ -322,8 +322,8 @@ public class TestProgramServiceImpl {
             assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
             assertNotNull(major.getCampusLocations());
             assertTrue(major.getCampusLocations().size() == 2);
-            assertEquals("NORTH", major.getCampusLocations().get(0));
-            assertEquals("SOUTH", major.getCampusLocations().get(1));
+            assertEquals("NO", major.getCampusLocations().get(0));
+            assertEquals("SO", major.getCampusLocations().get(1));
 
             assertNotNull(major.getOrgCoreProgram());
             assertEquals("kuali.lu.type.CoreProgram", major.getOrgCoreProgram().getType());
@@ -546,8 +546,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getCampusLocations());
             assertTrue(createdMD.getCampusLocations().size() == 2);
-            assertEquals("SOUTH", createdMD.getCampusLocations().get(0));
-            assertEquals("NORTH", createdMD.getCampusLocations().get(1));
+            assertEquals("SO", createdMD.getCampusLocations().get(0));
+            assertEquals("NO", createdMD.getCampusLocations().get(1));
 
             assertNotNull(createdMD.getOrgCoreProgram());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdMD.getOrgCoreProgram().getType());
@@ -1031,8 +1031,8 @@ public class TestProgramServiceImpl {
         assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
 
         assertEquals(3, updatedMD.getCampusLocations().size());
-        assertEquals("NORTH", updatedMD.getCampusLocations().get(0));
-        assertEquals("SOUTH", updatedMD.getCampusLocations().get(1));
+        assertEquals("NO", updatedMD.getCampusLocations().get(0));
+        assertEquals("SO", updatedMD.getCampusLocations().get(1));
         assertEquals("MAIN", updatedMD.getCampusLocations().get(2));
 
 //        assertEquals(1, updatedMD.getProgramRequirements().size());

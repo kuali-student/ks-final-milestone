@@ -45,8 +45,8 @@ public class CourseAssemblerConstants {
 	// Course Official Identifier
 	public static final String COURSE_OFFICIAL_IDENT_TYPE  = "kuali.lu.type.CreditCourse.identifier.official";
 
-	public static final String COURSE_CAMPUS_LOCATION_CD_NORTH = "NORTH";
-	public static final String COURSE_CAMPUS_LOCATION_CD_SOUTH = "SOUTH";
+	public static final String COURSE_CAMPUS_LOCATION_CD_NORTH = "NO";
+	public static final String COURSE_CAMPUS_LOCATION_CD_SOUTH = "SO";
 
 	// Course Variation Identifier
 	public static final String COURSE_VARIATION_IDENT_TYPE  = "kuali.lu.type.CreditCourse.identifier.variation";

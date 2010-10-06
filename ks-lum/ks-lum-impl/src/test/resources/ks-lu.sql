@@ -500,8 +500,8 @@ INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, V
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','a47e2d88-cb6d-4c52-901c-cc7b630a0d24');
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','37ecfd9e-b65d-4909-bdc5-6b1300447889');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NORTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SOUTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NO','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SO','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('c9047e2a-151a-4838-a16a-c500ca4fbc6b', 'ORG-2','edna');
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-4', 'ORG-3','Jill');
@@ -581,8 +581,8 @@ insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('CORE-SO
 // for CredentialProgram
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('CRED-INST-1','52',0, 'kuali.adminOrg.type.Institution', 'd02dbbd3-20e2-410d-ab52-1bd6d362748b');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-1', 'NORTH','d4ea77dd-b492-4554-b104-863e42c5f8b7');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-2', 'SOUTH','d4ea77dd-b492-4554-b104-863e42c5f8b7');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-1', 'NO','d4ea77dd-b492-4554-b104-863e42c5f8b7');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-2', 'SO','d4ea77dd-b492-4554-b104-863e42c5f8b7');
 
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('MAJOR-1', '44','INSTR-1');
 insert into KSLU_CLU_JN_CLU_INSTR (clu_instr_id, clu_id) values ('MAJOR-1', 'd4ea77dd-b492-4554-b104-863e42c5f8b7');
@@ -644,8 +644,8 @@ insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-209
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-210','26',0, 'kuali.adminOrg.type.FinancialResourcesUnit', 'VAR-200');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-211','27',0, 'kuali.adminOrg.type.FinancialControlUnit', 'VAR-200');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-201', 'SOUTH','VAR-200');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-202', 'EXTENDED','VAR-200');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-201', 'SO','VAR-200');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-202', 'EX','VAR-200');
 
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-201', 'VAR-200', 'CIP 2000 code', 'kuali.lu.code.CIP2000', '45.2020', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-202', 'VAR-200', 'CIP 2010 code', 'kuali.lu.code.CIP2010', '45.0202', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
@@ -687,8 +687,8 @@ insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-309
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-310','46',0, 'kuali.adminOrg.type.FinancialResourcesUnit', 'VAR-300');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-311','47',0, 'kuali.adminOrg.type.FinancialControlUnit', 'VAR-300');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-301', 'NORTH','VAR-300');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-302', 'EXTENDED','VAR-300');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-301', 'NO','VAR-300');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-302', 'EX','VAR-300');
 
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-301', 'VAR-300', 'CIP 2000 code', 'kuali.lu.code.CIP2000', '45.2020', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-302', 'VAR-300', 'CIP 2010 code', 'kuali.lu.code.CIP2010', '45.0202', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
