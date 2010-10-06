@@ -34,6 +34,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -1061,21 +1062,14 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
-    @Ignore public void testDeleteBaccCredentialProgram() {
+    public void testDeleteBaccCredentialProgram() {
         try {
-        	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
-        	CredentialProgramInfo credentialProgramInfo = generator.getCPTestData();
-            assertNotNull(credentialProgramInfo);
-            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
-            assertNotNull(createdCP);
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
-            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
-            String credentialProgramId = createdCP.getId();
+        	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
             CredentialProgramInfo retrievedCP = programService.getCredentialProgram(credentialProgramId);
             assertNotNull(retrievedCP);
 
             try{
-	            programService.deleteMajorDiscipline(credentialProgramId);
+	            programService.deleteCredentialProgram(credentialProgramId);
 	            try {
 	            	retrievedCP = programService.getCredentialProgram(credentialProgramId);
 	                fail("Retrieval of deleted CredentialProgram should have thrown exception");
@@ -1087,36 +1081,38 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore public void testUpdateBaccCredentialProgram() {
+    public void testUpdateBaccCredentialProgram() {
         try {
-        	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
-        	CredentialProgramInfo credentialProgramInfo = generator.getCPTestData();
+        	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
+            CredentialProgramInfo credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
             assertNotNull(credentialProgramInfo);
-            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
-            assertNotNull(createdCP);
 
             // minimal sanity check
-            assertEquals("longTitle-test", createdCP.getLongTitle());
-            assertEquals("shortTitle-test", createdCP.getShortTitle());
-            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
-
+            assertEquals("BS", credentialProgramInfo.getCode());
+            assertEquals("B.S.", credentialProgramInfo.getShortTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
+            assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
+            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
+            
             // update some fields
-            createdCP.setLongTitle("longTitle-toolong");
-            createdCP.getProgramRequirements().remove(0);
-
-            Map<String, String> attributes = createdCP.getAttributes();
-            attributes.put("testKey", "testValue");
-            createdCP.setAttributes(attributes);
+            //credentialProgramInfo.setCode(credentialProgramInfo.getCode() + "-updated");
+            //credentialProgramInfo.setShortTitle(credentialProgramInfo.getShortTitle() + "-updated");
+           // credentialProgramInfo.setLongTitle(credentialProgramInfo.getLongTitle() + "-updated");
+            credentialProgramInfo.setProgramLevel(ProgramAssemblerConstants.GRADUATE_PROGRAM_LEVEL);
+            AdminOrgInfo institution = new AdminOrgInfo();
+            institution.setOrgId("51");
+            credentialProgramInfo.setInstitution(institution);
 
            //Perform the update
-            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(createdCP);
+            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(credentialProgramInfo);
 
             //Verify the update
             verifyUpdate(updatedCP);
 
             // Now explicitly get it
-            CredentialProgramInfo retrievedCP = programService.getCredentialProgram(createdCP.getId());
+            CredentialProgramInfo retrievedCP = programService.getCredentialProgram(credentialProgramInfo.getId());
             verifyUpdate(retrievedCP);
 
             //TODO: add version update
@@ -1130,13 +1126,11 @@ public class TestProgramServiceImpl {
     private void verifyUpdate(CredentialProgramInfo updatedCP) {
     	assertNotNull(updatedCP);
 
-        assertEquals(3, updatedCP.getAttributes().size());
-        assertNotNull(updatedCP.getAttributes().get("testKey"));
-        assertEquals("testValue", updatedCP.getAttributes().get("testKey"));
-
-        assertEquals(1, updatedCP.getProgramRequirements().size());
-
-        assertEquals("longTitle-toolong", updatedCP.getLongTitle());
+        //assertEquals("BS-updated", updatedCP.getCode());
+       // assertEquals("B.S.-updated", updatedCP.getShortTitle());
+        //assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
+        assertEquals(ProgramAssemblerConstants.GRADUATE_PROGRAM_LEVEL, updatedCP.getProgramLevel());
+        assertEquals("51", updatedCP.getInstitution().getOrgId());
     }
 
     @Test

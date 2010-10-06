@@ -141,7 +141,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
     	try{    		
 	    	for (String coreProgramId : credential.getCoreProgramIds()){
 	    		coreResults = programAssemblerUtils.addRelationNodes(credential.getId(), coreProgramId, ProgramAssemblerConstants.HAS_CORE_PROGRAM, operation);
-	            if (coreResults != null) {
+	            if (coreResults != null && coreResults.size()> 0) {
 	                result.getChildNodes().addAll(coreResults);
 	            }
 	    	}
