@@ -139,7 +139,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         clu.setOfficialIdentifier(official);
 
         clu.setDescr(progReq.getDescr());
-
+        clu.setState(!isEmpty(clu.getState()) ? clu.getState() : ProgramAssemblerConstants.ACTIVE);
         if (progReq.getLearningObjectives() != null) {
             disassembleLearningObjectives(progReq, operation, result);
         }
@@ -155,7 +155,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 				throw new AssemblyException("Unable to find RefStatementRelation", e);
 			}
         }
-        relation.setType("clu.programrequirements");
+        relation.setType("clu.prerequisites"); // FIXME Derive from statement and rule types
         relation.setRefObjectId(clu.getId());
         relation.setRefObjectTypeKey("clu");
         relation.setStatementId(statement.getId());
