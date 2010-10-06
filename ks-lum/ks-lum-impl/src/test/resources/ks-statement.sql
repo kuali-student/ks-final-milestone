@@ -32,9 +32,9 @@ INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES 
 INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.course.academicReadiness.studentEligibility',       'Student Eligibility', null, {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 // Program
 INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program',                      'Program Requirements List', 'List of program requirements (rules).', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.entrance',             'Program Entrance Requirements', 'Program requirements (rules) used in the evaluation of a person''s entry into a program.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.satisfactoryProgress', 'Program Satisfactory Progress Requirements', 'Program requirements (rules) used in maintaining minimum scholarship standards.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.completion',           'Program Completion Requirements', 'Program requirements (rules) used in the evaluation of a person''s program completion.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.entrance',             'Entrance Requirements', 'Add conditions that will restrict student entrance into this program.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.satisfactoryProgress', 'Satisfactory Progress Requirements', 'Add conditions that will define how students will maintain satisfactory standing in this program.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.completion',           'Completion Requirements', 'Add conditions that will define how students may successfully complete this program.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 
 
 // STMT_TYPE <-> STMT_TYPE

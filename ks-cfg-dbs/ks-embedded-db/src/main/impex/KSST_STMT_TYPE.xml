@@ -34,12 +34,12 @@
         NAME="Program Requirements List"
         TYPE_DESC="List of program requirements (rules)." TYPE_KEY="kuali.statement.type.program"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Program Completion Requirements"
-        TYPE_DESC="Program requirements (rules) used in the evaluation of a person's program completion." TYPE_KEY="kuali.statement.type.program.completion"/>
+        NAME="Completion Requirements"
+        TYPE_DESC="Add conditions that will define how students may successfully complete this program." TYPE_KEY="kuali.statement.type.program.completion"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Program Entrance Requirements"
-        TYPE_DESC="Program requirements (rules) used in the evaluation of a person's entry into a program." TYPE_KEY="kuali.statement.type.program.entrance"/>
+        NAME="Entrance Requirements"
+        TYPE_DESC="Add conditions that will restrict student entrance into this program." TYPE_KEY="kuali.statement.type.program.entrance"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Program Satisfactory Progress Requirements"
-        TYPE_DESC="Program requirements (rules) used in maintaining minimum scholarship standards." TYPE_KEY="kuali.statement.type.program.satisfactoryProgress"/>
+        NAME="Satisfactory Progress Requirements"
+        TYPE_DESC="Add conditions that will define how students will maintain satisfactory standing in this program." TYPE_KEY="kuali.statement.type.program.satisfactoryProgress"/>
 </dataset>
