@@ -2345,4 +2345,91 @@
 		<property name="id" value="kuali.lrc.lookup.grade" />
 	</bean>
 
+
+ <bean id="cluSetInfo.adminOrg" parent="uilookupconfig-parent">
+  <property name="path" value="cluSetInfo.adminOrg" />
+  <property name="initialLookup" ref="kuali.lu.lookup.admin.departments.suggest" />
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.admin.departments.advanced" />
+   </list>
+  </property>
+ </bean>
+
+ <bean id="cluSetInfo.organization" parent="cluSetInfo.adminOrg">
+  <property name="path" value="cluSetInfo.organization" />
+ </bean>
+
+ <bean id="cluSetInfo.cluIds" parent="uilookupconfig-parent">
+  <property name="path" value="cluSetInfo.cluIds" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
+ </bean>
+
+ <bean id="cluSetInfo.allClus" parent="cluSetInfo.cluIds">
+  <property name="path" value="cluSetInfo.allClus" />
+ </bean>
+
+ <bean id="cluSetInfo.approvedClus" parent="uilookupconfig-parent">
+  <property name="path" value="cluSetInfo.approvedClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.approved.suggest" />
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.findCourse.advanced.coursesonly" />
+   </list>
+  </property>
+ </bean>
+
+ <bean id="cluSetInfo.proposedClus" parent="uilookupconfig-parent">
+  <property name="path" value="cluSetInfo.proposedClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.proposed.suggest" />
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.findCourse.advanced.proposalsonly" />
+   </list>
+  </property>
+ </bean>
+
+
+ <bean id="kuali.lu.lookup.findCourse.approved.suggest" parent="kuali.lu.lookup.findCourse.suggest">
+  <property name="id" value="kuali.lu.lookup.findCourse.approved.suggest" />
+  <property name="params">
+   <list merge="true">
+    <bean parent="param"><!-- limit search to only return active clus -->
+     <property name="key" value="lu.queryParam.luOptionalState" />
+     <property name="name" value="State" />
+     <property name="desc" value="CLU State" />
+     <property name="writeAccess" value="NEVER" />
+     <property name="defaultValueList">
+      <list>
+       <value>approved</value>
+       <value>Active</value>
+      </list>
+     </property>
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
+ <bean id="kuali.lu.lookup.findCourse.proposed.suggest" parent="kuali.lu.lookup.findCourse.suggest">
+  <property name="id" value="kuali.lu.lookup.findCourse.proposed.suggest" />
+  <property name="params">
+   <list merge="true">
+    <bean parent="param"><!-- limit search to only return active clus -->
+     <property name="key" value="lu.queryParam.luOptionalState" />
+     <property name="name" value="State" />
+     <property name="desc" value="CLU State" />
+     <property name="writeAccess" value="NEVER" />
+     <property name="defaultValueList">
+      <list>
+       <value>draft</value>
+       <value>submitted</value>
+      </list>
+     </property>
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
 </beans>
