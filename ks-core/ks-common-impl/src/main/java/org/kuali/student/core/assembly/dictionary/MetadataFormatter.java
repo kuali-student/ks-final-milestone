@@ -147,7 +147,7 @@ public class MetadataFormatter {
    }
 			Metadata fieldMeta = structureMetadata.getProperties().get(key);
 			builder.append(colSeperator);
-			builder.append(pad(calcFullyQualifiedFieldName(key), 30));
+			builder.append(calcFieldInfo (key, fieldMeta));
 			builder.append(colSeperator);
 			builder.append(pad(calcRequired(fieldMeta), 10));
 			builder.append(colSeperator);
@@ -214,6 +214,19 @@ public class MetadataFormatter {
 		}
 		return " ";
 	}
+
+ private String calcFieldInfo (String key, Metadata fieldMeta)
+ {
+  StringBuilder bldr = new StringBuilder (40);
+  bldr.append (pad(calcFullyQualifiedFieldName(key), 30));
+  if (fieldMeta.getLabelKey () != null)
+  {
+   bldr.append ("\\\\\n");
+   bldr.append ("Label: ");
+   bldr.append (fieldMeta.getLabelKey ());
+  }
+  return bldr.toString ();
+ }
 
 	public String calcFullyQualifiedFieldName(String fieldName) {
 		if (parent == null) {
@@ -288,10 +301,6 @@ public class MetadataFormatter {
 					bldr.append('\\');
 				}
 				break;
-   case '�':
-    bldr.append ("?");
-    precededByBackSlash = false;
-    continue;
 			default:
 				break;
 			}
