@@ -4,6 +4,7 @@
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
     <import resource="classpath:ks-cluInfo-dictionary-context.xml"/>
     <import resource="classpath:ks-loInfo-dictionary-context.xml"/>
+    <import resource="classpath:ks-statement-dictionary-context.xml"/>
 
     <!-- TODO Need a org.kuali.student.lum.program.dto.ProgramInfo-parent"
           that this can inherit from -->
@@ -912,5 +913,67 @@
   <property name="name" value="type"/>
  </bean>
  <bean id="minorDisciplineInfo.type" parent="minorDisciplineInfo.type-parent"/>
+
+<!-- ProgramRequirementInfo-->
+<bean id="org.kuali.student.lum.program.dto.ProgramRequirementInfo-parent" abstract="true" parent="objectStructureDefinition">
+<property name="name" value="org.kuali.student.lum.program.dto.ProgramRequirementInfo"/>
+<property name="attributes">
+<list>
+<ref bean="programRequirementInfo.descr"/>
+<ref bean="programRequirementInfo.id"/>
+<ref bean="programRequirementInfo.learningObjectives"/>
+<ref bean="programRequirementInfo.longTitle"/>
+<ref bean="programRequirementInfo.shortTitle"/>
+<ref bean="programRequirementInfo.state"/>
+<ref bean="programRequirementInfo.statement"/>
+<ref bean="programRequirementInfo.type"/>
+</list>
+</property>
+<property name="hasMetaData" value="true"/>
+</bean>
+<bean id="org.kuali.student.lum.program.dto.ProgramRequirementInfo" parent="org.kuali.student.lum.program.dto.ProgramRequirementInfo-parent"/>
+
+<bean id="programRequirementInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
+<property name="name" value="descr"/>
+<property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+</bean>
+<bean id="programRequirementInfo.descr" parent="programRequirementInfo.descr-parent"/>
+
+<bean id="programRequirementInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
+<property name="name" value="id"/>
+</bean>
+<bean id="programRequirementInfo.id" parent="programRequirementInfo.id-parent"/>
+
+<bean id="programRequirementInfo.learningObjectives-parent" abstract="true" parent="majorDisciplineInfo.learningObjectives-parent">
+<property name="name" value="learningObjectives"/>
+<property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+</bean>
+<bean id="programRequirementInfo.learningObjectives" parent="programRequirementInfo.learningObjectives-parent"/>
+
+<bean id="programRequirementInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
+<property name="name" value="longTitle"/>
+</bean>
+<bean id="programRequirementInfo.longTitle" parent="programRequirementInfo.longTitle-parent"/>
+
+<bean id="programRequirementInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
+<property name="name" value="shortTitle"/>
+</bean>
+<bean id="programRequirementInfo.shortTitle" parent="programRequirementInfo.shortTitle-parent"/>
+
+<bean id="programRequirementInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
+<property name="name" value="state"/>
+</bean>
+<bean id="programRequirementInfo.state" parent="programRequirementInfo.state-parent"/>
+
+<bean id="programRequirementInfo.statement-parent" abstract="true" parent="baseComplex">
+<property name="name" value="statement"/>
+<property name="dataObjectStructure" ref="org.kuali.student.core.statement.dto.StatementTreeViewInfo"/>
+</bean>
+<bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent"/>
+
+<bean id="programRequirementInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
+<property name="name" value="type"/>
+</bean>
+<bean id="programRequirementInfo.type" parent="programRequirementInfo.type-parent"/>
 
 </beans>

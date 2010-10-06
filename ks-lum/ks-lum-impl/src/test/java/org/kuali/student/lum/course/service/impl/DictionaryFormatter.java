@@ -154,8 +154,16 @@ public class DictionaryFormatter
    builder.append (colSeperator);
    builder.append (rowSeperator);
   }
-  List<String> discrepancies =
-               new Dictionary2BeanComparer (clazz, os).compare ();
+  List<String> discrepancies = null;
+  if (clazz == null)
+  {
+   discrepancies = new ArrayList (1);
+   discrepancies.add ("There is no corresponding java class for this dictionary object structure");
+  }
+  else
+  {
+   discrepancies = new Dictionary2BeanComparer (clazz, os).compare ();
+  }
   if (discrepancies.size () > 0)
   {
    builder.append ("h" + (level + 1) + ". " + discrepancies.size ()
@@ -226,8 +234,11 @@ public class DictionaryFormatter
     throw new IllegalArgumentException (
       fd.getName () + " is complex but does not have a sub-structure defined");
    }
+   Class subClazz = this.getClass (fd.getDataObjectStructure ().getName ());
    String subStrucName = calcComplexSubStructureName (fd);
-   if (this.processSubstructures)
+   // process if explicity asking for substructures OR the field is a phantom field
+   // so it won't be processed by just processing all of the DTO's and their sub-objects
+   if (this.processSubstructures || subClazz == null)
    {
     if ( ! this.subStructuresAlreadyProcessed.contains (
       fd.getDataObjectStructure ()))

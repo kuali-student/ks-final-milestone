@@ -21,6 +21,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,6 +34,7 @@ public class TestProgramInfoDictionary {
         startingClasses.add(CoreProgramInfo.class);
         startingClasses.add(MinorDisciplineInfo.class);
         startingClasses.add(CredentialProgramInfo.class);
+        startingClasses.add(ProgramRequirementInfo.class);
         String contextFile = "ks-programInfo-dictionary-context";
         String outFile = "target/" + contextFile + ".txt";
         DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
