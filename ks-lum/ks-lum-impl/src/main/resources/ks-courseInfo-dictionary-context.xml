@@ -61,6 +61,8 @@
     -->
     <ref bean="search.cluset" />
     <ref bean="search.findCourse" />
+    <ref bean="search.courseVersions"/>
+    
     <!--<ref bean="search.proposedCourses" />
     <ref bean="search.approvedCourses" />
     <ref bean="search.reusableCluSets" />
@@ -836,6 +838,11 @@
  </bean>
 
  <!-- Searches -->
+
+ <bean id="search.courseVersions" parent="baseKualiEmpty">
+  <property name="name" value="searchCourseVersions" />
+  <property name="dynamic" value="true"/>
+ </bean>
 
  <bean id="search.findCourse-parent" abstract="true" parent="cluInfo.id">
   <property name="name" value="findCourse" />

@@ -60,6 +60,7 @@
  <bean id="multiLineText" parent="ValidCharDefinition">
   <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r ]*"/>
  </bean>
+ 
 
  <bean id="customEditorConfigurer"
        class="org.springframework.beans.factory.config.CustomEditorConfigurer">
@@ -322,4 +323,13 @@
   <property name="name" value="plain" />
  </bean>
  <bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
+ 
+ <!--  Empty Property to be used to attach search -->
+  <bean id="baseKualiEmpty" parent="baseString" abstract="true">
+  <property name="minLength" value="0" />
+  <property name="maxLength" value="0" />
+  <property name="minOccurs" value="0" />
+  <property name="maxOccurs" value="0" />
+ </bean>
+ 
 </beans>
