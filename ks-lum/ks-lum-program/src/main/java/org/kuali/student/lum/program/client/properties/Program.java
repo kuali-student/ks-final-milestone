@@ -736,6 +736,51 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programSpecialization_instructions();
 
   /**
+   * Translated "HISTORY".
+   * 
+   * @return translated "HISTORY"
+   */
+  @DefaultMessage("HISTORY")
+  @Key("sideBar.history")
+  String sideBar_history();
+
+  /**
+   * Translated "Last review date:".
+   * 
+   * @return translated "Last review date:"
+   */
+  @DefaultMessage("Last review date:")
+  @Key("sideBar.lastReviewDate")
+  String sideBar_lastReviewDate();
+
+  /**
+   * Translated "Program last updated:".
+   * 
+   * @return translated "Program last updated:"
+   */
+  @DefaultMessage("Program last updated:")
+  @Key("sideBar.programLastUpdated")
+  String sideBar_programLastUpdated();
+
+  /**
+   * Translated "Scheduled review date:".
+   * 
+   * @return translated "Scheduled review date:"
+   */
+  @DefaultMessage("Scheduled review date:")
+  @Key("sideBar.scheduledReviewDate")
+  String sideBar_scheduledReviewDate();
+
+  /**
+   * Translated "Version: {0}".
+   * 
+   * @return translated "Version: {0}"
+   */
+  @DefaultMessage("Version: {0}")
+  @Key("sideBar.version")
+  String sideBar_version(String arg0);
+
+  /**
    * Translated "Active".
    * 
    * @return translated "Active"

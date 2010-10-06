@@ -338,7 +338,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     	return (lookups.size() > 0 ? lookups : null);
     }
 
-    private class BasicWidget implements HasDataValue, HasFocusLostCallbacks, TranslatableValueWidget {
+    public class BasicWidget implements HasDataValue, HasFocusLostCallbacks, TranslatableValueWidget {
 		private Widget basicWidget;
 
 		public BasicWidget(Widget basicWidget){

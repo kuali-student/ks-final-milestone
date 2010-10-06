@@ -45,7 +45,7 @@ public class ProgramController extends MenuSectionController {
 
     protected Label statusLabel = new Label();
 
-    protected ProgramSideBar sideBar = new ProgramSideBar();
+    protected ProgramSideBar sideBar;
 
     /**
      * Constructor.
@@ -56,6 +56,7 @@ public class ProgramController extends MenuSectionController {
         super(name);
         this.eventBus = eventBus;
         this.programModel = programModel;
+        sideBar = new ProgramSideBar(eventBus);
         setViewContext(viewContext);
         initializeModel();
     }
