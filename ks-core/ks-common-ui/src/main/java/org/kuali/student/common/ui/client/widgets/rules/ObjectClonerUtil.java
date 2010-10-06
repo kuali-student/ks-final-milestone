@@ -150,6 +150,7 @@ public class ObjectClonerUtil {
             clonedField = new ReqCompFieldInfo();
             clonedField.setValue(inReqCompFieldInfo.getValue());
             clonedField.setId(inReqCompFieldInfo.getId());
+            clonedField.setType(inReqCompFieldInfo.getType());
         }
         return clonedField;
     }

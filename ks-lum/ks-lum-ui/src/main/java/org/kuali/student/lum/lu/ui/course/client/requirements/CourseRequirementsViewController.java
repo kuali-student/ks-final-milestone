@@ -14,7 +14,6 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
-
 public class CourseRequirementsViewController extends BasicLayout {
 
     public enum CourseRequirementsViews {
@@ -58,10 +57,10 @@ public class CourseRequirementsViewController extends BasicLayout {
         super.addView(preview);
 
         if (!isReadOnly) {
-            CourseRequirementsManageView manageView = new CourseRequirementsManageView(this, CourseRequirementsViewController.CourseRequirementsViews.MANAGE, "Add and Combine Rules", COURSE_RULES_MODEL_ID);
+            CourseRequirementsManageView manageView = new CourseRequirementsManageView(this, CourseRequirementsViewController.CourseRequirementsViews.MANAGE,
+                                                "Add and Combine Rules", COURSE_RULES_MODEL_ID); //, CourseRequirementsViews.PREVIEW);
             super.addView(manageView);
         }
-
     }
 
     @Override
@@ -123,6 +122,9 @@ public class CourseRequirementsViewController extends BasicLayout {
     
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
+        dataInstance = new CourseRequirementsDataModel(this);
+        preview.setRules(dataInstance);
+
         //TODO
 	//	init(new Callback<Boolean>() {
 	//		@Override
@@ -135,10 +137,6 @@ public class CourseRequirementsViewController extends BasicLayout {
 	//		}
 	//	});
 	}
-
-    public CourseRequirementsSummaryView getProgramRequirementsView() {
-        return preview;
-    }
 
     //TODO remove after testing done
     static public StatementTreeViewInfo getTestStatement() {

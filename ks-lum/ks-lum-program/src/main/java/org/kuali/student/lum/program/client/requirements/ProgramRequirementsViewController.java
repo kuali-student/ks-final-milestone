@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ContinueCancelGroup;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -62,6 +63,11 @@ public class ProgramRequirementsViewController extends BasicLayout {
             ProgramRequirementsManageView manageView = new ProgramRequirementsManageView(this, ProgramRequirementsViews.MANAGE, "Add and Combine Rules", PROGRAM_RULES_MODEL_ID);
             super.addView(manageView);
         }
+    }
+
+    @Override
+    public void updateModel() {
+        preview.updateModel();    
     }
 
     @Override
@@ -182,6 +188,14 @@ public class ProgramRequirementsViewController extends BasicLayout {
         reqComp4.setId("REQCOMP-TV-4");
         reqComp4.setNaturalLanguageTranslation("Must be admitted to program prior to earning 60 credits");
         reqComp4.setType("kuali.reqComponent.type.program.admitted.credits");
+
+        List<ReqCompFieldInfo> reqCompFields = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo field = new ReqCompFieldInfo();
+        field.setId("kuali.reqComponent.field.type.value.positive.integer");
+        field.setValue("60");
+        reqCompFields.add(field);
+        reqComp4.setReqCompFields(reqCompFields);
+
         List<ReqComponentInfo> reqComponents2 = new ArrayList<ReqComponentInfo>();
         reqComponents2.add(reqComp3);
         reqComponents2.add(reqComp4);
