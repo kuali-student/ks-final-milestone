@@ -1407,4 +1407,18 @@ public class TestProgramServiceImpl {
             fail(e.getMessage());
         }
     }
+    
+    @Test
+    public void testCreditsProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    	ProgramRequirementInfo progReq = createProgramRequirementTestData();
+    	progReq.setMinCredits(3);
+    	progReq.setMaxCredits(45);
+    	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
+       	assertEquals("3", Integer.toString(createdProgReq.getMinCredits()));
+    	assertEquals("45", Integer.toString(createdProgReq.getMaxCredits()));
+
+    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), null, null);
+       	assertEquals("3", Integer.toString(progReq2.getMinCredits()));
+    	assertEquals("45", Integer.toString(progReq2.getMaxCredits()));
+    }
 }
