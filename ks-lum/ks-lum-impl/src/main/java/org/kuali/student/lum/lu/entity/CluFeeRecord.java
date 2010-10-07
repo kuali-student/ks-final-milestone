@@ -15,23 +15,21 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.CurrencyAmount;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
@@ -45,8 +43,12 @@ public class CluFeeRecord extends MetaEntity implements
 	@Column(name = "FEE_TYPE")
 	private String feeType;
 
-    @Embedded
-    private CurrencyAmount currencyAmmount;
+	@Column(name = "RATE_TYPE")
+	private String rateType;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name= "CLUE_FEE_REC_ID")
+    private List<CluFeeAmount> feeAmounts;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluFeeRecordAttribute> attributes;
@@ -54,9 +56,14 @@ public class CluFeeRecord extends MetaEntity implements
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_FEEREC_JN_AFFIL_ORG", joinColumns = @JoinColumn(name = "CLU_FEE_REC_ID"), inverseJoinColumns = @JoinColumn(name = "AFFIL_ORG_ID"))
 	private List<AffiliatedOrg> affiliatedOrgs;
+	
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "RT_DESCR_ID")
+    private LuRichText descr;
 
 	@Override
     public void onPrePersist() {
+        super.onPrePersist();
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	
@@ -75,13 +82,21 @@ public class CluFeeRecord extends MetaEntity implements
 	public void setFeeType(String feeType) {
 		this.feeType = feeType;
 	}
-
-	public CurrencyAmount getCurrencyAmmount() {
-		return currencyAmmount;
+		
+	public String getRateType() {
+		return rateType;
 	}
 
-	public void setCurrencyAmmount(CurrencyAmount currencyAmmount) {
-		this.currencyAmmount = currencyAmmount;
+	public void setRateType(String rateType) {
+		this.rateType = rateType;
+	}
+
+	public List<CluFeeAmount> getFeeAmounts() {
+		return feeAmounts;
+	}
+
+	public void setFeeAmounts(List<CluFeeAmount> feeAmounts) {
+		this.feeAmounts = feeAmounts;
 	}
 
 	public List<CluFeeRecordAttribute> getAttributes() {
@@ -93,13 +108,20 @@ public class CluFeeRecord extends MetaEntity implements
 	}
 
 	public List<AffiliatedOrg> getAffiliatedOrgs() {
-		if(null == affiliatedOrgs) {
-			this.affiliatedOrgs = new ArrayList<AffiliatedOrg>();
-		}
 		return affiliatedOrgs;
 	}
 
 	public void setAffiliatedOrgs(List<AffiliatedOrg> affiliatedOrgs) {
 		this.affiliatedOrgs = affiliatedOrgs;
 	}
+
+	public LuRichText getDescr() {
+		return descr;
+	}
+
+	public void setDescr(LuRichText descr) {
+		this.descr = descr;
+	}
+	
+	
 }

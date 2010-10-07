@@ -52,7 +52,7 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
     /**
      * Select an item whose text equals the name passed in.
      * 
-     * @param value the name of the item to be selected.
+     * @param id of the item to be selected.
      */
     @Override
     public void selectItem(String id) {

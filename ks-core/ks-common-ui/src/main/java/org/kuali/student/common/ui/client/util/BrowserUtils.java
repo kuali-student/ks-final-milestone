@@ -15,6 +15,10 @@
 
 package org.kuali.student.common.ui.client.util;
 
+/**
+ * This provides a library of JSNI methods.
+ * 
+ */
 public class BrowserUtils {
     public static native String getOperatingSystem() /*-{
 		if (navigator.appVersion.indexOf("Win")!=-1) return "Windows";
@@ -24,8 +28,27 @@ public class BrowserUtils {
 	   	return "Unknown: " + navigator.appVersion;
    	}-*/;
 
+    public  static native String getString(String name) /*-{
+    	return eval("$wnd."+name);
+	}-*/;
+
     public static native String getUserAgent() /*-{
   		return navigator.userAgent.toLowerCase();
   	}-*/;
+
+	/**
+	 * Redirect browser window to a different url
+	 * @param url
+	 */
+    public static native void redirect(String url)/*-{
+    	$wnd.location = url;
+	}-*/;
+
+	/**
+	 * Reload the current browser page.
+	 */
+    public static native void reload()/*-{
+		$wnd.location.reload();
+	}-*/;
 
 }

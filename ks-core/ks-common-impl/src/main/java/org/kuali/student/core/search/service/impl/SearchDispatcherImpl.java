@@ -25,6 +25,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.SearchDispatcher;
 import org.kuali.student.core.search.service.SearchService;
 
 public class SearchDispatcherImpl implements SearchDispatcher{
@@ -68,7 +69,6 @@ public class SearchDispatcherImpl implements SearchDispatcher{
 						}
 					}
 				} catch (OperationFailedException e) {
-					// TODO Auto-generated catch block
 					LOG.warn("Error getting searchTypes",e);
 				}
 			}
@@ -96,7 +96,6 @@ public class SearchDispatcherImpl implements SearchDispatcher{
 				try {
 					searchResult = searchService.search(searchRequest);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					LOG.warn("Error invoking search",e);
 					return null;
 				}

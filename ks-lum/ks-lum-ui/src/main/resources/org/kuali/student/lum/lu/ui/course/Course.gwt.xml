@@ -25,6 +25,8 @@
 	<inherits name='org.kuali.student.core.Core'/>  
 	<inherits name='org.kuali.student.core.search.Search'/>  
 	<inherits name='org.kuali.student.core.workflow.ui.WorkflowUI'/>
+	<inherits name='org.kuali.student.core.comments.ui.CommentsUI'/>
+	<inherits name='org.kuali.student.core.workflow.Workflow'/>
 	<inherits name='org.kuali.student.core.atp.Atp'/>
 	<inherits name='org.kuali.student.lum.ui.requirements.Requirements'/>
 

@@ -18,8 +18,10 @@ package org.kuali.student.lum.lu.dao.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -27,6 +29,7 @@ import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.CluLoRelationType;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -40,6 +43,8 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql")
 	public LuDao dao;
 
+	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMdd");
+	
 	@Test
 	public void testGetLuLuRelationTypeInfo(){
 		List<Lui> luis = dao.getLuisByRelationType("LUI-3", "luLuType.type1");
@@ -49,7 +54,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	
 	@Test
 	public void testGetCluLoRelationTypeInfo() throws DoesNotExistException{
-		CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "cluLuType.default");
+        CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "cluLoType.default");
 		assertEquals("Default Clu-Lo relation type", relType.getDescr());
 	}
 
@@ -99,6 +104,45 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		assertEquals("value-2", cluSet.getMembershipQuery().getSearchParameters().get(0).getValues().get(1).getValue());
 	}
 	
+	@Test
+	public void testVersionQueries() throws Exception{
+		List<VersionDisplayInfo> versions;
+		versions = dao.getVersions("CLU-VERSIONTEST-IND", "foo.com");
+		assertEquals(5,versions.size());
+		
+		VersionDisplayInfo versionDisplay; 
+		versionDisplay = dao.getCurrentCluVersionInfo("CLU-VERSIONTEST-IND", "foo.com");
+		assertEquals("CLU-VERSIONTEST-V4", versionDisplay.getId());
+		
+		versionDisplay = dao.getCurrentVersionOnDate("CLU-VERSIONTEST-IND", "foo.com", DF.parse("20100110"));
+		assertEquals("CLU-VERSIONTEST-V0", versionDisplay.getId());
+
+		versionDisplay = dao.getCurrentVersionOnDate("CLU-VERSIONTEST-IND", "foo.com", DF.parse("20110210"));
+		assertEquals("CLU-VERSIONTEST-V4", versionDisplay.getId());
+
+		versionDisplay = dao.getFirstVersion("CLU-VERSIONTEST-IND", "foo.com");
+		assertEquals("CLU-VERSIONTEST-V0", versionDisplay.getId());
+		
+		versionDisplay = dao.getVersionBySequenceNumber("CLU-VERSIONTEST-IND", "foo.com", Long.valueOf(3));
+		assertEquals("CLU-VERSIONTEST-V3", versionDisplay.getId());
+		
+		versions = dao.getVersionsInDateRange("CLU-VERSIONTEST-IND", "foo.com", DF.parse("20100210"), DF.parse("20100410"));
+		assertEquals(3, versions.size());
+		
+		versions = dao.getVersionsInDateRange("CLU-VERSIONTEST-IND", "foo.com", DF.parse("20100210"), DF.parse("20100310"));
+		assertEquals(2, versions.size());
+		
+		versions = dao.getVersionsInDateRange("CLU-VERSIONTEST-IND", "foo.com", DF.parse("20100310"), DF.parse("20100310"));
+		assertEquals(1, versions.size());
+		
+		versions = dao.getVersionsInDateRange("CLU-VERSIONTEST-IND", "foo.com", DF.parse("20100310"), DF.parse("20100410"));
+		assertEquals(2, versions.size());
+		
+		versions = dao.getVersionsInDateRange("CLU-VERSIONTEST-IND", "foo.com", DF.parse("20090310"), DF.parse("20090410"));
+		assertEquals(0, versions.size());		
+
+	}
+
 	private MembershipQuery createMembershipQuery() {
 		List<SearchParameterValue> list1  = new ArrayList<SearchParameterValue>();
 		SearchParameterValue v1 = new SearchParameterValue();
@@ -121,4 +165,5 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		
 		return mq;
 	}
+	
 }

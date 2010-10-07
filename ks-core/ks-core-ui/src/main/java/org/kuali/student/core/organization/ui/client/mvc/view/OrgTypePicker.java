@@ -20,15 +20,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-//import org.kuali.student.core.organization.ui.client.view.SingleListItem;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class OrgTypePicker extends KSDropDown{
 
@@ -42,10 +41,7 @@ public class OrgTypePicker extends KSDropDown{
 		super.onLoad();
 		if (!loaded) {
 
-            orgRpcServiceAsync.getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>() {
-                public void onFailure(Throwable caught) {
-
-                }
+            orgRpcServiceAsync.getOrgTypes(new KSAsyncCallback<List<OrgTypeInfo>>() {
 
                 public void onSuccess(final List<OrgTypeInfo> orgTypes) {
                     final Map<String, String> ids = new LinkedHashMap<String, String>();

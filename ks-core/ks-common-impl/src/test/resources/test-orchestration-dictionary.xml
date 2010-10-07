@@ -19,18 +19,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-	<!-- This may not be the best place for this -->
-	<bean id="simpleMask" class="org.kuali.student.core.assembly.data.masking.SimpleMask" />
 	
 	<bean id="constraint" abstract="true"
 		class="org.kuali.student.core.assembly.data.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataObjectStructure" />
+		class="org.kuali.student.core.assembly.dictionary.old.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.core.assembly.dictionary.DataFieldDescriptor" />
+		class="org.kuali.student.core.assembly.dictionary.old.DataFieldDescriptor" />
 	<bean id="param" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupParamMetadata" />
 	<bean id="result" abstract="true"
@@ -40,7 +37,7 @@
 	
 	<bean id="constraint.atp.types" parent="constraint">
 		<property name="id" value="atp.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured  time period types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -48,7 +45,7 @@
 	</bean>
 	<bean id="constraint.available.course.numbers" parent="constraint">
 		<property name="id" value="available.course.numbers" />
-		<property name="messageId" value="kuali.msg.validation.not.an.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.an.enumerated.list" />-->
 		<property name="desc"
 			value="In list of configured available course numbers" />
 		<property name="serverSide" value="false" />
@@ -107,7 +104,7 @@
 	</bean>
 	<bean id="constraint.code" parent="constraint">
 		<property name="id" value="code" />
-		<property name="messageId" value="kuali.msg.validation.code" />
+		<!--<property name="messageId" value="kuali.msg.validation.code" />-->
 		<property name="desc" value="Alphanumeric code, hypen and period." />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -116,7 +113,7 @@
 	</bean>
 	<bean id="constraint.code.uppercase" parent="constraint">
 		<property name="id" value="code.uppercase" />
-		<property name="messageId" value="kuali.msg.validation.uppercase" />
+		<!--<property name="messageId" value="kuali.msg.validation.uppercase" />-->
 		<property name="desc"
 			value="uppercase alphanumeric code, hypen and period." />
 		<property name="serverSide" value="false" />
@@ -126,7 +123,7 @@
 	</bean>
 	<bean id="constraint.course.proposal.types" parent="constraint">
 		<property name="id" value="course.proposal.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc"
 			value="In a list of configured course proposal types" />
 		<property name="serverSide" value="false" />
@@ -136,7 +133,7 @@
 	</bean>
 	<bean id="constraint.date.time" parent="constraint">
 		<property name="id" value="date.time" />
-		<property name="messageId" value="kuali.msg.validation.date.time" />
+		<!--<property name="messageId" value="kuali.msg.validation.date.time" />-->
 		<property name="desc" value="Date-Time" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="19" />
@@ -146,7 +143,7 @@
 	</bean>
 	<bean id="constraint.decimal" parent="constraint">
 		<property name="id" value="decimal" />
-		<property name="messageId" value="kuali.msg.validation.decimal" />
+		<!--<property name="messageId" value="kuali.msg.validation.decimal" />-->
 		<property name="desc" value="decimal number" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -177,7 +174,7 @@
 	</bean>
 	<bean id="constraint.duration.types" parent="constraint">
 		<property name="id" value="duration.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured duration types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -185,7 +182,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.co-located" parent="constraint">
 		<property name="id" value="hard.coded.co-located" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lu.relation.type.co-located&#34;" />
 		<property name="serverSide" value="true" />
@@ -195,7 +192,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.cross-listed" parent="constraint">
 		<property name="id" value="hard.coded.cross-listed" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lu.type.CreditCourse.identifier.cross-listed&#34;" />
 		<property name="serverSide" value="true" />
@@ -206,7 +203,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.lolorealtion.includes" parent="constraint">
 		<property name="id" value="hard.coded.lolorealtion.includes" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lo.lo.relation.type.includes&#34;" />
 		<property name="serverSide" value="true" />
@@ -217,7 +214,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.lulorealtion.includes" parent="constraint">
 		<property name="id" value="hard.coded.lulorealtion.includes" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lu.lo.relation.type.includes&#34;" />
 		<property name="serverSide" value="true" />
@@ -228,7 +225,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.one" parent="constraint">
 		<property name="id" value="hard.coded.one" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be 1" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:1" />
@@ -237,7 +234,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.referenceType.CLU" parent="constraint">
 		<property name="id" value="hard.coded.referenceType.CLU" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="Must be &#34;kuali.referenceType.CLU&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:kuali\.referenceType\.CLU" />
@@ -246,7 +243,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.singleUse.lo" parent="constraint">
 		<property name="id" value="hard.coded.singleUse.lo" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc" value="must be &#34;kuali.lo.type.singleUse&#34;" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:kuali\.lo\.type\.singleUse" />
@@ -255,7 +252,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.singleUse.lo.repository" parent="constraint">
 		<property name="id" value="hard.coded.singleUse.lo.repository" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.loRepository.key.single.use&#34;" />
 		<property name="serverSide" value="true" />
@@ -265,7 +262,7 @@
 	</bean>
 	<bean id="constraint.hard.coded.version" parent="constraint">
 		<property name="id" value="hard.coded.version" />
-		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<!--<property name="messageId" value="kuali.msg.validation.hard.coded" />-->
 		<property name="desc"
 			value="Must be &#34;kuali.lu.type.CreditCourse.identifier.version&#34;" />
 		<property name="serverSide" value="true" />
@@ -283,7 +280,7 @@
 	</bean>
 	<bean id="constraint.integer" parent="constraint">
 		<property name="id" value="integer" />
-		<property name="messageId" value="kuali.msg.validation.integer" />
+		<!--<property name="messageId" value="kuali.msg.validation.integer" />-->
 		<property name="desc" value="Integer" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -294,7 +291,7 @@
 	</bean>
 	<bean id="constraint.kuali.id" parent="constraint">
 		<property name="id" value="kuali.id" />
-		<property name="messageId" value="kuali.msg.validation.kuali.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.id" />-->
 		<property name="desc"
 			value="Kuali ID; calculated by service on add, then read-only." />
 		<property name="serverSide" value="true" />
@@ -309,7 +306,7 @@
 	</bean>
 	<bean id="constraint.kuali.meta.data" parent="constraint">
 		<property name="id" value="kuali.meta.data" />
-		<property name="messageId" value="kuali.msg.validation.kuali.meta.data" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.meta.data" />-->
 		<property name="desc"
 			value="Kuali Meta Data: calculated by service, read-only" />
 		<property name="serverSide" value="true" />
@@ -322,7 +319,7 @@
 	</bean>
 	<bean id="constraint.kuali.state" parent="constraint">
 		<property name="id" value="kuali.state" />
-		<property name="messageId" value="kuali.msg.validation.kuali.state" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.state" />-->
 		<property name="desc" value="Kuali STATE" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -333,7 +330,7 @@
 	</bean>
 	<bean id="constraint.kuali.type" parent="constraint">
 		<property name="id" value="kuali.type" />
-		<property name="messageId" value="kuali.msg.validation.kuali.type" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.type" />-->
 		<property name="desc" value="Kuali TYPE: required on add, then read-only" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -344,14 +341,14 @@
 	</bean>
 	<bean id="constraint.letter" parent="constraint">
 		<property name="id" value="letter" />
-		<property name="messageId" value="kuali.msg.validation.letter" />
+		<!--<property name="messageId" value="kuali.msg.validation.letter" />-->
 		<property name="desc" value="letters only" />
 		<property name="serverSide" value="false" />
 		<property name="validChars" value="regex:[A-Za-z]*" />
 	</bean>
 	<bean id="constraint.lo.category.types" parent="constraint">
 		<property name="id" value="lo.category.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of lo category types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -359,7 +356,7 @@
 	</bean>
 	<bean id="constraint.lo.hierarchy.types" parent="constraint">
 		<property name="id" value="lo.hierarchy.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc"
 			value="In a list of configured program lo hierarchy types" />
 		<property name="serverSide" value="false" />
@@ -368,7 +365,7 @@
 	</bean>
 	<bean id="constraint.lo.lo.relation.types" parent="constraint">
 		<property name="id" value="lo.lo.relation.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc"
 			value="In list of configured lo-lo relationship types" />
 		<property name="serverSide" value="false" />
@@ -377,7 +374,7 @@
 	</bean>
 	<bean id="constraint.lo.repositories" parent="constraint">
 		<property name="id" value="lo.repositories" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured lo repositories" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -386,7 +383,7 @@
 	</bean>
 	<bean id="constraint.lo.types" parent="constraint">
 		<property name="id" value="lo.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of confured lo types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -395,7 +392,7 @@
 	</bean>
 	<bean id="constraint.lu.activity.types" parent="constraint">
 		<property name="id" value="lu.activity.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In a list of configured activity LuTypes" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -403,7 +400,7 @@
 	</bean>
 	<bean id="constraint.lu.identifier.types" parent="constraint">
 		<property name="id" value="lu.identifier.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured clu identifier types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -411,7 +408,7 @@
 	</bean>
 	<bean id="constraint.lu.lo.relation.types" parent="constraint">
 		<property name="id" value="lu.lo.relation.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured lu-lo relation types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -419,7 +416,7 @@
 	</bean>
 	<bean id="constraint.lu.lu.relation.types" parent="constraint">
 		<property name="id" value="lu.lu.relation.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured lul-lu relation types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -427,7 +424,7 @@
 	</bean>
 	<bean id="constraint.lu.states" parent="constraint">
 		<property name="id" value="lu.states" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured learning unit states" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -435,7 +432,7 @@
 	</bean>
 	<bean id="constraint.lu.types" parent="constraint">
 		<property name="id" value="lu.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured learning unit types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -443,7 +440,7 @@
 	</bean>
 	<bean id="constraint.multi.line.text" parent="constraint">
 		<property name="id" value="multi.line.text" />
-		<property name="messageId" value="kuali.msg.validation.printable" />
+		<!--<property name="messageId" value="kuali.msg.validation.printable" />-->
 		<property name="desc"
 			value="Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed." />
 		<property name="serverSide" value="false" />
@@ -454,7 +451,7 @@
 	</bean>
 	<bean id="constraint.non-negative.integer" parent="constraint">
 		<property name="id" value="non-negative.integer" />
-		<property name="messageId" value="kuali.msg.validation.non-negative.integer" />
+		<!--<property name="messageId" value="kuali.msg.validation.non-negative.integer" />-->
 		<property name="desc" value="Non-Negative Integer" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -466,7 +463,7 @@
 	</bean>
 	<bean id="constraint.not.used" parent="constraint">
 		<property name="id" value="not.used" />
-		<property name="messageId" value="kuali.msg.validation.not.used" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.used" />-->
 		<property name="desc" value="Not Used" />
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="0" />
@@ -482,7 +479,7 @@
 	</bean>
 	<bean id="constraint.proposal.types" parent="constraint">
 		<property name="id" value="proposal.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In a list of configured proposal types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -498,7 +495,7 @@
 	</bean>
 	<bean id="constraint.reference.types" parent="constraint">
 		<property name="id" value="reference.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In a list of configured reference types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -507,7 +504,7 @@
 	</bean>
 	<bean id="constraint.related.cluId" parent="constraint">
 		<property name="id" value="related.cluId" />
-		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
 		<property name="desc" value="Id of an existing CLU" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -519,7 +516,7 @@
 	</bean>
 	<bean id="constraint.related.orgId" parent="constraint">
 		<property name="id" value="related.orgId" />
-		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
 		<property name="desc" value="Id of an existing ORG" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -531,7 +528,7 @@
 	</bean>
 	<bean id="constraint.related.personId" parent="constraint">
 		<property name="id" value="related.personId" />
-		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
 		<property name="desc" value="Id of an existing PERSON" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -543,7 +540,7 @@
 	</bean>
 	<bean id="constraint.related.principalId" parent="constraint">
 		<property name="id" value="related.principalId" />
-		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />-->
 		<property name="desc" value="Id of an existing PRINCIPAL" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />
@@ -562,14 +559,14 @@
 	</bean>
 	<bean id="constraint.required" parent="constraint">
 		<property name="id" value="required" />
-		<property name="messageId" value="kuali.msg.validation.required" />
+		<!--<property name="messageId" value="kuali.msg.validation.required" />-->
 		<property name="desc" value="Required" />
 		<property name="serverSide" value="false" />
 		<property name="minOccurs" value="1" />
 	</bean>
 	<bean id="constraint.rich.text" parent="constraint">
 		<property name="id" value="rich.text" />
-		<property name="messageId" value="kuali.msg.validation.printable" />
+		<!--<property name="messageId" value="kuali.msg.validation.printable" />-->
 		<property name="desc"
 			value="Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc." />
 		<property name="serverSide" value="false" />
@@ -580,7 +577,7 @@
 	</bean>
 	<bean id="constraint.single" parent="constraint">
 		<property name="id" value="single" />
-		<property name="messageId" value="kuali.msg.validation.single" />
+		<!--<property name="messageId" value="kuali.msg.validation.single" />-->
 		<property name="desc" value="Single valued (non-repeating)" />
 		<property name="serverSide" value="false" />
 		<property name="maxOccurs" value="1" />
@@ -588,7 +585,7 @@
 	</bean>
 	<bean id="constraint.single.line.text" parent="constraint">
 		<property name="id" value="single.line.text" />
-		<property name="messageId" value="kuali.msg.validation.single.line.text" />
+		<!--<property name="messageId" value="kuali.msg.validation.single.line.text" />-->
 		<property name="desc"
 			value="A basic single line of text, no embedded carraige returns or tabs limited to 255" />
 		<property name="serverSide" value="false" />
@@ -600,7 +597,7 @@
 	</bean>
 	<bean id="constraint.size.one" parent="constraint">
 		<property name="id" value="size.one" />
-		<property name="messageId" value="kuali.msg.validation.size.one" />
+		<!--<property name="messageId" value="kuali.msg.validation.size.one" />-->
 		<property name="desc" value="Only one character" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -608,7 +605,7 @@
 	</bean>
 	<bean id="constraint.subject.areas" parent="constraint">
 		<property name="id" value="subject.areas" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured subject areas" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="4" />
@@ -617,7 +614,7 @@
 	</bean>
 	<bean id="constraint.unit.types" parent="constraint">
 		<property name="id" value="unit.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc" value="In list of configured unit types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
@@ -627,7 +624,7 @@
 	</bean>
 	<bean id="constraint.valid.duration.types" parent="constraint">
 		<property name="id" value="valid.duration.types" />
-		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<!--<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />-->
 		<property name="desc"
 			value="In a list of duration types configured by LuType" />
 		<property name="serverSide" value="false" />
@@ -1392,7 +1389,6 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
-					<property name="mask" ref="simpleMask" />
 					<property name="constraints">
 						<list>
 							<ref bean="constraint.single" />

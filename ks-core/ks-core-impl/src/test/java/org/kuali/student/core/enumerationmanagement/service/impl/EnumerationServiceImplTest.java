@@ -22,21 +22,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl;
 import org.kuali.student.core.enumerationmanagement.dto.EnumContextValueInfo;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueFieldInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.dto.EnumerationMetaInfo;
-import org.kuali.student.core.enumerationmanagement.dto.FieldDescriptorInfo;
+import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.core.enumerationmanagement.dto.mock.DataGenerator;
 import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueFieldEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity;
+import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
+import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -47,7 +45,7 @@ import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
@@ -83,7 +81,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 		long baseTime = System.currentTimeMillis();
     	
 		//Enumeration
-		EnumeratedValueEntity entity1 = new EnumeratedValueEntity();
+		EnumeratedValue entity1 = new EnumeratedValue();
         entity1.setEnumerationKey("Key1");
         entity1.setAbbrevValue("Abbrev1");
         entity1.setCode("Code1");
@@ -92,7 +90,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity1.setSortKey(1);
         entity1.setValue("Value1");
         
-    	EnumeratedValueEntity entity2 = new EnumeratedValueEntity();
+    	EnumeratedValue entity2 = new EnumeratedValue();
         entity2.setEnumerationKey("Key1");
         entity2.setAbbrevValue("Abbrev2");
         entity2.setCode("Code2");
@@ -101,7 +99,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity2.setSortKey(1);
         entity2.setValue("Value2");
         
-    	EnumeratedValueEntity entity3 = new EnumeratedValueEntity();
+    	EnumeratedValue entity3 = new EnumeratedValue();
         entity3.setEnumerationKey("Key1");
         entity3.setAbbrevValue("Abbrev3");
         entity3.setCode("Code3");
@@ -110,7 +108,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity3.setSortKey(1);
         entity3.setValue("Value3");
         
-    	EnumeratedValueEntity entity4 = new EnumeratedValueEntity();
+    	EnumeratedValue entity4 = new EnumeratedValue();
         entity4.setEnumerationKey("Key1");
         entity4.setAbbrevValue("Abbrev4");
         entity4.setCode("Code4");
@@ -136,24 +134,24 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         contextEntity4.setContextValue("CA");
         
         entity1.getContextEntityList().add(contextEntity1);
-        ArrayList<EnumeratedValueEntity> entityList1 = new ArrayList<EnumeratedValueEntity>();
+        ArrayList<EnumeratedValue> entityList1 = new ArrayList<EnumeratedValue>();
         entityList1.add(entity1);
-        contextEntity1.setEnumeratedValueEntityList(entityList1);
+        contextEntity1.setEnumeratedValueList(entityList1);
         
         entity2.getContextEntityList().add(contextEntity3);
-        ArrayList<EnumeratedValueEntity> entityList2 = new ArrayList<EnumeratedValueEntity>();
+        ArrayList<EnumeratedValue> entityList2 = new ArrayList<EnumeratedValue>();
         entityList2.add(entity2);
-        contextEntity3.setEnumeratedValueEntityList(entityList2);
+        contextEntity3.setEnumeratedValueList(entityList2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        ArrayList<EnumeratedValueEntity> entityList3 = new ArrayList<EnumeratedValueEntity>();
+        ArrayList<EnumeratedValue> entityList3 = new ArrayList<EnumeratedValue>();
         entityList3.add(entity3);
-        contextEntity2.setEnumeratedValueEntityList(entityList3);
+        contextEntity2.setEnumeratedValueList(entityList3);
      
         entity4.getContextEntityList().add(contextEntity4);
-        ArrayList<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
+        ArrayList<EnumeratedValue> entityList4 = new ArrayList<EnumeratedValue>();
         entityList4.add(entity4);
-        contextEntity4.setEnumeratedValueEntityList(entityList4);
+        contextEntity4.setEnumeratedValueList(entityList4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);
@@ -168,96 +166,46 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	@Test
 	public void testFetchAndFindEnumerationMetas() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException{
         //Enumeration Meta
-    	EnumerationMetaEntity dao = new EnumerationMetaEntity();
-    	dao.setEnumerationKey("metaKey1");
-    	dao.setEnumerationMetaKeyDesc("metaDesc1");
+    	Enumeration dao = new Enumeration();
+    	dao.setKey("metaKey1");
+    	dao.setDescr("metaDesc1");
     	dao.setName("Name1");
-    	dao.setId("id1");
-    	
-    	EnumeratedValueFieldEntity fieldDao = new EnumeratedValueFieldEntity();
-    	fieldDao.setInvalidChars("f");
-    	fieldDao.setValidChars("ab");
-    	fieldDao.setId("id");
-    	fieldDao.setFieldKey("key");
-    	fieldDao.setMaxLength("2");
-    	fieldDao.setMinLength(0);
-    	fieldDao.setMaxOccurs("2");
-    	fieldDao.setMinOccurs(1);
-    	fieldDao.setEnumerationMetaEntity(dao);
-    	fieldDao.setDataType("string");
-    	dao.getEnumeratedValueFieldList().add(fieldDao);
-    	
-    	EnumeratedValueFieldEntity fieldDao2 = new EnumeratedValueFieldEntity();
-    	fieldDao2.setInvalidChars("456");
-    	fieldDao2.setValidChars("123");
-    	fieldDao2.setId("id2");
-    	fieldDao2.setFieldKey("key2");
-    	fieldDao2.setMaxLength("2");
-    	fieldDao2.setMinLength(0);
-    	fieldDao2.setMaxOccurs("2");
-    	fieldDao2.setMinOccurs(1);
-    	fieldDao2.setEnumerationMetaEntity(dao);
-    	fieldDao2.setDataType("int");
-    	dao.getEnumeratedValueFieldList().add(fieldDao2);
-    	
-    	enumerationManagementDAO.addEnumerationMeta(dao);
+    	    	
+    	enumerationManagementDAO.addEnumeration(dao);
 		enumService.setEnumDAO(enumerationManagementDAO);
 		
 		//fetchEnumerationMeta
-		EnumerationMetaInfo dto = enumService.getEnumerationMeta("metaKey1");
-    	assertEquals(dao.getEnumerationKey(), dto.getId());
+		EnumerationInfo dto = enumService.getEnumeration("metaKey1");
+    	assertEquals(dao.getKey(), dto.getId());
     	assertEquals(dao.getName(), dto.getName());
-    	assertEquals(dao.getEnumerationMetaKeyDesc(), dto.getDesc());
-    	List<EnumeratedValueFieldInfo> fields = dto.getEnumeratedValueFields();
-    	assertEquals(fields.size(), 2);
-    	int i = 0;
-    	for(EnumeratedValueFieldInfo field: fields){
-    		fieldDao = dao.getEnumeratedValueFieldList().get(i);
-    		assertEquals(fieldDao.getFieldKey(), field.getId());
-    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
-    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
-    		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
-    		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), field.getMaxOccurs());
-    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs());
-    		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
-    		i++;
-    	}
+    	assertEquals(dao.getDescr(), dto.getDescr());
     	
     	//findEnumerationMetas
-    	List<EnumerationMetaInfo> list = enumService.getEnumerationMetas();
+    	List<EnumerationInfo> list = enumService.getEnumerations();
     	
-    	//there is one in test-beans... so find 2
-    	assertEquals(list.size(), 2);
-    	dto = list.get(0);
-    	if(!dto.getId().equals("metaKey1")){
-    		dto = list.get(1);
+    	//there is one in test-beans and 6 in ks-em.sql. so find 8
+    	assertEquals(list.size(), 8);
+    	boolean foundMeta = false;
+    	
+    	for(EnumerationInfo ei : list) {
+    	    if(ei.getId().equals("metaKey1")) {
+    	        foundMeta = true;
+    	        dto = ei;
+    	    }
     	}
-    	assertEquals(dao.getEnumerationKey(), dto.getId());
+    	
+    	assertTrue(foundMeta);
+    	
+    	assertEquals(dao.getKey(), dto.getId());
     	assertEquals(dao.getName(), dto.getName());
-    	assertEquals(dao.getEnumerationMetaKeyDesc(), dto.getDesc());
-    	fields = dto.getEnumeratedValueFields();
-    	assertEquals(fields.size(), 2);
-    	i = 0;
-    	for(EnumeratedValueFieldInfo field: fields){
-    		fieldDao = dao.getEnumeratedValueFieldList().get(i);
-    		assertEquals(fieldDao.getFieldKey(), field.getId());
-    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
-    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
-    		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
-    		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), field.getMaxOccurs());
-    		assertEquals(fieldDao.getMinOccurs(), field.getMinOccurs());
-    		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
-    		i++;
-    	}
+    	assertEquals(dao.getDescr(), dto.getDescr());
 	}
 	
 	@Test
-	public void testFetchEnumeration() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+	public void testFetchEnumeratedValue() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
     	long baseTime = System.currentTimeMillis();
     	
-    	EnumeratedValueEntity entity1 = new EnumeratedValueEntity();
+    	EnumeratedValue entity1 = new EnumeratedValue();
         entity1.setEnumerationKey("Key1");
         entity1.setAbbrevValue("Abbrev1");
         entity1.setCode("Code1");
@@ -266,7 +214,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity1.setSortKey(1);
         entity1.setValue("Value1");
         
-    	EnumeratedValueEntity entity2 = new EnumeratedValueEntity();
+    	EnumeratedValue entity2 = new EnumeratedValue();
         entity2.setEnumerationKey("Key1");
         entity2.setAbbrevValue("Abbrev2");
         entity2.setCode("Code2");
@@ -275,7 +223,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity2.setSortKey(1);
         entity2.setValue("Value2");
         
-    	EnumeratedValueEntity entity3 = new EnumeratedValueEntity();
+    	EnumeratedValue entity3 = new EnumeratedValue();
         entity3.setEnumerationKey("Key1");
         entity3.setAbbrevValue("Abbrev3");
         entity3.setCode("Code3");
@@ -284,7 +232,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity3.setSortKey(1);
         entity3.setValue("Value3");
         
-    	EnumeratedValueEntity entity4 = new EnumeratedValueEntity();
+    	EnumeratedValue entity4 = new EnumeratedValue();
         entity4.setEnumerationKey("Key1");
         entity4.setAbbrevValue("Abbrev4");
         entity4.setCode("Code4");
@@ -310,24 +258,24 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         contextEntity4.setContextValue("CA");
         
         entity1.getContextEntityList().add(contextEntity1);
-        ArrayList<EnumeratedValueEntity> entityList1 = new ArrayList<EnumeratedValueEntity>();
+        ArrayList<EnumeratedValue> entityList1 = new ArrayList<EnumeratedValue>();
         entityList1.add(entity1);
-        contextEntity1.setEnumeratedValueEntityList(entityList1);
+        contextEntity1.setEnumeratedValueList(entityList1);
         
         entity2.getContextEntityList().add(contextEntity3);
-        ArrayList<EnumeratedValueEntity> entityList2 = new ArrayList<EnumeratedValueEntity>();
+        ArrayList<EnumeratedValue> entityList2 = new ArrayList<EnumeratedValue>();
         entityList2.add(entity2);
-        contextEntity3.setEnumeratedValueEntityList(entityList2);
+        contextEntity3.setEnumeratedValueList(entityList2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        ArrayList<EnumeratedValueEntity> entityList3 = new ArrayList<EnumeratedValueEntity>();
+        ArrayList<EnumeratedValue> entityList3 = new ArrayList<EnumeratedValue>();
         entityList3.add(entity3);
-        contextEntity2.setEnumeratedValueEntityList(entityList3);
+        contextEntity2.setEnumeratedValueList(entityList3);
      
         entity4.getContextEntityList().add(contextEntity4);
-        ArrayList<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
+        ArrayList<EnumeratedValue> entityList4 = new ArrayList<EnumeratedValue>();
         entityList4.add(entity4);
-        contextEntity4.setEnumeratedValueEntityList(entityList4);
+        contextEntity4.setEnumeratedValueList(entityList4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);
@@ -335,18 +283,18 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         enumerationManagementDAO.addEnumeratedValue("Key1", entity4);
         enumService.setEnumDAO(enumerationManagementDAO);
         
-        List<EnumeratedValueInfo> list = enumService.getEnumeration("Key1", "country", "US", new Date(baseTime));
+        List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("Key1", "country", "US", new Date(baseTime));
          
         assertEquals(list.size(), 2);
         
         	
-        list = enumService.getEnumeration("Key1", null, null, null);
+        list = enumService.getEnumeratedValues("Key1", null, null, null);
         assertEquals(list.size(), 4);
         
-        list = enumService.getEnumeration("Key1" , "country", "CA", null);
+        list = enumService.getEnumeratedValues("Key1" , "country", "CA", null);
         assertEquals(list.size(), 2);
         	
-        list = enumService.getEnumeration("Key1" , "country", "US", null);
+        list = enumService.getEnumeratedValues("Key1" , "country", "US", null);
         assertEquals(list.size(), 2);
         
         //testing accuracy
@@ -361,7 +309,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         int i =0;
         for(EnumContextValueInfo c: listItem.getContexts()){
         	ContextEntity original = entity2.getContextEntityList().get(i);
-        	assertEquals(c.getType(), original.getContextKey());
+        	assertEquals(c.getKey(), original.getContextKey());
         	assertEquals(c.getValue(), original.getContextValue());
         	i++;
         }
@@ -377,27 +325,27 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         i =0;
         for(EnumContextValueInfo c: listItem.getContexts()){
         	ContextEntity original = entity2.getContextEntityList().get(i);
-        	assertEquals(c.getType(), original.getContextKey());
+        	assertEquals(c.getKey(), original.getContextKey());
         	assertEquals(c.getValue(), original.getContextValue());
         	i++;
         }
 
-        list = enumService.getEnumeration("Key1", null, null, new Date(baseTime));
+        list = enumService.getEnumeratedValues("Key1", null, null, new Date(baseTime));
         assertEquals(list.size(), 4);
 
-        list = enumService.getEnumeration("Key1", null, null, new Date(baseTime+40000000L));
+        list = enumService.getEnumeratedValues("Key1", null, null, new Date(baseTime+40000000L));
         assertEquals(list.size(), 2);
         
-        list = enumService.getEnumeration("Key1" , "country", "US", new Date(baseTime+40000000L));
+        list = enumService.getEnumeratedValues("Key1" , "country", "US", new Date(baseTime+40000000L));
         assertEquals(list.size(), 1);
         
-        list = enumService.getEnumeration("Key1" , "country", "CA", new Date(baseTime+40000000L));
+        list = enumService.getEnumeratedValues("Key1" , "country", "CA", new Date(baseTime+40000000L));
         assertEquals(list.size(), 1);
         
-        list = enumService.getEnumeration("Key1" , "country", "CA", new Date(baseTime));
+        list = enumService.getEnumeratedValues("Key1" , "country", "CA", new Date(baseTime));
         assertEquals(list.size(), 2);
         
-        list = enumService.getEnumeration(null, null, null, null);
+        list = enumService.getEnumeratedValues(null, null, null, null);
         assertTrue(list.isEmpty());
         
 	}
@@ -419,13 +367,13 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         //dto context
         List<EnumContextValueInfo> dtoContext = new ArrayList<EnumContextValueInfo>();
         EnumContextValueInfo newContext = new EnumContextValueInfo();
-        newContext.setType("ContextA");
+        newContext.setKey("ContextA");
         newContext.setValue("1");
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
 		enumService.addEnumeratedValue("Key2", dto);
 
-		List<EnumeratedValueInfo> list = enumService.getEnumeration("Key2", "ContextA", "1", new Date(baseTime));
+		List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("Key2", "ContextA", "1", new Date(baseTime));
 		assertEquals(list.size(), 1);
 		EnumeratedValueInfo listItem = list.get(0);
 		
@@ -438,7 +386,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         int i =0;
         for(EnumContextValueInfo c: listItem.getContexts()){
         	EnumContextValueInfo original = newContext;
-        	assertEquals(c.getType(), original.getType());
+        	assertEquals(c.getKey(), original.getKey());
         	assertEquals(c.getValue(), original.getValue());
         	i++;
         }
@@ -462,14 +410,14 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         //dto context
         List<EnumContextValueInfo> dtoContext = new ArrayList<EnumContextValueInfo>();
         EnumContextValueInfo newContext = new EnumContextValueInfo();
-        newContext.setType("ContextA");
+        newContext.setKey("ContextA");
         newContext.setValue("1");
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
         //add first
 		enumService.addEnumeratedValue("Key3", dto);
 
-		List<EnumeratedValueInfo> list = enumService.getEnumeration("Key3", "ContextA", "1", new Date(baseTime));
+		List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("Key3", "ContextA", "1", new Date(baseTime));
 		assertEquals(list.size(), 1);
 		EnumeratedValueInfo listItem = list.get(0);
 		
@@ -482,7 +430,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         int i =0;
         for(EnumContextValueInfo c: listItem.getContexts()){
         	EnumContextValueInfo original = newContext;
-        	assertEquals(c.getType(), original.getType());
+        	assertEquals(c.getKey(), original.getKey());
         	assertEquals(c.getValue(), original.getValue());
         	i++;
         }
@@ -491,11 +439,11 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         //update currently fails on context updates
         dto.setCode("newCode");
         dto.setValue("newValue");
-        dto.getContexts().get(0).setType("newType");
+        dto.getContexts().get(0).setKey("newType");
         dto.getContexts().get(0).setValue("newContextValue");
         enumService.updateEnumeratedValue("Key3", "c", dto);
 
-		list = enumService.getEnumeration("Key3", "newType", "newContextValue", new Date(baseTime));
+		list = enumService.getEnumeratedValues("Key3", "newType", "newContextValue", new Date(baseTime));
 		assertEquals(list.size(), 1);
 		listItem = list.get(0);
 		
@@ -507,7 +455,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(listItem.getValue(), dto.getValue());
         i =0;
         for(EnumContextValueInfo c: listItem.getContexts()){
-        	assertEquals(c.getType(), "newType");
+        	assertEquals(c.getKey(), "newType");
         	assertEquals(c.getValue(), "newContextValue");
         	i++;
         }
@@ -531,7 +479,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         //dto context
         List<EnumContextValueInfo> dtoContext = new ArrayList<EnumContextValueInfo>();
         EnumContextValueInfo newContext = new EnumContextValueInfo();
-        newContext.setType("ContextA");
+        newContext.setKey("ContextA");
         newContext.setValue("1");
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
@@ -539,7 +487,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 		enumService.addEnumeratedValue("Key4", dto);
 		enumService.removeEnumeratedValue("Key4", "c");
 
-		List<EnumeratedValueInfo> list = enumService.getEnumeration("Key4", "ContextA", "1", new Date(baseTime));
+		List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("Key4", "ContextA", "1", new Date(baseTime));
 		assertTrue(list.isEmpty());
 	}
 	
@@ -550,13 +498,13 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 
 		DataGenerator.generate(enumService);
 		
-		List<EnumeratedValueInfo> list = enumService.getEnumeration("SemesterEnum", null, null, null);
+		List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("SemesterEnum", null, null, null);
 		assertEquals(list.size(), 10);
 		for(EnumeratedValueInfo e: list){
 			assertTrue(e.getValue().contains("Semester"));
 		}
 		
-		list = enumService.getEnumeration("CityEnum", null, null, null);
+		list = enumService.getEnumeratedValues("CityEnum", null, null, null);
 		assertEquals(list.size(), 10);
 		for(EnumeratedValueInfo e: list){
 			assertTrue(e.getValue().contains("City"));
@@ -564,79 +512,17 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	}
 	
 	@Test
+	@Ignore
 	public void testValidate(){
 		enumService.setEnumDAO(enumerationManagementDAO);
 		
 		//long baseTime = System.currentTimeMillis();
 		
-		EnumerationMetaInfo em = new EnumerationMetaInfo();
+		EnumerationInfo em = new EnumerationInfo();
 		em.setId("KeyV");
 		em.setName("Validation Meta");
-		em.setDesc("Meta used for validation");
+		em.setDescr("Meta used for validation");
 
-		List<EnumeratedValueFieldInfo> evFieldList = new ArrayList<EnumeratedValueFieldInfo>();
-		
-		EnumeratedValueFieldInfo evf1 = new EnumeratedValueFieldInfo();
-		evf1.setId("code");
-		FieldDescriptorInfo fd1 = new FieldDescriptorInfo();
-		fd1.setDataType("string");
-		fd1.setMaxLength("6");
-		fd1.setMinLength(0);
-		fd1.setValidChars("cdoeCDOE");
-		fd1.setInvalidChars("in");
-		evf1.setFieldDescriptor(fd1);
-		evFieldList.add(evf1);
-		
-		EnumeratedValueFieldInfo evf2 = new EnumeratedValueFieldInfo();
-		evf2.setId("abbrevValue");
-		FieldDescriptorInfo fd2 = new FieldDescriptorInfo();
-		fd2.setDataType("string");
-		fd2.setMaxLength("2");
-		fd2.setMinLength(1);
-		fd2.setValidChars("AV");
-		fd2.setInvalidChars("");
-		evf2.setFieldDescriptor(fd2);
-		evFieldList.add(evf2);
-		
-		EnumeratedValueFieldInfo evf3 = new EnumeratedValueFieldInfo();
-		evf3.setId("value");
-		FieldDescriptorInfo fd3 = new FieldDescriptorInfo();
-		fd3.setDataType("string");
-		fd3.setMaxLength("15");
-		fd3.setMinLength(1);
-		fd3.setValidChars("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
-		fd3.setInvalidChars("0123456789");
-		evf3.setFieldDescriptor(fd3);
-		evFieldList.add(evf3);
-		
-		EnumeratedValueFieldInfo evf4 = new EnumeratedValueFieldInfo();
-		evf4.setId("effectiveDate");
-		FieldDescriptorInfo fd4 = new FieldDescriptorInfo();
-		fd4.setDataType("Date");
-		fd4.setMaxValue("2009-12-31");
-		fd4.setMinValue("2008-12-31");
-		evf4.setFieldDescriptor(fd4);
-		evFieldList.add(evf4);
-		
-		EnumeratedValueFieldInfo evf5 = new EnumeratedValueFieldInfo();
-		evf5.setId("expirationDate");
-		FieldDescriptorInfo fd5 = new FieldDescriptorInfo();
-		fd5.setDataType("Date");
-		fd5.setMaxValue("2010-01-01T06:12:30,001");
-		fd5.setMinValue("2009-01-01T18:30:15,025");
-		evf5.setFieldDescriptor(fd5);
-		evFieldList.add(evf5);
-		
-		EnumeratedValueFieldInfo evf6 = new EnumeratedValueFieldInfo();
-		evf6.setId("sortKey");
-		FieldDescriptorInfo fd6 = new FieldDescriptorInfo();
-		fd6.setDataType("integer");
-		fd6.setMaxValue("5");
-		fd6.setMinValue("1");
-		evf6.setFieldDescriptor(fd6);
-		evFieldList.add(evf6);
-		
-		em.setEnumeratedValueFields(evFieldList);
 		
 //		enumService.addEnumerationMeta(em);
 //		

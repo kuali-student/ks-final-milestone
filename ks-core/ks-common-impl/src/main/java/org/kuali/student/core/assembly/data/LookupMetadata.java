@@ -18,13 +18,8 @@ package org.kuali.student.core.assembly.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class LookupMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,12 +30,8 @@ public class LookupMetadata implements Serializable {
     private String desc;
     private String title;   		//advanced search window title
 
-	@XmlElement(name="param")
-    @XmlElementWrapper
     private List<LookupParamMetadata> params;
     
-    @XmlElement(name="result")
-    @XmlElementWrapper
     private List<LookupResultMetadata> results;
     
     private LookupQosMetadata qosMetadata;
@@ -52,21 +43,40 @@ public class LookupMetadata implements Serializable {
     private String resultDisplayKey;
     
     private String resultSortKey;
-    
-    private LookupImplMetadata impl;  //FIXME remove after LookupMetadataBank is gone
 
     // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
 	// and custom screens of the advanced search lightbox
+    //TODO is DEFAULT needed? it has 0 references
     public enum Usage {
         DEFAULT, ADVANCED, CUSTOM, ADVANCED_CUSTOM
     }
 
     private Usage usage;
     
+    //TODO BUTTON has 0 references. Is it needed?
     public enum Widget {
-        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, DROP_DOWN, BUTTON, CHECKBOX_LIST
+        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, DROP_DOWN, BUTTON, CHECKBOX_LIST, RADIO
     }
     private Widget widget;    
+
+    public enum WidgetOption {
+        ADVANCED_LIGHTBOX_PREVIEW_MODE, ADVANCED_LIGHTBOX_ACTION_LABEL
+    }
+    
+    private Map<WidgetOption, String> widgetOptions;
+    
+    public Map<WidgetOption, String> getWidgetOptions() {
+        return widgetOptions;
+    }
+    
+    public void setWidgetOptions(Map<WidgetOption, String> widgetOptions) {
+        this.widgetOptions = widgetOptions;
+    }
+    
+    public String getWidgetOptionValue(WidgetOption widgetOption) {
+        if (widgetOptions == null) return null;
+        return widgetOptions.get(widgetOption);
+    }
 
     public String getName() {
         return name;
@@ -162,14 +172,6 @@ public class LookupMetadata implements Serializable {
 		this.searchParamIdKey = searchParamIdKey;
 	}
     
-    public LookupImplMetadata getImpl() {
-        return impl;
-    }
-
-    public void setImpl(LookupImplMetadata impl) {
-        this.impl = impl;
-    }
-
     public String getId() {
         return id;
     }

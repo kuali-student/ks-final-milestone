@@ -33,6 +33,7 @@ import org.kuali.student.core.assembly.util.IdTranslator;
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data, Void> {
     
     final Logger LOG = Logger.getLogger(IdTranslatorAssemblerFilter.class);

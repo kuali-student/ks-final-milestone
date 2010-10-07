@@ -162,5 +162,8 @@ public class ValidationResultInfo implements Serializable{
         return getErrorLevel() == ErrorLevel.ERROR;
     }
 
+    public String toString(){
+    	return "[" + level + "] Path: [" + element + "] - " + message; 
+    }
 	
 }

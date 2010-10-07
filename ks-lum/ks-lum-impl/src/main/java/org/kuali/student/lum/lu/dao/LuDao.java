@@ -15,13 +15,16 @@
 
 package org.kuali.student.lum.lu.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
+import org.kuali.student.lum.lu.entity.CluPublication;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -51,6 +54,8 @@ public interface LuDao extends CrudDao, SearchableDao  {
     public List<String> getCluIdsByLoId(String loId);
 	public List<String> getRelatedCluIdsByCluId(String cluId,
 			String luLuRelationTypeId);
+	public List<String> getCluIdsByRelatedCluId(String cluId,
+			String luLuRelationTypeId);
 	public List<Clu> getRelatedClusByCluId(String cluId,
 			String luLuRelationTypeId);
 	public List<Lui> getRelatedLuisByLuiId(String luiId, String id);
@@ -74,4 +79,22 @@ public interface LuDao extends CrudDao, SearchableDao  {
 	public List<String> getAllowedLuLuRelationTypesByCluId(String cluId,
 			String relatedCluId);
 	public List<CluResult> getCluResultByClu(String cluId);
+	
+	public Clu getLatestCluVersion(String cluVersionIndId);
+	public Clu getCurrentCluVersion(String cluVersionIndId);
+	public VersionDisplayInfo getCurrentCluVersionInfo(String cluVersionIndId, String objectTypeURI);
+	public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectId,
+			String refObjectTypeURI, Date from, Date to);
+	public List<VersionDisplayInfo> getVersions(String refObjectId,
+			String refObjectTypeURI);
+	public VersionDisplayInfo getVersionBySequenceNumber(String refObjectId,
+			String refObjectTypeURI, Long sequence);
+	public VersionDisplayInfo getFirstVersion(String refObjectId,
+			String refObjectTypeURI);
+	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectId,
+			String refObjectTypeURI, Date date);
+	public List<CluPublication> getCluPublicationsByType(
+			String luPublicationTypeKey);
+	public List<CluPublication> getCluPublicationsByCluId(String cluId);
+
 }

@@ -14,15 +14,17 @@
  */
 package org.kuali.student.lum.lu.assembly;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Map;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import static org.junit.Assert.*;
+import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
 
 /**
  *

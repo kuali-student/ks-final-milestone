@@ -18,13 +18,9 @@ package org.kuali.student.core.assembly.data;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 /**
  * @author nwright
  */
-@XmlAccessorType(XmlAccessType.FIELD)
 public class LookupQosMetadata implements Serializable {
 
     /**

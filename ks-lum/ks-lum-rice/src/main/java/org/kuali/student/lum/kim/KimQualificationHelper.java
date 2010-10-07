@@ -48,7 +48,7 @@ public class KimQualificationHelper {
 	private static UniqueMap translationMap = new UniqueMap();
 
 	{
-		translationMap.put("referenceType.clu.proposal", "CluCreditCourseProposal");
+		translationMap.put("referenceType.clu.proposal", "kuali.proposal.type.course.create");
 	}
 
 	protected static WorkflowUtility getWorkflowUtility() {

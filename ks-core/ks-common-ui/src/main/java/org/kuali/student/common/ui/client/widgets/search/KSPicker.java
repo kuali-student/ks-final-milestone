@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.SelectItemWidgetBinding;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -28,12 +29,14 @@ import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
+import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
@@ -65,23 +68,26 @@ import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSPicker extends Composite implements HasFocusLostCallbacks, HasValueChangeHandlers<String>, HasDataValue, TranslatableValueWidget {
+public class KSPicker extends Composite implements HasFocusLostCallbacks, HasValueChangeHandlers<String>, HasDataValue, TranslatableValueWidget, HasInputWidget {
 
-    private VerticalPanel layout = new VerticalPanel();
+    private FlowPanel layout = new FlowPanel();
     private BasicWidget basicWidget;
-    private Hyperlink advSearchLink = new Hyperlink(getMessage("advSearch"), "advSearch");
+    private Anchor advSearchLink = new Anchor(getMessage("advSearch"));
     private AdvancedSearchWindow advSearchWindow = null;
     private SearchPanel searchPanel;
-    private WidgetConfigInfo config;
+    public SearchPanel getSearchPanel() {
+		return searchPanel;
+	}
+
+	private WidgetConfigInfo config;
     private Callback<List<SelectedResults>> advancedSearchCallback;
 	private List<Callback<SelectedResults>> basicSelectionCallbacks =
         new ArrayList<Callback<SelectedResults>>();
@@ -98,7 +104,17 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     	init(inLookupMetadata, additionalLookupMetadata);
     }
 
+    @Override
+    public Widget getInputWidget(){
+    	if(basicWidget != null){
+    		return basicWidget.get();
+    	}
+    	return null;
+
+    }
+
     private void init(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
+    	this.initWidget(layout);
         if (inLookupMetadata == null) {
             KSErrorDialog.show(new Throwable(getMessage("invalidLookupConfig")));
             return;
@@ -110,7 +126,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         setupBasicSearch(inLookupMetadata);
         setupAdvancedSearch(additionalLookupMetadata);
-        this.initWidget(layout);
     }
 
     private static String getMessage(final String messageId) {
@@ -127,6 +142,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	    			break;
 	    		case DROP_DOWN:
 	    		case CHECKBOX_LIST:
+	    			setupListWidget(inLookupMetadata);
+	    			break;
+	    		case RADIO:
 	    			setupListWidget(inLookupMetadata);
 	    			break;
 	    		case NO_WIDGET:
@@ -196,6 +214,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             		listItemWidget = new KSCheckBoxList();
             		((KSCheckBoxList)listItemWidget).setIgnoreMultipleAttributes(true);
             		break;
+            	case RADIO:
+            		listItemWidget = new KSRadioButtonList();
+            		break;
             }
             basicWidget = new BasicWidget(listItemWidget);
             populateListWidget(inLookupMetadata);
@@ -219,18 +240,48 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
             //for multiple searches, show a drop down for user to select from
             if (advancedLightboxLookupdata.size() == 1) {
+                String actionLabel = advancedLightboxLookupdata.get(0).getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
                 searchPanel = new SearchPanel(advancedLightboxLookupdata.get(0));
-                advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                searchPanel.setActionLabel(actionLabel);
+                advSearchWindow = new AdvancedSearchWindow("Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
             } else {
                 searchPanel = new SearchPanel(advancedLightboxLookupdata);
-                advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                advSearchWindow = new AdvancedSearchWindow("Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                searchPanel.addLookupChangedCallback(new Callback<LookupMetadata>() {
+                    @Override
+                    public void exec(LookupMetadata selectedLookup) {
+                        String actionLabel = (selectedLookup == null)? null : selectedLookup
+                                .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
+                        searchPanel.setActionLabel(actionLabel);
+                    }
+                });
+                LookupMetadata initialLookupMetaData = advancedLightboxLookupdata.get(0);
+                String actionLabel = (initialLookupMetaData == null)? null : initialLookupMetaData
+                        .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
+                searchPanel.setActionLabel(actionLabel);
             }
             searchPanel.setMultiSelect(true);
 
-            advSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
+            /*
+            advSearchWindow.addActionCompleteCallback(new Callback<Boolean>() {
+                @Override
+                public void exec(Boolean result) {
+                    searchPanel.getActionCompleteCallback().exec(true);
+                }
+            }); */
+
+            String previewMode = additionalLookupMetadata.get(0).getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_PREVIEW_MODE);
+            if (previewMode != null && previewMode.equals("true")) {
+                searchPanel.setActionLabel("Preview");
+            }
+
+            searchPanel.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
                 public void exec(List<SelectedResults> results) {
                     if (advancedSearchCallback != null) {
                         advancedSearchCallback.exec(results);
+                        if (results.size() > 0) {
+                        	advSearchWindow.hide();
+                        }
                     } else {
                         if (results.size() > 0) {
                             basicWidget.setResults(results);
@@ -254,12 +305,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     private void populateListWidget(LookupMetadata inLookupMetadata){
         SearchRequest sr = initializeSearchRequest(inLookupMetadata);
-        searchRpcServiceAsync.search(sr, new AsyncCallback<SearchResult>(){
-
-            @Override
-            public void onFailure(Throwable cause) {
-                KSErrorDialog.show(cause);
-            }
+        searchRpcServiceAsync.search(sr, new KSAsyncCallback<SearchResult>(){
 
             @Override
             public void onSuccess(SearchResult results) {
@@ -277,6 +323,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     }
 
 	private List<LookupMetadata> getLookupMetadataBasedOnWidget(List<LookupMetadata> additionalLookupMetadata, LookupMetadata.Widget widgetType) {
+
+	    //lookup does not need to have additional lookup e.g. if the lookup is for suggest box within advanced search lightbox
+	    if (additionalLookupMetadata == null) {
+	        return null;
+	    }
+
     	List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
     	for (LookupMetadata addLookupData : additionalLookupMetadata) {
     		if (addLookupData.getWidget() == widgetType) {
@@ -286,7 +338,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     	return (lookups.size() > 0 ? lookups : null);
     }
 
-    private class BasicWidget extends Widget implements HasDataValue, HasFocusLostCallbacks, TranslatableValueWidget {
+    public class BasicWidget implements HasDataValue, HasFocusLostCallbacks, TranslatableValueWidget {
 		private Widget basicWidget;
 
 		public BasicWidget(Widget basicWidget){
@@ -394,14 +446,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		    if (basicWidget instanceof KSTextBox) {
                 result = ((KSTextBox)basicWidget).getText();
             } else if (basicWidget instanceof KSSuggestBox) {
-                //Do check here
-                if(!config.isRepeating){
-                    //what to do here?
-                } else {
-                    IdableSuggestion suggestion = ((KSSuggestBox)basicWidget).getCurrentSuggestion();
-                    if(suggestion != null) {
-                        result = suggestion.getReplacementString();
-                    }
+                IdableSuggestion suggestion = ((KSSuggestBox)basicWidget).getCurrentSuggestion();
+                if(suggestion != null) {
+                    result = suggestion.getReplacementString();
                 }
             }  else if (basicWidget instanceof KSDropDown) {
                 KSDropDown dropDown = (KSDropDown)basicWidget;
@@ -448,7 +495,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         public void addValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
             if (basicWidget.getClass().getName().contains("ContainerWidget")) {
-                ((SelectionContainerWidget) basicWidget).addValuesChangeHandler(handler);
+                ((SelectionContainerWidget) basicWidget).addValueChangeHandler(handler);
             }
         }
 		public void addSelectionChangeHandler(SelectionChangeHandler handler) {
@@ -510,10 +557,11 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         @Override
         public void setValue(final Map<String, String> translations) {
-        	//TODO: Update to also work with a KSLabelList that doesn't require pre-population of all list items
+        	//TODO: Reviewed in M6 cleanup, unknown:  Update to also work with a KSLabelList that doesn't require pre-population of all list items
         	if (basicWidget instanceof KSSelectItemWidgetAbstract){
         		Callback<Widget> widgetReadyCallback = new Callback<Widget>(){
 					public void exec(Widget widget) {
+						((KSSelectItemWidgetAbstract)widget).clear();
 		        		for (String id:translations.keySet()){
 		        			((KSSelectItemWidgetAbstract)widget).selectItem(id);
 		        		}
@@ -531,16 +579,15 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     }
 
-    private class SelectionContainerWidget extends Widget implements HasValue<List<String>> {
-    	//ValueChangeHandler<List<String>> handler;
+    private class SelectionContainerWidget extends Widget implements HasValueChangeHandlers<List<String>> {
     	private List<String> selections = new ArrayList<String>();
+
+    	public SelectionContainerWidget(){
+    		this.setElement(DOM.createSpan());
+    	}
 
 		public List<String> getSelections() {
 			return selections;
-		}
-
-		public void addValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
-			super.addHandler(handler, ValueChangeEvent.getType());
 		}
 
 		public void setSelections(List<String> selections) {
@@ -549,25 +596,8 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		}
 
 		@Override
-		public List<String> getValue() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void setValue(List<String> value) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void setValue(List<String> value, boolean fireEvents) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
 		public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<String>> handler) {
-			// TODO Auto-generated method stub
-			return null;
+			return super.addHandler(handler, ValueChangeEvent.getType());
 		}
     }
 
@@ -613,12 +643,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         sr.setParams(params);
 
         return sr;
-    }
-
-    //TODO use for labels lookup
-    private String getLabel(String labelKey) {
-      //  return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
-    	return null;
     }
 
     public AdvancedSearchWindow getSearchWindow(){
@@ -673,6 +697,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	}
 
 	public void addValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
+        if(basicWidget != null)
 		basicWidget.addValuesChangeHandler(handler);
 	}
 

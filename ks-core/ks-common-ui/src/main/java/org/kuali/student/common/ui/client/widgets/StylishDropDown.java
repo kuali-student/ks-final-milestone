@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.MenuChangeEvent;
 import org.kuali.student.common.ui.client.widgets.menus.MenuEventHandler;
@@ -31,6 +32,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -41,9 +43,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class StylishDropDown extends Composite{
 	
 	private ClickablePanel namePanel = new ClickablePanel();
+	private SpanPanel parentPanel = new SpanPanel();
 	private boolean showSelectedItem = false;
 	private boolean showTitleIcon = false;
-	private SimplePanel container = new SimplePanel();
 	private PopupPanel menuPanel = new PopupPanel();
 	private KSListMenuImpl menu = new KSListMenuImpl();
 	private HorizontalPanel layout = new HorizontalPanel();
@@ -53,16 +55,23 @@ public class StylishDropDown extends Composite{
 	private KSImage defaultArrow = Theme.INSTANCE.getCommonImages().getDropDownIconBlack();
 	private boolean mouseOver = false;
 	private MenuImageLocation imgLoc = MenuImageLocation.RIGHT;
+	private boolean makeButton = false;
+	private boolean enabled = true;
+	
+	//optional button
+	private KSButton button;
 	
 	private ClickHandler panelHandler = new ClickHandler(){
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if(!menuPanel.isShowing()){
-				StylishDropDown.this.showMenu();
-			}
-			else{
-				StylishDropDown.this.hideMenu();
+			if(enabled){
+				if(!menuPanel.isShowing()){
+					StylishDropDown.this.showMenu();
+				}
+				else{
+					StylishDropDown.this.hideMenu();
+				}
 			}
 			
 		}
@@ -122,6 +131,15 @@ public class StylishDropDown extends Composite{
 		init();
 	}
 	
+	
+	/**
+	 * This method will make the stylish drop down just a button when a list of 1 item is passed in
+	 * @param makeButton
+	 */
+	public void makeAButtonWhenOneItem(boolean makeButton){
+		this.makeButton = makeButton;
+	}
+	
 	private void init(){
 		layout.clear();
 		layout.setWidth("100%");
@@ -159,15 +177,9 @@ public class StylishDropDown extends Composite{
 		namePanel.addClickHandler(panelHandler);
 		menuPanel.setAutoHideEnabled(true);
 		menuPanel.addAutoHidePartner(namePanel.getElement());
-		menuPanel.addCloseHandler(new CloseHandler<PopupPanel>(){
-			@Override
-			public void onClose(CloseEvent<PopupPanel> event) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		container.setWidget(namePanel);
-		this.initWidget(container);
+		namePanel.getElement().setAttribute("id", HTMLPanel.createUniqueId());
+		parentPanel.add(namePanel);
+		this.initWidget(parentPanel);
 		titleLabel.addStyleName("KS-CutomDropDown-TitleLabel");
 		layout.addStyleName("KS-CustomDropDown-TitlePanel");
 		defaultArrow.addStyleName("KS-CustomDropDown-Arrow");
@@ -189,12 +201,40 @@ public class StylishDropDown extends Composite{
 	}
 	
 	public void setItems(List<KSMenuItemData> items){
-		for(KSMenuItemData item: items){
-			item.addMenuEventHandler(MenuSelectEvent.TYPE, menuHandler);
-			item.addMenuEventHandler(MenuChangeEvent.TYPE, menuHandler);
+		if(makeButton && items.size() == 1){
+			KSMenuItemData item = items.get(0);
+			button = new KSButton();
+			button.addStyleName("ks-button-spacing");
+			button.addClickHandler(item.getClickHandler());
+			button.setText(item.getLabel());
+			parentPanel.clear();
+			parentPanel.add(button);
 		}
-		menu.setItems(items);
+		else{
+			if(!namePanel.isAttached()){
+				parentPanel.clear();
+				parentPanel.add(namePanel);
+			}
+			for(KSMenuItemData item: items){
+				item.addMenuEventHandler(MenuSelectEvent.TYPE, menuHandler);
+				item.addMenuEventHandler(MenuChangeEvent.TYPE, menuHandler);
+			}
+			menu.setItems(items);
+		}
 		
+	}
+	
+	public void setEnabled(boolean enabled){
+		this.enabled = enabled;
+		if(!enabled){
+			layout.addStyleName("KS-CustomDropDown-TitlePanel-Disabled");
+		}
+		else{
+			layout.removeStyleName("KS-CustomDropDown-TitlePanel-Disabled");
+		}
+		if(button != null){
+			button.setEnabled(enabled);
+		}
 	}
 	
 	public void setImageLocation(MenuImageLocation loc){
@@ -204,7 +244,7 @@ public class StylishDropDown extends Composite{
 	
 	@Override
 	public void addStyleName(String style){
-		this.getWidget().addStyleName(style);
+		namePanel.addStyleName(style);
 		menu.addStyleName(style);
 	}
 	

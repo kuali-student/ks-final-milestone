@@ -23,4 +23,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface ServerPropertiesRpcServiceAsync {
     public void get(String property, AsyncCallback<String> callback);
     public void get(List<String> property, AsyncCallback<Map<String,String>> callback);
+    public void getContextPath(AsyncCallback<String> callback);
 }

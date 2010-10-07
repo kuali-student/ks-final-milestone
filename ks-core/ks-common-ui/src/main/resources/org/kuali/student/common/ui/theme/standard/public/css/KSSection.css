@@ -39,6 +39,48 @@
     margin-bottom: .5em;
 }
 
+h1.ks-layout-header{
+	font-size: 3em;
+	color: #940b07;
+	margin-bottom: 0em;
+}
+
+h2.ks-layout-header{
+	font-size: 2em;
+	color: #940b07;
+	padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+h3.ks-layout-header{
+	font-size: 1.5em;
+    color: #000;
+    font-weight: normal;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+h4.ks-layout-header{
+	margin-bottom: 0em;
+}
+
+h5.ks-layout-header{
+	margin-bottom: 0em;
+}
+
+h6.ks-layout-header{
+	margin-bottom: 0em;
+}
+
+h7.ks-layout-header{
+	margin-bottom: 0em;
+}
+
+.header-underline{
+	border-bottom: solid 2px #ccc;
+}
+	
+
 .ks-section-widget{
 	padding-bottom: 3px;
 }
@@ -130,11 +172,15 @@
 	background-color: #f4e271; padding: 6px 6px 6px 15px; position:relative; color: #000; margin-bottom: 10px;
 }
 
-.ks-message-static img {
-	position:absolute; top: -5px; left: -5px; z-index: 900;
+.ks-message-static-margin{
+	margin-bottom: 1em;
 }
 
-.ks-message-static a { margin-left: 10px;}
+.ks-message-static-image {
+	position:absolute; top: -5px; left: -5px; z-index: 2;
+}
+
+.ks-message-static a { }
 
 /*** Comments ***/
 
@@ -319,25 +365,27 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 		color: #444;
 		height: 1%;
 		margin-bottom: 1em;
+		clear: both;
 	}
 }
 
 .ks-form-module {
 		color: #444;
 		margin-bottom: 1em;
+		clear: both;
 }
 
 @if user.agent ie6 ie7 ie8 ie{  
 	.ks-form-module-group, .ks-form-module-solo{
 		height: 1%;
-		margin-bottom: 1em;
+		margin-bottom: 0.1em;
 		padding-left: 5px; 
 		padding-bottom: 5px;
 	}
 }
 
 .ks-form-module-group, .ks-form-module-solo {
-	margin-bottom: 1em;
+	margin-bottom: 0.1em;
 	padding-left: 5px; 
 	padding-bottom: 5px;
 }
@@ -450,38 +498,66 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-validation {
-	/*float: left;*/
+	float: left;
 	font-size: 1em;
 	font-weight: bold;
 	color: red;
-	margin-top: 1.2em;
+	/*margin-top: 1.2em;*/
 	margin-right: 10px;
 	margin-left: 0px;
 	/*width: 40%;*/
 }
 
-.ks-form-module-validation ul { margin: 0; padding: 0; }
+.ks-form-module-validation ul { 
+	background: transparent url('images/common/exclamation-red.png') no-repeat scroll left;;
+	margin: 0; 
+	padding-left: 20px; 
+}
+
+@if user.agent ie6 ie7 ie8 { 
+	.ks-form-module-validation li {
+		margin-left: 0;
+		padding: 3px 0;
+		height: 1%;
+		list-style: none;
+	}
+}
+
 .ks-form-module-validation li {
 	margin-left: 0;
 	padding: 3px 0;
-	height: 1%;
 	list-style: none;
 }
+
 
 .ks-form-module-validation-inline {
 	font-size: 1em;
 	font-weight: bold;
 	color: red;
 	margin-left: 0px;
+	float: left;
 	/*margin-top: 1.2em;*/
 	margin-right: 10px;
 }
 
-.ks-form-module-validation-inline ul { margin: 0; padding: 0;}
-.ks-form-module-validation-inline li {
+.ks-form-module-validation-inline ul { 
+	background: transparent url('images/common/exclamation-red.png') no-repeat scroll left;
+	margin: 0; 
+	padding-left: 20px; 
+}
+
+@if user.agent ie6 ie7 ie8 {  
+	.ks-form-module-validation-inline li {
 	margin-left: 0;
 	padding: 3px 0;
 	height: 1%;
+	list-style: none;
+	}
+}
+
+.ks-form-module-validation-inline li {
+	margin-left: 0;
+	padding: 3px 0;
 	list-style: none;
 }
 
@@ -499,6 +575,7 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 .ks-form-module label, .ks-form-module h6, .ks-form-module .KS-Common-Title { display: block; font-weight: bold; color: #000; line-height: 1.2em; }
 .ks-form-module label span a { font-weight: normal; margin-left: .3em; }
+.ks-form-module-elements label { display: block; font-weight: bold; color: #000; line-height: 1.2em; }
 
 .ks-form-module-triple-line-margin{margin-top: 3.6em;}
 .ks-form-module-double-line-margin{margin-top: 2.4em;}
@@ -552,7 +629,7 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 
 a.ks-form-button-large, span.ks-form-button-large {
 	text-decoration:none;
-	background: #f3f3f3; /*url('../images/icons/plus_13px.png') no-repeat 6px center;*/
+	background: #f3f3f3 url('images/common/plus_13px.png') no-repeat 6px center;
 	padding: 5px 8px 3px 22px;
 	border: solid 1px #d5d5d5;
 	line-height: 23px;
@@ -562,7 +639,7 @@ a.ks-form-button-small, span.ks-form-button-small {
 	text-decoration:none;
 	font-size: .85em;
 	text-decoration:none;
-	background: #f3f3f3; /*url('../images/icons/plus_13px.png') no-repeat 6px center;*/
+	background: #f3f3f3 url('images/common/plus_13px.png') no-repeat 6px center;
 	padding: 5px 8px 3px 22px;
 	border: solid 1px #d5d5d5;
 	line-height: 21px;
@@ -583,6 +660,10 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 
 .invalid label, .invalid h6, .invalid legend, .invalid .KS-Common-Title { color: red; }
 
+label.invalid{color: red;}
+h6.invalid{color: red;}
+legend.invalid{color: red;}
+
 .ks-form-validation-label{ color: red; };
 
 .highlighted { background-color: #fffdd4; }
@@ -590,23 +671,23 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 
 /*** Page: Sub Navigation ***/
 
-.ks-page-sub-navigation-container {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-container {
 	margin: 0 20px;
 	height: 1%;
 }
 
-.ks-page-sub-navigation {
+.ks-page-sub-navigation-container .ks-page-sub-navigation {
 	border-bottom: solid 1px #ccc;
 	padding: 15px 0;
 }
 
-.ks-page-sub-navigation-menu {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu {
 	float:left;
 	margin-right: 35px;
 	color: #666;
 }
 
-.ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
 	font-size: 0.916em;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -617,15 +698,18 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 
 }
 
-.ks-page-sub-navigation-menu ul {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu ul {
 	margin: 0;
 }
 
-.ks-page-sub-navigation-menu li {
+.ks-page-sub-navigation-container .ks-page-sub-navigation-menu li {
 	list-style: none;
 	line-height: 1.3em;
 }
 
+a:focus{
+	text-decoration: underline;
+}
 /* Buttons -------------------------------------------------------------- */
 
 /* ---- Primary ------------------------- */
@@ -644,6 +728,14 @@ a.ks-button-primary {
 	font-weight: bold;
 }
 
+a.ks-button-primary:focus{
+	color: #2C61E6;
+	border: 1px solid #2C61E6;
+	background-color: #FFFFFF;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BFD1FF));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#BFD1FF);
+}
+
 a.ks-button-primary:hover {
 	background-color: #FFFFFF;
 	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BFD1FF));
@@ -654,7 +746,6 @@ a.ks-button-primary:hover {
 .ks-button-primary-disabled {
 	line-height:2.25em;
 	text-decoration:none;
-
 	background-color: #F8F8F8;
 	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
 	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
@@ -681,6 +772,13 @@ a.ks-button-secondary {
 	padding: 7px 10px 5px 10px;
 	color: #2C61E6;
 	font-size: 1.167em;
+}
+
+a.ks-button-secondary:focus {
+	background-color: #FFFFFF;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
+	border: 1px solid #2C61E6;
 }
 
 a.ks-button-secondary:hover {
@@ -722,6 +820,13 @@ a.ks-button-primary-small {
 	font-weight: bold;
 }
 
+a.ks-button-primary-small:focus {
+	background-color: #FFFFFF;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BFD1FF));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#BFD1FF);
+	border: 1px solid #2C61E6;
+}
+
 a.ks-button-primary-small:hover {
 	background-color: #FFFFFF;
 	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BFD1FF));
@@ -761,6 +866,13 @@ a.ks-button-secondary-small {
 	font-size: 1em;
 }
 
+a.ks-button-secondary-small:focus {
+	background-color: #FFFFFF;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
+	border: 1px solid #2C61E6;
+}
+
 a.ks-button-secondary-small:hover {
 	background-color: #FFFFFF;
 	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
@@ -788,12 +900,53 @@ a.ks-button-secondary-small:hover {
 }
 
 .ks-link{
+	
+}
+
+.ks-link-large{
+	line-height: 2.25em;
+	font-size: 1.167em;
+}
+
+.ks-link-large-disabled{
+	color: #999999;
 }
 
 .ks-help-popup{
 	background-color: #FFE87C;
 	padding: 3px 3px 3px 3px;
 	border: 1px solid black;
+	width: 250px;
 }
 
+.ks-table-title-column-width{
+}
 
+.ks-table-field-column-width{
+}
+
+.top-padding{
+	padding-top: 10px;
+}
+
+.ks-button-right-margin{
+	margin-right: 1em;
+}
+
+.ks-header-edit-link{
+	font-size: .6em; padding-left: 1em;
+}
+
+.horizontal-component{
+	width: 50%;
+	float: left;
+}
+
+.accessibility-hidden{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}

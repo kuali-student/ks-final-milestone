@@ -16,14 +16,10 @@
 package org.kuali.student.core.organization.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-
-import org.kuali.student.core.person.dto.PersonRelationInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgTreeInfo implements Serializable {

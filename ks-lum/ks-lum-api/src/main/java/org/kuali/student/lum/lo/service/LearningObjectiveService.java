@@ -21,7 +21,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
@@ -52,7 +52,7 @@ import org.kuali.student.lum.lo.dto.LoTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Learning+Objective+Service+v1.0-rc3">LearningObjectiveService</>
  *
  */
-@WebService(name = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo") // TODO CHECK THESE VALUES
+@WebService(name = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LearningObjectiveService extends DictionaryService, SearchService { 
     /** 
@@ -456,6 +456,6 @@ public interface LearningObjectiveService extends DictionaryService, SearchServi
      * @throws PermissionDeniedException authorization failure
      * @throws DependentObjectsExistException 
 	 */
-    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
+    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }

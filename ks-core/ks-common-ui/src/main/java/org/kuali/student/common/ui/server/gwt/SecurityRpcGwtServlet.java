@@ -16,8 +16,7 @@
 package org.kuali.student.common.ui.server.gwt;
 
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.userdetails.UserDetails;
+import org.kuali.student.common.util.security.SecurityUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -32,20 +31,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
     private static final long serialVersionUID = 1L;
        
     public String getPrincipalUsername(){
-        String username = "unknown";
-        
-        try{
-            Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (obj instanceof UserDetails) {
-                username = ((UserDetails)obj).getUsername();
-              } else {
-                username = obj.toString();
-              }
-        } catch (Exception e){
-            //TODO: How do we handle this?
-        }
-        
-        return username;
+    	return SecurityUtils.getPrincipalUserName();
     }
 
 }

@@ -17,12 +17,11 @@ package org.kuali.student.common.ui.client.widgets.progress;
 
 import java.util.LinkedList;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSMessages;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -30,52 +29,58 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * This class handles a static list of BlockingTasks, when a blocking task is added to the list, the blocking
  * progress indicator is shown to the user and the user can perform no action until all blocking tasks are finished/removed.
- * 
+ *
  * @author Bsmith
  *
  */
 public class KSBlockingProgressIndicator{
-    
+
     private static LinkedList<BlockingTask> tasks = new LinkedList<BlockingTask>();
-	
+
 	private static final VerticalPanel mainPanel = new VerticalPanel();
 	private static final VerticalPanel listPanel = new VerticalPanel();
-	
+
 	private static KSLightBox popupIndicator;
-	
+
 	private static boolean initialized = false;
-	
+    private static int width = 200;
+    private static int height = 30;
 	/**
 	 * Initializes the blocking progress indicator.  This must be called before
 	 * blocking task are added.
-	 * 
+	 *
 	 */
 	public static void initialize(){
-		
-		
+
+
 		mainPanel.add(listPanel);
-	
+
+		//popupIndicator = new KSLightBox(false);
 		popupIndicator = new KSLightBox(false);
+		//popupIndicator.setShowCloseLink(false);
 		
 		popupIndicator.setWidget(mainPanel);
+		popupIndicator.setSize(200, 30);
+		popupIndicator.setGlassStyleName("KS-Blocking-Glass");
+		popupIndicator.showButtons(false);
 		setupDefaultStyle();
 		initialized = true;
 	}
-	
+
 	/**
 	 * Adds a blocking task to the queue.  When all tasks are removed, the indicator
 	 * is no longer shown.
-	 * 
+	 *
 	 * @param task the task description to be added
 	 */
 	public static void addTask(BlockingTask task) {
 		tasks.add(task);
-		updateIndicator();    
+		updateIndicator();
 	}
-	
+
 	/**
 	 * Removes the blocking task from the queue
-	 * 
+	 *
 	 * @param task the task to be removed from the blocking task queue
 	 */
 	public static void removeTask(BlockingTask task) {
@@ -85,39 +90,39 @@ public class KSBlockingProgressIndicator{
 		} else {
 			updateIndicator();
 		}
-		
 	}
-
+    public static void setSize(final int w, final int h) {
+     width = w;
+     height = h;
+    }
 	private static void updateIndicator() {
-		
-		showIndicator();
+
 		listPanel.clear();
-		KSImage kSImage = new KSImage("images/common/twiddler3.gif");
-		for(BlockingTask task: tasks){
-			HorizontalPanel taskPanel = new HorizontalPanel();
-			taskPanel.add(new Label(task.getDescription()));
-			taskPanel.add(kSImage);
-			taskPanel.addStyleName(KSStyles.KS_BLOCKING_TASK_ITEM);
-			listPanel.add(taskPanel);
-		}
+		BlockingTask task = tasks.getLast();
+		HorizontalPanel taskPanel = new HorizontalPanel();
+	    KSImage kSImage = new KSImage("images/common/twiddler3.gif");
+
+		taskPanel.add(kSImage);
+		taskPanel.add(new Label(task.getDescription()));
+		listPanel.add(taskPanel);
 		
+        showIndicator();		
 	}
-	
 	private static void showIndicator(){
 		if(!initialized){
 			initialize();
 		}
+		popupIndicator.setSize(width, height);
 		popupIndicator.show();
 	}
-	
+
 	private static void hideIndicator() {
 		popupIndicator.hide();
 	}
-	
-	private static  void setupDefaultStyle(){
-		listPanel.addStyleName(KSStyles.KS_BLOCKING_TASK_LIST);
-		mainPanel.addStyleName(KSStyles.KS_BLOCKING_TASK_MAIN);
-		mainPanel.addStyleName(KSStyles.KS_MOUSE_NORMAL);
-	}
 
+	private static  void setupDefaultStyle(){
+		listPanel.addStyleName("KS-Blocking-Task-List");
+		mainPanel.addStyleName("KS-Blocking-Task-Main");
+		mainPanel.addStyleName("KS-Mouse-Normal");
+	}
 }

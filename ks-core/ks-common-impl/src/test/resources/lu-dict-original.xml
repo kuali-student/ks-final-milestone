@@ -543,7 +543,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 		serverSide="true">
 		<!-- Must be "active" -->
 		<dict:validChars>
-			<dict:value>regex:active</dict:value>
+			<dict:value>regex:Active</dict:value>
 		</dict:validChars>
 	</dict:constraint>
 	<dict:constraint key="hard.coded.cross-listed" id="hard.coded.cross-listed"
@@ -5998,7 +5998,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 				<dict:fieldRef bean="course.activity.internal.id" />
 			</dict:state>
 			<dict:state key="withdrawn">
-				<!-- Withdrawn (anytime before activated) -->
+				<!-- Withdrawn (anytime before active) -->
 
 				<dict:field key="officialIdentifier">
 					<dict:fieldDescriptor>
@@ -6975,8 +6975,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 				<dict:fieldRef bean="course.activity.state" />
 				<dict:fieldRef bean="course.activity.internal.id" />
 			</dict:state>
-			<dict:state key="activated">
-				<!-- Activated and ready to be published -->
+			<dict:state key="active">
+				<!-- Active and ready to be published -->
 				<dict:fieldRef bean="course.official" />
 				<dict:fieldRef bean="course.alternateIdentifiers" />
 				<dict:fieldRef bean="course.campusLocation" />
@@ -8877,7 +8877,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 				<dict:fieldRef bean="course.activity.internal.id" />
 			</dict:state>
 			<dict:state key="withdrawn">
-				<!-- Withdrawn (anytime before activated) -->
+				<!-- Withdrawn (anytime before active) -->
 
 				<dict:field key="officialIdentifier">
 					<dict:fieldDescriptor>
@@ -9734,8 +9734,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 				<dict:fieldRef bean="course.activity.state" />
 				<dict:fieldRef bean="course.activity.internal.id" />
 			</dict:state>
-			<dict:state key="activated">
-				<!-- Activated and ready to be published -->
+			<dict:state key="active">
+				<!-- Active and ready to be published -->
 				<dict:fieldRef bean="course.official" />
 				<dict:fieldRef bean="course.alternateIdentifiers" />
 				<dict:fieldRef bean="course.campusLocation" />
@@ -11621,7 +11621,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 				<dict:fieldRef bean="course.activity.internal.id" />
 			</dict:state>
 			<dict:state key="withdrawn">
-				<!-- Withdrawn (anytime before activated) -->
+				<!-- Withdrawn (anytime before active) -->
 
 				<dict:field key="officialIdentifier">
 					<dict:fieldDescriptor>
@@ -12478,8 +12478,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 				<dict:fieldRef bean="course.activity.state" />
 				<dict:fieldRef bean="course.activity.internal.id" />
 			</dict:state>
-			<dict:state key="activated">
-				<!-- Activated and ready to be published -->
+			<dict:state key="Active">
+				<!-- Active and ready to be published -->
 				<dict:fieldRef bean="course.official" />
 				<dict:fieldRef bean="course.alternateIdentifiers" />
 				<dict:fieldRef bean="course.campusLocation" />

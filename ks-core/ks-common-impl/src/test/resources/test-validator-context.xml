@@ -1,0 +1,257 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+ <bean id="simpleStudent"
+       class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
+  <property name="name" value="simpleStudent" />
+  <property name="attributes">
+   <list>
+    <ref bean="firstName" />
+    <ref bean="dob" />
+    <ref bean="gpa" />
+   </list>
+  </property>
+ </bean>
+
+ <bean id="firstName"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="firstName" />
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="20" />
+  <property name="minLength" value="2" />
+  <property name="minOccurs" value="1" />
+  <property name="validChars">
+   <bean
+    class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
+    p:value="regex:[a-z]*" />
+  </property>
+ </bean>
+
+ <bean id="dob"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="dob" />
+  <property name="dataType" value="DATE" />
+  <property name="exclusiveMin" value="1970-01-01" />
+  <property name="minOccurs" value="1" />
+ </bean>
+
+ <bean id="gpa"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="gpa" />
+  <property name="dataType" value="DOUBLE" />
+  <property name="exclusiveMin" value="1.0" />
+  <property name="inclusiveMax" value="4.0" />
+  <property name="caseConstraint">
+   <bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+         <property name="minOccurs" value="1"/>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
+ </bean>
+
+ <bean id="addressInfo"
+       class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
+  <property name="name" value="addressInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="line1" />
+    <ref bean="line2" />
+    <ref bean="province" />
+    <ref bean="postalCode" />
+    <ref bean="address.type" />
+    <ref bean="address.state" />
+   </list>
+  </property>
+ </bean>
+ <bean id="line1"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="line1" />
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="30" />
+  <property name="minLength" value="2" />
+  <property name="minOccurs" value="1" />
+  <property name="validChars">
+   <bean
+    class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
+    p:value="regex:[a-z]*" />
+  </property>
+  <property name="lookupDefinition">
+   <bean class="org.kuali.student.core.dictionary.dto.LookupConstraint">
+    <property name="searchTypeId" value="testAddrLine1Search"/>
+    <property name="params">
+     <list>
+      <bean class="org.kuali.student.core.dictionary.dto.CommonLookupParam">
+       <property name="fieldPath" value="line2"/>
+       <property name="key" value="param1"/>
+      </bean>
+      <bean class="org.kuali.student.core.dictionary.dto.CommonLookupParam">
+       <property name="defaultValueString" value="PARAM_2_DEFAULT"/>
+       <property name="key" value="param2"/>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
+  <property name="caseConstraint">
+   <bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="nation"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+       <property name="values">
+        <list>
+         <value>US</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+         <property name="minLength" value="5" />
+         <property name="caseConstraint">
+          <bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+           <property name="operator" value="EQUALS"/>
+           <property name="fieldPath" value="state"/>
+           <property name="caseSensitive" value="false"/>
+           <property name="whenConstraint">
+            <list>
+             <bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+              <property name="values">
+               <list>
+                <value>DRAFT</value>
+               </list>
+              </property>
+              <property name="constraint">
+               <bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+                <property name="minOccurs" value="0"/>
+               </bean>
+              </property>
+             </bean>
+            </list>
+           </property>
+          </bean>
+         </property>
+        </bean>
+       </property>
+      </bean>
+      <bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+       <property name="values">
+        <list>
+         <value>CAN</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+         <property name="maxLength" value="100" />
+         <property name="minOccurs" value="0"/>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
+ </bean>
+ <bean id="line2"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="line2" />
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="30" />
+  <property name="minLength" value="2" />
+  <property name="minOccurs" value="0" />
+  <property name="validChars">
+   <bean
+    class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
+    p:value="regex:[a-z]*" />
+  </property>
+  <property name="requireConstraint">
+   <list>
+    <bean class="org.kuali.student.core.dictionary.dto.RequiredConstraint"
+          p:fieldPath="line1" />
+   </list>
+  </property>
+ </bean>
+
+
+ <bean id="province"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="province" />
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="3" />
+  <property name="minLength" value="2" />
+  <property name="minOccurs" value="1" />
+  <property name="maxOccurs" value="1" />
+ </bean>
+
+
+ <bean id="postalCode"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="postalCode" />
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="6" />
+  <property name="minLength" value="6" />
+  <property name="minOccurs" value="0" />
+  <property name="maxOccurs" value="1" />  
+ </bean>
+
+
+ <bean id="address.type"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="type" />
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="60" />
+  <property name="minLength" value="60" />
+  <property name="minOccurs" value="1" />
+  <property name="maxOccurs" value="1" />
+ </bean>
+
+ <bean id="address.state"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="state" />
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="60" />
+  <property name="minLength" value="60" />
+  <property name="minOccurs" value="1" />
+ </bean>
+
+ <bean id="studentWithAddress"
+       class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
+  <property name="name" value="studentWithAddress" />
+  <property name="attributes">
+   <list>
+    <ref bean="firstName" />
+    <ref bean="dob" />
+    <ref bean="gpa" />
+    <ref bean="address" />
+   </list>
+  </property>
+ </bean>
+ <bean id="address"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="address" />
+  <property name="dataType" value="COMPLEX" />
+  <property name="dataObjectStructure" ref="addressInfo" />
+ </bean>
+
+</beans>

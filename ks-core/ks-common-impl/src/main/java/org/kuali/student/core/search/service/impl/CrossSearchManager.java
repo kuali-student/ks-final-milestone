@@ -38,6 +38,7 @@ import org.kuali.student.core.search.dto.SubSearchInfo;
 import org.kuali.student.core.search.dto.SubSearchParamMappingInfo;
 import org.kuali.student.core.search.dto.JoinComparisonInfo.ComparisonType;
 import org.kuali.student.core.search.dto.JoinCriteriaInfo.JoinType;
+import org.kuali.student.core.search.service.SearchDispatcher;
 
 /**
  * This still needs a few things
@@ -54,178 +55,6 @@ import org.kuali.student.core.search.dto.JoinCriteriaInfo.JoinType;
  */
 public class CrossSearchManager {
 	private SearchDispatcher searchDispatcher;
-//	/**
-//	 * @param args
-//	 */
-//	public static void main(String[] args) {
-//		//JUST FOR TESTING
-//		CrossSearchTypeInfo crossSearch = new CrossSearchTypeInfo();
-//		JoinCriteriaInfo joinCriteria = new JoinCriteriaInfo();
-//		joinCriteria.setJoinType(JoinType.AND);
-//		JoinComparisonInfo comparison = new JoinComparisonInfo();
-//		ComparisonParamInfo leftHandSide = new ComparisonParamInfo();
-//		ComparisonParamInfo rightHandSide = new ComparisonParamInfo();
-//		leftHandSide.setParam("Ks1c1");
-//		leftHandSide.setSubSearchKey("Search1");
-//		rightHandSide.setParam("Ks2c1");
-//		rightHandSide.setSubSearchKey("Search2");
-//		comparison.setLeftHandSide(leftHandSide);
-//		comparison.setRightHandSide(rightHandSide);
-//		comparison.setType(ComparisonType.EQUALS);
-//		joinCriteria.getComparisons().add(comparison);
-//		crossSearch.setJoinCriteria(joinCriteria);
-//		
-//		JoinResultMappingInfo joinResultMapping;
-//		joinResultMapping = new JoinResultMappingInfo();
-//		joinResultMapping.setResultParam("Animal");
-//		joinResultMapping.setSubSearchKey("Search1");
-//		joinResultMapping.setSubSearchResultParam("Ks1c1");
-//		crossSearch.getJoinResultMappings().add(joinResultMapping);
-//		
-//		joinResultMapping = new JoinResultMappingInfo();
-//		joinResultMapping.setResultParam("Sound");
-//		joinResultMapping.setSubSearchKey("Search1");
-//		joinResultMapping.setSubSearchResultParam("Ks1c2");
-//		crossSearch.getJoinResultMappings().add(joinResultMapping);
-//		
-//		joinResultMapping = new JoinResultMappingInfo();
-//		joinResultMapping.setResultParam("Key");
-//		joinResultMapping.setSubSearchKey("Search3");
-//		joinResultMapping.setSubSearchResultParam("Ks3c2");
-//		crossSearch.getJoinResultMappings().add(joinResultMapping);
-//		
-//		List <Map<String,SearchResultRow>> allPermutations = new CrossSearchManager().unionOfAllRows(getTestData());
-//		SearchResult result = new SearchResult();
-//		for(Map<String,SearchResultRow> permutation:allPermutations){
-//			if(new CrossSearchManager().meetsCriteria(permutation,crossSearch,crossSearch.getJoinCriteria())){
-//				SearchResultRow mappedResult = new CrossSearchManager().mapResultRow(permutation,crossSearch);
-//				result.getRows().add(mappedResult);
-//			}
-//		}
-//		SearchRequest request = new SearchRequest();
-//		request.setSortColumn("Sound");
-//		request.setSortDirection(SortDirection.ASC);
-//		new CrossSearchManager().metaFilter(result,request);
-//		prettyPrint(result);
-//		
-//		request.setSortColumn("Key");
-//		request.setSortDirection(SortDirection.ASC);
-//		new CrossSearchManager().metaFilter(result,request);
-//		prettyPrint(result);
-//		
-//		request.setSortColumn("Key");
-//		request.setSortDirection(SortDirection.DESC);
-//		new CrossSearchManager().metaFilter(result,request);
-//		prettyPrint(result);
-//		
-//		request.setSortColumn("Key");
-//		request.setSortDirection(SortDirection.DESC);
-//		request.setStartAt(new Integer(1));
-//		request.setMaxResults(new Integer(4));
-//		new CrossSearchManager().metaFilter(result,request);
-//		prettyPrint(result);
-//		
-//	}
-//	
-//	private static void prettyPrint(SearchResult s){
-//		for(SearchResultRow r:s.getRows()){
-//			for(SearchResultCell c:r.getCells()){
-//				System.out.print("'"+c.getKey()+"'=>'"+c.getValue()+"' ");
-//			}
-//			System.out.print("\n");
-//		}
-//		System.out.print("\n");
-//	}
-//	
-//	private static Map<String, SearchResult> getTestData() {
-//		Map<String, SearchResult> results = new HashMap<String, SearchResult>();		
-//		SearchResult result;
-//		SearchResultRow row;
-//		SearchResultCell cell;
-//		
-//		result = new SearchResult();
-//		row = new SearchResultRow();
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks1c1");
-//		cell.setValue("Cat");
-//		row.getCells().add(cell);
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks1c2");
-//		cell.setValue("Meow");
-//		row.getCells().add(cell);
-//		result.getRows().add(row);
-//		
-//		row = new SearchResultRow();
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks1c1");
-//		cell.setValue("Dog");
-//		row.getCells().add(cell);
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks1c2");
-//		cell.setValue("Bark");
-//		row.getCells().add(cell);
-//		result.getRows().add(row);
-//		
-//		results.put("Search1", result);
-//		
-//		
-//		result = new SearchResult();
-//		row = new SearchResultRow();
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks2c1");
-//		cell.setValue("Cat");
-//		row.getCells().add(cell);
-//		result.getRows().add(row);
-//		
-//		row = new SearchResultRow();
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks2c1");
-//		cell.setValue("Dog");
-//		row.getCells().add(cell);
-//		result.getRows().add(row);
-//
-//		results.put("Search2", result);
-//
-//
-//		result = new SearchResult();
-//		row = new SearchResultRow();
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks3c1");
-//		cell.setValue("Cat");
-//		row.getCells().add(cell);
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks3c2");
-//		cell.setValue("111");
-//		row.getCells().add(cell);
-//		result.getRows().add(row);
-//		
-//		row = new SearchResultRow();
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks3c1");
-//		cell.setValue("Dog");
-//		row.getCells().add(cell);
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks3c2");
-//		cell.setValue("222");
-//		row.getCells().add(cell);
-//		result.getRows().add(row);
-//
-//		row = new SearchResultRow();
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks3c1");
-//		cell.setValue("Fish");
-//		row.getCells().add(cell);
-//		cell = new SearchResultCell();
-//		cell.setKey("Ks3c2");
-//		cell.setValue("333");
-//		row.getCells().add(cell);
-//		result.getRows().add(row);
-//
-//		results.put("Search3", result);
-//
-//		
-//		return results;
-//	}
 
 	public SearchResult doCrossSearch(SearchRequest searchRequest, CrossSearchTypeInfo crossSearchType) {
 		SearchResult searchResult = new SearchResult();
@@ -253,7 +82,7 @@ public class CrossSearchManager {
 							subSearchParam.setValue((List<String>)paramValue);
 						}
 						subSearchRequest.getParams().add(subSearchParam);
-						break;//FIXME breaks are bad... but there is no map in the search params
+						break;
 					}
 				}
 			}
@@ -263,6 +92,15 @@ public class CrossSearchManager {
 		
 		//merge the subsearches together using the join rules (this is in o^2 time which is bad)
 		List <Map<String,SearchResultRow>> allPermutations = unionOfAllRows(subSearchResults);
+
+		int toIndex=0;
+		if(searchRequest.getMaxResults()!=null){
+			if(searchRequest.getStartAt()!=null){
+				toIndex = searchRequest.getStartAt()+searchRequest.getMaxResults();
+			} else {
+				toIndex = searchRequest.getMaxResults();
+			}			
+		}
 		for(Map<String,SearchResultRow> permutation:allPermutations){
 			if(meetsCriteria(permutation,crossSearchType,crossSearchType.getJoinCriteria())){
 				SearchResultRow mappedResult = mapResultRow(permutation,crossSearchType);
@@ -292,6 +130,8 @@ public class CrossSearchManager {
 			Collections.sort(searchResult.getRows(), new SearchResultRowComparator(sortColumn,sortDirection));
 		}
 		
+		
+		
 		//Paginate if we need to
 		if(searchRequest.getMaxResults()!=null){
 			int fromIndex=0;
@@ -299,7 +139,12 @@ public class CrossSearchManager {
 				fromIndex=searchRequest.getStartAt();
 			}
 			int toIndex = fromIndex+searchRequest.getMaxResults();
-			searchResult.setRows(searchResult.getRows().subList(fromIndex, toIndex));
+			SearchResult pagedResult = new SearchResult();
+			for (int i=fromIndex; i <= toIndex; i++) {
+				pagedResult.getRows().add(searchResult.getRows().get(i));
+			}
+			
+			searchResult = pagedResult;
 		}
 		return searchResult;
 	}
@@ -309,7 +154,7 @@ public class CrossSearchManager {
 	 * Compares two SearchResultRow rows with a given sort direction and column
 	 *
 	 */
-	public class SearchResultRowComparator implements Comparator<SearchResultRow> {
+	private static class SearchResultRowComparator implements Comparator<SearchResultRow> {
 		private String sortColumn;
 		private SortDirection sortDirection;
 		

@@ -47,13 +47,16 @@
     <param name="ks.lum.jpa.generateDdl">false</param>
     <param name="ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JOTMTransactionManagerLookup</param>
     <param name="ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
-    
+    <param name="ks.lum.jpa.JpaProperties.hibernate.connection.release_mode">after_statement</param>
+    <param name="ks.lum.jpa.JpaProperties.hibernate.connection.autocommit">false</param>
+                	   
     <param name="ks.lum.bus.security">false</param>
     
     <param name="ks.lum.doDataLoad">false</param>
     
     <param name="ks.lum.dictionary.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
     <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
+    <param name="ks.lum.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
     
     
         <!-- Rice URLS -->

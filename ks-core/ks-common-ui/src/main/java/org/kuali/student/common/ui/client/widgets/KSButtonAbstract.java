@@ -32,6 +32,7 @@ public abstract class KSButtonAbstract extends Composite implements HasClickHand
 		FORM_LARGE("ks-form-button-large", null),
 		HELP("ks-form-module-elements-help", null),
 		DELETE("ks-form-module-elements-delete", null),
+		ANCHOR_LARGE_CENTERED("ks-link-large", "ks-link-large-disabled"),
 		DEFAULT_ANCHOR("ks-link", "ks-link-disabled");
 		
 		private String style;
@@ -57,14 +58,13 @@ public abstract class KSButtonAbstract extends Composite implements HasClickHand
 	
 	public abstract void setText(String text);
 	
+    public abstract void init();
+    
 	public abstract void init(String text);
 	
-	public abstract void init(String text, ButtonStyle style);
-	
-	
-	public abstract void init();
-	
+	public abstract void init(String text, ButtonStyle style);		
+
 	public abstract void init(String text, ClickHandler handler);
 
-
+    public abstract void init(String text, ButtonStyle style, ClickHandler handler);
 }

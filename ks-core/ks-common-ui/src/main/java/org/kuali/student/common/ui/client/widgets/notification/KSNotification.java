@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSNotification extends Composite implements HasCloseHandlers<KSNotification>{
 	private final int duration;
+	public static final int DEFAULT_DURATION = 4000;
 	private final String id = HTMLPanel.createUniqueId();
 	private final String contentId = HTMLPanel.createUniqueId();
 	private final String closeLinkId = HTMLPanel.createUniqueId();
@@ -42,6 +43,21 @@ public class KSNotification extends Composite implements HasCloseHandlers<KSNoti
 	
 	public KSNotification(final String message, boolean isHtml, final int duration) {
 		this.duration = duration;
+		panel.setStyleName("ks-notification-message");
+		panel.getElement().setId(id);
+		
+		if (isHtml) {
+			panel.add(new HTML(message), contentId);
+		} else {
+			panel.getElementById(contentId).setInnerText(message);
+		}
+		
+		initHandlers();
+		super.initWidget(panel);
+	}
+	
+	public KSNotification(final String message, boolean isHtml) {
+		this.duration = DEFAULT_DURATION;
 		panel.setStyleName("ks-notification-message");
 		panel.getElement().setId(id);
 		

@@ -29,8 +29,8 @@ public class ConfirmCancelGroup extends ButtonGroup<ConfirmCancelEnum>{
         layout = new ButtonRow();
         this.addCallback(callback);
         
-        addButton(ConfirmCancelEnum.CANCEL);
-        addButtonToSecondaryGroup(ConfirmCancelEnum.CONFIRM);
+        addButton(ConfirmCancelEnum.CONFIRM);
+        addButtonToSecondaryGroup(ConfirmCancelEnum.CANCEL);
         
         this.initWidget(layout);
     }

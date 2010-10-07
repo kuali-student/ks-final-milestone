@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.dto;
  
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -41,6 +43,9 @@ public class CluFeeInfo implements Serializable, HasAttributes {
     @XmlAttribute
     private String id;    
     
+    @XmlElement
+    private RichTextInfo descr;
+        
     @XmlElement
     private List<CluFeeRecordInfo> cluFeeRecords;
     
@@ -66,6 +71,9 @@ public class CluFeeInfo implements Serializable, HasAttributes {
     }
 
 	public List<CluFeeRecordInfo> getCluFeeRecords() {
+		if(cluFeeRecords == null){
+			cluFeeRecords = new ArrayList<CluFeeRecordInfo>(0);
+		}
 		return cluFeeRecords;
 	}
 
@@ -79,6 +87,17 @@ public class CluFeeInfo implements Serializable, HasAttributes {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * Narrative description of the CLU Fee
+	 */
+	public RichTextInfo getDescr() {
+		return descr;
+	}
+
+	public void setDescr(RichTextInfo descr) {
+		this.descr = descr;
 	}
 
 	public MetaInfo getMetaInfo() {

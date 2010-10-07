@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +23,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -39,7 +37,7 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_CATEGORY")
+@Table(name = "KSLO_LO_CATEGORY")
 public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryAttribute> {
 	@Id
 	@Column(name = "ID")
@@ -64,9 +62,6 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	@Column(name="STATE")
 	private String state;
 	
-	@ManyToMany(mappedBy="categories")
-	private List<Lo> los;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
 	private Date effectiveDate;
@@ -143,17 +138,6 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 		return state;
 	}
 
-	public void setLos(List<Lo> los) {
-		this.los = los;
-	}
-
-	public List<Lo> getLos() {
-		if (null == los) {
-			los = new ArrayList<Lo>(0);
-		}
-		return los;
-	}
-
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -175,9 +159,6 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	 */
 	@Override
 	public List<LoCategoryAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoCategoryAttribute>(0);
-		}
 		return attributes;
 	}
 

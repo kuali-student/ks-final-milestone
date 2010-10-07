@@ -219,6 +219,7 @@
 }
 
 .gwt-Hyperlink {
+	display: inline;
 }
 
 .gwt-Image {
@@ -676,6 +677,7 @@
 
 .gwt-SuggestBox {
   padding: 2px;
+  display: block;
 }
 .gwt-SuggestBoxPopup {
   margin-left: 3px;

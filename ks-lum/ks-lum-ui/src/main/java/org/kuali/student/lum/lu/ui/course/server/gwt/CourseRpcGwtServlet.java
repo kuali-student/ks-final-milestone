@@ -15,54 +15,42 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
+import java.util.List;
+
+import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
+import org.kuali.student.lum.program.service.ProgramService;
 
-/**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
- * 
- * @author Kuali Rice Team (kuali-rice@googlegroups.com)
- *
- */
-public class CourseRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements CourseRpcService {
+public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcService {
 
-    private static final long serialVersionUID = 1L;
-    
-    private static final String DEFAULT_METADATA_STATE = "active";
-    private static final String DEFAULT_METADATA_TYPE = "course";
-    private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
+	private static final long serialVersionUID = 1L;
 
+    private CourseService courseService;    
 
     @Override
-    protected String deriveAppIdFromData(Data data) {
-        CreditCourseHelper clu = CreditCourseHelper.wrap(data);
-        if(clu!=null&&clu.getData()!=null){
-            return clu.getId();
-        }
-        return null;  
-     }
-
-    @Override
-    protected String deriveDocContentFromData(Data data) {
-        // TODO hjohnson - WHAT GOES HERE?
-        return null;
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
+        return courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
     }
 
     @Override
-    protected String getDefaultMetaDataState() {
-        return DEFAULT_METADATA_STATE;
+    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return courseService.updateCourseStatement(courseId, statementTreeViewInfo);
     }
 
     @Override
-    protected String getDefaultMetaDataType() {
-        return DEFAULT_METADATA_TYPE;
+    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return courseService.createCourseStatement(courseId, statementTreeViewInfo);
     }
 
     @Override
-    protected String getDefaultWorkflowDocumentType() {
-        return WF_TYPE_CLU_DOCUMENT;
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return courseService.deleteCourse(courseId);
     }
 
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
 }

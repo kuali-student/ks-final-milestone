@@ -76,12 +76,6 @@
 	position:relative;
 }
 
-.KS-Message-Static img {
-	left:-6px;
-	position:absolute;
-	top:4px;
-}
-
 .KS-Workflow-Status {
 	background-color: #E0E0E0;
 	background-image:url(images/common/node.png);

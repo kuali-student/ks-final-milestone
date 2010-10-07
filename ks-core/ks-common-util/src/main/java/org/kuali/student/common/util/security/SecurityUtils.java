@@ -15,12 +15,17 @@
 
 package org.kuali.student.common.util.security;
 
-import org.kuali.student.security.spring.UserWithId;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 
 public class SecurityUtils {
+	
+	/** 
+	 * This can be used to get the current user id from security context
+	 * 
+	 * @return userId
+	 */
 	public static String getCurrentUserId() {
         String username=null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -37,4 +42,21 @@ public class SecurityUtils {
         }
 		return username;
 	}
+	
+	public static String getPrincipalUserName(){
+		String username = "unknown";
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			Object obj = auth.getPrincipal();
+		    if (obj instanceof UserDetails) {
+		    	username = ((UserDetails)obj).getUsername();
+		    } else {
+		        username = obj.toString();
+		    }
+		}
+
+	    return username;
+	}
+
 }

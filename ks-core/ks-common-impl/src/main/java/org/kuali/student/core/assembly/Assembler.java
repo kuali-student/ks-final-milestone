@@ -32,6 +32,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
  *  	- many "passthrough" properties will still have a rename along the way, and possibly a transformation of their position within the graph, e.g.
  *  		cluInfo/officialIdentifier/shortName -> proposal/transcriptTitle  
  */
+@Deprecated
 public interface Assembler<TargetType, SourceType> {
 	
 	TargetType get(String id) throws AssemblyException;

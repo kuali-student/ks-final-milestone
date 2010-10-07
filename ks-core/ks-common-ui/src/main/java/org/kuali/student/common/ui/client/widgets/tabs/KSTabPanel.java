@@ -25,10 +25,16 @@ import com.google.gwt.user.client.ui.Widget;
 public class KSTabPanel extends KSTabPanelAbstract {
 	
 	public static enum TabPosition{LEFT, RIGHT};
+	public static enum TabPanelStyle{FULL_PAGE, SMALL}
 
     private KSTabPanelAbstract panel = GWT.create(KSTabPanelImpl.class);
 
     public KSTabPanel(){
+    	this.initWidget(panel);
+    }
+    
+    public KSTabPanel(TabPanelStyle style){
+    	panel.setTabPanelStyle(style);
     	this.initWidget(panel);
     }
 
@@ -114,6 +120,11 @@ public class KSTabPanel extends KSTabPanelAbstract {
 	@Override
 	public boolean hasTabKey(String key) {
 		return panel.hasTabKey(key);
+	}
+
+	@Override
+	public void setTabPanelStyle(TabPanelStyle style) {
+		panel.setTabPanelStyle(style);
 	}
 
 }

@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -132,9 +131,6 @@ public class LuiLuiRelation extends MetaEntity implements
 	}
 
 	public List<LuiLuiRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LuiLuiRelationAttribute>();
-		}
 		return attributes;
 	}
 

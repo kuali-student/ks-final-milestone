@@ -15,6 +15,9 @@
 
 package org.kuali.student.common.ui.client.widgets.table;
 
+import org.kuali.student.common.ui.client.widgets.rules.Token;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -25,11 +28,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 
 public class NodeWidget extends SimplePanel implements NativePreviewHandler {
     private Node node;
@@ -102,7 +101,7 @@ public class NodeWidget extends SimplePanel implements NativePreviewHandler {
             return;
         }else if(this.getElement().is(Element.as(target)) && 
                 Event.as(event).getTypeInt() == Event.ONMOUSEDOWN ){
-                    System.out.println("doing");
+                    GWT.log("doing", null);
                   boolean before = checkBox.getValue();
                                   checkBox.setValue(!before);
                                   ValueChangeEvent.fireIfNotEqual(checkBox, before,checkBox.getValue());

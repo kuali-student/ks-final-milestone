@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
  
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -68,9 +67,6 @@ public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
     }
     
     public List<CluInstructorAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluInstructorAttribute>();
-        }
         return attributes;
     }
 

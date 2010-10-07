@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
  
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,9 +32,6 @@ public class ResultUsageType extends Type<ResultUsageTypeAttribute> {
     private List<ResultUsageTypeAttribute> attributes;
     
     public List<ResultUsageTypeAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<ResultUsageTypeAttribute>();
-        }
         return attributes;
     }
 

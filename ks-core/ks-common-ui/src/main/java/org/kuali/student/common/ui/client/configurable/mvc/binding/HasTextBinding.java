@@ -103,15 +103,7 @@ public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
                 }
             } catch (Exception e) {
                 GWT.log("Unable to coerce type for " + path + ", falling back to String", e);
-                //TODO unsure if I should do this here or check for empty string when validating number values in DataValidator
-/*                if(newValue.isEmpty()){
-                	String s = null;
-                	model.set(qPath, s);
-                }*/
-                //else{
-                	model.set(qPath, newValue);
-                //}
-                
+                model.set(qPath, newValue);
             }
         } catch (Exception e) {
             GWT.log("Error setting model value for: " + path, e);

@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.kuali.student.common.ui.client.widgets.rules.Token;
+
 /**
  * This is the parser for boolean expression.
  * It checks the error, creates the Reverse Polish notation,
