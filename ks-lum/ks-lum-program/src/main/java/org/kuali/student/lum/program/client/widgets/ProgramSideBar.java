@@ -4,7 +4,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -35,10 +34,13 @@ public class ProgramSideBar extends Composite {
     private SimplePanel scheduledReviewDate = new SimplePanel();
     private Label lastReviewDate = new Label();
 
+    private SideBarDialogManager dialogManager;
+
     private DateTimeFormat df = DateTimeFormat.getFormat("dd-MMM-yyyy");
 
     public ProgramSideBar(HandlerManager eventBus) {
         this.eventBus = eventBus;
+        dialogManager = new SideBarDialogManager(eventBus);
         initWidget(content);
         setStyles();
         buildLayout();
@@ -59,6 +61,7 @@ public class ProgramSideBar extends Composite {
         });
     }
 
+
     private void buildLayout() {
         content.clear();
         content.add(historyLabel);
@@ -78,7 +81,7 @@ public class ProgramSideBar extends Composite {
 
                 @Override
                 public void onClick(ClickEvent event) {
-                    Window.alert("Dialog popup");
+                    dialogManager.show();
                 }
             });
             datePanel.add(edit);

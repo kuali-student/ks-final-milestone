@@ -37,7 +37,8 @@ public class DataModelDefinition implements ModelDefinition {
 	public DataModelDefinition(Metadata metadata) {
 		this.metadata = metadata;
 	}
-	
+
+
 	@Override
 	public void ensurePath(Data root, QueryPath path, boolean includeLeafNode) {
 		try {

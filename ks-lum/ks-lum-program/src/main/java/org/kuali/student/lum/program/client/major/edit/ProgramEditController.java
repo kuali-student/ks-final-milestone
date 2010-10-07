@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.events.UpdateEventHandler;
@@ -54,6 +55,7 @@ public class ProgramEditController extends MajorController {
     @Override
     protected void configureView() {
         super.configureView();
+        eventBus.fireEvent(new MetadataLoadedEvent(programModel.getDefinition().getMetadata(), this));
         if (!initialized) {
             List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
