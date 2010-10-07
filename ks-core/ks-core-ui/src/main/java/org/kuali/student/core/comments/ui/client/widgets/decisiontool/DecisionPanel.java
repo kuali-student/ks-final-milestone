@@ -68,6 +68,7 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 	private static String RETURN_DECISION = "kuali.comment.type.workflowDecisionRationale.return";
 	private static String ACK_DECISION = "kuali.comment.type.workflowDecisionRationale.acknowledge";
 	private static String FYI_DECISION = "kuali.comment.type.workflowDecisionRationale.fyi";
+	private static String WITHDRAW_DECISION = "kuali.comment.type.workflowDecisionRationale.withdraw";
 
 	private DefaultTableModel tableModel;
 
@@ -200,6 +201,10 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 				if (commentInfo.getType().equals(FYI_DECISION)) {
 					theRow.setId(commentInfo.getId());
 					theRow.setValue("Decision", "FYI");
+				}
+				if (commentInfo.getType().equals(WITHDRAW_DECISION)) {
+					theRow.setId(commentInfo.getId());
+					theRow.setValue("Decision", "Withdraw");
 				}
 				SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
 				StringBuilder rationaleDate = new StringBuilder(dateformat
