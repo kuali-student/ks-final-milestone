@@ -1990,8 +1990,15 @@
               
    </bean>
 
-     <bean id="majorDisciplineInfo.nextReviewPeriod" parent="uilookupconfig-parent">
+     <bean id="nextReviewPeriod" parent="uilookupconfig-parent">
           <property name="path" value="majorDisciplineInfo.nextReviewPeriod" />
+          <property name="initialLookup"
+              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+
+   </bean>
+
+      <bean id="lastReviewDate" parent="uilookupconfig-parent">
+          <property name="path" value="majorDisciplineInfo.lastReviewDate" />
           <property name="initialLookup"
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
 

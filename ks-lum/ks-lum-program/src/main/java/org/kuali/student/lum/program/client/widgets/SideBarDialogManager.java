@@ -10,7 +10,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ContinueCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
 import org.kuali.student.lum.program.client.events.MetadataLoadedEventHandler;
@@ -52,15 +52,15 @@ class SideBarDialogManager {
         eventBus.addHandler(MetadataLoadedEvent.TYPE, new MetadataLoadedEventHandler() {
             @Override
             public void onEvent(MetadataLoadedEvent event) {
-                configureView(event.getMetadata(), event.getController());
+                configureView(event.getModelDefinition(), event.getController());
             }
         });
     }
 
-    private void configureView(Metadata metadata, ProgramEditController controller) {
+    private void configureView(ModelDefinition modelDefinition, ProgramEditController controller) {
         VerticalSection verticalSection = new VerticalSection();
-        verticalSection.addField(new FieldDescriptor(ProgramConstants.SCHEDULED_REVIEW_DATE, new MessageKeyInfo("Last Updated Date"), metadata));
-        verticalSection.addField(new FieldDescriptor(ProgramConstants.LAST_REVIEW_DATE, new MessageKeyInfo("Last Review Date"), metadata));
+        verticalSection.addField(new FieldDescriptor(ProgramConstants.SCHEDULED_REVIEW_DATE, new MessageKeyInfo("Scheduled Review Date"), modelDefinition.getMetadata(ProgramConstants.SCHEDULED_REVIEW_DATE)));
+        verticalSection.addField(new FieldDescriptor(ProgramConstants.LAST_REVIEW_DATE, new MessageKeyInfo("Last Review Date"), modelDefinition.getMetadata(ProgramConstants.LAST_REVIEW_DATE)));
         dialogView.setLayoutController(controller);
         dialogView.addSection(verticalSection);
     }

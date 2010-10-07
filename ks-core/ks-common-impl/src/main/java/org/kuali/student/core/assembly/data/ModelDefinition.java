@@ -31,5 +31,6 @@ public interface ModelDefinition extends Serializable{
 	public void ensurePath(final Data root, final QueryPath path, boolean includeLeafNode);
 	public DataType getType(final QueryPath path);
 	public Metadata getMetadata(final QueryPath path);
+	Metadata getMetadata(String path);
     Metadata getMetadata();
 }

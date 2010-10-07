@@ -1,7 +1,7 @@
 package org.kuali.student.lum.program.client.events;
 
 import com.google.gwt.event.shared.GwtEvent;
-import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.lum.program.client.major.edit.ProgramEditController;
 
 /**
@@ -11,17 +11,17 @@ public class MetadataLoadedEvent extends GwtEvent<MetadataLoadedEventHandler> {
 
     public static Type<MetadataLoadedEventHandler> TYPE = new Type<MetadataLoadedEventHandler>();
 
-    private Metadata metadata;
+    private ModelDefinition modelDefinition;
 
     private ProgramEditController controller;
 
-    public MetadataLoadedEvent(Metadata metadata, ProgramEditController controller) {
-        this.metadata = metadata;
+    public MetadataLoadedEvent(ModelDefinition modelDefinition, ProgramEditController controller) {
+        this.modelDefinition = modelDefinition;
         this.controller = controller;
     }
 
-    public Metadata getMetadata() {
-        return metadata;
+    public ModelDefinition getModelDefinition() {
+        return modelDefinition;
     }
 
     public ProgramEditController getController() {
