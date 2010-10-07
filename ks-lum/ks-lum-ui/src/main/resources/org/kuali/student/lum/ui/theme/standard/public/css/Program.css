@@ -20,14 +20,7 @@
 
 /* Program Summary View */
 .KS-Program-Requirements-Preview-Rule-Type-First-Header {
-    border-bottom:1px solid #D7D7D7;
-    padding-bottom:8px;
-    padding-top:15px;
-    width:650px;
-}
-
-.KS-Program-Requirements-Preview-Rule-Type-First-Desc {
-    padding-bottom:10px;
+    padding-top: 20px;
 }
 
 .KS-Program-Requirements-Preview-Rule-Type-Header {
@@ -92,4 +85,8 @@
 
 .programController .sideBar .history {
     font-weight: bold;
+}
+
+.programController .sideBar .datePanel {
+    border-spacing: 2px;
 }

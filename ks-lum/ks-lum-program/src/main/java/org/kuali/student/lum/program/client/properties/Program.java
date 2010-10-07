@@ -736,6 +736,33 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programSpecialization_instructions();
 
   /**
+   * Translated "Edit Dates".
+   * 
+   * @return translated "Edit Dates"
+   */
+  @DefaultMessage("Edit Dates")
+  @Key("sideBar.dialog.title")
+  String sideBar_dialog_title();
+
+  /**
+   * Translated "Last review date".
+   * 
+   * @return translated "Last review date"
+   */
+  @DefaultMessage("Last review date")
+  @Key("sideBar.form.lastReviewDate")
+  String sideBar_form_lastReviewDate();
+
+  /**
+   * Translated "Scheduled review date".
+   * 
+   * @return translated "Scheduled review date"
+   */
+  @DefaultMessage("Scheduled review date")
+  @Key("sideBar.form.scheduledReviewDate")
+  String sideBar_form_scheduledReviewDate();
+
+  /**
    * Translated "HISTORY".
    * 
    * @return translated "HISTORY"

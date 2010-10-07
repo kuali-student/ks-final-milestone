@@ -32,7 +32,7 @@ public class ProgramSideBar extends Composite {
     private Label historyLabel = new Label(ProgramProperties.get().sideBar_history());
     private Label lastUpdatedDate = new Label();
     private SimplePanel scheduledReviewDate = new SimplePanel();
-    private Label lastReviewDate = new Label();
+    private SimplePanel lastReviewDate = new SimplePanel();
 
     private SideBarDialogManager dialogManager;
 
@@ -56,7 +56,10 @@ public class ProgramSideBar extends Composite {
                 Widget widget = DefaultWidgetFactory.getInstance().getReadOnlyWidget(model.getMetadata(QueryPath.parse(ProgramConstants.SCHEDULED_REVIEW_DATE)));
                 HasDataValueBinding.INSTANCE.setWidgetValue((HasDataValue) widget, model, ProgramConstants.SCHEDULED_REVIEW_DATE);
                 scheduledReviewDate.setWidget(widget);
-                lastReviewDate.setText(model.<String>get(ProgramConstants.LAST_REVIEW_DATE));
+
+                Widget widget1 = DefaultWidgetFactory.getInstance().getReadOnlyWidget(model.getMetadata(QueryPath.parse(ProgramConstants.LAST_REVIEW_DATE)));
+                HasDataValueBinding.INSTANCE.setWidgetValue((HasDataValue) widget1, model, ProgramConstants.LAST_REVIEW_DATE);
+                lastReviewDate.setWidget(widget1);
             }
         });
     }
@@ -74,6 +77,7 @@ public class ProgramSideBar extends Composite {
     private Widget createDatePanel(String title, Widget widget, boolean showEdit) {
         VerticalPanel verticalPanel = new VerticalPanel();
         HorizontalPanel datePanel = new HorizontalPanel();
+        datePanel.addStyleName("datePanel");
         datePanel.add(widget);
         if (state == State.EDIT && showEdit) {
             Anchor edit = new Anchor("edit");
