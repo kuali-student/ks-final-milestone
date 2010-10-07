@@ -1616,6 +1616,37 @@
 		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
 	</bean>	
 	
+	<bean id="kuali.common.enumeration.management.search.intensity" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.enumeration.management.search.intensity" />
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.atptype.duration" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key"
+						value="enumeration.queryParam.enumerationOptionalCode" />
+					<property name="name" value="UniversityClassification code" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="dataType" value="STRING" />
+					<property name="usage" value="DEFAULT" />
+					<property name="optional" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	</bean>		
 	<bean id="kuali.common.enumeration.management.search.advanced.cip2000Code" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.enumeration.management.search.advanced.cip2000Code" />
 		<property name="searchTypeId" value="enumeration.management.search" />		
