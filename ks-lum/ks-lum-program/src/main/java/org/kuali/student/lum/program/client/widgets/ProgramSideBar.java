@@ -52,16 +52,20 @@ public class ProgramSideBar extends Composite {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 DataModel model = event.getModel();
-                lastUpdatedDate.setText(df.format((Date) model.get(ProgramConstants.LAST_UPDATED_DATE)));
-                Widget widget = DefaultWidgetFactory.getInstance().getReadOnlyWidget(model.getMetadata(QueryPath.parse(ProgramConstants.SCHEDULED_REVIEW_DATE)));
-                HasDataValueBinding.INSTANCE.setWidgetValue((HasDataValue) widget, model, ProgramConstants.SCHEDULED_REVIEW_DATE);
-                scheduledReviewDate.setWidget(widget);
-
-                Widget widget1 = DefaultWidgetFactory.getInstance().getReadOnlyWidget(model.getMetadata(QueryPath.parse(ProgramConstants.LAST_REVIEW_DATE)));
-                HasDataValueBinding.INSTANCE.setWidgetValue((HasDataValue) widget1, model, ProgramConstants.LAST_REVIEW_DATE);
-                lastReviewDate.setWidget(widget1);
+                Date updatedDate = (Date) model.get(ProgramConstants.LAST_UPDATED_DATE);
+                if (updatedDate != null) {
+                    lastUpdatedDate.setText(df.format(updatedDate));
+                }
+                setWidget(ProgramConstants.SCHEDULED_REVIEW_DATE, scheduledReviewDate, model);
+                setWidget(ProgramConstants.LAST_REVIEW_DATE, lastReviewDate, model);
             }
         });
+    }
+
+    private void setWidget(String path, SimplePanel container, DataModel model) {
+        Widget widget = DefaultWidgetFactory.getInstance().getReadOnlyWidget(model.getMetadata(QueryPath.parse(path)));
+        HasDataValueBinding.INSTANCE.setWidgetValue((HasDataValue) widget, model, path);
+        container.setWidget(widget);
     }
 
 

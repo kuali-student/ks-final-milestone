@@ -862,6 +862,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String variationCatalogInformation_descr();
 
   /**
+   * Translated "Add Specialization".
+   * 
+   * @return translated "Add Specialization"
+   */
+  @DefaultMessage("Add Specialization")
+  @Key("variationInformation.button.addSpecialization")
+  String variationInformation_button_addSpecialization();
+
+  /**
    * Translated "Key Specialization Information".
    * 
    * @return translated "Key Specialization Information"
