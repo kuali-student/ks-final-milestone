@@ -19,6 +19,12 @@ insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kual
 insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.state', 'KS Data States', 'KS Data States' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
 insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.fee.feeType', 'Learning Unit Fee Type', 'Learning Unit Fee Type' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
 insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.fee.rateType', 'Learning Unit Rate Type', 'Learning Unit Rate Type' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.enum.type.cip2010', 'CIP 2010', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'CIP Codes 2010');
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.enum.type.cip2000', 'CIP 2000', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'CIP Codes 2000');
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.enum.lu.program.level', 'Program Level', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'Program Level');
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.lu.code.UniversityClassification', 'University Classification', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'University Classification');
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.lu.finalExam.status', 'Final Exam Status', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'Final Exam Status');
+
 
 --Enumerated Values
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('1', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 1, 'Robotics');

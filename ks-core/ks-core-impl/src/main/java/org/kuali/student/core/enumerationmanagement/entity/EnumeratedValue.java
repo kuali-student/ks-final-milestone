@@ -27,6 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -47,8 +48,9 @@ public class EnumeratedValue {
     @Column(name="VAL")
     String value;
 
-    @Column(name="ENUM_KEY")
-    String enumerationKey;
+    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity=Enumeration.class )
+    @JoinColumn(name="ENUM_KEY")
+    Enumeration enumeration;
         
     @Column(name="ABBREV_VAL")
     String abbrevValue;
@@ -80,6 +82,7 @@ public class EnumeratedValue {
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID();
     }
+    
     public String getId() {
         return id;
     }
@@ -88,12 +91,12 @@ public class EnumeratedValue {
         this.id = id;
     }
 
-    public String getEnumerationKey() {
-        return enumerationKey;
+    public Enumeration getEnumeration() {
+        return enumeration;
     }
 
-    public void setEnumerationKey(String enumerationKey) {
-        this.enumerationKey = enumerationKey;
+    public void setEnumeration(Enumeration enumeration) {
+        this.enumeration = enumeration;
     }
 
     public String getCode() {
