@@ -44,8 +44,7 @@ class SideBarDialogManager {
         buttonGroup.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
             @Override
             public void exec(ButtonEnumerations.ButtonEnum button) {
-                ButtonEnumerations.ButtonEnum actionType = button.getActionType();
-                if (actionType == ButtonEnumerations.SaveCancelEnum.SAVE) {
+                if (button == ButtonEnumerations.SaveCancelEnum.SAVE) {
                     dialogView.updateModel();
                     eventBus.fireEvent(new UpdateEvent());
                 }
