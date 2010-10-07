@@ -927,6 +927,8 @@
 <ref bean="programRequirementInfo.state"/>
 <ref bean="programRequirementInfo.statement"/>
 <ref bean="programRequirementInfo.type"/>
+<ref bean="programRequirementInfo.minCredits"/>
+<ref bean="programRequirementInfo.maxCredits"/>
 </list>
 </property>
 <property name="hasMetaData" value="true"/>
@@ -959,7 +961,14 @@
 <property name="name" value="shortTitle"/>
 </bean>
 <bean id="programRequirementInfo.shortTitle" parent="programRequirementInfo.shortTitle-parent"/>
-
+<bean id="programRequirementInfo.minCredits-parent" abstract="true" parent="baseInteger">
+<property name="name" value="minCredits"/>
+</bean>
+<bean id="programRequirementInfo.minCredits" parent="programRequirementInfo.minCredits-parent"/>
+<bean id="programRequirementInfo.maxCredits-parent" abstract="true" parent="baseInteger">
+<property name="name" value="maxCredits"/>
+</bean>
+<bean id="programRequirementInfo.maxCredits" parent="programRequirementInfo.maxCredits-parent"/>
 <bean id="programRequirementInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
 <property name="name" value="state"/>
 </bean>
