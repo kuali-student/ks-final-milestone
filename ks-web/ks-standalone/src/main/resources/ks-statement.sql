@@ -437,14 +437,18 @@ INSERT INTO KSST_NL_USAGE_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VAL
 
 // KSST_OBJECT_TYPE
 INSERT INTO KSST_OBJECT_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu', 'Kuali CLU', 'Kuali CLU', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_OBJECT_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.lu.type.CreditCourse', 'An course offered for academic credit', 'Kuali CLU', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_OBJECT_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.lu.type.Requirement', 'Program requirements', 'Kuali CLU', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 
 // KSST_OBJECT_SUB_TYPE
-INSERT INTO KSST_OBJECT_SUB_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('course', 'Kuali Course', 'Kuali Course', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_OBJECT_SUB_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('program', 'Kuali Program', 'Kuali Program', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+// TODO: Deprecated - to be removed with new statement service change
+//INSERT INTO KSST_OBJECT_SUB_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('course', 'Kuali Course', 'Kuali Course', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+//INSERT INTO KSST_OBJECT_SUB_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('program', 'Kuali Program', 'Kuali Program', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 
 // KSST_OBJ_TYP_JN_OBJ_SUB_TYP
-INSERT INTO KSST_OBJ_TYP_JN_OBJ_SUB_TYP (OBJ_TYPE_ID, OBJ_SUB_TYPE_ID) VALUES ('clu', 'course')
-INSERT INTO KSST_OBJ_TYP_JN_OBJ_SUB_TYP (OBJ_TYPE_ID, OBJ_SUB_TYPE_ID) VALUES ('clu', 'program')
+// TODO: Deprecated - to be removed with new statement service changes
+//INSERT INTO KSST_OBJ_TYP_JN_OBJ_SUB_TYP (OBJ_TYPE_ID, OBJ_SUB_TYPE_ID) VALUES ('clu', 'course')
+//INSERT INTO KSST_OBJ_TYP_JN_OBJ_SUB_TYP (OBJ_TYPE_ID, OBJ_SUB_TYPE_ID) VALUES ('clu', 'program')
 
 // KSST_REF_STMT_REL_TYPE
 // Course
@@ -467,21 +471,24 @@ INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT)
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.completion', 'CLU Completion Requirements', 'CLU Completion Requirements', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 // TODO: Deprecated - remove
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.rule', 'CLU Rules', 'CLU Rules', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+// TODO: temperary fix until object sub type is removed and new service method is created to find exact ref stmt relation type by stmt type and object type
+INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.referenceType.CLU', 'CLU reference type', 'CLU reference type', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 
 // KSST_RSTMT_RTYP_JN_OSUB_TYP <-> KSST_OBJECT_SUB_TYPE
+// TODO: Deprecated - to be removed with new statement service changes
 // Course
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.prerequisites')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.corequisites')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.antirequisites')
-//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.eligibilities')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.eligibilitiesandprerequisites')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.repeatable')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.restriction')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.recommendedpreparation')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.prerequisites')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.corequisites')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.antirequisites')
+////INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.eligibilities')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.eligibilitiesandprerequisites')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.repeatable')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.restriction')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.recommendedpreparation')
 // Program
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.entrance')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.satisfactoryprogress')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.completion')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.entrance')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.satisfactoryprogress')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.completion')
 
 // KSST_RSTMT_RTYP_JN_STMT_TYP <-> KSST_STMT_TYPE
 // Course

@@ -65,7 +65,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		
 		if (progReq.getStatement() == null) {
 			try {
-				List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", clu.getId());
+				List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId());
 
 
 				StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
@@ -159,16 +159,17 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
             relation.setId(UUIDHelper.genStringUUID(null));
         } else {
         	try {
-        		relation = statementService.getRefStatementRelationsByRef("clu", clu.getId()).get(0);
+        		relation = statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId()).get(0);
 			} catch (Exception e) {
 				throw new AssemblyException("Unable to find RefStatementRelation", e);
 			}
         }
-        relation.setType("clu.prerequisites"); // FIXME Derive from statement and rule types
+        //relation.setType("clu.prerequisites"); // FIXME Derive from statement and rule types
+        relation.setType(ProgramAssemblerConstants.PROGRAM_REFERENCE_TYPE);
         relation.setRefObjectId(clu.getId());
-        relation.setRefObjectTypeKey("clu");
+        relation.setRefObjectTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
         relation.setStatementId(statement.getId());
-        relation.setState("active");
+        relation.setState(ProgramAssemblerConstants.ACTIVE);
 
         BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo> relationNode = new BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo>(null);
         relationNode.setNodeData(relation);

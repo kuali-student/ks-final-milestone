@@ -749,6 +749,9 @@ public class StatementServiceImpl implements StatementService {
 		Statement statement = this.statementDao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
 		RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationInfo.getType());
 
+        // make sure refObjectType exist
+        this.statementDao.fetch(ObjectType.class, refStatementRelationInfo.getRefObjectTypeKey());
+		
 		RefStatementRelation entity = new RefStatementRelation();
 
 		BeanUtils.copyProperties(refStatementRelationInfo, entity, new String[] {
