@@ -87,10 +87,6 @@ public class LuContextImpl extends BasicContextImpl {
 
     private CluInfo getClu(ReqComponentInfo reqComponent, String key) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
-//        if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
-//	    	String cluId = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
-//	    	return getCluInfo(cluId);
-//        }
         if(map.containsKey(key)) {
 	    	String cluId = map.get(key);
 	    	return getCluInfo(cluId);
@@ -125,6 +121,9 @@ public class LuContextImpl extends BasicContextImpl {
      * @throws OperationFailedException If building a custom CLU set fails
      */
     public NLCluSet getCluSet(String cluSetId) throws OperationFailedException {
+		if (cluSetId == null) {
+			return null;
+		}
     	CluSetInfo cluSet = getCluSetInfo(cluSetId);
 		try {
 	    	List<CluInfo> list = new ArrayList<CluInfo>();
@@ -186,14 +185,6 @@ public class LuContextImpl extends BasicContextImpl {
     public NLCluSet getCluSet(ReqComponentInfo reqComponent, String key) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	NLCluSet cluSet = null;
-    	/*if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
-        	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
-        	cluSet = getClusAsCluSet(cluIds);
-        } else*/ 
-//    	if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
-//        	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getId());
-//            cluSet = getCluSet(cluSetId);
-//        }
     	if(map.containsKey(key)) {
         	String cluSetId = map.get(key);
             cluSet = getCluSet(cluSetId);

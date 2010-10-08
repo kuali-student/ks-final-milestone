@@ -63,6 +63,7 @@ public class LuContextImplTest {
 	private LuContextImpl luContext = new LuContextImpl();
 
 	private ReqComponentInfo reqComponent1;
+	private ReqComponentInfo reqComponent2;
 	
 	private void setupReqComponent1() {
 		reqComponent1 = new ReqComponentInfo();
@@ -73,26 +74,122 @@ public class LuContextImplTest {
         reqCompFieldList.add(reqCompField1);
 		reqComponent1.setReqCompFields(reqCompFieldList);
 
-		ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
-        reqCompField2.setValue("CLUSET-NL-1");
+        ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
+        reqCompField2.setType(ReqComponentFieldTypes.COURSE_CLU_KEY.getId());
+        reqCompField2.setValue("CLU-NL-1");
         reqCompFieldList.add(reqCompField2);
 		reqComponent1.setReqCompFields(reqCompFieldList);
+
+        ReqCompFieldInfo reqCompField3 = new ReqCompFieldInfo();
+        reqCompField3.setType(ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId());
+        reqCompField3.setValue("CLU-NL-1");
+        reqCompFieldList.add(reqCompField3);
+		reqComponent1.setReqCompFields(reqCompFieldList);
+
+        ReqCompFieldInfo reqCompField4 = new ReqCompFieldInfo();
+        reqCompField4.setType(ReqComponentFieldTypes.TEST_CLU_KEY.getId());
+        reqCompField4.setValue("CLU-NL-1");
+        reqCompFieldList.add(reqCompField4);
+		reqComponent1.setReqCompFields(reqCompFieldList);
+		
+		ReqCompFieldInfo reqCompField5 = new ReqCompFieldInfo();
+        reqCompField5.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
+        reqCompField5.setValue("CLUSET-NL-1");
+        reqCompFieldList.add(reqCompField5);
+		reqComponent1.setReqCompFields(reqCompFieldList);
+
+		ReqCompFieldInfo reqCompField6 = new ReqCompFieldInfo();
+        reqCompField6.setType(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId());
+        reqCompField6.setValue("CLUSET-NL-1");
+        reqCompFieldList.add(reqCompField6);
+		reqComponent1.setReqCompFields(reqCompFieldList);
+
+		ReqCompFieldInfo reqCompField7 = new ReqCompFieldInfo();
+        reqCompField7.setType(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId());
+        reqCompField7.setValue("CLUSET-NL-1");
+        reqCompFieldList.add(reqCompField7);
+		reqComponent1.setReqCompFields(reqCompFieldList);
+
+		ReqCompFieldInfo reqCompField8 = new ReqCompFieldInfo();
+        reqCompField8.setType(ReqComponentFieldTypes.TEST_CLUSET_KEY.getId());
+        reqCompField8.setValue("CLUSET-NL-1");
+        reqCompFieldList.add(reqCompField8);
+		reqComponent1.setReqCompFields(reqCompFieldList);
+	}
+
+	private void setupReqComponent2() {
+		reqComponent2 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
+        reqCompField1.setType(ReqComponentFieldTypes.CLU_KEY.getId());
+        reqCompField1.setValue(null);
+        reqCompFieldList.add(reqCompField1);
+		reqComponent2.setReqCompFields(reqCompFieldList);
+
+        ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
+        reqCompField2.setType(ReqComponentFieldTypes.COURSE_CLU_KEY.getId());
+        reqCompField2.setValue(null);
+        reqCompFieldList.add(reqCompField2);
+		reqComponent2.setReqCompFields(reqCompFieldList);
+
+        ReqCompFieldInfo reqCompField3 = new ReqCompFieldInfo();
+        reqCompField3.setType(ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId());
+        reqCompField3.setValue(null);
+        reqCompFieldList.add(reqCompField3);
+		reqComponent2.setReqCompFields(reqCompFieldList);
+
+        ReqCompFieldInfo reqCompField4 = new ReqCompFieldInfo();
+        reqCompField4.setType(ReqComponentFieldTypes.TEST_CLU_KEY.getId());
+        reqCompField4.setValue(null);
+        reqCompFieldList.add(reqCompField4);
+		reqComponent2.setReqCompFields(reqCompFieldList);
+		
+		ReqCompFieldInfo reqCompField5 = new ReqCompFieldInfo();
+        reqCompField5.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
+        reqCompField5.setValue(null);
+        reqCompFieldList.add(reqCompField5);
+		reqComponent2.setReqCompFields(reqCompFieldList);
+
+		ReqCompFieldInfo reqCompField6 = new ReqCompFieldInfo();
+        reqCompField6.setType(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId());
+        reqCompField6.setValue(null);
+        reqCompFieldList.add(reqCompField6);
+		reqComponent2.setReqCompFields(reqCompFieldList);
+
+		ReqCompFieldInfo reqCompField7 = new ReqCompFieldInfo();
+        reqCompField7.setType(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId());
+        reqCompField7.setValue(null);
+        reqCompFieldList.add(reqCompField7);
+		reqComponent2.setReqCompFields(reqCompFieldList);
+
+		ReqCompFieldInfo reqCompField8 = new ReqCompFieldInfo();
+        reqCompField8.setType(ReqComponentFieldTypes.TEST_CLUSET_KEY.getId());
+        reqCompField8.setValue(null);
+        reqCompFieldList.add(reqCompField8);
+		reqComponent2.setReqCompFields(reqCompFieldList);
 	}
 
 	@Before
 	public void beforeMethod() {
 		luContext.setLuService(luService);
 		setupReqComponent1();
+		setupReqComponent2();
 	}
 
 	@Test
     public void testCreateContextMap_Clu() throws OperationFailedException {
 		Map<String, Object> contextMap = luContext.createContextMap(reqComponent1);
 		CluInfo clu = (CluInfo) contextMap.get(LuContextImpl.CLU_TOKEN);
+		CluInfo courseClu = (CluInfo) contextMap.get(LuContextImpl.COURSE_CLU_TOKEN);
+		CluInfo programClu = (CluInfo) contextMap.get(LuContextImpl.PROGRAM_CLU_TOKEN);
+		CluInfo testClu = (CluInfo) contextMap.get(LuContextImpl.TEST_CLU_TOKEN);
 
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals("CLU-NL-1", clu.getId());
+		Assert.assertEquals("CLU-NL-1", courseClu.getId());
+		Assert.assertEquals("CLU-NL-1", programClu.getId());
+		Assert.assertEquals("CLU-NL-1", testClu.getId());
+
 		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getType());
 		Assert.assertEquals("MATH 152", clu.getOfficialIdentifier().getShortName());
 		Assert.assertEquals("MATH 152 Linear Systems", clu.getOfficialIdentifier().getLongName());
@@ -102,9 +199,17 @@ public class LuContextImplTest {
     public void testCreateContextMap_CluSet() throws OperationFailedException {
 		Map<String, Object> contextMap = luContext.createContextMap(reqComponent1);
 		NLCluSet cluSet = (NLCluSet) contextMap.get(LuContextImpl.CLU_SET_TOKEN);
+		NLCluSet courseCluSet = (NLCluSet) contextMap.get(LuContextImpl.COURSE_CLU_SET_TOKEN);
+		NLCluSet programCluSet = (NLCluSet) contextMap.get(LuContextImpl.PROGRAM_CLU_SET_TOKEN);
+		NLCluSet testCluSet = (NLCluSet) contextMap.get(LuContextImpl.TEST_CLU_SET_TOKEN);
 
+		
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals("CLUSET-NL-1", cluSet.getCluSetId());
+		Assert.assertEquals("CLUSET-NL-1", courseCluSet.getCluSetId());
+		Assert.assertEquals("CLUSET-NL-1", programCluSet.getCluSetId());
+		Assert.assertEquals("CLUSET-NL-1", testCluSet.getCluSetId());
+
 		Assert.assertEquals("(MATH152, MATH180)", cluSet.getCluSetAsCode());
 		Assert.assertEquals("(MATH 152, MATH 180)", cluSet.getCluSetAsShortName());
 		Assert.assertEquals("(MATH 152 Linear Systems, MATH 180 Differential Calculus with Physical Applications)", cluSet.getCluSetAsLongName());
@@ -115,6 +220,30 @@ public class LuContextImplTest {
 		Assert.assertEquals("MATH 180", cluSet.getCluAsShortName(1));
 	}
 	
+	@Test
+    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
+		Map<String, Object> contextMap = luContext.createContextMap(reqComponent2);
+		CluInfo clu = (CluInfo) contextMap.get(LuContextImpl.CLU_TOKEN);
+		CluInfo courseClu = (CluInfo) contextMap.get(LuContextImpl.COURSE_CLU_TOKEN);
+		CluInfo programClu = (CluInfo) contextMap.get(LuContextImpl.PROGRAM_CLU_TOKEN);
+		CluInfo testClu = (CluInfo) contextMap.get(LuContextImpl.TEST_CLU_TOKEN);
+		NLCluSet cluSet = (NLCluSet) contextMap.get(LuContextImpl.CLU_SET_TOKEN);
+		NLCluSet courseCluSet = (NLCluSet) contextMap.get(LuContextImpl.COURSE_CLU_SET_TOKEN);
+		NLCluSet programCluSet = (NLCluSet) contextMap.get(LuContextImpl.PROGRAM_CLU_SET_TOKEN);
+		NLCluSet testCluSet = (NLCluSet) contextMap.get(LuContextImpl.TEST_CLU_SET_TOKEN);
+
+		Assert.assertNotNull(contextMap);
+		Assert.assertEquals(null, clu);
+		Assert.assertEquals(null, courseClu);
+		Assert.assertEquals(null, programClu);
+		Assert.assertEquals(null, testClu);
+		Assert.assertEquals(null, cluSet);
+		Assert.assertEquals(null, courseCluSet);
+		Assert.assertEquals(null, programCluSet);
+		Assert.assertEquals(null, testCluSet);
+
+	}
+
 	private static class LuServiceMock implements LuService {
 
 		private Map<String, CluInfo> cluMap = new HashMap<String, CluInfo>();

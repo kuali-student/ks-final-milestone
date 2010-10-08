@@ -51,6 +51,9 @@ public class LrcContextImpl extends BasicContextImpl {
 	}
 	
 	private String getResultValue(ResultComponentInfo resultComponent, String resultValue) throws OperationFailedException {
+		if(resultComponent == null) {
+			return null;
+		}
 		for(String rv : resultComponent.getResultValues()) {
 			if(rv.equals(resultValue)) {
 				return rv;
@@ -71,10 +74,11 @@ public class LrcContextImpl extends BasicContextImpl {
         String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
         ResultComponentInfo gradeTypeResultComponent = getResultComponent(gradeTypeId);
         contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
-
+	
         String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
         String grade = getResultValue(gradeTypeResultComponent, gradeId);
         contextMap.put(GRADE_TOKEN, grade);
+
         return contextMap;
     }
 }
