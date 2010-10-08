@@ -16,38 +16,25 @@
 package org.kuali.student.common.ui.client.event;
 
 
-import com.google.gwt.event.shared.GwtEvent;
+import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 
 /**
- * Use this event to set the state of a widget to a dirty state. 
+ * Use this event to notify the application that some content has just become dirty. 
  * 
  * @author Kuali Student Team
  *
  */
-public class DirtyStateChangeEvent extends GwtEvent<DirtyStateChangeHandler> {
-    public static final Type<DirtyStateChangeHandler> TYPE = new Type<DirtyStateChangeHandler>();
+public class ContentDirtyEvent extends ApplicationEvent<ContentDirtyEventHandler> {
+    public static final Type<ContentDirtyEventHandler> TYPE = new Type<ContentDirtyEventHandler>();
           
-    boolean dirty = false;
-    
-    public DirtyStateChangeEvent(boolean dirty){
-        this.dirty = dirty;
-    }
-    
-    public void setDirty(boolean dirty){
-        this.dirty = dirty;
-    }
-    
-    public boolean isDirty(){
-        return dirty;
-    }
-        
+           
     @Override
-    protected void dispatch(DirtyStateChangeHandler handler) {
-        handler.onDirtyStateChange(this);
+    protected void dispatch(ContentDirtyEventHandler handler) {
+        handler.onContentDirty(this);
     }
 
     @Override
-    public Type<DirtyStateChangeHandler> getAssociatedType() {
+    public Type<ContentDirtyEventHandler> getAssociatedType() {
         return TYPE;
     }
 

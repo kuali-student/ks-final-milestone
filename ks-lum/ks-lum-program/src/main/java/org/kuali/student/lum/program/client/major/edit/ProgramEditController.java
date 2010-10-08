@@ -1,8 +1,9 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -15,19 +16,20 @@ import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.shared.IdAttributes;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.UpdateEvent;
-import org.kuali.student.lum.program.client.events.UpdateEventHandler;
+import org.kuali.student.lum.program.client.VariationRegistry;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -46,6 +48,7 @@ public class ProgramEditController extends MajorController {
     public ProgramEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
         configurer = GWT.create(ProgramEditConfigurer.class);
+        sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
         initializeConfirmDialog();
     }
@@ -54,6 +57,7 @@ public class ProgramEditController extends MajorController {
     protected void configureView() {
         super.configureView();
         if (!initialized) {
+            eventBus.fireEvent(new MetadataLoadedEvent(programModel.getDefinition(), this));
             List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
             addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
@@ -97,6 +101,24 @@ public class ProgramEditController extends MajorController {
             @Override
             public void onEvent(UpdateEvent event) {
                 doSave();
+            }
+        });
+
+        eventBus.addHandler(SpecializationCreatedEvent.TYPE, new SpecializationCreatedEventHandler() {
+            @Override
+            public void onEvent(SpecializationCreatedEvent event) {
+                ((Data) programModel.get(ProgramConstants.VARIATIONS)).add(event.getData());
+                doSave();
+            }
+        });
+        eventBus.addHandler(AddSpecializationEvent.TYPE, new AddSpecializationEventHandler() {
+            @Override
+            public void onEvent(AddSpecializationEvent event) {
+                String id = (String) programModel.get("id");
+                ViewContext viewContext = new ViewContext();
+                viewContext.setId(id);
+                viewContext.setIdType(IdAttributes.IdType.OBJECT_ID);
+                HistoryManager.navigate(ProgramConstants.VARIATION_EDIT_URL, viewContext);
             }
         });
     }

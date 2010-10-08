@@ -49,6 +49,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     final Logger LOG = Logger.getLogger(CluSetManagementAssembler.class);
 
     public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
+// FIXME: should have it's own proposal types
     public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
     public static final String FORMAT_LU_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 
@@ -222,7 +223,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 wrapperCluSet.setCluIds(cluSetInfo.getCluIds());
                 cluSetInfo.setCluIds(null);
                 try {
-                	wrapperCluSet.setType("kuali.cluSet.type.creditCourse");
+                    if (wrapperCluSet.getType() == null) {
+                	    wrapperCluSet.setType("kuali.cluSet.type.creditCourse");
+                    }
                     wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);

@@ -89,8 +89,8 @@ public class ProgramServiceImpl implements ProgramService {
         try {
             return processCredentialProgramInfo(credentialProgramInfo, NodeOperation.CREATE);
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling Major Discipline", e);
-            throw new OperationFailedException("Error disassembling Major Discipline");
+            LOG.error("Error disassembling Credential Program", e);
+            throw new OperationFailedException("Error disassembling Credential Program");
         }
     }
 
@@ -167,17 +167,18 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        try {
-        	CredentialProgramInfo credentialProgram = getCredentialProgram(credentialProgramId);
-
-            processCredentialProgramInfo(credentialProgram, NodeOperation.DELETE);
-
-            return getStatus();
-
-        } catch (AssemblyException e) {
-            LOG.error("Error disassembling CredentialProgram", e);
-            throw new OperationFailedException("Error disassembling CredentialProgram");
-        }
+//        try {
+//        	CredentialProgramInfo credentialProgram = getCredentialProgram(credentialProgramId);
+//
+//            processCredentialProgramInfo(credentialProgram, NodeOperation.DELETE);
+//
+//            return getStatus();
+//
+//        } catch (AssemblyException e) {
+//            LOG.error("Error disassembling CredentialProgram", e);
+//            throw new OperationFailedException("Error disassembling CredentialProgram");
+//        }
+    	throw new OperationFailedException("Deletion of CredentialProgram is not supported."); 
     }
 
     @Override
@@ -427,8 +428,8 @@ public class ProgramServiceImpl implements ProgramService {
             return processCredentialProgramInfo(credentialProgramInfo, NodeOperation.UPDATE);
 
         } catch (AssemblyException e) {
-            LOG.error("Error disassembling majorDiscipline", e);
-            throw new OperationFailedException("Error disassembling majorDiscipline");
+            LOG.error("Error disassembling Credential Program", e);
+            throw new OperationFailedException("Error disassembling Credential Program");
         }
     }
 

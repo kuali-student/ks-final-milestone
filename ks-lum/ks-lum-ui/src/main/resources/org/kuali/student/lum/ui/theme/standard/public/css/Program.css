@@ -75,4 +75,18 @@
     padding-top: 10px;
     padding-bottom: 10px;
     width: 240px;
-}                     
+}
+
+.programController .sideBar {
+    padding-top: 10px;
+    padding-left: 10px;
+    border-spacing: 6px;
+}
+
+.programController .sideBar .history {
+    font-weight: bold;
+}
+
+.programController .sideBar .datePanel {
+    border-spacing: 2px;
+}

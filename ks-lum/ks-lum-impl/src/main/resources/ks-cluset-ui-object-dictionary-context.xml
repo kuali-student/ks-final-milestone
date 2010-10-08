@@ -1,0 +1,163 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ <import resource="classpath:ks-cluSetInfo-dictionary-context.xml" />
+
+ <!-- cluset THIS IS AN BUSINESS  OBJECT AND THE ASSEMBLER MAPS IT TO the CluSetInfo -->
+ <!-- cluset THIS IS AN BUSINESS  OBJECT AND THE ASSEMBLER MAPS IT TO the CluSetInfo -->
+ <!-- cluset THIS IS AN BUSINESS  OBJECT AND THE ASSEMBLER MAPS IT TO the CluSetInfo -->
+ <!-- cluset THIS IS AN BUSINESS  OBJECT AND THE ASSEMBLER MAPS IT TO the CluSetInfo -->
+ <bean id="phantom.cluset-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="cluset"/>
+  <property name="attributes">
+   <list>
+    <ref bean="phantom.cluset.allClus"/>
+    <ref bean="phantom.cluset.approvedClus" />
+    <ref bean="phantom.cluset.cluSetRangeViewDetails"/>
+    <ref bean="phantom.cluset.clusetRange"/>
+    <ref bean="phantom.cluset.clusetRangeEdit"/>
+    <ref bean="phantom.cluset.clusets"/>
+    <ref bean="phantom.cluset.effectiveDate"/>
+    <ref bean="phantom.cluset.expirationDate"/>
+    <ref bean="phantom.cluset.id"/>
+    <ref bean="phantom.cluset.description"/>
+    <ref bean="phantom.cluset.name"/>
+    <ref bean="phantom.cluset.organization" />
+    <ref bean="phantom.cluset.proposedClus"/>
+    <ref bean="phantom.cluset.type"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="phantom.cluset" parent="phantom.cluset-parent"/>
+
+ <bean id="phantom.cluset.description-parent" abstract="true" parent="baseKualiDescription">
+  <property name="name" value="description"/>
+ </bean>
+ <bean id="phantom.cluset.description" parent="phantom.cluset.description-parent"/>
+
+ <bean id="phantom.cluset.effectiveDate-parent" abstract="true" parent="cluSetInfo.effectiveDate-parent">
+  <property name="name" value="effectiveDate"/>
+ </bean>
+ <bean id="phantom.cluset.effectiveDate" parent="phantom.cluset.effectiveDate-parent"/>
+
+ <bean id="phantom.cluset.expirationDate-parent" abstract="true" parent="cluSetInfo.expirationDate-parent">
+  <property name="name" value="expirationDate"/>
+ </bean>
+ <bean id="phantom.cluset.expirationDate" parent="phantom.cluset.expirationDate-parent"/>
+
+ <bean id="phantom.cluset.id-parent" abstract="true" parent="cluSetInfo.id-parent">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="phantom.cluset.id" parent="phantom.cluset.id-parent"/>
+
+ <bean id="phantom.cluset.name-parent" abstract="true" parent="cluSetInfo.name-parent">
+  <property name="name" value="name"/>
+ </bean>
+ <bean id="phantom.cluset.name" parent="phantom.cluset.name-parent"/>
+
+ <bean id="phantom.cluset.type-parent" abstract="true" parent="cluSetInfo.type-parent">
+  <property name="name" value="type"/>
+ </bean>
+ <bean id="phantom.cluset.type" parent="phantom.cluset.type-parent"/>
+
+
+ <bean id="phantom.cluset.organization-parent" abstract="true" parent="cluSetInfo.adminOrg-parent">
+  <property name="name" value="organization"/>
+ </bean>
+ <bean id="phantom.cluset.organization" parent="phantom.cluset.organization-parent"/>
+
+ <bean id="phantom.cluset.proposedClus-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="proposedClus" />
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="phantom.cluset.proposedClus" parent="phantom.cluset.proposedClus-parent" />
+
+ <bean id="phantom.cluset.approvedClus-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="approvedClus" />
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="phantom.cluset.approvedClus" parent="phantom.cluset.approvedClus-parent" />
+
+ <bean id="phantom.cluset.allClus-parent" abstract="true" parent="cluSetInfo.cluIds-parent">
+  <property name="name" value="allClus"/>
+ </bean>
+ <bean id="phantom.cluset.allClus" parent="phantom.cluset.allClus-parent"/>
+
+ <bean id="phantom.cluset.clusets-parent" abstract="true" parent="cluSetInfo.cluSetIds-parent">
+  <property name="name" value="clusets" />
+ </bean>
+ <bean id="phantom.cluset.clusets" parent="phantom.cluset.clusets-parent" />
+
+ <bean id="phantom.cluset.clusetRange-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="clusetRange" />
+  <property name="dataObjectStructure" ref="phantom.cluset.clusetRangeObject" />
+ </bean>
+ <bean id="phantom.cluset.clusetRange" parent="phantom.cluset.clusetRange-parent" />
+
+ <bean id="phantom.cluset.clusetRangeObject-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="clusetRange"/>
+  <property name="attributes">
+   <list>
+    <ref bean="phantom.cluset.clusetRange.id"/>
+    <ref bean="phantom.cluset.clusetRange.queryParams"/>
+    <ref bean="phantom.cluset.clusetRange.searchTypeKey"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="phantom.cluset.clusetRangeObject" parent="phantom.cluset.clusetRangeObject-parent"/>
+
+ <bean id="phantom.cluset.clusetRange.id-parent" abstract="true" parent="membershipQueryInfo.id-parent">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="phantom.cluset.clusetRange.id" parent="phantom.cluset.clusetRange.id-parent"/>
+
+ <bean id="phantom.cluset.clusetRange.queryParams-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="queryParams" />
+  <property name="dataObjectStructure" ref="phantom.cluset.clusetRange.queryParamsObject" />
+ </bean>
+ <bean id="phantom.cluset.clusetRange.queryParams" parent="phantom.cluset.clusetRange.queryParams-parent" />
+
+ <bean id="phantom.cluset.clusetRange.queryParamsObject-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="queryParams"/>
+  <property name="attributes">
+   <list>
+    <ref bean="phantom.cluset.clusetRange.key"/>
+    <ref bean="phantom.cluset.clusetRange.value"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="phantom.cluset.clusetRange.queryParamsObject" parent="phantom.cluset.clusetRange.queryParamsObject-parent"/>
+
+ <bean id="phantom.cluset.clusetRange.key-parent" abstract="true" parent="searchParam.key-parent">
+  <property name="name" value="key" />
+ </bean>
+ <bean id="phantom.cluset.clusetRange.key" parent="phantom.cluset.clusetRange.key-parent" />
+
+ <bean id="phantom.cluset.clusetRange.value-parent" abstract="true" parent="searchParam.value-parent">
+  <property name="name" value="value" />
+  <property name="maxOccurs" value="1" />
+ </bean>
+ <bean id="phantom.cluset.clusetRange.value" parent="phantom.cluset.clusetRange.value-parent" />
+
+ <bean id="phantom.cluset.clusetRange.searchTypeKey-parent" abstract="true" parent="membershipQueryInfo.searchTypeKey-parent">
+  <property name="name" value="searchTypeKey"/>
+ </bean>
+ <bean id="phantom.cluset.clusetRange.searchTypeKey" parent="phantom.cluset.clusetRange.searchTypeKey-parent"/>
+
+
+ <bean id="phantom.cluset.clusetRangeEdit-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="clusetRangeEdit" />
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="phantom.cluset.clusetRangeEdit" parent="phantom.cluset.clusetRangeEdit-parent" />
+
+ <bean id="phantom.cluset.cluSetRangeViewDetails-parent" abstract="true" parent="baseKualiCluSetId">
+  <property name="name" value="cluSetRangeViewDetails" />
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="phantom.cluset.cluSetRangeViewDetails" parent="phantom.cluset.cluSetRangeViewDetails-parent" />
+
+</beans>

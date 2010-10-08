@@ -130,9 +130,17 @@ public class Bean2DictionaryConverter
   {
    return DataType.STRING;
   }
-  else
+  else if (Object.class.equals (pt))
+  {
+   return DataType.STRING;
+  }
+  else if (pt.getName ().startsWith ("org.kuali.student."))
   {
    return DataType.COMPLEX;
+  }
+  else
+  {
+   throw new RuntimeException ("unknown/unhandled type of object in bean " + pt.getName ());
   }
  }
 }

@@ -34,6 +34,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -321,8 +322,8 @@ public class TestProgramServiceImpl {
             assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
             assertNotNull(major.getCampusLocations());
             assertTrue(major.getCampusLocations().size() == 2);
-            assertEquals("NORTH", major.getCampusLocations().get(0));
-            assertEquals("SOUTH", major.getCampusLocations().get(1));
+            assertEquals("NO", major.getCampusLocations().get(0));
+            assertEquals("SO", major.getCampusLocations().get(1));
 
             assertNotNull(major.getOrgCoreProgram());
             assertEquals("kuali.lu.type.CoreProgram", major.getOrgCoreProgram().getType());
@@ -545,8 +546,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getCampusLocations());
             assertTrue(createdMD.getCampusLocations().size() == 2);
-            assertEquals("SOUTH", createdMD.getCampusLocations().get(0));
-            assertEquals("NORTH", createdMD.getCampusLocations().get(1));
+            assertEquals("SO", createdMD.getCampusLocations().get(0));
+            assertEquals("NO", createdMD.getCampusLocations().get(1));
 
             assertNotNull(createdMD.getOrgCoreProgram());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdMD.getOrgCoreProgram().getType());
@@ -994,6 +995,8 @@ public class TestProgramServiceImpl {
             major.setCip2000Code(major.getCip2000Code() + "-updated");
             major.setDiplomaTitle(major.getDiplomaTitle() + "-updated");
             major.setTranscriptTitle(major.getTranscriptTitle() + "-updated");
+            //major.setEndProgramEntryTerm("kuali.atp.FA2008-2009");
+            //major.setStartTerm("kuali.atp.FA2008-2009");
 
             for (String orgInfoId : major.getDivisionsFinancialControl()) {
                 orgInfoId = orgInfoId + "-updated";
@@ -1028,8 +1031,8 @@ public class TestProgramServiceImpl {
         assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
 
         assertEquals(3, updatedMD.getCampusLocations().size());
-        assertEquals("NORTH", updatedMD.getCampusLocations().get(0));
-        assertEquals("SOUTH", updatedMD.getCampusLocations().get(1));
+        assertEquals("NO", updatedMD.getCampusLocations().get(0));
+        assertEquals("SO", updatedMD.getCampusLocations().get(1));
         assertEquals("MAIN", updatedMD.getCampusLocations().get(2));
 
 //        assertEquals(1, updatedMD.getProgramRequirements().size());
@@ -1041,12 +1044,14 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testCreateBaccCredentialProgram() {
     	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
     	CredentialProgramInfo credentialProgramInfo = null;
         try {
             assertNotNull(credentialProgramInfo = generator.getCPTestData());
+            List<String> coreProgramIds = new ArrayList<String>();
+            coreProgramIds.add("00f5f8c5-fff1-4c8b-92fc-789b891e0849");
+            credentialProgramInfo.setCoreProgramIds(coreProgramIds);
             CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
             assertNotNull(createdCP);
             assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
@@ -1057,60 +1062,57 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
-    @Ignore public void testDeleteBaccCredentialProgram() {
+    public void testDeleteBaccCredentialProgram() {
         try {
-        	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
-        	CredentialProgramInfo credentialProgramInfo = generator.getCPTestData();
-            assertNotNull(credentialProgramInfo);
-            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
-            assertNotNull(createdCP);
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
-            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
-            String credentialProgramId = createdCP.getId();
+        	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
             CredentialProgramInfo retrievedCP = programService.getCredentialProgram(credentialProgramId);
             assertNotNull(retrievedCP);
 
-            programService.deleteMajorDiscipline(credentialProgramId);
-            try {
-            	retrievedCP = programService.getCredentialProgram(credentialProgramId);
-                fail("Retrieval of deleted CredentialProgram should have thrown exception");
-            } catch (DoesNotExistException e) {}
+            try{
+	            programService.deleteCredentialProgram(credentialProgramId);
+	            try {
+	            	retrievedCP = programService.getCredentialProgram(credentialProgramId);
+	                fail("Retrieval of deleted CredentialProgram should have thrown exception");
+	            } catch (DoesNotExistException e) {}
+            }catch (OperationFailedException e) {}
         } catch (Exception e) {
             fail(e.getMessage());
         }
     }
 
     @Test
-    @Ignore public void testUpdateBaccCredentialProgram() {
+    public void testUpdateBaccCredentialProgram() {
         try {
-        	CredentialProgramDataGenerator generator = new CredentialProgramDataGenerator(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
-        	CredentialProgramInfo credentialProgramInfo = generator.getCPTestData();
+        	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
+            CredentialProgramInfo credentialProgramInfo = programService.getCredentialProgram(credentialProgramId);
             assertNotNull(credentialProgramInfo);
-            CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
-            assertNotNull(createdCP);
 
             // minimal sanity check
-            assertEquals("longTitle-test", createdCP.getLongTitle());
-            assertEquals("shortTitle-test", createdCP.getShortTitle());
-            assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
-
+            assertEquals("BS", credentialProgramInfo.getCode());
+            assertEquals("B.S.", credentialProgramInfo.getShortTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
+            assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
+            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
+            assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
+            assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
+            
             // update some fields
-            createdCP.setLongTitle("longTitle-toolong");
-            createdCP.getProgramRequirements().remove(0);
-
-            Map<String, String> attributes = createdCP.getAttributes();
-            attributes.put("testKey", "testValue");
-            createdCP.setAttributes(attributes);
+            //credentialProgramInfo.setCode(credentialProgramInfo.getCode() + "-updated");
+            //credentialProgramInfo.setShortTitle(credentialProgramInfo.getShortTitle() + "-updated");
+           // credentialProgramInfo.setLongTitle(credentialProgramInfo.getLongTitle() + "-updated");
+            credentialProgramInfo.setProgramLevel(ProgramAssemblerConstants.GRADUATE_PROGRAM_LEVEL);
+            AdminOrgInfo institution = new AdminOrgInfo();
+            institution.setOrgId("51");
+            credentialProgramInfo.setInstitution(institution);
 
            //Perform the update
-            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(createdCP);
+            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(credentialProgramInfo);
 
             //Verify the update
             verifyUpdate(updatedCP);
 
             // Now explicitly get it
-            CredentialProgramInfo retrievedCP = programService.getCredentialProgram(createdCP.getId());
+            CredentialProgramInfo retrievedCP = programService.getCredentialProgram(credentialProgramInfo.getId());
             verifyUpdate(retrievedCP);
 
             //TODO: add version update
@@ -1124,13 +1126,11 @@ public class TestProgramServiceImpl {
     private void verifyUpdate(CredentialProgramInfo updatedCP) {
     	assertNotNull(updatedCP);
 
-        assertEquals(3, updatedCP.getAttributes().size());
-        assertNotNull(updatedCP.getAttributes().get("testKey"));
-        assertEquals("testValue", updatedCP.getAttributes().get("testKey"));
-
-        assertEquals(1, updatedCP.getProgramRequirements().size());
-
-        assertEquals("longTitle-toolong", updatedCP.getLongTitle());
+        //assertEquals("BS-updated", updatedCP.getCode());
+       // assertEquals("B.S.-updated", updatedCP.getShortTitle());
+        //assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
+        assertEquals(ProgramAssemblerConstants.GRADUATE_PROGRAM_LEVEL, updatedCP.getProgramLevel());
+        assertEquals("51", updatedCP.getInstitution().getOrgId());
     }
 
     @Test
@@ -1406,5 +1406,19 @@ public class TestProgramServiceImpl {
         } catch (Exception e) {
             fail(e.getMessage());
         }
+    }
+    
+    @Test
+    public void testCreditsProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    	ProgramRequirementInfo progReq = createProgramRequirementTestData();
+    	progReq.setMinCredits(3);
+    	progReq.setMaxCredits(45);
+    	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(progReq);
+       	assertEquals("3", Integer.toString(createdProgReq.getMinCredits()));
+    	assertEquals("45", Integer.toString(createdProgReq.getMaxCredits()));
+
+    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), null, null);
+       	assertEquals("3", Integer.toString(progReq2.getMinCredits()));
+    	assertEquals("45", Integer.toString(progReq2.getMaxCredits()));
     }
 }

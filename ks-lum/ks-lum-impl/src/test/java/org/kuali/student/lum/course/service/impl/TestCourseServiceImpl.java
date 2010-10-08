@@ -1,5 +1,6 @@
 package org.kuali.student.lum.course.service.impl;
 
+import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -8,6 +9,7 @@ import static org.junit.Assert.fail;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,7 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
@@ -36,7 +39,11 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
@@ -61,6 +68,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestCourseServiceImpl {
     @Autowired
     CourseService courseService;
+    @Autowired
+    StatementService statementService;
 
     Set<String> subjectAreaSet = new TreeSet<String>(Arrays.asList(CourseDataGenerator.subjectAreas));
 
@@ -566,9 +575,7 @@ public class TestCourseServiceImpl {
 	public void testGetCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 		String courseId = "COURSE-STMT-1";
-		String nlUsageTypeKey = null;
-		String language = null;
-		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, null, null);
 		assertEquals(2, courseStatements.size());
 		for (StatementTreeViewInfo tree : courseStatements) {
 			checkTreeView(tree, false);
@@ -590,32 +597,236 @@ public class TestCourseServiceImpl {
 	}
 
 	@Test
-	@Ignore
-	public void testCreateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		final String courseId = "COURSE-1";
+	public void testCreateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+		final String courseId = "COURSE-STMT-1";
 
-		StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
 		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo );
 		assertNotNull(createdTree);
+		assertEquals(2, createdTree.getStatements().size());
 	}
 
-	@Test
-	@Ignore
-	public void testDeleteCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		String courseId = null;
-		StatementTreeViewInfo statementTreeViewInfo = null;
-		StatusInfo status = courseService.deleteCourseStatement(courseId, statementTreeViewInfo);
+	@Test(expected=InvalidParameterException.class)
+	public void testCreateCourseStatement_duplicateTree() throws Exception {
+		String courseId = "COURSE-STMT-1";
+		String nlUsageTypeKey = "KUALI.RULE";
+		String language = "en";
+		List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+		courseService.createCourseStatement(courseId, courseStatements.get(0));
+	}
+
+	@Test(expected=MissingParameterException.class)
+	public void testCreateCourseStatement_nullCourseId() throws Exception {
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		@SuppressWarnings("unused")
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(null, statementTreeViewInfo );
+	}
+
+	@Test(expected=MissingParameterException.class)
+	public void testCreateCourseStatement_nullTree() throws Exception {
+		String courseId = "COURSE-STMT-1";
+
+		@SuppressWarnings("unused")
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, null );
+	}
+
+	@Test(expected=DoesNotExistException.class)
+	public void testDeleteCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo );
+		StatusInfo status = courseService.deleteCourseStatement(courseId, createdTree);
 		assertTrue(status.getSuccess());
+		List<StatementTreeViewInfo> statements = courseService.getCourseStatements(courseId, null, null);
+		for (StatementTreeViewInfo statement : statements) {
+			if (statement.getId().equals(createdTree.getId())) {
+				fail("StatementTree not deleted from course");
+			}
+		}
+		statementService.getStatementTreeView(createdTree.getId());
+	}
+
+	@Test(expected=DoesNotExistException.class)
+	public void testDeleteCourseStatement_badTree() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		courseService.deleteCourseStatement(courseId, statementTreeViewInfo);
+	}
+
+	@Test(expected=DoesNotExistException.class)
+	public void testDeleteCourseStatement_badCourse() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		courseService.deleteCourseStatement("xxx", statementTreeViewInfo);
+	}
+
+	@Test(expected=MissingParameterException.class)
+	public void testDeleteCourseStatement_nullCourseId() throws Exception {
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		courseService.deleteCourseStatement(null, statementTreeViewInfo);
+	}
+
+	@Test(expected=MissingParameterException.class)
+	public void testDeleteCourseStatement_nullTreeId() throws Exception {
+		courseService.deleteCourseStatement("xxx", null);
 	}
 
 	@Test
-	@Ignore
-	public void testUpdateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		String courseId = null;
-		StatementTreeViewInfo statementTreeViewInfo = null;
-		StatementTreeViewInfo updatedTree = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
-		assertNotNull(updatedTree);
+	public void testUpdateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo );
+
+        List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
+        subTree1.setDesc(toRichText("STMT-5"));
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setType("kuali.statement.type.program.entrance");
+        reqCompList1.add(rc1);
+        reqCompList1.add(rc2);
+        subTree1.setReqComponents(reqCompList1);
+
+        StatementTreeViewInfo oldSubTree1 = createdTree.getStatements().get(0);
+        createdTree.getStatements().set(0, subTree1);
+		StatementTreeViewInfo updatedTree = courseService.updateCourseStatement(courseId, statementTreeViewInfo );
+		assertEquals(createdTree.getStatements().get(0).getDesc().getPlain(), updatedTree.getStatements().get(0).getDesc().getPlain());
+
 	}
+
+	@Test
+	@Ignore // FIXME need a dictionary that defines StatamentTreeViewInfo
+	public void testValidataCourseStatement() throws Exception {
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		courseService.validateCourseStatement(courseId, statementTreeViewInfo);
+		List<ValidationResultInfo> validations = courseService.validateCourseStatement(courseId, statementTreeViewInfo);
+		assertTrue(isEmpty(validations));
+	}
+
+	@Test
+	@Ignore // FIXME need a dictionary that defines StatamentTreeViewInfo
+	public void testValidataCourseStatement_invalidStatement() throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		final String courseId = "COURSE-STMT-1";
+
+		StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
+		statementTreeViewInfo.setType("an.example.of.a.bad.statementType");
+		statementTreeViewInfo.getStatements().get(0).setType("fictional.program");
+		statementTreeViewInfo.getStatements().get(0).getReqComponents().set(0, createBadReqComponent());
+		List<ValidationResultInfo> validations = courseService.validateCourseStatement(courseId, statementTreeViewInfo);
+		assertFalse(isEmpty(validations));
+	}
+
+
+	private static ReqComponentInfo createBadReqComponent() {
+		ReqComponentInfo reqCompInfo = new ReqComponentInfo();
+//		reqCompInfo.setId("REQCOMP-NL-X");
+		reqCompInfo.setId("1234567890123456789012345678901234567890");
+		reqCompInfo.setType("kuali.reqComponent.type.courseList.nof");
+		reqCompInfo.setState("Active");
+
+		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
+
+		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
+		field1.setId("1234567890123456789012345678901234567890");
+		field1.setType("kuali.reqComponent.field.type.operator");
+		field1.setValue("-1");
+		fieldList.add(field1);
+
+		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
+		field2.setId("2");
+		field2.setType("kuali.reqComponent.field.type.operator");
+		field2.setValue("greater_than_or_equal_to42");
+		fieldList.add(field2);
+
+		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
+		field3.setId("3");
+		field3.setType("kuali.reqComponent.field.type.cluSet.id");
+		field3.setValue("CLUSET-NL-Y");
+		fieldList.add(field3);
+
+		reqCompInfo.setReqCompFields(fieldList);
+		return reqCompInfo;
+	}
+
+	private static StatementTreeViewInfo createStatementTree() {
+        // Statement Tree
+        //                --------- STMT-1:OR ---------
+    	//                |                           |
+        //           STMT-2:AND                  STMT-3:AND
+    	//           |        |                  |        |
+        //      REQCOMP-1  REQCOMP-2        REQCOMP-3  REQCOMP-4
+
+        List<StatementTreeViewInfo> subStatements = new ArrayList<StatementTreeViewInfo>(3);
+        List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
+        List<ReqComponentInfo> reqCompList2 = new ArrayList<ReqComponentInfo>(3);
+
+        // req components
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        ReqComponentInfo rc3 = new ReqComponentInfo();
+        rc3.setDesc(toRichText("REQCOMP-3"));
+        rc3.setType("kuali.reqComponent.type.course.courseset.completed.nof");
+        ReqComponentInfo rc4 = new ReqComponentInfo();
+        rc4.setDesc(toRichText("REQCOMP-4"));
+        rc4.setType("kuali.reqComponent.type.course.permission.instructor.required");
+
+        // statement tree views
+        StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
+        statementTree.setDesc(toRichText("STMT-1"));
+        statementTree.setOperator(StatementOperatorTypeKey.OR);
+//        statementTree.setType("kuali.statement.type.program.entrance");
+        statementTree.setType("kuali.statement.type.course.academicReadiness.coreq");
+
+        StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
+        subTree1.setDesc(toRichText("STMT-2"));
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+//        subTree1.setType("kuali.statement.type.program.entrance");
+        subTree1.setType("kuali.statement.type.course.recommendedPreparation");
+
+        StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
+        subTree2.setDesc(toRichText("STMT-3"));
+        subTree2.setOperator(StatementOperatorTypeKey.AND);
+//        subTree2.setType("kuali.statement.type.program.entrance");
+        subTree2.setType("kuali.statement.type.course.academicReadiness.antireq");
+
+        // construct tree with statements and req components
+        reqCompList1.add(rc1);
+        reqCompList1.add(rc2);
+        subTree1.setReqComponents(reqCompList1);
+        reqCompList2.add(rc3);
+        reqCompList2.add(rc4);
+        subTree2.setReqComponents(reqCompList2);
+        subStatements.add(subTree1);
+        subStatements.add(subTree2);
+        statementTree.setStatements(subStatements);
+
+        return statementTree;
+    }
+
+	private static RichTextInfo toRichText(String text) {
+		RichTextInfo richTextInfo = new RichTextInfo();
+		if (text == null) {
+			return null;
+		}
+		richTextInfo.setPlain(text);
+		richTextInfo.setFormatted("<p>" + text + "</p>");
+		return richTextInfo;
+	}
+
 
 	private static void checkTreeView(final StatementTreeViewInfo rootTree,  final boolean checkNaturalLanguage) {
         assertNotNull(rootTree);

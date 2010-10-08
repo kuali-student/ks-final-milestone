@@ -547,29 +547,40 @@
 		<property name="persistObjectsBean" ref="persistObjectsBean"/>
 	</bean>
 
+   <bean id="EnumMetaCampus"
+   		class="org.kuali.student.core.enumerationmanagement.entity.Enumeration">
+		<property name="descr"	value="kuali.lu.campusLocation" />
+		<property name="key"	value="kuali.lu.campusLocation" />
+		<property name="name"	value="kuali.lu.campusLocation" />
+	</bean>
+
+	<bean id="northCampus"
+		class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
+		<property name="id" value="33" />
+		<property name="abbrevValue" value="North" />
+		<property name="code" value="NO" />
+		<property name="enumeration" ref="EnumMetaCampus" />
+		<property name="sortKey" value="31" />
+		<property name="value" value="North Campus" />
+	</bean>
+	<bean id="southCampus"
+		class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
+		<property name="id" value="34" />
+		<property name="abbrevValue" value="South" />
+		<property name="code" value="SO" />
+		<property name="enumeration" ref="EnumMetaCampus" />
+		<property name="sortKey" value="32" />
+		<property name="value" value="South Campus" />
+	</bean>
+
 	<bean id="persistObjectsBean" class="org.kuali.student.common.test.spring.PersistObjectsBean">
 		<property name="objectMap">
 			<map>
 				<entry key-ref="emEntityManager">
 					<list>
-						<bean
-							class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
-							<property name="id" value="33" />
-							<property name="abbrevValue" value="North" />
-							<property name="code" value="NORTH" />
-							<property name="enumerationKey" value="kuali.lu.campusLocation" />
-							<property name="sortKey" value="31" />
-							<property name="value" value="North Campus" />
-						</bean>
-						<bean
-							class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
-							<property name="id" value="34" />
-							<property name="abbrevValue" value="South" />
-							<property name="code" value="SOUTH" />
-							<property name="enumerationKey" value="kuali.lu.campusLocation" />
-							<property name="sortKey" value="32" />
-							<property name="value" value="South Campus" />
-						</bean>
+						<ref bean="EnumMetaCampus"/>
+						<ref bean="northCampus"/>
+						<ref bean="southCampus"/>
 					</list>
 				</entry>
 				<entry key-ref="lrcEntityManager">

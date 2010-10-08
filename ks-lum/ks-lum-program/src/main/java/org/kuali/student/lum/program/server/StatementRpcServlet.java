@@ -16,18 +16,19 @@
 package org.kuali.student.lum.program.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.statement.dto.*;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.common.ui.client.widgets.rules.StatementVO;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.apache.log4j.Logger;
 
 /**
@@ -41,6 +42,28 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     
     private static final long serialVersionUID = 822326113643828855L;
 
+    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
+        List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
+
+        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
+        for (String statementTypeName : statementTypeNames) {
+            StatementTypeInfo stmtInfo = statementService.getStatementType(statementTypeName);
+
+            statementTypes.add(statementService.getStatementType(statementTypeName));
+
+            //true if we found sub statement type
+            List<String> subStmtInfos = stmtInfo.getAllowedStatementTypes();
+            if ((subStmtInfos != null) && !subStmtInfos.isEmpty()) {
+                List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(statementTypeName);
+                for (String subStatementTypeName : subStatementTypeNames) {
+                    statementTypes.add(statementService.getStatementType(subStatementTypeName));
+                }
+            }            
+        }
+        
+        return statementTypes;
+    }
+    
     @Override
     public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);

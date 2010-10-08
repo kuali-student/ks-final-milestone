@@ -11,9 +11,9 @@ import org.kuali.student.common.ui.client.widgets.layout.LinkContentBlock;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
@@ -96,7 +96,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 					SelectedResults value = result.get(0);
 					ViewContext viewContext = new ViewContext();
 					viewContext.setId(value.getResultRow().getId());
-					viewContext.setAttribute(IdAttributes.DOC_TYPE, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
+					viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
 					viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
 					Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
 					((KSPicker) searchWidget).getSearchWindow().hide();

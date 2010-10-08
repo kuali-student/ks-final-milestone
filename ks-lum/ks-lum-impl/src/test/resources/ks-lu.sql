@@ -13,6 +13,10 @@
 -- permissions and limitations under the License.
 --
 
+// CluSet Type
+INSERT INTO KSLU_CLU_SET_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.cluSet.type.CreditCourse', 'Clu set for Courses', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'Course Clu Set')
+INSERT INTO KSLU_CLU_SET_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.cluSet.type.Program', 'Clu set for programs', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'Program Clu Set')
+
 // ResultUsage Type
 INSERT INTO KSLU_RSLT_USG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lrType.finalGrade', 'Final learning result for an LU. A stereotypical usage is the final grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Final Grade')
 INSERT INTO KSLU_RSLT_USG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('lrType.midtermGrade', 'Midterm learning result for an LU. A stereotypical usage is the midterm grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Midterm Grade')
@@ -170,12 +174,12 @@ insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('9623c41c-ae72-473a-
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('8b7df2ea-a0e0-4ca6-b524-5554d3194c92', null, 'Anthropology Major')
 
 // CluIdentifier
-INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-1', 'Code', 'Division', 'Level', 'SUFX_CD', 'Long Name', 'Shortname', 'State', 'Type', 'Variation')
-INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-2', 'Code', 'Division', 'Level', 'SUFX_CD', 'Long Name', 'Shortname', 'State', 'Type', 'Variation')
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('37ecfd9e-b65d-4909-bdc5-6b1300447889', 'AAST233', 'AAST', '200', '233',  'Introduction to Asian American Literature', 'INTRO ASIAN AMERICAN LIT', null, 'kuali.lu.type.CreditCourse.identifier.cross-listed', null)
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('4abfaa4f-fce3-44db-83ec-e3845f9b5749', 'AAST298', 'AAST', '200', '298',  'Special Topics in Asian American Studies; Filipino American Studies', 'FILIPINO AMER STUDIES', null, null, null)
+INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-1', 'CHEM123', 'CHEM', '100', '123', 'Chemistry 123', 'Chem 123', null, null, null)
+INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-2', 'CHEM456', 'CHEM', '400', '456', 'Chemistry 456', 'Chem 456', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('37ecfd9e-b65d-4909-bdc5-6b1300447889', 'AAST233', 'AAST', '200', '233', 'Introduction to Asian American Literature', 'INTRO ASIAN AMERICAN LIT', null, 'kuali.lu.type.CreditCourse.identifier.cross-listed', null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('4abfaa4f-fce3-44db-83ec-e3845f9b5749', 'AAST298', 'AAST', '200', '298', 'Special Topics in Asian American Studies; Filipino American Studies', 'FILIPINO AMER STUDIES', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('050e4960-e099-4fba-b0dc-37fadb0e7a1a', 'AAST378', 'AAST', '300', '378', 'Experiential Learning', 'EXPERIENTIAL LEARNING', null, null, null)
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('d54ab513-eb6e-4d6d-9099-6bc75472d526', 'AAST388', 'AAST', '300', '388','Independent Research', 'INDEPENDENT RESEARCH', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('d54ab513-eb6e-4d6d-9099-6bc75472d526', 'AAST388', 'AAST', '300', '388', 'Independent Research', 'INDEPENDENT RESEARCH', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('8f3f30c3-7fe1-43e2-84dc-10a038f520ad', 'AAST398', 'AAST', '300', '398', 'Selected Topics in Asian American Studies; Filipino American History and Biography', 'FILLIPINO AM HIST BIO', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('45d2364e-77db-4953-9204-7adf461ff25e', 'AAST424', 'AAST', '300', '424', 'Sociology of Race Relations', 'SOCY OF RACE RELATIONS', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('76a9c21c-cfd4-47d7-a653-f104e648b575', 'AAST498', 'AAST', '300', '498', 'Advanced Topics in Asian American Studies; Model Minorities and Black Americans', 'MDL MINORITIES & BLK AM', null, null, null)
@@ -500,8 +504,8 @@ INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, V
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','a47e2d88-cb6d-4c52-901c-cc7b630a0d24');
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','37ecfd9e-b65d-4909-bdc5-6b1300447889');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NORTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SOUTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NO','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SO','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('c9047e2a-151a-4838-a16a-c500ca4fbc6b', 'ORG-2','edna');
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-4', 'ORG-3','Jill');
@@ -581,8 +585,8 @@ insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('CORE-SO
 // for CredentialProgram
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('CRED-INST-1','52',0, 'kuali.adminOrg.type.Institution', 'd02dbbd3-20e2-410d-ab52-1bd6d362748b');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-1', 'NORTH','d4ea77dd-b492-4554-b104-863e42c5f8b7');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-2', 'SOUTH','d4ea77dd-b492-4554-b104-863e42c5f8b7');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-1', 'NO','d4ea77dd-b492-4554-b104-863e42c5f8b7');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('MAJOR-2', 'SO','d4ea77dd-b492-4554-b104-863e42c5f8b7');
 
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('MAJOR-1', '44','INSTR-1');
 insert into KSLU_CLU_JN_CLU_INSTR (clu_instr_id, clu_id) values ('MAJOR-1', 'd4ea77dd-b492-4554-b104-863e42c5f8b7');
@@ -644,8 +648,8 @@ insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-209
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-210','26',0, 'kuali.adminOrg.type.FinancialResourcesUnit', 'VAR-200');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-211','27',0, 'kuali.adminOrg.type.FinancialControlUnit', 'VAR-200');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-201', 'SOUTH','VAR-200');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-202', 'EXTENDED','VAR-200');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-201', 'SO','VAR-200');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-202', 'EX','VAR-200');
 
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-201', 'VAR-200', 'CIP 2000 code', 'kuali.lu.code.CIP2000', '45.2020', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-202', 'VAR-200', 'CIP 2010 code', 'kuali.lu.code.CIP2010', '45.0202', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
@@ -687,8 +691,8 @@ insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-309
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-310','46',0, 'kuali.adminOrg.type.FinancialResourcesUnit', 'VAR-300');
 insert into kslu_clu_admin_org (id, org_id,IS_PR, type, clu_id) values ('VAR-311','47',0, 'kuali.adminOrg.type.FinancialControlUnit', 'VAR-300');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-301', 'NORTH','VAR-300');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-302', 'EXTENDED','VAR-300');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-301', 'NO','VAR-300');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('VAR-302', 'EX','VAR-300');
 
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-301', 'VAR-300', 'CIP 2000 code', 'kuali.lu.code.CIP2000', '45.2020', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);
 insert into KSLU_LU_CODE (ID, CLU_ID, DESCR, TYPE, VALUE, CREATEID, CREATETIME, VERSIONIND) values ('VAR-302', 'VAR-300', 'CIP 2010 code', 'kuali.lu.code.CIP2010', '45.0202', 'admin',  {ts '2010-08-04 10:00:00.0'}, 0);

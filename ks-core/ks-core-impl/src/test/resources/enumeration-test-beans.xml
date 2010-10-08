@@ -34,6 +34,8 @@
 		<property name="key"         value="key 1" />
 		<property name="name"                   value="name 1" />
 	</bean>
+
+
 <!-- 	
 	<bean id="contextEntity1"
 	      class="org.kuali.student.enumeration.entity.ContextEntity">

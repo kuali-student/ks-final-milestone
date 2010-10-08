@@ -75,22 +75,27 @@ public class CluSetsManagementController extends BasicLayout {
 
     public CluSetsManagementController(){
         super(CluSetsManagementController.class.getName());
+        setName("Course Set Management");
         initialize();
+    }
+    
+    public ClusetView getMainView() {
+        return mainView;
     }
     
     @Override
     public <V extends Enum<?>> void showView(final V viewType) {
         if (viewType == ClusetView.CluSetsManagementViews.EDIT) {
-            final String clusetId = mainView.getSelectedCluSetId();
-            editClusetView.setSelectedCluSetId(clusetId);
-            viewClusetView.setSelectedCluSetId(clusetId);
-            if (clusetId != null) {
+            final String cluSetId = mainView.getSelectedCluSetId();
+            editClusetView.setSelectedCluSetId(cluSetId);
+            viewClusetView.setSelectedCluSetId(cluSetId);
+            if (cluSetId != null) {
                 KSBlockingProgressIndicator.addTask(retrievingTask);
-                cluSetManagementRpcServiceAsync.getData(clusetId,  new KSAsyncCallback<Data>() {
+                cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
                     @Override
                     public void handleFailure(Throwable caught) {
                         KSBlockingProgressIndicator.removeTask(retrievingTask);
-                        Window.alert("Failed to retrieve cluset with id" + clusetId);
+                        Window.alert("Failed to retrieve cluset with id" + cluSetId);
                     }
                     @Override
                     public void onSuccess(Data result) {
@@ -105,16 +110,16 @@ public class CluSetsManagementController extends BasicLayout {
                 });
             }
         } else if (viewType == ClusetView.CluSetsManagementViews.VIEW) {
-            final String clusetId = mainView.getSelectedCluSetId();
-            editClusetView.setSelectedCluSetId(clusetId);
-            viewClusetView.setSelectedCluSetId(clusetId);
-            if (clusetId != null) {
+            final String cluSetId = mainView.getSelectedCluSetId();
+            editClusetView.setSelectedCluSetId(cluSetId);
+            viewClusetView.setSelectedCluSetId(cluSetId);
+            if (cluSetId != null) {
                 KSBlockingProgressIndicator.addTask(retrievingTask);
-                cluSetManagementRpcServiceAsync.getData(clusetId,  new KSAsyncCallback<Data>() {
+                cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
                     @Override
                     public void handleFailure(Throwable caught) {
                         KSBlockingProgressIndicator.removeTask(retrievingTask);
-                        Window.alert("Failed to retrieve cluset with id" + clusetId);
+                        Window.alert("Failed to retrieve cluset with id" + cluSetId);
                     }
                     @Override
                     public void onSuccess(Data result) {
@@ -148,12 +153,6 @@ public class CluSetsManagementController extends BasicLayout {
                 }
             }
         });
-        
-//        FlowPanel buttonPanel = new FlowPanel();
-//        KSButton saveButton = getSaveButton();
-//        KSButton cancelButton = getCancelButton();
-//        buttonPanel.add(saveButton);
-//        buttonPanel.add(cancelButton);
         return actionCancel;
     }
 
@@ -189,7 +188,7 @@ public class CluSetsManagementController extends BasicLayout {
                 "View Course Set", CLUSET_MGT_MODEL, null);
         
         mainView = new ClusetView(ClusetView.CluSetsManagementViews.MAIN,
-                "Course Set Management", CLUSET_MGT_MODEL, null);
+                "", CLUSET_MGT_MODEL, null);
         
         setDefaultView(ClusetView.CluSetsManagementViews.MAIN);
         addView(createClusetView);
@@ -416,11 +415,6 @@ public class CluSetsManagementController extends BasicLayout {
 
     private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {
         super.showDefaultView(onReadyCallback);
-    }
-
-    @Override
-    public Enum<?> getViewEnumValue(String enumValue) {
-        return null;
     }
 
     @Override

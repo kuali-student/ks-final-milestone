@@ -6,12 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 
 import com.google.gwt.dom.client.Style;
@@ -22,6 +26,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CluSetDetailsWidget extends Composite {
@@ -101,11 +106,21 @@ public class CluSetDetailsWidget extends Composite {
             }
             for (final CluSetInfo cluSet : cluSets) {
                 int columnIndex = 0;
-                KSLabel cluSetNameLabel = new KSLabel(cluSet.getName());
+                final String cluSetId = cluSet.getId();
+                HorizontalPanel cluSetNamePanel = new HorizontalPanel();
+                Hyperlink cluSetNameLabel = new Hyperlink(cluSet.getName(),
+                        AppLocations.Locations.MANAGE_CLU_SETS.getLocation() + "/" +
+                        ClusetView.CluSetsManagementViews.VIEW.toString() + "&docId=" + cluSetId);
+                KSLabel itemType = new KSLabel("Course Set");
+                itemType.getElement().getStyle().setProperty("color", "grey");
+                itemType.getElement().getStyle().setPaddingLeft(5, Style.Unit.PX);
+                cluSetNamePanel.add(cluSetNameLabel);
+                cluSetNamePanel.add(itemType);
                 boolean showCluSet = (showCluSetFlags.get(cluSet.getId()) == null)? false :
                     showCluSetFlags.get(cluSet.getId()).booleanValue();
-                detailsTable.setWidget(rowIndex, columnIndex, cluSetNameLabel);
-                detailsTable.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 2);
+                detailsTable.setWidget(rowIndex, columnIndex, cluSetNamePanel);
+                detailsTable.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 1);
+                columnIndex++;
 
                 // show/hide sub cluSet details
                 // increment columnIndex to make the show/hide link to show at the right most column
@@ -177,6 +192,7 @@ public class CluSetDetailsWidget extends Composite {
                     } else {
                         displayValue = value.toString();
                     }
+                    paramDescLabel.getElement().getStyle().setProperty("color", "grey");
                     paramDescLabel.getElement().getStyle().setPaddingRight(5, Style.Unit.PX);
                     paramValueLabel.setText(displayValue);
                     paramValueLabel.getElement().getStyle().setPaddingRight(10, Style.Unit.PX);
@@ -200,12 +216,21 @@ public class CluSetDetailsWidget extends Composite {
         mainPanel.setWidget(detailsTable);
     }
     
-    private void addClusDisplayToTable(int rowIndex, CluInformation clu) {
+    private void addClusDisplayToTable(int rowIndex, final CluInformation clu) {
         int columnIndex = 0;
-        KSLabel cluCodeLabel = new KSLabel(clu.getCode());
-        cluCodeLabel.getElement().getStyle().setPaddingLeft(10, Style.Unit.PX);
-        detailsTable.setWidget(rowIndex, columnIndex, cluCodeLabel);
+        KSButton cluCodeLink = new KSButton(clu.getCode(), ButtonStyle.DEFAULT_ANCHOR);
+        cluCodeLink.getElement().getStyle().setPaddingLeft(10, Style.Unit.PX);
+        detailsTable.setWidget(rowIndex, columnIndex, cluCodeLink);
         detailsTable.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 1);
+        cluCodeLink.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                ViewContext viewContext = new ViewContext();
+                viewContext.setId(clu.getId());
+                viewContext.setIdType(IdType.OBJECT_ID);
+                Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
+            }
+        });
         columnIndex++;
         
         KSLabel cluTitleLabel = new KSLabel(clu.getTitle());

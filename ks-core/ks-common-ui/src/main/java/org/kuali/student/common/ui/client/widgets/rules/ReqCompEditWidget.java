@@ -253,6 +253,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //no display if the req. comp. type has no fields
         if ((selectedReqCompType.getReqCompFieldTypeInfos() == null) || selectedReqCompType.getReqCompFieldTypeInfos().isEmpty()) {
+            holdFieldsPanel.clear();
             return;
         }
 
@@ -284,6 +285,7 @@ public class ReqCompEditWidget extends FlowPanel {
         List<ReqCompFieldInfo> reqCompFields = (editedReqComp == null ? null : editedReqComp.getReqCompFields());
         reqCompFieldsPanel = new VerticalSectionView(ReqCompEditView.VIEW, "", REQ_COMP_MODEL_ID, false);
         reqCompFieldsPanel.addStyleName("KS-Rule-FieldsList");
+        Map<String, FieldDescriptor> fields = new HashMap<String, FieldDescriptor>();
         
         int ix = 0;
         Map<String, Metadata> fieldDefinitionMetadata = new HashMap<String,Metadata>();
@@ -294,10 +296,16 @@ public class ReqCompEditWidget extends FlowPanel {
             String fieldLabel = getFieldLabel(fieldType);
 
             FieldDescriptor fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata);
-            reqCompFieldsPanel.addField(fd);
+            //reqCompFieldsPanel.addField(fd);
+            fields.put(fieldType, fd);
 
             //add field to the data model metadata
             fieldDefinitionMetadata.put(fieldType, fieldMetadata);
+        }
+
+        //now we add fields to the panel in proper order based on composition template
+        for (String type : getFieldSequence()) {
+            reqCompFieldsPanel.addField(fields.get(type));
         }
 
         //setup data model
@@ -344,6 +352,22 @@ public class ReqCompEditWidget extends FlowPanel {
         int ix = label.indexOf("reqCompFieldLabel") + "reqCompFieldLabel".length();
         int ix2 = label.indexOf(">", ix);
         return label.substring(ix, ix2).replace("=", "").trim();
+    }
+
+    private List<String> getFieldSequence() {
+        List<String> fieldTypes = new ArrayList<String>();
+        String compositionTemplate = compositionTemplates.get(selectedReqCompType.getId());
+
+        int stIx = 0;
+        while (compositionTemplate.indexOf("reqCompFieldType", stIx) > 0) {
+            stIx = compositionTemplate.indexOf("reqCompFieldType") + "reqCompFieldType".length();
+            compositionTemplate = compositionTemplate.substring(stIx);
+            int ix = compositionTemplate.indexOf(";");
+            String type = compositionTemplate.substring(0, ix).replace("=", "").replace(" ", "");
+            fieldTypes.add(type);
+        }
+
+        return fieldTypes;
     }
 
     private String getFieldValue(List<ReqCompFieldInfo> fields, String key) {

@@ -37,21 +37,19 @@ import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.dto.FileStatus;
-import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
+import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
 import org.kuali.student.core.document.dto.DocumentBinaryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
-import org.kuali.student.core.dto.RefDocRelationInfoMock;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.mock.service.DocumentRelationService;
 
 public class UploadServlet extends HttpServlet{
 	final Logger LOG = Logger.getLogger(UploadServlet.class);
 	private static final long serialVersionUID = 1L;
 	DocumentService documentService;
-	DocumentRelationService relationService;
 	
 	private class DocumentProgressListener implements ProgressListener{
 		
@@ -172,12 +170,14 @@ public class UploadServlet extends HttpServlet{
 			    			fileStatus.setDocId(createdDoc.getId());
 			    		}
 			    		
-			    		RefDocRelationInfoMock relationInfo = new RefDocRelationInfoMock();
+			    		RefDocRelationInfo relationInfo = new RefDocRelationInfo();
 			    		relationInfo.setDesc(info.getDesc());
-			    		relationInfo.setRefId(request.getParameter("referenceId"));
+			    		relationInfo.setRefObjectId(request.getParameter("referenceId"));
+			    		relationInfo.setRefObjectTypeKey(request.getParameter("refObjectTypeKey"));
 			    		relationInfo.setTitle(info.getFileName());
-			    		relationInfo.setDocumentId(info.getId());
-			    		relationService.createRefDocRelation(request.getParameter("referenceId"), createdDoc.getId(), relationInfo);
+			    		relationInfo.setDocumentId(createdDoc.getId());
+			    		relationInfo.setType(request.getParameter("refDocRelationTypeKey"));
+			    		documentService.createRefDocRelation(relationInfo.getRefObjectTypeKey(),relationInfo.getRefObjectId(),relationInfo.getDocumentId(),relationInfo.getType(), relationInfo);
 		    		}
 		    		catch(Exception e){
 		    			fileError = true;
@@ -257,14 +257,5 @@ public class UploadServlet extends HttpServlet{
 	public void setDocumentService(DocumentService documentService) {
 		this.documentService = documentService;
 	}
-
-	public DocumentRelationService getRelationService() {
-		return relationService;
-	}
-
-	public void setRelationService(DocumentRelationService relationService) {
-		this.relationService = relationService;
-	}
-	
 
 }

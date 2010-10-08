@@ -14,12 +14,12 @@ import java.util.ArrayList;
  */
 public abstract class AbstractProgramConfigurer extends Configurer {
 
-    private ProgramController viewController;
+    private ProgramController programController;
 
     protected ConfigurationManager programSectionConfigManager;
 
     public void configure(ProgramController viewController) {
-        this.viewController = viewController;
+        this.programController = viewController;
         configureProgramSections();
     }
 
@@ -28,21 +28,21 @@ public abstract class AbstractProgramConfigurer extends Configurer {
      */
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
-        viewController.addMenu(programSectionLabel);
+        programController.addMenu(programSectionLabel);
         ArrayList<Configuration> configurations = programSectionConfigManager.getConfigurations();
         for (Configuration configuration : configurations) {
             if (configuration instanceof AbstractControllerConfiguration) {
-                ((AbstractControllerConfiguration) configuration).setController(viewController);
+                ((AbstractControllerConfiguration) configuration).setController(programController);
             }
             if (configuration instanceof ProgramSummaryConfiguration) {
-                viewController.addSpecialMenuItem(configuration.getView(), programSectionLabel);
+                programController.addSpecialMenuItem(configuration.getView(), programSectionLabel);
             } else {
-                viewController.addMenuItem(programSectionLabel, configuration.getView());
+                programController.addMenuItem(programSectionLabel, configuration.getView());
             }
         }
     }
 
-    public ProgramController getViewController() {
-        return viewController;
+    public ProgramController getProgramController() {
+        return programController;
     }
 }

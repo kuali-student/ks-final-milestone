@@ -7,9 +7,11 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import static org.junit.Assert.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -23,12 +25,12 @@ public class DictionaryTesterHelper
  private File file;
  private OutputStream outputStream;
  private PrintStream out;
- private Set<Class<?>> startingClasses;
+ private Set<String> startingClasses;
  private String dictFileName;
  private boolean processSubstructures = false;
 
  public DictionaryTesterHelper (String outputFileName,
-                                Set<Class<?>> startingClasses,
+                                Set<String> startingClasses,
                                 String dictFileName,
                                 boolean processSubstructures)
  {
@@ -49,44 +51,48 @@ public class DictionaryTesterHelper
   this.out = new PrintStream (outputStream);
  }
 
+ private transient Map<String, ObjectStructureDefinition> objectStructures;
+
  public void doTest ()
  {
   ApplicationContext ac = new ClassPathXmlApplicationContext (
-    "classpath:" + dictFileName);
-//  for (String beanName: ac.getBeanDefinitionNames ())
-//  {
-//   out.println ("beanName=" + beanName);
-//  }
+      "classpath:" + dictFileName);
+  objectStructures = new HashMap ();
+  Map<String, ObjectStructureDefinition> beansOfType =
+                                         (Map<String, ObjectStructureDefinition>) ac.
+      getBeansOfType (ObjectStructureDefinition.class);
+  for (ObjectStructureDefinition objStr: beansOfType.values ())
+  {
+   objectStructures.put (objStr.getName (), objStr);
+   System.out.println ("Loading object structure: " + objStr.getName ());
+  }
   // First validate all the starting classes
-  for (Class<?> clazz : startingClasses)
+  for (String className: startingClasses)
   {
    ObjectStructureDefinition os = null;
-   try
+   os = objectStructures.get (className);
+   if (os == null)
    {
-    os = (ObjectStructureDefinition) ac.getBean (clazz.getName ());
-    DictionaryValidator validator = new DictionaryValidator (os,
-                                                             new HashSet (),
-                                                             false);
-    List<String> errors = validator.validate ();
-    if (errors.size () > 0)
-    {
-     fail (clazz.getName () + " failed dictionary validation:\n"
-           + this.formatAsString (errors));
-    }
+    throw new RuntimeException ("className is not defined in dictionary: " + className);
    }
-   catch (NoSuchBeanDefinitionException ex)
+   DictionaryValidator validator = new DictionaryValidator (os,
+                                                            new HashSet (),
+                                                            false);
+   List<String> errors = validator.validate ();
+   if (errors.size () > 0)
    {
-    // TODO: fail if the starting class isn't even defined yet.
+    fail (className + " failed dictionary validation:\n"
+          + this.formatAsString (errors));
    }
   }
 
 
-  Set<Class<?>> allStructures = new LinkedHashSet ();
-  for (Class<?> clazz : startingClasses)
+  Set<String> allStructures = new LinkedHashSet ();
+  for (String className: startingClasses)
   {
-   allStructures.addAll (getComplexSubStructures (clazz));
+   allStructures.addAll (getComplexSubStructures (className));
   }
-  Set<Class<?>> classesToProcess = null;
+  Set<String> classesToProcess = null;
   if (this.processSubstructures)
   {
    classesToProcess = startingClasses;
@@ -105,19 +111,19 @@ public class DictionaryTesterHelper
              + "|https://test.kuali.org/svn/student/trunk/ks-lum/ks-lum-impl/src/main/resources/"
              + dictFileName + "]");
   out.println (
-    " and is compared to the following java classes (and their sub-classes) for discrepancies:");
-  for (Class<?> clazz : startingClasses)
+      " and is compared to the following java classes (and their sub-classes) for discrepancies:");
+  for (String className: startingClasses)
   {
-   out.println ("# " + clazz.getName ());
+   out.println ("# " + className);
   }
   out.println ("");
   out.println ("----");
   out.println ("{toc}");
   out.println ("----");
-  for (Class<?> clazz : classesToProcess)
+  for (String className: classesToProcess)
   {
 //   System.out.println ("processing class " + clazz.getSimpleName ());
-   doTestOnClass (clazz, ac);
+   doTestOnClass (className, ac);
   }
  }
 
@@ -125,7 +131,7 @@ public class DictionaryTesterHelper
  {
   int i = 0;
   StringBuilder builder = new StringBuilder ();
-  for (String discrep : discrepancies)
+  for (String discrep: discrepancies)
   {
    i ++;
    builder.append (i + ". " + discrep + "\n");
@@ -133,30 +139,26 @@ public class DictionaryTesterHelper
   return builder.toString ();
  }
 
- private Set<Class<?>> getComplexSubStructures (Class<?> clazz)
+ private Set<String> getComplexSubStructures (String className)
  {
-  return new ComplexSubstructuresHelper ().getComplexStructures (clazz);
+  return new ComplexSubstructuresHelper ().getComplexStructures (className);
  }
 
- private void doTestOnClass (Class<?> clazz, ApplicationContext ac)
+ private void doTestOnClass (String className, ApplicationContext ac)
  {
-  ObjectStructureDefinition os = null;
-  try
+  ObjectStructureDefinition os =   os = objectStructures.get (className);
+  String simpleName = calcSimpleName (className);
+  if (os == null)
   {
-   os = (ObjectStructureDefinition) ac.getBean (clazz.getName ());
-  }
-  catch (NoSuchBeanDefinitionException ex)
-  {
-   out.println ("h1. " + clazz.getSimpleName ());
-   out.println ("{anchor:" + clazz.getSimpleName () + "}");
-   out.println ("h2. Error could not find a dictionary definition for the java class");
-   out.println (ex.getMessage ());
+
+   out.println ("h1. " + simpleName);
+   out.println ("{anchor:" + simpleName + "}");
+   out.println ("h2. Error could not find a corresponding dictionary definition");
    return;
   }
-  String name = calcSimpleName (os.getName ());
   DictionaryFormatter formatter =
-                      new DictionaryFormatter (name,
-                                               clazz,
+                      new DictionaryFormatter (className,
+                                               className,
                                                os,
                                                new HashSet (),
                                                1, // header level to start at
@@ -172,4 +174,5 @@ public class DictionaryTesterHelper
   }
   return name;
  }
+
 }

@@ -4,8 +4,11 @@
 package org.kuali.student.lum.program.service.impl;
 
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
+import static org.apache.commons.lang.StringUtils.isEmpty;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
@@ -24,6 +27,7 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerUtils;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
@@ -56,9 +60,12 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
 		progReq.setDescr(clu.getDescr());
 
+		//assembling minCredits & maxCredits
+		assembleCredits(clu, progReq);
+		
 		if (progReq.getStatement() == null) {
 			try {
-				List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef("clu", clu.getId());
+				List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId());
 
 
 				StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
@@ -127,14 +134,21 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         result.getChildNodes().add(cluResult);
 
         programAssemblerUtils.disassembleBasics(clu, progReq, operation);
+        
+		//disassembling minCredits & maxCredits
+        disassembleCredits(clu, progReq);
+		
         progReq.setId(clu.getId());
-        if (clu.getOfficialIdentifier() == null) {
-        	clu.setOfficialIdentifier(new CluIdentifierInfo());
-        }
-        clu.getOfficialIdentifier().setLongName(progReq.getLongTitle());
-        clu.getOfficialIdentifier().setShortName(progReq.getShortTitle());
-        clu.setDescr(progReq.getDescr());
+        CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
+        official.setLongName(progReq.getLongTitle());
+        official.setShortName(progReq.getShortTitle());
+        official.setState(!isEmpty(clu.getState()) ? clu.getState() : ProgramAssemblerConstants.ACTIVE);
+        // gotta be this type
+        official.setType(ProgramAssemblerConstants.OFFICIAL);
+        clu.setOfficialIdentifier(official);
 
+        clu.setDescr(progReq.getDescr());
+        clu.setState(!isEmpty(clu.getState()) ? clu.getState() : ProgramAssemblerConstants.ACTIVE);
         if (progReq.getLearningObjectives() != null) {
             disassembleLearningObjectives(progReq, operation, result);
         }
@@ -145,16 +159,17 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
             relation.setId(UUIDHelper.genStringUUID(null));
         } else {
         	try {
-        		relation = statementService.getRefStatementRelationsByRef("clu", clu.getId()).get(0);
+        		relation = statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId()).get(0);
 			} catch (Exception e) {
 				throw new AssemblyException("Unable to find RefStatementRelation", e);
 			}
         }
-        relation.setType("clu.programrequirements");
+        //relation.setType("clu.prerequisites"); // FIXME Derive from statement and rule types
+        relation.setType(ProgramAssemblerConstants.PROGRAM_REFERENCE_TYPE);
         relation.setRefObjectId(clu.getId());
-        relation.setRefObjectTypeKey("clu");
+        relation.setRefObjectTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
         relation.setStatementId(statement.getId());
-        relation.setState("active");
+        relation.setState(ProgramAssemblerConstants.ACTIVE);
 
         BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo> relationNode = new BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo>(null);
         relationNode.setNodeData(relation);
@@ -180,6 +195,24 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         }
 	}
 
+	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
+		Map<String,String> attributes = null != clu.getAttributes() ? clu.getAttributes() : new HashMap<String,String>();
+		
+		if(progReq.getMinCredits() != null) attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
+		if(progReq.getMaxCredits() != null) attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
+		clu.setAttributes(attributes);		
+	}
+	
+	private void assembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
+		Map<String,String> attributes = clu.getAttributes();
+		if(attributes != null){
+			if(attributes.containsKey(ProgramAssemblerConstants.MIN_CREDITS))
+				progReq.setMinCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MIN_CREDITS)));
+			if(attributes.containsKey(ProgramAssemblerConstants.MAX_CREDITS))
+				progReq.setMaxCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MAX_CREDITS)));
+		}
+	}
+	
 	public StatementTreeViewAssembler getStatementTreeViewAssembler() {
 		return statementTreeViewAssembler;
 	}

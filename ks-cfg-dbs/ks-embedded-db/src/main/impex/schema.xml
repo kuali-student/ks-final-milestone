@@ -3362,7 +3362,7 @@
         <foreign-key foreignTable="KSEM_CTX_T" name="FK2E513D0C6CE9B9D6">
             <reference foreign="ID" local="CTX_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSEM_ENUM_VAL_T" name="FK2E513D0CCDDD923C">
+        <foreign-key foreignTable="KSEM_ENUM_VAL_T" name="FK2E513D0C87B21BB9">
             <reference foreign="ID" local="ENUM_VAL_ID"/>
         </foreign-key>
     </table>
@@ -3387,10 +3387,13 @@
         <column name="ABBREV_VAL" size="255" type="VARCHAR"/>
         <column name="CD" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="ENUM_KEY" size="255" type="VARCHAR"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="SORT_KEY" size="10" type="DECIMAL"/>
         <column name="VAL" size="255" type="VARCHAR"/>
+        <column name="ENUM_KEY" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEM_ENUM_T" name="FK7B6E5967357425D9">
+            <reference foreign="ENUM_KEY" local="ENUM_KEY"/>
+        </foreign-key>
     </table>
     <table name="KSLO_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4987,56 +4990,6 @@
             <reference foreign="PROPOSAL_ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSPR_PROPOSAL_DOCREL">
-        <column name="DOCREL_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
-        <column name="DOCUMENT_ID" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="STATE" size="255" type="VARCHAR"/>
-        <column name="TITLE" size="255" type="VARCHAR"/>
-        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <column name="PROPOSAL_ID" size="255" type="VARCHAR"/>
-        <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL" name="FKAFE5E579F4EE03C1">
-            <reference foreign="PROPOSAL_ID" local="PROPOSAL_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSPR_RICH_TEXT_T" name="FKAFE5E579E5848F8">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL_TYPE" name="FKAFE5E57989B4986F">
-            <reference foreign="ID" local="TYPE"/>
-        </foreign-key>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL" name="FK10D528F785351E0E">
-            <reference foreign="DOCREL_ID" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_TYPE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="DESCRIPTION" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_TYPE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL_TYPE" name="FK37AC94908FD1FBE8">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-    </table>
     <table name="KSPR_PROPOSAL_JN_ORG">
         <column name="ORGREF_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
@@ -5511,5 +5464,6 @@
     <sequence name="KRSB_BAM_S" nextval="2000"/>
     <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="1000"/>
+    <sequence name="KRSB_SVC_DEF_S" nextval="1116"/>
+    <sequence name="KSEM_ENUM_VAL_ID_S" nextval="2020"/>
 </database>

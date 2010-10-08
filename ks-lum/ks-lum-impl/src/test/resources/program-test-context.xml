@@ -519,6 +519,7 @@
  	<bean id="credentialProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="luService" ref="luServiceImpl"/>
     </bean>
 

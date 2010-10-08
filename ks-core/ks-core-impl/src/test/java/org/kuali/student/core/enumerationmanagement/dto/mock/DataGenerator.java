@@ -28,13 +28,13 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 public class DataGenerator{
 	
 	public static void generate(EnumerationManagementServiceImpl enumService) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		MockEnumeratedValueDTOs dtos = new MockEnumeratedValueDTOs("Semester");
+		MockEnumeratedValueDTOs dtos = new MockEnumeratedValueDTOs("Semester","SemesterEnum" );
 		List<EnumeratedValueInfo> values = dtos.getEnumeratedValues();
 		for(EnumeratedValueInfo value: values){
 			enumService.addEnumeratedValue("SemesterEnum", value);
 		}
 		
-		dtos = new MockEnumeratedValueDTOs("City");
+		dtos = new MockEnumeratedValueDTOs("City", "CityEnum");
 		values = dtos.getEnumeratedValues();
 		for(EnumeratedValueInfo value: values){
 			enumService.addEnumeratedValue("CityEnum", value);

@@ -308,6 +308,16 @@ public class ProgramAssemblerUtils {
             official.setState((null != existingState && existingState.length() > 0) ? existingState : ProgramAssemblerConstants.ACTIVE);
             // gotta be this type
             official.setType(ProgramAssemblerConstants.OFFICIAL);
+            
+            try {
+                method = o.getClass().getMethod("getProgramLevel", null);
+                String level = (String)method.invoke(o, null);
+                official.setLevel(level);
+            }
+            catch (NoSuchMethodException e)        {
+                //ignore - only CredentialProgram has programLevel
+            }
+            
             clu.setOfficialIdentifier(official);
 
             //Remove any existing diploma or transcript alt identifiers
@@ -518,7 +528,8 @@ public class ProgramAssemblerUtils {
         addAdminOrgs(clu, o, "getUnitsDeployment", ProgramAssemblerConstants.DEPLOYMENT_UNIT);
         addAdminOrgs(clu, o, "getUnitsFinancialResources", ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT);
         addAdminOrgs(clu, o, "getUnitsFinancialControl", ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT);
-
+        addAdminOrg(clu, o, "getInstitution", ProgramAssemblerConstants.INSTITUTION);
+        
         return clu;
 
     }
@@ -529,6 +540,21 @@ public class ProgramAssemblerUtils {
             clu.getAdminOrgs().addAll(orgs);
     }
 
+    private void addAdminOrg(CluInfo clu, Object o, String methodName, String adminOrgType){
+        AdminOrgInfo org = null;
+		try	{
+			Method method = o.getClass().getMethod(methodName, null);
+			org = (AdminOrgInfo) method.invoke(o, null);
+            if (org != null) {
+        		org.setType(adminOrgType);
+            	clu.getAdminOrgs().add(org);
+            }
+        }
+		catch (NoSuchMethodException ex) {} 
+        catch (IllegalArgumentException e) {} 
+        catch (IllegalAccessException e) {} 
+        catch (InvocationTargetException e) {}
+    }
     /**
      * Copy result option values from clu to program
      *
@@ -779,10 +805,9 @@ public class ProgramAssemblerUtils {
 
         if (!NodeOperation.CREATE.equals(operation)) {
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(credentialId);
-                //TODO Fix this so that get is by related clu id,  i.e. programId
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(programId);
                 for (CluCluRelationInfo cluRelation : cluRelations) {
-                    if (relationType.equals(cluRelation.getType()) && cluRelation.getRelatedCluId().equals(programId)) {
+                    if (relationType.equals(cluRelation.getType()) ) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
                     }
                 }
@@ -834,20 +859,67 @@ public class ProgramAssemblerUtils {
             currentRelations.remove(programId);
         }
 
-        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
-            // Create a new relation with the id of the relation we want to
-            // delete
-            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
-            relationToDelete.setId( entry.getValue() );
-            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
-                    null);
-            relationToDeleteNode.setNodeData(relationToDelete);
-            relationToDeleteNode.setOperation(NodeOperation.DELETE);
-            results.add(relationToDeleteNode);
+        if(currentRelations != null && currentRelations.size() > 0){
+	        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
+	            // Create a new relation with the id of the relation we want to
+	            // delete
+	            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
+	            relationToDelete.setId( entry.getValue() );
+	            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+	                    null);
+	            relationToDeleteNode.setNodeData(relationToDelete);
+	            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+	            results.add(relationToDeleteNode);
+	        }
         }
         return results;
     }
 
+    public List<BaseDTOAssemblyNode<?, ?>> addRelationNodes(String cluId, String relatedCluId, String relationType, NodeOperation operation)throws AssemblyException{
+    	Map<String, String> currentRelations = null;
+    	List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
+
+        if (!NodeOperation.CREATE.equals(operation)) {
+        	currentRelations = getCluCluRelations(cluId, relationType);
+        }
+
+        //  If this is a create then vreate new relation
+        if (NodeOperation.CREATE == operation
+                || (NodeOperation.UPDATE == operation && !currentRelations.containsKey(relatedCluId) )) {
+            // the relation does not exist, so create
+        	addCreateRelationNode(cluId, relatedCluId, relationType, results);
+        } else if (NodeOperation.UPDATE == operation
+                && currentRelations.containsKey(relatedCluId)) {
+            // If the relationship already exists update it
+
+            // remove this entry from the map so we can tell what needs to
+            // be deleted at the end
+            currentRelations.remove(relatedCluId);
+        } else if (NodeOperation.DELETE == operation
+                && currentRelations.containsKey(relatedCluId))  {
+            // Delete the Format and its relation
+        	addDeleteRelationNodes(currentRelations, results);
+        	
+            // remove this entry from the map so we can tell what needs to
+            // be deleted at the end
+            currentRelations.remove(relatedCluId);
+        }
+
+        if(currentRelations != null && currentRelations.size() > 0){
+	        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
+	            // Create a new relation with the id of the relation we want to
+	            // delete
+	            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
+	            relationToDelete.setId( entry.getValue() );
+	            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+	                    null);
+	            relationToDeleteNode.setNodeData(relationToDelete);
+	            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+	            results.add(relationToDeleteNode);
+	        }
+        }
+        return results;
+    }
     public Map<String, String> getCluCluRelations(String cluId, String relationType) throws AssemblyException{
         Map<String, String> currentRelations = new HashMap<String, String>();
 
@@ -1011,7 +1083,7 @@ public class ProgramAssemblerUtils {
 
         return result;
     }
-
+    
      private void addLuCode(CluInfo clu, Object o, String methodName, String codeType ) throws AssemblyException {
 
         LuCodeInfo code = buildLuCodeFromProgram(o, methodName, codeType );

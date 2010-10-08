@@ -18,11 +18,13 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +46,8 @@ public class ProgramController extends MenuSectionController {
 
     protected Label statusLabel = new Label();
 
+    protected ProgramSideBar sideBar;
+
     /**
      * Constructor.
      *
@@ -53,6 +57,7 @@ public class ProgramController extends MenuSectionController {
         super(name);
         this.eventBus = eventBus;
         this.programModel = programModel;
+        sideBar = new ProgramSideBar(eventBus);
         setViewContext(viewContext);
         initializeModel();
     }
@@ -189,6 +194,7 @@ public class ProgramController extends MenuSectionController {
         configurer.setModelDefinition(programModel.getDefinition());
         configurer.configure(this);
         addContentWidget(statusLabel);
+        setSideBarWidget(sideBar);
     }
 
     @Override

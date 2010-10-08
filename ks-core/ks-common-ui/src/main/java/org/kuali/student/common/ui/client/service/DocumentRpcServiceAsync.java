@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.core.document.dto.DocumentInfo;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -41,4 +42,8 @@ public interface DocumentRpcServiceAsync extends BaseRpcServiceAsync{
      * @param referenceTypeKey reference type
      */
     public void isAuthorizedUploadDocuments(String referenceId, String referenceTypeKey, AsyncCallback<Boolean> callback);
+
+	public void deleteRefDocRelation(String docRelationId, AsyncCallback<StatusInfo> callback);
+
+	public void getRefDocIdsForRef(String refObjectTypeKey, String refObjectId, AsyncCallback<List<RefDocRelationInfo>> callback);
 }

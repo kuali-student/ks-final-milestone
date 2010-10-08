@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.event;
 
-import com.google.gwt.event.shared.EventHandler;
+import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEventHandler;
 
 /**
  * Handler to handle a dirty state event. 
@@ -23,6 +23,6 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Kuali Student Team
  *
  */
-public interface DirtyStateChangeHandler  extends EventHandler {
-    public void onDirtyStateChange(DirtyStateChangeEvent event);
+public interface ContentDirtyEventHandler  extends UncheckedApplicationEventHandler {
+    public void onContentDirty(ContentDirtyEvent event);
 }

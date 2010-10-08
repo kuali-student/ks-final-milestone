@@ -1,7 +1,6 @@
 package org.kuali.student.lum.program.client;
 
 
-
 /**
  * @author Igor
  */
@@ -10,6 +9,7 @@ public class ProgramConstants {
     public static final String CREDENTIAL_PROGRAM_ID = "credentialProgramId";
     public static final String ID = "id";
     public static final String STATE = "state";
+    public static final String TYPE = "type";
     public static final String MAJOR_OBJECT_ID = "kuali.lu.type.MajorDiscipline";
     public static final String MAJOR_TYPE_ID = "referenceType.clu";
 
@@ -65,10 +65,18 @@ public class ProgramConstants {
 
     //Learning Objectives
     public static final String LEARNING_OBJECTIVES = "learningObjectives";
-    
+
     //Program Specializations
     public static final String VARIATIONS = "variations";
-    
+
     //Dynamic attributes
-    public static final String ISVARIATIONREQUIRED = "isVariationRequired";
+    public static final String IS_VARIATION_REQUIRED = "isVariationRequired";
+    public static final String LAST_REVIEW_DATE = "lastReviewDate";
+
+    //History
+    public static final String SCHEDULED_REVIEW_DATE = "nextReviewPeriod";
+    public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
+
+    //Navigation Tokens
+     public static final String VARIATION_EDIT_URL = "/HOME/CURRICULUM_HOME/VARIATION_EDIT";
 }

@@ -249,10 +249,12 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			RefStatementRelationInfo relation = (RefStatementRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				statementService.createRefStatementRelation(relation);
+				RefStatementRelationInfo created = statementService.createRefStatementRelation(relation);
+				relation.setMetaInfo(created.getMetaInfo());
 				break;
 			case UPDATE:
-				statementService.updateRefStatementRelation(relation.getId(), relation);
+				RefStatementRelationInfo updated = statementService.updateRefStatementRelation(relation.getId(), relation);
+				relation.setMetaInfo(updated.getMetaInfo());
 				break;
 			case DELETE:
 				statementService.deleteRefStatementRelation(relation.getId());

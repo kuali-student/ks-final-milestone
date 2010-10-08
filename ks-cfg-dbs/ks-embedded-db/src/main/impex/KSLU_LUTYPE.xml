@@ -2,14 +2,23 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Core" TYPE_DESC="Program containing core requirements" TYPE_KEY="kuali.lu.type.CoreProgram"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Credit Course"
         TYPE_DESC="An course offered for academic credit" TYPE_KEY="kuali.lu.type.CreditCourse"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Credit Course Format Shell"
         TYPE_DESC="A shell for course formats" TYPE_KEY="kuali.lu.type.CreditCourseFormatShell"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Major" TYPE_DESC="A Major Discipline" TYPE_KEY="kuali.lu.type.MajorDiscipline"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Non-Credit Course"
         TYPE_DESC="A course that is not offered for regular academic credit" TYPE_KEY="kuali.lu.type.NonCreditCourse"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20000101000000"
+        NAME="Req" TYPE_DESC="Program requirements" TYPE_KEY="kuali.lu.type.Requirement"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Specialization"
+        TYPE_DESC="Specialization of a Major Discipline" TYPE_KEY="kuali.lu.type.Variation"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Directed"
         TYPE_DESC="The exchange of opinions or questions on course material, directed by the instructor." TYPE_KEY="kuali.lu.type.activity.Directed"/>
@@ -29,15 +38,9 @@
         NAME="Lecture"
         TYPE_DESC="Instructor presentation of course materials via the web" TYPE_KEY="kuali.lu.type.activity.WebLecture"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Baccalaureate" TYPE_DESC="A Baccalaureate" TYPE_KEY="kuali.lu.type.credential.Baccalaureate"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Course" TYPE_DESC="A Shell Course" TYPE_KEY="luType.shell.course"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
         NAME="Program" TYPE_DESC="A Shell Program" TYPE_KEY="luType.shell.program"/>
-    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Baccalaureate" TYPE_DESC="A Baccalaureate" TYPE_KEY="kuali.lu.type.credential.Baccalaureate"/>
-    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Major" TYPE_DESC="A Major Discipline" TYPE_KEY="kuali.lu.type.MajorDiscipline"/>
-    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Specialization" TYPE_DESC="Specialization of a Major Discipline" TYPE_KEY="kuali.lu.type.Variation"/>
-    <KSLU_LUTYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Core" TYPE_DESC="Program containing core requirements" TYPE_KEY="kuali.lu.type.CoreProgram"/>
 </dataset>

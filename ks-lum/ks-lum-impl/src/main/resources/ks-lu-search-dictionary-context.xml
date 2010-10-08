@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ <import resource="classpath:ks-base-dictionary-context.xml" />
+ <import resource="classpath:ks-cluset-ui-object-dictionary-context.xml" />
+
+ <!-- phantom fields used just for searching -->
+
+ <bean id="phantom.search-parent"  abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="search"/>
+  <property name="attributes">
+   <list>
+    <ref bean="phantom.search.cluset" />
+    <ref bean="phantom.search.findCourse" />
+    <ref bean="phantom.search.courseVersions" />
+    <ref bean="phantom.search.findProposal" />
+
+    <!--Not sure these are actually used-->
+    <ref bean="phantom.search.approvedCourses" />
+    <ref bean="phantom.search.proposedCourses" />
+    <ref bean="phantom.search.reusableCluSets" />
+    <ref bean="phantom.search.courseRanges" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="phantom.search" parent="phantom.search-parent" />
+
+ <bean id="phantom.search.cluset-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="cluset" />
+  <property name="dataObjectStructure"
+            ref="phantom.cluset" />
+ </bean>
+ <bean id="phantom.search.cluset" parent="phantom.search.cluset-parent" />
+
+ <bean id="phantom.search.findCourse-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="findCourse" />
+ </bean>
+ <bean id="phantom.search.findCourse" parent="phantom.search.findCourse-parent" />
+
+ <bean id="phantom.search.findProposal-parent" abstract="true" parent="baseKualiProposalId">
+  <property name="name" value="findProposal" />
+ </bean>
+ <bean id="phantom.search.findProposal" parent="phantom.search.findProposal-parent" />
+
+ <bean id="phantom.search.approvedCourses-parent" abstract="true" parent="baseKualiProposalId">
+  <property name="name" value="approvedCourses" />
+ </bean>
+ <bean id="phantom.search.approvedCourses" parent="phantom.search.approvedCourses-parent" />
+
+ <bean id="phantom.search.proposedCourses-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="proposedCourses" />
+ </bean>
+ <bean id="phantom.search.proposedCourses" parent="phantom.search.proposedCourses-parent" />
+
+ <bean id="phantom.search.courseVersions-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="searchCourseVersions" />
+ </bean>
+ <bean id="phantom.search.courseVersions" parent="phantom.search.courseVersions-parent" />
+
+ <bean id="phantom.search.reusableCluSets-parent" abstract="true" parent="baseKualiCluSetId">
+  <property name="name" value="reusableCluSets" />
+ </bean>
+ <bean id="phantom.search.reusableCluSets" parent="phantom.search.reusableCluSets-parent" />
+ 
+ <bean id="phantom.search.courseRanges-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="courseRanges" />
+ </bean>
+ <bean id="phantom.search.courseRanges" parent="phantom.search.courseRanges-parent" />
+
+</beans>

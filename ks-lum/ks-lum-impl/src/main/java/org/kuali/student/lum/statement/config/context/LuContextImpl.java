@@ -43,6 +43,9 @@ public class LuContextImpl extends BasicContextImpl {
 	 * $clu.getOfficialIdentifier().getShortName()'
 	 */
 	public final static String CLU_TOKEN = "clu";
+	public final static String COURSE_CLU_TOKEN = "courseClu";
+	public final static String PROGRAM_CLU_TOKEN = "programClu";
+	public final static String TEST_CLU_TOKEN = "testClu";
 
 	/**
 	 * <code>cluSet</code> token (key) references a Clu set object
@@ -50,6 +53,9 @@ public class LuContextImpl extends BasicContextImpl {
 	 * e.g. 'Student must have completed all of $cluSet.getCluSetAsCode()'
 	 */
 	public final static String CLU_SET_TOKEN = "cluSet";
+	public final static String COURSE_CLU_SET_TOKEN = "courseCluSet";
+	public final static String PROGRAM_CLU_SET_TOKEN = "programCluSet";
+	public final static String TEST_CLU_SET_TOKEN = "testCluSet";
 
 	/**
 	 * Sets the LU service.
@@ -79,10 +85,14 @@ public class LuContextImpl extends BasicContextImpl {
 		}
     }
 
-    private CluInfo getClu(ReqComponentInfo reqComponent) throws OperationFailedException {
+    private CluInfo getClu(ReqComponentInfo reqComponent, String key) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
-        if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
-	    	String cluId = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
+//        if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
+//	    	String cluId = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
+//	    	return getCluInfo(cluId);
+//        }
+        if(map.containsKey(key)) {
+	    	String cluId = map.get(key);
 	    	return getCluInfo(cluId);
         }
         return null;
@@ -173,14 +183,19 @@ public class LuContextImpl extends BasicContextImpl {
      * @return custom CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public NLCluSet getCluSet(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public NLCluSet getCluSet(ReqComponentInfo reqComponent, String key) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	NLCluSet cluSet = null;
     	/*if(map.containsKey(ReqComponentFieldTypes.CLU_KEY.getId())) {
         	String cluIds = map.get(ReqComponentFieldTypes.CLU_KEY.getId());
         	cluSet = getClusAsCluSet(cluIds);
-        } else*/ if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
-        	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getId());
+        } else*/ 
+//    	if(map.containsKey(ReqComponentFieldTypes.CLUSET_KEY.getId())) {
+//        	String cluSetId = map.get(ReqComponentFieldTypes.CLUSET_KEY.getId());
+//            cluSet = getCluSet(cluSetId);
+//        }
+    	if(map.containsKey(key)) {
+        	String cluSetId = map.get(key);
             cluSet = getCluSet(cluSetId);
         }
     	return cluSet;
@@ -194,14 +209,41 @@ public class LuContextImpl extends BasicContextImpl {
      */
     public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
-        CluInfo clu = getClu(reqComponent);
+
+        CluInfo clu = getClu(reqComponent, ReqComponentFieldTypes.CLU_KEY.getId());
         if(clu != null) {
 	        contextMap.put(CLU_TOKEN, clu);
         }
-        NLCluSet cluSet = getCluSet(reqComponent);
+        CluInfo courseClu = getClu(reqComponent, ReqComponentFieldTypes.COURSE_CLU_KEY.getId());
+        if(courseClu != null) {
+	        contextMap.put(COURSE_CLU_TOKEN, courseClu);
+        }
+        CluInfo programClu = getClu(reqComponent, ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId());
+        if(programClu != null) {
+	        contextMap.put(PROGRAM_CLU_TOKEN, programClu);
+        }
+        CluInfo testClu = getClu(reqComponent, ReqComponentFieldTypes.TEST_CLU_KEY.getId());
+        if(testClu != null) {
+	        contextMap.put(TEST_CLU_TOKEN, testClu);
+        }
+
+        NLCluSet cluSet = getCluSet(reqComponent, ReqComponentFieldTypes.CLUSET_KEY.getId());
         if(cluSet != null) {
         	contextMap.put(CLU_SET_TOKEN, cluSet);
         }
+        NLCluSet courseCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId());
+        if(courseCluSet != null) {
+        	contextMap.put(COURSE_CLU_SET_TOKEN, courseCluSet);
+        }
+        NLCluSet programCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId());
+        if(programCluSet != null) {
+        	contextMap.put(PROGRAM_CLU_SET_TOKEN, programCluSet);
+        }
+        NLCluSet testCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.TEST_CLUSET_KEY.getId());
+        if(testCluSet != null) {
+        	contextMap.put(TEST_CLU_SET_TOKEN, testCluSet);
+        }
+
         return contextMap;
     }
 }

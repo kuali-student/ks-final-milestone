@@ -22,7 +22,7 @@ public class SupportingDocsEditConfiguration extends AbstractSectionConfiguratio
     protected void buildLayout() {
         ProgramDocumentTool documentTool = new ProgramDocumentTool(ProgramSections.SUPPORTING_DOCUMENTS_EDIT, "Documents");
         documentTool.setModelDefinition((DataModelDefinition) configurer.getModelDefinition());
-        documentTool.setController(((AbstractProgramConfigurer) configurer).getViewController());
+        documentTool.setController(((AbstractProgramConfigurer) configurer).getProgramController());
         rootSection.addView(documentTool);
     }
 }

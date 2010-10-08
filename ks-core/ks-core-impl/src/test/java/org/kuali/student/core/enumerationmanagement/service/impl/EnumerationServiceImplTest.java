@@ -80,9 +80,13 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	public void testSetEnumDAO(){
 		long baseTime = System.currentTimeMillis();
     	
+		Enumeration key1 = new Enumeration();
+		key1.setKey("Key1");
+		key1.setName("Key1");
+		
 		//Enumeration
 		EnumeratedValue entity1 = new EnumeratedValue();
-        entity1.setEnumerationKey("Key1");
+        entity1.setEnumeration(key1);
         entity1.setAbbrevValue("Abbrev1");
         entity1.setCode("Code1");
         entity1.setEffectiveDate(new Date(baseTime-10000000L));
@@ -91,7 +95,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity1.setValue("Value1");
         
     	EnumeratedValue entity2 = new EnumeratedValue();
-        entity2.setEnumerationKey("Key1");
+        entity2.setEnumeration(key1);
         entity2.setAbbrevValue("Abbrev2");
         entity2.setCode("Code2");
         entity2.setEffectiveDate(new Date(baseTime-10000000L));
@@ -100,7 +104,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity2.setValue("Value2");
         
     	EnumeratedValue entity3 = new EnumeratedValue();
-        entity3.setEnumerationKey("Key1");
+        entity3.setEnumeration(key1);
         entity3.setAbbrevValue("Abbrev3");
         entity3.setCode("Code3");
         entity3.setEffectiveDate(new Date(baseTime-10000000L));
@@ -109,7 +113,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity3.setValue("Value3");
         
     	EnumeratedValue entity4 = new EnumeratedValue();
-        entity4.setEnumerationKey("Key1");
+        entity4.setEnumeration(key1);
         entity4.setAbbrevValue("Abbrev4");
         entity4.setCode("Code4");
         entity4.setEffectiveDate(new Date(baseTime-10000000L));
@@ -183,8 +187,8 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	//findEnumerationMetas
     	List<EnumerationInfo> list = enumService.getEnumerations();
     	
-    	//there is one in test-beans and 6 in ks-em.sql. so find 8
-    	assertEquals(list.size(), 8);
+    	//there is one in test-beans and 11 in ks-em.sql. so find 13
+    	assertEquals(list.size(), 13);
     	boolean foundMeta = false;
     	
     	for(EnumerationInfo ei : list) {
@@ -205,8 +209,12 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	public void testFetchEnumeratedValue() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
     	long baseTime = System.currentTimeMillis();
     	
+        Enumeration key1 = new Enumeration();
+        key1.setKey("Key1");
+        key1.setName("Key1");
+    	
     	EnumeratedValue entity1 = new EnumeratedValue();
-        entity1.setEnumerationKey("Key1");
+        entity1.setEnumeration(key1);
         entity1.setAbbrevValue("Abbrev1");
         entity1.setCode("Code1");
         entity1.setEffectiveDate(new Date(baseTime-10000000L));
@@ -215,7 +223,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity1.setValue("Value1");
         
     	EnumeratedValue entity2 = new EnumeratedValue();
-        entity2.setEnumerationKey("Key1");
+        entity2.setEnumeration(key1);
         entity2.setAbbrevValue("Abbrev2");
         entity2.setCode("Code2");
         entity2.setEffectiveDate(new Date(baseTime-10000000L));
@@ -224,7 +232,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity2.setValue("Value2");
         
     	EnumeratedValue entity3 = new EnumeratedValue();
-        entity3.setEnumerationKey("Key1");
+        entity3.setEnumeration(key1);
         entity3.setAbbrevValue("Abbrev3");
         entity3.setCode("Code3");
         entity3.setEffectiveDate(new Date(baseTime-10000000L));
@@ -233,7 +241,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity3.setValue("Value3");
         
     	EnumeratedValue entity4 = new EnumeratedValue();
-        entity4.setEnumerationKey("Key1");
+        entity4.setEnumeration(key1);
         entity4.setAbbrevValue("Abbrev4");
         entity4.setCode("Code4");
         entity4.setEffectiveDate(new Date(baseTime-10000000L));
@@ -353,9 +361,14 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	@Test
 	public void testAddEnumeratedValue() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, PermissionDeniedException{
 		enumService.setEnumDAO(enumerationManagementDAO);
-		
+				
+        Enumeration entity = new Enumeration();
+        entity.setName("Name2");
+        entity.setKey("Key2");
+		enumerationManagementDAO.addEnumeration(entity);
+        
 		long baseTime = System.currentTimeMillis();
-		
+
 		EnumeratedValueInfo dto = new EnumeratedValueInfo();
         dto.setCode("c");
         dto.setEffectiveDate(new Date(baseTime-10000000L));
@@ -363,6 +376,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dto.setSortKey("1");
         dto.setValue("v");
         dto.setAbbrevValue("a");
+        dto.setEnumerationKey("Key2");
         
         //dto context
         List<EnumContextValueInfo> dtoContext = new ArrayList<EnumContextValueInfo>();
@@ -395,11 +409,17 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	@Test
 	public void testUpdateEnumeratedValue() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException{
 		enumService.setEnumDAO(enumerationManagementDAO);
+
+        Enumeration entity = new Enumeration();
+        entity.setName("Name3");
+        entity.setKey("Key3");
+        enumerationManagementDAO.addEnumeration(entity);
 		
 		long baseTime = System.currentTimeMillis();
 		
 		EnumeratedValueInfo dto = new EnumeratedValueInfo();
-        dto.setCode("c");
+        dto.setEnumerationKey("Key3");
+		dto.setCode("c");
         dto.setEffectiveDate(new Date(baseTime-10000000L));
         dto.setExpirationDate(new Date(baseTime+10000000L));
         dto.setSortKey("1");
@@ -465,6 +485,11 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	@Test
 	public void testRemoveEnumeratedValue() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException{
 		enumService.setEnumDAO(enumerationManagementDAO);
+
+        Enumeration entity = new Enumeration();
+        entity.setName("Name3");
+        entity.setKey("Key3");
+        enumerationManagementDAO.addEnumeration(entity);
 		
 		long baseTime = System.currentTimeMillis();
 		
@@ -475,6 +500,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dto.setSortKey("1");
         dto.setValue("v");
         dto.setAbbrevValue("a");
+        dto.setEnumerationKey("Key3");
         
         //dto context
         List<EnumContextValueInfo> dtoContext = new ArrayList<EnumContextValueInfo>();
@@ -484,17 +510,31 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
         //add first
-		enumService.addEnumeratedValue("Key4", dto);
-		enumService.removeEnumeratedValue("Key4", "c");
+		enumService.addEnumeratedValue("Key3", dto);
+		enumService.removeEnumeratedValue("Key3", "c");
 
-		List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("Key4", "ContextA", "1", new Date(baseTime));
+		List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("Key3", "ContextA", "1", new Date(baseTime));
 		assertTrue(list.isEmpty());
 	}
 	
 	@Test
 	public void testAutoGenerate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, PermissionDeniedException{
 		//long baseTime = System.currentTimeMillis();
-		enumService.setEnumDAO(enumerationManagementDAO);
+
+	    enumService.setEnumDAO(enumerationManagementDAO);
+
+		Enumeration semesterEnum = new Enumeration();
+		semesterEnum.setKey("SemesterEnum");
+		semesterEnum.setDescr("Semester Enum");
+		semesterEnum.setName("SemesterEnum");
+
+        Enumeration cityEnum = new Enumeration();
+        cityEnum.setKey("CityEnum");
+        cityEnum.setDescr("CityEnum ");
+        cityEnum.setName("CityEnum");
+		
+		enumerationManagementDAO.addEnumeration(semesterEnum);
+		enumerationManagementDAO.addEnumeration(cityEnum);
 
 		DataGenerator.generate(enumService);
 		

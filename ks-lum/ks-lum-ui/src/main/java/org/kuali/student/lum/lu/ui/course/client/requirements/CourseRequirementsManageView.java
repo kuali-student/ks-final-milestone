@@ -93,6 +93,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         editReqCompWidget.setNewReqCompSelectedCallbackCallback(newReqCompSelectedCallbackCallback);
         editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
         editReqCompWidget.setRetrieveFieldsMetadataCallback(retrieveFieldsMetadataCallback);
+        editReqCompWidget.setRetrieveCustomWidgetCallback(retrieveCustomWidgetCallback);
         ruleManageWidget.setReqCompEditButtonClickCallback(editReqCompCallback);
     }
 
@@ -327,6 +328,13 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     editReqCompWidget.displayFieldsEnd(metadataList);
                 }
             });
+        }
+    };
+
+    protected Callback<String> retrieveCustomWidgetCallback = new Callback<String>(){
+        public void exec(final String widgetId) {
+            BuildCourseSetWidget buildCourseSetWidget = new BuildCourseSetWidget();
+            editReqCompWidget.displayCustomWidget(buildCourseSetWidget);
         }
     };
 

@@ -50,8 +50,10 @@ public class ProgramManager {
 
     public VariationEditController getVariationEditController() {
         String name = programEditController.getProgramName();
-        programModel.setRoot(VariationRegistry.getData());
-        variationEditController = new VariationEditController(name, programModel, viewContext, eventBus);
+        DataModel variationModel = new DataModel();
+        variationModel.setDefinition(programModel.getDefinition());
+        variationModel.setRoot(VariationRegistry.getData());
+        variationEditController = new VariationEditController(name, variationModel, viewContext, eventBus);
         return variationEditController;
     }
 
