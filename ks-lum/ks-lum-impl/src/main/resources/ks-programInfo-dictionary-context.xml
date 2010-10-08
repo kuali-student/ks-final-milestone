@@ -66,7 +66,7 @@
                 <ref bean="majorDisciplineInfo.lastReviewDate"/>
                 <ref bean="majorDisciplineInfo.isVariationRequired"/>
                 <ref bean="majorDisciplineInfo.endInstAdmitTerm"/>
-                <ref bean="majorDisciplineInfo.durationOther"/>
+                <ref bean="majorDisciplineInfo.durationNotes"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -389,7 +389,7 @@
                 <ref bean="programVariationInfo.universityClassification"/>
 
                 <!--Dynamic Attributes-->
-                <ref bean="programVariationInfo.durationOther"/>
+                <ref bean="programVariationInfo.durationNotes"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -622,17 +622,17 @@
     </bean>
     <bean id="majorDisciplineInfo.endInstAdmitTerm" parent="majorDisciplineInfo.endInstAdmitTerm-parent"/>
 
-    <bean id="majorDisciplineInfo.durationOther-parent" abstract="true" parent="baseString">
-        <property name="name" value="durationOther"/>
+    <bean id="majorDisciplineInfo.durationNotes-parent" abstract="true" parent="baseString">
+        <property name="name" value="durationNotes"/>
         <property name="dynamic" value="true"/>
     </bean>
-    <bean id="majorDisciplineInfo.durationOther" parent="majorDisciplineInfo.durationOther-parent"/>
+    <bean id="majorDisciplineInfo.durationNotes" parent="majorDisciplineInfo.durationNotes-parent"/>
 
-    <bean id="programVariationInfo.durationOther-parent" abstract="true" parent="baseString">
-        <property name="name" value="durationOther"/>
+    <bean id="programVariationInfo.durationNotes-parent" abstract="true" parent="baseString">
+        <property name="name" value="durationNotes"/>
         <property name="dynamic" value="true"/>
     </bean>
-    <bean id="programVariationInfo.durationOther" parent="programVariationInfo.durationOther-parent"/>
+    <bean id="programVariationInfo.durationNotes" parent="programVariationInfo.durationNotes-parent"/>
 
     <!-- CoreProgramInfo-->
     <bean id="org.kuali.student.lum.program.dto.CoreProgramInfo-parent" abstract="true"
