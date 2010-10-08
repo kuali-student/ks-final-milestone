@@ -599,6 +599,84 @@
 		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 	</bean>
 
+	<bean id="kuali.common.lookup.findProgram.suggest" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.findProgram.suggest" />
+		<property name="name" value="Program" />
+		<property name="searchTypeId" value="lu.search.generic" />
+		<property name="desc" value="Search for programs" />
+		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+		<property name="params">
+			<list>
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="lu.queryParam.luOptionalCode" />
+					<property name="name" value="Code" />
+					<property name="desc" value="Program code." />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+				<bean parent="param">   <!-- limit search to programs for this UI context -->
+					<property name="key" value="lu.queryParam.luOptionalType" />
+					<property name="name" value="Program Type" />
+					<property name="desc" value="Type of a program" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+     	<list> <!-- this list is not complete -->
+							<value>kuali.lu.type.credential.Baccalaureate</value>
+							<value>kuali.lu.type.credential.Masters</value>
+					 	<value>kuali.lu.type.credential.Professional</value>
+					 	<value>kuali.lu.type.credential.Doctoral</value>
+					 	<value>kuali.lu.type.credential.UndergraduateCertificate</value>
+					 	<value>kuali.lu.type.credential.GraduateCertificate </value>
+					 	<value>kuali.lu.type.credential.ContinuingEd</value>
+					 	<value>kuali.lu.type.MajorDiscipline</value>
+					 	<value>kuali.lu.type.Variation</value>
+					 	<value>kuali.lu.type.MinorDiscipline</value>
+					 	<value>kuali.lu.type.CoreProgram</value>
+					 	<value>kuali.lu.type.Honors</value>
+					 	<value>kuali.lu.type.LivingLearning</value>
+					 	<value>kuali.lu.type.Requirement</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+
+	<bean id="kuali.common.lookup.findTest.suggest" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.findTest.suggest" />
+		<property name="name" value="Program" />
+		<property name="searchTypeId" value="lu.search.generic" />
+		<property name="desc" value="Search for standardized test" />
+		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+		<property name="params">
+			<list>
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="lu.queryParam.luOptionalCode" />
+					<property name="name" value="Code" />
+					<property name="desc" value="Test code." />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+				<bean parent="param">   <!-- limit search to programs for this UI context -->
+					<property name="key" value="lu.queryParam.luOptionalType" />
+					<property name="name" value="Test Type" />
+					<property name="desc" value="Type of a Test" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+     	<list>
+							<value>kuali.lu.type.standardized.test</value>
+					 	<value>kuali.lu.type.standardized.test.component</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+
 <bean id="kuali.common.lookup.firstexpectedoffering.suggest"
 		parent="commonLookup-parent">
 		<property name="id"	value="kuali.common.lookup.firstexpectedoffering.suggest" />
