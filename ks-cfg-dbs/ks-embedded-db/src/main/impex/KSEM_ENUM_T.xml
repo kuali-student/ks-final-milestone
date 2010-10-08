@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSEM_ENUM_T DESCR="ATP Durations" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.atptype.duration" EXPIR_DT="20000101000000" NAME="ATP Durations"/>
+    <KSEM_ENUM_T DESCR="Program Level" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.enum.lu.program.level" EXPIR_DT="20000101000000" NAME="Program Level"/>
+    <KSEM_ENUM_T DESCR="CIP 2000" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.enum.type.cip2000" EXPIR_DT="20000101000000" NAME="CIP Codes 2000"/>
+    <KSEM_ENUM_T DESCR="CIP 2010" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.enum.type.cip2010" EXPIR_DT="20000101000000" NAME="CIP Codes 2010"/>
+    <KSEM_ENUM_T DESCR="Campus Location Enumeration"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
+        EXPIR_DT="20000101000000" NAME="Campus Location Enumeration"/>
+    <KSEM_ENUM_T DESCR="University Classification"
+        EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.code.UniversityClassification"
+        EXPIR_DT="20000101000000" NAME="University Classification"/>
+    <KSEM_ENUM_T DESCR="Learning Unit Fee Type" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20000101000000" NAME="Learning Unit Fee Type"/>
+    <KSEM_ENUM_T DESCR="Learning Unit Rate Type" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.fee.rateType" EXPIR_DT="20000101000000" NAME="Learning Unit Rate Type"/>
+    <KSEM_ENUM_T DESCR="Final Exam Status" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.finalExam.status" EXPIR_DT="20000101000000" NAME="Final Exam &#xa;Status"/>
+    <KSEM_ENUM_T DESCR="Subject Area Enumeration"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
+        EXPIR_DT="20000101000000" NAME="Subject Area Enumeration"/>
+    <KSEM_ENUM_T DESCR="KS Data States" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.state" EXPIR_DT="20000101000000" NAME="KS Data States"/>
+</dataset>
