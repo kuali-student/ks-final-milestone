@@ -2234,7 +2234,7 @@
 	<bean id="majorDisciplineInfo.intensity" parent="uilookupconfig-parent">
 		<property name="path" value="majorDisciplineInfo.intensity" />
 		<property name="initialLookup"
-			ref="kuali.enumeration.management.search.intensity" />
+			ref="kuali.lu.lookup.amountInfo.unitType" />
 	</bean>
 
 	<bean id="kuali.enumeration.management.search.intensity" class="org.kuali.student.core.assembly.data.UILookupData"
@@ -2269,7 +2269,7 @@
 	<bean id="majorDisciplineInfo.stdDuration" parent="uilookupconfig-parent">
 		<property name="path" value="majorDisciplineInfo.stdDuration" />
 		<property name="initialLookup"
-			ref="kuali.lu.lookup.amountInfo.unitType" />
+			ref="kuali.lookup.durations" />
 	</bean>
 	
     <bean id="majorDisciplineInfo.resultOptions" parent="uilookupconfig-parent">
