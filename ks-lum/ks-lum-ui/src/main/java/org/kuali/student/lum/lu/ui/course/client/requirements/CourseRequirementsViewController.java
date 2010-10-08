@@ -14,7 +14,6 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
-
 public class CourseRequirementsViewController extends BasicLayout {
 
     public enum CourseRequirementsViews {
@@ -38,7 +37,7 @@ public class CourseRequirementsViewController extends BasicLayout {
 		super.setViewEnum(viewType);
         super.setDefaultModelId(COURSE_RULES_MODEL_ID);
         super.setParentController(controller);
-        
+
 		this.setDefaultView(CourseRequirementsViewController.CourseRequirementsViews.PREVIEW);
 
         //not used
@@ -58,9 +57,15 @@ public class CourseRequirementsViewController extends BasicLayout {
         super.addView(preview);
 
         if (!isReadOnly) {
-            CourseRequirementsManageView manageView = new CourseRequirementsManageView(this, CourseRequirementsViewController.CourseRequirementsViews.MANAGE, "Add and Combine Rules", COURSE_RULES_MODEL_ID);
+            CourseRequirementsManageView manageView = new CourseRequirementsManageView(this, CourseRequirementsViewController.CourseRequirementsViews.MANAGE,
+                                                "Add and Combine Rules", COURSE_RULES_MODEL_ID); //, CourseRequirementsViews.PREVIEW);
             super.addView(manageView);
         }
+    }
+
+    @Override
+    public void updateModel() {
+        preview.updateModel();    
     }
 
     @Override
@@ -117,6 +122,9 @@ public class CourseRequirementsViewController extends BasicLayout {
     
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
+        dataInstance = new CourseRequirementsDataModel(this);
+        preview.setRules(dataInstance);
+
         //TODO
 	//	init(new Callback<Boolean>() {
 	//		@Override
@@ -129,10 +137,6 @@ public class CourseRequirementsViewController extends BasicLayout {
 	//		}
 	//	});
 	}
-
-    public CourseRequirementsSummaryView getProgramRequirementsView() {
-        return preview;
-    }
 
     //TODO remove after testing done
     static public StatementTreeViewInfo getTestStatement() {
@@ -156,16 +160,16 @@ public class CourseRequirementsViewController extends BasicLayout {
         ReqComponentInfo reqComp1 = new ReqComponentInfo();
         reqComp1.setId("REQCOMP-TV-1");
         reqComp1.setNaturalLanguageTranslation("Permission of English Department required");
-        reqComp1.setType("course.permission.org.required ");
+        reqComp1.setType("org.kuali.reqComponent.type.course.permission.org.required ");
         ReqComponentInfo reqComp2 = new ReqComponentInfo();
         reqComp2.setId("REQCOMP-TV-2");
         reqComp2.setNaturalLanguageTranslation("May be repeated for a maximum of 3 credits");
-        reqComp2.setType("course.credits.repeat.max ");
+        reqComp2.setType("org.kuali.reqComponent.type.course.credits.repeat.max");
         List<ReqComponentInfo> reqComponents = new ArrayList<ReqComponentInfo>();
         reqComponents.add(reqComp1);
         reqComponents.add(reqComp2);
         subTree1.setReqComponents(reqComponents);
-        subTree1.setNaturalLanguageTranslation("Permission of English Department required or May be repeated for a maximum of 3 credits");
+//        subTree1.setNaturalLanguageTranslation("Permission of English Department required or May be repeated for a maximum of 3 credits");
         subTree1.setOperator(StatementOperatorTypeKey.OR);
 
         subTree2.setId("STMT-TV-3");
@@ -173,21 +177,21 @@ public class CourseRequirementsViewController extends BasicLayout {
         ReqComponentInfo reqComp3 = new ReqComponentInfo();
         reqComp3.setId("REQCOMP-TV-3");
         reqComp3.setNaturalLanguageTranslation("Permission of Math Department required");
-        reqComp3.setType("course.permission.org.required ");
+        reqComp3.setType("org.kuali.reqComponent.type.course.permission.org.required");
         ReqComponentInfo reqComp4 = new ReqComponentInfo();
         reqComp4.setId("REQCOMP-TV-4");
         reqComp4.setNaturalLanguageTranslation("May be repeated for a maximum of 5 credits");
-        reqComp4.setType("course.credits.repeat.max ");
+        reqComp4.setType("org.kuali.reqComponent.type.course.credits.repeat.max");
         List<ReqComponentInfo> reqComponents2 = new ArrayList<ReqComponentInfo>();
         reqComponents2.add(reqComp3);
         reqComponents2.add(reqComp4);
         subTree2.setReqComponents(reqComponents2);
-        subTree2.setNaturalLanguageTranslation("Permission of Math Department required and May be repeated for a maximum of 5 credits");
+//        subTree2.setNaturalLanguageTranslation("Permission of Math Department required and May be repeated for a maximum of 5 credits");
         subTree2.setOperator(StatementOperatorTypeKey.AND);
 
-       stmtTreeInfo.setNaturalLanguageTranslation(
-               "Permission of English Department required or May be repeated for a maximum of 3 credits " +
-        		"and Permission of Math Department required and May be repeated for a maximum of 5 credits");
+//       stmtTreeInfo.setNaturalLanguageTranslation(
+//               "Permission of English Department required or May be repeated for a maximum of 3 credits " +
+//        		"and Permission of Math Department required and May be repeated for a maximum of 5 credits");
        stmtTreeInfo.setOperator(StatementOperatorTypeKey.AND);
 
         return stmtTreeInfo;

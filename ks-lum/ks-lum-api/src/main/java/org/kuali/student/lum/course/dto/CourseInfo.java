@@ -42,6 +42,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 
 /**
  * Detailed information about a single course.
+ * For specific usage, check the specific service(s) implementation(s)
  *
  * @Author KSContractMojo
  * @Author Daniel Epstein

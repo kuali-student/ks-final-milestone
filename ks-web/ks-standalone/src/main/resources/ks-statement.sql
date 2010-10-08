@@ -32,9 +32,9 @@ INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES 
 INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.course.academicReadiness.studentEligibility',       'Student Eligibility', null, {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 // Program
 INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program',                      'Program Requirements List', 'List of program requirements (rules).', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.entrance',             'Program Entrance Requirements', 'Program requirements (rules) used in the evaluation of a person''s entry into a program.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.satisfactoryProgress', 'Program Satisfactory Progress Requirements', 'Program requirements (rules) used in maintaining minimum scholarship standards.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.completion',           'Program Completion Requirements', 'Program requirements (rules) used in the evaluation of a person''s program completion.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.entrance',             'Entrance Requirements', 'Add conditions that will restrict student entrance into this program.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.satisfactoryProgress', 'Satisfactory Progress Requirements', 'Add conditions that will define how students will maintain satisfactory standing in this program.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_STMT_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.program.completion',           'Completion Requirements', 'Add conditions that will define how students may successfully complete this program.', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 
 
 // STMT_TYPE <-> STMT_TYPE
@@ -268,7 +268,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('204', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number> from <reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.course.courseset.enrolled.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('205', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Credits> from <reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.course.courseset.credits.completed.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('206', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.course.courseset.credits.completed.none', 'en')
-INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('207', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses;reqCompFieldLabel=Credits> from <reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.course.courseset.credits.completed.max', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('207', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Credits> from <reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.course.courseset.credits.completed.max', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('208', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.gpa;reqCompFieldLabel=GPA> from <reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.course.courseset.gpa.min', 'en')
 //INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('209', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.courseList.coreq.all', 'en')
 //INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('210', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.courseList.coreq.oneof', 'en')
@@ -326,7 +326,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3001', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number> from <reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqComponent.type.program.programset.completed.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3002', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqComponent.type.program.programset.notcompleted.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3003', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqComponent.type.program.programset.completed.all', 'en')
-INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3004', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number> from <reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.program.programset.coursecompleted.nof', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3004', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number> from <reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqComponent.type.program.programset.coursecompleted.nof', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3005', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Credits>', 'kuali.reqComponent.type.program.admitted.credits', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3006', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number>', 'kuali.reqComponent.type.program.credits.min', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3007', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number>', 'kuali.reqComponent.type.program.credits.max', 'en')
@@ -336,7 +336,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3011', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program> for final credits of <reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number>', 'kuali.reqComponent.type.program.residence.credits.final', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3012', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.clu.id;reqCompFieldLabel=Program> for final credits of <reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number>', 'kuali.reqComponent.type.program.enrolled.credits.final', 'en')
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3013', 'KUALI.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Minors>', 'kuali.reqComponent.type.program.minors.nof', 'en')
-INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3014', 'KUALI.COMPOSITION', null, 'kuali.reqComponent.type.program.minors.nof', 'en')
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE) values ('3014', 'KUALI.COMPOSITION', null, 'kuali.reqComponent.type.program.minor.admitted.classstanding', 'en')
 
 
 // STMT_TYPE <-> REQ_COM_TYPE
@@ -437,25 +437,29 @@ INSERT INTO KSST_NL_USAGE_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VAL
 
 // KSST_OBJECT_TYPE
 INSERT INTO KSST_OBJECT_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu', 'Kuali CLU', 'Kuali CLU', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_OBJECT_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.lu.type.CreditCourse', 'An course offered for academic credit', 'Kuali CLU', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_OBJECT_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.lu.type.Requirement', 'Program requirements', 'Kuali CLU', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 
 // KSST_OBJECT_SUB_TYPE
-INSERT INTO KSST_OBJECT_SUB_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('course', 'Kuali Course', 'Kuali Course', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_OBJECT_SUB_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('program', 'Kuali Program', 'Kuali Program', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+// TODO: Deprecated - to be removed with new statement service change
+//INSERT INTO KSST_OBJECT_SUB_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('course', 'Kuali Course', 'Kuali Course', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+//INSERT INTO KSST_OBJECT_SUB_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('program', 'Kuali Program', 'Kuali Program', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 
 // KSST_OBJ_TYP_JN_OBJ_SUB_TYP
-INSERT INTO KSST_OBJ_TYP_JN_OBJ_SUB_TYP (OBJ_TYPE_ID, OBJ_SUB_TYPE_ID) VALUES ('clu', 'course')
-INSERT INTO KSST_OBJ_TYP_JN_OBJ_SUB_TYP (OBJ_TYPE_ID, OBJ_SUB_TYPE_ID) VALUES ('clu', 'program')
+// TODO: Deprecated - to be removed with new statement service changes
+//INSERT INTO KSST_OBJ_TYP_JN_OBJ_SUB_TYP (OBJ_TYPE_ID, OBJ_SUB_TYPE_ID) VALUES ('clu', 'course')
+//INSERT INTO KSST_OBJ_TYP_JN_OBJ_SUB_TYP (OBJ_TYPE_ID, OBJ_SUB_TYPE_ID) VALUES ('clu', 'program')
 
 // KSST_REF_STMT_REL_TYPE
 // Course
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.prerequisites', 'CLU Pre-requisites', 'CLU Pre-requisites', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.corequisites', 'CLU Co-requisites', 'CLU Co-requisites', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.antirequisites', 'CLU Anti-requisites', 'CLU Anti-requisites', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.eligibilities', 'CLU Eligibilities', 'CLU Eligibilities', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+//INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.eligibilities', 'CLU Eligibilities', 'CLU Eligibilities', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.eligibilitiesandprerequisites', 'CLU Eligibilities and Pre-requisites', 'CLU Eligibilities and Pre-requisites', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.credit.repeatable', 'CLU Repeatable for Credit', 'CLU Repeatable for Credit', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.credit.restriction', 'CLU That Restrict Credit', 'CLU That Restrict Credit', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
-INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.credit.recommendedpreparation', 'CLU Recommended Preparations', 'CLU Recommended Preparations', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.recommendedpreparation', 'CLU Recommended Preparations', 'CLU Recommended Preparations', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 //INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.course', 'CLU Create Course', 'CLU Create Course', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 //INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.course.academicReadiness.prereq', 'CLU Prerequisites', 'CLU Prerequisites', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 //INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.statement.type.course.academicReadiness.coreq', 'CLU Corequisites', 'CLU Corequisites', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
@@ -467,32 +471,35 @@ INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT)
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.completion', 'CLU Completion Requirements', 'CLU Completion Requirements', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 // TODO: Deprecated - remove
 INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('clu.rule', 'CLU Rules', 'CLU Rules', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
+// TODO: temperary fix until object sub type is removed and new service method is created to find exact ref stmt relation type by stmt type and object type
+INSERT INTO KSST_REF_STMT_REL_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT) VALUES ('kuali.referenceType.CLU', 'CLU reference type', 'CLU reference type', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'})
 
 // KSST_RSTMT_RTYP_JN_OSUB_TYP <-> KSST_OBJECT_SUB_TYPE
+// TODO: Deprecated - to be removed with new statement service changes
 // Course
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.prerequisites')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.corequisites')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.antirequisites')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.eligibilities')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.eligibilitiesandprerequisites')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.repeatable')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.restriction')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.recommendedpreparation')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.prerequisites')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.corequisites')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.antirequisites')
+////INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.eligibilities')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.eligibilitiesandprerequisites')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.repeatable')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.credit.restriction')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('course', 'clu.recommendedpreparation')
 // Program
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.entrance')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.satisfactoryprogress')
-INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.completion')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.entrance')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.satisfactoryprogress')
+//INSERT INTO KSST_RSTMT_RTYP_JN_OSUB_TYP (OBJ_SUB_TYPE_ID, REF_STMT_REL_TYPE_ID) VALUES ('program', 'clu.completion')
 
 // KSST_RSTMT_RTYP_JN_STMT_TYP <-> KSST_STMT_TYPE
 // Course
 INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.prerequisites', 'kuali.statement.type.course.academicReadiness.prereq')
 INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.corequisites', 'kuali.statement.type.course.academicReadiness.coreq')
 INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.antirequisites', 'kuali.statement.type.course.academicReadiness.antireq')
-INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.eligibilities', 'kuali.statement.type.course.academicReadiness.studentEligibility')
+//INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.eligibilities', 'kuali.statement.type.course.academicReadiness.studentEligibility')
 INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.eligibilitiesandprerequisites', 'kuali.statement.type.course.academicReadiness.studentEligibilityPrereq')
 INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.credit.repeatable', 'kuali.statement.type.course.credit.repeatable')
 INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.credit.restriction', 'kuali.statement.type.course.credit.restriction')
-INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.credit.recommendedpreparation', 'kuali.statement.type.course.recommendedPreparation')
+INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.recommendedpreparation', 'kuali.statement.type.course.recommendedPreparation')
 // Program
 INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.entrance', 'kuali.statement.type.program.entrance')
 INSERT INTO KSST_RSTMT_RTYP_JN_STMT_TYP (REF_STMT_REL_TYPE_ID, STMT_TYPE_ID) VALUES ('clu.satisfactoryprogress', 'kuali.statement.type.program.satisfactoryProgress')

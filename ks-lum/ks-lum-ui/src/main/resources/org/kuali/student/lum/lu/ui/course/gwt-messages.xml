@@ -93,7 +93,7 @@
 	<bean parent="enCourse" p:id="cluEvaluationType" p:value="Evaluation Type" />
 	<bean parent="enCourse" p:id="cluTermLiteral" p:value="Term" />
 	<bean parent="enCourse" p:id="cluDurationLiteral" p:value="Duration" />
-	<bean parent="enCourse" p:id="cluDurationLiteral-instruct" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
+	<bean parent="enCourse" p:id="cluDurationLiteral-help" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
 	<bean parent="enCourse" p:id="cluFinalExam" p:value="Final Exam" />
 	<bean parent="enCourse" p:id="cluFinalExamStatus" p:value="Final Exam Status" />
 	<bean parent="enCourse" p:id="cluFinalExamRationale" p:value="Final Exam Rationale" />
@@ -138,7 +138,8 @@
 	<bean parent="enCourse" p:id="cluActivityLiteral" p:value="Activity" />
 	<bean parent="enCourse" p:id="cluActivityType" p:value="Activity Type" />
 	<bean parent="enCourse" p:id="cluContactHours" p:value="Contact Hours" />
-	<bean parent="enCourse" p:id="cluContactHours-instruct" p:value="Sum of contact hours will validate with credits (from learning results)" />
+	<bean parent="enCourse" p:id="cluContactHours-help" p:value="Sum of contact hours will validate with credits (from learning results)" />
+	<bean parent="enCourse" p:id="cluContactFrequency" p:value="Frequency" />
 	<bean parent="enCourse" p:id="cluClassSize" p:value="Anticipated Class Size" />
 	<bean parent="enCourse" p:id="cluClassSize-help" p:value="This does not have to be exact - it will be used as an estimate for evaluation purposes only." />
 
@@ -190,7 +191,11 @@
 	<bean parent="enCourse" p:id="courseTitle" p:value="Course Title" />
 	<bean parent="enCourse" p:id="courseTitle-instruct" p:value="It is highly recommended that you use the same name for the course and proposal title." />
 	<bean parent="enCourse" p:id="cluSubjectCode" p:value="Subject Code" />
+	<bean parent="enCourse" p:id="cluSubjectCode-constraints" p:value="Must be 4 letter code" />
+	<bean parent="enCourse" p:id="cluSubjectCode-watermark" p:value="AAAA" />
 	<bean parent="enCourse" p:id="cluCourseNumber" p:value="Course Number" />
+	<bean parent="enCourse" p:id="cluCourseNumber-constraints" p:value="Must be 3 digit number" />
+	<bean parent="enCourse" p:id="cluCourseNumber-watermark" p:value="111" />
 	<bean parent="enCourse" p:id="cluCrossListedVersionJoin" p:value="Cross List, Offer Jointly, Add Version Codes" />
 	<bean parent="enCourse" p:id="cluCourseNumberOrTitle" p:value="Course Number or Title" />
 	<bean parent="enCourse" p:id="cluCourseNumberOrTitle-instruct" p:value="Enter an existing course or proposal." />
@@ -402,8 +407,11 @@
     <!-- Financial Section labels -->
     
 	<bean parent="enCourse" p:id="cluCourseFeesTitle"                   p:value="Course Fees"/>
+	<bean parent="enCourse" p:id="cluCourseFeesTitle-instruct"          p:value="These are the required fees for the course, for example lab, material, field trips."/>
 	<bean parent="enCourse" p:id="cluJustificationOfFees"               p:value="Justification of Fees"/>
+	<bean parent="enCourse" p:id="cluJustificationOfFees-instruct"      p:value="This is for internal use only and will not be seen by students."/>
 	<bean parent="enCourse" p:id="cluFinancialInformation"              p:value="Financial Information"/>
+	<bean parent="enCourse" p:id="cluFinancialInformation-instruct"     p:value="Enter the organizations that will receive (revenue) and are responsible for distributing (expenditure) the course funds."/>
 	<bean parent="enCourse" p:id="cluRevenue"                           p:value="Revenue"/>
 	<bean parent="enCourse" p:id="cluAmount"                            p:value="Amount"/>
 	<bean parent="enCourse" p:id="cluExpenditure"                       p:value="Expenditure"/>

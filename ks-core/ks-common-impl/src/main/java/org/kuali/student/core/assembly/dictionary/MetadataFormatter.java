@@ -16,9 +16,7 @@ package org.kuali.student.core.assembly.dictionary;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
@@ -36,7 +34,7 @@ public class MetadataFormatter {
 	private String colSeperator = "|";
 	private String structureName;
 	private int level;
-	private Map<String, Metadata> subStructuresToProcess = new LinkedHashMap<String, Metadata>();
+//	private Map<String, Metadata> subStructuresToProcess = new LinkedHashMap<String, Metadata>();
 	private Set<Metadata> structuresAlreadyProcessed;
 	private MetadataFormatter parent;
 
@@ -143,9 +141,13 @@ public class MetadataFormatter {
 		keys.addAll(structureMetadata.getProperties().keySet());
 		Collections.sort(keys);
 		for (String key : keys) {
+   if (key.equalsIgnoreCase ("_runtimeData"))
+   {
+    continue;
+   }
 			Metadata fieldMeta = structureMetadata.getProperties().get(key);
 			builder.append(colSeperator);
-			builder.append(pad(calcFullyQualifiedFieldName(key), 30));
+			builder.append(calcFieldInfo (key, fieldMeta));
 			builder.append(colSeperator);
 			builder.append(pad(calcRequired(fieldMeta), 10));
 			builder.append(colSeperator);
@@ -212,6 +214,19 @@ public class MetadataFormatter {
 		}
 		return " ";
 	}
+
+ private String calcFieldInfo (String key, Metadata fieldMeta)
+ {
+  StringBuilder bldr = new StringBuilder (40);
+  bldr.append (pad(calcFullyQualifiedFieldName(key), 30));
+  if (fieldMeta.getLabelKey () != null)
+  {
+   bldr.append ("\\\\\n");
+   bldr.append ("Label: ");
+   bldr.append (fieldMeta.getLabelKey ());
+  }
+  return bldr.toString ();
+ }
 
 	public String calcFullyQualifiedFieldName(String fieldName) {
 		if (parent == null) {
@@ -329,12 +344,41 @@ public class MetadataFormatter {
 	}
 
 	private String calcLookup(Metadata fieldMeta) {
-
-		if (fieldMeta.getInitialLookup() == null) {
-			return " ";
+  StringBuilder bldr = new StringBuilder ();
+		if (fieldMeta.getInitialLookup() != null) {
+		 bldr.append (calcLookup (fieldMeta.getInitialLookup ()));
 		}
+   
+  if (fieldMeta.getAdditionalLookups () != null) {
+   if (fieldMeta.getAdditionalLookups ().size () > 0) {
+    if (fieldMeta.getInitialLookup() == null) {
+		   bldr.append ("No initial lookup but...");
+		  }
+		  bldr.append("\\\\");
+		  bldr.append("\n");   
+		  bldr.append("\\\\");
+		  bldr.append("\n");
+    bldr.append ("Additional Lookups:");
+		  bldr.append("\\\\");
+		  bldr.append("\n");
+   }
+   for (LookupMetadata lm : fieldMeta.getAdditionalLookups ())  {
+		  bldr.append("\\\\");
+  		bldr.append("\n");
+    bldr.append (calcLookup (lm));
+    bldr.append("\\\\");
+		  bldr.append("\n");
+   }  
+  }
+  if (bldr.length () == 0)
+  {
+   bldr.append (" ");
+  }
+  return bldr.toString ();
+ }
+
+ private String calcLookup(LookupMetadata lm) {
 		StringBuilder bldr = new StringBuilder();
-		LookupMetadata lm = fieldMeta.getInitialLookup();
 		bldr.append(lm.getId());
 		// this is the search description not the lookup description
 		// builder.append (" - ");
@@ -360,7 +404,6 @@ public class MetadataFormatter {
 				bldr.append("=");
 				if (param.getDefaultValueString() != null) {
 					bldr.append(param.getDefaultValueString());
-					continue;
 				}
 				if (param.getDefaultValueList() != null) {
 					String comma = "";
@@ -370,10 +413,20 @@ public class MetadataFormatter {
 						bldr.append(defValue);
 					}
 				}
+    if (param.getChildLookup () != null)
+    {
+     bldr.append ("the value choosen by the user in the: ");
+			  bldr.append("\\\\");
+			  bldr.append("\n");
+     bldr.append ("child lookup: ");
+			  bldr.append("\\\\");
+			  bldr.append("\n");
+     bldr.append (calcLookup (param.getChildLookup ()));
+    }
 			}
 		}
 		return bldr.toString();
-	}
+ }
 
 	private static final String PAGE_PREFIX = "Formatted View of ";
 	private static final String PAGE_SUFFIX = " Searches";
@@ -413,6 +466,9 @@ public class MetadataFormatter {
 		if (searchType.startsWith("person.")) {
 			return "Person";
 		}
+  if (searchType.startsWith("proposal.")) {
+			return "Proposal";
+		}
 		throw new IllegalArgumentException("Unknown type of search: "
 				+ searchType);
 	}
@@ -433,7 +489,13 @@ public class MetadataFormatter {
 			}
 			if (param.getDefaultValueList() != null) {
 				list.add(param);
+    continue;
 			}
+   if (param.getChildLookup () != null)
+   {
+    list.add (param);
+    continue;
+   }
 		}
 		return list;
 	}

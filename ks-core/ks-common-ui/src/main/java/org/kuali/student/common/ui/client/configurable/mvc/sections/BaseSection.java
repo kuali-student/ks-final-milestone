@@ -30,8 +30,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
@@ -69,14 +71,19 @@ public abstract class BaseSection extends SpanPanel implements Section{
             	    if (mwb != null) {
             	        final Widget w = fieldDescriptor.getFieldWidget();
             	        final String modelId = fieldDescriptor.getModelId();
-                        final LayoutController parent = LayoutController.findParentLayout(w);
+            	        final Controller parent;
+                        Controller findResult = LayoutController.findParentLayout(w);
+                        if(BaseSection.this instanceof View){
+                        	findResult = ((View)BaseSection.this).getController();
+                        }
+                        parent = findResult;
                         if(parent != null){
                         	if (modelId == null) {
                         		parent.requestModel(new ModelRequestCallback<DataModel>() {
 
                         			@Override
                         			public void onModelReady(DataModel model) {
-                        				validateField(fieldDescriptor, model);
+                        				validateField(fieldDescriptor, model, parent);
                         				
                         			}
 
@@ -91,7 +98,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 
                         			@Override
                         			public void onModelReady(DataModel model) {
-                        				validateField(fieldDescriptor, model);
+                        				validateField(fieldDescriptor, model, parent);
                         			}
 
                         			@Override
@@ -113,7 +120,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	}
 
 	private void validateField(
-			final FieldDescriptor fieldDescriptor, final DataModel model) {
+			final FieldDescriptor fieldDescriptor, final DataModel model, Controller controller) {
 		Widget w = fieldDescriptor.getFieldWidget();
 		ModelWidgetBinding mwb = fieldDescriptor.getModelWidgetBinding();
 		if(fieldDescriptor.getFieldKey() != null){
@@ -122,7 +129,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			ValidateRequestEvent e = new ValidateRequestEvent();
 			e.setFieldDescriptor(fieldDescriptor);
 			e.setValidateSingleField(true);
-			LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
+			controller.fireApplicationEvent(e);
 		}
 	}
 	

@@ -72,11 +72,25 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 
     private List<SelectionChangeHandler> selectionChangeHandlers = new ArrayList<SelectionChangeHandler>();
     private List<Callback<Widget>> widgetReadyCallbacks = new ArrayList<Callback<Widget>>();
+    private boolean hasDetails = false;
 
     private WidgetConfigInfo config;
-
+    
+    public KSSelectedList(WidgetConfigInfo config, boolean hasDetails) {
+        init(config, hasDetails);
+    }
+    
     public KSSelectedList(WidgetConfigInfo config) {
+        init(config, false);
+    }
+    
+    public WidgetConfigInfo getConfig() {
+        return config;
+    }
+
+    private void init(WidgetConfigInfo config, final boolean hasDetails) {
         this.config = config;
+        this.hasDetails = hasDetails;
         mainPanel = new VerticalFlowPanel();
         initWidget(mainPanel);
         if (config.canEdit) {
@@ -98,7 +112,8 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                     while (iter.hasNext()) {
                         Property p = iter.next();
                         String s = p.getValue();
-                        KSItemLabel selectedItem = createItem(s, picker.getDisplayValue());
+                        KSItemLabel selectedItem = createItem(s, picker.getDisplayValue(), 
+                                hasDetails);
                         addItem(selectedItem);
                     }
                     picker.clear();
@@ -117,14 +132,19 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 
         valuesPanel = new KSListPanel(ListType.UNORDERED);
         if(config.canEdit){
-        	valuesPanel.setStyleName("ks-selected-list");
+            valuesPanel.setStyleName("ks-selected-list");
         }
         else{
-        	valuesPanel.setStyleName("ks-selected-list-readOnly");
+            valuesPanel.setStyleName("ks-selected-list-readOnly");
         }
         mainPanel.add(valuesPanel);
         initialized = true;
         widgetReady();
+    }
+    
+    public KSListPanel separateValuesPanel() {
+        mainPanel.remove(valuesPanel);
+        return valuesPanel;
     }
 
     private void widgetReady() {
@@ -138,8 +158,8 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             public void exec(List<SelectedResults> results) {
                 if (results.size() > 0) {
                     for (SelectedResults res : results) {
-                        KSItemLabel item = createItem(res.getReturnKey(), res.getDisplayKey());
-                        addItem(item, true);
+                        KSItemLabel item = createItem(res.getReturnKey(), res.getDisplayKey(), hasDetails);
+                        addItem(item, false);
                     }
                     picker.clear();
                     addItemButton.setEnabled(false);
@@ -263,6 +283,10 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         DataValue result = new DataValue(data);
         return result;
     }
+    
+    public List<KSItemLabel> getSelectedItems() {
+        return selectedItems;
+    }
 
     /**
      * Returns all selected values along with their translations in the _runtime data.
@@ -284,10 +308,10 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         return result;
     }
 
-    private KSItemLabel createItem(String value, String display) {
+    private KSItemLabel createItem(String value, String display, boolean hasDetails) {
         Data itemData = toItemData(value, display);
         DataValue itemDataValue = new DataValue(itemData);
-        KSItemLabel item = new KSItemLabel(KSSelectedList.this.config.canEdit,
+        KSItemLabel item = new KSItemLabel(KSSelectedList.this.config.canEdit, hasDetails,
                 itemDataHelper);
         item.setValue(itemDataValue);
         item.addCloseHandler(new CloseHandler<KSItemLabel>() {
@@ -319,7 +343,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
                 Property p = iter.next();
                 String v = (String) p.getValue();
                 //FIXME: do we need to do a search? is this method ever going to be called?
-                KSItemLabel item = createItem(v, "Display: " + v);
+                KSItemLabel item = createItem(v, "Display: " + v, hasDetails);
                 addItem(item);
             }
         }
@@ -353,7 +377,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
     public void setValue(String id, String translation) {
         clear();
         if (id != null && translation != null) {
-            addItem(createItem(id, translation), false);
+            addItem(createItem(id, translation, hasDetails), false);
         }
     }
 
@@ -362,7 +386,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         clear();
         if (translations != null) {
             for (Entry<String, String> e : translations.entrySet()) {
-                addItem(createItem(e.getKey(), e.getValue()), false);
+                addItem(createItem(e.getKey(), e.getValue(), hasDetails), false);
             }
         }
     }

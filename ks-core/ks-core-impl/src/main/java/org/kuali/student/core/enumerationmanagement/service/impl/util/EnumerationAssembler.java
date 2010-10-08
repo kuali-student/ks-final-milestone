@@ -57,7 +57,9 @@ public class EnumerationAssembler {
             BeanUtils.copyProperties(enumeratedValue, enumeratedValueEntity);
             List<ContextEntity> contextEntityList = enumeratedValueEntity.getContextEntityList();
             List<EnumContextValueInfo> contextList = new ArrayList<EnumContextValueInfo>();
-
+            
+            enumeratedValue.setEnumerationKey(enumeratedValueEntity.getEnumeration().getKey());
+            
             for (ContextEntity c : contextEntityList) {
             	EnumContextValueInfo context = new EnumContextValueInfo();
                 context.setValue(c.getContextValue());

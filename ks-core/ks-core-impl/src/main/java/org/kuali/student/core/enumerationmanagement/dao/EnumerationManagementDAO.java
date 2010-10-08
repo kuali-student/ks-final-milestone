@@ -22,12 +22,11 @@ import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 
 public interface EnumerationManagementDAO extends CrudDao, SearchableDao{
 
     public List<Enumeration> findEnumerations();
-
-    public Enumeration fetchEnumeration(String enumerationKey);
     
     public Enumeration addEnumeration(Enumeration entity);
 
@@ -43,7 +42,7 @@ public interface EnumerationManagementDAO extends CrudDao, SearchableDao{
     
     public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue value);
 
-    public EnumeratedValue updateEnumeratedValue(String enumerationKey, String code, EnumeratedValue value);
+    public EnumeratedValue updateEnumeratedValue(Enumeration enumeration, String code, EnumeratedValue value);
 
     public boolean removeEnumeratedValue(String enumerationKey, String code);
 

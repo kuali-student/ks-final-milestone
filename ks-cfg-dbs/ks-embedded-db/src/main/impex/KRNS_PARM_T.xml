@@ -58,6 +58,12 @@
         PARM_DTL_TYP_CD="All" PARM_NM="SENSITIVE_DATA_PATTERNS"
         PARM_TYP_CD="CONFG" TXT="[0-9]{9};[0-9]{3}-[0-9]{2}-[0-9]{4}" VER_NBR="1"/>
     <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-NS"
+        OBJ_ID="e7d133f3-b5fe-11df-ad0a-d18f5709259f"
+        PARM_DESC_TXT="If set to 'Y' when sensitive data is found the user will be prompted to continue the action or cancel. If this is set to 'N' the user will be presented with an error message and will not be allowed to continue with the action until the sensitive data is removed."
+        PARM_DTL_TYP_CD="All"
+        PARM_NM="SENSITIVE_DATA_PATTERNS_WARNING_IND"
+        PARM_TYP_CD="CONFG" TXT="N" VER_NBR="1"/>
+    <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-NS"
         OBJ_ID="664F8ABEC722DBCDE0404F8189D85427"
         PARM_DESC_TXT="A semi-colon delimted list of strings representing date formats that the DateTimeService will use to parse dates when DateTimeServiceImpl.convertToSqlDate(String) or DateTimeServiceImpl.convertToDate(String) is called. Note that patterns will be applied in the order listed (and the first applicable one will be used). For a more technical description of how characters in the parameter value will be interpreted, please consult the javadocs for java.text.SimpleDateFormat. Any changes will be applied when the application is restarted."
         PARM_DTL_TYP_CD="All" PARM_NM="STRING_TO_DATE_FORMATS"
@@ -87,12 +93,6 @@
         PARM_DTL_TYP_CD="Batch" PARM_NM="ACTIVE_FILE_TYPES"
         PARM_TYP_CD="CONFG"
         TXT="collectorInputFileType;procurementCardInputFileType;enterpriseFeederFileSetType;assetBarcodeInventoryInputFileType;customerLoadInputFileType" VER_NBR="1"/>
-    <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-NS"
-        OBJ_ID="70CAE9473BBBD1A8E0404F8189D83B6E"
-        PARM_DESC_TXT="Controls whether the nervous system will show the blanket approve button to a user who is authorized for blanket approval but is neither the initiator of the particular document nor the recipient of an active, pending, approve action request."
-        PARM_DTL_TYP_CD="Document"
-        PARM_NM="ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND"
-        PARM_TYP_CD="CONFG" TXT="N" VER_NBR="1"/>
     <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-NS"
         OBJ_ID="53680C68F59EAD9BE0404F8189D80A6C"
         PARM_DESC_TXT="If Y, the Route Report button will be displayed on the document actions bar if the document is using the default DocumentAuthorizerBase.getDocumentActionFlags to set the canPerformRouteReport property of the returned DocumentActionFlags instance."

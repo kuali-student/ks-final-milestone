@@ -159,8 +159,8 @@ insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('baa98141-3fd9-45f9-
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('cf94f50b-3313-4f1d-a654-acfb751f7f07', null, 'Lectures, experimental courses, and other special subjects in the fields of animal sciences and veterinary medicine.')
 
 // CluIdentifier
-INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-1', 'Code', 'Division', 'Level', 'SUFX_CD', 'Long Name', 'Shortname', 'State', 'Type', 'Variation')
-INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-2', 'Code', 'Division', 'Level', 'SUFX_CD', 'Long Name', 'Shortname', 'State', 'Type', 'Variation')
+INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-1', 'CHEM123', 'CHEM', '100', '123', 'Chemistry 123', 'Chem 123', null, null, null)
+INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-2', 'CHEM456', 'CHEM', '400', '456', 'Chemistry 456', 'Chem 456', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('37ecfd9e-b65d-4909-bdc5-6b1300447889', 'AAST233', 'AAST', '200', '233',  'Introduction to Asian American Literature', 'INTRO ASIAN AMERICAN LIT', null, 'kuali.lu.type.CreditCourse.identifier.cross-listed', null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('4abfaa4f-fce3-44db-83ec-e3845f9b5749', 'AAST298', 'AAST', '200', '298',  'Special Topics in Asian American Studies; Filipino American Studies', 'FILIPINO AMER STUDIES', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('050e4960-e099-4fba-b0dc-37fadb0e7a1a', 'AAST378', 'AAST', '300', '378', 'Experiential Learning', 'EXPERIENTIAL LEARNING', null, null, null)
@@ -476,8 +476,8 @@ INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, V
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','a47e2d88-cb6d-4c52-901c-cc7b630a0d24');
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','37ecfd9e-b65d-4909-bdc5-6b1300447889');
 
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NORTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
-insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SOUTH','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'NO','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'SO','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 insert into KSLU_CLU_JN_ALT_ADMIN_ORG (clu_ID, ALT_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-1');
 insert into KSLU_CLU_JN_ALT_ADMIN_ORG (clu_ID, alt_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-2');
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('c9047e2a-151a-4838-a16a-c500ca4fbc6b', 'ORG-2','edna');

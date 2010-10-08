@@ -10,6 +10,7 @@ import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -23,6 +24,7 @@ public class TestStatementDictionary {
 		Set<Class<?>> startingClasses = new LinkedHashSet<Class<?>>();
 		startingClasses.add(StatementInfo.class);
 		startingClasses.add(ReqComponentInfo.class);
+		startingClasses.add(StatementTreeViewInfo.class);
 		String contextFile = "ks-statement-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,

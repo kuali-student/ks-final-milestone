@@ -23,13 +23,12 @@ public class CluSetRangeDataHelper implements DataHelper {
         if (membershipQueryInfo != null) {
             if (membershipQueryInfo.getQueryParamValueList() != null && 
                     !membershipQueryInfo.getQueryParamValueList().isEmpty()) {
-                labelText.append(getLookupDisplayName(membershipQueryInfo)).append(": ");
                 for (SearchParam searchParam : membershipQueryInfo.getQueryParamValueList()) {
                     if (paramCounter > 0) {
                         labelText.append(" ");
                     }
-                    labelText.append(getParameterDisplayName(searchParam.getKey())).append(" ");
-                    labelText.append(searchParam.getValue());
+                    labelText.append(getParameterDisplayName(searchParam.getKey())).append(": ");
+                    labelText.append("<b>").append(searchParam.getValue()).append("</b>");
                     paramCounter++;
                 }
             } else {
@@ -42,16 +41,6 @@ public class CluSetRangeDataHelper implements DataHelper {
     @Override
     public String getKey(Data data) {
         return parse(data);
-    }
-
-    private String getLookupDisplayName(MembershipQueryInfo membershipQueryInfo) {
-        String lookupDisplayName = null;
-        if (lookupMetadata == null) {
-            lookupDisplayName = membershipQueryInfo.getSearchTypeKey();
-        } else {
-            lookupDisplayName = lookupMetadata.getName();
-        }
-        return lookupDisplayName;
     }
 
     private String getParameterDisplayName(String parameterKey) {

@@ -83,7 +83,11 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     private Anchor advSearchLink = new Anchor(getMessage("advSearch"));
     private AdvancedSearchWindow advSearchWindow = null;
     private SearchPanel searchPanel;
-    private WidgetConfigInfo config;
+    public SearchPanel getSearchPanel() {
+		return searchPanel;
+	}
+
+	private WidgetConfigInfo config;
     private Callback<List<SelectedResults>> advancedSearchCallback;
 	private List<Callback<SelectedResults>> basicSelectionCallbacks =
         new ArrayList<Callback<SelectedResults>>();
@@ -334,7 +338,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     	return (lookups.size() > 0 ? lookups : null);
     }
 
-    private class BasicWidget implements HasDataValue, HasFocusLostCallbacks, TranslatableValueWidget {
+    public class BasicWidget implements HasDataValue, HasFocusLostCallbacks, TranslatableValueWidget {
 		private Widget basicWidget;
 
 		public BasicWidget(Widget basicWidget){

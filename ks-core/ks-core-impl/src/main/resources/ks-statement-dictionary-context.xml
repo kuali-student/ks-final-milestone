@@ -316,44 +316,116 @@
  <bean id="reqCompFieldInfo.value" parent="reqCompFieldInfo.value-parent"/>
 
  <bean id="reqCompFieldInfo.value.gpa-parent" abstract="true" parent="baseKualiGPA" >
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="reqCompFieldInfo.value.gpa" parent="reqCompFieldInfo.value.gpa-parent"/>
 
  <bean id="reqCompFieldInfo.value.operator-parent" abstract="true" parent="baseString" >
   <property name="minLength" value="1" />
   <property name="maxLength" value="2" />
+  <property name="minOccurs" value="1" />
   <property name="validChars" ref="relationalOperator"/>
  </bean>
  <bean id="reqCompFieldInfo.value.operator" parent="reqCompFieldInfo.value.operator-parent"/>
 
  <bean id="reqCompFieldInfo.value.clu.id-parent" abstract="true" parent="baseKualiCluId" >
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="reqCompFieldInfo.value.clu.id" parent="reqCompFieldInfo.value.clu.id-parent"/>
 
  <bean id="reqCompFieldInfo.value.cluSet.id-parent" abstract="true" parent="baseKualiCluSetId" >
+  <property name="minOccurs" value="1" />
  </bean>
  <bean id="reqCompFieldInfo.value.cluSet.id" parent="reqCompFieldInfo.value.cluSet.id-parent"/>
 
-<bean id="reqCompFieldInfo.value.person.id-parent" abstract="true" parent="baseKualiPersonId" >
+ <bean id="reqCompFieldInfo.value.person.id-parent" abstract="true" parent="baseKualiPersonId" >
+  <property name="minOccurs" value="1" />
  </bean>
-<bean id="reqCompFieldInfo.value.person.id" parent="reqCompFieldInfo.value.person.id-parent"/>
+ <bean id="reqCompFieldInfo.value.person.id" parent="reqCompFieldInfo.value.person.id-parent"/>
 
-<bean id="reqCompFieldInfo.value.org.id-parent" abstract="true" parent="baseKualiOrgId" >
+ <bean id="reqCompFieldInfo.value.org.id-parent" abstract="true" parent="baseKualiOrgId" >
+  <property name="minOccurs" value="1" />
  </bean>
-<bean id="reqCompFieldInfo.value.org.id" parent="reqCompFieldInfo.value.org.id-parent"/>
+ <bean id="reqCompFieldInfo.value.org.id" parent="reqCompFieldInfo.value.org.id-parent"/>
 
-<bean id="reqCompFieldInfo.value.gradeType.id-parent" abstract="true" parent="baseKualiType" >
+ <bean id="reqCompFieldInfo.value.gradeType.id-parent" abstract="true" parent="baseKualiType" >
+  <property name="minOccurs" value="1" />
  </bean>
-<bean id="reqCompFieldInfo.value.gradeType.id" parent="reqCompFieldInfo.value.gradeType.id-parent"/>
+ <bean id="reqCompFieldInfo.value.gradeType.id" parent="reqCompFieldInfo.value.gradeType.id-parent"/>
 
-<bean id="reqCompFieldInfo.value.grade-parent" abstract="true" parent="baseKualiType" >
+ <bean id="reqCompFieldInfo.value.grade-parent" abstract="true" parent="baseKualiType" >
+  <property name="minOccurs" value="1" />
  </bean>
-<bean id="reqCompFieldInfo.value.grade" parent="reqCompFieldInfo.value.grade-parent"/>
+ <bean id="reqCompFieldInfo.value.grade" parent="reqCompFieldInfo.value.grade-parent"/>
 
  <bean id="reqCompFieldInfo.value.positive.integer-parent" abstract="true" parent="baseString" >
+  <property name="minOccurs" value="1" />
   <property name="minLength" value="1" />
   <property name="maxLength" value="6" />
   <property name="validChars" ref="positive.integer"/>
  </bean>
  <bean id="reqCompFieldInfo.value.positive.integer" parent="reqCompFieldInfo.value.positive.integer-parent"/>
+
+ <!-- StatementTreeViewInfo-->
+<bean id="org.kuali.student.core.statement.dto.StatementTreeViewInfo-parent" abstract="true" parent="objectStructureDefinition">
+<property name="name" value="org.kuali.student.core.statement.dto.StatementTreeViewInfo"/>
+<property name="attributes">
+<list>
+<ref bean="statementTreeViewInfo.desc"/>
+<ref bean="statementTreeViewInfo.id"/>
+<ref bean="statementTreeViewInfo.name"/>
+<ref bean="statementTreeViewInfo.operator"/>
+<ref bean="statementTreeViewInfo.reqComponents"/>
+<ref bean="statementTreeViewInfo.state"/>
+<ref bean="statementTreeViewInfo.statements"/>
+<ref bean="statementTreeViewInfo.type"/>
+</list>
+</property>
+<property name="hasMetaData" value="true"/>
+</bean>
+<bean id="org.kuali.student.core.statement.dto.StatementTreeViewInfo" parent="org.kuali.student.core.statement.dto.StatementTreeViewInfo-parent"/>
+
+<bean id="statementTreeViewInfo.desc-parent" abstract="true" parent="statementInfo.desc-parent">
+<property name="name" value="desc"/>
+<property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+</bean>
+<bean id="statementTreeViewInfo.desc" parent="statementTreeViewInfo.desc-parent"/>
+
+<bean id="statementTreeViewInfo.id-parent" abstract="true" parent="statementInfo.id-parent">
+<property name="name" value="id"/>
+</bean>
+<bean id="statementTreeViewInfo.id" parent="statementTreeViewInfo.id-parent"/>
+
+<bean id="statementTreeViewInfo.name-parent" abstract="true" parent="statementInfo.name-parent">
+<property name="name" value="name"/>
+</bean>
+<bean id="statementTreeViewInfo.name" parent="statementTreeViewInfo.name-parent"/>
+
+<bean id="statementTreeViewInfo.operator-parent" abstract="true" parent="statementInfo.operator-parent">
+<property name="name" value="operator"/>
+</bean>
+<bean id="statementTreeViewInfo.operator" parent="statementTreeViewInfo.operator-parent"/>
+
+<bean id="statementTreeViewInfo.reqComponents-parent" abstract="true" parent="baseComplexRepeating">
+<property name="name" value="reqComponents"/>
+<property name="dataObjectStructure" ref="org.kuali.student.core.statement.dto.ReqComponentInfo"/>
+</bean>
+<bean id="statementTreeViewInfo.reqComponents" parent="statementTreeViewInfo.reqComponents-parent"/>
+
+<bean id="statementTreeViewInfo.state-parent" abstract="true" parent="statementInfo.state-parent">
+<property name="name" value="state"/>
+</bean>
+<bean id="statementTreeViewInfo.state" parent="statementTreeViewInfo.state-parent"/>
+
+<bean id="statementTreeViewInfo.statements-parent" abstract="true" parent="baseComplexRepeating">
+<property name="name" value="statements"/>
+<property name="dataObjectStructure" ref="org.kuali.student.core.statement.dto.StatementTreeViewInfo"/>
+</bean>
+<bean id="statementTreeViewInfo.statements" parent="statementTreeViewInfo.statements-parent"/>
+
+<bean id="statementTreeViewInfo.type-parent" abstract="true" parent="statementInfo.type-parent">
+<property name="name" value="type"/>
+</bean>
+<bean id="statementTreeViewInfo.type" parent="statementTreeViewInfo.type-parent"/>
+
 </beans>

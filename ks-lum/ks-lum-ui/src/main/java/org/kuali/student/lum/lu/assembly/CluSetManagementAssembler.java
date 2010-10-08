@@ -49,6 +49,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     final Logger LOG = Logger.getLogger(CluSetManagementAssembler.class);
 
     public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
+// FIXME: should have it's own proposal types
     public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
     public static final String FORMAT_LU_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 
@@ -68,15 +69,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         Data resultData = null;
 
         try {
-            List<String> cluIds = null;
-            CluSetInfo cluSetInfo = luService.getCluSetInfo(id);
-            // note: the cluIds returned by luService.getCluSetInfo also contains the clus
-            //       that are the result of query parameter search.  Set to null here and
-            //       retrieve the clus that are direct members.
-            cluSetInfo.setCluIds(null);
-            cluIds = luService.getCluIdsFromCluSet(id);
-            cluSetInfo.setCluIds(cluIds);
-            upWrap(cluSetInfo);
+            CluSetInfo cluSetInfo = getCluSetInfo(id);
             resultCluSetHelper = toCluSetHelper(cluSetInfo);
             if (resultCluSetHelper == null) {
                 resultData = null;
@@ -89,6 +82,20 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         }
 
         return resultData;
+    }
+    
+    public CluSetInfo getCluSetInfo(String cluSetId) throws Exception {
+        List<String> cluIds = null;
+        CluSetInfo cluSetInfo = null;
+        // note: the cluIds returned by luService.getCluSetInfo also contains the clus
+        //       that are the result of query parameter search.  Set to null here and
+        //       retrieve the clus that are direct members.
+        cluSetInfo = luService.getCluSetInfo(cluSetId);
+        cluSetInfo.setCluIds(null);
+        cluIds = luService.getCluIdsFromCluSet(cluSetId);
+        cluSetInfo.setCluIds(cluIds);
+        upWrap(cluSetInfo);
+        return cluSetInfo;
     }
 
     public MetaInfoHelper toMetaInfoHelper(MetaInfo metaInfo) {

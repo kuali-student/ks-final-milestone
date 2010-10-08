@@ -8,7 +8,7 @@
     <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.eligibilitiesandprerequisites"/>
     <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.credit.repeatable"/>
     <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.credit.restriction"/>
-    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.credit.recommendedpreparation"/>
+    <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="course" REF_STMT_REL_TYPE_ID="clu.recommendedpreparation"/>
     <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="program" REF_STMT_REL_TYPE_ID="clu.entrance"/>
     <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="program" REF_STMT_REL_TYPE_ID="clu.satisfactoryprogress"/>
     <KSST_RSTMT_RTYP_JN_OSUB_TYP OBJ_SUB_TYPE_ID="program" REF_STMT_REL_TYPE_ID="clu.completion"/>

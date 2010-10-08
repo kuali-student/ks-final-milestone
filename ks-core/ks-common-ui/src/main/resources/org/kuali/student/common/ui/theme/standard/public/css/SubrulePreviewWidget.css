@@ -14,7 +14,7 @@
  */
 
 /* subrule is a section of a rule that user can manipulate separately */
-.KS-Program-Rule-Preview-Subrule-Box{
+.KS-Rule-Preview-Subrule-Box{
     background: #f1f1f2;
     border: 1px solid #a8a6a6;
     padding-left: 15px;
@@ -22,11 +22,11 @@
     margin-bottom: 10px;    
 }
 
-.KS-Program-Rule-Preview-Subrule-Box .ks-form-module h6{
+.KS-Rule-Preview-Subrule-Box .ks-form-module h6{
     font-weight: normal;
 }
 
-.KS-Program-Rule-Preview-Subrule-header{
+.KS-Rule-Preview-Subrule-header{
     font-weight: normal;
     width: 600px;
     border-bottom: 1px solid #a8a6a6;
@@ -35,11 +35,11 @@
     padding-bottom: 5px;
 }
 
-.KS-Program-Rule-Preview-Subrule-header-action{
+.KS-Rule-Preview-Subrule-header-action{
     float:right;
 }
 
-.KS-Program-Rule-Preview-Subrule-ul{
+.KS-Rule-Preview-Subrule-ul{
   /*  padding-top: 5px; */
     padding-left: 0px;
     margin-top: 0px;
@@ -47,7 +47,7 @@
    /* font-size: 50%; */
 }
 
-.KS-Program-Rule-Preview-Subrule-ORAND{
+.KS-Rule-Preview-Subrule-ORAND{
     color: #DF7401;
     font-weight: bold;
 }

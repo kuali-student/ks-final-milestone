@@ -43,8 +43,8 @@ public class KSBlockingProgressIndicator{
 	private static KSLightBox popupIndicator;
 
 	private static boolean initialized = false;
-    private static int width = 400;
-    private static int height = 100;
+    private static int width = 200;
+    private static int height = 30;
 	/**
 	 * Initializes the blocking progress indicator.  This must be called before
 	 * blocking task are added.
@@ -60,7 +60,9 @@ public class KSBlockingProgressIndicator{
 		//popupIndicator.setShowCloseLink(false);
 		
 		popupIndicator.setWidget(mainPanel);
-		popupIndicator.setSize(400, 50);
+		popupIndicator.setSize(200, 30);
+		popupIndicator.setGlassStyleName("KS-Blocking-Glass");
+		popupIndicator.showButtons(false);
 		setupDefaultStyle();
 		initialized = true;
 	}
@@ -96,18 +98,14 @@ public class KSBlockingProgressIndicator{
 	private static void updateIndicator() {
 
 		listPanel.clear();
-		int i=1;
-		for(BlockingTask task: tasks){
-			HorizontalPanel taskPanel = new HorizontalPanel();
-		    KSImage kSImage = new KSImage("images/common/twiddler3.gif");
+		BlockingTask task = tasks.getLast();
+		HorizontalPanel taskPanel = new HorizontalPanel();
+	    KSImage kSImage = new KSImage("images/common/twiddler3.gif");
 
-			taskPanel.add(kSImage);
-			taskPanel.add(new Label(task.getDescription()));
-			//taskPanel.addStyleName("KS-Blocking-Task-Item");
-			height =  25*(i++);
-			//listPanel.setSize(300, )
-			listPanel.add(taskPanel);
-		}
+		taskPanel.add(kSImage);
+		taskPanel.add(new Label(task.getDescription()));
+		listPanel.add(taskPanel);
+		
         showIndicator();		
 	}
 	private static void showIndicator(){

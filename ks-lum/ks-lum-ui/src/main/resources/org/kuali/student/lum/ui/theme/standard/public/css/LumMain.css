@@ -382,6 +382,11 @@
 	font-size:0.916em;
 }
 
+.KS-CluSetManagement-chooser {
+	background: lightgrey;
+	width: 500px;
+}
+
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}

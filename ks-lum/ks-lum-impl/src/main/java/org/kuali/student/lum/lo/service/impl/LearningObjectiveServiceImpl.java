@@ -850,7 +850,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public StatusInfo deleteLoLoRelation(String loLoRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DependentObjectsExistException {
+			PermissionDeniedException {
 	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
 	    
 	    loDao.deleteLoLoRelation(loLoRelationId);

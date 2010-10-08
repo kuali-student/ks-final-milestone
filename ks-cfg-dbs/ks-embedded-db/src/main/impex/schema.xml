@@ -765,6 +765,26 @@
             <index-column name="ACTN_RQST_ID"/>
         </index>
     </table>
+    <table name="KREW_RIA_DOCTYPE_MAP_T">
+        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="RIA_DOC_TYPE_NAME" size="100" type="VARCHAR"/>
+        <column name="UPDATED_AT" type="DATE"/>
+        <column name="RIA_URL" size="255" type="VARCHAR"/>
+        <column name="HELP_URL" size="255" type="VARCHAR"/>
+        <column name="EDITABLE" size="1" type="CHAR"/>
+        <column name="INIT_GROUPS" size="255" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="SYS_GUID()" name="OBJ_ID" required="true"
+            size="36" type="VARCHAR"/>
+    </table>
+    <table name="KREW_RIA_DOC_T">
+        <column name="RIA_ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="XML_CONTENT" size="4000" type="VARCHAR"/>
+        <column name="RIA_DOC_TYPE_NAME" size="100" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="SYS_GUID()" name="OBJ_ID" required="true"
+            size="36" type="VARCHAR"/>
+    </table>
     <table name="KREW_RMV_RPLC_DOC_T">
         <column name="DOC_HDR_ID" primaryKey="true" size="14" type="DECIMAL"/>
         <column name="OPRN" required="true" size="1" type="CHAR"/>
@@ -1777,7 +1797,6 @@
         <column name="PRNCPL_ID" required="true" size="40" type="VARCHAR"/>
         <column name="PRNCPL_NM" required="true" size="100" type="VARCHAR"/>
         <column name="PRNCPL_PSWD" size="400" type="VARCHAR"/>
-        <column name="TAX_ID" size="100" type="VARCHAR"/>
         <column name="UNIV_ID" size="40" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
     </table>
@@ -2306,7 +2325,7 @@
         <column default="SYS_GUID()" name="OBJ_ID" required="true"
             size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="MIME_TYP" size="150" type="VARCHAR"/>
+        <column name="MIME_TYP" size="255" type="VARCHAR"/>
         <column name="FILE_NM" size="250" type="VARCHAR"/>
         <column name="ATT_ID" size="36" type="VARCHAR"/>
         <column name="FILE_SZ" size="14" type="DECIMAL"/>
@@ -2390,7 +2409,7 @@
         <column name="DOC_HDR_ID" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="ATT_CNTNT" required="true" type="BLOB"/>
         <column name="FILE_NM" size="150" type="VARCHAR"/>
-        <column name="CNTNT_TYP" size="50" type="VARCHAR"/>
+        <column name="CNTNT_TYP" size="255" type="VARCHAR"/>
         <column default="SYS_GUID()" name="OBJ_ID" required="true"
             size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -2782,6 +2801,7 @@
         <column name="POSTAL_CNTRY_NM" size="40" type="VARCHAR"/>
         <column name="PSTL_CNTRY_RSTRC_IND" required="true" size="1" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="ALT_POSTAL_CNTRY_CD" size="3" type="VARCHAR"/>
         <unique name="KR_COUNTRY_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -2847,9 +2867,9 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="END_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="START_DT" type="TIMESTAMP"/>
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
@@ -3231,6 +3251,106 @@
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
     </table>
+    <table name="KSDO_REF_DOC_RELTN">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="REF_OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="ST" size="255" type="VARCHAR"/>
+        <column name="TITLE" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="DOC_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="REF_OBJ_TYPE_KEY" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="FKFAE28EB474C732E5">
+            <reference foreign="TYPE_KEY" local="TYPE_KEY"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="FKFAE28EB4F88FDCEA">
+            <reference foreign="TYPE_KEY" local="REF_OBJ_TYPE_KEY"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSDO_RICH_TEXT_T" name="FKFAE28EB4B107314A">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSDO_DOCUMENT" name="FKFAE28EB4660DD60D">
+            <reference foreign="DOC_ID" local="DOC_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_DOC_RELTN_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSDO_REF_DOC_RELTN_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="FK425F300BA365F5BE">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_DOC_REL_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN" name="FKC352E456684B72E4">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_OBJ_SUB_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_OBJ_TYPE_KEY" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="FKDB972379F88FDCEA">
+            <reference foreign="TYPE_KEY" local="REF_OBJ_TYPE_KEY"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_OBJ_SUB_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_OBJ_SUB_TYPE" name="FK583AAAF7AEBC5AB">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_OBJ_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSDO_REF_OBJ_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="FK83DFD6563E49FD4F">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSDO_REF_REL_TYP_JN_SUB_TYP">
+        <column name="REF_DOC_RELTN_TYPE_KEY" required="true" size="255" type="VARCHAR"/>
+        <column name="REF_OBJ_SUB_TYPE_KEY" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSDO_REF_OBJ_SUB_TYPE" name="FKB98EEFC3AF48C665">
+            <reference foreign="TYPE_KEY" local="REF_OBJ_SUB_TYPE_KEY"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="FKB98EEFC3A9D795E4">
+            <reference foreign="TYPE_KEY" local="REF_DOC_RELTN_TYPE_KEY"/>
+        </foreign-key>
+    </table>
     <table name="KSDO_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
@@ -3242,7 +3362,7 @@
         <foreign-key foreignTable="KSEM_CTX_T" name="FK2E513D0C6CE9B9D6">
             <reference foreign="ID" local="CTX_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSEM_ENUM_VAL_T" name="FK2E513D0CCDDD923C">
+        <foreign-key foreignTable="KSEM_ENUM_VAL_T" name="FK2E513D0C87B21BB9">
             <reference foreign="ID" local="ENUM_VAL_ID"/>
         </foreign-key>
     </table>
@@ -3267,10 +3387,13 @@
         <column name="ABBREV_VAL" size="255" type="VARCHAR"/>
         <column name="CD" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="ENUM_KEY" size="255" type="VARCHAR"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="SORT_KEY" size="10" type="DECIMAL"/>
         <column name="VAL" size="255" type="VARCHAR"/>
+        <column name="ENUM_KEY" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEM_ENUM_T" name="FK7B6E5967357425D9">
+            <reference foreign="ENUM_KEY" local="ENUM_KEY"/>
+        </foreign-key>
     </table>
     <table name="KSLO_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4867,56 +4990,6 @@
             <reference foreign="PROPOSAL_ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSPR_PROPOSAL_DOCREL">
-        <column name="DOCREL_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
-        <column name="DOCUMENT_ID" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="STATE" size="255" type="VARCHAR"/>
-        <column name="TITLE" size="255" type="VARCHAR"/>
-        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <column name="PROPOSAL_ID" size="255" type="VARCHAR"/>
-        <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL" name="FKAFE5E579F4EE03C1">
-            <reference foreign="PROPOSAL_ID" local="PROPOSAL_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSPR_RICH_TEXT_T" name="FKAFE5E579E5848F8">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL_TYPE" name="FKAFE5E57989B4986F">
-            <reference foreign="ID" local="TYPE"/>
-        </foreign-key>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL" name="FK10D528F785351E0E">
-            <reference foreign="DOCREL_ID" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_TYPE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="DESCRIPTION" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSPR_PROPOSAL_DOCREL_TYPE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL_DOCREL_TYPE" name="FK37AC94908FD1FBE8">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-    </table>
     <table name="KSPR_PROPOSAL_JN_ORG">
         <column name="ORGREF_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
@@ -5331,8 +5404,8 @@
     <sequence name="KREW_ACTN_ITM_S" nextval="10226"/>
     <sequence name="KREW_ACTN_LIST_OPTN_S" nextval="1269"/>
     <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
-    <sequence name="KREW_ACTN_TKN_S" nextval="2329"/>
-    <sequence name="KREW_DOC_HDR_S" nextval="3005"/>
+    <sequence name="KREW_ACTN_TKN_S" nextval="2332"/>
+    <sequence name="KREW_DOC_HDR_S" nextval="3009"/>
     <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
     <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2010"/>
@@ -5340,15 +5413,16 @@
     <sequence name="KREW_EDL_S" nextval="2020"/>
     <sequence name="KREW_HLP_S" nextval="100"/>
     <sequence name="KREW_OUT_BOX_ITM_S" nextval="10043"/>
+    <sequence name="KREW_RIA_DOCTYPE_MAP_ID_S" nextval="1000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2572"/>
-    <sequence name="KREW_RTE_NODE_S" nextval="2943"/>
+    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2619"/>
+    <sequence name="KREW_RTE_NODE_S" nextval="2962"/>
     <sequence name="KREW_RTE_TMPL_S" nextval="1645"/>
     <sequence name="KREW_RULE_EXPR_S" nextval="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" nextval="2020"/>
     <sequence name="KREW_SRCH_ATTR_S" nextval="2060"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10000"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10008"/>
     <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
@@ -5390,5 +5464,6 @@
     <sequence name="KRSB_BAM_S" nextval="2000"/>
     <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="1000"/>
+    <sequence name="KRSB_SVC_DEF_S" nextval="1116"/>
+    <sequence name="KSEM_ENUM_VAL_ID_S" nextval="2020"/>
 </database>

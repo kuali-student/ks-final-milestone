@@ -116,7 +116,7 @@ public class CommentTool implements HasReferenceId {
     });
     
     private void init() {
-        commentLightBox = new KSLightBox();
+        commentLightBox = new KSLightBox("Comments");
         VerticalFlowPanel contentPanel = new VerticalFlowPanel();
         // light box title and instructions
         SectionTitle title = SectionTitle.generateH2Title(this.title);
@@ -142,7 +142,7 @@ public class CommentTool implements HasReferenceId {
         loggedInUserId = userId;
         loggedInUserNameHTML.setHTML("<b>" + userId + "</b>");
         loggedInLabelsPanel.add(loggedInUserNameHTML);
-        commentTextArea.setSize("500", "250");
+        commentTextArea.setSize("500", "100");
         commentEditPanel.add(commentTextArea);
         FlowPanel buttonsPanel = new FlowPanel();
         buttonsPanel.add(cancelEditButton);
@@ -244,7 +244,6 @@ public class CommentTool implements HasReferenceId {
 //        scrollPanel.setHeight(height)
         
         commentLightBox.setWidget(contentPanel);
-        commentLightBox.setSize(400, 400);
         setEditMode(EditMode.ADD_COMMENT);
     }
     
@@ -288,6 +287,11 @@ public class CommentTool implements HasReferenceId {
             int commentCounter = 0;
             for (final CommentInfo commentInfo : commentInfos) {
                 int columnIndex = 0;
+                if (commentInfo.getType() != null && 
+                        commentInfo.getType().startsWith("kuali.comment.type.workflowDecisionRationale")) {
+                    // do not display comments for workflow decision rationale.
+                    continue;
+                }
                 if (rowIndex == 0) {
                     StringBuilder titleTextSb = new StringBuilder();
                     titleTextSb.append("Comments (").append(commentInfos.size()).append(")");

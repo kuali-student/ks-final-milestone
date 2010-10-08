@@ -210,7 +210,7 @@
         OWNER="kuali.reqComponent.type.course.courseset.credits.completed.none" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="207" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.course.courseset.credits.completed.max" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses;reqCompFieldLabel=Credits> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqComponent.type.course.courseset.credits.completed.max" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Credits> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="208" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqComponent.type.course.courseset.gpa.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.gpa;reqCompFieldLabel=GPA> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
@@ -305,7 +305,7 @@
         OWNER="kuali.reqComponent.type.program.programset.completed.all" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3004" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
-        OWNER="kuali.reqComponent.type.program.programset.coursecompleted.nof" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Courses>"/>
+        OWNER="kuali.reqComponent.type.program.programset.coursecompleted.nof" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number> from &lt;reqCompFieldType=kuali.reqComponent.field.type.cluSet.id;reqCompFieldLabel=Programs>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3005" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqComponent.type.program.admitted.credits" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Credits>"/>
@@ -334,7 +334,7 @@
         NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION"
         OWNER="kuali.reqComponent.type.program.minors.nof" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Minors>"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3014" LANGUAGE="en"
-        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION" OWNER="kuali.reqComponent.type.program.minors.nof"/>
+        NL_USUAGE_TYPE_KEY="KUALI.COMPOSITION" OWNER="kuali.reqComponent.type.program.minor.admitted.classstanding"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.enrolled.nof" TEMPLATE="Must be concurrently enrolled in a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $cluSet.getCluSetAsCode()"/>

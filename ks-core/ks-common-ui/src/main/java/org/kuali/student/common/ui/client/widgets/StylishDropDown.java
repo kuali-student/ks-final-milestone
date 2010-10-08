@@ -204,7 +204,7 @@ public class StylishDropDown extends Composite{
 		if(makeButton && items.size() == 1){
 			KSMenuItemData item = items.get(0);
 			button = new KSButton();
-			
+			button.addStyleName("ks-button-spacing");
 			button.addClickHandler(item.getClickHandler());
 			button.setText(item.getLabel());
 			parentPanel.clear();

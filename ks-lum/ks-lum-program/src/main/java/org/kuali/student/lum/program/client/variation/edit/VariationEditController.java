@@ -10,7 +10,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.lum.program.client.events.CancelEvent;
+import org.kuali.student.lum.program.client.VariationRegistry;
+import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.variation.VariationController;
@@ -22,6 +23,8 @@ public class VariationEditController extends VariationController {
 
     private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
+
+    private boolean isCreate = false;
 
     public VariationEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
@@ -42,7 +45,6 @@ public class VariationEditController extends VariationController {
             @Override
             public void onClick(ClickEvent event) {
                 doCancel();
-                eventBus.fireEvent(new CancelEvent());
             }
         });
     }
@@ -64,12 +66,20 @@ public class VariationEditController extends VariationController {
     private void doSave() {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
-            public void onModelReady(DataModel model) {
+            public void onModelReady(final DataModel model) {
                 VariationEditController.this.updateModel();
+                if (model.get("id") == null) {
+                    isCreate = true;
+                }
                 programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
                     @Override
                     public void onSuccess(DataSaveResult result) {
                         super.onSuccess(result);
+                        VariationRegistry.setData(result.getValue());
+                        if (isCreate) {
+                            isCreate = false;
+                            eventBus.fireEvent(new SpecializationCreatedEvent(result.getValue()));
+                        }
                         programModel.setRoot(result.getValue());
                         setHeaderTitle();
                         HistoryManager.logHistoryChange();

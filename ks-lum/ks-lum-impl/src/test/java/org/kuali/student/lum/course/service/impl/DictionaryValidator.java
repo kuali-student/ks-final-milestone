@@ -39,17 +39,17 @@ public class DictionaryValidator
   List<String> errors = new ArrayList ();
   if (os.getName () == null)
   {
-   errors.add ("The name (DTO) cannbe be left null");
+   errors.add ("The name cannbe be left null");
   }
   if (os.getBusinessObjectClass () != null)
   {
    errors.add (
-     "The business object class (DTO) is not used and should not be filled in");
+     "The business object class is not used and should not be filled in");
   }
-  else if (this.getClass (os.getName ()) == null)
-  {
-   errors.add ("The name (DTO) does not exist on the class path");
-  }
+//  else if (this.getClass (os.getName ()) == null)
+//  {
+//   errors.add ("The name does not exist on the class path");
+//  }
 
   if (os.getAttributes () == null)
   {
@@ -76,17 +76,17 @@ public class DictionaryValidator
   return errors;
  }
 
- private Class getClass (String className)
- {
-  try
-  {
-   return Class.forName (className);
-  }
-  catch (ClassNotFoundException ex)
-  {
-   return null;
-  }
- }
+// private Class getClass (String className)
+// {
+//  try
+//  {
+//   return Class.forName (className);
+//  }
+//  catch (ClassNotFoundException ex)
+//  {
+//   return null;
+//  }
+// }
 
  private List<String> validateField (FieldDefinition fd)
  {

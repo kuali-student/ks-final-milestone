@@ -215,12 +215,12 @@
         ID="9caa02ff-4b4a-4caa-94da-d81113fcbb5f"
         LNG_NAME="Museum Research Seminar" LVL="800"
         SHRT_NAME="MUSEUM RSRCH SEMINAR" SUFX_CD="856"/>
-    <KSLU_CLU_IDENT CD="Code" DIV="Division" ID="IDENT-1"
-        LNG_NAME="Long Name" LVL="Level" SHRT_NAME="Shortname"
-        ST="State" SUFX_CD="SUFX_CD" TYPE="Type" VARTN="Variation"/>
-    <KSLU_CLU_IDENT CD="Code" DIV="Division" ID="IDENT-2"
-        LNG_NAME="Long Name" LVL="Level" SHRT_NAME="Shortname"
-        ST="State" SUFX_CD="SUFX_CD" TYPE="Type" VARTN="Variation"/>
+    <KSLU_CLU_IDENT CD="CHEM123" DIV="CHEM" ID="IDENT-1"
+        LNG_NAME="Chemistry 123" LVL="100" SHRT_NAME="Chem 123"
+        ST="Active" SUFX_CD="123" TYPE="kuali.lu.type.CreditCourse.identifier.official"/>
+    <KSLU_CLU_IDENT CD="CHEM456" DIV="CHEM" ID="IDENT-2"
+        LNG_NAME="Chemistry 456" LVL="400" SHRT_NAME="Chem 456"
+        ST="Active" SUFX_CD="456" TYPE="kuali.lu.type.CreditCourse.identifier.official"/>
     <KSLU_CLU_IDENT CD="MATH152" DIV="MATH" ID="IDENT-NL-1"
         LNG_NAME="MATH 152 Linear Systems" LVL="152"
         SHRT_NAME="MATH 152" ST="State-1" TYPE="Type-1" VARTN="Variation-1"/>
@@ -431,7 +431,7 @@
     <KSLU_CLU_IDENT ST="Active" TYPE="kuali.lu.type.CreditCourse.identifier.official" CD="ANTH" DIV=""
         ID="918040df-964b-46f0-aef9-f8db92b07a41"
         LNG_NAME="Anthropology" LVL=""
-        SHRT_NAME="Anthropology" SUFX_CD="" />
+        SHRT_NAME="Anth" SUFX_CD="" />
     <KSLU_CLU_IDENT CD="ANTH" DIV=""
         ID="MAJOR-1" TYPE="kuali.lu.type.program.identifier.transcript"
         SHRT_NAME="TRANSCRIPT-TITLE" ST="active" />

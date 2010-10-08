@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.dto.DocumentInfo;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.rice.StudentIdentityConstants;
@@ -66,4 +67,14 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 		}
 		return Boolean.TRUE;
     }
+
+	@Override
+	public StatusInfo deleteRefDocRelation(String documentId) throws Exception {
+		return service.deleteRefDocRelation(documentId);
+	}
+
+	@Override
+	public List<RefDocRelationInfo> getRefDocIdsForRef(String refObjectTypeKey, String refObjectId) throws Exception{
+		return service.getRefDocRelationsByRef(refObjectTypeKey, refObjectId);
+	}
 }

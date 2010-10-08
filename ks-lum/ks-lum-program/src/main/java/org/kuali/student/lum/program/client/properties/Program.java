@@ -7,6 +7,24 @@ package org.kuali.student.lum.program.client.properties;
 public interface Program extends com.google.gwt.i18n.client.Messages {
   
   /**
+   * Translated "Activate".
+   * 
+   * @return translated "Activate"
+   */
+  @DefaultMessage("Activate")
+  @Key("button.activate")
+  String button_activate();
+
+  /**
+   * Translated "Approve".
+   * 
+   * @return translated "Approve"
+   */
+  @DefaultMessage("Approve")
+  @Key("button.approve")
+  String button_approve();
+
+  /**
    * Translated "Catalog Description".
    * 
    * @return translated "Catalog Description"
@@ -124,6 +142,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_savingData();
 
   /**
+   * Translated "Status: {0}".
+   * 
+   * @return translated "Status: {0}"
+   */
+  @DefaultMessage("Status: {0}")
+  @Key("common.status")
+  String common_status(String arg0);
+
+  /**
    * Translated "Do you want to save data?".
    * 
    * @return translated "Do you want to save data?"
@@ -140,6 +167,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Program Save")
   @Key("confirmDialog.title")
   String confirmDialog_title();
+
+  /**
+   * Translated "Exit".
+   * 
+   * @return translated "Exit"
+   */
+  @DefaultMessage("Exit")
+  @Key("link.exit")
+  String link_exit();
 
   /**
    * Translated "Learning Objectives".
@@ -331,6 +367,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_specializations();
 
   /**
+   * Translated "Program Summary".
+   * 
+   * @return translated "Program Summary"
+   */
+  @DefaultMessage("Program Summary")
+  @Key("program.menu.sections.summary")
+  String program_menu_sections_summary();
+
+  /**
    * Translated "Supporting Documents".
    * 
    * @return translated "Supporting Documents"
@@ -393,8 +438,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("programInformation.addAccreditation")
   String programInformation_addAccreditation();
 
-
-  
   /**
    * Translated "End Inst Admit Term".
    * 
@@ -639,13 +682,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programRequirements_manageViewPageTitle();
 
   /**
-   * Translated "Add <*>".
+   * Translated "Add {0}".
    * 
-   * @return translated "Add <*>"
+   * @return translated "Add {0}"
    */
-  @DefaultMessage("Add <*>")
+  @DefaultMessage("Add {0}")
   @Key("programRequirements.summaryViewPageAddRule")
-  String programRequirements_summaryViewPageAddRule();
+  String programRequirements_summaryViewPageAddRule(String arg0);
 
   /**
    * Translated "Are you sure you want to delete this rule?".
@@ -666,13 +709,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programRequirements_summaryViewPageDeleteRuleDialogTitle();
 
   /**
-   * Translated "No <*> currently exist for this program".
+   * Translated "No {0} currently exist for this program".
    * 
-   * @return translated "No <*> currently exist for this program"
+   * @return translated "No {0} currently exist for this program"
    */
-  @DefaultMessage("No <*> currently exist for this program")
+  @DefaultMessage("No {0} currently exist for this program")
   @Key("programRequirements.summaryViewPageNoRule")
-  String programRequirements_summaryViewPageNoRule();
+  String programRequirements_summaryViewPageNoRule(String arg0);
 
   /**
    * Translated "Program Requirements".
@@ -691,6 +734,105 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Completion of a specialization is required for this program")
   @Key("programSpecialization.instructions")
   String programSpecialization_instructions();
+
+  /**
+   * Translated "Edit Dates".
+   * 
+   * @return translated "Edit Dates"
+   */
+  @DefaultMessage("Edit Dates")
+  @Key("sideBar.dialog.title")
+  String sideBar_dialog_title();
+
+  /**
+   * Translated "Last review date".
+   * 
+   * @return translated "Last review date"
+   */
+  @DefaultMessage("Last review date")
+  @Key("sideBar.form.lastReviewDate")
+  String sideBar_form_lastReviewDate();
+
+  /**
+   * Translated "Scheduled review date".
+   * 
+   * @return translated "Scheduled review date"
+   */
+  @DefaultMessage("Scheduled review date")
+  @Key("sideBar.form.scheduledReviewDate")
+  String sideBar_form_scheduledReviewDate();
+
+  /**
+   * Translated "HISTORY".
+   * 
+   * @return translated "HISTORY"
+   */
+  @DefaultMessage("HISTORY")
+  @Key("sideBar.history")
+  String sideBar_history();
+
+  /**
+   * Translated "Last review date:".
+   * 
+   * @return translated "Last review date:"
+   */
+  @DefaultMessage("Last review date:")
+  @Key("sideBar.lastReviewDate")
+  String sideBar_lastReviewDate();
+
+  /**
+   * Translated "Program last updated:".
+   * 
+   * @return translated "Program last updated:"
+   */
+  @DefaultMessage("Program last updated:")
+  @Key("sideBar.programLastUpdated")
+  String sideBar_programLastUpdated();
+
+  /**
+   * Translated "Scheduled review date:".
+   * 
+   * @return translated "Scheduled review date:"
+   */
+  @DefaultMessage("Scheduled review date:")
+  @Key("sideBar.scheduledReviewDate")
+  String sideBar_scheduledReviewDate();
+
+  /**
+   * Translated "Version: {0}".
+   * 
+   * @return translated "Version: {0}"
+   */
+  @DefaultMessage("Version: {0}")
+  @Key("sideBar.version")
+  String sideBar_version(String arg0);
+
+  /**
+   * Translated "Active".
+   * 
+   * @return translated "Active"
+   */
+  @DefaultMessage("Active")
+  @Key("status.active")
+  String status_active();
+
+  /**
+   * Translated "Approve".
+   * 
+   * @return translated "Approve"
+   */
+  @DefaultMessage("Approve")
+  @Key("status.approve")
+  String status_approve();
+
+  /**
+   * Translated "Draft".
+   * 
+   * @return translated "Draft"
+   */
+  @DefaultMessage("Draft")
+  @Key("status.draft")
+  String status_draft();
 
   /**
    * Translated "Variation Sections".
@@ -718,6 +860,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Specialization Description")
   @Key("variationCatalogInformation.descr")
   String variationCatalogInformation_descr();
+
+  /**
+   * Translated "Add Specialization".
+   * 
+   * @return translated "Add Specialization"
+   */
+  @DefaultMessage("Add Specialization")
+  @Key("variationInformation.button.addSpecialization")
+  String variationInformation_button_addSpecialization();
 
   /**
    * Translated "Key Specialization Information".

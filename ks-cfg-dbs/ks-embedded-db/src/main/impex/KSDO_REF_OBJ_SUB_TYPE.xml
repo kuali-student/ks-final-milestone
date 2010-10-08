@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSDO_REF_OBJ_SUB_TYPE NAME="Course"
+        REF_OBJ_TYPE_KEY="kuali.org.RefObjectType.CluInfo"
+        TYPE_DESC="Sub Type for Course" TYPE_KEY="kuali.org.RefObjectSubType.Course"/>
+    <KSDO_REF_OBJ_SUB_TYPE NAME="Program"
+        REF_OBJ_TYPE_KEY="kuali.org.RefObjectType.CluInfo"
+        TYPE_DESC="Sub Type for Program" TYPE_KEY="kuali.org.RefObjectSubType.Program"/>
+    <KSDO_REF_OBJ_SUB_TYPE NAME="Proposal"
+        REF_OBJ_TYPE_KEY="kuali.org.RefObjectType.ProposalInfo"
+        TYPE_DESC="Sub Type for Proposal" TYPE_KEY="kuali.org.RefObjectSubType.Proposal"/>
+</dataset>

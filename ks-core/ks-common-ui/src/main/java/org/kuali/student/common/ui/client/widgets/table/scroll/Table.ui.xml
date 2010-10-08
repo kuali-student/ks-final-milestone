@@ -74,7 +74,7 @@
 
   </ui:style>
   <!-- background-image:url("./images/up_arrow_white.png"); -->
-  <g:HTMLPanel  styleName='{style.outer}'>
+  <g:HTMLPanel ui:field='panel' styleName='{style.outer}'>
       <table  cellSpacing='0' cellPadding='0'>
         <tr><td class='{style.tableColumnHeader}'> 
 	      <g:FlexTable ui:field='header' styleName='{style.header}' cellSpacing='0' cellPadding='0'/>

@@ -159,5 +159,7 @@
     <bean parent="enValidation" p:id="validation.validChars.alphanumericHyphenPeriod" p:value="Can only contain alpha-numeric characters, hyphens and periods."/>
     <bean parent="enValidation" p:id="validation.validChars.numeric" p:value="Can only contain numeric characters."/>
     <bean parent="enValidation" p:id="validation.validChars.digits" p:value="Can only contain digits."/>
-
+    <bean parent="enValidation" p:id="validation.validChars.gpa9.9" p:value="Can only contain a GPA in the form 9.9."/>
+    <bean parent="enValidation" p:id="validation.validChars.positive.integer" p:value="Can only contain a positive integer."/>
+    <bean parent="enValidation" p:id="validation.validChars.relationalOperator" p:value="Can only contain one of these operators &gt;,&lt;,=,&gt;=,&lt;=, or &lt;&gt;"/>
 </beans>
