@@ -32,6 +32,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ReqCompEditWidget extends FlowPanel {
 
@@ -58,9 +59,11 @@ public class ReqCompEditWidget extends FlowPanel {
     private Callback reqCompConfirmCallback;
     private Callback newReqCompSelectedCallback;
     private Callback fieldsMetadataTemplateCallback;
-    private Callback compositionTemplateCallback;	
+    private Callback compositionTemplateCallback;
+    private Callback displayCustomWidgetCallback;    
     private static int tempCounterID = 99999;
-    private static final String REQ_COMP_MODEL_ID = "reqCompModelId";    
+    private static final String REQ_COMP_MODEL_ID = "reqCompModelId";
+
     private enum ReqCompEditView {VIEW}
 
     //TODO use app context for text
@@ -282,6 +285,11 @@ public class ReqCompEditWidget extends FlowPanel {
 
     public void displayFieldsEnd(List<Metadata> fieldsMetadataList) {
 
+        if (true) {
+            displayCustomWidgetCallback.exec("123");
+            return;
+        }
+
         List<ReqCompFieldInfo> reqCompFields = (editedReqComp == null ? null : editedReqComp.getReqCompFields());
         reqCompFieldsPanel = new VerticalSectionView(ReqCompEditView.VIEW, "", REQ_COMP_MODEL_ID, false);
         reqCompFieldsPanel.addStyleName("KS-Rule-FieldsList");
@@ -345,6 +353,11 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //TODO save history        
     }
+
+    public void displayCustomWidget(Widget customWidget) {
+        holdFieldsPanel.clear();
+        holdFieldsPanel.add(customWidget);
+    }    
 
     private String getFieldLabel(String fieldType) {
         String compositionTemplate = compositionTemplates.get(selectedReqCompType.getId());
@@ -512,6 +525,10 @@ public class ReqCompEditWidget extends FlowPanel {
 
     public void setNewReqCompSelectedCallbackCallback(Callback<ReqComponentInfo> callback) {
         newReqCompSelectedCallback = callback;
+    }
+
+    public void setRetrieveCustomWidgetCallback(Callback<String> callback) {
+        displayCustomWidgetCallback = callback;
     }
 }
 
