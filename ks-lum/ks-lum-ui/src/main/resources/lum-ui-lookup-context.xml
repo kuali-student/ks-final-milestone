@@ -2606,7 +2606,7 @@
 	</bean>
 
 	<bean id="majorDisciplineInfo.stdDuration" parent="uilookupconfig-parent">
-		<property name="path" value="majorDisciplineInfo.stdDuration" />
+		<property name="path" value="majorDisciplineInfo.stdDuration.atpDurationTypeKey" />
 		<property name="initialLookup"
 			ref="kuali.lookup.durations" />
 	</bean>
