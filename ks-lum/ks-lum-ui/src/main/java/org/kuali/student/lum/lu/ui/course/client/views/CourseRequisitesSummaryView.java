@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.views;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -32,7 +33,6 @@ import org.kuali.student.lum.ui.requirements.client.view.RuleConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -75,9 +75,9 @@ public class CourseRequisitesSummaryView extends SectionView {
             final RuleInfo ruleInfo = getRuleInfo(statementType);
             if (ruleInfo != null && ruleInfo.getStatementVO().getAllReqComponentVOs().size() > 0) {
                 requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(
-                        ruleInfo.getCluId(), ruleInfo.getStatementVO(), "KUALI.RULEEDIT",
-                        RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
-                    public void onFailure(Throwable cause) {
+                        ruleInfo.getCluId(), ruleInfo.getStatementVO(), "KUALI.RULE",
+                        RuleComponentEditorView.TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+                    public void handleFailure(Throwable cause) {
                         GWT.log("Failed to get NL for " + ruleInfo.getCluId(), cause);
                         Window.alert("Failed to get NL for " + ruleInfo.getCluId());
                     }

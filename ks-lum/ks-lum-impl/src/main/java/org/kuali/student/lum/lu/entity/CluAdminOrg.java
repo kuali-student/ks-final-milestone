@@ -15,13 +15,14 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -57,6 +58,10 @@ public class CluAdminOrg implements AttributeOwner<CluAdminOrgAttribute>  {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluAdminOrgAttribute> attributes;
 
+    @ManyToOne
+    @JoinColumn(name="CLU_ID")
+    private Clu clu;
+    
     @PrePersist
     public  void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
@@ -72,9 +77,6 @@ public class CluAdminOrg implements AttributeOwner<CluAdminOrgAttribute>  {
 
     
     public List<CluAdminOrgAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluAdminOrgAttribute>();
-        }
         return attributes;
     }
 
@@ -104,6 +106,14 @@ public class CluAdminOrg implements AttributeOwner<CluAdminOrgAttribute>  {
 
 	public void setPrimary(boolean isPrimary) {
 		this.isPrimary = isPrimary;
+	}
+
+	public Clu getClu() {
+		return clu;
+	}
+
+	public void setClu(Clu clu) {
+		this.clu = clu;
 	}
 
 }

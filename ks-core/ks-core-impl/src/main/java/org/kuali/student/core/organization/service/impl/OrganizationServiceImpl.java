@@ -65,7 +65,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class OrganizationServiceImpl implements OrganizationService {
 
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);

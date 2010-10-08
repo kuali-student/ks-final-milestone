@@ -25,6 +25,7 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 	private ConfirmationDialog dialog; 
 	private boolean showConfirmation = true;
 	private List<String> lastSelection = new ArrayList<String>();
+	private List<String> deletionParentKeys;
 	
 	/**
 	 * Constructor for SwapSection, note that the SelectableWidget passed in is not added to the
@@ -209,5 +210,20 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 	public List<Section> getDeletedSections() {
 		return deleted;
 	}
-	
+
+    @Override
+    public List<String> getDeletionParentKeys() {
+        return deletionParentKeys;
+    }
+
+    /**
+     * deletionParentKeys is optional and is only needed when you want to delete the
+     * entire structure in addition to individual fields with in deleted sections.
+     * 
+     * @see SectionBinding#setModelValue(Section, org.kuali.student.common.ui.client.mvc.DataModel, String)
+     */
+    @Override
+    public void setDeletionParentKey(List<String> deletionParentKeys) {
+        this.deletionParentKeys = deletionParentKeys;
+    }
 }

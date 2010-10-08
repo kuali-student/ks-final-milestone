@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +37,7 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_REPOSITORY")
+@Table(name = "KSLO_LO_REPOSITORY")
 public class LoRepository extends MetaEntity implements AttributeOwner<LoRepositoryAttribute> {
 	@Id
 	@Column(name = "ID")
@@ -144,9 +143,6 @@ public class LoRepository extends MetaEntity implements AttributeOwner<LoReposit
 	 */
 	@Override
 	public List<LoRepositoryAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoRepositoryAttribute>(0);
-		}
 		return attributes;
 	}
 

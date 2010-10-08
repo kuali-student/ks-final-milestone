@@ -67,7 +67,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.lum.lo.service.LearningObjectiveService", serviceName = "LearningObjectiveService", portName = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo")
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     private LoDao loDao;
 	private SearchManager searchManager;
@@ -850,7 +850,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public StatusInfo deleteLoLoRelation(String loLoRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DependentObjectsExistException {
+			PermissionDeniedException {
 	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
 	    
 	    loDao.deleteLoLoRelation(loLoRelationId);

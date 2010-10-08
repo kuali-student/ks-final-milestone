@@ -24,7 +24,6 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
@@ -52,13 +51,11 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeDataHelper;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeLabel;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
 import com.google.gwt.core.client.GWT;
@@ -89,24 +86,24 @@ public class CluSetsConfigurer {
     	this.modelDefinition = modelDefinition;
     }
 
-    public void configureCluSetManager(ConfigurableLayout layout) {
-        SectionView createCluSetView = createCluSetSection();
-        SectionView editCluSetView = editCluSetSection();
-        CluSetsModelDispatcher createCluSetModelDispatcher = new CluSetsModelDispatcher();
-        CluSetsModelDispatcher editCluSetModelDispatcher = new CluSetsModelDispatcher();
-
-        createCluSetModelDispatcher.setModelId(CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL);
-        createCluSetView.setLayoutController(createCluSetModelDispatcher);
-        createCluSetView.setController(createCluSetModelDispatcher);
-
-        editCluSetModelDispatcher.setModelId(CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL);
-        editCluSetView.setLayoutController(editCluSetModelDispatcher);
-        editCluSetView.setController(editCluSetModelDispatcher);
-//        addStartSection(layout);
-        layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, createCluSetView);
-        layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, editCluSetView);
-        layout.addSection(new String[] {"View CLU Sets"}, viewCluSetSection());
-    }
+//    public void configureCluSetManager(ConfigurableLayout layout) {
+//        SectionView createCluSetView = createCluSetSection();
+//        SectionView editCluSetView = editCluSetSection();
+//        CluSetsModelDispatcher createCluSetModelDispatcher = new CluSetsModelDispatcher();
+//        CluSetsModelDispatcher editCluSetModelDispatcher = new CluSetsModelDispatcher();
+//
+//        createCluSetModelDispatcher.setModelId(CluSetsConfigurer.CREATE_CLUSET_MGT_MODEL);
+//        createCluSetView.setLayoutController(createCluSetModelDispatcher);
+//        createCluSetView.setController(createCluSetModelDispatcher);
+//
+//        editCluSetModelDispatcher.setModelId(CluSetsConfigurer.EDIT_CLUSET_MGT_MODEL);
+//        editCluSetView.setLayoutController(editCluSetModelDispatcher);
+//        editCluSetView.setController(editCluSetModelDispatcher);
+////        addStartSection(layout);
+//        layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, createCluSetView);
+//        layout.addSection(new String[] {"Manage CLU Sets", getLabel(ToolsConstants.NEW_CLU_SET_LABEL_KEY)}, editCluSetView);
+//        layout.addSection(new String[] {"View CLU Sets"}, viewCluSetSection());
+//    }
 
     private void addClusetDetailsSections(SectionView parentView, final String modelId) {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), WITH_DIVIDER);
@@ -372,7 +369,7 @@ public class CluSetsConfigurer {
                                 sectionView.updateWidgetData(model);
                                 
                                 //FIXME do something else here, rework logic
-                                //sectionView.redraw();
+                                //rootSection.redraw();
                             }
 
                             @Override
@@ -483,7 +480,7 @@ public class CluSetsConfigurer {
 //    public class CourseList extends UpdatableMultiplicityComposite {
 //        private final String parentPath;
 //        public CourseList(String parentPath){
-//            super(StyleType.TOP_LEVEL);
+//            super(StyleType.TOP_LEVEL_GROUP);
 //            this.parentPath = parentPath;
 //            setAddItemLabel("Add Course");
 ////            setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));

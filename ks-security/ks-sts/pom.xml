@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student.security</groupId>
     <artifactId>ks-security</artifactId>
-    <version>1.1.0-M7</version>
+    <version>1.1.0-M9-SNAPSHOT</version>
   </parent>
   <artifactId>ks-sts</artifactId>
   <name>KS Security Token Service</name>
@@ -13,7 +13,7 @@
       <groupId>org.kuali.student.security</groupId>
       <artifactId>ks-standard-sec</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency> 
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-common-test</artifactId>
@@ -81,7 +81,7 @@
         <executions>
           <execution>
             <id>SecurityTokenService-wsdl</id>
-            <phase>process-classes</phase>
+            <phase>${ks.java2ws.phase}</phase>
             <configuration>
               <className>org.kuali.student.security.trust.service.SecurityTokenService</className>
               <serviceName>SecurityTokenService</serviceName>

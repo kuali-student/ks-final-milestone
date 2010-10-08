@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanelAbstract;
+import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPanelStyle;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -253,11 +254,37 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 		tabRow.addStyleName("KS-TabPanel-TabRow");
 		left.addStyleName("KS-TabPanel-Left-Panel");
 		right.addStyleName("KS-TabPanel-Right-Panel");
+		container.addStyleName("KS-TabPanel-Full");
+		content.addStyleName("KS-TabPanel-Content");
+		container.add(tabRow);
+		container.add(content);
+		this.initWidget(container);
+	}
+	
+	public KSTabPanelImpl(TabPanelStyle style){
+		//left.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		//right.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		//tabRow.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+		tabRow.add(left);
+		tabRow.add(right);
+		tabRow.addStyleName("KS-TabPanel-TabRow");
+		left.addStyleName("KS-TabPanel-Left-Panel");
+		right.addStyleName("KS-TabPanel-Right-Panel");
+
 		container.addStyleName("KS-TabPanel");
 		content.addStyleName("KS-TabPanel-Content");
 		container.add(tabRow);
 		container.add(content);
 		this.initWidget(container);
+	}
+	
+	public void setTabPanelStyle(TabPanelStyle style){
+		if(style == TabPanelStyle.FULL_PAGE){
+			container.setStyleName("KS-TabPanel-Full");
+		}
+		else if(style == TabPanelStyle.SMALL){
+			container.setStyleName("KS-TabPanel-Small");
+		}
 	}
 
 	private void deselectCurrentTab() {
@@ -333,7 +360,7 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 
 	@Override
 	public void addStyleName(String style) {
-		throw new UnsupportedOperationException("addStyleName is not implemented");
+		container.addStyleName(style);
 	}
 
 	@Override
@@ -374,5 +401,6 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 	public boolean hasTabKey(String key) {
 		return tabMap.containsKey(key);
 	}
+
 	
 }

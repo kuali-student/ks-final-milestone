@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import static org.junit.Assert.*;
-import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -18,108 +21,158 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class DictionaryTesterHelper
 {
 
- private String fileName;
+ private String outputFileName;
  private File file;
- private OutputStream os;
+ private OutputStream outputStream;
  private PrintStream out;
- private List<Class<?>> startingClasses;
+ private Set<String> startingClasses;
  private String dictFileName;
+ private boolean processSubstructures = false;
 
- public DictionaryTesterHelper (String fileName, List<Class<?>> startingClasses,
-                                String dictFileName)
+ public DictionaryTesterHelper (String outputFileName,
+                                Set<String> startingClasses,
+                                String dictFileName,
+                                boolean processSubstructures)
  {
-  this.fileName = fileName;
+  this.outputFileName = outputFileName;
   this.startingClasses = startingClasses;
   this.dictFileName = dictFileName;
-  // get printstream
-  this.file = new File (this.fileName);
+  this.processSubstructures = processSubstructures;
+  // get printstream from file
+  this.file = new File (this.outputFileName);
   try
   {
-   os = new FileOutputStream (file, false);
+   outputStream = new FileOutputStream (file, false);
   }
   catch (FileNotFoundException ex)
   {
    throw new IllegalArgumentException (ex);
   }
-  this.out = new PrintStream (os);
+  this.out = new PrintStream (outputStream);
  }
+
+ private transient Map<String, ObjectStructureDefinition> objectStructures;
 
  public void doTest ()
  {
   ApplicationContext ac = new ClassPathXmlApplicationContext (
-    "classpath:" + dictFileName);
-//  for (String beanName: ac.getBeanDefinitionNames ())
-//  {
-//   out.println ("beanName=" + beanName);
-//  }
-  Set<Class<?>> structures = new LinkedHashSet ();
-  for (Class<?> clazz : startingClasses)
+      "classpath:" + dictFileName);
+  objectStructures = new HashMap ();
+  Map<String, ObjectStructureDefinition> beansOfType =
+                                         (Map<String, ObjectStructureDefinition>) ac.
+      getBeansOfType (ObjectStructureDefinition.class);
+  for (ObjectStructureDefinition objStr: beansOfType.values ())
   {
-   structures.addAll (getComplexSubStructures (clazz));
+   objectStructures.put (objStr.getName (), objStr);
+   System.out.println ("Loading object structure: " + objStr.getName ());
+  }
+  // First validate all the starting classes
+  for (String className: startingClasses)
+  {
+   ObjectStructureDefinition os = null;
+   os = objectStructures.get (className);
+   if (os == null)
+   {
+    throw new RuntimeException ("className is not defined in dictionary: " + className);
+   }
+   DictionaryValidator validator = new DictionaryValidator (os,
+                                                            new HashSet (),
+                                                            false);
+   List<String> errors = validator.validate ();
+   if (errors.size () > 0)
+   {
+    fail (className + " failed dictionary validation:\n"
+          + this.formatAsString (errors));
+   }
   }
 
-  out.println ("This page represents a formatted view of this file:");
-  out.println ("[" + dictFileName
-               + "|https://test.kuali.org/svn/student/trunk/ks-lum/ks-lum-impl/src/main/resources/"
-               + dictFileName + "]");
-  out.println (
-    "as compared to the following DTOs and thier sub-DTO's for discrepancies:");
-  for (Class<?> clazz : startingClasses)
+
+  Set<String> allStructures = new LinkedHashSet ();
+  for (String className: startingClasses)
   {
-   out.println ("# " + clazz.getName ());
+   allStructures.addAll (getComplexSubStructures (className));
+  }
+  Set<String> classesToProcess = null;
+  if (this.processSubstructures)
+  {
+   classesToProcess = startingClasses;
+//   System.out.println ("Processing just the starting classes but then processing their substructures in-line");
+  }
+  else
+  {
+   classesToProcess = allStructures;
+//   System.out.println ("Processing all substructures as separate entitiies");
+  }
+
+  out.println ("(!) This page was automatically generated on " + new Date ());
+  out.println ("DO NOT UPDATE MANUALLY!");
+  out.println ("");
+  out.print ("This page represents a formatted view of [" + dictFileName
+             + "|https://test.kuali.org/svn/student/trunk/ks-lum/ks-lum-impl/src/main/resources/"
+             + dictFileName + "]");
+  out.println (
+      " and is compared to the following java classes (and their sub-classes) for discrepancies:");
+  for (String className: startingClasses)
+  {
+   out.println ("# " + className);
   }
   out.println ("");
   out.println ("----");
   out.println ("{toc}");
   out.println ("----");
-  for (Class<?> clazz : structures)
+  for (String className: classesToProcess)
   {
-   List<String> discrepancies = compare (clazz, ac);
-   if (discrepancies.size () > 0)
-   {
-    out.println ("h3. " + discrepancies.size ()
-                 + " discrepancie(s) found in " + clazz.getSimpleName ());
-    out.println (formatAsString (discrepancies));
-   }
+//   System.out.println ("processing class " + clazz.getSimpleName ());
+   doTestOnClass (className, ac);
   }
- }
-
- private Set<Class<?>> getComplexSubStructures (Class<?> clazz)
- {
-  return new ComplexSubstructuresHelper ().getComplexStructures (clazz);
- }
-
- private List<String> compare (Class<?> clazz, ApplicationContext ac)
- {
-  ObjectStructureDefinition os = null;
-  try
-  {
-   os = (ObjectStructureDefinition) ac.getBean (clazz.getName ());
-  }
-  catch (NoSuchBeanDefinitionException ex)
-  {
-   return Arrays.asList (ex.getMessage ());
-  }
-  List<String> errors = new DictionaryValidator (os).validate ();
-  if (errors.size () > 0)
-  {
-   fail (clazz.getName () + " failed dictionary validation:\n"
-         + this.formatAsString (errors));
-  }
-
-  out.println (new DictionaryFormatter (os, "|").formatForWiki ());
-  return new Dictionary2BeanComparer (clazz, os).compare ();
  }
 
  private String formatAsString (List<String> discrepancies)
  {
   int i = 0;
   StringBuilder builder = new StringBuilder ();
-  for (String discrep : discrepancies)
+  for (String discrep: discrepancies)
   {
    i ++;
    builder.append (i + ". " + discrep + "\n");
   }
   return builder.toString ();
  }
+
+ private Set<String> getComplexSubStructures (String className)
+ {
+  return new ComplexSubstructuresHelper ().getComplexStructures (className);
+ }
+
+ private void doTestOnClass (String className, ApplicationContext ac)
+ {
+  ObjectStructureDefinition os =   os = objectStructures.get (className);
+  String simpleName = calcSimpleName (className);
+  if (os == null)
+  {
+
+   out.println ("h1. " + simpleName);
+   out.println ("{anchor:" + simpleName + "}");
+   out.println ("h2. Error could not find a corresponding dictionary definition");
+   return;
+  }
+  DictionaryFormatter formatter =
+                      new DictionaryFormatter (className,
+                                               className,
+                                               os,
+                                               new HashSet (),
+                                               1, // header level to start at
+                                               this.processSubstructures);
+  out.println (formatter.formatForWiki ());
+ }
+
+ private String calcSimpleName (String name)
+ {
+  if (name.lastIndexOf (".") != -1)
+  {
+   name = name.substring (name.lastIndexOf (".") + 1);
+  }
+  return name;
+ }
+
 }

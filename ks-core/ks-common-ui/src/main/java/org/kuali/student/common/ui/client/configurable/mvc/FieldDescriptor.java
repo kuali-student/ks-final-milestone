@@ -41,14 +41,16 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class FieldDescriptor {
     protected String fieldKey;
-    protected Metadata metadata;
+	protected Metadata metadata;
     @SuppressWarnings("unchecked")
 	private ModelWidgetBinding modelWidgetBinding;
     private Callback<Boolean> validationRequestCallback;
     private boolean dirty = false;
     private boolean hasHadFocus = false;
-    private FieldElement fieldElement;
+    private final FieldElement fieldElement;
     private String modelId;
+    private MessageKeyInfo messageKey;
+    private boolean optional = false;
 
     public FieldDescriptor(String fieldKey, MessageKeyInfo messageKey, Metadata metadata) {
     	this.fieldKey = fieldKey;
@@ -56,6 +58,7 @@ public class FieldDescriptor {
     	if(messageKey == null){
     		messageKey = new MessageKeyInfo("");
     	}
+    	setMessageKey(messageKey);
     	fieldElement = new FieldElement(fieldKey, messageKey, createFieldWidget());
     	setupField();
     }
@@ -66,6 +69,7 @@ public class FieldDescriptor {
     	if(messageKey == null){
     		messageKey = new MessageKeyInfo("");
     	}
+        setMessageKey(messageKey);
     	addStyleToWidget(fieldWidget);
     	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
     	setupField();
@@ -78,10 +82,14 @@ public class FieldDescriptor {
     	}
     }
 
-    private void setupField(){
+    protected void setupField() {
     	if(metadata != null){
-	    	fieldElement.setRequired(MetadataInterrogator.isRequired(metadata));
-	    	//TODO setup the constraint text here
+    		if(MetadataInterrogator.isRequired(metadata)){
+    			fieldElement.setRequiredString("requiredMarker");
+    		}
+    		else if(MetadataInterrogator.isRequiredForNextState(metadata)){
+    			fieldElement.setRequiredString("requiredOnSubmit");
+    		}
     	}
     }
     
@@ -96,6 +104,10 @@ public class FieldDescriptor {
 	public String getFieldKey() {
         return fieldKey;
     }
+	
+    public void setFieldKey(String fieldKey) {
+		this.fieldKey = fieldKey;
+	}
 
     public String getFieldLabel() {
         return fieldElement.getFieldName();
@@ -147,6 +159,7 @@ public class FieldDescriptor {
     public void setValidationCallBack(Callback<Boolean> callback){
         validationRequestCallback = callback;
     }
+
     public Callback<Boolean> getValidationRequestCallback(){
         return validationRequestCallback;
     }
@@ -166,18 +179,23 @@ public class FieldDescriptor {
 	public void setHasHadFocus(boolean hasHadFocus) {
 		this.hasHadFocus = hasHadFocus;
 	}
-	public Metadata getMetadata() {
+
+    public Metadata getMetadata() {
 		return metadata;
 	}
-	public void setMetadata(Metadata metadata) {
+
+    public void setMetadata(Metadata metadata) {
 		this.metadata = metadata;
 	}
-	public void setFieldWidget(Widget fieldWidget) {
+
+    public void setFieldWidget(Widget fieldWidget) {
 		this.fieldElement.setWidget(fieldWidget);
 	}
+
 	public String getModelId() {
 		return modelId;
 	}
+
 	public void setModelId(String modelId) {
 		this.modelId = modelId;
 	}
@@ -185,5 +203,31 @@ public class FieldDescriptor {
     public void setWidgetBinding(ModelWidgetBinding widgetBinding) {
         this.modelWidgetBinding = widgetBinding;
     }
+
+    public MessageKeyInfo getMessageKey() {
+        return messageKey;
+    }
+
+    public void setMessageKey(MessageKeyInfo messageKey) {
+        this.messageKey = messageKey;
+    }
+    
+	/**
+	 * Sets the optional flag
+	 * Fields that are optional should not be displayed if there is no data in some cases,
+	 * it is up to the section implementation whether or not to honor this flag
+	 * @param optional
+	 */
+	public void setOptional(boolean optional){
+		this.optional = optional;
+	}
+	
+	/**
+	 * Fields that are optional should not be displayed if there is no data in some cases,
+	 * it is up to the section implementation whether or not to honor this flag
+	 */
+	public boolean isOptional(){
+		return optional;
+	}
 
 }

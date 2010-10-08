@@ -13,17 +13,17 @@
  * permissions and limitations under the License.
  */
 
-.KS-TabPanel{
+.KS-TabPanel-Full{
 	width: 100%;
 }
 
-.KS-TabPanel-TabRow{
+.KS-TabPanel-Full .KS-TabPanel-TabRow{
 	width: 100%;
 	overflow:hidden;
    	position:relative;
 }
 
-.KS-TabPanel-Tab{
+.KS-TabPanel-Full .KS-TabPanel-Tab{
 	padding-bottom: 3px;
 	background-color: #E0E0E0; 
 	color: #111111;
@@ -38,25 +38,25 @@
 	white-space: nowrap;
 }
 
-.KS-TabPanel-Tab .KS-Label{
+.KS-TabPanel-Full .KS-TabPanel-Tab .KS-Label{
 	color: #111111;
 	
 }
 
-.KS-TabPanel-Tab-Selected .KS-Label{
+.KS-TabPanel-Full .KS-TabPanel-Tab-Selected .KS-Label{
 	color: #111111;
 }
 
-.KS-TabPanel-Tab-Selected{
+.KS-TabPanel-Full .KS-TabPanel-Tab-Selected{
 	background-color: white;
 }
 
-.KS-TabPanel-Tab-Label-Hover{
+.KS-TabPanel-Full .KS-TabPanel-Tab-Label-Hover{
 	color: orange;
 	
 }
 
-.KS-TabPanel-Content{
+.KS-TabPanel-Full .KS-TabPanel-Content{
 	background-color: white;
 	padding-top: 35px;
 	padding-left: 8px;
@@ -67,16 +67,16 @@
 	
 }
 
-.KS-TabPanel-Tab-Hover{
+.KS-TabPanel-Full .KS-TabPanel-Tab-Hover{
 	cursor: pointer;
 	background-color: white;
 }
 
-.KS-TabPanel-Left-Panel{
+.KS-TabPanel-Full .KS-TabPanel-Left-Panel{
 	margin-left: 20px;
 }
 
-.KS-TabPanel-Left-Panel ul {
+.KS-TabPanel-Full .KS-TabPanel-Left-Panel ul {
 	clear:left;
    	float:left;
  	list-style:none;
@@ -87,7 +87,7 @@
    	
 }
 
-.KS-TabPanel-Left-Panel ul li{
+.KS-TabPanel-Full .KS-TabPanel-Left-Panel ul li{
 	display: block;
 	float: left;
 	list-style:none;
@@ -98,7 +98,7 @@
    	
 }
 
-.KS-TabPanel-Tab-Left{
+.KS-TabPanel-Full .KS-TabPanel-Tab-Left{
 	font-size: 14px;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -106,14 +106,14 @@
 	margin-right: 2px;
 }
 
-.KS-TabPanel-Right-Panel{
+.KS-TabPanel-Full .KS-TabPanel-Right-Panel{
 	margin-right: 15px;
 	position: absolute;
 	bottom: -1px;
 	right: 0;
 }
 
-.KS-TabPanel-Right-Panel ul{
+.KS-TabPanel-Full .KS-TabPanel-Right-Panel ul{
 	clear:right;
 	position:absolute; 
 	bottom:0;
@@ -126,7 +126,7 @@
    	list-style:none;
 }
 
-.KS-TabPanel-Right-Panel ul li{
+.KS-TabPanel-Full .KS-TabPanel-Right-Panel ul li{
 	display: block;
 	float:right;
 	list-style:none;
@@ -136,7 +136,7 @@
 	line-height:1.8em;
 }
 
-.KS-TabPanel-Tab-Right{
+.KS-TabPanel-Full .KS-TabPanel-Tab-Right{
 	font-size: 14px;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -144,5 +144,132 @@
 	margin-right: 2px;
 }
 
+/*Small tab panel*/
 
+.KS-TabPanel-Small{
+}
+
+.KS-TabPanel-Small .KS-TabPanel-TabRow{
+	overflow:hidden;
+   	position:relative;
+
+   	top: 1px;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Tab{
+	background-color: #ededed;
+	border: 1px solid #9d9d9d;
+	color: #111111;
+	\-moz-border-radius-topright: 5px;
+	\-moz-border-radius-topleft: 5px;
+	\-webkit-border-top-right-radius: 5px; 
+	\-webkit-border-top-left-radius: 5px; 
+	\-khtml-border-top-right-radius: 5px;
+	\-khtml-border-top-left-radius: 5px;
+	border-radius-top-right-radius:5px;
+	border-radius-top-left-radius:5px;
+	white-space: nowrap;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Tab .KS-Label{
+	color: #111111;
+	
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Tab-Selected .KS-Label{
+	color: #111111;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Tab-Selected{
+	background-color: white;
+	border-bottom: 1px solid #FFFFFF;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Tab-Label-Hover{
+	color: orange;
+	
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Content{
+	background-color: white;
+	padding-top: 5px;
+	padding-left: 8px;
+	padding-bottom: 5px;
+	border: 1px solid #9d9d9d;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Tab-Hover{
+	cursor: pointer;
+	background-color: white;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Left-Panel{
+	margin-left: 20px;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Left-Panel ul {
+	clear:left;
+   	float:left;
+ 	list-style:none;
+   	margin:0;
+   	padding:0;
+   	position:relative;
+   	list-style:none;
+
+   	
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Left-Panel ul li{
+	display: block;
+	float: left;
+	list-style:none;
+	margin:0;
+   	padding:0;
+
+   	line-height:1.8em;
+   	
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Tab-Left{
+	font-size: 14px;
+	text-align: center;
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Right-Panel{
+	margin-right: 15px;
+	position: absolute;
+	right: 0;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Right-Panel ul{
+	clear:right;
+	position:absolute; 
+	bottom:0;
+   	/*float:right;*/
+   	vertical-align: bottom;
+ 	list-style:none;
+   	margin:0;
+   	padding:0;
+   	position:relative;
+   	list-style:none;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Right-Panel ul li{
+	display: block;
+	float:right;
+	list-style:none;
+	margin:0;
+   	padding:0;
+   	position:relative;
+	line-height:1.8em;
+}
+
+.KS-TabPanel-Small .KS-TabPanel-Tab-Right{
+	font-size: 14px;
+	text-align: center;
+	width: 9em;
+	margin-right: 2px;
+}
 

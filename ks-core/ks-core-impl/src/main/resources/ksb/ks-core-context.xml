@@ -78,7 +78,7 @@
                 <entry key="hibernate.transaction.manager_lookup_class" value="${ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto" value="${ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
                 <entry key="hibernate.connection.release_mode" value="${ks.core.jpa.JpaProperties.hibernate.connection.release_mode}"/>
-               	<entry key="hibernate.connection.autocommit" value="${ks.core.jpa.JpaProperties.hibernate.connection.autocommit}"/>
+               	<!--<entry key="hibernate.connection.autocommit" value="${ks.core.jpa.JpaProperties.hibernate.connection.autocommit}"/>-->
             </map>
         </property>
     </bean>
@@ -251,6 +251,16 @@
         <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
     </bean>
 
+    <bean id="coreDictionaryService"
+          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg>
+            <list>
+                <value>classpath:ks-proposalInfo-dictionary-context.xml</value>
+                <value>classpath:ks-workflow-dictionary-context.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
     <bean id="commentSearchManager"
         class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:comment-search-config.xml" />
@@ -372,7 +382,7 @@
     <bean name="proposalServiceImpl"
         class="org.kuali.student.core.proposal.service.impl.ProposalServiceImpl">
         <property name="proposalDao" ref="proposalDao"/>
-        <!-- <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/> -->
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="searchManager" ref="proposalSearchManager"/>
 	</bean>
 

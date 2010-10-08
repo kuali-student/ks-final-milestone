@@ -15,19 +15,21 @@
 
 package org.kuali.student.lum.lu.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -36,6 +38,7 @@ import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
@@ -65,10 +68,11 @@ import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/LU+Service+v1.0-rc4">LUService</>
  *
  */
-@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
+@WebService(name = "LuService", targetNamespace = LuServiceConstants.LU_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuService extends DictionaryService, SearchService { 
-    /** 
+public interface LuService extends DictionaryService, SearchService, VersionManagementService { 
+
+	/** 
      * Retrieves the list of delivery method types
      * @return list of delivery method type information
      * @throws OperationFailedException unable to complete request
@@ -882,6 +886,40 @@ public interface LuService extends DictionaryService, SearchService {
 	 */
     public StatusInfo deleteClu(@WebParam(name="cluId")String cluId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;
 
+
+    /** 
+     * Creates a new CLU version based on the current clu
+     * @param cluId identifier for the CLU to be versioned
+     * @param versionComment comment for the current version
+     * @return the new versioned CLU information
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException cluId not found
+     * @throws InvalidParameterException invalid cluId
+     * @throws MissingParameterException missing cluId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     */
+    public CluInfo createNewCluVersion(@WebParam(name="cluId")String cluId, @WebParam(name="versionComment")String versionComment) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    
+    /** 
+     * Sets a specific version of the Clu as current. The sequence number must be greater than the existing current Clu version.
+     * This will truncate the current version's end date to the currentVersionStart param.
+     * If a Clu exists which is set to become current in the future, that clu's currentVersionStart and CurrentVersionEnd will be nullified.
+     * The currentVersionStart must be in the future to prevent changing historic data. 
+     * @param cluVersionId Version Specific Id of the Clu
+     * @param currentVersionStart Date when this clu becomes current. Must be in the future and be after the most current clu's start date. 
+     * @return status of the operation
+     * @throws DoesNotExistException cluVersionId not found
+     * @throws InvalidParameterException invalid cluVersionId, previousState, newState
+     * @throws MissingParameterException missing cluVersionId, previousState, newState
+     * @throws IllegalVersionSequencingException a Clu with higher sequence number from the one provided is marked current
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo setCurrentCluVersion(@WebParam(name="cluVersionId")String cluVersionId, @WebParam(name="currentVersionStart")Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
+
     /** 
      * Updates the state of the specified CLU
      * @param cluId identifier for the CLU to be updated
@@ -1415,5 +1453,7 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws PermissionDeniedException authorization failure
 	 */
     public StatusInfo deleteLuiLuiRelation(@WebParam(name="luiLuiRelationId")String luiLuiRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
 
 }

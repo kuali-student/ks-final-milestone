@@ -2,6 +2,7 @@ package org.kuali.student.core.assembly;
 
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
@@ -15,5 +16,5 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 
 public interface BusinessServiceMethodInvoker {
 	@SuppressWarnings("unchecked")
-	public void invokeServiceCalls(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException, UnsupportedActionException;
+	public void invokeServiceCalls(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException;
 }

@@ -15,19 +15,24 @@
 
 package org.kuali.student.core.exceptions;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.xml.ws.WebFault;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 @WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.DataValidationErrorExceptionBean")
 public class DataValidationErrorException extends Exception {
-	
+
+	final Logger LOG = Logger.getLogger(DataValidationErrorException.class);
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<ValidationResultInfo> validationResults;
-	
+
 	/**
 	 *
 	 */
@@ -39,8 +44,7 @@ public class DataValidationErrorException extends Exception {
 	 * @param validationResults
 	 */
 	public DataValidationErrorException(String message, List<ValidationResultInfo> validationResults) {
-		super();
-		this.validationResults = validationResults;
+		this(message, validationResults, null);
 	}
 
 	/**
@@ -51,7 +55,7 @@ public class DataValidationErrorException extends Exception {
 		super(message, cause);
 		this.validationResults = validationResults;
 	}
-	
+
 	/**
 	 * @param message
 	 * @param cause
@@ -81,5 +85,37 @@ public class DataValidationErrorException extends Exception {
 	public List<ValidationResultInfo> getValidationResults() {
 		return validationResults;
 	}
+
+	@Override
+	public void printStackTrace(PrintStream s) {
+		super.printStackTrace(s);
+		logValidationResults();
+	}
+
+	@Override
+	public void printStackTrace(PrintWriter s) {
+		super.printStackTrace(s);
+		logValidationResults();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(super.getMessage()).append("\n");
+		if (validationResults != null){
+			sb.append("Validation Results: \n");
+			for (ValidationResultInfo info:validationResults){
+				sb.append(info).append("\n");
+			}
+		} else {
+			sb.append("Validation Results: None set.");
+		}
+		return sb.toString();
+	}
+
+	private void logValidationResults(){
+		LOG.debug(toString());	}
+
+
 
 }

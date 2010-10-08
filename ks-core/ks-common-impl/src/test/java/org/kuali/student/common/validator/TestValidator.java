@@ -26,7 +26,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 public class TestValidator {
 	DefaultValidatorImpl val = null;
 	ValidatorFactory valFactory = new ValidatorFactory();
-	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:poc/test-validator-context.xml");
+	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:test-validator-context.xml");
 	
 	@Before
 	public void init() {
@@ -41,7 +41,7 @@ public class TestValidator {
 	@Test     
     public void testRequired() {
     	    	
-    	List<ValidationResultInfo> results = val.validateObject( buildTestPerson1(), buildObjectStructure1());    
+    	List<ValidationResultInfo> results = val.validateObject( buildTestPerson1(), getSimpleStudentObjectStructure());
     	assertEquals(results.size(), 1);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -55,7 +55,7 @@ public class TestValidator {
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("thisisaveryveryverylo");
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, buildObjectStructure1());    
+    	List<ValidationResultInfo> results = val.validateObject( p, getSimpleStudentObjectStructure());
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -68,7 +68,7 @@ public class TestValidator {
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("t");
 
-    	ObjectStructureDefinition o1 = buildObjectStructure1();
+    	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	o1.getAttributes().get(0).setMaxLength(null);
     	
     	List<ValidationResultInfo> results = val.validateObject( p, o1);    
@@ -84,7 +84,7 @@ public class TestValidator {
     	ConstraintMockPerson p = buildTestPerson1();
     	ServerDateParser sp = new ServerDateParser();
     	p.setDob(sp.parseDate("1960-01-01"));
-    	ObjectStructureDefinition o1 = buildObjectStructure1();
+    	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
     	List<ValidationResultInfo> results = val.validateObject( p, o1);    
     	assertEquals(results.size(), 1);
@@ -99,7 +99,7 @@ public class TestValidator {
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("thisisaveryveryverylo");
 
-    	ObjectStructureDefinition o1 = buildObjectStructure1();
+    	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	o1.getAttributes().get(0).setMinLength(0);
     	
     	List<ValidationResultInfo> results = val.validateObject( p, o1);    
@@ -115,7 +115,7 @@ public class TestValidator {
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("in$#valid");
 
-    	ObjectStructureDefinition o1 = buildObjectStructure1();
+    	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
     	List<ValidationResultInfo> results = val.validateObject( p, o1);    
     	assertEquals(results.size(), 2);
@@ -131,7 +131,7 @@ public class TestValidator {
     	ConstraintMockPerson p = buildTestPerson2();
     	p.setGpa(5.0);
 
-    	ObjectStructureDefinition o1 = buildObjectStructure1();
+    	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
     	List<ValidationResultInfo> results = val.validateObject( p, o1);    
     	assertEquals(results.size(), 1);
@@ -144,10 +144,22 @@ public class TestValidator {
     public void testNestedStructures() {    	
     	ConstraintMockPerson p = buildTestPerson3();
 
-    	ObjectStructureDefinition o = buildObjectStructure2();
+    	ObjectStructureDefinition o = getStudentWithAddressObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o);    
-    	assertEquals(results.size(), 3);
+    	List<ValidationResultInfo> results = val.validateObject( p, o);
+//     ERROR address/0/line1 validation.required
+//     ERROR address/0/line2 validation.validCharsFailed
+//     ERROR address/0/line2 validation.requiresField
+//     ERROR address/0/province validation.required
+//     ERROR address/0/postalCode validation.lengthOutOfRange
+//     ERROR address/0/type validation.lengthOutOfRange
+//     ERROR address/0/state validation.lengthOutOfRange
+     System.out.println (results.size () + " errors found");
+     for (ValidationResultInfo vri : results)
+     {
+      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
+     }
+    	assertEquals(7, results.size());
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(0).getMessage(), "validation.required");
@@ -159,12 +171,22 @@ public class TestValidator {
     	
     	val.setSearchDispatcher(searchDispatcher);
     	p.getAddress().get(0).setLine1("something");
-    	results = val.validateObject( p, o);    
-    	assertEquals(results.size(), 2);
+    	results = val.validateObject( p, o);
+     System.out.println (results.size () + " errors found");
+     for (ValidationResultInfo vri : results)
+     {
+      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
+     }
+    	assertEquals(6, results.size());
 
     	p.getAddress().get(0).setLine2("notrightlookupvalue");
-    	results = val.validateObject( p, o);    
-    	assertEquals(results.size(), 1);
+    	results = val.validateObject( p, o); 
+     System.out.println (results.size () + " errors found");
+     for (ValidationResultInfo vri : results)
+     {
+      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
+     }
+    	assertEquals(5, results.size());
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
     	assertEquals(results.get(0).getMessage(), "validation.lookup");   
     }
@@ -259,11 +281,11 @@ public class TestValidator {
     	return ValidatorMockObjectGenerator.buildTestPerson3();
     }
     
-    public ObjectStructureDefinition buildObjectStructure1() { 
-    	return dictionaryDelegate.getObjectStructure("objectStructure1");
+    public ObjectStructureDefinition getSimpleStudentObjectStructure() {
+    	return dictionaryDelegate.getObjectStructure("simpleStudent");
     }
 
-    public ObjectStructureDefinition buildObjectStructure2() {
-    	return dictionaryDelegate.getObjectStructure("objectStructure2");
+    public ObjectStructureDefinition getStudentWithAddressObjectStructure() {
+    	return dictionaryDelegate.getObjectStructure("studentWithAddress");
     }
 }

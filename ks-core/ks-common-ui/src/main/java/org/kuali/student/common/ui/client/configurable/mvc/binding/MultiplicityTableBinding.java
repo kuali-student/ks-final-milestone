@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityTable;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
@@ -49,12 +50,12 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
      */
     public void setWidgetValue(MultiplicityTable table, DataModel model, String path) {
         table.initTable();
-        
+
         path = path.trim();
         if (path.startsWith(QueryPath.getPathSeparator())) {
             path = path.substring(QueryPath.getPathSeparator().length());
         }
-        
+
         QueryPath qPath = QueryPath.parse(path);
         Data data = null;
         if (model != null) {
@@ -62,55 +63,74 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
         }
 
         if (data != null) {
-            Iterator<Data.Property> iter1 = data.realPropertyIterator();
+            Iterator<Data.Property> iter1 = data.iterator();
             if (iter1.hasNext()) {
                 table.buildHeaders();
 
                 // iterate through data
                 while (iter1.hasNext()) {
                     Data.Property prop = iter1.next();
-                    Data rowData = prop.getValue();
+                    Object value = prop.getValue();
 
-                    // iterate through the fields defined for this table
-                    for (Integer row  : table.getConfig().getFields().keySet()) {
-                        List<FieldDescriptor> fields = table.getConfig().getFields().get(row);
-                        for (FieldDescriptor fd : fields) {
-                            
-                            QueryPath fullPath = QueryPath.parse(fd.getFieldKey());
-                            QueryPath fieldPath = translatePath(path, fullPath, model);                           
-                            
-                            Object o = rowData.query(fieldPath);
-                            if (o != null) {
-                                // multiple values required in the table cell, concatenate values
-                                // with comma separator
-                                if (o instanceof Data) {
-                                    Data cellData = (Data) o;
-                                    // iterate through the field keys to produce a comma delimited list
-                                    // of values in a single cell of the table
-                                    if (cellData != null && cellData.size() > 0) {
-                                        StringBuilder sb = new StringBuilder();
-                                        Iterator<Data.Property> iter = cellData.realPropertyIterator();
-                                        while (iter.hasNext()) {
-                                        	Data.Property p = iter.next();
-                                        	Data d = p.getValue();
-                                            String key = table.getConfig().getConcatenatedFields().get(fullPath.toString());
-                                            sb.append(d.get(key)).append(", ");
-                                        }
-                                        sb.deleteCharAt(sb.lastIndexOf(", "));
-                                        table.addNextCell((sb.toString()));
-                                    } else {
-                                        table.addEmptyCell();
-                                    }
-                                }
-                                // a single value required in a single table cell
-                                else {
-                                    table.addNextCell((o.toString()));
-                                }
-                            } else {
-                                table.addEmptyCell();
-                            }                        	
+                    if (value instanceof String) {
+
+                        Metadata metadata = model.getMetadata(qPath);
+                        String dataValue = null;
+                        if(metadata!=null&&metadata.getInitialLookup()!=null){
+                            QueryPath translatedPath = QueryPath.concat("_runtimeData", prop.getKey().toString(), "id-translation");
+                            dataValue = data.query(translatedPath);
                         }
+
+                        if (dataValue == null)
+                            dataValue = (String)value;
+                        
+                        table.addNextCell(dataValue);                        
                         table.nextRow();
+                    }
+                    else {
+                        Data rowData = prop.getValue();
+
+                        // iterate through the fields defined for this table
+                        for (Integer row  : table.getConfig().getFields().keySet()) {
+                            List<MultiplicityFieldConfiguration> fieldConfigs = table.getConfig().getFields().get(row);
+                            for (MultiplicityFieldConfiguration fieldConfig : fieldConfigs) {
+
+                                QueryPath fullPath = QueryPath.parse(fieldConfig.getFieldPath());
+                                QueryPath fieldPath = translatePath(path, fullPath, model);                           
+
+                                Object o = rowData.query(fieldPath);
+                                if (o != null) {
+                                    // multiple values required in the table cell, concatenate values
+                                    // with comma separator
+                                    if (o instanceof Data) {
+                                        Data cellData = (Data) o;
+                                        // iterate through the field keys to produce a comma delimited list
+                                        // of values in a single cell of the table
+                                        if (cellData != null && cellData.size() > 0) {
+                                            StringBuilder sb = new StringBuilder();
+                                            Iterator<Data.Property> iter = cellData.realPropertyIterator();
+                                            while (iter.hasNext()) {
+                                                Data.Property p = iter.next();
+                                                Data d = p.getValue();
+                                                String key = table.getConfig().getConcatenatedFields().get(fullPath.toString());
+                                                sb.append(d.get(key)).append(", ");
+                                            }
+                                            sb.deleteCharAt(sb.lastIndexOf(", "));
+                                            table.addNextCell((sb.toString()));
+                                        } else {
+                                            table.addEmptyCell();
+                                        }
+                                    }
+                                    // a single value required in a single table cell
+                                    else {
+                                        table.addNextCell((o.toString()));
+                                    }
+                                } else {
+                                    table.addEmptyCell();
+                                }                        	
+                            }
+                            table.nextRow();
+                        }
                     }
                 }
             }

@@ -62,8 +62,9 @@
 	</bean>
 	<bean id="constraint.single" parent="constraint">
 		<property name="id" value="single" />
+		<!-- 
 		<property name="messageId"
-			value="kuali.msg.validation.single&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+			value="kuali.msg.validation.single&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" /> -->
 		<property name="desc" value="Single valued (non-repeating)" />
 		<property name="serverSide" value="false" />
 		<property name="maxOccurs" value="1" />

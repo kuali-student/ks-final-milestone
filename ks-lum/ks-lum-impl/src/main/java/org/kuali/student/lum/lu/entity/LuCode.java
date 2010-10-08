@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -77,9 +76,6 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	}
 
 	public List<LuCodeAttribute> getAttributes() {
-		if (attributes == null) {
-		    attributes = new ArrayList<LuCodeAttribute>();
-		}
 		return attributes;
 	}
 

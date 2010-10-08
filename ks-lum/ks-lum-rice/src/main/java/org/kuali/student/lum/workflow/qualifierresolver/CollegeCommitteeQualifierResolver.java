@@ -21,8 +21,8 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 
-public class CollegeCommitteeQualifierResolver extends
-		AbstractCocOrgQualifierResolver {
+public class CollegeCommitteeQualifierResolver extends AbstractCocOrgQualifierResolver {
+
 	@Override
 	public List<AttributeSet> resolve(RouteContext routeContext) {
 		List<AttributeSet> attributeSets = super.resolve(routeContext);
@@ -32,4 +32,5 @@ public class CollegeCommitteeQualifierResolver extends
 		}
 		return cocAttributeSetsFromAncestors(orgId,KUALI_ORG_COLLEGE,KualiStudentKimAttributes.QUALIFICATION_COLLEGE,KualiStudentKimAttributes.QUALIFICATION_COLLEGE_ID);
 	}
+
 }

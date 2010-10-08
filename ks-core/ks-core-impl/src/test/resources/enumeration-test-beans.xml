@@ -29,16 +29,13 @@
 		</property>
 	</bean>
    <bean id="enumerationMetaEntity1"
-	      class="org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity">
-		<property name="id"                     value="11223344-1122-1122-1111-000000000000" />
-		<property name="enumerationMetaKeyDesc" value="desc 1" />
-		<property name="enumerationKey"         value="key 1" />
+	      class="org.kuali.student.core.enumerationmanagement.entity.Enumeration">
+		<property name="descr" value="desc 1" />
+		<property name="key"         value="key 1" />
 		<property name="name"                   value="name 1" />
-	<!-- 
-		
-		
-		 -->	
 	</bean>
+
+
 <!-- 	
 	<bean id="contextEntity1"
 	      class="org.kuali.student.enumeration.entity.ContextEntity">

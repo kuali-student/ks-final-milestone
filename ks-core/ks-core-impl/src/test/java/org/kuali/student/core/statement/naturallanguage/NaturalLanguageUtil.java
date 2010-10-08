@@ -24,6 +24,7 @@ import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
 import org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
@@ -31,7 +32,7 @@ import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypeKeys;
+import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 /**
  * Utility class to support testing.
@@ -101,22 +102,22 @@ public class NaturalLanguageUtil {
     	templateDe.setLanguage("de");
     	templateDe.setNlUsageTypeKey(nlUsageTypeKey);
     	
-    	if(reqComponentType.equals("kuali.reqCompType.courseList.nof")) {
+    	if(reqComponentType.equals("kuali.reqComponent.type.courseList.nof")) {
     		templateEn.setTemplate("Student must have completed $expectedValue of $cluSet.getCluSetAsShortName()");
 			templateDe.setTemplate("Student muss abgeschlossen $expectedValue von $cluSet.getCluSetAsShortName()");
-    	} else if(reqComponentType.equals("kuali.reqCompType.courseList.all")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.courseList.all")) {
     		templateEn.setTemplate("Student must have completed all of $cluSet.getCluSetAsShortName()");
     		templateDe.setTemplate("Student must have completed all of $cluSet.getCluSetAsShortName()");
-    	} else if(reqComponentType.equals("kuali.reqCompType.courseList.none")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.courseList.none")) {
     		templateEn.setTemplate("Student must have completed none of $cluSet.getCluSetAsShortName()");
     		templateDe.setTemplate("Student must have completed none of $cluSet.getCluSetAsShortName()");
-    	} else if(reqComponentType.equals("kuali.reqCompType.courseList.1of2")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.courseList.1of2")) {
     		templateEn.setTemplate("Student must have completed $cluSet.getCluAsShortName(0) or $cluSet.getCluAsShortName(1)");
     		templateDe.setTemplate("Student must have completed $cluSet.getCluAsShortName(0) or $cluSet.getCluAsShortName(1)");
-    	} else if(reqComponentType.equals("kuali.reqCompType.grdCondCourseList")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.grdCondCourseList")) {
     		templateEn.setTemplate("Students must take $totalCredits credits from $cluSet.getCluSetAsShortName()");
     		templateDe.setTemplate("Students must take $totalCredits credits from $cluSet.getCluSetAsShortName()");
-    	} else if(reqComponentType.equals("kuali.reqCompType.gradecheck")) {
+    	} else if(reqComponentType.equals("kuali.reqComponent.type.gradecheck")) {
     		templateEn.setTemplate("Student needs a minimum GPA of $gpa");
     		templateDe.setTemplate("Student needs a minimum GPA of $gpa");
     	}
@@ -136,7 +137,7 @@ public class NaturalLanguageUtil {
     }
 	
     public static ReqComponent createReqComponent(String reqComponentType, List<ReqComponentField> fieldList) {
-    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.RULEEDIT", reqComponentType);
+    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.RULE", reqComponentType);
 		
 		ReqComponent reqComp = new ReqComponent();
 		reqComp.setReqComponentFields(fieldList);
@@ -149,19 +150,19 @@ public class NaturalLanguageUtil {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setId("1");
-		field1.setKey(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
+		field1.setType(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setId("2");
-		field2.setKey(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
+		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
 		field2.setValue(operator);
 		fieldList.add(field2);
 				
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setId("3");
-		field3.setKey(ReqComponentFieldTypeKeys.CLUSET_KEY.getKey());
+		field3.setType(ReqComponentFieldTypes.CLUSET_KEY.getType());
 		field3.setValue(target);
 		fieldList.add(field3);
 		
@@ -172,50 +173,53 @@ public class NaturalLanguageUtil {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
 		field1.setId("4");
-		field1.setKey(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
+		field1.setType(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
 		field2.setId("5");
-		field2.setKey(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
+		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
 		field3.setId("6");
-		field3.setKey(ReqComponentFieldTypeKeys.CLU_KEY.getKey());
+		field3.setType(ReqComponentFieldTypes.CLU_KEY.getType());
 		field3.setValue(cluIds);
 		fieldList.add(field3);
 		
 		return fieldList;
     }
 
-    public static List<ReqComponentField> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
+    /*public static List<ReqComponentField> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
-		field1.setId(ReqComponentFieldTypeKeys.REQUIRED_COUNT_KEY.getKey());
+		field1.setId("7");
+		field1.setType(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
 		field1.setValue(expectedValue);
 		fieldList.add(field1);
 		
 		ReqComponentField field2 = new ReqComponentField();
-		field2.setId(ReqComponentFieldTypeKeys.OPERATOR_KEY.getKey());
+		field2.setId("8");
+		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
 		field2.setValue(operator);
 		fieldList.add(field2);
 		
 		ReqComponentField field3 = new ReqComponentField();
-		field3.setId(reqCompFieldType);
+		field3.setId("9");
+		field3.setType(reqCompFieldType);
 		field3.setValue(id);
 		fieldList.add(field3);
 		
 		return fieldList;
-    }
+    }*/
     
 	public static Statement createStatement(StatementOperatorTypeKey operator) throws Exception {
 		Statement stmt = new Statement();
 		stmt.setOperator(operator);
 		StatementType type = new StatementType();
-		type.setId("kuali.luStatementType.prereqAcademicReadiness");
+		type.setId("kuali.statement.type.course.academicReadiness.prereq");
 		//type.setStatementHeaders(createHeaders());
 		stmt.setStatementType(type);
 		return stmt;
@@ -226,9 +230,9 @@ public class NaturalLanguageUtil {
 		stmt.setId(id);
 		stmt.setOperator(operator);
 //		LuStatementTypeInfo type = new LuStatementTypeInfo();
-//		type.setId("kuali.luStatementType.prereqAcademicReadiness");
+//		type.setId("kuali.statement.type.course.academicReadiness.prereq");
 //		type.setHeaders(createHeaders());
-		StatementType type = createLuStatementTypeInfo("kuali.luStatementType.prereqAcademicReadiness");
+		StatementType type = createLuStatementTypeInfo("kuali.statement.type.course.academicReadiness.prereq");
 		stmt.setStatementType(type);
 		return stmt;
 	}
@@ -244,41 +248,41 @@ public class NaturalLanguageUtil {
 //		List<StatementTypeHeaderTemplate> headerList = new ArrayList<StatementTypeHeaderTemplate>();
 //		StatementTypeHeaderTemplate header1 = new StatementTypeHeaderTemplate();
 //		header1.setLanguage("en");
-//		header1.setNlUsageTypeKey("KUALI.RULEEDIT");
+//		header1.setNlUsageTypeKey("KUALI.RULE");
 //		header1.setTemplate("Requirement for $clu.getOfficialIdentifier().getLongName(): ");
 //		headerList.add(header1);
 //		StatementTypeHeaderTemplate header2 = new StatementTypeHeaderTemplate();
 //		header2.setLanguage("de");
-//		header2.setNlUsageTypeKey("KUALI.RULEEDIT");
+//		header2.setNlUsageTypeKey("KUALI.RULE");
 //		header2.setTemplate("Voraussetzung fur die $clu.getOfficialIdentifier().getLongName(): ");
 //		headerList.add(header2);
 //		
 //		return headerList;
 //	}
     
-    public static ContextRegistry<Context<ReqComponent>> getReqComponentContextRegistry() {
-    	ContextRegistry<Context<ReqComponent>> contextRegistry = new ContextRegistry<Context<ReqComponent>>();
+    public static ContextRegistry<Context<ReqComponentInfo>> getReqComponentContextRegistry() {
+    	ContextRegistry<Context<ReqComponentInfo>> contextRegistry = new ContextRegistry<Context<ReqComponentInfo>>();
 
     	createData();
     	CourseListContextImpl.setCluInfo(cluList);
     	CourseListContextImpl.setCluSetInfo(cluSetList);
     	CourseListContextImpl courseListContext = new CourseListContextImpl();
 
-    	contextRegistry.add("kuali.reqCompType.courseList.none", courseListContext);
-    	contextRegistry.add("kuali.reqCompType.courseList.all", courseListContext);
-    	contextRegistry.add("kuali.reqCompType.courseList.nof", courseListContext);
-    	contextRegistry.add("kuali.reqCompType.courseList.1of2", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.courseList.none", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.courseList.all", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.courseList.nof", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.courseList.1of2", courseListContext);
 
     	CreditContextImpl.setCluInfo(cluList);
     	CreditContextImpl.setCluSetInfo(cluSetList);
     	CreditContextImpl gradeConditionCourseListContext = new CreditContextImpl();
-    	contextRegistry.add("kuali.reqCompType.grdCondCourseList", gradeConditionCourseListContext);
-    	contextRegistry.add("kuali.reqCompType.grdCondCourseList", courseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.grdCondCourseList", gradeConditionCourseListContext);
+    	contextRegistry.add("kuali.reqComponent.type.grdCondCourseList", courseListContext);
     	
     	GradeCheckContextImpl.setCluInfo(cluList);
     	GradeCheckContextImpl.setCluSetInfo(cluSetList);
     	GradeCheckContextImpl gradeCheckContext = new GradeCheckContextImpl();
-    	contextRegistry.add("kuali.reqCompType.gradecheck", gradeCheckContext);
+    	contextRegistry.add("kuali.reqComponent.type.gradecheck", gradeCheckContext);
     	
     	return contextRegistry;
     }

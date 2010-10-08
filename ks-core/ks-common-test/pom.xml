@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-M7</version>
+    <version>1.1.0-M9-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>
@@ -23,6 +23,12 @@
       <groupId>com.oracle</groupId>
       <artifactId>ojdbc14</artifactId>
       <version>${oracle.ojdbc.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Dependency required because an entity's create user is obtained via Spring Security -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>

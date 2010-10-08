@@ -1,30 +1,48 @@
 package org.kuali.student.lum.program.client;
 
-import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
+import org.kuali.student.lum.common.client.configuration.Configuration;
+import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
+import org.kuali.student.lum.program.client.major.edit.ProgramSummaryConfiguration;
+import org.kuali.student.lum.program.client.properties.ProgramProperties;
+
+import java.util.ArrayList;
 
 /**
  * @author Igor
  */
 public abstract class AbstractProgramConfigurer extends Configurer {
 
-    public abstract void configure(ProgramController programViewController);
+    private ProgramController programController;
 
-    @Override
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey) {
-        return super.addField(section, fieldKey, messageKey);
+    protected ConfigurationManager programSectionConfigManager;
+
+    public void configure(ProgramController viewController) {
+        this.programController = viewController;
+        configureProgramSections();
     }
 
-    @Override
-    public FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
-        return super.addField(section, fieldKey, messageKey, widget);
+    /**
+     * Configures menu for Program Sections
+     */
+    private void configureProgramSections() {
+        String programSectionLabel = ProgramProperties.get().program_menu_sections();
+        programController.addMenu(programSectionLabel);
+        ArrayList<Configuration> configurations = programSectionConfigManager.getConfigurations();
+        for (Configuration configuration : configurations) {
+            if (configuration instanceof AbstractControllerConfiguration) {
+                ((AbstractControllerConfiguration) configuration).setController(programController);
+            }
+            if (configuration instanceof ProgramSummaryConfiguration) {
+                programController.addSpecialMenuItem(configuration.getView(), programSectionLabel);
+            } else {
+                programController.addMenuItem(programSectionLabel, configuration.getView());
+            }
+        }
     }
 
-    @Override
-    public FieldDescriptor addReadOnlyField(Section section, String fieldKey, MessageKeyInfo messageKey) {
-        return super.addReadOnlyField(section, fieldKey, messageKey);
+    public ProgramController getProgramController() {
+        return programController;
     }
 }

@@ -16,47 +16,54 @@
 package org.kuali.student.common.ui.client.widgets.documenttool;
 
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldWidgetInitializer;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.dto.FileStatus;
-import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
+import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcService;
-import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcServiceAsync;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.core.dto.RefDocRelationInfoMock;
-import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
@@ -67,16 +74,26 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	private String referenceTypeKey;
 	private String referenceType;
 	private String referenceState;
-
+	private String refObjectTypeKey;
+	private final String refDocRelationTypeKey = "kuali.org.DocRelation.allObjectTypes";
+	
 	private static final int POLL_INTERVAL = 2000;
 
 	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
     private VerticalFlowPanel documentList = new VerticalFlowPanel();
     private VerticalFlowPanel uploadList = new VerticalFlowPanel();
-    private KSButton addMore = new KSButton("Add Another");
+//    private KSButton addMore = new KSButton("Add Another");
     private KSLabel loadingDocuments = new KSLabel("Loading Documents...");
     private FormPanel form = new FormPanel();
+    private Callback<String> deleteCallback = new Callback<String>(){
+
+		@Override
+		public void exec(String result) {
+			refreshDocuments();
+		}
+
+    };
 
     private KSLightBox progressWindow = new KSLightBox();
     private VerticalFlowPanel progressPanel = new VerticalFlowPanel();
@@ -84,6 +101,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private ProgressBar progressBar = new ProgressBar();
     private FlexTable fileProgressTable = new FlexTable();
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Document files can be uploaded.", true);
+    private DataModelDefinition modelDefinition;
 
     private OkGroup progressButtons = new OkGroup(new Callback<OkEnum>(){
 		@Override
@@ -94,7 +112,6 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		}
     });
     private UploadStatusRpcServiceAsync uploadStatusRpc = GWT.create(UploadStatusRpcService.class);
-    private DocumentRelationMockRpcServiceAsync documentRelationRpc = GWT.create(DocumentRelationMockRpcService.class);
 
 	private OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
 
@@ -108,17 +125,17 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 				  progressBar.setMaxProgress(0);
 				  fileProgressTable.clear();
 				  progressWindow.show();
-				  uploadStatusRpc.getUploadId(new AsyncCallback<String>(){
+				  uploadStatusRpc.getUploadId(new KSAsyncCallback<String>(){
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void handleFailure(Throwable caught) {
 						progressLabel.setText("Could not contact server.");
 						progressButtons.getButton(OkEnum.Ok).setEnabled(true);
 					}
 
 					@Override
 					public void onSuccess(final String result) {
-						form.setAction(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?uploadId=" + result + "&referenceId=" + referenceId);
+						form.setAction(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?uploadId=" + result + "&referenceId=" + referenceId +"&refObjectTypeKey=" + refObjectTypeKey + "&refDocRelationTypeKey=" + refDocRelationTypeKey);
 						form.submit();
 
 						progressLabel.setText("Uploading...");
@@ -126,10 +143,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 							private boolean maxSet = false;
 							@Override
 							public void run() {
-								uploadStatusRpc.getUploadStatus(result, new AsyncCallback<UploadStatus>(){
+								uploadStatusRpc.getUploadStatus(result, new KSAsyncCallback<UploadStatus>(){
 
 									@Override
-									public void onFailure(Throwable caught) {
+									public void handleFailure(Throwable caught) {
 										progressLabel.setText("Unable to query upload status.");
 										progressButtons.getButton(OkEnum.Ok).setEnabled(true);
 										refreshDocuments();
@@ -240,15 +257,16 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		}
 	});
 
-	public DocumentTool(Enum<?> viewEnum, String viewName) {
+	public DocumentTool(String refObjectTypeKey, Enum<?> viewEnum, String viewName) {
 		super(viewEnum, viewName);
+		this.refObjectTypeKey = refObjectTypeKey;
 	}
 
-	private void isAuthorizedUploadDocuments() {
-        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new AsyncCallback<Boolean>() {
+	protected void isAuthorizedUploadDocuments() {
+        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
 
 			@Override
-            public void onFailure(Throwable caught) {
+            public void handleFailure(Throwable caught) {
 				GWT.log("Error checking permission for adding comments: ", caught);
 				throw new RuntimeException("Error checking Permissions: ", caught);
             }
@@ -258,10 +276,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
 				if(referenceId != null && !(referenceId.isEmpty())){
 					//buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
-		        	saveWarning.setVisible(false);
-		        	buttonPanel.setVisible(result);
-					documentList.setVisible(true);
-					refreshDocuments();
+		        	processUi(result);
 				}
 				else{
 					saveWarning.setVisible(true);
@@ -274,30 +289,130 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		});
 	}
 
+    protected void processUi(Boolean result){
+       saveWarning.setVisible(false);
+	   buttonPanel.setVisible(result);
+	   documentList.setVisible(true);
+	   refreshDocuments();
+    }
+
+    private Metadata getMetaData(String fieldKey) {
+        return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
+    }
+
+    protected String getLabel(String labelKey) {
+        // Could have used gwt-message.xml to define labels but this ui is not using the
+        // UI label framework.
+        return labelKey;
+    }
+
+    private MultiplicityConfiguration setupMultiplicityConfig(
+            MultiplicityConfiguration.MultiplicityType multiplicityType,
+            MultiplicityConfiguration.StyleType styleType,
+            String path, String addItemlabelMessageKey,
+            String itemLabelMessageKey,
+            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
+            List<String> deletionParentKeys) {
+        QueryPath parentPath = QueryPath.concat(path);
+        MultiplicityConfiguration config = new MultiplicityConfiguration(multiplicityType,
+                styleType, getMetaData(parentPath.toString()));
+        config.setAddItemLabel(getLabel(addItemlabelMessageKey));
+        config.setItemLabel(getLabel(itemLabelMessageKey));
+        config.setUpdateable(true);
+
+        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
+        config.setParent(parentFd);
+
+        MultiplicityFieldConfiguration fc = buildMultiplicityFD("fieldKey",
+                "", parentPath.toString());
+        MultiplicityFieldWidgetInitializer fieldWidgetInitializer = new MultiplicityFieldWidgetInitializer() {
+            @Override
+            public ModelWidgetBinding getModelWidgetBindingInstance() {
+                return new ModelWidgetBinding<DocumentForm>() {
+                    public void setModelValue(DocumentForm widget, DataModel model, String path) {
+
+                    }
+                    public void setWidgetValue(DocumentForm widget, DataModel model, String path){
+
+                    }
+                };
+            }
+            @Override
+            public Widget getNewWidget() {
+                return new DocumentForm();
+            }
+        };
+        fc.setFieldWidgetInitializer(fieldWidgetInitializer);
+
+        // make the initial number of item equal to 1
+        ConstraintMetadata min1 = new ConstraintMetadata();
+        min1.setMinOccurs(1);
+        Metadata metadata = new Metadata();
+        metadata = new Metadata();
+        metadata.getConstraints().add(min1);
+        config.setMetaData(metadata);
+        config.addFieldConfiguration(fc);
+        config.nextLine();
+        return config;
+    }
+
+    private FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+        FieldDescriptor fd = new FieldDescriptor(path.toString(), generateMessageInfo(messageKey), meta);
+        return fd;
+    }
+
+    private MultiplicityFieldConfiguration buildMultiplicityFD(
+            String fieldKey, String labelKey, String parentPath) {
+
+        QueryPath fieldPath = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
+        Metadata meta = modelDefinition.getMetadata(fieldPath);
+
+        MultiplicityFieldConfiguration fd = new MultiplicityFieldConfiguration(
+                fieldPath.toString(), generateMessageInfo(labelKey), meta, null);
+
+
+        return fd;
+
+    }
+
+    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+        return new MessageKeyInfo("groupName", "type", "state", labelKey);
+    }
+
+    private Widget createUploadForm() {
+	    VerticalSection verticalSection = new VerticalSection();
+	    MultiplicityConfiguration uploadFileMultiplicityConfig = setupMultiplicityConfig(
+	            MultiplicityConfiguration.MultiplicityType.GROUP,
+	            MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
+	            "path", "Include More Files",
+	            "File Name",
+	            null,
+	            null);
+        MultiplicitySection ms = null;
+        ms = new MultiplicitySection(uploadFileMultiplicityConfig);
+        verticalSection.addSection(ms);
+        verticalSection.getLayout().setWidth("100");
+
+        return verticalSection;
+	}
+
 	@Override
 	protected Widget createWidget() {
 		layout.add(saveWarning);
 		saveWarning.setVisible(false);
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
 
-		uploadList.add(new DocumentForm());
-		uploadList.add(addMore);
-		addMore.addClickHandler(new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				uploadList.insert(new DocumentForm(), uploadList.getWidgetIndex(addMore));
-
-			}
-		});
+		uploadList.add(createUploadForm());
 		form.setWidget(uploadList);
 		form.setMethod(FormPanel.METHOD_POST);
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 
 		buttonPanel.setContent(form);
-		layout.add(documentList);
 		isAuthorizedUploadDocuments();
 		layout.add(buttonPanel);
+        layout.add(documentList);
 		documentList.setVisible(false);
 		buttonPanel.setVisible(false);
 
@@ -350,13 +465,13 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 	private void resetUploadFormPanel() {
 		uploadList.clear();
-		uploadList.add(new DocumentForm());
-		uploadList.add(addMore);
+		uploadList.add(createUploadForm());
 	}
 
+
+
 	private static class DocumentForm extends Composite{
-		private KSLabel file = new KSLabel("File");
-		private KSLabel type = new KSLabel("Type");
+		private KSLabel file = new KSLabel("File Name");
 		private KSLabel description = new KSLabel("Description");
 		private FileUpload upload = new FileUpload();
 		private KSTextArea documentDescription = new KSTextArea();
@@ -366,10 +481,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 			tableLayout.setWidget(0, 0, file);
 			tableLayout.setWidget(0, 1, upload);
 			upload.setName("uploadFile");
-			tableLayout.setWidget(1, 0, type);
-			tableLayout.setWidget(1, 1, new KSLabel("Type Widget goes here"));
-			tableLayout.setWidget(2, 0, description);
-			tableLayout.setWidget(2, 1, documentDescription);
+			tableLayout.setWidget(1, 0, description);
+			tableLayout.setWidget(1, 1, documentDescription);
 			documentDescription.setName("documentDescription");
 			this.initWidget(tableLayout);
 		}
@@ -419,22 +532,20 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         if(referenceId != null && !(referenceId.isEmpty())){
         	documentList.add(loadingDocuments);
 	        try {
-	        	documentRelationRpc.getRefDocIdsForRef(referenceId, new AsyncCallback<List<RefDocRelationInfoMock>>(){
+	        	documentServiceAsync.getRefDocIdsForRef(refObjectTypeKey, referenceId, new KSAsyncCallback<List<RefDocRelationInfo>>(){
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void handleFailure(Throwable caught) {
 						GWT.log("getRefDocIdsForRef failed", caught);
 						documentList.remove(loadingDocuments);
 
 					}
 
 					@Override
-					public void onSuccess(List<RefDocRelationInfoMock> result) {
+					public void onSuccess(List<RefDocRelationInfo> result) {
 						documentList.clear();
 						if(result != null && !(result.isEmpty())){
-							for(RefDocRelationInfoMock info: result){
-								documentList.add(new Document(info));
-							}
+						    documentList.add(new DocumentList(refObjectTypeKey, result, deleteCallback));
 						}
 						documentList.remove(loadingDocuments);
 					}
@@ -445,116 +556,16 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         }
 	}
 
-	private class Document extends Composite{
-
-        private SimplePanel content = new SimplePanel();
-        private VerticalFlowPanel viewLayout = new VerticalFlowPanel();
-        private HorizontalBlockFlowPanel header = new HorizontalBlockFlowPanel();
-        private VerticalFlowPanel headerTextContainer = new VerticalFlowPanel();
-        private HorizontalBlockFlowPanel editActions = new HorizontalBlockFlowPanel();
-
-        KSImage delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
-
-        private HTML name = new HTML("No file exists");
-        private HTML documentText = new HTML();
-        private KSLabel fileType = new KSLabel();
-
-        private RefDocRelationInfoMock info;
-
-        public Document(RefDocRelationInfoMock info){
-            this.info = info;
-
-
-            delete.addClickHandler(new ClickHandler(){
-                @Override
-                public void onClick(ClickEvent event) {
-                	 try {
-                		 //TODO Reviewed in M6, future fix: this will fail if the document does not exist BUT the relation does, needs a check for existance
-                		 //before delete
-             			documentRelationRpc.deleteRefDocRelation(Document.this.info.getId(), new AsyncCallback<StatusInfo>(){
-
-							@Override
-							public void onFailure(Throwable caught) {
-                              KSErrorDialog.show(caught);
-                            }
-
-							@Override
-							public void onSuccess(StatusInfo result) {
-		             			try {
-									documentServiceAsync.deleteDocument(Document.this.info.getDocumentId(), new AsyncCallback<StatusInfo>(){
-
-										@Override
-										public void onFailure(Throwable caught) {
-                                            KSErrorDialog.show(caught);
-										}
-
-										@Override
-										public void onSuccess(StatusInfo result) {
-											refreshDocuments();
-										}
-
-									});
-								} catch (Exception e) {
-									GWT.log("deleteDocument failed", e);
-								}
-
-							}
-						});
-             		} catch (Exception e) {
-             			GWT.log("deleteRefDocRelation failed", e);
-             		}
-
-
-                }
-            });
-
-            setupDefaultStyles();
-            headerTextContainer.add(name);
-            headerTextContainer.add(fileType);
-            editActions.add(delete);
-            header.add(headerTextContainer);
-            header.add(editActions);
-            setupViewLayout();
-
-            this.initWidget(content);
-        }
-
-        private void setupDefaultStyles(){
-        	content.addStyleName("KS-Comment-Container");
-        	header.addStyleName("KS-Comment-Header");
-        	headerTextContainer.addStyleName("KS-Comment-Header-Left");
-        	delete.addStyleName("KS-Comment-Image-Button");
-        	editActions.addStyleName("KS-Comment-Image-Button-Panel");
-        	documentText.addStyleName("KS-Comment-Text");
-        	fileType.addStyleName("KS-Comment-Date-Created");
-        }
-
-        private void setupViewLayout(){
-
-            viewLayout.clear();
-            viewLayout.add(header);
-            viewLayout.add(documentText);
-
-            if(info.getTitle() != null){
-            	name.setHTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + info.getDocumentId() + "\" target=\"_blank\"><b>" + info.getTitle() + "</b></a>");
-            }
-
-            if(info.getDesc() != null){
-            	documentText.setHTML("<b>" + "Description: " + "</b>" + info.getDesc().getPlain());
-            }
-
-            content.setWidget(viewLayout);
-
-        }
-
-        public void showEditActions(boolean show){
-        	editActions.setVisible(show);
-        }
-
-    }
-
 	@Override
 	public KSImage getImage() {
 		return Theme.INSTANCE.getCommonImages().getDocumentIcon();
 	}
+
+    public DataModelDefinition getModelDefinition() {
+        return modelDefinition;
+    }
+
+    public void setModelDefinition(DataModelDefinition modelDefinition) {
+        this.modelDefinition = modelDefinition;
+    }
 }

@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +39,7 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO")
+@Table(name = "KSLO_LO")
 @NamedQueries( {
 	@NamedQuery(name = "Lo.getAllowedLoLoRelationTypes", query = "SELECT relType.relationTypeId FROM AllowedLoLoRelationType relType WHERE relType.loTypeId = :loTypeKey AND relType.relatedLoTypeId = :relatedLoTypeKey"),	
 	@NamedQuery(name = "Lo.getRelatedLosByLoId", query = "SELECT rel.relatedLo FROM LoLoRelation rel WHERE rel.lo.id = :loId AND rel.loLoRelationType.id = :loLoRelationTypeId"),
@@ -186,9 +185,6 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 */
 	@Override
 	public List<LoAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoAttribute>(0);
-		}
 		return attributes;
 	}
 

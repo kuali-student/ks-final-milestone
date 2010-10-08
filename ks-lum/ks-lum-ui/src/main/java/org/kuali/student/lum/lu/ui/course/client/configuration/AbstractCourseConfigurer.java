@@ -2,31 +2,22 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.workflow.ui.client.widgets.ContentConfigurer;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 
 public abstract class AbstractCourseConfigurer extends org.kuali.student.common.ui.client.configurable.mvc.Configurer
-    implements ContentConfigurer, CreditCourseProposalConstants,
-    CreditCourseProposalInfoConstants,
+    implements ContentConfigurer, 
     CreditCourseConstants,
     CreditCourseFormatConstants,
     CreditCourseActivityConstants,
-    MetaInfoConstants,
     CreditCourseDurationConstants,
     FeeInfoConstants,
-    LearningObjectiveConstants,
-    AcademicSubjectOrgInfoConstants,
     AffiliatedOrgInfoConstants,
     CreditCourseRevenueInfoConstants,
     CreditCourseExpenditureInfoConstants
@@ -48,20 +39,15 @@ public abstract class AbstractCourseConfigurer extends org.kuali.student.common.
         return PROPOSAL_REFERENCE_OBJECT_TYPE;
     }
 
-    public abstract String getProposalIdPath();
+    public abstract String getProposalPath();
 
     public abstract String getProposalTitlePath();
 
     public abstract String getCourseTitlePath();
 
-    public abstract String[] getWorkflowRequiredFields();
-
-    public abstract String getWorkflowDocumentType();
-
     public abstract String getSectionTitle(DataModel model);
 
     public abstract String getProposalHeaderTitle(DataModel model);
-
 
     public abstract Class<? extends Enum<?>> getViewsEnum();
 }

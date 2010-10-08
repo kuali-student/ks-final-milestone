@@ -161,7 +161,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         
         assertNotNull(nlUsageTypeList);
         assertTrue(nlUsageTypeList.size() > 0);
-        NlUsageType nlUsageType = nlUsageTypeList.get(4);
+        NlUsageType nlUsageType = nlUsageTypeList.get(3);
         assertEquals("KUALI.COURSE.CATALOG", nlUsageType.getId());
         assertEquals("Kuali Course Catalog", nlUsageType.getName());
         assertEquals("Full Kuali Course Catalog", nlUsageType.getDescr());
@@ -171,7 +171,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     
     @Test
     public void testGetStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        StatementType stmtType = dao.fetch(StatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
+        StatementType stmtType = dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.prereq");
         
         assertNotNull(stmtType);
         assertEquals(1, stmtType.getRefStatementRelationTypes().size());
@@ -198,31 +198,31 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     
     @Test
     public void testGetReqCompNLTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqCompType.courseList.nof");
+        ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.courseList.nof");
 
         List<ReqComponentTypeNLTemplate> templates = reqComp.getNlUsageTemplates();
 
         assertEquals(templates.size(), 3);
         
         ReqComponentTypeNLTemplate template = null;
-        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.RULEEDIT")) {
+        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.RULE")) {
             template = templates.get(0);
         } else {
             template = templates.get(1);
         }
-        assertEquals("KUALI.RULEEDIT", template.getNlUsageTypeKey());
+        assertEquals("KUALI.RULE", template.getNlUsageTypeKey());
         assertTrue(template.getTemplate().startsWith("Student must have completed $expectedValue"));
     }
 
 //    @Test
 //    public void testGetStatementHeaderTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-//        StatementType stmtType  = dao.fetch(StatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
+//        StatementType stmtType  = dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.prereq");
 //
 //        List<StatementTypeHeaderTemplate> templates = stmtType.getStatementHeaders();
 //
 //        StatementTypeHeaderTemplate header = templates.get(0);
 //        assertEquals(templates.size(), 2);
-//        assertEquals("KUALI.RULEEDIT", header.getNlUsageTypeKey());
+//        assertEquals("KUALI.RULE", header.getNlUsageTypeKey());
 //        // should the statement header template be "$clu.getLongName()" instead of 
 //        //       "$clu.getOfficialIdentifier().getLongName()"? 
 //        //       in the old test sql file ks-lu.sql it is "$clu.getOfficialIdentifier().getLongName()" 

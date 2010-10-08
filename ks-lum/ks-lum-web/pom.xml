@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>1.1.0-M7</version>
+        <version>1.1.0-M9-SNAPSHOT</version>
     </parent>
     <properties>
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
@@ -204,6 +204,18 @@
             <version>${project.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-ui-common</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-ui-common</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

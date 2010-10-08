@@ -29,7 +29,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -97,16 +96,15 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
     )
     private List<DocumentCategory> categoryList; 
     
-    
-   
     /**
      * AutoGenerate the Id
      */
-    @PrePersist
-    public void prePersist() {
+    @Override
+    protected void onPrePersist() {
+        super.onPrePersist();
         this.id = UUIDHelper.genStringUUID(this.id);
     }
-
+    
     /**
      * @return the id
      */

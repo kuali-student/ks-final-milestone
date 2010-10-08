@@ -33,7 +33,6 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 /**
  * Detailed information about a single course activity.
@@ -53,7 +52,7 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
     private TimeAmountInfo duration;
 
     @XmlElement
-    private List<AdminOrgInfo> curriculumOversightOrgs;
+    private List<String> unitsContentOwner;
 
     @XmlElement
     private int defaultEnrollmentEstimate;
@@ -91,15 +90,15 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
     /**
      * The organizations that represents the Subject area of the course.
      */
-    public List<AdminOrgInfo> getCurriculumOversightOrgs() {
-        if (curriculumOversightOrgs == null) {
-        	curriculumOversightOrgs = new ArrayList<AdminOrgInfo>(0);
+    public List<String> getUnitsContentOwner() {
+        if (unitsContentOwner == null) {
+        	unitsContentOwner = new ArrayList<String>(0);
         }
-        return curriculumOversightOrgs;
+        return unitsContentOwner;
     }
 
-    public void setCurriculumOversightOrgs(List<AdminOrgInfo> curriculumOversightOrgs) {
-        this.curriculumOversightOrgs = curriculumOversightOrgs;
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
     }
 
     /**

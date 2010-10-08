@@ -21,31 +21,61 @@ import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPane
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class InfoMessage extends Composite{
 	private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
 	private KSImage icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();
 	private HTMLPanel message = new HTMLPanel("");
 
-	public InfoMessage(String text, boolean messageVisible){
+	public InfoMessage(String text, boolean visible){
 		layout.add(icon);
         message.getElement().setInnerHTML(text);
 		layout.add(message);
+		icon.addStyleName("ks-message-static-image");
 		layout.addStyleName("ks-message-static");
 		this.initWidget(layout);
-		this.setVisible(messageVisible);
+		this.setVisible(visible);
 	}
 
 
 	public InfoMessage(){
+		icon.addStyleName("ks-message-static-image");
 		layout.add(icon);
 		layout.add(message);
 		this.initWidget(layout);
 		this.setVisible(false);
 	}
+	
+	public InfoMessage(boolean visible, boolean showStyling){
+		icon.addStyleName("ks-message-static-image");
+		layout.add(icon);
+		layout.add(message);
+		this.initWidget(layout);
+		this.showWarnStyling(showStyling);
+		this.setVisible(visible);
+	}
 
 	public void setMessage(String text, boolean messageVisible){
 	    message.getElement().setInnerHTML(text);
 		this.setVisible(messageVisible);
+	}
+	
+	public void insert(Widget w, int beforeIndex){
+		layout.insert(w, beforeIndex);
+	}
+	
+	public void add(Widget w){
+		layout.add(w);
+	}
+	
+	public void showWarnStyling(boolean showStyling){
+		icon.setVisible(showStyling);
+		if(showStyling){
+			layout.addStyleName("ks-message-static");
+		}
+		else{
+			layout.removeStyleName("ks-message-static");
+		}
 	}
 }

@@ -20,30 +20,29 @@ import java.util.List;
 
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity;
+import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
+import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 
 public interface EnumerationManagementDAO extends CrudDao, SearchableDao{
 
-    public List<EnumerationMetaEntity> findEnumerationMetas();
-
-    public EnumerationMetaEntity fetchEnumerationMeta(String enumerationKey);
+    public List<Enumeration> findEnumerations();
     
-    public EnumerationMetaEntity addEnumerationMeta(EnumerationMetaEntity entity);
+    public Enumeration addEnumeration(Enumeration entity);
 
-    public boolean removeEnumerationMeta(String enumerationKey);
+    public boolean removeEnumeration(String enumerationKey);
     
-    public List<EnumeratedValueEntity> fetchEnumerationWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue, Date contextDate);
+    public List<EnumeratedValue> fetchEnumeratedValuesWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue, Date contextDate);
    
-    public List<EnumeratedValueEntity> fetchEnumerationWithContext(String enumerationKey, String enumContextKey, String contextValue);
+    public List<EnumeratedValue> fetchEnumeratedValuesWithContext(String enumerationKey, String enumContextKey, String contextValue);
    
-    public List<EnumeratedValueEntity> fetchEnumerationWithDate(String enumerationKey, Date contextDate);
+    public List<EnumeratedValue> fetchEnumeratedValuesWithDate(String enumerationKey, Date contextDate);
     
-    public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey);
+    public List<EnumeratedValue> fetchEnumeratedValues(String enumerationKey);
     
-    public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value);
+    public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue value);
 
-    public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity value);
+    public EnumeratedValue updateEnumeratedValue(Enumeration enumeration, String code, EnumeratedValue value);
 
     public boolean removeEnumeratedValue(String enumerationKey, String code);
 

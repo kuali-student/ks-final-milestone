@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,9 +69,6 @@ public class CluAccreditation extends MetaEntity implements
 	}
 
 	public List<CluAccreditationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluAccreditationAttribute>();
-		}
 		return attributes;
 	}
 

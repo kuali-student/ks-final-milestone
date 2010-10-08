@@ -10,7 +10,7 @@ public abstract class AbstractDTOFilter implements TransformFilter {
 	 * @param data The inbound dto object
 	 *  @param metadata The metadata for the inbound dto object.
 	 */
-	public void applyInboundDtoFilter(Object dto, Map<String,String> properties) throws Exception{
+	public void applyInboundDtoFilter(Object dto, Map<String, Object> properties) throws Exception{
 		
 	}
 
@@ -19,7 +19,7 @@ public abstract class AbstractDTOFilter implements TransformFilter {
 	 * @param data The outbound data object
 	 * @param metadata The metadata for the outbound dto object.
 	 */
-	public void applyOutboundDtoFilter(Object dto, Map<String,String> properties) throws Exception{
+	public void applyOutboundDtoFilter(Object dto, Map<String, Object> properties) throws Exception{
 		
 	}
 

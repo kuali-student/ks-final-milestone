@@ -18,7 +18,6 @@
     <ref bean="loDisplayInfo.parentRelType" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="org.kuali.student.lum.course.dto.LoDisplayInfo" parent="org.kuali.student.lum.course.dto.LoDisplayInfo-parent" />
 

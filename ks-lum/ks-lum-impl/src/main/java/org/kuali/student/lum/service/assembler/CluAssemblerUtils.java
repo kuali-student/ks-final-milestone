@@ -15,15 +15,6 @@
  */
 package org.kuali.student.lum.service.assembler;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
@@ -36,18 +27,21 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.LoAssembler;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
- * This is a description of what this class does - jimt don't forget to fill this in. 
- * 
+ * This is a description of what this class does - jimt don't forget to fill this in.
+ *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
@@ -56,195 +50,44 @@ public class CluAssemblerUtils {
     private LearningObjectiveService loService;
     private LoAssembler loAssembler;
 
-    public List<LoDisplayInfo> assembleLearningObjectives(String cluId, boolean shallowBuild) throws AssemblyException {
-        List<LoDisplayInfo> loInfos = new ArrayList<LoDisplayInfo>();
-        try {
-            List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
-            for (CluLoRelationInfo cluLoRelation : cluLoRelations) {
-                String loId = cluLoRelation.getLoId();
-                LoInfo lo = loService.getLo(loId);
-                loInfos.add(loAssembler.assemble(lo, null, shallowBuild));
-            }
-        } catch (Exception e) {
-            throw new AssemblyException("Error getting learning objectives", e);
-        }
-
-        return loInfos;
-    }
-
-    public void disassembleAdminOrg(CluInfo clu, Object t){
-    	List<AdminOrgInfo> dcos = getAdminOrgs("getDivisionsContentOwner", t);
-    	if(dcos != null && dcos.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:dcos){
-    			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> dsos = getAdminOrgs("getDivisionsStudentOversight", t);
-    	if(dsos != null && dsos.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:dsos){
-    			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_DIVISION)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> dds = getAdminOrgs("getDivisionsDeployment", t);
-		if(dds != null && dds.size() > 0){
-			List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-			for (AdminOrgInfo org : dds) {
-				if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_DIVISION)){
-					orgs.add(org);
-				}
-			}
-			clu.getAdminOrgs().addAll(orgs);
-		}
-
-    	List<AdminOrgInfo> dfrs = getAdminOrgs("getDivisionsFinancialResources", t);
-    	if(dfrs != null && dfrs.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:dfrs){
-    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_DIVISION)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-
-    	List<AdminOrgInfo> dfcs = getAdminOrgs("getDivisionsFinancialControl", t);
-    	if(dfcs != null && dfcs.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:dfcs){
-    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_DIVISION)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> ucos = getAdminOrgs("getUnitsContentOwner", t);
-    	if(ucos != null && ucos.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:ucos){
-    			if(org.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> usos = getAdminOrgs("getUnitsStudentOversight", t);
-    	if(usos != null && usos.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:usos){
-    			if(org.getType().equals(ProgramAssemblerConstants.STUDENT_OVERSIGHT_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> uds = getAdminOrgs("getUnitsDeployment", t);
-    	if(uds != null && uds.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:uds){
-    			if(org.getType().equals(ProgramAssemblerConstants.DEPLOYMENT_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> ufrs = getAdminOrgs("getUnitsFinancialResources", t);
-    	if(ufrs != null && ufrs.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:ufrs){
-    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-
-    	List<AdminOrgInfo> ufcs = getAdminOrgs("getUnitsFinancialControl", t);
-    	if(ufcs != null && ufcs.size() > 0){
-    		List<AdminOrgInfo> orgs = new ArrayList<AdminOrgInfo>();
-    		for(AdminOrgInfo org:ufcs){
-    			if(org.getType().equals(ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT)){
-    				orgs.add(org);
-    			}
-    		}
-    		clu.getAdminOrgs().addAll(orgs);
-    	}
-    }
-
-    @SuppressWarnings("unchecked")
-	private List<AdminOrgInfo> getAdminOrgs(String prop, Object t){
-		try
-		{
-			 Class<?> clazz = t.getClass();
-			 Method method = clazz.getMethod(prop, null);
-			 List<AdminOrgInfo> output = (List<AdminOrgInfo>)method.invoke(t, null);
-			 return output;
-		}
-		catch (IllegalAccessException   ex){
-			return null;
-		}
-		catch (InvocationTargetException  ex){
-			return null;
-		}
-		catch (NoSuchMethodException ex)
-		{
-			 return null;
-		}
-    }
-
-    public List<String> assembleCluResults(String courseResultType, List<CluResultInfo> cluResults) throws AssemblyException{
-		if(courseResultType==null){
-			throw new AssemblyException("courseResultType can not be null");
+    public List<String> assembleCluResults(List<String> resultTypes, List<CluResultInfo> cluResults) throws AssemblyException{
+		if(resultTypes==null){
+			throw new AssemblyException("result types can not be null");
 		}
 		List<String> results = new ArrayList<String>();
-		//Loop through all the CluResults to find the one with the matching type
+		//Loop through all the CluResults to find those with the matching types
 		for(CluResultInfo cluResult:cluResults){
-			if(courseResultType.equals(cluResult.getType())){
+			if(resultTypes.contains(cluResult.getType())){
 				//Loop through all options and add to the list of Strings
 				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
 					results.add(resultOption.getResultComponentId());
 				}
-				break;
 			}
 		}
 		return results;
 	}
 
     public BaseDTOAssemblyNode<?, ?> disassembleCluResults(String cluId,
-			String cluState, List<String> options, NodeOperation operation, String resultType, 
+			String cluState, List<String> options, NodeOperation operation, String resultType,
 			String resultsDescription, String resultDescription) throws AssemblyException {
 		BaseDTOAssemblyNode<List<String>, CluResultInfo> cluResultNode = new BaseDTOAssemblyNode<List<String>, CluResultInfo>(null);
 		if(resultType==null){
 			throw new AssemblyException("resultType can not be null");
 		}
-		
+
 		// Get the current options and put them in a map of option type id/cluResult
 		Map<String, ResultOptionInfo> currentResults = new HashMap<String, ResultOptionInfo>();
 
 		CluResultInfo cluResult = null;
-		
+
+        //TODO Check this for proper handling of multiple CluResultInfos?  
 		//If this is not a create, lookup the results for this clu
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
 				List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
-				
+
 				for (CluResultInfo currentResult : cluResultList) {
-					if (resultType
-							.equals(currentResult.getType())) {
+					if (resultType.equals(currentResult.getType())) {
 						cluResult = currentResult;
 						if(NodeOperation.DELETE.equals(operation)){
 							//if this is a delete, then we only need the CluResultInfo
@@ -256,7 +99,6 @@ public class CluAssemblerUtils {
 								currentResults.put(resultOption.getResultComponentId(), resultOption);
 							}
 						}
-						break;
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -283,10 +125,10 @@ public class CluAssemblerUtils {
 				cluResult.setEffectiveDate(new Date());
 				cluResultNode.setOperation(NodeOperation.CREATE);
 			}
-	
+
 			cluResult.setResultOptions(new ArrayList<ResultOptionInfo>());
-	
-			// Loop through all the credit options in this course
+
+			// Loop through all the credit options in this clu
 			for (String optionType : options) {
 				if(currentResults.containsKey(optionType)){
 					//If the option exists already copy it to the new list of result options
@@ -300,16 +142,32 @@ public class CluAssemblerUtils {
 					resultOptionInfo.setDesc(desc);
 					resultOptionInfo.setResultComponentId(optionType);
 					resultOptionInfo.setState(cluState);
-					
+
 					cluResult.getResultOptions().add(resultOptionInfo);
 				}
 			}
 		}
-		
+
 		cluResultNode.setNodeData(cluResult);
 		return cluResultNode;
 	}
 
+    public List<LoDisplayInfo> assembleLos(String cluId, boolean shallowBuild) throws AssemblyException {
+        List<LoDisplayInfo> loInfos = new ArrayList<LoDisplayInfo>();
+        try {
+            List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
+            for (CluLoRelationInfo cluLoRelation : cluLoRelations) {
+                String loId = cluLoRelation.getLoId();
+                LoInfo lo = loService.getLo(loId);
+                loInfos.add(loAssembler.assemble(lo, null, shallowBuild));
+            }
+        } catch (Exception e) {
+            throw new AssemblyException("Error getting learning objectives", e);
+        }
+
+        return loInfos;
+    }
+    
 	public List<BaseDTOAssemblyNode<?, ?>> disassembleLos(String cluId, String cluState, List<LoDisplayInfo> loInfos,
 			NodeOperation operation) throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
 		// TODO Auto-generated method stub
@@ -327,16 +185,16 @@ public class CluAssemblerUtils {
 			}
 		} catch (DoesNotExistException e) {
 		} catch (Exception e) {
-			throw new AssemblyException("Error finding related Los");
+			throw new AssemblyException("Error finding related Los", e);
 		}
-		
+
 		// Loop through all the los in this clu
 		for(LoDisplayInfo loDisplay : loInfos){
 
 			// If this is a clu create/new lo update then all los will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId()))) {
-		        
+
                 // the lo does not exist, so create
                 // Assemble and add the lo
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
@@ -347,8 +205,7 @@ public class CluAssemblerUtils {
                 CluLoRelationInfo relation = new CluLoRelationInfo();
                 relation.setCluId(cluId);
                 relation.setLoId(loNode.getNodeData().getId());
-                relation
-                        .setType(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
+                relation.setType(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
                 relation.setState(cluState);
 
                 BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
@@ -369,7 +226,7 @@ public class CluAssemblerUtils {
 				currentCluLoRelations.remove(loDisplay.getLoInfo().getId());
 			} else if (NodeOperation.DELETE == operation
                     && currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
-			    
+
                 // Delete the Format and its relation
 				CluLoRelationInfo relationToDelete = currentCluLoRelations.get(loDisplay.getLoInfo().getId());
                 BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
@@ -377,16 +234,16 @@ public class CluAssemblerUtils {
                 relationToDeleteNode.setNodeData(relationToDelete);
                 relationToDeleteNode.setOperation(NodeOperation.DELETE);
                 results.add(relationToDeleteNode);
-            
+
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
         				.disassemble(loDisplay, NodeOperation.DELETE);
-                results.add(loNode);                                
+                results.add(loNode);
 
                 // remove this entry from the map so we can tell what needs to
                 // be deleted at the end
-                currentCluLoRelations.remove(loDisplay.getLoInfo().getId());			    
+                currentCluLoRelations.remove(loDisplay.getLoInfo().getId());
 			}
-		}         
+		}
 
         // Now any leftover lo ids are no longer needed, so delete
         // los and relations
@@ -404,12 +261,12 @@ public class CluAssemblerUtils {
             LoDisplayInfo loDisplayToDelete = loAssembler.assemble(loToDelete, null, false);
             BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
             		.disassemble(loDisplayToDelete, NodeOperation.DELETE);
-            results.add(loNode);                                            
+            results.add(loNode);
         }
-		
+
 		return results;
 	}
-	
+
     // Spring setters
     public void setLuService(LuService luService) {
         this.luService = luService;

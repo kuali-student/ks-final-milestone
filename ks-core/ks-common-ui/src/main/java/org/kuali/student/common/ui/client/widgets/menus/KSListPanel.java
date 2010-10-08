@@ -15,76 +15,84 @@
 
 package org.kuali.student.common.ui.client.widgets.menus;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.Element;
 
 /**
  * @author wilj
- *
  */
 public class KSListPanel extends ComplexPanel {
-	public enum ListType {
-		ORDERED, UNORDERED
-	}
+    public enum ListType {
+        ORDERED, UNORDERED
+    }
 
-	private final ListType listType;
-	private final Element listElement;
-	public KSListPanel() {
-		this(ListType.UNORDERED);
-	}
+    private final ListType listType;
+    private final Element listElement;
 
-	public KSListPanel(final ListType listType) {
-		this.listType = listType;
-		setElement(DOM.createDiv());
-		if (listType == ListType.ORDERED) {
-			this.listElement = DOM.createElement("ol");
-		} else {
-			this.listElement = DOM.createElement("ul");
-		}
-		getElement().appendChild(listElement);
-	}
+    public KSListPanel() {
+        this(ListType.UNORDERED);
+    }
 
-	@Override
-	public void add(final Widget widget) {
-		super.add(widget, listElement.appendChild(DOM.createElement("li")));
-	}
+    public KSListPanel(final ListType listType) {
+        this.listType = listType;
+        setElement(DOM.createDiv());
+        if (listType == ListType.ORDERED) {
+            this.listElement = DOM.createElement("ol");
+        } else {
+            this.listElement = DOM.createElement("ul");
+        }
+        getElement().appendChild(listElement);
+    }
 
-	/**
-	 * @return the listType
-	 */
-	public ListType getListType() {
-		return listType;
-	}
+    @Override
+    public void add(final Widget widget) {
+        super.add(widget, listElement.appendChild(DOM.createElement("li")));
+    }
 
-	/* (non-Javadoc)
-	 * @see com.google.gwt.user.client.ui.ComplexPanel#remove(int)
-	 */
-	@Override
-	public boolean remove(final int index) {
-		final Widget w = super.getWidget(index);
-		final boolean result = super.remove(index);
+    public void add(final Widget widget, String text) {
+        Element element = DOM.createElement("li");
+        element.appendChild(new Label(text).getElement());
+        super.add(widget, listElement.appendChild(element));
+    }
 
-		return result;
-	}
+    /**
+     * @return the listType
+     */
+    public ListType getListType() {
+        return listType;
+    }
 
-	@Override
+    /* (non-Javadoc)
+      * @see com.google.gwt.user.client.ui.ComplexPanel#remove(int)
+      */
+
+    @Override
+    public boolean remove(final int index) {
+        final Widget w = super.getWidget(index);
+        final boolean result = super.remove(index);
+
+        return result;
+    }
+
+    @Override
     public boolean remove(Widget w) {
-	    int widgetIndex = super.getWidgetIndex(w);
-	    super.remove(w);
-	    listElement.removeChild(listElement.getChildNodes().getItem(widgetIndex));
+        int widgetIndex = super.getWidgetIndex(w);
+        super.remove(w);
+        listElement.removeChild(listElement.getChildNodes().getItem(widgetIndex));
         return true;
     }
 
     @Override
-	public void clear() {
-		super.clear();
-		for(int i = 0; i < listElement.getChildNodes().getLength(); i++){
-			listElement.removeChild(listElement.getChildNodes().getItem(i));
-		}
+    public void clear() {
+        super.clear();
+        for (int i = 0; i < listElement.getChildNodes().getLength(); i++) {
+            listElement.removeChild(listElement.getChildNodes().getItem(i));
+        }
 
-	}
+    }
 
 
 }

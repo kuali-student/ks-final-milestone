@@ -16,13 +16,17 @@
 package org.kuali.student.core.statement.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.old.Validator;
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -64,7 +68,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class StatementServiceImpl implements StatementService {
 
 	private StatementDao statementDao;
@@ -73,6 +77,8 @@ public class StatementServiceImpl implements StatementService {
     private DictionaryService dictionaryServiceDelegate;
     private StatementAssembler statementAssembler;
     private Validator validator;
+    private ValidatorFactory validatorFactory;
+    // private StatementTreeViewAssembler statementTreeViewAssembler;
 
     public Validator getValidator() {
 		return validator;
@@ -106,13 +112,13 @@ public class StatementServiceImpl implements StatementService {
         return statementDao;
     }
 
-    public NaturalLanguageTranslator getNaturalLanguageTranslator() {
-        return naturalLanguageTranslator;
-    }
-
     public void setStatementDao(final StatementDao statementDao) {
 		this.statementDao = statementDao;
 	}
+
+    public NaturalLanguageTranslator getNaturalLanguageTranslator() {
+        return naturalLanguageTranslator;
+    }
 
 	public void setNaturalLanguageTranslator(final NaturalLanguageTranslator translator) {
 		this.naturalLanguageTranslator = translator;
@@ -125,7 +131,7 @@ public class StatementServiceImpl implements StatementService {
 		checkForEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 
 		NlUsageType entity = this.statementDao.fetch(NlUsageType.class, nlUsageTypeKey);
-		NlUsageTypeInfo info = statementAssembler.toNlUsageTypeInfo(entity);
+		NlUsageTypeInfo info = StatementAssembler.toNlUsageTypeInfo(entity);
 		return info;
 	}
 
@@ -133,7 +139,7 @@ public class StatementServiceImpl implements StatementService {
 			throws OperationFailedException {
 
 		List<NlUsageType> entities = this.statementDao.find(NlUsageType.class);
-		List<NlUsageTypeInfo> infos = statementAssembler.toNlUsageTypeInfos(entities);
+		List<NlUsageTypeInfo> infos = StatementAssembler.toNlUsageTypeInfos(entities);
 		return infos;
 	}
 
@@ -155,7 +161,7 @@ public class StatementServiceImpl implements StatementService {
 		checkForEmptyParameter(objectTypeKey, "objectTypeKey");
 
 		ObjectType objectType = this.statementDao.fetch(ObjectType.class, objectTypeKey);
-		List<String> ids = statementAssembler.toRefObjectSubTypeIds(objectType);
+		List<String> ids = StatementAssembler.toRefObjectSubTypeIds(objectType);
 		return ids;
 	}
 
@@ -167,7 +173,7 @@ public class StatementServiceImpl implements StatementService {
 		checkForEmptyParameter(refStatementRelationId, "refStatementRelationId");
 
     	RefStatementRelation entity = this.statementDao.fetch(RefStatementRelation.class, refStatementRelationId);
-    	RefStatementRelationInfo dto = statementAssembler.toRefStatementRelationInfo(entity);
+    	RefStatementRelationInfo dto = StatementAssembler.toRefStatementRelationInfo(entity);
 		return dto;
 	}
 
@@ -181,7 +187,7 @@ public class StatementServiceImpl implements StatementService {
         List<RefStatementRelationInfo> referenceInfos = null;
         if (references != null) {
             for (RefStatementRelation reference : references) {
-                RefStatementRelationInfo dto = statementAssembler.toRefStatementRelationInfo(reference);
+                RefStatementRelationInfo dto = StatementAssembler.toRefStatementRelationInfo(reference);
                 referenceInfos = (referenceInfos == null)? new ArrayList<RefStatementRelationInfo>(7) : referenceInfos;
                 referenceInfos.add(dto);
             }
@@ -196,7 +202,7 @@ public class StatementServiceImpl implements StatementService {
 
 		Statement statement = this.statementDao.fetch(Statement.class, statementId);
 		List<RefStatementRelation> entities = statement.getRefStatementRelations();
-		List<RefStatementRelationInfo> dtoList = statementAssembler.toRefStatementRelationInfos(entities);
+		List<RefStatementRelationInfo> dtoList = StatementAssembler.toRefStatementRelationInfos(entities);
 		return dtoList;
 	}
 
@@ -396,11 +402,29 @@ public class StatementServiceImpl implements StatementService {
 
         statementDao.create(statement);
 
-        StatementInfo info = statementAssembler.toStatementInfo(statement);
+        StatementInfo info = StatementAssembler.toStatementInfo(statement);
 
         return info;
     }
 
+    @Override
+    public StatementTreeViewInfo createStatementTreeView(final StatementTreeViewInfo statementTreeViewInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, CircularReferenceException {
+    	try {
+            StatementTreeViewInfo origTree = null;
+
+            // insert statements and reqComponents if they do not already exists in database
+            updateSTVHelperCreateStatements(statementTreeViewInfo);
+
+            updateStatementTreeViewHelper(statementTreeViewInfo);
+            StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
+
+            return test;
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException("Create failed.", e);
+		}
+    }
+
+    
     @Override
     public StatusInfo deleteReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentId, "reqComponentId");
@@ -424,10 +448,24 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(statementId, "statementId");
 
         Statement stmt = statementDao.fetch(Statement.class, statementId);
-
         if(stmt==null){
             throw new DoesNotExistException("Statement does not exist for id: "+statementId);
         }
+
+
+		try {
+			Statement parent = statementDao.getParentStatement(statementId);
+        	List<Statement> children = parent.getChildren();
+        	for (int i = 0; i < children.size(); i++) {
+        		if (children.get(i).getId().equals(statementId)) {
+        			children.remove(i);
+        			break;
+        		}
+        	}
+        	statementDao.update(parent);
+		} catch (DoesNotExistException e) {
+			// Ignore in this case
+		}
 
         statementDao.delete(stmt);
 
@@ -436,8 +474,51 @@ public class StatementServiceImpl implements StatementService {
         statusInfo.setMessage("Statement successfully deleted");
         return statusInfo;
     }
-
+    
     @Override
+    public StatusInfo deleteStatementTreeView(final String statementId) throws DoesNotExistException{
+        Statement stmt = statementDao.fetch(Statement.class, statementId);
+        
+        try{
+        	Statement parent = statementDao.getParentStatement(statementId);
+        	
+        	//remove the child from the parent
+            if(parent.getChildren()!=null){
+		        for(Iterator<Statement> iter = parent.getChildren().iterator();iter.hasNext();){
+		        	Statement childStmt = iter.next();
+		        	if(stmt.getId().equals(childStmt.getId())){
+		        		iter.remove();
+		        		break;
+		        	}
+		        }
+	        }
+	        statementDao.update(parent);
+    	}catch(DoesNotExistException e){
+    		//Ignore in this case
+    	}
+        
+        //delete the tree hierarchy;
+        deleteRecursively(stmt);
+        
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        statusInfo.setMessage("Statement Tree successfully deleted");
+        return statusInfo;
+    }
+
+    private void deleteRecursively(Statement stmt) {
+    	if(stmt.getChildren()!=null){
+    		List<Statement> childStmts = new ArrayList<Statement>(stmt.getChildren());
+	    	stmt.getChildren().clear();
+	    	stmt = statementDao.update(stmt);
+	    	for(Statement childStmt:childStmts){
+	    		deleteRecursively(childStmt);
+	    	}
+    	}
+    	statementDao.delete(stmt);
+	}
+
+	@Override
     public ReqComponentInfo getReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return statementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId), null, null);
     }
@@ -454,7 +535,7 @@ public class StatementServiceImpl implements StatementService {
     public StatementInfo getStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         StatementInfo statementInfo = null;
         checkForMissingParameter(statementId, "statementId");
-        statementInfo = statementAssembler.toStatementInfo(statementDao.fetch(Statement.class, statementId));
+        statementInfo = StatementAssembler.toStatementInfo(statementDao.fetch(Statement.class, statementId));
         return statementInfo;
     }
 
@@ -463,7 +544,7 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(statementTypeKey, "statementTypeKey");
 
         List<Statement> statements = statementDao.getStatementsForStatementType(statementTypeKey);
-        return statementAssembler.toStatementInfos(statements);
+        return StatementAssembler.toStatementInfos(statements);
     }
 
     @Override
@@ -471,7 +552,7 @@ public class StatementServiceImpl implements StatementService {
         checkForNullOrEmptyParameter(reqComponentId, "reqComponentId");
 
         List<Statement> list = statementDao.getStatementsForReqComponent(reqComponentId);
-        return statementAssembler.toStatementInfos(list);
+        return StatementAssembler.toStatementInfos(list);
     }
 
     /**
@@ -489,7 +570,7 @@ public class StatementServiceImpl implements StatementService {
         checkForNullOrEmptyParameter(statementId, "statementId");
 
 		Statement statement = statementDao.fetch(Statement.class, statementId);
-		List<StatementInfo> list = statementAssembler.toStatementInfos(statement.getChildren());
+		List<StatementInfo> list = StatementAssembler.toStatementInfos(statement.getChildren());
 		return list;
 	}
 
@@ -509,7 +590,7 @@ public class StatementServiceImpl implements StatementService {
         Statement updatedStmt = statementDao.update(stmt);
 
         //Copy back to an statementInfo and return
-        StatementInfo updStatementInfo = statementAssembler.toStatementInfo(updatedStmt);
+        StatementInfo updStatementInfo = StatementAssembler.toStatementInfo(updatedStmt);
         return updStatementInfo;
     }
 
@@ -518,7 +599,12 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 
-        return validator.validateTypeStateObject(reqComponentInfo, getObjectStructure("org.kuali.student.core.statement.dto.ReqComponentInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ReqComponentInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(reqComponentInfo, objStructure);
+
+        return validationResults;
     }
 
     @Override
@@ -526,11 +612,16 @@ public class StatementServiceImpl implements StatementService {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(statementInfo, "statementInfo");
 
-        return validator.validateTypeStateObject(statementInfo, getObjectStructure("org.kuali.student.core.statement.dto.StatementInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(StatementInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementInfo, objStructure);
+
+        return validationResults;
     }
 
     @Override
-    public ObjectStructure getObjectStructure(final String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
@@ -591,28 +682,28 @@ public class StatementServiceImpl implements StatementService {
 
     @Override
     public StatementTypeInfo getStatementType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return statementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
+        return StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
     }
 
     @Override
     public List<StatementTypeInfo> getStatementTypes() throws OperationFailedException {
-        return statementAssembler.toStatementTypeInfos(statementDao.find(StatementType.class));
+        return StatementAssembler.toStatementTypeInfos(statementDao.find(StatementType.class));
     }
 
     public List<String> getStatementTypesForStatementType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	StatementTypeInfo type = statementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
+    	StatementTypeInfo type = StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
     	return type.getAllowedStatementTypes();
     }
 
     @Override
     public List<ReqComponentTypeInfo> getReqComponentTypes() throws OperationFailedException {
-        return statementAssembler.toReqComponentTypeInfos(statementDao.find(ReqComponentType.class));
+        return StatementAssembler.toReqComponentTypeInfos(statementDao.find(ReqComponentType.class));
     }
 
     @Override
     public ReqComponentTypeInfo getReqComponentType(final String reqComponentTypeKey)
     		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return statementAssembler.toReqComponentTypeInfo(statementDao.fetch(ReqComponentType.class, reqComponentTypeKey));
+        return StatementAssembler.toReqComponentTypeInfo(statementDao.fetch(ReqComponentType.class, reqComponentTypeKey));
     }
 
     @Override
@@ -625,7 +716,7 @@ public class StatementServiceImpl implements StatementService {
             throw new DoesNotExistException("Statement Type: " + statementTypeKey + " does not exist.");
         }
 
-        return statementAssembler.toReqComponentTypeInfos( stmtType.getAllowedReqComponentTypes() );
+        return StatementAssembler.toReqComponentTypeInfos( stmtType.getAllowedReqComponentTypes() );
     }
 
     @Override
@@ -647,7 +738,7 @@ public class StatementServiceImpl implements StatementService {
         ReqComponent updatedReqComp = statementDao.update(reqComp);
 
         //Copy back to an reqComponentInfo and return
-        ReqComponentInfo updReqCompInfo = statementAssembler.toReqComponentInfo(updatedReqComp, null, null);
+        ReqComponentInfo updReqCompInfo = StatementAssembler.toReqComponentInfo(updatedReqComp);
         return updReqCompInfo;
     }
 
@@ -658,6 +749,9 @@ public class StatementServiceImpl implements StatementService {
 		Statement statement = this.statementDao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
 		RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationInfo.getType());
 
+        // make sure refObjectType exist
+        this.statementDao.fetch(ObjectType.class, refStatementRelationInfo.getRefObjectTypeKey());
+		
 		RefStatementRelation entity = new RefStatementRelation();
 
 		BeanUtils.copyProperties(refStatementRelationInfo, entity, new String[] {
@@ -666,12 +760,12 @@ public class StatementServiceImpl implements StatementService {
 		entity.setRefStatementRelationType(type);
 		entity.setStatement(statement);
 
-		List<RefStatementRelationAttribute> attributes = statementAssembler.toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), entity, this.statementDao);
+		List<RefStatementRelationAttribute> attributes = StatementAssembler.toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), entity, this.statementDao);
 		entity.setAttributes(attributes);
 
 		RefStatementRelation newEntity = this.statementDao.create(entity);
 
-		RefStatementRelationInfo newDto = statementAssembler.toRefStatementRelationInfo(newEntity);
+		RefStatementRelationInfo newDto = StatementAssembler.toRefStatementRelationInfo(newEntity);
 
 		return newDto;
 	}
@@ -686,7 +780,7 @@ public class StatementServiceImpl implements StatementService {
 		RefStatementRelation refStatementRel = statementAssembler.toRefStatementRelation(true, refStatementRelationInfo);
 		RefStatementRelation updatedRefStatementRel = statementDao.update(refStatementRel);
 
-		RefStatementRelationInfo dto = statementAssembler.toRefStatementRelationInfo(updatedRefStatementRel);
+		RefStatementRelationInfo dto = StatementAssembler.toRefStatementRelationInfo(updatedRefStatementRel);
 		return dto;
 	}
 
@@ -705,19 +799,24 @@ public class StatementServiceImpl implements StatementService {
 	@Override
 	public List<ValidationResultInfo> validateRefStatementRelation(final String validationType, RefStatementRelationInfo refStatementRelationInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return validator.validateTypeStateObject(refStatementRelationInfo, getObjectStructure("refStatementRelationInfo"));
+        ObjectStructureDefinition objStructure = this.getObjectStructure(RefStatementRelationInfo.class.getName());
+        validatorFactory.setObjectStructureDefinition(objStructure);
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refStatementRelationInfo, objStructure);
+
+		return validationResults;
 	}
 
     @Override
     public StatementTreeViewInfo getStatementTreeView(final String statementId)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
-    	
+
     	return getStatementTreeView(statementId, null, null);
     }
-    
+
     @Override
-    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, final String language) 
+    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, final String language)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
     	checkForNullOrEmptyParameter("nlUsageTypeKey", nlUsageTypeKey);
@@ -734,6 +833,20 @@ public class StatementServiceImpl implements StatementService {
         statementTreeViewInfo = new StatementTreeViewInfo();
         getStatementTreeViewHelper(statementInfo, statementTreeViewInfo, nlUsageTypeKey, language);
         return statementTreeViewInfo;
+
+
+    	/*
+    	Map<String, String> configuration = new HashMap<String, String>();
+    	configuration.put("USAGE_TYPE_KEY", nlUsageTypeKey);
+    	configuration.put("NL_KEY", language);
+    	StatementTreeViewInfo result = new StatementTreeViewInfo();
+    	try {
+			statementTreeViewAssembler.assemble(getStatement(statementId), result, false, configuration);
+			return result;
+    	} catch (AssemblyException e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+		*/
     }
 
 
@@ -772,7 +885,7 @@ public class StatementServiceImpl implements StatementService {
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-    private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo, 
+    private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo,
     		final String nlUsageTypeKey, final String language)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         if (statementInfo == null) return;
@@ -783,12 +896,10 @@ public class StatementServiceImpl implements StatementService {
         if (statementInfo.getStatementIds() != null) {
             for (String statementId : statementInfo.getStatementIds()) {
                 StatementInfo subStatement = getStatement(statementId);
-                
+
                 List<StatementTreeViewInfo> statements =
                     (statementTreeViewInfo.getStatements() == null) ? new ArrayList<StatementTreeViewInfo>() : statementTreeViewInfo.getStatements();
                 StatementTreeViewInfo subStatementTreeViewInfo = new StatementTreeViewInfo();
-    	        String nl = translateStatement(statementId, nlUsageTypeKey, language);
-                subStatementTreeViewInfo.setNaturalLanguageTranslation(nl);
 
                 // recursive call to get subStatementTreeViewInfo
                 getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo, nlUsageTypeKey, language);
@@ -796,51 +907,50 @@ public class StatementServiceImpl implements StatementService {
                 statementTreeViewInfo.setStatements(statements);
             }
         }
-        String nl = translateStatement(statementTreeViewInfo.getId(), nlUsageTypeKey, language);
-        statementTreeViewInfo.setNaturalLanguageTranslation(nl);
-    }
-    
-    private String translateStatement(String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
-        Statement stmt = this.statementDao.fetch(Statement.class, statementId);
-        if(nlUsageTypeKey != null && language != null) {
-	        String nl = this.naturalLanguageTranslator.translateStatement(stmt, nlUsageTypeKey);
-	        return nl;
-        }
-        return null;
     }
 
     @Override
     public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo)
     	throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        StatementTreeViewInfo origTree = null;
+		
+		Statement stmt = this.statementDao.fetch(Statement.class, statementTreeViewInfo.getId());
+	    if (stmt == null) {
+	        throw new DoesNotExistException("Statement does not exist for id: " + statementTreeViewInfo.getId());
+		}
+		if (!String.valueOf(stmt.getVersionInd()).equals(statementTreeViewInfo.getMetaInfo().getVersionInd())) {
+		    throw new VersionMismatchException("Statement to be updated is not the current version");
+		}
+		   
+	    Set<String> statementIdsToDelete = new HashSet<String>();
+	    List<ReqComponent> requirementComponentsToCreate = new ArrayList<ReqComponent>();
+	    List<Statement> statmentsToUpdate = new ArrayList<Statement>();
+	    
+	    //Transform the tree into a statement with all of its children
+	    stmt = statementAssembler.toStatementFromTree(stmt, statementTreeViewInfo, statementIdsToDelete, statmentsToUpdate, requirementComponentsToCreate);
+		
+	    //Create any new reqComponents 
+	    for(ReqComponent reqComponent:requirementComponentsToCreate){
+			statementDao.create(reqComponent);
+		}
+	    
+	    //Update the actual statement
+	    stmt = statementDao.update(stmt);
+	    
+	    //Update statements where the join table needs to be cleared
+	    
+	    //delete orphaned statements
+	    for(String statementIdToDelete:statementIdsToDelete){
+	    	statementDao.delete(Statement.class, statementIdToDelete);
+	    }
+	    
+	    //Transform back to a dto
+	    StatementTreeViewInfo result = statementAssembler.toStatementTreeViewInfo(stmt);
+	
+		return result;
 
-        if (statementId != null) {
-            try {
-                origTree = getStatementTreeView(statementId);
-            } catch (DoesNotExistException dnee) {
-                origTree = null;
-            }
-        }
 
-        // insert statements and reqComponents if they do not already exists in database
-        updateSTVHelperCreateStatements(statementTreeViewInfo);
-        // check the two lists of relationships for ones that need to be deleted/created
-        if (origTree != null) {
-            List<String> toBeDeleted = notIn(origTree, statementTreeViewInfo);
-            for (String delStatementId : toBeDeleted) {
-                deleteStatement(delStatementId);
-            }
-        }
-        updateStatementTreeViewHelper(statementTreeViewInfo);
-        StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
-
-        return test;
     }
 
-    /**
-     *
-     * @return a list of relationships in the first list but not in the second
-     */
     private List<String> notIn(
             StatementTreeViewInfo oldTree,
             StatementTreeViewInfo newTree) {
@@ -879,7 +989,6 @@ public class StatementServiceImpl implements StatementService {
     private void updateStatementTreeViewHelper(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         if (statementTreeViewInfo.getStatements() != null) {
             for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
-                subStatement.setParentId(statementTreeViewInfo.getId());
                 updateStatementTreeViewHelper(subStatement);
             }
         }
@@ -902,7 +1011,6 @@ public class StatementServiceImpl implements StatementService {
         StatementInfo newStatementInfo = null;
         if (statementTreeViewInfo.getStatements() != null) {
             for (StatementTreeViewInfo subTreeInfo : statementTreeViewInfo.getStatements()) {
-                subTreeInfo.setParentId(statementTreeViewInfo.getId());
                 updateSTVHelperCreateStatements(subTreeInfo);
             }
         }
@@ -951,7 +1059,7 @@ public class StatementServiceImpl implements StatementService {
         if (origStatementInfo == null) {
             // the id here even if it is not null it is the temporary ids assigned by client
             // so resets the id to null to allow a new id to be generated.
-            statementTreeViewInfo.setId(null);
+//            statementTreeViewInfo.setId(null);
             newStatementInfo = statementAssembler.toStatementInfo(statementTreeViewInfo);
             try {
                 newStatementInfo = createStatement(newStatementInfo.getType(), newStatementInfo);
@@ -964,6 +1072,10 @@ public class StatementServiceImpl implements StatementService {
         }
     }
 
+    /**
+     *
+     * @return a list of relationships in the first list but not in the second
+     */
 	@Override
 	public RefStatementRelationTypeInfo getRefStatementRelationType(final String refStatementRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -971,14 +1083,14 @@ public class StatementServiceImpl implements StatementService {
 
 		RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationTypeKey);
 
-		return statementAssembler.toRefStatementRelationTypeInfo(type);
+		return StatementAssembler.toRefStatementRelationTypeInfo(type);
 	}
 
 	@Override
 	public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes()
 			throws OperationFailedException {
 		List<RefStatementRelationType> entities = this.statementDao.find(RefStatementRelationType.class);
-		return statementAssembler.toRefStatementRelationTypeInfos(entities);
+		return StatementAssembler.toRefStatementRelationTypeInfos(entities);
 	}
 
 	@Override
@@ -991,5 +1103,9 @@ public class StatementServiceImpl implements StatementService {
 	public List<String> getStatementTypesForRefStatementRelationType(final String refStatementRelationTypeKey)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("Method not yet implemented!");
+	}
+
+	public void setValidatorFactory(ValidatorFactory validatorFactory) {
+		this.validatorFactory = validatorFactory;
 	}
 }

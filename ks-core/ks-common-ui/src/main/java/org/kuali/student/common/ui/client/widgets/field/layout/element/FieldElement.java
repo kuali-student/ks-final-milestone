@@ -26,10 +26,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayo
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -207,6 +204,12 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     		widgetSpan.add(fieldWidget);
     	}
     }
+    
+    public void setRequiredString(String requiredKey){
+    	String requiredText = Application.getApplicationContext().getMessage(requiredKey);
+    	required.setText(requiredText);
+    	required.setVisible(true);
+    }
 
     public Widget getFieldWidget(){
     	return fieldWidget;
@@ -226,6 +229,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	div.add(constraints);
     	div.addStyleName("ks-form-module-elements");
     	return div;
+    }
+    
+    public boolean isRequired() {
+        return required.isVisible();
     }
 
     public void setRequired(boolean isRequired){

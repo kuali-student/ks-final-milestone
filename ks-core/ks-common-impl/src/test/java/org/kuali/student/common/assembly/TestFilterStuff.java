@@ -26,9 +26,13 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.student.core.assembly.AssemblerFilterManager;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.MockProposal;
 import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.assembly.transform.WorkflowFilter;
+import org.kuali.student.core.assembly.transform.DataBeanMapper;
+import org.kuali.student.core.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.core.assembly.transform.DocumentTypeConfiguration;
+import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 
 public class TestFilterStuff {
 	final Logger LOG = Logger.getLogger(TestFilterStuff.class);
@@ -46,6 +50,11 @@ public class TestFilterStuff {
 	}
 	
 	@Test
+	public void testProposalFilter(){
+		
+	}
+	
+	@Test
 	public void testWorkflowFilter() throws Exception {
 		MockProposal proposal = new MockProposal();
 		proposal.setId("123456789");
@@ -54,23 +63,27 @@ public class TestFilterStuff {
 		proposal.setProposalTitle("Test Proposal");
 		proposal.getAttributes().put("user","test");
 		
-		WorkflowFilter workflowFilter = new WorkflowFilter();
+		ProposalWorkflowFilter workflowFilter = new ProposalWorkflowFilter();
 		Map<String,String> docFieldPaths = new HashMap<String,String>();
 		docFieldPaths.put("proposalId", "id");
 		docFieldPaths.put("primaryOrg", "orgId[0]");
 		docFieldPaths.put("secondaryOrg", "orgId[1]");	//Non-existant secondary org
 		docFieldPaths.put("userId", "user");
 		docFieldPaths.put("foo", "foo");				//Non-existant property
+			
+		DocumentTypeConfiguration docTypeConfig = new DocumentTypeConfiguration();
+		docTypeConfig.setDefaultDocumentTitle("Proposal Name: {proposalTitle}");
+		docTypeConfig.setDocContentFieldMap(docFieldPaths);
+		docTypeConfig.setDocumentType("testDocType");
 		
-		workflowFilter.setDtoClass(MockProposal.class);
-		workflowFilter.setDocTitlePath("proposalTitle");
-		workflowFilter.setDocFieldPaths(docFieldPaths);
-		workflowFilter.setObjectIdPath("id");
-						
-		assertEquals("123456789", workflowFilter.getObjectId(proposal));
-		assertEquals("Test Proposal", workflowFilter.getDocumentTitle(proposal));
+		workflowFilter.setDefaultDocType("testDocType");
 		
-		String docContent = workflowFilter.getDocumentContent(proposal);
+		DataBeanMapper mapper = new DefaultDataBeanMapper();
+		
+		Data data = mapper.convertFromBean(proposal);
+		assertEquals("Proposal Name: Test Proposal", workflowFilter.getDefaultDocumentTitle(docTypeConfig, data));
+		
+		String docContent = workflowFilter.getDocumentContent(data, docTypeConfig);
 		assertTrue(docContent.contains("<proposalId>123456789</proposalId>"));
 	}
 }

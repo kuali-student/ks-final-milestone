@@ -1,7 +1,8 @@
 package org.kuali.student.lum.course.service.impl;
 
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
@@ -23,12 +24,17 @@ public class TestCluInfoDictionary
  @Test
  public void testLoadCluInfoDictionary ()
  {
-  List<Class<?>> startingClasses = new ArrayList ();
-  startingClasses.add (CluInfo.class);
-  startingClasses.add (CluCluRelationInfo.class);
+  Set<String> startingClasses = new LinkedHashSet ();
+  startingClasses.add (CluInfo.class.getName ());
+//  startingClasses.add (CluCluRelationInfo.class.getName ());
   String contextFile = "ks-cluInfo-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
-  new DictionaryTesterHelper (outFile, startingClasses, contextFile + ".xml").doTest ();
+  DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,
+                                                              startingClasses,
+                                                              contextFile
+                                                              + ".xml",
+                                                              false);
+  helper.doTest ();
  }
 
  @Test

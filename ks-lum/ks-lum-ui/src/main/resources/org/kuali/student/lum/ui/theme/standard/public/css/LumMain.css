@@ -268,10 +268,9 @@
 	margin: 8px 4px 1px 422px;
 }
 .KS-LOBuilder-New{
+	margin-top: 5px;
 	color: blue;
-	font-size: 0.916em;
 	cursor: pointer;
-	width: 24px;
 }
 .KS-LOTextArea {
 	width: 28em;
@@ -311,13 +310,15 @@
 	margin-bottom: 10px;
 	margin-left: 10px;
 }
+.Lum-DocumentHeader-Spacing {
+    margin-left: 20px;
+}
 .KSLOCategoryManagementMainPanel {
-	background-color: white;
-	margin-top: 30px;
-    padding-top: 10px;
-    padding-left: 16px;
+	margin-top: 5px;
+    margin-left: 20px;
 }
 .KSLOCategoryManagementFilterPanel {
+	padding-right: 20px;
 }
 .KSLOCategoryManagementFilterLabel {
 	font-weight: bold;
@@ -344,6 +345,46 @@
 .KS-ViewCourseDisplayTableCell {
   border: 1px solid #C0C0C0;
   padding: 2px;
+}
+
+.KS-MultiplicityTable {
+  margin-left: 3px;
+}
+
+.KS-MultiplicityTableBorder {
+  border: thin solid #C0C0C0;
+  border-collapse: collapse;
+}
+
+.KS-MultiplicityTableHeaderCell {
+	font-weight: bold;
+	background-color: #E6E6E6;
+}
+
+.KS-MultiplicityTableCell {
+  padding: 2px;
+}
+.KS-MultiplicityTableCellBorder {
+  border: 1px solid #C0C0C0;
+}
+
+.KS-CommentButton{
+	background: transparent;
+	border: none;
+	color: blue;
+	font-size:0.916em;
+}
+
+.KS-CommentButtonDisabled{
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size:0.916em;
+}
+
+.KS-CluSetManagement-chooser {
+	background: lightgrey;
+	width: 500px;
 }
 
 .cluInfo-officialIdentifier-longName{}

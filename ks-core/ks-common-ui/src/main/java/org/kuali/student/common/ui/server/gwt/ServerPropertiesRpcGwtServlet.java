@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -66,12 +67,23 @@ public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet implemen
 	}
 
 	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		logger.info("Obtaining build information from META-INF/MANIFEST.MF");
-		String buildInfo = new ManifestInspector().getBuildInformation(getServletConfig().getServletContext());
-		logger.info("Build information: " + buildInfo);
-		properties.put("ks.application.version", buildInfo);
+	public String getContextPath(){
+		String contextPath = this.getThreadLocalRequest().getContextPath();
+		logger.info("Returning servlet path of [" + contextPath + "]");		
+		return contextPath;
 	}
 
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		try {
+			logger.info("Obtaining build information from " + ManifestInspector.MANIFEST_LOCATION);
+			ManifestInspector inspector = new ManifestInspector();
+			String buildInfo = inspector.getBuildInformationString(getServletConfig().getServletContext());
+			logger.info("Build information: " + buildInfo);
+			properties.put("ks.application.version", buildInfo);
+		} catch (IOException e) {
+			throw new ServletException(e);
+		}
+	}
 }

@@ -172,11 +172,15 @@ h7.ks-layout-header{
 	background-color: #f4e271; padding: 6px 6px 6px 15px; position:relative; color: #000; margin-bottom: 10px;
 }
 
-.ks-message-static img {
-	position:absolute; top: -5px; left: -5px; z-index: 900;
+.ks-message-static-margin{
+	margin-bottom: 1em;
 }
 
-.ks-message-static a { margin-left: 10px;}
+.ks-message-static-image {
+	position:absolute; top: -5px; left: -5px; z-index: 2;
+}
+
+.ks-message-static a { }
 
 /*** Comments ***/
 
@@ -510,12 +514,21 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	padding-left: 20px; 
 }
 
+@if user.agent ie6 ie7 ie8 { 
+	.ks-form-module-validation li {
+		margin-left: 0;
+		padding: 3px 0;
+		height: 1%;
+		list-style: none;
+	}
+}
+
 .ks-form-module-validation li {
 	margin-left: 0;
 	padding: 3px 0;
-	height: 1%;
 	list-style: none;
 }
+
 
 .ks-form-module-validation-inline {
 	font-size: 1em;
@@ -533,10 +546,18 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	padding-left: 20px; 
 }
 
-.ks-form-module-validation-inline li {
+@if user.agent ie6 ie7 ie8 {  
+	.ks-form-module-validation-inline li {
 	margin-left: 0;
 	padding: 3px 0;
 	height: 1%;
+	list-style: none;
+	}
+}
+
+.ks-form-module-validation-inline li {
+	margin-left: 0;
+	padding: 3px 0;
 	list-style: none;
 }
 
@@ -686,6 +707,9 @@ legend.invalid{color: red;}
 	line-height: 1.3em;
 }
 
+a:focus{
+	text-decoration: underline;
+}
 /* Buttons -------------------------------------------------------------- */
 
 /* ---- Primary ------------------------- */
@@ -702,6 +726,14 @@ a.ks-button-primary {
 	color: #2C61E6;
 	font-size: 1.167em;
 	font-weight: bold;
+}
+
+a.ks-button-primary:focus{
+	color: #2C61E6;
+	border: 1px solid #2C61E6;
+	background-color: #FFFFFF;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BFD1FF));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#BFD1FF);
 }
 
 a.ks-button-primary:hover {
@@ -740,6 +772,13 @@ a.ks-button-secondary {
 	padding: 7px 10px 5px 10px;
 	color: #2C61E6;
 	font-size: 1.167em;
+}
+
+a.ks-button-secondary:focus {
+	background-color: #FFFFFF;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
+	border: 1px solid #2C61E6;
 }
 
 a.ks-button-secondary:hover {
@@ -781,6 +820,13 @@ a.ks-button-primary-small {
 	font-weight: bold;
 }
 
+a.ks-button-primary-small:focus {
+	background-color: #FFFFFF;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BFD1FF));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#BFD1FF);
+	border: 1px solid #2C61E6;
+}
+
 a.ks-button-primary-small:hover {
 	background-color: #FFFFFF;
 	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#BFD1FF));
@@ -820,6 +866,13 @@ a.ks-button-secondary-small {
 	font-size: 1em;
 }
 
+a.ks-button-secondary-small:focus {
+	background-color: #FFFFFF;
+	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
+	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
+	border: 1px solid #2C61E6;
+}
+
 a.ks-button-secondary-small:hover {
 	background-color: #FFFFFF;
 	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
@@ -847,6 +900,16 @@ a.ks-button-secondary-small:hover {
 }
 
 .ks-link{
+	
+}
+
+.ks-link-large{
+	line-height: 2.25em;
+	font-size: 1.167em;
+}
+
+.ks-link-large-disabled{
+	color: #999999;
 }
 
 .ks-help-popup{
@@ -857,11 +920,9 @@ a.ks-button-secondary-small:hover {
 }
 
 .ks-table-title-column-width{
-	width: 15%;
 }
 
 .ks-table-field-column-width{
-	width: 35%;
 }
 
 .top-padding{

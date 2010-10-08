@@ -5,38 +5,41 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.junit.Test;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.junit.Assert.*;
 
 public class ComplexSubstructuresHelper
 {
 
 
- public Set<Class<?>> getComplexStructures (Class<?> clazz)
+ public Set<String> getComplexStructures (String className)
  {
-  Set<Class<?>> complexStructures = new LinkedHashSet<Class<?>> ();
-  loadComplexStructures (clazz, complexStructures);
+  Set<String> complexStructures = new LinkedHashSet<String> ();
+  loadComplexStructures (className, complexStructures);
   return complexStructures;
  }
 
- private void loadComplexStructures (Class<?> clazz,
-                                     Set<Class<?>> complexStructures)
+ private void loadComplexStructures (String className,
+                                     Set<String> complexStructures)
  {
-  if ( ! complexStructures.add (clazz))
+  if ( ! complexStructures.add (className))
   {
    return;
   }
   BeanInfo beanInfo;
+  Class<?> clazz;
+  try
+  {
+   clazz = Class.forName (className);
+  }
+  catch (ClassNotFoundException ex)
+  {
+   System.out.println ("ComplexSubstructuresHelper: Could not process because the class must be a freestanding object: " + className);
+   return;
+  }
   try
   {
    beanInfo = Introspector.getBeanInfo (clazz);
@@ -77,12 +80,14 @@ public class ComplexSubstructuresHelper
        &&  ! Double.class.equals (subClass)
        &&  ! Float.class.equals (subClass)
        &&  ! Date.class.equals (subClass)
-       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ()))
+       &&  ! DictionaryConstants.ATTRIBUTES.equals (pd.getName ())
+       &&  ! Enum.class.isAssignableFrom (subClass)
+       &&  ! Object.class.equals (subClass))
    {
-    loadComplexStructures (subClass, complexStructures);
+    loadComplexStructures (subClass.getName (), complexStructures);
    }
   }
  }
 
- 
+
 }

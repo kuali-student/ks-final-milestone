@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -64,6 +63,7 @@ public class CluFeeRecord extends MetaEntity implements
 
 	@Override
     public void onPrePersist() {
+        super.onPrePersist();
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	
@@ -92,9 +92,6 @@ public class CluFeeRecord extends MetaEntity implements
 	}
 
 	public List<CluFeeAmount> getFeeAmounts() {
-		if(null == feeAmounts) {
-			this.feeAmounts = new ArrayList<CluFeeAmount>();
-		}
 		return feeAmounts;
 	}
 
@@ -111,9 +108,6 @@ public class CluFeeRecord extends MetaEntity implements
 	}
 
 	public List<AffiliatedOrg> getAffiliatedOrgs() {
-		if(null == affiliatedOrgs) {
-			this.affiliatedOrgs = new ArrayList<AffiliatedOrg>();
-		}
 		return affiliatedOrgs;
 	}
 

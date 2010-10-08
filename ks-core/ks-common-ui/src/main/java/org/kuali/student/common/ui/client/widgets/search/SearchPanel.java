@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -69,7 +70,9 @@ public class SearchPanel extends Composite{
     private String criteriaInstructions = getMessage("searchPanelEnterFields");
     private KSLabel enteredCriteriaHeading = new KSLabel(getMessage("searchPanelCriteria"));
     private SearchResultsTable table;
-    public static enum SearchStyle{ADVANCED, CUSTOM}; 
+    private boolean isMultiSelect = true;
+
+	public static enum SearchStyle{ADVANCED, CUSTOM}; 
     private ActionCancelGroup actionCancelButtons;
 
     private String actionLabel = getMessage("search");  //set default action label
@@ -92,6 +95,7 @@ public class SearchPanel extends Composite{
     interface SearchParametersWidget {
         public SearchRequest getSearchRequest();
         public LookupMetadata getLookupMetadata();
+        public List<HasSearchParam> getSearchParams();
     }
 
     public SearchPanel(LookupMetadata meta){
@@ -106,6 +110,15 @@ public class SearchPanel extends Composite{
         this.initWidget(layout);
     }
 
+    @SuppressWarnings("unchecked")
+	public ButtonGroup getButtons(){
+    	return actionCancelButtons;
+    }
+    
+    public void setMutipleSelect(boolean isMultiSelect){
+    	this.isMultiSelect = isMultiSelect;
+    }
+    
     public void setupButtons() {
         if (actionCancelButtons != null) {
             actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
@@ -131,6 +144,7 @@ public class SearchPanel extends Composite{
         if (lookups.size() == 1) {
             searchParamPanel = createSearchParamPanel(lookups.get(0));
             selectedLookupName = lookups.get(0).getName();
+            activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookupName);
         } else {
             LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
             LinkedHashMap<String, LookupMetadata> searchLookups = new LinkedHashMap<String, LookupMetadata>();
@@ -139,6 +153,11 @@ public class SearchPanel extends Composite{
                 searchLookups.put(lookup.getName(), lookup);
             }
             selectedLookupName = lookups.get(0).getName();
+            // Sets the activeSearchParametersWidget to be the first search
+            activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookupName);
+            String actionLabel = (lookups.get(0) == null)? null : lookups.get(0)
+                    .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
+            setActionLabel(actionLabel);
             searchParamPanel = new SwappablePanel(searches);
             ((SwappablePanel)searchParamPanel).setSearchLookups(searchLookups);
             ((SwappablePanel)searchParamPanel).addLookupChangedCallback(new Callback<LookupMetadata>() {
@@ -164,6 +183,7 @@ public class SearchPanel extends Composite{
         resultsTablePanel.add(enteredCriteriaString);
         resultsTablePanel.setVisible(false);        
         table = new SearchResultsTable();
+        table.setMutipleSelect(isMultiSelect);
         table.addStyleName("KS-Advanced-Search-Results-Table");
         resultsTablePanel.add(table);
         layout.add(resultsTablePanel); 
@@ -176,9 +196,6 @@ public class SearchPanel extends Composite{
         ParamListItems listItems = new ParamListItems(meta);
         final AdvancedSearch advancedSearch = new AdvancedSearch(meta);
         LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, advancedSearch);
-        if (activeSearchParametersWidget == null) {
-            activeSearchParametersWidget = advancedSearch;
-        }
         searchParameterWidgetMap.put(meta.getName(), advancedSearch);
 
         //check whether we need custom tab i.e. whether we have at least one parameter that should appear on custom tab
@@ -216,6 +233,7 @@ public class SearchPanel extends Composite{
     private class CustomizedSearch extends Composite implements SearchParametersWidget {
 
         private List<CustomLine> lines = new ArrayList<CustomLine>();
+        private List<HasSearchParam> searchParams = new ArrayList<HasSearchParam>();
         private VerticalPanel layout = new VerticalPanel();
         private VerticalPanel linePanel = new VerticalPanel();
         private LookupMetadata meta;
@@ -241,6 +259,7 @@ public class SearchPanel extends Composite{
                     line.addStyleName("ks-form-module-single-line-margin");
                     linePanel.add(line);
                     lines.add(line);
+                    searchParams.add(line);
                 }
             });
 
@@ -305,6 +324,12 @@ public class SearchPanel extends Composite{
             sr.setSearchKey(meta.getSearchTypeId());
             return sr;
         }
+
+        @Override
+        public List<HasSearchParam> getSearchParams() {
+            return searchParams;
+        }
+
     }
 
     private interface HasSearchParam{
@@ -361,6 +386,7 @@ public class SearchPanel extends Composite{
 
     private class AdvancedSearch extends Composite implements SearchParametersWidget {
         private LookupMetadata meta;
+        private List<HasSearchParam> searchParams = new ArrayList<HasSearchParam>();
 
         public AdvancedSearch(final LookupMetadata meta){
             VerticalPanel panel = new VerticalPanel();
@@ -382,12 +408,14 @@ public class SearchPanel extends Composite{
                     SearchField paramField = new SearchField(param);
                     searchFields.add(paramField);
                     panel.add(paramField);
+                    searchParams.add(paramField);
                 }
                 else if (param.getWriteAccess() == WriteAccess.WHEN_NULL){
                     if(param.getDefaultValueString() == null && param.getDefaultValueList() == null){
                         SearchField paramField = new SearchField(param);
                         searchFields.add(paramField);
                         panel.add(paramField);
+                        searchParams.add(paramField);
                     }
                 }
 
@@ -412,9 +440,11 @@ public class SearchPanel extends Composite{
         public SearchRequest getSearchRequest() {
             SearchRequest sr = new SearchRequest();
             List<SearchParam> params = new ArrayList<SearchParam>();
+            List<HasSearchParam> searchParams = getSearchParams();
 
             //initialize search parameters if user entered values into search criteria fields in UI
-            for(SearchField field: searchFields){
+            
+            for(HasSearchParam field: searchParams){
                 SearchParam param = field.getSearchParam();
                 //TODO is this null check needed here? probably. assuming string here
                 //TODO make check more robust here/inserting params more robust
@@ -465,6 +495,10 @@ public class SearchPanel extends Composite{
             return sr;
         }
 
+        @Override
+        public List<HasSearchParam> getSearchParams() {
+            return searchParams;
+        }
     }
 
     private static class SearchField extends Composite implements HasSearchParam{
@@ -578,7 +612,7 @@ public class SearchPanel extends Composite{
             for (ResultRow row : selectedRows) {
                 String displayKey = row.getValue(activeSearchParametersWidget.getLookupMetadata().getResultDisplayKey());
                 String returnKey = row.getValue(activeSearchParametersWidget.getLookupMetadata().getResultReturnKey());
-                selectedValues.add(new SelectedResults(displayKey, returnKey));
+                selectedValues.add(new SelectedResults(displayKey, returnKey, row));
                 if (multiSelect == false) {
                     break;
                 }
@@ -682,9 +716,10 @@ public class SearchPanel extends Composite{
                 table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey());
                 resultsTablePanel.setVisible(true);
                 List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
+                List<HasSearchParam> searchParams = activeSearchParametersWidget.getSearchParams();
 
                 //initialize search parameters if user entered values into search criteria fields in UI
-                for(SearchField field: searchFields){
+                for(HasSearchParam field: searchParams){
                     SearchParam param = field.getSearchParam();
                     //TODO is this null check needed here? probably. assuming string here
                     //TODO make check more robust here/inserting params more robust

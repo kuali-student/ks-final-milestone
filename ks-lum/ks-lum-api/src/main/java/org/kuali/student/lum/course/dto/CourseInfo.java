@@ -35,12 +35,14 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 
 /**
  * Detailed information about a single course.
+ * For specific usage, check the specific service(s) implementation(s)
  *
  * @Author KSContractMojo
  * @Author Daniel Epstein
@@ -103,13 +105,13 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
 
-    private List<String> administeringOrgs;  // this is a temp fix. Change it back to list of AdminOrgInfo
+    private List<String> unitsDeployment;  
 
     private RichTextInfo feeJustification;
 
 
     @XmlElement
-    private List<String> curriculumOversightOrgs; // this is a temp fix. Change it back to list of AdminOrgInfo
+    private List<String> unitsContentOwner; 
 
     private List<CourseFeeInfo> fees;
 
@@ -127,7 +129,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<String> gradingOptions;
 
     @XmlElement
-    private List<String> creditOptions;
+    private List<ResultComponentInfo> creditOptions;
 
     @XmlElement
     private boolean specialTopicsCourse;
@@ -153,8 +155,11 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
     private MetaInfo metaInfo;
-
-    @XmlAttribute
+    
+    @XmlElement
+    private VersionInfo versionInfo;
+    
+	@XmlAttribute
     private String type;
 
     @XmlAttribute
@@ -361,12 +366,13 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public List<String> getAdministeringOrgs() {
-    	if(administeringOrgs == null){
-    		administeringOrgs = new ArrayList<String>(0);
+    public List<String> getUnitsDeployment() {
+    	if(unitsDeployment == null){
+    		unitsDeployment = new ArrayList<String>(0);
     	}
-        return administeringOrgs;
+        return unitsDeployment;
     }
+    
     /**
      * Narrative description of overall course fee justification.
      */
@@ -376,20 +382,22 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public void setAdministeringOrgs(List<String> administeringOrgs) {
-        this.administeringOrgs = administeringOrgs;
+    public void setUnitsDeployment(List<String> unitsDeployment) {
+        this.unitsDeployment = unitsDeployment;
     }
+    
     public void setFeeJustification(RichTextInfo feeJustification) {
         this.feeJustification = feeJustification;
 
     }
 
-    public List<String> getCurriculumOversightOrgs() {
-    	if(curriculumOversightOrgs == null){
-    		curriculumOversightOrgs = new ArrayList<String>(0);
+    public List<String> getUnitsContentOwner() {
+    	if(unitsContentOwner == null){
+    		unitsContentOwner = new ArrayList<String>(0);
     	}
-    	return curriculumOversightOrgs;
+    	return unitsContentOwner;
     }
+    
     /**
      * Fees information associated with this Course.
      */
@@ -401,13 +409,12 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     }
 
-
-    public void setCurriculumOversightOrgs(List<String> curriculumOversightOrgs) {
-        this.curriculumOversightOrgs = curriculumOversightOrgs;
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
     }
+    
     public void setFees(List<CourseFeeInfo> fees) {
         this.fees = fees;
-
     }
 
     /**
@@ -466,14 +473,14 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Credit outcomes from taking the course
      */
-    public List<String> getCreditOptions() {
+    public List<ResultComponentInfo> getCreditOptions() {
         if (creditOptions == null) {
-            creditOptions = new ArrayList<String>(0);
+            creditOptions = new ArrayList<ResultComponentInfo>(0);
         }
         return creditOptions;
     }
 
-    public void setCreditOptions(List<String> creditOptions) {
+    public void setCreditOptions(List<ResultComponentInfo> creditOptions) {
         this.creditOptions = creditOptions;
     }
 
@@ -600,5 +607,12 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     public void setId(String id) {
         this.id = id;
     }
-    
+
+    public VersionInfo getVersionInfo() {
+		return versionInfo;
+	}
+
+	public void setVersionInfo(VersionInfo versionInfo) {
+		this.versionInfo = versionInfo;
+	}    
 }

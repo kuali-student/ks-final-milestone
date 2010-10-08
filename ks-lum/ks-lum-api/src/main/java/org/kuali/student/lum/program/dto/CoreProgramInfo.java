@@ -34,7 +34,6 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 
 /**
  * Detailed information about a core program requirements associated with Credential Programs
@@ -78,16 +77,16 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     private List<String> programRequirements;
 
     @XmlElement
-    private List<AdminOrgInfo> divisionsContentOwner;    
+    private List<String> divisionsContentOwner;
     
     @XmlElement
-    private List<AdminOrgInfo> divisionsStudentOversight;    
+    private List<String> divisionsStudentOversight;
 
     @XmlElement
-    private List<AdminOrgInfo> unitsContentOwner;    
+    private List<String> unitsContentOwner;
     
     @XmlElement
-    private List<AdminOrgInfo> unitsStudentOversight;    
+    private List<String> unitsStudentOversight;
 
     @XmlElement
     private RichTextInfo descr;
@@ -283,44 +282,44 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * Divisions responsible to make changes to the CORE requirements   
      */
-    public List<AdminOrgInfo> getDivisionsContentOwner() {
+    public List<String> getDivisionsContentOwner() {
         return divisionsContentOwner;
     }
 
-    public void setDivisionsContentOwner(List<AdminOrgInfo> divisionsContentOwner) {
+    public void setDivisionsContentOwner(List<String> divisionsContentOwner) {
         this.divisionsContentOwner = divisionsContentOwner;
     }
 
     /**
      * Divisions responsible for student exceptions to the requirements.    
      */
-    public List<AdminOrgInfo> getDivisionsStudentOversight() {
+    public List<String> getDivisionsStudentOversight() {
         return divisionsStudentOversight;
     }
 
-    public void setDivisionsStudentOversight(List<AdminOrgInfo> divisionsStudentOversight) {
+    public void setDivisionsStudentOversight(List<String> divisionsStudentOversight) {
         this.divisionsStudentOversight = divisionsStudentOversight;
     }
     
     /**
      * Unit responsible to make changes to the CORE requirements    
      */
-    public List<AdminOrgInfo> getUnitsContentOwner() {
+    public List<String> getUnitsContentOwner() {
         return unitsContentOwner;
     }
 
-    public void setUnitsContentOwner(List<AdminOrgInfo> unitsContentOwner) {
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
         this.unitsContentOwner = unitsContentOwner;
     }
 
     /**
      * Unit responsible for student exceptions to the requirements. 
      */
-    public List<AdminOrgInfo> getUnitsStudentOversight() {
+    public List<String> getUnitsStudentOversight() {
         return unitsStudentOversight;
     }
 
-    public void setUnitsStudentOversight(List<AdminOrgInfo> unitsStudentOversight) {
+    public void setUnitsStudentOversight(List<String> unitsStudentOversight) {
         this.unitsStudentOversight = unitsStudentOversight;
     }
 

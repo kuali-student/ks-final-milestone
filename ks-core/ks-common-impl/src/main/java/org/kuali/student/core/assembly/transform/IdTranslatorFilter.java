@@ -16,30 +16,30 @@ import org.kuali.student.core.assembly.util.IdTranslator;
 
 public class IdTranslatorFilter extends AbstractDataFilter {
     final Logger LOG = Logger.getLogger(IdTranslatorAssemblerFilter.class);
-	
+
 	private IdTranslator idTranslator;
 
     public IdTranslatorFilter(IdTranslator idTranslator) {
         this.idTranslator = idTranslator;
     }
 
-	
+
 	/**
 	 * This filter will lookup translations for fields in the outbound
 	 * data object and add translations to the data map's runtime data field.
 	 */
-	@Override	
-	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,String> properties) {
+	@Override
+	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,Object> properties) {
         if (data != null && metadata != null) {
     		translateIds(data, metadata);
-        }		
+        }
 	}
-	
-    
+
+
     /**
      * Uses the IdTranslator and Metadata to convert IDs into their display text and stores those translations in the
      * _runtimeData node
-     * 
+     *
      * @param data
      *            the Data instance containing IDs to be translated
      * @param metadata
@@ -52,17 +52,17 @@ public class IdTranslatorFilter extends AbstractDataFilter {
 				//Iterate through all the data;s properties
 				for (Iterator<Property> iter = data.realPropertyIterator(); iter.hasNext();) {
 					Property prop = iter.next();
-					
+
 					Object fieldData = prop.getValue();
 					Object fieldKey = prop.getKey();
 
 					Metadata fieldMetadata = metadata.getProperties().get(fieldKey);
-					
+
 					//if the fieldMetadata is null then try to use the parent metadata as in the case of lists
 					if(fieldMetadata==null){
 						fieldMetadata=metadata;
 					}
-					
+
 					//If the fieldData is Data itself the recurse
 					if (fieldData instanceof Data) {
 						if (DataType.LIST.equals(fieldMetadata.getDataType())) {
@@ -86,6 +86,17 @@ public class IdTranslatorFilter extends AbstractDataFilter {
 												setTranslation((Data)fieldData, listItem.getKey().toString(), index, trans.getDisplay());
 											}
 										}
+
+									}
+                                    if (listData != null && listData instanceof Data) {
+										if (fieldMetadata.getInitialLookup() != null){
+											IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(),	((Data) listData).<String>get("orgId"));
+											if (trans != null) {
+												Integer index = listItem.getKey();
+												setTranslation((Data)fieldData, listItem.getKey().toString(), index, trans.getDisplay());
+											}
+										}
+
 									}
 								}
 							}
@@ -109,7 +120,7 @@ public class IdTranslatorFilter extends AbstractDataFilter {
 			LOG.error("Error translating", e);
 		}
 	}
-	
+
     private static void setTranslation(Data data, String field, Integer index, String translation) {
         if (data != null) {
         	//Get runtime data for the node and create if it doesn't exist
@@ -131,7 +142,7 @@ public class IdTranslatorFilter extends AbstractDataFilter {
                 //If the index is set this is a list item (foo/bar/0/, foo/bar/1/)
                 Data fieldData = runtime.get(field);
                 if(fieldData==null){
-                	fieldData = new Data();	
+                	fieldData = new Data();
                     runtime.set(field, fieldData);
                 }
                 fieldData.set("id-translation", translation);

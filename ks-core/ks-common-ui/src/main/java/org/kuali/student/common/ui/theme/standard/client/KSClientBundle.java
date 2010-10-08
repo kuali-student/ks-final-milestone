@@ -131,6 +131,24 @@ public interface KSClientBundle extends ClientBundleWithLookup{
 	@Source("org/kuali/student/common/ui/theme/standard/public/css/MenuLayout.css")
 	@CssResource.NotStrict
 	public CssResource menuLayoutCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/RuleTable.css")
+    @CssResource.NotStrict
+    public CssResource ruleTableCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/ReqCompEditWidget.css")
+    @CssResource.NotStrict
+    public CssResource reqEditWidgetCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/RuleManageWidget.css")
+    @CssResource.NotStrict
+    public CssResource reqManageWidgetCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/SubrulePreviewWidget.css")
+    @CssResource.NotStrict
+    public CssResource reqSummaryDisplayWidgetCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/RulePreviewWidget.css")
+    @CssResource.NotStrict
+    public CssResource ruleSummaryDisplayWidgetCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/RuleObjectView.css")
+    @CssResource.NotStrict
+    public CssResource ruleObjectViewCss();
 
 	//Reset Css
 	@Source("org/kuali/student/common/ui/theme/standard/public/css/Reset.css")

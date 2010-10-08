@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-M7</version>
+    <version>1.1.0-M9-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>
@@ -71,9 +71,9 @@
       <version>${aspectj.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.security</groupId>
-      <artifactId>ks-standard-sec</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>

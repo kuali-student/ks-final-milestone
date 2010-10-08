@@ -140,9 +140,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			
 			//Get an array of the jpql results
 			int selectIndex = queryString.toLowerCase().indexOf("select")+"select".length();
-			int fromIndex = queryString.toLowerCase().indexOf("from");
+			int fromIndex = queryString.toLowerCase().indexOf(" from ");
 			String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
-			
 			for(ResultColumnInfo results : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()){
 				if(results.getKey().equals(searchRequest.getSortColumn())){
 					orderByClause = " ORDER BY "+jpqlResultColumns[i]+" ";
@@ -154,6 +153,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 				}
 				i++;
 			}
+			
 		}
 		
 		//Create the query
@@ -219,9 +219,14 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		searchResult.setStartAt(searchRequest.getStartAt());
 		if(searchRequest.getNeededTotalResults()!=null && searchRequest.getNeededTotalResults()){
 			//Get count of total rows if needed
-			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+).*?[Ff][Rr][Oo][Mm]";
-			String replacement = "SELECT COUNT($1) FROM";
-			String countQueryString = (queryString + optionalQueryString).replaceAll(regex, replacement);
+			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+)(.|[\r\n])*?\\s+[Ff][Rr][Oo][Mm]\\s+";
+			String replacement = "SELECT COUNT($1) FROM ";
+			String countQueryString = (queryString + optionalQueryString).replaceFirst(regex, replacement);
+/*			int selectIndex = queryString.toLowerCase().indexOf("select")+"select".length();
+			int fromIndex = queryString.toLowerCase().indexOf(" from ");
+			String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",", 1);
+			String replacement = "SELECT COUNT(" + jpqlResultColumns[0] + ")";
+			String countQueryString = replacement + ((queryString + optionalQueryString).substring(fromIndex));*/
 			LOG.info("Executing query: "+countQueryString);
 			Query countQuery;
 			if(isNative){

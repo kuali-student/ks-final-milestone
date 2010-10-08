@@ -50,13 +50,6 @@ public class HomeController extends LayoutController{
 		this.addView(defaultView);
 		this.addView(curriculumHomeView);
 	}
-	
-	@Override
-	public void showDefaultView(Callback<Boolean> onReadyCallback) {
-		HistoryManager.setLogNavigationHistory(false);
-		super.showDefaultView(onReadyCallback);
-		HistoryManager.setLogNavigationHistory(true);
-	}
 
 	@Override
 	public void updateModel() {

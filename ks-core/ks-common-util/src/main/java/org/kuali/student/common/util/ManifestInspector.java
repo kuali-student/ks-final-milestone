@@ -15,129 +15,153 @@
 
 package org.kuali.student.common.util;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.cxf.common.util.StringUtils;
+import static org.apache.commons.io.IOUtils.*;
+import static org.apache.commons.lang.StringUtils.*;
 
 /**
  * Obtains version information about the application from the META-INF/MANIFEST.MF file contained inside a .war file
  */
 public class ManifestInspector {
+
 	/**
 	 * Location of the MANIFEST.MF file
 	 */
-	private static final String MANIFEST = "/META-INF/MANIFEST.MF";
+	public static final String MANIFEST_LOCATION = "/META-INF/MANIFEST.MF";
+	public static final String BUNDLE_NAME = "Bundle-Name";
+	public static final String BUNDLE_VERSION = "Bundle-Version";
+	public static final String BUNDLE_TIMESTAMP = "Bundle-Timestamp";
+	public static final String BUNDLE_BUILD_NUMBER = "Bundle-BuildNumber";
+	public static final String NO_BUILD_INFORMATION_AVAILABLE = "No build information available";
 
 	/**
 	 * Return a Manifest object
 	 */
-	public Manifest getManifest(ServletContext servletContext) {
+	protected Manifest getManifest(ServletContext servletContext) throws IOException {
 		InputStream in = null;
 		try {
-			in = servletContext.getResourceAsStream(MANIFEST);
+			in = servletContext.getResourceAsStream(MANIFEST_LOCATION);
 			if (in == null) {
 				return null;
 			} else {
 				return new Manifest(in);
 			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw e;
 		} finally {
-			IOUtils.closeQuietly(in);
+			closeQuietly(in);
 		}
 	}
 
 	/**
-	 * Obtain version information from MANIFEST.MF
+	 * Examine the manifest provided for build information. Returns null if manifest is null
 	 */
-	public String getBuildInformation(ServletContext context) {
-		// Get a handle to a Manifest object
-		Manifest manifest = getManifest(context);
-
+	protected BuildInformation getBuildInformation(Manifest manifest) {
 		// No Manifest is available
 		if (manifest == null) {
-			return "No build information available";
+			return null;
 		}
 
 		// Extract the attributes
 		Attributes attributes = manifest.getMainAttributes();
 
-		/**
-		 * Manifest attributes containing the build information we want to display
-		 */
-		String name = attributes.getValue("Bundle-Name");
-		String version = attributes.getValue("Bundle-Version");
-		String buildNumber = attributes.getValue("Hudson-Build-Number");
-		String timestamp = attributes.getValue("Bundle-Timestamp");
+		// Manifest attributes containing the build information
+		String name = attributes.getValue(BUNDLE_NAME);
+		String version = attributes.getValue(BUNDLE_VERSION);
+		String buildNumber = attributes.getValue(BUNDLE_BUILD_NUMBER);
+		String timestamp = attributes.getValue(BUNDLE_TIMESTAMP);
 
-		/**
-		 * MANIFEST.MF does not get created until the .war is bundled up. For developers pointed at a Tomcat instance
-		 * using the exploded directory structure, there will not be a MANIFEST.MF present
-		 */
-		if (isEmpty(name) && isEmpty(version) && isEmpty(buildNumber) && isEmpty(timestamp)) {
-			return "No build information available";
-		}
-
-		/**
-		 * Build number will only be present if Hudson has done the build
-		 */
-		if (buildNumber == null) {
-			buildNumber = "N/A";
-		} else {
-			buildNumber = "#" + buildNumber;
-		}
-
-		// Build a list
-		List<String> displayAttributes = new ArrayList<String>();
-		displayAttributes.add(name);
-		displayAttributes.add(version);
-		displayAttributes.add(buildNumber);
-		displayAttributes.add(timestamp);
-
-		// Return the display string
-		return getBuildInfoString(displayAttributes);
+		// Create and populate a BuildInformation object
+		BuildInformation bi = new BuildInformation();
+		bi.setName(name);
+		bi.setVersion(version);
+		bi.setBuildNumber(buildNumber);
+		bi.setTimestamp(timestamp);
+		return bi;
 	}
 
 	/**
-	 * Remove any empties from the list
+	 * Obtain version information from MANIFEST.MF
 	 */
-	protected void removeEmptyStrings(List<String> strings) {
-		Iterator<String> itr = strings.iterator();
-		while (itr.hasNext()) {
-			String value = itr.next();
-			if (isEmpty(value)) {
-				itr.remove();
-			}
-		}
+	public String getBuildInformationString(ServletContext context) throws IOException {
+		// Get a handle to a Manifest object
+		Manifest manifest = getManifest(context);
+
+		// Store build information attributes from the manifest into a POJO
+		BuildInformation buildInformation = getBuildInformation(manifest);
+
+		// Convert the POJO to a string
+		return toString(buildInformation);
 	}
 
 	/**
-	 * Convert attributes into a String
+	 * Return true if BuildInformation is null or does not contain any meaningful information.
 	 */
-	protected String getBuildInfoString(List<String> strings) {
-		removeEmptyStrings(strings);
+	protected boolean isNullOrEmpty(BuildInformation bi) {
+		if (bi == null) {
+			return true;
+		}
+		if (!isEmpty(bi.getName())) {
+			return false;
+		}
+		if (!isEmpty(bi.getVersion())) {
+			return false;
+		}
+		if (!isEmpty(bi.getBuildNumber())) {
+			return false;
+		}
+		if (!isEmpty(bi.getTimestamp())) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Convert the build information POJO to a display String
+	 */
+	public String toString(BuildInformation bi) {
+		/**
+		 * For developers pointed at a local build, MANIFEST.MF may not be present
+		 * 
+		 * Since we overlay the Rice war file, the MANIFEST.MF from Rice may be present but doesn't contain build
+		 * information
+		 */
+		if (isNullOrEmpty(bi)) {
+			return NO_BUILD_INFORMATION_AVAILABLE;
+		}
+
+		/**
+		 * Build number is only present if Hudson has done the build
+		 */
+		if (!isEmpty(bi.getBuildNumber())) {
+			bi.setBuildNumber("#" + bi.getBuildNumber());
+		}
+
+		/**
+		 * Build a string out of the build information
+		 */
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < strings.size(); i++) {
-			if (i != 0) {
-				sb.append(" :: ");
-			}
-			sb.append(strings.get(i));
+		if (!isEmpty(bi.getName())) {
+			sb.append(bi.getName());
+			sb.append(" :: ");
+		}
+		if (!isEmpty(bi.getVersion())) {
+			sb.append(bi.getVersion());
+			sb.append(" :: ");
+		}
+		if (!isEmpty(bi.getBuildNumber())) {
+			sb.append(bi.getBuildNumber());
+			sb.append(" :: ");
+		}
+		if (!isEmpty(bi.getTimestamp())) {
+			sb.append(bi.getTimestamp());
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * Pass through call to StringUtils
-	 */
-	protected boolean isEmpty(String s) {
-		return StringUtils.isEmpty(s);
 	}
 }

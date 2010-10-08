@@ -88,10 +88,10 @@
                        value="${ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto"
                        value="${ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
-                <entry key="hibernate.connection.release_mode" 
+                <entry key="hibernate.connection.release_mode"
                 	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.release_mode}"/>
-               	<entry key="hibernate.connection.autocommit" 
-                	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.autocommit}"/>
+               	<!--<entry key="hibernate.connection.autocommit"
+                	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.autocommit}"/>-->
             </map>
         </property>
     </bean>
@@ -143,8 +143,9 @@
     <bean id="luServiceImpl" class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionary"/>
-        <property name="validator" ref="serviceValidator"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validator" ref="pocServiceValidator"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -178,9 +179,9 @@
                        value="${ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto"
                        value="${ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
-                <entry key="hibernate.connection.release_mode" 
+                <entry key="hibernate.connection.release_mode"
                 	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.release_mode}"/>
-               	<entry key="hibernate.connection.autocommit" 
+               	<entry key="hibernate.connection.autocommit"
                 	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.autocommit}"/>
             </map>
         </property>
@@ -215,13 +216,15 @@
     </bean>
 
     <bean id="statementServiceImpl"
-          class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+          class="org.kuali.student.core.statement.service.impl.StatementServiceImpl" >
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="searchManager" ref="statementSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionary"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
-        <property name="validator" ref="serviceValidator"/>
+		<property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validator" ref="pocServiceValidator"/>
+        <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -377,40 +380,16 @@
                   value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
     </bean>
 
-    <!-- Document Relation Mock Service Config -->
-    <!--Note: When this service is defined, move this declaration into core
-        context.
-    -->
-
-    <bean id="documentRelationServiceImpl"
-          class="org.kuali.student.lum.mock.service.impl.DocumentRelationServiceImpl">
-        <property name="proposalService" ref="proposalClient"/>
-    </bean>
-
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-                <property name="jaxWsService" value="true"/>
-                <property name="service" ref="documentRelationServiceImpl"/>
-                <property name="serviceInterface"
-                          value="org.kuali.student.core.mock.service.DocumentRelationService"/>
-                <property name="localServiceName" value="DocumentRelationService"/>
-                <property name="serviceNameSpaceURI"
-                          value="http://student.kuali.org/wsdl/documentRelation"/>
-                <property name="busSecurity" value="false"></property>
-            </bean>
-        </property>
-    </bean>
-
     <!-- CourseService config -->
     <bean id="courseServiceImpl"
           class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
         <property name="luService" ref="luClient"/>
         <property name="courseAssembler" ref="courseAssembler"/>
         <property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="validator" ref="pocServiceValidator"/>
         <property name="validatorFactory" ref="validatorFactory"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -447,6 +426,7 @@
           class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
         <property name="luService" ref="luClient"/>
         <property name="loService" ref="loClient"/>
+        <property name="lrcService" ref="lrcClient"/>
     </bean>
 
     <bean id="courseAssembler"
@@ -456,6 +436,7 @@
         <property name="loAssembler" ref="loAssembler"/>
         <property name="loService" ref="loClient"/>
         <property name="luService" ref="luClient"/>
+        <property name="lrcService" ref="lrcClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
@@ -464,7 +445,7 @@
         <property name="activityAssembler" ref="activityAssembler"/>
         <property name="luService" ref="luClient"/>
     </bean>
-    
+
     <bean id="activityAssembler"
           class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
         <property name="luService" ref="luClient"/>
@@ -475,13 +456,10 @@
         <property name="luService" ref="luClient"/>
     </bean>
 
-    <bean id="dictionaryService"
+    <bean id="lumDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
-            <list>
-                <value>classpath:ks-courseInfo-dictionary-context.xml</value>
-                <value>classpath:ks-programInfo-dictionary-context.xml</value>
-            </list>
+	        <value>classpath:ks-courseInfo-dictionary-context.xml;classpath:ks-programInfo-dictionary-context.xml;classpath:ks-statement-dictionary-context.xml</value>
         </constructor-arg>
     </bean>
 
@@ -513,8 +491,19 @@
                          value="classpath:lu-search-config.xml"/>
     </bean>
 
+    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
+   </bean>
+
     <bean id="programRequirementAssembler"
           class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
+        <property name="statementService" ref="statementServiceImpl"/>
+        <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/>
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="loAssembler" ref="loAssembler"/>
+        <property name="loService" ref="loServiceImpl"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+
     </bean>
 
     <bean id="loAssembler"
@@ -546,22 +535,30 @@
 
  	<bean id="credentialProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="luService" ref="luClient"/>
     </bean>
-    
+
     <bean id="coreProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CoreProgramAssembler">
-        <property name="programService" ref="programServiceImpl"/>
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="programVariationAssembler"
           class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
         <property name="luService" ref="luClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luClient"/>
+        <property name="loService" ref="loClient"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
     <bean id="programServiceImpl"
@@ -569,12 +566,13 @@
         <property name="luService" ref="luClient"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="searchManager" ref="programSearchManager"/>
-        <property name="dictionaryService" ref="dictionaryService"/>
+        <property name="dictionaryService" ref="lumDictionaryService"/>
         <property name="validator" ref="pocServiceValidator"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker"/>
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
+        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

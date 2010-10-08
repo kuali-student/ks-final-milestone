@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +38,7 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSLU_CLUCLU_RELTN")
 @NamedQueries({
-	@NamedQuery(name="CluCluRelation.getCluCluRelation", query="SELECT rel FROM CluCluRelation rel WHERE rel.clu.id = :cluId"),
+	@NamedQuery(name="CluCluRelation.getCluCluRelation", query="SELECT rel FROM CluCluRelation rel WHERE rel.clu.id = :cluId or rel.relatedClu.id = :cluId"),
 	@NamedQuery(name="CluCluRelation.getRelatedCluIdsByCluId", query="SELECT rel.relatedClu.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name = "CluCluRelation.getCluIdsByRelatedCluId", query = "SELECT rel.clu.id FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name="CluCluRelation.getRelationTypeByCluId", query="SELECT distinct rel.luLuRelationType.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.relatedClu.id = :relatedCluId"),
@@ -152,9 +151,6 @@ public class CluCluRelation extends MetaEntity implements
 	
 	@Override
     public List<CluCluRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluCluRelationAttribute>();
-		}
 		return attributes;
 	}
 

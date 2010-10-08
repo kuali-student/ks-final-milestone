@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>1.1.0-M7</version>
+        <version>1.1.0-M9-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
@@ -29,7 +29,7 @@
                 <executions>
                     <execution>
                         <id>lo-wsdl</id>
-                        <phase>process-classes</phase>
+                        <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.lum.lo.service.LearningObjectiveService</className>
                             <serviceName>LoService</serviceName>
@@ -41,7 +41,7 @@
                     </execution>
                     <execution>
                         <id>lu-wsdl</id>
-                        <phase>process-classes</phase>
+                        <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.lum.lu.service.LuService</className>
                             <serviceName>LuService</serviceName>
@@ -53,7 +53,7 @@
                     </execution>
                     <execution>
                         <id>lrc-wsdl</id>
-                        <phase>process-classes</phase>
+                        <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.lum.lrc.service.LrcService</className>
                             <serviceName>LrcService</serviceName>
@@ -65,7 +65,7 @@
                     </execution>
                     <execution>
                         <id>program-wsdl</id>
-                        <phase>process-classes</phase>
+                        <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.lum.program.service.ProgramService</className>
                             <serviceName>ProgramService</serviceName>

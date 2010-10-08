@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLR_RICH_TEXT_T ID="DEGREE-BA" PLAIN="Bachelor of Arts (BA)"/>
+    <KSLR_RICH_TEXT_T ID="DEGREE-BMUS" PLAIN="Bachelor of Music (BSc)"/>
+    <KSLR_RICH_TEXT_T ID="DEGREE-BSC" PLAIN="Bachelor of Science (BSc)"/>
+    <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-100" PLAIN="Letter, satisfactory"/>
+    <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-101" PLAIN="This course will have a student selectable pass/fail option"/>
+    <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-102" PLAIN="Percentage"/>
+    <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-103" PLAIN="Recital review"/>
+    <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-104" PLAIN="Design review"/>
+    <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-105" PLAIN="Completed notation"/>
+    <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-106" PLAIN="This course can be audited"/>
+    <KSLR_RICH_TEXT_T ID="RICHTEXT-LRC-RC-107" PLAIN="Satisfactory/unsatisfactory"/>
+</dataset>

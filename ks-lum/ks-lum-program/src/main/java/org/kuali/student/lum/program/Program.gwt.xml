@@ -16,9 +16,5 @@
         permissions and limitations under the License.
 
     -->
-
-
-    <inherits name="org.kuali.student.common.ui.CommonUI"/>
-    <inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
-    <inherits name="org.kuali.student.core.proposal.ui.ProposalUI"/>
+    <inherits name="org.kuali.student.lum.common.LumUiCommon"/>
 </module>

@@ -17,8 +17,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.List;
 
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -27,12 +26,13 @@ import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
@@ -53,7 +53,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -230,9 +229,9 @@ public class ManageRulesView extends ViewComposite {
                     if(rule.getClusetId() != null){
                     	String clusetId = rule.getClusetId();
                     	
-                    	cluSetManagementRpcServiceAsync.getData(clusetId, new AsyncCallback<Data>() {
+                    	cluSetManagementRpcServiceAsync.getData(clusetId, new KSAsyncCallback<Data>() {
                             @Override
-                            public void onFailure(Throwable caught) {
+                            public void handleFailure(Throwable caught) {
             	                Window.alert(caught.getMessage());
             	                GWT.log("Failed to retrieve cluset with id " + rule.getClusetId(), caught);
                             }
@@ -644,8 +643,8 @@ public class ManageRulesView extends ViewComposite {
     private void updateNaturalLanguage() {                 
         
         requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(model.getValue().getCluId(),
-        									model.getValue().getStatementVO(), "KUALI.RULEEDIT", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
+        									model.getValue().getStatementVO(), "KUALI.RULE", RuleComponentEditorView.TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+            public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 GWT.log("NL failed", caught);
            }

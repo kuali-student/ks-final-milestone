@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_CLU_FEE_REC CREATEID="admin" CREATETIME="20100407100000"
+        FEE_TYPE="kuali.enum.type.feeTypes.materialFee"
+        ID="99756442-3855-4e56-b617-cd4e7e18f3be" VERSIONIND="0"/>
+    <KSLU_CLU_FEE_REC CREATEID="admin" CREATETIME="20100407100000"
+        FEE_TYPE="Revenue" ID="99978a91-b272-4d34-aef2-a8208811fa87" VERSIONIND="0"/>
+    <KSLU_CLU_FEE_REC CREATEID="admin" CREATETIME="20100407100000"
+        FEE_TYPE="kuali.enum.type.feeTypes.labFee"
+        ID="99cac9bc-4eae-4e35-b105-8fb0778cf1cc" VERSIONIND="0"/>
+</dataset>

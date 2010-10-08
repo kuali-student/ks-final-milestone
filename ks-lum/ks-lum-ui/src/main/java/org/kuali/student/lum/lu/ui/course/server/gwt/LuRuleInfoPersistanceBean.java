@@ -142,7 +142,7 @@ public class LuRuleInfoPersistanceBean {
 			        editHistory.save(statementVO);
 			        ruleInfo.setEditHistory(editHistory);
 					
-			        String naturalLanguage = getNaturalLanguageForStatementVO(cluId, statementVO,  "KUALI.RULEEDIT", RuleComponentEditorView.TEMLATE_LANGUAGE);
+			        String naturalLanguage = getNaturalLanguageForStatementVO(cluId, statementVO,  "KUALI.RULE", RuleComponentEditorView.TEMLATE_LANGUAGE);
 			        ruleInfo.setNaturalLanguageForRuleEdit(naturalLanguage);
 			        			        
 					ruleInfos.add(ruleInfo);
@@ -156,7 +156,7 @@ public class LuRuleInfoPersistanceBean {
 		return ruleInfos;
 	}
 	
-    //FIXME [KSCOR-225] remove once we can use "kuali.luStatementType.course" to
+    //FIXME [KSCOR-225] remove once we can use "kuali.statement.type.course" to
     // determine which rules belong to the course proposal screen
 	private boolean isCourseAcademicReadinessRule(String statementType) {	
         List<String> courseAcademicReadinessRules = new ArrayList<String>();
@@ -194,10 +194,10 @@ public class LuRuleInfoPersistanceBean {
 					
 				String nl;
 				try {
-				    nl = statementService.translateReqComponentToNL(childReqComponent, "KUALI.RULEEDIT", "en");
+				    nl = statementService.translateReqComponentToNL(childReqComponent, "KUALI.RULE", "en");
 				} catch(Exception e) {
-					LOG.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
-					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId());
+					LOG.error("Error fetching NL for req. component:" + childReqComponent.getType(), e);
+					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getType());
 				} 				
 				reqComponentVO.setTypeDesc(nl);
 				

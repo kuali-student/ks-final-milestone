@@ -25,6 +25,27 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
+    <bean id="lumSearchDispatcher"
+          class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+        <property name="services">
+            <list>
+                <ref bean="StatementServiceImpl"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="lumCrossServiceSearchManager"
+          class="org.kuali.student.core.search.service.impl.CrossSearchManager">
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+    <bean id="statementSearchManager"
+          class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:statement-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+
+
+
     <!--  Preloaded data -->
     <bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
@@ -74,7 +95,7 @@
         <constructor-arg>
             <map-->
                 <!-- Header Contexts-->
-                <!--entry key="kuali.luStatementType.prereqAcademicReadiness">
+                <!--entry key="kuali.statement.type.course.academicReadiness.prereq">
                     <bean class="org.kuali.student.core.statement.config.contexts.HeaderContextImpl" />
                 </entry>
             </map>
@@ -86,38 +107,38 @@
         <constructor-arg>
             <map>
                 <!-- Pre-Req Contexts-->
-                <entry key="kuali.reqCompType.courseList.none">
+                <entry key="kuali.reqComponent.type.courseList.none">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.all">
+                <entry key="kuali.reqComponent.type.courseList.all">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.nof">
+                <entry key="kuali.reqComponent.type.courseList.nof">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.1of1">
+                <entry key="kuali.reqComponent.type.courseList.1of1">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.1of2">
+                <entry key="kuali.reqComponent.type.courseList.1of2">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.gradecheck">
+                <entry key="kuali.reqComponent.type.gradecheck">
                     <list>
                         <ref local="courseListContext"/>
                         <ref local="gradeCheckContext"/>
                     </list>
                 </entry>
-                <entry key="kuali.reqCompType.grdCondCourseList">
+                <entry key="kuali.reqComponent.type.grdCondCourseList">
                     <list>
                         <ref local="courseListContext"/>
                         <ref local="creditContext"/>
                     </list>
                 </entry>
                 <!-- Co-Req Contexts -->
-                <entry key="kuali.reqCompType.courseList.coreq.all">
+                <entry key="kuali.reqComponent.type.courseList.coreq.all">
                     <ref local="courseListContext"/>
                 </entry>
-                <entry key="kuali.reqCompType.courseList.coreq.oneof">
+                <entry key="kuali.reqComponent.type.courseList.coreq.oneof">
                     <ref local="courseListContext"/>
                 </entry>
             </map>
@@ -208,35 +229,34 @@
         <property name="statementTranslator" ref="statementTranslator" />
     </bean>
 
-    <bean id="statementTestDictionary" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl" autowire-candidate="false">
-        <constructor-arg index="0" value="classpath:statement-dictionary-config.xml" />
-    </bean>
-
     <bean id="statementAssembler"
         class="org.kuali.student.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="StatementDaoImpl"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>
 
-    <bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
-        <property name="messageFiles">
-            <list>
-                <value>classpath:org/kuali/student/common/ui/gwt-messages.xml</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
-        <property name="messageService" ref="ks.messageServiceMock"/>
-    </bean>
-
-
    <bean id="StatementServiceImpl"
         class="org.kuali.student.core.statement.service.impl.StatementServiceImpl" autowire="no">
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="StatementDaoImpl"/>
-        <property name="dictionaryServiceDelegate" ref="statementTestDictionary" />
+        <property name="dictionaryServiceDelegate">
+		    <bean class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+		        <constructor-arg>
+			        <value>classpath:ks-statement-dictionary-context.xml;</value>
+		        </constructor-arg>
+		    </bean>
+        </property>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
-        <property name="validator" ref="serviceValidator" />
+		<property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validator" ref="serviceValidator"/>
+        <property name="searchManager" ref="statementSearchManager"/>
     </bean>
+    
+    <bean id="serviceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl"/>
+
+    <bean id="validatorFactory"
+          class="org.kuali.student.common.validator.ValidatorFactory">
+        <property name="defaultValidator" ref="serviceValidator"/>
+    </bean>       
+    
 </beans>

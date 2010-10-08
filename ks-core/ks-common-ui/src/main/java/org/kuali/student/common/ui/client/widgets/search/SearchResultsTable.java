@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
+import org.kuali.student.common.ui.client.widgets.table.scroll.RetrieveAdditionalDataHandler;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
@@ -38,7 +40,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -54,6 +55,8 @@ public class SearchResultsTable extends Composite{
     private DefaultTableModel tableModel;
     private String resultIdColumnKey;
     private SearchRequest searchRequest;
+    private Table table = new Table();
+    private boolean isMultiSelect = true;
     
     public SearchResultsTable(){
         super();
@@ -64,14 +67,19 @@ public class SearchResultsTable extends Composite{
     
     public void redraw(){
         layout.clear();      
-    }    
+    }
+    
+    public void setMutipleSelect(boolean isMultiSelect){
+    	this.isMultiSelect = isMultiSelect;
+    }
     
     //FIXME do we really need to recreate the table for every refresh?
     public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){ 
-
+    	table = new Table();
         this.resultIdColumnKey = resultIdKey;
         
         tableModel = new DefaultTableModel();
+        tableModel.setMultipleSelectable(isMultiSelect);
 
         //create table heading
         for (LookupResultMetadata r: listResultMetadata){
@@ -89,55 +97,72 @@ public class SearchResultsTable extends Composite{
             }
         }      
                      
-        tableModel.installCheckBoxRowHeaderColumn();
+     // TODO - there's a better way to do this
+        if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
+        	tableModel.setMoreData(false);
+        }
+        if(isMultiSelect){
+        	tableModel.installCheckBoxRowHeaderColumn();
+        }
         
-        final Table table = new Table();
         table.getScrollPanel().setHeight("300px");
         table.setTableModel(tableModel);
         
-        table.getScrollPanel().addScrollHandler(new ScrollHandler() {
-
-            @Override
-            public void onScroll(ScrollEvent event) {
-                tableModel.getRowCount();
-                int height = table.getScrollPanel().getOffsetHeight();
-                int scrollHeight = ((ScrollPanel)event.getSource()).getScrollPosition();
-                if ((scrollHeight*100/height) > 10) {
-                    performOnDemandSearch(tableModel.getRowCount(), PAGE_SIZE);
-                    tableModel.fireTableDataChanged();
-                }
-            }        
-        });
+        table.addRetrieveAdditionalDataHandler(new RetrieveAdditionalDataHandler(){
+			@Override
+			public void onAdditionalDataRequest() {
+				 performOnDemandSearch(tableModel.getRowCount(), PAGE_SIZE);
+                 //tableModel.fireTableDataChanged();
+			}
+		});
         
         redraw();
         layout.add(table);
-  }    
+  }   
     
-    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, boolean pagedResults){
         this.searchRequest = searchRequest;
         initializeTable(listResultMetadata, resultIdKey);
-        performOnDemandSearch(0, PAGE_SIZE);
+        if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
+
+            performOnDemandSearch(0, 0);
+        }
+        if(pagedResults){
+        	performOnDemandSearch(0, PAGE_SIZE);
+        }
+        else{
+        	performOnDemandSearch(0, 0);
+        }
+    }    
+    
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
+        this.performSearch(searchRequest, listResultMetadata, resultIdKey, true);
     }    
     
     private void performOnDemandSearch(int startAt, int size) {
-        
-        searchRequest.setNeededTotalResults(false);
-
+                
+    	table.displayLoading(true);
         searchRequest.setStartAt(startAt);
-        searchRequest.setMaxResults(size); 
+        if (size != 0) {
+        	searchRequest.setNeededTotalResults(false);
+        	searchRequest.setMaxResults(size);
+        } else {
+        	searchRequest.setNeededTotalResults(true);
+        }
 
-        searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
+        searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
 
             @Override
-            public void onFailure(Throwable cause) {
+            public void handleFailure(Throwable cause) {
                 GWT.log("Failed to perform search", cause); //FIXME more detail info here
                 Window.alert("Failed to perform search");
+                table.displayLoading(false);
             }
 
             @Override
             public void onSuccess(SearchResult results) {
 
-                if(results != null){
+                if(results != null && results.getRows() != null && results.getRows().size() != 0){
                     for (SearchResultRow r: results.getRows()){
                         ResultRow theRow = new ResultRow();
                         for(SearchResultCell c: r.getCells()){
@@ -148,8 +173,11 @@ public class SearchResultsTable extends Composite{
                         }
                        tableModel.addRow(new SearchResultsRow(theRow));
                     }
+                } else {
+                	tableModel.setMoreData(false);
                 }
                 tableModel.fireTableDataChanged();
+                table.displayLoading(false);
             }
         });
     }

@@ -28,9 +28,12 @@ import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.entity.Attribute;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.Meta;
+import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.Type;
+import org.kuali.student.core.entity.Version;
 import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
 
 public class BaseAssembler {
@@ -131,7 +134,24 @@ public class BaseAssembler {
 		}
 		return typeInfoList;
 	}
+	
+	public static List<String> toGenericTypeKeyList( List<? extends Type<?>> typeEntities){
+		List<String> typeKeys = new ArrayList<String>();
+		if(typeEntities!=null){
+			for(Type<?> typeEntity:typeEntities){
+				typeKeys.add(typeEntity.getId());
+			}
+		}
+		return typeKeys;
+	}
 
+	protected static MetaInfo toMetaInfo(MetaEntity metaEntity) {
+		if(metaEntity == null){
+			return null;
+		}
+		return toMetaInfo(metaEntity.getMeta(), metaEntity.getVersionInd());
+	}
+	
 	protected static MetaInfo toMetaInfo(Meta meta, long versionInd) {
 
 		MetaInfo metaInfo = new MetaInfo();
@@ -139,7 +159,7 @@ public class BaseAssembler {
 		if (meta != null) {
 			BeanUtils.copyProperties(meta, metaInfo);
 		}
-		metaInfo.setVersionInd(String.valueOf(versionInd));
+		metaInfo.setVersionInd(Long.toString(versionInd));
 
 		return metaInfo;
 	}
@@ -171,4 +191,19 @@ public class BaseAssembler {
         
         return dto;
     }
+	
+	public static VersionInfo toVersionInfo(Version version) {
+		if(version==null){
+			return null;
+		}
+		VersionInfo versionInfo = new VersionInfo();
+		versionInfo.setCurrentVersionStart(version.getCurrentVersionStart());
+		versionInfo.setCurrentVersionEnd(version.getCurrentVersionEnd());
+		versionInfo.setSequenceNumber(version.getSequenceNumber());
+		versionInfo.setVersionComment(version.getVersionComment());
+		versionInfo.setVersionIndId(version.getVersionIndId());
+		versionInfo.setVersionedFromId(version.getVersionedFromId());
+		
+		return versionInfo;
+	}
 }

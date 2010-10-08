@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -133,9 +132,6 @@ public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuR
 	}
 
 	public List<LuLuRelationTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LuLuRelationTypeAttribute>();
-		}
 		return attributes;
 	}
 

@@ -21,9 +21,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.security.SecurityContext;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.core.messages.dto.Message;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 public class ApplicationContext {
+	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
+	
 	private boolean loggedIn = true;
 	private String userId = "testuser";
 	private List<String> roles = new ArrayList<String>();
@@ -33,6 +40,7 @@ public class ApplicationContext {
 	private List<Message> messagesList = new ArrayList<Message>();
 	
 	private SecurityContext securityContext;
+	private String applicationContextUrl;
 	
 	/**
 	 * This constructor should only be visible to the common application package. If ApplicationContext is 
@@ -41,6 +49,19 @@ public class ApplicationContext {
 	protected ApplicationContext() {
 		roles.add("role1");
 		roles.add("role2");
+		
+		serverPropertiesRpcService.getContextPath(new AsyncCallback<String>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				throw new RuntimeException("Fatal - Unable to initialze application context");
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				applicationContextUrl = result;
+			}			
+		});
 	}
 
 	public void setLoggedIn(boolean loggedIn) {
@@ -138,5 +159,8 @@ public class ApplicationContext {
         this.securityContext = securityContext;
     }
 	
+	public String getApplicationContextUrl() {
+		return applicationContextUrl;
+	}
 	
 }

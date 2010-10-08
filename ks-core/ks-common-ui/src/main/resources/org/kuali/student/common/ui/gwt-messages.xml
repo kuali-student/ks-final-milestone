@@ -28,22 +28,34 @@
 
    	<bean parent="enCommon" p:id="confirm"		p:value="Confirm"/>
    	<bean parent="enCommon" p:id="cancel"		p:value="Cancel"/>
-   	<bean parent="enCommon" p:id="edit"		p:value="Edit"/>
+   	<bean parent="enCommon" p:id="continue"		p:value="Continue"/>
+   	<bean parent="enCommon" p:id="edit"		    p:value="Edit"/>
+   	<bean parent="enCommon" p:id="update"		p:value="Update"/>
+   	<bean parent="enCommon" p:id="save"		    p:value="Save"/>
+   	<bean parent="enCommon" p:id="saveContinue"	p:value="Save and Continue"/>
    	<bean parent="enCommon" p:id="wait"			p:value="Please wait..."/>
    	<bean parent="enCommon" p:id="yes"			p:value="Yes"/>
   	<bean parent="enCommon" p:id="no"			p:value="No"/>
   	<bean parent="enCommon" p:id="add"			p:value="Add"/>
+  	<bean parent="enCommon" p:id="addRule"	    p:value="Add Rule"/>
   	<bean parent="enCommon" p:id="remove"		p:value="Remove"/>
   	<bean parent="enCommon" p:id="modify"		p:value="Modify"/>
   	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
    	<bean parent="enCommon" p:id="advSearch"	p:value="Advanced Search"/>
    	<bean parent="enCommon" p:id="send"     	p:value="Send"/>
-   	<bean parent="enCommon" p:id="go"		p:value="Go"/>
+   	<bean parent="enCommon" p:id="go"		    p:value="Go"/>
    	<bean parent="enCommon" p:id="create"		p:value="Create"/>
    	<bean parent="enCommon" p:id="search"		p:value="Search"/>
-   	<bean parent="enCommon" p:id="select"		p:value="Select"/>   	
+   	<bean parent="enCommon" p:id="select"		p:value="Select"/>
+   	<bean parent="enCommon" p:id="booleanTrue"		p:value="Yes"/> 
+   	<bean parent="enCommon" p:id="booleanFalse"		p:value="No"/> 
+   	<bean parent="enCommon" p:id="requiredMarker"		p:value=" *"/>
+   	<bean parent="enCommon" p:id="requiredOnSubmit"		p:value=" Required on Submit"/> 
    	<bean parent="enCommon" p:id="fieldDeletionTitle"		p:value="Remove Fields"/>
    	<bean parent="enCommon" p:id="fieldDeletionConfirmMessage"		p:value="Changing your selection may remove associated fields, are you sure?"/>
+   	<bean parent="enCommon" p:id="confirmApproval"		p:value="Confirm Approval"/>
+   	<bean parent="enCommon" p:id="acknowledge"		p:value="Confirm Acknowledgement"/>
+   	<bean parent="enCommon" p:id="reject"		p:value="Reject"/>
 
    	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Send us an Error Report"/>
    	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
@@ -147,5 +159,7 @@
     <bean parent="enValidation" p:id="validation.validChars.alphanumericHyphenPeriod" p:value="Can only contain alpha-numeric characters, hyphens and periods."/>
     <bean parent="enValidation" p:id="validation.validChars.numeric" p:value="Can only contain numeric characters."/>
     <bean parent="enValidation" p:id="validation.validChars.digits" p:value="Can only contain digits."/>
-
+    <bean parent="enValidation" p:id="validation.validChars.gpa9.9" p:value="Can only contain a GPA in the form 9.9."/>
+    <bean parent="enValidation" p:id="validation.validChars.positive.integer" p:value="Can only contain a positive integer."/>
+    <bean parent="enValidation" p:id="validation.validChars.relationalOperator" p:value="Can only contain one of these operators &gt;,&lt;,=,&gt;=,&lt;=, or &lt;&gt;"/>
 </beans>

@@ -195,7 +195,7 @@
 		<property name="sourceMap">
 			<map>
 				<entry key="enumeration.management.search">
-					<value>SELECT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValueEntity enumValue WHERE enumValue.enumerationKey = :enumeration_queryParam_enumerationType</value>
+					<value>SELECT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValue enumValue WHERE enumValue.enumeration.key = :enumeration_queryParam_enumerationType</value>
 				</entry>
 				<entry key="enumeration.queryParam.enumerationCode">
 					<value>enumValue.code IN(:enumeration_queryParam_enumerationCode)</value>

@@ -12,7 +12,7 @@ import javax.persistence.UniqueConstraint;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name = "KSLU_LO_JN_LOCATEGORY",
+@Table(name = "KSLO_LO_JN_LOCATEGORY",
 		uniqueConstraints={@UniqueConstraint(columnNames={"LO_ID", "LOCATEGORY_ID"})}
 )
 public class LoLoCategoryJoin {

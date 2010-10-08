@@ -40,104 +40,48 @@
         <property name="alwaysUseFullPath" value="true"/>
         <property name="urlMap">
             <map>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/RequirementsRpcService">
-                    <ref bean="requirementsServiceGwtController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService">
-                    <ref bean="LuRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MessageService">
-                    <ref bean="messageServiceGwtController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/OrgRpcService">
-                    <ref bean="OrgRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/AtpRpcService">
-                    <ref bean="atpRpcServiceGwtController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService">
-                    <ref bean="LoRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService">
-                    <ref bean="CluProposalRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService">
-                    <ref bean="SecurityRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService">
-                    <ref bean="ServerPropertiesServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CommentRpcService">
-                    <ref bean="CommentRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ProposalRpcService">
-                    <ref bean="ProposalRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRpcService">
-                    <ref bean="DocumentRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentUpload">
-                    <ref bean="documentUploadGwtController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/UploadStatusRpcService">
-                    <ref bean="uploadStatusRpcGwtController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRelationMockRpcService">
-                    <ref bean="documentRelationMockRpcGwtController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService">
-                    <ref bean="searchRpcGwtController"/>
-                </entry>
-                <entry key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/CreditCourseProposalRpcService">
-                    <ref bean="CluProposalRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/ServerPropertiesRpcService">
-                    <ref bean="ServerPropertiesServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/RequirementsRpcService">
-                    <ref bean="requirementsServiceGwtController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CourseRpcService">
-                    <ref bean="CourseRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowToolRpcService">
-                    <ref bean="WorkflowToolRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowRpcService">
-                    <ref bean="WorkflowRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluSetManagementRpcService">
-                    <ref bean="CluSetManagementRpcGwtServletController"/>
-                </entry>
-                <entry
-                        key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LogRpcService">
-                    <ref bean="LogRpcGwtServletController"/>
-                </entry>
-                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService">
-                    <ref bean="metadataGwtController"/>
-                </entry>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/RequirementsRpcService"
+                        value-ref="requirementsServiceGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/statementRpcService"
+                       value-ref="statementServiceGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService"
+                        value-ref="LuRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MessageService"
+                        value-ref="messageServiceGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/OrgRpcService"
+                        value-ref="OrgRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/AtpRpcService"
+                        value-ref="atpRpcServiceGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService"
+                        value-ref="LoRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService"
+                        value-ref="CourseProposalRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService"
+                        value-ref="SecurityRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService"
+                        value-ref="ServerPropertiesServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CommentRpcService"
+                        value-ref="CommentRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ProposalRpcService"
+                        value-ref="ProposalRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRpcService"
+                        value-ref="DocumentRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentUpload"
+                        value-ref="documentUploadGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/UploadStatusRpcService"
+                        value-ref="uploadStatusRpcGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SearchRpcService"
+                        value-ref="searchRpcGwtController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CourseRpcService"
+                        value-ref="CourseRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowRpcService"
+                        value-ref="WorkflowRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluSetManagementRpcService"
+                        value-ref="CluSetManagementRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LogRpcService"
+                        value-ref="LogRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/MetadataRpcService"
+                       value-ref="metadataGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/programRpcService"
                        value-ref="programRpcServletController"/>
             </map>
@@ -148,8 +92,12 @@
     <bean id="requirementsServiceGwtController"
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="requirementsRpcGwtServlet"/>
-        <property name="servletInstance"
-                  ref="requirementsRpcGwtServlet"/>
+        <property name="servletInstance" ref="requirementsRpcGwtServlet"/>
+    </bean>
+
+    <bean id="statementServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="StatementRpcGwtServlet"/>
+        <property name="servletInstance" ref="statementRpcServlet"/>
     </bean>
 
     <bean id="LuRpcGwtServletController"
@@ -158,10 +106,10 @@
         <property name="servletInstance" ref="LuRpcGwtServlet"/>
     </bean>
 
-    <bean id="CluProposalRpcGwtServletController"
+    <bean id="CourseProposalRpcGwtServletController"
           class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="CluProposalRpcGwtServlet"/>
-        <property name="servletInstance" ref="CluProposalRpcGwtServlet"/>
+        <property name="servletName" value="CourseProposalRpcGwtServlet"/>
+        <property name="servletInstance" ref="CourseProposalRpcGwtServlet"/>
     </bean>
 
     <bean id="programRpcServletController"
@@ -233,11 +181,6 @@
         <property name="servletInstance" ref="uploadStatusRpcGwtServlet"/>
     </bean>
 
-    <bean id="documentRelationMockRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="documentRelationMockRpcGwtServlet"/>
-        <property name="servletInstance" ref="documentRelationMockRpcGwtServlet"/>
-    </bean>
-
     <bean id="searchRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="SearchDispatchRpcGwtServlet"/>
         <property name="servletInstance" ref="SearchDispatchRpcGwtServlet"/>
@@ -247,12 +190,6 @@
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="CourseRpcGwtServlet"/>
         <property name="servletInstance" ref="CourseRpcGwtServlet"/>
-    </bean>
-
-    <bean id="WorkflowToolRpcGwtServletController"
-          class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="WorkflowToolRpcGwtServlet"/>
-        <property name="servletInstance" ref="WorkflowToolRpcGwtServlet"/>
     </bean>
 
     <bean id="WorkflowRpcGwtServletController"
@@ -278,6 +215,8 @@
     </bean>
 
     <!-- GWT Servlets -->
+
+    <!--Course Servlet Declaration-->
     <bean id="requirementsRpcGwtServlet"
           class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
         <property name="service" ref="luClient"/>
@@ -289,16 +228,6 @@
         <property name="service" ref="luClient"/>
     </bean>
 
-    <bean id="WorkflowToolRpcGwtServlet"
-          class="org.kuali.student.core.workflow.ui.server.gwt.WorkflowToolRpcGwtServlet">
-        <property name="metadataService" ref="metadataServiceImpl"/>
-        <property name="simpleDocService" ref="simpleDocActionsClient"/>
-        <property name="permissionService" ref="permissionServiceClient"/>
-        <property name="identityService" ref="identityServiceClient"/>
-        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
-        <property name="roleUpdateService" ref="roleUpdateServiceClient"/>
-    </bean>
-
     <bean id="WorkflowRpcGwtServlet"
           class="org.kuali.student.core.workflow.ui.server.gwt.WorkflowRpcGwtServlet">
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
@@ -307,23 +236,50 @@
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
 
-    <bean id="CluProposalRpcGwtServlet"
+    <bean id="CourseRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
+        <property name="courseService" ref="courseClient"/>
+        <property name="dataService" ref="CourseDataService"/>
+    </bean>
+
+    <bean id="CourseProposalRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
+        <property name="dataService" ref="CourseProposalDataService"/>
+    </bean>
+    
+    <bean id="CourseDataService"
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseDataService">
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="courseService" ref="courseClient"/>
+        <property name="transformationManager" ref="courseTransformationManager"/>
+    </bean>
+
+    <bean id="CourseProposalDataService"
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseDataService">
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
         <property name="proposalService" ref="proposalClient"/>
-        <property name="transformationManager" ref="courseTransformationManager"/>
-        <property name="modifyCourseManager" ref="modifyCreditCourseProposalManager"/>
+        <property name="transformationManager" ref="courseProposalTransformationManager"/>
     </bean>
+    
 
     <!--Program Servlet Declaration-->
+    <bean id="statementRpcServlet" class="org.kuali.student.lum.program.server.StatementRpcServlet">
+        <property name="service" ref="luClient"/>
+        <property name="statementService" ref="statementServiceClient"/>
+    </bean>
+
     <bean id="programRpcServlet" class="org.kuali.student.lum.program.server.ProgramRpcServlet">
+		<property name="dataService" ref="programDataService"/>
+		<property name="programService" ref="programClient"/>
+    </bean>
+
+    <bean id="programDataService" class="org.kuali.student.lum.program.server.ProgramDataService">
         <property name="transformationManager" ref="programTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
     </bean>
 
-    <!-- Setup filters for transformation manager -->
+	<!--  Transformation Managers -->
     <bean id="courseTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
         <property name="metadataService" ref="metadataServiceImplPOC"/>
         <property name="filters">
@@ -331,8 +287,19 @@
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
                 <ref bean="idTranslatorFilter"/>
-                <ref bean="courseProposalFilter"/>
-                <ref bean="courseWorkflowFilter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="courseProposalTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="filters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
+                <ref bean="idTranslatorFilter"/>
+                <ref bean="courseProposalWorkflowFilter"/>
+                <ref bean="collaboratorFilter"/>
             </list>
         </property>
     </bean>
@@ -344,10 +311,13 @@
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
                 <ref bean="idTranslatorFilter"/>
+                <ref bean="credentialProgramFilter"/>
             </list>
         </property>
     </bean>
     
+    
+	<!-- Transformation Manager Filters -->
     <bean id="authzFilter" class="org.kuali.student.core.assembly.transform.AuthorizationFilter">
         <property name="permissionService" ref="permissionServiceClient"/>
     </bean>
@@ -356,35 +326,58 @@
         <constructor-arg ref="idTranslator"/>
     </bean>
 
-    <bean id="courseProposalFilter" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseProposalFilter">
-        <property name="proposalService" ref="proposalClient"/>
-    </bean>
-
-    <bean id="parentWorkflowFilter" class="org.kuali.student.core.assembly.transform.WorkflowFilter" abstract="true">
+	<bean id="collaboratorHelper" class = "org.kuali.student.core.rice.authorization.CollaboratorHelper">
+		<property name="simpleDocService" ref="simpleDocActionsClient"/>
+		<property name="permissionService" ref="permissionServiceClient"/>
+        <property name="identityService" ref="identityServiceClient"/>
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
-        <property name="simpleDocService" ref="simpleDocActionsClient"/>        
-    </bean>
-    
-    <bean id="courseWorkflowFilter" parent="parentWorkflowFilter">
-    	<property name="dtoClass" value="org.kuali.student.lum.course.dto.CourseInfo"/>
-    	<property name="docType" value="CluCreditCourseProposal"/>
-    	<property name="docTitlePath" value="proposalTitle"/>
-    	<property name="objectIdPath" value="proposalId"/>
-    	<property name="docFieldPaths">
-    		<map>
-    			<entry key="cluId" value="id"/>
-    			<entry key="orgId" value="curriculumOversightOrgs[0]"/>
-    			<entry key="proposalId" value="proposalId"/>
-    		</map>
-    	</property>    	
+        <property name="roleUpdateService" ref="roleUpdateServiceClient"/>	
+	</bean>
+	
+	<bean id="collaboratorFilter" class = "org.kuali.student.core.assembly.transform.CollaboratorsFilter">
+		<property name="metadataService" ref="metadataServiceImplPOC"/>
+		<property name="collaboratorHelper" ref="collaboratorHelper"/>		
+		<property name="proposalService" ref="proposalClient"/>
+	</bean>
+	
+    <bean id="parentProposalWorkflowFilter" class="org.kuali.student.core.assembly.transform.ProposalWorkflowFilter" abstract="true">
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
+        <property name="simpleDocService" ref="simpleDocActionsClient"/>
+        <property name="proposalService" ref="proposalClient"/>
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
     </bean>
 
-    <bean id="modifyCreditCourseProposalManager"
-          class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">
-        <property name="creditCourseAssembler" ref="courseAssemblerFilterManager"/>
-        <property name="luService" ref="luClient"/>
-        <property name="statementService" ref="statementServiceClient"/>
-        <property name="proposalService" ref="proposalClient"/>
+    <bean id="courseProposalWorkflowFilter" parent="parentProposalWorkflowFilter">
+        <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
+        <property name="defaultDocType" value="kuali.proposal.type.course.create"/>
+        <property name="docTypeConfigs">
+	        <list>
+	        	<bean class="org.kuali.student.core.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.create"/>
+	        		<property name="defaultDocumentTitle" value="{courseTitle}"/>
+	        		<property name="docContentFieldMap">
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+					</property>
+	            </bean>
+	        	<bean class="org.kuali.student.core.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.modify"/>
+					<property name="defaultDocumentTitle" value="Modify: {courseTitle}"/>	            	
+					<property name="docContentFieldMap">					
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+	           		</property>
+				</bean>
+			</list>
+		</property>			
+    </bean>
+
+    <bean id="credentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CredentialProgramFilter">
+        <property name="programService" ref="programClient"/>
     </bean>
 
     <bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
@@ -392,20 +385,12 @@
         <property name="metadataService" ref="metadataServiceImpl"/>
     </bean>
 
-    <bean id="creditCourseProposalAssembler" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler"
-          parent="baseAssembler">
-        <property name="luService" ref="luClient"/>
-        <property name="statementService" ref="statementServiceClient"/>
-        <property name="proposalService" ref="proposalClient"/>
-        <property name="orgService" ref="orgClient"/>
-        <property name="courseAssembler" ref="courseAssembler"/>
-        <property name="atpService" ref="atpClient"/>
-    </bean>
-
     <bean id="CluSetManagementRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
         <property name="assembler" ref="CluSetManagementFilterManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="luService" ref="luClient"/>
+        <property name="lrcService" ref="lrcClient"/>
     </bean>
 
     <bean id="CluSetManagementFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
@@ -427,7 +412,6 @@
         <constructor-arg value="${ks.lum.orchestration.dictionaryContextLocations}"/>
         <constructor-arg>
             <list>
-                <ref bean="luClient"/>
                 <ref bean="commentClient"/>
             </list>
         </constructor-arg>
@@ -437,6 +421,7 @@
         <constructor-arg>
             <list>
                 <ref bean="courseClient"/>
+                <ref bean="proposalClient"/>
             </list>
         </constructor-arg>
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
@@ -448,28 +433,6 @@
 
     <bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.IdTranslatorAssemblerFilter">
         <constructor-arg ref="idTranslator"/>
-    </bean>
-
-    <bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler" parent="baseAssembler">
-        <property name="loService" ref="loClient"/>
-        <property name="luService" ref="luClient"/>
-        <property name="statementService" ref="statementServiceClient"/>
-        <property name="orgService" ref="orgClient"/>
-        <property name="atpService" ref="atpClient"/>
-    </bean>
-
-    <bean id="CourseRpcGwtServlet"
-          class="org.kuali.student.lum.lu.ui.course.server.gwt.old.CourseRpcGwtServlet">
-        <property name="assembler" ref="courseAssemblerFilterManager"/>
-    </bean>
-
-    <bean id="courseAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
-        <constructor-arg ref="courseAssembler"/>
-        <property name="filters">
-            <list>
-                <ref bean="idTranslatorAssemblerFilter"/>
-            </list>
-        </property>
     </bean>
 
     <bean id="ServerPropertiesServlet"
@@ -501,6 +464,8 @@
     <bean id="OrgRpcGwtServlet"
           class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
         <property name="service" ref="orgClient"/>
+        <property name="identityService" ref="identityServiceClient"/>
+        
     </bean>
 
     <bean id="atpRpcGwtServlet"
@@ -519,15 +484,9 @@
 
     <bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
         <property name="documentService" ref="documentService"/>
-        <property name="relationService" ref="relationService"/>
     </bean>
 
     <bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">
-    </bean>
-
-    <bean id="documentRelationMockRpcGwtServlet"
-          class="org.kuali.student.common.ui.server.gwt.DocumentRelationMockRpcGwtServlet">
-        <property name="service" ref="relationService"/>
     </bean>
 
     <bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
@@ -552,7 +511,8 @@
     <bean id="LogRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet"/>
 
     <bean id="MetadataRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.MetadataRpcGwtServlet">
-        <property name="serviceImpl" ref="metadataServiceImpl"/>
+        <property name="oldServiceImpl" ref="metadataServiceImpl"/>
+        <property name="serviceImpl" ref="metadataServiceImplPOC"/>        
     </bean>
 
     <!-- Service clients -->
@@ -631,11 +591,6 @@
     <bean id="documentService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
-    </bean>
-
-    <bean id="relationService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.mock.service.DocumentRelationService"/>
-        <property name="serviceQName" value="{http://student.kuali.org/wsdl/documentRelation}DocumentRelationService"/>
     </bean>
 
     <bean id="searchService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">

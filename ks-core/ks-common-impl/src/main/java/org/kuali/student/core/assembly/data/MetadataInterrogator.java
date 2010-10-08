@@ -160,6 +160,28 @@ public class MetadataInterrogator {
 	}
 
 	/**
+	 * Use to determine if the field is required for the next state.
+	 * 
+	 * @param meta
+	 * @return
+	 */
+	public static boolean isRequiredForNextState(Metadata meta){
+		boolean required = false;
+		
+		if(meta == null){
+			return false;
+		}
+		//This flag is only set when using the new dictionary, in which case there should
+		//never be more than one constraint.
+		if (meta.getConstraints() != null && meta.getConstraints().size() == 1){
+			ConstraintMetadata constraint =  meta.getConstraints().get(0);
+			required = constraint.isRequiredForNextState();
+		}
+		
+		return required;
+	}
+	
+	/**
 	 * get the largest min occurs value
 	 * 
 	 * @return null if none specified

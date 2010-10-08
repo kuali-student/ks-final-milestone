@@ -16,8 +16,6 @@
 package org.kuali.student.core.workflow.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,9 +31,10 @@ public class WorkflowPersonInfo implements Serializable{
 	private String firstName;
 	private String lastName;
 	
-	private List<String> permList;
-	private List<String> actionList;
+	private String permission;
+	private String action;
 	
+	private boolean author;
 	private boolean canRevokeRequest = false;
 	private String actionRequestStatus;
 	
@@ -56,24 +55,24 @@ public class WorkflowPersonInfo implements Serializable{
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}	
+	public String getPermission() {
+		return permission;
 	}
-	public List<String> getPermList() {
-		if(permList == null){
-			permList = new ArrayList<String>();
-		}
-		return permList;
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
-	public void setPermList(List<String> permList) {
-		this.permList = permList;
+	public String getAction() {
+		return action;
 	}
-	public List<String> getActionList() {
-		if(actionList == null){
-			actionList = new ArrayList<String>();
-		}
-		return actionList;
+	public void setAction(String action) {
+		this.action = action;
+	}	
+	public boolean isAuthor() {
+		return author;
 	}
-	public void setActionList(List<String> actionList) {
-		this.actionList = actionList;
+	public void setAuthor(boolean isAuthor) {
+		this.author = isAuthor;
 	}
 	public boolean isCanRevokeRequest() {
     	return canRevokeRequest;
@@ -87,6 +86,4 @@ public class WorkflowPersonInfo implements Serializable{
 	public void setActionRequestStatus(String actionRequestStatus) {
     	this.actionRequestStatus = actionRequestStatus;
     }
-	
-
 }

@@ -456,6 +456,6 @@ public interface LearningObjectiveService extends DictionaryService, SearchServi
      * @throws PermissionDeniedException authorization failure
      * @throws DependentObjectsExistException 
 	 */
-    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
+    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }

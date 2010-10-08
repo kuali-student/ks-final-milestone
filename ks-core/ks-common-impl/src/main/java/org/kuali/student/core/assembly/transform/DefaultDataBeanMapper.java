@@ -28,7 +28,8 @@ import org.kuali.student.core.assembly.data.Data.StringKey;
 
 
 public class DefaultDataBeanMapper implements DataBeanMapper {
-
+	public static DataBeanMapper INSTANCE = new DefaultDataBeanMapper();
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.core.assembly.data.DataBeanMapper#convertFromBean(java.lang.Object)
 	 */
@@ -107,10 +108,10 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 		
 		//Any fields not processed above doesn't exist as properties for the bean and 
 		//will be set as dynamic attributes.
-		Set<Key> keySet = (Set<Key>)data.keySet();
+		Set<Key> keySet = data.keySet();
 		if (keySet != null && attrProperty != null){
 			Map<String,String> attributes = new HashMap<String,String>();
-			for (Key k:keySet){
+            for (Key k : keySet) {
 				String keyString = k.toString();
 				//Obtain the dynamic flag from the dictionary
 				if(metadata==null){
@@ -118,11 +119,18 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 						attributes.put((String)k.get(),data.get(k).toString());
 					}
 				}
-				else if (!staticProperties.contains(k) && data.get(k) != null && !keyString.startsWith("_run")&& metadata.getProperties().get(keyString).isDynamic()){
-					attributes.put((String)k.get(), data.get(k).toString());
+				else {
+				    if ((! staticProperties.contains(k)) &&
+				        (null != data.get(k)) &&
+				        (! keyString.startsWith("_run")) &&
+				        (null != metadata.getProperties().get(keyString)) &&
+				        (metadata.getProperties().get(keyString).isDynamic()))
+				    {
+                        attributes.put((String) k.get(), data.get(k).toString());
+					}
 				}
 			}
-    		if(attrProperty.getWriteMethod() != null){    
+            if (attrProperty.getWriteMethod() != null) {
                 attrProperty.getWriteMethod().invoke(result, new Object[] {attributes});
             }
 		}
