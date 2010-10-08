@@ -22,7 +22,7 @@ public class TestCluSetInfoDictionary
  {
   Set<String> startingClasses = new LinkedHashSet ();
   startingClasses.add (CluSetInfo.class.getName ());
-  String contextFile = "ks-CluSetInfo-dictionary-context";
+  String contextFile = "ks-cluSetInfo-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
   DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,
                                                               startingClasses,
@@ -36,7 +36,7 @@ public class TestCluSetInfoDictionary
  public void testCluSetInfoValidation () throws OperationFailedException
  {
   ApplicationContext ac = new ClassPathXmlApplicationContext (
-    "classpath:ks-CluSetInfo-dictionary-context.xml");
+    "classpath:ks-cluSetInfo-dictionary-context.xml");
   System.out.println ("h2. Validation Test");
   DefaultValidatorImpl val = new DefaultValidatorImpl ();
   val.setDateParser (new ServerDateParser ());
