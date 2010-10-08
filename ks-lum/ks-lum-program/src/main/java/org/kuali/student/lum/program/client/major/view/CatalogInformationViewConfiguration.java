@@ -27,10 +27,8 @@ public class CatalogInformationViewConfiguration extends AbstractSectionConfigur
         configurer.addReadOnlyField(section, ProgramConstants.CORE_FACULTY_MEMBERS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_publishedInstructors()));
         configurer.addReadOnlyField(section, ProgramConstants.PUBLICATION_TARGETS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogPublicationTargets()));
         configurer.addReadOnlyField(section, ProgramConstants.FULL_PART_TIME, new MessageKeyInfo(ProgramProperties.get().catalogInformation_intensity()));
-        GroupSection duration_group = new GroupSection();
-        configurer.addReadOnlyField(duration_group, ProgramConstants.DURATION + "/" + "atpDurationTypeKey", new MessageKeyInfo(ProgramProperties.get().catalogInformation_stdDuration()));
-        configurer.addReadOnlyField(duration_group, ProgramConstants.DURATION + "/" + "timeQuantity", new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationCount()));
-        section.addSection(duration_group);
+        configurer.addReadOnlyField(section, ProgramConstants.DURATION + "/atpDurationTypeKey", new MessageKeyInfo(ProgramProperties.get().catalogInformation_stdDuration()));
+        configurer.addReadOnlyField(section, ProgramConstants.DURATION + "/timeQuantity", new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationCount()));
         configurer.addReadOnlyField(section, ProgramConstants.DURATION_NOTES, new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationNotes()));        
         configurer.addReadOnlyField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_referenceUrl()));
         rootSection.addSection(section);
