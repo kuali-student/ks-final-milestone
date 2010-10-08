@@ -16,13 +16,18 @@
 package org.kuali.student.core.statement.naturallanguage;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.service.StatementService;
 
 /**
  * This is an abstract class for creating a map (containing token/data) used
@@ -43,15 +48,39 @@ public abstract class AbstractContext<T> implements Context<T> {
 	 */
 	protected final static String FIELDS_TOKEN = "fields";
 
-    /**
+	/*private StatementService statementService;
+
+	public void setStatementService(StatementService statementService) {
+		this.statementService = statementService;
+	}
+
+	private void validateReqComponentFields(ReqComponentInfo reqComponent) throws OperationFailedException {
+		try {
+			ReqComponentTypeInfo reqComponentType = statementService.getReqComponentType(reqComponent.getType());
+			Set<String> set = new HashSet<String>();
+			for(ReqCompFieldTypeInfo fieldType : reqComponentType.getReqCompFieldTypeInfos()) {
+				set.add(fieldType.getFieldDescriptor().getId());
+			}
+			
+			for(ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
+				if(!set.contains(field.getType())) {
+					throw new OperationFailedException("Invalid field type: " + field.getType());
+				}
+			}
+		} catch (Exception e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+	}*/
+	
+	/**
      * Gets requirement component fields as a map.
      * 
      * @param reqComponent Requirement component
      * @return Map of requirement component fields
      */
-	protected Map<String, String> getReqComponentFieldMap(ReqComponentInfo reqComponent) {
-//        List<ReqComponentField> fields = reqComponent.getReqComponentFields();
-        List<ReqCompFieldInfo> fields = reqComponent.getReqCompFields();
+	protected Map<String, String> getReqComponentFieldMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+		//validateReqComponentFields(reqComponent);
+		List<ReqCompFieldInfo> fields = reqComponent.getReqCompFields();
         Map<String, String> map = new HashMap<String, String>();
         for (ReqCompFieldInfo field : fields) {
             String type = field.getType();
@@ -69,7 +98,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param key <code>ReqCompFieldInfo</code> key
      * @return Value of <code>ReqCompFieldInfo</code>
      */
-	protected String getReqComponentFieldValue(ReqComponentInfo reqComponent, String key) {
+	protected String getReqComponentFieldValue(ReqComponentInfo reqComponent, String key) throws OperationFailedException {
         return getReqComponentFieldMap(reqComponent).get(key);
     }
 

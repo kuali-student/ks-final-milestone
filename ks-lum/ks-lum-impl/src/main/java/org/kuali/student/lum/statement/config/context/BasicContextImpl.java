@@ -58,7 +58,9 @@ public class BasicContextImpl extends AbstractContext<ReqComponentInfo> {
     	
     	Map<String, Object> contextMap = super.createContextMap(reqComponent);
         contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
-        contextMap.put(OPERATOR_TOKEN, operator);
+		if(operator != null) {
+	        contextMap.put(OPERATOR_TOKEN, operator);
+		}
 		if(value != null) {
 			contextMap.put(INTEGER_VALUE_TOKEN, Integer.valueOf(value));
 		}
