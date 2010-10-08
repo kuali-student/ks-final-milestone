@@ -10,10 +10,7 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
-import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramManager;
-import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.VariationRegistry;
+import org.kuali.student.lum.program.client.*;
 import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationsBinding;
@@ -36,6 +33,8 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
             public void onClick(ClickEvent event) {
                 Data newSpecializationData = new Data();
                 newSpecializationData.set(ProgramConstants.LONG_TITLE, "New Specialization");
+                newSpecializationData.set(ProgramConstants.STATE, ProgramStatus.DRAFT.getValue());
+                newSpecializationData.set(ProgramConstants.TYPE, "kuali.lu.type.Variation");
                 VariationRegistry.setData(newSpecializationData);
                 ProgramManager.getEventBus().fireEvent(new AddSpecializationEvent());
             }
