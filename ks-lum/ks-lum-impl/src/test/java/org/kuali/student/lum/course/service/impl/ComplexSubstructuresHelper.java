@@ -15,21 +15,31 @@ public class ComplexSubstructuresHelper
 {
 
 
- public Set<Class<?>> getComplexStructures (Class<?> clazz)
+ public Set<String> getComplexStructures (String className)
  {
-  Set<Class<?>> complexStructures = new LinkedHashSet<Class<?>> ();
-  loadComplexStructures (clazz, complexStructures);
+  Set<String> complexStructures = new LinkedHashSet<String> ();
+  loadComplexStructures (className, complexStructures);
   return complexStructures;
  }
 
- private void loadComplexStructures (Class<?> clazz,
-                                     Set<Class<?>> complexStructures)
+ private void loadComplexStructures (String className,
+                                     Set<String> complexStructures)
  {
-  if ( ! complexStructures.add (clazz))
+  if ( ! complexStructures.add (className))
   {
    return;
   }
   BeanInfo beanInfo;
+  Class<?> clazz;
+  try
+  {
+   clazz = Class.forName (className);
+  }
+  catch (ClassNotFoundException ex)
+  {
+   System.out.println ("ComplexSubstructuresHelper: Could not process because the class must be a phantom object: " + className);
+   return;
+  }
   try
   {
    beanInfo = Introspector.getBeanInfo (clazz);
@@ -74,7 +84,7 @@ public class ComplexSubstructuresHelper
        &&  ! Enum.class.isAssignableFrom (subClass)
        &&  ! Object.class.equals (subClass))
    {
-    loadComplexStructures (subClass, complexStructures);
+    loadComplexStructures (subClass.getName (), complexStructures);
    }
   }
  }

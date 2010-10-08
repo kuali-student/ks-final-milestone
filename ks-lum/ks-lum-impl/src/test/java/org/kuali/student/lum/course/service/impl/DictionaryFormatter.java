@@ -24,7 +24,7 @@ public class DictionaryFormatter
  private String rowSeperator = "\n";
  private String colSeperator = "|";
  private String name;
- private Class<?> clazz;
+ private String className;
  private boolean processSubstructures = false;
  private int level;
  private Map<String, ObjectStructureDefinition> subStructuresToProcess =
@@ -32,14 +32,14 @@ public class DictionaryFormatter
  private Set<ObjectStructureDefinition> subStructuresAlreadyProcessed;
 
  public DictionaryFormatter (String name,
-                             Class<?> clazz,
+                             String className,
                              ObjectStructureDefinition os,
                              Set<ObjectStructureDefinition> subStructuresAlreadyProcessed,
                              int level,
                              boolean processSubstructures)
  {
   this.name = name;
-  this.clazz = clazz;
+  this.className = className;
   this.os = os;
   this.subStructuresAlreadyProcessed = subStructuresAlreadyProcessed;
   this.level = level;
@@ -86,7 +86,7 @@ public class DictionaryFormatter
   builder.append ("h" + level + ". " + calcNotSoSimpleName (name));
   builder.append ("{anchor:" + name + "}");
   builder.append (rowSeperator);
-  if (clazz != null)
+  if (className != null)
   {
    builder.append ("The corresponding java class for this dictionary object is " + os.getName ());
   }
@@ -155,14 +155,14 @@ public class DictionaryFormatter
    builder.append (rowSeperator);
   }
   List<String> discrepancies = null;
-  if (clazz == null)
+  if (className == null)
   {
    discrepancies = new ArrayList (1);
    discrepancies.add ("There is no corresponding java class for this dictionary object structure");
   }
   else
   {
-   discrepancies = new Dictionary2BeanComparer (clazz, os).compare ();
+   discrepancies = new Dictionary2BeanComparer (className, os).compare ();
   }
   if (discrepancies.size () > 0)
   {
@@ -188,7 +188,7 @@ public class DictionaryFormatter
 //    System.out.println ("formatting substructure " + subName);
     Class<?> subClazz = getClass (subOs.getName ());
     DictionaryFormatter formatter =
-                        new DictionaryFormatter (subName, subClazz, subOs,
+                        new DictionaryFormatter (subName, subOs.getName (), subOs,
                                                  subStructuresAlreadyProcessed,
                                                  level + 1,
                                                  this.processSubstructures);

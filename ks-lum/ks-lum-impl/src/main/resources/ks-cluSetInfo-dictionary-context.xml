@@ -21,15 +21,6 @@
     <ref bean="cluSetInfo.name"/>
     <ref bean="cluSetInfo.state"/>
     <ref bean="cluSetInfo.type"/>
-    <!--Searches-->
-    <ref bean="phantom.organization" />
-    <ref bean="phantom.approvedClus" />
-    <ref bean="phantom.proposedClus"/>
-    <ref bean="phantom.allClus"/>
-    <ref bean="phantom.clusets"/>
-    <ref bean="phantom.clusetRange"/>
-    <ref bean="phantom.clusetRangeEdit"/>
-    <ref bean="phantom.clusetRangeViewDetails"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -97,11 +88,13 @@
 
  <bean id="cluSetInfo.state-parent" abstract="true" parent="baseKualiState">
   <property name="name" value="state"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="cluSetInfo.state" parent="cluSetInfo.state-parent"/>
 
  <bean id="cluSetInfo.type-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="type"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="cluSetInfo.type" parent="cluSetInfo.type-parent"/>
 
@@ -156,53 +149,5 @@
   <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="searchParam.value" parent="searchParam.value-parent"/>
-
- <!-- phantom fields -->
-
- <bean id="phantom.organization-parent" abstract="true" parent="cluSetInfo.adminOrg">
-  <property name="name" value="organization"/>
- </bean>
- <bean id="phantom.organization" parent="phantom.organization-parent"/>
-
- <bean id="phantom.proposedClus-parent" abstract="true" parent="baseKualiCluId">
-  <property name="name" value="proposedClus" />
-  <property name="maxOccurs" value="unbounded" />
- </bean>
- <bean id="phantom.proposedClus" parent="phantom.proposedClus-parent" />
-
- <bean id="phantom.approvedClus-parent" abstract="true" parent="baseKualiCluId">
-  <property name="name" value="approvedClus" />
-  <property name="maxOccurs" value="unbounded" />
- </bean>
- <bean id="phantom.approvedClus" parent="phantom.approvedClus-parent" />
-
- <bean id="phantom.allClus-parent" abstract="true" parent="cluSetInfo.cluIds">
-  <property name="name" value="allClus"/>
- </bean>
- <bean id="phantom.allClus" parent="phantom.allClus-parent"/>
-
- <bean id="phantom.clusets-parent" abstract="true" parent="cluSetInfo.cluSetIds">
-  <property name="name" value="clusets" />  
- </bean>
- <bean id="phantom.clusets" parent="phantom.clusets-parent" />
-
-<bean id="phantom.clusetRange-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="clusetRange" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.MembershipQueryInfo" />
- </bean>
- <bean id="phantom.clusetRange" parent="phantom.clusetRange-parent" />
-
- <bean id="phantom.clusetRangeEdit-parent" abstract="true" parent="baseKualiCluId">
-  <property name="name" value="clusetRangeEdit" />
-  <property name="maxOccurs" value="unbounded" />
- </bean>
- <bean id="phantom.clusetRangeEdit" parent="phantom.clusetRangeEdit-parent" />
-
- <bean id="phantom.clusetRangeViewDetails-parent" abstract="true" parent="baseKualiCluId">
-  <property name="name" value="clusetRangeViewDetails" />
-  <property name="maxOccurs" value="unbounded" />
- </bean>
- <bean id="phantom.clusetRangeViewDetails" parent="phantom.clusetRangeViewDetails-parent" />
-
 
 </beans>

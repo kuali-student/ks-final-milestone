@@ -330,6 +330,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		desc.setFormatted("<p>Formatted Desc</p>");
 		desc.setPlain("plain");
 		cluSetInfo.setType("kuali.cluSet.type.creditCourse");
+  cluSetInfo.setState ("draft");
 		cluSetInfo.setAdminOrg("uuid-1234");
 		cluSetInfo.setDescr(desc);
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
@@ -2879,7 +2880,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
 		cluSetInfo.setExpirationDate(DF.parse("20180101"));
 		cluSetInfo.setName("Clu set name");
-
+  cluSetInfo.setState ("draft");
+  cluSetInfo.setType ("kuali.cluset.course");
 		return cluSetInfo;
 	}
 

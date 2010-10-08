@@ -5,6 +5,8 @@
     <import resource="classpath:ks-cluInfo-dictionary-context.xml"/>
     <import resource="classpath:ks-loInfo-dictionary-context.xml"/>
     <import resource="classpath:ks-statement-dictionary-context.xml"/>
+    <import resource="classpath:ks-cluset-ui-object-dictionary-context.xml" />
+    <import resource="classpath:ks-lu-search-dictionary-context.xml" />
 
     <!-- TODO Need a org.kuali.student.lum.program.dto.ProgramInfo-parent"
           that this can inherit from -->

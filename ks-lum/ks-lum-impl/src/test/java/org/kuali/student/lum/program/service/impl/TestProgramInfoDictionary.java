@@ -29,12 +29,12 @@ public class TestProgramInfoDictionary {
 
     @Test
     public void testLoadProgramInfoDictionary() {
-        Set<Class<?>> startingClasses = new LinkedHashSet();
-        startingClasses.add(MajorDisciplineInfo.class);
-        startingClasses.add(CoreProgramInfo.class);
-        startingClasses.add(MinorDisciplineInfo.class);
-        startingClasses.add(CredentialProgramInfo.class);
-        startingClasses.add(ProgramRequirementInfo.class);
+        Set<String> startingClasses = new LinkedHashSet();
+        startingClasses.add(MajorDisciplineInfo.class.getName ());
+        startingClasses.add(CoreProgramInfo.class.getName ());
+        startingClasses.add(MinorDisciplineInfo.class.getName ());
+        startingClasses.add(CredentialProgramInfo.class.getName ());
+        startingClasses.add(ProgramRequirementInfo.class.getName ());
         String contextFile = "ks-programInfo-dictionary-context";
         String outFile = "target/" + contextFile + ".txt";
         DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
@@ -63,7 +63,7 @@ public class TestProgramInfoDictionary {
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());
         }
-        assertEquals(10, validationResults.size());
+        assertEquals(11, validationResults.size());
 
         try {
             info =

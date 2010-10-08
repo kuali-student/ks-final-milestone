@@ -2,6 +2,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
     <import resource="classpath:ks-base-dictionary-context.xml"/>
+    <import resource="classpath:ks-cluset-ui-object-dictionary-context.xml"/>
     <!-- CluInfo-->
     <bean id="org.kuali.student.lum.lu.dto.CluInfo-parent" abstract="true"
           parent="objectStructureDefinition">
@@ -39,6 +40,7 @@
                 <ref bean="cluInfo.stdDuration"/>
                 <ref bean="cluInfo.studySubjectArea"/>
                 <ref bean="cluInfo.type"/>
+                <ref bean="cluInfo.versionInfo"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -204,7 +206,7 @@
     <bean id="cluInfo.luCodes" parent="cluInfo.luCodes-parent"/>
 
     <bean id="cluInfo.nextReviewPeriod-parent" abstract="true" parent="baseKualiType">
-        <property name="name" value="nexReviewAtp"/>
+        <property name="name" value="nextReviewPeriod"/>
         <property name="lookupDefinition" ref="constraint.lookup.atp"/>
     </bean>
     <bean id="cluInfo.nextReviewPeriod" parent="cluInfo.nextReviewPeriod-parent"/>
@@ -778,4 +780,10 @@
     </bean>
 
     <bean id="adminOrgInfo.primary" parent="adminOrgInfo.primary-parent"/>
+
+    <bean id="cluInfo.versionInfo-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="versionInfo"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+    </bean>
+    <bean id="cluInfo.versionInfo" parent="cluInfo.versionInfo-parent"/>
 </beans>
