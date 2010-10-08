@@ -86,7 +86,25 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Duration")
   @Key("catalogInformation.stdDuration")
   String catalogInformation_stdDuration();
-
+  
+  /**
+   * Translated "Duration Notes".
+   * 
+   * @return translated "Duration Notes"
+   */
+  @DefaultMessage("Duration Notes")
+  @Key("catalogInformation.durationNotes")
+  String catalogInformation_durationNotes();
+  
+  /**
+   * Translated "Duration Notes".
+   * 
+   * @return translated "Duration Notes"
+   */
+  @DefaultMessage("Duration Count")
+  @Key("catalogInformation.durationCount")
+  String catalogInformation_durationCount();
+  
   /**
    * Translated "Add/View Comments".
    * 
