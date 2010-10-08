@@ -961,6 +961,58 @@
 		</property>
 	</bean>
 
+<bean id="kuali.lu.lookup.findProgram.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.findProgram.suggest">
+		<property name="id" value="kuali.lu.lookup.findProgram.suggest" />
+		<property name="widget" value="SUGGEST_BOX" />
+		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+		<property name="resultSortKey" value="" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.cluId" />
+					<property name="name" value="Program Identifier" />
+					<property name="desc" value="Identifier for the program" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luOptionalCode" />
+					<property name="name" value="Code" />
+					<property name="desc" value="program code." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+<bean id="kuali.lu.lookup.findTest.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
+		parent="kuali.common.lookup.findTest.suggest">
+		<property name="id" value="kuali.lu.lookup.findTest.suggest" />
+		<property name="widget" value="SUGGEST_BOX" />
+		<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
+		<property name="resultSortKey" value="" />
+		<property name="results">
+			<list>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.cluId" />
+					<property name="name" value="Test Identifier" />
+					<property name="desc" value="Identifier for the Test" />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="true" />
+				</bean>
+				<bean parent="result">
+					<property name="key" value="lu.resultColumn.luOptionalCode" />
+					<property name="name" value="Code" />
+					<property name="desc" value="Test code." />
+					<property name="dataType" value="STRING" />
+					<property name="hidden" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="kuali.lu.lookup.firstexpectedoffering.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
 		parent="kuali.common.lookup.firstexpectedoffering.suggest">
 		<property name="id"
@@ -1083,6 +1135,117 @@
 					<property name="hidden" value="false" />
 				</bean>
 			</list>
+		</property>
+	</bean>
+
+ 	<bean id="kuali.lu.lookup.basic.reusableCourseCluSets"	parent="kuali.lu.lookup.basic.reusableCluSets">
+		<property name="id"	value="kuali.lu.lookup.basic.reusableCourseCluSets" />
+		<property name="name" value="Find Course Set" />
+		<property name="desc" value="Search for Course Sets" />
+		<property name="widget" value="SUGGEST_BOX"/>
+		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
+		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
+		<property name="resultSortKey" value="" />
+  <property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="cluset.queryParam.optionalName" />
+							<property name="name" value="Name" />
+							<property name="desc" value="Course Set Name." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean  parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key" value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return course clusets -->
+							<property name="key" value="cluset.queryParam.optionalType" />
+							<property name="name" value="Type" />
+							<property name="desc" value="Type of Clu Set" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.cluSet.type.CreditCourse" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
+		</property>
+	</bean>
+
+ 	<bean id="kuali.lu.lookup.basic.reusableProgramCluSets"	parent="kuali.lu.lookup.basic.reusableCluSets">
+		<property name="id"	value="kuali.lu.lookup.basic.reusableProgramCluSets" />
+		<property name="name" value="Find program Sets" />
+		<property name="desc" value="Search for Program Sets" />
+		<property name="widget" value="SUGGEST_BOX"/>
+		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
+		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
+		<property name="resultSortKey" value="" />
+  <property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="cluset.queryParam.optionalName" />
+							<property name="name" value="Name" />
+							<property name="desc" value="Program Set Name." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key" value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return program clusets -->
+							<property name="key" value="cluset.queryParam.optionalType" />
+							<property name="name" value="Type" />
+							<property name="desc" value="Type of Clu Set" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.cluSet.type.Program" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
+		</property>
+	</bean>
+
+ 	<bean id="kuali.lu.lookup.basic.reusableTestCluSets"	parent="kuali.lu.lookup.basic.reusableCluSets">
+		<property name="id"	value="kuali.lu.lookup.basic.reusableTestCluSets" />
+		<property name="name" value="Find Standardized Test Set" />
+		<property name="desc" value="Search for Standardized Test Sets" />
+		<property name="widget" value="SUGGEST_BOX"/>
+		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
+		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
+		<property name="resultSortKey" value="" />
+  <property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="cluset.queryParam.optionalName" />
+							<property name="name" value="Name" />
+							<property name="desc" value="Standardized Test Set Name." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key" value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return Standardized Test clusets -->
+							<property name="key" value="cluset.queryParam.optionalType" />
+							<property name="name" value="Type" />
+							<property name="desc" value="Type of Clu Set" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.cluSet.type.Test" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
 		</property>
 	</bean>
 
@@ -1567,6 +1730,120 @@
 					<property name="hidden" value="false" />
 				</bean>
 			</list>
+		</property>
+	</bean>
+
+	<bean id="kuali.lu.lookup.advanced.reusableCourseCluSets" parent="kuali.lu.lookup.advanced.reusableCluSets">
+		<property name="id" value="kuali.lu.lookup.advanced.reusableCourseCluSets" />
+		<property name="name" value="Find Course Set" />
+		<property name="desc" value="Search for Course Set" />
+		<property name="title" value="Advanced Course Set Search" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
+		<property name="resultSortKey" value="cluset.resultColumn.name" />
+		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
+ <property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="cluset.queryParam.optionalName" />
+							<property name="name" value="Name" />
+							<property name="desc" value="Course Set Name." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean  parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key" value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return course clusets -->
+							<property name="key" value="cluset.queryParam.optionalType" />
+							<property name="name" value="Type" />
+							<property name="desc" value="Type of Clu Set" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.cluSet.type.CreditCourse" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
+		</property>
+	</bean>
+
+	<bean id="kuali.lu.lookup.advanced.reusableProgramCluSets" parent="kuali.lu.lookup.advanced.reusableCluSets">
+		<property name="id" value="kuali.lu.lookup.advanced.reusableProgramCluSets" />
+		<property name="name" value="Find Program Set" />
+		<property name="desc" value="Search for Program Set" />
+		<property name="title" value="Advanced Program Set Search" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
+		<property name="resultSortKey" value="cluset.resultColumn.name" />
+		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
+ <property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="cluset.queryParam.optionalName" />
+							<property name="name" value="Name" />
+							<property name="desc" value="Program Set Name." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key" value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return program clusets -->
+							<property name="key" value="cluset.queryParam.optionalType" />
+							<property name="name" value="Type" />
+							<property name="desc" value="Type of Clu Set" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.cluSet.type.Program" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
+		</property>
+	</bean>
+
+	<bean id="kuali.lu.lookup.advanced.reusableTestCluSets" parent="kuali.lu.lookup.advanced.reusableCluSets">
+		<property name="id" value="kuali.lu.lookup.advanced.reusableTestCluSets" />
+		<property name="name" value="Find Standardized Test Set" />
+		<property name="desc" value="Search for Standardized Test Set" />
+		<property name="title" value="Advanced Standardized Test Set Search" />
+		<property name="widget" value="ADVANCED_LIGHTBOX" />
+		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
+		<property name="resultSortKey" value="cluset.resultColumn.name" />
+		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
+  <property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="cluset.queryParam.optionalName" />
+							<property name="name" value="Name" />
+							<property name="desc" value="Standardized Test Set Name." />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="usage" value="DEFAULT" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return reusable clusets -->
+							<property name="key" value="cluset.queryParam.optionalReusable" />
+							<property name="name" value="Reusable" />
+							<property name="desc" value="Reusable" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="true" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+						<bean parent="param"><!-- limit search to only return Standardized Test clusets -->
+							<property name="key" value="cluset.queryParam.optionalType" />
+							<property name="name" value="Type" />
+							<property name="desc" value="Type of Clu Set" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="defaultValueString" value="kuali.cluSet.type.Test" />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
 		</property>
 	</bean>
 
@@ -2327,9 +2604,42 @@
 		</property>
 	</bean>
 
- 	<bean id="ReqCompFieldInfo.value.clu.id" parent="uilookupconfig-parent">
+<bean id="ReqCompFieldInfo.value.course.cluSet.id" parent="uilookupconfig-parent">
 		<property name="path" value="reqCompFieldInfo.value" />
-  <property name="type" value="kuali.reqComponent.field.type.clu.id" />
+  <property name="type" value="kuali.reqComponent.field.type.course.cluSet.id" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.reusableCourseCluSets" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.reusableCourseCluSets" />
+			</list>
+		</property>
+	</bean>
+
+ <bean id="ReqCompFieldInfo.value.program.cluSet.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.program.cluSet.id" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.reusableProgramCluSets" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.reusableProgramCluSets" />
+			</list>
+		</property>
+	</bean>
+
+ <bean id="ReqCompFieldInfo.value.test.cluSet.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.test.cluSet.id" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.reusableTestCluSets" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.reusableTestCluSets" />
+			</list>
+		</property>
+	</bean>
+
+<bean id="ReqCompFieldInfo.value.course.clu.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.course.clu.id" />
 		<property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
 		<property name="additionalLookups">
 			<list>
@@ -2337,6 +2647,18 @@
 			</list>
 		</property>
 	</bean>
+
+ <bean id="ReqCompFieldInfo.value.program.clu.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.program.clu.id" />
+		<property name="initialLookup" ref="kuali.lu.lookup.findProgram.suggest" />
+ </bean>
+
+ <bean id="ReqCompFieldInfo.value.test.clu.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.test.clu.id" />
+		<property name="initialLookup" ref="kuali.lu.lookup.findTest.suggest" />
+ </bean>
 
  <bean id="ReqCompFieldInfo.value.person.id" parent="uilookupconfig-parent">
 		<property name="path" value="reqCompFieldInfo.value" />
@@ -2507,4 +2829,11 @@
  <bean id="cluset.clusets" parent="search.cluset.clusets">
   <property name="path" value="cluset.clusets" />
  </bean>
+
+ <bean id="ReqCompFieldInfo.value.durationType.id" parent="uilookupconfig-parent">
+		<property name="path" value="reqCompFieldInfo.value" />
+  <property name="type" value="kuali.reqComponent.field.type.durationType.id" />
+		<property name="initialLookup" ref="kuali.lookup.durations" />
+	</bean>
+
 </beans>

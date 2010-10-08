@@ -65,12 +65,21 @@ public class TestMetadataServiceDictionary
   typesForClass.add ("kuali.reqComponent.field.type.gpa");
   typesForClass.add ("kuali.reqComponent.field.type.operator");
   typesForClass.add ("kuali.reqComponent.field.type.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.course.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.program.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.test.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.test.score");
   typesForClass.add ("kuali.reqComponent.field.type.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.course.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.program.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.test.cluSet.id");
   typesForClass.add ("kuali.reqComponent.field.type.person.id");
   typesForClass.add ("kuali.reqComponent.field.type.org.id");
   typesForClass.add ("kuali.reqComponent.field.type.value.positive.integer");
   typesForClass.add ("kuali.reqComponent.field.type.gradeType.id");
   typesForClass.add ("kuali.reqComponent.field.type.grade");
+  typesForClass.add ("kuali.reqComponent.field.type.durationType.id");
+  typesForClass.add ("kuali.reqComponent.field.type.duration");
 
   DictionaryService courseDictService = new DictionaryServiceImpl (
     "classpath:ks-courseInfo-dictionary-context.xml");
