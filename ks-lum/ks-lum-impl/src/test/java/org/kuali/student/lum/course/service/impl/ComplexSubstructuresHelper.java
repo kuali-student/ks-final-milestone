@@ -37,7 +37,7 @@ public class ComplexSubstructuresHelper
   }
   catch (ClassNotFoundException ex)
   {
-   System.out.println ("ComplexSubstructuresHelper: Could not process because the class must be a phantom object: " + className);
+   System.out.println ("ComplexSubstructuresHelper: Could not process because the class must be a freestanding object: " + className);
    return;
   }
   try

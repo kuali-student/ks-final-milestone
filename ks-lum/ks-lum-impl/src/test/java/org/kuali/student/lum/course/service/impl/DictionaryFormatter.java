@@ -236,7 +236,7 @@ public class DictionaryFormatter
    }
    Class subClazz = this.getClass (fd.getDataObjectStructure ().getName ());
    String subStrucName = calcComplexSubStructureName (fd);
-   // process if explicity asking for substructures OR the field is a phantom field
+   // process if explicity asking for substructures OR the field is a freestanding field
    // so it won't be processed by just processing all of the DTO's and their sub-objects
    if (this.processSubstructures || subClazz == null)
    {

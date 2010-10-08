@@ -62,9 +62,9 @@
          their model structure 
     see https://jira.kuali.org/browse/KSLUM-375
     -->
-    <ref bean="phantom.search.cluset" />
-    <ref bean="phantom.search.findCourse" />
-    <ref bean="phantom.search.courseVersions"/>
+    <ref bean="freestanding.search.cluset" />
+    <ref bean="freestanding.search.findCourse" />
+    <ref bean="freestanding.search.courseVersions"/>
     
    </list>
   </property>
