@@ -344,14 +344,16 @@ public class MetadataFormatter {
 	}
 
 	private String calcLookup(Metadata fieldMeta) {
-		if (fieldMeta.getInitialLookup() == null) {
-			return " ";
-		}
   StringBuilder bldr = new StringBuilder ();
-  bldr.append (calcLookup (fieldMeta.getInitialLookup ()));
-  
+		if (fieldMeta.getInitialLookup() != null) {
+		 bldr.append (calcLookup (fieldMeta.getInitialLookup ()));
+		}
+   
   if (fieldMeta.getAdditionalLookups () != null) {
    if (fieldMeta.getAdditionalLookups ().size () > 0) {
+    if (fieldMeta.getInitialLookup() == null) {
+		   bldr.append ("No initial lookup but...");
+		  }
 		  bldr.append("\\\\");
 		  bldr.append("\n");   
 		  bldr.append("\\\\");
@@ -361,10 +363,17 @@ public class MetadataFormatter {
 		  bldr.append("\n");
    }
    for (LookupMetadata lm : fieldMeta.getAdditionalLookups ())  {
+		  bldr.append("\\\\");
+  		bldr.append("\n");
     bldr.append (calcLookup (lm));
+    bldr.append("\\\\");
+		  bldr.append("\n");
    }  
   }
-   
+  if (bldr.length () == 0)
+  {
+   bldr.append (" ");
+  }
   return bldr.toString ();
  }
 
@@ -406,7 +415,12 @@ public class MetadataFormatter {
 				}
     if (param.getChildLookup () != null)
     {
-     bldr.append ("the value choosen by the user in the child lookup:");
+     bldr.append ("the value choosen by the user in the: ");
+			  bldr.append("\\\\");
+			  bldr.append("\n");
+     bldr.append ("child lookup: ");
+			  bldr.append("\\\\");
+			  bldr.append("\n");
      bldr.append (calcLookup (param.getChildLookup ()));
     }
 			}
