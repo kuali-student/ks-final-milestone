@@ -2419,7 +2419,7 @@
  </bean>
 
  <bean id="cluSetInfo.organization" parent="cluSetInfo.adminOrg">
-  <property name="path" value="cluSetInfo.organization" />
+  <property name="path" value="cluset.organization" />
  </bean>
 
  <bean id="cluSetInfo.cluIds" parent="uilookupconfig-parent">
@@ -2427,12 +2427,18 @@
   <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
  </bean>
 
- <bean id="cluSetInfo.allClus" parent="cluSetInfo.cluIds">
-  <property name="path" value="cluSetInfo.allClus" />
+ <!--This is just a renaming of cluIds so just copy it-->
+ <bean id="cluset.allClus" parent="cluSetInfo.cluIds">
+  <property name="path" value="cluset.allClus" />
  </bean>
 
- <bean id="cluSetInfo.approvedClus" parent="uilookupconfig-parent">
-  <property name="path" value="cluSetInfo.approvedClus" />
+ <bean id="cluset.cluSetRangeViewDetails" parent="uilookupconfig-parent">
+  <property name="path" value="cluset.cluSetRangeViewDetails" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
+ </bean>
+
+ <bean id="cluset.approvedClus" parent="uilookupconfig-parent">
+  <property name="path" value="cluset.approvedClus" />
   <property name="initialLookup" ref="kuali.lu.lookup.findCourse.approved.suggest" />
   <property name="additionalLookups">
    <list>
@@ -2441,8 +2447,8 @@
   </property>
  </bean>
 
- <bean id="cluSetInfo.proposedClus" parent="uilookupconfig-parent">
-  <property name="path" value="cluSetInfo.proposedClus" />
+ <bean id="cluset.proposedClus" parent="uilookupconfig-parent">
+  <property name="path" value="cluset.proposedClus" />
   <property name="initialLookup" ref="kuali.lu.lookup.findCourse.proposed.suggest" />
   <property name="additionalLookups">
    <list>
@@ -2494,4 +2500,11 @@
   </property>
  </bean>
 
+ <bean id="cluset.clusetRangeEdit" parent="search.cluset.clusetRangeEdit">
+  <property name="path" value="cluset.clusetRangeEdit" />
+ </bean>
+
+ <bean id="cluset.clusets" parent="search.cluset.clusets">
+  <property name="path" value="cluset.clusets" />
+ </bean>
 </beans>
