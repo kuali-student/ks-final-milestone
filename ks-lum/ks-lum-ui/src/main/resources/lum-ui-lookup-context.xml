@@ -216,6 +216,16 @@
 		</property>
 	</bean>
 
+	<bean id="courseInfo.findCourse" parent="uilookupconfig-parent">
+		<property name="path" value="courseInfo.findCourse" />
+		<property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.findCourse.advanced" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="search.findProposal" parent="uilookupconfig-parent">
 		<property name="path" value="search.findProposal" />
 <!--		<property name="initialLookup" ref="kuali.common.lookup.findProposal.suggest" />-->
