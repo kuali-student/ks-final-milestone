@@ -206,6 +206,9 @@
  <bean id="baseKualiPersonId" parent="baseKualiId" abstract="true">
   <!--TODO: Add a lookup to make sure the Id is a valid person -->
  </bean>
+ <bean id="baseKualiProposalId" parent="baseKualiId" abstract="true">
+  <!--TODO: Add a lookup to make sure the Id is a valid statement -->
+ </bean>
  <bean id="baseKualiStatementId" parent="baseKualiId" abstract="true">
   <!--TODO: Add a lookup to make sure the Id is a valid statement -->
  </bean>
@@ -331,5 +334,51 @@
   <property name="minOccurs" value="0" />
   <property name="maxOccurs" value="0" />
  </bean>
- 
+
+ <!-- VersionInfo-->
+<bean id="org.kuali.student.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
+ <property name="name" value="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+ <property name="attributes">
+  <list>
+   <ref bean="versionInfo.currentVersionEnd"/>
+   <ref bean="versionInfo.currentVersionStart"/>
+   <ref bean="versionInfo.sequenceNumber"/>
+   <ref bean="versionInfo.versionComment"/>
+   <ref bean="versionInfo.versionIndId"/>
+   <ref bean="versionInfo.versionedFromId"/>
+  </list>
+ </property>
+ <property name="hasMetaData" value="false"/>
+</bean>
+<bean id="org.kuali.student.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.core.versionmanagement.dto.VersionInfo-parent"/>
+
+<bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
+ <property name="name" value="currentVersionEnd"/>
+</bean>
+<bean id="versionInfo.currentVersionEnd" parent="versionInfo.currentVersionEnd-parent"/>
+
+<bean id="versionInfo.currentVersionStart-parent" abstract="true" parent="baseDate">
+ <property name="name" value="currentVersionStart"/>
+</bean>
+<bean id="versionInfo.currentVersionStart" parent="versionInfo.currentVersionStart-parent"/>
+
+<bean id="versionInfo.sequenceNumber-parent" abstract="true" parent="baseLong">
+ <property name="name" value="sequenceNumber"/>
+</bean>
+<bean id="versionInfo.sequenceNumber" parent="versionInfo.sequenceNumber-parent"/>
+
+<bean id="versionInfo.versionComment-parent" abstract="true" parent="baseString">
+ <property name="name" value="versionComment"/>
+</bean>
+<bean id="versionInfo.versionComment" parent="versionInfo.versionComment-parent"/>
+
+<bean id="versionInfo.versionIndId-parent" abstract="true" parent="baseKualiId">
+ <property name="name" value="versionIndId"/>
+</bean>
+<bean id="versionInfo.versionIndId" parent="versionInfo.versionIndId-parent"/>
+
+<bean id="versionInfo.versionedFromId-parent" abstract="true" parent="baseKualiId">
+ <property name="name" value="versionedFromId"/>
+</bean>
+<bean id="versionInfo.versionedFromId" parent="versionInfo.versionedFromId-parent"/>
 </beans>
