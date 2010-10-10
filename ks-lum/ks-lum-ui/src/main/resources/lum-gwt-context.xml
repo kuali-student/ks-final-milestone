@@ -40,8 +40,6 @@
         <property name="alwaysUseFullPath" value="true"/>
         <property name="urlMap">
             <map>
-                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/RequirementsRpcService"
-                        value-ref="requirementsServiceGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/statementRpcService"
                        value-ref="statementServiceGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LuRpcService"
@@ -89,12 +87,6 @@
     </bean>
 
     <!-- Controllers -->
-    <bean id="requirementsServiceGwtController"
-          class="org.kuali.student.common.ws.ServletWrappingController">
-        <property name="servletName" value="requirementsRpcGwtServlet"/>
-        <property name="servletInstance" ref="requirementsRpcGwtServlet"/>
-    </bean>
-
     <bean id="statementServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="StatementRpcGwtServlet"/>
         <property name="servletInstance" ref="statementRpcServlet"/>
@@ -217,12 +209,6 @@
     <!-- GWT Servlets -->
 
     <!--Course Servlet Declaration-->
-    <bean id="requirementsRpcGwtServlet"
-          class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
-        <property name="service" ref="luClient"/>
-        <property name="statementService" ref="statementServiceClient"/>
-    </bean>
-
     <bean id="LuRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
         <property name="service" ref="luClient"/>
@@ -271,6 +257,7 @@
     <bean id="programRpcServlet" class="org.kuali.student.lum.program.server.ProgramRpcServlet">
 		<property name="dataService" ref="programDataService"/>
 		<property name="programService" ref="programClient"/>
+        <property name="statementService" ref="statementServiceClient"/>        
     </bean>
 
     <bean id="programDataService" class="org.kuali.student.lum.program.server.ProgramDataService">

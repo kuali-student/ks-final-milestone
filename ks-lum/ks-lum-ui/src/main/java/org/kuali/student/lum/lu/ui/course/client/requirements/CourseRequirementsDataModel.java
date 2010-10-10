@@ -22,12 +22,16 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
+import org.kuali.student.lum.program.client.events.AddRequirementEvent;
+import org.kuali.student.lum.program.client.events.DeleteRequirementEvent;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 
 public class CourseRequirementsDataModel {
@@ -37,31 +41,22 @@ public class CourseRequirementsDataModel {
     private Controller parentController;
     private boolean isInitialized = false;
 
-    private static int tempProgReqInfoID = 8888;   //TODO: remove after testing
-
-    //keeping track of rules and rule state (UPDATED, ADDED, DELETED)
+    //keeping track of rules and rule state
     public enum requirementState {STORED, ADDED, EDITED, DELETED;}
-    private LinkedHashMap<StatementTypeInfo, LinkedHashMap<StatementTreeViewInfo, requirementState>> rules = new LinkedHashMap<StatementTypeInfo, LinkedHashMap<StatementTreeViewInfo, requirementState>>();
+    private Map<Integer, StatementTreeViewInfo> courseReqInfos = new LinkedHashMap<Integer, StatementTreeViewInfo>();
+    private Map<Integer, requirementState> courseReqState = new HashMap<Integer, requirementState>();
+    private List<StatementTypeInfo> stmtTypes = new ArrayList<StatementTypeInfo>();
+
+    private static Integer courseReqIDs = 111111;
+    private static HandlerManager eventBus = new HandlerManager(null);
 
     public CourseRequirementsDataModel(Controller parentController) {
         this.parentController = parentController;
     }
 
-    public Set<StatementTypeInfo> getStoredStatementTypes() {
-        return rules.keySet();
-    }
-
-    public Set<StatementTreeViewInfo> getStoredProgRequirements(StatementTypeInfo statementTypeInfo) {
-        return rules.get(statementTypeInfo).keySet();
-    }
-
-    public LinkedHashMap<StatementTreeViewInfo, requirementState> getStoredProgReqsAndStates(StatementTypeInfo statementTypeInfo) {
-        return rules.get(statementTypeInfo);
-    }
-
     //retrieve rules based on IDs associated with this course
     public void retrieveCourseRequirements(final Callback<Boolean> onReadyCallback) {
-        parentController.requestModel("cluProposalModel", new ModelRequestCallback() {
+        parentController.requestModel(AbstractCourseConfigurer.CLU_PROPOSAL_MODEL, new ModelRequestCallback() {
 
             @Override
             public void onRequestFail(Throwable cause) {
@@ -93,19 +88,7 @@ public class CourseRequirementsDataModel {
             public void onSuccess(List<StatementTypeInfo> stmtInfoTypes) {
                 //store the statement types
                 for (StatementTypeInfo stmtInfoType : stmtInfoTypes) {
-
-                    //TODO remove after testing
-                    if (stmtInfoType.getId().equals("kuali.statement.type.course.academicReadiness.prereq")) {
-                        LinkedHashMap<StatementTreeViewInfo, requirementState> tempRulesList = new LinkedHashMap<StatementTreeViewInfo, requirementState>();
-                        StatementTreeViewInfo tempRule = new StatementTreeViewInfo();
-                        tempRule.setId("NEWCOURSEREQ" + Integer.toString(tempProgReqInfoID++));   //set unique id
-                        tempRule = CourseRequirementsViewController.getTestStatement();
-                        tempRulesList.put(tempRule, requirementState.ADDED);
-                        rules.put(stmtInfoType, tempRulesList);
-                        continue;
-                    }
-
-                    rules.put(stmtInfoType, new LinkedHashMap<StatementTreeViewInfo, requirementState>());
+                    stmtTypes.add(stmtInfoType);
                 }
 
                 //now retrieve the actual rules
@@ -123,11 +106,12 @@ public class CourseRequirementsDataModel {
             return;
         }
 
-        courseRemoteService.getCourseStatements(courseId, CourseRequirementsViewController.RULEEDIT_TEMLATE, CourseRequirementsViewController.TEMLATE_LANGUAGE, new KSAsyncCallback<List<StatementTreeViewInfo>>() {
+        courseRemoteService.getCourseStatements(courseId, CourseRequirementsManageView.RULEEDIT_TEMLATE,
+                                                    CourseRequirementsManageView.TEMLATE_LANGUAGE, new KSAsyncCallback<List<StatementTreeViewInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
-                GWT.log("getRequirements failed", caught);
+                GWT.log("getCourseStatements failed", caught);
                 onReadyCallback.exec(false);
             }
 
@@ -136,29 +120,13 @@ public class CourseRequirementsDataModel {
                 //update rules list with new course requirements
                 for (StatementTreeViewInfo foundRule : foundRules) {
 
-                    boolean stmtTypeFound = false;
-                    for (StatementTypeInfo stmtInfo : rules.keySet()) {
-
-                        if (stmtInfo.getId().equals(foundRule.getType())) {
-                            stmtTypeFound = true;
-                            LinkedHashMap<StatementTreeViewInfo, requirementState> tempRulesList;
-                            if (rules.get(stmtInfo) != null) {
-                                tempRulesList = rules.get(stmtInfo);
-                            } else {
-                                tempRulesList = new LinkedHashMap<StatementTreeViewInfo, requirementState>();
-                            }
-
-                            //add the rule
-                            tempRulesList.put(foundRule, requirementState.STORED);
-                            rules.put(stmtInfo, tempRulesList);
-                            break;
-                        }
-                    }
-
-                    if (!stmtTypeFound) {
+                    if (getStmtTypeInfo(foundRule.getType()) == null) {
                         Window.alert("Did not find corresponding statement type for course requirement of type: " + foundRule.getType());
                         GWT.log("Did not find corresponding statement type for course requirement of type: " + foundRule.getType(), null);
                     }
+                    
+                    courseReqInfos.put(courseReqIDs, foundRule);
+                    courseReqState.put(courseReqIDs++, requirementState.STORED);
                 }
 
                 isInitialized = true;
@@ -167,126 +135,171 @@ public class CourseRequirementsDataModel {
         });     
     }
 
-    public Map<StatementTypeInfo, StatementTreeViewInfo> updateRules(StatementTreeViewInfo newTree, String originalProgramReqId, boolean isNewRule) {
+    public StatementTreeViewInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalCourseReqID, boolean isNewRule) {
 
-        //find the affected course rule
-        LinkedHashMap<StatementTreeViewInfo, requirementState> affectedRule = null;
-        StatementTypeInfo affectedStmtTypeInfo = null;
-        for(StatementTypeInfo stmtTypeInfo : rules.keySet()) {
-            if (newTree.getType().equals(stmtTypeInfo.getId())) {
-                affectedStmtTypeInfo = stmtTypeInfo;
-                affectedRule = rules.get(stmtTypeInfo);
-                break;
-            }
-        }
+        StatementTreeViewInfo affectedRule = courseReqInfos.get(internalCourseReqID);
 
-        if (affectedStmtTypeInfo == null) {
-            Window.alert("Cannot find course requisite with a statement type that has id: '" + newTree.getType() + "'");
-            GWT.log("Cannot find course requisite with a statement type that has id: '" + newTree.getType() + "'", null);
+        if (affectedRule == null) {
+            Window.alert("Cannot find course requisite with a statement that has id: '" + newSubRule.getId() + "'");
+            GWT.log("Cannot find course requisite with a statement that has id: '" + newSubRule.getId() + "'", null);
             return null;
         }
 
-        if (affectedRule.get(affectedStmtTypeInfo) == CourseRequirementsDataModel.requirementState.STORED) {
-            affectedRule.put(newTree, CourseRequirementsDataModel.requirementState.EDITED);
+        if (courseReqState.get(internalCourseReqID) == CourseRequirementsDataModel.requirementState.STORED) {
+            courseReqState.put(internalCourseReqID, CourseRequirementsDataModel.requirementState.EDITED);
         }
 
-        Map<StatementTypeInfo, StatementTreeViewInfo> result = new HashMap<StatementTypeInfo, StatementTreeViewInfo>();
-        result.put(affectedStmtTypeInfo, newTree);
-        return result;
+        courseReqInfos.put(internalCourseReqID, affectedRule);
+
+        return affectedRule;
     }
 
-    public void updateModelFromLocalData(final Data dto) {
+    public void updateCourseRequisites(final Data dto, final Callback<StatementTreeViewInfo> callback) {
 
         String courseId = dto.get("id");
 
-        for (final StatementTypeInfo stmtTypeInfo : getStoredStatementTypes()) {
+        for (final StatementTreeViewInfo rule : courseReqInfos.values()) {
 
-            if (CourseRequirementsSummaryView.isTopStatement(stmtTypeInfo)) {
-                continue;
-            }
+            final Integer internalProgReqID = getInternalCourseReqID(rule);
+            final requirementState ruleState = courseReqState.get(internalProgReqID);
 
-            for (final StatementTreeViewInfo rule : getStoredProgRequirements(stmtTypeInfo)) {
-
-                final CourseRequirementsDataModel.requirementState ruleState = getStoredProgReqsAndStates(stmtTypeInfo).get(rule);
-                switch (ruleState) {
-                    case STORED:
-                        //rule was not changed so continue
-                        break;
-                    case ADDED:
-                        courseRemoteService.createCourseStatement(courseId, rule, new KSAsyncCallback<StatementTreeViewInfo>() {
-                            @Override
-                            public void handleFailure(Throwable caught) {
-                                Window.alert(caught.getMessage());
-                                GWT.log("createProgramRequirement failed", caught);
-                            }
-                            @Override
-                            public void onSuccess(StatementTreeViewInfo rule) {
-                                updateProgReqId(dto, rule.getId(), ruleState);
-                                getStoredProgReqsAndStates(stmtTypeInfo).put(rule, CourseRequirementsDataModel.requirementState.STORED);
-                            }
-                        });
-                        break;
-                    case EDITED:
-                        courseRemoteService.updateCourseStatement(courseId, rule, new KSAsyncCallback<StatementTreeViewInfo>() {
-                            @Override
-                            public void handleFailure(Throwable caught) {
-                                Window.alert(caught.getMessage());
-                                GWT.log("updateProgramRequirement failed", caught);
-                            }
-                            @Override
-                            public void onSuccess(StatementTreeViewInfo rule) {
-                                updateProgReqId(dto, rule.getId(), ruleState);
-                                getStoredProgReqsAndStates(stmtTypeInfo).put(rule, CourseRequirementsDataModel.requirementState.STORED);
-                            }
-                        });
-                        break;
-                    case DELETED:
-                        courseRemoteService.deleteCourseStatement(courseId, rule, new KSAsyncCallback<StatusInfo>() {
-                            @Override
-                            public void handleFailure(Throwable caught) {
-                                Window.alert(caught.getMessage());
-                                GWT.log("deleteProgramRequirement failed", caught);
-                            }
-                            @Override
-                            public void onSuccess(StatusInfo statusInfo) {
-                                updateProgReqId(dto, rule.getId(), ruleState);
-                                getStoredProgRequirements(stmtTypeInfo).remove(rule);
-                            }
-                        });
-                        break;
-                    default:
-                        break;
-                }          
+            switch (ruleState) {
+                case STORED:
+                    //rule was not changed so continue
+                    break;
+                case ADDED:
+                    courseRemoteService.createCourseStatement(courseId, rule, new KSAsyncCallback<StatementTreeViewInfo>() {
+                        @Override
+                        public void handleFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                            GWT.log("createCourseStatement failed", caught);
+                        }
+                        @Override
+                            public void onSuccess(StatementTreeViewInfo updatedRule) {
+                            eventBus.fireEvent(new AddRequirementEvent());
+                            courseReqInfos.put(internalProgReqID, updatedRule);
+                            courseReqState.put(internalProgReqID, requirementState.STORED);
+                            callback.exec(updatedRule);  //update display widgets
+                        }
+                    });
+                    break;
+                case EDITED:
+                    courseRemoteService.updateCourseStatement(courseId, rule, new KSAsyncCallback<StatementTreeViewInfo>() {
+                        @Override
+                        public void handleFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                            GWT.log("updateCourseStatement failed", caught);
+                        }
+                        @Override
+                            public void onSuccess(StatementTreeViewInfo updatedRule) {
+                            courseReqInfos.put(internalProgReqID, updatedRule);
+                            courseReqState.put(internalProgReqID, requirementState.STORED);
+                            callback.exec(updatedRule); //update display widgets
+                        }
+                    });
+                    break;
+                case DELETED:
+                    eventBus.fireEvent(new DeleteRequirementEvent());
+                    courseRemoteService.deleteCourseStatement(courseId, rule, new KSAsyncCallback<StatusInfo>() {
+                        @Override
+                        public void handleFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                            GWT.log("deleteCourseStatement failed", caught);
+                        }
+                        @Override
+                        public void onSuccess(StatusInfo statusInfo) {
+                            courseReqInfos.remove(internalProgReqID);
+                            courseReqState.remove(internalProgReqID);
+                        }
+                    });
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-    //now update the program this requirement belongs to
-    private void updateProgReqId(Object dto, String progReqId, CourseRequirementsDataModel.requirementState op) {
-        //TODO
-        /*
-        if (dto instanceof MajorDisciplineInfo) {
-            MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
-            //mdInfo.getProgramRequirements().add(progReqId);
-            updateProgramInfo(mdInfo.getProgramRequirements(), progReqId, op);
-        } else {
-            Window.alert("Only persistence of MajorDiscipline is currently implemented");
-            GWT.log("Unable to retrieve model for course requirements view", null);
-        } */
+    public List<StatementTreeViewInfo> getCourseReqInfo(String stmtTypeId) {
+        List<StatementTreeViewInfo> rules = new ArrayList<StatementTreeViewInfo>();
+        for(StatementTreeViewInfo rule : courseReqInfos.values()) {
+            if (rule.getType().equals(stmtTypeId)) {
+                rules.add(rule);
+            }
+        }
+        return rules;
     }
 
-    private void updateProgramInfo(List<String> requirements, String id, CourseRequirementsDataModel.requirementState op) {
-        switch (op) {
-            case ADDED:
-                requirements.add(id);
-                break;
-            case DELETED:
-                requirements.remove(id);
-                break;
-            default:
-                break;
+    public Integer getInternalCourseReqID(StatementTreeViewInfo rule) {
+        for(Integer key : courseReqInfos.keySet()) {
+            if (courseReqInfos.get(key) ==  rule) {
+                return key;
+            }
         }
-    }    
+
+        Window.alert("Problem retrieving key for course requisite: " +  rule.getId());
+        GWT.log("Problem retrieving key for course requisite: " +  rule.getId(), null);        
+
+        return null;
+    }
+
+    public StatementTypeInfo getStmtTypeInfo(String stmtTypeId) {
+        for (StatementTypeInfo stmtInfo : stmtTypes) {
+            if (stmtInfo.getId().equals(stmtTypeId)) {
+                return stmtInfo;
+            }
+        }
+
+        Window.alert("Did not find StatementTypeInfo based on type: " + stmtTypeId);
+        GWT.log("Did not find StatementTypeInfo based on type: " + stmtTypeId);    
+
+        return null;
+    }
+
+    public void deleteRule(Integer internalProgReqID) {
+        if (courseReqState.get(internalProgReqID) == requirementState.ADDED) {
+            //user added a rule, didn't save it and now wants to delete it
+            courseReqState.remove(internalProgReqID);
+            courseReqInfos.remove(internalProgReqID);
+        }
+        markRuleAsDeleted(internalProgReqID);
+    }
+
+    public void markRuleAsDeleted(Integer internalCourseReqID) {
+        if ((courseReqState.get(internalCourseReqID) == requirementState.STORED) ||
+            (courseReqState.get(internalCourseReqID) == requirementState.EDITED)) {
+            courseReqState.put(internalCourseReqID, requirementState.DELETED);
+        }
+    }
+
+    public void markRuleAsEdited(Integer internalCourseReqID) {
+        if (courseReqState.get(internalCourseReqID) == requirementState.STORED) {
+            courseReqState.put(internalCourseReqID, requirementState.EDITED);
+        }
+    }
+
+    public void addRule(StatementTreeViewInfo rule) {
+        courseReqInfos.put(courseReqIDs, rule);
+        courseReqState.put(courseReqIDs++, requirementState.ADDED);
+    }
+
+    public String getStmtTypeName(String stmtTypeId) {
+        String name = getStmtTypeInfo(stmtTypeId).getName();
+        return (name == null ? "" : name);
+    }
+    
+    public boolean isRuleExists(String stmtTypeId) {
+        boolean showNoRuleText = true;
+        for(StatementTreeViewInfo ruleInfo : courseReqInfos.values()) {
+            if ((ruleInfo.getType().equals(stmtTypeId)) && (courseReqState.get(getInternalCourseReqID(ruleInfo)) != requirementState.DELETED)) {
+                showNoRuleText = false;
+            }
+        }
+        return showNoRuleText;
+    }
+
+    public StatementTreeViewInfo getRule(Integer internalCourseReqID) {
+        return courseReqInfos.get(internalCourseReqID);
+    }
 
     public boolean isInitialized() {
         return isInitialized;
@@ -295,4 +308,8 @@ public class CourseRequirementsDataModel {
     public void setInitialized(boolean initialized) {
         isInitialized = initialized;
     }
+
+    public List<StatementTypeInfo> getStmtTypes() {
+        return stmtTypes;
+    }    
 }

@@ -20,25 +20,29 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RulePreviewWidget extends FlowPanel {
 
-    
+    //Widgets
+    private SpanPanel rulePanel = new SpanPanel();
+    private KSButton editButton = new KSButton("Edit", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
+    private SpanPanel separator = new SpanPanel(" | ");
+    private KSButton deleteButton = new KSButton("Delete", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
+    private KSButton addSubRuleBtn = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
+    private List<SubrulePreviewWidget> subRulePreviewWidgets = new ArrayList<SubrulePreviewWidget>();
+
+    //data
     private String ruleName;
     private String ruleCredits;
     private String ruleDesc;
     private StatementTreeViewInfo stmtTreeInfo;     //program rule e.g. program completion rule
     private boolean isReadOnly;
     private boolean addRuleOperator = false;        //first subrule does not have operator following it
+    private Integer internalProgReqID;
 
-    private SpanPanel rulePanel = new SpanPanel();
-    private KSButton editButton = new KSButton("Edit", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
-    private SpanPanel separator = new SpanPanel(" | ");
-    private KSButton deleteButton = new KSButton("Delete", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
-    private KSButton addSubRuleBtn = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
-    private List<SubrulePreviewWidget> subRulePreviewWidgets = new ArrayList();
+    private Callback<SubRuleInfo> editSubRuleCallback;
+    private Callback<Integer> deleteSubRuleCallback;
 
-    private Callback<StatementTreeViewInfo> editRuleCallback;
-
-    public RulePreviewWidget(String ruleName, String ruleCredits, String ruleDesc, StatementTreeViewInfo stmtTreeInfo, Boolean isReadOnly) {
+    public RulePreviewWidget(Integer internalProgReqID, String ruleName, String ruleCredits, String ruleDesc, StatementTreeViewInfo stmtTreeInfo, Boolean isReadOnly) {
         super();
+        this.internalProgReqID = internalProgReqID;
         this.ruleName = ruleName;
         this.ruleCredits = ruleCredits;
         this.ruleDesc = ruleDesc;
@@ -101,7 +105,10 @@ public class RulePreviewWidget extends FlowPanel {
 
         newSubRuleWidget.addEditButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                editRuleCallback.exec(subTree);    
+                SubRuleInfo subRuleInfo = new SubRuleInfo();
+                subRuleInfo.setSubrule(subTree);
+                subRuleInfo.setInternalProgReqID(internalProgReqID);
+                editSubRuleCallback.exec(subRuleInfo);
             }
         });
 
@@ -113,6 +120,7 @@ public class RulePreviewWidget extends FlowPanel {
                     public void onClick(ClickEvent event) {
                         removeSubRule(newSubRuleWidget, subTree);
                         dialog.hide();
+                        deleteSubRuleCallback.exec(internalProgReqID);
                     }
                 });
                 dialog.show();
@@ -214,11 +222,11 @@ public class RulePreviewWidget extends FlowPanel {
         rulePanel.add(andLabel);        
     }
 
-    public void addRequirementEditButtonClickHandler(ClickHandler handler) {
+    public void addProgReqEditButtonClickHandler(ClickHandler handler) {
         editButton.addClickHandler(handler);
     }
 
-    public void addRequirementDeleteButtonClickHandler(ClickHandler handler) {
+    public void addProgReqDeleteButtonClickHandler(ClickHandler handler) {
         deleteButton.addClickHandler(handler);
     }
 
@@ -226,11 +234,41 @@ public class RulePreviewWidget extends FlowPanel {
         addSubRuleBtn.addClickHandler(handler);
     }
 
-    public void addSubRuleEditCallback(Callback<StatementTreeViewInfo> editRuleCallback) {
-        this.editRuleCallback = editRuleCallback; 
+    public void addSubRuleEditButtonClickHandler(Callback<SubRuleInfo> callback) {
+        this.editSubRuleCallback = callback;
+    }
+
+    public void addSubRuleDeleteCallback(Callback<Integer> callback) {
+        this.deleteSubRuleCallback = callback;
     }
 
     public StatementTreeViewInfo getStatementTreeViewInfo() {
         return  stmtTreeInfo;
+    }
+
+    public Integer getInternalProgReqID() {
+        return internalProgReqID;
+    }
+
+    public class SubRuleInfo {
+        private StatementTreeViewInfo subrule;
+
+        private Integer internalProgReqID;
+
+        public StatementTreeViewInfo getSubrule() {
+            return subrule;
+        }
+
+        public void setSubrule(StatementTreeViewInfo subrule) {
+            this.subrule = subrule;
+        }
+
+        public Integer getInternalProgReqID() {
+            return internalProgReqID;
+        }
+
+        public void setInternalProgReqID(Integer internalProgReqID) {
+            this.internalProgReqID = internalProgReqID;
+        }
     }
 }

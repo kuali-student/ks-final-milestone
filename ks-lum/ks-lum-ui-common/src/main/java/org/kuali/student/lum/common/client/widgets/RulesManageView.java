@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.course.client.requirements;
+package org.kuali.student.lum.common.client.widgets;
 
 import java.util.List;
 
@@ -21,13 +21,13 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.StatementRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
-import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.rules.ObjectClonerUtil;
 import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
@@ -36,24 +36,22 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.program.client.rpc.StatementRpcService;
-import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class CourseRequirementsManageView extends VerticalSectionView {
+public class RulesManageView extends VerticalSectionView {
 
-    private StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
+    private StatementRpcServiceAsync statementRpcServiceAsync;
     private MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 
     protected static final String TEMLATE_LANGUAGE = "en";
     protected static final String RULEEDIT_TEMLATE = "KUALI.RULE";
-    protected static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";     
+    protected static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";    
 
-    private CourseRequirementsViewController parentController;
+    private Controller parentController;
 
     //view's widgets
     private VerticalPanel layout = new VerticalPanel();
@@ -67,18 +65,18 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     private boolean isInitialized = false;
     private boolean isNewRule = false;
     private ReqComponentInfo editedReqCompInfo = null;
-    private static int tempStmtTreeViewInfoID = 9999;
-    private Integer internalCourseReqID = null;
     private String originalReqCompNL;
     private String originalLogicExpression;    
+    private Enum<?> viewType;
 
     //   private boolean isLocalDirty = false;
     private boolean userClickedSaveButton = false;
-	private BlockingTask creatingRuleTask = new BlockingTask("Creating Rule");
 
-    public CourseRequirementsManageView(CourseRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId) {
+    public RulesManageView(Controller parentController, Enum<?> viewEnum, String name, String modelId, Enum<?> previewViewType, StatementRpcServiceAsync statementRpcServiceAsync) {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
+        this.viewType = previewViewType;
+        this.statementRpcServiceAsync = statementRpcServiceAsync;		
     }
 
     @Override
@@ -110,14 +108,14 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
         //STEP 1
         SectionTitle title = SectionTitle.generateH3Title("Step 1: Build and Add Rules");
-        title.setStyleName("KS-Course-Requisites-Manage-Step-header1");  //make the header orange
+        title.setStyleName("KS-Program-Requirements-Manage-Step-header1");  //make the header orange
         layout.add(title);
 
         layout.add(editReqCompWidget);
 
         //STEP 2
         title = SectionTitle.generateH3Title("Step 2: Combine Rules with Logic");
-        title.setStyleName("KS-Course-Requisites-Manage-Step-header2");  //make the header orange
+        title.setStyleName("KS-Program-Requirements-Manage-Step-header2");  //make the header orange
         layout.add(title);
 
         layout.add(ruleManageWidget);
@@ -134,12 +132,12 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     }
 
     private void displaySaveButton() {
-        actionCancelButtons.addStyleName("KS-Course-Requisites-Save-Button");
+        actionCancelButtons.addStyleName("KS-Program-Requirements-Save-Button");
         actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
              @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
                 userClickedSaveButton = (result == ButtonEnumerations.SaveCancelEnum.SAVE);
-                parentController.showView(CourseRequirementsViewController.CourseRequirementsViews.PREVIEW);
+                parentController.showView(viewType);
             }
         });
         addWidget(actionCancelButtons);
@@ -150,14 +148,13 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     }
 
     // called by requirement display widget when user wants to edit or add a sub-rule
-    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, boolean newRuleFlag, Integer internalCourseReqID) {
+    public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, boolean newRuleFlag, String relatedProgramReqInfoId) {
 
         if (!isInitialized) {
-            editReqCompWidget = new ReqCompEditWidget(CourseRequirementsSummaryView.NEW_REQ_COMP_ID);
+            editReqCompWidget = new ReqCompEditWidget("TODO");
             ruleManageWidget = new RuleManageWidget();
         }
 
-        this.internalCourseReqID = internalCourseReqID;
         editedReqCompInfo = null;
         userClickedSaveButton = false;
         rule = ObjectClonerUtil.clone(stmtTreeInfo);
@@ -237,12 +234,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 return;
             }
 
-            KSBlockingProgressIndicator.addTask(creatingRuleTask);
-
             //1. update NL for the req. component
             statementRpcServiceAsync.translateReqComponentToNL(reqComp, RULEEDIT_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
                 public void handleFailure(Throwable caught) {
-                    KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                     Window.alert(caught.getMessage());
                     GWT.log("translateReqComponentToNL failed", caught);
                }
@@ -257,7 +251,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     if (editedReqCompInfo == null) {  //add req. component
                         if (rule.getStatements() != null && !rule.getStatements().isEmpty()) {
                             StatementTreeViewInfo newStatementTreeViewInfo = new StatementTreeViewInfo();
-                            newStatementTreeViewInfo.setId(CourseRequirementsSummaryView.NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeViewInfoID++));
+                            newStatementTreeViewInfo.setId(null); //NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeID++));
                             newStatementTreeViewInfo.setOperator(rule.getStatements().get(0).getOperator());
                             newStatementTreeViewInfo.getReqComponents().add(reqComp);
                             rule.getStatements().add(newStatementTreeViewInfo);
@@ -276,7 +270,6 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     }
                     
                     ruleManageWidget.redraw(rule);
-                    KSBlockingProgressIndicator.removeTask(creatingRuleTask);                     
                 }
             });
         }
@@ -290,6 +283,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     };
 
     private void retrieveAndSetupReqCompTypes() {
+
         statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
             public void handleFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
@@ -340,7 +334,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
     protected Callback<String> retrieveCustomWidgetCallback = new Callback<String>(){
         public void exec(final String widgetId) {
-            editReqCompWidget.displayCustomWidget(new BuildCourseSetWidget());
+         //   editReqCompWidget.displayCustomWidget(new BuildCourseSetWidget());
         }
     };
 
@@ -350,9 +344,5 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
     public void setUserClickedSaveButton(boolean userClickedSaveButton) {
         this.userClickedSaveButton = userClickedSaveButton;
-    }
-
-    public Integer getInternalCourseReqID() {
-        return internalCourseReqID;
     }
 }

@@ -29,12 +29,6 @@
 
   
 	<!-- GWT Servlets -->
-	<bean id="requirementsRpcGwtServlet"
-		class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
-		<property name="service" ref="luClient" />
-		<property name="statementService" ref="statementServiceClient"/>
-	</bean>
-
 	<bean id="LuRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
 		<property name="service" ref="luClient" />

@@ -27,22 +27,8 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.event.ActionEvent;
-import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
-import org.kuali.student.common.ui.client.event.ContentDirtyEventHandler;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionHandler;
-import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
-import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
-import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.mvc.WorkQueue;
+import org.kuali.student.common.ui.client.event.*;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -76,7 +62,6 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
 import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.core.client.GWT;
@@ -640,10 +625,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	@Override
     public void setParentController(Controller controller) {
         super.setParentController(controller);
-        if (CourseReqSummaryHolder.getView() != null) {
-            CourseReqSummaryHolder.getView().setTheController(controller);
-            CourseReqSummaryHolder.getView().redraw();
-        }
     }
 
 	@Override

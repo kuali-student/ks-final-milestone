@@ -61,18 +61,21 @@ public class ReqCompEditWidget extends FlowPanel {
     private Callback fieldsMetadataTemplateCallback;
     private Callback compositionTemplateCallback;
     private Callback displayCustomWidgetCallback;    
-    private static int tempCounterID = 99999;
-    private static final String REQ_COMP_MODEL_ID = "reqCompModelId";
+    private String newReqCompId;
+    private static int tempReqCompInfoID = 999999;    
+    private static final String REQ_COMP_MODEL_ID = "reqCompModelId";    
 
     private enum ReqCompEditView {VIEW}
 
     //TODO use app context for text
 
-    public ReqCompEditWidget() {
+    public ReqCompEditWidget(String newReqCompId) {
         super();
 
         ruleFieldsData = new DataModel();
         ruleFieldsData.setRoot(new Data());
+        this.newReqCompId = newReqCompId;
+   //     this.relatedProgramReqInfoId = relatedProgramReqInfoId;
 
         //wait until req. comp. types are loaded and user actually selects a type from drop down
         reqCompTypesList.setEnabled(false);
@@ -100,7 +103,7 @@ public class ReqCompEditWidget extends FlowPanel {
                         if (ruleFieldsData.getRoot().size() == 0) {
                             finalizeRuleUpdate();
                             return;
-                        }
+                        }                       
 
                         //1. check that all fields have values
                         ruleFieldsData.validate(new Callback<List<ValidationResultInfo>>() {
@@ -109,7 +112,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
                                 //do not proceed if the user input is not valid
                                 if (!reqCompController.isValid(validationResults, true, true)) {
-                                    setEnableAddRuleButtons(true);
+                                    setEnableAddRuleButtons(true);                                   
                                     return;
                                 }
 
@@ -117,14 +120,9 @@ public class ReqCompEditWidget extends FlowPanel {
                                 List<ReqCompFieldInfo> editedFields = new ArrayList<ReqCompFieldInfo>();
                                 for (ReqCompFieldTypeInfo fieldTypeInfo : selectedReqCompType.getReqCompFieldTypeInfos()) {
                                     ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-                                    fieldInfo.setId(fieldTypeInfo.getId());
+                                    fieldInfo.setId(null);
                                     fieldInfo.setType(fieldTypeInfo.getId());
                                     String fieldValue = ruleFieldsData.getRoot().get(fieldTypeInfo.getId()).toString();
-
-                                    if ((fieldValue == null) || (fieldValue.isEmpty())) {
-                                        
-                                    }
-
                                     fieldInfo.setValue((fieldValue == null ? "" : fieldValue.toString()));
                                     editedFields.add(fieldInfo);
                                 }
@@ -170,12 +168,6 @@ public class ReqCompEditWidget extends FlowPanel {
 
     private void finalizeRuleUpdate() {
         editedReqComp.setType(selectedReqCompType.getId());
-        /*
-        setEnableAddRuleButtons(false);
-        holdFieldsPanel.clear();
-        if (reqCompTypesList.getSelectedItem() != null) {
-            reqCompTypesList.deSelectItem(reqCompTypesList.getSelectedItem());
-        } */
 
         //callback needs to update NL for given req. component and the rule
         reqCompConfirmCallback.exec(editedReqComp);
@@ -196,7 +188,7 @@ public class ReqCompEditWidget extends FlowPanel {
         desc.setFormatted("");
         editedReqComp = new ReqComponentInfo();
         editedReqComp.setDesc(desc);
-        editedReqComp.setId(Integer.toString(tempCounterID++));  
+        editedReqComp.setId(newReqCompId + Integer.toString(tempReqCompInfoID++));
         editedReqComp.setReqCompFields(null);
         //editedReqComp.setRequiredComponentType(reqCompTypeInfo);
         if (reqCompTypeInfo != null) {
@@ -284,11 +276,6 @@ public class ReqCompEditWidget extends FlowPanel {
     }
 
     public void displayFieldsEnd(List<Metadata> fieldsMetadataList) {
-
-        if (true) {
-            displayCustomWidgetCallback.exec("123");
-            return;
-        }
 
         List<ReqCompFieldInfo> reqCompFields = (editedReqComp == null ? null : editedReqComp.getReqCompFields());
         reqCompFieldsPanel = new VerticalSectionView(ReqCompEditView.VIEW, "", REQ_COMP_MODEL_ID, false);
@@ -390,7 +377,7 @@ public class ReqCompEditWidget extends FlowPanel {
         }
 
         for (ReqCompFieldInfo fieldInfo : fields) {
-            if (fieldInfo.getId().equals(key)) {
+            if (fieldInfo.getType().equals(key)) {
                 return (fieldInfo.getValue() == null ? "" : fieldInfo.getValue());
             }
         }

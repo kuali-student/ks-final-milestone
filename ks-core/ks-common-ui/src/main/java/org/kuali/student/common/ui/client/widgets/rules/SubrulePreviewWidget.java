@@ -154,5 +154,5 @@ public class SubrulePreviewWidget extends FlowPanel {
 
     public void addDeleteButtonClickHandler(ClickHandler handler) {
         deleteButton.addClickHandler(handler);    
-    }    
+    }
 }

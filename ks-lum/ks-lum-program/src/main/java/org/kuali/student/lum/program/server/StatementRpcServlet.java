@@ -16,9 +16,7 @@
 package org.kuali.student.lum.program.server;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -31,9 +29,6 @@ import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
 import org.apache.log4j.Logger;
 
-/**
- * @author Zdenek Zraly
- */
 public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> implements StatementRpcService {
 
     final static Logger LOG = Logger.getLogger(StatementRpcServlet.class);
@@ -46,6 +41,13 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
         List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
 
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
+
+        //ensure the correct sequence of statement types; hard-coded for now
+        if (statementTypeNames.contains("kuali.statement.type.course.enrollmentEligibility")) {
+            statementTypeNames.remove("kuali.statement.type.course.enrollmentEligibility");
+            statementTypeNames.add(0, "kuali.statement.type.course.enrollmentEligibility");
+        }
+
         for (String statementTypeName : statementTypeNames) {
             StatementTypeInfo stmtInfo = statementService.getStatementType(statementTypeName);
 

@@ -27,6 +27,11 @@
     padding-top: 40px;
 }
 
+.KS-Program-Requirements-Preview-Rule-Type-Desc {
+    padding-bottom:15px;
+    width:650px;
+}
+
 .KS-Program-Requirements-Preview-No-Rule-Text {
     padding-top: 20px;
 }
@@ -52,6 +57,10 @@
     margin-top: 40px;
 }
 
+.KS-Program-Rule-ObjectView-RulePanel label {
+    display: inline
+}
+
 .programController {
 }
 
@@ -65,10 +74,6 @@
 
 .programController .programInformationView {
     background-color: #F1F1F1;
-}
-
-.KS-Program-Rule-ObjectView-RulePanel label {
-    display: inline
 }
 
 .programController .programActionPanel {

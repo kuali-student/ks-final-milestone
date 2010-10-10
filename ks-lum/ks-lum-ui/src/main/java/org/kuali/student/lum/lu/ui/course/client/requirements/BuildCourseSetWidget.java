@@ -20,12 +20,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
@@ -37,8 +32,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelpe
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetEditorWidget;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
-import org.kuali.student.lum.ui.requirements.client.Calendar;
-import org.kuali.student.lum.ui.requirements.client.GregorianCalendar;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -57,34 +50,11 @@ public class BuildCourseSetWidget extends FlowPanel {
     public BuildCourseSetWidget() {
         super();
 
-//        Map<String, FieldDescriptor> fields = new HashMap<String, FieldDescriptor>();
         cluSetEditorWidgetView = new CluSetEditorWidget(
                 BuildCourseView.VIEW,
                 "", CLUSET_MODEL_ID, false,
                 null);
-//        cluSetEditorWidgetView.addStyleName("KS-Rule-FieldsList");
 
-        int ix = 0;
-//        Map<String, Metadata> fieldDefinitionMetadata = new HashMap<String,Metadata>();
-//        for (Metadata oneFieldMetadata : getBuildCourseSetMedata()) {
-//
-//            Metadata fieldMetadata = oneFieldMetadata.getProperties().get("?");  //TODO
-//            String fieldType = "?";  //TODO
-//            String fieldLabel = "?";  //TODO
-//
-//            FieldDescriptor fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata);
-//            reqCompFieldsPanel.addField(fd);
-//            fields.put(fieldType, fd);
-//
-//            //add field to the data model metadata
-//            fieldDefinitionMetadata.put(fieldType, fieldMetadata);
-//        }
-
-        //setup data model
-//        Metadata modelDefinitionMetadata = new Metadata();
-//        modelDefinitionMetadata.setCanView(true);
-//        modelDefinitionMetadata.setDataType(Data.DataType.DATA);
-//        modelDefinitionMetadata.setProperties(fieldDefinitionMetadata);
         ruleFieldsData = new DataModel();
         ruleFieldsData.setRoot(new Data());
 

@@ -32,7 +32,7 @@ import com.google.gwt.user.client.Window;
 public class StatementVO extends Token implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private StatementInfo statementInfo;
+    private StatementInfo statementInfo;       //TODO do we really need this and do we need to duplicate this in sub rules?
     private List<ReqComponentVO> reqComponentVOs = new ArrayList<ReqComponentVO>();
     private List<StatementVO> statementVOs = new ArrayList<StatementVO>();
 
@@ -797,7 +797,7 @@ public class StatementVO extends Token implements Serializable {
     private void doClearSelections(StatementVO statementVO) {
         statementVO.setCheckBoxOn(false);
         if (statementVO.getStatementVOCount() > 0) {
-            for (StatementVO childS : statementVOs) {
+            for (StatementVO childS : statementVO.getStatementVOs()) {
                 doClearSelections(childS);
             }
         } else if (statementVO.getReqComponentVOCount() > 0) {
