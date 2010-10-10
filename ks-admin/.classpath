@@ -147,5 +147,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/org/kuali/rice/rice-api/1.0.3-SNAPSHOT/rice-api-1.0.3-SNAPSHOT.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/kuali/rice/rice-impl/1.0.3-SNAPSHOT/rice-impl-1.0.3-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/kuali/student/core/ks-core-api/1.1.0-M9-SNAPSHOT/ks-core-api-1.1.0-M9-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

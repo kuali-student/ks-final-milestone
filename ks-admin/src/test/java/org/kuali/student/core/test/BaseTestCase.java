@@ -55,6 +55,8 @@ public class BaseTestCase extends Assert {
 	
 	@BeforeClass
 	public static void startJettyServer() throws Exception {
+	    System.setProperty("kew.bootstrap.spring.file", "SpringBeans.xml");
+	    
 		BaseTestCase.server = new JettyServer(DEFAULT_PORT, CONTEXT_NAME, WEBAPP_ROOT);
 		server.setFailOnContextFailure(true);
 		server.setTestMode(true);
