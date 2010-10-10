@@ -1,5 +1,6 @@
 package org.kuali.rice.kns.bo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -45,6 +46,7 @@ public abstract class KualiTypeCodeBase extends PersistableBusinessObjectBase im
 
 	public KualiTypeCodeBase() {
 		super();
+		attributes = new ArrayList<BusinessObjectExtensionAttribute>();
 	}
 
 	public String getId() {

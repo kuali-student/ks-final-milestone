@@ -41,7 +41,6 @@
   <bean id="AttributeReferenceKualiType-id" parent="AttributeReferenceKualiType-id-parentBean"/>
 
   <bean id="AttributeReferenceKualiType-id-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true"/>
     <property name="shortLabel" value="Id"/>
     <property name="maxLength" value="255"/>
     <property name="validationPattern">

@@ -86,6 +86,9 @@
     <bean id="Atp-typeId" parent="Atp-typeId-parentBean" />
 
     <bean id="Atp-typeId-parentBean" abstract="true" parent="AttributeReferenceKualiType-typeId">
+    	<property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.AtpTypeValuesFinder"/>
+	    </property>
     </bean>
 
     <bean id="Atp-activeFromDate" parent="Atp-activeFromDate-parentBean" />

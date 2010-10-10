@@ -29,7 +29,7 @@ public class StateValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
+    public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("Actual", "Actual"));
         labels.add(new KeyLabelPair("Tentative", "Tentative"));

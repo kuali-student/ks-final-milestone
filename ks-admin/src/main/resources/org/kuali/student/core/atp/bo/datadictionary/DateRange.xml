@@ -96,6 +96,9 @@
     <bean id="DateRange-typeId" parent="DateRange-typeId-parentBean" />
 
     <bean id="DateRange-typeId-parentBean" abstract="true" parent="AttributeReferenceKualiType-typeId">
+    	<property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.DateRangeTypeValuesFinder"/>
+	    </property>
     </bean>
 
     <bean id="DateRange-atpId" parent="DateRange-atpId-parentBean" />

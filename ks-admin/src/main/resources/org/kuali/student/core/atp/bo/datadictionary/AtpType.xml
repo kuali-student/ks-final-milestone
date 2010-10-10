@@ -68,6 +68,9 @@
         <property name="name" value="seasonalTypeId" />
         <property name="label" value="Season" />
         <property name="description" value="Id of the Seasonal Type" />
+        <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.AtpSeasonTypeValuesFinder"/>
+	    </property>
     </bean>
 
     <bean id="AtpType-durationTypeId" parent="AtpType-durationTypeId-parentBean" />
@@ -78,6 +81,9 @@
         <property name="name" value="durationTypeId" />
         <property name="label" value="Duration" />
         <property name="description" value="Id of the Duration Type" />
+        <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.AtpDurationTypeValuesFinder"/>
+	    </property>
     </bean>
 
     <bean id="AtpType-lookupDefinition" parent="AtpType-lookupDefinition-parentBean" />

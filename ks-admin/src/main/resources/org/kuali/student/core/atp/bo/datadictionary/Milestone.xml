@@ -85,6 +85,9 @@
     <bean id="Milestone-typeId" parent="Milestone-typeId-parentBean" />
 
     <bean id="Milestone-typeId-parentBean" abstract="true" parent="AttributeReferenceKualiType-typeId">
+    	<property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.MilestoneTypeValuesFinder"/>
+	    </property>
     </bean>
 
     <bean id="Milestone-atpId" parent="Milestone-atpId-parentBean" />
