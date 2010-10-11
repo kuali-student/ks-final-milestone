@@ -54,18 +54,22 @@
 }
 
 .KS-Course-Requisites-Preview-Rule-Type-Header {
-    padding-bottom:8px;
-    padding-top:15px;
+    padding-top:30px;
     width:650px;
 }
 
 .KS-Course-Requisites-Preview-Rule-Type-First-Header {
-    padding-top:40px;
+    padding-top:20px;
     width:650px;
 }
 
 .KS-Course-Requisites-Preview-Rule-Type-Desc {
     padding-bottom:15px;
+    width:650px;
+}
+
+.KS-Course-Requisites-Button-Spacer {
+    margin-bottom:15px;
     width:650px;
 }
 

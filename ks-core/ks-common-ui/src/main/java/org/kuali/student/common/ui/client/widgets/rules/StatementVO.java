@@ -849,7 +849,7 @@ public class StatementVO extends Token implements Serializable {
             // retrieve all req. component LEAFS
             List<ReqComponentInfo> reqComponentList = new ArrayList<ReqComponentInfo>();
             for (ReqComponentVO reqComponent : reqComponentVOs) {
-                ReqComponentInfo newReqComp = ObjectClonerUtil.clone(reqComponent.getReqComponentInfo());
+                ReqComponentInfo newReqComp = RulesUtil.clone(reqComponent.getReqComponentInfo());
                 reqComponentList.add(newReqComp);
             }
             statementTreeViewInfo.setReqComponents(reqComponentList);
@@ -898,7 +898,7 @@ public class StatementVO extends Token implements Serializable {
             List<ReqComponentVO> reqComponentList = new ArrayList<ReqComponentVO>();
             for (ReqComponentInfo reqComponent : reqComponentInfos) {
                 ReqComponentVO newReqComp = new ReqComponentVO();
-                newReqComp.setReqComponentInfo(ObjectClonerUtil.clone(reqComponent));
+                newReqComp.setReqComponentInfo(RulesUtil.clone(reqComponent));
                 reqComponentList.add(newReqComp);
             }
             statementVO.reqComponentVOs = reqComponentList;

@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.ui.tools.client.service;
 
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetInformation;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

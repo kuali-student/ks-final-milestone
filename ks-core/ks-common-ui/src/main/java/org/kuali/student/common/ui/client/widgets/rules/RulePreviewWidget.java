@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -27,6 +28,7 @@ public class RulePreviewWidget extends FlowPanel {
     private KSButton deleteButton = new KSButton("Delete", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
     private KSButton addSubRuleBtn = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
     private List<SubrulePreviewWidget> subRulePreviewWidgets = new ArrayList<SubrulePreviewWidget>();
+    private Map<String, Widget> clusetWidgets;
 
     //data
     private String ruleName;
@@ -40,7 +42,8 @@ public class RulePreviewWidget extends FlowPanel {
     private Callback<SubRuleInfo> editSubRuleCallback;
     private Callback<Integer> deleteSubRuleCallback;
 
-    public RulePreviewWidget(Integer internalProgReqID, String ruleName, String ruleCredits, String ruleDesc, StatementTreeViewInfo stmtTreeInfo, Boolean isReadOnly) {
+    public RulePreviewWidget(Integer internalProgReqID, String ruleName, String ruleCredits, String ruleDesc, StatementTreeViewInfo stmtTreeInfo,
+                             Boolean isReadOnly,  Map<String, Widget> clusetWidgets) {
         super();
         this.internalProgReqID = internalProgReqID;
         this.ruleName = ruleName;
@@ -48,6 +51,7 @@ public class RulePreviewWidget extends FlowPanel {
         this.ruleDesc = ruleDesc;
         this.stmtTreeInfo = stmtTreeInfo;
         this.isReadOnly = isReadOnly;
+        this.clusetWidgets = clusetWidgets;
 
         this.addStyleName("KS-Rule-Preview-Box");
         displayRule();
@@ -100,7 +104,7 @@ public class RulePreviewWidget extends FlowPanel {
             buildANDOperator(stmtTreeInfo.getOperator());
         }
 
-        final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly);
+        final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly, clusetWidgets);        
         subRulePreviewWidgets.add(newSubRuleWidget);
 
         newSubRuleWidget.addEditButtonClickHandler(new ClickHandler(){

@@ -1,8 +1,6 @@
 package org.kuali.student.lum.program.client.requirements;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -17,10 +15,9 @@ import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.rules.RulePreviewWidget;
+import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
@@ -29,9 +26,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
+  //  private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
@@ -220,8 +219,11 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         Integer internalProgReqID =  rules.getInternalProgReqID(progReqInfo);
         String stmtTypeId = progReqInfo.getStatement().getType();
+
+
         final RulePreviewWidget rulePreviewWidget = new RulePreviewWidget(internalProgReqID, rules.getStmtTypeName(stmtTypeId), progReqInfo.getShortTitle(),
-                                                            progReqInfo.getDescr().getPlain(), progReqInfo.getStatement(), isReadOnly);
+                                                            progReqInfo.getDescr().getPlain(), progReqInfo.getStatement(),
+                                                            isReadOnly, getCluSetWidgetList(progReqInfo.getStatement()));
         addRulePreviewWidgetHandlers(requirementsPanel, rulePreviewWidget, stmtTypeId, internalProgReqID);
         return rulePreviewWidget;
     }
@@ -295,6 +297,42 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 rules.markRuleAsEdited(internalProgReqID);
             }
         });
+    }
+
+
+    private Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
+        Map<String, Widget> widgetList = new HashMap<String, Widget>();
+        Set<String> cluSetIds = new HashSet<String>();
+        findCluSetIds(rule, cluSetIds);
+        for (String clusetId : cluSetIds) {
+           //TODO after Sherman changes
+            //widgetList.put(clusetId, new CluSetDetailsWidget(clusetId, cluSetManagementRpcServiceAsync));
+        }
+
+        return widgetList;
+    }
+
+    private void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
+
+        List<StatementTreeViewInfo> statements = rule.getStatements();
+        List<ReqComponentInfo> reqComponentInfos = rule.getReqComponents();
+
+        if ((statements != null) && (statements.size() > 0)) {
+            // retrieve all statements
+            for (StatementTreeViewInfo statement : statements) {
+                findCluSetIds(statement, list); // inside set the children of this statementTreeViewInfo
+            }
+        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
+            // retrieve all req. component LEAFS
+            for (ReqComponentInfo reqComponent : reqComponentInfos) {
+                List<ReqCompFieldInfo> fieldInfos = reqComponent.getReqCompFields();
+                for (ReqCompFieldInfo fieldInfo : fieldInfos) {
+                    if (RulesUtil.isCluSetWidget(fieldInfo.getType())) {
+                        list.add(fieldInfo.getValue());
+                    }
+                }
+            }
+        }
     }
 
     private void showAddProgramRequirementDialog(final SpanPanel requirementsPanel, final String stmtTypeId) {

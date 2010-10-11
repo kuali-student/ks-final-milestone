@@ -14,7 +14,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.requirements;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -90,10 +89,6 @@ public class BuildCourseSetWidget extends FlowPanel {
         //
         reqCompController.showView(BuildCourseView.VIEW);
         add(reqCompController);
-    }
-
-    private List<Metadata> getBuildCourseSetMedata() {
-        return new ArrayList<Metadata>(); //TODO
     }
     
     public void showCourseSet(final String cluSetId) {
@@ -183,7 +178,7 @@ public class BuildCourseSetWidget extends FlowPanel {
                     else{
                         Window.alert("Save failed.  Please check fields for errors.");
                     }
-    
+
                 }
             });
         }

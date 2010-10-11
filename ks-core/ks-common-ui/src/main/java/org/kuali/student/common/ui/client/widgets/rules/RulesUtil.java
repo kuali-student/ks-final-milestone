@@ -23,7 +23,7 @@ import java.util.Map;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.statement.dto.*;
 
-public class ObjectClonerUtil {
+public class RulesUtil {
 
     public static StatementVO clone(StatementVO inStatementVO) {
         StatementVO cloned = doClone(inStatementVO);
@@ -204,11 +204,17 @@ public class ObjectClonerUtil {
                 // retrieve all req. component LEAFS
                 List<ReqComponentInfo> clonedReqComponentList = new ArrayList<ReqComponentInfo>();
                 for (ReqComponentInfo inReqComponent : inReqComponentInfos) {
-                    clonedReqComponentList.add(ObjectClonerUtil.clone(inReqComponent));
+                    clonedReqComponentList.add(RulesUtil.clone(inReqComponent));
                 }
                 clonedStatementTreeViewInfoInfo.setReqComponents(clonedReqComponentList);
             }
         }
         return clonedStatementTreeViewInfoInfo;
+    }
+    
+    public static boolean isCluSetWidget(String reqCompType) {
+        return ((reqCompType.toLowerCase().indexOf("cluset") > 0) ||
+                (reqCompType.toLowerCase().indexOf("courseset") > 0) ||
+                (reqCompType.toLowerCase().indexOf("programset") > 0));
     }
 }

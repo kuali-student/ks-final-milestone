@@ -18,8 +18,11 @@ import java.util.*;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
@@ -31,6 +34,8 @@ import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 
@@ -149,14 +154,27 @@ public class CourseRequirementsDataModel {
             courseReqState.put(internalCourseReqID, CourseRequirementsDataModel.requirementState.EDITED);
         }
 
-        courseReqInfos.put(internalCourseReqID, affectedRule);
+        courseReqInfos.put(internalCourseReqID, newSubRule);
 
-        return affectedRule;
+        return newSubRule;
     }
 
     public void updateCourseRequisites(final Data dto, final Callback<StatementTreeViewInfo> callback) {
 
         String courseId = dto.get("id");
+
+        //course proposal has to be in the database before we can save rules
+        if (courseId == null) {
+            final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
+            dialog.getConfirmButton().addClickHandler(new ClickHandler(){
+                @Override
+                public void onClick(ClickEvent event) {
+                    dialog.hide();    
+                }
+            });
+            dialog.show();
+            return;
+        }
 
         for (final StatementTreeViewInfo rule : courseReqInfos.values()) {
 
@@ -168,6 +186,8 @@ public class CourseRequirementsDataModel {
                     //rule was not changed so continue
                     break;
                 case ADDED:
+                    rule.setState("Active");
+                    stripStatementIds(rule);
                     courseRemoteService.createCourseStatement(courseId, rule, new KSAsyncCallback<StatementTreeViewInfo>() {
                         @Override
                         public void handleFailure(Throwable caught) {
@@ -176,7 +196,7 @@ public class CourseRequirementsDataModel {
                         }
                         @Override
                             public void onSuccess(StatementTreeViewInfo updatedRule) {
-                            eventBus.fireEvent(new AddRequirementEvent());
+                            eventBus.fireEvent(new AddRequirementEvent(updatedRule.getId()));
                             courseReqInfos.put(internalProgReqID, updatedRule);
                             courseReqState.put(internalProgReqID, requirementState.STORED);
                             callback.exec(updatedRule);  //update display widgets
@@ -184,6 +204,8 @@ public class CourseRequirementsDataModel {
                     });
                     break;
                 case EDITED:
+                    rule.setState("Active");
+                    stripStatementIds(rule);                    
                     courseRemoteService.updateCourseStatement(courseId, rule, new KSAsyncCallback<StatementTreeViewInfo>() {
                         @Override
                         public void handleFailure(Throwable caught) {
@@ -199,7 +221,7 @@ public class CourseRequirementsDataModel {
                     });
                     break;
                 case DELETED:
-                    eventBus.fireEvent(new DeleteRequirementEvent());
+                    eventBus.fireEvent(new DeleteRequirementEvent(rule.getId()));
                     courseRemoteService.deleteCourseStatement(courseId, rule, new KSAsyncCallback<StatusInfo>() {
                         @Override
                         public void handleFailure(Throwable caught) {
@@ -218,6 +240,36 @@ public class CourseRequirementsDataModel {
             }
         }
     }
+
+    public static void stripStatementIds(StatementTreeViewInfo tree) {
+        List<StatementTreeViewInfo> statements = tree.getStatements();
+        List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
+
+        if ((tree.getId() != null) && (tree.getId().indexOf(CourseRequirementsSummaryView.NEW_STMT_TREE_ID)) >= 0) {
+            tree.setId(null);
+        }
+        tree.setState("Active");
+
+        if ((statements != null) && (statements.size() > 0)) {
+            // retrieve all statements
+            for (StatementTreeViewInfo statement : statements) {
+                stripStatementIds(statement); // inside set the children of this statementTreeViewInfo
+            }
+        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
+            // retrieve all req. component LEAFS
+            for (ReqComponentInfo reqComponent : reqComponentInfos) {
+                if ((reqComponent.getId() != null) && (reqComponent.getId().indexOf(CourseRequirementsSummaryView.NEW_REQ_COMP_ID) >= 0)) {
+                    reqComponent.setId(null);
+                }
+
+                for (ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
+                    field.setId(null);
+                }
+
+                reqComponent.setState("Active");
+            }
+        }
+    }    
 
     public List<StatementTreeViewInfo> getCourseReqInfo(String stmtTypeId) {
         List<StatementTreeViewInfo> rules = new ArrayList<StatementTreeViewInfo>();
@@ -297,8 +349,22 @@ public class CourseRequirementsDataModel {
         return showNoRuleText;
     }
 
+    public void removeEmptyRules() {
+        for(StatementTreeViewInfo rule : courseReqInfos.values()) {
+            if (isEmpty(rule)) {
+                Integer ruleId = getInternalCourseReqID(rule);
+                courseReqInfos.remove(ruleId);
+                courseReqState.remove(ruleId);
+            }
+        }
+    }
+
     public StatementTreeViewInfo getRule(Integer internalCourseReqID) {
         return courseReqInfos.get(internalCourseReqID);
+    }
+
+    public static boolean isEmpty(StatementTreeViewInfo rule) {
+        return (((rule.getStatements() == null) || rule.getStatements().isEmpty()) && ((rule.getReqComponents() == null) || rule.getReqComponents().isEmpty()));
     }
 
     public boolean isInitialized() {

@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -51,7 +51,7 @@ public class ProgramRpcServlet extends DataGwtServlet implements ProgramRpcServi
         }
 
         programRequirementInfo.setState("Active");
-        stripStatementIds(programRequirementInfo.getStatement());
+        ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
         ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo);
         setProgReqNL(rule);
         
@@ -64,41 +64,11 @@ public class ProgramRpcServlet extends DataGwtServlet implements ProgramRpcServi
 
     public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
         programRequirementInfo.setState("Active");        
-        stripStatementIds(programRequirementInfo.getStatement());        
+        ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
         ProgramRequirementInfo rule = programService.updateProgramRequirement(programRequirementInfo);
         setProgReqNL(rule);
         return rule;
     }    
-
-    private void stripStatementIds(StatementTreeViewInfo tree) {
-        List<StatementTreeViewInfo> statements = tree.getStatements();
-        List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
-
-        if (tree.getId().indexOf(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID) >= 0) {
-            tree.setId(null);
-        }
-        tree.setState("Active");
-
-        if ((statements != null) && (statements.size() > 0)) {
-            // retrieve all statements
-            for (StatementTreeViewInfo statement : statements) {
-                stripStatementIds(statement); // inside set the children of this statementTreeViewInfo
-            }
-        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
-            // retrieve all req. component LEAFS
-            for (ReqComponentInfo reqComponent : reqComponentInfos) {
-                if (reqComponent.getId().indexOf(ProgramRequirementsSummaryView.NEW_REQ_COMP_ID) >= 0) {
-                    reqComponent.setId(null);
-                }
-
-                for (ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
-                    field.setId(null);
-                }
-
-                reqComponent.setState("Active");
-            }
-        }
-    }
 
     //TODO remove?
     public MajorDisciplineInfo updateMajorDiscipline(MajorDisciplineInfo majorDisciplineInfo) throws Exception {

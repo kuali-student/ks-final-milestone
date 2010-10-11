@@ -1,11 +1,14 @@
 package org.kuali.student.common.ui.client.widgets.rules;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -13,6 +16,7 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 
 public class SubrulePreviewWidget extends FlowPanel {
 
@@ -20,10 +24,14 @@ public class SubrulePreviewWidget extends FlowPanel {
     private SpanPanel separator = new SpanPanel(" | ");
     private KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
     private boolean isReadOnly = true;
+    private Callback getClusetWidgetCallback;
+    private Map<String, Widget> clusetWidgets;
+    private final String CLU_SET_WIDGET_TAG = "[CLU_SET_WIDGET_TAG]";
 
-    public SubrulePreviewWidget(StatementTreeViewInfo stmtTreeInfo, boolean isReadOnly) {
+    public SubrulePreviewWidget(StatementTreeViewInfo stmtTreeInfo, boolean isReadOnly, Map<String, Widget> clusetWidgets) {
         super();
         this.isReadOnly = isReadOnly;
+        this.clusetWidgets = clusetWidgets;
 
         addStyleName("KS-Rule-Preview-Subrule-Box");
         showSubrule(stmtTreeInfo);
@@ -68,7 +76,34 @@ public class SubrulePreviewWidget extends FlowPanel {
     }
 
     private void buildRequirement(StatementTreeViewInfo stmtTreeInfo) {
-        this.add(new HTML(buildOneRequirement(stmtTreeInfo, null, true, true).toString()));
+        String html = buildOneRequirement(stmtTreeInfo, null, true, true).toString();
+
+        boolean foundOpennigBracket = false;
+        while (html.length() > 0) {
+
+            int ix = html.indexOf(CLU_SET_WIDGET_TAG);
+            if (ix == -1) {
+                this.add(new HTML(html));
+                break;
+            }
+
+            foundOpennigBracket = !foundOpennigBracket;
+            if (ix == 0) {
+                html = html.substring(CLU_SET_WIDGET_TAG.length());
+                continue;
+            }
+
+            if (ix > 0) {
+                String beforeTagString = html.substring(0, ix);
+                if (foundOpennigBracket) {
+                    this.add(new HTML(beforeTagString));
+                } else {
+                    this.add(clusetWidgets.get(beforeTagString));                    
+                }
+                html = html.substring(ix + CLU_SET_WIDGET_TAG.length());
+                continue;                
+            }
+        }       
     }
 
     private StringBuffer buildOneRequirement(StatementTreeViewInfo stmtTreeInfo, StatementOperatorTypeKey upperLevelOperator, boolean firstLevel, boolean firstRequirement) {
@@ -91,7 +126,7 @@ public class SubrulePreviewWidget extends FlowPanel {
                 if (!firstLevel) {
                     String operatorText = (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ?
                                             "Must meet all of the following:" : "Must meet 1 of the following:");
-                    htmlText.append(addRequirementToList(upperLevelOperator, operatorText, firstRequirement));
+                    htmlText.append(addRequirementToList(null, upperLevelOperator, operatorText, firstRequirement));
                 }
 
                 htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
@@ -112,7 +147,7 @@ public class SubrulePreviewWidget extends FlowPanel {
             }
             for (ReqComponentInfo reqComp : reqComponents) {
                 StatementOperatorTypeKey operator = (reqComponents.size() > 1 ? stmtTreeInfo.getOperator() : upperLevelOperator);
-                htmlListText.append(addRequirementToList(operator, reqComp.getNaturalLanguageTranslation(), firstListRequirement));
+                htmlListText.append(addRequirementToList(reqComp, operator, reqComp.getNaturalLanguageTranslation(), firstListRequirement));
                 firstListRequirement = false;
             }
 
@@ -122,7 +157,7 @@ public class SubrulePreviewWidget extends FlowPanel {
             } else {
                 String operatorText = (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND ?
                                         "Must meet all of the following:" : "Must meet 1 of the following:");
-                htmlText.append(addRequirementToList(upperLevelOperator, operatorText, firstRequirement));
+                htmlText.append(addRequirementToList(null, upperLevelOperator, operatorText, firstRequirement));
               //  firstRequirement = false;
                 htmlText.append("<ul class=\"KS-Program-Rule-Preview-Subrule-ul\">");
                 htmlText.append(htmlListText);                
@@ -135,7 +170,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         return htmlText;
     }
 
-    private StringBuffer addRequirementToList(StatementOperatorTypeKey operator, String requirement, boolean firstRequirement) {
+    private StringBuffer addRequirementToList(ReqComponentInfo reqComp, StatementOperatorTypeKey operator, String requirement, boolean firstRequirement) {
         StringBuffer html = new StringBuffer();
         html.append("<li style=\"padding-top: 5px;\">");        
         if (!firstRequirement) {
@@ -144,6 +179,20 @@ public class SubrulePreviewWidget extends FlowPanel {
             html.append("</span>");
         }
         html.append(requirement);
+
+        //we need to display clu set show/hide list widget if this req. component has a cluset
+        if ((clusetWidgets != null) && (reqComp != null) && RulesUtil.isCluSetWidget(reqComp.getType())) {
+            List<ReqCompFieldInfo> fieldInfos = reqComp.getReqCompFields();
+            for (ReqCompFieldInfo fieldInfo : fieldInfos) {
+                if (RulesUtil.isCluSetWidget(fieldInfo.getType())) {
+                    if (clusetWidgets.get(fieldInfo.getValue()) != null) {
+                        html.append(CLU_SET_WIDGET_TAG + fieldInfo.getValue() + CLU_SET_WIDGET_TAG); 
+                        break;
+                    }
+                }
+            }
+        }
+
         html.append("</li>");        
         return html;
     }
@@ -154,5 +203,9 @@ public class SubrulePreviewWidget extends FlowPanel {
 
     public void addDeleteButtonClickHandler(ClickHandler handler) {
         deleteButton.addClickHandler(handler);    
+    }
+
+    public void setRetrieveClusetWidgetCallback(Callback<String> callback) {
+        getClusetWidgetCallback = callback;
     }
 }

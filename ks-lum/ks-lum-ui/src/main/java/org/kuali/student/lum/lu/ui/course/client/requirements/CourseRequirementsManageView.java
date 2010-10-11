@@ -28,7 +28,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.rules.ObjectClonerUtil;
+import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -100,7 +100,6 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
         editReqCompWidget.setRetrieveFieldsMetadataCallback(retrieveFieldsMetadataCallback);
         editReqCompWidget.setRetrieveCustomWidgetCallback(retrieveCustomWidgetCallback);
-        ruleManageWidget.setReqCompEditButtonClickCallback(editReqCompCallback);
     }
 
     private void draw() {
@@ -145,22 +144,20 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         addWidget(actionCancelButtons);
     }
 
-    protected void setEnableSaveButton(boolean enabled) {
-        actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(enabled);
-    }
-
     // called by requirement display widget when user wants to edit or add a sub-rule
     public void setRuleTree(StatementTreeViewInfo stmtTreeInfo, boolean newRuleFlag, Integer internalCourseReqID) {
 
         if (!isInitialized) {
             editReqCompWidget = new ReqCompEditWidget(CourseRequirementsSummaryView.NEW_REQ_COMP_ID);
             ruleManageWidget = new RuleManageWidget();
+            ruleManageWidget.setReqCompEditButtonClickCallback(editReqCompCallback);
+            ruleManageWidget.setRuleChangedButtonClickCallback(ruleChangedCallback);            
         }
 
         this.internalCourseReqID = internalCourseReqID;
         editedReqCompInfo = null;
         userClickedSaveButton = false;
-        rule = ObjectClonerUtil.clone(stmtTreeInfo);
+        rule = RulesUtil.clone(stmtTreeInfo);
         isNewRule = newRuleFlag;
         originalReqCompNL = getAllReqCompNLs();
 
@@ -189,6 +186,12 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         }
     };
 
+    protected Callback<Boolean> ruleChangedCallback = new Callback<Boolean>(){
+        public void exec(Boolean isEmpty) {
+            actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(!isEmpty);
+        }
+    };
+       
     protected void setEnabled(boolean enabled) {
         ruleManageWidget.setEanbled(enabled);
     }

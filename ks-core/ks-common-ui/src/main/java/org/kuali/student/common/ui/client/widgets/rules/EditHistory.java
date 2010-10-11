@@ -41,7 +41,7 @@ public class EditHistory implements Serializable {
             histories = newHistories;
         }
         
-        histories.add(ObjectClonerUtil.clone(historicStmtVO));
+        histories.add(RulesUtil.clone(historicStmtVO));
         currHistoryIndex++;
 
         // delete old element
@@ -52,12 +52,12 @@ public class EditHistory implements Serializable {
     }
 
     public StatementVO getLastHistoricStmtVO() {
-        return ObjectClonerUtil.clone(histories.get(currHistoryIndex));
+        return RulesUtil.clone(histories.get(currHistoryIndex));
     }
     
     public StatementVO getSafeHistoricStmtVO(int index) {
         index = (index < 0 ? 0 : (index < histories.size() ? index : histories.size()));
-        return ObjectClonerUtil.clone(histories.get(index));
+        return RulesUtil.clone(histories.get(index));
     }
     
     public StatementVO undo() {

@@ -5,6 +5,11 @@ import com.google.gwt.event.shared.GwtEvent;
 public class DeleteRequirementEvent extends GwtEvent<DeleteRequirementEventHandler> {
 
     public static Type<DeleteRequirementEventHandler> TYPE = new Type<DeleteRequirementEventHandler>();
+    private String programRequirementId;
+
+    public DeleteRequirementEvent(String programRequirementId) {
+        this.programRequirementId = programRequirementId;
+    }
 
     @Override
     public Type<DeleteRequirementEventHandler> getAssociatedType() {
@@ -15,4 +20,8 @@ public class DeleteRequirementEvent extends GwtEvent<DeleteRequirementEventHandl
     protected void dispatch(DeleteRequirementEventHandler handler) {
         handler.onEvent(this);
     }
+
+    public String getProgramRequirementId() {
+        return programRequirementId;
+    }    
 }

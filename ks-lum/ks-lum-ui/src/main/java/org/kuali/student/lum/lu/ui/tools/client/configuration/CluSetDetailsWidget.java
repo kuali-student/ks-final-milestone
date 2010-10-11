@@ -9,8 +9,10 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
@@ -23,11 +25,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.*;
 
 public class CluSetDetailsWidget extends Composite {
     
@@ -38,6 +36,7 @@ public class CluSetDetailsWidget extends Composite {
     private Map<String, Boolean> showCluSetFlags = new HashMap<String, Boolean>();
     private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
     private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync;
+    private BlockingTask retrievingTask = new BlockingTask("Retrieving details");    
 
     public CluSetDetailsWidget(CluSetInformation cluSetInformation, CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync) {
         mainPanel = new SimplePanel();
@@ -46,7 +45,28 @@ public class CluSetDetailsWidget extends Composite {
         setCluSetInformation(cluSetInformation);
         redraw();
     }
-    
+
+    public CluSetDetailsWidget(String cluSetId, CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync) {
+        mainPanel = new SimplePanel();        
+        this.initWidget(mainPanel);
+        this.cluSetManagementRpcServiceAsync = cluSetManagementRpcServiceAsync;
+
+        KSBlockingProgressIndicator.addTask(retrievingTask);
+        cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, new AsyncCallback<CluSetInformation>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                Window.alert("Failed to get CluSet Information");
+                KSBlockingProgressIndicator.removeTask(retrievingTask);
+            }
+            @Override
+            public void onSuccess(CluSetInformation result) {
+                setCluSetInformation(result);
+                redraw();
+                KSBlockingProgressIndicator.removeTask(retrievingTask);                
+            }
+        });
+    }
+
     private void redraw() {
         List<CluInformation> clus = null;
         List<CluSetInfo> cluSets = null;
@@ -164,10 +184,8 @@ public class CluSetDetailsWidget extends Composite {
                     }
                 });
                 if (showCluSet) {
-                    CluSetInformation subCluSetInformation = 
-                        cluSetInformation.getSubCluSetInformations().get(cluSet.getId());
-                    CluSetDetailsWidget subCluSetWidget = new CluSetDetailsWidget(subCluSetInformation, 
-                            cluSetManagementRpcServiceAsync);
+                    CluSetInformation subCluSetInformation = cluSetInformation.getSubCluSetInformations().get(cluSet.getId());
+                    CluSetDetailsWidget subCluSetWidget = new CluSetDetailsWidget(subCluSetInformation, cluSetManagementRpcServiceAsync);
                     subCluSetWidget.getElement().getStyle().setPaddingLeft(20, Style.Unit.PX);
                     detailsTable.setWidget(rowIndex, 0, subCluSetWidget);
                     detailsTable.getFlexCellFormatter().setColSpan(rowIndex, 0, 3);
@@ -273,4 +291,7 @@ public class CluSetDetailsWidget extends Composite {
         this.cluSetInformation = cluSetInformation;
     }
 
+    public String toString() {
+        return detailsTable.toString();
+    }
 }

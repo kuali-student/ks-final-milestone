@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ContinueCancelGroup;
+import org.kuali.student.lum.program.client.ProgramConstants;
 
 public class ProgramRequirementsViewController extends BasicLayout {
 
@@ -39,7 +40,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.PREVIEW, (isReadOnly ? "Program Requirements" : ""), PROGRAM_RULES_MODEL_ID, new ProgramRequirementsDataModel(this), isReadOnly);
+        preview = new ProgramRequirementsSummaryView(this, ProgramRequirementsViews.PREVIEW, (isReadOnly ? "Program Requirements" : ""), ProgramConstants.PROGRAM_MODEL_ID, new ProgramRequirementsDataModel(this), isReadOnly);
         super.addView(preview);
 
         if (!isReadOnly) {

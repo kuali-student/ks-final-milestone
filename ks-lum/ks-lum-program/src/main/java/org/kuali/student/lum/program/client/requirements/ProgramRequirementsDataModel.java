@@ -20,6 +20,8 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -106,7 +108,7 @@ public class ProgramRequirementsDataModel {
 
     private void retrieveRules(List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
 
-   //    programRequirementIds.add(new String("a4483f97-6ae2-4fd0-a7a4-849a70cc21a7"));        
+      //  programRequirementIds.add(new String("a4483f97-6ae2-4fd0-a7a4-849a70cc21a7"));        
 
         //true if no program requirements exist yet
         if ((programRequirementIds == null) || programRequirementIds.isEmpty()) {
@@ -216,7 +218,7 @@ public class ProgramRequirementsDataModel {
                         }
                         @Override
                         public void onSuccess(ProgramRequirementInfo updatedRule) {
-                            eventBus.fireEvent(new AddRequirementEvent());
+                            eventBus.fireEvent(new AddRequirementEvent(updatedRule.getId()));
                             progReqInfos.put(internalProgReqID, updatedRule);
                             progReqState.put(internalProgReqID, ProgramRequirementsDataModel.requirementState.STORED);
                             callback.exec(updatedRule);  //update display widgets
@@ -239,7 +241,7 @@ public class ProgramRequirementsDataModel {
                     });
                     break;
                 case DELETED:
-                    eventBus.fireEvent(new DeleteRequirementEvent());
+                    eventBus.fireEvent(new DeleteRequirementEvent(rule.getId()));
                     programRemoteService.deleteProgramRequirement(rule.getId(), new KSAsyncCallback<StatusInfo>() {
                         @Override
                         public void handleFailure(Throwable caught) {
@@ -255,6 +257,36 @@ public class ProgramRequirementsDataModel {
                     break;
                 default:
                     break;
+            }
+        }
+    }
+
+    public static void stripStatementIds(StatementTreeViewInfo tree) {
+        List<StatementTreeViewInfo> statements = tree.getStatements();
+        List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
+
+        if (tree.getId().indexOf(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID) >= 0) {
+            tree.setId(null);
+        }
+        tree.setState("Active");
+
+        if ((statements != null) && (statements.size() > 0)) {
+            // retrieve all statements
+            for (StatementTreeViewInfo statement : statements) {
+                stripStatementIds(statement); // inside set the children of this statementTreeViewInfo
+            }
+        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
+            // retrieve all req. component LEAFS
+            for (ReqComponentInfo reqComponent : reqComponentInfos) {
+                if (reqComponent.getId().indexOf(ProgramRequirementsSummaryView.NEW_REQ_COMP_ID) >= 0) {
+                    reqComponent.setId(null);
+                }
+
+                for (ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
+                    field.setId(null);
+                }
+
+                reqComponent.setState("Active");
             }
         }
     }

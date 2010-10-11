@@ -1,7 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.requirements;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -13,19 +12,28 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.common.ui.client.widgets.rules.RulePreviewWidget;
+import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.common.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetDetailsWidget;
+import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
+import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequirementsSummaryView extends VerticalSectionView {
+
+    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);    
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
@@ -85,6 +93,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                 
 				//return if user did not added or updated a rule
                 if (!manageView.isDirty() || !manageView.isUserClickedSaveButton()) {
+                    rules.removeEmptyRules();
                     onReadyCallback.exec(true);
                     return;
                 }
@@ -126,13 +135,20 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         if (rule != null) {
             StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(rule.getType());
             SpanPanel reqPanel = perCourseRequisiteTypePanel.get(affectedStatementTypeInfo.getId());
+
+            //if this is a new rule then add it to the panel
+            if (reqPanel.getWidgetCount() == 0) {
+                SubrulePreviewWidget newRulePreviewWidget = addCourseRequisite(reqPanel, rule);
+                reqPanel.add(newRulePreviewWidget);
+                return;
+            }
+
             for (int i = 0; i < reqPanel.getWidgetCount(); i++) {
-                RulePreviewWidget rulePreviewWidget = (RulePreviewWidget)reqPanel.getWidget(i);
-                if (rulePreviewWidget.getInternalProgReqID().equals(rules.getInternalCourseReqID(rule))) {
-                        SubrulePreviewWidget newRulePreviewWidget = addCourseRequisite(reqPanel, rule);
-                        reqPanel.insert(newRulePreviewWidget, i);
-                        reqPanel.remove(rulePreviewWidget);
-                }
+                SubrulePreviewWidget subrulePreviewWidget = (SubrulePreviewWidget)reqPanel.getWidget(i);
+                SubrulePreviewWidget newRulePreviewWidget = addCourseRequisite(reqPanel, rule);
+                reqPanel.insert(newRulePreviewWidget, i);
+                reqPanel.remove(subrulePreviewWidget);
+                break; //there should be only one rule per requisite type
             }
         }
     }    
@@ -169,8 +185,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
             //now display each requirement for this Course Requisites type; should be only one for courses
             for (StatementTreeViewInfo ruleInfo : rules.getCourseReqInfo(stmtTypeInfo.getId())) {
-                SubrulePreviewWidget rulePreviewWidget = addCourseRequisite(requirementsPanel, ruleInfo);
-                requirementsPanel.add(rulePreviewWidget);
+                SubrulePreviewWidget subrulePreviewWidget = addCourseRequisite(requirementsPanel, ruleInfo);
+                requirementsPanel.add(subrulePreviewWidget);
             }
         }
 
@@ -208,7 +224,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                         parentController.getView(CourseRequirementsViewController.CourseRequirementsViews.MANAGE, new Callback<View>(){
                             @Override
                             public void exec(View result) {
-                                rules.addRule(newRule);
+                                rules.addRule(newRule);                              
                                 ((CourseRequirementsManageView) result).setRuleTree(newRule, true, rules.getInternalCourseReqID(newRule));
                                 parentController.showView(CourseRequirementsViewController.CourseRequirementsViews.MANAGE);
                             }
@@ -216,6 +232,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                     }
                 });
             layout.add(addCourseReqButton);
+            VerticalPanel spacer = new VerticalPanel();
+            spacer.addStyleName("KS-Course-Requisites-Button-Spacer");            
+            layout.add(spacer);
         }
 
         layout.add(requirementsPanel);
@@ -225,7 +244,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
         Integer internalProgReqID =  rules.getInternalCourseReqID(rule);
         String stmtTypeId = rule.getType();
-        final SubrulePreviewWidget rulePreviewWidget = new SubrulePreviewWidget(rule, isReadOnly);
+        
+        final SubrulePreviewWidget rulePreviewWidget = new SubrulePreviewWidget(rule, isReadOnly, getCluSetWidgetList(rule));
 
         addRulePreviewWidgetHandlers(requirementsPanel, rulePreviewWidget, stmtTypeId, internalProgReqID);
         return rulePreviewWidget;
@@ -249,7 +269,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
             public void onClick(ClickEvent event) {
                 //deleting subrule does not delete the requirement (rule) itself
                 rules.markRuleAsEdited(internalProgReqID);
-                //remove rule from display
+                //remove rule from display and storage
+                rules.deleteRule(internalProgReqID);
                 requirementsPanel.remove(subRuleWidget);
             }
         });		   
@@ -257,6 +278,40 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
     static public boolean isTopStatement(StatementTypeInfo stmtInfo) {
         return ((stmtInfo.getAllowedStatementTypes() != null) && !stmtInfo.getAllowedStatementTypes().isEmpty());
+    }
+
+    private Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
+        Map<String, Widget> widgetList = new HashMap<String, Widget>();
+        Set<String> cluSetIds = new HashSet<String>();
+        findCluSetIds(rule, cluSetIds);
+        for (String clusetId : cluSetIds) {
+            widgetList.put(clusetId, new CluSetDetailsWidget(clusetId, cluSetManagementRpcServiceAsync));
+        }
+
+        return widgetList;
+    }
+
+    private void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
+
+        List<StatementTreeViewInfo> statements = rule.getStatements();
+        List<ReqComponentInfo> reqComponentInfos = rule.getReqComponents();
+
+        if ((statements != null) && (statements.size() > 0)) {
+            // retrieve all statements
+            for (StatementTreeViewInfo statement : statements) {
+                findCluSetIds(statement, list); // inside set the children of this statementTreeViewInfo
+            }
+        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
+            // retrieve all req. component LEAFS
+            for (ReqComponentInfo reqComponent : reqComponentInfos) {
+                List<ReqCompFieldInfo> fieldInfos = reqComponent.getReqCompFields();
+                for (ReqCompFieldInfo fieldInfo : fieldInfos) {
+                    if (RulesUtil.isCluSetWidget(fieldInfo.getType())) {
+                        list.add(fieldInfo.getValue());
+                    }
+                }
+            }
+        }
     }
 
     private void setupSaveCancelButtons() {

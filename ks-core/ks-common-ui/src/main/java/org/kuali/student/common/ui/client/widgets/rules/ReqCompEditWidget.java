@@ -101,6 +101,14 @@ public class ReqCompEditWidget extends FlowPanel {
 
                         //if req. comp. has no data then do not retrieve field values
                         if (ruleFieldsData.getRoot().size() == 0) {
+                            //TODO get value from the widget and update the editedReqComp (see below)
+                            List<ReqCompFieldInfo> editedFields = new ArrayList<ReqCompFieldInfo>();
+                            ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
+                            fieldInfo.setId(null);
+                            fieldInfo.setType(selectedReqCompType.getReqCompFieldTypeInfos().get(0).getId());
+                            fieldInfo.setValue("CLUSET-1"); //TODO get value from the cluset widget
+                            editedFields.add(fieldInfo);
+                            editedReqComp.setReqCompFields(editedFields);
                             finalizeRuleUpdate();
                             return;
                         }                       
@@ -122,7 +130,14 @@ public class ReqCompEditWidget extends FlowPanel {
                                     ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
                                     fieldInfo.setId(null);
                                     fieldInfo.setType(fieldTypeInfo.getId());
-                                    String fieldValue = ruleFieldsData.getRoot().get(fieldTypeInfo.getId()).toString();
+
+                                    //handle clusets differently
+                                    String fieldValue;
+                                    if (RulesUtil.isCluSetWidget(fieldTypeInfo.getId())) {
+                                        fieldValue = "CLUSET-1"; //TODO get value from the cluset widget                                        
+                                    } else {
+                                        fieldValue = ruleFieldsData.getRoot().get(fieldTypeInfo.getId()).toString();
+                                    }
                                     fieldInfo.setValue((fieldValue == null ? "" : fieldValue.toString()));
                                     editedFields.add(fieldInfo);
                                 }
@@ -283,11 +298,19 @@ public class ReqCompEditWidget extends FlowPanel {
         Map<String, FieldDescriptor> fields = new HashMap<String, FieldDescriptor>();
         
         int ix = 0;
+        holdFieldsPanel.clear();
         Map<String, Metadata> fieldDefinitionMetadata = new HashMap<String,Metadata>();
         for (Metadata oneFieldMetadata : fieldsMetadataList) {
             
             Metadata fieldMetadata = oneFieldMetadata.getProperties().get("value");
             String fieldType = selectedReqCompFieldTypes.get(ix++);
+
+            //add clusets separately
+            if (RulesUtil.isCluSetWidget(fieldType)) {
+                displayCustomWidgetCallback.exec(getFieldValue(reqCompFields, fieldType));
+                continue;
+            }
+
             String fieldLabel = getFieldLabel(fieldType);
 
             FieldDescriptor fd = new FieldDescriptor(fieldType, new MessageKeyInfo(fieldLabel), fieldMetadata);
@@ -300,6 +323,9 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //now we add fields to the panel in proper order based on composition template
         for (String type : getFieldSequence()) {
+            if (RulesUtil.isCluSetWidget(type)) {
+                continue;
+            }
             reqCompFieldsPanel.addField(fields.get(type));
         }
 
@@ -317,7 +343,11 @@ public class ReqCompEditWidget extends FlowPanel {
             for (String fieldType : selectedReqCompFieldTypes) {
                 String fieldValue = getFieldValue(reqCompFields, fieldType);
                 if (fieldValue != null) {
-                    ruleFieldsData.set(QueryPath.parse(fieldType), fieldValue);
+                    if (RulesUtil.isCluSetWidget(fieldType)) {
+                        continue; //TODO set clu set widget
+                    } else {
+                        ruleFieldsData.set(QueryPath.parse(fieldType), fieldValue);
+                    }
                 }
             }
         }
@@ -334,7 +364,6 @@ public class ReqCompEditWidget extends FlowPanel {
         });
 
         //show fields
-        holdFieldsPanel.clear();
         holdFieldsPanel.add(reqCompController);        
         reqCompController.showView(ReqCompEditView.VIEW);
 
@@ -342,7 +371,6 @@ public class ReqCompEditWidget extends FlowPanel {
     }
 
     public void displayCustomWidget(Widget customWidget) {
-        holdFieldsPanel.clear();
         holdFieldsPanel.add(customWidget);
     }    
 
