@@ -603,7 +603,7 @@
 
     <!--  Dynamic Attributes: Major Discipline Info  -->
     <bean id="majorDisciplineInfo.lastReviewDate-parent" abstract="true"
-          parent="cluInfo.lastReviewDate-parent">
+          parent="baseKualiEffectiveDate">
         <property name="name" value="lastReviewDate"/>
         <property name="dynamic" value="true"/>
     </bean>

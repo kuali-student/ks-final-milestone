@@ -37,6 +37,7 @@ class SideBarDialogManager {
         dialog.setWidget(dialogView.asWidget());
         dialog.addButtonGroup(buttonGroup);
         dialog.setSize(300, 170);
+        dialog.setModal(false);
         bind();
     }
 
@@ -63,7 +64,9 @@ class SideBarDialogManager {
     private void configureView(ModelDefinition modelDefinition, ProgramEditController controller) {
         VerticalSection verticalSection = new VerticalSection();
         verticalSection.addField(new FieldDescriptor(ProgramConstants.SCHEDULED_REVIEW_DATE, new MessageKeyInfo(ProgramProperties.get().sideBar_form_scheduledReviewDate()), modelDefinition.getMetadata(ProgramConstants.SCHEDULED_REVIEW_DATE)));
-        verticalSection.addField(new FieldDescriptor(ProgramConstants.LAST_REVIEW_DATE, new MessageKeyInfo(ProgramProperties.get().sideBar_lastReviewDate()), modelDefinition.getMetadata(ProgramConstants.LAST_REVIEW_DATE)));
+        FieldDescriptor reviewDateDescriptor = new FieldDescriptor(ProgramConstants.LAST_REVIEW_DATE, new MessageKeyInfo(ProgramProperties.get().sideBar_lastReviewDate()), modelDefinition.getMetadata(ProgramConstants.LAST_REVIEW_DATE));
+        reviewDateDescriptor.setWidgetBinding(new DateBinding());
+        verticalSection.addField(reviewDateDescriptor);
         dialogView.setLayoutController(controller);
         dialogView.addSection(verticalSection);
     }

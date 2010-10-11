@@ -3,7 +3,6 @@ package org.kuali.student.lum.program.client.widgets;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -11,6 +10,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -32,11 +32,9 @@ public class ProgramSideBar extends Composite {
     private Label historyLabel = new Label(ProgramProperties.get().sideBar_history());
     private Label lastUpdatedDate = new Label();
     private SimplePanel scheduledReviewDate = new SimplePanel();
-    private SimplePanel lastReviewDate = new SimplePanel();
+    private Label lastReviewDate = new Label();
 
     private SideBarDialogManager dialogManager;
-
-    private DateTimeFormat df = DateTimeFormat.getFormat("dd-MMM-yyyy");
 
     public ProgramSideBar(HandlerManager eventBus) {
         this.eventBus = eventBus;
@@ -52,14 +50,17 @@ public class ProgramSideBar extends Composite {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 DataModel model = event.getModel();
-                Date updatedDate = (Date) model.get(ProgramConstants.LAST_UPDATED_DATE);
-                if (updatedDate != null) {
-                    lastUpdatedDate.setText(df.format(updatedDate));
-                }
+                setDate((Date) model.get(ProgramConstants.LAST_UPDATED_DATE), lastUpdatedDate);
+                lastReviewDate.setText((String) model.get(ProgramConstants.LAST_REVIEW_DATE));
                 setWidget(ProgramConstants.SCHEDULED_REVIEW_DATE, scheduledReviewDate, model);
-                setWidget(ProgramConstants.LAST_REVIEW_DATE, lastReviewDate, model);
             }
         });
+    }
+
+    private void setDate(Date updatedDate, Label lastUpdatedDate) {
+        if (updatedDate != null) {
+            lastUpdatedDate.setText(ProgramUtils.df.format(updatedDate));
+        }
     }
 
     private void setWidget(String path, SimplePanel container, DataModel model) {

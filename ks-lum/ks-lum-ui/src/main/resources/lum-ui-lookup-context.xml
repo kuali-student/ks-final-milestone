@@ -2339,13 +2339,6 @@
               ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
 
    </bean>
-
-      <bean id="lastReviewDate" parent="uilookupconfig-parent">
-          <property name="path" value="majorDisciplineInfo.lastReviewDate" />
-          <property name="initialLookup"
-              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
-
-   </bean>
    
    <bean id="majorDisciplineInfo.endTerm" parent="uilookupconfig-parent">
           <property name="path" value="majorDisciplineInfo.endTerm" />
