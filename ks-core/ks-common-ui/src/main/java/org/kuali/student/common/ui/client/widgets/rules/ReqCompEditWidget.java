@@ -101,14 +101,17 @@ public class ReqCompEditWidget extends FlowPanel {
 
                         //if req. comp. has no data then do not retrieve field values
                         if (ruleFieldsData.getRoot().size() == 0) {
-                            //TODO get value from the widget and update the editedReqComp (see below)
-                            List<ReqCompFieldInfo> editedFields = new ArrayList<ReqCompFieldInfo>();
-                            ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-                            fieldInfo.setId(null);
-                            fieldInfo.setType(selectedReqCompType.getReqCompFieldTypeInfos().get(0).getId());
-                            fieldInfo.setValue("CLUSET-1"); //TODO get value from the cluset widget
-                            editedFields.add(fieldInfo);
-                            editedReqComp.setReqCompFields(editedFields);
+                            //handle cluset widget here
+                            if (selectedReqCompType.getReqCompFieldTypeInfos().size() > 0) {
+                                //TODO get value from the widget and update the editedReqComp (see below)
+                                List<ReqCompFieldInfo> editedFields = new ArrayList<ReqCompFieldInfo>();
+                                ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
+                                fieldInfo.setId(null);
+                                fieldInfo.setType(selectedReqCompType.getReqCompFieldTypeInfos().get(0).getId());
+                                fieldInfo.setValue("CLUSET-1"); //TODO get value from the cluset widget
+                                editedFields.add(fieldInfo);
+                                editedReqComp.setReqCompFields(editedFields);
+                            }
                             finalizeRuleUpdate();
                             return;
                         }                       
