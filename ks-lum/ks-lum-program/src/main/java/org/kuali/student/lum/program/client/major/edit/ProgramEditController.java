@@ -59,6 +59,8 @@ public class ProgramEditController extends MajorController {
             eventBus.fireEvent(new MetadataLoadedEvent(programModel.getDefinition(), this));
             List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
+            excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
+            excludedViews.add(ProgramSections.SPECIALIZATIONS);
             addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
             addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
