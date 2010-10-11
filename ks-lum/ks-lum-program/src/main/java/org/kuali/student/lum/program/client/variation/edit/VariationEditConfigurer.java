@@ -6,6 +6,7 @@ import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import org.kuali.student.lum.program.client.major.edit.*;
 
 import com.google.gwt.core.client.GWT;
+import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfiguration;
 
 /**
  * @author Igor
@@ -19,5 +20,6 @@ public class VariationEditConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationEditConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsEditConfiguration.class)); 
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesEditConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsEditConfiguration.class));
     }
 }
