@@ -5,6 +5,6 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * @author Igor
  */
-public interface SpecializationCreatedEventHandler extends EventHandler {
-    void onEvent(SpecializationCreatedEvent event);
+public interface SpecializationSaveEventHandler extends EventHandler {
+    void onEvent(SpecializationSaveEvent event);
 }

@@ -60,7 +60,6 @@ public class ProgramManager {
     public ProgramEditController getProgramEditController() {
         programModel.resetRoot();
         programEditController = new ProgramEditController("Programs", programModel, viewContext, eventBus);
-
         return programEditController;
     }
 

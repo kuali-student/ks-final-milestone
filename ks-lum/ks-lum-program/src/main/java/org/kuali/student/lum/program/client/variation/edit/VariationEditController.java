@@ -8,12 +8,10 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.lum.program.client.VariationRegistry;
-import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
+import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
+import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.variation.VariationController;
 
 /**
@@ -69,22 +67,10 @@ public class VariationEditController extends VariationController {
             public void onModelReady(final DataModel model) {
                 VariationEditController.this.updateModel();
                 if (model.get("id") == null) {
-                    isCreate = true;
+                    eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
+                } else {
+                    eventBus.fireEvent(new SpecializationUpdateEvent());
                 }
-                programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
-                    @Override
-                    public void onSuccess(DataSaveResult result) {
-                        super.onSuccess(result);
-                        VariationRegistry.setData(result.getValue());
-                        if (isCreate) {
-                            isCreate = false;
-                            eventBus.fireEvent(new SpecializationCreatedEvent(result.getValue()));
-                        }
-                        programModel.setRoot(result.getValue());
-                        setHeaderTitle();
-                        HistoryManager.logHistoryChange();
-                    }
-                });
             }
 
             @Override

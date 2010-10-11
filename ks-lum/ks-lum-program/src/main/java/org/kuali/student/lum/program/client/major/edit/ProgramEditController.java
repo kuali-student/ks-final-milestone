@@ -21,7 +21,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.VariationRegistry;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -104,9 +103,9 @@ public class ProgramEditController extends MajorController {
             }
         });
 
-        eventBus.addHandler(SpecializationCreatedEvent.TYPE, new SpecializationCreatedEventHandler() {
+        eventBus.addHandler(SpecializationSaveEvent.TYPE, new SpecializationSaveEventHandler() {
             @Override
-            public void onEvent(SpecializationCreatedEvent event) {
+            public void onEvent(SpecializationSaveEvent event) {
                 ((Data) programModel.get(ProgramConstants.VARIATIONS)).add(event.getData());
                 doSave();
             }
@@ -119,6 +118,12 @@ public class ProgramEditController extends MajorController {
                 viewContext.setId(id);
                 viewContext.setIdType(IdAttributes.IdType.OBJECT_ID);
                 HistoryManager.navigate(ProgramConstants.VARIATION_EDIT_URL, viewContext);
+            }
+        });
+        eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEventHandler() {
+            @Override
+            public void onEvent(SpecializationUpdateEvent event) {
+                doSave();
             }
         });
     }

@@ -6,13 +6,13 @@ import org.kuali.student.core.assembly.data.Data;
 /**
  * @author Igor
  */
-public class SpecializationCreatedEvent extends GwtEvent<SpecializationCreatedEventHandler> {
+public class SpecializationSaveEvent extends GwtEvent<SpecializationSaveEventHandler> {
 
-    public static Type<SpecializationCreatedEventHandler> TYPE = new Type<SpecializationCreatedEventHandler>();
+    public static Type<SpecializationSaveEventHandler> TYPE = new Type<SpecializationSaveEventHandler>();
 
     private Data data;
 
-    public SpecializationCreatedEvent(Data data) {
+    public SpecializationSaveEvent(Data data) {
         this.data = data;
     }
 
@@ -21,12 +21,12 @@ public class SpecializationCreatedEvent extends GwtEvent<SpecializationCreatedEv
     }
 
     @Override
-    public Type<SpecializationCreatedEventHandler> getAssociatedType() {
+    public Type<SpecializationSaveEventHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(SpecializationCreatedEventHandler handler) {
+    protected void dispatch(SpecializationSaveEventHandler handler) {
         handler.onEvent(this);
     }
 }
