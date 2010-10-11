@@ -14,22 +14,22 @@ public class ProgramRequirementsViewController extends BasicLayout {
     public enum ProgramRequirementsViews {
         PREVIEW,
         MANAGE
-    }  
+    }
 
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
     private ProgramRequirementsSummaryView preview;
     private boolean isReadOnly;
 
     public ProgramRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
-		super(ProgramRequirementsViewController.class.getName());
-		super.setController(controller);
-		super.setName(name);
-		super.setViewEnum(viewType);
+        super(ProgramRequirementsViewController.class.getName());
+        super.setController(controller);
+        super.setName(name);
+        super.setViewEnum(viewType);
         super.setDefaultModelId(PROGRAM_RULES_MODEL_ID);
         super.setParentController(controller);
         this.isReadOnly = isReadOnly;
-        
-		this.setDefaultView(ProgramRequirementsViews.PREVIEW);
+
+        this.setDefaultView(ProgramRequirementsViews.PREVIEW);
 
         //not used
         super.registerModel(PROGRAM_RULES_MODEL_ID, new ModelProvider<DataModel>() {
@@ -51,7 +51,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
 
     @Override
     public void updateModel() {
-        preview.updateModel();    
+        preview.updateModel();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
         //We do this check here because theoretically the subcontroller views
         //will display their own messages to the user to give them a reason why the view
         //change has been cancelled, otherwise continue to check for reasons not to change with this controller
-        super.beforeViewChange(new Callback<Boolean>(){
+        super.beforeViewChange(new Callback<Boolean>() {
 
             @Override
             public void exec(Boolean result) {
@@ -75,53 +75,41 @@ public class ProgramRequirementsViewController extends BasicLayout {
                     return;
                 }
 
-                if(!(getCurrentView() instanceof ProgramRequirementsManageView)) {
+                if (!(getCurrentView() instanceof ProgramRequirementsManageView)) {
                     okToChange.exec(true);
                     return;
                 }
 
                 //no dialog if user clicks on the 'Save' button
-                if (((ProgramRequirementsManageView)getCurrentView()).isUserClickedSaveButton()) {
+                if (((ProgramRequirementsManageView) getCurrentView()).isUserClickedSaveButton()) {
                     okToChange.exec(true);
-                    return;                    
+                    return;
                 }
 
                 //if user clicked on breadcrumbs, menu or cancel button of the manage screen and changes have been made to the rule on the manage screen...
-               if (((SectionView)getCurrentView()).isDirty()) {
+                if (((SectionView) getCurrentView()).isDirty()) {
                     ButtonGroup<ButtonEnumerations.ContinueCancelEnum> buttonGroup = new ContinueCancelGroup();
                     final ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum> dialog =
-                                new ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum>("Warning", "You have unsaved changes. Are you sure you want to proceed?", buttonGroup);
-                    buttonGroup.addCallback(new Callback<ButtonEnumerations.ContinueCancelEnum>(){
+                            new ButtonMessageDialog<ButtonEnumerations.ContinueCancelEnum>("Warning", "You have unsaved changes. Are you sure you want to proceed?", buttonGroup);
+                    buttonGroup.addCallback(new Callback<ButtonEnumerations.ContinueCancelEnum>() {
                         @Override
                         public void exec(ButtonEnumerations.ContinueCancelEnum result) {
-                            okToChange.exec(result == ButtonEnumerations.ContinueCancelEnum.CONTINUE);                            
+                            okToChange.exec(result == ButtonEnumerations.ContinueCancelEnum.CONTINUE);
                             dialog.hide();
                         }
                     });
                     dialog.show();
-               } else {
+                } else {
                     okToChange.exec(true);
-               }
+                }
             }
         });
     }
-    
-    @Override
-	public void beforeShow(final Callback<Boolean> onReadyCallback){
-        //dataInstance = new ProgramRequirementsDataModel(this);
-        //preview.setRules(dataInstance);
 
-	//	init(new Callback<Boolean>() {
-	//		@Override
-	//		public void exec(Boolean result) {
-	//			if (result) {
-					showDefaultView(onReadyCallback);
-	//			} else {
-	//				onReadyCallback.exec(false);
-	//			}
-	//		}
-	//	});
-	}
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
+        showDefaultView(onReadyCallback);
+    }
 
     public ProgramRequirementsSummaryView getProgramRequirementsView() {
         return preview;
