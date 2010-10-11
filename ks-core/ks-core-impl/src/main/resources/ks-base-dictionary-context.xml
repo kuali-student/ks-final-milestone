@@ -250,12 +250,12 @@
 
  <bean id="baseKualiCodeLoose" parent="baseString" abstract="true">
   <property name="minLength" value="1" />
-  <property name="maxLength" value="60" />
+  <property name="maxLength" value="80" />
   <property name="validChars" ref="lineText"/>
  </bean>
  <bean id="baseKualiCode" parent="baseString" abstract="true">
   <property name="minLength" value="1" />
-  <property name="maxLength" value="60" />
+  <property name="maxLength" value="80" />
   <property name="validChars" ref="alphanumericHyphenPeriod"/>
  </bean>
  <bean id="baseKualiCodeRepeating" parent="baseKualiCode" abstract="true">

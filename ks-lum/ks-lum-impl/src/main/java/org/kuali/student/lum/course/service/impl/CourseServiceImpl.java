@@ -187,7 +187,7 @@ public class CourseServiceImpl implements CourseService {
 		}
 		List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, clu.getId());
 		if (relations == null) {
-			throw new DoesNotExistException();
+			return new ArrayList<StatementTreeViewInfo>(0);
 		}
 
 		List<StatementTreeViewInfo> tree = new ArrayList<StatementTreeViewInfo>(relations.size());

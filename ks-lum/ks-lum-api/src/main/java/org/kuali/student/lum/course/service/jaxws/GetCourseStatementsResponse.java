@@ -1,6 +1,8 @@
 
 package org.kuali.student.lum.course.service.jaxws;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,6 +27,9 @@ public class GetCourseStatementsResponse {
     private java.util.List<StatementTreeViewInfo> _return;
 
     public java.util.List<StatementTreeViewInfo> getReturn() {
+    	if (_return == null) {
+    		_return = new ArrayList<StatementTreeViewInfo>(0);
+    	}
         return this._return;
     }
 
