@@ -45,4 +45,9 @@
         OBJ_ID="E9252EBABFDE4CC9B0E52EFD46C216C2"
         TYPE_DESC="Decision Rationale Withdraw"
         TYPE_KEY="kuali.comment.type.workflowDecisionRationale.withdraw" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Cancel Proposal"
+        OBJ_ID="E9252EBABFDE4CC9B0E52EFD46C216A2"
+        TYPE_DESC="Decision Rationale Cancel Proposal"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.cancelWorkflow" VER_NBR="0"/>
 </dataset>
