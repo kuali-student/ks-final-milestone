@@ -21,7 +21,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -30,7 +29,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.KSEntityConstants;
 import org.kuali.student.core.entity.MetaEntity;
@@ -48,10 +46,7 @@ import org.kuali.student.core.entity.TimeAmount;
 		@NamedQuery(name = "OrgPositionRestriction.getPositionRestrictionByOrgAndPersonRelationTypeKey", query = "SELECT opr FROM OrgPositionRestriction opr JOIN opr.personRelationType oprt WHERE opr.org.id = :orgId AND oprt.id = :orgPersonRelationTypeKey") })
 public class OrgPositionRestriction extends MetaEntity implements
 		AttributeOwner<OrgPositionRestrictionAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ORG")
 	private Org org;
@@ -77,22 +72,6 @@ public class OrgPositionRestriction extends MetaEntity implements
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgPositionRestrictionAttribute> attributes;
-
-	/**
-	 * AutoGenerate the Id
-	 */
-	@Override
-	public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getDescr() {
 		return descr;

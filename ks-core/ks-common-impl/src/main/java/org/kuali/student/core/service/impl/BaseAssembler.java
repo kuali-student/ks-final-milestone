@@ -149,17 +149,21 @@ public class BaseAssembler {
 		if(metaEntity == null){
 			return null;
 		}
-		return toMetaInfo(metaEntity.getMeta(), metaEntity.getVersionInd());
+		return toMetaInfo(metaEntity.getMeta(), metaEntity.getVersionNumber());
 	}
 	
-	protected static MetaInfo toMetaInfo(Meta meta, long versionInd) {
+	protected static MetaInfo toMetaInfo(Meta meta, Long versionInd) {
 
 		MetaInfo metaInfo = new MetaInfo();
 		// If there was a meta passed in then copy the values
 		if (meta != null) {
 			BeanUtils.copyProperties(meta, metaInfo);
 		}
-		metaInfo.setVersionInd(Long.toString(versionInd));
+		if(versionInd==null){
+			metaInfo.setVersionInd(null);
+		}else{
+			metaInfo.setVersionInd(versionInd.toString());
+		}
 
 		return metaInfo;
 	}

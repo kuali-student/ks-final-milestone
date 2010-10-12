@@ -361,7 +361,7 @@ public class LrcServiceImpl implements LrcService {
 
         ResultComponent entity = lrcDao.fetch(ResultComponent.class, resultComponentId);
         
-		if (!String.valueOf(entity.getVersionInd()).equals(resultComponentInfo.getMetaInfo().getVersionInd())){
+		if (!String.valueOf(entity.getVersionNumber()).equals(resultComponentInfo.getMetaInfo().getVersionInd())){
 			throw new VersionMismatchException("ResultComponent to be updated is not the current version");
 		}
         

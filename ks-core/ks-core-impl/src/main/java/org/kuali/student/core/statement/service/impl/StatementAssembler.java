@@ -86,7 +86,7 @@ public class StatementAssembler extends BaseAssembler {
 
         // Copy generic attributes
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setStatementId(entity.getStatement().getId());
         dto.setType(entity.getRefStatementRelationType().getId());
         //dto.setRefObjectTypeKey(entity.getRefStatementRelationType().getObjectSubTypeList().get(0).g)
@@ -144,7 +144,7 @@ public class StatementAssembler extends BaseAssembler {
             if (reqComp == null) {
                 throw new DoesNotExistException("ReqComponent does not exist for id: " + reqCompInfo.getId());
             }
-            if (!String.valueOf(reqComp.getVersionInd()).equals(reqCompInfo.getMetaInfo().getVersionInd())) {
+            if (!String.valueOf(reqComp.getVersionNumber()).equals(reqCompInfo.getMetaInfo().getVersionInd())) {
                 throw new VersionMismatchException("ReqComponent to be updated is not the current version");
             }
             for(ReqComponentField reqCompField : reqComp.getReqComponentFields()) {
@@ -199,7 +199,7 @@ public class StatementAssembler extends BaseAssembler {
         dto.setType(entity.getRequiredComponentType().getId());
         dto.setReqCompFields(toReqCompFieldInfos(entity.getReqComponentFields()));
         //dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity));
         dto.setDesc(toRichTextInfo(entity.getDescr()));
 //        if(nlUsageTypeKey != null && language != null) {
 //	        String nl = this.naturalLanguageTranslator.translateReqComponent(entity, nlUsageTypeKey, language);
@@ -287,7 +287,7 @@ public class StatementAssembler extends BaseAssembler {
             if (refStatement == null) {
                 throw new DoesNotExistException("RefStatementRelation does not exist for id: " + refStatementRelationInfo.getId());
             }
-            if (!String.valueOf(refStatement.getVersionInd()).equals(refStatementRelationInfo.getMetaInfo().getVersionInd())) {
+            if (!String.valueOf(refStatement.getVersionNumber()).equals(refStatementRelationInfo.getMetaInfo().getVersionInd())) {
                 throw new VersionMismatchException("RefStatementRelation to be updated is not the current version");
             }
         } else {
@@ -395,7 +395,7 @@ public class StatementAssembler extends BaseAssembler {
             if (stmt == null) {
                 throw new DoesNotExistException("Statement does not exist for id: " + stmtInfo.getId());
             }
-            if (!String.valueOf(stmt.getVersionInd()).equals(stmtInfo.getMetaInfo().getVersionInd())) {
+            if (!String.valueOf(stmt.getVersionNumber()).equals(stmtInfo.getMetaInfo().getVersionInd())) {
                 throw new VersionMismatchException("Statement to be updated is not the current version");
             }
         } else {
@@ -508,7 +508,7 @@ public class StatementAssembler extends BaseAssembler {
         dto.setReqComponentIds(componentIds);
         dto.setType(entity.getStatementType().getId());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setName(entity.getName());
         dto.setOperator(entity.getOperator());
         dto.setDesc(toRichTextInfo(entity.getDescr()));
@@ -698,7 +698,7 @@ public class StatementAssembler extends BaseAssembler {
 		treeView.setAttributes(toAttributeMap(stmt.getAttributes()));
 		treeView.setDesc(toRichTextInfo(stmt.getDescr()));
 		treeView.setId(stmt.getId());
-		treeView.setMetaInfo(toMetaInfo(stmt.getMeta(), stmt.getVersionInd()));
+		treeView.setMetaInfo(toMetaInfo(stmt.getMeta(), stmt.getVersionNumber()));
 		treeView.setName(stmt.getName());
 		treeView.setType(stmt.getStatementType().getId());
 		treeView.setState(stmt.getState());

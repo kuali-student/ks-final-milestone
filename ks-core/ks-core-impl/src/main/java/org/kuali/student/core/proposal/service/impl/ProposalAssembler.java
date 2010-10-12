@@ -85,7 +85,7 @@ public class ProposalAssembler extends BaseAssembler {
             dto.setProposalReference(objectIds);
         }
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setType(entity.getType().getId());
 
         return dto;
@@ -131,7 +131,7 @@ public class ProposalAssembler extends BaseAssembler {
         Proposal proposal;
         if (proposalInfo.getId() != null && !proposalInfo.getId().isEmpty()) {
             proposal = dao.fetch(Proposal.class, proposalInfo.getId());
-            if (!String.valueOf(proposal.getVersionInd()).equals(proposalInfo.getMetaInfo().getVersionInd())){
+            if (!String.valueOf(proposal.getVersionNumber()).equals(proposalInfo.getMetaInfo().getVersionInd())){
                 throw new VersionMismatchException("Proposal to be updated is not the current version");
             }
         } else {

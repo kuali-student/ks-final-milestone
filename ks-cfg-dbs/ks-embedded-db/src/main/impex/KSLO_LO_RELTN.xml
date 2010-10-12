@@ -5,25 +5,30 @@
         ID="4abf0d00-37d3-4178-b52b-32bd48728fc7"
         LO_ID="81abea67-3bcc-4088-8348-e265f3670145"
         LO_LO_RELATION_TYPE_ID="kuali.lo.relation.type.includes"
-        RELATED_LO_ID="e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf" ST="draft" VERSIONIND="1"/>
+        OBJ_ID="6D0339F0F6DE4EC1AE0EC54BA517892C"
+        RELATED_LO_ID="e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf" ST="draft" VER_NBR="0"/>
     <KSLO_LO_RELTN EFF_DT="20080101000000" EXPIR_DT="20100101000000"
         ID="61ff5b2c-5d2f-464b-b6d8-082fbf671fcb"
         LO_ID="81abea67-3bcc-4088-8348-e265f3670145"
         LO_LO_RELATION_TYPE_ID="kuali.lo.relation.type.includes"
-        RELATED_LO_ID="dd0658d2-fdc9-48fa-9578-67a2ce53bf8a" ST="draft" VERSIONIND="1"/>
+        OBJ_ID="71632A955105496EA3A12C0F1FD00DFC"
+        RELATED_LO_ID="dd0658d2-fdc9-48fa-9578-67a2ce53bf8a" ST="draft" VER_NBR="0"/>
     <KSLO_LO_RELTN EFF_DT="20080101000000" EXPIR_DT="20100101000000"
         ID="63f06b7a-1a51-4d2f-b581-98bdd70f47f8"
         LO_ID="91a91860-d796-4a17-976b-a6165b1a0b05"
         LO_LO_RELATION_TYPE_ID="kuali.lo.relation.type.includes"
-        RELATED_LO_ID="fde6421e-64b4-41af-bac5-269005101c2a" ST="draft" VERSIONIND="1"/>
+        OBJ_ID="DCBF02B1D9F74B04ACB2D028D60653F2"
+        RELATED_LO_ID="fde6421e-64b4-41af-bac5-269005101c2a" ST="draft" VER_NBR="0"/>
     <KSLO_LO_RELTN EFF_DT="20080101000000" EXPIR_DT="20100101000000"
         ID="6bbd79c4-3208-433e-bf58-8d1d06dbefeb"
         LO_ID="dd0658d2-fdc9-48fa-9578-67a2ce53bf8a"
         LO_LO_RELATION_TYPE_ID="kuali.lo.relation.type.includes"
-        RELATED_LO_ID="abd8ae21-34e9-4858-a714-b04134f55d68" ST="draft" VERSIONIND="1"/>
+        OBJ_ID="A571FB41606A4DF9B1E12655B65984DB"
+        RELATED_LO_ID="abd8ae21-34e9-4858-a714-b04134f55d68" ST="draft" VER_NBR="0"/>
     <KSLO_LO_RELTN EFF_DT="20080101000000" EXPIR_DT="20100101000000"
         ID="87f115b5-2c0a-4b0a-a7dd-8759ab5a9e17"
         LO_ID="e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf"
         LO_LO_RELATION_TYPE_ID="kuali.lo.relation.type.includes"
-        RELATED_LO_ID="abd8ae21-34e9-4858-a714-b04134f55d68" ST="draft" VERSIONIND="1"/>
+        OBJ_ID="7DA9E387D39540CF8B837692E7BE8389"
+        RELATED_LO_ID="abd8ae21-34e9-4858-a714-b04134f55d68" ST="draft" VER_NBR="0"/>
 </dataset>

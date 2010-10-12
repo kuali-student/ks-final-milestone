@@ -219,14 +219,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		searchResult.setStartAt(searchRequest.getStartAt());
 		if(searchRequest.getNeededTotalResults()!=null && searchRequest.getNeededTotalResults()){
 			//Get count of total rows if needed
-			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+)(.|[\r\n])*?\\s+[Ff][Rr][Oo][Mm]\\s+";
+			String regex = "^\\s*[Ss][Ee][Ll][Ee][Cc][Tt]\\s+([^,\\s]+)(.|[\r\n])*?\\s+[Ff][Rr][Oo][Mm]\\s+";
 			String replacement = "SELECT COUNT($1) FROM ";
 			String countQueryString = (queryString + optionalQueryString).replaceFirst(regex, replacement);
-/*			int selectIndex = queryString.toLowerCase().indexOf("select")+"select".length();
-			int fromIndex = queryString.toLowerCase().indexOf(" from ");
-			String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",", 1);
-			String replacement = "SELECT COUNT(" + jpqlResultColumns[0] + ")";
-			String countQueryString = replacement + ((queryString + optionalQueryString).substring(fromIndex));*/
+
 			LOG.info("Executing query: "+countQueryString);
 			Query countQuery;
 			if(isNative){
@@ -242,11 +238,6 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 
 		return searchResult;
-	}
-	
-	private boolean nullSafeEquals(Object obj1, Object obj2) {
-	    return (obj1 == null && obj2 == null ||
-	            obj1 != null && obj2 != null && obj1.equals(obj2));
 	}
 	
 	private List<SearchResultRow> convertToResults(List<?> queryResults,

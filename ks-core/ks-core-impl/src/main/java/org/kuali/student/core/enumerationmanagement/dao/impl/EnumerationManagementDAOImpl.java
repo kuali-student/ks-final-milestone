@@ -60,7 +60,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
     public Enumeration addEnumeration(Enumeration entity){
     	try{
 	        em.persist(entity);
-	        entity = em.find(Enumeration.class, entity.getKey());
+	        entity = em.find(Enumeration.class, entity.getId());
 		}
 	    catch(Exception e){
 	    	throw new EnumerationException("addEnumerationMeta query failed.", e);
@@ -103,7 +103,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
         EnumeratedValue returnValue = null;
     	try{
     	    
-    	    List<EnumeratedValue> list = this.fetchEnumeratedValues(enumeration.getKey());
+    	    List<EnumeratedValue> list = this.fetchEnumeratedValues(enumeration.getId());
 	        for(EnumeratedValue e: list){
 	        	if(e.getCode().equals(code)){
 	        		e.setCode(enumeratedValue.getCode());
@@ -153,7 +153,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 		try{
 			Query query = em.createQuery(
 		            "select e from EnumeratedValue e " +
-		            "where e.enumeration.key = :enumerationKey ");
+		            "where e.enumeration.id = :enumerationKey ");
 			query.setParameter("enumerationKey", enumerationKey);
 			@SuppressWarnings("unchecked")
 			List<EnumeratedValue> resultList = (List<EnumeratedValue>)query.getResultList();
@@ -175,7 +175,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 		            "select e from EnumeratedValue e " +
 		            "where e.effectiveDate <= :contextDate and " +
 		            "(e.expirationDate is null or e.expirationDate >= :contextDate) and " +
-		            "e.enumeration.key = :enumerationKey ");
+		            "e.enumeration.id = :enumerationKey ");
 			query.setParameter("enumerationKey", enumerationKey);
 			query.setParameter("contextDate", contextDate);
 		    @SuppressWarnings("unchecked")
@@ -196,7 +196,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 		            "select e from EnumeratedValue e JOIN e.contextEntityList c " +
 		            "where c.contextValue = :contextValue and " +
 		            "c.contextKey = :enumContextKey and " +
-		            "e.enumeration.key = :enumerationKey ");
+		            "e.enumeration.id = :enumerationKey ");
 			 query.setParameter("enumerationKey", enumerationKey);
 			 query.setParameter("enumContextKey", enumContextKey);
 			 query.setParameter("contextValue", contextValue);
@@ -224,7 +224,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 	                "(e.expirationDate is null or e.expirationDate >= :contextDate) and " +
 	                "c.contextValue = :contextValue and " +
 	                "c.contextKey = :enumContextKey and " +
-	                "e.enumeration.key = :enumKey ");
+	                "e.enumeration.id = :enumKey ");
 	        query.setParameter("contextDate", contextDate);
 	        query.setParameter("contextValue", contextValue);
 	        query.setParameter("enumContextKey", enumContextKey);

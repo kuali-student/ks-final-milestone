@@ -17,20 +17,17 @@ package org.kuali.student.lum.lu.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.kuali.student.core.entity.BaseEntity;
+
 @Entity
 @Table(name = "KSLU_RSRC", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"RSRC_TYPE_ID", "CLU_ID" }))
-public class Resource {
-
-	@Id
-	@Column(name = "ID")
-	private String id;
+public class Resource extends BaseEntity{
 
 	@Column(name = "RSRC_TYPE_ID")
 	private String resourceTypeId;
@@ -38,14 +35,6 @@ public class Resource {
 	@ManyToOne
 	@JoinColumn(name = "CLU_ID")
 	private Clu clu;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getResourceTypeId() {
 		return resourceTypeId;

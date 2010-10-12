@@ -21,6 +21,7 @@ public abstract class VersionEntity extends MetaEntity {
 	
 	@Override
 	protected void onPrePersist(){
+		super.onPrePersist();
 		if(version == null){
 			version = new Version();
 		}

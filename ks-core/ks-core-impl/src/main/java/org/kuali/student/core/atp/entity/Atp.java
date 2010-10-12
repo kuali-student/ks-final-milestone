@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -42,9 +41,7 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name = "Atp.findAtpsByDates", query = "SELECT atp FROM Atp atp WHERE atp.startDate >= :startDate AND atp.endDate <= :endDate")
 })
 public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
+
 
 	@Column(name = "NAME")
 	private String name;
@@ -76,15 +73,7 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 
 	@OneToMany(mappedBy = "atp", cascade = CascadeType.REMOVE)
 	private List<Milestone> milestones;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -156,13 +145,5 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 	public void setMilestones(List<Milestone> milestones) {
 		this.milestones = milestones;
 	}
-
-	// public Meta getMeta() {
-	// return meta;
-	// }
-	//
-	// public void setMeta(Meta meta) {
-	// this.meta = meta;
-	// }
 
 }

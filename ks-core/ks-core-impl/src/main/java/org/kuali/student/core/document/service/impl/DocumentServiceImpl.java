@@ -218,7 +218,7 @@ public class DocumentServiceImpl implements DocumentService {
         
         Document document = dao.fetch(Document.class, documentId);
         
-        if (!String.valueOf(document.getVersionInd()).equals(documentInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(document.getVersionNumber()).equals(documentInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("Document to be updated is not the current version");
         }
         
@@ -271,7 +271,7 @@ public class DocumentServiceImpl implements DocumentService {
         
         RefDocRelation refDocRelation = dao.fetch(RefDocRelation.class, refDocRelationId);
         
-        if (!String.valueOf(refDocRelation.getVersionInd()).equals(refDocRelationInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(refDocRelation.getVersionNumber()).equals(refDocRelationInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("RefDocRelation to be updated is not the current version");
         }
         

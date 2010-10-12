@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -36,9 +35,6 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSLU_LULU_RELTN_TYPE")
 public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuRelationTypeAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@ManyToMany
 	@JoinTable(name = "KSLU_LULU_RELTN_TYPE_JN_LU_TYP", joinColumns = @JoinColumn(name = "LULU_RELTN_TYPE_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID", referencedColumnName = "TYPE_KEY"))
@@ -75,14 +71,6 @@ public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuR
 		this.luTypes = luTypes;
 	}
     
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}

@@ -800,6 +800,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertNotNull(si);
         assertTrue(si.getSuccess());
 		assertNotNull(si.getMessage());
+		try{
+			statementService.getStatement(stmt.getId());
+			assertTrue(false);
+		}catch(DoesNotExistException e){
+			assertTrue(true);
+		}
     }
 
     @Test

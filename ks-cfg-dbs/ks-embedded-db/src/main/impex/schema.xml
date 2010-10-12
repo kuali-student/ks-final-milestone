@@ -2866,13 +2866,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="END_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="START_DT" type="TIMESTAMP"/>
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_ATP_TYPE" name="FK91BE1D5359A216F">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -2885,6 +2886,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_ATP" name="FKD2FA861BB47270E">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -2895,12 +2898,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSAP_ATP_DUR_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_ATP_DUR_TYPE" name="FKF32EB20E331B319C">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -2911,12 +2918,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSAP_ATP_SEASONAL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_ATP_SEASONAL_TYPE" name="FK12F7C5CF75414156">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -2927,8 +2938,10 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
         <column name="DUR_TYPE" size="255" type="VARCHAR"/>
         <column name="SEASONAL_TYPE" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_ATP_SEASONAL_TYPE" name="FKD3033B6479EB8D2E">
             <reference foreign="TYPE_KEY" local="SEASONAL_TYPE"/>
         </foreign-key>
@@ -2941,6 +2954,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_ATP_TYPE" name="FKF4C7CDEC3BB784E8">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -2951,7 +2966,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="END_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="START_DT" type="TIMESTAMP"/>
@@ -2959,6 +2974,7 @@
         <column name="ATP_ID" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="DT_RANGE_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_DT_RANGE_TYPE" name="FK237F74562E3E4416">
             <reference foreign="TYPE_KEY" local="DT_RANGE_TYPE_ID"/>
         </foreign-key>
@@ -2974,6 +2990,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_DT_RANGE" name="FKBE235C3A66A1DC20">
             <reference foreign="DATERANGE_KEY" local="OWNER"/>
         </foreign-key>
@@ -2984,12 +3002,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSAP_DT_RANGE_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_DT_RANGE_TYPE" name="FK249AF32D51AD60FA">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3000,13 +3022,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="MLSTN_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="ATP_ID" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="MLSTN_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSAP_ATP" name="FK32504D66B1104A58">
             <reference foreign="ID" local="ATP_ID"/>
         </foreign-key>
@@ -3022,6 +3045,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_MLSTN" name="FKD83FAD2A36BAFF61">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3032,12 +3057,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSAP_MLSTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSAP_MLSTN_TYPE" name="FK193BB83D5E10FBBB">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3046,6 +3075,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSCO_COMMENT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3053,13 +3084,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="REFERENCE" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSCO_COMMENT_TYPE" name="FK278964D44EE07A2F">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -3075,6 +3107,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSCO_COMMENT" name="FK39D20A7C6117DFCE">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3085,12 +3119,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSCO_COMMENT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSCO_COMMENT_TYPE" name="FK2188DE2B54FDDDA8">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3099,6 +3137,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="REFERENCE_ID" size="255" type="VARCHAR"/>
         <column name="REFERENCE_TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSCO_REFERENCE_TYPE" name="FK8CBAE8808E68868F">
             <reference foreign="TYPE_KEY" local="REFERENCE_TYPE"/>
         </foreign-key>
@@ -3113,12 +3153,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSCO_REFERENCE_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSCO_REFERENCE_TYPE" name="FK8E9ABAD75FB9994">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3127,6 +3171,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSCO_TAG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3134,7 +3180,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME_SPACE" size="255" type="VARCHAR"/>
@@ -3143,6 +3189,7 @@
         <column name="VAL" size="255" type="VARCHAR"/>
         <column name="REFERENCE" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSCO_REFERENCE" name="FKC77C08FA44FBE52">
             <reference foreign="ID" local="REFERENCE"/>
         </foreign-key>
@@ -3155,6 +3202,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSCO_TAG" name="FKC1BECBA155D86F09">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3165,12 +3214,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSCO_TAG_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSCO_TAG_TYPE" name="FK43900C26CC1E5763">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3181,7 +3234,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="DOCUMENT" type="CLOB"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
@@ -3190,6 +3243,7 @@
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSDO_RICH_TEXT_T" name="FKB5CCDBE7B107314A">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
@@ -3202,6 +3256,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_DOCUMENT" name="FK4E8D0749BB72873E">
             <reference foreign="DOC_ID" local="OWNER"/>
         </foreign-key>
@@ -3212,6 +3268,8 @@
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_RICH_TEXT_T" name="FK88CC7656B107314A">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
@@ -3221,6 +3279,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_DOCUMENT_CATEGORY" name="FKAA79A3AD5A3ED5C">
             <reference foreign="CATEGORY_ID" local="OWNER"/>
         </foreign-key>
@@ -3241,12 +3301,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSDO_DOCUMENT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_DOCUMENT_TYPE" name="FK541CD97E29D74D18">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3257,7 +3321,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="REF_OBJ_ID" size="255" type="VARCHAR"/>
@@ -3267,6 +3331,7 @@
         <column name="DOC_ID" size="255" type="VARCHAR"/>
         <column name="TYPE_KEY" size="255" type="VARCHAR"/>
         <column name="REF_OBJ_TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="FKFAE28EB474C732E5">
             <reference foreign="TYPE_KEY" local="TYPE_KEY"/>
         </foreign-key>
@@ -3286,12 +3351,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSDO_REF_DOC_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="FK425F300BA365F5BE">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3301,6 +3370,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_REF_DOC_RELTN" name="FKC352E456684B72E4">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3311,7 +3382,9 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
         <column name="REF_OBJ_TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="FKDB972379F88FDCEA">
             <reference foreign="TYPE_KEY" local="REF_OBJ_TYPE_KEY"/>
         </foreign-key>
@@ -3321,6 +3394,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_REF_OBJ_SUB_TYPE" name="FK583AAAF7AEBC5AB">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3331,12 +3406,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSDO_REF_OBJ_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="FK83DFD6563E49FD4F">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3355,6 +3434,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSEM_CTX_JN_ENUM_VAL_T">
         <column name="ENUM_VAL_ID" required="true" size="255" type="VARCHAR"/>
@@ -3370,6 +3451,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CTX_KEY" size="255" type="VARCHAR"/>
         <column name="CTX_VAL" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <unique name="SYS_C00285110">
             <unique-column name="CTX_KEY"/>
             <unique-column name="CTX_VAL"/>
@@ -3381,6 +3464,8 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSEM_ENUM_VAL_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3391,6 +3476,8 @@
         <column name="SORT_KEY" size="10" type="DECIMAL"/>
         <column name="VAL" size="255" type="VARCHAR"/>
         <column name="ENUM_KEY" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSEM_ENUM_T" name="FK7B6E5967357425D9">
             <reference foreign="ENUM_KEY" local="ENUM_KEY"/>
         </foreign-key>
@@ -3400,6 +3487,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLO_LO" name="FK5E900CC58DFF0197">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3410,7 +3499,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
@@ -3418,6 +3507,7 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="LO_REPO_ID" size="255" type="VARCHAR"/>
         <column name="LOTYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="FK1169E957604442A3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
@@ -3434,12 +3524,13 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="LO_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LO_REL_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LOLO_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
     </table>
     <table name="KSLO_LO_CATEGORY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3447,7 +3538,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
@@ -3455,6 +3546,7 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="LO_CATEGORY_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LO_REPO_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="FK88AF86E6604442A3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
@@ -3470,6 +3562,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLO_LO_CATEGORY" name="FKC3E863AA84E0FEB5">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3480,12 +3574,18 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
     </table>
     <table name="KSLO_LO_CATEGORY_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLO_LO_CATEGORY_TYPE" name="FKA30111BD1FBF310F">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3494,6 +3594,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="LO_ID" size="255" type="VARCHAR"/>
         <column name="LOCATEGORY_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLO_LO_CATEGORY" name="FKF7B03474CF832A9B">
             <reference foreign="ID" local="LOCATEGORY_ID"/>
         </foreign-key>
@@ -3511,13 +3613,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="LO_ID" size="255" type="VARCHAR"/>
         <column name="LO_LO_RELATION_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="RELATED_LO_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLO_LO_RELTN_TYPE" name="FKCB95BBCBED64FBFA">
             <reference foreign="ID" local="LO_LO_RELATION_TYPE_ID"/>
         </foreign-key>
@@ -3533,6 +3636,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLO_LO_RELTN" name="FKA38875E53FCC956">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3545,12 +3650,18 @@
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="REV_DESCR" size="255" type="VARCHAR"/>
         <column name="REV_NAME" size="255" type="VARCHAR"/>
+        <column name="TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
     </table>
     <table name="KSLO_LO_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLO_LO_RELTN_TYPE" name="FKA34A2C62C0C2C330">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3561,12 +3672,13 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="LO_ROOT_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLO_LO" name="FK41E8C732BF253DC0">
             <reference foreign="ID" local="LO_ROOT_ID"/>
         </foreign-key>
@@ -3579,6 +3691,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLO_LO_REPOSITORY" name="FK9E2772DE3CCD6C01">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3589,12 +3703,18 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
     </table>
     <table name="KSLO_LO_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLO_LO_TYPE" name="FK509BDAEE927CF2F1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3603,6 +3723,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="500" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLR_RESCOMP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3610,13 +3732,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLR_RESCOMP_TYPE" name="FK83A8D53E680AC1FB">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -3629,6 +3752,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLR_RESCOMP" name="FK6CBA4C52C6D5ED9A">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3643,12 +3768,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLR_RESCOMP_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLR_RESCOMP_TYPE" name="FKD7CE52156E282574">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -3657,6 +3786,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
         <column name="RSLT_COMP_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLR_RESCOMP" name="FK2D4BF260138ECC7C">
             <reference foreign="ID" local="RSLT_COMP_ID"/>
         </foreign-key>
@@ -3665,6 +3796,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="500" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLR_SCALE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3672,11 +3805,12 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLR_RICH_TEXT_T" name="FK1319E2997A849F63">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
@@ -3686,6 +3820,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLR_SCALE" name="FKA6325FD7C5C79E44">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3696,7 +3832,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CURR_VER_END" type="TIMESTAMP"/>
         <column name="CURR_VER_START" type="TIMESTAMP"/>
         <column name="SEQ_NUM" size="19" type="DECIMAL"/>
@@ -3728,6 +3864,7 @@
         <column name="LUTYPE_ID" size="255" type="VARCHAR"/>
         <column name="OFFIC_CLU_ID" size="255" type="VARCHAR"/>
         <column name="PRI_INSTR_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="FK1C27ACBEA8DCF088">
             <reference foreign="ID" local="PRI_INSTR_ID"/>
         </foreign-key>
@@ -3757,7 +3894,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CLU_RELTN_REQ" size="1" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
@@ -3765,6 +3902,7 @@
         <column name="CLU_ID" size="255" type="VARCHAR"/>
         <column name="LU_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="RELATED_CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK223044C24AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -3780,6 +3918,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLUCLU_RELTN" name="FK15BFEF4E2E7C6896">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3803,28 +3943,35 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
     </table>
     <table name="KSLU_CLU_ACCRED_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_ACCRED" name="FK8EF5565F1CC528C8">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
     <table name="KSLU_CLU_ACCT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_ACCT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_ACCT" name="FK6ABF605C27F3734D">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3845,6 +3992,8 @@
         <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU" name="FKCFF78F734AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -3854,6 +4003,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="FK6100AB3D66E32B0D">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3864,11 +4015,15 @@
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="PERCT" size="19" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_ATP_TYPE_KEY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATP_TYPE_KEY" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK75D2BD1D4AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -3878,6 +4033,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK2F5624D2A2347ED8">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -3899,60 +4056,8 @@
         <column name="REPEAT_TM_ATP" size="255" type="VARCHAR"/>
         <column name="REPEAT_TM_TMQ" size="10" type="DECIMAL"/>
         <column name="REPEAT_UNIT" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSLU_CLU_DOC_RELTN">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
-        <column name="DOC_ID" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="ST" size="255" type="VARCHAR"/>
-        <column name="TITLE" size="255" type="VARCHAR"/>
-        <column name="CLU_ID" size="255" type="VARCHAR"/>
-        <column name="DESCR" size="255" type="VARCHAR"/>
-        <column name="LU_DOC_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK182A988B70595BBA">
-            <reference foreign="ID" local="DESCR"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_CLU_DOC_RELTN_TYPE" name="FK182A988BED9B3478">
-            <reference foreign="TYPE_KEY" local="LU_DOC_RELTN_TYPE_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSLU_CLU" name="FK182A988B4AF8DD33">
-            <reference foreign="ID" local="CLU_ID"/>
-        </foreign-key>
-        <unique name="SYS_C0011405">
-            <unique-column name="CLU_ID"/>
-            <unique-column name="DOC_ID"/>
-        </unique>
-    </table>
-    <table name="KSLU_CLU_DOC_RELTN_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_DOC_RELTN" name="FKC53F91257F147A7A">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSLU_CLU_DOC_RELTN_TYPE">
-        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSLU_CLU_DOC_RELTN_TYPE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_DOC_RELTN_TYPE" name="FK7C02192298954254">
-            <reference foreign="TYPE_KEY" local="OWNER"/>
-        </foreign-key>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_FEE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3960,8 +4065,9 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK33135C65ABDD272F">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
@@ -3981,6 +4087,8 @@
         <column name="CURRENCY_QUANT" size="10" type="DECIMAL"/>
         <column name="CURRENCY_TYPE" size="255" type="VARCHAR"/>
         <column name="CLUE_FEE_REC_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FKBE411972BEB9861B">
             <reference foreign="ID" local="CLUE_FEE_REC_ID"/>
         </foreign-key>
@@ -3990,6 +4098,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_FEE" name="FK7059258B9E29CBD4">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4010,10 +4120,11 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="FEE_TYPE" size="255" type="VARCHAR"/>
         <column name="RATE_TYPE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="FK87C10D96ABDD272F">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
@@ -4023,6 +4134,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="FK5D2F8AFA35FC0785">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4039,17 +4152,23 @@
         <column name="SUFX_CD" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="VARTN" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_INSTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="PERS_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_INSTR_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="FK57EAE5A5AAFE4155">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4071,6 +4190,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CAMP_LOC" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU" name="FKA66ED2FC4AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -4105,6 +4226,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK336471C94AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -4115,12 +4238,13 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="LO_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="CLULO_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LU_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LUTYPE" name="FK43C7BA17D39B0654">
             <reference foreign="TYPE_KEY" local="LU_TYPE_ID"/>
         </foreign-key>
@@ -4134,13 +4258,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="LO_ID" size="255" type="VARCHAR"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK1C4705584AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -4150,6 +4275,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_LO_RELTN" name="FK9BD81C78934B6957">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4160,12 +4287,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_LO_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_LO_RELTN_TYPE" name="FKC3AAA9AFC7CF7AB1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4176,7 +4307,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="END_CYCLE" size="255" type="VARCHAR"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
@@ -4184,6 +4315,7 @@
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
         <column name="CLU_PUB_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK2F5CF7F04AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -4196,6 +4328,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_PUBL" name="FK260A08E0A4B6177A">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4213,12 +4347,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_PUBL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_PUBL_TYPE" name="FK59443E47AA205F54">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4228,6 +4366,8 @@
         <column name="VARI_KEY" size="255" type="VARCHAR"/>
         <column name="VARI_VALUE" size="255" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_PUBL" name="FK26134D11A4B6177A">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4242,12 +4382,14 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSLU_CLU_PUB_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_PUB_TYPE" name="FK215DD333AA205F54">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4257,6 +4399,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="FK250B779535BFA5AF">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4267,13 +4411,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
         <column name="TYPE_KEY_ID" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="FK2F5DDA6A5558AE9C">
             <reference foreign="TYPE_KEY" local="TYPE_KEY_ID"/>
         </foreign-key>
@@ -4290,11 +4435,12 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="CLU_RSLT_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LU_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="FK1EF46125F7EE60B9">
             <reference foreign="TYPE_KEY" local="CLU_RSLT_TYPE_ID"/>
         </foreign-key>
@@ -4308,6 +4454,8 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_SET">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4315,7 +4463,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="ADMIN_ORG_ID" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
@@ -4326,6 +4474,7 @@
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="MEM_QUERY_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_MEMSHIP" name="FK33138D4153280327">
             <reference foreign="ID" local="MEM_QUERY_ID"/>
         </foreign-key>
@@ -4338,6 +4487,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_SET" name="FKD0611E2F9E29FCB0">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4368,12 +4519,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_CLU_SET_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU_SET_TYPE" name="FKE9E122585012B98A">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4384,12 +4539,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_DLVMTHD_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_DLVMTHD_TYPE" name="FK6A1B07FA59848969">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4400,12 +4559,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_INSTFRMT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_INSTFRMT_TYPE" name="FK5406B7DE709F6516">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4416,7 +4579,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="ATP_ID" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXP_DT" type="TIMESTAMP"/>
@@ -4424,6 +4587,7 @@
         <column name="MAX_SEATS" size="10" type="DECIMAL"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK1C27CF924AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -4434,13 +4598,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="LULU_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LUI_ID" size="255" type="VARCHAR"/>
         <column name="RELATED_LUI_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LUI" name="FK928FC44218896747">
             <reference foreign="ID" local="RELATED_LUI_ID"/>
         </foreign-key>
@@ -4456,6 +4621,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_LUILUI_RELTN" name="FK9AA41FCE4FA0816">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4465,6 +4632,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_LUI" name="FK9DDEA67EA234A1AC">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4475,19 +4644,22 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="DESCR" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="REV_DESC" size="255" type="VARCHAR"/>
         <column name="REV_NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
     </table>
     <table name="KSLU_LULU_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="FK7CF7346B8C1B35C2">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4508,8 +4680,10 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
         <column name="DLVR_MTHD" size="255" type="VARCHAR"/>
         <column name="INSTR_FRMT" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_LU_CD_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4517,12 +4691,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_LU_CD_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_LU_CD_TYPE" name="FK902BC92099BB190A">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4533,11 +4711,12 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="DESCR" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK1F0761954AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -4547,6 +4726,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_LU_CODE" name="FKB708DE5BADEE1C30">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4557,12 +4738,13 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="LU_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LU_REL_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LU_LU_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_LUTYPE" name="FKE02CEEA4636807AE">
             <reference foreign="TYPE_KEY" local="LU_REL_TYPE_ID"/>
         </foreign-key>
@@ -4579,12 +4761,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_LU_PUBL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_LU_PUBL_TYPE" name="FK13599A4E24194CA9">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4594,6 +4780,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_LUTYPE" name="FK192AC52EADF5FD7D">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4601,6 +4789,8 @@
     <table name="KSLU_MEMSHIP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="SEARCH_TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_MEMSHIP_KSLU_SPARAM">
         <column name="KSLU_MEMSHIP_ID" required="true" size="255" type="VARCHAR"/>
@@ -4619,6 +4809,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="500" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_RSLTUSAGE_LU_ALOW_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4626,11 +4818,12 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="LU_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="CLU_RSLT_USAGE_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="FKDB2D1C5D2401DB6">
             <reference foreign="TYPE_KEY" local="CLU_RSLT_USAGE_TYPE_ID"/>
         </foreign-key>
@@ -4644,11 +4837,12 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="RSLT_COMP_ID" size="255" type="VARCHAR"/>
         <column name="RSLT_USG_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="FKAAE26348A4D1EA2B">
             <reference foreign="TYPE_KEY" local="RSLT_USG_TYPE_ID"/>
         </foreign-key>
@@ -4659,13 +4853,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="RES_COMP_ID" size="255" type="VARCHAR"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="RES_USAGE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="FKA7EA546BA81D7F8F">
             <reference foreign="TYPE_KEY" local="RES_USAGE_ID"/>
         </foreign-key>
@@ -4679,12 +4874,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_RSLT_USG_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="FK1E3A8058D801410A">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4693,6 +4892,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="RSRC_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSLU_CLU" name="FK68D4D6C04AF8DD33">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
@@ -4704,6 +4905,8 @@
     <table name="KSLU_SPARAM">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="SEARCH_PARAM_KEY" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSLU_SPARAM_KSLU_SPVALUE">
         <column name="KSLU_SPARAM_ID" required="true" size="255" type="VARCHAR"/>
@@ -4721,6 +4924,8 @@
     <table name="KSLU_SPVALUE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSMG_MESSAGE">
         <column name="DATABASEID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4735,7 +4940,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="LNG_DESCR" size="2000" type="VARCHAR"/>
@@ -4744,6 +4949,7 @@
         <column name="SHRT_NAME" size="255" type="VARCHAR"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_TYPE" name="FK211C1DD01427EAF0">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -4753,6 +4959,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG" name="FK15378F00716FD90F">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4764,6 +4972,8 @@
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="ROOT_ORG" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG" name="FKB0E5A0D2612F0463">
             <reference foreign="ID" local="ROOT_ORG"/>
         </foreign-key>
@@ -4773,6 +4983,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG_HIRCHY" name="FK89519D3EA52425EC">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4803,13 +5015,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="ORG" size="255" type="VARCHAR"/>
         <column name="RELATED_ORG" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG" name="FK514793C96B1D9540">
             <reference foreign="ID" local="ORG"/>
         </foreign-key>
@@ -4825,6 +5038,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG_ORG_RELTN" name="FK97D3ECA7D0624BB7">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4835,9 +5050,11 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
         <column name="REV_DESCR" size="255" type="VARCHAR"/>
         <column name="REV_NAME" size="255" type="VARCHAR"/>
         <column name="ORG_HIRCHY" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG_HIRCHY" name="FK97DCA1F0B59FB077">
             <reference foreign="ID" local="ORG_HIRCHY"/>
         </foreign-key>
@@ -4847,6 +5064,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG_ORG_RELTN_TYPE" name="FK4CC49EE0FFEE2D11">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4857,13 +5076,14 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="PERS_ID" size="255" type="VARCHAR"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="ORG" size="255" type="VARCHAR"/>
         <column name="ORG_PERS_RELTN_TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG" name="FK573FBFF96B1D9540">
             <reference foreign="ID" local="ORG"/>
         </foreign-key>
@@ -4881,6 +5101,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN" name="FKF3FFDE77556628A0">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4891,12 +5113,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSOR_ORG_PERS_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="FK76574F1074776D7A">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4907,7 +5133,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="DESCR" size="2000" type="VARCHAR"/>
         <column name="MAX_NUM_RELTN" size="255" type="VARCHAR"/>
         <column name="MIN_NUM_RELTN" size="10" type="DECIMAL"/>
@@ -4916,6 +5142,7 @@
         <column name="TTL" size="255" type="VARCHAR"/>
         <column name="ORG" size="255" type="VARCHAR"/>
         <column name="PERS_RELTN_TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="FK28B35D849AD356D6">
             <reference foreign="TYPE_KEY" local="PERS_RELTN_TYPE"/>
         </foreign-key>
@@ -4932,6 +5159,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG_POS_RESTR" name="FKE877FFCC58A41D9A">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -4942,12 +5171,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSOR_ORG_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSOR_ORG_TYPE" name="FKBE358C271A454E69">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -4968,7 +5201,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="DETAIL_DESC" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
@@ -4977,6 +5210,7 @@
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="WORKFLOW_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_TYPE" name="FK1ED72A27AEB6084D">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -4986,6 +5220,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSPR_PROPOSAL" name="FK82F9A10998B52CEC">
             <reference foreign="PROPOSAL_ID" local="OWNER"/>
         </foreign-key>
@@ -4994,6 +5230,8 @@
         <column name="ORGREF_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ORG_ID" size="255" type="VARCHAR"/>
         <column name="PROPOSAL_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSPR_PROPOSAL" name="FKBA219261F4EE03C1">
             <reference foreign="PROPOSAL_ID" local="PROPOSAL_ID"/>
         </foreign-key>
@@ -5002,6 +5240,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="PERSONREF_ID" size="255" type="VARCHAR"/>
         <column name="PROPOSAL_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSPR_PROPOSAL" name="FK49CD2E98F4EE03C1">
             <reference foreign="PROPOSAL_ID" local="PROPOSAL_ID"/>
         </foreign-key>
@@ -5020,6 +5260,8 @@
         <column name="REFERENCE_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJECT_REFERENCE_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_REFTYPE" name="FK8762F132C914EA6">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -5030,12 +5272,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSPR_PROPOSAL_REFTYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_REFTYPE" name="FK706DC3DB32AEB21F">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -5046,12 +5292,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSPR_PROPOSAL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSPR_PROPOSAL_TYPE" name="FK604A57BEB4D36BC6">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -5060,6 +5310,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="500" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_NL_USAGE_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5067,6 +5319,8 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_OBJECT_SUB_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5074,12 +5328,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_OBJECT_SUB_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_OBJECT_SUB_TYPE" name="FK6822C42DF3E046BA">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -5090,12 +5348,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_OBJECT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_OBJECT_TYPE" name="FK8E00FA8C1430AEA0">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -5142,7 +5404,7 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="REF_OBJ_ID" size="255" type="VARCHAR"/>
@@ -5150,6 +5412,7 @@
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="REF_STMT_REL_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="STMT_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_REF_STMT_REL_TYPE" name="FK815B8C8490C0C35">
             <reference foreign="TYPE_KEY" local="REF_STMT_REL_TYPE_ID"/>
         </foreign-key>
@@ -5162,6 +5425,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_REF_STMT_REL" name="FKEC9530CC9455CEBF">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -5172,12 +5437,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_REF_STMT_REL_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_REF_STMT_REL_TYPE" name="FK115129DBC8D8EC19">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -5188,12 +5457,13 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="REQ_COM_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FK5A2429AAF942310E">
             <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
         </foreign-key>
@@ -5205,6 +5475,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="REQ_COM_FIELD_TYPE" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_REQ_COM_FIELD_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5220,6 +5492,8 @@
         <column name="NAME" required="true" size="255" type="VARCHAR"/>
         <column name="READ_ONLY" required="true" size="1" type="DECIMAL"/>
         <column name="VALID_CHARS" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_REQ_COM_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5227,12 +5501,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_REQ_COM_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FKEBAC0F81C17B1260">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -5245,6 +5523,8 @@
         <column name="NL_USUAGE_TYPE_KEY" size="255" type="VARCHAR"/>
         <column name="TEMPLATE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FKE878886C17B1260">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -5253,6 +5533,8 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="500" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_RSTMT_RTYP_JN_OSUB_TYP">
         <column name="REF_STMT_REL_TYPE_ID" required="true" size="255" type="VARCHAR"/>
@@ -5280,12 +5562,13 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="VERSIONIND" required="true" size="19" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="OPERATOR" size="255" type="VARCHAR"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="STMT_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FKD96C147EBD6236BE">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
@@ -5298,6 +5581,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_STMT" name="FK275C9512802E64CE">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -5331,12 +5616,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
     <table name="KSST_STMT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FK96FB81554B49E2A8">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
@@ -5369,6 +5658,8 @@
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="KSST_NL_USAGE_TYPE" name="FKC4CAC822AF9F30BC">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>

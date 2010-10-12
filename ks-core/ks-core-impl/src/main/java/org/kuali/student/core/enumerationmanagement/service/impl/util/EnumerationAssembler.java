@@ -58,7 +58,7 @@ public class EnumerationAssembler {
             List<ContextEntity> contextEntityList = enumeratedValueEntity.getContextEntityList();
             List<EnumContextValueInfo> contextList = new ArrayList<EnumContextValueInfo>();
             
-            enumeratedValue.setEnumerationKey(enumeratedValueEntity.getEnumeration().getKey());
+            enumeratedValue.setEnumerationKey(enumeratedValueEntity.getEnumeration().getId());
             
             for (ContextEntity c : contextEntityList) {
             	EnumContextValueInfo context = new EnumContextValueInfo();
@@ -105,7 +105,7 @@ public class EnumerationAssembler {
     public static void toEnumerationInfo(Enumeration enumerationEntity, EnumerationInfo enumerationMeta) {
         try {
             BeanUtils.copyProperties(enumerationMeta, enumerationEntity);
-            enumerationMeta.setId(enumerationEntity.getKey());
+            enumerationMeta.setId(enumerationEntity.getId());
         } catch (IllegalAccessException e) {
             logger.error("Exception occured: ", e);
         } catch (InvocationTargetException e) {
@@ -117,7 +117,7 @@ public class EnumerationAssembler {
     public static void toEnumeration(EnumerationInfo enumerationMeta, Enumeration enumerationEntity) {
         try {
             BeanUtils.copyProperties(enumerationEntity, enumerationMeta);
-            enumerationEntity.setKey(enumerationMeta.getId());
+            enumerationEntity.setId(enumerationMeta.getId());
         } catch (IllegalAccessException e) {
             logger.error("Exception occured: ", e);
         } catch (InvocationTargetException e) {

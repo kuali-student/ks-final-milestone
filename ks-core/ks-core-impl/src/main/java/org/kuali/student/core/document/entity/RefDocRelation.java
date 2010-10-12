@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -16,7 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -30,10 +28,6 @@ import org.kuali.student.core.entity.MetaEntity;
     })
 public class RefDocRelation extends MetaEntity implements AttributeOwner<RefDocRelationAttribute>{
 
-    @Id
-    @Column(name = "ID")
-    private String id;
-    
     @Column(name = "REF_OBJ_ID")
     private String refObjectId;
 
@@ -67,16 +61,7 @@ public class RefDocRelation extends MetaEntity implements AttributeOwner<RefDocR
     @Column(name = "ST")
     private String state;
 
-    /**
-     * AutoGenerate the Id
-     */
-    @Override
-    protected void onPrePersist() {
-        super.onPrePersist();
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<RefDocRelationAttribute> attributes;
     
 	@Override
@@ -88,15 +73,6 @@ public class RefDocRelation extends MetaEntity implements AttributeOwner<RefDocR
 	public List<RefDocRelationAttribute> getAttributes() {
 		return this.attributes;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 
 	public String getRefObjectId() {
 		return refObjectId;

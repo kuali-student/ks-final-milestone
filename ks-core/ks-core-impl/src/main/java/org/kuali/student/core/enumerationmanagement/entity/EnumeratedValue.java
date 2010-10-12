@@ -23,26 +23,21 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name="KSEM_ENUM_VAL_T")
-public class EnumeratedValue {
-    @Id
-    @Column(name="ID")
-    String id;
+public class EnumeratedValue extends BaseEntity {
 
-    @Column(name="CD")
+	@Column(name="CD")
     String code;
     
     @Column(name="VAL")
@@ -74,22 +69,6 @@ public class EnumeratedValue {
             @JoinColumn(name="CTX_ID", referencedColumnName="ID")
     )
     List<ContextEntity> contextEntityList = new ArrayList<ContextEntity>();
-
-    /**
-     * AutoGenerate the id
-     */
-    @PrePersist
-    public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
-    }
-    
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public Enumeration getEnumeration() {
         return enumeration;

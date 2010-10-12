@@ -550,8 +550,9 @@
    <bean id="EnumMetaCampus"
    		class="org.kuali.student.core.enumerationmanagement.entity.Enumeration">
 		<property name="descr"	value="kuali.lu.campusLocation" />
-		<property name="key"	value="kuali.lu.campusLocation" />
+		<property name="id"	value="kuali.lu.campusLocation" />
 		<property name="name"	value="kuali.lu.campusLocation" />
+		<property name="versionNumber" value="0" />
 	</bean>
 
 	<bean id="northCampus"
@@ -562,6 +563,7 @@
 		<property name="enumeration" ref="EnumMetaCampus" />
 		<property name="sortKey" value="31" />
 		<property name="value" value="North Campus" />
+		<property name="versionNumber" value="0" />
 	</bean>
 	<bean id="southCampus"
 		class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
@@ -571,6 +573,7 @@
 		<property name="enumeration" ref="EnumMetaCampus" />
 		<property name="sortKey" value="32" />
 		<property name="value" value="South Campus" />
+		<property name="versionNumber" value="0" />
 	</bean>
 
 	<bean id="persistObjectsBean" class="org.kuali.student.common.test.spring.PersistObjectsBean">
@@ -585,9 +588,9 @@
 				</entry>
 				<entry key-ref="lrcEntityManager">
 					<list>
-                        <bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.multiple"/>
-						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.fixed"/>
-						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.range"/>
+                        <bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.multiple" p:versionNumber="0" />
+						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.fixed" p:versionNumber="0"/>
+						<bean class="org.kuali.student.lum.lrc.entity.ResultComponentType" p:id="kuali.resultComponentType.credit.degree.range" p:versionNumber="0"/>
 					</list>
 				</entry>
 			</map>

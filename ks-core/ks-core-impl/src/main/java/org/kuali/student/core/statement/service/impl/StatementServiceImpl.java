@@ -917,7 +917,7 @@ public class StatementServiceImpl implements StatementService {
 	    if (stmt == null) {
 	        throw new DoesNotExistException("Statement does not exist for id: " + statementTreeViewInfo.getId());
 		}
-		if (!String.valueOf(stmt.getVersionInd()).equals(statementTreeViewInfo.getMetaInfo().getVersionInd())) {
+		if (!String.valueOf(stmt.getVersionNumber()).equals(statementTreeViewInfo.getMetaInfo().getVersionInd())) {
 		    throw new VersionMismatchException("Statement to be updated is not the current version");
 		}
 		   

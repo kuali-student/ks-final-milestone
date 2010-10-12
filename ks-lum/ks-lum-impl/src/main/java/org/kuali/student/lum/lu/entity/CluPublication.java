@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -31,7 +30,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -67,10 +65,6 @@ public class CluPublication extends MetaEntity implements AttributeOwner<CluPubl
 	@Column(name = "ST")
 	private String state;
 
-	@Id
-	@Column(name = "ID")
-	private String id;
-
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
@@ -78,12 +72,6 @@ public class CluPublication extends MetaEntity implements AttributeOwner<CluPubl
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-
-	@Override
-	public void onPrePersist() {
-		super.onPrePersist();
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
 	
 	public String getStartCycle() {
 		return startCycle;
@@ -123,14 +111,6 @@ public class CluPublication extends MetaEntity implements AttributeOwner<CluPubl
 
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public void setVariants(List<CluPublicationVariant> variants) {

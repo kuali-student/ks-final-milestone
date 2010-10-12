@@ -81,7 +81,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 		long baseTime = System.currentTimeMillis();
     	
 		Enumeration key1 = new Enumeration();
-		key1.setKey("Key1");
+		key1.setId("Key1");
 		key1.setName("Key1");
 		
 		//Enumeration
@@ -171,7 +171,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	public void testFetchAndFindEnumerationMetas() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException{
         //Enumeration Meta
     	Enumeration dao = new Enumeration();
-    	dao.setKey("metaKey1");
+    	dao.setId("metaKey1");
     	dao.setDescr("metaDesc1");
     	dao.setName("Name1");
     	    	
@@ -180,7 +180,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 		
 		//fetchEnumerationMeta
 		EnumerationInfo dto = enumService.getEnumeration("metaKey1");
-    	assertEquals(dao.getKey(), dto.getId());
+    	assertEquals(dao.getId(), dto.getId());
     	assertEquals(dao.getName(), dto.getName());
     	assertEquals(dao.getDescr(), dto.getDescr());
     	
@@ -200,7 +200,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	
     	assertTrue(foundMeta);
     	
-    	assertEquals(dao.getKey(), dto.getId());
+    	assertEquals(dao.getId(), dto.getId());
     	assertEquals(dao.getName(), dto.getName());
     	assertEquals(dao.getDescr(), dto.getDescr());
 	}
@@ -210,7 +210,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	long baseTime = System.currentTimeMillis();
     	
         Enumeration key1 = new Enumeration();
-        key1.setKey("Key1");
+        key1.setId("Key1");
         key1.setName("Key1");
     	
     	EnumeratedValue entity1 = new EnumeratedValue();
@@ -364,7 +364,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 				
         Enumeration entity = new Enumeration();
         entity.setName("Name2");
-        entity.setKey("Key2");
+        entity.setId("Key2");
 		enumerationManagementDAO.addEnumeration(entity);
         
 		long baseTime = System.currentTimeMillis();
@@ -412,7 +412,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 
         Enumeration entity = new Enumeration();
         entity.setName("Name3");
-        entity.setKey("Key3");
+        entity.setId("Key3");
         enumerationManagementDAO.addEnumeration(entity);
 		
 		long baseTime = System.currentTimeMillis();
@@ -488,7 +488,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 
         Enumeration entity = new Enumeration();
         entity.setName("Name3");
-        entity.setKey("Key3");
+        entity.setId("Key3");
         enumerationManagementDAO.addEnumeration(entity);
 		
 		long baseTime = System.currentTimeMillis();
@@ -524,12 +524,12 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	    enumService.setEnumDAO(enumerationManagementDAO);
 
 		Enumeration semesterEnum = new Enumeration();
-		semesterEnum.setKey("SemesterEnum");
+		semesterEnum.setId("SemesterEnum");
 		semesterEnum.setDescr("Semester Enum");
 		semesterEnum.setName("SemesterEnum");
 
         Enumeration cityEnum = new Enumeration();
-        cityEnum.setKey("CityEnum");
+        cityEnum.setId("CityEnum");
         cityEnum.setDescr("CityEnum ");
         cityEnum.setName("CityEnum");
 		

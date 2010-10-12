@@ -29,7 +29,7 @@ public class Meta {
 //	@Version
 //	private long versionInd;
 	
-//	public long getVersionInd() {
+//	public long getVersionNumber() {
 //	    return versionInd;
 //  }
 //

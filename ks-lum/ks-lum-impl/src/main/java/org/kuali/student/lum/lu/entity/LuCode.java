@@ -20,23 +20,17 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LU_CODE")
 public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute> {
-
-	@Id
-    @Column(name = "ID")
-    private String id;
     
 	@Column(name = "DESCR")
 	private String descr;
@@ -53,11 +47,6 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	@ManyToOne
 	@JoinColumn(name="CLU_ID")
 	private Clu clu;
-	
-    @Override
-    public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
 	
 	public String getDescr() {
 		return descr;
@@ -99,11 +88,4 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 		this.clu = clu;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 }

@@ -18,11 +18,12 @@ package org.kuali.student.core.document.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -33,7 +34,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -45,13 +45,10 @@ import org.kuali.student.core.entity.MetaEntity;
  */
 @Entity
 @Table(name = "KSDO_DOCUMENT")
-
+@AttributeOverrides({
+    @AttributeOverride(name="id", column=@Column(name="DOC_ID"))})
 public class Document extends MetaEntity implements AttributeOwner<DocumentAttribute> {
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @Column(name = "DOC_ID")
-    private String id;
 
     @Column(name = "NAME")
     private String name;
@@ -95,29 +92,6 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
             @JoinColumn(name="CATEGORY_ID", referencedColumnName="CATEGORY_ID")
     )
     private List<DocumentCategory> categoryList; 
-    
-    /**
-     * AutoGenerate the Id
-     */
-    @Override
-    protected void onPrePersist() {
-        super.onPrePersist();
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-    
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
     
     public String getName(){
         return name;

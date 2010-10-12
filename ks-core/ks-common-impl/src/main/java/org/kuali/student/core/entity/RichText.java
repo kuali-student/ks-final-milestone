@@ -16,41 +16,19 @@
 package org.kuali.student.core.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-
-import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class RichText {
-	@Id
-	private String id;
+public class RichText extends BaseEntity{
 
 	@Column(name = "PLAIN",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String plain;
 
 	@Column(name = "FORMATTED",length=KSEntityConstants.SHORT_TEXT_LENGTH)
 	private String formatted;
-
-	/**
-	 * AutoGenerate the Id
-	 */
-	@PrePersist
-	public void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getPlain() {
 		return plain;
