@@ -9,15 +9,14 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 
 import com.google.gwt.dom.client.Style;
@@ -25,7 +24,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CluSetDetailsWidget extends Composite {
     
@@ -129,7 +132,7 @@ public class CluSetDetailsWidget extends Composite {
                 final String cluSetId = cluSet.getId();
                 HorizontalPanel cluSetNamePanel = new HorizontalPanel();
                 Hyperlink cluSetNameLabel = new Hyperlink(cluSet.getName(),
-                        AppLocations.Locations.MANAGE_CLU_SETS.getLocation() + "/" +
+                        "/HOME/CURRICULUM_HOME/CLU_SETS" + "/" +
                         ClusetView.CluSetsManagementViews.VIEW.toString() + "&docId=" + cluSetId);
                 KSLabel itemType = new KSLabel("Course Set");
                 itemType.getElement().getStyle().setProperty("color", "grey");
@@ -246,7 +249,7 @@ public class CluSetDetailsWidget extends Composite {
                 ViewContext viewContext = new ViewContext();
                 viewContext.setId(clu.getId());
                 viewContext.setIdType(IdType.OBJECT_ID);
-                Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
+                Application.navigate("/HOME/CURRICULUM_HOME/VIEW_COURSE", viewContext);
             }
         });
         columnIndex++;

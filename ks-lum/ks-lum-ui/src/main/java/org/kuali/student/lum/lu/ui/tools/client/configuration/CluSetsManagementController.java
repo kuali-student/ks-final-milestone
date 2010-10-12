@@ -233,7 +233,7 @@ public class CluSetsManagementController extends BasicLayout {
         } else {
             progressWindow.show();
 
-            cluSetManagementRpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
+            cluSetManagementRpcServiceAsync.getMetadata("cluset", null, new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -321,7 +321,8 @@ public class CluSetsManagementController extends BasicLayout {
 	                    getCurrentView().updateModel();
 	                    CluSetsManagementController.this.updateModel();
 	                    // set reusable flag here for CluSetManagement.
-	                    CluSetHelper.wrap((Data)cluSetModel.getRoot().get("cluset")).setReusable(new Boolean(true));
+//	                    CluSetHelper.wrap((Data)cluSetModel.getRoot().get("cluset")).setReusable(new Boolean(true));
+	                    CluSetHelper.wrap((Data)cluSetModel.getRoot()).setReusable(new Boolean(true));
 	                    saveModel(cluSetModel, saveActionEvent);
 	                }
 	                else{

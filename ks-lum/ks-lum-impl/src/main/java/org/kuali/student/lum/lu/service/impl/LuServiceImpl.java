@@ -2814,17 +2814,26 @@ public class LuServiceImpl implements LuService {
 
 	private void findClusInCluSet(List<Clu> clus, CluSet parentCluSet)
 			throws DoesNotExistException {
-		for (Clu clu : parentCluSet.getClus()) {
-			if (!clus.contains(clu)) {
-				clus.add(clu);
-			}
-		}
-		// Recursion possible problem? Stack overflow
-		if(parentCluSet.getCluSets()!=null){
-			for (CluSet cluSet : parentCluSet.getCluSets()) {
-				findClusInCluSet(clus, cluSet);
-			}
-		}
+        List<String> processedCluSetIds = new ArrayList<String>();
+        doFindClusInCluSet(processedCluSetIds, clus, parentCluSet);
+	}
+	
+	private void doFindClusInCluSet(List<String> processedCluSetIds, 
+	        List<Clu> clus, CluSet parentCluSet) {
+        for (Clu clu : parentCluSet.getClus()) {
+            if (!clus.contains(clu)) {
+                clus.add(clu);
+            }
+        }
+        if(parentCluSet.getCluSets()!=null){
+            for (CluSet cluSet : parentCluSet.getCluSets()) {
+                // This condition avoids infinite recursion problem
+                if (!processedCluSetIds.contains(cluSet.getId())) {
+                    processedCluSetIds.add(cluSet.getId());
+                    doFindClusInCluSet(processedCluSetIds, clus, cluSet);
+                }
+            }
+        }
 	}
 
 	@Override

@@ -54,11 +54,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CluSetEditorWidget extends VerticalSectionView {
 
-//    private VerticalSection mainSection = new VerticalSection();
     private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
     private List<KSSelectedListPanelPair> selectedListPanelPairs = new ArrayList<KSSelectedListPanelPair>();
     private DataModelDefinition modelDefinition;
-    private final List<HandlerRegistration> showClusetDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
+//    private final List<HandlerRegistration> showClusetDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
     private final List<HandlerRegistration> showCluRangeDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
     private List<KSItemLabelPanelPair> itemLabelPanelPairs = new ArrayList<KSItemLabelPanelPair>();
 
@@ -66,7 +65,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             String name, String modelId, boolean showTitle,
             final Callback<Boolean> onReady) {
         super(viewEnum, name, modelId, showTitle);
-        cluSetManagementRpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
+        cluSetManagementRpcServiceAsync.getMetadata("cluset", null, new KSAsyncCallback<Metadata>(){
             @Override
             public void handleFailure(Throwable caught) {
             }
@@ -187,7 +186,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 null);
         KSSelectedList tempCluSetsSelection = (KSSelectedList) cluSetsTempFd.getFieldWidget();
         WidgetConfigInfo config = tempCluSetsSelection.getConfig();
-        final KSSelectedList cluSetsSelection = new KSSelectedList(config, true);
+        final KSSelectedList cluSetsSelection = new KSSelectedList(config, false);
         KSListPanel cluSetsListPanel = cluSetsSelection.separateValuesPanel();
         final FieldDescriptor cluSetsFd = addField(
                 cluSetSection, 
@@ -196,39 +195,39 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 cluSetsSelection, 
                 null);
         cluSetsFd.setWidgetBinding(new CluSetBinding());
-        cluSetsSelection.addSelectionChangeHandler(new SelectionChangeHandler() {
-            @Override
-            public void onSelectionChange(SelectionChangeEvent event) {
-                if (showClusetDetailsHandlerRegs != null) {
-                    for (HandlerRegistration showDetailsHandlerReg : showClusetDetailsHandlerRegs) {
-                        showDetailsHandlerReg.removeHandler();
-                    }
-                    showClusetDetailsHandlerRegs.clear();
-                }
-                List<KSItemLabel> selectedCluSets = cluSetsSelection.getSelectedItems();
-                for (final KSItemLabel selectedCluSet : selectedCluSets) {
-                    showClusetDetailsHandlerRegs.add(selectedCluSet.addShowDetailsHandler(new ClickHandler() {
-                        @Override
-                        public void onClick(ClickEvent event) {
-                            List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
-                            SearchParam cluSetIdParam = new SearchParam();
-                            cluSetIdParam.setKey("cluset.queryParam.optionalId");
-                            cluSetIdParam.setValue(selectedCluSet.getKey());
-                            queryParamValues.add(cluSetIdParam);
-                            SearchRequest clusInCluSetSearch = new SearchRequest();
-                            clusInCluSetSearch.setSearchKey("lu.search.clusInCluset");
-                            clusInCluSetSearch.setSortColumn("lu.resultColumn.cluOfficialIdentifier.longName");
-                            clusInCluSetSearch.setParams(queryParamValues);
-                            Metadata metaDataClusInCluSet =
-                                modelDefinition.getMetadata(QueryPath.parse("search/findClusInCluset"));
-                            SearchResultsLightBox srLightBox = new SearchResultsLightBox("View Course Set",
-                                    clusInCluSetSearch, metaDataClusInCluSet.getAdditionalLookups().get(0));
-                            srLightBox.show();
-                        }
-                    }));
-                }
-            }
-        });
+//        cluSetsSelection.addSelectionChangeHandler(new SelectionChangeHandler() {
+//            @Override
+//            public void onSelectionChange(SelectionChangeEvent event) {
+//                if (showClusetDetailsHandlerRegs != null) {
+//                    for (HandlerRegistration showDetailsHandlerReg : showClusetDetailsHandlerRegs) {
+//                        showDetailsHandlerReg.removeHandler();
+//                    }
+//                    showClusetDetailsHandlerRegs.clear();
+//                }
+//                List<KSItemLabel> selectedCluSets = cluSetsSelection.getSelectedItems();
+//                for (final KSItemLabel selectedCluSet : selectedCluSets) {
+//                    showClusetDetailsHandlerRegs.add(selectedCluSet.addShowDetailsHandler(new ClickHandler() {
+//                        @Override
+//                        public void onClick(ClickEvent event) {
+//                            List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+//                            SearchParam cluSetIdParam = new SearchParam();
+//                            cluSetIdParam.setKey("cluset.queryParam.optionalId");
+//                            cluSetIdParam.setValue(selectedCluSet.getKey());
+//                            queryParamValues.add(cluSetIdParam);
+//                            SearchRequest clusInCluSetSearch = new SearchRequest();
+//                            clusInCluSetSearch.setSearchKey("lu.search.clusInCluset");
+//                            clusInCluSetSearch.setSortColumn("lu.resultColumn.cluOfficialIdentifier.longName");
+//                            clusInCluSetSearch.setParams(queryParamValues);
+//                            Metadata metaDataClusInCluSet =
+//                                modelDefinition.getMetadata(QueryPath.parse("search/findClusInCluset"));
+//                            SearchResultsLightBox srLightBox = new SearchResultsLightBox("View Course Set",
+//                                    clusInCluSetSearch, metaDataClusInCluSet.getAdditionalLookups().get(0));
+//                            srLightBox.show();
+//                        }
+//                    }));
+//                }
+//            }
+//        });
         
         clusetDetails.addSection(cluSetSection, ToolsConstants.CLU_SET_SWAP_CLU_SETS);
         // END OF items related to Add CluSets
@@ -557,34 +556,34 @@ public class CluSetEditorWidget extends VerticalSectionView {
         @Override
         public void setWidgetValue(HasDataValue widget, DataModel model, String path) {
             binding.setWidgetValue(widget, model, path);
-            if (showClusetDetailsHandlerRegs != null) {
-                for (HandlerRegistration showDetailsHandlerReg : showClusetDetailsHandlerRegs) {
-                    showDetailsHandlerReg.removeHandler();
-                }
-                showClusetDetailsHandlerRegs.clear();
-            }
-            List<KSItemLabel> selectedCluSets = ((KSSelectedList)widget).getSelectedItems();
-            for (final KSItemLabel selectedCluSet : selectedCluSets) {
-                showClusetDetailsHandlerRegs.add(selectedCluSet.addShowDetailsHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
-                        SearchParam cluSetIdParam = new SearchParam();
-                        cluSetIdParam.setKey("cluset.queryParam.optionalId");
-                        cluSetIdParam.setValue(selectedCluSet.getKey());
-                        queryParamValues.add(cluSetIdParam);
-                        SearchRequest clusInCluSetSearch = new SearchRequest();
-                        clusInCluSetSearch.setSearchKey("lu.search.clusInCluset");
-                        clusInCluSetSearch.setSortColumn("lu.resultColumn.cluOfficialIdentifier.longName");
-                        clusInCluSetSearch.setParams(queryParamValues);
-                        Metadata metaDataClusInCluSet =
-                            modelDefinition.getMetadata(QueryPath.parse("search/findClusInCluset"));
-                        SearchResultsLightBox srLightBox = new SearchResultsLightBox("View Course Set",
-                                clusInCluSetSearch, metaDataClusInCluSet.getAdditionalLookups().get(0));
-                        srLightBox.show();
-                    }
-                }));
-            }
+//            if (showClusetDetailsHandlerRegs != null) {
+//                for (HandlerRegistration showDetailsHandlerReg : showClusetDetailsHandlerRegs) {
+//                    showDetailsHandlerReg.removeHandler();
+//                }
+//                showClusetDetailsHandlerRegs.clear();
+//            }
+//            List<KSItemLabel> selectedCluSets = ((KSSelectedList)widget).getSelectedItems();
+//            for (final KSItemLabel selectedCluSet : selectedCluSets) {
+//                showClusetDetailsHandlerRegs.add(selectedCluSet.addShowDetailsHandler(new ClickHandler() {
+//                    @Override
+//                    public void onClick(ClickEvent event) {
+//                        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+//                        SearchParam cluSetIdParam = new SearchParam();
+//                        cluSetIdParam.setKey("cluset.queryParam.optionalId");
+//                        cluSetIdParam.setValue(selectedCluSet.getKey());
+//                        queryParamValues.add(cluSetIdParam);
+//                        SearchRequest clusInCluSetSearch = new SearchRequest();
+//                        clusInCluSetSearch.setSearchKey("lu.search.clusInCluset");
+//                        clusInCluSetSearch.setSortColumn("lu.resultColumn.cluOfficialIdentifier.longName");
+//                        clusInCluSetSearch.setParams(queryParamValues);
+//                        Metadata metaDataClusInCluSet =
+//                            modelDefinition.getMetadata(QueryPath.parse("search/findClusInCluset"));
+//                        SearchResultsLightBox srLightBox = new SearchResultsLightBox("View Course Set",
+//                                clusInCluSetSearch, metaDataClusInCluSet.getAdditionalLookups().get(0));
+//                        srLightBox.show();
+//                    }
+//                }));
+//            }
         }
     }
     

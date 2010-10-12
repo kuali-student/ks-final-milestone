@@ -17,8 +17,6 @@ import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -42,9 +40,9 @@ public class ClusetView extends VerticalSectionView {
 
     private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
     private DataModelDefinition modelDefinition;
+    private DataModelDefinition searchDefinition;
     private String selectedCluSetId;
     private CluSetsManagementViews viewEnum;
-    private BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
     private SimplePanel cluSetDisplay = new SimplePanel();
     private CluSetEditorWidget cluSetEditor;
 
@@ -67,24 +65,39 @@ public class ClusetView extends VerticalSectionView {
                     clusetViewEnum, name, modelId, false, null);
         }
         viewEnum = clusetViewEnum;
-        cluSetManagementRpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
+        cluSetManagementRpcServiceAsync.getMetadata("cluset", null, new KSAsyncCallback<Metadata>(){
             @Override
             public void handleFailure(Throwable caught) {
+                Window.alert("Failed to retrieve cluset definition");
             }
             @Override
             public void onSuccess(Metadata result) {
                 DataModelDefinition def = new DataModelDefinition(result);
-                setDef(def);
-                setupView(clusetViewEnum);
-                if (onReady != null) {
-                    onReady.exec(new Boolean(true));
-                }
+                setModelDefinition(def);
+                cluSetManagementRpcServiceAsync.getMetadata("search", null, new AsyncCallback<Metadata>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        Window.alert("Failed to retrieve searchDefinition");
+                    }
+                    @Override
+                    public void onSuccess(Metadata result) {
+                        setSearchDefinition(new DataModelDefinition(result));
+                        setupView(clusetViewEnum);
+                        if (onReady != null) {
+                            onReady.exec(new Boolean(true));
+                        }
+                    }
+                });
             }
         });
     }
     
-    private void setDef(DataModelDefinition def) {
-        this.modelDefinition = def;
+    private void setModelDefinition(DataModelDefinition modelDefinition) {
+        this.modelDefinition = modelDefinition;
+    }
+    
+    private void setSearchDefinition(DataModelDefinition searchDefinition) {
+        this.searchDefinition = searchDefinition;
     }
     
     @Override
@@ -97,25 +110,10 @@ public class ClusetView extends VerticalSectionView {
     
     private void refreshCluSetDisplay() {
         if (this.selectedCluSetId != null) {
-            {
-                KSBlockingProgressIndicator.addTask(retrievingTask);
-                cluSetManagementRpcServiceAsync.getCluSetInformation(selectedCluSetId, 
-                        new AsyncCallback<CluSetInformation>() {
-                            @Override
-                            public void onFailure(Throwable caught) {
-                                KSBlockingProgressIndicator.removeTask(retrievingTask);
-                                Window.alert("failed to get Cluset information");
-                            }
-                            @Override
-                            public void onSuccess(CluSetInformation result) {
-                                CluSetDetailsWidget clusetDetailsWidget = 
-                                    new CluSetDetailsWidget(result, cluSetManagementRpcServiceAsync);
-                                cluSetDisplay.clear();
-                                cluSetDisplay.setWidget(clusetDetailsWidget);
-                                KSBlockingProgressIndicator.removeTask(retrievingTask);
-                            }
-                });
-            }
+            CluSetDetailsWidget clusetDetailsWidget = 
+                new CluSetDetailsWidget(selectedCluSetId, cluSetManagementRpcServiceAsync);
+            cluSetDisplay.clear();
+            cluSetDisplay.setWidget(clusetDetailsWidget);
         }
     }
     
@@ -217,7 +215,9 @@ public class ClusetView extends VerticalSectionView {
 
     private void setupCreateEditClusetView() {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), true);
-        addField(defineCluSet, ToolsConstants.CLU_SET_TYPE_FIELD, null, null, null);
+        FieldDescriptor typeField = getFieldDescriptor(ToolsConstants.CLU_SET_TYPE_FIELD, null, null, null);
+        typeField.getFieldWidget().setVisible(false);
+        defineCluSet.addField(typeField);
         addField(defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, generateMessageInfo(ToolsConstants.ORGANIZATION), null, null);
         addField(defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.TITLE), null, null);
         addField(defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, generateMessageInfo(ToolsConstants.DESCRIPTION), new KSTextArea(), null);
@@ -280,7 +280,7 @@ public class ClusetView extends VerticalSectionView {
 
     private Picker configureSearch(String fieldKey) {
         QueryPath path = QueryPath.concat(null, fieldKey);
-        Metadata metaData = modelDefinition.getMetadata(path);
+        Metadata metaData = searchDefinition.getMetadata(path);
         Picker picker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
         return picker;
     }

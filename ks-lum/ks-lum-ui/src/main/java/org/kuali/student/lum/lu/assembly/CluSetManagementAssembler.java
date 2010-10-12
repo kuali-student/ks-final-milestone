@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.type.MetaType;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -58,9 +61,18 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
     public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
 //    public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
-    public static final String CLUSET_DATA_TYPE = "CluSetManagement";
+    public static final String CLUSET_DATA_TYPE = "cluset";
 
     private LuService luService;
+    private MetadataServiceImpl metadataService;
+
+    public MetadataServiceImpl getMetadataService() {
+        return metadataService;
+    }
+
+    public void setMetadataService(MetadataServiceImpl metadataService) {
+        this.metadataService = metadataService;
+    }
 
     @Override
     public Data get(String id) throws AssemblyException {
@@ -74,8 +86,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             if (resultCluSetHelper == null) {
                 resultData = null;
             } else {
-                resultData = new Data();
-                resultData.set("cluset", resultCluSetHelper.getData());
+//                resultData = new Data();
+//                resultData.set("cluset", resultCluSetHelper.getData());
+                resultData = resultCluSetHelper.getData();
             }
         } catch (Exception e) {
             throw new AssemblyException("Could not retrive cluSet with id " + id, e);
@@ -267,7 +280,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
     private SaveResult<Data> saveCluSet(Data input) throws AssemblyException {
         SaveResult<Data> result = new SaveResult<Data>();
-        CluSetHelper cluSetHelper = new CluSetHelper((Data)input.get("cluset"));
+//        CluSetHelper cluSetHelper = new CluSetHelper((Data)input.get("cluset"));
+        CluSetHelper cluSetHelper = new CluSetHelper(input);
         CluSetInfo cluSetInfo = toCluSetInfo(cluSetHelper);
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
@@ -282,10 +296,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             }
         } else {
             try {
-                //FIXME should user be specifying the type
-                //TODO remove when done testing
-                cluSetInfo.setType("kuali.cluSet.type.creditCourse");
-                // end of test code
+                if (cluSetInfo.getType() == null) {
+                    cluSetInfo.setType("kuali.cluSet.type.creditCourse");
+                }
                 updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
             } catch (Exception e) {
                 LOG.error("Failed to create cluset",e);
@@ -300,8 +313,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         if (resultCluSetHelper == null) {
             resultData = null;
         } else {
-            resultData = new Data();
-            resultData.set("cluset", resultCluSetHelper.getData());
+//            resultData = new Data();
+//            resultData.set("cluset", resultCluSetHelper.getData());
+            resultData = resultCluSetHelper.getData();
         }
         result.setValue(resultData);
         return result;
@@ -470,8 +484,14 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 	protected String getDataType() {
 		return CLUSET_DATA_TYPE;
 	}
-
+	
 	@Override
+    public Metadata getDefaultMetadata() {
+        // TODO Auto-generated method stub
+        return metadataService.getMetadata(getDataType());
+    }
+
+    @Override
 	protected String getDocumentPropertyName() {
         return "course";							//FIXME
 	}

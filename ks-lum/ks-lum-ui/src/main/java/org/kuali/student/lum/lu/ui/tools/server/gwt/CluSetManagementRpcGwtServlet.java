@@ -19,10 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
+import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
@@ -36,8 +39,7 @@ import org.kuali.student.lum.lu.ui.tools.client.configuration.CluInformation;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetInformation;
 import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 
-public class CluSetManagementRpcGwtServlet extends
-		AbstractBaseDataOrchestrationRpcGwtServlet implements
+public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
 
 	private static final long serialVersionUID = 1L;
@@ -60,31 +62,28 @@ public class CluSetManagementRpcGwtServlet extends
     public void setLrcService(LrcService lrcService) {
         this.lrcService = lrcService;
     }
+    
+    @Override
+    public Data getData(String id) throws OperationFailedException {
+        try{
+            return getDataService().getData(id);
+        } catch (Exception e) {
+            LOG.error("Could not get Data ", e);
+            throw new OperationFailedException("Failed to get data");
+        }
+    }
 
     @Override
-	protected String getDefaultMetaDataState() {
-		return null; //DEFAULT_METADATA_STATE;
-	}
-
-	@Override
-	protected String getDefaultMetaDataType() {
-		return null; //DEFAULT_METADATA_TYPE;
-	}
-
-	@Override
-	protected String getDefaultWorkflowDocumentType() {
-		return null; //WF_TYPE_CLU_DOCUMENT;
-	}
-	
-	@Override
-	protected String deriveAppIdFromData(Data data) {
-		return null;
-	}
-
-	@Override
-	protected String deriveDocContentFromData(Data data) {
-		return null;
-	}
+    public DataSaveResult saveData(Data data) throws OperationFailedException {
+        try{
+            return getDataService().saveData(data);
+        }catch (DataValidationErrorException dvee){
+            return new DataSaveResult(dvee.getValidationResults(), null);
+        } catch (Exception e) {
+            LOG.error("Could not save data ", e);
+            throw new OperationFailedException("Failed to save data");
+        } 
+    }
 
     private CluSetInfo getCluSetInfo(String cluSetId) throws OperationFailedException {
         List<String> cluIds = null;

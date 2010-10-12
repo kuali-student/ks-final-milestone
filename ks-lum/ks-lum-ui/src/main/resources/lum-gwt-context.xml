@@ -247,7 +247,34 @@
         <property name="transformationManager" ref="courseProposalTransformationManager"/>
     </bean>
     
+    <bean id="CluSetManagementRpcGwtServlet"
+          class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
+        <property name="luService" ref="luClient"/>
+        <property name="lrcService" ref="lrcClient"/>
+        <property name="dataService" ref="CluSetDataService"/>
+    </bean>
+    
+    <bean id="CluSetDataService"
+          class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetDataService">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+        <property name="assembler" ref="CluSetManagementFilterManager"/>
+    </bean>
+    
+    <bean id="CluSetManagementFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
+        <constructor-arg ref="cluSetManagementAssembler"/>
+        <property name="filters">
+            <list>
+                <ref bean="idTranslatorAssemblerFilter"/>
+            </list>
+        </property>
+    </bean>
 
+    <bean id="cluSetManagementAssembler" class="org.kuali.student.lum.lu.assembly.CluSetManagementAssembler"
+          parent="baseAssembler">
+        <property name="luService" ref="luClient"/>
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
+    </bean>
+    
     <!--Program Servlet Declaration-->
     <bean id="statementRpcServlet" class="org.kuali.student.lum.program.server.StatementRpcServlet">
         <property name="service" ref="luClient"/>
@@ -370,28 +397,6 @@
     <bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="metadataService" ref="metadataServiceImpl"/>
-    </bean>
-
-    <bean id="CluSetManagementRpcGwtServlet"
-          class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
-        <property name="assembler" ref="CluSetManagementFilterManager"/>
-        <property name="permissionService" ref="permissionServiceClient"/>
-        <property name="luService" ref="luClient"/>
-        <property name="lrcService" ref="lrcClient"/>
-    </bean>
-
-    <bean id="CluSetManagementFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
-        <constructor-arg ref="cluSetManagementAssembler"/>
-        <property name="filters">
-            <list>
-                <ref bean="idTranslatorAssemblerFilter"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="cluSetManagementAssembler" class="org.kuali.student.lum.lu.assembly.CluSetManagementAssembler"
-          parent="baseAssembler">
-        <property name="luService" ref="luClient"/>
     </bean>
 
     <!-- Metadata lookup service -->
