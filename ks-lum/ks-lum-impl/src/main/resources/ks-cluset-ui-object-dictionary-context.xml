@@ -61,14 +61,14 @@
 
  <bean id="freestanding.cluset.type-parent" abstract="true" parent="cluSetInfo.type-parent">
   <property name="name" value="type"/>
-  <property name="minOccurs" value="1"/>
+  <property name="minOccurs" value="0"/>
  </bean>
  <bean id="freestanding.cluset.type" parent="freestanding.cluset.type-parent"/>
 
 
  <bean id="freestanding.cluset.organization-parent" abstract="true" parent="cluSetInfo.adminOrg-parent">
   <property name="name" value="organization"/>
-  <property name="minOccurs" value="1"/>
+  <property name="minOccurs" value="0"/>
  </bean>
  <bean id="freestanding.cluset.organization" parent="freestanding.cluset.organization-parent"/>
 
