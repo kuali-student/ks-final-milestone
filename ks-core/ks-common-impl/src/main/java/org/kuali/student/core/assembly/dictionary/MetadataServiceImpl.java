@@ -187,6 +187,14 @@ public class MetadataServiceImpl {
                 metadata.setLabelKey(fd.getLabelKey());
                 metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));
 
+	           	if (fd.isPartialMask()){
+	           		metadata.setPartialMaskFormatter(fd.getPartialMaskFormatter());
+	           	}
+	           	
+	           	if (fd.isMask()){
+	           		metadata.setMaskFormatter(fd.getMaskFormatter());
+	           	}
+
                 // Get properties for nested object structure
                 Map<String, Metadata> nestedProperties = null;
                 if (fd.getDataType() == org.kuali.student.core.dictionary.dto.DataType.COMPLEX && fd.getDataObjectStructure() != null) {

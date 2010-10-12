@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.xml.bind.annotation.XmlElement;
+
 public class Metadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,7 +43,10 @@ public class Metadata implements Serializable {
     private boolean canEdit = true;
     private boolean dynamic = false;
     
-    private boolean onChangeRefreshMetadata;
+	protected String partialMaskFormatter;//Regex replace to do a partial mask  	
+	protected String maskFormatter;//Regex replace to do a mask
+	
+	private boolean onChangeRefreshMetadata;
 
     private Data.DataType dataType;
     
@@ -284,5 +289,21 @@ public class Metadata implements Serializable {
 
 	public void setLabelKey(String labelKey) {
 		this.labelKey = labelKey;
+	}
+
+    public String getPartialMaskFormatter() {
+		return partialMaskFormatter;
+	}
+
+	public void setPartialMaskFormatter(String partialMaskFormatter) {
+		this.partialMaskFormatter = partialMaskFormatter;
+	}
+
+	public String getMaskFormatter() {
+		return maskFormatter;
+	}
+
+	public void setMaskFormatter(String maskFormatter) {
+		this.maskFormatter = maskFormatter;
 	}
 }
