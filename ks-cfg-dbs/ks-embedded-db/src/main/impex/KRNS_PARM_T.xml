@@ -198,7 +198,7 @@
         PARM_DESC_TXT="Flag for enabling/disabling document type permission checks to use KIM Permissions as priority over Document Type policies."
         PARM_DTL_TYP_CD="All"
         PARM_NM="KIM_PRIORITY_ON_DOC_TYP_PERMS_IND" PARM_TYP_CD="CONFG"
-        TXT="N" VER_NBR="1"/>
+        TXT="Y" VER_NBR="1"/>
     <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-WKFLW"
         OBJ_ID="4656B6E7E9844E2C9E2255014AFC86B5"
         PARM_DESC_TXT="The maximum number of nodes the workflow engine will process before it determines the process is a runaway process.  This is prevent infinite &quot;loops&quot; in the workflow engine."
