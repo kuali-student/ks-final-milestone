@@ -33,11 +33,13 @@
 
  <bean id="freestanding.cluset.description-parent" abstract="true" parent="baseKualiDescription">
   <property name="name" value="description"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="freestanding.cluset.description" parent="freestanding.cluset.description-parent"/>
 
  <bean id="freestanding.cluset.effectiveDate-parent" abstract="true" parent="cluSetInfo.effectiveDate-parent">
   <property name="name" value="effectiveDate"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="freestanding.cluset.effectiveDate" parent="freestanding.cluset.effectiveDate-parent"/>
 
@@ -53,17 +55,20 @@
 
  <bean id="freestanding.cluset.name-parent" abstract="true" parent="cluSetInfo.name-parent">
   <property name="name" value="name"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="freestanding.cluset.name" parent="freestanding.cluset.name-parent"/>
 
  <bean id="freestanding.cluset.type-parent" abstract="true" parent="cluSetInfo.type-parent">
   <property name="name" value="type"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="freestanding.cluset.type" parent="freestanding.cluset.type-parent"/>
 
 
  <bean id="freestanding.cluset.organization-parent" abstract="true" parent="cluSetInfo.adminOrg-parent">
   <property name="name" value="organization"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="freestanding.cluset.organization" parent="freestanding.cluset.organization-parent"/>
 
