@@ -62,6 +62,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private String courseNumberSuffix;
 
     @XmlElement
+    private String level;
+
+    @XmlElement
     private String courseTitle;
 
     @XmlElement
@@ -188,6 +191,20 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     public void setCourseNumberSuffix(String courseNumberSuffix) {
         this.courseNumberSuffix = courseNumberSuffix;
+    }
+
+    /**
+     * 
+     * A code that indicates what level 100, 200 or upper division, lower division etc
+     * 
+     * @return
+     */
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     /**

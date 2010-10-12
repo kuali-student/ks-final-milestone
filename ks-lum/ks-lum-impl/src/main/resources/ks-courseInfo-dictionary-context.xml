@@ -20,6 +20,7 @@
     <ref bean="courseInfo.code" />
     <ref bean="courseInfo.unitsDeployment" />
     <ref bean="courseInfo.courseNumberSuffix" />
+    <ref bean="courseInfo.level" />
     <ref bean="courseInfo.courseSpecificLOs" />
     <ref bean="courseInfo.courseTitle" />
     <ref bean="courseInfo.crossListings" />
@@ -121,6 +122,11 @@
   <property name="validChars" ref="digits" />
  </bean>
  <bean id="courseInfo.courseNumberSuffix" parent="courseInfo.courseNumberSuffix-parent" />
+
+ <bean id="courseInfo.level-parent" abstract="true" parent="cluIdentifierInfo.level-parent">
+  <property name="name" value="level" />
+ </bean>
+ <bean id="courseInfo.level" parent="courseInfo.level-parent" />
 
  <bean id="courseInfo.courseSpecificLOs-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="courseSpecificLOs" />

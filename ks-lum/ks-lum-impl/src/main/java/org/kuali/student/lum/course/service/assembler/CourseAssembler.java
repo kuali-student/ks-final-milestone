@@ -63,6 +63,7 @@ import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
+import org.springframework.util.StringUtils;
 /**
  * Assembler for CourseInfo. Provides assemble and disassemble operation on
  * CourseInfo from/to CluInfo and other base DTOs
@@ -90,12 +91,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Copy all the data from the clu to the course
 		
-
 		course.setAttributes(clu.getAttributes());
 		course.setCampusLocations(clu.getCampusLocations());
 		course.setCode(clu.getOfficialIdentifier().getCode());
 		course.setCourseNumberSuffix(clu.getOfficialIdentifier()
 				.getSuffixCode());
+		course.setLevel(clu.getOfficialIdentifier().getLevel());
 		course.setOutOfClassHours(clu.getIntensity());
 		course.setInstructors(clu.getInstructors());
 		course.setStartTerm(clu.getExpectedFirstAtp());
@@ -317,7 +318,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		
 		//Custom logic to set the level
-		if(course.getCourseNumberSuffix()!=null&&course.getCourseNumberSuffix().length()>=3){
+		if(StringUtils.hasText(course.getLevel())) {
+		    identifier.setLevel(course.getLevel());
+		} else if(course.getCourseNumberSuffix()!=null&&course.getCourseNumberSuffix().length()>=3){
 			identifier.setLevel(course.getCourseNumberSuffix().substring(0, 1)+"00");
 		}
 		
@@ -357,6 +360,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setSuffixCode(crossListing.getCourseNumberSuffix());
 			cluIdentifier.setDivision(crossListing.getSubjectArea());
 			cluIdentifier.setState(course.getState());
+			cluIdentifier.setOrgId(crossListing.getDepartment());
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
 
@@ -1071,6 +1075,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					crosslisting.setType(cluIdent.getType());
 					crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
 					crosslisting.setSubjectArea(cluIdent.getDivision());
+					crosslisting.setDepartment(cluIdent.getOrgId());
 					crossListings.add(crosslisting);
 				}
 			}
