@@ -78,6 +78,8 @@ public class CollaboratorSectionView extends SectionView {
 	private int numCollabs = 0;
 	
 	List<Data> newCollaborators = new ArrayList<Data>();
+    List<Data> removedCollaborators = new ArrayList<Data>();
+    private boolean canRemoveCollaborators = false;
 
     public CollaboratorSectionView(Enum<?> viewEnum, String name, String modelId) {
     	this(viewEnum, name, modelId, true);
@@ -209,24 +211,40 @@ public class CollaboratorSectionView extends SectionView {
 		});		
 	}
 	
-	private void checkAuthorization(final Callback<Boolean> onReadyCallback){
-		workflowRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new KSAsyncCallback<Boolean>(){
-			@Override
+    private void checkAuthorization(final Callback<Boolean> onReadyCallback) {
+        workflowRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new KSAsyncCallback<Boolean>() {
+            @Override
             public void handleFailure(Throwable caught) {
-				GWT.log("Caught error trying to verify authorization for adding adhoc reviewers", caught);
-				Window.alert("Error checking authorization for adding collaborators/reviewers");
-				onReadyCallback.exec(true);
+                GWT.log("Caught error trying to verify authorization for adding adhoc reviewers", caught);
+                Window.alert("Error checking authorization for adding collaborators/reviewers");
+                onReadyCallback.exec(true);
             }
 
-			@Override
+            @Override
             public void onSuccess(Boolean result) {
-				GWT.log("Authorization check for adding adhoc reviewers: " + result, null);
-				section.setVisible(result);
-				addButton.setVisible(result);
-				onReadyCallback.exec(true);
+                GWT.log("Authorization check for adding adhoc reviewers: " + result, null);
+                section.setVisible(result);
+                addButton.setVisible(result);
+                onReadyCallback.exec(true);
             }
-		});		
-	}
+        });
+
+        workflowRpcServiceAsync.isAuthorizedRemoveReviewers(workflowId, new KSAsyncCallback<Boolean>() {
+            @Override
+            public void handleFailure(Throwable caught) {
+                GWT.log("Caught error trying to verify authorization for removing adhoc reviewers", caught);
+                Window.alert("Error checking authorization for removing collaborators/reviewers");
+                onReadyCallback.exec(true);
+            }
+
+            @Override
+            public void onSuccess(Boolean result) {
+                GWT.log("Authorization check for removing adhoc reviewers: " + result, null);
+                canRemoveCollaborators = result;
+                onReadyCallback.exec(true);
+            }
+        });
+    }
 		
 	private void createAddCollabSection(){
 		Metadata personIdMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/principalId"));
@@ -388,15 +406,17 @@ public class CollaboratorSectionView extends SectionView {
 
 		table.clear();
 		numCollabs = 0;
-		for (int i=0; i < newCollaborators.size(); i++){			
+		for (int i=0; i < newCollaborators.size(); i++){
 			addPersonRow(newCollaborators.get(i), new Integer(i));
 			numCollabs++;			
 		}
 
-		for (Object personData:collabs.values()){
-			addPersonRow((Data)personData, null);
-			numCollabs++;
-		}	
+        for (Object personData : collabs.values()) {
+            if (!("Remove").equals(((Data) personData).query("actionRequestStatus"))) {
+                addPersonRow((Data) personData, null);
+                numCollabs++;
+            }
+        }
 		
 		if(numCollabs > 0){
 			tableSection.getLayout().setLayoutTitle(SectionTitle.generateH3Title("Added Collaborators (" + numCollabs + ")"));
@@ -406,8 +426,8 @@ public class CollaboratorSectionView extends SectionView {
 		
 	}
 	
-	private void addPersonRow(Data personData, final Integer deleteIndex){
-		final String personName;
+	private void addPersonRow(final Data personData, final Integer deleteIndex){
+	    final String personName;
 		if (personData.query("lastName") != null){
 			personName = personData.query("lastName") + ", " + personData.query("firstName");
 		} else {
@@ -423,23 +443,41 @@ public class CollaboratorSectionView extends SectionView {
 		rowWidgets.add(new KSLabel(ActionRequestType.getByCode((String)personData.query("action")).getActionRequestLabel()));
 		rowWidgets.add(new KSLabel((String)personData.get("actionRequestStatus")));
 		
-		//Add delete widget
-		if (deleteIndex != null){
-			AbbrButton removeButton = new AbbrButton(AbbrButtonType.DELETE);
-			rowWidgets.add(removeButton);
-
-			removeButton.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					Boolean ok = Window.confirm("Are you sure you want remove " + personName + " as a collaborator?");
-					if (ok) {
-						newCollaborators.remove(deleteIndex.intValue());
-						refreshCollaboratorsTable();
-					}
-				}
-			});	
-		} else {
-			rowWidgets.add(new KSLabel(""));
+		if (canRemoveCollaborators) {
+		    if (personData.query("canRevokeRequest")) {
+	            //Add delete widget
+	            AbbrButton removeButton = new AbbrButton(AbbrButtonType.DELETE);
+	            rowWidgets.add(removeButton);
+	            //Register remove click handler
+	            if (deleteIndex != null) {
+	                // Handler for newly added collaborators
+	                removeButton.addClickHandler(new ClickHandler() {
+	                    @Override
+	                    public void onClick(ClickEvent event) {
+	                        Boolean ok = Window.confirm("Are you sure you want remove " + personName + " as a collaborator?");
+	                        if (ok) {
+	                            newCollaborators.remove(deleteIndex.intValue());
+	                            refreshCollaboratorsTable();
+	                        }
+	                    }
+	                });
+	            } else {
+	                // Handler for existing collaborators
+	                removeButton.addClickHandler(new ClickHandler() {
+	                    @Override
+	                    public void onClick(ClickEvent event) {
+	                        Boolean ok = Window.confirm("Are you sure you want remove " + personName + " as a collaborator?");
+	                        if (ok) {
+	                            personData.set("actionRequestStatus", "Remove");
+	                            refreshCollaboratorsTable();
+	                        }
+	                    }
+	                });
+	            }
+		    } else {
+		        // add a dummy label for table placeholder
+	              rowWidgets.add(new KSLabel());
+		    }
 		}
 		
 		table.addRow(rowWidgets);

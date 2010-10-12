@@ -36,6 +36,7 @@ public class WorkflowPersonInfo implements Serializable{
 	
 	private boolean author;
 	private boolean canRevokeRequest = false;
+	private String actionRequestId;
 	private String actionRequestStatus;
 	
 	public String getPrincipalId() {
@@ -85,5 +86,11 @@ public class WorkflowPersonInfo implements Serializable{
     }
 	public void setActionRequestStatus(String actionRequestStatus) {
     	this.actionRequestStatus = actionRequestStatus;
+    }
+    public String getActionRequestId() {
+        return actionRequestId;
+    }
+    public void setActionRequestId(String actionRequestId) {
+        this.actionRequestId = actionRequestId;
     }
 }

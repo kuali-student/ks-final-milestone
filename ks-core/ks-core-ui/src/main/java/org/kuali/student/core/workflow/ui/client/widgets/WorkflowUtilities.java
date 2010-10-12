@@ -73,6 +73,7 @@ public class WorkflowUtilities{
 	private KSMenuItemData wfDisApproveItem;
 	private KSMenuItemData wfAcknowledgeItem;
 	private KSMenuItemData wfStartWorkflowItem;
+    private KSMenuItemData wfCancelWorkflowItem;
 	private KSMenuItemData wfFYIWorkflowItem;
 	private KSMenuItemData wfWithdrawItem;
     private KSMenuItemData wfReturnToPreviousItem;
@@ -83,6 +84,7 @@ public class WorkflowUtilities{
     private static String WITHDRAW_DECISION = "kuali.comment.type.workflowDecisionRationale.withdraw";
 	private static String ACK_DECISION = "kuali.comment.type.workflowDecisionRationale.acknowledge";
 	private static String FYI_DECISION = "kuali.comment.type.workflowDecisionRationale.fyi";
+    private static String CANCEL_WORKFLOW_DECISION = "kuali.comment.type.workflowDecisionRationale.cancelWorkflow";
 	
 	private List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 	    
@@ -104,7 +106,7 @@ public class WorkflowUtilities{
 	private AbbrPanel required; 
 	private KSLightBox submitSuccessDialog;
 	private VerticalPanel dialogPanel;
-	private SimpleListItems nodeNameList = new SimpleListItems();
+//	private SimpleListItems nodeNameList = new SimpleListItems();
     
     private KSLabel workflowStatusLabel = new KSLabel("");
     
@@ -147,6 +149,7 @@ public class WorkflowUtilities{
 		wfDisApproveItem = getDisApproveItem();
 		wfAcknowledgeItem = getAcknowledgeItem();
 		wfStartWorkflowItem = getStartItem();
+		wfCancelWorkflowItem = getCancelWorkflowItem();
 		wfFYIWorkflowItem = getFYIWorkflowItem();
 		wfWithdrawItem = getWithdrawItem();
 		wfReturnToPreviousItem = getReturnToPreviousItem();
@@ -251,6 +254,9 @@ public class WorkflowUtilities{
 					if(result.contains("S")){
 						items.add(wfStartWorkflowItem);
 					}
+                    if(result.contains("C")){
+                        items.add(wfCancelWorkflowItem);
+                    }
 					if(result.contains("A")){
 	
 						items.add(wfApproveItem);
@@ -584,7 +590,7 @@ public class WorkflowUtilities{
     }
 
     protected KSDropDown setUpReturnToPreviousDropDown(String workflowId) {
-        nodeNameList.clear();
+//        nodeNameList.clear();
         final KSDropDown nodeNameDropDown = new KSDropDown();
         nodeNameDropDown.setBlankFirstItem(true);
         workflowRpcServiceAsync.getPreviousRouteNodeNames(workflowId, new KSAsyncCallback<List<String>>() {
@@ -593,12 +599,14 @@ public class WorkflowUtilities{
             }
 
             public void onSuccess(List<String> result) {
+                SimpleListItems nodeNameList = new SimpleListItems();
                 for (String nodeName : result) {
                     nodeNameList.addItem(nodeName, nodeName);
                 }
+                nodeNameDropDown.setListItems(nodeNameList);
             }
         });
-        nodeNameDropDown.setListItems(nodeNameList);
+        nodeNameDropDown.setInitialized(true);
         return nodeNameDropDown;
     }
 
@@ -725,7 +733,37 @@ public class WorkflowUtilities{
     	});
 		return wfStartWorkflowItem;
 	}
-		
+
+    private KSMenuItemData getCancelWorkflowItem() {
+        KSMenuItemData wfCancelWorkflowItem;
+        final KSRichEditor rationaleEditor = new KSRichEditor();
+        wfCancelWorkflowItem = new KSMenuItemData("Cancel Proposal", new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                addRationale(rationaleEditor, CANCEL_WORKFLOW_DECISION);
+                workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+                    public void handleFailure(Throwable caught) {
+                        Window.alert("Error Cancelling Proposal");
+                    }
+
+                    public void onSuccess(Boolean result) {
+                        if (result) {
+                            updateWorkflow(dataModel);
+                            if (submitCallback != null) {
+                                submitCallback.exec(true);
+                            }
+                            // Notify the user that the document was FYIed
+                            KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
+                        } else {
+                            Window.alert("Error Cancelling Proposal");
+                        }
+                    }
+
+                });
+            }
+        });
+        return wfCancelWorkflowItem;
+    }
+
 	private void setWorkflowStatus(String statusCd){
 		String statusTranslation = "";
 		if (WorkflowConstants.ROUTE_HEADER_SAVED_CD.equals(statusCd)){

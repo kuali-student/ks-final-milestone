@@ -50,55 +50,60 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 	/**
 	 *  This adds newly added collaborators for workflow and updates collab data sent to client
 	 */
-	@Override
-	public void applyOutboundDataFilter(Data data, Metadata metadata,
-			Map<String, Object> properties) throws Exception {
-		
-		CollaboratorInfo collabInfo = (CollaboratorInfo)properties.get(COLLABORATOR_INFO);
-		ProposalInfo proposalInfo = (ProposalInfo)properties.get(ProposalWorkflowFilter.PROPOSAL_INFO);
+    @Override
+    public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String, Object> properties) throws Exception {
 
-		if (collabInfo == null){
-			collabInfo = new CollaboratorInfo();
-		}
+        CollaboratorInfo collabInfo = (CollaboratorInfo) properties.get(COLLABORATOR_INFO);
+        ProposalInfo proposalInfo = (ProposalInfo) properties.get(ProposalWorkflowFilter.PROPOSAL_INFO);
 
-		//Add new collaborators to workflow
-		boolean updateProposal = false;
-		if (collabInfo.getCollaborators() != null){		
-			for (WorkflowPersonInfo wfPerson:collabInfo.getCollaborators()){
-				if ("New".equals(wfPerson.getActionRequestStatus())){ 
-					collaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", 
-							wfPerson.getPrincipalId(), wfPerson.getPermission(), wfPerson.getAction(), true, "");
-					if (wfPerson.isAuthor()){
-						proposalInfo.getProposerPerson().add(wfPerson.getPrincipalId());
-						updateProposal = true;
-					}
-				}
-			}
-		}
-		
-		//Update proposal with new authors (if any)
-		if (updateProposal){
-			proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
-			properties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
-		}
-		
-		//Retrieve updated collaborator info for this workflow
-		List<WorkflowPersonInfo> collaborators = collaboratorHelper.getCollaborators(proposalInfo.getWorkflowId());
+        if (collabInfo == null) {
+            collabInfo = new CollaboratorInfo();
+        }
 
-		//Add the author notation to retrieved collaborators
-		for (WorkflowPersonInfo wfPerson:collaborators){
-			String principal = wfPerson.getPrincipalId();
-			boolean isAuthor = (proposalInfo.getProposerPerson().contains(principal));
-			wfPerson.setAuthor(isAuthor);
-		}
+        // Add new collaborators to workflow
+        boolean updateProposal = false;
+        if (collabInfo.getCollaborators() != null) {
+            for (WorkflowPersonInfo wfPerson : collabInfo.getCollaborators()) {
+                if ("New".equals(wfPerson.getActionRequestStatus())) {
+                    collaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", wfPerson.getPrincipalId(), wfPerson.getPermission(), wfPerson.getAction(),
+                            true, "");
+                    if (wfPerson.isAuthor()) {
+                        proposalInfo.getProposerPerson().add(wfPerson.getPrincipalId());
+                        updateProposal = true;
+                    }
+                } else if ("Remove".equals(wfPerson.getActionRequestStatus())) {
+                    collaboratorHelper.removeCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), wfPerson.getActionRequestId());
+                    if (wfPerson.isAuthor()) {
+                        proposalInfo.getProposerPerson().remove(wfPerson.getPrincipalId());
+                        updateProposal = true;
+                    }
+                }
+            }
+        }
 
-		collabInfo.setCollaborators(collaborators);
-		
-		//Tack on updated collaborators data to data returned to UI client
-		Data collabData = mapper.convertFromBean(collabInfo);
-		data.set("collaboratorInfo", collabData);
+        // Update proposal with new authors (if any)
+        if (updateProposal) {
+            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
+            properties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
+        }
 
-	}
+        // Retrieve updated collaborator info for this workflow
+        List<WorkflowPersonInfo> collaborators = collaboratorHelper.getCollaborators(proposalInfo.getWorkflowId());
+
+        // Add the author notation to retrieved collaborators
+        for (WorkflowPersonInfo wfPerson : collaborators) {
+            String principal = wfPerson.getPrincipalId();
+            boolean isAuthor = (proposalInfo.getProposerPerson().contains(principal));
+            wfPerson.setAuthor(isAuthor);
+        }
+
+        collabInfo.setCollaborators(collaborators);
+
+        // Tack on updated collaborators data to data returned to UI client
+        Data collabData = mapper.convertFromBean(collabInfo);
+        data.set("collaboratorInfo", collabData);
+
+    }
 
 	/**
 	 * Adds collaboratorInfo metadata to metadata returned to client

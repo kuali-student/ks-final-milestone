@@ -10,7 +10,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
@@ -249,6 +251,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             		// show only complete button if complete or approve code in this doc status
             		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
             			actionsRequestedBuffer.append("S");
+                        actionsRequestedBuffer.append("C");
             		}
             		// if not Complete or Approve code then show the standard buttons
             		else {
@@ -393,6 +396,28 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
         return Boolean.TRUE;
 	}
 
+    @Override
+    public Boolean cancelDocumentWithId(String workflowId) {
+        try {
+            if(simpleDocService==null){
+                throw new OperationFailedException("Workflow Service is unavailable");
+            }
+
+            //get a user name
+            String username = SecurityUtils.getCurrentUserId();
+            StandardResponse stdResp = simpleDocService.cancel(workflowId, username, "");
+
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+                throw new OperationFailedException("Error found cancelling document: " + stdResp.getErrorMessage());
+            }
+
+        } catch (Exception e) {
+            LOG.error("Error found routing document",e);
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
 	@Override
     public Boolean isAuthorizedAddReviewer(String docId) throws OperationFailedException{
 		if (docId != null && (!"".equals(docId.trim()))) {
@@ -404,7 +429,27 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		}
 		return Boolean.FALSE;
     }
-	
+
+	public Boolean isAuthorizedRemoveReviewers(String docId) throws OperationFailedException {
+	    try {
+            if (docId != null && (!"".equals(docId.trim()))) {
+                DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(docId));
+                DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
+                AttributeSet permissionDetails = new AttributeSet();
+                permissionDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
+                AttributeSet roleQuals = new AttributeSet();
+                roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
+                boolean returnValue = getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(), 
+                        PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionTemplateName(), permissionDetails, roleQuals);
+                return Boolean.valueOf(returnValue);
+            }
+            return Boolean.FALSE;
+	    } catch (WorkflowException e) {
+	        LOG.error("Unable to get document information from Workflow for doc id " + docId);
+	        throw new OperationFailedException("Unable to get document information from Workflow for doc id " + docId);
+	    }
+	}
+
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
 	}

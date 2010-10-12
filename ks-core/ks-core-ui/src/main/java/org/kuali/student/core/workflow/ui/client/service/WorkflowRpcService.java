@@ -64,6 +64,7 @@ public interface WorkflowRpcService extends RemoteService {
 	
 	//These methods just call the actions
 	public Boolean submitDocumentWithId(String workflowId) throws OperationFailedException;
+    public Boolean cancelDocumentWithId(String workflowId) throws OperationFailedException;
 	public Boolean approveDocumentWithId(String workflowId) throws OperationFailedException;
 	public Boolean disapproveDocumentWithId(String workflowId) throws OperationFailedException;
 	public Boolean acknowledgeDocumentWithId(String workflowId) throws OperationFailedException;
@@ -75,4 +76,5 @@ public interface WorkflowRpcService extends RemoteService {
 	public Boolean adhocRequest(String docId, String recipientPrincipalId, ActionRequestType requestType, String annotation) throws OperationFailedException;
 	
     public Boolean isAuthorizedAddReviewer(String workflowId) throws OperationFailedException;
+    public Boolean isAuthorizedRemoveReviewers(String workflowId) throws OperationFailedException;
 }

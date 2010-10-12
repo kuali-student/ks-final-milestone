@@ -35,6 +35,7 @@ public interface WorkflowRpcServiceAsync {
 	public void getActionsRequested(String workflowId, AsyncCallback<String> callback);
 	
 	public void submitDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+    public void cancelDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
 	public void approveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
 	public void disapproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
 	public void acknowledgeDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
@@ -46,4 +47,5 @@ public interface WorkflowRpcServiceAsync {
 	public void adhocRequest(String workflowId, String recipientPrincipalId, ActionRequestType requestType, String annotation, AsyncCallback<Boolean> callback);
 	
     public void isAuthorizedAddReviewer(String docId, AsyncCallback<Boolean> callback);
+    public void isAuthorizedRemoveReviewers(String docId, AsyncCallback<Boolean> callback);
 }
