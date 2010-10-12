@@ -39,6 +39,7 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 public class TestMetadataServiceDictionary
 {
@@ -50,6 +51,7 @@ public class TestMetadataServiceDictionary
   Map<String, Set<String>> types = new LinkedHashMap ();
   startingClasses.add (CourseInfo.class.getName ());
   startingClasses.add (MajorDisciplineInfo.class.getName ());
+  startingClasses.add (ProgramRequirementInfo.class.getName ());
   startingClasses.add (ProposalInfo.class.getName ());
   startingClasses.add (StatementInfo.class.getName ());
   startingClasses.add (ReqComponentInfo.class.getName ());
