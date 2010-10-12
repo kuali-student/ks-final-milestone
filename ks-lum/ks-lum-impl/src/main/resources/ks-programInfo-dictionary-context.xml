@@ -104,6 +104,8 @@
     <bean id="majorDisciplineInfo.variations" parent="majorDisciplineInfo.variations-parent"/>
 
     <bean id="majorDisciplineInfo.code-parent" abstract="true" parent="cluIdentifierInfo.code-parent">
+		<property name="name" value="code" />
+		<property name="maxLength" value="10" /> 
     </bean>
     <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent">
         <property name="minOccurs" value="1"/>
