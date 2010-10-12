@@ -187,8 +187,7 @@
         NM="Delete Note / Attachment" NMSPC_CD="KR-SYS"
         OBJ_ID="606763510FCD96D3E0404F8189D857A2" PERM_ID="264"
         PERM_TMPL_ID="47" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
-        NM="Use Screen" NMSPC_CD="KR-WKFLW"
+    <KRIM_PERM_T ACTV_IND="Y" NM="Use Screen" NMSPC_CD="KR-WKFLW"
         OBJ_ID="606763510FF296D3E0404F8189D857A2" PERM_ID="265"
         PERM_TMPL_ID="29" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y" NM="Grant Responsibility"
@@ -247,16 +246,20 @@
     <KRIM_PERM_T ACTV_IND="Y" NM="Withdraw Document" NMSPC_CD="KS-SYS"
         OBJ_ID="5B4F0974494BEF33E0R04EX189D8AAAA" PERM_ID="3101"
         PERM_TMPL_ID="65" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission" NMSPC_CD="KS-LUM"
+    <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Edit Course Title"
+        NM="Field Permission" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT24" PERM_ID="3105"
         PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission" NMSPC_CD="KS-LUM"
+    <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Edit Course Unit Contents Owner"
+        NM="Field Permission" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT26" PERM_ID="3106"
         PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission" NMSPC_CD="KS-LUM"
+    <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Edit Course Description"
+        NM="Field Permission" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF33E0R04EX189D8AT27" PERM_ID="3107"
         PERM_TMPL_ID="120" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y" NM="Field Permission" NMSPC_CD="KS-LUM"
+    <KRIM_PERM_T ACTV_IND="Y" DESC_TXT="Edit Course Duration"
+        NM="Field Permission" NMSPC_CD="KS-LUM"
         OBJ_ID="5B4F0974494BEF3AE0R04EX189D8AT27" PERM_ID="3108"
         PERM_TMPL_ID="120" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y" NM="Access Permission" NMSPC_CD="KS-LUM"
