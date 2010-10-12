@@ -52,6 +52,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String catalogInformation_descr();
 
   /**
+   * Translated "Duration Count".
+   * 
+   * @return translated "Duration Count"
+   */
+  @DefaultMessage("Duration Count")
+  @Key("catalogInformation.durationCount")
+  String catalogInformation_durationCount();
+
+  /**
+   * Translated "Duration Notes".
+   * 
+   * @return translated "Duration Notes"
+   */
+  @DefaultMessage("Duration Notes")
+  @Key("catalogInformation.durationNotes")
+  String catalogInformation_durationNotes();
+
+  /**
    * Translated "Full Time / Part Time".
    * 
    * @return translated "Full Time / Part Time"
@@ -86,25 +104,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Duration")
   @Key("catalogInformation.stdDuration")
   String catalogInformation_stdDuration();
-  
-  /**
-   * Translated "Duration Notes".
-   * 
-   * @return translated "Duration Notes"
-   */
-  @DefaultMessage("Duration Notes")
-  @Key("catalogInformation.durationNotes")
-  String catalogInformation_durationNotes();
-  
-  /**
-   * Translated "Duration Notes".
-   * 
-   * @return translated "Duration Notes"
-   */
-  @DefaultMessage("Duration Count")
-  @Key("catalogInformation.durationCount")
-  String catalogInformation_durationCount();
-  
+
   /**
    * Translated "Add/View Comments".
    * 
@@ -131,6 +131,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Edit")
   @Key("common.edit")
   String common_edit();
+
+  /**
+   * Translated "Save Failed. There were validation errors: {0}".
+   * 
+   * @return translated "Save Failed. There were validation errors: {0}"
+   */
+  @DefaultMessage("Save Failed. There were validation errors: {0}")
+  @Key("common.failedSave")
+  String common_failedSave(String arg0);
 
   /**
    * Translated "Retrieving Data...".
@@ -167,6 +176,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Status: {0}")
   @Key("common.status")
   String common_status(String arg0);
+
+  /**
+   * Translated "Save Successful".
+   * 
+   * @return translated "Save Successful"
+   */
+  @DefaultMessage("Save Successful")
+  @Key("common.successfulSave")
+  String common_successfulSave();
 
   /**
    * Translated "Do you want to save data?".

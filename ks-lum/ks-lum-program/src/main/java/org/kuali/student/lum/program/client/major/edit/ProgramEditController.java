@@ -5,16 +5,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
-import org.kuali.student.common.ui.client.widgets.field.layout.button.ConfirmCancelGroup;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.core.assembly.data.Data;
@@ -37,7 +32,6 @@ public class ProgramEditController extends MajorController {
 
     private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
-    private ButtonMessageDialog<ButtonEnumerations.ConfirmCancelEnum> confirmDialog;
 
     /**
      * Constructor.
@@ -49,7 +43,6 @@ public class ProgramEditController extends MajorController {
         configurer = GWT.create(ProgramEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
-        initializeConfirmDialog();
     }
 
     @Override
@@ -67,28 +60,12 @@ public class ProgramEditController extends MajorController {
         }
     }
 
-    private void initializeConfirmDialog() {
-        ConfirmCancelGroup buttonGroup = new ConfirmCancelGroup();
-        confirmDialog = new ButtonMessageDialog<ButtonEnumerations.ConfirmCancelEnum>(ProgramProperties.get().confirmDialog_title(), ProgramProperties.get().confirmDialog_text(), buttonGroup);
-        buttonGroup.addCallback(new Callback<ButtonEnumerations.ConfirmCancelEnum>() {
-            @Override
-            public void exec(ButtonEnumerations.ConfirmCancelEnum result) {
-                switch (result) {
-                    case CONFIRM:
-                        doSave();
-                    case CANCEL:
-                        confirmDialog.hide();
-                }
-            }
-        });
-    }
-
     private void initHandlers() {
         saveButton.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-                confirmDialog.show();
+                doSave();
             }
         });
         cancelButton.addClickHandler(new ClickHandler() {
@@ -148,7 +125,7 @@ public class ProgramEditController extends MajorController {
                             for (ValidationResultInfo vri : result.getValidationResults()) {
                                 msg.append(vri.getMessage());
                             }
-                            KSNotifier.add(new KSNotification("Save Failed. There were validation errors." + msg, false, 5000));
+                            KSNotifier.show(ProgramProperties.get().common_failedSave(msg.toString()));
                         } else {
                             super.onSuccess(result);
                             programModel.setRoot(result.getValue());
@@ -156,6 +133,7 @@ public class ProgramEditController extends MajorController {
                             setStatus();
                             eventBus.fireEvent(new ModelLoadedEvent(programModel));
                             HistoryManager.logHistoryChange();
+                            KSNotifier.show(ProgramProperties.get().common_successfulSave());
                         }
                     }
                 });
@@ -165,7 +143,6 @@ public class ProgramEditController extends MajorController {
             public void onRequestFail(Throwable cause) {
                 GWT.log("Unable to retrieve model for validation and save", cause);
             }
-
         });
     }
 }
