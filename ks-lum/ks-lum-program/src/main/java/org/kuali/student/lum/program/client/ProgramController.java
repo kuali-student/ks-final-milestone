@@ -8,18 +8,24 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
+import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
-import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
@@ -60,6 +66,51 @@ public class ProgramController extends MenuSectionController {
         sideBar = new ProgramSideBar(eventBus);
         setViewContext(viewContext);
         initializeModel();
+    }
+
+    @Override
+    public void beforeViewChange(final Callback<Boolean> okToChange) {
+        super.beforeViewChange(new Callback<Boolean>() {
+
+            @Override
+            public void exec(Boolean result) {
+                if (result) {
+                    if (getCurrentView() instanceof SectionView && ((SectionView) getCurrentView()).isDirty()) {
+                        ButtonGroup<ButtonEnumerations.YesNoCancelEnum> buttonGroup = new YesNoCancelGroup();
+                        final ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum> dialog = new ButtonMessageDialog<ButtonEnumerations.YesNoCancelEnum>("Warning", "You may have unsaved changes.  Save changes?", buttonGroup);
+                        buttonGroup.addCallback(new Callback<ButtonEnumerations.YesNoCancelEnum>() {
+
+                            @Override
+                            public void exec(ButtonEnumerations.YesNoCancelEnum result) {
+                                switch (result) {
+                                    case YES:
+                                        dialog.hide();
+                                        eventBus.fireEvent(new UpdateEvent());
+                                        ((Section) getCurrentView()).resetFieldInteractionFlags();
+                                         okToChange.exec(true);
+                                        break;
+                                    case NO:
+                                        dialog.hide();
+                                        programModel.resetRoot();
+                                        ((Section) getCurrentView()).resetFieldInteractionFlags();
+                                        okToChange.exec(true);
+                                        break;
+                                    case CANCEL:
+                                        okToChange.exec(false);
+                                        dialog.hide();
+                                        break;
+                                }
+                            }
+                        });
+                        dialog.show();
+                    } else {
+                        okToChange.exec(true);
+                    }
+                } else {
+                    okToChange.exec(false);
+                }
+            }
+        });
     }
 
     /**
