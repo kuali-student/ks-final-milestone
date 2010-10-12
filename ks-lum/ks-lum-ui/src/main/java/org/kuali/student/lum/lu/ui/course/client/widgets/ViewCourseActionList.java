@@ -192,36 +192,6 @@ public class ViewCourseActionList extends Composite {
 		items.add(retireCourseAction);
 		courseActionsDropDown.setItems(items);
 
-		//FIXME: apply permissions
-//		rpcService.getActionsRequested(courseId, new KSAsyncCallback<String>(){
-//
-//			public void onSuccess(String result) {
-//				Window.alert("Permissions string="+result);
-//				items.clear();
-//				if(result.contains("S")){
-//					items.add(wfStartWorkflowItem);
-//				}
-//				if(result.contains("W")){
-//					items.add(wfWithdrawItem);
-//				}
-//				if(result.contains("A")){
-//
-//					items.add(wfApproveItem);
-//					items.add(wfDisApproveItem);
-//
-//				}
-//				if(result.contains("K")){
-//					items.add(wfAcknowledgeItem);
-//				}
-//				
-//				if(result.contains("F")){
-//					items.add(wfFYIWorkflowItem);
-//				}
-//				
-//				courseActionsDropDown.setItems(items);
-//			}
-//			
-//		});
 	}
 
 	/**
