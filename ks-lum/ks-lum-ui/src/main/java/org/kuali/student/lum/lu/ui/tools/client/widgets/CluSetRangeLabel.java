@@ -12,8 +12,8 @@ import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

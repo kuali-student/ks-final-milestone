@@ -36,6 +36,8 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.lum.common.client.widgets.BuildCourseSetWidget;
+import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
@@ -345,7 +347,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     protected Callback<String> retrieveCustomWidgetCallback = new Callback<String>(){
         public void exec(final String widgetId) {
-        //TODO Sherman to fix    editReqCompWidget.displayCustomWidget(new BuildCourseSetWidget());
+            editReqCompWidget.displayCustomWidget(new BuildCourseSetWidget(new CluSetRetrieverImpl(), "kuali.cluSet.type.Program"));
         }
     };
 

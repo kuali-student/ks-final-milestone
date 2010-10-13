@@ -1,4 +1,5 @@
-package org.kuali.student.lum.lu.ui.tools.client.configuration;
+package org.kuali.student.lum.common.client.widgets;
+
 
 import java.io.Serializable;
 

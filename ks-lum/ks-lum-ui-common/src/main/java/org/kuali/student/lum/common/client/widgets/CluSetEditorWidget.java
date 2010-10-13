@@ -1,9 +1,8 @@
-package org.kuali.student.lum.lu.ui.tools.client.configuration;
+package org.kuali.student.lum.common.client.widgets;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -36,12 +35,7 @@ import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.CluSetRangeDataHelper;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -54,23 +48,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CluSetEditorWidget extends VerticalSectionView {
 
-    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
     private List<KSSelectedListPanelPair> selectedListPanelPairs = new ArrayList<KSSelectedListPanelPair>();
     private DataModelDefinition modelDefinition;
 //    private final List<HandlerRegistration> showClusetDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
     private final List<HandlerRegistration> showCluRangeDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
     private List<KSItemLabelPanelPair> itemLabelPanelPairs = new ArrayList<KSItemLabelPanelPair>();
 
-    public CluSetEditorWidget(Enum<?> viewEnum,
+    public CluSetEditorWidget(CluSetRetriever cluSetRetriever, Enum<?> viewEnum,
             String name, String modelId, boolean showTitle,
             final Callback<Boolean> onReady) {
         super(viewEnum, name, modelId, showTitle);
-        cluSetManagementRpcServiceAsync.getMetadata("cluset", null, new KSAsyncCallback<Metadata>(){
+        cluSetRetriever.getMetadata("cluset", new Callback<Metadata>(){
             @Override
-            public void handleFailure(Throwable caught) {
-            }
-            @Override
-            public void onSuccess(Metadata result) {
+            public void exec(Metadata result) {
                 DataModelDefinition def = new DataModelDefinition(result);
                 setDef(def);
                 setupEditor();
@@ -94,33 +84,33 @@ public class CluSetEditorWidget extends VerticalSectionView {
         // ****** Add Approved Clus *******
         Section approvedClusSection = new VerticalSection();
         FieldDescriptor approvedClusFd = addField(approvedClusSection, 
-                ToolsConstants.CLU_SET_APPROVED_CLUS_FIELD, 
-                generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_APPROVED_COURSE),
+                CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD, 
+                generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_APPROVED_COURSE),
                 null,
                 null);
         final KSSelectedList approvedClusSelection = (KSSelectedList) approvedClusFd.getFieldWidget();
         KSListPanel approvedClusListPanel = approvedClusSelection.separateValuesPanel();
-        clusetDetails.addSection(approvedClusSection, ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS);
+        clusetDetails.addSection(approvedClusSection, CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS);
         // END OF items related to Add Approved Clus
 
         // ****** Add Proposed Clus *******
         Section proposedClusSection = new VerticalSection();
         FieldDescriptor proposedClusFd = addField(proposedClusSection, 
-                ToolsConstants.CLU_SET_PROPOSED_CLUS_FIELD, 
-                generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_PROPOSED_COURSE),
+                CommonWidgetConstants.CLU_SET_PROPOSED_CLUS_FIELD, 
+                generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_PROPOSED_COURSE),
                 null,
                 null);
         final KSSelectedList proposedClusSelection = (KSSelectedList) proposedClusFd.getFieldWidget();
         KSListPanel proposedClusListPanel = proposedClusSelection.separateValuesPanel();
-        clusetDetails.addSection(proposedClusSection, ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS);
+        clusetDetails.addSection(proposedClusSection, CommonWidgetConstants.CLU_SET_SWAP_PROPOSED_CLUS);
         // END OF items related to Add Approved Clus
 
         // ****** Add Clu Range *******
         Section cluRangeSection = new VerticalSection();
-        final Picker cluSetRangePicker = configureSearch(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
+        final Picker cluSetRangePicker = configureSearch(CommonWidgetConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
         addField(cluRangeSection, 
-                ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, 
-                generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_RANGE),
+                CommonWidgetConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD, 
+                generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_RANGE),
                 cluSetRangePicker,
                 null);
         final CluSetRangeDataHelper clusetRangeModelHelper = new CluSetRangeDataHelper();
@@ -128,7 +118,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
         clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
         final FieldDescriptor cluRangeFieldDescriptor = addField(
                 cluRangeSection, 
-                ToolsConstants.CLU_SET_CLU_SET_RANGE_FIELD, 
+                CommonWidgetConstants.CLU_SET_CLU_SET_RANGE_FIELD, 
                 null, 
                 clusetRangeLabel,
                 null);
@@ -174,14 +164,14 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 }.schedule(5000);
             }
         });
-        clusetDetails.addSection(cluRangeSection, ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE);
+        clusetDetails.addSection(cluRangeSection, CommonWidgetConstants.CLU_SET_SWAP_CLU_SET_RANGE);
         // END OF items related to Add Clu Range
 
         // ****** Add cluSets *******
         Section cluSetSection = new VerticalSection();
         FieldDescriptor cluSetsTempFd = getFieldDescriptor( 
-                ToolsConstants.CLU_SET_CLU_SETS_FIELD, 
-                generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET),
+                CommonWidgetConstants.CLU_SET_CLU_SETS_FIELD, 
+                generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_CLUSET),
                 null,
                 null);
         KSSelectedList tempCluSetsSelection = (KSSelectedList) cluSetsTempFd.getFieldWidget();
@@ -190,8 +180,8 @@ public class CluSetEditorWidget extends VerticalSectionView {
         KSListPanel cluSetsListPanel = cluSetsSelection.separateValuesPanel();
         final FieldDescriptor cluSetsFd = addField(
                 cluSetSection, 
-                ToolsConstants.CLU_SET_CLU_SETS_FIELD, 
-                generateMessageInfo(ToolsConstants.NEW_CLU_SET_CONTENT_CLUSET),
+                CommonWidgetConstants.CLU_SET_CLU_SETS_FIELD, 
+                generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_CLUSET),
                 cluSetsSelection, 
                 null);
         cluSetsFd.setWidgetBinding(new CluSetBinding());
@@ -229,7 +219,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
 //            }
 //        });
         
-        clusetDetails.addSection(cluSetSection, ToolsConstants.CLU_SET_SWAP_CLU_SETS);
+        clusetDetails.addSection(cluSetSection, CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS);
         // END OF items related to Add CluSets
 
         // display item type title if the list selected items is populated
@@ -456,10 +446,10 @@ public class CluSetEditorWidget extends VerticalSectionView {
         public CluSetEditOptionDropdown(){
             SimpleListItems editOptions = new SimpleListItems();
 
-            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_APPROVED_CLUS, "Approved Courses");
-            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_PROPOSED_CLUS, "Proposed Courses");
-            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_CLU_SETS, "CLU Sets");
-            editOptions.addItem(ToolsConstants.CLU_SET_SWAP_CLU_SET_RANGE, "Course Ranges (Course numbers, common learning objectives, etc)");
+            editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS, "Approved Courses");
+            editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_PROPOSED_CLUS, "Proposed Courses");
+            editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "CLU Sets");
+            editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SET_RANGE, "Course Ranges (Course numbers, common learning objectives, etc)");
 
             super.setListItems(editOptions);
         }
@@ -607,7 +597,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 middleManModel = new DataModel(model.getDefinition(), model.getRoot().copy());
             }
             Metadata rangeEditMetaData = model.getMetadata(
-                    QueryPath.parse(ToolsConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD));
+                    QueryPath.parse(CommonWidgetConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD));
             Data membershipQueryData = (Data)model.get(path);
             MembershipQueryInfo membershipQueryInfo = (membershipQueryData == null)?
                     null : CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(membershipQueryData);

@@ -12,14 +12,18 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.lum.lu.ui.course.client.requirements;
+package org.kuali.student.lum.common.client.widgets;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
@@ -27,10 +31,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetEditorWidget;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -38,26 +38,31 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class BuildCourseSetWidget extends FlowPanel {
 
-    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
+    private CluSetRetriever cluSetRetriever;
     private CluSetEditorWidget cluSetEditorWidgetView;
     private static final String CLUSET_MODEL_ID = "clussetModelId";
     private DataModel ruleFieldsData;
     private BasicLayout reqCompController;
     public enum BuildCourseView {VIEW}
     private BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
+    private String cluSetType;
 
-    public BuildCourseSetWidget() {
+    public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType) {
         super();
 
         cluSetEditorWidgetView = new CluSetEditorWidget(
+                new CluSetRetrieverImpl(),
                 BuildCourseView.VIEW,
                 "", CLUSET_MODEL_ID, false,
                 null);
 
         ruleFieldsData = new DataModel();
         ruleFieldsData.setRoot(new Data());
+        this.cluSetType = cluSetType;
 
         //setup controller
+        final CluSetRetriever theRetriever = cluSetRetriever;
+        this.cluSetRetriever = cluSetRetriever;
         reqCompController = new BasicLayout(null);
         reqCompController.addView(cluSetEditorWidgetView);
         reqCompController.setDefaultModelId(CLUSET_MODEL_ID);
@@ -65,13 +70,9 @@ public class BuildCourseSetWidget extends FlowPanel {
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
                 if (ruleFieldsData.getDefinition() == null) {
-                    cluSetManagementRpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
+                    theRetriever.getMetadata("cluset", new Callback<Metadata>(){
                         @Override
-                        public void handleFailure(Throwable caught) {
-                            Window.alert("Failed to get Metadata");
-                        }
-                        @Override
-                        public void onSuccess(Metadata result) {
+                        public void exec(Metadata result) {
                             DataModelDefinition def = new DataModelDefinition(result);
                             ruleFieldsData.setDefinition(def);
                             callback.onModelReady(ruleFieldsData);
@@ -94,14 +95,9 @@ public class BuildCourseSetWidget extends FlowPanel {
     public void showCourseSet(final String cluSetId) {
         if (cluSetId != null) {
             KSBlockingProgressIndicator.addTask(retrievingTask);
-            cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
+            cluSetRetriever.getData(cluSetId,  new Callback<Data>() {
                 @Override
-                public void handleFailure(Throwable caught) {
-                    KSBlockingProgressIndicator.removeTask(retrievingTask);
-                    Window.alert("Failed to retrieve cluset with id" + cluSetId);
-                }
-                @Override
-                public void onSuccess(Data result) {
+                public void exec(Data result) {
                     try {
                         ruleFieldsData.setRoot(result);
                         cluSetEditorWidgetView.updateView(ruleFieldsData);
@@ -151,21 +147,15 @@ public class BuildCourseSetWidget extends FlowPanel {
                         endCal.set(Calendar.MINUTE, 0);
                         endCal.set(Calendar.SECOND, 0);
                         CluSetHelper cluSetHelper = CluSetHelper.wrap((Data)ruleFieldsData.getRoot().get("cluset"));
-                        cluSetHelper.setType("kuali.cluSet.type.creditCourse");
+                        cluSetHelper.setType(cluSetType);
                         cluSetHelper.setName("AdHock");
                         cluSetHelper.setReusable(new Boolean(false));
                         cluSetHelper.setReferenceable(new Boolean(false));
                         cluSetHelper.setEffectiveDate(startCal.getTime());
                         cluSetHelper.setEffectiveDate(endCal.getTime());
-                        cluSetManagementRpcServiceAsync.saveData(ruleFieldsData.getRoot(), new KSAsyncCallback<DataSaveResult>() {
+                        cluSetRetriever.saveData(ruleFieldsData.getRoot(), new Callback<DataSaveResult>() {
                             @Override
-                            public void handleFailure(Throwable caught) {
-                                Window.alert("Failed to create Course Set");
-                                doneSaveCallback.exec(null);
-                            }
-
-                            @Override
-                            public void onSuccess(DataSaveResult result) {
+                            public void exec(DataSaveResult result) {
                                 // FIXME needs to check validation results and display messages if validation failed
                                 ruleFieldsData.setRoot(result.getValue());
                                 String cluSetId = 

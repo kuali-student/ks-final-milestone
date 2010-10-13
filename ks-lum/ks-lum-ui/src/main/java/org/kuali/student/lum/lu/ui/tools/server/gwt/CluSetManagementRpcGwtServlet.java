@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -30,14 +29,14 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.lum.common.client.widgets.CluInformation;
+import org.kuali.student.lum.common.client.widgets.CluSetInformation;
+import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
 import org.kuali.student.lum.lrc.service.LrcService;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.CluInformation;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetInformation;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
 
 public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {

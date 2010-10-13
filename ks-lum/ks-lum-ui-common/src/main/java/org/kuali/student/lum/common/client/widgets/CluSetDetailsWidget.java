@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.tools.client.configuration;
+package org.kuali.student.lum.common.client.widgets;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -17,13 +18,11 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -38,33 +37,31 @@ public class CluSetDetailsWidget extends Composite {
     private boolean showClus;
     private Map<String, Boolean> showCluSetFlags = new HashMap<String, Boolean>();
     private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
-    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync;
+    private CluSetRetriever cluSetRetriever;
+//    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync;
     private BlockingTask retrievingTask = new BlockingTask("Retrieving details");    
 
-    public CluSetDetailsWidget(CluSetInformation cluSetInformation, CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync) {
+    public CluSetDetailsWidget(CluSetInformation cluSetInformation, CluSetRetriever cluSetRetriever) {
         mainPanel = new SimplePanel();
         this.initWidget(mainPanel);
-        this.cluSetManagementRpcServiceAsync = cluSetManagementRpcServiceAsync;
+        this.cluSetRetriever = cluSetRetriever;
         setCluSetInformation(cluSetInformation);
         redraw();
     }
 
-    public CluSetDetailsWidget(String cluSetId, CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync) {
+    public CluSetDetailsWidget(String cluSetId, CluSetRetriever cluSetRetriever) {
         mainPanel = new SimplePanel();        
         this.initWidget(mainPanel);
-        this.cluSetManagementRpcServiceAsync = cluSetManagementRpcServiceAsync;
+        this.cluSetRetriever = cluSetRetriever;
 
         KSBlockingProgressIndicator.addTask(retrievingTask);
-        cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, new AsyncCallback<CluSetInformation>() {
+        cluSetRetriever.getCluSetInformation(cluSetId, new Callback<CluSetInformation>() {
             @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Failed to get CluSet Information");
-                KSBlockingProgressIndicator.removeTask(retrievingTask);
-            }
-            @Override
-            public void onSuccess(CluSetInformation result) {
-                setCluSetInformation(result);
-                redraw();
+            public void exec(CluSetInformation result) {
+                if (result != null) {
+                    setCluSetInformation(result);
+                    redraw();
+                }
                 KSBlockingProgressIndicator.removeTask(retrievingTask);                
             }
         });
@@ -92,10 +89,17 @@ public class CluSetDetailsWidget extends Composite {
         coursesHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
         detailsTable.setWidget(rowIndex, 0, coursesHeader);
         detailsTable.getFlexCellFormatter().setColSpan(rowIndex, 0, 2);
+        if (cluSets != null && cluSets.size() > 0 ||
+                clusInRange != null && clusInRange.size() > 0) {
+            coursesHeader.setVisible(true);
+        } else {
+            coursesHeader.setVisible(false);
+        }
         {
             // show/hide clus
             int numClus = (clus == null)? 0 : clus.size();
             StringBuilder hideClusTextSb = new StringBuilder();
+            showClus = true;
             if (showClus) {
                 hideClusTextSb.append("Hide courses(").append(numClus).append(")");
             } else {
@@ -110,6 +114,11 @@ public class CluSetDetailsWidget extends Composite {
                     redraw();
                 }
             });
+            if (numClus > 10) {
+                hideClusButton.setVisible(true);
+            } else {
+                hideClusButton.setVisible(false);
+            }
         }
         
         rowIndex++;
@@ -133,7 +142,7 @@ public class CluSetDetailsWidget extends Composite {
                 HorizontalPanel cluSetNamePanel = new HorizontalPanel();
                 Hyperlink cluSetNameLabel = new Hyperlink(cluSet.getName(),
                         "/HOME/CURRICULUM_HOME/CLU_SETS" + "/" +
-                        ClusetView.CluSetsManagementViews.VIEW.toString() + "&docId=" + cluSetId);
+                        "VIEW" + "&docId=" + cluSetId);
                 KSLabel itemType = new KSLabel("Course Set");
                 itemType.getElement().getStyle().setProperty("color", "grey");
                 itemType.getElement().getStyle().setPaddingLeft(5, Style.Unit.PX);
@@ -167,15 +176,13 @@ public class CluSetDetailsWidget extends Composite {
                         if (newShowCluSetDetails) {
                             CluSetInformation subCluSetInformation = cluSetInformation.getSubCluSetInformations().get(cluSet.getId());
                             if (subCluSetInformation == null) {
-                                cluSetManagementRpcServiceAsync.getCluSetInformation(cluSet.getId(), new AsyncCallback<CluSetInformation>() {
+                                cluSetRetriever.getCluSetInformation(cluSet.getId(), new Callback<CluSetInformation>() {
                                     @Override
-                                    public void onFailure(Throwable caught) {
-                                        Window.alert("Failed to get sub CluSet Information");
-                                    }
-                                    @Override
-                                    public void onSuccess(CluSetInformation result) {
-                                        cluSetInformation.getSubCluSetInformations().put(cluSet.getId(), result);
-                                        redraw();
+                                    public void exec(CluSetInformation result) {
+                                        if (result != null) {
+                                            cluSetInformation.getSubCluSetInformations().put(cluSet.getId(), result);
+                                            redraw();
+                                        }
                                     }
                                 });
                             } else {
@@ -188,7 +195,7 @@ public class CluSetDetailsWidget extends Composite {
                 });
                 if (showCluSet) {
                     CluSetInformation subCluSetInformation = cluSetInformation.getSubCluSetInformations().get(cluSet.getId());
-                    CluSetDetailsWidget subCluSetWidget = new CluSetDetailsWidget(subCluSetInformation, cluSetManagementRpcServiceAsync);
+                    CluSetDetailsWidget subCluSetWidget = new CluSetDetailsWidget(subCluSetInformation, cluSetRetriever);
                     subCluSetWidget.getElement().getStyle().setPaddingLeft(20, Style.Unit.PX);
                     detailsTable.setWidget(rowIndex, 0, subCluSetWidget);
                     detailsTable.getFlexCellFormatter().setColSpan(rowIndex, 0, 3);

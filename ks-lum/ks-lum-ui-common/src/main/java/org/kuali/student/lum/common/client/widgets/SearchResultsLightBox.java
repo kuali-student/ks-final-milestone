@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.tools.client.configuration;
+package org.kuali.student.lum.common.client.widgets;
 
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;

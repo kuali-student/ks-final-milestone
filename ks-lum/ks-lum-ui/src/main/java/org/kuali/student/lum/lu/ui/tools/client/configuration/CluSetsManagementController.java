@@ -46,9 +46,9 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
+import org.kuali.student.lum.common.client.widgets.CluSetHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
+import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;

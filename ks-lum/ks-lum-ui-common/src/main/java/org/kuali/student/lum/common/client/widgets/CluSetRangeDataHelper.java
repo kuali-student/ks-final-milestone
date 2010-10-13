@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.tools.client.widgets;
+package org.kuali.student.lum.common.client.widgets;
 
 import java.util.List;
 
@@ -8,7 +8,6 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 
 public class CluSetRangeDataHelper implements DataHelper {
 

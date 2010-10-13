@@ -23,8 +23,12 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.common.client.lo.LUConstants;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
+import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
+import org.kuali.student.lum.common.client.widgets.CluSetEditorWidget;
+import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
+import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcServiceAsync;
+import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
+import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -33,12 +37,14 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ClusetView extends VerticalSectionView {
 
     private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
+    private CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();
     private DataModelDefinition modelDefinition;
     private DataModelDefinition searchDefinition;
     private String selectedCluSetId;
@@ -62,6 +68,7 @@ public class ClusetView extends VerticalSectionView {
         if (clusetViewEnum == CluSetsManagementViews.CREATE ||
                 clusetViewEnum == CluSetsManagementViews.EDIT) {
             cluSetEditor = new CluSetEditorWidget(
+                    new CluSetRetrieverImpl(),
                     clusetViewEnum, name, modelId, false, null);
         }
         viewEnum = clusetViewEnum;
@@ -111,7 +118,7 @@ public class ClusetView extends VerticalSectionView {
     private void refreshCluSetDisplay() {
         if (this.selectedCluSetId != null) {
             CluSetDetailsWidget clusetDetailsWidget = 
-                new CluSetDetailsWidget(selectedCluSetId, cluSetManagementRpcServiceAsync);
+                new CluSetDetailsWidget(selectedCluSetId, cluSetRetriever);
             cluSetDisplay.clear();
             cluSetDisplay.setWidget(clusetDetailsWidget);
         }
@@ -217,6 +224,7 @@ public class ClusetView extends VerticalSectionView {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), true);
         FieldDescriptor typeField = getFieldDescriptor(ToolsConstants.CLU_SET_TYPE_FIELD, null, null, null);
         typeField.getFieldWidget().setVisible(false);
+        ((HasText)typeField.getFieldWidget()).setText("kuali.cluSet.type.creditCourse");
         defineCluSet.addField(typeField);
         addField(defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, generateMessageInfo(ToolsConstants.ORGANIZATION), null, null);
         addField(defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.TITLE), null, null);

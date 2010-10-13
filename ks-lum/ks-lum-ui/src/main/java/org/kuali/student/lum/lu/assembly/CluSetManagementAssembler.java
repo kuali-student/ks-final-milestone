@@ -36,13 +36,13 @@ import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
@@ -444,6 +444,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setMetaInfo(toMetaInfo(cluSetHelper.getMetaInfo()));
         cluSetInfo.setName(cluSetHelper.getName());
         cluSetInfo.setState(cluSetHelper.getState());
+        if (cluSetInfo.getState() == null) {
+            cluSetInfo.setState("active");
+        }
         cluSetInfo.setType(cluSetHelper.getType());
         cluSetInfo.setIsReusable(cluSetHelper.getReusable());
         cluSetInfo.setIsReferenceable(cluSetHelper.getReferenceable());

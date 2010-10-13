@@ -1,11 +1,20 @@
 package org.kuali.student.lum.lu.ui.course.client.requirements;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -19,9 +28,9 @@ import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetDetailsWidget;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcService;
-import org.kuali.student.lum.lu.ui.tools.client.service.CluSetManagementRpcServiceAsync;
+import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
+import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
+import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -33,7 +42,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequirementsSummaryView extends VerticalSectionView {
 
-    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);    
+    private CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
@@ -285,7 +294,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         Set<String> cluSetIds = new HashSet<String>();
         findCluSetIds(rule, cluSetIds);
         for (String clusetId : cluSetIds) {
-            widgetList.put(clusetId, new CluSetDetailsWidget(clusetId, cluSetManagementRpcServiceAsync));
+            widgetList.put(clusetId, new CluSetDetailsWidget(clusetId, cluSetRetriever));
         }
 
         return widgetList;

@@ -13,11 +13,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.lu.ui.tools.client.service;
+package org.kuali.student.lum.common.client.widgets;
 
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.ui.tools.client.configuration.CluSetInformation;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/CluSetManagementRpcService")

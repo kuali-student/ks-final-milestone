@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.tools.client.configuration;
+package org.kuali.student.lum.common.client.widgets;
 
 import java.util.ArrayList;
 import java.util.HashMap;
