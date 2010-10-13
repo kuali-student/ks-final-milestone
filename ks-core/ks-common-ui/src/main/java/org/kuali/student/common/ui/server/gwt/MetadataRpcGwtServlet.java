@@ -48,6 +48,10 @@ public class MetadataRpcGwtServlet extends RemoteServiceServlet implements Metad
         }
         return metadataList;
     }
+
+    public Metadata getMetadataList(String objectKey, String state) {
+        return serviceImpl.getMetadata(objectKey, state);                
+    }
     
     public void setOldServiceImpl(org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl serviceImpl) {
         this.oldServiceImpl = serviceImpl;

@@ -28,8 +28,6 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
-import org.kuali.student.lum.program.client.events.AddRequirementEvent;
-import org.kuali.student.lum.program.client.events.DeleteRequirementEvent;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 
@@ -196,7 +194,7 @@ public class CourseRequirementsDataModel {
                         }
                         @Override
                             public void onSuccess(StatementTreeViewInfo updatedRule) {
-                            eventBus.fireEvent(new AddRequirementEvent(updatedRule.getId()));
+                            //eventBus.fireEvent(new StoreRequirementIDsEvent(updatedRule.getId()));
                             courseReqInfos.put(internalProgReqID, updatedRule);
                             courseReqState.put(internalProgReqID, requirementState.STORED);
                             callback.exec(updatedRule);  //update display widgets
@@ -221,7 +219,7 @@ public class CourseRequirementsDataModel {
                     });
                     break;
                 case DELETED:
-                    eventBus.fireEvent(new DeleteRequirementEvent(rule.getId()));
+                    //eventBus.fireEvent(new DeleteRequirementEvent(rule.getId()));
                     courseRemoteService.deleteCourseStatement(courseId, rule, new KSAsyncCallback<StatusInfo>() {
                         @Override
                         public void handleFailure(Throwable caught) {

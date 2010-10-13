@@ -1,7 +1,6 @@
 package org.kuali.student.lum.program.server;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.dto.StatusInfo;
@@ -33,6 +32,34 @@ public class ProgramRpcServlet extends DataGwtServlet implements ProgramRpcServi
         }
 
         return programReqInfos;
+    }
+
+    public Map<Integer, ProgramRequirementInfo> storeProgramRequirements(Map<Integer, ProgramRequirementsDataModel.requirementState> states,
+                                                                        Map<Integer, ProgramRequirementInfo> progReqs) throws Exception {
+        Map<Integer, ProgramRequirementInfo> storedRules = new HashMap<Integer, ProgramRequirementInfo>();
+
+        for (Integer key : progReqs.keySet()) {
+            ProgramRequirementInfo rule = progReqs.get(key);
+            switch (states.get(key)) {
+                case STORED:
+                    //rule was not changed so continue
+                    storedRules.put(key, null);
+                    break;
+                case ADDED:
+                    storedRules.put(key, createProgramRequirement(rule));
+                    break;
+                case EDITED:
+                    storedRules.put(key, updateProgramRequirement(rule));
+                    break;
+                case DELETED:
+                    storedRules.put(key, null);
+                    deleteProgramRequirement(rule.getId());
+                    break;
+                default:
+                    break;
+            }
+        }
+        return storedRules;        
     }
 
     //TODO remove if we are setting program requirement by triggering events that are handled by other parts of program ui
