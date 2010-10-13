@@ -12,6 +12,7 @@ public class TestLuSearchDictionary
  {
   Set<String> startingClasses = new LinkedHashSet ();
   startingClasses.add ("search");
+  startingClasses.add ("browse");
   String contextFile = "ks-lu-search-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
   DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,

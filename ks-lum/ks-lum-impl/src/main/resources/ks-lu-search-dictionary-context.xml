@@ -68,4 +68,76 @@
  </bean>
  <bean id="freestanding.search.courseRanges" parent="freestanding.search.courseRanges-parent" />
 
+<!-- Browse -->
+ <bean id="freestanding.browse-parent"  abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="browse"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.browse.courseCatalog" />
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.browse" parent="freestanding.browse-parent" />
+
+<bean id="freestanding.browse.courseCatalog-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="courseCatalog" />
+  <property name="dataObjectStructure"
+            ref="freestanding.browse.courseCatalogObject" />
+ </bean>
+ <bean id="freestanding.browse.courseCatalog" parent="freestanding.browse.courseCatalog-parent" />
+
+<bean id="freestanding.browse.courseCatalogObject-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="BrowseCourseCatalog"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.browse.courseCatalog.bySchoolOrCollege"/>
+    <ref bean="freestanding.browse.courseCatalog.bySubjectArea"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.browse.courseCatalogObject" parent="freestanding.browse.courseCatalogObject-parent"/>
+
+<bean id="freestanding.browse.courseCatalog.bySchoolOrCollege-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="bySchoolOrCollege" />
+  <property name="dataObjectStructure"
+            ref="freestanding.browse.courseCatalog.bySchoolOrCollegeObject" />
+ </bean>
+ <bean id="freestanding.browse.courseCatalog.bySchoolOrCollege" parent="freestanding.browse.courseCatalog.bySchoolOrCollege-parent" />
+
+<bean id="freestanding.browse.courseCatalog.bySchoolOrCollegeObject-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="BySchoolOrCollege"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.browse.courseId"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.browse.courseCatalog.bySchoolOrCollegeObject" parent="freestanding.browse.courseCatalog.bySchoolOrCollegeObject-parent"/>
+
+ <bean id="freestanding.browse.courseId-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="courseId" />
+ </bean>
+ <bean id="freestanding.browse.courseId" parent="freestanding.browse.courseId-parent" />
+
+ <bean id="freestanding.browse.courseCatalog.bySubjectArea-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="bySubjectArea" />
+  <property name="dataObjectStructure"
+            ref="freestanding.browse.courseCatalog.bySubjectAreaObject" />
+ </bean>
+ <bean id="freestanding.browse.courseCatalog.bySubjectArea" parent="freestanding.browse.courseCatalog.bySubjectArea-parent" />
+
+<bean id="freestanding.browse.courseCatalog.bySubjectAreaObject-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="BySubjectArea"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.browse.courseId"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="freestanding.browse.courseCatalog.bySubjectAreaObject" parent="freestanding.browse.courseCatalog.bySubjectAreaObject-parent"/>
+
 </beans>
