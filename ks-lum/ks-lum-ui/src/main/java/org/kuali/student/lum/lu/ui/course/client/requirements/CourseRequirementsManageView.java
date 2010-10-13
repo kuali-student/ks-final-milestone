@@ -53,7 +53,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
     protected static final String TEMLATE_LANGUAGE = "en";
     protected static final String RULEEDIT_TEMLATE = "KUALI.RULE";
-    protected static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";     
+    protected static final String COMPOSITION_TEMLATE = "KUALI.RULE.COMPOSITION";     
 
     private CourseRequirementsViewController parentController;
 

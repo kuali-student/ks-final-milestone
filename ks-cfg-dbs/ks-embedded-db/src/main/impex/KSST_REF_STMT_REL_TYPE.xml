@@ -3,59 +3,43 @@
 <dataset>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Anti-requisites"
-        OBJ_ID="497F87A3D553412B8171F186110A3E6E"
         TYPE_DESC="CLU Anti-requisites" TYPE_KEY="clu.antirequisites" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Completion Requirements"
-        OBJ_ID="FCA3B994A41D48498818B4E287AB95C8"
         TYPE_DESC="CLU Completion Requirements"
         TYPE_KEY="clu.completion" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Co-requisites"
-        OBJ_ID="AAA79FDBB2204C62AD9D6C856480DBBB"
         TYPE_DESC="CLU Co-requisites" TYPE_KEY="clu.corequisites" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Repeatable for Credit"
-        OBJ_ID="6F7E609303CC47EBB34A74C7A3C308FE"
         TYPE_DESC="CLU Repeatable for Credit"
         TYPE_KEY="clu.credit.repeatable" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU That Restrict Credit"
-        OBJ_ID="765B69EF013045A9BF54DD222631EA7E"
         TYPE_DESC="CLU That Restrict Credit"
         TYPE_KEY="clu.credit.restriction" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000"
         NAME="CLU Eligibilities and Pre-requisites"
-        OBJ_ID="8CABBB48BF7A48BBB674BFCC8800BB42"
         TYPE_DESC="CLU Eligibilities and Pre-requisites"
         TYPE_KEY="clu.eligibilitiesandprerequisites" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Entrance Requirements"
-        OBJ_ID="2DB7398FAE684CE5B3A1EEBFFBC26867"
         TYPE_DESC="CLU Entrance Requirements" TYPE_KEY="clu.entrance" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Pre-requisites"
-        OBJ_ID="1BD6D8AC078D47709B96820A87F50CED"
         TYPE_DESC="CLU Pre-requisites" TYPE_KEY="clu.prerequisites" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000" NAME="CLU Recommended Preparations"
-        OBJ_ID="72D8BE36562C43409DCA1D2306503778"
         TYPE_DESC="CLU Recommended Preparations"
         TYPE_KEY="clu.recommendedpreparation" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU Rules"
-        OBJ_ID="44F3D89148D44440BF2544AAD02C9477" TYPE_DESC="CLU Rules"
+        EXPIR_DT="21001231000000" NAME="CLU Rules" TYPE_DESC="CLU Rules"
         TYPE_KEY="clu.rule" VER_NBR="0"/>
     <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21001231000000"
         NAME="CLU Satisfactory Progress Requirements"
-        OBJ_ID="EA9E654EBC8640D5BE98B671F05E2789"
         TYPE_DESC="CLU Satisfactory Progress Requirements"
         TYPE_KEY="clu.satisfactoryprogress" VER_NBR="0"/>
-    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="CLU reference type"
-        OBJ_ID="C1512E315B38418590F727047F60E202"
-        TYPE_DESC="CLU reference type"
-        TYPE_KEY="kuali.referenceType.CLU" VER_NBR="0"/>
 </dataset>

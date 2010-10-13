@@ -2,6 +2,20 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.gpa.min" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.min" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.residence.credits.final" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.enrolled.credits.final" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.test.score.min" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.completion.duration.afterentry" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.minors.nof" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.none" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.max" STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"/>
@@ -127,18 +141,4 @@
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.completed.all" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
     <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.coursecompleted.nof" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.gpa.min" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.min" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.residence.credits.final" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.enrolled.credits.final" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.course.test.score.min" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.completion.duration.afterentry" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
-    <KSST_STMT_TYP_JN_RC_TYP
-        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.minors.nof" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
 </dataset>

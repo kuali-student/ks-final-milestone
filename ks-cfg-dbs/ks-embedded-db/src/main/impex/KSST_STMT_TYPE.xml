@@ -3,70 +3,58 @@
 <dataset>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Academic Readiness Rules"
-        OBJ_ID="6485675C36D34177B109F706ECFF14E6"
         TYPE_DESC="Rules used in the evaluation of a person's academic readiness for enrollment."
         TYPE_KEY="kuali.statement.type.course" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Antirequisite" OBJ_ID="9D99885283064901AB23EDC839439916"
+        NAME="Antirequisite"
         TYPE_DESC="Add courses that, if completed, would prevent a student from enrolling in this course."
         TYPE_KEY="kuali.statement.type.course.academicReadiness.antireq" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Corequisite" OBJ_ID="325A9AFF99FF45588AFFA563CDC60DEB"
+        NAME="Corequisite"
         TYPE_DESC="Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll."
         TYPE_KEY="kuali.statement.type.course.academicReadiness.coreq" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Prerequisites" OBJ_ID="D263D2C7E44741FE82ACC878E6A33A6A"
+        NAME="Prerequisites"
         TYPE_KEY="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Student Eligibility"
-        OBJ_ID="C55CBBE26A50452598EA27B583434386"
         TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Student Eligibilities + Prerequisite"
-        OBJ_ID="DC7D276125FC4616B893AF599304FAC8"
         TYPE_DESC="Add conditions that will restrict student enrollment, addressing restrictions to majors, locations, credit level requirements, etc. or Add courses, with or without grade requirements, which a student must have completed in order to enroll."
         TYPE_KEY="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Repeatable for Credit"
-        OBJ_ID="9515A36CE79B43279E3AFEC158746AAE"
         TYPE_DESC="Course repeatable for credit."
         TYPE_KEY="kuali.statement.type.course.credit.repeatable" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Courses that Restrict Credit"
-        OBJ_ID="BC682525B7344B5EAE53B1A911DB6436"
         TYPE_DESC="Enrollment in or completion of another course that will restrict the credits to be awarded."
         TYPE_KEY="kuali.statement.type.course.credit.restriction" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Credit Constraints"
-        OBJ_ID="F4AEE5B91F344D639CFE3922B0B032FC"
         TYPE_KEY="kuali.statement.type.course.creditConstraints" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Enrollment Elligibility"
-        OBJ_ID="B2ED31DD963744A3B86528F6D3BCC950"
         TYPE_KEY="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Recommended Preparation"
-        OBJ_ID="0FDB2D5CB8544048AF9489D8944B716C"
         TYPE_DESC="The courses and/or preparation added here will not prevent students from registering, but will be printed in the catalog."
         TYPE_KEY="kuali.statement.type.course.recommendedPreparation" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program Requirements List"
-        OBJ_ID="9469A3DA98C84A9AAD6EFE267053E243"
         TYPE_DESC="List of program requirements (rules)."
         TYPE_KEY="kuali.statement.type.program" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Completion Requirements"
-        OBJ_ID="95661416E47C4A898EFD04A95EC3C44E"
         TYPE_DESC="Add conditions that will define how students may successfully complete this program."
         TYPE_KEY="kuali.statement.type.program.completion" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Entrance Requirements"
-        OBJ_ID="020862617A754536B58768584E3C3FD9"
         TYPE_DESC="Add conditions that will restrict student entrance into this program."
         TYPE_KEY="kuali.statement.type.program.entrance" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Satisfactory Progress Requirements"
-        OBJ_ID="0B6C4D929EAF4EB0A2813F320DFA5F1A"
         TYPE_DESC="Add conditions that will define how students will maintain satisfactory standing in this program."
         TYPE_KEY="kuali.statement.type.program.satisfactoryProgress" VER_NBR="0"/>
 </dataset>

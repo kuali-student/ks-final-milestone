@@ -3,197 +3,158 @@
 <dataset>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Completed course"
-        OBJ_ID="1E444B22B65E48C29885F2C1A1334B59"
         TYPE_DESC="Must have successfully completed &lt;course>"
         TYPE_KEY="kuali.reqComponent.type.course.completed" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="All of required courses"
-        OBJ_ID="00A9366497B548A0868D2EB6D1DAB87B"
         TYPE_DESC="Must have successfully completed all courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.all" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="N of required courses"
-        OBJ_ID="6F2E59901B024A31B3C054EF80C57E4B"
         TYPE_DESC="Must have successfully completed a minimum of &lt;n> courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="None of required courses"
-        OBJ_ID="762996A68C434E7DBB254521C58B2778"
         TYPE_DESC="Must not have successfully completed any courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.none" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Maximum credit from courses"
-        OBJ_ID="E89C6B7645DD4836AD5BBB69CA29426E"
         TYPE_DESC="Must successfully complete no more than  &lt;n> credits from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.credits.completed.max" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Completed N credits from courses"
-        OBJ_ID="D6D56E63A57C40A290E80214E3E82EE2"
         TYPE_DESC="Must have successfully completed a minimum of &lt;n> credits from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.credits.completed.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Completed none credits from courses"
-        OBJ_ID="FE0744043C08492D834FCF2A345CA9BF"
         TYPE_DESC="Must not have successfully completed any credits from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.credits.completed.none" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Enrolled in N of required courses"
-        OBJ_ID="55A860F1CC8F4FAF8B7CFE16758ABC73"
         TYPE_DESC="Must be concurrently enrolled in a minimum of &lt;n> courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.enrolled.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum overall GPA"
-        OBJ_ID="F4A8800FC6374674BCD68A0356A29EFA"
         TYPE_DESC="Must have earned a minimum GPA of &lt;GPA> in &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.gpa.min" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Grade in required courses"
-        OBJ_ID="230081158E9C4F66A8198A0099BBA1A6"
         TYPE_DESC="Must not have earned a grade of &lt;gradeType> &lt;grade> or higher in &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.grade.max" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Grade in required courses"
-        OBJ_ID="AEE9EF034ABD4C74818FA0C7A0D98E97"
         TYPE_DESC="Must have earned a minimum grade of &lt;gradeType> &lt;grade> in &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.grade.min" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum grade in required courses"
-        OBJ_ID="FB3CA7EB1A1F4BB4868C7C386B891892"
-        TYPE_DESC="Must successfully complete a minimum of &lt;n> courses  from &lt;courses> with a minimum grade of &lt;gradeType> &lt;grade>"
+        TYPE_DESC="Must successfully complete a minimum of &lt;n> courses from &lt;courses> with a minimum grade of &lt;gradeType> &lt;grade>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.nof.grade.min" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Course repeatable for maximum credit"
-        OBJ_ID="7BA0D29C86824E878647562ACD15593B"
         TYPE_DESC="May be repeated for a maximum of &lt;n> credits"
         TYPE_KEY="kuali.reqComponent.type.course.credits.repeat.max" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Enrolled in course"
-        OBJ_ID="D11C444B8E30413AADFB6286F2DE4AE4"
         TYPE_DESC="Must be concurrently enrolled in &lt;course> "
         TYPE_KEY="kuali.reqComponent.type.course.enrolled" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Not completed course"
-        OBJ_ID="3DD612D745C942949AF3032BFDCD2A94"
         TYPE_DESC="Must not have successfully completed &lt;course> "
         TYPE_KEY="kuali.reqComponent.type.course.notcompleted" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum credit completion in organization/department"
-        OBJ_ID="77558B3ABC8D408AA883D100507ED76D"
         TYPE_DESC="Must have successfully completed a minimum of &lt;n> credits from courses in the &lt;org>"
         TYPE_KEY="kuali.reqComponent.type.course.org.credits.completed.min" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program admission at campus"
-        OBJ_ID="41FB5CE7CC32477196B99D106B784D63"
         TYPE_DESC="Must be admitted to any program offered at the course campus location"
         TYPE_KEY="kuali.reqComponent.type.course.org.program.admitted" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Instructor permission required"
-        OBJ_ID="1141F48426E244BAA7D1909289347512"
         TYPE_DESC="Permission of instructor required"
         TYPE_KEY="kuali.reqComponent.type.course.permission.instructor.required" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Organization permisison required"
-        OBJ_ID="7E00E2EF2F3F40228C709A106E3324D7"
         TYPE_DESC="Permission of &lt;administering org> required"
         TYPE_KEY="kuali.reqComponent.type.course.permission.org.required" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program admission restriction"
-        OBJ_ID="61060D08266A4BD18ECA734E4A3DF124"
         TYPE_DESC="Must have been admitted to the &lt;program> program"
         TYPE_KEY="kuali.reqComponent.type.course.program.admitted" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program admission for courses in duration"
-        OBJ_ID="F437FE2BFCE042129F2C081CA9624AA9"
         TYPE_DESC="Students admitted to &lt;program> may take no more than &lt;n> courses in the &lt;org> in &lt;duration> &lt;durationType>"
         TYPE_KEY="kuali.reqComponent.type.course.program.admitted.org.duration" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program admission restriction"
-        OBJ_ID="9503FB83CFD24B17BF0D4FE311C1FACA"
         TYPE_DESC="Must not have been admitted to the &lt;program> program"
         TYPE_KEY="kuali.reqComponent.type.course.program.notadmitted" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program admission course restriction in duration"
-        OBJ_ID="F744D01D5CAE441E9004FA25089C5EE2"
         TYPE_DESC="Students not admitted to &lt;program> may take no more than &lt;n> courses in the &lt;org> in &lt;duration> &lt;durationType>"
         TYPE_KEY="kuali.reqComponent.type.course.program.notadmitted.org.duration" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Maximum score on test"
-        OBJ_ID="6AF671106765463B806BF765617112F9"
         TYPE_DESC="Must have achieved a score no higher than &lt;score> on &lt;test> "
         TYPE_KEY="kuali.reqComponent.type.course.test.score.max" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum score on test"
-        OBJ_ID="C0548532677F4C55B4C50C96FAD5759E"
         TYPE_DESC="Must have achieved a minimum score of &lt;score> on &lt;tests>"
         TYPE_KEY="kuali.reqComponent.type.course.test.score.min" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Earning n credits"
-        OBJ_ID="E9D485D0ADBA4A8D9FB16C5972D7D920"
         TYPE_DESC="Must be admitted to program prior to earning &lt;n> credits"
         TYPE_KEY="kuali.reqComponent.type.program.admitted.credits" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Candidate status within duration after program entry"
-        OBJ_ID="E7682D03091E45B28DED846732E6BB67"
         TYPE_DESC="Must attain candidate status within &lt;n> &lt;duration> after program entry term"
         TYPE_KEY="kuali.reqComponent.type.program.candidate.status.duration" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Not exceed n duration without completing program"
-        OBJ_ID="2A5D331285544DD8A02DAF71D7B391A1"
         TYPE_DESC="Must not exceed &lt;n> &lt;duration> without completing program"
         TYPE_KEY="kuali.reqComponent.type.program.completion.duration" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Complete program within duration after program entry"
-        OBJ_ID="26BCDD45399B4998B6816C9A7ED48F3C"
         TYPE_DESC="Must complete program within &lt;n> &lt;durations> after program entry term"
         TYPE_KEY="kuali.reqComponent.type.program.completion.duration.afterentry" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Earned more than n credits"
-        OBJ_ID="718D833D568E4457A4D5606C64880BB7"
         TYPE_DESC="Must not have earned more than &lt;n> credits"
         TYPE_KEY="kuali.reqComponent.type.program.credits.max" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Earned minimum n credits"
-        OBJ_ID="01FEFBFC13354667BC575078361ADD0B"
         TYPE_DESC="Must have earned a minimum of &lt;n> total credits"
         TYPE_KEY="kuali.reqComponent.type.program.credits.min" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program enrolled in graduation major for final credits"
-        OBJ_ID="A033A21BF8644282A1C7C23F833C299A"
         TYPE_DESC="&lt;program> student must be enrolled in their graduation major for the final &lt;n> credits taken"
         TYPE_KEY="kuali.reqComponent.type.program.enrolled.credits.final" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Admitted to minor program for junior or senior class standing"
-        OBJ_ID="AF2B9A9F89D34BF6A5FC9BC966304270"
         TYPE_DESC="Must be admitted to a minor program only if they have junior or senior class standing"
         TYPE_KEY="kuali.reqComponent.type.program.minor.admitted.classstanding" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minors as part of a program"
-        OBJ_ID="1E63B05C78CE4317A59DC465054E3347"
         TYPE_DESC="Must earn no more than &lt;n> minors as part of a program"
         TYPE_KEY="kuali.reqComponent.type.program.minors.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="All of required programs"
-        OBJ_ID="F790CF85C94A4F849F7D2AC2D620A237"
         TYPE_DESC="Must have successfully completed all of &lt;programs> programs"
         TYPE_KEY="kuali.reqComponent.type.program.programset.completed.all" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum of n programs from programs"
-        OBJ_ID="122B716808184E59AC98777A6777948F"
         TYPE_DESC="Must have successfully completed a minimum of &lt;n> programs from &lt;programs> programs"
         TYPE_KEY="kuali.reqComponent.type.program.programset.completed.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum courses from programs"
-        OBJ_ID="EC1878F67ABA41F79E56CA66B8AD0D1E"
         TYPE_DESC="Must have successfully completed a minimum of &lt;n> courses from &lt;programs> programs"
         TYPE_KEY="kuali.reqComponent.type.program.programset.coursecompleted.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Not completed any programs"
-        OBJ_ID="E85B18AAD2C747DA8FBAA04492968E83"
         TYPE_DESC="Must not have successfully completed any of &lt;programs> programs"
         TYPE_KEY="kuali.reqComponent.type.program.programset.notcompleted.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program final credits in residence"
-        OBJ_ID="7FB94F4207884517AC4D5C5CC2195A4F"
         TYPE_DESC="&lt;program> student smust take their final &lt;n> credits in residence"
         TYPE_KEY="kuali.reqComponent.type.program.residence.credits.final" VER_NBR="0"/>
 </dataset>

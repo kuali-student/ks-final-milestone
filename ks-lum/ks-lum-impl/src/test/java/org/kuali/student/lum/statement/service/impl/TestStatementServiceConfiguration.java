@@ -97,13 +97,13 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testReqComponentTypeNLTemplateCount() {
     	List<ReqComponentTypeNLTemplate> reqComponentTypeNLTemplates = this.dao.find(ReqComponentTypeNLTemplate.class);
-    	Assert.assertEquals(117, reqComponentTypeNLTemplates.size());
+    	Assert.assertEquals(156, reqComponentTypeNLTemplates.size());
     }
 
     @Test
     public void testNlUsageTypeCount() {
     	List<NlUsageType> nlUsageTypes = this.dao.find(NlUsageType.class);
-    	Assert.assertEquals(4, nlUsageTypes.size());
+    	Assert.assertEquals(5, nlUsageTypes.size());
     }
 
     private boolean containsNlUsageType(List<NlUsageType> typeList, String id) {
@@ -119,9 +119,10 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     public void testValidNlUsageTypes() {
     	List<NlUsageType> nlUsageTypes = this.dao.find(NlUsageType.class);
     	Assert.assertTrue(containsNlUsageType(nlUsageTypes, "KUALI.CATALOG"));
-    	Assert.assertTrue(containsNlUsageType(nlUsageTypes, "KUALI.EXAMPLE"));
-    	Assert.assertTrue(containsNlUsageType(nlUsageTypes, "KUALI.COMPOSITION"));
     	Assert.assertTrue(containsNlUsageType(nlUsageTypes, "KUALI.RULE"));
+    	Assert.assertTrue(containsNlUsageType(nlUsageTypes, "KUALI.RULE.PREVIEW"));
+    	Assert.assertTrue(containsNlUsageType(nlUsageTypes, "KUALI.RULE.EXAMPLE"));
+    	Assert.assertTrue(containsNlUsageType(nlUsageTypes, "KUALI.RULE.COMPOSITION"));
     }
     
     private boolean containsReqComponentType(List<ReqComponentType> typeList, String id) {
