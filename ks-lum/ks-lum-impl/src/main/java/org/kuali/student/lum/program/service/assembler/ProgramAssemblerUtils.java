@@ -115,7 +115,7 @@ public class ProgramAssemblerUtils {
 		}
 
         return o;
-        
+
     }
 
     /**
@@ -308,7 +308,7 @@ public class ProgramAssemblerUtils {
             official.setState((null != existingState && existingState.length() > 0) ? existingState : ProgramAssemblerConstants.ACTIVE);
             // gotta be this type
             official.setType(ProgramAssemblerConstants.OFFICIAL);
-            
+
             try {
                 method = o.getClass().getMethod("getProgramLevel", null);
                 String level = (String)method.invoke(o, null);
@@ -317,7 +317,7 @@ public class ProgramAssemblerUtils {
             catch (NoSuchMethodException e)        {
                 //ignore - only CredentialProgram has programLevel
             }
-            
+
             clu.setOfficialIdentifier(official);
 
             //Remove any existing diploma or transcript alt identifiers
@@ -326,7 +326,7 @@ public class ProgramAssemblerUtils {
             for(Iterator<CluIdentifierInfo> iter = clu.getAlternateIdentifiers().iterator();iter.hasNext();){
                 CluIdentifierInfo cluIdentifier = iter.next();
                 if (ProgramAssemblerConstants.DIPLOMA.equals(cluIdentifier.getType())) {
-                   diplomaInfo = cluIdentifier; 
+                   diplomaInfo = cluIdentifier;
                 } else if (ProgramAssemblerConstants.TRANSCRIPT.equals(cluIdentifier.getType())) {
                     transcriptInfo = cluIdentifier;
                 }
@@ -349,7 +349,7 @@ public class ProgramAssemblerUtils {
             catch (NoSuchMethodException e)        {
                 //ignore - only Major and Variation have diploma title and transcript title
             }
-            
+
             try{
                 method = o.getClass().getMethod("getTranscriptTitle", null);
                 value = (String)method.invoke(o, null);
@@ -447,7 +447,7 @@ public class ProgramAssemblerUtils {
 
     /**
      * Copy AdminOrg id's from clu's AdminOrgInfo's to program
-     * 
+     *
      * @param clu
      * @param o
      * @return
@@ -529,7 +529,7 @@ public class ProgramAssemblerUtils {
         addAdminOrgs(clu, o, "getUnitsFinancialResources", ProgramAssemblerConstants.FINANCIAL_RESOURCES_UNIT);
         addAdminOrgs(clu, o, "getUnitsFinancialControl", ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT);
         addAdminOrg(clu, o, "getInstitution", ProgramAssemblerConstants.INSTITUTION);
-        
+
         return clu;
 
     }
@@ -550,9 +550,9 @@ public class ProgramAssemblerUtils {
             	clu.getAdminOrgs().add(org);
             }
         }
-		catch (NoSuchMethodException ex) {} 
-        catch (IllegalArgumentException e) {} 
-        catch (IllegalAccessException e) {} 
+		catch (NoSuchMethodException ex) {}
+        catch (IllegalArgumentException e) {}
+        catch (IllegalAccessException e) {}
         catch (InvocationTargetException e) {}
     }
     /**
@@ -610,7 +610,7 @@ public class ProgramAssemblerUtils {
             }
             if (clu.getLastAdmitAtp() != null) {
                 parms = new Class[]{String.class};
-                method = o.getClass().getMethod("setEndProgramEntryTerm", parms);    
+                method = o.getClass().getMethod("setEndProgramEntryTerm", parms);
                 value = new Object[]{clu.getLastAdmitAtp()};
                 method.invoke(o, value);
             }
@@ -899,7 +899,7 @@ public class ProgramAssemblerUtils {
                 && currentRelations.containsKey(relatedCluId))  {
             // Delete the Format and its relation
         	addDeleteRelationNodes(currentRelations, results);
-        	
+
             // remove this entry from the map so we can tell what needs to
             // be deleted at the end
             currentRelations.remove(relatedCluId);
@@ -937,10 +937,10 @@ public class ProgramAssemblerUtils {
             } catch (OperationFailedException e) {
                 throw new AssemblyException("Error getting related clus", e);
             }
-            
+
             return currentRelations;
     }
- 
+
     public void addCreateRelationNode(String cluId, String relatedCluId, String relationType, List<BaseDTOAssemblyNode<?, ?>> results){
         CluCluRelationInfo relation = new CluCluRelationInfo();
         relation.setCluId(cluId);
@@ -954,9 +954,9 @@ public class ProgramAssemblerUtils {
         relationNode.setOperation(NodeOperation.CREATE);
 
         results.add(relationNode);
-    	
+
     }
-    
+
     public void addDeleteRelationNodes(Map<String, String> currentRelations, List<BaseDTOAssemblyNode<?, ?>> results){
         for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
             // Create a new relation with the id of the relation we want to
@@ -968,9 +968,9 @@ public class ProgramAssemblerUtils {
             relationToDeleteNode.setNodeData(relationToDelete);
             relationToDeleteNode.setOperation(NodeOperation.DELETE);
             results.add(relationToDeleteNode);
-        }   	
+        }
     }
-    
+
     private LuCodeInfo buildLuCodeFromProgram(Object o, String methodName, String codeType) throws AssemblyException {
 
         LuCodeInfo code = null;
@@ -1004,11 +1004,7 @@ public class ProgramAssemblerUtils {
     private void addOrgIdToProgram(Object o, AdminOrgInfo cluOrg, String getMethod, String setMethod) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         Method method = o.getClass().getMethod(getMethod, null);
-        List<String> objOrgs = (List<String>) method.invoke(o, null);
-
-        if (objOrgs == null)     {
-            objOrgs = new ArrayList<String>();
-        }
+        List<String> objOrgs= new ArrayList<String>();
         objOrgs.add(cluOrg.getOrgId());
         Class[] parms =  new Class[]{List.class};
         method = o.getClass().getMethod(setMethod, parms);
@@ -1083,7 +1079,7 @@ public class ProgramAssemblerUtils {
 
         return result;
     }
-    
+
      private void addLuCode(CluInfo clu, Object o, String methodName, String codeType ) throws AssemblyException {
 
         LuCodeInfo code = buildLuCodeFromProgram(o, methodName, codeType );
