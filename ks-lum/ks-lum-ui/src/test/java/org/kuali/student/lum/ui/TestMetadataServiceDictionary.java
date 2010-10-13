@@ -58,6 +58,7 @@ public class TestMetadataServiceDictionary
   startingClasses.add (ReqCompFieldInfo.class.getName ());
   startingClasses.add ("cluset");
   startingClasses.add ("search");
+  startingClasses.add ("browse");
 
 
   //  startingClasses.add (StatementTreeViewInfo.class);
