@@ -1810,31 +1810,64 @@
 		<property name="resultSortKey" value="cluset.resultColumn.name" />
 		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
  <property name="params">
-					<list>
-						<bean parent="param">
-							<property name="key" value="cluset.queryParam.optionalName" />
-							<property name="name" value="Name" />
-							<property name="desc" value="Course Set Name." />
-							<property name="writeAccess" value="ALWAYS" />
-							<property name="usage" value="DEFAULT" />
-						</bean>
-						<bean  parent="param"><!-- limit search to only return reusable clusets -->
-							<property name="key" value="cluset.queryParam.optionalReusable" />
-							<property name="name" value="Reusable" />
-							<property name="desc" value="Reusable" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="true" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param"><!-- limit search to only return course clusets -->
-							<property name="key" value="cluset.queryParam.optionalType" />
-							<property name="name" value="Type" />
-							<property name="desc" value="Type of Clu Set" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="kuali.cluSet.type.CreditCourse" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-					</list>
+			<list>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalName"/>
+					<property name="name" value="Name"/>
+					<property name="desc" value="Name of the Course Set."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalDescription"/>
+					<property name="name" value="Description"/>
+					<property name="desc" value="Course Set Description."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalLongName"/>
+					<property name="name" value="Course Name"/>
+					<property name="desc" value="Course Name"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalSubCluSetName"/>
+					<property name="name" value="Contains Set"/>
+					<property name="desc" value="Name of set contained by this one"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param"><!-- limit search to only return reusable clusets -->
+					<property name="key" value="cluset.queryParam.optionalReusable" />
+					<property name="name" value="Reusable" />
+					<property name="desc" value="Reusable" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueString" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param"><!-- limit search to only return course clusets -->
+					<property name="key" value="cluset.queryParam.optionalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type of Clu Set" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueString" value="kuali.cluSet.type.CreditCourse" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
 		</property>
 	</bean>
 
@@ -1847,32 +1880,65 @@
 		<property name="resultDisplayKey" value="cluset.resultColumn.name" />
 		<property name="resultSortKey" value="cluset.resultColumn.name" />
 		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
- <property name="params">
-					<list>
-						<bean parent="param">
-							<property name="key" value="cluset.queryParam.optionalName" />
-							<property name="name" value="Name" />
-							<property name="desc" value="Program Set Name." />
-							<property name="writeAccess" value="ALWAYS" />
-							<property name="usage" value="DEFAULT" />
-						</bean>
-						<bean parent="param"><!-- limit search to only return reusable clusets -->
-							<property name="key" value="cluset.queryParam.optionalReusable" />
-							<property name="name" value="Reusable" />
-							<property name="desc" value="Reusable" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="true" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param"><!-- limit search to only return program clusets -->
-							<property name="key" value="cluset.queryParam.optionalType" />
-							<property name="name" value="Type" />
-							<property name="desc" value="Type of Clu Set" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="kuali.cluSet.type.Program" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-					</list>
+  <property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalName"/>
+					<property name="name" value="Name"/>
+					<property name="desc" value="Name of the Program Set."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalDescription"/>
+					<property name="name" value="Description"/>
+					<property name="desc" value="Program Set Description."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalLongName"/>
+					<property name="name" value="Program Name"/>
+					<property name="desc" value="Program Name"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalSubCluSetName"/>
+					<property name="name" value="Contains Set"/>
+					<property name="desc" value="Name of set contained by this one"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param"><!-- limit search to only return reusable clusets -->
+					<property name="key" value="cluset.queryParam.optionalReusable" />
+					<property name="name" value="Reusable" />
+					<property name="desc" value="Reusable" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueString" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param"><!-- limit search to only return program clusets -->
+					<property name="key" value="cluset.queryParam.optionalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type of Clu Set" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueString" value="kuali.cluSet.type.Program" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
 		</property>
 	</bean>
 
@@ -1887,30 +1953,63 @@
 		<property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
   <property name="params">
 					<list>
-						<bean parent="param">
-							<property name="key" value="cluset.queryParam.optionalName" />
-							<property name="name" value="Name" />
-							<property name="desc" value="Standardized Test Set Name." />
-							<property name="writeAccess" value="ALWAYS" />
-							<property name="usage" value="DEFAULT" />
-						</bean>
-						<bean parent="param"><!-- limit search to only return reusable clusets -->
-							<property name="key" value="cluset.queryParam.optionalReusable" />
-							<property name="name" value="Reusable" />
-							<property name="desc" value="Reusable" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="true" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-						<bean parent="param"><!-- limit search to only return Standardized Test clusets -->
-							<property name="key" value="cluset.queryParam.optionalType" />
-							<property name="name" value="Type" />
-							<property name="desc" value="Type of Clu Set" />
-							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="kuali.cluSet.type.Test" />
-							<property name="caseSensitive" value="true" />
-						</bean>
-					</list>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalName"/>
+					<property name="name" value="Name"/>
+					<property name="desc" value="Name of the Standardized Test Set."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalDescription"/>
+					<property name="name" value="Description"/>
+					<property name="desc" value="Standardized Test Set Description."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalLongName"/>
+					<property name="name" value="Standardized Test Name"/>
+					<property name="desc" value="Standardized Test Name"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="cluset.queryParam.optionalSubCluSetName"/>
+					<property name="name" value="Contains Set"/>
+					<property name="desc" value="Name of set contained by this one"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param"><!-- limit search to only return reusable clusets -->
+					<property name="key" value="cluset.queryParam.optionalReusable" />
+					<property name="name" value="Reusable" />
+					<property name="desc" value="Reusable" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueString" value="true" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param"><!-- limit search to only return Standardized Test clusets -->
+					<property name="key" value="cluset.queryParam.optionalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type of Clu Set" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueString" value="kuali.cluSet.type.Test" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
 		</property>
 	</bean>
 
