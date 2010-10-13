@@ -37,6 +37,7 @@ import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -706,7 +707,27 @@ public class ProgramAssemblerUtils {
 //                value = new Object[]{description};
 //                method.invoke(o, value);
 //            }
-//TODO        mdInfo.setCatalogPublicationTargets(clu.getPublicationInfo());
+
+            try {
+                List<CluPublicationInfo> cluPublications = luService.getCluPublicationsByCluId(clu.getId());
+
+                List<String> targets = new ArrayList<String>();
+
+                for (CluPublicationInfo cluPublication : cluPublications) {
+                    targets.add(cluPublication.getType());
+                }
+
+                parms =  new Class[]{List.class};
+                method = o.getClass().getMethod("setCatalogPublicationTargets", parms);
+                value = new Object[]{targets};
+                method.invoke(o, value);
+
+            } catch (DoesNotExistException e) {
+            } catch (InvalidParameterException e) {
+            } catch (MissingParameterException e) {
+            } catch (OperationFailedException e) {
+                throw new AssemblyException("Error getting publication targets", e);
+            }
 
         }
         catch (IllegalAccessException   e){
@@ -748,7 +769,7 @@ public class ProgramAssemblerUtils {
 //            RichTextInfo descr = (RichTextInfo)method.invoke(o, null);
 //            clu.setDescr(descr);
 
-//TODO        clu.setPublicationInfo(major.getCatalogPublicationTargets());        
+//TODO        clu.setPublicationInfo(major.getCatalogPublicationTargets());
 
         }
 
