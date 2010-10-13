@@ -380,12 +380,25 @@ public class MetadataFormatter {
  private String calcLookup(LookupMetadata lm) {
 		StringBuilder bldr = new StringBuilder();
 		bldr.append(lm.getId());
+//  if (lm.getUsage () != null) {
+//   bldr.append (" usage " + lm.getUsage ());
+//  }
 		// this is the search description not the lookup description
-		// builder.append (" - ");
-		// builder.append (lc.getDesc ());
-		String and = "";
-		bldr.append("\\\\");
-		bldr.append("\n");
+		bldr.append (" - ");
+		bldr.append (lm.getName());
+  bldr.append (" " + lm.getWidget ());
+  String and = " with option ";
+  if (lm.getWidgetOptions () != null) {
+   for (LookupMetadata.WidgetOption wo: lm.getWidgetOptions ().keySet ())
+   {
+    bldr.append (" and ");
+    bldr.append (wo);
+    bldr.append ("=");
+    bldr.append (lm.getWidgetOptions ().get (wo));
+   }
+  }
+		and = "";
+		bldr.append("\\\\\n");
 		bldr.append("Implemented using search: ");
 		String searchPage = calcWikiSearchPage(lm.getSearchTypeId());
 		bldr.append("[" + lm.getSearchTypeId() + "|" + searchPage + "#"
@@ -401,6 +414,7 @@ public class MetadataFormatter {
 				bldr.append(and);
 				and = " and ";
 				bldr.append(param.getName());
+    bldr.append (" (" + param.getDataType () + ") ");
 				bldr.append("=");
 				if (param.getDefaultValueString() != null) {
 					bldr.append(param.getDefaultValueString());
@@ -413,17 +427,43 @@ public class MetadataFormatter {
 						bldr.append(defValue);
 					}
 				}
+			}
+  }
+  List<LookupParamMetadata> userEnterableParameters = this.filterUserEnterableParams (lm
+				.getParams());
+		if (userEnterableParameters.size() > 0) {
+			bldr.append("\\\\");
+			bldr.append("\n");
+			bldr.append(" and the user can enter: ");
+			for (LookupParamMetadata param : userEnterableParameters) {
+				bldr.append ("\\\\\n");
+				bldr.append(param.getName());
+    bldr.append (" (" + param.getDataType () + ")");
+    if (param.getWidget () != null) {
+				 bldr.append(" using widget ");
+     bldr.append (param.getWidget ());
+    }
+				if (param.getDefaultValueString() != null) {
+					bldr.append("defaulted to " + param.getDefaultValueString());
+				}
+				if (param.getDefaultValueList() != null) {
+					String comma = "defaulted to ";
+					for (String defValue : param.getDefaultValueList()) {
+						bldr.append(comma);
+						comma = ", ";
+						bldr.append(defValue);
+					}
+				}
     if (param.getChildLookup () != null)
     {
-     bldr.append ("the value choosen by the user in the: ");
 			  bldr.append("\\\\");
 			  bldr.append("\n");
-     bldr.append ("child lookup: ");
+     bldr.append ("using a child lookup: ");
 			  bldr.append("\\\\");
 			  bldr.append("\n");
      bldr.append (calcLookup (param.getChildLookup ()));
     }
-			}
+   }
 		}
 		return bldr.toString();
  }
@@ -496,6 +536,26 @@ public class MetadataFormatter {
     list.add (param);
     continue;
    }
+		}
+		return list;
+	}
+
+ 	private List<LookupParamMetadata> filterUserEnterableParams (
+			List<LookupParamMetadata> params) {
+		List<LookupParamMetadata> list = new ArrayList<LookupParamMetadata>();
+		if (params == null) {
+			return list;
+		}
+		if (params.size() == 0) {
+			return list;
+		}
+		for (LookupParamMetadata param : params) {
+			if (param.getWriteAccess () != null) {
+    if ( ! param.getWriteAccess ().equals (Metadata.WriteAccess.NEVER)) {
+			 	list.add(param);
+			 	continue;
+    }
+			}
 		}
 		return list;
 	}
