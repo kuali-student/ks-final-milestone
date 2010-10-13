@@ -618,6 +618,14 @@ public class MetadataServiceImpl {
         if (lookupData.getUsage() != null) {
             lookupMetadata.setUsage(org.kuali.student.core.assembly.data.LookupMetadata.Usage.valueOf(lookupData.getUsage().toString()));
         }
+        if (lookupData.getWidgetOptions () != null) {
+         lookupMetadata.setWidgetOptions (new HashMap ());
+         for (UILookupData.WidgetOption wo: lookupData.getWidgetOptions ().keySet ()) {
+          String value = lookupData.getWidgetOptions ().get (wo);
+          LookupMetadata.WidgetOption key = LookupMetadata.WidgetOption.valueOf(wo.toString());
+          lookupMetadata.getWidgetOptions ().put (key, value);
+         }
+        }
         if (lookupData.getParams() != null) {
             paramsMetadata = new ArrayList<LookupParamMetadata>();
             for (CommonLookupParam param : lookupData.getParams()) {
