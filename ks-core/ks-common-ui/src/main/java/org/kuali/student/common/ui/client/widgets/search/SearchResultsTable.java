@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
+import org.kuali.student.common.ui.client.widgets.table.scroll.RetrieveAdditionalDataHandler;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
@@ -54,6 +55,8 @@ public class SearchResultsTable extends Composite{
     private DefaultTableModel tableModel;
     private String resultIdColumnKey;
     private SearchRequest searchRequest;
+    private Table table = new Table();
+    private boolean isMultiSelect = true;
     
     public SearchResultsTable(){
         super();
@@ -64,14 +67,19 @@ public class SearchResultsTable extends Composite{
     
     public void redraw(){
         layout.clear();      
-    }    
+    }
+    
+    public void setMutipleSelect(boolean isMultiSelect){
+    	this.isMultiSelect = isMultiSelect;
+    }
     
     //FIXME do we really need to recreate the table for every refresh?
     public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){ 
-
+    	table = new Table();
         this.resultIdColumnKey = resultIdKey;
         
         tableModel = new DefaultTableModel();
+        tableModel.setMultipleSelectable(isMultiSelect);
 
         //create table heading
         for (LookupResultMetadata r: listResultMetadata){
@@ -93,45 +101,47 @@ public class SearchResultsTable extends Composite{
         if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
         	tableModel.setMoreData(false);
         }
+        if(isMultiSelect){
+        	tableModel.installCheckBoxRowHeaderColumn();
+        }
         
-        tableModel.installCheckBoxRowHeaderColumn();
-        
-        final Table table = new Table();
         table.getScrollPanel().setHeight("300px");
         table.setTableModel(tableModel);
         
-        table.getScrollPanel().addScrollHandler(new ScrollHandler() {
-
-            @Override
-            public void onScroll(ScrollEvent event) {
-            	if (tableModel.getMoreData()) {
-	                int height = table.getScrollPanel().getOffsetHeight();
-	                int scrollHeight = ((ScrollPanel)event.getSource()).getScrollPosition();
-	                if ((scrollHeight*100/height) > 10) {
-	                    performOnDemandSearch(tableModel.getRowCount(), PAGE_SIZE);
-	                    tableModel.fireTableDataChanged();
-	                }
-            	}
-            }        
-        });
+        table.addRetrieveAdditionalDataHandler(new RetrieveAdditionalDataHandler(){
+			@Override
+			public void onAdditionalDataRequest() {
+				 performOnDemandSearch(tableModel.getRowCount(), PAGE_SIZE);
+                 //tableModel.fireTableDataChanged();
+			}
+		});
         
         redraw();
         layout.add(table);
-  }    
+  }   
     
-    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, boolean pagedResults){
         this.searchRequest = searchRequest;
         initializeTable(listResultMetadata, resultIdKey);
         if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
 
             performOnDemandSearch(0, 0);
         }
-        performOnDemandSearch(0, PAGE_SIZE);
+        if(pagedResults){
+        	performOnDemandSearch(0, PAGE_SIZE);
+        }
+        else{
+        	performOnDemandSearch(0, 0);
+        }
+    }    
+    
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
+        this.performSearch(searchRequest, listResultMetadata, resultIdKey, true);
     }    
     
     private void performOnDemandSearch(int startAt, int size) {
                 
-
+    	table.displayLoading(true);
         searchRequest.setStartAt(startAt);
         if (size != 0) {
         	searchRequest.setNeededTotalResults(false);
@@ -146,6 +156,7 @@ public class SearchResultsTable extends Composite{
             public void handleFailure(Throwable cause) {
                 GWT.log("Failed to perform search", cause); //FIXME more detail info here
                 Window.alert("Failed to perform search");
+                table.displayLoading(false);
             }
 
             @Override
@@ -166,6 +177,7 @@ public class SearchResultsTable extends Composite{
                 	tableModel.setMoreData(false);
                 }
                 tableModel.fireTableDataChanged();
+                table.displayLoading(false);
             }
         });
     }

@@ -19,7 +19,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -28,16 +27,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LU_LU_ALOW_RELTN_TYPE")
 @NamedQueries( { @NamedQuery(name = "AllowedLuLuRelationType.getAllowedTypesByLuTypes", query = "SELECT relType.relationType.id FROM AllowedLuLuRelationType relType WHERE luType.id = :luTypeId and relatedLuType.id = :relatedLuTypeId") })
 public class AllowedLuLuRelationType extends MetaEntity {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@ManyToOne
 	@JoinColumn(name = "LU_LU_RELTN_TYPE_ID")
@@ -59,11 +54,6 @@ public class AllowedLuLuRelationType extends MetaEntity {
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-    @Override
-    protected void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-	
 	public LuLuRelationType getRelationType() {
 		return relationType;
 	}
@@ -86,20 +76,6 @@ public class AllowedLuLuRelationType extends MetaEntity {
 
 	public void setRelatedLuType(LuType relatedLuType) {
 		this.relatedLuType = relatedLuType;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
 	}
 
 	/**

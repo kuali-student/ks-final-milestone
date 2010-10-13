@@ -21,7 +21,9 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
 import org.kuali.student.core.statement.entity.ReqComponentType;
@@ -49,7 +51,7 @@ public class ReqComponentTranslatorTest {
     }
     
     private static void createTranslator() {
-    	ContextRegistry<Context<ReqComponent>> contextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
+    	ContextRegistry<Context<ReqComponentInfo>> contextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
 
     	englishTranslator.setContextRegistry(contextRegistry);
 		englishTranslator.setLanguage("en");
@@ -145,13 +147,15 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_OneOf_2Clus() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULE";
-		String clus = "CLU-NL-1, CLU-NL-2";
+		//Comma separated lists of clu ids no longer supported
+		//String clus = "CLU-NL-1, CLU-NL-2";
+		String clus = "CLU-NL-1";
     	createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.nof");
 		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", clus);
 		
 		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
 
-		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 221", text);
+		Assert.assertEquals("Student must have completed 1 of MATH 152", text);
 	}
 
 	@Test
@@ -200,8 +204,10 @@ public class ReqComponentTranslatorTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testTranslate1_1Of2() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULE";
+		//Comma separated lists of clu ids no longer supported
 		String cluIds = "CLU-NL-1, CLU-NL-2";
 		createReqComponent("KUALI.RULE", "kuali.reqComponent.type.courseList.1of2");
 		createReqComponentFieldsForClu("1", "greater_than_or_equal_to", cluIds);
@@ -214,7 +220,9 @@ public class ReqComponentTranslatorTest {
 	@Test
 	public void testTranslate_TotalCredits() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULE";
-		String cluIds = "CLU-NL-1, CLU-NL-2";
+		//Comma separated lists of clu ids no longer supported
+		//String cluIds = "CLU-NL-1, CLU-NL-2";
+		String cluIds = "CLU-NL-1";
 		createReqComponent("KUALI.RULE", "kuali.reqComponent.type.grdCondCourseList");
 		List<ReqComponentField> fieldList = new ArrayList<ReqComponentField>();
 		ReqComponentField field1 = new ReqComponentField();
@@ -230,7 +238,8 @@ public class ReqComponentTranslatorTest {
 		
 		String text = englishTranslator.translate(this.reqComponent, nlUsageTypeKey);
 
-		Assert.assertEquals("Students must take 6 credits from MATH 152, MATH 221", text);
+		//Assert.assertEquals("Students must take 6 credits from MATH 152, MATH 221", text);
+		Assert.assertEquals("Students must take 6 credits from MATH 152", text);
 	}
 
 

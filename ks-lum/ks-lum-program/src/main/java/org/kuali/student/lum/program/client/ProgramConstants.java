@@ -1,7 +1,6 @@
 package org.kuali.student.lum.program.client;
 
 
-
 /**
  * @author Igor
  */
@@ -9,6 +8,10 @@ public class ProgramConstants {
     public static final String PROGRAM_MODEL_ID = "programModelId";
     public static final String CREDENTIAL_PROGRAM_ID = "credentialProgramId";
     public static final String ID = "id";
+    public static final String STATE = "state";
+    public static final String TYPE = "type";
+    public static final String MAJOR_OBJECT_ID = "kuali.lu.type.MajorDiscipline";
+    public static final String MAJOR_TYPE_ID = "referenceType.clu";
 
     //Identifying Details
     public static final String CODE = "code";
@@ -37,6 +40,7 @@ public class ProgramConstants {
     public static final String CIP_2010 = "cip2010Code";
     public static final String HEGIS_CODE = "hegisCode";
     public static final String INSTITUTION = "institution";
+    public static final String ORG_ID = "orgId";
 
     //Managing Bodies
     public static final String CURRICULUM_OVERSIGHT_DIVISION = "divisionsContentOwner";
@@ -53,7 +57,8 @@ public class ProgramConstants {
     //Program Description and Catalog Details
     public static final String DESCRIPTION = "descr";
     public static final String CATALOG_DESCRIPTION = "catalogDescr";
-    public static final String CORE_FACULTY_MEMBERS = "publishedInstructors";
+    //public static final String CORE_FACULTY_MEMBERS = "publishedInstructors";
+    public static final String CORE_FACULTY_MEMBERS = "coreFaculties";
     public static final String PUBLICATION_TARGETS = "catalogPublicationTargets";
     public static final String FULL_PART_TIME = "intensity";
     public static final String DURATION = "stdDuration";
@@ -61,8 +66,19 @@ public class ProgramConstants {
 
     //Learning Objectives
     public static final String LEARNING_OBJECTIVES = "learningObjectives";
-    
+
     //Program Specializations
     public static final String VARIATIONS = "variations";
-    public static final String DRAFT = "draft";
+
+    //Dynamic attributes
+    public static final String IS_VARIATION_REQUIRED = "isVariationRequired";
+    public static final String LAST_REVIEW_DATE = "lastReviewDate";
+    public static final String DURATION_NOTES = "durationNotes";
+
+    //History
+    public static final String SCHEDULED_REVIEW_DATE = "nextReviewPeriod";
+    public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
+
+    //Navigation Tokens
+     public static final String VARIATION_EDIT_URL = "/HOME/CURRICULUM_HOME/VARIATION_EDIT";
 }

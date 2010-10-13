@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,7 +22,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -33,7 +31,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
@@ -47,9 +44,6 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
     @NamedQuery(name = "Statement.getParentStatement", query = "SELECT DISTINCT stmt FROM Statement stmt JOIN stmt.children children WHERE children.id = :childId")
 })
 public class Statement extends MetaEntity implements AttributeOwner<StatementAttribute>{
-    @Id
-    @Column(name = "ID")
-    private String id;
 
     @Column(name="NAME")
     private String name;
@@ -65,13 +59,13 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     @Enumerated(EnumType.STRING)
     private StatementOperatorTypeKey operator;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "KSST_STMT_JN_STMT", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_ID"))
-    private List<Statement> children = new ArrayList<Statement>(0);
+    private List<Statement> children;
 
     @ManyToMany
     @JoinTable(name = "KSST_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_ID"))
-    private List<ReqComponent> requiredComponents = new ArrayList<ReqComponent>(0);
+    private List<ReqComponent> requiredComponents;
 
     @ManyToOne
     @JoinColumn(name = "STMT_TYPE_ID")
@@ -79,26 +73,10 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER")
-    private List<StatementAttribute> attributes = new ArrayList<StatementAttribute>(0);
+    private List<StatementAttribute> attributes;
 
     @OneToMany(mappedBy = "statement")
-    private List<RefStatementRelation> refStatementRelations = new ArrayList<RefStatementRelation>(0);
-
-    /**
-     * AutoGenerate the Id
-     */
-    @Override
-    public void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private List<RefStatementRelation> refStatementRelations;
 
     public List<Statement> getChildren() {
         return children;
@@ -177,7 +155,7 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
 	@Override
 	public String toString() {
-		return "Statement[id=" + id + ", statementType="
+		return "Statement[id=" + getId() + ", statementType="
 		+ (statementType == null ? "null" : statementType.getId())
 		+ ", operator=" + operator + "]";
 	}

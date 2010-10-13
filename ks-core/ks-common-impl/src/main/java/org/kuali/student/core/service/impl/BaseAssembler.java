@@ -28,6 +28,7 @@ import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.entity.Attribute;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.Meta;
+import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.Type;
 import org.kuali.student.core.entity.Version;
@@ -133,15 +134,36 @@ public class BaseAssembler {
 		}
 		return typeInfoList;
 	}
+	
+	public static List<String> toGenericTypeKeyList( List<? extends Type<?>> typeEntities){
+		List<String> typeKeys = new ArrayList<String>();
+		if(typeEntities!=null){
+			for(Type<?> typeEntity:typeEntities){
+				typeKeys.add(typeEntity.getId());
+			}
+		}
+		return typeKeys;
+	}
 
-	protected static MetaInfo toMetaInfo(Meta meta, long versionInd) {
+	protected static MetaInfo toMetaInfo(MetaEntity metaEntity) {
+		if(metaEntity == null){
+			return null;
+		}
+		return toMetaInfo(metaEntity.getMeta(), metaEntity.getVersionNumber());
+	}
+	
+	protected static MetaInfo toMetaInfo(Meta meta, Long versionInd) {
 
 		MetaInfo metaInfo = new MetaInfo();
 		// If there was a meta passed in then copy the values
 		if (meta != null) {
 			BeanUtils.copyProperties(meta, metaInfo);
 		}
-		metaInfo.setVersionInd(String.valueOf(versionInd));
+		if(versionInd==null){
+			metaInfo.setVersionInd(null);
+		}else{
+			metaInfo.setVersionInd(versionInd.toString());
+		}
 
 		return metaInfo;
 	}

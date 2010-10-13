@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -20,32 +21,39 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RulePreviewWidget extends FlowPanel {
 
-    
+    //Widgets
+    private SpanPanel rulePanel = new SpanPanel();
+    private KSButton editButton = new KSButton("Edit", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
+    private SpanPanel separator = new SpanPanel(" | ");
+    private KSButton deleteButton = new KSButton("Delete", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
+    private KSButton addSubRuleBtn = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
+    private List<SubrulePreviewWidget> subRulePreviewWidgets = new ArrayList<SubrulePreviewWidget>();
+    private Map<String, Widget> clusetWidgets;
+
+    //data
     private String ruleName;
     private String ruleCredits;
     private String ruleDesc;
     private StatementTreeViewInfo stmtTreeInfo;     //program rule e.g. program completion rule
     private boolean isReadOnly;
     private boolean addRuleOperator = false;        //first subrule does not have operator following it
+    private Integer internalProgReqID;
 
-    private SpanPanel rulePanel = new SpanPanel();
-    private KSButton editButton = new KSButton("Edit", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
-    private SpanPanel separator = new SpanPanel(" | ");
-    private KSButton deleteButton = new KSButton("Delete", KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR);
-    private KSButton addSubRuleBtn = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
-    private List<SubrulePreviewWidget> subRulePreviewWidgets = new ArrayList();
+    private Callback<SubRuleInfo> editSubRuleCallback;
+    private Callback<Integer> deleteSubRuleCallback;
 
-    private Callback<StatementTreeViewInfo> editRuleCallback;
-
-    public RulePreviewWidget(String ruleName, String ruleCredits, String ruleDesc, StatementTreeViewInfo stmtTreeInfo, Boolean isReadOnly) {
+    public RulePreviewWidget(Integer internalProgReqID, String ruleName, String ruleCredits, String ruleDesc, StatementTreeViewInfo stmtTreeInfo,
+                             Boolean isReadOnly,  Map<String, Widget> clusetWidgets) {
         super();
+        this.internalProgReqID = internalProgReqID;
         this.ruleName = ruleName;
         this.ruleCredits = ruleCredits;
         this.ruleDesc = ruleDesc;
         this.stmtTreeInfo = stmtTreeInfo;
         this.isReadOnly = isReadOnly;
+        this.clusetWidgets = clusetWidgets;
 
-        this.addStyleName("KS-Program-Rule-Preview-Box");
+        this.addStyleName("KS-Rule-Preview-Box");
         displayRule();
     }
 
@@ -72,12 +80,12 @@ public class RulePreviewWidget extends FlowPanel {
 
         //button below has to be spaced
         SpanPanel spacer = new SpanPanel();
-        spacer.addStyleName("KS-Program-Rule-Last-Preview-Spacer");
+        spacer.addStyleName("KS-Rule-Last-Preview-Spacer");
         rulePanel.add(spacer);
 
         //add a button for user to add additional subrule
         if (!isReadOnly) {
-            addSubRuleBtn.addStyleName("KS-Program-Rule-Preview-Add-Subrule");
+            addSubRuleBtn.addStyleName("KS-Rule-Preview-Add-Subrule");
             rulePanel.add(addSubRuleBtn);
         }
 
@@ -86,7 +94,7 @@ public class RulePreviewWidget extends FlowPanel {
 
     private void displayNoRule() {
         KSLabel noRulesAddedYet = new KSLabel("No rules have been added yet.");
-        noRulesAddedYet.addStyleName("KS-Program-Rule-Preview-NoRule");
+        noRulesAddedYet.addStyleName("KS-Rule-Preview-NoRule");
         rulePanel.add(noRulesAddedYet);
     }
 
@@ -96,12 +104,15 @@ public class RulePreviewWidget extends FlowPanel {
             buildANDOperator(stmtTreeInfo.getOperator());
         }
 
-        final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly);
+        final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly, clusetWidgets);        
         subRulePreviewWidgets.add(newSubRuleWidget);
 
         newSubRuleWidget.addEditButtonClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                editRuleCallback.exec(subTree);    
+                SubRuleInfo subRuleInfo = new SubRuleInfo();
+                subRuleInfo.setSubrule(subTree);
+                subRuleInfo.setInternalProgReqID(internalProgReqID);
+                editSubRuleCallback.exec(subRuleInfo);
             }
         });
 
@@ -113,6 +124,7 @@ public class RulePreviewWidget extends FlowPanel {
                     public void onClick(ClickEvent event) {
                         removeSubRule(newSubRuleWidget, subTree);
                         dialog.hide();
+                        deleteSubRuleCallback.exec(internalProgReqID);
                     }
                 });
                 dialog.show();
@@ -175,7 +187,7 @@ public class RulePreviewWidget extends FlowPanel {
         //build heading
         SectionTitle header = SectionTitle.generateH4Title("");
         header.setHTML("<b>" + ruleName + "</b>" + "  " + ruleCredits);
-        header.setStyleName("KS-Program-Rule-Preview-header");
+        header.setStyleName("KS-Rule-Preview-header");
 
         //do not show edit,delete etc. if user is only viewing the rule in non-edit mode
         if (!isReadOnly) {
@@ -184,16 +196,16 @@ public class RulePreviewWidget extends FlowPanel {
         this.add(header);
 
         rulePanel.clear();
-        rulePanel.addStyleName("KS-Program-Rule-Preview-Box1");
+        rulePanel.addStyleName("KS-Rule-Preview-Box1");
 
         KSLabel ruleDescLabel = new KSLabel(ruleDesc);
-        ruleDescLabel.addStyleName("KS-Program-Rule-Preview-Desc");
+        ruleDescLabel.addStyleName("KS-Rule-Preview-Desc");
         rulePanel.add(ruleDescLabel);
 
         //build subheading
         header = SectionTitle.generateH6Title("");
         header.setHTML("Must meet <b>all of the following</b> rules");
-        header.setStyleName("KS-Program-Rule-Preview-header-Subrule");
+        header.setStyleName("KS-Rule-Preview-header-Subrule");
         header.getElement().setAttribute("style", "font-weight: normal");        
         rulePanel.add(header);
     }
@@ -203,22 +215,22 @@ public class RulePreviewWidget extends FlowPanel {
         actions.add(editButton);
         actions.add(separator);
         actions.add(deleteButton);
-        actions.addStyleName("KS-Program-Rule-Preview-header-action");
+        actions.addStyleName("KS-Rule-Preview-header-action");
         header.add(actions);
         rulePanel.add(header);
     }
 
     private void buildANDOperator(StatementOperatorTypeKey operator) {
         KSLabel andLabel = new KSLabel((operator == StatementOperatorTypeKey.AND ? "AND" : "OR"));
-        andLabel.addStyleName("KS-Program-Rule-Preview-Operator");
+        andLabel.addStyleName("KS-Rule-Preview-Operator");
         rulePanel.add(andLabel);        
     }
 
-    public void addRequirementEditButtonClickHandler(ClickHandler handler) {
+    public void addProgReqEditButtonClickHandler(ClickHandler handler) {
         editButton.addClickHandler(handler);
     }
 
-    public void addRequirementDeleteButtonClickHandler(ClickHandler handler) {
+    public void addProgReqDeleteButtonClickHandler(ClickHandler handler) {
         deleteButton.addClickHandler(handler);
     }
 
@@ -226,11 +238,41 @@ public class RulePreviewWidget extends FlowPanel {
         addSubRuleBtn.addClickHandler(handler);
     }
 
-    public void addSubRuleEditCallback(Callback<StatementTreeViewInfo> editRuleCallback) {
-        this.editRuleCallback = editRuleCallback; 
+    public void addSubRuleEditButtonClickHandler(Callback<SubRuleInfo> callback) {
+        this.editSubRuleCallback = callback;
+    }
+
+    public void addSubRuleDeleteCallback(Callback<Integer> callback) {
+        this.deleteSubRuleCallback = callback;
     }
 
     public StatementTreeViewInfo getStatementTreeViewInfo() {
         return  stmtTreeInfo;
+    }
+
+    public Integer getInternalProgReqID() {
+        return internalProgReqID;
+    }
+
+    public class SubRuleInfo {
+        private StatementTreeViewInfo subrule;
+
+        private Integer internalProgReqID;
+
+        public StatementTreeViewInfo getSubrule() {
+            return subrule;
+        }
+
+        public void setSubrule(StatementTreeViewInfo subrule) {
+            this.subrule = subrule;
+        }
+
+        public Integer getInternalProgReqID() {
+            return internalProgReqID;
+        }
+
+        public void setInternalProgReqID(Integer internalProgReqID) {
+            this.internalProgReqID = internalProgReqID;
+        }
     }
 }

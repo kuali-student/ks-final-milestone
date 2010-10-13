@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,15 +32,15 @@ import org.kuali.student.core.entity.Type;
 public class RefStatementRelationType extends Type<RefStatementRelationTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<RefStatementRelationTypeAttribute> attributes = new ArrayList<RefStatementRelationTypeAttribute>();
+	private List<RefStatementRelationTypeAttribute> attributes;
 	
     @ManyToMany(cascade = {CascadeType.ALL}) //, fetch = FetchType.EAGER)
     @JoinTable(name = "KSST_RSTMT_RTYP_JN_OSUB_TYP", joinColumns = @JoinColumn(name = "REF_STMT_REL_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "OBJ_SUB_TYPE_ID"))
-    List<ObjectSubType> objectSubTypeList = new ArrayList<ObjectSubType>();
+    List<ObjectSubType> objectSubTypeList;
 
     @ManyToMany(cascade = {CascadeType.ALL}) //, fetch = FetchType.EAGER)
     @JoinTable(name = "KSST_RSTMT_RTYP_JN_STMT_TYP", joinColumns = @JoinColumn(name = "REF_STMT_REL_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "STMT_TYPE_ID"))
-    List<StatementType> statementTypeList = new ArrayList<StatementType>();
+    List<StatementType> statementTypeList;
 
 	@Override
 	public List<RefStatementRelationTypeAttribute> getAttributes() {

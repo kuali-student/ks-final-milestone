@@ -106,4 +106,15 @@ public class ProgramAssemblerConstants {
     public static final String CERTIFICATE_RESULTS = "kuali.resultType.certificate";
     public static final String ANNOTATION_RESULTS = "kuali.resultType.annotation";
     public static final String COMPLETION_RESULTS = "kuali.resultType.completion";
+    
+    // 	 resultOptionInfo Types
+    public static final String DEGREE_AWARDED = "kuali.resultUsageType.DegreeAwarded ";
+    public static final String CERTIFICATE_AWARDED = "kuali.resultUsageType.CertificateAwarded ";
+
+	// FIXME ask norm about this value
+	public static final String PROGRAM_REFERENCE_TYPE = "kuali.referenceType.CLU";
+    
+    //Program Requirements
+    public static final String MIN_CREDITS = "minCredits";
+    public static final String MAX_CREDITS = "maxCredits";
 }

@@ -64,6 +64,12 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
 
     @XmlElement
     private StatementTreeViewInfo statement;
+
+    @XmlElement
+    Integer minCredits;
+    
+    @XmlElement
+    Integer maxCredits;
     
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -122,6 +128,22 @@ public class ProgramRequirementInfo implements Serializable, Idable, HasTypeStat
 
     public void setStatement(StatementTreeViewInfo statement) {
         this.statement = statement;
+    }
+    
+    public Integer getMinCredits() {
+        return minCredits;
+    }
+
+    public void setMinCredits(Integer minCredits) {
+        this.minCredits = minCredits;
+    }
+
+    public Integer getMaxCredits() {
+        return maxCredits;
+    }
+
+    public void setMaxCredits(Integer maxCredits) {
+        this.maxCredits = maxCredits;
     }
 
     /**

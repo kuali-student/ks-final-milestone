@@ -54,11 +54,81 @@ html,body {
 	overflow: visible;
 	color:#333;
 	background-color:#fff;
-	border:6px solid #aaa;
+	border:2px solid #aaa;
 	padding: 3px;
-	border-radius: 15px 15px;
-	\-moz-border-radius: 15px 15px;
-	\-webkit-border-radius: 15px 15px;
+	border-radius: 5px 5px;
+	\-moz-border-radius: 5px 5px;
+	\-webkit-border-radius: 5px 5px;
+    z-index: 2;
+
+}
+.ks-lightbox .Caption {
+  background-color:#F1F1F1;
+  font-weight: bold;
+  text-shadow: #fff 0 2px 2px;
+  cursor: default;
+  padding: 5px 10px;
+  text-align: left;
+  position: relative;
+  margin: 0em 0.25em 0.25em 0.25em;
+  font-size: 1.2em;
+  color: #000000;
+  pointer: move;
+  cursor: move;
+}
+
+.ks-lightbox-mainPanel{
+
+}
+.ks-lightbox-titlePanel{
+}
+.ks-lightbox-titleLabel{
+	float:left;
+	font-wight:bold;
+}
+.ks-lightbox-title-closeLink{
+	background: url('images/common/lightbox_close.png') no-repeat;
+	width:40px;
+	height:40px;
+	display:block;
+	z-index:9999;
+	position:absolute;
+	right:-18px;
+    top:-18px;
+	cursor:pointer;
+	float:right;
+}
+.ks-lightbox-title-scrollPanel{
+   clear:both;
+}
+.ks-lightbox-layoutTable{
+	height:100%;
+	width:100%;
+}
+.ks-lightbox-contentRow{
+  height:100%;
+  vertical-align:top;
+}
+.ks-lightbox-buttonRow{
+  height:30px;
+  vertical-align:bottom;
+}
+
+.KSBlockingDialog-mainPanel{
+
+}
+.KSBlockingDialog-icon{
+	float:left;
+}
+.KSBlockingDialog-message{
+	float:left;
+	margin-left:10px;
+}
+.gwt-PopupPanelGlass {
+  background-color: #000;
+  opacity: 0.3;
+  filter: literal("alpha(opacity=30)");
+  z-index: 1;
 }
 
 .ks-lightbox .popupContent {
@@ -97,8 +167,8 @@ html,body {
 	display:block;
 	z-index:9999;
 	position:absolute;
-	top:2px;
-	right:0px;
+	top:5px;
+	right:5px;
 	cursor:pointer;
 	clear: both;
 }
@@ -106,10 +176,14 @@ html,body {
 	background: url('images/common/lightbox_close_hover.png') no-repeat;
 }
 
+.ks-button-spacing{
+	margin-right: 10px;
+}
+
 .ks-notification-container {
 	position: absolute;
 	right: 25px;
-	bottom: 10px;
+	bottom: 25px;
 	overflow: visible;
 }
 
@@ -257,4 +331,8 @@ ul.ks-selected-list {
 }
 
 .ks-selected-list-readOnly .ks-selected-list-value-container{
+}
+
+.standard-content-padding{
+	padding-left: 20px;
 }

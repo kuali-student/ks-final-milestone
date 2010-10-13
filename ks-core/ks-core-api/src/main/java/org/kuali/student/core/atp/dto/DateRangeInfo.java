@@ -47,7 +47,7 @@ public class DateRangeInfo implements Serializable, Idable, HasTypeState, HasAtt
     @XmlElement
     private RichTextInfo desc;
 
-    @XmlElement
+    @XmlElement(name="atpKey")
     private String atpId;
 
     @XmlElement

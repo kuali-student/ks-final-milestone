@@ -15,5 +15,5 @@ public interface MetadataFilter {
     public static final String METADATA_ID_TYPE		= "MetadataIdType";
     public static final String METADATA_ID_VALUE	= "MetadataIdValue";
 	
-	public void applyMetadataFilter(String dtoName, Metadata metadata, Map<String, String> filterProperties);
+	public void applyMetadataFilter(String dtoName, Metadata metadata, Map<String, Object> filterProperties);
 }

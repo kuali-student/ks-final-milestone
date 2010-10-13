@@ -199,9 +199,36 @@
         </aop:aspect>
     </aop:config>
 
+    <bean id="lumSearchDispatcher"
+          class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+        <property name="services">
+            <list>
+                <ref bean="luServiceImpl"/>
+                <ref bean="statementService"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="lumCrossServiceSearchManager"
+          class="org.kuali.student.core.search.service.impl.CrossSearchManager">
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+    <bean id="luSearchManager"
+          class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:lu-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+    <bean id="statementSearchManager"
+          class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:statement-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+
     <bean id="luServiceImpl"
         class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
         <property name="luDao" ref="luDao"/>
+        <property name="searchManager" ref="luSearchManager"/>
     </bean>
 
     <bean id="statementAssembler"
@@ -214,6 +241,7 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
+        <property name="searchManager" ref="statementSearchManager"/>
     </bean>
 
     <!-- Atp Service Config -->

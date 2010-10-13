@@ -1,27 +1,20 @@
 <?xml version="1.0"?>
-<!--
-  ~ Copyright 2010 The Kuali Foundation Licensed under the
-  ~ Educational Community License, Version 2.0 (the "License"); you may
-  ~ not use this file except in compliance with the License. You may
-  ~ obtain a copy of the License at
-  ~
-  ~ http://www.osedu.org/licenses/ECL-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing,
-  ~ software distributed under the License is distributed on an "AS IS"
-  ~ BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-  ~ or implied. See the License for the specific language governing
-  ~ permissions and limitations under the License.
-  -->
-
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSLU_RSLT_OPT ID="VAR-201" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" RT_DESCR_ID="VAR-202"
-            RES_COMP_ID="kuali.certificateType.degree" ST="active" />
-    <KSLU_RSLT_OPT ID="VAR-301" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" RT_DESCR_ID="VAR-302"
-            RES_COMP_ID="kuali.certificateType.degree" ST="active" />
-
-
-
-
+    <KSLU_RSLT_OPT CREATEID="admin" CREATETIME="20100724120530"
+        ID="MAJOR-101" OBJ_ID="4BF9EF45F6364FF088B750A3543B5AFA"
+        RES_COMP_ID="kuali.resultComponent.degree.ba"
+        RT_DESCR_ID="MAJOR-101" ST="active" VER_NBR="0"/>
+    <KSLU_RSLT_OPT CREATEID="admin" CREATETIME="20100724120530"
+        ID="MAJOR-102" OBJ_ID="36E84F8A3A2A4184BBF9781D40A4675C"
+        RES_COMP_ID="kuali.resultComponent.degree.bsc"
+        RT_DESCR_ID="MAJOR-102" ST="active" VER_NBR="0"/>
+    <KSLU_RSLT_OPT CREATEID="admin" CREATETIME="20100724120530"
+        ID="VAR-201" OBJ_ID="D1094B00082A412E8D95DEFA4A69A1E0"
+        RES_COMP_ID="kuali.resultComponent.degree.ba"
+        RT_DESCR_ID="VAR-202" ST="active" VER_NBR="0"/>
+    <KSLU_RSLT_OPT CREATEID="admin" CREATETIME="20100724120530"
+        ID="VAR-301" OBJ_ID="2AF803D1DDE149918852601FEDE95391"
+        RES_COMP_ID="kuali.resultComponent.degree.bsc"
+        RT_DESCR_ID="VAR-302" ST="active" VER_NBR="0"/>
 </dataset>

@@ -36,15 +36,23 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-common-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+	<!-- This needs to be removed, cannot have core dependencies in common -->
+    <dependency>
+      <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
-      <artifactId>ks-common-test</artifactId>
+      <artifactId>ks-core-rice</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>

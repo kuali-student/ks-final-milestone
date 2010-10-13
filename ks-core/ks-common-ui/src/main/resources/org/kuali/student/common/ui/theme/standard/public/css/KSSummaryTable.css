@@ -17,11 +17,13 @@
 .cell1{
 	padding-bottom: 3px;
     padding-top: 3px;
+    min-width: 310px;
 }
 
 .cell2{
 	padding-bottom: 3px;
     padding-top: 3px;
+    min-width: 310px;
 }
     
 .sectionTitleRow{

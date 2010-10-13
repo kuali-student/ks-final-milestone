@@ -337,7 +337,7 @@ public class CommonConfigurer {
 //                if(path.equals("orgPersonRelationInfo" + "/" + String.valueOf(itemCount-1).toString())){
 //                    if(field.getKey().equals("type")){
 //                        QueryPath metaPath = QueryPath.concat(null, "orgPersonRelationInfo" + "/" + "*" + "/" + "type");
-//                        Metadata meta = modelDefinition.getMetadata(metaPath);
+//                        Metadata meta = modelDefinition.getOldMetadata(metaPath);
 //                        LookupMetadata lookup = meta.getInitialLookup();
 //                        LookupParamMetadata parammeta = lookup.getParams().get(0);
 //                        parammeta.setDefaultValueString(orgId);

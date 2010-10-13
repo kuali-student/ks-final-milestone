@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.core.document.dto.DocumentInfo;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.dto.StatusInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -42,4 +43,9 @@ public interface DocumentRpcService extends BaseRpcService {
      * @param referenceTypeKey reference type
      */
     public Boolean isAuthorizedUploadDocuments(String referenceId, String referenceTypeKey);
+    
+	public StatusInfo deleteRefDocRelation(String docRelationId) throws Exception;
+	
+	public List<RefDocRelationInfo> getRefDocIdsForRef(String refObjectTypeKey, String refObjectId) throws Exception;
+
 }

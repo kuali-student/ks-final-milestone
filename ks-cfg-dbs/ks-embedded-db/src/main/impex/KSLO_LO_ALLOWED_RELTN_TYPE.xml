@@ -3,8 +3,9 @@
 <dataset>
     <KSLO_LO_ALLOWED_RELTN_TYPE EFF_DT="20080101000000"
         EXPIR_DT="20100101000000"
-        ID="DEC1364F-EFF0-41C6-9803-06A56CA5F192"
+        ID="dec1364f-eff0-41c6-9803-06a56ca5f192"
         LOLO_RELTN_TYPE_ID="kuali.lo.relation.type.includes"
         LO_REL_TYPE_ID="kuali.lo.type.singleUse"
-        LO_TYPE_ID="kuali.lo.type.singleUse" VERSIONIND="1"/>
+        LO_TYPE_ID="kuali.lo.type.singleUse"
+        OBJ_ID="FA8956FF7473427D995F90006073929F" VER_NBR="0"/>
 </dataset>

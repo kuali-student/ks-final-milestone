@@ -2,13 +2,52 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Proposal" TYPE_DESC="Credit Course Proposal" TYPE_KEY="commentType.kuali.lu.type.CreditCourse.draft"/>
+        NAME="Proposal" OBJ_ID="45500ED8C8C6416B94EEAD768BA4EB18"
+        TYPE_DESC="Credit Course Proposal"
+        TYPE_KEY="commentType.kuali.lu.type.CreditCourse.draft" VER_NBR="0"/>
     <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Submitted" TYPE_DESC="Credit Course Submitted" TYPE_KEY="commentType.kuali.lu.type.CreditCourse.submitted"/>
+        NAME="Submitted" OBJ_ID="E43F822F10EA4373AA0A4B9C1C0F4AA8"
+        TYPE_DESC="Credit Course Submitted"
+        TYPE_KEY="commentType.kuali.lu.type.CreditCourse.submitted" VER_NBR="0"/>
     <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="General" TYPE_DESC="General Comment" TYPE_KEY="kuali.comment.type.generalRemarks"/>
+        NAME="Comment 1" OBJ_ID="ED5ADC32FDE64CABA11F3C11108814ED"
+        TYPE_DESC="A Basic Comment 1" TYPE_KEY="commentType.type1" VER_NBR="0"/>
     <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Comment 1" TYPE_DESC="A Basic Comment 1" TYPE_KEY="commentType.type1"/>
+        NAME="Comment 2" OBJ_ID="DACECA0E56EC4B85B4D887C9E7E1A229"
+        TYPE_DESC="A Basic Comment 2" TYPE_KEY="commentType.type2" VER_NBR="0"/>
     <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Comment 2" TYPE_DESC="A Basic Comment 2" TYPE_KEY="commentType.type2"/>
+        NAME="General" OBJ_ID="070C3A3A4E31466296CDF6942D4C1370"
+        TYPE_DESC="General Comment"
+        TYPE_KEY="kuali.comment.type.generalRemarks" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Ack Decision" OBJ_ID="F2E6DD1D53924426A098351940C9D623"
+        TYPE_DESC="Decision Rationale Ack"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.acknowledge" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Approve Decision "
+        OBJ_ID="4A20C314DA564F08A67DD00160FCBEF3"
+        TYPE_DESC="Decision Rationale Approve"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.approve" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="FYI Decision" OBJ_ID="85D0300653AB4214B0568D1E551CC599"
+        TYPE_DESC="Decision Rationale FYI"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.fyi" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Reject Decision" OBJ_ID="D8A842CEA5A5467FAD62EAC43E797937"
+        TYPE_DESC="Decision Rationale Reject"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.reject" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Return Decision" OBJ_ID="929A69F16C3C48D6A7363E233CE75E33"
+        TYPE_DESC="Decision Rationale Return"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.return" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Withdraw Decision"
+        OBJ_ID="E9252EBABFDE4CC9B0E52EFD46C216C2"
+        TYPE_DESC="Decision Rationale Withdraw"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.withdraw" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Cancel Proposal"
+        OBJ_ID="E9252EBABFDE4CC9B0E52EFD46C216A2"
+        TYPE_DESC="Decision Rationale Cancel Proposal"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.cancelWorkflow" VER_NBR="0"/>
 </dataset>

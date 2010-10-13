@@ -22,8 +22,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
@@ -109,6 +109,9 @@ import org.kuali.student.lum.lu.entity.CluInstructorAttribute;
 import org.kuali.student.lum.lu.entity.CluLoRelation;
 import org.kuali.student.lum.lu.entity.CluLoRelationAttribute;
 import org.kuali.student.lum.lu.entity.CluLoRelationType;
+import org.kuali.student.lum.lu.entity.CluPublication;
+import org.kuali.student.lum.lu.entity.CluPublicationAttribute;
+import org.kuali.student.lum.lu.entity.CluPublicationType;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -539,13 +542,13 @@ public class LuServiceImpl implements LuService {
 	}
 
 	// **** Publication
-
-	// TODO: Add meat to all publication methods
 	@Override
 	public List<CluPublicationInfo> getCluPublicationsByCluId(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
+	      checkForMissingParameter(cluId, "cluId");
+	      List<CluPublication> cluPublications = luDao.getCluPublicationsByCluId(cluId);
+	      return LuServiceAssembler.toCluPublicationInfos(cluPublications);
 	}
 
 	@Override
@@ -553,14 +556,18 @@ public class LuServiceImpl implements LuService {
 			String luPublicationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
+	      checkForMissingParameter(luPublicationTypeKey, "luPublicationTypeKey");
+	      List<CluPublication> cluPublications = luDao.getCluPublicationsByType(luPublicationTypeKey);
+	      return LuServiceAssembler.toCluPublicationInfos(cluPublications);
 	}
 
 	@Override
 	public CluPublicationInfo getCluPublication(String cluPublicationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
+	      checkForMissingParameter(cluPublicationId, "cluPublicationId");
+	      CluPublication cluPublication = luDao.fetch(CluPublication.class, cluPublicationId);
+	      return LuServiceAssembler.toCluPublicationInfo(cluPublication);
 	}
 
 	// **** Results
@@ -1183,7 +1190,7 @@ public class LuServiceImpl implements LuService {
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
 
-		if (!String.valueOf(clu.getVersionInd()).equals(
+		if (!String.valueOf(clu.getVersionNumber()).equals(
 				cluInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"Clu to be updated is not the current version");
@@ -1294,7 +1301,7 @@ public class LuServiceImpl implements LuService {
 			if (luCode == null) {
 				luCode = new LuCode();
 			} else {
-				if (!String.valueOf(luCode.getVersionInd()).equals(
+				if (!String.valueOf(luCode.getVersionNumber()).equals(
 						luCodeInfo.getMetaInfo().getVersionInd())) {
 					throw new VersionMismatchException(
 							"LuCode to be updated is not the current version");
@@ -1688,8 +1695,49 @@ public class LuServiceImpl implements LuService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluId, "cluId");
+		checkForMissingParameter(luPublicationType, "luPublicationType");
+		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
+		
+		// Validate CLU
+		List<ValidationResultInfo> val;
+		try {
+			val = validateCluPublication("SYSTEM", cluPublicationInfo);
+			if(null != val && val.size() > 0) {
+				throw new DataValidationErrorException("Validation error!", val);
+			}
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("Error creating clu",e);
+		}
+
+		
+		CluPublication cluPub = new CluPublication();
+		Clu clu;
+		try {
+			clu = luDao.fetch(Clu.class, cluId);
+		} catch (DoesNotExistException e) {
+			throw new InvalidParameterException("Clu does not exist for id:"+cluId);
+		}
+		
+		CluPublicationType type;
+		try{
+			type = luDao.fetch(CluPublicationType.class, luPublicationType);
+		} catch (DoesNotExistException e) {
+			throw new InvalidParameterException("CluPublication Type does not exist for id:" + luPublicationType);
+		}
+		
+		cluPub.setClu(clu);
+		cluPub.setId(cluPublicationInfo.getId());
+		cluPub.setEndCycle(cluPublicationInfo.getEndCycle());
+		cluPub.setStartCycle(cluPublicationInfo.getStartCycle());
+		cluPub.setEffectiveDate(cluPublicationInfo.getEffectiveDate());
+		cluPub.setExpirationDate(cluPublicationInfo.getExpirationDate());
+		cluPub.setState(cluPublicationInfo.getState());
+		cluPub.setType(type);
+		cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
+		cluPub.setVariants(LuServiceAssembler.toCluPublicationVariants(cluPublicationInfo.getVariants(), cluPub, luDao));
+		
+		return LuServiceAssembler.toCluPublicationInfo(luDao.create(cluPub));
 	}
 
 	@Override
@@ -1699,7 +1747,53 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
+		checkForMissingParameter(cluPublicationId, "cluPublicationId");
+		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
+		
+		// Validate CLU
+		List<ValidationResultInfo> val;
+		try {
+			val = validateCluPublication("SYSTEM", cluPublicationInfo);
+			if(null != val && val.size() > 0) {
+				throw new DataValidationErrorException("Validation error!", val);
+			}
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("Error creating clu",e);
+		}
+		
+		CluPublication cluPub = luDao.fetch(CluPublication.class, cluPublicationId);
+		
+		if (!String.valueOf(cluPub.getVersionNumber()).equals(
+				cluPublicationInfo.getMetaInfo().getVersionInd())) {
+			throw new VersionMismatchException(
+					"CluPublication to be updated is not the current version");
+		}
+		
+		Clu clu;
+		try {
+			clu = luDao.fetch(Clu.class, cluPublicationInfo.getCluId());
+		} catch (DoesNotExistException e) {
+			throw new InvalidParameterException("Clu does not exist for id:"+cluPublicationInfo.getCluId());
+		}
+		
+		CluPublicationType type;
+		try{
+			type = luDao.fetch(CluPublicationType.class, cluPublicationInfo.getType());
+		} catch (DoesNotExistException e) {
+			throw new InvalidParameterException("CluPublication Type does not exist for id:" + cluPublicationInfo.getType());
+		}
+		
+		cluPub.setClu(clu);
+		cluPub.setEndCycle(cluPublicationInfo.getEndCycle());
+		cluPub.setStartCycle(cluPublicationInfo.getStartCycle());
+		cluPub.setEffectiveDate(cluPublicationInfo.getEffectiveDate());
+		cluPub.setExpirationDate(cluPublicationInfo.getExpirationDate());
+		cluPub.setState(cluPublicationInfo.getState());
+		cluPub.setType(type);
+		cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
+		cluPub.setVariants(LuServiceAssembler.toCluPublicationVariants(cluPublicationInfo.getVariants(), cluPub, luDao));
+		
+		return LuServiceAssembler.toCluPublicationInfo(luDao.update(cluPub));
 	}
 
 	@Override
@@ -1797,7 +1891,7 @@ public class LuServiceImpl implements LuService {
 		}
 
 		CluResult result = luDao.fetch(CluResult.class, cluResultId);
-		if (!String.valueOf(result.getVersionInd()).equals(
+		if (!String.valueOf(result.getVersionNumber()).equals(
 				cluResultInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"CluResult to be updated is not the current version");
@@ -1951,7 +2045,7 @@ public class LuServiceImpl implements LuService {
 
 		CluLoRelation reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
 
-		if (!String.valueOf(reltn.getVersionInd()).equals(
+		if (!String.valueOf(reltn.getVersionNumber()).equals(
 				cluLoRelationInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"CluLoRelation to be updated is not the current version");
@@ -2150,13 +2244,13 @@ public class LuServiceImpl implements LuService {
 			throw new UnsupportedActionException("CluSet type is set at creation time and cannot be updated. CluSet id="+cluSetId);
 		}
 
-		if (!String.valueOf(cluSet.getVersionInd()).equals(
+		if (!String.valueOf(cluSet.getVersionNumber()).equals(
 				cluSetInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"CluSet (id=" + cluSetId +
 					") to be updated is not the current version " +
 					"(version=" + cluSetInfo.getMetaInfo().getVersionInd() +
-					"), current version="+cluSet.getVersionInd());
+					"), current version="+cluSet.getVersionNumber());
 		}
 
 		// update the cluIds
@@ -2425,7 +2519,7 @@ public class LuServiceImpl implements LuService {
 
 		Lui lui = luDao.fetch(Lui.class, luiId);
 
-		if (!String.valueOf(lui.getVersionInd()).equals(
+		if (!String.valueOf(lui.getVersionNumber()).equals(
 				luiInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"Lui to be updated is not the current version");
@@ -2560,7 +2654,7 @@ public class LuServiceImpl implements LuService {
 		LuiLuiRelation luiLuiRelation = luDao.fetch(LuiLuiRelation.class,
 				luiLuiRelationId);
 
-		if (!String.valueOf(luiLuiRelation.getVersionInd()).equals(
+		if (!String.valueOf(luiLuiRelation.getVersionNumber()).equals(
 				luiLuiRelationInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"LuiLuiRelation to be updated is not the current version");
@@ -2720,17 +2814,26 @@ public class LuServiceImpl implements LuService {
 
 	private void findClusInCluSet(List<Clu> clus, CluSet parentCluSet)
 			throws DoesNotExistException {
-		for (Clu clu : parentCluSet.getClus()) {
-			if (!clus.contains(clu)) {
-				clus.add(clu);
-			}
-		}
-		// Recursion possible problem? Stack overflow
-		if(parentCluSet.getCluSets()!=null){
-			for (CluSet cluSet : parentCluSet.getCluSets()) {
-				findClusInCluSet(clus, cluSet);
-			}
-		}
+        List<String> processedCluSetIds = new ArrayList<String>();
+        doFindClusInCluSet(processedCluSetIds, clus, parentCluSet);
+	}
+	
+	private void doFindClusInCluSet(List<String> processedCluSetIds, 
+	        List<Clu> clus, CluSet parentCluSet) {
+        for (Clu clu : parentCluSet.getClus()) {
+            if (!clus.contains(clu)) {
+                clus.add(clu);
+            }
+        }
+        if(parentCluSet.getCluSets()!=null){
+            for (CluSet cluSet : parentCluSet.getCluSets()) {
+                // This condition avoids infinite recursion problem
+                if (!processedCluSetIds.contains(cluSet.getId())) {
+                    processedCluSetIds.add(cluSet.getId());
+                    doFindClusInCluSet(processedCluSetIds, clus, cluSet);
+                }
+            }
+        }
 	}
 
 	@Override

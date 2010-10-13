@@ -53,6 +53,9 @@
    	<bean parent="enCommon" p:id="requiredOnSubmit"		p:value=" Required on Submit"/> 
    	<bean parent="enCommon" p:id="fieldDeletionTitle"		p:value="Remove Fields"/>
    	<bean parent="enCommon" p:id="fieldDeletionConfirmMessage"		p:value="Changing your selection may remove associated fields, are you sure?"/>
+   	<bean parent="enCommon" p:id="confirmApproval"		p:value="Confirm Approval"/>
+   	<bean parent="enCommon" p:id="acknowledge"		p:value="Confirm Acknowledgement"/>
+   	<bean parent="enCommon" p:id="reject"		p:value="Reject"/>
 
    	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Send us an Error Report"/>
    	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
@@ -156,5 +159,7 @@
     <bean parent="enValidation" p:id="validation.validChars.alphanumericHyphenPeriod" p:value="Can only contain alpha-numeric characters, hyphens and periods."/>
     <bean parent="enValidation" p:id="validation.validChars.numeric" p:value="Can only contain numeric characters."/>
     <bean parent="enValidation" p:id="validation.validChars.digits" p:value="Can only contain digits."/>
-
+    <bean parent="enValidation" p:id="validation.validChars.gpa9.9" p:value="Can only contain a GPA in the form 9.9."/>
+    <bean parent="enValidation" p:id="validation.validChars.positive.integer" p:value="Can only contain a positive integer."/>
+    <bean parent="enValidation" p:id="validation.validChars.relationalOperator" p:value="Can only contain one of these operators &gt;,&lt;,=,&gt;=,&lt;=, or &lt;&gt;"/>
 </beans>

@@ -19,23 +19,18 @@ import java.util.Date;
 
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Version;
 
 import org.kuali.student.common.util.security.SecurityUtils;
 
 @MappedSuperclass
-public abstract class MetaEntity {
-	
-	@Version
-	private long versionInd;
+public abstract class MetaEntity extends BaseEntity{
 	
 	@Embedded
 	private Meta meta;
 	
-	@PrePersist
-	public void prePersist(){
+	@Override
+	protected void onPrePersist(){
+		super.onPrePersist();
 		if(meta==null){
 			meta = new Meta();
 		}
@@ -46,11 +41,11 @@ public abstract class MetaEntity {
 		meta.setCreateId(user);
 		meta.setUpdateId(user);
 		
-		onPrePersist();
 	}
 	
-	@PreUpdate
-	public void preUpdate(){
+	@Override
+	protected void onPreUpdate(){
+		super.onPreUpdate();
 		//This code should not be here, but hibernate is calling update callback instead of prepersit if the id is not null.
 		if(meta==null){
 			meta = new Meta();
@@ -61,25 +56,6 @@ public abstract class MetaEntity {
 
 		String user = SecurityUtils.getCurrentUserId();
 		meta.setUpdateId(user);
-		
-		onPreUpdate();
-	}
-	
-
-	//Override this to add additional functionality for the PrePersist Lifecycle
-	protected void onPrePersist() {
-	}
-	
-	//Override this to add additional functionality for the PreUpdate Lifecycle
-	protected void onPreUpdate() {
-	}
-	
-	public long getVersionInd() {
-		return versionInd;
-	}
-
-	public void setVersionInd(long versionInd) {
-		this.versionInd = versionInd;
 	}
 
 	public Meta getMeta() {

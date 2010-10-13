@@ -11,9 +11,9 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface StatementRpcServiceAsync extends BaseRpcServiceAsync {
-    public void getStatementTypesForStatementType(String statementTypeKey, AsyncCallback<List<StatementTypeInfo>> callback);
-    public void getReqComponentTypesForStatementType(String luStatementTypeKey, AsyncCallback<List<ReqComponentTypeInfo>> async);
+    public void getStatementTypesForStatementTypeForCourse(String statementTypeKey, AsyncCallback<List<StatementTypeInfo>> callback);
+    public void getStatementTypesForStatementType(String statementTypeKey, AsyncCallback<List<StatementTypeInfo>> callback);    
+    public void getReqComponentTypesForStatementType(String luStatementTypeKey, AsyncCallback<List<ReqComponentTypeInfo>> callback);
     public void translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language, AsyncCallback<String> callback);
     public void translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language, AsyncCallback<String> callback);
-//    public void getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, String language, AsyncCallback<String> callback);
 }

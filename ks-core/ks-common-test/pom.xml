@@ -25,6 +25,12 @@
       <version>${oracle.ojdbc.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Dependency required because an entity's create user is obtained via Spring Security -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <scope>runtime</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

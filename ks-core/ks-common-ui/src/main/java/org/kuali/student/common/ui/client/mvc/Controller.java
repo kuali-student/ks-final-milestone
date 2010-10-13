@@ -22,7 +22,6 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
-import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
 import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
@@ -31,11 +30,9 @@ import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -101,12 +98,18 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      */
     public <V extends Enum<?>> void showView(final V viewType, final Callback<Boolean> onReadyCallback) {
         GWT.log("showView " + viewType.toString(), null);
-        final View view = getView(viewType);
-        if (view == null) {
-        	onReadyCallback.exec(false);
-            throw new ControllerException("View not registered: " + viewType.toString());
-        }
-        beginShowView(view, viewType, onReadyCallback);
+        getView(viewType, new Callback<View>(){
+
+			@Override
+			public void exec(View result) {
+				View view = result;
+				if (view == null) {
+		        	onReadyCallback.exec(false);
+		            throw new ControllerException("View not registered: " + viewType.toString());
+		        }
+		        beginShowView(view, viewType, onReadyCallback);
+				
+			}});
     }
     
     private <V extends Enum<?>> void beginShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
@@ -294,7 +297,9 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         } else if (getParentController() != null) {
             parentController.requestModel(modelId, callback);
         } else {
-            callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
+            if (callback != null) {
+                callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
+            }
         }
     }
 
@@ -310,7 +315,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     public String getDefaultModelId() {
         return defaultModelId;
     }
-    protected void setDefaultModelId(String defaultModelId) {
+    public void setDefaultModelId(String defaultModelId) {
         this.defaultModelId = defaultModelId;
     }
     
@@ -369,7 +374,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * @param viewType
      * @return
      */
-    protected abstract <V extends Enum<?>> View getView(V viewType);
+    protected abstract <V extends Enum<?>> void getView(V viewType, Callback<View> callback);
     
     /**
      * If a controller which extends this class must perform some action or check before a view
@@ -429,52 +434,59 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     	final String nextHistoryStack = HistoryManager.nextHistoryStack(historyStack);
         String[] tokens = HistoryManager.splitHistoryStack(nextHistoryStack);
         if (tokens.length >= 1 && tokens[0] != null && !tokens[0].isEmpty()) {
-            Map<String, String> tokenMap = HistoryManager.getTokenMap(tokens[0]);
+            final Map<String, String> tokenMap = HistoryManager.getTokenMap(tokens[0]);
             //TODO add some automatic view context setting here, get and set
             String viewEnumString = tokenMap.get("view");
             if (viewEnumString != null) {
-                Enum<?> viewEnum = getViewEnumValue(viewEnumString);
+                final Enum<?> viewEnum = getViewEnumValue(viewEnumString);
                 
                 if (viewEnum != null) {
-                	View theView = getView(viewEnum);
-                	boolean sameContext = true;
-                	if(theView instanceof Controller){
-                		
-                		ViewContext newContext = new ViewContext();
-                		Iterator<String> tokenIt = tokenMap.keySet().iterator();
-                		while(tokenIt.hasNext()){
-                			String key = tokenIt.next();
-                			if(key.equals(ViewContext.ID_ATR)){
-                				newContext.setId(tokenMap.get(ViewContext.ID_ATR));
-                			}
-                			else if(key.equals(ViewContext.ID_TYPE_ATR)){
-                				newContext.setIdType(tokenMap.get(ViewContext.ID_TYPE_ATR));
-                			}
-                			//do not add view attribute from the token map to the context
-                			else if(!key.equals("view")){
-                				newContext.setAttribute(key, tokenMap.get(key));
-                			}
-                		}
-                		
-                		ViewContext viewContext = ((Controller) theView).getViewContext();
-                		if(viewContext.compareTo(newContext) != 0){
-                			((Controller) theView).setViewContext(newContext);
-                			sameContext = false;
-                		}
-                	}
-                    if (currentViewEnum == null || !viewEnum.equals(currentViewEnum) 
-                    		|| !sameContext) {
-                        beginShowView(theView, viewEnum, new Callback<Boolean>() {
-                            @Override
-                            public void exec(Boolean result) {
-                                if (result) {
-                                    currentView.onHistoryEvent(nextHistoryStack);
-                                }
-                            }
-                        });
-                    } else if (currentView != null) {
-                    	currentView.onHistoryEvent(nextHistoryStack);
-                    }
+                	getView(viewEnum, new Callback<View>(){
+
+						@Override
+						public void exec(View result) {
+							View theView = result;
+			            	boolean sameContext = true;
+		                	if(theView instanceof Controller){
+		                		
+		                		ViewContext newContext = new ViewContext();
+		                		Iterator<String> tokenIt = tokenMap.keySet().iterator();
+		                		while(tokenIt.hasNext()){
+		                			String key = tokenIt.next();
+		                			if(key.equals(ViewContext.ID_ATR)){
+		                				newContext.setId(tokenMap.get(ViewContext.ID_ATR));
+		                			}
+		                			else if(key.equals(ViewContext.ID_TYPE_ATR)){
+		                				newContext.setIdType(tokenMap.get(ViewContext.ID_TYPE_ATR));
+		                			}
+		                			//do not add view attribute from the token map to the context
+		                			else if(!key.equals("view")){
+		                				newContext.setAttribute(key, tokenMap.get(key));
+		                			}
+		                		}
+		                		
+		                		ViewContext viewContext = ((Controller) theView).getViewContext();
+		                		if(viewContext.compareTo(newContext) != 0){
+		                			((Controller) theView).setViewContext(newContext);
+		                			sameContext = false;
+		                		}
+		                	}
+		                    if (currentViewEnum == null || !viewEnum.equals(currentViewEnum) 
+		                    		|| !sameContext) {
+		                        beginShowView(theView, viewEnum, new Callback<Boolean>() {
+		                            @Override
+		                            public void exec(Boolean result) {
+		                                if (result) {
+		                                    currentView.onHistoryEvent(nextHistoryStack);
+		                                }
+		                            }
+		                        });
+		                    } else if (currentView != null) {
+		                    	currentView.onHistoryEvent(nextHistoryStack);
+		                    }
+						}
+					});
+    
                 }
             }
         }

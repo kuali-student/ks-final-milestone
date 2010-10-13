@@ -160,6 +160,15 @@
                 <entry key="kuali.reqComponent.type.course.org.credits.completed.min">
 	                <ref local="orgContext"/>
                 </entry>
+                <entry key="kuali.reqComponent.type.course.completed">
+                    <ref local="luContext"/>
+                </entry>
+                <entry key="kuali.reqComponent.type.course.enrolled">
+                    <ref local="luContext"/>
+                </entry>
+                <entry key="kuali.reqComponent.type.course.notcompleted">
+                    <ref local="luContext"/>
+                </entry>
 
                 <!-- Program Contexts -->
 

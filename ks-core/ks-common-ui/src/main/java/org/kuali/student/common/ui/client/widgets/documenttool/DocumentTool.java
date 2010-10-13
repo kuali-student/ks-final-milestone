@@ -15,17 +15,13 @@
 
 package org.kuali.student.common.ui.client.widgets.documenttool;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
@@ -36,43 +32,31 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.dto.FileStatus;
-import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
+import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcService;
-import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.dto.RefDocRelationInfoMock;
-import org.kuali.student.core.dto.StatusInfo;
-//import org.kuali.student.lum.lu.ui.course.client.configuration.MultiplicityFieldConfig;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
@@ -80,7 +64,6 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
@@ -91,7 +74,9 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	private String referenceTypeKey;
 	private String referenceType;
 	private String referenceState;
-
+	private String refObjectTypeKey;
+	private final String refDocRelationTypeKey = "kuali.org.DocRelation.allObjectTypes";
+	
 	private static final int POLL_INTERVAL = 2000;
 
 	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
@@ -107,7 +92,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		public void exec(String result) {
 			refreshDocuments();
 		}
-    	
+
     };
 
     private KSLightBox progressWindow = new KSLightBox();
@@ -127,7 +112,6 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		}
     });
     private UploadStatusRpcServiceAsync uploadStatusRpc = GWT.create(UploadStatusRpcService.class);
-    private DocumentRelationMockRpcServiceAsync documentRelationRpc = GWT.create(DocumentRelationMockRpcService.class);
 
 	private OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
 
@@ -151,7 +135,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 					@Override
 					public void onSuccess(final String result) {
-						form.setAction(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?uploadId=" + result + "&referenceId=" + referenceId);
+						form.setAction(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?uploadId=" + result + "&referenceId=" + referenceId +"&refObjectTypeKey=" + refObjectTypeKey + "&refDocRelationTypeKey=" + refDocRelationTypeKey);
 						form.submit();
 
 						progressLabel.setText("Uploading...");
@@ -273,11 +257,12 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		}
 	});
 
-	public DocumentTool(Enum<?> viewEnum, String viewName) {
+	public DocumentTool(String refObjectTypeKey, Enum<?> viewEnum, String viewName) {
 		super(viewEnum, viewName);
+		this.refObjectTypeKey = refObjectTypeKey;
 	}
 
-	private void isAuthorizedUploadDocuments() {
+	protected void isAuthorizedUploadDocuments() {
         documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
 
 			@Override
@@ -291,10 +276,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
 				if(referenceId != null && !(referenceId.isEmpty())){
 					//buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
-		        	saveWarning.setVisible(false);
-		        	buttonPanel.setVisible(result);
-					documentList.setVisible(true);
-					refreshDocuments();
+		        	processUi(result);
 				}
 				else{
 					saveWarning.setVisible(true);
@@ -306,7 +288,14 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 		});
 	}
-	
+
+    protected void processUi(Boolean result){
+       saveWarning.setVisible(false);
+	   buttonPanel.setVisible(result);
+	   documentList.setVisible(true);
+	   refreshDocuments();
+    }
+
     private Metadata getMetaData(String fieldKey) {
         return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
     }
@@ -316,12 +305,12 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         // UI label framework.
         return labelKey;
     }
-    
+
     private MultiplicityConfiguration setupMultiplicityConfig(
             MultiplicityConfiguration.MultiplicityType multiplicityType,
             MultiplicityConfiguration.StyleType styleType,
             String path, String addItemlabelMessageKey,
-            String itemLabelMessageKey, 
+            String itemLabelMessageKey,
             Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
             List<String> deletionParentKeys) {
         QueryPath parentPath = QueryPath.concat(path);
@@ -341,10 +330,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
             public ModelWidgetBinding getModelWidgetBindingInstance() {
                 return new ModelWidgetBinding<DocumentForm>() {
                     public void setModelValue(DocumentForm widget, DataModel model, String path) {
-                        
+
                     }
                     public void setWidgetValue(DocumentForm widget, DataModel model, String path){
-                        
+
                     }
                 };
             }
@@ -382,7 +371,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
         MultiplicityFieldConfiguration fd = new MultiplicityFieldConfiguration(
                 fieldPath.toString(), generateMessageInfo(labelKey), meta, null);
-        
+
 
         return fd;
 
@@ -398,14 +387,14 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	            MultiplicityConfiguration.MultiplicityType.GROUP,
 	            MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
 	            "path", "Include More Files",
-	            "File Name", 
+	            "File Name",
 	            null,
 	            null);
         MultiplicitySection ms = null;
         ms = new MultiplicitySection(uploadFileMultiplicityConfig);
         verticalSection.addSection(ms);
         verticalSection.getLayout().setWidth("100");
-	    
+
         return verticalSection;
 	}
 
@@ -478,7 +467,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		uploadList.clear();
 		uploadList.add(createUploadForm());
 	}
-	
+
 
 
 	private static class DocumentForm extends Composite{
@@ -543,7 +532,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         if(referenceId != null && !(referenceId.isEmpty())){
         	documentList.add(loadingDocuments);
 	        try {
-	        	documentRelationRpc.getRefDocIdsForRef(referenceId, new KSAsyncCallback<List<RefDocRelationInfoMock>>(){
+	        	documentServiceAsync.getRefDocIdsForRef(refObjectTypeKey, referenceId, new KSAsyncCallback<List<RefDocRelationInfo>>(){
 
 					@Override
 					public void handleFailure(Throwable caught) {
@@ -553,10 +542,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 					}
 
 					@Override
-					public void onSuccess(List<RefDocRelationInfoMock> result) {
+					public void onSuccess(List<RefDocRelationInfo> result) {
 						documentList.clear();
 						if(result != null && !(result.isEmpty())){
-						    documentList.add(new DocumentList(result, deleteCallback));
+						    documentList.add(new DocumentList(refObjectTypeKey, result, deleteCallback));
 						}
 						documentList.remove(loadingDocuments);
 					}

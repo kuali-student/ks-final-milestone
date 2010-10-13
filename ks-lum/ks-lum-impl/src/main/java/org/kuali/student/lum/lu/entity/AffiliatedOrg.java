@@ -19,13 +19,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -35,11 +33,7 @@ import org.kuali.student.common.util.UUIDHelper;
  */
 @Entity
 @Table(name = "KSLU_CLU_AFFIL_ORG")
-public class AffiliatedOrg {
-
-    @Id
-    @Column(name = "ID")
-    private String id;
+public class AffiliatedOrg extends BaseEntity{
 
     @Column(name = "ORG_ID")
     private String orgId; //External service key
@@ -55,19 +49,6 @@ public class AffiliatedOrg {
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     
-    @PrePersist
-    public void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getOrgId() {
         return orgId;
     }

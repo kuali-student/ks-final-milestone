@@ -22,7 +22,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -33,7 +32,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
@@ -43,10 +41,7 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name = "ReqComponent.getReqComponents", query = "SELECT r FROM ReqComponent r WHERE r.id IN (:reqComponentIdList)") 
 })
 public class ReqComponent extends MetaEntity {
-	@Id
-	@Column(name = "ID")
-	private String id;
-	
+
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private StatementRichText descr;
@@ -68,23 +63,7 @@ public class ReqComponent extends MetaEntity {
     
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "KSST_RC_JN_RC_FIELD", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_FIELD_ID"))
-    private List<ReqComponentField> reqCompField;
-    
-    /**
-     * AutoGenerate the Id
-     */
-    @Override
-    public void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-    
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+    private List<ReqComponentField> reqComponentFields;
 
 	public ReqComponentType getRequiredComponentType() {
 		return requiredComponentType;
@@ -127,16 +106,16 @@ public class ReqComponent extends MetaEntity {
     }
 
     public List<ReqComponentField> getReqComponentFields() {
-        return reqCompField;
+        return reqComponentFields;
     }
 
     public void setReqComponentFields(List<ReqComponentField> reqCompField) {
-        this.reqCompField = reqCompField;
+        this.reqComponentFields = reqCompField;
     }
 
 	@Override
 	public String toString() {
-		return "ReqComponent[id=" + id + ", requiredComponentTypeId="
+		return "ReqComponent[id=" + getId() + ", requiredComponentTypeId="
 				+ (requiredComponentType == null ? "null" : requiredComponentType.getId()) + "]";
 	}
 

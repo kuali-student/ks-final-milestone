@@ -21,11 +21,12 @@ public abstract class VersionEntity extends MetaEntity {
 	
 	@Override
 	protected void onPrePersist(){
+		super.onPrePersist();
 		if(version == null){
 			version = new Version();
 		}
 		if(version.getSequenceNumber()==null){
-			version.setSequenceNumber(Long.valueOf(0));
+			version.setSequenceNumber(Long.valueOf(1));
 		}
 		version.setVersionIndId(UUIDHelper.genStringUUID(version.getVersionIndId()));
 	}

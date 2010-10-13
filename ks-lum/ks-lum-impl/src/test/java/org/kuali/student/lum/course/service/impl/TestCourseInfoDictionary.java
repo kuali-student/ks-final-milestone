@@ -27,8 +27,8 @@ public class TestCourseInfoDictionary {
 
 	@Test
 	public void testLoadCourseInfoDictionary() {
-		Set<Class<?>> startingClasses = new LinkedHashSet<Class<?>>();
-		startingClasses.add(CourseInfo.class);
+		Set<String> startingClasses = new LinkedHashSet<String>();
+		startingClasses.add(CourseInfo.class.getName ());
 		// startingClasses.add (StatementTreeViewInfo.class);
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";

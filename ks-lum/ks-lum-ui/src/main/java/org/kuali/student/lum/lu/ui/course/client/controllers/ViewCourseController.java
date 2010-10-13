@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
@@ -37,17 +36,19 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 
@@ -83,10 +84,12 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	private BlockingTask initTask = new BlockingTask("Initializing....");
 	private KSLabel statusLabel = new KSLabel("");
             
-    public ViewCourseController(){
+    public ViewCourseController(Enum<?> viewType){
     	super(CourseProposalController.class.getName());
         initialize();
         addStyleName("courseView");
+        this.tabPanel.addStyleName("standard-content-padding");
+        this.setViewEnum(viewType);
     }
     
     @Override
@@ -142,7 +145,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 					ViewContext viewContext = new ViewContext();
 					viewContext.setId((String)cluModel.get("versionInfo/versionIndId"));
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                    viewContext.setAttribute(IdAttributes.DOC_TYPE, "kuali.proposal.type.course.modify");
+                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
 					HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
 				}
 			}
@@ -272,6 +275,10 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     public String getCourseId() {
         return courseId;
     }
+    
+    public String getVersionIndId() {
+        return (String)cluModel.get("versionInfo/versionIndId");
+    }
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
@@ -319,22 +326,20 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     protected void setHeaderTitle() {
                
-    	StringBuffer sb = new StringBuffer();
+    	String title; 
     	if (cluModel.get("transcriptTitle") != null){
-    		sb.append(cluModel.get("code"));
-    		sb.append(" - ");
-    		sb.append(cluModel.get("transcriptTitle"));
+    		title = getCourseTitle();
     	}
     	else{
-    		sb.append("Course");
+    		title = "Course";
     	}
 
     	if(cluModel.get("state") != null){
     		statusLabel.setText("Status: " + cluModel.get("state"));
     	}
     	
-    	this.setContentTitle(sb.toString());
-    	this.setName(sb.toString());
+    	this.setContentTitle(title);
+    	this.setName(title);
 
     }
     
@@ -352,6 +357,35 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	public Widget getStatusLabel() {
 		statusLabel.setStyleName("courseStatusLabel");
 		return statusLabel;
+	}
+	
+	public Widget getVersionHistoryWidget(){
+		KSButton button = new KSButton("Version History", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				parentController.showView(ViewCourseParentController.Views.VERSIONS);
+			}
+		});
+		button.addStyleName("versionHistoryLink");
+		return button;
+		
+	}
+	
+	@Override
+	public void onHistoryEvent(String historyStack) {
+		super.onHistoryEvent(historyStack);
+		if (cluModel.get("courseTitle") != null){
+			RecentlyViewedHelper.addCurrentDocument(getCourseTitle());
+		}
+	}
+	
+	public String getCourseTitle(){
+		return cluModel.get("courseTitle");
+	}
+
+	public String getCurrentId() {
+		return cluModel.get("id");
 	}
 
 }
