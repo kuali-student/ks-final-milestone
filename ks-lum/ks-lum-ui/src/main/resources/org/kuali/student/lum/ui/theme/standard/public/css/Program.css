@@ -99,3 +99,23 @@
 .gwt-PopupPanel {
     z-index: 3;
 }
+
+.longTitle {
+    width: 27.5em;
+}
+
+.shortTitle {
+    width: 27.5em;
+}
+
+.diplomaTitle {
+    width: 27.5em;
+}
+
+.shortTitle {
+    width: 27.5em;
+}
+
+.transcriptTitle {
+    width: 27.5em;
+}
