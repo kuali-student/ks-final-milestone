@@ -50,12 +50,12 @@ import org.kuali.student.core.entity.VersionEntity;
     		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
-    		"AND c.version.currentVersionStart <= :currentTime AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
+    		"AND (c.version.currentVersionStart <= :currentTime OR c.version.currentVersionStart IS NULL) AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
 	@NamedQuery(name = "Clu.findCurrentVersionOnDate", query = "SELECT " +
     		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
     		"WHERE c.version.versionIndId = :versionIndId " +
-    		"AND c.version.currentVersionStart <= :date AND (c.version.currentVersionEnd > :date OR c.version.currentVersionEnd IS NULL)"),
+    		"AND (c.version.currentVersionStart <= :date OR c.version.currentVersionStart IS NULL) AND (c.version.currentVersionEnd > :date OR c.version.currentVersionEnd IS NULL)"),
 	@NamedQuery(name = "Clu.findFirstVersion", query = "SELECT " +
     		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
     		"FROM Clu c " +
@@ -97,36 +97,36 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "OFFIC_CLU_ID")
     private CluIdentifier officialIdentifier;
-    
+
     @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "KSLU_CLU_JN_CLU_IDENT", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_CLU_ID"))
     private List<CluIdentifier> alternateIdentifiers;
 
     @Column(name = "STDY_SUBJ_AREA")
     private String studySubjectArea;
-    
+
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private LuRichText descr;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "clu")
     private List<CluCampusLocation> campusLocations;
-    
+
     @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "KSLU_CLU_JN_ACCRED", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ACCRED_ID"))
     private List<CluAccreditation> accreditations;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
     private List<CluAdminOrg> adminOrgs;
-    
+
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="PRI_INSTR_ID")
     private CluInstructor primaryInstructor;
-    
+
     @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "KSLU_CLU_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
     private List<CluInstructor> instructors;
-        
+
     @Column(name = "EXP_FIRST_ATP")
     private String expectedFirstAtp;
 
@@ -135,7 +135,7 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
 
     @Column(name = "LAST_ADMIT_ATP")
     private String lastAdmitAtp;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
@@ -154,7 +154,7 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
     @Embedded
     @Column(name = "STD_DUR")
     private TimeAmount stdDuration;
-    
+
     @Column(name = "CAN_CREATE_LUI")
     private boolean canCreateLui;
 
@@ -163,16 +163,16 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="clu")
     private List<LuCode> luCodes;
-        
+
     @Column(name = "NEXT_REVIEW_PRD")
     private String nextReviewPeriod;
 
     @Column(name = "IS_ENRL")
     private boolean isEnrollable;
-    
+
     @OneToMany(cascade=CascadeType.ALL, mappedBy="clu")
     private List<CluAtpTypeKey> offeredAtpTypes;
-    
+
     @Column(name = "HAS_EARLY_DROP_DEDLN")
     private boolean hasEarlyDropDeadline;
 
@@ -188,21 +188,21 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "FEE_ID")
     private CluFee fee;
-    
+
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "ACCT_ID")
     private CluAccounting accounting;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluAttribute> attributes;
 
     @ManyToOne
     @JoinColumn(name = "LUTYPE_ID")
     private LuType luType;
-    
+
     @Column(name = "ST")
     private String state;
-    
+
     public LuType getLuType() {
         return luType;
     }
@@ -437,7 +437,7 @@ public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
 
 	public void setExpectedFirstAtp(String expectedFirstAtp) {
 		this.expectedFirstAtp = expectedFirstAtp;
-	}      
+	}
 
 	public String getLastAtp() {
 		return lastAtp;
