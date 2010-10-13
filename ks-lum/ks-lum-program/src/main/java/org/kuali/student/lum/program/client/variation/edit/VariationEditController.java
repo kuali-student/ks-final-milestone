@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.lum.program.client.VariationRegistry;
 import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
 import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -21,8 +22,6 @@ public class VariationEditController extends VariationController {
 
     private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
-
-    private boolean isCreate = false;
 
     public VariationEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
@@ -57,6 +56,11 @@ public class VariationEditController extends VariationController {
         }
     }
 
+    @Override
+    protected void resetModel() {
+        programModel.setRoot(VariationRegistry.getData());
+    }
+
     private void doCancel() {
         HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_EDIT", getViewContext());
     }
@@ -71,6 +75,7 @@ public class VariationEditController extends VariationController {
                 } else {
                     eventBus.fireEvent(new SpecializationUpdateEvent());
                 }
+                resetFieldInteractionFlag();
             }
 
             @Override

@@ -132,7 +132,7 @@ public class ProgramEditController extends MajorController {
                             programModel.setRoot(result.getValue());
                             setHeaderTitle();
                             setStatus();
-                            ((Section) getCurrentView()).resetFieldInteractionFlags();
+                            resetFieldInteractionFlag();
                             eventBus.fireEvent(new ModelLoadedEvent(programModel));
                             HistoryManager.logHistoryChange();
                             KSNotifier.show(ProgramProperties.get().common_successfulSave());

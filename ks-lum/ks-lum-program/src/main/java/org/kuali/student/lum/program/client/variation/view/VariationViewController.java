@@ -9,7 +9,7 @@ import org.kuali.student.lum.program.client.variation.VariationController;
 public class VariationViewController extends VariationController {
 
     public VariationViewController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super("Variations", programModel, viewContext, eventBus);
+        super(name, programModel, viewContext, eventBus);
         configurer = GWT.create(VariationViewConfigurer.class);
     }
 }

@@ -86,13 +86,13 @@ public class ProgramController extends MenuSectionController {
                                     case YES:
                                         dialog.hide();
                                         eventBus.fireEvent(new UpdateEvent());
-                                        ((Section) getCurrentView()).resetFieldInteractionFlags();
-                                         okToChange.exec(true);
+                                        resetFieldInteractionFlag();
+                                        okToChange.exec(true);
                                         break;
                                     case NO:
                                         dialog.hide();
-                                        programModel.resetRoot();
-                                        ((Section) getCurrentView()).resetFieldInteractionFlags();
+                                        resetModel();
+                                        resetFieldInteractionFlag();
                                         okToChange.exec(true);
                                         break;
                                     case CANCEL:
@@ -111,6 +111,14 @@ public class ProgramController extends MenuSectionController {
                 }
             }
         });
+    }
+
+    protected void resetModel() {
+        programModel.resetRoot();
+    }
+
+    protected void resetFieldInteractionFlag() {
+        ((Section) getCurrentView()).resetFieldInteractionFlags();
     }
 
     /**

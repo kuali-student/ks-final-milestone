@@ -26,6 +26,7 @@ public class VariationController extends ProgramController {
     public VariationController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super("", programModel, viewContext, eventBus);
         this.name = name;
+        setName(name);
     }
 
     @Override
