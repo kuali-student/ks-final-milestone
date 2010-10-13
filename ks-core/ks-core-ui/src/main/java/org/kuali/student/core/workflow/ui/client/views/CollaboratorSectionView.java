@@ -444,7 +444,8 @@ public class CollaboratorSectionView extends SectionView {
 		rowWidgets.add(new KSLabel((String)personData.get("actionRequestStatus")));
 		
 		if (canRemoveCollaborators) {
-		    if (personData.query("canRevokeRequest")) {
+      Boolean canRevokeRequest = personData.query("canRevokeRequest");
+      if (canRevokeRequest) {
 	            //Add delete widget
 	            AbbrButton removeButton = new AbbrButton(AbbrButtonType.DELETE);
 	            rowWidgets.add(removeButton);
