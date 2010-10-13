@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -131,6 +132,7 @@ public class ProgramEditController extends MajorController {
                             programModel.setRoot(result.getValue());
                             setHeaderTitle();
                             setStatus();
+                            ((Section) getCurrentView()).resetFieldInteractionFlags();
                             eventBus.fireEvent(new ModelLoadedEvent(programModel));
                             HistoryManager.logHistoryChange();
                             KSNotifier.show(ProgramProperties.get().common_successfulSave());
