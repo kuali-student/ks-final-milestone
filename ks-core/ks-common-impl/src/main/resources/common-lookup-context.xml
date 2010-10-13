@@ -1393,8 +1393,8 @@
 				</bean>
 				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="lu.queryParam.luOptionalLongName"/>
-					<property name="name" value="Course Name"/>
-					<property name="desc" value="Course Name"/>
+					<property name="name" value="Long Name"/>
+					<property name="desc" value="Long Clu Name"/>
 					<property name="dataType" value="STRING"/>
 					<property name="writeAccess" value="ALWAYS"/>
 					<property name="caseSensitive" value="false"/>
@@ -1403,8 +1403,8 @@
 				</bean>
 				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="cluset.queryParam.optionalSubCluSetName"/>
-					<property name="name" value="Clu Set Name"/>
-					<property name="desc" value="Clu Set Name"/>
+					<property name="name" value="Contains Set"/>
+					<property name="desc" value="Name of set contained by this one"/>
 					<property name="dataType" value="STRING"/>
 					<property name="writeAccess" value="ALWAYS"/>
 					<property name="caseSensitive" value="false"/>
