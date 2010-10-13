@@ -180,10 +180,16 @@ public class LookupMetadata implements Serializable {
         this.id = id;
     }
 
+    /**
+    * @deprecated not used so eventually want to remove
+    */
     public Usage getUsage() {
         return usage;
     }
 
+    /**
+    * @deprecated not used so eventually want to remove
+    */
     public void setUsage(Usage usage) {
         this.usage = usage;
     }
