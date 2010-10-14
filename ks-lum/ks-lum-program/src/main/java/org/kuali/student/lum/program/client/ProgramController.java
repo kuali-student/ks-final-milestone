@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * @author Igor
  */
-public class ProgramController extends MenuSectionController {
+public abstract class ProgramController extends MenuSectionController {
 
     protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
@@ -161,7 +161,7 @@ public class ProgramController extends MenuSectionController {
      *
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
-    private void loadModel(final ModelRequestCallback<DataModel> callback) {
+    protected void loadModel(final ModelRequestCallback<DataModel> callback) {
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
@@ -293,5 +293,9 @@ public class ProgramController extends MenuSectionController {
             }
         });
         return commentsButton;
+    }
+
+    protected void doSave() {
+
     }
 }

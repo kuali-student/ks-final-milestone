@@ -241,7 +241,7 @@ public class ProgramRequirementsDataModel {
                 }
 
                 ProgramManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
-                callback.exec(new ArrayList(storedRules.values()));  //update display widgets
+                //callback.exec(new ArrayList(storedRules.values()));  //update display widgets
             }
         });
     }

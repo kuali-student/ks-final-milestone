@@ -105,7 +105,7 @@ public class ProgramEditController extends MajorController {
                 doSave();
             }
         });
-        eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
+       /* eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
             @Override
             public void onEvent(StoreRequirementIDsEvent event) {
                 List<String> ids = event.getProgramRequirementIds();
@@ -115,14 +115,14 @@ public class ProgramEditController extends MajorController {
                 }
                 doSave();
             }
-        });
+        });*/
     }
 
     private void doCancel() {
         HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", getViewContext());
     }
 
-    private void doSave() {
+    protected void doSave() {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
