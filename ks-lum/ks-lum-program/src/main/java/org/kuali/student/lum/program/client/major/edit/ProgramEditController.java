@@ -126,7 +126,7 @@ public class ProgramEditController extends MajorController {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-                ProgramEditController.this.updateModel();
+                ProgramEditController.this.updateModelFromCurrentView();
                 programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
                     @Override
                     public void onSuccess(DataSaveResult result) {
