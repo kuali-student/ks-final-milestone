@@ -46,8 +46,8 @@
         <artifactId>tomcat-maven-plugin</artifactId>
         <version>1.0-beta-1</version>
         <configuration>
-          <path>/ks-embedded</path>
-          <port>8080</port>
+          <path>/ks-embedded-dev</path>
+          <port>8081</port>
         </configuration>
         <dependencies>
           <dependency>
