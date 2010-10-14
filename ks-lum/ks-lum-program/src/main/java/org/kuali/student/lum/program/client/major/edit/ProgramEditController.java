@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -103,6 +102,17 @@ public class ProgramEditController extends MajorController {
         eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEventHandler() {
             @Override
             public void onEvent(SpecializationUpdateEvent event) {
+                doSave();
+            }
+        });
+        eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
+            @Override
+            public void onEvent(StoreRequirementIDsEvent event) {
+                List<String> ids = event.getProgramRequirementIds();
+                Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                for (String id : ids) {
+                    programRequirements.add(id);
+                }
                 doSave();
             }
         });
