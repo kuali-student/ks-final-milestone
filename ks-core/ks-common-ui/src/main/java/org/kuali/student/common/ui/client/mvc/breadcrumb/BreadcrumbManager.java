@@ -1,20 +1,12 @@
 package org.kuali.student.common.ui.client.mvc.breadcrumb;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.student.common.ui.client.application.Application;
+import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BreadcrumbManager extends Composite{
 	
@@ -96,7 +88,7 @@ public class BreadcrumbManager extends Composite{
 			}
 			else{
 				createLabel(breadcrumbs.get(i).name);
-				WindowTitleUtils.setSubtitle(breadcrumbs.get(i).name);
+				//WindowTitleUtils.setSubtitle(breadcrumbs.get(i).name);
 			}
 		}
 	}
