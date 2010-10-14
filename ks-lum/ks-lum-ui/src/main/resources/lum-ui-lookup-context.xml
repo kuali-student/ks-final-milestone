@@ -2913,27 +2913,48 @@
   </property>
  </bean>
 
- <bean id="cluSetInfo.organization" parent="cluSetInfo.adminOrg">
-  <property name="path" value="cluset.organization" />
+ <bean id="courseSet.organization" parent="cluSetInfo.adminOrg">
+  <property name="path" value="courseSet.organization" />
  </bean>
+
+ <bean id="programSet.organization" parent="cluSetInfo.adminOrg">
+  <property name="path" value="programSet.organization" />
+ </bean>
+
+ <bean id="testSet.organization" parent="cluSetInfo.adminOrg">
+  <property name="path" value="testSet.organization" />
+ </bean>
+
+
 
  <bean id="cluSetInfo.cluIds" parent="uilookupconfig-parent">
   <property name="path" value="cluSetInfo.cluIds" />
-  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
  </bean>
 
  <!--This is just a renaming of cluIds so just copy it-->
- <bean id="cluset.allClus" parent="cluSetInfo.cluIds">
-  <property name="path" value="cluset.allClus" />
+ <bean id="courseSet.allClus" parent="uilookupconfig-parent">
+  <property name="path" value="courseSet.allClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
  </bean>
+
+ <bean id="programSet.allClus" parent="uilookupconfig-parent">
+  <property name="path" value="programSet.allClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findProgram.suggest" />
+ </bean>
+
+ <bean id="testSet.allClus" parent="uilookupconfig-parent">
+  <property name="path" value="testSet.allClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findTest.suggest" />
+ </bean>
+
 
  <bean id="cluset.cluSetRangeViewDetails" parent="uilookupconfig-parent">
   <property name="path" value="cluset.cluSetRangeViewDetails" />
   <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
  </bean>
 
- <bean id="cluset.approvedClus" parent="uilookupconfig-parent">
-  <property name="path" value="cluset.approvedClus" />
+ <bean id="courseSet.approvedClus" parent="uilookupconfig-parent">
+  <property name="path" value="courseSet.approvedClus" />
   <property name="initialLookup" ref="kuali.lu.lookup.findCourse.approved.suggest" />
   <property name="additionalLookups">
    <list>
@@ -2942,8 +2963,18 @@
   </property>
  </bean>
 
- <bean id="cluset.proposedClus" parent="uilookupconfig-parent">
-  <property name="path" value="cluset.proposedClus" />
+ <bean id="programSet.approvedClus" parent="uilookupconfig-parent">
+  <property name="path" value="programSet.approvedClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findProgram.approved.suggest" />
+ </bean>
+
+ <bean id="testSet.approvedClus" parent="uilookupconfig-parent">
+  <property name="path" value="testSet.approvedClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findTest.approved.suggest" />
+ </bean>
+
+ <bean id="courseSet.proposedClus" parent="uilookupconfig-parent">
+  <property name="path" value="courseSet.proposedClus" />
   <property name="initialLookup" ref="kuali.lu.lookup.findCourse.proposed.suggest" />
   <property name="additionalLookups">
    <list>
@@ -2952,7 +2983,17 @@
   </property>
  </bean>
 
+ <bean id="programSet.proposedClus" parent="uilookupconfig-parent">
+  <property name="path" value="programSet.proposedClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findProgram.proposed.suggest" />
+ </bean>
 
+ <bean id="testSet.proposedClus" parent="uilookupconfig-parent">
+  <property name="path" value="testSet.proposedClus" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findTest.proposed.suggest" />
+ </bean>
+
+ <!--Approved-->
  <bean id="kuali.lu.lookup.findCourse.approved.suggest" parent="kuali.lu.lookup.findCourse.suggest">
   <property name="id" value="kuali.lu.lookup.findCourse.approved.suggest" />
   <property name="params">
@@ -2974,7 +3015,51 @@
   </property>
  </bean>
 
- <bean id="kuali.lu.lookup.findCourse.proposed.suggest" parent="kuali.lu.lookup.findCourse.suggest">
+<bean id="kuali.lu.lookup.findProgram.approved.suggest" parent="kuali.lu.lookup.findProgram.suggest">
+  <property name="id" value="kuali.lu.lookup.findProgram.approved.suggest" />
+  <property name="params">
+   <list merge="true">
+    <bean parent="param"><!-- limit search to only return active clus -->
+     <property name="key" value="lu.queryParam.luOptionalState" />
+     <property name="name" value="State" />
+     <property name="desc" value="CLU State" />
+     <property name="writeAccess" value="NEVER" />
+     <property name="defaultValueList">
+      <list>
+       <value>approved</value>
+       <value>Active</value>
+      </list>
+     </property>
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
+<bean id="kuali.lu.lookup.findTest.approved.suggest" parent="kuali.lu.lookup.findTest.suggest">
+  <property name="id" value="kuali.lu.lookup.findTest.approved.suggest" />
+  <property name="params">
+   <list merge="true">
+    <bean parent="param"><!-- limit search to only return active clus -->
+     <property name="key" value="lu.queryParam.luOptionalState" />
+     <property name="name" value="State" />
+     <property name="desc" value="CLU State" />
+     <property name="writeAccess" value="NEVER" />
+     <property name="defaultValueList">
+      <list>
+       <value>approved</value>
+       <value>Active</value>
+      </list>
+     </property>
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
+ </bean>
+
+
+<!--Proposed-->
+<bean id="kuali.lu.lookup.findCourse.proposed.suggest" parent="kuali.lu.lookup.findCourse.suggest">
   <property name="id" value="kuali.lu.lookup.findCourse.proposed.suggest" />
   <property name="params">
    <list merge="true">
@@ -2995,13 +3080,89 @@
   </property>
  </bean>
 
- <bean id="cluset.clusetRangeEdit" parent="search.cluset.clusetRangeEdit">
-  <property name="path" value="cluset.clusetRangeEdit" />
+ <bean id="kuali.lu.lookup.findProgram.proposed.suggest" parent="kuali.lu.lookup.findProgram.suggest">
+  <property name="id" value="kuali.lu.lookup.findProgram.proposed.suggest" />
+  <property name="params">
+   <list merge="true">
+    <bean parent="param"><!-- limit search to only return active clus -->
+     <property name="key" value="lu.queryParam.luOptionalState" />
+     <property name="name" value="State" />
+     <property name="desc" value="CLU State" />
+     <property name="writeAccess" value="NEVER" />
+     <property name="defaultValueList">
+      <list>
+       <value>draft</value>
+       <value>submitted</value>
+      </list>
+     </property>
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
  </bean>
 
- <bean id="cluset.clusets" parent="search.cluset.clusets">
-  <property name="path" value="cluset.clusets" />
+
+ <bean id="kuali.lu.lookup.findTest.proposed.suggest" parent="kuali.lu.lookup.findTest.suggest">
+  <property name="id" value="kuali.lu.lookup.findTest.proposed.suggest" />
+  <property name="params">
+   <list merge="true">
+    <bean parent="param"><!-- limit search to only return active clus -->
+     <property name="key" value="lu.queryParam.luOptionalState" />
+     <property name="name" value="State" />
+     <property name="desc" value="CLU State" />
+     <property name="writeAccess" value="NEVER" />
+     <property name="defaultValueList">
+      <list>
+       <value>draft</value>
+       <value>submitted</value>
+      </list>
+     </property>
+     <property name="caseSensitive" value="true" />
+    </bean>
+   </list>
+  </property>
  </bean>
+
+	<bean id="courseSet.clusetRangeEdit" parent="uilookupconfig-parent">
+		<property name="path" value="courseSet.clusetRangeEdit" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.courseRanges" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.courseNumber" />
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.learningObjectives" />
+				<ref bean="kuali.lu.lookup.advanced.courseRanges.effectiveDate" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="programSet.clusetRangeEdit" parent="uilookupconfig-parent">
+		<property name="path" value="programSet.clusetRangeEdit" />
+	</bean>
+
+ <bean id="testSet.clusetRangeEdit" parent="uilookupconfig-parent">
+		<property name="path" value="testSet.clusetRangeEdit" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.courseRanges" />
+	</bean>
+
+ 	<bean id="courseSet.clusets" parent="uilookupconfig-parent">
+		<property name="path" value="courseSet.clusets" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.reusableCourseCluSets" />
+		<property name="additionalLookups">
+			<list>
+				<ref bean="kuali.lu.lookup.advanced.reusableCourseCluSets" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="programSet.clusets" parent="uilookupconfig-parent">
+		<property name="path" value="programSet.clusets" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.reusableProgramCluSets" />
+	</bean>
+
+	<bean id="testSet.clusets" parent="uilookupconfig-parent">
+		<property name="path" value="testSet.clusets" />
+		<property name="initialLookup" ref="kuali.lu.lookup.basic.reusableTestCluSets" />
+	</bean>
 
  <bean id="ReqCompFieldInfo.value.durationType.id" parent="uilookupconfig-parent">
 		<property name="path" value="reqCompFieldInfo.value" />
@@ -3044,4 +3205,9 @@
         <property name="usage" value="DEFAULT" />
         <property name="id" value="kuali.lu.lookup.publication.types" />
     </bean>
+    
+    <bean id="browse.courseCatalog.bySchoolOrCollege.courseId" parent="uilookupconfig-parent">
+		<property name="path" value="browse.courseCatalog.bySchoolOrCollege.courseId" />
+		<property name="initialLookup" ref="kuali.lookup.durations" />
+	</bean>
 </beans>

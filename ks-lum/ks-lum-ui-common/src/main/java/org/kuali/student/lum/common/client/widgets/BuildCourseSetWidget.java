@@ -48,6 +48,7 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
     public enum BuildCourseView {VIEW}
     private BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
     private String cluSetType;
+    private String metadataId;
 
     public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType) {
         super();
@@ -56,11 +57,16 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
                 new CluSetRetrieverImpl(),
                 BuildCourseView.VIEW,
                 "", CLUSET_MODEL_ID, false,
-                null);
+                null, cluSetType);
 
         ruleFieldsData = new DataModel();
         ruleFieldsData.setRoot(new Data());
         this.cluSetType = cluSetType;
+        if (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program")) {
+            this.metadataId = "programSet";
+        } else {
+            this.metadataId = "courseSet";
+        }
 
         //setup controller
         final CluSetRetriever theRetriever = cluSetRetriever;
@@ -72,7 +78,7 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
                 if (ruleFieldsData.getDefinition() == null) {
-                    theRetriever.getMetadata("cluset", new Callback<Metadata>(){
+                    theRetriever.getMetadata(metadataId, new Callback<Metadata>(){
                         @Override
                         public void exec(Metadata result) {
                             DataModelDefinition def = new DataModelDefinition(result);

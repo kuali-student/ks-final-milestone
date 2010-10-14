@@ -441,10 +441,14 @@
 	<bean parent="enClusetmanagement" p:messageId="cluSetNew"                      p:value="Create New Clu Set"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetNewInformation"                      p:value="Define CLU set"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetContent"                      p:value="Content"/>
-	<bean parent="enClusetmanagement" p:messageId="cluSetApprovedCourses"                      p:value="Approved Courses"/>
-	<bean parent="enClusetmanagement" p:messageId="cluSetProposedCourses"                      p:value="Proposed Courses"/>
-	<bean parent="enClusetmanagement" p:messageId="cluSetCourseRange"                      p:value="Course Range"/>
-	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSet"                 p:value="CLUs and/or CLU Sets"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetApprovedCourse"                      p:value="Approved Courses"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetProposedCourse"                      p:value="Proposed Courses"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetRangeCourse"                      p:value="Course Range"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetApprovedProgram"                      p:value="Approved Programs"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetProposedProgram"                      p:value="Proposed Programs"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetRangeProgram"                      p:value="Program Range"/>
+	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetCourse"                 p:value="Course Sets"/>
+	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetProgram"                 p:value="Program Sets"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetOrganization"                      p:value="Organization"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetTitle"                      p:value="Title"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetDescription"                      p:value="Description"/>

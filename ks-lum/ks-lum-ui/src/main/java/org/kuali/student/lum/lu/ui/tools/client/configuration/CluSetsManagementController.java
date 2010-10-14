@@ -233,7 +233,7 @@ public class CluSetsManagementController extends BasicLayout {
         } else {
             progressWindow.show();
 
-            cluSetManagementRpcServiceAsync.getMetadata("cluset", null, new KSAsyncCallback<Metadata>(){
+            cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {

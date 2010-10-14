@@ -853,7 +853,7 @@
 					<value>clu.id = :lu_queryParam_luOptionalId</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalType">
-					<value>clu.luType.id = :lu_queryParam_luOptionalType</value>
+					<value>clu.luType.id IN (:lu_queryParam_luOptionalType)</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalShortName">
 					<value>clu.officialIdentifier.shortName</value>

@@ -9,9 +9,9 @@ public class CommonWidgetConstants {
     public static final String NEW_CLU_SET = "cluSetNew";
     public static final String NEW_CLU_SET_INFO = "cluSetNewInformation";
     public static final String NEW_CLU_SET_CONTENT = "cluSetContent";
-    public static final String NEW_CLU_SET_CONTENT_APPROVED_COURSE = "cluSetApprovedCourses";
-    public static final String NEW_CLU_SET_CONTENT_PROPOSED_COURSE = "cluSetProposedCourses";
-    public static final String NEW_CLU_SET_CONTENT_RANGE = "cluSetCourseRange";
+    public static final String NEW_CLU_SET_CONTENT_APPROVED = "cluSetApproved";
+    public static final String NEW_CLU_SET_CONTENT_PROPOSED = "cluSetProposed";
+    public static final String NEW_CLU_SET_CONTENT_RANGE = "cluSetRange";
     public static final String NEW_CLU_SET_CONTENT_CLUSET = "clusetSubCluSet";
     public static final String EDIT_CLU_SET = "cluSetEditCluSet";
     public static final String VIEW_CLU_SET = "cluSetViewCluSet";

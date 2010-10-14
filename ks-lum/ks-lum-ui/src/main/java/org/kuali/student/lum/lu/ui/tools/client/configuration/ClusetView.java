@@ -69,10 +69,11 @@ public class ClusetView extends VerticalSectionView {
                 clusetViewEnum == CluSetsManagementViews.EDIT) {
             cluSetEditor = new CluSetEditorWidget(
                     new CluSetRetrieverImpl(),
-                    clusetViewEnum, name, modelId, false, null);
+                    clusetViewEnum, name, modelId, false, null,
+                    "kuali.cluSet.type.creditCourse");
         }
         viewEnum = clusetViewEnum;
-        cluSetManagementRpcServiceAsync.getMetadata("cluset", null, new KSAsyncCallback<Metadata>(){
+        cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert("Failed to retrieve cluset definition");
