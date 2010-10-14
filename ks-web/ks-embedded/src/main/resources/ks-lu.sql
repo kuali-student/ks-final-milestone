@@ -61,6 +61,7 @@ INSERT INTO KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-501', '<p>
 INSERT INTO KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-601', '<p>CoreEnglish CluSet</p>', 'CoreEnglish CluSet')
 INSERT INTO KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-701', '<p>First year science CluSet</p>', 'First year science CluSet')
 INSERT INTO KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-801', '<p>First year arts CluSet</p>', 'First year arts CluSet')
+INSERT INTO KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-901', '<p>Antho BSC Program CluSet</p>', 'Antho BSC Program CluSet')
 
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('ab5e6b15-3ac3-46e3-bf9f-0f6bdd86df58', null, 'Students are required to prepare papers based upon current scientific publications relating to animal science, or upon their research work, for presentation before and discussion by the class; (1) recent advances; (2) nutrition; (3) physiology; (4) biochemistry.')
 insert into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('2573199d-4f3e-4a32-88d5-458463711774', null, 'Human biological evolution, including the biology of contemporary human groups, non-human primate social behavior, and the fossil, biochemical, and molecular evidence for human evolution. Includes a laboratory study of human population genetics, biochemical variation, and anatomical diversity in modern and fossil human and non-human primate groups.')
@@ -427,6 +428,7 @@ INSERT INTO KSLU_CLU_SET (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIO
 INSERT INTO KSLU_CLU_SET (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, NAME, RT_DESCR_ID, TYPE, ST, ADMIN_ORG_ID, REUSABLE) VALUES ('CLUSET-2', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, {ts '2003-01-01 00:00:00.0'}, {ts '2004-01-01 00:00:00.0'}, 'Core English Cluset Name', 'RICHTEXT-601', 'kuali.cluSet.type.creditCourse', 'active', '50', 1)
 INSERT INTO KSLU_CLU_SET (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, NAME, RT_DESCR_ID, TYPE, ST, ADMIN_ORG_ID, REUSABLE) VALUES ('CLUSET-3', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, {ts '2003-01-01 00:00:00.0'}, {ts '2004-01-01 00:00:00.0'}, 'First year science CluSet', 'RICHTEXT-701', 'kuali.cluSet.type.creditCourse', 'active', '50', 1)
 INSERT INTO KSLU_CLU_SET (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, NAME, RT_DESCR_ID, TYPE, ST, ADMIN_ORG_ID, REUSABLE) VALUES ('CLUSET-4', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, {ts '2003-01-01 00:00:00.0'}, {ts '2004-01-01 00:00:00.0'}, 'First year arts CluSet', 'RICHTEXT-801', 'kuali.cluSet.type.creditCourse', 'active', '50', 1)
+INSERT INTO KSLU_CLU_SET (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, NAME, RT_DESCR_ID, TYPE, ST, ADMIN_ORG_ID, REUSABLE) VALUES ('CLUSET-5', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, {ts '2003-01-01 00:00:00.0'}, {ts '2004-01-01 00:00:00.0'}, 'Antho BSC Program CluSet', 'RICHTEXT-901', 'kuali.cluSet.type.Program', 'active', '50', 1)
 
 // Clu <-> CluSet join
 INSERT INTO KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_ID) VALUES ('CLUSET-2', 'CLU-1')
@@ -434,6 +436,8 @@ INSERT INTO KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_ID) VALUES ('CLUSET-2', 'CLU-3'
 INSERT INTO KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_ID) VALUES ('CLUSET-3', 'CLU-2')
 INSERT INTO KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_ID) VALUES ('CLUSET-4', 'CLU-2')
 INSERT INTO KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_ID) VALUES ('CLUSET-4', 'CLU-3')
+INSERT INTO KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_ID) VALUES ('CLUSET-5', 'D4EA77DD-B492-4554-B104-863E42C5F8B7')
+INSERT INTO KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_ID) VALUES ('CLUSET-5', '00F5F8C5-FFF1-4C8B-92FC-789B891E0849')
 
 // CluSet <-> CluSet join
 INSERT INTO KSLU_CLU_SET_JN_CLU_SET (CLU_SET_PARENT_ID, CLU_SET_CHILD_ID) VALUES ('CLUSET-2', 'CLUSET-3')
