@@ -17,7 +17,10 @@ package org.kuali.student.common.ui.server.gwt;
 
 import java.util.List;
 
+import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
@@ -29,8 +32,17 @@ import org.kuali.student.core.rice.authorization.PermissionType;
 public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentService> implements CommentRpcService {
 
 	private static final long serialVersionUID = 1L;
+	private IdentityService identityService;
+	
+	public IdentityService getIdentityService() {
+        return identityService;
+    }
 
-	@Override
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
+
+    @Override
 	public CommentInfo addComment(String referenceId, String referenceTypeKey,
 			CommentInfo commentInfo) throws Exception {
 		return service.addComment(referenceId, referenceTypeKey, commentInfo);
@@ -75,6 +87,39 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(getCurrentUser(), PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, roleQuals));
 		}
 		return Boolean.TRUE;
+    }
+	
+	private String nvl(String inString) {
+	    return (inString == null)? "" : inString;
+	}
+
+    @Override
+    public String getUserRealName(String userId) {
+        KimEntityInfo kimEntityInfo = identityService.getEntityInfoByPrincipalId(userId);
+        KimEntityNameInfo kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
+        StringBuilder name = new StringBuilder(); 
+        if (kimEntityNameInfo != null) {
+            if (!nvl(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(nvl(kimEntityNameInfo.getFirstName()));
+            }
+            
+            if (!nvl(kimEntityNameInfo.getMiddleName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(nvl(kimEntityNameInfo.getMiddleName()));
+            }
+            if (!nvl(kimEntityNameInfo.getLastName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(nvl(kimEntityNameInfo.getLastName()));
+            }
+        }
+        return name.toString();
     }
 
 }

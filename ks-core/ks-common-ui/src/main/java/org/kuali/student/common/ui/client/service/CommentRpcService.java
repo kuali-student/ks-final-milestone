@@ -82,4 +82,10 @@ public interface CommentRpcService extends BaseRpcService {
      * @param referenceTypeKey reference type
      */
     public Boolean isAuthorizedAddComment(String referenceId, String referenceTypeKey);
+    
+    /**
+     * user IdentityService to get user name
+     * @param userId
+     */
+    public String getUserRealName(String userId);
 }

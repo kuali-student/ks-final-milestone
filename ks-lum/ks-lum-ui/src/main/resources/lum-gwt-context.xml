@@ -440,6 +440,7 @@
     <bean id="CommentRpcGwtServlet"
           class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
         <property name="service" ref="commentClient"/>
+        <property name="identityService" ref="identityServiceClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
     </bean>
 
