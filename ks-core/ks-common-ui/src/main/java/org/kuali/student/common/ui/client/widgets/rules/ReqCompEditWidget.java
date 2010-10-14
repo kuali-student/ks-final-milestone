@@ -98,7 +98,7 @@ public class ReqCompEditWidget extends FlowPanel {
                     if (result == ButtonEnumerations.AddCancelEnum.ADD) {
 
                         //true if we have no fields for this req. component type
-                        if ((ruleFieldsData.getRoot().size() == 0) && (customWidgets.size() == 0)) {
+                        if ((selectedReqCompFieldTypes.size() == 0) && (customWidgets.size() == 0)) {
                             finalizeRuleUpdate();
                             return;
                         }
@@ -143,6 +143,7 @@ public class ReqCompEditWidget extends FlowPanel {
     private void validateAndRetrieveFields() {
         
         final List<ReqCompFieldInfo> editedFields = new ArrayList<ReqCompFieldInfo>();
+        reqCompController.updateModel();
 
         //1. validate and retrieve non-custom fields
         if (ruleFieldsData.getRoot().size() > 0) {
@@ -172,7 +173,6 @@ public class ReqCompEditWidget extends FlowPanel {
                         editedFields.add(fieldInfo);
                     }
 
-
                     //2. retrieve non-custom fields 
                     retrieveValuesFromCustomWidgets(editedFields);
                 }
@@ -184,6 +184,12 @@ public class ReqCompEditWidget extends FlowPanel {
     }
 
     private void retrieveValuesFromCustomWidgets(final List<ReqCompFieldInfo> editedFields) {
+
+        if (customWidgets.size() == 0) {
+            editedReqComp.setReqCompFields(editedFields);            
+            finalizeRuleUpdate();
+            return;
+        }
 
         final Iterator iter = customWidgets.entrySet().iterator();
         while (iter.hasNext()) {
