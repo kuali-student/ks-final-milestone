@@ -41,6 +41,7 @@ public class ProgramEditController extends MajorController {
     public ProgramEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
         configurer = GWT.create(ProgramEditConfigurer.class);
+        setDefaultView(ProgramSections.SUMMARY);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
     }
@@ -105,7 +106,7 @@ public class ProgramEditController extends MajorController {
                 doSave();
             }
         });
-       /* eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
+        /* eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
             @Override
             public void onEvent(StoreRequirementIDsEvent event) {
                 List<String> ids = event.getProgramRequirementIds();
