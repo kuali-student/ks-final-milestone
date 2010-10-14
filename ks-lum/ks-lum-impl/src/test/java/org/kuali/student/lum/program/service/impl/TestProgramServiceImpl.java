@@ -330,7 +330,9 @@ public class TestProgramServiceImpl {
             assertNotNull(major.getOrgCoreProgram());
             assertEquals("kuali.lu.type.CoreProgram", major.getOrgCoreProgram().getType());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", major.getOrgCoreProgram().getId());
-            //TODO progr requirements
+            assertNotNull(major.getProgramRequirements());
+            assertTrue(major.getProgramRequirements().size() == 1);            
+            assertEquals("REQ-200", major.getProgramRequirements().get(0));
 
             assertNotNull(major.getAccreditingAgencies());
             assertTrue(major.getAccreditingAgencies().size() == 1);
