@@ -1,5 +1,7 @@
 package org.kuali.student.lum.program.client.variation;
 
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -26,7 +28,7 @@ public class VariationController extends ProgramController {
     public VariationController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super("", programModel, viewContext, eventBus);
         this.name = name;
-        setName(name);
+        setName(getProgramName());
     }
 
     @Override
@@ -47,5 +49,11 @@ public class VariationController extends ProgramController {
             }
         });
         return anchor;
+    }
+
+    @Override
+    public void collectBreadcrumbNames(List<String> names) {
+    	names.add(name + "@" + HistoryManager.appendContext("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", getViewContext()));
+    	super.collectBreadcrumbNames(names);
     }
 }

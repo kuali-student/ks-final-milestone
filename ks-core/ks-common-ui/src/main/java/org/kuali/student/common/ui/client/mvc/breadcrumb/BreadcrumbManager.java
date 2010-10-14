@@ -3,11 +3,13 @@ package org.kuali.student.common.ui.client.mvc.breadcrumb;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -59,6 +61,34 @@ public class BreadcrumbManager extends Composite{
 				}
 			}
 		}
+		//Special link, a controller is adding a breadcrumb outside the scope of the current controller
+		//in format name@path
+		else if(names.size() > arr.length){
+			String path = "";
+			int j = 1;
+			//account for applicationController - skip first item from both
+			for(int i = 1; i < names.size(); i++){
+				String name = names.get(i);
+				if(name.contains("@")){
+					String[] split = name.split("@");
+					name = split[0];
+					if(name != null && !name.isEmpty()){
+						//In the special case the path is the second part of the split
+						breadcrumbs.add(new BreadcrumbData(name, split[1]));
+					}
+				}
+				else{
+					if(j == arr.length){
+						break;
+					}
+					path = path + "/" + arr[j];
+					j++;
+					if(name != null && !name.isEmpty()){
+						breadcrumbs.add(new BreadcrumbData(name, path));
+					}
+				}
+			}
+		}
 		
 		for(int i = 0; i < breadcrumbs.size(); i++){
 			if(i < breadcrumbs.size() - 1){
@@ -66,6 +96,7 @@ public class BreadcrumbManager extends Composite{
 			}
 			else{
 				createLabel(breadcrumbs.get(i).name);
+				WindowTitleUtils.setSubtitle(breadcrumbs.get(i).name);
 			}
 		}
 	}
@@ -94,4 +125,5 @@ public class BreadcrumbManager extends Composite{
 	public static ComplexPanel getBreadcrumbPanel(){
 		return panel;
 	}
+
 }
