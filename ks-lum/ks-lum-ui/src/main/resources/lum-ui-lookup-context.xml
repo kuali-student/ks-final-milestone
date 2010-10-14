@@ -96,8 +96,17 @@
 		</property>
 	</bean>
 	
-	<bean id="course.unitsContentOwner" parent="department-lookup-binding-parent">
+	<bean id="course.unitsContentOwner" parent="orgcurriculum-lookup-binding-parent">
 		<property name="path" value="courseInfo.unitsContentOwner" />
+	</bean>
+
+    <bean id="orgcurriculum-lookup-binding-parent" parent="department-lookup-binding-parent"
+        abstract="true">
+ 	 	<property name="additionalLookups">
+ 	 		<list>
+ 	 			<ref bean="kuali.lu.lookup.admin.orgcurriculum.advanced" />
+ 	 		</list>
+ 	 	</property>
 	</bean>
 
 	<bean id="course.unitsDeployment" parent="department-lookup-binding-parent">
