@@ -3,11 +3,9 @@ package org.kuali.student.lum.program.client.major.view;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
-import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -25,7 +23,7 @@ public class ViewAllSectionConfiguration extends AbstractControllerConfiguration
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(MajorInformationViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(SpecializationsViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));

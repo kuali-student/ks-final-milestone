@@ -15,7 +15,7 @@ import org.kuali.student.lum.program.client.major.ActionType;
 import org.kuali.student.lum.program.client.major.MajorController;
 
 
-public class ProgramViewController extends MajorController {
+public class MajorViewController extends MajorController {
 
     private DropdownList actionBox = new DropdownList(ActionType.getValues());
 
@@ -24,9 +24,9 @@ public class ProgramViewController extends MajorController {
      *
      * @param programModel
      */
-    public ProgramViewController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+    public MajorViewController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
-        configurer = GWT.create(ProgramViewConfigurer.class);
+        configurer = GWT.create(MajorViewConfigurer.class);
         initHandlers();
         setDefaultView(ProgramSections.VIEW_ALL);
     }

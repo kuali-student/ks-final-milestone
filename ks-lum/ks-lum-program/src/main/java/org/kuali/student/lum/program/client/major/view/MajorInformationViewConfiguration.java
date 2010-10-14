@@ -18,9 +18,9 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class ProgramInformationViewConfiguration extends AbstractSectionConfiguration {
+public class MajorInformationViewConfiguration extends AbstractSectionConfiguration {
 
-    public ProgramInformationViewConfiguration() {
+    public MajorInformationViewConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
         rootSection.addStyleName("programInformationView");
     }

@@ -11,7 +11,7 @@ public class VariationViewConfigurer extends AbstractProgramConfigurer {
 
     public VariationViewConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationViewConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(MajorInformationViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsViewConfiguration.class));

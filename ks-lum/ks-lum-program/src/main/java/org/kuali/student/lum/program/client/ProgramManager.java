@@ -4,8 +4,8 @@ import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.events.MajorViewEvent;
-import org.kuali.student.lum.program.client.major.edit.ProgramEditController;
-import org.kuali.student.lum.program.client.major.view.ProgramViewController;
+import org.kuali.student.lum.program.client.major.edit.MajorEditController;
+import org.kuali.student.lum.program.client.major.view.MajorViewController;
 import org.kuali.student.lum.program.client.variation.edit.VariationEditController;
 import org.kuali.student.lum.program.client.variation.view.VariationViewController;
 
@@ -14,9 +14,9 @@ import org.kuali.student.lum.program.client.variation.view.VariationViewControll
  */
 public class ProgramManager {
 
-    private ProgramViewController programViewController;
+    private MajorViewController majorViewController;
 
-    private ProgramEditController programEditController;
+    private MajorEditController majorEditController;
 
     private VariationViewController variationViewController;
 
@@ -32,17 +32,17 @@ public class ProgramManager {
         programModel = new DataModel();
     }
 
-    public ProgramViewController getProgramViewController() {
+    public MajorViewController getProgramViewController() {
         programModel.resetRoot();
-        if (programViewController == null) {
-            programViewController = new ProgramViewController("Programs", programModel, viewContext, eventBus);
+        if (majorViewController == null) {
+            majorViewController = new MajorViewController("Programs", programModel, viewContext, eventBus);
         }
         eventBus.fireEvent(new MajorViewEvent());
-        return programViewController;
+        return majorViewController;
     }
 
     public VariationViewController getVariationViewController() {
-        String name = programViewController.getProgramName();
+        String name = majorViewController.getProgramName();
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(VariationRegistry.getData());
@@ -51,7 +51,7 @@ public class ProgramManager {
     }
 
     public VariationEditController getVariationEditController() {
-        String name = programEditController.getProgramName();
+        String name = majorEditController.getProgramName();
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(VariationRegistry.getData());
@@ -59,10 +59,10 @@ public class ProgramManager {
         return variationEditController;
     }
 
-    public ProgramEditController getProgramEditController() {
+    public MajorEditController getProgramEditController() {
         programModel.resetRoot();
-        programEditController = new ProgramEditController("Programs", programModel, viewContext, eventBus);
-        return programEditController;
+        majorEditController = new MajorEditController("Programs", programModel, viewContext, eventBus);
+        return majorEditController;
     }
 
     public static HandlerManager getEventBus() {

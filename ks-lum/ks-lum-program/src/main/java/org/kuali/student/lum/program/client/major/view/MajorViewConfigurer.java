@@ -7,15 +7,15 @@ import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import com.google.gwt.core.client.GWT;
 
 /**
- * This class represents configuration for  {@link org.kuali.student.lum.program.client.major.view.ProgramViewController}.
+ * This class represents configuration for  {@link MajorViewController}.
  *
  * @author Igor
  */
-public class ProgramViewConfigurer extends AbstractProgramConfigurer {
+public class MajorViewConfigurer extends AbstractProgramConfigurer {
 
-    public ProgramViewConfigurer() {
+    public MajorViewConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationViewConfiguration.class));
+        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(MajorInformationViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SpecializationsViewConfiguration.class));
         programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));

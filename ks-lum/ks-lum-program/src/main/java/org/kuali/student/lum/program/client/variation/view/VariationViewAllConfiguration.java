@@ -12,7 +12,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.major.view.CatalogInformationViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.LearningObjectivesViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.ManagingBodiesViewConfiguration;
-import org.kuali.student.lum.program.client.major.view.ProgramInformationViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.MajorInformationViewConfiguration;
 
 /**
  * @author Igor
@@ -26,7 +26,7 @@ public class VariationViewAllConfiguration extends AbstractSectionConfiguration 
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(MajorInformationViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
         //configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsEditConfiguration.class));

@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * @author Igor
  */
-public class ProgramEditController extends MajorController {
+public class MajorEditController extends MajorController {
 
     private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
@@ -38,9 +38,9 @@ public class ProgramEditController extends MajorController {
      *
      * @param programModel
      */
-    public ProgramEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+    public MajorEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
-        configurer = GWT.create(ProgramEditConfigurer.class);
+        configurer = GWT.create(MajorEditConfigurer.class);
         setDefaultView(ProgramSections.SUMMARY);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
@@ -127,7 +127,7 @@ public class ProgramEditController extends MajorController {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-                ProgramEditController.this.updateModelFromCurrentView();
+                MajorEditController.this.updateModelFromCurrentView();
                 programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
                     @Override
                     public void onSuccess(DataSaveResult result) {

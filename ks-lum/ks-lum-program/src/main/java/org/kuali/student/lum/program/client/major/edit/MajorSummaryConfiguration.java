@@ -15,9 +15,9 @@ import org.kuali.student.lum.program.client.widgets.SummaryActionPanel;
 /**
  * @author Igor
  */
-public class ProgramSummaryConfiguration extends AbstractControllerConfiguration {
+public class MajorSummaryConfiguration extends AbstractControllerConfiguration {
 
-    public ProgramSummaryConfiguration() {
+    public MajorSummaryConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().program_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, true);
     }
 
@@ -25,7 +25,7 @@ public class ProgramSummaryConfiguration extends AbstractControllerConfiguration
     protected void buildLayout() {
         rootSection.addWidget(new SummaryActionPanel());
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramInformationViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(MajorInformationViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(SpecializationsViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
