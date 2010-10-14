@@ -175,30 +175,29 @@ public class ProgramAssemblerUtils {
 
     //TODO assembleRequirements .  Or maybe this should be in CluAssemblerUtils??
     public Object assembleRequirements(CluInfo clu, Object o) throws AssemblyException {
-
-//        Method method;
-//        Class[] parms;
-//        Object[] value;
-//
-//       try    {
-
-//            if (clu.getDescr() != null) {
-//                parms = new Class[]{RichTextInfo.class};
-//                method = o.getClass().getMethod("setDescr", parms);
-//                value = new Object[]{clu.getDescr()};
-//                method.invoke(o, value);
-//            }
-//    }
-//    catch (IllegalAccessException   e){
-//        throw new AssemblyException("Error assembling program basics", e);
-//    }
-//    catch (InvocationTargetException e){
-//        throw new AssemblyException("Error assembling program basics", e);
-//    }
-//    catch (NoSuchMethodException e)
-//    {
-//        throw new AssemblyException("Error assembling program basics", e);
-//    }
+   	
+		try {
+			List<String> requirements = luService.getRelatedCluIdsByCluId(clu.getId(), ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT);
+			if (requirements != null && requirements.size() > 0) {
+			    Class[] parms = new Class[]{List.class};
+			    Method method = o.getClass().getMethod("setProgramRequirements", parms);
+			    method.invoke(o, requirements);
+			}
+	    }
+	    catch (IllegalAccessException   e){
+	        throw new AssemblyException("Error assembling program requirements", e);
+	    }
+	    catch (InvocationTargetException e){
+	        throw new AssemblyException("Error assembling program requirements", e);
+	    }
+	    catch (NoSuchMethodException e)
+	    {
+	        throw new AssemblyException("Error assembling program requirements", e);
+	    }
+	    catch (Exception e)
+	    {
+	        throw new AssemblyException("Error assembling program requirements", e);
+	    }
 
         return o;
 
