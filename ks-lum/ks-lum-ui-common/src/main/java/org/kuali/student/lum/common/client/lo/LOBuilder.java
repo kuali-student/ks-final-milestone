@@ -76,6 +76,8 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         messageGroup = luGroup;
 
         //searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));  picker needs to handle labels like this
+        /* TODO - KSLUM-527: temporally comment out link to LO Search for M9. Need to be fixed later. */
+        /*
         if(metadata.getInitialLookup() != null){
         searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
         searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
@@ -86,6 +88,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         });
         searchMainPanel.add(searchWindow);
         }
+        */
 
         //adding search icon - should this be part of search link? coordinate with UX
         //searchImage.addClickHandler(searchClickHandler);
