@@ -1,3 +1,4 @@
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
@@ -1853,4 +1854,33 @@
 
 		</property>
 	</bean>
+
+    <bean id="kuali.common.lookup.publication.types" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.publication.types"/>
+		<property name="searchTypeId" value="lu.search.publication.types"/>
+		<property name="name" value="Outcome"/>
+		<property name="desc" value="Search for program publication types"/>
+		<property name="resultReturnKey" value="lu.resultColumn.publicationType.id"/>
+		<property name="searchParamIdKey" value="lu.queryParam.publicationType.id"/>
+		<property name="params">
+            <list>
+                <bean parent="param">                                   
+                    <property name="key" value="lu.queryParam.publicationType.id"/>
+                    <property name="name" value="Publication Type Id"/>
+                    <property name="desc" value="Publication Type Id"/>
+                    <property name="dataType" value="STRING"/>
+                    <property name="writeAccess" value="ALWAYS"/>
+                </bean>
+                <bean parent="param">
+                    <property name="key" value="lu.queryParam.publicationType.type"/>
+                    <property name="name" value="Publication Type"/>
+                    <property name="desc" value="Publication Type"/>
+                    <property name="dataType" value="STRING"/>
+                    <property name="writeAccess" value="NEVER"/>
+                </bean>
+            </list>
+		</property>
+	</bean>
+
+
 </beans>

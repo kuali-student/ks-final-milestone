@@ -735,8 +735,66 @@
 			<ref bean="lu.resultColumn.luOptionalVersionSeqNum"/>
      	</search:resultColumns>
 	</search:searchResultTypeInfo>
-	
-	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+
+	<search:searchType id="lu.search.publication.types" parent="lu.search.publication.types-parent"/>
+	<search:searchType id="lu.search.publication.types-parent"  abstract="true">
+		<search:name>Basic Search forPublication Types</search:name>
+		<search:desc>Return list of Publication Types</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.publicationType"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.publicationType"/>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchResultTypeInfo id="lu.result.publicationType" parent="lu.result.publicationType-parent"/>
+	<search:searchResultTypeInfo id="lu.result.publicationType-parent"  abstract="true">
+		<search:name>publication Type View</search:name>
+		<search:desc>View of publication Types</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.publicationType.id" />
+			<ref bean="lu.resultColumn.publicationType.name"/>
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="lu.resultColumn.publicationType.id" parent="lu.resultColumn.publicationType.id-parent"/>
+	<search:resultColumn id="lu.resultColumn.publicationType.id-parent"  abstract="true">
+        <search:name>Publication Type Key</search:name>
+        <search:desc>Publication Type Key</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.publicationType.name" parent="lu.resultColumn.publicationType.name-parent"/>
+	<search:resultColumn id="lu.resultColumn.publicationType.name-parent"  abstract="true">
+        <search:name>Publication Type Name</search:name>
+        <search:desc>Publication Type Name</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.publicationType" parent="lu.criteria.publicationType-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.publicationType-parent"  abstract="true">
+		<search:name>Publication Type Criteria</search:name>
+		<search:desc>Publication Type criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.publicationType.id" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<search:queryParam id="lu.queryParam.publicationType.id" parent="lu.queryParam.publicationType.id-parent"/>
+	<search:queryParam id="lu.queryParam.publicationType.id-parent" optional="true" abstract="true">
+		<ref bean="lu.queryParam.publicationType.id.fd"/>
+	</search:queryParam>
+
+	<dict:fieldDescriptor id="lu.queryParam.publicationType.id.fd" parent="lu.queryParam.publicationType.id.fd-abstract"/>
+	<dict:fieldDescriptor id="lu.queryParam.publicationType.id.fd-abstract" abstract="true">
+		<dict:name>Publication Type Key</dict:name>
+		<dict:desc>Publication Type Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+    <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="lu.search.clu.versions">
@@ -863,6 +921,12 @@
                 <entry key="cluset.queryParam.optionalReferenceable">
                     <value>cluset.isReferenceable = :cluset_queryParam_optionalReferenceable</value>
                 </entry>
+                <entry key="lu.search.publication.types">
+                    <value>SELECT pub.id, pub.name, pub.descr, pub.effectiveDate, pub.expirationDate FROM CluPublicationType pub</value>
+		        </entry>                                                
+				<entry key="lu.queryParam.publicationType.id">
+					<value>pub.id = :lu_queryParam_publicationType_id</value>
+				</entry>
             </map>
 		</property>
 	</bean>

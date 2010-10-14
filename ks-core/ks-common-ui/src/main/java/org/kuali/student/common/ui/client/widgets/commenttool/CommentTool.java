@@ -43,6 +43,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
 //import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -138,9 +139,23 @@ public class CommentTool implements HasReferenceId {
         // comments section
         HTML loggedInAsLabel = new HTML("<b>Logged in as:<b/>");
         loggedInLabelsPanel.add(loggedInAsLabel);
-        String userId = Application.getApplicationContext().getUserId();
+        final String userId = Application.getApplicationContext().getUserId();
+        commentServiceAsync.getUserRealName(userId, new AsyncCallback<String>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                loggedInUserNameHTML.setHTML("<b>" + userId + "</b>");
+            }
+            @Override
+            public void onSuccess(String result) {
+                if (result != null && !result.isEmpty()) {
+                    loggedInUserNameHTML.setHTML("<b>" + result + "</b>");
+                } else {
+                    loggedInUserNameHTML.setHTML("<b>" + userId + "</b>");
+                }
+            }
+        });
+        
         loggedInUserId = userId;
-        loggedInUserNameHTML.setHTML("<b>" + userId + "</b>");
         loggedInLabelsPanel.add(loggedInUserNameHTML);
         commentTextArea.setSize("500", "100");
         commentEditPanel.add(commentTextArea);
@@ -309,10 +324,25 @@ public class CommentTool implements HasReferenceId {
                     rowIndex++;
                 }
                 VerticalFlowPanel userNameAndTime = new VerticalFlowPanel();
+                final HTML userNameLabel = new HTML();
                 // TODO use user id for now change to user name
-                String userId = commentInfo.getMetaInfo().getUpdateId();
+                final String userId = commentInfo.getMetaInfo().getUpdateId();
+                commentServiceAsync.getUserRealName(userId, new AsyncCallback<String>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        userNameLabel.setHTML("<b>" + userId + "</b>");
+                    }
+                    @Override
+                    public void onSuccess(String result) {
+                        if (result != null && !result.isEmpty()) {
+                            userNameLabel.setHTML("<b>" + result + "</b>");
+                        } else {
+                            userNameLabel.setHTML("<b>" + userId + "</b>");
+                        }
+                    }
+                });
                 Date createTime = commentInfo.getMetaInfo().getCreateTime();
-                userNameAndTime.add(new HTML("<b>" + userId + "</b>"));
+                userNameAndTime.add(userNameLabel);
                 userNameAndTime.add(new KSLabel(df.format(createTime)));
                 userNameAndTime.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
                 commentsTableLayout.setWidget(rowIndex, columnIndex, userNameAndTime);

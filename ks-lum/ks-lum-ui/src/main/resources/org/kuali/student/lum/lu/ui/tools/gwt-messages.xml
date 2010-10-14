@@ -26,8 +26,8 @@
         <property name="groupName"      value="course" />
 	</bean>
 
-   	<bean parent="enCourse" p:id="cluSetInformation"		p:value="CLU Set Information"/>
-   	<bean parent="enCourse" p:id="contentDirections" >
+   	<bean parent="enCourse" p:messageId="cluSetInformation"		p:value="CLU Set Information"/>
+   	<bean parent="enCourse" p:messageId="contentDirections" >
    		<property name="value">
    			<value>
    			    Use the dropdown to add courses, dynamic course ranges, or CLU sets below.
@@ -35,7 +35,7 @@
    			</value>   			
    		</property>   		
    	</bean>
-   	<bean parent="enCourse" p:id="cluSetClus"		p:value="Courses"/>
+   	<bean parent="enCourse" p:messageId="cluSetClus"		p:value="Courses"/>
    	
 
 </beans>

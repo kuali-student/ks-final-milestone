@@ -8,6 +8,7 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
+import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.MajorViewEvent;
 import org.kuali.student.lum.program.client.events.MajorViewEventHandler;
 import org.kuali.student.lum.program.client.major.ActionType;
@@ -27,6 +28,7 @@ public class ProgramViewController extends MajorController {
         super(name, programModel, viewContext, eventBus);
         configurer = GWT.create(ProgramViewConfigurer.class);
         initHandlers();
+        setDefaultView(ProgramSections.VIEW_ALL);
     }
 
     private void initHandlers() {

@@ -69,6 +69,7 @@ public class ProgramConstants {
 
     //Program Specializations
     public static final String VARIATIONS = "variations";
+    public static final String PROGRAM_REQUIREMENTS = "programRequirements";
 
     //Dynamic attributes
     public static final String IS_VARIATION_REQUIRED = "isVariationRequired";

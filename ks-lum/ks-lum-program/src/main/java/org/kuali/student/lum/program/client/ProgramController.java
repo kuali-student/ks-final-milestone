@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * @author Igor
  */
-public class ProgramController extends MenuSectionController {
+public abstract class ProgramController extends MenuSectionController {
 
     protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
@@ -86,13 +86,13 @@ public class ProgramController extends MenuSectionController {
                                     case YES:
                                         dialog.hide();
                                         eventBus.fireEvent(new UpdateEvent());
-                                        ((Section) getCurrentView()).resetFieldInteractionFlags();
-                                         okToChange.exec(true);
+                                        resetFieldInteractionFlag();
+                                        okToChange.exec(true);
                                         break;
                                     case NO:
                                         dialog.hide();
-                                        programModel.resetRoot();
-                                        ((Section) getCurrentView()).resetFieldInteractionFlags();
+                                        resetModel();
+                                        resetFieldInteractionFlag();
                                         okToChange.exec(true);
                                         break;
                                     case CANCEL:
@@ -111,6 +111,14 @@ public class ProgramController extends MenuSectionController {
                 }
             }
         });
+    }
+
+    protected void resetModel() {
+        programModel.resetRoot();
+    }
+
+    protected void resetFieldInteractionFlag() {
+        ((Section) getCurrentView()).resetFieldInteractionFlags();
     }
 
     /**
@@ -153,7 +161,7 @@ public class ProgramController extends MenuSectionController {
      *
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
-    private void loadModel(final ModelRequestCallback<DataModel> callback) {
+    protected void loadModel(final ModelRequestCallback<DataModel> callback) {
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
@@ -285,5 +293,9 @@ public class ProgramController extends MenuSectionController {
             }
         });
         return commentsButton;
+    }
+
+    protected void doSave() {
+
     }
 }

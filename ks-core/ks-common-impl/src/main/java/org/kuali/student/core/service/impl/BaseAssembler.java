@@ -61,24 +61,39 @@ public class BaseAssembler {
 			owner.setAttributes(new ArrayList<A>());
 		}
 		
-		// Delete all the old attributes(if the owner is not null)
+		Map<String, A> currentAttributes = new HashMap<String,A>();
+		
+		// Find all the old attributes(if the owner is not null)
 		for (A attribute : owner.getAttributes()) {
-			dao.delete(attribute);
+			currentAttributes.put(attribute.getName(), attribute);
+			
 		}
+		
+		//Clear out the attributes
 		owner.getAttributes().clear();
-
+	
+		//Update anything that exists, or create a new attribute if it doesn't
 		for (Map.Entry<String, String> attributeEntry : attributeMap.entrySet()) {
-
+			
 			A attribute;
-			try {
-				attribute = attributeClass.newInstance();
+			if(currentAttributes.containsKey(attributeEntry.getKey())){
+				attribute = currentAttributes.remove(attributeEntry.getKey());
+			}else{
+				try{
+					attribute = attributeClass.newInstance();
+				}catch(Exception e){
+					throw new RuntimeException("Error copying attributes.",e);
+				}
 				attribute.setName(attributeEntry.getKey());
-				attribute.setValue(attributeEntry.getValue());
 				attribute.setOwner(owner);
-				attributes.add(attribute);
-			} catch (Exception e) {
-				logger.error("Exception occured: ", e);
 			}
+			attribute.setValue(attributeEntry.getValue());
+			attributes.add(attribute);
+		}
+		
+		//Delete leftovers
+		for(A attribute:currentAttributes.values()){
+			dao.delete(attribute);
 		}
 
 		return attributes;

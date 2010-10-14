@@ -42,4 +42,8 @@
         NAME="CLU Satisfactory Progress Requirements"
         TYPE_DESC="CLU Satisfactory Progress Requirements"
         TYPE_KEY="clu.satisfactoryprogress" VER_NBR="0"/>
+    <KSST_REF_STMT_REL_TYPE EFF_DT="20000101000000"
+        EXPIR_DT="21001231000000" NAME="CLU reference type"
+        TYPE_DESC="CLU reference type"
+        TYPE_KEY="kuali.referenceType.CLU" VER_NBR="0"/>
 </dataset>

@@ -14,28 +14,25 @@
  */
 package org.kuali.student.lum.program.client.requirements;
 
-import java.util.*;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.events.AddRequirementEvent;
-import org.kuali.student.lum.program.client.events.DeleteRequirementEvent;
+import org.kuali.student.lum.program.client.ProgramManager;
+import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.*;
 
 public class ProgramRequirementsDataModel {
 
@@ -45,17 +42,19 @@ public class ProgramRequirementsDataModel {
     private boolean isInitialized = false;
 
     //keeping track of rules and rule state
-    public enum requirementState {STORED, ADDED, EDITED, DELETED;}
+    public enum requirementState {
+        STORED, ADDED, EDITED, DELETED;
+    }
+
     private Map<Integer, ProgramRequirementInfo> progReqInfos = new LinkedHashMap<Integer, ProgramRequirementInfo>();
     private Map<Integer, requirementState> progReqState = new HashMap<Integer, requirementState>();
     private List<StatementTypeInfo> stmtTypes = new ArrayList<StatementTypeInfo>();
 
     private static Integer progReqIDs = 111111;
-    private static HandlerManager eventBus = new HandlerManager(null);    
 
     public ProgramRequirementsDataModel(Controller parentController) {
         this.parentController = parentController;
-    }  
+    }
 
     //retrieve rules based on IDs stored in this program
     public void retrieveProgramRequirements(final Callback<Boolean> onReadyCallback) {
@@ -70,11 +69,11 @@ public class ProgramRequirementsDataModel {
 
             @Override
             public void onModelReady(Model model) {
-                Data program = ((DataModel)model).getRoot();
-                Iterator iter = ((Data)program.get("programRequirements")).iterator();
-                ArrayList<String> programRequirementIds = new ArrayList<String>();                
+                Data program = ((DataModel) model).getRoot();
+                Iterator iter = ((Data) program.get("programRequirements")).iterator();
+                ArrayList<String> programRequirementIds = new ArrayList<String>();
                 while (iter.hasNext()) {
-                    programRequirementIds.add(((String)iter.next()));
+                    programRequirementIds.add(((String) iter.next()));
                 }
 
                 retrieveStatementTypes(programRequirementIds, onReadyCallback);
@@ -88,8 +87,8 @@ public class ProgramRequirementsDataModel {
         statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", new KSAsyncCallback<List<StatementTypeInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
-	            Window.alert(caught.getMessage());
-	            GWT.log("getStatementTypes failed", caught);
+                Window.alert(caught.getMessage());
+                GWT.log("getStatementTypes failed", caught);
                 onReadyCallback.exec(false);
             }
 
@@ -108,7 +107,7 @@ public class ProgramRequirementsDataModel {
 
     private void retrieveRules(List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
 
-      //  programRequirementIds.add(new String("a4483f97-6ae2-4fd0-a7a4-849a70cc21a7"));        
+        //  programRequirementIds.add(new String("a4483f97-6ae2-4fd0-a7a4-849a70cc21a7"));
 
         //true if no program requirements exist yet
         if ((programRequirementIds == null) || programRequirementIds.isEmpty()) {
@@ -134,7 +133,7 @@ public class ProgramRequirementsDataModel {
                         Window.alert("Did not find corresponding statement type for program requirement of type: " + programReqInfo.getStatement().getType());
                         GWT.log("Did not find corresponding statement type for program requirement of type: " + programReqInfo.getStatement().getType(), null);
                     }
-                    
+
                     progReqInfos.put(progReqIDs, programReqInfo);
                     progReqState.put(progReqIDs++, requirementState.STORED);
                 }
@@ -142,7 +141,7 @@ public class ProgramRequirementsDataModel {
                 isInitialized = true;
                 onReadyCallback.exec(true);
             }
-        });     
+        });
     }
 
     public ProgramRequirementInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalProgReqID, boolean isNewRule) {
@@ -164,7 +163,7 @@ public class ProgramRequirementsDataModel {
         if ((affectedTopTree.getReqComponents() != null) && !affectedTopTree.getReqComponents().isEmpty()) {
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
             stmtTree.setId(ProgramRequirementsSummaryView.generateStatementTreeId());
-            stmtTree.setType( affectedRule.getStatement().getType());
+            stmtTree.setType(affectedRule.getStatement().getType());
             stmtTree.setReqComponents(affectedTopTree.getReqComponents());
             List<StatementTreeViewInfo> stmtList = new ArrayList<StatementTreeViewInfo>();
             stmtList.add(stmtTree);
@@ -199,66 +198,52 @@ public class ProgramRequirementsDataModel {
 
     public boolean isEmptyRule(StatementTreeViewInfo tree) {
         return (tree.getStatements() == null || tree.getStatements().isEmpty() && (tree.getReqComponents() == null || tree.getReqComponents().isEmpty()));
-    }  
+    }
 
-    public void updateProgramEntities(final Object dto, final Callback<ProgramRequirementInfo> callback) {
-        for (final ProgramRequirementInfo rule : progReqInfos.values()) {
-            final Integer internalProgReqID = getInternalProgReqID(rule);
-            final ProgramRequirementsDataModel.requirementState ruleState = progReqState.get(internalProgReqID);
-            switch (ruleState) {
-                case STORED:
-                    //rule was not changed so continue
-                    break;
-                case ADDED:
-                    programRemoteService.createProgramRequirement(rule, new KSAsyncCallback<ProgramRequirementInfo>() {
-                        @Override
-                        public void handleFailure(Throwable caught) {
-                            Window.alert(caught.getMessage());
-                            GWT.log("createProgramRequirement failed", caught);
-                        }
-                        @Override
-                        public void onSuccess(ProgramRequirementInfo updatedRule) {
-                            eventBus.fireEvent(new AddRequirementEvent(updatedRule.getId()));
-                            progReqInfos.put(internalProgReqID, updatedRule);
+    public void updateProgramEntities(final Callback<List<ProgramRequirementInfo>> callback) {
+
+        final List<String> referencedProgReqIds = new ArrayList<String>();
+
+        programRemoteService.storeProgramRequirements(progReqState, progReqInfos, new KSAsyncCallback<Map<Integer, ProgramRequirementInfo>>() {
+            @Override
+            public void handleFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                GWT.log("storeProgramRequirements failed", caught);
+            }
+
+            @Override
+            public void onSuccess(Map<Integer, ProgramRequirementInfo> storedRules) {
+
+                for (Integer internalProgReqID : storedRules.keySet()) {
+                    ProgramRequirementInfo storedRule = storedRules.get(internalProgReqID);
+                    switch (progReqState.get(internalProgReqID)) {
+                        case STORED:
+                            //rule was not changed so continue
+                            referencedProgReqIds.add(storedRule.getId());
+                            break;
+                        case ADDED:
+                            referencedProgReqIds.add(storedRule.getId());
+                            progReqInfos.put(internalProgReqID, storedRule);
                             progReqState.put(internalProgReqID, ProgramRequirementsDataModel.requirementState.STORED);
-                            callback.exec(updatedRule);  //update display widgets
-                        }
-                    });
-                    break;
-                case EDITED:
-                    programRemoteService.updateProgramRequirement(rule, new KSAsyncCallback<ProgramRequirementInfo>() {
-                        @Override
-                        public void handleFailure(Throwable caught) {
-                            Window.alert(caught.getMessage());
-                            GWT.log("updateProgramRequirement failed", caught);
-                        }
-                        @Override
-                        public void onSuccess(ProgramRequirementInfo updatedRule) {
-                            progReqInfos.put(internalProgReqID, updatedRule);
-                            progReqState.put(internalProgReqID, ProgramRequirementsDataModel.requirementState.STORED);                                                       
-                            callback.exec(updatedRule); //update display widgets
-                        }
-                    });
-                    break;
-                case DELETED:
-                    eventBus.fireEvent(new DeleteRequirementEvent(rule.getId()));
-                    programRemoteService.deleteProgramRequirement(rule.getId(), new KSAsyncCallback<StatusInfo>() {
-                        @Override
-                        public void handleFailure(Throwable caught) {
-                            Window.alert(caught.getMessage());
-                            GWT.log("deleteProgramRequirement failed", caught);
-                        }
-                        @Override
-                        public void onSuccess(StatusInfo statusInfo) {
+                            break;
+                        case EDITED:
+                            referencedProgReqIds.add(storedRule.getId());
+                            progReqInfos.put(internalProgReqID, storedRule);
+                            progReqState.put(internalProgReqID, ProgramRequirementsDataModel.requirementState.STORED);
+                            break;
+                        case DELETED:
                             progReqInfos.remove(internalProgReqID);
                             progReqState.remove(internalProgReqID);
-                        }
-                    });
-                    break;
-                default:
-                    break;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                ProgramManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
+                //callback.exec(new ArrayList(storedRules.values()));  //update display widgets
             }
-        }
+        });
     }
 
     public static void stripStatementIds(StatementTreeViewInfo tree) {
@@ -293,7 +278,7 @@ public class ProgramRequirementsDataModel {
 
     public List<ProgramRequirementInfo> getProgReqInfo(String stmtTypeId) {
         List<ProgramRequirementInfo> rules = new ArrayList<ProgramRequirementInfo>();
-        for(ProgramRequirementInfo progReqInfo : progReqInfos.values()) {
+        for (ProgramRequirementInfo progReqInfo : progReqInfos.values()) {
             if (progReqInfo.getStatement().getType().equals(stmtTypeId)) {
                 rules.add(progReqInfo);
             }
@@ -302,14 +287,14 @@ public class ProgramRequirementsDataModel {
     }
 
     public Integer getInternalProgReqID(ProgramRequirementInfo progReqInfo) {
-        for(Integer key : progReqInfos.keySet()) {
+        for (Integer key : progReqInfos.keySet()) {
             if (progReqInfos.get(key) == progReqInfo) {
                 return key;
             }
         }
 
         Window.alert("Problem retrieving key for program requirement: " + progReqInfo.getId());
-        GWT.log("Problem retrieving key for program requirement: " + progReqInfo.getId(), null);        
+        GWT.log("Problem retrieving key for program requirement: " + progReqInfo.getId(), null);
 
         return null;
     }
@@ -322,7 +307,7 @@ public class ProgramRequirementsDataModel {
         }
 
         Window.alert("Did not find StatementTypeInfo based on type: " + stmtTypeId);
-        GWT.log("Did not find StatementTypeInfo based on type: " + stmtTypeId);    
+        GWT.log("Did not find StatementTypeInfo based on type: " + stmtTypeId);
 
         return null;
     }
@@ -338,7 +323,7 @@ public class ProgramRequirementsDataModel {
 
     public void markRuleAsDeleted(Integer internalProgReqID) {
         if ((progReqState.get(internalProgReqID) == ProgramRequirementsDataModel.requirementState.STORED) ||
-            (progReqState.get(internalProgReqID) == ProgramRequirementsDataModel.requirementState.EDITED)) {
+                (progReqState.get(internalProgReqID) == ProgramRequirementsDataModel.requirementState.EDITED)) {
             progReqState.put(internalProgReqID, ProgramRequirementsDataModel.requirementState.DELETED);
         }
     }
@@ -354,19 +339,27 @@ public class ProgramRequirementsDataModel {
         progReqState.put(progReqIDs++, requirementState.ADDED);
     }
 
+    public void updateRule(Integer internalProgReqID, ProgramRequirementInfo programReqInfo) {
+        progReqInfos.put(internalProgReqID, programReqInfo);
+    }
+
     public String getStmtTypeName(String stmtTypeId) {
         String name = getStmtTypeInfo(stmtTypeId).getName();
         return (name == null ? "" : name);
     }
-    
+
     public boolean isRuleExists(String stmtTypeId) {
         boolean showNoRuleText = true;
-        for(ProgramRequirementInfo ruleInfo : progReqInfos.values()) {
+        for (ProgramRequirementInfo ruleInfo : progReqInfos.values()) {
             if ((ruleInfo.getStatement().getType().equals(stmtTypeId)) && (progReqState.get(getInternalProgReqID(ruleInfo)) != ProgramRequirementsDataModel.requirementState.DELETED)) {
                 showNoRuleText = false;
             }
         }
         return showNoRuleText;
+    }
+
+    public ProgramRequirementInfo getProgReqByInternalId(Integer internalProgReqID) {
+        return progReqInfos.get(internalProgReqID);
     }
 
     public boolean isInitialized() {
@@ -379,5 +372,5 @@ public class ProgramRequirementsDataModel {
 
     public List<StatementTypeInfo> getStmtTypes() {
         return stmtTypes;
-    }    
+    }
 }

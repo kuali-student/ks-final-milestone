@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -42,6 +41,7 @@ public class ProgramEditController extends MajorController {
     public ProgramEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
         configurer = GWT.create(ProgramEditConfigurer.class);
+        setDefaultView(ProgramSections.SUMMARY);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
     }
@@ -106,17 +106,28 @@ public class ProgramEditController extends MajorController {
                 doSave();
             }
         });
+        /* eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
+            @Override
+            public void onEvent(StoreRequirementIDsEvent event) {
+                List<String> ids = event.getProgramRequirementIds();
+                Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                for (String id : ids) {
+                    programRequirements.add(id);
+                }
+                doSave();
+            }
+        });*/
     }
 
     private void doCancel() {
         HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", getViewContext());
     }
 
-    private void doSave() {
+    protected void doSave() {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
-                ProgramEditController.this.updateModel();
+                ProgramEditController.this.updateModelFromCurrentView();
                 programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
                     @Override
                     public void onSuccess(DataSaveResult result) {
@@ -132,7 +143,7 @@ public class ProgramEditController extends MajorController {
                             programModel.setRoot(result.getValue());
                             setHeaderTitle();
                             setStatus();
-                            ((Section) getCurrentView()).resetFieldInteractionFlags();
+                            resetFieldInteractionFlag();
                             eventBus.fireEvent(new ModelLoadedEvent(programModel));
                             HistoryManager.logHistoryChange();
                             KSNotifier.show(ProgramProperties.get().common_successfulSave());

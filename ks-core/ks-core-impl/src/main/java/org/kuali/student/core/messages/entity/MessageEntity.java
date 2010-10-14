@@ -15,28 +15,24 @@
 
 package org.kuali.student.core.messages.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSMG_MESSAGE")
-public class MessageEntity {
+public class MessageEntity extends BaseEntity{
 	 
-	 @Id
-	 private String databaseId;
-	 private String id; 
+	 @Column(name="MSG_ID")
+	 private String messageId; 
+	 @Column(name="LOCALE")
 	 private String locale;
+	 @Column(name="GRP_NAME")
 	 private String groupName;
+	 @Column(name="MSG_VALUE")
 	 private String value;
-	 
-    @PrePersist
-    public void prePersist() {
-        this.databaseId = UUIDHelper.genStringUUID();
-    }
 	 
 	 public String getLocale() {
 		 return locale;
@@ -50,26 +46,17 @@ public class MessageEntity {
 	 public void setGroupName(String groupName) {
 		 this.groupName = groupName;
 	 }
-	 public String getId() {
-		 return id;
-	 }
-	 public void setId(String id) {
-		 this.id = id;
-	 }
 	 public String getValue() {
 		 return value;
 	 }
 	 public void setValue(String value) {
 		 this.value = value;
 	 }
-	public String getDatabaseId() {
-		return databaseId;
+	public String getMessageId() {
+		return messageId;
 	}
-	public void setDatabaseId(String databaseId) {
-		this.databaseId = databaseId;
+	public void setMessageId(String messageId) {
+		this.messageId = messageId;
 	}
-	 
-	 
-	 
-	 
+
 }

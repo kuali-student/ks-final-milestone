@@ -26,7 +26,9 @@ import java.util.Map;
 
 import org.kuali.student.core.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.core.search.dto.JoinComparisonInfo;
+import org.kuali.student.core.search.dto.JoinComparisonInfo.ComparisonType;
 import org.kuali.student.core.search.dto.JoinCriteriaInfo;
+import org.kuali.student.core.search.dto.JoinCriteriaInfo.JoinType;
 import org.kuali.student.core.search.dto.JoinResultMappingInfo;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
@@ -36,8 +38,6 @@ import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SortDirection;
 import org.kuali.student.core.search.dto.SubSearchInfo;
 import org.kuali.student.core.search.dto.SubSearchParamMappingInfo;
-import org.kuali.student.core.search.dto.JoinComparisonInfo.ComparisonType;
-import org.kuali.student.core.search.dto.JoinCriteriaInfo.JoinType;
 import org.kuali.student.core.search.service.SearchDispatcher;
 
 /**
@@ -90,21 +90,24 @@ public class CrossSearchManager {
 			subSearchResults.put(subSearch.getKey(), subSearchResult);
 		}
 		
-		//merge the subsearches together using the join rules (this is in o^2 time which is bad)
-		List <Map<String,SearchResultRow>> allPermutations = unionOfAllRows(subSearchResults);
-
-		int toIndex=0;
-		if(searchRequest.getMaxResults()!=null){
-			if(searchRequest.getStartAt()!=null){
-				toIndex = searchRequest.getStartAt()+searchRequest.getMaxResults();
-			} else {
-				toIndex = searchRequest.getMaxResults();
-			}			
-		}
-		for(Map<String,SearchResultRow> permutation:allPermutations){
-			if(meetsCriteria(permutation,crossSearchType,crossSearchType.getJoinCriteria())){
-				SearchResultRow mappedResult = mapResultRow(permutation,crossSearchType);
-				searchResult.getRows().add(mappedResult);
+		//merge the subsearches together using the join rules
+		if(crossSearchType.getJoinCriteria().getComparisons().isEmpty()){
+			//If the root join has no criteria then do a simple union of rows
+			for(Map.Entry<String,SearchResult> subSearchResult:subSearchResults.entrySet()){
+				for(SearchResultRow row:subSearchResult.getValue().getRows()){
+					SearchResultRow mappedResult = mapResultRow(subSearchResult.getKey(),row,crossSearchType);
+					searchResult.getRows().add(mappedResult);
+				}
+			}
+		}else{
+			//merge the subsearches together using the join rules (this is in o^2 time which is bad)
+			List <Map<String,SearchResultRow>> allPermutations = unionOfAllRows(subSearchResults);
+	
+			for(Map<String,SearchResultRow> permutation:allPermutations){
+				if(meetsCriteria(permutation,crossSearchType,crossSearchType.getJoinCriteria())){
+					SearchResultRow mappedResult = mapResultRow(permutation,crossSearchType);
+					searchResult.getRows().add(mappedResult);
+				}
 			}
 		}
 		return metaFilter(searchResult,searchRequest);
@@ -252,6 +255,26 @@ public class CrossSearchManager {
 		
 	}
 
+	private SearchResultRow mapResultRow(
+			String subSearchKey, SearchResultRow row,
+			CrossSearchTypeInfo crossSearchType) {
+		SearchResultRow resultRow = new SearchResultRow();
+		
+		for(JoinResultMappingInfo resultMapping: crossSearchType.getJoinResultMappings()){
+			if(subSearchKey.equals(resultMapping.getSubSearchKey())){
+				for(SearchResultCell cell: row.getCells()){
+					if(resultMapping.getSubSearchResultParam().equals(cell.getKey())){
+						SearchResultCell mappedCell = new SearchResultCell();
+						mappedCell.setKey(resultMapping.getResultParam());
+						mappedCell.setValue(cell.getValue());
+						resultRow.getCells().add(mappedCell);
+						break;//FIXME breaks are bad... but there is no map in the cells
+					}
+				}
+			}
+		}
+		return resultRow;
+	}
 	/**
 	 * Checks each comparison of the join criteria and recursively checks through nested criteria.  
 	 * Short circuits for false 'AND' joins and true 'OR' joins
