@@ -4932,7 +4932,7 @@
         <column name="MSG_ID" size="255" type="VARCHAR"/>
         <column name="LOCALE" size="255" type="VARCHAR"/>
         <column name="GRP_NAME" size="255" type="VARCHAR"/>
-        <column name="MSG_VALUE" size="255" type="VARCHAR"/>
+        <column name="MSG_VALUE" size="2000" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>

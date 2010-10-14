@@ -20,6 +20,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.kuali.student.core.entity.BaseEntity;
+import org.kuali.student.core.entity.KSEntityConstants;
 
 @Entity
 @Table(name = "KSMG_MESSAGE")
@@ -31,7 +32,7 @@ public class MessageEntity extends BaseEntity{
 	 private String locale;
 	 @Column(name="GRP_NAME")
 	 private String groupName;
-	 @Column(name="MSG_VALUE")
+	 @Column(name="MSG_VALUE",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	 private String value;
 	 
 	 public String getLocale() {
