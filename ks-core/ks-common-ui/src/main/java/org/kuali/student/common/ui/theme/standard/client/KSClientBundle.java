@@ -149,6 +149,9 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     @Source("org/kuali/student/common/ui/theme/standard/public/css/RuleObjectView.css")
     @CssResource.NotStrict
     public CssResource ruleObjectViewCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/PrintPage.css")
+    @CssResource.NotStrict
+    public CssResource printPageCss();
 
 	//Reset Css
 	@Source("org/kuali/student/common/ui/theme/standard/public/css/Reset.css")
@@ -323,5 +326,8 @@ public interface KSClientBundle extends ClientBundleWithLookup{
 
     @Source("org/kuali/student/common/ui/theme/standard/public/images/common/disclosure_closed.png")
     public ImageResource disclosureClosedIcon();
+    
+    @Source("org/kuali/student/common/ui/theme/standard/public/images/common/printer.png")
+    public ImageResource print();
 
 }

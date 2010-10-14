@@ -48,6 +48,10 @@ public class TabMenuController extends LayoutController{
         header.getInfoLabel().addStyleName("content-warning");
 
     }
+    
+    public void showPrint(boolean show){
+    	header.showPrint(show);
+    }
 
 	/** 
 	 * This version of updateModel only updates from the currentView (since only one view is shown/accessed at a time).  

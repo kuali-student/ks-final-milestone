@@ -25,8 +25,9 @@
         <property name="locale"         value="en" />
         <property name="groupName"      value="common" />
 	</bean>
-
-   	<bean parent="enCommon" p:messageId="confirm"		p:value="Confirm"/>
+	
+	<bean parent="enCommon" p:messageId="applicationName"		p:value="Kuali Student"/>
+	<bean parent="enCommon" p:messageId="confirm"		p:value="Confirm"/>
    	<bean parent="enCommon" p:messageId="cancel"		p:value="Cancel"/>
    	<bean parent="enCommon" p:messageId="continue"		p:value="Continue"/>
    	<bean parent="enCommon" p:messageId="edit"		    p:value="Edit"/>

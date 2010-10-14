@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
@@ -678,6 +679,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	}
     	this.setContentTitle(title);
     	this.setName(title);
+    	WindowTitleUtils.setContextTitle(title);
 		currentTitle = title;
     }
 

@@ -336,3 +336,15 @@ ul.ks-selected-list {
 .standard-content-padding{
 	padding-left: 20px;
 }
+
+.header-innerDiv{
+  padding-right: 10px;
+  padding-left: 5px;
+}
+
+.header-appTitle{
+  padding-left: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  color: gray;
+}

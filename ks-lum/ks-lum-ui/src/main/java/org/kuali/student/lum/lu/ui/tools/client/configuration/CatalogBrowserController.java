@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuContro
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
@@ -107,6 +108,7 @@ public class CatalogBrowserController extends TabMenuController
 	
 	@Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+		WindowTitleUtils.setContextTitle(name);
 		dataModel.setRoot(new Data ());
 		init (new Callback<Boolean> ()	{
 

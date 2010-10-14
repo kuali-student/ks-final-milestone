@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.mvc.history.Locations;
 public class AppLocations implements Locations {
 
     public enum Locations {
+    	HOME("/HOME"),
         CURRICULUM_MANAGEMENT("/HOME/CURRICULUM_HOME"),
         COURSE_PROPOSAL("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL"),
         VIEW_COURSE("/HOME/CURRICULUM_HOME/VIEW_COURSE"),

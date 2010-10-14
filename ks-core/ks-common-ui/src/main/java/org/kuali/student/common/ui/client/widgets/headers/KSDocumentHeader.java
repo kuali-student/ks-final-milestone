@@ -1,12 +1,17 @@
 package org.kuali.student.common.ui.client.widgets.headers;
 
+import org.kuali.student.common.ui.client.util.PrintUtils;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,14 +32,30 @@ public class KSDocumentHeader extends Composite {
 	@UiField
 	SpanPanel widgetPanel;
 	
+	@UiField
+	Image printImage;
+	
 	private boolean hasSeparator = true;
 	public KSDocumentHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
+		setupPrint();
 	}
 	
 	public KSDocumentHeader(boolean hasContentWidgetSeparator) {
 		this.hasSeparator = hasContentWidgetSeparator;
 		initWidget(uiBinder.createAndBindUi(this));
+		setupPrint();
+	}
+	
+	private void setupPrint(){
+		printImage.setVisible(false);
+		printImage.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				PrintUtils.print(ApplicationPanel.get());
+			}
+		});
 	}
 	
 	public void setTitle(String header){
@@ -54,5 +75,9 @@ public class KSDocumentHeader extends Composite {
     
     public HTML getInfoLabel(){
     	return infoLabel;
+    }
+    
+    public void showPrint(boolean show){
+    	printImage.setVisible(true);
     }
 }

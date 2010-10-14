@@ -71,8 +71,8 @@ public class MenuSectionController extends LayoutController implements ContentNa
         layout.add(collapsablePanel);
         layout.add(rightPanel);
         header.setVisible(false);
+        this.showPrint(true);
         this.initWidget(layout);
-        
     }
 
     public void removeMenuNavigation() {
@@ -104,6 +104,10 @@ public class MenuSectionController extends LayoutController implements ContentNa
         header.getInfoLabel().removeStyleName("content-info");
         header.getInfoLabel().addStyleName("content-warning");
 
+    }
+    
+    public void showPrint(boolean show){
+    	header.showPrint(show);
     }
 
     public void addCommonButton(String parentMenu, KSButton button) {

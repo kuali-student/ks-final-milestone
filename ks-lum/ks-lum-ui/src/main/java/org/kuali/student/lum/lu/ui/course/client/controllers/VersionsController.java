@@ -179,6 +179,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     @Override
     public void beforeShow(Callback<Boolean> onReadyCallback) {
     	versionHistoryButton.setVisible(false);
+    	this.getHeader().showPrint(false);
     	showDefaultView(onReadyCallback);
     }
     
@@ -245,9 +246,11 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 			}
 			this.setViewContext(context);
 			versionHistoryButton.setVisible(true);
+			this.getHeader().showPrint(true);
 		}
 		else{
 			versionHistoryButton.setVisible(false);
+			this.getHeader().showPrint(false);
 		}
 		super.showView(viewType, onReadyCallback);
 	}

@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.course.client.views;
 
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.lum.common.client.lo.CategoryManagement;
 
