@@ -1244,7 +1244,7 @@
 							<property name="name" value="Type" />
 							<property name="desc" value="Type of Clu Set" />
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValueString" value="kuali.cluSet.type.CreditCourse" />
+							<property name="defaultValueString" value="kuali.cluSet.type.creditCourse" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
