@@ -29,6 +29,7 @@
                 <value>id</value>
             </list>
         </property>
+        <property name="businessRulesClass" value="org.kuali.student.core.atp.document.validation.impl.AtpRule"/>
     </bean>
 
     <!-- Maintenance Section Definitions -->
