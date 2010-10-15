@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
 
 public class DefaultTableModel extends AbstractTableModel {
@@ -23,6 +24,7 @@ public class DefaultTableModel extends AbstractTableModel {
 		rowHeader.setId("RowHeader");
 		rowHeader.setName("RowHeader");
 		final CheckBox checkBox = new CheckBox();
+	    DOM.setStyleAttribute(checkBox.getElement(), "padding-right", "0.8em");		
 		checkBox.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
