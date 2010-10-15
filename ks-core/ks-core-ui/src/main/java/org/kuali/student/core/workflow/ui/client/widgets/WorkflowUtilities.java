@@ -106,7 +106,6 @@ public class WorkflowUtilities{
 	private AbbrPanel required; 
 	private KSLightBox submitSuccessDialog;
 	private VerticalPanel dialogPanel;
-//	private SimpleListItems nodeNameList = new SimpleListItems();
     
     private KSLabel workflowStatusLabel = new KSLabel("");
     
