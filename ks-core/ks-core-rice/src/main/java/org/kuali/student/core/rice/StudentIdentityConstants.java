@@ -37,6 +37,9 @@ public class StudentIdentityConstants {
     // this must be equal to Rice constant KimAttributes.ROUTE_STATUS_CODE
     public static final String ROUTE_STATUS_CODE               = "routeStatusCode";
 
+    // this must be equal to Rice constant KimAttributes.ROUTE_NODE_NAME
+    public static final String ROUTE_NODE_NAME                 = "routeNodeName";
+
 	public static final String QUALIFICATION_DATA_ID           = "dataId";
 	
 	//Permission Labels (Should these be moved to the PermissionType class?)

@@ -63,6 +63,45 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class WorkflowUtilities{
+
+    public static enum DecisionRationaleDetail {
+        APPROVE("kuali.comment.type.workflowDecisionRationale.approve", "Approved"),
+        REJECT("kuali.comment.type.workflowDecisionRationale.reject", "Rejected"),
+        RETURN_TO_PREVIOUS("kuali.comment.type.workflowDecisionRationale.return", "Sent for Revisions"),
+        WITHDRAW("kuali.comment.type.workflowDecisionRationale.withdraw", "Withdrawn"),
+        ACKNOWLEDGE("kuali.comment.type.workflowDecisionRationale.acknowledge", "Acknowledged"),
+        FYI("kuali.comment.type.workflowDecisionRationale.fyi", "FYI"),
+        CANCEL_WORKFLOW("kuali.comment.type.workflowDecisionRationale.cancelWorkflow", "Cancelled"),
+        BLANKET_APPROVE("kuali.comment.type.workflowDecisionRationale.blanketApprove", "Blanket Approved")
+        ;
+
+        private String type = "";
+        private String label = "";
+
+        private DecisionRationaleDetail(String type, String label) {
+            this.type = type;
+            this.label = label;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        public static DecisionRationaleDetail getByType(String type) {
+            for (DecisionRationaleDetail detail : DecisionRationaleDetail.values()) {
+                if (detail.getType().equals(type)) {
+                    return detail;
+                }
+            }
+            return null;
+        }
+
+    }
+
 	DataModel dataModel=null;
 	
 	boolean loaded=false;
@@ -77,14 +116,7 @@ public class WorkflowUtilities{
 	private KSMenuItemData wfFYIWorkflowItem;
 	private KSMenuItemData wfWithdrawItem;
     private KSMenuItemData wfReturnToPreviousItem;
-	
-	private static String APPROVE_DECISION = "kuali.comment.type.workflowDecisionRationale.approve";
-	private static String REJECT_DECISION = "kuali.comment.type.workflowDecisionRationale.reject";
-	private static String RETURN_TO_PREVIOUS_DECISION = "kuali.comment.type.workflowDecisionRationale.return";
-    private static String WITHDRAW_DECISION = "kuali.comment.type.workflowDecisionRationale.withdraw";
-	private static String ACK_DECISION = "kuali.comment.type.workflowDecisionRationale.acknowledge";
-	private static String FYI_DECISION = "kuali.comment.type.workflowDecisionRationale.fyi";
-    private static String CANCEL_WORKFLOW_DECISION = "kuali.comment.type.workflowDecisionRationale.cancelWorkflow";
+    private KSMenuItemData wfBlanketApproveItem;
 	
 	private List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 	    
@@ -152,6 +184,7 @@ public class WorkflowUtilities{
 		wfFYIWorkflowItem = getFYIWorkflowItem();
 		wfWithdrawItem = getWithdrawItem();
 		wfReturnToPreviousItem = getReturnToPreviousItem();
+		wfBlanketApproveItem = getBlanketApproveItem();
 	}
 	
 	private void setupSubmitSuccessDialog(){
@@ -275,6 +308,9 @@ public class WorkflowUtilities{
                     if(result.contains("R")){
                         items.add(wfReturnToPreviousItem);
                     }
+                    if(result.contains("B")){
+                        items.add(wfBlanketApproveItem);
+                    }
 					for(StylishDropDown widget: workflowWidgets){
 						
 						widget.setItems(items);
@@ -310,7 +346,7 @@ public class WorkflowUtilities{
 		final KSRichEditor rationaleEditor = new KSRichEditor();
 		wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
 	        public void onClick(ClickEvent event) {	   
-	        	addRationale(rationaleEditor,FYI_DECISION);
+	        	addRationale(rationaleEditor,DecisionRationaleDetail.FYI.getType());
 				workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
 					public void handleFailure(Throwable caught) {
 						Window.alert("Error FYIing Proposal");
@@ -346,7 +382,7 @@ public class WorkflowUtilities{
 					@Override
 					public void exec(AcknowledgeCancelEnum result) {
 						if(!result.name().equals("CANCEL")){
-							addRationale(rationaleEditor,ACK_DECISION);
+							addRationale(rationaleEditor,DecisionRationaleDetail.ACKNOWLEDGE.getType());
 							workflowRpcServiceAsync.acknowledgeDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
 								public void handleFailure(Throwable caught) {
 									submitSuccessDialog.hide();
@@ -404,7 +440,7 @@ public class WorkflowUtilities{
 								required.setText("Please enter the decision rationale");
 							}
 							else{
-								addRationale(rationaleEditor,REJECT_DECISION);
+								addRationale(rationaleEditor,DecisionRationaleDetail.REJECT.getType());
 								workflowRpcServiceAsync.disapproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
 									public void handleFailure(Throwable caught) {
 										submitSuccessDialog.hide();
@@ -471,7 +507,7 @@ public class WorkflowUtilities{
 								required.setText("Please enter the decision rationale");
 							}
 							else{
-								addRationale(rationaleEditor,APPROVE_DECISION);
+								addRationale(rationaleEditor,DecisionRationaleDetail.APPROVE.getType());
 								
 								workflowRpcServiceAsync.approveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
 								public void handleFailure(Throwable caught) {
@@ -537,7 +573,7 @@ public class WorkflowUtilities{
                             if (rationaleEditor.getText().trim().equals("")) {
                                 required.setText("Please enter the decision rationale");
                             } else {
-                                addRationale(rationaleEditor, WITHDRAW_DECISION);
+                                addRationale(rationaleEditor, DecisionRationaleDetail.WITHDRAW.getType());
 
                                 workflowRpcServiceAsync.withdrawDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
                                     public void handleFailure(Throwable caught) {
@@ -588,6 +624,71 @@ public class WorkflowUtilities{
         return wfWithdrawItem;
     }
 
+    private KSMenuItemData getBlanketApproveItem() {
+        KSMenuItemData wfBlanketApproveItem;
+
+        wfBlanketApproveItem = new KSMenuItemData("Blanket Approve Proposal", new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                setupSubmitSuccessDialog();
+                final KSRichEditor rationaleEditor = new KSRichEditor();
+                ConfirmCancelGroup blanketApprovalButton = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>() {
+
+                    @Override
+                    public void exec(ConfirmCancelEnum result) {
+                        if (!result.name().equals("CANCEL")) {
+                            if (rationaleEditor.getText().trim().equals("")) {
+                                required.setText("Please enter the decision rationale");
+                            } else {
+                                addRationale(rationaleEditor, DecisionRationaleDetail.BLANKET_APPROVE.getType());
+
+                                workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+                                    public void handleFailure(Throwable caught) {
+                                        submitSuccessDialog.hide();
+                                        Window.alert("Error blanket approving Proposal");
+                                    }
+
+                                    public void onSuccess(Boolean result) {
+                                        submitSuccessDialog.hide();
+                                        if (result) {
+                                            updateWorkflow(dataModel);
+                                            if (submitCallback != null) {
+                                                submitCallback.exec(result);
+                                            }
+                                            // Notify the user that the document was approved
+                                            KSNotifier.add(new KSNotification("Proposal will be blanket approved", false));
+                                        } else {
+                                            Window.alert("Error blanket approving Proposal");
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+                            submitSuccessDialog.hide();
+                        }
+                    }
+                });
+
+                SectionTitle headerTitle = SectionTitle.generateH3Title("Blanket Approve Proposal");
+                SectionTitle dialogLabel = SectionTitle.generateH4Title("You are blanket approving the " + proposalName + " proposal");
+                SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
+                required = new AbbrPanel("Required", "ks-form-module-elements-required", " * ");
+                required.setVisible(true);
+                rationaleEditor.addStyleName("KS-Comment-Create-Editor");
+                dialogPanel.clear();
+                dialogPanel.add(headerTitle);
+                dialogPanel.add(dialogLabel);
+                dialogPanel.add(fieldLabel);
+                dialogPanel.add(required);
+                dialogPanel.add(rationaleEditor);
+                dialogPanel.add(blanketApprovalButton);
+                dialogPanel.setSize("580px", "400px");
+                // submitSuccessDialog.setWidget(dialogPanel);
+                submitSuccessDialog.show();
+            }
+        });
+        return wfBlanketApproveItem;
+    }
+
     protected KSDropDown setUpReturnToPreviousDropDown(String workflowId) {
 //        nodeNameList.clear();
         final KSDropDown nodeNameDropDown = new KSDropDown();
@@ -629,7 +730,7 @@ public class WorkflowUtilities{
                             } else if (nodeNameDropDown.getSelectedItem().trim().equals("")) {
                                 required.setText("Please select a node name to return to");
                             } else {
-                                addRationale(rationaleEditor, RETURN_TO_PREVIOUS_DECISION);
+                                addRationale(rationaleEditor, DecisionRationaleDetail.RETURN_TO_PREVIOUS.getType());
                                 String nodeName = nodeNameDropDown.getSelectedItem().trim();
                                 workflowRpcServiceAsync.returnDocumentWithId(workflowId, nodeName, new KSAsyncCallback<Boolean>() {
                                     public void handleFailure(Throwable caught) {
@@ -738,7 +839,7 @@ public class WorkflowUtilities{
         final KSRichEditor rationaleEditor = new KSRichEditor();
         wfCancelWorkflowItem = new KSMenuItemData("Cancel Proposal", new ClickHandler() {
             public void onClick(ClickEvent event) {
-                addRationale(rationaleEditor, CANCEL_WORKFLOW_DECISION);
+                addRationale(rationaleEditor, DecisionRationaleDetail.CANCEL_WORKFLOW.getType());
                 workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
                     public void handleFailure(Throwable caught) {
                         Window.alert("Error Cancelling Proposal");

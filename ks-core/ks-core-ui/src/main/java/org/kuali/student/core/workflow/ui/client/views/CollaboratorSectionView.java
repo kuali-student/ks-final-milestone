@@ -222,6 +222,8 @@ public class CollaboratorSectionView extends SectionView {
             @Override
             public void onSuccess(Boolean result) {
                 GWT.log("Authorization check for adding adhoc reviewers: " + result, null);
+                section.setVisible(result);
+                addButton.setVisible(result);
 
                 workflowRpcServiceAsync.isAuthorizedRemoveReviewers(workflowId, new KSAsyncCallback<Boolean>() {
                     @Override
@@ -234,10 +236,8 @@ public class CollaboratorSectionView extends SectionView {
                     @Override
                     public void onSuccess(Boolean result) {
                         GWT.log("Authorization check for removing adhoc reviewers: " + result, null);
-                        section.setVisible(result);
-                        addButton.setVisible(result);
                         canRemoveCollaborators = result;
-        				refreshCollaboratorsTable();                        
+        				refreshCollaboratorsTable();
                         onReadyCallback.exec(true);
                     }
                 });                
@@ -245,7 +245,7 @@ public class CollaboratorSectionView extends SectionView {
         });
 
     }
-		
+
 	private void createAddCollabSection(){
 		Metadata personIdMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/principalId"));
 		Metadata permissionMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/permission"));
