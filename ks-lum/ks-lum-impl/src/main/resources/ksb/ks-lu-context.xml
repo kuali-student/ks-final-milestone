@@ -126,14 +126,14 @@
     </bean>
 
     <bean id="luClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lu}LuService"/>
     </bean>
 
     <bean id="proposalClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.proposal.service.ProposalService"/>
         <property name="serviceQName"
@@ -308,7 +308,7 @@
     </bean>
 
     <bean id="lrcClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lrc.service.LrcService"/>
         <property name="serviceQName"
@@ -335,7 +335,7 @@
     </bean>
 
     <bean id="loClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
         <property name="serviceQName"
@@ -365,7 +365,7 @@
     </bean>
 
     <bean id="orgClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.organization.service.OrganizationService"/>
         <property name="serviceQName"
@@ -373,7 +373,7 @@
     </bean>
 
     <bean id="enumServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"
@@ -407,7 +407,7 @@
     </bean>
 
     <bean id="atpClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.atp.service.AtpService"/>
         <property name="serviceQName"
@@ -415,7 +415,7 @@
     </bean>
 
     <bean id="statementServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.statement.service.StatementService"/>
         <property name="serviceQName"

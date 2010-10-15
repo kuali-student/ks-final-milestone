@@ -515,106 +515,106 @@
     </bean>
 
     <!-- Service clients -->
-    <bean id="courseClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="courseClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.course.service.CourseService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/course}CourseService"/>
     </bean>
 
-    <bean id="programClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="programClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.program.service.ProgramService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/program}ProgramService"/>
     </bean>
 
-    <bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService"/>
     </bean>
 
-    <bean id="commentClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="commentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.comment.service.CommentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/comment}CommentService"/>
     </bean>
 
-    <bean id="statementServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="statementServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.statement.service.StatementService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService"/>
     </bean>
 
-    <bean id="orgClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.organization.service.OrganizationService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
     </bean>
 
-    <bean id="atpClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService"/>
     </bean>
 
-    <bean id="personSearchClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService"/>
     </bean>
 
-    <bean id="messageClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="messageClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.messages.service.MessageService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/message}MessageService"/>
     </bean>
 
-    <bean id="proposalClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService"/>
     </bean>
 
-    <bean id="loClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="loClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService"/>
     </bean>
 
-    <bean id="lrcClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="lrcClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lrc.service.LrcService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
     </bean>
 
-    <bean id="workflowUtilityClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="workflowUtilityClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kew.service.WorkflowUtility"/>
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kew}WorkflowUtilityServiceSOAP"/>
     </bean>
 
-    <bean id="simpleDocActionsClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="simpleDocActionsClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService"/>
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kew}simpleDocumentActionsService"/>
     </bean>
 
-    <bean id="documentService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 
-    <bean id="searchService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="searchService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/search}SearchService"/>
     </bean>
 
-    <bean id="permissionServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService"/>
         <property name="serviceQName" value="{KIM}kimPermissionService"/>
     </bean>
 
-    <bean id="identityServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService"/>
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP"/>
     </bean>
 
-    <bean id="enumServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="enumServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
     </bean>
 
-    <bean id="roleUpdateServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="roleUpdateServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.RoleUpdateService"/>
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimRoleUpdateServiceSOAP"/>
     </bean>
