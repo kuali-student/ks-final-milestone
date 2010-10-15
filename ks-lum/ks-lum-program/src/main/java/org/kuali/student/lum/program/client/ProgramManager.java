@@ -61,9 +61,9 @@ public class ProgramManager {
 
     public MajorEditController getProgramEditController() {
         programModel.resetRoot();
-        if (majorEditController != null)
+        if (majorEditController == null)
             majorEditController = new MajorEditController("Programs", programModel, viewContext, eventBus);
-        return majorEditController;
+        return majorEditController; 
     }
 
     public static HandlerManager getEventBus() {
