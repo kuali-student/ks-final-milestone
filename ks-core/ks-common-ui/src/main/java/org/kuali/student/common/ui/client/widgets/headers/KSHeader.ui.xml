@@ -60,24 +60,23 @@
    clear:both;
 }
 .bottomLine{
-               background-color:#E8E8E8;
-               border-top:1px dotted #989D9D;
-               clear:both;
-               color:#4B4742;
-               font-family:Georgia,"Times New Roman",Times,serif;
-               font-size:1.1em;
-               padding:6px 0 9px 15px;
-               letter-spacing: 0.04em;
-               width:100%;
+   border-top: 3px solid gray;
+   background-color: #E8E8E8;
+   width:100%;
+   clear:both;
+   padding-top: 3px;
+   padding-bottom: 4px;
+   padding-left: 5px;
+   font-size: 1.1em;
 }
 
 .bottomLine a{
-               color: #807970; 
-               letter-spacing: .02em;
+   color: black;
+   font-weight: bold;
 }
 
 .bottomLine a:hover{
-	 color: #2C61E6;  
+	color: gray;
 }
 
 </ui:style>
