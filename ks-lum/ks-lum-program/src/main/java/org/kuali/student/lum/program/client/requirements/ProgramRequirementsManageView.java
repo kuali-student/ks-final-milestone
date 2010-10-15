@@ -348,7 +348,11 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     protected Callback<String> retrieveCustomWidgetCallback = new Callback<String>(){
         public void exec(final String fieldType) {
             if (RulesUtil.isCluSetWidget(fieldType)) {
-                editReqCompWidget.displayCustomWidget(fieldType, new BuildCourseSetWidget(new CluSetRetrieverImpl(), "kuali.cluSet.type.Program"));
+                String clusetType = "kuali.cluSet.type.Course";
+                if (fieldType.toLowerCase().indexOf("program") > 0) {
+                    clusetType = "kuali.cluSet.type.Program";
+                }
+                editReqCompWidget.displayCustomWidget(fieldType, new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType));
             }
         }
     };
