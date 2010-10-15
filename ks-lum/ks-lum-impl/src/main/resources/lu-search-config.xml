@@ -865,7 +865,7 @@
 											WHERE c3.version.versionIndId=c2.version.versionIndId 
 											AND (c3.version.currentVersionStart &lt;= CURRENT_DATE AND (c3.version.currentVersionEnd &gt; CURRENT_DATE OR c3.version.currentVersionEnd IS NULL)) 											
 										)										
-						    			GROUP BY c2.version.versionIndId
+						    			GROUP BY c2.version.versionIndId2
 						    		)
 						    	)
 						    )
