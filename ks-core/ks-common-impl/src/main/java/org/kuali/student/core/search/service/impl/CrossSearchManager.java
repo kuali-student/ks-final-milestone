@@ -144,7 +144,9 @@ public class CrossSearchManager {
 			int toIndex = fromIndex+searchRequest.getMaxResults();
 			SearchResult pagedResult = new SearchResult();
 			for (int i=fromIndex; i <= toIndex; i++) {
-				pagedResult.getRows().add(searchResult.getRows().get(i));
+				if (!(searchResult.getRows().size() < i+1)) {
+					pagedResult.getRows().add(searchResult.getRows().get(i));
+				}
 			}
 			
 			searchResult = pagedResult;

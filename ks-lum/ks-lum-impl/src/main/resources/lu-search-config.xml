@@ -809,7 +809,7 @@
 				</entry>
 		        <entry key="lu.search.clus">
 		            <value>SELECT clu.id, clu.officialIdentifier.longName FROM Clu clu
-		              WHERE clu.state NOT IN ('draft') ORDER BY clu.officialIdentifier.longName </value>
+		              WHERE LOWER(clu.state) NOT IN ('draft') ORDER BY clu.officialIdentifier.longName </value>
 		        </entry>
 		        <entry key="lu.search.cluByCode">
 		            <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code ORDER BY clu.effectiveDate DESC</value>
@@ -830,13 +830,46 @@
 <!--
 		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId, clu.state FROM Clu clu WHERE clu.state NOT IN ('retired')</value>
  -->
-                    <value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+                    <!--  value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
                     cludesc.plain, clu.studySubjectArea, clu.state,
                     clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
                     LEFT JOIN clu.descr cludesc
+                    WHERE clu.state IN ('Approved', 'Active')
+                    </value-->
+                    <value>
+                    SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+                    officialIdentifier.code, officialIdentifier.level,
+                    cludesc.plain, clu.studySubjectArea, clu.state,
+                    clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
+                    FROM Clu clu
+                    LEFT JOIN clu.officialIdentifier officialIdentifier
+                    LEFT JOIN clu.descr cludesc
+                    WHERE LOWER(clu.state) != 'draft' 
+                    AND 
+						( (clu.version.currentVersionStart &lt;= CURRENT_DATE AND (clu.version.currentVersionEnd &gt; CURRENT_DATE OR clu.version.currentVersionEnd IS NULL) ) 
+						    OR (clu.version.currentVersionStart IS NULL AND clu.version.currentVersionEnd IS NULL 
+						    	AND clu.id IN (
+						        	SELECT c1.id 
+						        	FROM org.kuali.student.lum.lu.entity.Clu c1 
+						        	WHERE (c1.version.versionIndId, c1.version.sequenceNumber) = (
+						        		SELECT c2.version.versionIndId, max(c2.version.sequenceNumber) 
+						        		FROM org.kuali.student.lum.lu.entity.Clu c2 
+						        		WHERE LOWER(c2.state) != 'draft' 
+						        		AND (c2.version.currentVersionStart IS NULL AND c2.version.currentVersionEnd IS NULL) 
+						        		AND c2.version.versionIndId not in (
+						        			SELECT c3.version.versionIndId 
+											FROM org.kuali.student.lum.lu.entity.Clu c3 
+											WHERE c3.version.versionIndId=c2.version.versionIndId 
+											AND (c3.version.currentVersionStart &lt;= CURRENT_DATE AND (c3.version.currentVersionEnd &gt; CURRENT_DATE OR c3.version.currentVersionEnd IS NULL)) 											
+										)										
+						    			GROUP BY c2.version.versionIndId
+						    		)
+						    	)
+						    )
+						)
                     </value>
 		        </entry>
 		        <entry key="cluset.search.generic">
@@ -862,7 +895,7 @@
 					<value>clu.officialIdentifier.longName</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalCode">
-					<value>clu.officialIdentifier.code</value>
+					<value>clu.officialIdentifier.code LIKE '%' || :lu_queryParam_luOptionalCode || '%'</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalDivision">
 					<value>clu.officialIdentifier.division</value>
