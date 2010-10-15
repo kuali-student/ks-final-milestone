@@ -8,7 +8,7 @@ public class TestLuSearchDictionary
 {
 
  @Test
- public void testLoadCluSetInfoDictionary ()
+ public void testLoadSearchBrowseDictionary ()
  {
   Set<String> startingClasses = new LinkedHashSet ();
   startingClasses.add ("search");
@@ -22,6 +22,5 @@ public class TestLuSearchDictionary
                                                               true);
   helper.doTest ();
  }
-
 
 }
