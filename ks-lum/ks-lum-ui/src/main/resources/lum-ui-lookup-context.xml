@@ -2861,9 +2861,9 @@
 		<property name="initialLookup" ref="kuali.lu.lookup.assessmentScale.radio" />
 	</bean>
 
-<bean id="ReqCompFieldInfo.value.grade" parent="uilookupconfig-parent">
+<bean id="ReqCompFieldInfo.value.grade.id" parent="uilookupconfig-parent">
 		<property name="path" value="reqCompFieldInfo.value" />
-  <property name="type" value="kuali.reqComponent.field.type.grade" />
+  <property name="type" value="kuali.reqComponent.field.type.grade.id" />
 		<property name="initialLookup" ref="kuali.lrc.lookup.grade" />
 	</bean>
 
