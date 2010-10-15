@@ -453,7 +453,7 @@ public class TestProgramServiceImpl {
         MajorDisciplineInfo major;
         try {
             assertNotNull(major = mdGenerator.getMajorDisciplineInfoTestData());
-
+            
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(major);
 
             assertNotNull(createdMD);
@@ -556,11 +556,10 @@ public class TestProgramServiceImpl {
             assertNotNull(createdMD.getOrgCoreProgram());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdMD.getOrgCoreProgram().getType());
 // TODO           assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", createdMD.getOrgCoreProgram().getId());
-            //TODO progr requirements
-
+            
             assertNotNull(createdMD.getProgramRequirements());
             assertTrue(createdMD.getProgramRequirements().size() == 2);
-            assertEquals("programRequirements-test", createdMD.getProgramRequirements().get(0));
+            assertEquals("REQ-200", createdMD.getProgramRequirements().get(0));
 
             assertNotNull(createdMD.getAccreditingAgencies());
             assertTrue(createdMD.getAccreditingAgencies().size() == 2);
@@ -618,7 +617,6 @@ public class TestProgramServiceImpl {
 //            createTime.set(2009, 4, 7, 12, 5, 36);
 //            testDate = new Date(createTime.getTimeInMillis());
 //            assertTrue(createdMD.getEffectiveDate().compareTo(testDate) == 0);
-
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -931,7 +929,7 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
-    public void testDeleteMajorDiscipline() {
+    @Ignore public void testDeleteMajorDiscipline() {
         try {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();

@@ -145,7 +145,10 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.disassembleAtps(clu, major, operation);
         programAssemblerUtils.disassembleIdentifiers(clu, major, operation);
         programAssemblerUtils.disassemblePublicationInfo(clu, major, operation);
-
+        
+        if(major.getProgramRequirements() != null && !major.getProgramRequirements().isEmpty()) {
+        	programAssemblerUtils.disassembleRequirements(clu, major, operation, result);
+        }
 
         if (major.getVariations() != null && !major.getVariations().isEmpty()) {
             try {
@@ -179,7 +182,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         clu.setCampusLocations(major.getCampusLocations());
         clu.setDescr(major.getDescr());
 
-        //TODO programRequirements
         clu.setAccreditations(major.getAccreditingAgencies());
 
 		// Add the Clu to the result

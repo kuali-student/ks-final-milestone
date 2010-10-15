@@ -41,6 +41,7 @@ import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 public class ProgramAssemblerUtils {
@@ -203,9 +204,30 @@ public class ProgramAssemblerUtils {
 
     }
 
-    //TODO   disassembleRequirements    Or maybe this should be in CluAssemblerUtils??
-    public CluInfo disassembleRequirements(CluInfo clu, Object o, NodeOperation operation) throws AssemblyException {
+    //TODO  maybe this should be in CluAssemblerUtils??
+    public CluInfo disassembleRequirements(CluInfo clu, Object o, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result) throws AssemblyException {
+        try {
+            Method method = o.getClass().getMethod("getProgramRequirements", null);
+            List<String> requirements = (List<String>)method.invoke(o, null);
 
+            if (requirements != null && !requirements.isEmpty()) {
+    	    	for (String requirementId : requirements){
+    	    		List<BaseDTOAssemblyNode<?, ?>> reqResults = addRelationNodes(clu.getId(), requirementId, ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT, operation);
+    	            if (reqResults != null && reqResults.size()> 0) {
+    	                result.getChildNodes().addAll(reqResults);
+    	            }
+    	    	}
+            }
+        } catch (NoSuchMethodException e) {
+        	throw new AssemblyException("Error while disassembling program requirements", e); 
+        } catch (InvocationTargetException e) {
+        	throw new AssemblyException("Error while disassembling program requirements", e); 
+        } catch (IllegalAccessException e) {
+            throw new AssemblyException("Error while disassembling program requirements", e); 
+	    } catch (Exception e) {
+	        throw new AssemblyException("Error while disassembling program requirements", e);
+	    }
+	    
         return clu;
 
     }

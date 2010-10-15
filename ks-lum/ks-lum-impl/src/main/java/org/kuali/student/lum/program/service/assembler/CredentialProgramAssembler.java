@@ -91,7 +91,10 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         programAssemblerUtils.disassembleAdminOrgs(clu, credential, operation);
         programAssemblerUtils.disassembleAtps(clu, credential, operation);    
         programAssemblerUtils.disassembleLuCodes(clu, credential, operation);
-        programAssemblerUtils.disassembleRequirements(clu, credential, operation);
+        
+        if(credential.getProgramRequirements() != null && !credential.getProgramRequirements().isEmpty()) {
+        	programAssemblerUtils.disassembleRequirements(clu, credential, operation, result);
+        }
  
         if (credential.getResultOptions() != null) {
             disassembleResultOptions(credential, operation, result);           
