@@ -7532,7 +7532,7 @@
 					</property>
 					<property name="resultReturnKey" value="lu.resultColumn.cluId"/>
 					<property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode"/>
-					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
+					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
 					<property name="results">
 						<list>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
