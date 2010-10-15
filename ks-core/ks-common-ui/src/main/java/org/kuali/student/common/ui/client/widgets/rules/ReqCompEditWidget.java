@@ -199,6 +199,7 @@ public class ReqCompEditWidget extends FlowPanel {
                 public void exec(String widgetValue) {
                     //clu set validation failed...
                     if (widgetValue == null) {
+                        setEnableAddRuleButtons(true);
                         return;
                     }
                     ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
