@@ -109,7 +109,7 @@ public class BreadcrumbManager extends Composite{
 			panelEmpty = false;
 		}
 		else{
-			panel.add(new InlineLabel(" > "));
+			panel.add(new InlineLabel(" \u00BB "));
 			panel.add(w);
 		}
 	}

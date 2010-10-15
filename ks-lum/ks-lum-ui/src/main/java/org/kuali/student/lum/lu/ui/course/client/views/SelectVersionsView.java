@@ -64,17 +64,23 @@ public class SelectVersionsView extends ViewComposite{
 				if(table.getSelectedIds().size() == 1){
 					id1 = table.getSelectedIds().get(0);
 					id2 = null;
+					ViewContext context = new ViewContext();
+					context.setId(id1);
+					getController().setViewContext(context);
 					getController().showView(VersionsController.Views.VERSION_VIEW);
 				}
 				else if(table.getSelectedIds().size() == 2){
 					id1 = table.getSelectedIds().get(0);
 					id2 = table.getSelectedIds().get(1);
+					ViewContext context = new ViewContext();
+					context.setId(id1);
+					context.setAttribute("docId2", id2);
+					getController().setViewContext(context);
 					getController().showView(VersionsController.Views.VERSION_COMPARE);
 				}
 				else{
 					Window.alert("Please select either a single version to VIEW or two versions to COMPARE");
 				}
-				
 			}
 		}));
 		buttons.addButton(new KSButton("Return to Current Course", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){

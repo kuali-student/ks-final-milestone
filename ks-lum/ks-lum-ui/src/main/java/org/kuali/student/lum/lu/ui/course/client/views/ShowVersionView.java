@@ -8,7 +8,10 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 
 public class ShowVersionView extends VerticalSectionView{
     
@@ -23,17 +26,25 @@ public class ShowVersionView extends VerticalSectionView{
 		cfg.generateLayout(courseInfoTabs, modelId);
 		this.addWidget(courseInfoTabs);
 		parent = controller;
+		final ViewContext context = new ViewContext();
+		context.setId(parent.getCurrentVersionId());
+		context.setIdType(IdType.OBJECT_ID);
+		this.layout.setMessage("Note: This is not the current version of this course. ", false);
+		Anchor link = new Anchor("View current version.");
+		link.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getController().setViewContext(context);
+				getController().showView(VersionsController.Views.VERSION_VIEW);
+			}
+		});
+		this.layout.getMessageWarnContainer().addWarnWidget(link);
 	}
 	
 	@Override
 	public void beforeShow(Callback<Boolean> onReadyCallback) {
 		courseInfoTabs.showDefaultView(onReadyCallback);
-		ViewContext context = new ViewContext();
-		context.setId(parent.getCurrentVersionId());
-		context.setIdType(IdType.OBJECT_ID);
-		String location = HistoryManager.appendContext(AppLocations.Locations.VIEW_COURSE.getLocation(), context);
-		this.layout.setMessage("Note: There is a currently active version of this course. " +
-				"<a href='#" + location +"'>View current version.</a>", false);
 	}
 	
 	public void setName(String name){

@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
+import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
@@ -33,6 +34,8 @@ import org.kuali.student.core.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 public class SearchSuggestOracle extends IdableSuggestOracle{
     
@@ -52,6 +55,8 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
     
     private List<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>> searchCompletedCallbacks = new ArrayList<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>>();
+    
+    private LoadingDiv loading = new LoadingDiv();
     
     /**
      * @deprecated
@@ -124,6 +129,15 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     @Override
     public void requestSuggestions(Request request, Callback callback) {
         if (currentCallback == null) {
+          final int x = ((Widget)this.textWidget).getAbsoluteLeft() + ((Widget)this.textWidget).getOffsetWidth();
+  		  final int y = ((Widget)this.textWidget).getAbsoluteTop() + ((Widget)this.textWidget).getOffsetHeight();
+  		  loading.setPopupPositionAndShow(new PositionCallback(){
+
+  				@Override
+  				public void setPosition(int offsetWidth, int offsetHeight) {
+  					loading.setPopupPosition(x - offsetWidth, y + 1);
+  				}
+  			});
           currentCallback = callback;
           sendRequest(request, wrappedCallback);
         } else {
@@ -194,6 +208,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                 public void onSuccess(SearchResult results) {
                     lastSuggestions = createSuggestions(results, request.getLimit());
                     Response response = new Response(lastSuggestions);
+                    loading.hide();
                     callback.onSuggestionsReady(request, response);
                     if (searchCompletedCallbacks != null &&
                             lastSuggestions != null && lastSuggestions.size() == 1) {
@@ -201,6 +216,12 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                             callback.exec(lastSuggestions.get(0));
                         }
                     }
+                }
+                
+                @Override
+                public void onFailure(Throwable caught) {
+                	loading.hide();
+                	super.onFailure(caught);
                 }
                 
                 private List<IdableSuggestion> createSuggestions(SearchResult results, int limit){

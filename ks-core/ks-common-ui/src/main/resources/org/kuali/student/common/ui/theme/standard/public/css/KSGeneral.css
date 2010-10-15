@@ -342,9 +342,9 @@ ul.ks-selected-list {
   padding-left: 5px;
 }
 
-.header-appTitle{
-  padding-left: 5px;
-  font-weight: bold;
-  font-size: 20px;
-  color: gray;
+.header-appTitle {
+    padding: 15px 0 5px 14px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #707270;
 }
