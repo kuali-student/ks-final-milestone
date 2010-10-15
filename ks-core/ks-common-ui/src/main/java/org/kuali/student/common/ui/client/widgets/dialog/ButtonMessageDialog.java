@@ -28,14 +28,15 @@ public class ButtonMessageDialog<T extends ButtonEnum> {
 	}
 	
 	private void setupLayout(String titleText, String message){
-		title.setText(titleText);
-		dialog = new KSLightBox(title);		
+		//title.setText();
+		dialog = new KSLightBox(titleText);		
 		messageLabel.setText(message);
 		layout.add(messageLabel);
-		layout.add(buttons);
+		dialog.addButtonGroup(buttons);
 		layout.addStyleName("ks-confirmation-message-layout");
 		messageLabel.setStyleName("ks-confirmation-message-label");
 		dialog.setWidget(layout);
+		dialog.setSize(600, 100);
 	}
 	
 	public void show(){
@@ -50,7 +51,7 @@ public class ButtonMessageDialog<T extends ButtonEnum> {
 		dialog.removeCloseLink();
 	}
 	
-	public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
+	public HandlerRegistration addCloseHandler(CloseHandler handler){
 		return dialog.addCloseHandler(handler);
 	}
 	

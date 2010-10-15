@@ -243,8 +243,9 @@ public interface CourseService extends DictionaryService, VersionManagementServi
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
+     * @throws DataValidationErrorException
      */
-    public StatementTreeViewInfo createCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatementTreeViewInfo createCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException;
 
     /**
      * Updates the Statement for a Course.
@@ -264,8 +265,11 @@ public interface CourseService extends DictionaryService, VersionManagementServi
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
+     * @throws VersionMismatchException
+     * @throws CircularReferenceException
+     * @throws DataValidationErrorException
      */
-    public StatementTreeViewInfo updateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatementTreeViewInfo updateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException;
 
     /**
      * Delete the Statement for a Course.
@@ -327,9 +331,9 @@ public interface CourseService extends DictionaryService, VersionManagementServi
      *             unable to complete request
      */
 	public List<ValidationResultInfo> validateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo)  throws InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-	
-    /** 
+
+
+    /**
      * Creates a new Course version based on the current course
      * @param courseId identifier for the Course to be versioned
      * @param versionComment comment for the current version
@@ -344,14 +348,14 @@ public interface CourseService extends DictionaryService, VersionManagementServi
      */
     public CourseInfo createNewCourseVersion(@WebParam(name="courseId")String courseId, @WebParam(name="versionComment")String versionComment) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
-    
-    /** 
+
+    /**
      * Sets a specific version of the Course as current. The sequence number must be greater than the existing current Course version.
      * This will truncate the current version's end date to the currentVersionStart param.
      * If a Course exists which is set to become current in the future, that course's currentVersionStart and CurrentVersionEnd will be nullified.
-     * The currentVersionStart must be in the future to prevent changing historic data. 
+     * The currentVersionStart must be in the future to prevent changing historic data.
      * @param courseVersionId Version Specific Id of the Course
-     * @param currentVersionStart Date when this course becomes current. Must be in the future and be after the most current course's start date. 
+     * @param currentVersionStart Date when this course becomes current. Must be in the future and be after the most current course's start date.
      * @return status of the operation
      * @throws DoesNotExistException courseVersionId not found
      * @throws InvalidParameterException invalid courseVersionId, previousState, newState

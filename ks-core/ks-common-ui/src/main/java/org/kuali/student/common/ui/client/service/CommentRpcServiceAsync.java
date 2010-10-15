@@ -81,4 +81,11 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      * @param referenceTypeKey reference type
      */
     public void isAuthorizedAddComment(String referenceId, String referenceTypeKey, AsyncCallback<Boolean> callback);
+    
+    /**
+     * user IdentityService to get user name
+     * @param userId
+     * @param callback
+     */
+    public void getUserRealName(String userId, AsyncCallback<String> callback);
 }

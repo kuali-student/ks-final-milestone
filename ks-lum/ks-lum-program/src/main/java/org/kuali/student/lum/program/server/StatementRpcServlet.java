@@ -19,20 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.statement.dto.*;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.common.ui.client.widgets.rules.StatementVO;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.apache.log4j.Logger;
 
-/**
- * @author Zdenek Zraly
- */
 public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> implements StatementRpcService {
 
     final static Logger LOG = Logger.getLogger(StatementRpcServlet.class);
@@ -41,6 +37,35 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     
     private static final long serialVersionUID = 822326113643828855L;
 
+    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
+        List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
+
+        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
+
+        //ensure the correct sequence of statement types; hard-coded for now
+        if (statementTypeNames.contains("kuali.statement.type.course.enrollmentEligibility")) {
+            statementTypeNames.remove("kuali.statement.type.course.enrollmentEligibility");
+            statementTypeNames.add(0, "kuali.statement.type.course.enrollmentEligibility");
+        }
+
+        for (String statementTypeName : statementTypeNames) {
+            StatementTypeInfo stmtInfo = statementService.getStatementType(statementTypeName);
+
+            statementTypes.add(statementService.getStatementType(statementTypeName));
+
+            //true if we found sub statement type
+            List<String> subStmtInfos = stmtInfo.getAllowedStatementTypes();
+            if ((subStmtInfos != null) && !subStmtInfos.isEmpty()) {
+                List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(statementTypeName);
+                for (String subStatementTypeName : subStatementTypeNames) {
+                    statementTypes.add(statementService.getStatementType(subStatementTypeName));
+                }
+            }            
+        }
+        
+        return statementTypes;
+    }
+    
     @Override
     public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
@@ -49,33 +74,6 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
             statementTypes.add(statementService.getStatementType(statementTypeName));
         }
         return statementTypes;
-    }
-
-    //TODO do we need this?
-    public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, String language) throws Exception {
-        StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
-        
-        // first translate StatementVO to StatementTreeViewInfo object
-        String error = statementVO.composeStatementTreeViewInfo(statementVO, statementTreeViewInfo);
-        if (error.isEmpty() == false) {
-            throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);
-        }
-
-        // cluId can't be empty
-        if ((cluId != null) && cluId.isEmpty()) {
-            cluId = null;
-        }
-        
-        // then get natural language for the statement
-        String nlStatement = "";
-        try {
-            nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
-        } catch (Exception ex) {
-            LOG.error(ex);
-            throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
-        }
-        
-        return nlStatement;
     }
     
     public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey) throws Exception {

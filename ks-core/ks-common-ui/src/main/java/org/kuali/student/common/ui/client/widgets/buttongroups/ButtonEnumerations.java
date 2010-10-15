@@ -134,7 +134,13 @@ public class ButtonEnumerations {
     }
 	@Override
 	public ButtonStyle getStyle() {
-		return ButtonStyle.PRIMARY;
+		switch(this){
+			case CANCEL:
+				return ButtonStyle.ANCHOR_LARGE_CENTERED;
+			default:
+				return ButtonStyle.PRIMARY;
+		}
+		
 	}
     @Override
     public ButtonEnum getActionType() {
@@ -275,7 +281,7 @@ public class ButtonEnumerations {
             case SEARCH:
                 return ButtonStyle.PRIMARY;
             case CANCEL:
-                return ButtonStyle.DEFAULT_ANCHOR;
+                return ButtonStyle.ANCHOR_LARGE_CENTERED;
             }
             return ButtonStyle.PRIMARY;
         }
@@ -307,7 +313,7 @@ public class ButtonEnumerations {
             case ADD:
                 return ButtonStyle.PRIMARY;
             case CANCEL:
-                return ButtonStyle.DEFAULT_ANCHOR;
+                return ButtonStyle.ANCHOR_LARGE_CENTERED;
             }
             return ButtonStyle.PRIMARY;
         }

@@ -2,6 +2,9 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:ks="urn:import:org.kuali.student.common.ui.client.widgets.field.layout.element">
+	
+	<ui:with field='res' type='org.kuali.student.common.ui.theme.standard.client.KSClientBundle'/>
+	
 	<ui:style>
 		.title h2{
 			font-weight: bold;
@@ -10,8 +13,13 @@
 		}
 		
 		.info{
-		   	overflow: auto;
 		   	text-align: right;
+		}
+		
+		.print{
+			cursor:pointer;
+			float:right;
+			margin-left: 10px;
 		}
 		
 		.container{
@@ -27,9 +35,10 @@
 			<g:HTML ui:field='headerHTML' styleName='{style.title}'>
 			</g:HTML>
 		</div>
- 	    <div>
+ 	    <div class='contentHeader-utilities'>
 			<ks:SpanPanel ui:field='widgetPanel'>
 			</ks:SpanPanel>
+			<g:Image ui:field='printImage' styleName='{style.print}' resource='{res.print}'/>
 			<g:HTML ui:field='infoLabel' styleName='{style.info}'>
 			</g:HTML>
 		</div>

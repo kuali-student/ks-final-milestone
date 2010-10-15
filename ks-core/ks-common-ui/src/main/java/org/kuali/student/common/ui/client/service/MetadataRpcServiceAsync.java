@@ -14,10 +14,15 @@
  */
 package org.kuali.student.common.ui.client.service;
 
+import java.util.List;
+
 import org.kuali.student.core.assembly.data.Metadata;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface MetadataRpcServiceAsync {
+    void getOldMetadata(String objectKey, String type, String state, AsyncCallback<Metadata> callback);
     void getMetadata(String objectKey, String type, String state, AsyncCallback<Metadata> callback);
+    void getMetadataList(String objectKey, List<String> types, String state, AsyncCallback<List<Metadata>> callback);
+    void getMetadataList(String objectKey, String state, AsyncCallback<Metadata> callback);     
 }

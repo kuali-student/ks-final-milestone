@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -33,7 +32,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.KSEntityConstants;
 import org.kuali.student.core.entity.MetaEntity;
@@ -44,10 +42,6 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name="Org.getOrganizationsByIdList", query="SELECT o FROM Org o WHERE o.id IN (:orgIdList)")
 })
 public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
-	
-	@Id
-	@Column(name = "ID")
-	private String id; 
 	
 	@Column(name = "LNG_NAME")
 	private String longName; 
@@ -89,14 +83,6 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	@Column(name = "ST")
 	private String state;
 	
-	/**
-	 * AutoGenerate the Id
-	 */
-	@Override
-	public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
 	@Override
 	public List<OrgAttribute> getAttributes() {
 		return attributes;
@@ -105,14 +91,6 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	@Override
 	public void setAttributes(List<OrgAttribute> attributes) {
 		this.attributes=attributes;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getLongName() {

@@ -54,7 +54,8 @@
     
     <param name="ks.lum.doDataLoad">false</param>
     
-    <param name="ks.lum.dictionary.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
+    <param name="ks.lum.dictionary.old.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
+    <param name="ks.lum.dictionary.serviceContextLocations">classpath:ks-courseInfo-dictionary-context.xml;classpath:ks-programInfo-dictionary-context.xml;classpath:ks-statement-dictionary-context.xml</param>
     <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
     <param name="ks.lum.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
     

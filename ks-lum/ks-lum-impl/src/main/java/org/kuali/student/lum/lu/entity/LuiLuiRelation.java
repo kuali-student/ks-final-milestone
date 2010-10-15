@@ -15,14 +15,12 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -32,7 +30,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -48,9 +45,6 @@ import org.kuali.student.core.entity.MetaEntity;
 })
 public class LuiLuiRelation extends MetaEntity implements
 		AttributeOwner<LuiLuiRelationAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@ManyToOne
 	@JoinColumn(name = "LUI_ID")
@@ -77,19 +71,6 @@ public class LuiLuiRelation extends MetaEntity implements
 
 	@Column(name = "ST")
 	private String state;
-
-	@Override
-	public  void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public Lui getLui() {
 		return lui;

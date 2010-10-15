@@ -248,16 +248,12 @@
     </bean>
 
     <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
+        <constructor-arg index="0" value="${ks.core.dictionary.old.serviceContextLocations}" />
     </bean>
 
     <bean id="coreDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
-        <constructor-arg>
-            <list>
-                <value>classpath:ks-proposalInfo-dictionary-context.xml</value>
-            </list>
-        </constructor-arg>
+		<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />	
     </bean>
 
     <bean id="commentSearchManager"

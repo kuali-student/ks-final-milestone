@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -29,7 +28,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -37,10 +35,6 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSLO_LO_RELTN")
 public class LoLoRelation extends MetaEntity implements AttributeOwner<LoLoRelationAttribute> {
 	
-	@Id
-	@Column(name = "ID")
-	private String id;
-
 	@ManyToOne
 	@JoinColumn(name="LO_ID")
 	private Lo lo;
@@ -66,15 +60,6 @@ public class LoLoRelation extends MetaEntity implements AttributeOwner<LoLoRelat
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LoLoRelationAttribute> attributes;
-
-	
-	public void setId(String id) {
-		this.id= id;
-	}
-
-	public String getId() {
-		return id;
-	}
 
 	public void setLo(Lo lo) {
 		this.lo = lo;
@@ -144,10 +129,5 @@ public class LoLoRelation extends MetaEntity implements AttributeOwner<LoLoRelat
 
 	public String getState() {
 		return state;
-	}
-	
-	@Override
-	protected void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 }

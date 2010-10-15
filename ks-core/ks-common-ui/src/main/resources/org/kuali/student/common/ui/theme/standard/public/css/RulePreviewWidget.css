@@ -13,49 +13,49 @@
  * permissions and limitations under the License.
  */
 
-.KS-Program-Rule-Preview-Box{
+.KS-Rule-Preview-Box {
     border: 1px solid #d7d7d7;
     margin-top: 20px;
     padding:5px;
     width: 650px;    
 }
 
-.KS-Program-Rule-Preview-header{ /*}, .ks-form-module, h6{ */
+.KS-Rule-Preview-header{ /*}, .ks-form-module, h6{ */
     font-weight: normal;
     margin-bottom: 5px;
     padding:20px 20px 5px 5px;
     background: #f1f1f2;
 }
 
-.KS-Program-Rule-Preview-header-action{
+.KS-Rule-Preview-header-action{
     float:right;
 }
 
-.KS-Program-Rule-Preview-Box1{
+.KS-Rule-Preview-Box1{
     padding-left:5px;
 }
 
-.KS-Program-Rule-Preview-NoRule{
+.KS-Rule-Preview-NoRule{
     margin-bottom:20px;
 }
 
-.KS-Program-Rule-Preview-subheader {
+.KS-Rule-Preview-subheader {
     font-weight: normal;
     padding-top:15px;
     padding-bottom:10px;    
 }
 
-.KS-Program-Rule-Preview-header-Subrule{
+.KS-Rule-Preview-header-Subrule{
     font-weight: normal;
     width: 600px;
     padding-top:15px;
     padding-bottom:15px;    
 }
 
-.KS-Program-Rule-Preview-Desc{
+.KS-Rule-Preview-Desc{
 }
 
-.KS-Program-Rule-Preview-Operator{
+.KS-Rule-Preview-Operator{
     font-weight: bold;
     padding-bottom: 10px;
    /* padding-top: 10px; handled by space after subrule preview box */
@@ -63,10 +63,10 @@
     font-size: 12px;
 }
 
-.KS-Program-Rule-Last-Preview-Spacer{
+.KS-Rule-Last-Preview-Spacer{
     marging-bottom: 10px;
 }
 
-.KS-Program-Rule-Preview-Add-Subrule{
+.KS-Rule-Preview-Add-Subrule{
     margin-bottom: 25px;
 }

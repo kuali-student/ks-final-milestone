@@ -191,11 +191,9 @@
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Content{
-	background-color: white;
-	padding-top: 5px;
-	padding-left: 8px;
-	padding-bottom: 5px;
-	border: 1px solid #9d9d9d;
+     background-color:#F7EEE1;
+     border:1px solid #9D9D9D;
+     padding: 15px 0 5px 25px;
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Tab-Hover{
@@ -231,10 +229,15 @@
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Tab-Left{
-	font-size: 14px;
-	text-align: center;
-	padding-left: 2em;
-	padding-right: 2em;
+          font-family:sans-serif; 
+          font-size:1em; 
+          font-weight:bold;
+          letter-spacing:0.07em;
+          padding-left:2em; 
+          padding-right:2em; 
+          text-align:center; 
+          text-transform:uppercase; 
+
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Right-Panel{

@@ -360,7 +360,7 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 
 	@Override
 	public void addStyleName(String style) {
-		throw new UnsupportedOperationException("addStyleName is not implemented");
+		container.addStyleName(style);
 	}
 
 	@Override
@@ -401,5 +401,6 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 	public boolean hasTabKey(String key) {
 		return tabMap.containsKey(key);
 	}
+
 	
 }

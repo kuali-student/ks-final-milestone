@@ -13,28 +13,33 @@
  * permissions and limitations under the License.
  */
 
-.KS-Program-Rule-ReqCompList-box{
+.KS-Rule-ReqCompList-box{
     background: #f1f1f2;
     padding-left:10px;
     padding-top:10px;    
     width:800px;    
 }
 
-.KS-Program-Rule-ReqComp-header{
+.KS-Rule-ReqComp-header{
     font-weight: bold;    
 }
 
-.KS-Program-Rule-ReqCompList{
+.KS-Rule-ReqCompList{
     margin-bottom:15px;
     margin-top:15px;
 }
 
-.KS-Program-Rule-FieldsList{
+.KS-Rule-FieldsList{
     margin-bottom:15px;
     margin-top:15px;
 }
 
-.KS-Program-Rule-ReqComp-btn{
+.KS-Rule-ReqComp-btn{
     margin-bottom: 15px;    
+}
+
+.KS-Rule-ReqComp-Custom-Widget-label{
+    font-weight: bold;    
+    margin-top: 25px;
 }
 

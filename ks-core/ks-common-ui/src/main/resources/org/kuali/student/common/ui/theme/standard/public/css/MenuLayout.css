@@ -5,8 +5,9 @@
 }
 
 .ks-menu-layout-menu .ks-page-sub-navigation{
-	padding: 0px 20px 20px 25px;
-	background-color: #f1f1f1;
+                    background-color:#F1F1F1;
+                    padding:0 15px 20px;
+
 }
 
 .ks-menu-layout-rightColumn{
@@ -45,13 +46,15 @@
 }
 
 .ks-menu-layout-menu .ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
-	font-size: 1.2em;
-	text-transform: uppercase;
-	font-weight: bold;
-	white-space: nowrap;
-	overflow: hidden;
-	color: #707270;
-	pointer: none;
+               color:#707270;
+               font-family:Georgia,Times New Roman,serif;
+               font-size:1.2em;
+               margin:0 0 3px;
+               letter-spacing: 0.04em;
+               overflow:hidden;
+               padding:10px 0 0 5px;
+               text-transform:uppercase;
+               white-space:nowrap;
 }
 
 .ks-menu-layout-menu .ks-page-sub-navigation-menu ul {
@@ -65,11 +68,13 @@
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Label{
-	font-size: 1em;
-	padding-left: 5px;
-	white-space: nowrap;
-	color: #707270;
-	font-weight: bold;
+                    color:#707270; 
+                    font-size:1em; 
+                    padding-left:5px;
+                    letter-spacing:0.02em;
+                    line-height:1.4em;
+                    white-space:nowrap; 
+
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Label-Selected {
@@ -95,14 +100,16 @@
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Hover{
+    background-color: #708992;
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Selected a:hover{
 	cursor: pointer;
+	color:white;
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Selected{
-	background-color: #708992;
+               background-color: #708992;
 }
 
 .content-warning{

@@ -39,6 +39,7 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
@@ -204,32 +205,32 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	    	startViewWindow = new KSLightBox();
 	    }
 
-	    HorizontalPanel buttonPanel = new HorizontalPanel();
-
 	    FlowPanel panel = new FlowPanel();
 	    panel.add(view.asWidget());
-	    buttonPanel.add(new KSButton("Save",new ClickHandler(){
+	    KSButton save = new KSButton("Save",new ClickHandler(){
             public void onClick(ClickEvent event) {
                 view.updateModel();
-                SaveActionEvent saveActionEvent = new SaveActionEvent();
+                SaveActionEvent saveActionEvent = new SaveActionEvent(true);
 
                 saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
                     public void onActionComplete(ActionEvent action) {
                         startViewWindow.hide();
                     }
                 });
+                
 
                 fireApplicationEvent(saveActionEvent);
             }
-	    }));
-	    buttonPanel.add(new KSButton("Cancel", new ClickHandler(){
+	    });
+	    startViewWindow.addButton(save);
+	    
+	    KSButton cancel = new KSButton("Cancel", new ClickHandler(){
             public void onClick(ClickEvent event) {
                 startViewWindow.hide();
             }
-	    }));
+	    });
+	    startViewWindow.addButton(cancel);
 
-	    panel.add(buttonPanel);
-	    //TODO setController should be a method on all Views
 	    if(view instanceof SectionView){
 	    	((SectionView) view).setController(this);
 	    }
@@ -258,6 +259,10 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 			}
         });
     }
+    
+    public KSLightBox getStartPopup(){
+        return startViewWindow;
+    }
 
 
     /*New methods*/
@@ -277,6 +282,10 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		this.defaultView = viewType;
 	}
 	
+	public Enum<?> getDefaultView(){
+		return this.defaultView;
+	}
+	
 	public abstract void updateModel();
 	
 	public void updateModelFromView(Enum<?> viewType){
@@ -287,7 +296,9 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	}
 	
 	public void updateModelFromCurrentView(){
+        if(this.getCurrentView() != null){
 		this.getCurrentView().updateModel();
+        }
 	}
 
 

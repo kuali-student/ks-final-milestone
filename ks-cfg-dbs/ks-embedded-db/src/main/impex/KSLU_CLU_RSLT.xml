@@ -1,25 +1,16 @@
 <?xml version="1.0"?>
-<!--
-  ~ Copyright 2010 The Kuali Foundation Licensed under the
-  ~ Educational Community License, Version 2.0 (the "License"); you may
-  ~ not use this file except in compliance with the License. You may
-  ~ obtain a copy of the License at
-  ~
-  ~ http://www.osedu.org/licenses/ECL-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing,
-  ~ software distributed under the License is distributed on an "AS IS"
-  ~ BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-  ~ or implied. See the License for the specific language governing
-  ~ permissions and limitations under the License.
-  -->
-
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSLU_CLU_RSLT ID="VAR-201" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" CLU_ID="VAR-200"
-            TYPE_KEY_ID="kuali.resultType.degree" ST="active" />
-    <KSLU_CLU_RSLT ID="VAR-301" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" CLU_ID="VAR-300"
-            TYPE_KEY_ID="kuali.resultType.degree" ST="active" />
-    <KSLU_CLU_RSLT ID="MAJOR-101" VERSIONIND="0" CREATEID="admin" CREATETIME="20100724120530" CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
-            TYPE_KEY_ID="kuali.resultType.degree" ST="active" />
+    <KSLU_CLU_RSLT CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
+        CREATEID="admin" CREATETIME="20100724120530" ID="MAJOR-101"
+        OBJ_ID="7A15BA0946274B0592E1B666776EB89A" ST="active"
+        TYPE_KEY_ID="kuali.resultType.degree" VER_NBR="0"/>
+    <KSLU_CLU_RSLT CLU_ID="VAR-200" CREATEID="admin"
+        CREATETIME="20100724120530" ID="VAR-201"
+        OBJ_ID="07CEF73DA10F4FF4ABD8EAA49311132E" ST="active"
+        TYPE_KEY_ID="kuali.resultType.degree" VER_NBR="0"/>
+    <KSLU_CLU_RSLT CLU_ID="VAR-300" CREATEID="admin"
+        CREATETIME="20100724120530" ID="VAR-301"
+        OBJ_ID="C142989D2B7C48A2A034C30DB6B7A880" ST="active"
+        TYPE_KEY_ID="kuali.resultType.degree" VER_NBR="0"/>
 </dataset>

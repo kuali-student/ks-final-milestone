@@ -23,7 +23,9 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -32,14 +34,15 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CluSetRangeHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist.CluSetRangeModelUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
@@ -49,6 +52,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     final Logger LOG = Logger.getLogger(CluSetManagementAssembler.class);
 
     public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
+// FIXME: should have it's own proposal types
     public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
     public static final String FORMAT_LU_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 
@@ -57,9 +61,18 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
     public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
 //    public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
-    public static final String CLUSET_DATA_TYPE = "CluSetManagement";
+    public static final String CLUSET_DATA_TYPE = "cluset";
 
     private LuService luService;
+    private MetadataServiceImpl metadataService;
+
+    public MetadataServiceImpl getMetadataService() {
+        return metadataService;
+    }
+
+    public void setMetadataService(MetadataServiceImpl metadataService) {
+        this.metadataService = metadataService;
+    }
 
     @Override
     public Data get(String id) throws AssemblyException {
@@ -68,27 +81,34 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         Data resultData = null;
 
         try {
-            List<String> cluIds = null;
-            CluSetInfo cluSetInfo = luService.getCluSetInfo(id);
-            // note: the cluIds returned by luService.getCluSetInfo also contains the clus
-            //       that are the result of query parameter search.  Set to null here and
-            //       retrieve the clus that are direct members.
-            cluSetInfo.setCluIds(null);
-            cluIds = luService.getCluIdsFromCluSet(id);
-            cluSetInfo.setCluIds(cluIds);
-            upWrap(cluSetInfo);
+            CluSetInfo cluSetInfo = getCluSetInfo(id);
             resultCluSetHelper = toCluSetHelper(cluSetInfo);
             if (resultCluSetHelper == null) {
                 resultData = null;
             } else {
-                resultData = new Data();
-                resultData.set("cluset", resultCluSetHelper.getData());
+//                resultData = new Data();
+//                resultData.set("cluset", resultCluSetHelper.getData());
+                resultData = resultCluSetHelper.getData();
             }
         } catch (Exception e) {
             throw new AssemblyException("Could not retrive cluSet with id " + id, e);
         }
 
         return resultData;
+    }
+    
+    public CluSetInfo getCluSetInfo(String cluSetId) throws Exception {
+        List<String> cluIds = null;
+        CluSetInfo cluSetInfo = null;
+        // note: the cluIds returned by luService.getCluSetInfo also contains the clus
+        //       that are the result of query parameter search.  Set to null here and
+        //       retrieve the clus that are direct members.
+        cluSetInfo = luService.getCluSetInfo(cluSetId);
+        cluSetInfo.setCluIds(null);
+        cluIds = luService.getCluIdsFromCluSet(cluSetId);
+        cluSetInfo.setCluIds(cluIds);
+        upWrap(cluSetInfo);
+        return cluSetInfo;
     }
 
     public MetaInfoHelper toMetaInfoHelper(MetaInfo metaInfo) {
@@ -216,7 +236,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 wrapperCluSet.setCluIds(cluSetInfo.getCluIds());
                 cluSetInfo.setCluIds(null);
                 try {
-                	wrapperCluSet.setType("kuali.cluSet.type.creditCourse");
+                    if (wrapperCluSet.getType() == null) {
+                	    wrapperCluSet.setType("kuali.cluSet.type.creditCourse");
+                    }
                     wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
@@ -258,12 +280,31 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
     private SaveResult<Data> saveCluSet(Data input) throws AssemblyException {
         SaveResult<Data> result = new SaveResult<Data>();
-        CluSetHelper cluSetHelper = new CluSetHelper((Data)input.get("cluset"));
+//        CluSetHelper cluSetHelper = new CluSetHelper((Data)input.get("cluset"));
+        List<ValidationResultInfo> saveValidationResults = null;
+        CluSetHelper cluSetHelper = new CluSetHelper(input);
         CluSetInfo cluSetInfo = toCluSetInfo(cluSetHelper);
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
         Data resultData = null;
         wrap(cluSetInfo);
+        
+        if ((cluSetInfo.getCluIds() == null || cluSetInfo.getCluIds().isEmpty()) &&
+                (cluSetInfo.getCluSetIds() == null || cluSetInfo.getCluSetIds().isEmpty()) &&
+                (cluSetInfo.getMembershipQuery() == null)){
+            ValidationResultInfo cluSetCannotBeEmpty = new ValidationResultInfo();
+            saveValidationResults = (saveValidationResults == null)? new ArrayList<ValidationResultInfo>() :
+                saveValidationResults;
+            result.setValue(null);
+            cluSetCannotBeEmpty.setElement("");
+            cluSetCannotBeEmpty.setMessage("Clu set cannot be empty");
+            cluSetCannotBeEmpty.setError("Clu set cannot be empty");
+            cluSetCannotBeEmpty.setLevel(ErrorLevel.ERROR);
+            saveValidationResults.add(cluSetCannotBeEmpty);
+            result.setValidationResults(saveValidationResults);
+            return result;
+        }
+        
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
                 updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);
@@ -273,10 +314,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             }
         } else {
             try {
-                //FIXME should user be specifying the type
-                //TODO remove when done testing
-                cluSetInfo.setType("kuali.cluSet.type.creditCourse");
-                // end of test code
+                if (cluSetInfo.getType() == null) {
+                    cluSetInfo.setType("kuali.cluSet.type.creditCourse");
+                }
                 updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
             } catch (Exception e) {
                 LOG.error("Failed to create cluset",e);
@@ -291,8 +331,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         if (resultCluSetHelper == null) {
             resultData = null;
         } else {
-            resultData = new Data();
-            resultData.set("cluset", resultCluSetHelper.getData());
+//            resultData = new Data();
+//            resultData.set("cluset", resultCluSetHelper.getData());
+            resultData = resultCluSetHelper.getData();
         }
         result.setValue(resultData);
         return result;
@@ -421,6 +462,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setMetaInfo(toMetaInfo(cluSetHelper.getMetaInfo()));
         cluSetInfo.setName(cluSetHelper.getName());
         cluSetInfo.setState(cluSetHelper.getState());
+        if (cluSetInfo.getState() == null) {
+            cluSetInfo.setState("active");
+        }
         cluSetInfo.setType(cluSetHelper.getType());
         cluSetInfo.setIsReusable(cluSetHelper.getReusable());
         cluSetInfo.setIsReferenceable(cluSetHelper.getReferenceable());
@@ -461,8 +505,14 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 	protected String getDataType() {
 		return CLUSET_DATA_TYPE;
 	}
-
+	
 	@Override
+    public Metadata getDefaultMetadata() {
+        // TODO Auto-generated method stub
+        return metadataService.getMetadata(getDataType());
+    }
+
+    @Override
 	protected String getDocumentPropertyName() {
         return "course";							//FIXME
 	}

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSEM_ENUM_T DESCR="ATP Durations" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.atptype.duration" EXPIR_DT="20000101000000"
+        NAME="ATP Durations" OBJ_ID="1C36B6742FF1437188CA6F29574FD344" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="Program Level" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.enum.lu.program.level" EXPIR_DT="20000101000000"
+        NAME="Program Level" OBJ_ID="99E334E9C3A749519C5563991834E56C" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="CIP 2000" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.enum.type.cip2000" EXPIR_DT="20000101000000"
+        NAME="CIP Codes 2000" OBJ_ID="9502109B1D344A78B7652A6A84EF52A8" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="CIP 2010" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.enum.type.cip2010" EXPIR_DT="20000101000000"
+        NAME="CIP Codes 2010" OBJ_ID="8F168A9D34784C34B81B3ED975F88B28" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="Campus Location Enumeration"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
+        EXPIR_DT="20000101000000" NAME="Campus Location Enumeration"
+        OBJ_ID="5A9C2037DDE74C88944BFD4EA735AD96" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="University Classification"
+        EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.code.UniversityClassification"
+        EXPIR_DT="20000101000000" NAME="University Classification"
+        OBJ_ID="9F830972EC5346438B869A645F3BC543" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="Learning Unit Fee Type" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20000101000000"
+        NAME="Learning Unit Fee Type"
+        OBJ_ID="94AD1A22668545BABF8C9705A98E540C" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="Learning Unit Rate Type" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.fee.rateType" EXPIR_DT="20000101000000"
+        NAME="Learning Unit Rate Type"
+        OBJ_ID="89EE4FF0E05B4ECEA56729963979EAF5" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="Final Exam Status" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.finalExam.status" EXPIR_DT="20000101000000"
+        NAME="Final Exam &#xa;Status"
+        OBJ_ID="063DFB9E884C4190B24EADC2EA608B52" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="Subject Area Enumeration"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
+        EXPIR_DT="20000101000000" NAME="Subject Area Enumeration"
+        OBJ_ID="E26A3A0A41614AFFB04C270191627714" VER_NBR="0"/>
+    <KSEM_ENUM_T DESCR="KS Data States" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.state" EXPIR_DT="20000101000000"
+        NAME="KS Data States" OBJ_ID="DDD8CECF38E84DD081284C8A8D843D0F" VER_NBR="0"/>
+</dataset>

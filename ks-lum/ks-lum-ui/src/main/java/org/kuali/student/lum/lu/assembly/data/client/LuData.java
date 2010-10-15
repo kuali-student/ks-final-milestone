@@ -27,7 +27,6 @@ import java.util.Set;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 /** 
  * 	This is class extends the data object to support additional non-data elements that are used by
@@ -40,7 +39,6 @@ public class LuData extends Data {
 	private static final long serialVersionUID = 1L;
 
 	private Data data;
-	private List<RuleInfo> ruleInfos = new ArrayList<RuleInfo>();
 	protected Map<String, String> applicationStateMap = new HashMap<String, String>();
 
 	public LuData(Data data){
@@ -52,23 +50,6 @@ public class LuData extends Data {
 	}
 	
 	/**
-	 * Set the rule info list
-	 * 
-	 * @param ruleInfos
-	 */
-	public void setRuleInfos(List<RuleInfo> ruleInfos) {
-		this.ruleInfos = ruleInfos;
-	}
-	
-	/**
-	 * Get the rule info list
-	 * @return
-	 */
-	public List<RuleInfo> getRuleInfos() {
-		return ruleInfos;
-	}
-
-	/**
 	 * Set the underlying data
 	 * @param data
 	 */
@@ -78,7 +59,6 @@ public class LuData extends Data {
 	
     /**
      * Get the underlying data
-     * @param data
      */
     public Data getData(){
         return data;

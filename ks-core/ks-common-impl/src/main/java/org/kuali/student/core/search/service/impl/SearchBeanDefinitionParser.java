@@ -162,7 +162,8 @@ public class SearchBeanDefinitionParser extends
 								Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
 								builder.addPropertyValue("fieldDescriptor", childBean);
 							}else if("leftHandSide".equals(node.getLocalName())
-									||"rightHandSide".equals(node.getLocalName())){
+									||"rightHandSide".equals(node.getLocalName())
+									||"joinCriteria".equals(node.getLocalName())){
 								Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
 								builder.addPropertyValue(node.getLocalName(), childBean);
 							}else{

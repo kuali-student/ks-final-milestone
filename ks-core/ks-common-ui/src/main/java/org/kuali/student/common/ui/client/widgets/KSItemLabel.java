@@ -12,29 +12,33 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Value;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Panel;
 
 public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLabel>, HasDataValue {
 
     private final String id = HTMLPanel.createUniqueId();
     private final String contentId = HTMLPanel.createUniqueId();
+//    private final String detaillsLinkId = HTMLPanel.createUniqueId();
     private final String removeLinkId = HTMLPanel.createUniqueId();
     private final String backgroundId = HTMLPanel.createUniqueId();
     private final String PANEL_CONTENT_OPEN = "<span id='" + contentId + "'></span>";
     private final String PANEL_CONTENT_REMOVE_LINK = "<span class='ks-selected-list-value-remove' id='" + removeLinkId + "'></span>"; 
-    private final String PANEL_CONTENT_BACKGROUND = "<div id='" + backgroundId + "' class='ks-selected-list-value-container'></div>"; 
+//    private final String PANEL_CONTENT_DETAILS = "<span class='gwt-Anchor' style='position: absolute; right: 25px; top: 1px;' id='" + detaillsLinkId + "'></span>";
+    private final String PANEL_CONTENT_BACKGROUND = "<div id='" + backgroundId + "' class='ks-selected-list-value-container'></div>";
+    private Panel mainPanel;
     private HTMLPanel panel;
     private AbbrButton delete = new AbbrButton(AbbrButtonType.DELETE);
+    private Anchor viewDetails = new Anchor("View");
     private DataHelper dataHelper;
     private Data data;
     private List<Callback<Value>> valueChangeCallbacks =
@@ -42,22 +46,38 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
     private String deletedKey;
     
     public KSItemLabel(boolean canEdit, DataHelper dataParser) {
-        init(canEdit, dataParser);
+        init(canEdit, false, dataParser);
     }
     
-    private void init(boolean canEdit, DataHelper dataParser) {
-        panel = new HTMLPanel(PANEL_CONTENT_OPEN + (canEdit ? PANEL_CONTENT_REMOVE_LINK : "") + PANEL_CONTENT_BACKGROUND);
-        panel.setStyleName("ks-selected-list-value");
+    public KSItemLabel(boolean canEdit, boolean hasDetails, DataHelper dataParser) {
+        init(canEdit, hasDetails, dataParser);
+    }
+
+    private void init(boolean canEdit, boolean hasDetails, DataHelper dataParser) {
+        mainPanel = new FlowPanel();
+        mainPanel.setStyleName("ks-selected-list-value");
+        panel = new HTMLPanel(PANEL_CONTENT_OPEN + PANEL_CONTENT_BACKGROUND);
         panel.getElement().setId(id);
         this.dataHelper = dataParser;
+        mainPanel.add(panel);
+        if (hasDetails) {
+            viewDetails.getElement().getStyle().setProperty("position", "absolute");
+            viewDetails.getElement().getStyle().setProperty("right", "25px");
+            viewDetails.getElement().getStyle().setProperty("top", "1px");
+            mainPanel.add(viewDetails);
+        }
         if(canEdit) {
-        	panel.add(delete, removeLinkId);
-            initHandlers();
+            delete.getElement().getStyle().setProperty("position", "absolute");
+            delete.getElement().getStyle().setProperty("right", "3px");
+            delete.getElement().getStyle().setProperty("top", "1px");
+            mainPanel.add(delete);
+            initDeleteHandlers();
         }
         String labelText = "";
         panel.getElementById(contentId).setInnerText(labelText);
         panel.setVisible(false);
-        super.initWidget(panel);
+        mainPanel.setVisible(false);
+        super.initWidget(mainPanel);
     }
     
     @Override
@@ -108,18 +128,19 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
         return dataHelper.parse(data);
     }
     
+    private String nvl(String inString) {
+        return (inString == null)? "" : inString;
+    }
+    
     private void redraw() {
         String labelText = null;
         labelText = dataHelper.parse(data);
-        panel.getElementById(contentId).setInnerText(labelText);
-        if (labelText == null || labelText.trim().isEmpty()) {
-            panel.setVisible(false);
-        } else {
-            panel.setVisible(true);
-        }
+        panel.getElementById(contentId).setInnerHTML(nvl(labelText));
+        panel.setVisible(true);
+        mainPanel.setVisible(true);
     }
 
-    private void initHandlers() {
+    private void initDeleteHandlers() {
         //DOM.sinkEvents(panel.getElementById(removeLinkId), Event.ONCLICK);
         delete.addClickHandler(new ClickHandler() {
             @Override
@@ -127,6 +148,10 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
             	doRemove();
             }
         });
+    }
+
+    public HandlerRegistration addShowDetailsHandler(ClickHandler clickHandler) {
+        return viewDetails.addClickHandler(clickHandler);
     }
 
     private void doRemove() {
@@ -148,8 +173,10 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
     public void setHighlighted(boolean highlighted) {
         if (highlighted) {
             Elements.fadeIn(panel.getElementById(backgroundId), 250, 100, new Elements.EmptyFadeCallback());
+//            Elements.fadeIn(mainPanel, 250, 100, new Elements.EmptyFadeCallback());
         } else {
             Elements.fadeOut(panel.getElementById(backgroundId), 1000, 0, new Elements.EmptyFadeCallback());   
+//            Elements.fadeOut(mainPanel, 1000, 0, new Elements.EmptyFadeCallback());   
         }
     }
     

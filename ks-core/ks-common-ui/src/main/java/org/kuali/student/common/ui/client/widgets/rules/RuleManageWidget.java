@@ -16,7 +16,7 @@ public class RuleManageWidget extends FlowPanel {
 
     private RuleTableWidget manageRule = new RuleTableWidget();
     private KSLabel logicalExpression = new KSLabel();
-    private SubrulePreviewWidget preview = new SubrulePreviewWidget(null, true);
+    private SubrulePreviewWidget preview = new SubrulePreviewWidget(null, true, null);
     private KSTabPanel panel = new KSTabPanel(KSTabPanel.TabPanelStyle.SMALL);
 
     //widget's data
@@ -85,6 +85,10 @@ public class RuleManageWidget extends FlowPanel {
 
     public void setReqCompEditButtonClickCallback(Callback<ReqComponentInfo> callback) {
         manageRule.addReqCompEditButtonClickCallback(callback);
+    }
+
+    public void setRuleChangedButtonClickCallback(Callback<Boolean> callback) {
+        manageRule.addRuleChangedButtonClickCallback(callback);
     }
 
     public StatementTreeViewInfo getStatementTreeViewInfo() {

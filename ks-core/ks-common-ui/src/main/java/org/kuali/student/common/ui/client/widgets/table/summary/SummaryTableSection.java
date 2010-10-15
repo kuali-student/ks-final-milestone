@@ -65,6 +65,8 @@ public class SummaryTableSection extends VerticalSection {
 
     public void setEditable(boolean bool) {
         summaryTableModel.setEditable(bool);
+        summaryTable.doLayout();
+        summaryTable.markDiffs("rowDiffHighlight");
     }
     
     public void addShowRowCallback(ShowRowConditionCallback callback){

@@ -32,7 +32,7 @@ import com.google.gwt.user.client.Window;
 public class StatementVO extends Token implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private StatementInfo statementInfo;
+    private StatementInfo statementInfo;       //TODO do we really need this and do we need to duplicate this in sub rules?
     private List<ReqComponentVO> reqComponentVOs = new ArrayList<ReqComponentVO>();
     private List<StatementVO> statementVOs = new ArrayList<StatementVO>();
 
@@ -797,7 +797,7 @@ public class StatementVO extends Token implements Serializable {
     private void doClearSelections(StatementVO statementVO) {
         statementVO.setCheckBoxOn(false);
         if (statementVO.getStatementVOCount() > 0) {
-            for (StatementVO childS : statementVOs) {
+            for (StatementVO childS : statementVO.getStatementVOs()) {
                 doClearSelections(childS);
             }
         } else if (statementVO.getReqComponentVOCount() > 0) {
@@ -849,7 +849,7 @@ public class StatementVO extends Token implements Serializable {
             // retrieve all req. component LEAFS
             List<ReqComponentInfo> reqComponentList = new ArrayList<ReqComponentInfo>();
             for (ReqComponentVO reqComponent : reqComponentVOs) {
-                ReqComponentInfo newReqComp = ObjectClonerUtil.clone(reqComponent.getReqComponentInfo());
+                ReqComponentInfo newReqComp = RulesUtil.clone(reqComponent.getReqComponentInfo());
                 reqComponentList.add(newReqComp);
             }
             statementTreeViewInfo.setReqComponents(reqComponentList);
@@ -898,7 +898,7 @@ public class StatementVO extends Token implements Serializable {
             List<ReqComponentVO> reqComponentList = new ArrayList<ReqComponentVO>();
             for (ReqComponentInfo reqComponent : reqComponentInfos) {
                 ReqComponentVO newReqComp = new ReqComponentVO();
-                newReqComp.setReqComponentInfo(ObjectClonerUtil.clone(reqComponent));
+                newReqComp.setReqComponentInfo(RulesUtil.clone(reqComponent));
                 reqComponentList.add(newReqComp);
             }
             statementVO.reqComponentVOs = reqComponentList;

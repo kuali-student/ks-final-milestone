@@ -14,9 +14,12 @@
  */
 package org.kuali.student.common.ui.server.gwt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -24,14 +27,37 @@ public class MetadataRpcGwtServlet extends RemoteServiceServlet implements Metad
 
     private static final long serialVersionUID = 1L;
 
-    private MetadataServiceImpl serviceImpl; 
+    private MetadataServiceImpl serviceImpl;
+    private org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl oldServiceImpl;
+
+    @Override
+    @Deprecated
+    public Metadata getOldMetadata(String objectKey, String type, String state) {
+        return oldServiceImpl.getMetadata(objectKey, type, state);
+    }
 
     @Override
     public Metadata getMetadata(String objectKey, String type, String state) {
         return serviceImpl.getMetadata(objectKey, type, state);
     }
+
+    public List<Metadata> getMetadataList(String objectKey, List<String> types, String state) {
+        List<Metadata> metadataList = new ArrayList<Metadata>();
+        for (String type : types) {
+            metadataList.add(serviceImpl.getMetadata(objectKey, type, state));
+        }
+        return metadataList;
+    }
+
+    public Metadata getMetadataList(String objectKey, String state) {
+        return serviceImpl.getMetadata(objectKey, state);                
+    }
     
+    public void setOldServiceImpl(org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl serviceImpl) {
+        this.oldServiceImpl = serviceImpl;
+    }
+
     public void setServiceImpl(MetadataServiceImpl serviceImpl) {
         this.serviceImpl = serviceImpl;
-    }    
+    }
 }

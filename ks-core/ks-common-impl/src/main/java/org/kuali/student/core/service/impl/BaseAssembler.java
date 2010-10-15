@@ -28,6 +28,7 @@ import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.entity.Attribute;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.Meta;
+import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.Type;
 import org.kuali.student.core.entity.Version;
@@ -60,24 +61,39 @@ public class BaseAssembler {
 			owner.setAttributes(new ArrayList<A>());
 		}
 		
-		// Delete all the old attributes(if the owner is not null)
+		Map<String, A> currentAttributes = new HashMap<String,A>();
+		
+		// Find all the old attributes(if the owner is not null)
 		for (A attribute : owner.getAttributes()) {
-			dao.delete(attribute);
+			currentAttributes.put(attribute.getName(), attribute);
+			
 		}
+		
+		//Clear out the attributes
 		owner.getAttributes().clear();
-
+	
+		//Update anything that exists, or create a new attribute if it doesn't
 		for (Map.Entry<String, String> attributeEntry : attributeMap.entrySet()) {
-
+			
 			A attribute;
-			try {
-				attribute = attributeClass.newInstance();
+			if(currentAttributes.containsKey(attributeEntry.getKey())){
+				attribute = currentAttributes.remove(attributeEntry.getKey());
+			}else{
+				try{
+					attribute = attributeClass.newInstance();
+				}catch(Exception e){
+					throw new RuntimeException("Error copying attributes.",e);
+				}
 				attribute.setName(attributeEntry.getKey());
-				attribute.setValue(attributeEntry.getValue());
 				attribute.setOwner(owner);
-				attributes.add(attribute);
-			} catch (Exception e) {
-				logger.error("Exception occured: ", e);
 			}
+			attribute.setValue(attributeEntry.getValue());
+			attributes.add(attribute);
+		}
+		
+		//Delete leftovers
+		for(A attribute:currentAttributes.values()){
+			dao.delete(attribute);
 		}
 
 		return attributes;
@@ -133,15 +149,36 @@ public class BaseAssembler {
 		}
 		return typeInfoList;
 	}
+	
+	public static List<String> toGenericTypeKeyList( List<? extends Type<?>> typeEntities){
+		List<String> typeKeys = new ArrayList<String>();
+		if(typeEntities!=null){
+			for(Type<?> typeEntity:typeEntities){
+				typeKeys.add(typeEntity.getId());
+			}
+		}
+		return typeKeys;
+	}
 
-	protected static MetaInfo toMetaInfo(Meta meta, long versionInd) {
+	protected static MetaInfo toMetaInfo(MetaEntity metaEntity) {
+		if(metaEntity == null){
+			return null;
+		}
+		return toMetaInfo(metaEntity.getMeta(), metaEntity.getVersionNumber());
+	}
+	
+	protected static MetaInfo toMetaInfo(Meta meta, Long versionInd) {
 
 		MetaInfo metaInfo = new MetaInfo();
 		// If there was a meta passed in then copy the values
 		if (meta != null) {
 			BeanUtils.copyProperties(meta, metaInfo);
 		}
-		metaInfo.setVersionInd(String.valueOf(versionInd));
+		if(versionInd==null){
+			metaInfo.setVersionInd(null);
+		}else{
+			metaInfo.setVersionInd(versionInd.toString());
+		}
 
 		return metaInfo;
 	}

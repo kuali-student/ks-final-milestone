@@ -6,6 +6,8 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.util.PrintUtils;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -22,8 +24,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SummaryTableDemo extends Composite {
     public SummaryTableDemo() {
-       // super.initWidget(createDemoPage());
-        super.initWidget(createSummaryTableFromDataModel());
+        super.initWidget(createDemoPage());
+       // super.initWidget(createSummaryTableFromDataModel());
     }
     private Widget createSummaryTableFromDataModel(){
         VerticalPanel p = new VerticalPanel();
@@ -89,7 +91,7 @@ public class SummaryTableDemo extends Composite {
     private Widget createDemoPage(){
         VerticalPanel p = new VerticalPanel();
         p.setPixelSize(800, 800);
-        SummaryTable summaryTable = new SummaryTable();
+        final SummaryTable summaryTable = new SummaryTable();
         SummaryTableModel model = new SummaryTableModel();
         model.setEditable(true);
         model.setContentColumnHeader1("Title 1");
@@ -115,6 +117,14 @@ public class SummaryTableDemo extends Composite {
         //summaryTable.highLightRow("key1");
         summaryTable.highlightCell("key1",1, "cellHighlight");
         p.add(summaryTable);
+        p.add(new KSButton("Print", new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				PrintUtils.print(summaryTable);
+				
+			}
+		}));
         return p;
     }    
     private SummaryTableRow createRow2(){

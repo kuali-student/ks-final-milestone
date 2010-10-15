@@ -7,7 +7,10 @@ package org.kuali.student.core.assembly.transform;
  *
  */
 public interface TransformFilter {
-	public static final String FILTER_OPERATION = "TransformFilter.Operation";
+	//Generic filter property keys
+	public static final String FILTER_ACTION = "TransformFilter.Operation";
+	
+	public enum TransformFilterAction{SAVE, GET};
 	
 	/**
 	 * The type of the object being filtered.

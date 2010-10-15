@@ -43,12 +43,12 @@
 		<property name="locale" value="CA" />
 	</bean>
 	
-   	<bean id="m1"	parent="msgUS"	p:groupName="Address"	p:id="City"		p:value="Enter the US city where you live:"/>
-   	<bean id="m2"	parent="msgUS"	p:groupName="Address"	p:id="State"	p:value="State:"/>
-   	<bean id="m3"	parent="msgUS"	p:groupName="Name"		p:id="Last"		p:value="Enter your last name:"/>
+   	<bean id="m1"	parent="msgUS"	p:groupName="Address"	p:messageId="City"		p:value="Enter the US city where you live:"/>
+   	<bean id="m2"	parent="msgUS"	p:groupName="Address"	p:messageId="State"	p:value="State:"/>
+   	<bean id="m3"	parent="msgUS"	p:groupName="Name"		p:messageId="Last"		p:value="Enter your last name:"/>
    	
-   	<bean id="m4"	parent="msgCA"	p:groupName="Address"	p:id="City"		p:value="Enter the Canadian city where you live:"/>
-   	<bean id="m5"	parent="msgCA"	p:groupName="Address"	p:id="State"	p:value="Province:"/>
-   	<bean id="m6"	parent="msgCA"	p:groupName="Name"		p:id="Last"		p:value="Enter your surName:"/>
+   	<bean id="m4"	parent="msgCA"	p:groupName="Address"	p:messageId="City"		p:value="Enter the Canadian city where you live:"/>
+   	<bean id="m5"	parent="msgCA"	p:groupName="Address"	p:messageId="State"	p:value="Province:"/>
+   	<bean id="m6"	parent="msgCA"	p:groupName="Name"		p:messageId="Last"		p:value="Enter your surName:"/>
 
 </beans>

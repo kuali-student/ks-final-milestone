@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
- <import resource="classpath:ks-cluInfo-dictionary-context.xml"/>
+ <import resource="classpath:ks-base-dictionary-context.xml" />
 
  <!-- CluSetInfo-->
  <bean id="org.kuali.student.lum.lu.dto.CluSetInfo-parent" abstract="true" parent="objectStructureDefinition">
@@ -88,11 +88,13 @@
 
  <bean id="cluSetInfo.state-parent" abstract="true" parent="baseKualiState">
   <property name="name" value="state"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="cluSetInfo.state" parent="cluSetInfo.state-parent"/>
 
  <bean id="cluSetInfo.type-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="type"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="cluSetInfo.type" parent="cluSetInfo.type-parent"/>
 
@@ -142,19 +144,10 @@
  </bean>
  <bean id="searchParam.key" parent="searchParam.key-parent"/>
 
- <bean id="searchParam.value-parent" abstract="true" parent="baseComplex">
+ <bean id="searchParam.value-parent" abstract="true" parent="baseString">
   <property name="name" value="value"/>
-  <property name="dataObjectStructure" ref="java.lang.Object"/>
+  <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="searchParam.value" parent="searchParam.value-parent"/>
 
- <!-- Object-->
- <bean id="java.lang.Object-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="java.lang.Object"/>
-  <property name="attributes">
-   <list>
-   </list>
-  </property>
- </bean>
- <bean id="java.lang.Object" parent="java.lang.Object-parent"/>
 </beans>

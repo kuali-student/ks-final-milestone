@@ -16,12 +16,10 @@
 
 -->
 
+<!-- THIS SHOULD BE REMOVED ONCE OLD METADATASERVICE IS REMOVED  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-	<!-- This may not be the best place for this -->
-	<bean id="simpleMask" class="org.kuali.student.core.assembly.data.masking.SimpleMask" />
 	
 	<bean id="constraint" abstract="true"
 		class="org.kuali.student.core.assembly.data.ConstraintMetadata" />
@@ -1392,7 +1390,6 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
-					<property name="mask" ref="simpleMask" />
 					<property name="constraints">
 						<list>
 							<ref bean="constraint.single" />

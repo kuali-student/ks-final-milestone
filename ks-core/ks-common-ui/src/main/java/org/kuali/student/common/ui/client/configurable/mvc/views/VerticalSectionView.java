@@ -59,4 +59,8 @@ public class VerticalSectionView extends SectionView {
     public void clear() {
         // TODO Auto-generated method stub
     }
+    
+    public void setSectionTitle(String title){
+    	layout.setLayoutTitle(SectionTitle.generateH2Title(title));
+    }
 }

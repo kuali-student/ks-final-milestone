@@ -59,7 +59,7 @@ public class CluPostProcessor implements PostProcessor{
 
 	private static final String CLU_STATE_ACTIVE = "Active";
 
-	public ProcessDocReport afterProcess(AfterProcessEvent arg0) throws Exception {
+    public ProcessDocReport afterProcess(AfterProcessEvent arg0) throws Exception {
         return new ProcessDocReport(true, "");
 	}
 
@@ -71,11 +71,14 @@ public class CluPostProcessor implements PostProcessor{
 		WorkflowDocument doc = new WorkflowDocument(getPrincipalIdForSystemUser(), actionTakenEvent.getRouteHeaderId());
 		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
 		if (actionTaken != null) {
-			for (ActionRequestValue actionRequest : actionTaken.getActionRequests()) {
-		        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
-					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
-					removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
-		        }
+		    // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation 
+	        if (!StringUtils.equals(KEWConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTaken.getActionTaken())) {
+    			for (ActionRequestValue actionRequest : actionTaken.getActionRequests()) {
+    		        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
+    					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
+    					removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
+    		        }
+    	        }
 	        }
 		}
 		else {

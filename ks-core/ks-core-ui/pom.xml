@@ -103,6 +103,11 @@
           <groupId>org.kuali.rice</groupId>
           <artifactId>rice-impl</artifactId>
         </dependency>
+	    <dependency>
+	      <groupId>org.kuali.student.security</groupId>
+	      <artifactId>ks-standard-sec</artifactId>
+	      <version>${project.version}</version>
+	    </dependency>         
       </dependencies>
     </profile>
   </profiles>
@@ -135,6 +140,18 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-core-rice</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-core-rice</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>

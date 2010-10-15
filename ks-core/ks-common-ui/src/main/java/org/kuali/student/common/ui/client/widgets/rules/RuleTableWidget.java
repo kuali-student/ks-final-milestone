@@ -59,6 +59,7 @@ public class RuleTableWidget extends FlowPanel {
     //view's data
     private RuleInfo rule = new RuleInfo();
     private Callback reqCompEditCallback;
+    private Callback ruleChangedCallback;
     private boolean isEnabled = true;
     private boolean isOperatorChecked = false;
 
@@ -179,7 +180,7 @@ public class RuleTableWidget extends FlowPanel {
                 }
 
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
-                StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                StatementVO unsimplified = RulesUtil.clone(rule.getStatementVO());
                 boolean structureChanged = rule.getStatementVO().simplify();
                 rule.getEditHistory().save(rule.getStatementVO());
 
@@ -207,7 +208,7 @@ public class RuleTableWidget extends FlowPanel {
                 }
 
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
-                StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                StatementVO unsimplified = RulesUtil.clone(rule.getStatementVO());
                 boolean structureChanged = rule.getStatementVO().simplify();
                 rule.getEditHistory().save(rule.getStatementVO());
 
@@ -225,7 +226,7 @@ public class RuleTableWidget extends FlowPanel {
                 rule.deleteItem();
 
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
-                StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                StatementVO unsimplified = RulesUtil.clone(rule.getStatementVO());
                 boolean structureChanged = false;
                 if (rule.getStatementVO() != null) {
                     structureChanged = rule.getStatementVO().simplify();
@@ -247,7 +248,7 @@ public class RuleTableWidget extends FlowPanel {
                 rule.addToGroup();
 
                 // clone a copy of the unsimplified form for showing intermediate step on the UI
-                StatementVO unsimplified = ObjectClonerUtil.clone(rule.getStatementVO());
+                StatementVO unsimplified = RulesUtil.clone(rule.getStatementVO());
                 boolean structureChanged = false;
                 if (rule.getStatementVO() != null) {
                     structureChanged = rule.getStatementVO().simplify();
@@ -318,10 +319,12 @@ public class RuleTableWidget extends FlowPanel {
             ruleTable.buildTable(tree);
             textClickHandler.removeHandler();
             ruleTable.addTextClickHandler(ruleTableSelectionHandler);
-            ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);                
+            ruleTable.addEditClauseHandler(ruleTableEditClauseHandler);
+            ruleChangedCallback.exec(false);
         } else { //no rule exist so don't show rule table and show a message instead
             ruleTablePanel.clear();
             ruleTablePanel.add(new KSLabel("No rules have been added"));
+            ruleChangedCallback.exec(true);
         }
     }
     
@@ -423,5 +426,9 @@ public class RuleTableWidget extends FlowPanel {
 
     public void addReqCompEditButtonClickCallback(Callback<ReqComponentInfo> callback) {
         reqCompEditCallback = callback;
+    }
+
+    public void addRuleChangedButtonClickCallback(Callback<Boolean> callback) {
+        ruleChangedCallback = callback;
     }
 }

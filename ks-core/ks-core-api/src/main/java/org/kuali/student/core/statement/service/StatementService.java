@@ -622,4 +622,32 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
      */
     public StatementTreeViewInfo updateStatementTreeView(@WebParam(name="statementId")String statementId, @WebParam(name="statementTreeViewInfo")StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+	/**
+	 * Creates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else 
+	 * @param statementTreeViewInfo
+	 * @return Statement tree view
+	 * @throws CircularReferenceException included statement references the current statement
+	 * @throws AlreadyExistsException
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public StatementTreeViewInfo createStatementTreeView(@WebParam(name="statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+	
+	/**
+	 * Deletes the entire statement tree
+	 * @param statementId
+	 * @return Status of delete
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public StatusInfo deleteStatementTreeView(@WebParam(name="statementId") String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }

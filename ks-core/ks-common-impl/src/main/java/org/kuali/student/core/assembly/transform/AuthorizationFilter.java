@@ -3,6 +3,7 @@ package org.kuali.student.core.assembly.transform;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -13,8 +14,8 @@ import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Metadata.Permission;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 
 /**
@@ -31,6 +32,32 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
     	
 	final Logger LOG = Logger.getLogger(AuthorizationFilter.class);
     
+    public enum Permission {
+        EDIT("edit"), VIEW("view"), UNMASK("unmask"), PARTIAL_UNMASK("partialunmask");
+        final String kimName;
+        private Permission(String kimName) {
+            this.kimName = kimName;
+        }
+        @Override
+        public String toString() {
+            return kimName;
+        }
+        public static Permission kimValueOf(String kimName) {
+            for(Permission p : values()) {
+                if(p.kimName.equals(kimName)) {
+                    return p;
+                }
+            }
+            //fall through
+            throw new IllegalArgumentException("The value " + kimName + " is not enumerated in Permission"); 
+        }
+    }
+	
+    /**
+     * This makes sure that for any dirty element in the inbound data that the user has authorization to edit 
+     * that field.
+     *  
+     */
     @Override
 	public void applyInboundDataFilter(Data data, Metadata metadata, Map<String,Object> filterProperties) throws Exception {       
         if(metadata != null && !metadata.isCanEdit()) {
@@ -49,49 +76,94 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
 				}
 			}
         }
+        
+        //TODO: If fields were masked, need to prevent masked values from being persisted.
     }
 
 	@Override
 	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,Object> filterProperties)
 			throws Exception {
-		//TODO: Need to apply authz to the output (mostly full data should not be sent to UI if masked or hidden)
+		applyPermissionsToData(data, metadata, filterProperties);
 	}
 
+	/**
+	 * Modify the metadata tree to apply data restrictions, currently this only does masking. 
+	 */
 	@Override
 	public void applyMetadataFilter(String dtoName, Metadata metadata, Map<String, Object> metadataProperties) {       
 		applyPermissionsToMetadata(dtoName, metadata, metadataProperties);
 	}
 	
+	/**
+	 * Apply masking rules to outbound data.
+	 *  
+	 * @param data
+	 * @param metadata
+	 * @param filterProperties
+	 */
+	protected void applyPermissionsToData(Data data, Metadata metadata, Map<String, Object> filterProperties){
+		 if (data == null) {
+		     return;
+		 }
+
+		 Map<String, Metadata> properties = metadata.getProperties();
+		 for (Entry<String, Metadata> entry:properties.entrySet()){
+			 String propName = entry.getKey();
+			 Metadata propMetadata = entry.getValue();
+			 Object dataValue = data.get(propName);
+			 
+			 if (dataValue != null){
+				 //Apply the appropriate mask when user does not have edit access to this field
+				 if (dataValue instanceof String && !propMetadata.isCanEdit()){
+					 if (StringUtils.isNotBlank(propMetadata.getMaskFormatter())){
+						 data.set(propName, propMetadata.getMaskFormatter());
+					 } else if (StringUtils.isNotBlank(propMetadata.getPartialMaskFormatter())){
+						 String value = (String)dataValue;
+						 String mask = propMetadata.getPartialMaskFormatter();
+						 dataValue = mask + value.substring(mask.length());
+						 data.set(propName, (String)dataValue);
+					 }
+				 } else if (dataValue instanceof Data){
+					 applyPermissionsToData((Data)data.get(propName), propMetadata, filterProperties);
+				 }
+			 }
+		 }		
+	}
+	
+	/**
+	 * 
+	 * @param dtoName
+	 * @param metadata
+	 * @param metadataProperties
+	 */
     protected void applyPermissionsToMetadata(String dtoName, Metadata metadata, Map<String, Object> metadataProperties){
-        Boolean authorized = null;
+        boolean editDocumentAllowed;
     
         String idType = (String)metadataProperties.get(METADATA_ID_TYPE);
         String id = (String)metadataProperties.get(METADATA_ID_VALUE);
         String docLevelPerm = (String)metadataProperties.get(DOC_LEVEL_PERM_CHECK);
         String docType = (String)metadataProperties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE);
         
-        if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions(docLevelPerm)) {
+        //See if user is allowed to edit the document.  
+        if (checkDocumentLevelPermissions(docLevelPerm) && StringUtils.isNotBlank(id)) {
+        	//If doc level permissions are enabled, lookup "Edit Document" permission for this object for this user. 
             AttributeSet qualification = getQualification(idType, id, docType);
         	String currentUser = SecurityUtils.getCurrentUserId();
-	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+        	editDocumentAllowed = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
 	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
 			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
-					+ "' for user '" + currentUser + "': " + authorized);
-	        metadata.setCanEdit(authorized.booleanValue());
-        }  
-        if(metadata != null && metadata.getProperties() != null) {
-            for(Metadata child : metadata.getProperties().values()) {
-                if(!child.isCanEdit()) {
-                    setReadOnly(child, true);
-                }
-            }
+					+ "' for user '" + currentUser + "': " + editDocumentAllowed);	        
+        }  else {
+        	//Doc level permissions not enabled, by default allow user to edit
+        	editDocumentAllowed = true;
         }
-        // if we're checking doc level perms and user does not have "Edit Document" perm set metadata as readonly
-        if (checkDocumentLevelPermissions(docLevelPerm) && Boolean.FALSE.equals(authorized)) {
+        
+        
+        if (!editDocumentAllowed){
+        	//User not allowed to edit document, set every metadata element to read only
         	setReadOnly(metadata, true);
-        }
-        // if not checking doc level perms or user does have "Edit Document" perm check field level authZ
-        else {
+        } else {
+        	///User allowed to edit document, need to check permissions for individual fields.
 	        Map<String, String> permissions = getFieldAccessPermissions(dtoName,idType,id, docType);
 	        if (permissions != null) {
 	            for (Map.Entry<String, String> permission : permissions.entrySet()) {
@@ -106,10 +178,15 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
 	                    fieldMetadata = fieldMetadata.getProperties().get(fieldPathTokens[i]);
 	                }
 	                if (fieldMetadata != null) {
-	                    Permission perm = Metadata.Permission.kimValueOf(fieldAccessLevel);
+	                    Permission perm = Permission.kimValueOf(fieldAccessLevel);
 	                    if (Permission.EDIT.equals(perm)) {
 	                        setReadOnly(fieldMetadata, false);
-	                        //fieldMetadata.setCanEdit(true);
+	                    } else if (Permission.PARTIAL_UNMASK.equals(perm)){
+	                    	fieldMetadata.setCanEdit(false);
+	                    	fieldMetadata.setMaskFormatter("");
+	                    } else if (Permission.UNMASK.equals(perm)){
+	                    	fieldMetadata.setMaskFormatter("");
+	                    	fieldMetadata.setPartialMaskFormatter("");	                    	
 	                    }
 	                }
 	            }
@@ -141,7 +218,12 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         return null;
     }
    
-
+    /**
+     * Sets the metadata node and all it's children to readOnly (i.e. canEdit=false).
+     * 
+     * @param metadata
+     * @param readOnly
+     */
 	private void setReadOnly(Metadata metadata, boolean readOnly) {
 		metadata.setCanEdit(!readOnly);
 		Map<String, Metadata> childProperties = metadata.getProperties();
@@ -163,7 +245,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
 
     protected AttributeSet getQualification(String idType, String id, String docType) {
         AttributeSet qualification = new AttributeSet();
-        qualification.put("documentTypeName", docType);
+        qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
         qualification.put(idType, id);
         return qualification;
     }

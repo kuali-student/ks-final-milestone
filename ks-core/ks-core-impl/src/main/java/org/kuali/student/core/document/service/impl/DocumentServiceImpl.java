@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,10 @@ import org.kuali.student.core.document.dto.RefDocRelationTypeInfo;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;
 import org.kuali.student.core.document.entity.DocumentType;
-
+import org.kuali.student.core.document.entity.RefDocRelation;
+import org.kuali.student.core.document.entity.RefDocRelationType;
+import org.kuali.student.core.document.entity.RefObjectSubType;
+import org.kuali.student.core.document.entity.RefObjectType;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -95,7 +99,7 @@ public class DocumentServiceImpl implements DocumentService {
 	    throw new OperationFailedException("error fetching document keys", dnee);
         }
 	
-	Document doc = DocumentServiceAssembler.toDocument(documentInfo, dao);
+	Document doc = DocumentServiceAssembler.toDocument(new Document(), documentInfo, dao);
 	doc.setType(type);
 	doc.setCategoryList(Arrays.asList(category));
 	dao.create(doc);
@@ -124,37 +128,52 @@ public class DocumentServiceImpl implements DocumentService {
         List<DocumentCategory> categories = dao.find(DocumentCategory.class);
         return DocumentServiceAssembler.toDocumentCategoryInfos(categories);
     }
+    
     @Override
     public DocumentCategoryInfo getDocumentCategory(String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         return DocumentServiceAssembler.toDocumentCategoryInfo(dao.fetch(DocumentCategory.class, documentCategoryKey));
     }
+    
     @Override
     public DocumentTypeInfo getDocumentType(String documentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentTypeKey, "documentTypeKey");
-        return DocumentServiceAssembler.toDocumentTypeInfo(dao.fetch(DocumentType.class, documentTypeKey));
+        return DocumentServiceAssembler.toGenericTypeInfo(DocumentTypeInfo.class,(dao.fetch(DocumentType.class, documentTypeKey)));
     }
+    
     @Override
     public List<DocumentTypeInfo> getDocumentTypes() throws OperationFailedException {
-        return DocumentServiceAssembler.toDocumentTypeInfos(dao.find(DocumentType.class));
+        return DocumentServiceAssembler.toGenericTypeInfoList(DocumentTypeInfo.class,dao.find(DocumentType.class));
     }
+    
     @Override
     public List<String> getRefObjectTypes() throws OperationFailedException {
-        throw new OperationFailedException("unimplemented");
+        return DocumentServiceAssembler.toGenericTypeKeyList(dao.find(RefObjectType.class));
     }
+    
     @Override
     public List<String> getRefObjectSubTypes(String refObjectTypeKey) throws MissingParameterException, OperationFailedException {
         checkForMissingParameter(refObjectTypeKey, "refObjectTypeKey");
-        throw new OperationFailedException("unimplemented");
+        RefObjectType refOjectType;
+		try {
+			refOjectType = dao.fetch(RefObjectType.class, refObjectTypeKey);
+		} catch (DoesNotExistException e) {
+			return new ArrayList<String>(0);
+		}
+        return DocumentServiceAssembler.toGenericTypeKeyList(refOjectType.getRefObjectSubTypes());
     }
+    
     @Override
     public List<RefDocRelationTypeInfo> getRefDocRelationTypes() throws OperationFailedException {
-        throw new OperationFailedException("unimplemented");
+        return DocumentServiceAssembler.toGenericTypeInfoList(RefDocRelationTypeInfo.class, dao.find(RefDocRelationType.class));
     }
+    
     @Override
 	public List<RefDocRelationTypeInfo> getRefDocRelationTypesForRefObjectSubType(String refSubTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(refSubTypeKey, "refSubTypeKey");
-        throw new OperationFailedException("unimplemented");
+        
+        RefObjectSubType refObjectSubType = dao.fetch(RefObjectSubType.class, refSubTypeKey);
+        return DocumentServiceAssembler.toGenericTypeInfoList(RefDocRelationTypeInfo.class, refObjectSubType.getRefDocRelationTypes());
     }
     @Override
     public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -166,18 +185,18 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public RefDocRelationInfo getRefDocRelation(String refDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
-        throw new OperationFailedException("unimplemented");       
+        return DocumentServiceAssembler.toRefDocRelationInfo(dao.fetch(RefDocRelation.class, refDocRelationId));
     }
     @Override
 	public List<RefDocRelationInfo> getRefDocRelationsByRef(String refObjectTypeKey, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refObjectTypeKey, "refObjectTypeKey");
         checkForMissingParameter(refObjectId, "refObjectId");
-        throw new OperationFailedException("unimplemented");       
+        return DocumentServiceAssembler.toRefDocRelationInfos(dao.getRefDocRelationsByRef(refObjectTypeKey, refObjectId));       
     }
     @Override
     public List<RefDocRelationInfo> getRefDocRelationsByDoc(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
-        throw new OperationFailedException("unimplemented");       
+        return DocumentServiceAssembler.toRefDocRelationInfos(dao.getRefDocRelationsByDoc(documentId));       
     }
     
     @Override
@@ -189,6 +208,9 @@ public class DocumentServiceImpl implements DocumentService {
         return statusInfo;
     }
 
+    /**
+     * Does not update Type or categories
+     */
     @Override
     public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(documentId, "documentId");
@@ -196,14 +218,13 @@ public class DocumentServiceImpl implements DocumentService {
         
         Document document = dao.fetch(Document.class, documentId);
         
-        if (!String.valueOf(document.getVersionInd()).equals(documentInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(document.getVersionNumber()).equals(documentInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("Document to be updated is not the current version");
         }
         
         document = DocumentServiceAssembler.toDocument(document, documentInfo, dao);
-        dao.update(document);
-        
-        return DocumentServiceAssembler.toDocumentInfo(document);
+                
+        return DocumentServiceAssembler.toDocumentInfo(dao.update(document));
     }
     
 
@@ -231,20 +252,39 @@ public class DocumentServiceImpl implements DocumentService {
         checkForMissingParameter(refObjectId, "refObjectId");
         checkForMissingParameter(refDocRelationTypeKey, "refDocRelationTypeKey");
         checkForMissingParameter(refDocRelationInfo, "refDocRelationInfo");
-	throw new OperationFailedException("unimplemented");
+        
+        refDocRelationInfo.setRefObjectTypeKey(refObjectTypeKey);
+        refDocRelationInfo.setRefObjectId(refObjectId);
+        refDocRelationInfo.setType(refDocRelationTypeKey);;
+        
+        RefDocRelation refDocRelation = DocumentServiceAssembler.toRefDocRelation(new RefDocRelation(), refDocRelationInfo, dao);
+
+        return DocumentServiceAssembler.toRefDocRelationInfo(dao.create(refDocRelation));
     }
 
     @Override
-    public RefDocRelationInfo updateRefDocRelation(String refDocRelationId, RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public RefDocRelationInfo updateRefDocRelation(String refDocRelationId, RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
         checkForMissingParameter(refDocRelationInfo, "refDocRelationInfo");
-	throw new OperationFailedException("unimplemented");
+        
+        refDocRelationInfo.setId(refDocRelationId);
+        
+        RefDocRelation refDocRelation = dao.fetch(RefDocRelation.class, refDocRelationId);
+        
+        if (!String.valueOf(refDocRelation.getVersionNumber()).equals(refDocRelationInfo.getMetaInfo().getVersionInd())){
+            throw new VersionMismatchException("RefDocRelation to be updated is not the current version");
+        }
+        
+        refDocRelation = DocumentServiceAssembler.toRefDocRelation(refDocRelation, refDocRelationInfo, dao);
+                
+        return DocumentServiceAssembler.toRefDocRelationInfo(dao.update(refDocRelation));
     }
 
     @Override
     public StatusInfo deleteRefDocRelation(String refDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
-	throw new OperationFailedException("unimplemented");
+        dao.delete(RefDocRelation.class, refDocRelationId);
+        return new StatusInfo();
     }
 
    

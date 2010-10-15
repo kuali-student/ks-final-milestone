@@ -61,4 +61,10 @@
     <KRIM_ROLE_RSP_T ACTV_IND="Y"
         OBJ_ID="PublicationReview000000ROLERSP02" ROLE_ID="910"
         ROLE_RSP_ID="50502" RSP_ID="305" VER_NBR="1"/>
+    <KRIM_ROLE_RSP_T ACTV_IND="Y"
+        OBJ_ID="PublicationReview00000AROLERSP02" ROLE_ID="910"
+        ROLE_RSP_ID="50503" RSP_ID="306" VER_NBR="1"/>
+    <KRIM_ROLE_RSP_T ACTV_IND="Y"
+        OBJ_ID="PublicationReview00000BROLERSP02" ROLE_ID="910"
+        ROLE_RSP_ID="50504" RSP_ID="307" VER_NBR="1"/>
 </dataset>

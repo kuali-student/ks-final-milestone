@@ -136,6 +136,7 @@ public class RuleNodeWidget extends FocusPanel {
     public void clearEditClauseHandler() {
         if (editClauseHandlerRegistration != null) {
             editClauseHandlerRegistration.removeHandler();
+            editClauseHandlerRegistration = null;
         }
     }  
 

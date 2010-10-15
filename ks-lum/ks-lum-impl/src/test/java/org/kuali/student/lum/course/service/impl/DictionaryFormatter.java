@@ -24,7 +24,7 @@ public class DictionaryFormatter
  private String rowSeperator = "\n";
  private String colSeperator = "|";
  private String name;
- private Class<?> clazz;
+ private String className;
  private boolean processSubstructures = false;
  private int level;
  private Map<String, ObjectStructureDefinition> subStructuresToProcess =
@@ -32,14 +32,14 @@ public class DictionaryFormatter
  private Set<ObjectStructureDefinition> subStructuresAlreadyProcessed;
 
  public DictionaryFormatter (String name,
-                             Class<?> clazz,
+                             String className,
                              ObjectStructureDefinition os,
                              Set<ObjectStructureDefinition> subStructuresAlreadyProcessed,
                              int level,
                              boolean processSubstructures)
  {
   this.name = name;
-  this.clazz = clazz;
+  this.className = className;
   this.os = os;
   this.subStructuresAlreadyProcessed = subStructuresAlreadyProcessed;
   this.level = level;
@@ -86,7 +86,7 @@ public class DictionaryFormatter
   builder.append ("h" + level + ". " + calcNotSoSimpleName (name));
   builder.append ("{anchor:" + name + "}");
   builder.append (rowSeperator);
-  if (clazz != null)
+  if (className != null)
   {
    builder.append ("The corresponding java class for this dictionary object is " + os.getName ());
   }
@@ -154,8 +154,16 @@ public class DictionaryFormatter
    builder.append (colSeperator);
    builder.append (rowSeperator);
   }
-  List<String> discrepancies =
-               new Dictionary2BeanComparer (clazz, os).compare ();
+  List<String> discrepancies = null;
+  if (className == null)
+  {
+   discrepancies = new ArrayList (1);
+   discrepancies.add ("There is no corresponding java class for this dictionary object structure");
+  }
+  else
+  {
+   discrepancies = new Dictionary2BeanComparer (className, os).compare ();
+  }
   if (discrepancies.size () > 0)
   {
    builder.append ("h" + (level + 1) + ". " + discrepancies.size ()
@@ -180,7 +188,7 @@ public class DictionaryFormatter
 //    System.out.println ("formatting substructure " + subName);
     Class<?> subClazz = getClass (subOs.getName ());
     DictionaryFormatter formatter =
-                        new DictionaryFormatter (subName, subClazz, subOs,
+                        new DictionaryFormatter (subName, subOs.getName (), subOs,
                                                  subStructuresAlreadyProcessed,
                                                  level + 1,
                                                  this.processSubstructures);
@@ -226,8 +234,11 @@ public class DictionaryFormatter
     throw new IllegalArgumentException (
       fd.getName () + " is complex but does not have a sub-structure defined");
    }
+   Class subClazz = this.getClass (fd.getDataObjectStructure ().getName ());
    String subStrucName = calcComplexSubStructureName (fd);
-   if (this.processSubstructures)
+   // process if explicity asking for substructures OR the field is a freestanding field
+   // so it won't be processed by just processing all of the DTO's and their sub-objects
+   if (this.processSubstructures || subClazz == null)
    {
     if ( ! this.subStructuresAlreadyProcessed.contains (
       fd.getDataObjectStructure ()))

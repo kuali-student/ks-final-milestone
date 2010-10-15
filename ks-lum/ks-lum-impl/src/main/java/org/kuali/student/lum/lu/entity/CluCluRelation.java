@@ -15,14 +15,12 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -32,14 +30,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_CLUCLU_RELTN")
 @NamedQueries({
-	@NamedQuery(name="CluCluRelation.getCluCluRelation", query="SELECT rel FROM CluCluRelation rel WHERE rel.clu.id = :cluId"),
+	@NamedQuery(name="CluCluRelation.getCluCluRelation", query="SELECT rel FROM CluCluRelation rel WHERE rel.clu.id = :cluId or rel.relatedClu.id = :cluId"),
 	@NamedQuery(name="CluCluRelation.getRelatedCluIdsByCluId", query="SELECT rel.relatedClu.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name = "CluCluRelation.getCluIdsByRelatedCluId", query = "SELECT rel.clu.id FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name="CluCluRelation.getRelationTypeByCluId", query="SELECT distinct rel.luLuRelationType.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.relatedClu.id = :relatedCluId"),
@@ -47,10 +44,6 @@ import org.kuali.student.core.entity.MetaEntity;
 })
 public class CluCluRelation extends MetaEntity implements
 		AttributeOwner<CluCluRelationAttribute> {
-	
-	@Id
-	@Column(name="ID")
-	private String id;
 	
 	@ManyToOne
 	@JoinColumn(name="CLU_ID")
@@ -81,19 +74,6 @@ public class CluCluRelation extends MetaEntity implements
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluCluRelationAttribute> attributes;
 	
-	@Override
-	public  void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public Clu getClu() {
 		return clu;
 	}

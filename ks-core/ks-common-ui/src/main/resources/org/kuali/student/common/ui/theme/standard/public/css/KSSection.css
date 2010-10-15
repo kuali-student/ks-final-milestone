@@ -53,11 +53,11 @@ h2.ks-layout-header{
 }
 
 h3.ks-layout-header{
-	font-size: 1.5em;
-    color: #000;
-    font-weight: normal;
-    padding-bottom: 2px;
-    margin-bottom: 2px;
+                                   font-size: 1.5em; 
+                                   color: #000; 
+                                   font-weight: normal; 
+                                   padding: 0 0 0 17px;
+                                   margin-bottom: 2px; 
 }
 
 h4.ks-layout-header{
@@ -172,6 +172,10 @@ h7.ks-layout-header{
 	background-color: #f4e271; padding: 6px 6px 6px 15px; position:relative; color: #000; margin-bottom: 10px;
 }
 
+.ks-message-static-margin{
+	margin-bottom: 1em;
+}
+
 .ks-message-static-image {
 	position:absolute; top: -5px; left: -5px; z-index: 2;
 }
@@ -246,17 +250,28 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 /*** Forms: Bordered Container ***/
 
-.ks-form-bordered { background-color: #fff; border: solid 1px #ccc; margin-bottom: 1em;}
-.ks-form-bordered-header { background-color: #eee; padding: 4px 8px; margin: 0;}
+.ks-form-bordered { 
+                    border:1px solid #D2D8E3;   
+                    margin-bottom:1em;
+}
+.ks-form-bordered-header {
+                    background-color:#E4E6F2;   
+                    margin:0; 
+                    padding:4px 8px; 
+
+}
 
 .ks-form-bordered-header-title {
-	font-size: 1.167em;
-	font-weight: bold;
-	color: #424242;
-	display:table;
-	float:left;
-	height: 1%;
-	background-color:  #F0F0F0;
+                    color:#424242;
+                    display:table; 
+                    float:left; 
+                    font-size:1.167em; 
+                    font-weight:bold; 
+                    height:1%; 
+                    letter-spacing:0.04em;         
+                    line-height:1.6em;              
+                    padding:0 0 0 5px;             
+                    text-transform:uppercase;    
 }
 .ks-form-bordered-header-title h4 {
 	margin: 0;
@@ -309,26 +324,30 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 .ks-form-course-format-activity { padding: 10px; margin-bottom: 10px; }
 
 .ks-form-course-format-activity-header {
-	position:relative;
-	border-bottom: solid 1px #ccc;
-	height: 1%;
-	padding:4px 0;
-	margin-bottom: .75em;
+               border-bottom:1px solid #CCCCCC; 
+               height:1.5em; 
+               margin-bottom:0.75em; 
+               padding:4px 0; 
+               position:relative; 
+
 }
 
 .ks-form-course-format-activity-header-title {
-	font-size: 1.083em; /* 13px */
-    font-weight: bold;
-    color: #424242;
-	display:table;
-	float:left;
-	height: 1%;
-	border-bottom: solid 1px #ccc;
+               color:#424242; 
+               display:table; 
+               float:left; 
+               font-size:1.083em; 
+               font-weight:bold; 
+               height:1%; 
+               line-height: 1.7em; 
+
 }
 .ks-form-course-format-activity-header-title h5 { margin-bottom: 0; color: #424242; }
 
 .ks-form-course-format-activity-header-delete { float:right; margin-left: 3px; width: 12px; height: 14px;}
 .ks-form-course-format-activity-header-delete a {
+    -moz-border-radius: 0 4px 0 4px;
+    padding: 3px 4px 1px;
     display: block;
     padding: 14px 0 0 0;
     overflow: hidden;
@@ -373,17 +392,16 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 @if user.agent ie6 ie7 ie8 ie{  
 	.ks-form-module-group, .ks-form-module-solo{
-		height: 1%;
-		margin-bottom: 0.1em;
-		padding-left: 5px; 
-		padding-bottom: 5px;
+              margin-bottom:0.1em; 
+               padding-bottom:5px; 
+               margin-left:15px; 
 	}
 }
 
 .ks-form-module-group, .ks-form-module-solo {
-	margin-bottom: 0.1em;
-	padding-left: 5px; 
-	padding-bottom: 5px;
+              margin-bottom:0.1em; 
+               padding-bottom:5px; 
+               margin-left:15px; 
 }
 
 .ks-form-module-fields {
@@ -408,12 +426,12 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-elements-instruction {
-	font-size: 1em; /* 12px */
-	color:#000000;
-	display:block;
-	line-height: 1.2em;
-	/*margin-top:0.15em;*/
-	/*margin-bottom: 0.15em;*/
+    font-size: 1em;
+    color: #000; 
+    display: block; 
+    line-height: 1.4em;
+    padding: 4px 0 4px;
+
 }
 
 .ks-form-header-title-actions { display:inline-block; float:right; margin-top: 2px; line-height: 1.2em;}
@@ -433,26 +451,25 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-elements-help a{
-	padding: 1px 3px 0 3px;
-	background-color: transparent;
-	\-moz-border-radius:7px;
-	\-webkit-border-radius: 7px;
-	border: solid 1px #ccc;
-	font-size: 11px;
-	font-weight: bold;
-	text-decoration: none;
-	color: #aaa;
-	
+               -moz-border-radius:7px 7px 7px 7px;
+               background-color:transparent; 
+               border:1px solid #CCCCCC; 
+               color:#AAAAAA; 
+               font-size:11px; 
+               font-weight:bold; 
+               margin:0 5px;                        
+               padding:1px 3px 0; 
+               text-decoration:none; 
 }
 
 .ks-form-module-elements-delete a{
-	padding: 0px 3px;
-	background-color: transparent;
-	border: solid 1px #ccc;
-	font-size: 12px;
-	font-weight: bold;
-	text-decoration: none;
-	color: #aaa;
+                    -moz-border-radius: 0 4px 0 4px;
+                    border: 1px solid #CCCCCC; 
+                    color: #AAAAAA; 
+                    font-size: 12px; 
+                    font-weight: bold; 
+                    padding: 3px 4px 1px;
+                    text-decoration:none; 
 }
 
 .ks-form-module-elements-help a:hover, .ks-form-module-elements-delete a:hover {
@@ -460,32 +477,7 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	border-color: #2C61E6;
 }
 
-/*.ks-form-module-elements-help a {
-	padding: 1px 3px 0 3px;
-	background-color: transparent;
-	\-moz-border-radius:7px;
-	\-webkit-border-radius: 7px;
-	border: solid 1px #ccc;
-	font-size: 11px;
-	font-weight: bold;
-	text-decoration: none;
-	color: #aaa;
-}
 
-.ks-form-module-elements-delete a {
-	padding: 0px 3px;
-	background-color: transparent;
-	border: solid 1px #ccc;
-	font-size: 12px;
-	font-weight: bold;
-	text-decoration: none;
-	color: #aaa;
-}
-
-.ks-form-module-elements-help a:hover, .ks-form-module-elements-delete a:hover {
-	color: #2C61E6;
-	border-color: #2C61E6;
-}*/
 .ks-form-module-elements-help-text {
 	margin: 2px 0 0 0;
 	font-size: 0.916em;
@@ -510,12 +502,21 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	padding-left: 20px; 
 }
 
+@if user.agent ie6 ie7 ie8 { 
+	.ks-form-module-validation li {
+		margin-left: 0;
+		padding: 3px 0;
+		height: 1%;
+		list-style: none;
+	}
+}
+
 .ks-form-module-validation li {
 	margin-left: 0;
 	padding: 3px 0;
-	height: 1%;
 	list-style: none;
 }
+
 
 .ks-form-module-validation-inline {
 	font-size: 1em;
@@ -533,10 +534,18 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	padding-left: 20px; 
 }
 
-.ks-form-module-validation-inline li {
+@if user.agent ie6 ie7 ie8 {  
+	.ks-form-module-validation-inline li {
 	margin-left: 0;
 	padding: 3px 0;
 	height: 1%;
+	list-style: none;
+	}
+}
+
+.ks-form-module-validation-inline li {
+	margin-left: 0;
+	padding: 3px 0;
 	list-style: none;
 }
 
@@ -554,7 +563,12 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 .ks-form-module label, .ks-form-module h6, .ks-form-module .KS-Common-Title { display: block; font-weight: bold; color: #000; line-height: 1.2em; }
 .ks-form-module label span a { font-weight: normal; margin-left: .3em; }
-.ks-form-module-elements label { display: block; font-weight: bold; color: #000; line-height: 1.2em; }
+.ks-form-module-elements label { 
+                    color:#000000;
+                    display:block;
+                    font-weight:bold;
+                    line-height:1.9em;
+}
 
 .ks-form-module-triple-line-margin{margin-top: 3.6em;}
 .ks-form-module-double-line-margin{margin-top: 2.4em;}
@@ -569,14 +583,26 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 
 /*** Basic Form Styling ***/
 
-.ks-form-module-elements input[type="text"] { /* width: 120px; */border: solid 1px #888;  }
 .ks-form-module-elements input[type="checkbox"] + label { display: inline; white-space: nowrap; } /* for label fields that follow a checkbox */
 .ks-form-module-elements input[type="radio"] + label { display: inline; white-space: nowrap; font-weight: normal; } /* for label fields that follow a radio */
-.ks-form-module-elements textarea { border: solid 1px #888; }
 
+.ks-form-module-elements input[type="text"] { 
+   border: 1px solid #B5BDBD; 
+   padding: 3px;  
+}
+
+.ks-form-module-elements textarea  { 
+   border: 1px solid #B5BDBD; 
+   padding: 3px;  
+}
+
+.ks-form-module-elements select { 
+    border:1px solid #AAAAAA; 
+}
 
 .ks-form-module-elements select {
-	border: solid 1px #888;
+	border: solid 1px #AAAAAA;
+    padding: 3px;                     	
 }
 
 
@@ -693,18 +719,17 @@ a:focus{
 
 /* ---- Primary ------------------------- */
 a.ks-button-primary {
-	line-height: 2.25em;
-	text-decoration:none;
-	background-color: #E4EBFF;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#E4EBFF), to(#BFD1FF));
-	background-image: \-moz-linear-gradient(-90deg,#E4EBFF,#BFD1FF);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #A1BAF7;
-	padding: 7px 10px 5px 10px;
-	color: #2C61E6;
-	font-size: 1.167em;
-	font-weight: bold;
+               -moz-border-radius:0 4px 0 4px; 
+               background-color:#E4EBFF; 
+               background-image:-moz-linear-gradient(-90deg, #E4EBFF, #BFD1FF); 
+               border:1px solid #A1BAF7; 
+               color:#2C61E6; 
+               font-size:1.167em; 
+               font-weight:bold; 
+               line-height:1.93em; 
+               padding:4px 15px 2px; 
+               text-decoration:none; 
+
 }
 
 a.ks-button-primary:focus{
@@ -814,19 +839,17 @@ a.ks-button-primary-small:hover {
 }
 
 .ks-button-primary-small-disabled {
-	line-height:1.93em;
-	text-decoration:none;
+          -moz-border-radius:0 4px 0 4px;
+          background-color:#F8F8F8;
+          background-image:-moz-linear-gradient(-90deg, #FFFFFF, #CCCCCC);
+          border:1px solid #999999;
+          color:#999999;
+          font-size:1em;
+          font-weight:bold;
+          line-height:1.93em;
+          padding: 3px 8px 2px;
+          text-decoration:none;
 
-	background-color: #F8F8F8;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 3px 8px 2px 8px;
-	color: #999999;
-	font-size: 1em;
-	font-weight: bold;
 }
 
 /* ---- Secondary Small ----------------- */
@@ -879,6 +902,16 @@ a.ks-button-secondary-small:hover {
 }
 
 .ks-link{
+	
+}
+
+.ks-link-large{
+	line-height: 2.25em;
+	font-size: 1.167em;
+}
+
+.ks-link-large-disabled{
+	color: #999999;
 }
 
 .ks-help-popup{

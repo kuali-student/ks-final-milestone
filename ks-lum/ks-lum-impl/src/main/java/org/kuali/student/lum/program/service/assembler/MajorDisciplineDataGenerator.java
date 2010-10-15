@@ -133,6 +133,9 @@ public class MajorDisciplineDataGenerator {
         if("credentialProgramId".equals(name)){
             return "00f5f8c5-fff1-4c8b-92fc-789b891e0849";
         }
+        if("programRequirements".equals(name)){
+        	return "REQ-200";
+        }
 		if("type".equals(name)){
 			
 			if(null==parentPropertyName){

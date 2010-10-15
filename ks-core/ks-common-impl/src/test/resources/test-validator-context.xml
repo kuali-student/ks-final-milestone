@@ -11,6 +11,7 @@
     <ref bean="firstName" />
     <ref bean="dob" />
     <ref bean="gpa" />
+    <ref bean="ssn" />
    </list>
   </property>
  </bean>
@@ -35,6 +36,18 @@
   <property name="dataType" value="DATE" />
   <property name="exclusiveMin" value="1970-01-01" />
   <property name="minOccurs" value="1" />
+  <property name="readOnly" value="true" />
+ </bean>
+
+ <bean id="ssn"
+       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+  <property name="name" value="ssn" />
+  <property name="dataType" value="STRING" />
+  <property name="readOnly" value="true" />
+  <property name="mask" value="true" />
+  <property name="maskFormatter" value="*********"/>
+  <property name="partialMask" value="true"/>
+  <property name="partialMaskFormatter" value="*****"/>
  </bean>
 
  <bean id="gpa"

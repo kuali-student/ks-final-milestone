@@ -55,7 +55,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.assembleRequirements(clu, pvInfo);
         
         pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
-        pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+        pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
 
         pvInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         pvInfo.setCampusLocations(clu.getCampusLocations());  
@@ -91,7 +91,10 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.disassembleAtps(clu, variation, operation);
         programAssemblerUtils.disassembleLuCodes(clu, variation, operation);        
         programAssemblerUtils.disassemblePublicationInfo(clu, variation, operation);
-        programAssemblerUtils.disassembleRequirements(clu, variation, operation);
+        
+        if(variation.getProgramRequirements() != null && !variation.getProgramRequirements().isEmpty()) {
+        	programAssemblerUtils.disassembleRequirements(clu, variation, operation, result);
+        }
         
         if (variation.getResultOptions() != null) {
             disassembleResultOptions(variation, operation, result);           
