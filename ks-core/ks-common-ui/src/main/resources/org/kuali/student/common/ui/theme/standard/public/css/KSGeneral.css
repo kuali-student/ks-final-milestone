@@ -51,34 +51,31 @@ html,body {
 
 
 .ks-lightbox {
-	overflow: visible;
-	color:#333;
-	background-color:#fff;
-	border:2px solid #aaa;
-	padding: 3px;
-	border-radius: 5px 5px;
-	\-moz-border-radius: 5px 5px;
-	\-webkit-border-radius: 5px 5px;
-    z-index: 2;
+              -moz-border-radius:0 20px 0 20px;
+               background-color:#FFFFFF;
+               border: 3px solid #54565C;
+               color:#333333; 
+               overflow:visible; 
+               padding:3px; 
+               z-index:2; 
 
 }
 .ks-lightbox .Caption {
-  background-color:#F1F1F1;
-  font-weight: bold;
-  text-shadow: #fff 0 2px 2px;
-  cursor: default;
-  padding: 5px 10px;
-  text-align: left;
-  position: relative;
-  margin: 0em 0.25em 0.25em 0.25em;
-  font-size: 1.2em;
-  color: #000000;
-  pointer: move;
-  cursor: move;
+                    -moz-border-radius:0 15px 0 0;
+                    background-color:#DFE2E9;
+                    color:#000000;
+                    cursor:move;
+                    font-size:1.2em;
+                    font-weight:bold;
+                    margin:0 0.25em 0.25em;
+                    padding: 10px 0 10px 16px;
+                    position:relative;
+                    text-align:left; 
+                    text-shadow:0 2px 2px #FFFFFF; 
 }
 
 .ks-lightbox-mainPanel{
-
+margin: 0 0 0 15px;
 }
 .ks-lightbox-titlePanel{
 }
@@ -125,10 +122,10 @@ html,body {
 	margin-left:10px;
 }
 .gwt-PopupPanelGlass {
-  background-color: #000;
-  opacity: 0.3;
-  filter: literal("alpha(opacity=30)");
-  z-index: 1;
+                    background-color:#000000;
+                    opacity:0.45;
+                    z-index:1;
+                    filter: literal("alpha(opacity=45)");
 }
 
 .ks-lightbox .popupContent {
@@ -258,30 +255,33 @@ ul.ks-selected-list {
 }
 
 .ks-selected-list ul {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+               list-style-type:none;
+               margin: 10px 0 0 0;
+               padding:0;
+
 }
 
 .ks-selected-list ul li {
-	padding: 0;
-	margin: 0;
-	border: solid 1px #cdcdcd;
-	width: 20em;
-	display: block;
+          border: 1px solid #CDCDCD;
+          display: block;
+          height: 1.5em;
+          margin: 0;
+          padding: 9px 0 0 6px;
+          width: 20em;
 }
 
 .ks-selected-list-value {
-	width: 20em;
-	display: block;
-	position: relative;
-	min-height: 25px;
+               display:block;
+               min-height:25px;
+               position:relative;
+               width:22em;
+
 }
 
 .ks-selected-list-value-remove {
-	position: absolute;
-	top: 3px;
-	right: 1px;
+     position:absolute;
+     right: 3px;
+
 }
 
 .ks-selected-list-value-remove:focus, .ks-selected-list-value-remove:hover{
