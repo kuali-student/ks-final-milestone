@@ -434,6 +434,7 @@ public class ReqCompEditWidget extends FlowPanel {
         while (compositionTemplate.indexOf("reqCompFieldType", stIx) > 0) {
             stIx = compositionTemplate.indexOf("reqCompFieldType") + "reqCompFieldType".length();
             compositionTemplate = compositionTemplate.substring(stIx);
+            stIx = 0;
             int ix = compositionTemplate.indexOf(";");
             String type = compositionTemplate.substring(0, ix).replace("=", "").replace(" ", "");
             fieldTypes.add(type);
