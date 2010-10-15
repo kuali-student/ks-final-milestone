@@ -1,7 +1,9 @@
 package org.kuali.student.lum.common.client.widgets;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
@@ -24,6 +26,8 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
@@ -55,6 +59,8 @@ public class CluSetEditorWidget extends VerticalSectionView {
     private List<KSItemLabelPanelPair> itemLabelPanelPairs = new ArrayList<KSItemLabelPanelPair>();
     private String cluSetType;
     private String metadataId;
+    private static Map<String, DataModelDefinition> modelDefinitionCache = new HashMap<String, DataModelDefinition>();
+    private BlockingTask initializeTask = new BlockingTask("Initializing");    
 
     public CluSetEditorWidget(CluSetRetriever cluSetRetriever, Enum<?> viewEnum,
             String name, String modelId, boolean showTitle,
@@ -66,17 +72,30 @@ public class CluSetEditorWidget extends VerticalSectionView {
         } else {
             this.metadataId = "courseSet";
         }
-        cluSetRetriever.getMetadata(metadataId, new Callback<Metadata>(){
-            @Override
-            public void exec(Metadata result) {
-                DataModelDefinition def = new DataModelDefinition(result);
-                setDef(def);
-                setupEditor();
-                if (onReady != null) {
-                    onReady.exec(new Boolean(true));
+        KSBlockingProgressIndicator.addTask(initializeTask);
+        if (modelDefinitionCache.get(metadataId) == null) {
+            cluSetRetriever.getMetadata(metadataId, new Callback<Metadata>(){
+                @Override
+                public void exec(Metadata result) {
+                    DataModelDefinition def = new DataModelDefinition(result);
+                    modelDefinitionCache.put(metadataId, def);
+                    setDef(def);
+                    setupEditor();
+                    if (onReady != null) {
+                        onReady.exec(new Boolean(true));
+                    }
+                    KSBlockingProgressIndicator.removeTask(initializeTask);                
                 }
+            });
+        } else {
+            DataModelDefinition def = modelDefinitionCache.get(metadataId);
+            setDef(def);
+            setupEditor();
+            if (onReady != null) {
+                onReady.exec(new Boolean(true));
             }
-        });
+            KSBlockingProgressIndicator.removeTask(initializeTask);                
+        }
     }
     
     private void setDef(DataModelDefinition def) {
@@ -90,7 +109,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
         } else {
             labelType = "Program";
         }
-        CluSetEditOptionDropdown chooser = new CluSetEditOptionDropdown();
+        final CluSetEditOptionDropdown chooser = new CluSetEditOptionDropdown();
         SwitchSection clusetDetails = new SwitchSection(
                 chooser,
                 null);
@@ -279,10 +298,21 @@ public class CluSetEditorWidget extends VerticalSectionView {
             itemLabelPanelPairs.add(new KSItemLabelPanelPair(clusetRangeLabel, rangePanel));
         }
         
-        VerticalSection choosingSection = new VerticalSection();
+        final VerticalSection choosingSection = new VerticalSection();
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
-        choosingSection.addStyleName("KS-CluSetManagement-chooser");
+        chooser.addSelectionChangeHandler(new SelectionChangeHandler() {
+            @Override
+            public void onSelectionChange(SelectionChangeEvent event) {
+                if (chooser.getSelectedItem() != null &&
+                        !chooser.getSelectedItem().trim().isEmpty()) {
+                    choosingSection.setStyleName("KS-CluSetManagement-chooser");
+                } else {
+                    choosingSection.setStyleName("KS-CluSetManagement-chooser-unselected");
+                }
+            }
+        });
+        
         this.addSection(choosingSection);
         this.addWidget(selectedValuesPanel);
     }

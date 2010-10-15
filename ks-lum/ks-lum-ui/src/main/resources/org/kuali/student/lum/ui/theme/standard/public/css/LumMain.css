@@ -386,6 +386,10 @@
 	background: lightgrey;
 	width: 500px;
 }
+.KS-CluSetManagement-chooser-unselected {
+	background: transparent;
+	width: 500px;
+}
 
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}

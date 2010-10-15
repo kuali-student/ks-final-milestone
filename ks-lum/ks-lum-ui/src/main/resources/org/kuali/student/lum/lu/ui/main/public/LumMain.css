@@ -163,6 +163,10 @@
 	background: lightgrey;
 }
 
+.KS-CluSetManagement-chooser-unselected {
+	background: transparent;
+}
+
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}
