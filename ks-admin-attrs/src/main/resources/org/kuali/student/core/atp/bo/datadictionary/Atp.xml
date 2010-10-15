@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+>
+
+    <bean id="Atp" parent="Atp-parentBean" />
+
+    <bean id="Atp-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.Atp" />
+        <property name="titleAttribute" value="id" />
+        <property name="objectLabel" value="Academic Time Period" />
+        <property name="lookupDefinition">
+            <ref bean="Atp-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="Atp-inquiryDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="Atp-id" />
+                <ref bean="Atp-name" />
+                <ref bean="Atp-description" />
+                <ref bean="Atp-state" />
+                <ref bean="Atp-createId" />
+                <ref bean="Atp-createDate" />
+                <ref bean="Atp-updateId" />
+                <ref bean="Atp-updateDate" />
+                <ref bean="Atp-typeId" />
+                <ref bean="Atp-activeFromDate" />
+                <ref bean="Atp-activeToDate" />
+                <ref bean="Atp-active" />
+            </list>
+        </property>
+        <property name="collections">
+            <list>
+                <bean parent="CollectionDefinition" p:name="dateRanges" p:shortLabel="Date Ranges"
+                    p:summary="Date Ranges" p:label="Date Range List"
+                    p:description="Date ranges for this Academic Time Period." />
+                <bean parent="CollectionDefinition" p:name="milestones" p:shortLabel="Milestones"
+                    p:summary="Milestones" p:label="Milestones"
+                    p:description="Milestones for this Academic Time Period." />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Atp-id" parent="Atp-id-parentBean" />
+
+    <bean id="Atp-id-parentBean" abstract="true" parent="AttributeReferenceKualiType-id">
+    </bean>
+
+    <bean id="Atp-name" parent="Atp-name-parentBean" />
+
+    <bean id="Atp-name-parentBean" abstract="true" parent="AttributeReferenceKualiType-name">
+    </bean>
+
+    <bean id="Atp-description" parent="Atp-description-parentBean" />
+
+    <bean id="Atp-description-parentBean" abstract="true" parent="AttributeReferenceKualiType-description">
+    </bean>
+
+    <bean id="Atp-state" parent="Atp-state-parentBean" />
+
+    <bean id="Atp-state-parentBean" abstract="true" parent="AttributeReferenceKualiType-state">
+    </bean>
+
+    <bean id="Atp-createId" parent="Atp-createId-parentBean" />
+
+    <bean id="Atp-createId-parentBean" abstract="true" parent="AttributeReferenceKualiType-createId">
+    </bean>
+
+    <bean id="Atp-createDate" parent="Atp-createDate-parentBean" />
+
+    <bean id="Atp-createDate-parentBean" abstract="true" parent="AttributeReferenceKualiType-createDate">
+    </bean>
+
+    <bean id="Atp-updateId" parent="Atp-updateId-parentBean" />
+
+    <bean id="Atp-updateId-parentBean" abstract="true" parent="AttributeReferenceKualiType-updateId">
+    </bean>
+
+    <bean id="Atp-updateDate" parent="Atp-updateDate-parentBean" />
+
+    <bean id="Atp-updateDate-parentBean" abstract="true" parent="AttributeReferenceKualiType-updateDate">
+    </bean>
+
+    <bean id="Atp-typeId" parent="Atp-typeId-parentBean" />
+
+    <bean id="Atp-typeId-parentBean" abstract="true" parent="AttributeReferenceKualiType-typeId">
+    	<property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.AtpTypeValuesFinder"/>
+	    </property>
+    </bean>
+
+    <bean id="Atp-activeFromDate" parent="Atp-activeFromDate-parentBean" />
+
+    <bean id="Atp-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate">
+    </bean>
+
+    <bean id="Atp-activeToDate" parent="Atp-activeToDate-parentBean" />
+
+    <bean id="Atp-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate">
+    </bean>
+
+    <bean id="Atp-active" parent="Atp-active-parentBean" />
+
+    <bean id="Atp-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active" />
+    </bean>
+
+
+    <bean id="Atp-lookupDefinition" parent="Atp-lookupDefinition-parentBean" />
+
+    <bean id="Atp-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" />
+                <bean parent="FieldDefinition" p:attributeName="state" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name" />
+                <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+                <bean parent="FieldDefinition" p:attributeName="state" />
+            </list>
+        </property>
+        <property name="title" value="Academic Time Period Lookup" />
+    </bean>
+
+    <bean id="Atp-inquiryDefinition" parent="Atp-inquiryDefinition-parentBean" />
+
+    <bean id="Atp-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Academic Time Period Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="ATP" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" />
+                            <bean parent="FieldDefinition" p:attributeName="name" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name" />
+                            <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                            <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+                            <bean parent="FieldDefinition" p:attributeName="state" />
+                            <bean parent="FieldDefinition" p:attributeName="createId" />
+                            <bean parent="FieldDefinition" p:attributeName="createDate" />
+                            <bean parent="FieldDefinition" p:attributeName="updateId" />
+                            <bean parent="FieldDefinition" p:attributeName="updateDate" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Extension Attributes" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="attributes" />
+                                <property name="businessObjectClass" value="org.kuali.rice.kns.bo.BusinessObjectExtensionAttributeImpl" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Attribute" />
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="name" />
+                                        <bean parent="FieldDefinition" p:attributeName="value" />
+                                    </list>
+                                </property>
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="name" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Date Ranges" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="dateRanges" />
+                                <property name="businessObjectClass"
+                                    value="org.kuali.student.core.atp.bo.DateRange" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Date Range" />
+                                <property name="inquiryFields">
+                                    <list>
+                                    	<bean parent="FieldDefinition" p:attributeName="id" />
+                                    	<bean parent="FieldDefinition" p:attributeName="name" />
+                                    	<bean parent="FieldDefinition" p:attributeName="type.name" />
+                                        <bean parent="FieldDefinition" p:attributeName="startDate" />
+                                        <bean parent="FieldDefinition" p:attributeName="endDate" />
+                                    </list>
+                                </property>
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="startDate" />
+                                        <bean parent="FieldDefinition" p:attributeName="endDate" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Milestones" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="milestones" />
+                                <property name="businessObjectClass"
+                                    value="org.kuali.student.core.atp.bo.Milestone" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Milestones" />
+                                <property name="inquiryFields">
+                                    <list>
+                                    	<bean parent="FieldDefinition" p:attributeName="id" />
+                                    	<bean parent="FieldDefinition" p:attributeName="name" />
+                                        <bean parent="FieldDefinition" p:attributeName="type.name" />
+                                        <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
+                                    </list>
+                                </property>
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="type.name" />
+                                        <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

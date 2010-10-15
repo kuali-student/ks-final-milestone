@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="EnumerationMaintenanceDocument" parent="EnumerationMaintenanceDocument-parentBean" />
+
+    <bean id="EnumerationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+        p:businessObjectClass="org.kuali.student.core.enumerationmanagement.bo.Enumeration"
+        p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+        <property name="maintainableSections">
+            <list>
+                <ref bean="EnumerationMaintenanceDocument-EnumerationMaintenance" />
+                <ref bean="EnumerationMaintenanceDocument-EnumeratedValueMaintenance" />
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>key</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="EnumerationDocumentType" />
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="EnumerationMaintenanceDocument-EnumerationMaintenance" parent="EnumerationMaintenanceDocument-EnumerationMaintenance-parentBean" />
+
+    <bean id="EnumerationMaintenanceDocument-EnumerationMaintenance-parentBean"
+        abstract="true" parent="MaintainableSectionDefinition">
+        <property name="title" value="Enumeration Maintenance" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="key" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="activeFromDate" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="activeToDate" p:required="false" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="EnumerationMaintenanceDocument-EnumeratedValueMaintenance" parent="EnumerationMaintenanceDocument-EnumeratedValueMaintenance-parentBean"/>
+
+    <bean id="EnumerationMaintenanceDocument-EnumeratedValueMaintenance-parentBean"
+        abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="enumeratedValueList" />
+        <property name="title" value="Enumerated Values" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="enumeratedValueList" />
+                    <property name="businessObjectClass"
+                        value="org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue" />
+                    <property name="summaryTitle" value="Enumerated Value" />
+                    <property name="summaryFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="code" />
+                        </list>
+                    </property>
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="abbrevValue" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="value" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="sortKey" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="activeFromDate" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="activeToDate" p:required="false" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+  
+</beans>
