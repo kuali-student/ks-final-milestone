@@ -830,7 +830,7 @@
 <!--
 		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId, clu.state FROM Clu clu WHERE clu.state NOT IN ('retired')</value>
  -->
-                    <!--  value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+                    <value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
                     cludesc.plain, clu.studySubjectArea, clu.state,
                     clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
@@ -838,7 +838,8 @@
                     LEFT JOIN clu.officialIdentifier officialIdentifier
                     LEFT JOIN clu.descr cludesc
                     WHERE clu.state IN ('Approved', 'Active')
-                    </value-->
+                    </value>
+                    <!-- 
                     <value>
                     SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
@@ -871,6 +872,7 @@
 						    )
 						)
                     </value>
+                     -->
 		        </entry>
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain, cluset.type
