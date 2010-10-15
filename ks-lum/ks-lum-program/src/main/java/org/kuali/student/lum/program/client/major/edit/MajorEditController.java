@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.core.assembly.data.Data;
@@ -32,7 +33,7 @@ import java.util.List;
 public class MajorEditController extends MajorController {
 
     private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel());
+    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(),  KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
 
     /**
      * Constructor.
