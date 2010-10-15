@@ -889,6 +889,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String variation_menu_sections_variationInformation();
 
   /**
+   * Translated "Parent Program:".
+   * 
+   * @return translated "Parent Program:"
+   */
+  @DefaultMessage("Parent Program:")
+  @Key("variation.parentProgram")
+  String variation_parentProgram();
+
+  /**
+   * Translated "Specialization if {0}".
+   * 
+   * @return translated "Specialization if {0}"
+   */
+  @DefaultMessage("Specialization if {0}")
+  @Key("variation.title")
+  String variation_title(String arg0);
+
+  /**
    * Translated "Specialization Description".
    * 
    * @return translated "Specialization Description"

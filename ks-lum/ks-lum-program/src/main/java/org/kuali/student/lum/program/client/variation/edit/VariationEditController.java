@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.VariationRegistry;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
@@ -61,7 +62,7 @@ public class VariationEditController extends VariationController {
                         if (variationData.get(ProgramConstants.ID).equals(currentId)) {
                             programModel.setRoot(variationData);
                             VariationRegistry.setData(variationData);
-                            setContentTitle("Specialization of " + getProgramName());
+                            setContentTitle(ProgramProperties.get().variation_title(getProgramName()));
                             return;
                         }
                     }
@@ -87,7 +88,7 @@ public class VariationEditController extends VariationController {
     }
 
     private void doCancel() {
-        HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_EDIT", getViewContext());
+        HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
     }
 
     @Override

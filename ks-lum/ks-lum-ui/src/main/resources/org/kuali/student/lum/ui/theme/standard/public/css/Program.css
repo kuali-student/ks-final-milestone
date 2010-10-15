@@ -96,6 +96,10 @@
     border-spacing: 2px;
 }
 
+.programController .parentProgram {
+    padding-right: 3px;
+}
+
 .gwt-PopupPanel {
     z-index: 3;
 }

@@ -4,12 +4,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -40,25 +43,30 @@ public abstract class VariationController extends ProgramController {
     protected void configureView() {
         setStatus();
         super.configureView();
-        setContentTitle("Specialization of " + getProgramName());
+        setContentTitle(ProgramProperties.get().variation_title(getProgramName()));
         addContentWidget(createParentAnchor());
         addContentWidget(createCommentPanel());
     }
 
     private Widget createParentAnchor() {
-        Anchor anchor = new Anchor("Parent Program: " + name);
+        HorizontalPanel anchorPanel = new HorizontalPanel();
+        Anchor anchor = new Anchor(name);
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", getViewContext());
+                HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
             }
         });
-        return anchor;
+        Label parentProgram = new Label(ProgramProperties.get().variation_parentProgram());
+        parentProgram.addStyleName("parentProgram");
+        anchorPanel.add(parentProgram);
+        anchorPanel.add(anchor);
+        return anchorPanel;
     }
 
     @Override
     public void collectBreadcrumbNames(List<String> names) {
-        names.add(name + "@" + HistoryManager.appendContext("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", getViewContext()));
+        names.add(name + "@" + HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext()));
         super.collectBreadcrumbNames(names);
     }
 
