@@ -95,7 +95,7 @@ public class VariationEditController extends VariationController {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(final DataModel model) {
-                VariationEditController.this.updateModelFromCurrentView();
+                VariationEditController.this.updateModel();
                 currentId = model.get("id");
                 if (currentId == null) {
                     eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));

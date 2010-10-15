@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.client;
 
-import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.events.MajorViewEvent;
@@ -8,6 +7,8 @@ import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.view.MajorViewController;
 import org.kuali.student.lum.program.client.variation.edit.VariationEditController;
 import org.kuali.student.lum.program.client.variation.view.VariationViewController;
+
+import com.google.gwt.event.shared.HandlerManager;
 
 /**
  * @author Igor
@@ -61,10 +62,8 @@ public class ProgramManager {
 
     public MajorEditController getProgramEditController() {
         programModel.resetRoot();
-        if (majorEditController == null) {
-            majorEditController = new MajorEditController("Programs", programModel, viewContext, eventBus);            
-        }
-        return majorEditController; 
+        majorEditController = new MajorEditController("Programs", programModel, viewContext, eventBus);
+        return majorEditController;
     }
 
     public static HandlerManager getEventBus() {
