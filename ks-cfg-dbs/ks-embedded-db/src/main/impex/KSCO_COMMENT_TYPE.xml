@@ -50,4 +50,9 @@
         OBJ_ID="E9252EBABFDE4CC9B0E52EFD46C216A2"
         TYPE_DESC="Decision Rationale Cancel Proposal"
         TYPE_KEY="kuali.comment.type.workflowDecisionRationale.cancelWorkflow" VER_NBR="0"/>
+    <KSCO_COMMENT_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        NAME="Blanket Approve"
+        OBJ_ID="E9252EBABFDE4CC9B0E52EFD46C216A1"
+        TYPE_DESC="Decision Rationale Blanket Approve Proposal"
+        TYPE_KEY="kuali.comment.type.workflowDecisionRationale.blanketApprove" VER_NBR="0"/>
 </dataset>
