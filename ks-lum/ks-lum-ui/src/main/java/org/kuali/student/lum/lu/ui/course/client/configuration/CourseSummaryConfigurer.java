@@ -177,13 +177,13 @@ public class CourseSummaryConfigurer implements
         return fieldRow;
     }
 
-    @SuppressWarnings("unchecked")
 	public VerticalSectionView generateProposalSummarySection(boolean canEditSections){
         tableSection.setEditable(canEditSections);
         tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposal());
         tableSection.addSummaryTableFieldBlock(generateGovernanceSection());
         tableSection.addSummaryTableFieldBlock(generateCourseLogisticsSection());
         tableSection.addSummaryTableFieldBlock(generateLearningObjectivesSection());
+        tableSection.addSummaryTableFieldBlock(generateRequirementsSection());
         tableSection.addSummaryTableFieldBlock(generateActiveDatesSection());
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
         tableSection.addSummaryTableFieldBlock(generateProposalDocumentsSection());
@@ -318,16 +318,15 @@ public class CourseSummaryConfigurer implements
         return warnContainer;
     }
 
-    @SuppressWarnings("unchecked")
 	public VerticalSectionView generateCourseSummarySection(){
         tableSection.setEditable(false);
         tableSection.addSummaryTableFieldBlock(generateCourseInformation());
         tableSection.addSummaryTableFieldBlock(generateGovernanceSection());
         tableSection.addSummaryTableFieldBlock(generateCourseLogisticsSection());
         tableSection.addSummaryTableFieldBlock(generateLearningObjectivesSection());
+        tableSection.addSummaryTableFieldBlock(generateRequirementsSection());
         tableSection.addSummaryTableFieldBlock(generateActiveDatesSection());
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
-        tableSection.addWidget(generateRequirementsSection());
 
         VerticalSectionView verticalSection = new VerticalSectionView(ViewCourseSections.DETAILED, getLabel(LUConstants.SUMMARY_LABEL_KEY), modelId, false);
         verticalSection.addSection(tableSection);
@@ -560,14 +559,44 @@ public class CourseSummaryConfigurer implements
         return block;
 	}
 
-    public Widget generateRequirementsSection(){
+    public SummaryTableFieldBlock generateRequirementsSection(){
     	SummaryTableFieldBlock block = new SummaryTableFieldBlock();
     	block.addEditingHandler(new EditHandler(CourseSections.COURSE_REQUISITES));
         block.setTitle(getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY));
-        CourseRequirementsSummaryView preview = new CourseRequirementsSummaryView(null, CourseRequirementsViews.PREVIEW, "Course Requirements", ProgramConstants.PROGRAM_MODEL_ID,
-				new CourseRequirementsDataModel(controller), true);
 
-        return preview;
+		VerticalSectionView widget = new VerticalSectionView(ViewCourseSections.CATALOG, "Catalog View", modelId, false);
+		FieldDescriptorReadOnly reqsField = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, null, null, widget);
+        ModelWidgetBinding<VerticalSectionView> widgetBinding = new ModelWidgetBinding<VerticalSectionView>() {
+
+			@Override
+			public void setModelValue(VerticalSectionView widget, DataModel model,
+					String path) {
+
+			}
+
+			@Override
+			public void setWidgetValue(VerticalSectionView widget, DataModel model,
+					String path) {
+		        final CourseRequirementsSummaryView preview = new CourseRequirementsSummaryView(null, CourseRequirementsViews.PREVIEW, "Course Requirements", ProgramConstants.PROGRAM_MODEL_ID,
+						new CourseRequirementsDataModel(controller), true);
+		        preview.beforeShow(new Callback<Boolean>(){
+
+					@Override
+					public void exec(Boolean result) {
+
+					}});
+		        widget.addWidget(preview);
+			}};
+
+		reqsField.setFieldWidget(widget);
+		reqsField.setWidgetBinding(widgetBinding);
+		reqsField.showLabel(false);
+
+		FieldDescriptorReadOnly reqsField2 = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, null, null, widget);
+        SummaryTableFieldRow aRow = new SummaryTableFieldRow(reqsField, reqsField2);
+
+        block.addSummaryTableFieldRow(aRow);
+        return block;
     }
 
     private MultiplicityConfiguration getMultiplicityConfig(String path,
@@ -805,33 +834,6 @@ public class CourseSummaryConfigurer implements
 		});
 		verticalSection.addField(catalogField);
 
-		FieldDescriptorReadOnly reqsField = new FieldDescriptorReadOnly("", null, null, new VerticalSectionView(ViewCourseSections.CATALOG, "Catalog View", modelId, false));
-		reqsField.showLabel(false);
-		reqsField.setWidgetBinding(new ModelWidgetBinding<VerticalSectionView>(){
-
-			@Override
-			public void setModelValue(VerticalSectionView widget, DataModel model,
-					String path) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void setWidgetValue(VerticalSectionView widget, DataModel model,
-					String path) {
-		        CourseRequirementsSummaryView preview = new CourseRequirementsSummaryView(null, CourseRequirementsViews.PREVIEW, "Course Requirements", ProgramConstants.PROGRAM_MODEL_ID,
-						new CourseRequirementsDataModel(controller), true);
-		        preview.beforeShow(new Callback<Boolean>(){
-
-					@Override
-					public void exec(Boolean result) {
-						// TODO Auto-generated method stub
-
-					}});
-				widget.addWidget(preview);
-
-			}});
-		verticalSection.addField(reqsField);
 		return verticalSection;
 	}
 }
