@@ -412,7 +412,7 @@ public class ReqCompEditWidget extends FlowPanel {
     //TODO can we include the custom widgets with regular widgets?
     public void displayCustomWidget(String fieldType, Widget customWidget) {
         KSLabel label = new KSLabel(getFieldLabel(fieldType));
-        label.addStyleName("");
+        label.addStyleName("KS-Rule-ReqComp-Custom-Widget-label");
         holdFieldsPanel.add(label);
         customWidgets.put(fieldType, customWidget);
         holdFieldsPanel.add(customWidget);
