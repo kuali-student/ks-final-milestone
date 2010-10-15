@@ -12,6 +12,9 @@ public class TestClusetUiObjectDictionary
  {
   Set<String> startingClasses = new LinkedHashSet ();
   startingClasses.add ("cluset");
+  startingClasses.add ("courseSet");
+  startingClasses.add ("programSet");
+  startingClasses.add ("testSet");
   String contextFile = "ks-cluset-ui-object-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
   DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,
