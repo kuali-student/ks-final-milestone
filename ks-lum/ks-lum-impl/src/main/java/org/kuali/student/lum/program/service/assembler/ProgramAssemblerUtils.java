@@ -223,6 +223,20 @@ public class ProgramAssemblerUtils {
     	                result.getChildNodes().addAll(reqResults);
     	            }
     	    	}
+    	    	
+    	        if(currentRelations != null && currentRelations.size() > 0){
+	    	        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
+	    	            // Create a new relation with the id of the relation we want to
+	    	            // delete
+	    	            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
+	    	            relationToDelete.setId( entry.getValue() );
+	    	            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+	    	                    null);
+	    	            relationToDeleteNode.setNodeData(relationToDelete);
+	    	            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+	    	            result.getChildNodes().add(relationToDeleteNode);
+	    	        }
+    	        }
             }
         } catch (NoSuchMethodException e) {
         	throw new AssemblyException("Error while disassembling program requirements", e); 
@@ -964,7 +978,7 @@ public class ProgramAssemblerUtils {
         }
 
         //  If this is a create then vreate new relation
-       /* if (NodeOperation.CREATE == operation
+        if (NodeOperation.CREATE == operation
                 || (NodeOperation.UPDATE == operation && !currentRelations.containsKey(relatedCluId) )) {
             // the relation does not exist, so create
         	addCreateRelationNode(cluId, relatedCluId, relationType, results);
@@ -983,13 +997,7 @@ public class ProgramAssemblerUtils {
             // remove this entry from the map so we can tell what needs to
             // be deleted at the end
             currentRelations.remove(relatedCluId);
-        }*/
-        if (NodeOperation.UPDATE.equals(operation) && (currentRelations != null && currentRelations.containsKey(relatedCluId))) {
-            // remove this entry from the map so we can tell what needs to be deleted at the end
-        	currentRelations.remove(relatedCluId);  
-        } else if (!NodeOperation.DELETE.equals(operation)) {
-        	addCreateRelationNode(cluId, relatedCluId, relationType, results);
-		}
+        }
         
         if(currentRelations != null && currentRelations.size() > 0){
 	        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
@@ -1009,26 +1017,27 @@ public class ProgramAssemblerUtils {
     public List<BaseDTOAssemblyNode<?, ?>> addAllRelationNodes(String cluId, String relatedCluId, String relationType, NodeOperation operation, Map<String, String> currentRelations)throws AssemblyException{
     	List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
-        if (NodeOperation.UPDATE.equals(operation) && (currentRelations != null && currentRelations.containsKey(relatedCluId))) {
-            // remove this entry from the map so we can tell what needs to be deleted at the end
-        	currentRelations.remove(relatedCluId);  
-        } else if (!NodeOperation.DELETE.equals(operation)) {
-        	addCreateRelationNode(cluId, relatedCluId, relationType, results);
+		if (NodeOperation.CREATE == operation
+		        || (NodeOperation.UPDATE == operation && !currentRelations.containsKey(relatedCluId) )) {
+		    // the relation does not exist, so create
+			addCreateRelationNode(cluId, relatedCluId, relationType, results);
+		} else if (NodeOperation.UPDATE == operation
+		        && currentRelations.containsKey(relatedCluId)) {
+		    // If the relationship already exists update it
+		
+		    // remove this entry from the map so we can tell what needs to
+		    // be deleted at the end
+		    currentRelations.remove(relatedCluId);
+		} else if (NodeOperation.DELETE == operation
+		        && currentRelations.containsKey(relatedCluId))  {
+		    // Delete the Format and its relation
+			addDeleteRelationNodes(currentRelations, results);
+		
+		    // remove this entry from the map so we can tell what needs to
+		    // be deleted at the end
+		    currentRelations.remove(relatedCluId);
 		}
         
-        if(currentRelations != null && currentRelations.size() > 0){
-	        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
-	            // Create a new relation with the id of the relation we want to
-	            // delete
-	            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
-	            relationToDelete.setId( entry.getValue() );
-	            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
-	                    null);
-	            relationToDeleteNode.setNodeData(relationToDelete);
-	            relationToDeleteNode.setOperation(NodeOperation.DELETE);
-	            results.add(relationToDeleteNode);
-	        }
-        }
         return results;
     }
     public Map<String, String> getCluCluRelations(String cluId, String relationType) throws AssemblyException{
