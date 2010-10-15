@@ -58,7 +58,7 @@ public class MessageServiceImpl implements MessageService {
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("locale", localeKey);
         queryMap.put("groupName", messageGroupKey);
-        queryMap.put("id", messageKey);
+        queryMap.put("messageId", messageKey);
         
         MessageEntity entity = (MessageEntity) getBusinessObjectService().findByPrimaryKey(MessageEntity.class, queryMap);
         
@@ -128,11 +128,11 @@ public class MessageServiceImpl implements MessageService {
     	Map<String,String> primaryKeys = new HashMap<String,String>();
     	primaryKeys.put("locale", localeKey);
     	primaryKeys.put("groupName", messageGroupKey);
-    	primaryKeys.put("id", messageKey);
+    	primaryKeys.put("messageId", messageKey);
     	
     	MessageEntity entity = (MessageEntity) getBusinessObjectService().findByPrimaryKey(MessageEntity.class, primaryKeys);
     	
-    	entity.setId(messageInfo.getId());
+    	entity.setMessageId(messageInfo.getId());
     	entity.setLocale(messageInfo.getLocale());
     	entity.setGroupName(messageInfo.getGroupName());
     	entity.setValue(messageInfo.getValue());
@@ -146,7 +146,7 @@ public class MessageServiceImpl implements MessageService {
     protected MessageEntity toMessageEntity(Message message) {
         MessageEntity result = new MessageEntity();
 
-        result.setId(message.getId());
+        result.setMessageId(message.getId());
         result.setLocale(message.getLocale());
         result.setGroupName(message.getGroupName());
         result.setValue(message.getValue());
@@ -158,7 +158,7 @@ public class MessageServiceImpl implements MessageService {
         Message result = new Message();
 
         result.setGroupName(entity.getGroupName());
-        result.setId(entity.getId());
+        result.setId(entity.getMessageId());
         result.setLocale(entity.getLocale());
         result.setValue(entity.getValue());
 

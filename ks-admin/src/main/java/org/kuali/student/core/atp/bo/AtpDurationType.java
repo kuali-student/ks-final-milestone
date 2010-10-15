@@ -18,15 +18,12 @@ package org.kuali.student.core.atp.bo;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.AttributedKualiTypeInactivatableFromToBase;
+import org.kuali.student.core.bo.TypeBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_ATP_DUR_TYPE")
-public class AtpDurationType extends AttributedKualiTypeInactivatableFromToBase {
+public class AtpDurationType extends TypeBusinessObjectBase {
+    
 	private static final long serialVersionUID = -3724953583916820198L;
-
-	public AtpDurationType() {
-		super();
-	}
 
 }

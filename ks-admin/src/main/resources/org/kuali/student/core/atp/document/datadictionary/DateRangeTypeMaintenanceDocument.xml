@@ -9,14 +9,13 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="DateRangeTypeMaintenanceDocument" parent="DateRangeTypeMaintenanceDocument-parentBean"/>
-
   <bean id="DateRangeTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
         p:businessObjectClass="org.kuali.student.core.atp.bo.DateRangeType"
         p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+    <property name="documentTypeName" value="DateRangeTypeMaintenanceDocument"/>
     <property name="maintainableSections">
       <list>
         <ref bean="DateRangeTypeMaintenanceDocument-dateRangeType"/>
-        <ref bean="DateRangeTypeMaintenanceDocument-attributes" />
       </list>
     </property>
     <property name="lockingKeys">
@@ -24,13 +23,11 @@
         <value>id</value>
       </list>
     </property>
-    <property name="documentTypeName" value="DateRangeTypeMaintenanceDocument"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->
 
   <bean id="DateRangeTypeMaintenanceDocument-dateRangeType" parent="DateRangeTypeMaintenanceDocument-dateRangeType-parentBean"/>
-
   <bean id="DateRangeTypeMaintenanceDocument-dateRangeType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="Date Range Type Maintenance"/>
     <property name="maintainableItems">
@@ -43,32 +40,5 @@
       </list>
     </property>
   </bean>
-  
-    <bean id="DateRangeTypeMaintenanceDocument-attributes" parent="DateRangeTypeMaintenanceDocument-attributes-parentBean" />
-
-    <bean id="DateRangeTypeMaintenanceDocument-attributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Extension Attributes" />
-        <property name="title" value="Extension Attributes" />
-        <property name="maintainableItems">
-            <list>
-                <bean parent="MaintainableCollectionDefinition">
-                    <property name="name" value="attributes" />
-                    <property name="businessObjectClass" value="org.kuali.rice.kns.bo.BusinessObjectExtensionAttributeImpl" />
-                    <property name="summaryTitle" value="Attribute" />
-                    <property name="summaryFields">
-                        <list>
-                            <bean parent="MaintainableFieldDefinition" p:name="name" />
-                        </list>
-                    </property>
-                    <property name="maintainableFields">
-                        <list>
-                            <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
-                            <bean parent="MaintainableFieldDefinition" p:name="value" p:required="true" />
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>  
 
 </beans>

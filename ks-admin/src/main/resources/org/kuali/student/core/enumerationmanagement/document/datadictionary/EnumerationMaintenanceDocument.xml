@@ -21,7 +21,7 @@
         </property>
         <property name="lockingKeys">
             <list>
-                <value>key</value>
+                <value>id</value>
             </list>
         </property>
         <property name="documentTypeName" value="EnumerationDocumentType" />
@@ -30,13 +30,12 @@
     <!-- Maintenance Section Definitions -->
 
     <bean id="EnumerationMaintenanceDocument-EnumerationMaintenance" parent="EnumerationMaintenanceDocument-EnumerationMaintenance-parentBean" />
-
     <bean id="EnumerationMaintenanceDocument-EnumerationMaintenance-parentBean"
         abstract="true" parent="MaintainableSectionDefinition">
         <property name="title" value="Enumeration Maintenance" />
         <property name="maintainableItems">
             <list>
-                <bean parent="MaintainableFieldDefinition" p:name="key" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="activeFromDate" p:required="true" />

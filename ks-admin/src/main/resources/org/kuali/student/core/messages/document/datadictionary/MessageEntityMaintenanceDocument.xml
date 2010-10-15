@@ -9,7 +9,6 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="MessageEntityMaintenanceDocument" parent="MessageEntityMaintenanceDocument-parentBean"/>
-
   <bean id="MessageEntityMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.student.core.messages.bo.MessageEntity"
   		p:maintainableClass="org.kuali.student.core.messages.maintenance.MessageMaintainable">
@@ -20,7 +19,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>databaseId</value>
+        <value>id</value>
       </list>
     </property>
     <property name="documentTypeName" value="MessageEntityDocumentType"/>
@@ -29,12 +28,11 @@
   <!-- Maintenance Section Definitions -->
 
   <bean id="MessageEntityMaintenanceDocument-MessageEntityMaintenance" parent="MessageEntityMaintenanceDocument-MessageEntityMaintenance-parentBean"/>
-
   <bean id="MessageEntityMaintenanceDocument-MessageEntityMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="Message Maintenance"/>
     <property name="maintainableItems">
       <list>
-      	<bean parent="MaintainableFieldDefinition" p:name="id" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="messageId" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="locale" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="groupName" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="value" p:required="true"/>

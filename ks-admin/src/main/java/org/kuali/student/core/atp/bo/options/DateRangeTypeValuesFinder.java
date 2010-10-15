@@ -1,13 +1,13 @@
 package org.kuali.student.core.atp.bo.options;
 
-import org.kuali.rice.kns.bo.KualiType;
-import org.kuali.rice.kns.bo.options.KualiTypeValuesFinder;
 import org.kuali.student.core.atp.bo.DateRangeType;
+import org.kuali.student.core.bo.TypeBusinessObject;
+import org.kuali.student.core.bo.options.TypeValuesFinder;
 
-public class DateRangeTypeValuesFinder extends KualiTypeValuesFinder {
+public class DateRangeTypeValuesFinder extends TypeValuesFinder {
 
     @Override
-    public Class<? extends KualiType> getBusinessObjectClass() {
+    public Class<? extends TypeBusinessObject> getBusinessObjectClass() {
         return DateRangeType.class;
     }
 

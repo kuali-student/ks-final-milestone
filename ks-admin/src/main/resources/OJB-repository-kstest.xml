@@ -17,21 +17,23 @@
 <descriptor-repository version="1.0">
 
 	<class-descriptor class="org.kuali.student.core.messages.bo.MessageEntity" table="KSMG_MESSAGE">
-		<field-descriptor name="databaseId" column="databaseid" jbdc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="KSMG_MESSAGE_DATABASE_ID_S"/>
-		<field-descriptor name="id" column="id" jbdc-type="VARCHAR"/>
-		<field-descriptor name="locale" column="locale" jbdc-type="VARCHAR"/>
-		<field-descriptor name="groupName" column="groupname" jbdc-type="VARCHAR"/>
-		<field-descriptor name="value" column="value" jbdc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
-		<field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
+		<field-descriptor name="id" column="ID" jbdc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="messageId" column="MSG_ID" jbdc-type="VARCHAR"/>
+		<field-descriptor name="locale" column="LOCALE" jbdc-type="VARCHAR"/>
+		<field-descriptor name="groupName" column="GRP_NAME" jbdc-type="VARCHAR"/>
+		<field-descriptor name="value" column="MSG_VALUE" jbdc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jbdc-type="VARCHAR" index="true"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jbdc-type="BIGINT" locking="true"/>
 	</class-descriptor>
     
     <class-descriptor class="org.kuali.student.core.enumerationmanagement.bo.Enumeration" table="KSEM_ENUM_T">
-        <field-descriptor name="key" column="ENUM_KEY" jbdc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="id" column="ENUM_KEY" jbdc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCR" jbdc-type="VARCHAR"/>
         <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
         <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="objectId" column="OBJ_ID" jbdc-type="VARCHAR" index="true"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jbdc-type="BIGINT" locking="true"/>
         
         <collection-descriptor name="enumeratedValueList"
                 collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
@@ -41,21 +43,21 @@
                 auto-delete="true"
                 proxy="true">
             
-            <inverse-foreignkey field-ref="enumerationKey"/>
+            <inverse-foreignkey field-ref="enumerationId"/>
         </collection-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue" table="KSEM_ENUM_VAL_T">
-        <field-descriptor name="id" column="ID" jbdc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="KSEM_ENUM_VAL_ID_S"/>
-        <field-descriptor name="enumerationKey" column="ENUM_KEY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="id" column="ID" jbdc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="enumerationId" column="ENUM_KEY" jdbc-type="VARCHAR"/>
         <field-descriptor name="code" column="CD" jbdc-type="VARCHAR"/>
         <field-descriptor name="abbrevValue" column="ABBREV_VAL" jbdc-type="VARCHAR"/>
         <field-descriptor name="value" column="VAL" jbdc-type="VARCHAR"/>
         <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
         <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
         <field-descriptor name="sortKey" column="SORT_KEY" jbdc-type="BIGINT" />
-        <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
-        <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jbdc-type="VARCHAR" index="true"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jbdc-type="BIGINT" locking="true"/>
         
         <reference-descriptor name="enumeration"
                 class-ref="org.kuali.student.core.enumerationmanagement.bo.Enumeration"
@@ -63,7 +65,7 @@
                 auto-delete="none"
                 auto-update="none"
                 proxy="true">
-            <foreignkey field-ref="enumerationKey"/>
+            <foreignkey field-ref="enumerationId"/>
         </reference-descriptor>
     </class-descriptor>
     
@@ -72,15 +74,15 @@
         <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
-        <field-descriptor name="description" column="RT_DESCR_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="typeId" column="TYPE" jbdc-type="VARCHAR" />
         <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
+        <field-descriptor name="descriptionId" column="RT_DESCR_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="createId" column="CREATEID" jbdc-type="VARCHAR" />
         <field-descriptor name="createDate" column="CREATETIME" jbdc-type="TIMESTAMP" />
         <field-descriptor name="updateId" column="UPDATEID" jbdc-type="VARCHAR" />
         <field-descriptor name="updateDate" column="UPDATETIME" jbdc-type="TIMESTAMP" />
-        <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="startDate" column="START_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="endDate" column="END_DT" jdbc-type="TIMESTAMP" />
         
         <reference-descriptor name="type"
                 class-ref="org.kuali.student.core.atp.bo.AtpType"
@@ -89,6 +91,15 @@
                 auto-update="none"
                 proxy="true">
             <foreignkey field-ref="typeId"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="description"
+                class-ref="org.kuali.student.core.atp.bo.AtpRichText"
+                auto-retrieve="true"
+                auto-delete="object"
+                auto-update="object"
+                proxy="true">
+            <foreignkey field-ref="descriptionId"/>
         </reference-descriptor>
         
         <collection-descriptor name="dateRanges"
@@ -112,12 +123,20 @@
         </collection-descriptor>        
     </class-descriptor>
     
+    <class-descriptor class="org.kuali.student.core.atp.bo.AtpRichText" table="KSAP_RICH_TEXT_T">
+        <field-descriptor name="id" column="ID" jbdc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
+        <field-descriptor name="plain" column="plain" jbdc-type="VARCHAR" index="true"/>
+        <field-descriptor name="formatted" column="formatted" jbdc-type="VARCHAR" index="true"/>
+    </class-descriptor>
+    
     <class-descriptor class="org.kuali.student.core.atp.bo.Milestone" table="KSAP_MLSTN">
         <field-descriptor name="id" column="ID" jbdc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
-        <field-descriptor name="description" column="RT_DESCR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="descriptionId" column="RT_DESCR_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="typeId" column="MLSTN_TYPE_ID" jbdc-type="VARCHAR" />
         <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
         <field-descriptor name="createId" column="CREATEID" jbdc-type="VARCHAR" />
@@ -136,6 +155,15 @@
             <foreignkey field-ref="typeId"/>
         </reference-descriptor>
         
+        <reference-descriptor name="description"
+                class-ref="org.kuali.student.core.atp.bo.AtpRichText"
+                auto-retrieve="true"
+                auto-delete="object"
+                auto-update="object"
+                proxy="true">
+            <foreignkey field-ref="descriptionId"/>
+        </reference-descriptor>
+        
         <reference-descriptor name="atp"
                 class-ref="org.kuali.student.core.atp.bo.Atp"
                 auto-retrieve="true"
@@ -151,7 +179,7 @@
         <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
         <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
-        <field-descriptor name="description" column="RT_DESCR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="descriptionId" column="RT_DESCR_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="typeId" column="DT_RANGE_TYPE_ID" jbdc-type="VARCHAR" />
         <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
         <field-descriptor name="createId" column="CREATEID" jbdc-type="VARCHAR" />
@@ -169,6 +197,15 @@
                 auto-update="none"
                 proxy="true">
             <foreignkey field-ref="typeId"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="description"
+                class-ref="org.kuali.student.core.atp.bo.AtpRichText"
+                auto-retrieve="true"
+                auto-delete="object"
+                auto-update="object"
+                proxy="true">
+            <foreignkey field-ref="descriptionId"/>
         </reference-descriptor>
         
         <reference-descriptor name="atp"
@@ -250,13 +287,5 @@
         <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
         <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
     </class-descriptor>    
-    
-    <class-descriptor class="org.kuali.rice.kns.bo.BusinessObjectExtensionAttributeImpl" table="KSAP_ATTR">
-        <field-descriptor name="id" column="ID" jbdc-type="VARCHAR" primarykey="true" sequence-name="KSAP_ATTR_ID_SEQ" autoincrement="true"/>
-        <field-descriptor name="objectId" column="obj_id" jbdc-type="VARCHAR" index="true"/>
-        <field-descriptor name="versionNumber" column="ver_nbr" jbdc-type="BIGINT" locking="true"/>
-        <field-descriptor name="name" column="ATTR_NAME" jbdc-type="VARCHAR" />
-        <field-descriptor name="value" column="ATTR_VALUE" jdbc-type="VARCHAR" />
-        <field-descriptor name="ownerObjectId" column="OWNER_OBJ_ID" jdbc-type="VARCHAR" />
-    </class-descriptor>           	
+       
 </descriptor-repository>

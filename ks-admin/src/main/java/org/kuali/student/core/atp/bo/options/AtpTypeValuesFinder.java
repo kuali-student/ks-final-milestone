@@ -1,13 +1,13 @@
 package org.kuali.student.core.atp.bo.options;
 
-import org.kuali.rice.kns.bo.KualiType;
-import org.kuali.rice.kns.bo.options.KualiTypeValuesFinder;
 import org.kuali.student.core.atp.bo.AtpType;
+import org.kuali.student.core.bo.TypeBusinessObject;
+import org.kuali.student.core.bo.options.TypeValuesFinder;
 
-public class AtpTypeValuesFinder extends KualiTypeValuesFinder {
+public class AtpTypeValuesFinder extends TypeValuesFinder {
 
     @Override
-    public Class<? extends KualiType> getBusinessObjectClass() {
+    public Class<? extends TypeBusinessObject> getBusinessObjectClass() {
         return AtpType.class;
     }
 

@@ -19,27 +19,23 @@ import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.kuali.rice.kns.bo.InactivatableFromToImpl;
+import org.kuali.student.core.bo.KsInactivatableFromToBase;
 
 
 @Entity
 @Table(name="KSEM_ENUM_VAL_T")
-public class EnumeratedValue extends InactivatableFromToImpl {
+public class EnumeratedValue extends KsInactivatableFromToBase {
     
-    public static final String ENUMERATION_KEY = "enumerationKey";
+    public static final String ENUMERATION_KEY = "enumerationId";
     
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name="ID")
-    String id;
     
     @Column(name="enum_key")
-    String enumerationKey;
+    String enumerationId;
     
     @Column(name="CD")
     String code;
@@ -59,27 +55,19 @@ public class EnumeratedValue extends InactivatableFromToImpl {
     
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = super.toStringMapper();
         
-        toStringMap.put("id", id);
-        toStringMap.put("enumerationKey", enumerationKey);
-        toStringMap.put("code", code);
-        toStringMap.put("abbrevValue", abbrevValue);
-        toStringMap.put("value", value);
-        toStringMap.put("activeFromDate", activeFromDate);
-        toStringMap.put("activeToDate", activeToDate);
-        toStringMap.put("sortKey", sortKey);
+        map.put("enumerationId", enumerationId);
+        map.put("code", code);
+        map.put("abbrevValue", abbrevValue);
+        map.put("value", value);
+        map.put("activeFromDate", activeFromDate);
+        map.put("activeToDate", activeToDate);
+        map.put("sortKey", sortKey);
         
-        return toStringMap;
+        return map;
     }
     
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -113,12 +101,12 @@ public class EnumeratedValue extends InactivatableFromToImpl {
         this.sortKey = sortKey;
     }
 
-    public String getEnumerationKey() {
-        return enumerationKey;
+    public String getEnumerationId() {
+        return enumerationId;
     }
 
-    public void setEnumerationKey(String enumerationTableId) {
-        this.enumerationKey = enumerationTableId;
+    public void setEnumerationId(String enumerationId) {
+        this.enumerationId = enumerationId;
     }
 
     public Enumeration getEnumeration() {

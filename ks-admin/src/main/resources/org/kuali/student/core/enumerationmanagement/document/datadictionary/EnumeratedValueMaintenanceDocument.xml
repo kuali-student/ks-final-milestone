@@ -9,7 +9,6 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EnumeratedValueMaintenanceDocument" parent="EnumeratedValueMaintenanceDocument-parentBean"/>
-
   <bean id="EnumeratedValueMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
         p:businessObjectClass="org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue"
         p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
@@ -30,12 +29,11 @@
   <!-- Maintenance Section Definitions -->
 
   <bean id="EnumeratedValueMaintenanceDocument-EnumeratedValueMaintenance" parent="EnumeratedValueMaintenanceDocument-EnumeratedValueMaintenance-parentBean"/>
-
   <bean id="EnumeratedValueMaintenanceDocument-EnumeratedValueMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="Enumeration Value Maintenance"/>
     <property name="maintainableItems">
       <list>
-      	<bean parent="MaintainableFieldDefinition" p:name="enumerationKey" p:alternateDisplayAttributeName="enumeration.name" p:unconditionallyReadOnly="true" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="enumerationId" p:alternateDisplayAttributeName="enumeration.name" p:unconditionallyReadOnly="true" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="abbrevValue" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="value" p:required="true"/>

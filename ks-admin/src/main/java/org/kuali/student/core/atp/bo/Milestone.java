@@ -27,7 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.rice.kns.bo.KualiTypeCodeBase;
+import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_MLSTN")
@@ -35,7 +35,7 @@ import org.kuali.rice.kns.bo.KualiTypeCodeBase;
 		@NamedQuery(name = "Milestone.findMilestonesByAtp", query = "SELECT milestone FROM Milestone milestone WHERE milestone.atp.id = :atpId"),
 		@NamedQuery(name = "Milestone.findMilestonesByDates", query = "SELECT milestone FROM Milestone milestone WHERE milestone.milestoneDate >= :startDate AND milestone.milestoneDate <= :endDate"),
 		@NamedQuery(name = "Milestone.findMilestonesByDatesAndType", query = "SELECT milestone FROM Milestone milestone WHERE milestone.type.id = :milestoneTypeId AND milestone.milestoneDate >= :startDate AND milestone.milestoneDate <= :endDate") })
-public class Milestone extends KualiTypeCodeBase {
+public class Milestone extends TypeStateBusinessObjectBase {
 	private static final long serialVersionUID = 423410094436352921L;
 
 	@Column(name = "ATP_ID")
@@ -53,6 +53,10 @@ public class Milestone extends KualiTypeCodeBase {
 	@Column(name = "MLSTN_DT")
 	private Date milestoneDate;
 
+	private String descriptionId;
+    
+    private AtpRichText description;
+    
 	public Milestone() {
 		super();
 	}
@@ -89,4 +93,19 @@ public class Milestone extends KualiTypeCodeBase {
 		this.type = type;
 	}
 
+	public String getDescriptionId() {
+        return descriptionId;
+    }
+
+    public void setDescriptionId(String descriptionId) {
+        this.descriptionId = descriptionId;
+    }
+
+    public AtpRichText getDescription() {
+        return description;
+    }
+
+    public void setDescription(AtpRichText description) {
+        this.description = description;
+    }
 }

@@ -27,7 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.rice.kns.bo.KualiTypeCodeBase;
+import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_DT_RANGE")
@@ -35,7 +35,7 @@ import org.kuali.rice.kns.bo.KualiTypeCodeBase;
 	@NamedQuery(name="DateRange.findDateRangesByAtp", query="SELECT dateRange FROM DateRange dateRange WHERE dateRange.atp.id = :atpId"),
 	@NamedQuery(name="DateRange.findDateRangesByDate", query="SELECT dateRange FROM DateRange dateRange WHERE dateRange.startDate <= :searchDate AND dateRange.endDate >= :searchDate")
 })
-public class DateRange extends KualiTypeCodeBase {
+public class DateRange extends TypeStateBusinessObjectBase {
 	private static final long serialVersionUID = -9071561165465644092L;
 
 	@Column(name = "ATP_ID")
@@ -56,6 +56,10 @@ public class DateRange extends KualiTypeCodeBase {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="END_DT")
 	private Date endDate;
+	
+	private String descriptionId;
+    
+    private AtpRichText description;
 	
 	public DateRange() {
 		super();
@@ -100,5 +104,21 @@ public class DateRange extends KualiTypeCodeBase {
 	public void setType(DateRangeType type) {
 		this.type = type;
 	}
+
+    public String getRichTextId() {
+        return descriptionId;
+    }
+
+    public void setRichTextId(String descriptionId) {
+        this.descriptionId = descriptionId;
+    }
+
+    public AtpRichText getDescription() {
+        return description;
+    }
+
+    public void setDescription(AtpRichText description) {
+        this.description = description;
+    }
 	
 }

@@ -20,17 +20,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.AttributedKualiTypeInactivatableFromToBase;
+import org.kuali.student.core.bo.TypeBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_DT_RANGE_TYPE")
 @NamedQueries( { 
 	@NamedQuery(name = "DateRangeType.findDateRangeTypesForAtpType", query = "SELECT dateRange.type FROM DateRange dateRange WHERE dateRange.atp.type.id = :atpTypeId") 
 })
-public class DateRangeType extends AttributedKualiTypeInactivatableFromToBase {
+public class DateRangeType extends TypeBusinessObjectBase {
+    
 	private static final long serialVersionUID = 556525490322814285L;
 
-	public DateRangeType() {
-		super();
-	}
 }

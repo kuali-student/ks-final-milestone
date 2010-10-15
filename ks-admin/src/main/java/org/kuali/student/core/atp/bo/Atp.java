@@ -16,9 +16,11 @@
 package org.kuali.student.core.atp.bo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,9 +28,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.kuali.rice.kns.bo.AttributedBusinessObject;
-import org.kuali.rice.kns.bo.KualiTypeCodeInactivatableFromToBase;
+import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_ATP")
@@ -37,13 +40,25 @@ import org.kuali.rice.kns.bo.KualiTypeCodeInactivatableFromToBase;
 	@NamedQuery(name = "Atp.findAtpsByDate", query = "SELECT atp FROM Atp atp WHERE atp.effectiveDate <= :searchDate AND atp.expirationDate > :searchDate"),
 	@NamedQuery(name = "Atp.findAtpsByDates", query = "SELECT atp FROM Atp atp WHERE atp.effectiveDate >= :startDate AND atp.expirationDate <= :endDate")
 })
-public class Atp extends KualiTypeCodeInactivatableFromToBase implements AttributedBusinessObject {
+public class Atp extends TypeStateBusinessObjectBase {
 	private static final long serialVersionUID = -4021959685737332345L;
 	
 	@ManyToOne
 	@JoinColumn(name = "TYPE")
 	private AtpType type;
 
+	@Temporal(TemporalType.TIMESTAMP)
+    @Column(name="START_DT")
+    private Date startDate;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="END_DT")
+    private Date endDate;
+    
+    private String descriptionId;
+    
+    private AtpRichText description;
+    
 	@OneToMany(mappedBy = "atp", cascade = CascadeType.REMOVE)
 	private List<DateRange> dateRanges;
 
@@ -56,9 +71,9 @@ public class Atp extends KualiTypeCodeInactivatableFromToBase implements Attribu
 		milestones = new ArrayList<Milestone>();
 		
 	}
-	
 
-	public AtpType getType() {
+
+    public AtpType getType() {
 		return type;
 	}
 
@@ -66,6 +81,38 @@ public class Atp extends KualiTypeCodeInactivatableFromToBase implements Attribu
 		this.type = type;
 	}
 
+	public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+    
+    public String getDescriptionId() {
+        return descriptionId;
+    }
+
+    public void setDescriptionId(String descriptionId) {
+        this.descriptionId = descriptionId;
+    }
+
+    public AtpRichText getDescription() {
+        return description;
+    }
+
+    public void setDescription(AtpRichText description) {
+        this.description = description;
+    }
+    
 	public List<DateRange> getDateRanges() {
 		return dateRanges;
 	}

@@ -23,11 +23,11 @@
         <property name="initializeDataDictionary" value="true"/>
         <property name="dataDictionaryPackages">
             <list>
+                <value>org/kuali/student/core/bo/datadictionary</value>
                 <value>org/kuali/student/core/enumerationmanagement/bo/datadictionary</value>
                 <value>org/kuali/student/core/enumerationmanagement/document/datadictionary</value>
                 <value>org/kuali/student/core/messages/bo/datadictionary</value>
                 <value>org/kuali/student/core/messages/document/datadictionary</value>
-                <value>org/kuali/rice/kns/bo/datadictionary</value>
                 <value>org/kuali/student/core/atp/bo/datadictionary</value>
                 <value>org/kuali/student/core/atp/document/datadictionary</value>
             </list>

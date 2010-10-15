@@ -20,26 +20,24 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.student.core.bo.KsBusinessObjectBase;
 import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 
 @Entity
 @Table(name = "KSMG_MESSAGE")
-public class MessageEntity extends PersistableBusinessObjectBase {
+public class MessageEntity extends KsBusinessObjectBase {
 
     public static final String GROUP_NAME_ENUMERATION = "ks.message.groupNames";
     public static final String LOCALE_ENUMERATION = "ks.message.locales";
     
     private static final long serialVersionUID = 1L;
 
-    @Id
-    private Long databaseId;
-    private String id;
+    
+    private String messageId;
     private String locale;
     private String groupName;
     private String value;
@@ -54,15 +52,13 @@ public class MessageEntity extends PersistableBusinessObjectBase {
     @Override
     protected LinkedHashMap<String, Object> toStringMapper() {
 
-        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = super.toStringMapper();
 
-        toStringMap.put("databaseId", databaseId);
-        toStringMap.put("locale", locale);
-        toStringMap.put("groupName", groupName);
-        toStringMap.put("id", id);
-        toStringMap.put("value", value);
+        map.put("locale", locale);
+        map.put("groupName", groupName);
+        map.put("messageId", messageId);
 
-        return toStringMap;
+        return map;
 
     }
     
@@ -83,12 +79,12 @@ public class MessageEntity extends PersistableBusinessObjectBase {
         this.groupName = groupName;
     }
 
-    public String getId() {
-        return id;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     public String getValue() {
@@ -99,13 +95,6 @@ public class MessageEntity extends PersistableBusinessObjectBase {
         this.value = value;
     }
 
-    public Long getDatabaseId() {
-        return databaseId;
-    }
-
-    public void setDatabaseId(Long databaseId) {
-        this.databaseId = databaseId;
-    }
 
     public EnumeratedValue getLocaleEnumValue() {
         if(localeEnumValue == null) {

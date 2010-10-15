@@ -18,11 +18,12 @@ package org.kuali.student.core.atp.bo;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.AttributedKualiTypeInactivatableFromToBase;
+import org.kuali.student.core.bo.TypeBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_ATP_SEASONAL_TYPE")
-public class AtpSeasonalType extends AttributedKualiTypeInactivatableFromToBase {
+public class AtpSeasonalType extends TypeBusinessObjectBase {
+    
 	private static final long serialVersionUID = 4888800541957749096L;
 
 	public AtpSeasonalType() {

@@ -20,11 +20,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.AttributedKualiTypeInactivatableFromToBase;
+import org.kuali.student.core.bo.TypeBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_ATP_TYPE")
-public class AtpType extends AttributedKualiTypeInactivatableFromToBase {
+public class AtpType extends TypeBusinessObjectBase {
+    
 	private static final long serialVersionUID = 3559054373937794275L;
 
 	private String seasonalTypeId;
@@ -39,9 +40,6 @@ public class AtpType extends AttributedKualiTypeInactivatableFromToBase {
 	@JoinColumn(name = "DUR_TYPE")
 	private AtpDurationType durationType;
 	
-	public AtpType() {
-		super();
-	}
 
 	public AtpSeasonalType getSeasonalType() {
 		return seasonalType;

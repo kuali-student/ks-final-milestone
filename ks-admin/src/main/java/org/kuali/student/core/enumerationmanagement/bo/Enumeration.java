@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.InactivatableFromToImpl;
+import org.kuali.student.core.bo.KsInactivatableFromToBase;
 
-public class Enumeration extends InactivatableFromToImpl {
+public class Enumeration extends KsInactivatableFromToBase {
 
     private static final long serialVersionUID = 1L;
 
-    private String key;
+
     private String name;
     private String description;
     
     List<EnumeratedValue> enumeratedValueList;
+    
     
     public Enumeration() {
         enumeratedValueList = new ArrayList<EnumeratedValue>();
@@ -22,24 +23,16 @@ public class Enumeration extends InactivatableFromToImpl {
     
     @Override
     protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = super.toStringMapper();
         
-        toStringMap.put("key", key);
-        toStringMap.put("name", name);
-        toStringMap.put("description", description);
-        toStringMap.put("activeFromDate", activeFromDate);
-        toStringMap.put("activeToDate", activeToDate);
+        map.put("name", name);
+        map.put("description", description);
+        map.put("activeFromDate", activeFromDate);
+        map.put("activeToDate", activeToDate);
         
-        return toStringMap;
+        return map;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String id) {
-        this.key = id;
-    }
 
     public String getName() {
         return name;
