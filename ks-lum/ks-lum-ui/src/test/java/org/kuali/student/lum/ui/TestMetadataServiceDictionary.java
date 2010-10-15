@@ -57,6 +57,9 @@ public class TestMetadataServiceDictionary
   startingClasses.add (ReqComponentInfo.class.getName ());
   startingClasses.add (ReqCompFieldInfo.class.getName ());
   startingClasses.add ("cluset");
+  startingClasses.add ("courseSet");
+  startingClasses.add ("programSet");
+  startingClasses.add ("testSet");
   startingClasses.add ("search");
   startingClasses.add ("browse");
 
@@ -80,7 +83,7 @@ public class TestMetadataServiceDictionary
   typesForClass.add ("kuali.reqComponent.field.type.org.id");
   typesForClass.add ("kuali.reqComponent.field.type.value.positive.integer");
   typesForClass.add ("kuali.reqComponent.field.type.gradeType.id");
-  typesForClass.add ("kuali.reqComponent.field.type.grade");
+  typesForClass.add ("kuali.reqComponent.field.type.grade.id");
   typesForClass.add ("kuali.reqComponent.field.type.durationType.id");
   typesForClass.add ("kuali.reqComponent.field.type.duration");
 
