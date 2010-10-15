@@ -12,6 +12,8 @@ import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.MajorViewEvent;
 import org.kuali.student.lum.program.client.events.MajorViewEventHandler;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
 import org.kuali.student.lum.program.client.major.ActionType;
 import org.kuali.student.lum.program.client.major.MajorController;
 
@@ -29,7 +31,6 @@ public class MajorViewController extends MajorController {
         super(name, programModel, viewContext, eventBus);
         configurer = GWT.create(MajorViewConfigurer.class);
         initHandlers();
-        setDefaultView(ProgramSections.VIEW_ALL);
     }
 
     private void initHandlers() {
@@ -46,6 +47,12 @@ public class MajorViewController extends MajorController {
             @Override
             public void onEvent(MajorViewEvent event) {
                 actionBox.setSelectedIndex(0);
+            }
+        });
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+            @Override
+            public void onEvent(ModelLoadedEvent event) {
+               showView(ProgramSections.VIEW_ALL);
             }
         });
     }

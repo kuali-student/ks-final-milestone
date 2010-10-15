@@ -43,7 +43,6 @@ public class MajorEditController extends MajorController {
     public MajorEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
         configurer = GWT.create(MajorEditConfigurer.class);
-        setDefaultView(ProgramSections.SUMMARY);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
     }
@@ -106,6 +105,17 @@ public class MajorEditController extends MajorController {
             @Override
             public void onEvent(SpecializationUpdateEvent event) {
                 doSave();
+            }
+        });
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+            @Override
+            public void onEvent(ModelLoadedEvent event) {
+               String id = (String) programModel.get(ProgramConstants.ID);
+               if(id == null){
+                   showView(ProgramSections.PROGRAM_DETAILS_EDIT);
+               }else{
+                   showView(ProgramSections.SUMMARY);
+               }
             }
         });
         /* eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
