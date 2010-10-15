@@ -265,7 +265,7 @@
         <constructor-arg ref="cluSetManagementAssembler"/>
         <property name="filters">
             <list>
-                <ref bean="idTranslatorAssemblerFilter"/>
+                <ref bean="cluSetManagementIdTranslatorAssemblerFilter"/>
             </list>
         </property>
     </bean>
@@ -422,6 +422,11 @@
 
     <bean id="idTranslator" class="org.kuali.student.core.assembly.util.IdTranslator">
         <constructor-arg ref="searchDispatcher"/>
+    </bean>
+
+    <bean id="cluSetManagementIdTranslatorAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CluSetManagementIdTranslatorAssemblerFilter">
+        <constructor-arg ref="idTranslator"/>
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
     </bean>
 
     <bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.IdTranslatorAssemblerFilter">
