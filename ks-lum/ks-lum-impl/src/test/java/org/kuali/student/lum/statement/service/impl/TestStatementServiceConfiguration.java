@@ -811,7 +811,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     public void testReqComponentFieldTypeForReqComponentType_kuali_reqCompType_program_completion_duration() throws DoesNotExistException {
     	ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.program.completion.duration");
     	List<ReqComponentFieldType> types = reqComponentType.getReqCompFieldTypes();
-    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.value.positive.integer"));
+    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.duration"));
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.durationType.id"));
     }
 
@@ -825,7 +825,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     public void testReqComponentFieldTypeForReqComponentType_kuali_reqCompType_program_candidate_status_duration() throws DoesNotExistException {
     	ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.program.candidate.status.duration");
     	List<ReqComponentFieldType> types = reqComponentType.getReqCompFieldTypes();
-    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.value.positive.integer"));
+    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.duration"));
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.durationType.id"));
     }
 
@@ -839,7 +839,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     public void testReqComponentFieldTypeForReqComponentType_kuali_reqCompType_program_completion_duration_afterentry() throws DoesNotExistException {
     	ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.program.completion.duration.afterentry");
     	List<ReqComponentFieldType> types = reqComponentType.getReqCompFieldTypes();
-    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.value.positive.integer"));
+    	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.duration"));
     	Assert.assertTrue(containsReqComponentFieldType(types, "kuali.reqComponent.field.type.durationType.id"));
     }
 

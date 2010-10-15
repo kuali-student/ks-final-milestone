@@ -114,15 +114,15 @@
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.credits.max"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.completion.duration"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.duration" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.completion.duration"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.durationType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.completion.duration"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.candidate.status.duration"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.duration" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.candidate.status.duration"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.durationType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.candidate.status.duration"/>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.completion.duration.afterentry"/>
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.duration" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.completion.duration.afterentry"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.durationType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.completion.duration.afterentry"/>
     <KSST_RCTYP_JN_RCFLDTYP
