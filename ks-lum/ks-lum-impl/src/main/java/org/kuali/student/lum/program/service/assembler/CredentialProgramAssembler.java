@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.service.assembler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.BOAssembler;
@@ -141,9 +142,15 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
     private void disassembleCorePrograms(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result) throws AssemblyException{
     	List<BaseDTOAssemblyNode<?, ?>> coreResults;
     	
-    	try{    		
+    	try{    
+           	Map<String, String> currentRelations = null;
+
+            if (!NodeOperation.CREATE.equals(operation)) {
+            	currentRelations = programAssemblerUtils.getCluCluRelations(credential.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM);
+            }
+            
 	    	for (String coreProgramId : credential.getCoreProgramIds()){
-	    		coreResults = programAssemblerUtils.addRelationNodes(credential.getId(), coreProgramId, ProgramAssemblerConstants.HAS_CORE_PROGRAM, operation);
+	    		coreResults = programAssemblerUtils.addAllRelationNodes(credential.getId(), coreProgramId, ProgramAssemblerConstants.HAS_CORE_PROGRAM, operation, currentRelations);
 	            if (coreResults != null && coreResults.size()> 0) {
 	                result.getChildNodes().addAll(coreResults);
 	            }
