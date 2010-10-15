@@ -40,6 +40,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
@@ -60,7 +61,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigu
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController.CourseRequirementsViews;
-import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 
 import com.google.gwt.core.client.GWT;
@@ -68,7 +68,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseSummaryConfigurer implements

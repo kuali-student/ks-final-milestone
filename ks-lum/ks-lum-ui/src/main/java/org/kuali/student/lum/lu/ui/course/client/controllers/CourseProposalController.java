@@ -63,7 +63,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.main.client.AppLocations;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -458,7 +458,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        docContext.setId((String) cluProposalModel.get(cfg.getProposalPath()+"/id"));
 		        docContext.setIdType(IdType.KS_KEW_OBJECT_ID);
 		        RecentlyViewedHelper.addDocument(getProposalTitle(), 
-		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext) 
+		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
 		        		+ "/SUMMARY");
 		        getCourseComparisonModel(callback, workCompleteCallback);
 			}

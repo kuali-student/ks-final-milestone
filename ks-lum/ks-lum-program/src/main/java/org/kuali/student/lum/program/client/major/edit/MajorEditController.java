@@ -14,6 +14,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.*;
@@ -93,11 +94,11 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(AddSpecializationEvent.TYPE, new AddSpecializationEventHandler() {
             @Override
             public void onEvent(AddSpecializationEvent event) {
-                String id = (String) programModel.get("id");
+                String id = (String) programModel.get(ProgramConstants.ID);
                 ViewContext viewContext = new ViewContext();
                 viewContext.setId(id);
                 viewContext.setIdType(IdAttributes.IdType.OBJECT_ID);
-                HistoryManager.navigate(ProgramConstants.VARIATION_EDIT_URL, viewContext);
+                HistoryManager.navigate(AppLocations.Locations.EDIT_VARIATION.getLocation(), viewContext);
             }
         });
         eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEventHandler() {
@@ -120,7 +121,7 @@ public class MajorEditController extends MajorController {
     }
 
     private void doCancel() {
-        HistoryManager.navigate("/HOME/CURRICULUM_HOME/PROGRAM_VIEW", getViewContext());
+        HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
     }
 
     protected void doSave() {

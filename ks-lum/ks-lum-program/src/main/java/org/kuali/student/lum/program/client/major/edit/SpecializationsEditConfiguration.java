@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.*;
 import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -46,7 +47,7 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
         VerticalSection section = new VerticalSection();
         KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(ProgramProperties.get().programSpecialization_instructions());
         configurer.addField(section, ProgramConstants.IS_VARIATION_REQUIRED, null, isVariationRequiredCheckBox);
-        configurer.addField(section, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new VerticalPanel()).setWidgetBinding(new VariationsBinding(ProgramConstants.VARIATION_EDIT_URL));
+        configurer.addField(section, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new VerticalPanel()).setWidgetBinding(new VariationsBinding(AppLocations.Locations.EDIT_VARIATION.getLocation()));
         section.addWidget(addSpecializationButton);
         rootSection.addSection(section);
     }
