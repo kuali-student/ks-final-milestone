@@ -62,6 +62,14 @@ public class MessageEntity extends KsBusinessObjectBase {
 
     }
     
+    protected EnumeratedValue retrieveEnumeratedValue(String enumerationId, String enumerationCode) {
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("enumerationId", enumerationId);
+        criteria.put("code", enumerationCode);
+        
+        return (EnumeratedValue) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(EnumeratedValue.class, criteria);
+    }
+    
     
     public String getLocale() {
         return locale;
@@ -98,11 +106,7 @@ public class MessageEntity extends KsBusinessObjectBase {
 
     public EnumeratedValue getLocaleEnumValue() {
         if(localeEnumValue == null) {
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put("enumerationKey", LOCALE_ENUMERATION);
-            criteria.put("code", this.locale);
-            
-            localeEnumValue = (EnumeratedValue) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(EnumeratedValue.class, criteria);
+            localeEnumValue = retrieveEnumeratedValue(LOCALE_ENUMERATION, this.locale);            
         }
         
         return localeEnumValue;
@@ -114,11 +118,7 @@ public class MessageEntity extends KsBusinessObjectBase {
 
     public EnumeratedValue getGroupNameEnumValue() {
         if(groupNameEnumValue == null) {
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put("enumerationKey", GROUP_NAME_ENUMERATION);
-            criteria.put("code", this.groupName);
-            
-            groupNameEnumValue = (EnumeratedValue) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(EnumeratedValue.class, criteria);
+            groupNameEnumValue = retrieveEnumeratedValue(GROUP_NAME_ENUMERATION, this.groupName);
         }
         
         return groupNameEnumValue;
