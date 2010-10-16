@@ -51,8 +51,9 @@
     <url>http://ci.ks.kuali.org</url>
   </ciManagement>
   <modules>
-    <module>ks-core</module>
+    <module>ks-common</module>
     <module>ks-security</module>
+    <module>ks-core</module>
     <module>ks-lum</module>
     <module>ks-web</module>    
   </modules>
@@ -954,31 +955,31 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
 
       <!-- Pom dependencies for impl specific jars -->
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-jta</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-cxf</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-metro</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-eclipselink</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>org.kuali.student.core</groupId>
+        <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-hibernate</artifactId>
         <version>${project.version}</version>
         <type>pom</type>

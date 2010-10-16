@@ -58,7 +58,7 @@
       <artifactId>servlet-api</artifactId>
     </dependency>
     <dependency>
-       <groupId>org.kuali.student.core</groupId>
+       <groupId>org.kuali.student.common</groupId>
        <artifactId>ks-common-util</artifactId>
        <version>${project.version}</version>
     </dependency>
