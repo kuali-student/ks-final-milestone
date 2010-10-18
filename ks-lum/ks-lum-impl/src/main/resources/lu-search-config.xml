@@ -837,7 +837,6 @@
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
                     LEFT JOIN clu.descr cludesc
-                    WHERE clu.state IN ('Approved', 'Active')
                     </value>
                     <!-- 
                     <value>
