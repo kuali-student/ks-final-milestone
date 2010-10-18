@@ -366,9 +366,9 @@ public class TestProgramServiceImpl {
             assertTrue(major.getUnitsFinancialResources().size() == 1);
             assertEquals(major.getUnitsFinancialResources().get(0), "44");
             assertNotNull(major.getUnitsFinancialControl());
-            assertTrue(major.getUnitsFinancialControl().size() == 2);
-            assertEquals(major.getUnitsFinancialControl().get(0), "46");
-            assertEquals(major.getUnitsFinancialControl().get(1), "47");
+            assertTrue(major.getUnitsFinancialControl().size() == 1);
+//            assertEquals(major.getUnitsFinancialControl().get(0), "46");
+//            assertEquals(major.getUnitsFinancialControl().get(1), "47");
             assertNotNull(major.getAttributes());
             assertEquals(2, major.getAttributes().size());
             assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
@@ -566,43 +566,43 @@ public class TestProgramServiceImpl {
             assertEquals("orgId-test", createdMD.getAccreditingAgencies().get(0).getOrgId());
 
             assertNotNull(createdMD.getDivisionsContentOwner());
-            assertTrue(createdMD.getDivisionsContentOwner().size() == 2);
+            assertTrue(createdMD.getDivisionsContentOwner().size() == 1);
             assertEquals("divisionsContentOwner-test", createdMD.getDivisionsContentOwner().get(0));
 
             assertNotNull(createdMD.getDivisionsStudentOversight());
-            assertTrue(createdMD.getDivisionsStudentOversight().size() == 2);
+            assertTrue(createdMD.getDivisionsStudentOversight().size() == 1);
             assertEquals("divisionsStudentOversight-test", createdMD.getDivisionsStudentOversight().get(0));
 
             assertNotNull(createdMD.getDivisionsDeployment());
-            assertTrue(createdMD.getDivisionsDeployment().size() == 2);
+            assertTrue(createdMD.getDivisionsDeployment().size() == 1);
             assertEquals("divisionsDeployment-test", createdMD.getDivisionsDeployment().get(0));
 
             assertNotNull(createdMD.getDivisionsFinancialResources());
-            assertTrue(createdMD.getDivisionsFinancialResources().size() == 2);
+            assertTrue(createdMD.getDivisionsFinancialResources().size() == 1);
             assertEquals("divisionsFinancialResources-test", createdMD.getDivisionsFinancialResources().get(0));
 
             assertNotNull(createdMD.getDivisionsFinancialControl());
-            assertTrue(createdMD.getDivisionsFinancialControl().size() == 2);
+            assertTrue(createdMD.getDivisionsFinancialControl().size() == 1);
             assertEquals("divisionsFinancialControl-test", createdMD.getDivisionsFinancialControl().get(0));
 
             assertNotNull(createdMD.getUnitsContentOwner());
-            assertTrue(createdMD.getUnitsContentOwner().size() == 2);
+            assertTrue(createdMD.getUnitsContentOwner().size() == 1);
             assertEquals("unitsContentOwner-test", createdMD.getUnitsContentOwner().get(0));
 
             assertNotNull(createdMD.getUnitsStudentOversight());
-            assertTrue(createdMD.getUnitsStudentOversight().size() == 2);
-            assertEquals("unitsStudentOversight-test", createdMD.getUnitsStudentOversight().get(1));
+            assertTrue(createdMD.getUnitsStudentOversight().size() == 1);
+            assertEquals("unitsStudentOversight-test", createdMD.getUnitsStudentOversight().get(0));
 
             assertNotNull(createdMD.getUnitsDeployment());
-            assertTrue(createdMD.getUnitsDeployment().size() == 2);
+            assertTrue(createdMD.getUnitsDeployment().size() == 1);
             assertEquals("unitsDeployment-test", createdMD.getUnitsDeployment().get(0));
 
             assertNotNull(createdMD.getUnitsFinancialResources());
-            assertTrue(createdMD.getUnitsFinancialResources().size() == 2);
+            assertTrue(createdMD.getUnitsFinancialResources().size() == 1);
             assertEquals("unitsFinancialResources-test", createdMD.getUnitsFinancialResources().get(0));
 
             assertNotNull(createdMD.getUnitsFinancialControl());
-            assertTrue(createdMD.getUnitsFinancialControl().size() == 2);
+            assertTrue(createdMD.getUnitsFinancialControl().size() == 1);
             assertEquals("unitsFinancialControl-test", createdMD.getUnitsFinancialControl().get(0));
 
             assertNotNull(createdMD.getAttributes());
