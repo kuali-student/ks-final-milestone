@@ -103,6 +103,12 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         requiresSave |= preProcessCluSave(iDocumentEvent, cluInfo);
         if (requiresSave) {
             getLuService().updateClu(cluInfo.getId(), cluInfo);
+            
+            //For a newly approved clu (w/no prior versions), make the new clu the current version.
+            //We want to be able to modify approved clus and we can't modify without versioning it.
+            if (CLU_STATE_APPROVED.equals(cluState) && cluInfo.getVersionInfo().getCurrentVersionStart() == null){
+            	getLuService().setCurrentCluVersion(cluInfo.getId(), null);
+            }
         }
 
     }
