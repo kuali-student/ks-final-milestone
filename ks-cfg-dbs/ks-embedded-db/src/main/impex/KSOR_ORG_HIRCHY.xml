@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSOR_ORG_HIRCHY DESCR="Hierarchy used to Manage Curriculum"
+        EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        ID="kuali.org.hierarchy.Curriculum" NAME="Curriculum"
+        OBJ_ID="2E85AD7DFB5D4205B5778ECF594BC809" ROOT_ORG="141" VER_NBR="0"/>
+    <KSOR_ORG_HIRCHY DESCR="Main Organizational Hierarchy"
+        EFF_DT="20000101000000" EXPIR_DT="20001231000000"
+        ID="kuali.org.hierarchy.Main" NAME="Main"
+        OBJ_ID="5CE044C1EFC2429A8C087EC1C357965C" ROOT_ORG="4" VER_NBR="0"/>
+</dataset>

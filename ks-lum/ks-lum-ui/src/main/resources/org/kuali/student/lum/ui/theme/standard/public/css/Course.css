@@ -1,0 +1,95 @@
+.courseProposal {
+
+}
+
+.courseProposal .transcriptTitle {
+    width: 37.5em;
+}
+
+.description-plain {
+    width: 37.5em;
+}
+
+.instructors .gwt-SuggestBox {
+    width: 30em;
+}
+
+/* The title for Description and Rationale section */
+.cluProposalTitleSection {
+    border-bottom: 1px solid #D8D8D8;
+}
+
+.courseStatusLabel{
+	padding-top: 5px;
+	padding-right: 10px;
+}
+
+.versionHistoryLink{
+	padding-top: 5px;
+	padding-left: 10px;
+	float: left;
+}
+
+.selectVersions{
+	width: 600px;
+}
+
+/* FIXME: This needs to be removed from here */
+.KS-Add-Collaborator-Box{
+	background-color:#f1f1f2;
+	margin-bottom:10px;
+	padding-left:10px;
+	padding-bottom:10px;
+}
+
+/* Course Requisites */
+.KS-Course-Requisites-Section-header {
+    color: #940B07;
+}
+
+.KS-Course-Requisites-Top-Stmt-Header {
+    border-bottom:1px solid #D7D7D7;
+    padding-top:40px;
+    padding-bottom:8px;    
+}
+
+.KS-Course-Requisites-Preview-Rule-Type-Header {
+    padding-top:30px;
+    width:650px;
+}
+
+.KS-Course-Requisites-Preview-Rule-Type-First-Header {
+    padding-top:20px;
+    width:650px;
+}
+
+.KS-Course-Requisites-Preview-Rule-Type-Desc {
+    padding-bottom:15px;
+    width:650px;
+}
+
+.KS-Course-Requisites-Button-Spacer {
+    margin-bottom:15px;
+    width:650px;
+}
+
+.KS-Course-Requisites-Preview-SaveContinue {
+    padding-top: 40px;
+}
+
+/* Course Manage View */
+.KS-Course-Requisites-Manage-Step-header1 {
+    width: 650px;
+    margin-top: 20px;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+.KS-Course-Requisites-Manage-Step-header2 {
+    width: 650px;
+    margin-top: 50px;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+.KS-Course-Requisites-Save-Button {
+    margin-top: 40px;
+}
