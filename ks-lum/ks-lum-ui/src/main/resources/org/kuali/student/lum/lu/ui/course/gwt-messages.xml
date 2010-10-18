@@ -93,7 +93,7 @@
 	<bean parent="enCourse" p:messageId="cluEvaluationType" p:value="Evaluation Type" />
 	<bean parent="enCourse" p:messageId="cluTermLiteral" p:value="Term" />
 	<bean parent="enCourse" p:messageId="cluDurationLiteral" p:value="Duration" />
-	<bean parent="enCourse" p:messageId="cluDurationLiteral-help" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
+	<bean parent="enCourse" p:messageId="cluDurationLiteral-instruct" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
 	<bean parent="enCourse" p:messageId="cluFinalExam" p:value="Final Exam" />
 	<bean parent="enCourse" p:messageId="cluFinalExamStatus" p:value="Final Exam Status" />
 	<bean parent="enCourse" p:messageId="cluFinalExamRationale" p:value="Final Exam Rationale" />
