@@ -24,7 +24,7 @@ public class DefaultTableModel extends AbstractTableModel {
 		rowHeader.setId("RowHeader");
 		rowHeader.setName("RowHeader");
 		final CheckBox checkBox = new CheckBox();
-	    DOM.setStyleAttribute(checkBox.getElement(), "padding-right", "0.8em");		
+	    DOM.setStyleAttribute(checkBox.getElement(), "style", "padding-right: 0.8em");		
 		checkBox.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
