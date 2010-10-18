@@ -98,7 +98,7 @@ public class ReqCompEditWidget extends FlowPanel {
                     if (result == ButtonEnumerations.AddCancelEnum.ADD) {
 
                         //true if we have no fields for this req. component type
-                        if ((selectedReqCompFieldTypes.size() == 0) && (customWidgets.size() == 0)) {
+                        if (((selectedReqCompFieldTypes == null) || selectedReqCompFieldTypes.size() == 0) && (customWidgets.size() == 0)) {
                             finalizeRuleUpdate();
                             return;
                         }

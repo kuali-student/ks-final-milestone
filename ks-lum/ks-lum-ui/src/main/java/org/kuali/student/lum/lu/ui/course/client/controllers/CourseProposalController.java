@@ -689,12 +689,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 
 	@Override
-	public void beforeViewChange(final Callback<Boolean> okToChange) {
+	public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
 		//We do this check here because theoretically the subcontroller views
 		//will display their own messages to the user to give them a reason why the view
 		//change has been cancelled, otherwise continue to check for reasons not to change
 		//with this controller
-		super.beforeViewChange(new Callback<Boolean>(){
+		super.beforeViewChange(viewChangingTo, new Callback<Boolean>(){
 
 			@Override
 			public void exec(Boolean result) {
@@ -818,4 +818,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		sb.append(" (Proposal)");
 		return sb.toString();
 	}
+
+    public boolean isNew() {
+        return isNew;
+    }
 }

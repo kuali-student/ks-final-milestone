@@ -1,11 +1,8 @@
 package org.kuali.student.lum.program.client;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -32,8 +29,12 @@ import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -69,8 +70,8 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     @Override
-    public void beforeViewChange(final Callback<Boolean> okToChange) {
-        super.beforeViewChange(new Callback<Boolean>() {
+    public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
+        super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
 
             @Override
             public void exec(Boolean result) {
@@ -118,7 +119,10 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     protected void resetFieldInteractionFlag() {
-        ((Section) getCurrentView()).resetFieldInteractionFlags();
+        //rule screen is not a section
+        if (getCurrentView() instanceof Section) {
+            ((Section) getCurrentView()).resetFieldInteractionFlags();
+        }
     }
 
     /**
@@ -177,7 +181,7 @@ public abstract class ProgramController extends MenuSectionController {
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
-                eventBus.fireEvent(new ModelLoadedEvent(programModel));
+                eventBus.fireEvent(new ModelLoadedEvent(programModel));                
             }
         });
     }

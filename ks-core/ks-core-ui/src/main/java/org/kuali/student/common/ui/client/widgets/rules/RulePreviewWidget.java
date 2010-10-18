@@ -29,11 +29,11 @@ public class RulePreviewWidget extends FlowPanel {
     private KSButton addSubRuleBtn = new KSButton("Add a Rule", KSButtonAbstract.ButtonStyle.FORM_SMALL);
     private List<SubrulePreviewWidget> subRulePreviewWidgets = new ArrayList<SubrulePreviewWidget>();
     private Map<String, Widget> clusetWidgets;
+    private SectionTitle progReqHeader = SectionTitle.generateH4Title("");
+    private KSLabel ruleDescLabel = new KSLabel();
+    private SpanPanel actions = new SpanPanel();
 
     //data
-    private String ruleName;
-    private String ruleCredits;
-    private String ruleDesc;
     private StatementTreeViewInfo stmtTreeInfo;     //program rule e.g. program completion rule
     private boolean isReadOnly;
     private boolean addRuleOperator = false;        //first subrule does not have operator following it
@@ -42,19 +42,34 @@ public class RulePreviewWidget extends FlowPanel {
     private Callback<SubRuleInfo> editSubRuleCallback;
     private Callback<Integer> deleteSubRuleCallback;
 
-    public RulePreviewWidget(Integer internalProgReqID, String ruleName, String ruleCredits, String ruleDesc, StatementTreeViewInfo stmtTreeInfo,
+    public RulePreviewWidget(Integer internalProgReqID, String ruleName, String ruleCreditsText, String ruleDesc, StatementTreeViewInfo stmtTreeInfo,
                              Boolean isReadOnly,  Map<String, Widget> clusetWidgets) {
         super();
         this.internalProgReqID = internalProgReqID;
-        this.ruleName = ruleName;
-        this.ruleCredits = ruleCredits;
-        this.ruleDesc = ruleDesc;
         this.stmtTreeInfo = stmtTreeInfo;
         this.isReadOnly = isReadOnly;
         this.clusetWidgets = clusetWidgets;
 
+        //prepare widgets
         this.addStyleName("KS-Rule-Preview-Box");
+        progReqHeader.setStyleName("KS-Rule-Preview-header");
+        ruleDescLabel.addStyleName("KS-Rule-Preview-Desc");
+        if (!isReadOnly) {
+            buildEditActionsWidget();
+        }
+        updateProgInfoFields(ruleName, ruleCreditsText, ruleDesc);
+
         displayRule();
+    }
+
+    public void updateProgInfoFields(String ruleName, String ruleCreditsText, String ruleDesc) {
+        progReqHeader.clear();
+        progReqHeader.setHTML("<b>" + ruleName + "</b>" + "  " + ruleCreditsText);
+        //do not show edit,delete etc. if user is only viewing the rule in non-edit mode
+        if (!isReadOnly) {
+            progReqHeader.add(actions);
+        }
+        ruleDescLabel.setText(ruleDesc);
     }
 
     private void displayRule() {
@@ -183,41 +198,24 @@ public class RulePreviewWidget extends FlowPanel {
     }
 
     private void buildRuleHeader() {
-
-        //build heading
-        SectionTitle header = SectionTitle.generateH4Title("");
-        header.setHTML("<b>" + ruleName + "</b>" + "  " + ruleCredits);
-        header.setStyleName("KS-Rule-Preview-header");
-
-        //do not show edit,delete etc. if user is only viewing the rule in non-edit mode
-        if (!isReadOnly) {
-            buildEditActionsWidget(header);
-        }
-        this.add(header);
-
         rulePanel.clear();
         rulePanel.addStyleName("KS-Rule-Preview-Box1");
-
-        KSLabel ruleDescLabel = new KSLabel(ruleDesc);
-        ruleDescLabel.addStyleName("KS-Rule-Preview-Desc");
+        rulePanel.add(progReqHeader);
         rulePanel.add(ruleDescLabel);
 
         //build subheading
-        header = SectionTitle.generateH6Title("");
+        SectionTitle header = SectionTitle.generateH6Title("");
         header.setHTML("Must meet <b>all of the following</b> rules");
         header.setStyleName("KS-Rule-Preview-header-Subrule");
         header.getElement().setAttribute("style", "font-weight: normal");        
         rulePanel.add(header);
     }
 
-    private void buildEditActionsWidget(SectionTitle header) {
-        SpanPanel actions = new SpanPanel();
+    private void buildEditActionsWidget() {       
         actions.add(editButton);
         actions.add(separator);
         actions.add(deleteButton);
         actions.addStyleName("KS-Rule-Preview-header-action");
-        header.add(actions);
-        rulePanel.add(header);
     }
 
     private void buildANDOperator(StatementOperatorTypeKey operator) {

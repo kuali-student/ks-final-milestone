@@ -197,6 +197,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
        
     protected void setEnabled(boolean enabled) {
         ruleManageWidget.setEanbled(enabled);
+        actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(enabled);
     }
 
     @Override

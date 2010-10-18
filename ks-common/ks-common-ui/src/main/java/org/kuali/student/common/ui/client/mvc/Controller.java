@@ -113,7 +113,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     }
     
     private <V extends Enum<?>> void beginShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
-    	beforeViewChange(new Callback<Boolean>(){
+    	beforeViewChange(viewType, new Callback<Boolean>(){
 
 			@Override
 			public void exec(Boolean result) {
@@ -382,7 +382,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * allow the view to continue to change.
      * @param okToChangeCallback
      */
-    public void beforeViewChange(Callback<Boolean> okToChangeCallback){
+    public void beforeViewChange(Enum<?> viewChangingTo, Callback<Boolean> okToChangeCallback) {
     	okToChangeCallback.exec(true);
     }
 

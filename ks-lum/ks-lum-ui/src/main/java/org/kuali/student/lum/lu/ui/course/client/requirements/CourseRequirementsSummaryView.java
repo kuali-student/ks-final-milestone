@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.course.client.requirements;
 
 import java.util.*;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -19,9 +20,12 @@ import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -37,7 +41,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
-    private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
+    private ActionCancelGroup actionCancelButtons  = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
     private Map<String, Widget> addButtonsList = new HashMap<String, Widget>();
 
     //view's data
@@ -57,6 +61,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         rules = rulesData;
         rules.setInitialized(false);
         this.isReadOnly = isReadOnly;
+
         if (!isReadOnly) {
             setupSaveCancelButtons();
         }
@@ -326,7 +331,16 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
              @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
-               updateModel();
+                if (result == ButtonEnumerations.SaveCancelEnum.SAVE) {
+                    updateModel();
+                } else {
+                    	if(! ((CourseProposalController)parentController.getController()).isNew()){
+                    		(parentController.getController()).showView(CourseConfigurer.CourseSections.SUMMARY);
+                    	}
+                    	else{
+                    		Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+                    	}
+                }
             }
         });
     }
