@@ -60,6 +60,7 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="id" />
                 <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
                 <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>

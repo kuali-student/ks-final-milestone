@@ -17,7 +17,7 @@
 	<bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:META-INF/ks-test-config.xml</value>
+				<value>classpath:META-INF/ks-admin-bundled-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -27,10 +27,10 @@
 		<property name="targetMethod" value="getProperties" />
 	</bean>
 	
-	<import resource="classpath:ks-test-RiceJTASpringBeans.xml"/>
-	<import resource="classpath:ks-test-RiceDataSourceSpringBeans.xml"/>
-	<import resource="classpath:ks-test-RiceSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
+	<import resource="classpath:ks-admin-RiceSpringBeans.xml"/>
     
-    <import resource="classpath:ks-test-ModuleBeans.xml"/>
+    <import resource="classpath:KsAdminSpringBeans.xml"/>
 	 
 </beans>

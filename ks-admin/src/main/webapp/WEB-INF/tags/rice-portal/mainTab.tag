@@ -15,12 +15,9 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<c:if test="${ConfigProperties.portal.show.sample.app eq 'true'}">
-	<td class="content" valign="top">
-	    <mainChannel:ksMessages />
-        <mainChannel:ksAtp />
-	</td>
-</c:if>
+<td class="content" valign="top">
+    <mainChannel:ksMaintenance />
+</td>
 <td class="content" valign="top">
 <mainChannel:workflow />
 </td>

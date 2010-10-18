@@ -26,7 +26,7 @@ import org.mortbay.jetty.webapp.WebAppClassLoader;
  * 
  * @author Eric Westfall
  */
-public class BaseTestCase extends Assert {
+public class BaseCase extends Assert {
 
 	private static final int DEFAULT_PORT = 8090;
 	private static final String CONTEXT_NAME = "/ks-test-dev";
@@ -57,7 +57,7 @@ public class BaseTestCase extends Assert {
 	public static void startJettyServer() throws Exception {
 	    System.setProperty("kew.bootstrap.spring.file", "SpringBeans.xml");
 	    
-		BaseTestCase.server = new JettyServer(DEFAULT_PORT, CONTEXT_NAME, WEBAPP_ROOT);
+		BaseCase.server = new JettyServer(DEFAULT_PORT, CONTEXT_NAME, WEBAPP_ROOT);
 		server.setFailOnContextFailure(true);
 		server.setTestMode(true);
 		server.start();

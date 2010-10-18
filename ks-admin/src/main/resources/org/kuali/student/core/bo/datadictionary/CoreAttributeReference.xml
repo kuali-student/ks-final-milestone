@@ -155,7 +155,7 @@
     <property name="shortLabel" value="Type"/>
     <property name="summary" value="Id of the Type"/>
     <property name="name" value="typeId"/>
-    <property name="label" value="Type Id"/>
+    <property name="label" value="Type"/>
     <property name="description" value="Id of the Type"/>
   </bean>
   

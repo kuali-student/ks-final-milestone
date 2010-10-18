@@ -14,15 +14,15 @@
  limitations under the License.
 -->
 <config>
-	<param name="module.name">ks-test</param>
-	<param name="service.namespace">KSTEST</param>
-	
-	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
-	<param name="filtermapping.login.1">/*</param>
-	
-	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-	<param name="config.location">classpath:META-INF/common-config-locations.xml</param>
-	<param name="config.location">${alt.config.location}</param>
+  <param name="module.name">ks-admin</param>
+  <param name="service.namespace">KSADMIN</param>
+  <param name="app.namespace">KS-ADMIN</param>
+  <param name="app.code">ks-admin</param>
 
-    <param name="portal.show.sample.app">true</param>
+  <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+  <param name="filtermapping.login.1">/*</param>
+
+  <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+  <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
+  <param name="config.location">${alt.config.location}</param>
 </config>

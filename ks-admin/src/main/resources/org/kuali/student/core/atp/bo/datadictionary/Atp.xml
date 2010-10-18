@@ -111,6 +111,7 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="id" />
                 <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="description.plain" />
                 <bean parent="FieldDefinition" p:attributeName="typeId" />
                 <bean parent="FieldDefinition" p:attributeName="state" />
             </list>
@@ -119,11 +120,11 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="id" />
                 <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="description.plain" />
                 <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name" />
                 <bean parent="FieldDefinition" p:attributeName="state" />
                 <bean parent="FieldDefinition" p:attributeName="startDate" />
                 <bean parent="FieldDefinition" p:attributeName="endDate" />
-                <bean parent="FieldDefinition" p:attributeName="description.plain" />
             </list>
         </property>
         <property name="title" value="Academic Time Period Lookup" />
@@ -162,7 +163,6 @@
                                 <property name="summaryTitle" value="Date Range" />
                                 <property name="inquiryFields">
                                     <list>
-                                    	<bean parent="FieldDefinition" p:attributeName="id" />
                                     	<bean parent="FieldDefinition" p:attributeName="name" />
                                     	<bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
                                         <bean parent="FieldDefinition" p:attributeName="startDate" />
@@ -192,9 +192,8 @@
                                 <property name="summaryTitle" value="Milestones" />
                                 <property name="inquiryFields">
                                     <list>
-                                    	<bean parent="FieldDefinition" p:attributeName="id" />
                                     	<bean parent="FieldDefinition" p:attributeName="name" />
-                                        <bean parent="FieldDefinition" p:attributeName="type.name" />
+                                        <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
                                         <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
                                     </list>
                                 </property>

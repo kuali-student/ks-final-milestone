@@ -8,7 +8,7 @@
     <bean id="Milestone" parent="Milestone-parentBean" />
     <bean id="Milestone-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.Milestone" />
-        <property name="titleAttribute" value="id" />
+        <property name="titleAttribute" value="name" />
         <property name="objectLabel" value="Milestone" />
         <property name="lookupDefinition">
             <ref bean="Milestone-lookupDefinition" />
@@ -29,6 +29,7 @@
                 <ref bean="Milestone-typeId" />
                 <ref bean="Milestone-milestoneDate" />
                 <ref bean="Milestone-atpId" />
+                <ref bean="Milestone-atp.name" />
             </list>
         </property>
     </bean>
@@ -93,27 +94,34 @@
         <property name="label" value="Atp Id" />
         <property name="description" value="Id for the Atp that contains the date range" />
     </bean>
+    
+    <bean id="Milestone-atp.name" parent="Milestone-atp.name-parentBean" />
+    <bean id="Milestone-atp.name-parentBean" abstract="true" parent="Atp-name">
+    	<property name="label" value="ATP" />
+    	<property name="name" value="atp.name" />
+    </bean>
 
 
     <bean id="Milestone-lookupDefinition" parent="Milestone-lookupDefinition-parentBean" />
     <bean id="Milestone-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="lookupFields">
             <list>
-                <bean parent="FieldDefinition" p:attributeName="id" />
                 <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="description.plain" />
                 <bean parent="FieldDefinition" p:attributeName="typeId" />
-                <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
                 <bean parent="FieldDefinition" p:attributeName="state" />
+                <bean parent="FieldDefinition" p:attributeName="atpId"/>
+                <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="FieldDefinition" p:attributeName="id" />
                 <bean parent="FieldDefinition" p:attributeName="name" />
-                <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
                 <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
-                <bean parent="FieldDefinition" p:attributeName="state" />
                 <bean parent="FieldDefinition" p:attributeName="description.plain" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
+                <bean parent="FieldDefinition" p:attributeName="state" />
+                <bean parent="FieldDefinition" p:attributeName="atp.name"/>
             </list>
         </property>
         <property name="title" value="Milestone Lookup" />

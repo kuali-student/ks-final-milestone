@@ -6,9 +6,9 @@ import org.junit.Test;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.messages.service.MessageService;
-import org.kuali.student.core.test.BaseTestCase;
+import org.kuali.student.core.test.BaseCase;
 
-public class MessageTest extends BaseTestCase {
+public class MessageTest extends BaseCase {
 
 	@Test
 	public void testSaveAndUpdate() {

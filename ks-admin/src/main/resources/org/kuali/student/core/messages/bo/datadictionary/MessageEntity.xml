@@ -110,7 +110,6 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="id"/>
         <bean parent="FieldDefinition" p:attributeName="messageId"/>
         <bean parent="FieldDefinition" p:attributeName="locale" p:alternateDisplayAttributeName="localeEnumValue.value"/>
         <bean parent="FieldDefinition" p:attributeName="groupName" p:alternateDisplayAttributeName="groupNameEnumValue.value"/>

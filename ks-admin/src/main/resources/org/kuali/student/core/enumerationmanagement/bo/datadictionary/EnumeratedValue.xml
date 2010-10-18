@@ -122,19 +122,19 @@
     	<property name="title" value="Enumeration Value Lookup" />
         <property name="lookupFields">
             <list>
-                <bean parent="FieldDefinition" p:attributeName="id" />
-                <bean parent="FieldDefinition" p:attributeName="enumerationId" />
                 <bean parent="FieldDefinition" p:attributeName="code" />
+                <bean parent="FieldDefinition" p:attributeName="abbrevValue" />
+                <bean parent="FieldDefinition" p:attributeName="value" />
+                <bean parent="FieldDefinition" p:attributeName="enumerationId" />
                 <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="FieldDefinition" p:attributeName="id" />
-                <bean parent="FieldDefinition" p:attributeName="enumerationId" />
                 <bean parent="FieldDefinition" p:attributeName="code" />
                 <bean parent="FieldDefinition" p:attributeName="abbrevValue" />
                 <bean parent="FieldDefinition" p:attributeName="value" />
+                <bean parent="FieldDefinition" p:attributeName="enumerationId" />
                 <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
                 <bean parent="FieldDefinition" p:attributeName="activeToDate" />
             </list>
@@ -151,11 +151,11 @@
                     <property name="inquiryFields">
                         <list>
                             <bean parent="FieldDefinition" p:attributeName="id" />
-                            <bean parent="FieldDefinition" p:attributeName="enumerationId" />
                             <bean parent="FieldDefinition" p:attributeName="code" />
                             <bean parent="FieldDefinition" p:attributeName="abbrevValue" />
                             <bean parent="FieldDefinition" p:attributeName="value" />
                             <bean parent="FieldDefinition" p:attributeName="sortKey" />
+                            <bean parent="FieldDefinition" p:attributeName="enumerationId" />
                             <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
                             <bean parent="FieldDefinition" p:attributeName="activeToDate" />
                         </list>
