@@ -26,7 +26,7 @@ public class VariationViewAllConfiguration extends AbstractSectionConfiguration 
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(GWT.<Configuration>create(MajorInformationViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(VariationInformationViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
         //configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsEditConfiguration.class));
