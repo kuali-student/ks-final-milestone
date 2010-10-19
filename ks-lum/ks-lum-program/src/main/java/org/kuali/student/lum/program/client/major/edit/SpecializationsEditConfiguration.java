@@ -33,7 +33,6 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
             @Override
             public void onClick(ClickEvent event) {
                 Data newSpecializationData = new Data();
-                newSpecializationData.set(ProgramConstants.LONG_TITLE, "");
                 newSpecializationData.set(ProgramConstants.STATE, ProgramStatus.DRAFT.getValue());
                 newSpecializationData.set(ProgramConstants.TYPE, "kuali.lu.type.Variation");
                 VariationRegistry.setData(newSpecializationData);
