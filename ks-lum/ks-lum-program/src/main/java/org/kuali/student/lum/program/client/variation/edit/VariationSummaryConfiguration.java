@@ -11,7 +11,6 @@ import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.view.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.view.VariationInformationViewConfiguration;
-import org.kuali.student.lum.program.client.widgets.SummaryActionPanel;
 
 /**
  * @author Igor
