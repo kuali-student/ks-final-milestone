@@ -7,8 +7,7 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
     <bean id="AtpMaintenanceDocument" parent="AtpMaintenanceDocument-parentBean" />
-    <bean id="AtpMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.student.core.atp.bo.Atp"
-        p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" >
+    <bean id="AtpMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.student.core.atp.bo.Atp">
         <property name="documentTypeName" value="AcademicTimePeriodMaintenanceDocument" />
         <property name="maintainableSections">
             <list>
@@ -30,6 +29,7 @@
             </list>
         </property>
         <property name="businessRulesClass" value="org.kuali.student.core.atp.document.validation.impl.AtpRule"/>
+        <property name="maintainableClass" value="org.kuali.student.core.atp.document.AtpMaintainbleImpl"/>
     </bean>
 
     <!-- Maintenance Section Definitions -->
