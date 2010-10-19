@@ -4,6 +4,9 @@
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
     <import resource="classpath:ks-cluInfo-dictionary-context.xml"/>
     <import resource="classpath:ks-loInfo-dictionary-context.xml"/>
+    <import resource="classpath:ks-statement-dictionary-context.xml"/>
+    <import resource="classpath:ks-cluset-ui-object-dictionary-context.xml" />
+    <import resource="classpath:ks-lu-search-dictionary-context.xml" />
 
     <!-- TODO Need a org.kuali.student.lum.program.dto.ProgramInfo-parent"
           that this can inherit from -->
@@ -58,10 +61,13 @@
                 <ref bean="majorDisciplineInfo.type"/>
                 <ref bean="majorDisciplineInfo.state"/>
                 <ref bean="majorDisciplineInfo.id"/>
+                
                 <!-- Dynamic Attributes -->
                 <ref bean="majorDisciplineInfo.lastReviewDate"/>
                 <ref bean="majorDisciplineInfo.isVariationRequired"/>
                 <ref bean="majorDisciplineInfo.endInstAdmitTerm"/>
+                <ref bean="majorDisciplineInfo.durationNotes"/>
+                <ref bean="majorDisciplineInfo.coreFaculties"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -98,28 +104,40 @@
     <bean id="majorDisciplineInfo.variations" parent="majorDisciplineInfo.variations-parent"/>
 
     <bean id="majorDisciplineInfo.code-parent" abstract="true" parent="cluIdentifierInfo.code-parent">
+		<property name="name" value="code" />
+		<property name="maxLength" value="10" /> 
     </bean>
-    <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent"/>
+    <bean id="majorDisciplineInfo.code" parent="majorDisciplineInfo.code-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
+
+    <bean id="validchars.cip.codes" parent="ValidCharDefinition">
+        <property name="value" value="regex:[0-9][0-9]\.|[0-9][0-9]\.[0-9][0-9]|[0-9][0-9]\.[0-9][0-9][0-9][0-9]"/>
+        <!--     <property name="labelKey" value="validation.validChars.digits"/>-->
+    </bean>
 
     <bean id="majorDisciplineInfo.cip2000Code-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="cip2000Code"/>
-        <property name="minLength" value="6"/>
-        <property name="maxLength" value="6"/>
-        <property name="validChars" ref="digits"/>
+        <property name="minLength" value="3"/>
+        <property name="maxLength" value="7"/>
+        <property name="validChars" ref="validchars.cip.codes"/>
         <!--TODO: add in a lookup-->
     </bean>
     <bean id="majorDisciplineInfo.cip2000Code" parent="majorDisciplineInfo.cip2000Code-parent"/>
 
     <bean id="majorDisciplineInfo.cip2010Code-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="cip2010Code"/>
-        <property name="minLength" value="6"/>
-        <property name="maxLength" value="6"/>
-        <property name="validChars" ref="digits"/>
+        <property name="minLength" value="3"/>
+        <property name="maxLength" value="7"/>
+        <property name="validChars" ref="validchars.cip.codes"/>
         <!--TODO: add in a lookup-->
     </bean>
     <bean id="majorDisciplineInfo.cip2010Code" parent="majorDisciplineInfo.cip2010Code-parent"/>
     <bean id="majorDisciplineInfo.hegisCode-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="hegisCode"/>
+        <property name="minLength" value="6"/>
+        <property name="maxLength" value="6"/>
+        <property name="validChars" ref="digits"/>
     </bean>
     <bean id="majorDisciplineInfo.hegisCode" parent="majorDisciplineInfo.hegisCode-parent"/>
 
@@ -127,7 +145,9 @@
         <property name="name" value="universityClassification"/>
     </bean>
     <bean id="majorDisciplineInfo.universityClassification"
-          parent="majorDisciplineInfo.universityClassification-parent"/>
+          parent="majorDisciplineInfo.universityClassification-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.selectiveEnrollmentCode-parent" abstract="true" parent="luCodeInfo.value-parent">
         <property name="name" value="selectiveEnrollmentCode"/>
@@ -147,22 +167,29 @@
     <bean id="majorDisciplineInfo.startTerm-parent" abstract="true" parent="cluInfo.expectedFirstAtp-parent">
         <property name="name" value="startTerm"/>
     </bean>
-    <bean id="majorDisciplineInfo.startTerm" parent="majorDisciplineInfo.startTerm-parent"/>
+    <bean id="majorDisciplineInfo.startTerm" parent="majorDisciplineInfo.startTerm-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.nextReviewPeriod" parent="majorDisciplineInfo.nextReviewPeriod-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
+
+    <bean id="majorDisciplineInfo.nextReviewPeriod-parent" abstract="true" parent="cluInfo.nextReviewPeriod-parent">
+        <property name="name" value="nextReviewPeriod"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.endTerm-parent" abstract="true" parent="cluInfo.lastAtp-parent">
         <property name="name" value="endTerm"/>
     </bean>
+
+
     <bean id="majorDisciplineInfo.endTerm" parent="majorDisciplineInfo.endTerm-parent"/>
 
     <bean id="majorDisciplineInfo.endProgramEntryTerm-parent" abstract="true" parent="cluInfo.lastAdmitAtp-parent">
         <property name="name" value="endProgramEntryTerm"/>
     </bean>
     <bean id="majorDisciplineInfo.endProgramEntryTerm" parent="majorDisciplineInfo.endProgramEntryTerm-parent"/>
-
-    <bean id="majorDisciplineInfo.nextReviewPeriod-parent" abstract="true" parent="cluInfo.nextReviewPeriod-parent">
-        <property name="name" value="nextReviewPeriod"/>
-    </bean>
-    <bean id="majorDisciplineInfo.nextReviewPeriod" parent="majorDisciplineInfo.nextReviewPeriod-parent"/>
 
     <bean id="majorDisciplineInfo.effectiveDate-parent" abstract="true" parent="cluInfo.effectiveDate-parent">
         <property name="name" value="effectiveDate"/>
@@ -173,19 +200,25 @@
         <property name="name" value="shortTitle"/>
         <property name="maxLength" value="34"/>
     </bean>
-    <bean id="majorDisciplineInfo.shortTitle" parent="majorDisciplineInfo.shortTitle-parent"/>
+    <bean id="majorDisciplineInfo.shortTitle" parent="majorDisciplineInfo.shortTitle-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.longTitle-parent" abstract="true" parent="cluIdentifierInfo.longName-parent">
         <property name="name" value="longTitle"/>
         <property name="maxLength" value="34"/>
     </bean>
-    <bean id="majorDisciplineInfo.longTitle" parent="majorDisciplineInfo.longTitle-parent"/>
+    <bean id="majorDisciplineInfo.longTitle" parent="majorDisciplineInfo.longTitle-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.transcriptTitle-parent" abstract="true" parent="cluIdentifierInfo.shortName-parent">
         <property name="name" value="transcriptTitle"/>
         <property name="maxLength" value="34"/>
     </bean>
-    <bean id="majorDisciplineInfo.transcriptTitle" parent="majorDisciplineInfo.transcriptTitle-parent"/>
+    <bean id="majorDisciplineInfo.transcriptTitle" parent="majorDisciplineInfo.transcriptTitle-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.diplomaTitle-parent" abstract="true" parent="cluIdentifierInfo.longName-parent">
         <property name="name" value="diplomaTitle"/>
@@ -207,7 +240,9 @@
         <property name="name" value="catalogPublicationTargets"/>
     </bean>
     <bean id="majorDisciplineInfo.catalogPublicationTargets"
-          parent="majorDisciplineInfo.catalogPublicationTargets-parent"/>
+          parent="majorDisciplineInfo.catalogPublicationTargets-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
 
     <bean id="majorDisciplineInfo.learningObjectives-parent" abstract="true" parent="baseComplexRepeating">
         <property name="name" value="learningObjectives"/>
@@ -217,7 +252,7 @@
     </bean>
     <bean id="majorDisciplineInfo.learningObjectives" parent="majorDisciplineInfo.learningObjectives-parent"/>
 
-  <bean id="majorDisciplineInfo.orgCoreProgram-parent" abstract="true" parent="baseComplex">
+    <bean id="majorDisciplineInfo.orgCoreProgram-parent" abstract="true" parent="baseComplex">
         <property name="name" value="orgCoreProgram"/>
         <!-- use ref to course's for now; MajorDiscipline's may be significantly different -->
         <property name="dataObjectStructure"
@@ -240,57 +275,62 @@
         <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AccreditationInfo"/>
     </bean>
     <bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent"/>
-	
+
     <bean id="majorDisciplineInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsContentOwner"/>
     </bean>
-    <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent" />
+    <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent">
+        <property name="minOccurs" value="1"/>
+    </bean>
 
-    <bean id="majorDisciplineInfo.divisionsStudentOversight" parent="majorDisciplineInfo.divisionsStudentOversight-parent" />
+    <bean id="majorDisciplineInfo.divisionsStudentOversight"
+          parent="majorDisciplineInfo.divisionsStudentOversight-parent"/>
 
     <bean id="majorDisciplineInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
-      <property name="name" value="divisionsStudentOversight" />
-     </bean>
+        <property name="name" value="divisionsStudentOversight"/>
+    </bean>
 
-     <bean id="majorDisciplineInfo.divisionsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+    <bean id="majorDisciplineInfo.divisionsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsDeployment"/>
-     </bean>
-     <bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo.divisionsDeployment-parent" />
+    </bean>
+    <bean id="majorDisciplineInfo.divisionsDeployment" parent="majorDisciplineInfo.divisionsDeployment-parent"/>
 
-     <bean id="majorDisciplineInfo.divisionsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+    <bean id="majorDisciplineInfo.divisionsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsFinancialResources"/>
-     </bean>
-     <bean id="majorDisciplineInfo.divisionsFinancialResources"  parent="majorDisciplineInfo.divisionsFinancialResources-parent" />
+    </bean>
+    <bean id="majorDisciplineInfo.divisionsFinancialResources"
+          parent="majorDisciplineInfo.divisionsFinancialResources-parent"/>
 
-     <bean id="majorDisciplineInfo.divisionsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+    <bean id="majorDisciplineInfo.divisionsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="divisionsFinancialControl"/>
-     </bean>
-     <bean id="majorDisciplineInfo.divisionsFinancialControl" parent="majorDisciplineInfo.divisionsFinancialControl-parent" />
+    </bean>
+    <bean id="majorDisciplineInfo.divisionsFinancialControl"
+          parent="majorDisciplineInfo.divisionsFinancialControl-parent"/>
 
     <bean id="majorDisciplineInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsContentOwner"/>
     </bean>
-    <bean id="majorDisciplineInfo.unitsContentOwner"  parent="majorDisciplineInfo.unitsContentOwner-parent" />
+    <bean id="majorDisciplineInfo.unitsContentOwner" parent="majorDisciplineInfo.unitsContentOwner-parent"/>
 
     <bean id="majorDisciplineInfo.unitsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsStudentOversight"/>
     </bean>
-    <bean id="majorDisciplineInfo.unitsStudentOversight"  parent="majorDisciplineInfo.unitsStudentOversight-parent" />
+    <bean id="majorDisciplineInfo.unitsStudentOversight" parent="majorDisciplineInfo.unitsStudentOversight-parent"/>
 
-     <bean id="majorDisciplineInfo.unitsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+    <bean id="majorDisciplineInfo.unitsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsDeployment"/>
-     </bean>
-     <bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.unitsDeployment-parent" />
+    </bean>
+    <bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.unitsDeployment-parent"/>
 
-     <bean id="majorDisciplineInfo.unitsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+    <bean id="majorDisciplineInfo.unitsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsFinancialResources"/>
-     </bean>
-     <bean id="majorDisciplineInfo.unitsFinancialResources"  parent="majorDisciplineInfo.unitsFinancialResources-parent" />
+    </bean>
+    <bean id="majorDisciplineInfo.unitsFinancialResources" parent="majorDisciplineInfo.unitsFinancialResources-parent"/>
 
-     <bean id="majorDisciplineInfo.unitsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+    <bean id="majorDisciplineInfo.unitsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
         <property name="name" value="unitsFinancialControl"/>
-     </bean>
-     <bean id="majorDisciplineInfo.unitsFinancialControl"  parent="majorDisciplineInfo.unitsFinancialControl-parent" />
+    </bean>
+    <bean id="majorDisciplineInfo.unitsFinancialControl" parent="majorDisciplineInfo.unitsFinancialControl-parent"/>
 
     <bean id="majorDisciplineInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
         <property name="name" value="type"/>
@@ -308,241 +348,266 @@
     <bean id="majorDisciplineInfo.id" parent="majorDisciplineInfo.id-parent"/>
 
     <!-- begin ProgramVariationInfo-->
-  <!-- ProgramVariationInfo-->
-<bean id="org.kuali.student.lum.program.dto.ProgramVariationInfo-parent" abstract="true" parent="objectStructureDefinition">
- <property name="name" value="org.kuali.student.lum.program.dto.ProgramVariationInfo"/>
- <property name="attributes">
-  <list>
-   <ref bean="programVariationInfo.campusLocations"/>
-   <ref bean="programVariationInfo.catalogDescr"/>
-   <ref bean="programVariationInfo.catalogPublicationTargets"/>
-   <ref bean="programVariationInfo.cip2000Code"/>
-   <ref bean="programVariationInfo.cip2010Code"/>
-   <ref bean="programVariationInfo.code"/>
-   <ref bean="programVariationInfo.descr"/>
-   <ref bean="programVariationInfo.diplomaTitle"/>
-   <ref bean="programVariationInfo.divisionsContentOwner"/>
-   <ref bean="programVariationInfo.divisionsDeployment"/>
-   <ref bean="programVariationInfo.divisionsFinancialControl"/>
-   <ref bean="programVariationInfo.divisionsFinancialResources"/>
-   <ref bean="programVariationInfo.divisionsStudentOversight"/>
-   <ref bean="programVariationInfo.effectiveDate"/>
-   <ref bean="programVariationInfo.endProgramEntryTerm"/>
-   <ref bean="programVariationInfo.endTerm"/>
-   <ref bean="programVariationInfo.hegisCode"/>
-   <ref bean="programVariationInfo.id"/>
-   <ref bean="programVariationInfo.intensity"/>
-   <ref bean="programVariationInfo.learningObjectives"/>
-   <ref bean="programVariationInfo.longTitle"/>
-   <ref bean="programVariationInfo.programRequirements"/>
-   <ref bean="programVariationInfo.referenceURL"/>
-   <ref bean="programVariationInfo.resultOptions"/>
-   <ref bean="programVariationInfo.selectiveEnrollmentCode"/>
-   <ref bean="programVariationInfo.shortTitle"/>
-   <ref bean="programVariationInfo.startTerm"/>
-   <ref bean="programVariationInfo.state"/>
-   <ref bean="programVariationInfo.transcriptTitle"/>
-   <ref bean="programVariationInfo.type"/>
-   <ref bean="programVariationInfo.unitsContentOwner"/>
-   <ref bean="programVariationInfo.unitsDeployment"/>
-   <ref bean="programVariationInfo.unitsFinancialControl"/>
-   <ref bean="programVariationInfo.unitsFinancialResources"/>
-   <ref bean="programVariationInfo.unitsStudentOversight"/>
-   <ref bean="programVariationInfo.universityClassification"/>
-  </list>
- </property>
- <property name="hasMetaData" value="true"/>
-</bean>
-<bean id="org.kuali.student.lum.program.dto.ProgramVariationInfo" parent="org.kuali.student.lum.program.dto.ProgramVariationInfo-parent"/>
+    <!-- ProgramVariationInfo-->
+    <bean id="org.kuali.student.lum.program.dto.ProgramVariationInfo-parent" abstract="true"
+          parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.lum.program.dto.ProgramVariationInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="programVariationInfo.campusLocations"/>
+                <ref bean="programVariationInfo.catalogDescr"/>
+                <ref bean="programVariationInfo.catalogPublicationTargets"/>
+                <ref bean="programVariationInfo.cip2000Code"/>
+                <ref bean="programVariationInfo.cip2010Code"/>
+                <ref bean="programVariationInfo.code"/>
+                <ref bean="programVariationInfo.descr"/>
+                <ref bean="programVariationInfo.diplomaTitle"/>
+                <ref bean="programVariationInfo.divisionsContentOwner"/>
+                <ref bean="programVariationInfo.divisionsDeployment"/>
+                <ref bean="programVariationInfo.divisionsFinancialControl"/>
+                <ref bean="programVariationInfo.divisionsFinancialResources"/>
+                <ref bean="programVariationInfo.divisionsStudentOversight"/>
+                <ref bean="programVariationInfo.effectiveDate"/>
+                <ref bean="programVariationInfo.endProgramEntryTerm"/>
+                <ref bean="programVariationInfo.endTerm"/>
+                <ref bean="programVariationInfo.hegisCode"/>
+                <ref bean="programVariationInfo.id"/>
+                <ref bean="programVariationInfo.intensity"/>
+                <ref bean="programVariationInfo.learningObjectives"/>
+                <ref bean="programVariationInfo.longTitle"/>
+                <ref bean="programVariationInfo.programRequirements"/>
+                <ref bean="programVariationInfo.referenceURL"/>
+                <ref bean="programVariationInfo.resultOptions"/>
+                <ref bean="programVariationInfo.selectiveEnrollmentCode"/>
+                <ref bean="programVariationInfo.shortTitle"/>
+                <ref bean="programVariationInfo.startTerm"/>
+                <ref bean="programVariationInfo.state"/>
+                <ref bean="programVariationInfo.transcriptTitle"/>
+                <ref bean="programVariationInfo.type"/>
+                <ref bean="programVariationInfo.unitsContentOwner"/>
+                <ref bean="programVariationInfo.unitsDeployment"/>
+                <ref bean="programVariationInfo.unitsFinancialControl"/>
+                <ref bean="programVariationInfo.unitsFinancialResources"/>
+                <ref bean="programVariationInfo.unitsStudentOversight"/>
+                <ref bean="programVariationInfo.universityClassification"/>
 
-<bean id="programVariationInfo.campusLocations-parent" abstract="true" parent="baseStringRepeating">
- <property name="name" value="campusLocations"/>
-</bean>
-<bean id="programVariationInfo.campusLocations" parent="programVariationInfo.campusLocations-parent"/>
+                <!--Dynamic Attributes-->
+                <ref bean="programVariationInfo.durationNotes"/>
+                <ref bean="programVariationInfo.coreFaculties"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.program.dto.ProgramVariationInfo"
+          parent="org.kuali.student.lum.program.dto.ProgramVariationInfo-parent"/>
 
-<bean id="programVariationInfo.catalogDescr-parent" abstract="true" parent="baseComplex">
- <property name="name" value="catalogDescr"/>
- <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
-</bean>
-<bean id="programVariationInfo.catalogDescr" parent="programVariationInfo.catalogDescr-parent"/>
+    <bean id="programVariationInfo.campusLocations-parent" abstract="true" parent="baseStringRepeating">
+        <property name="name" value="campusLocations"/>
+    </bean>
+    <bean id="programVariationInfo.campusLocations" parent="programVariationInfo.campusLocations-parent"/>
 
-<bean id="programVariationInfo.catalogPublicationTargets-parent" abstract="true" parent="baseStringRepeating">
- <property name="name" value="catalogPublicationTargets"/>
-</bean>
-<bean id="programVariationInfo.catalogPublicationTargets" parent="programVariationInfo.catalogPublicationTargets-parent"/>
+    <bean id="programVariationInfo.catalogDescr-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="catalogDescr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+    </bean>
+    <bean id="programVariationInfo.catalogDescr" parent="programVariationInfo.catalogDescr-parent"/>
 
-<bean id="programVariationInfo.cip2000Code-parent" abstract="true" parent="baseString">
- <property name="name" value="cip2000Code"/>
-</bean>
-<bean id="programVariationInfo.cip2000Code" parent="programVariationInfo.cip2000Code-parent"/>
+    <bean id="programVariationInfo.catalogPublicationTargets-parent" abstract="true" parent="baseStringRepeating">
+        <property name="name" value="catalogPublicationTargets"/>
+    </bean>
+    <bean id="programVariationInfo.catalogPublicationTargets"
+          parent="programVariationInfo.catalogPublicationTargets-parent"/>
 
-<bean id="programVariationInfo.cip2010Code-parent" abstract="true" parent="baseString">
- <property name="name" value="cip2010Code"/>
-</bean>
-<bean id="programVariationInfo.cip2010Code" parent="programVariationInfo.cip2010Code-parent"/>
+    <bean id="programVariationInfo.cip2000Code-parent" abstract="true" parent="majorDisciplineInfo.cip2000Code-parent">
+        <property name="name" value="cip2000Code"/>
+    </bean>
+    <bean id="programVariationInfo.cip2000Code" parent="programVariationInfo.cip2000Code-parent"/>
 
-<bean id="programVariationInfo.code-parent" abstract="true" parent="baseString">
- <property name="name" value="code"/>
-</bean>
-<bean id="programVariationInfo.code" parent="programVariationInfo.code-parent"/>
+    <bean id="programVariationInfo.cip2010Code-parent" abstract="true" parent="majorDisciplineInfo.cip2010Code-parent">
+        <property name="name" value="cip2010Code"/>
+    </bean>
+    <bean id="programVariationInfo.cip2010Code" parent="programVariationInfo.cip2010Code-parent"/>
 
-<bean id="programVariationInfo.descr-parent" abstract="true" parent="baseComplex">
- <property name="name" value="descr"/>
- <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
-</bean>
-<bean id="programVariationInfo.descr" parent="programVariationInfo.descr-parent"/>
+    <bean id="programVariationInfo.code-parent" abstract="true" parent="baseString">
+        <property name="name" value="code"/>
+    </bean>
+    <bean id="programVariationInfo.code" parent="programVariationInfo.code-parent"/>
 
-<bean id="programVariationInfo.diplomaTitle-parent" abstract="true" parent="baseString">
- <property name="name" value="diplomaTitle"/>
-</bean>
-<bean id="programVariationInfo.diplomaTitle" parent="programVariationInfo.diplomaTitle-parent"/>
+    <bean id="programVariationInfo.descr-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="descr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+    </bean>
+    <bean id="programVariationInfo.descr" parent="programVariationInfo.descr-parent"/>
 
-<bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="divisionsContentOwner"/>
-</bean>
-<bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo.divisionsContentOwner-parent"/>
-	
-<bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="divisionsDeployment"/>
-</bean>
-<bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo.divisionsDeployment-parent"/>
+    <bean id="programVariationInfo.diplomaTitle-parent" abstract="true" parent="baseString">
+        <property name="name" value="diplomaTitle"/>
+    </bean>
+    <bean id="programVariationInfo.diplomaTitle" parent="programVariationInfo.diplomaTitle-parent"/>
 
-<bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="divisionsFinancialControl"/>
-</bean>
-<bean id="programVariationInfo.divisionsFinancialControl" parent="programVariationInfo.divisionsFinancialControl-parent"/>
+    <bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+        <property name="name" value="divisionsContentOwner"/>
+    </bean>
+    <bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo.divisionsContentOwner-parent"/>
 
-<bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="divisionsFinancialResources"/>
-</bean>
-<bean id="programVariationInfo.divisionsFinancialResources" parent="programVariationInfo.divisionsFinancialResources-parent"/>
+    <bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+        <property name="name" value="divisionsDeployment"/>
+    </bean>
+    <bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo.divisionsDeployment-parent"/>
 
-<bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="divisionsStudentOversight"/>
-</bean>
-<bean id="programVariationInfo.divisionsStudentOversight" parent="programVariationInfo.divisionsStudentOversight-parent"/>
+    <bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+        <property name="name" value="divisionsFinancialControl"/>
+    </bean>
+    <bean id="programVariationInfo.divisionsFinancialControl"
+          parent="programVariationInfo.divisionsFinancialControl-parent"/>
 
-<bean id="programVariationInfo.effectiveDate-parent" abstract="true" parent="baseDate">
- <property name="name" value="effectiveDate"/>
-</bean>
-<bean id="programVariationInfo.effectiveDate" parent="programVariationInfo.effectiveDate-parent"/>
+    <bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+        <property name="name" value="divisionsFinancialResources"/>
+    </bean>
+    <bean id="programVariationInfo.divisionsFinancialResources"
+          parent="programVariationInfo.divisionsFinancialResources-parent"/>
 
-<bean id="programVariationInfo.endProgramEntryTerm-parent" abstract="true" parent="baseString">
- <property name="name" value="endProgramEntryTerm"/>
-</bean>
-<bean id="programVariationInfo.endProgramEntryTerm" parent="programVariationInfo.endProgramEntryTerm-parent"/>
+    <bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+        <property name="name" value="divisionsStudentOversight"/>
+    </bean>
+    <bean id="programVariationInfo.divisionsStudentOversight"
+          parent="programVariationInfo.divisionsStudentOversight-parent"/>
 
-<bean id="programVariationInfo.endTerm-parent" abstract="true" parent="baseString">
- <property name="name" value="endTerm"/>
-</bean>
-<bean id="programVariationInfo.endTerm" parent="programVariationInfo.endTerm-parent"/>
+    <bean id="programVariationInfo.effectiveDate-parent" abstract="true" parent="baseDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="programVariationInfo.effectiveDate" parent="programVariationInfo.effectiveDate-parent"/>
 
-<bean id="programVariationInfo.hegisCode-parent" abstract="true" parent="baseString">
- <property name="name" value="hegisCode"/>
-</bean>
-<bean id="programVariationInfo.hegisCode" parent="programVariationInfo.hegisCode-parent"/>
+    <bean id="programVariationInfo.endProgramEntryTerm-parent" abstract="true" parent="baseString">
+        <property name="name" value="endProgramEntryTerm"/>
+    </bean>
+    <bean id="programVariationInfo.endProgramEntryTerm" parent="programVariationInfo.endProgramEntryTerm-parent"/>
 
-<bean id="programVariationInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
- <property name="name" value="id"/>
-</bean>
-<bean id="programVariationInfo.id" parent="programVariationInfo.id-parent"/>
+    <bean id="programVariationInfo.endTerm-parent" abstract="true" parent="baseString">
+        <property name="name" value="endTerm"/>
+    </bean>
+    <bean id="programVariationInfo.endTerm" parent="programVariationInfo.endTerm-parent"/>
 
-<bean id="programVariationInfo.intensity-parent" abstract="true" parent="majorDisciplineInfo.intensity-parent">
- <property name="name" value="intensity"/>
-</bean>
-<bean id="programVariationInfo.intensity" parent="programVariationInfo.intensity-parent"/>
+    <bean id="programVariationInfo.hegisCode-parent" abstract="true" parent="baseString">
+        <property name="name" value="hegisCode"/>
+    </bean>
+    <bean id="programVariationInfo.hegisCode" parent="programVariationInfo.hegisCode-parent"/>
 
-<bean id="programVariationInfo.learningObjectives-parent" abstract="true" parent="majorDisciplineInfo.learningObjectives-parent">
- <property name="name" value="learningObjectives"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
-</bean>
-<bean id="programVariationInfo.learningObjectives" parent="programVariationInfo.learningObjectives-parent"/>
+    <bean id="programVariationInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="programVariationInfo.id" parent="programVariationInfo.id-parent"/>
 
-<bean id="programVariationInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
- <property name="name" value="longTitle"/>
-</bean>
-<bean id="programVariationInfo.longTitle" parent="programVariationInfo.longTitle-parent"/>
+    <bean id="programVariationInfo.intensity-parent" abstract="true" parent="majorDisciplineInfo.intensity-parent">
+        <property name="name" value="intensity"/>
+    </bean>
+    <bean id="programVariationInfo.intensity" parent="programVariationInfo.intensity-parent"/>
 
-<bean id="programVariationInfo.programRequirements-parent" abstract="true" parent="majorDisciplineInfo.programRequirements-parent">
- <property name="name" value="programRequirements"/>
-</bean>
-<bean id="programVariationInfo.programRequirements" parent="programVariationInfo.programRequirements-parent"/>
+    <bean id="programVariationInfo.learningObjectives-parent" abstract="true"
+          parent="majorDisciplineInfo.learningObjectives-parent">
+        <property name="name" value="learningObjectives"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+    </bean>
+    <bean id="programVariationInfo.learningObjectives" parent="programVariationInfo.learningObjectives-parent"/>
 
-<bean id="programVariationInfo.referenceURL-parent" abstract="true" parent="majorDisciplineInfo.referenceURL-parent">
- <property name="name" value="referenceURL"/>
-</bean>
-<bean id="programVariationInfo.referenceURL" parent="programVariationInfo.referenceURL-parent"/>
+    <bean id="programVariationInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
+        <property name="name" value="longTitle"/>
+    </bean>
+    <bean id="programVariationInfo.longTitle" parent="programVariationInfo.longTitle-parent"/>
 
-<bean id="programVariationInfo.resultOptions-parent" abstract="true" parent="majorDisciplineInfo.resultOptions-parent">
- <property name="name" value="resultOptions"/>
-</bean>
-<bean id="programVariationInfo.resultOptions" parent="programVariationInfo.resultOptions-parent"/>
+    <bean id="programVariationInfo.programRequirements-parent" abstract="true"
+          parent="majorDisciplineInfo.programRequirements-parent">
+        <property name="name" value="programRequirements"/>
+    </bean>
+    <bean id="programVariationInfo.programRequirements" parent="programVariationInfo.programRequirements-parent"/>
 
-<bean id="programVariationInfo.selectiveEnrollmentCode-parent" abstract="true" parent="majorDisciplineInfo.selectiveEnrollmentCode-parent">
- <property name="name" value="selectiveEnrollmentCode"/>
-</bean>
-<bean id="programVariationInfo.selectiveEnrollmentCode" parent="programVariationInfo.selectiveEnrollmentCode-parent"/>
+    <bean id="programVariationInfo.referenceURL-parent" abstract="true"
+          parent="majorDisciplineInfo.referenceURL-parent">
+        <property name="name" value="referenceURL"/>
+    </bean>
+    <bean id="programVariationInfo.referenceURL" parent="programVariationInfo.referenceURL-parent"/>
 
-<bean id="programVariationInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
- <property name="name" value="shortTitle"/>
-</bean>
-<bean id="programVariationInfo.shortTitle" parent="programVariationInfo.shortTitle-parent"/>
+    <bean id="programVariationInfo.resultOptions-parent" abstract="true"
+          parent="majorDisciplineInfo.resultOptions-parent">
+        <property name="name" value="resultOptions"/>
+    </bean>
+    <bean id="programVariationInfo.resultOptions" parent="programVariationInfo.resultOptions-parent"/>
 
-<bean id="programVariationInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
- <property name="name" value="startTerm"/>
-</bean>
-<bean id="programVariationInfo.startTerm" parent="programVariationInfo.startTerm-parent"/>
+    <bean id="programVariationInfo.selectiveEnrollmentCode-parent" abstract="true"
+          parent="majorDisciplineInfo.selectiveEnrollmentCode-parent">
+        <property name="name" value="selectiveEnrollmentCode"/>
+    </bean>
+    <bean id="programVariationInfo.selectiveEnrollmentCode"
+          parent="programVariationInfo.selectiveEnrollmentCode-parent"/>
 
-<bean id="programVariationInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
- <property name="name" value="state"/>
-</bean>
-<bean id="programVariationInfo.state" parent="programVariationInfo.state-parent"/>
+    <bean id="programVariationInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
+        <property name="name" value="shortTitle"/>
+    </bean>
+    <bean id="programVariationInfo.shortTitle" parent="programVariationInfo.shortTitle-parent"/>
 
-<bean id="programVariationInfo.transcriptTitle-parent" abstract="true" parent="majorDisciplineInfo.transcriptTitle-parent">
- <property name="name" value="transcriptTitle"/>
-</bean>
-<bean id="programVariationInfo.transcriptTitle" parent="programVariationInfo.transcriptTitle-parent"/>
+    <bean id="programVariationInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
+        <property name="name" value="startTerm"/>
+    </bean>
+    <bean id="programVariationInfo.startTerm" parent="programVariationInfo.startTerm-parent"/>
 
-<bean id="programVariationInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
- <property name="name" value="type"/>
-</bean>
-<bean id="programVariationInfo.type" parent="programVariationInfo.type-parent"/>
+    <bean id="programVariationInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
+        <property name="name" value="state"/>
+    </bean>
+    <bean id="programVariationInfo.state" parent="programVariationInfo.state-parent"/>
 
-<bean id="programVariationInfo.unitsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.unitsContentOwner-parent">
- <property name="name" value="unitsContentOwner"/>
-</bean>
-<bean id="programVariationInfo.unitsContentOwner" parent="programVariationInfo.unitsContentOwner-parent"/>
+    <bean id="programVariationInfo.transcriptTitle-parent" abstract="true"
+          parent="majorDisciplineInfo.transcriptTitle-parent">
+        <property name="name" value="transcriptTitle"/>
+    </bean>
+    <bean id="programVariationInfo.transcriptTitle" parent="programVariationInfo.transcriptTitle-parent"/>
 
-<bean id="programVariationInfo.unitsDeployment-parent" abstract="true" parent="majorDisciplineInfo.unitsDeployment-parent">
- <property name="name" value="unitsDeployment"/>
-</bean>
-<bean id="programVariationInfo.unitsDeployment" parent="programVariationInfo.unitsDeployment-parent"/>
+    <bean id="programVariationInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
+        <property name="name" value="type"/>
+    </bean>
+    <bean id="programVariationInfo.type" parent="programVariationInfo.type-parent"/>
 
-<bean id="programVariationInfo.unitsFinancialControl-parent" abstract="true" parent="majorDisciplineInfo.unitsFinancialControl-parent">
- <property name="name" value="unitsFinancialControl"/>
-</bean>
-<bean id="programVariationInfo.unitsFinancialControl" parent="programVariationInfo.unitsFinancialControl-parent"/>
+    <bean id="programVariationInfo.unitsContentOwner-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsContentOwner-parent">
+        <property name="name" value="unitsContentOwner"/>
+    </bean>
+    <bean id="programVariationInfo.unitsContentOwner" parent="programVariationInfo.unitsContentOwner-parent"/>
 
-<bean id="programVariationInfo.unitsFinancialResources-parent" abstract="true" parent="majorDisciplineInfo.unitsFinancialResources-parent">
- <property name="name" value="unitsFinancialResources"/>
-</bean>
-<bean id="programVariationInfo.unitsFinancialResources" parent="programVariationInfo.unitsFinancialResources-parent"/>
+    <bean id="programVariationInfo.unitsDeployment-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsDeployment-parent">
+        <property name="name" value="unitsDeployment"/>
+    </bean>
+    <bean id="programVariationInfo.unitsDeployment" parent="programVariationInfo.unitsDeployment-parent"/>
 
-<bean id="programVariationInfo.unitsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.unitsStudentOversight-parent">
- <property name="name" value="unitsStudentOversight"/>
-</bean>
-<bean id="programVariationInfo.unitsStudentOversight" parent="programVariationInfo.unitsStudentOversight-parent"/>
+    <bean id="programVariationInfo.unitsFinancialControl-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsFinancialControl-parent">
+        <property name="name" value="unitsFinancialControl"/>
+    </bean>
+    <bean id="programVariationInfo.unitsFinancialControl" parent="programVariationInfo.unitsFinancialControl-parent"/>
 
-<bean id="programVariationInfo.universityClassification-parent" abstract="true" parent="majorDisciplineInfo.universityClassification-parent">
- <property name="name" value="universityClassification"/>
-</bean>
-<bean id="programVariationInfo.universityClassification" parent="programVariationInfo.universityClassification-parent"/>
+    <bean id="programVariationInfo.unitsFinancialResources-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsFinancialResources-parent">
+        <property name="name" value="unitsFinancialResources"/>
+    </bean>
+    <bean id="programVariationInfo.unitsFinancialResources"
+          parent="programVariationInfo.unitsFinancialResources-parent"/>
+
+    <bean id="programVariationInfo.unitsStudentOversight-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsStudentOversight-parent">
+        <property name="name" value="unitsStudentOversight"/>
+    </bean>
+    <bean id="programVariationInfo.unitsStudentOversight" parent="programVariationInfo.unitsStudentOversight-parent"/>
+
+    <bean id="programVariationInfo.universityClassification-parent" abstract="true"
+          parent="majorDisciplineInfo.universityClassification-parent">
+        <property name="name" value="universityClassification"/>
+    </bean>
+    <bean id="programVariationInfo.universityClassification"
+          parent="programVariationInfo.universityClassification-parent"/>
 
     <!-- end ProgramVariationInfo-->
 
     <!--  Dynamic Attributes: Major Discipline Info  -->
     <bean id="majorDisciplineInfo.lastReviewDate-parent" abstract="true"
-          parent="baseDate">
+          parent="baseKualiEffectiveDate">
         <property name="name" value="lastReviewDate"/>
         <property name="dynamic" value="true"/>
     </bean>
@@ -561,334 +626,463 @@
     </bean>
     <bean id="majorDisciplineInfo.endInstAdmitTerm" parent="majorDisciplineInfo.endInstAdmitTerm-parent"/>
 
-<!-- CoreProgramInfo-->
-<bean id="org.kuali.student.lum.program.dto.CoreProgramInfo-parent" abstract="true" parent="objectStructureDefinition">
- <property name="name" value="org.kuali.student.lum.program.dto.CoreProgramInfo"/>
- <property name="attributes">
-  <list>
-   <ref bean="coreProgramInfo.catalogDescr"/>
-   <ref bean="coreProgramInfo.catalogPublicationTargets"/>
-   <ref bean="coreProgramInfo.code"/>
-   <ref bean="coreProgramInfo.descr"/>
-   <ref bean="coreProgramInfo.divisionsContentOwner"/>
-   <ref bean="coreProgramInfo.divisionsStudentOversight"/>
-   <ref bean="coreProgramInfo.endProgramEntryTerm"/>
-   <ref bean="coreProgramInfo.endTerm"/>
-   <ref bean="coreProgramInfo.id"/>
-   <ref bean="coreProgramInfo.learningObjectives"/>
-   <ref bean="coreProgramInfo.longTitle"/>
-   <ref bean="coreProgramInfo.programRequirements"/>
-   <ref bean="coreProgramInfo.referenceURL"/>
-   <ref bean="coreProgramInfo.shortTitle"/>
-   <ref bean="coreProgramInfo.startTerm"/>
-   <ref bean="coreProgramInfo.state"/>
-   <ref bean="coreProgramInfo.transcriptTitle"/>
-   <ref bean="coreProgramInfo.type"/>
-   <ref bean="coreProgramInfo.unitsContentOwner"/>
-   <ref bean="coreProgramInfo.unitsStudentOversight"/>
-   <ref bean="coreProgramInfo.universityClassification"/>
-  </list>
- </property>
- <property name="hasMetaData" value="true"/>
-</bean>
-<bean id="org.kuali.student.lum.program.dto.CoreProgramInfo" parent="org.kuali.student.lum.program.dto.CoreProgramInfo-parent"/>
+    <bean id="majorDisciplineInfo.durationNotes-parent" abstract="true" parent="baseString">
+        <property name="name" value="durationNotes"/>
+        <property name="dynamic" value="true"/>
+    </bean>
+    <bean id="majorDisciplineInfo.durationNotes" parent="majorDisciplineInfo.durationNotes-parent"/>
 
-<bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="baseComplex">
- <property name="name" value="catalogDescr"/>
- <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
-</bean>
-<bean id="coreProgramInfo.catalogDescr" parent="coreProgramInfo.catalogDescr-parent"/>
+    <bean id="programVariationInfo.durationNotes-parent" abstract="true" parent="baseString">
+        <property name="name" value="durationNotes"/>
+        <property name="dynamic" value="true"/>
+    </bean>
+    <bean id="programVariationInfo.durationNotes" parent="programVariationInfo.durationNotes-parent"/>
 
-<bean id="coreProgramInfo.catalogPublicationTargets-parent" abstract="true" parent="baseStringRepeating">
- <property name="name" value="catalogPublicationTargets"/>
-</bean>
-<bean id="coreProgramInfo.catalogPublicationTargets" parent="coreProgramInfo.catalogPublicationTargets-parent"/>
+    <bean id="majorDisciplineInfo.coreFaculties-parent" abstract="true" parent="baseString">
+        <property name="name" value="coreFaculties"/>
+        <property name="dynamic" value="true"/>
+    </bean>
+    <bean id="majorDisciplineInfo.coreFaculties" parent="majorDisciplineInfo.coreFaculties-parent"/>
 
-<bean id="coreProgramInfo.code-parent" abstract="true" parent="majorDisciplineInfo.code-parent">
- <property name="name" value="code"/>
-</bean>
-<bean id="coreProgramInfo.code" parent="coreProgramInfo.code-parent"/>
+    <bean id="programVariationInfo.coreFaculties-parent" abstract="true" parent="baseString">
+        <property name="name" value="coreFaculties"/>
+        <property name="dynamic" value="true"/>
+    </bean>
+    <bean id="programVariationInfo.coreFaculties" parent="programVariationInfo.coreFaculties-parent"/>
+    
+    <!-- CoreProgramInfo-->
+    <bean id="org.kuali.student.lum.program.dto.CoreProgramInfo-parent" abstract="true"
+          parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.lum.program.dto.CoreProgramInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="coreProgramInfo.catalogDescr"/>
+                <ref bean="coreProgramInfo.catalogPublicationTargets"/>
+                <ref bean="coreProgramInfo.code"/>
+                <ref bean="coreProgramInfo.descr"/>
+                <ref bean="coreProgramInfo.divisionsContentOwner"/>
+                <ref bean="coreProgramInfo.divisionsStudentOversight"/>
+                <ref bean="coreProgramInfo.endProgramEntryTerm"/>
+                <ref bean="coreProgramInfo.endTerm"/>
+                <ref bean="coreProgramInfo.id"/>
+                <ref bean="coreProgramInfo.learningObjectives"/>
+                <ref bean="coreProgramInfo.longTitle"/>
+                <ref bean="coreProgramInfo.programRequirements"/>
+                <ref bean="coreProgramInfo.referenceURL"/>
+                <ref bean="coreProgramInfo.shortTitle"/>
+                <ref bean="coreProgramInfo.startTerm"/>
+                <ref bean="coreProgramInfo.state"/>
+                <ref bean="coreProgramInfo.transcriptTitle"/>
+                <ref bean="coreProgramInfo.type"/>
+                <ref bean="coreProgramInfo.unitsContentOwner"/>
+                <ref bean="coreProgramInfo.unitsStudentOversight"/>
+                <ref bean="coreProgramInfo.universityClassification"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.program.dto.CoreProgramInfo"
+          parent="org.kuali.student.lum.program.dto.CoreProgramInfo-parent"/>
 
-<bean id="coreProgramInfo.descr-parent" abstract="true" parent="baseComplex">
- <property name="name" value="descr"/>
- <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
-</bean>
-<bean id="coreProgramInfo.descr" parent="coreProgramInfo.descr-parent"/>
+    <bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
+        <property name="name" value="catalogDescr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+    </bean>
+    <bean id="coreProgramInfo.catalogDescr" parent="coreProgramInfo.catalogDescr-parent"/>
 
-<bean id="coreProgramInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="divisionsContentOwner"/>
-</bean>
-<bean id="coreProgramInfo.divisionsContentOwner" parent="coreProgramInfo.divisionsContentOwner-parent"/>
+    <bean id="coreProgramInfo.catalogPublicationTargets-parent" abstract="true"
+          parent="majorDisciplineInfo.catalogPublicationTargets-parent">
+        <property name="name" value="catalogPublicationTargets"/>
+    </bean>
+    <bean id="coreProgramInfo.catalogPublicationTargets" parent="coreProgramInfo.catalogPublicationTargets-parent"/>
 
-<bean id="coreProgramInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="divisionsStudentOversight"/>
-</bean>
-<bean id="coreProgramInfo.divisionsStudentOversight" parent="coreProgramInfo.divisionsStudentOversight-parent"/>
+    <bean id="coreProgramInfo.code-parent" abstract="true" parent="majorDisciplineInfo.code-parent">
+        <property name="name" value="code"/>
+    </bean>
+    <bean id="coreProgramInfo.code" parent="coreProgramInfo.code-parent"/>
 
-<bean id="coreProgramInfo.endProgramEntryTerm-parent" abstract="true" parent="majorDisciplineInfo.endProgramEntryTerm">
- <property name="name" value="endProgramEntryTerm"/>
-</bean>
-<bean id="coreProgramInfo.endProgramEntryTerm" parent="coreProgramInfo.endProgramEntryTerm-parent"/>
+    <bean id="coreProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
+        <property name="name" value="descr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+    </bean>
+    <bean id="coreProgramInfo.descr" parent="coreProgramInfo.descr-parent"/>
 
-<bean id="coreProgramInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
- <property name="name" value="endTerm"/>
-</bean>
-<bean id="coreProgramInfo.endTerm" parent="coreProgramInfo.endTerm-parent"/>
+    <bean id="coreProgramInfo.divisionsContentOwner-parent" abstract="true"
+          parent="majorDisciplineInfo.divisionsContentOwner-parent">
+        <property name="name" value="divisionsContentOwner"/>
+    </bean>
+    <bean id="coreProgramInfo.divisionsContentOwner" parent="coreProgramInfo.divisionsContentOwner-parent"/>
 
-<bean id="coreProgramInfo.id-parent" abstract="true" parent="cluInfo.id">
- <property name="name" value="id"/>
-</bean>
-<bean id="coreProgramInfo.id" parent="coreProgramInfo.id-parent"/>
+    <bean id="coreProgramInfo.divisionsStudentOversight-parent" abstract="true"
+          parent="majorDisciplineInfo.divisionsStudentOversight-parent">
+        <property name="name" value="divisionsStudentOversight"/>
+    </bean>
+    <bean id="coreProgramInfo.divisionsStudentOversight" parent="coreProgramInfo.divisionsStudentOversight-parent"/>
 
-<bean id="coreProgramInfo.learningObjectives-parent" abstract="true" parent="baseComplexRepeating">
- <property name="name" value="learningObjectives"/>
- <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
-</bean>
-<bean id="coreProgramInfo.learningObjectives" parent="coreProgramInfo.learningObjectives-parent"/>
+    <bean id="coreProgramInfo.endProgramEntryTerm-parent" abstract="true"
+          parent="majorDisciplineInfo.endProgramEntryTerm">
+        <property name="name" value="endProgramEntryTerm"/>
+    </bean>
+    <bean id="coreProgramInfo.endProgramEntryTerm" parent="coreProgramInfo.endProgramEntryTerm-parent"/>
 
-<bean id="coreProgramInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
- <property name="name" value="longTitle"/>
-</bean>
-<bean id="coreProgramInfo.longTitle" parent="coreProgramInfo.longTitle-parent"/>
+    <bean id="coreProgramInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
+        <property name="name" value="endTerm"/>
+    </bean>
+    <bean id="coreProgramInfo.endTerm" parent="coreProgramInfo.endTerm-parent"/>
 
-<bean id="coreProgramInfo.programRequirements-parent" abstract="true" parent="baseStringRepeating">
- <property name="name" value="programRequirements"/>
-</bean>
-<bean id="coreProgramInfo.programRequirements" parent="coreProgramInfo.programRequirements-parent"/>
+    <bean id="coreProgramInfo.id-parent" abstract="true" parent="cluInfo.id">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="coreProgramInfo.id" parent="coreProgramInfo.id-parent"/>
 
-<bean id="coreProgramInfo.referenceURL-parent" abstract="true" parent="cluInfo.referenceURL-parent">
- <property name="name" value="referenceURL"/>
-</bean>
-<bean id="coreProgramInfo.referenceURL" parent="coreProgramInfo.referenceURL-parent"/>
+    <bean id="coreProgramInfo.learningObjectives-parent" abstract="true"
+          parent="majorDisciplineInfo.learningObjectives-parent">
+        <property name="name" value="learningObjectives"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+    </bean>
+    <bean id="coreProgramInfo.learningObjectives" parent="coreProgramInfo.learningObjectives-parent"/>
 
-<bean id="coreProgramInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
- <property name="name" value="shortTitle"/>
-</bean>
-<bean id="coreProgramInfo.shortTitle" parent="coreProgramInfo.shortTitle-parent"/>
+    <bean id="coreProgramInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
+        <property name="name" value="longTitle"/>
+    </bean>
+    <bean id="coreProgramInfo.longTitle" parent="coreProgramInfo.longTitle-parent"/>
 
-<bean id="coreProgramInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
- <property name="name" value="startTerm"/>
-</bean>
-<bean id="coreProgramInfo.startTerm" parent="coreProgramInfo.startTerm-parent"/>
+    <bean id="coreProgramInfo.programRequirements-parent" abstract="true" parent="baseStringRepeating">
+        <property name="name" value="programRequirements"/>
+    </bean>
+    <bean id="coreProgramInfo.programRequirements" parent="coreProgramInfo.programRequirements-parent"/>
 
-<bean id="coreProgramInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
- <property name="name" value="state"/>
-</bean>
-<bean id="coreProgramInfo.state" parent="coreProgramInfo.state-parent"/>
+    <bean id="coreProgramInfo.referenceURL-parent" abstract="true" parent="majorDisciplineInfo.referenceURL-parent">
+        <property name="name" value="referenceURL"/>
+    </bean>
+    <bean id="coreProgramInfo.referenceURL" parent="coreProgramInfo.referenceURL-parent"/>
 
-<bean id="coreProgramInfo.transcriptTitle-parent" abstract="true" parent="majorDisciplineInfo.transcriptTitle-parent">
- <property name="name" value="transcriptTitle"/>
-</bean>
-<bean id="coreProgramInfo.transcriptTitle" parent="coreProgramInfo.transcriptTitle-parent"/>
+    <bean id="coreProgramInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
+        <property name="name" value="shortTitle"/>
+    </bean>
+    <bean id="coreProgramInfo.shortTitle" parent="coreProgramInfo.shortTitle-parent"/>
 
-<bean id="coreProgramInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
- <property name="name" value="type"/>
-</bean>
-<bean id="coreProgramInfo.type" parent="coreProgramInfo.type-parent"/>
+    <bean id="coreProgramInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
+        <property name="name" value="startTerm"/>
+    </bean>
+    <bean id="coreProgramInfo.startTerm" parent="coreProgramInfo.startTerm-parent"/>
 
-<bean id="coreProgramInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="unitsContentOwner"/>
-</bean>
-<bean id="coreProgramInfo.unitsContentOwner" parent="coreProgramInfo.unitsContentOwner-parent"/>
+    <bean id="coreProgramInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
+        <property name="name" value="state"/>
+    </bean>
+    <bean id="coreProgramInfo.state" parent="coreProgramInfo.state-parent"/>
 
-<bean id="coreProgramInfo.unitsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="unitsStudentOversight"/>
-</bean>
-<bean id="coreProgramInfo.unitsStudentOversight" parent="coreProgramInfo.unitsStudentOversight-parent"/>
+    <bean id="coreProgramInfo.transcriptTitle-parent" abstract="true"
+          parent="majorDisciplineInfo.transcriptTitle-parent">
+        <property name="name" value="transcriptTitle"/>
+    </bean>
+    <bean id="coreProgramInfo.transcriptTitle" parent="coreProgramInfo.transcriptTitle-parent"/>
 
-<bean id="coreProgramInfo.universityClassification-parent" abstract="true" parent="baseKualiOrgIdRepeating">
- <property name="name" value="universityClassification"/>
-</bean>
-<bean id="coreProgramInfo.universityClassification" parent="coreProgramInfo.universityClassification-parent"/>
+    <bean id="coreProgramInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
+        <property name="name" value="type"/>
+    </bean>
+    <bean id="coreProgramInfo.type" parent="coreProgramInfo.type-parent"/>
+
+    <bean id="coreProgramInfo.unitsContentOwner-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsContentOwner-parent">
+        <property name="name" value="unitsContentOwner"/>
+    </bean>
+    <bean id="coreProgramInfo.unitsContentOwner" parent="coreProgramInfo.unitsContentOwner-parent"/>
+
+    <bean id="coreProgramInfo.unitsStudentOversight-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsStudentOversight-parent">
+        <property name="name" value="unitsStudentOversight"/>
+    </bean>
+    <bean id="coreProgramInfo.unitsStudentOversight" parent="coreProgramInfo.unitsStudentOversight-parent"/>
+
+    <bean id="coreProgramInfo.universityClassification-parent" abstract="true"
+          parent="majorDisciplineInfo.universityClassification-parent">
+        <property name="name" value="universityClassification"/>
+    </bean>
+    <bean id="coreProgramInfo.universityClassification" parent="coreProgramInfo.universityClassification-parent"/>
 
 
-<!-- CredentialProgramInfo-->
-<bean id="org.kuali.student.lum.program.dto.CredentialProgramInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.program.dto.CredentialProgramInfo"/>
-  <property name="attributes">
-   <list>
-    <ref bean="credentialProgramInfo.code"/>
-    <ref bean="credentialProgramInfo.coreProgramIds"/>
-    <ref bean="credentialProgramInfo.credentialProgramType"/>
-    <ref bean="credentialProgramInfo.descr"/>
-    <ref bean="credentialProgramInfo.divisionsContentOwner"/>
-    <ref bean="credentialProgramInfo.divisionsStudentOversight"/>
-    <ref bean="credentialProgramInfo.endProgramEntryTerm"/>
-    <ref bean="credentialProgramInfo.endTerm"/>
-    <ref bean="credentialProgramInfo.id"/>
-    <ref bean="credentialProgramInfo.institution"/>
-    <ref bean="credentialProgramInfo.learningObjectives"/>
-    <ref bean="credentialProgramInfo.longTitle"/>
-    <ref bean="credentialProgramInfo.programLevel"/>
-    <ref bean="credentialProgramInfo.programRequirements"/>
-    <ref bean="credentialProgramInfo.resultOptions"/>
-    <ref bean="credentialProgramInfo.shortTitle"/>
-    <ref bean="credentialProgramInfo.startTerm"/>
-    <ref bean="credentialProgramInfo.state"/>
-    <ref bean="credentialProgramInfo.transcriptTitle"/>
-    <ref bean="credentialProgramInfo.unitsContentOwner"/>
-    <ref bean="credentialProgramInfo.unitsStudentOversight"/>
-    <ref bean="credentialProgramInfo.universityClassification"/>
-   </list>
-  </property>
-  <property name="hasMetaData" value="true"/>
- </bean>
- <bean id="org.kuali.student.lum.program.dto.CredentialProgramInfo" parent="org.kuali.student.lum.program.dto.CredentialProgramInfo-parent"/>
+    <!-- CredentialProgramInfo-->
+    <bean id="org.kuali.student.lum.program.dto.CredentialProgramInfo-parent" abstract="true"
+          parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.lum.program.dto.CredentialProgramInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="credentialProgramInfo.code"/>
+                <ref bean="credentialProgramInfo.coreProgramIds"/>
+                <ref bean="credentialProgramInfo.credentialProgramType"/>
+                <ref bean="credentialProgramInfo.descr"/>
+                <ref bean="credentialProgramInfo.divisionsContentOwner"/>
+                <ref bean="credentialProgramInfo.divisionsStudentOversight"/>
+                <ref bean="credentialProgramInfo.endProgramEntryTerm"/>
+                <ref bean="credentialProgramInfo.endTerm"/>
+                <ref bean="credentialProgramInfo.id"/>
+                <ref bean="credentialProgramInfo.institution"/>
+                <ref bean="credentialProgramInfo.learningObjectives"/>
+                <ref bean="credentialProgramInfo.longTitle"/>
+                <ref bean="credentialProgramInfo.programLevel"/>
+                <ref bean="credentialProgramInfo.programRequirements"/>
+                <ref bean="credentialProgramInfo.resultOptions"/>
+                <ref bean="credentialProgramInfo.shortTitle"/>
+                <ref bean="credentialProgramInfo.startTerm"/>
+                <ref bean="credentialProgramInfo.state"/>
+                <ref bean="credentialProgramInfo.transcriptTitle"/>
+                <ref bean="credentialProgramInfo.unitsContentOwner"/>
+                <ref bean="credentialProgramInfo.unitsStudentOversight"/>
+                <ref bean="credentialProgramInfo.universityClassification"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.program.dto.CredentialProgramInfo"
+          parent="org.kuali.student.lum.program.dto.CredentialProgramInfo-parent"/>
 
- <bean id="credentialProgramInfo.code-parent" abstract="true" parent="majorDisciplineInfo.code-parent">
-  <property name="name" value="code"/>
- </bean>
- <bean id="credentialProgramInfo.code" parent="credentialProgramInfo.code-parent"/>
+    <bean id="credentialProgramInfo.code-parent" abstract="true" parent="majorDisciplineInfo.code-parent">
+        <property name="name" value="code"/>
+    </bean>
+    <bean id="credentialProgramInfo.code" parent="credentialProgramInfo.code-parent"/>
 
- <bean id="credentialProgramInfo.coreProgramIds-parent" abstract="true" parent="baseKualiCluId">
-  <property name="maxOccurs" value="unbounded" />
-  <property name="name" value="coreProgramIds"/>
- </bean>
- <bean id="credentialProgramInfo.coreProgramIds" parent="credentialProgramInfo.coreProgramIds-parent"/>
+    <bean id="credentialProgramInfo.coreProgramIds-parent" abstract="true" parent="baseKualiCluId">
+        <property name="maxOccurs" value="unbounded"/>
+        <property name="name" value="coreProgramIds"/>
+    </bean>
+    <bean id="credentialProgramInfo.coreProgramIds" parent="credentialProgramInfo.coreProgramIds-parent"/>
 
- <bean id="credentialProgramInfo.credentialProgramType-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="credentialProgramType"/>
- </bean>
- <bean id="credentialProgramInfo.credentialProgramType" parent="credentialProgramInfo.credentialProgramType-parent"/>
+    <bean id="credentialProgramInfo.credentialProgramType-parent" abstract="true" parent="cluInfo.type-parent">
+        <property name="name" value="credentialProgramType"/>
+    </bean>
+    <bean id="credentialProgramInfo.credentialProgramType" parent="credentialProgramInfo.credentialProgramType-parent"/>
 
- <bean id="credentialProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
-  <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
- </bean>
- <bean id="credentialProgramInfo.descr" parent="credentialProgramInfo.descr-parent"/>
+    <bean id="credentialProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
+        <property name="name" value="descr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+    </bean>
+    <bean id="credentialProgramInfo.descr" parent="credentialProgramInfo.descr-parent"/>
 
- <bean id="credentialProgramInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
-  <property name="name" value="divisionsContentOwner"/>
- </bean>
- <bean id="credentialProgramInfo.divisionsContentOwner" parent="credentialProgramInfo.divisionsContentOwner-parent"/>
+    <bean id="credentialProgramInfo.divisionsContentOwner-parent" abstract="true"
+          parent="majorDisciplineInfo.divisionsContentOwner-parent">
+        <property name="name" value="divisionsContentOwner"/>
+    </bean>
+    <bean id="credentialProgramInfo.divisionsContentOwner" parent="credentialProgramInfo.divisionsContentOwner-parent"/>
 
- <bean id="credentialProgramInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
-  <property name="name" value="divisionsStudentOversight"/>
- </bean>
- <bean id="credentialProgramInfo.divisionsStudentOversight" parent="credentialProgramInfo.divisionsStudentOversight-parent"/>
+    <bean id="credentialProgramInfo.divisionsStudentOversight-parent" abstract="true"
+          parent="majorDisciplineInfo.divisionsStudentOversight-parent">
+        <property name="name" value="divisionsStudentOversight"/>
+    </bean>
+    <bean id="credentialProgramInfo.divisionsStudentOversight"
+          parent="credentialProgramInfo.divisionsStudentOversight-parent"/>
 
- <bean id="credentialProgramInfo.endProgramEntryTerm-parent" abstract="true" parent="majorDisciplineInfo.endProgramEntryTerm-parent">
-  <property name="name" value="endProgramEntryTerm"/>
- </bean>
- <bean id="credentialProgramInfo.endProgramEntryTerm" parent="credentialProgramInfo.endProgramEntryTerm-parent"/>
+    <bean id="credentialProgramInfo.endProgramEntryTerm-parent" abstract="true"
+          parent="majorDisciplineInfo.endProgramEntryTerm-parent">
+        <property name="name" value="endProgramEntryTerm"/>
+    </bean>
+    <bean id="credentialProgramInfo.endProgramEntryTerm" parent="credentialProgramInfo.endProgramEntryTerm-parent"/>
 
- <bean id="credentialProgramInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
-  <property name="name" value="endTerm"/>
- </bean>
- <bean id="credentialProgramInfo.endTerm" parent="credentialProgramInfo.endTerm-parent"/>
+    <bean id="credentialProgramInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
+        <property name="name" value="endTerm"/>
+    </bean>
+    <bean id="credentialProgramInfo.endTerm" parent="credentialProgramInfo.endTerm-parent"/>
 
- <bean id="credentialProgramInfo.id-parent" abstract="true" parent="cluInfo.id">
-  <property name="name" value="id"/>
- </bean>
- <bean id="credentialProgramInfo.id" parent="credentialProgramInfo.id-parent"/>
+    <bean id="credentialProgramInfo.id-parent" abstract="true" parent="cluInfo.id">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="credentialProgramInfo.id" parent="credentialProgramInfo.id-parent"/>
 
- <bean id="credentialProgramInfo.institution-parent" abstract="true" parent="cluInfo.adminOrgs">
-  <property name="name" value="institution"/>
-  <property name="maxOccurs" value="1" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
- </bean>
- <bean id="credentialProgramInfo.institution" parent="credentialProgramInfo.institution-parent"/>
+    <bean id="credentialProgramInfo.institution-parent" abstract="true" parent="cluInfo.adminOrgs">
+        <property name="name" value="institution"/>
+        <property name="maxOccurs" value="1"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
+    </bean>
+    <bean id="credentialProgramInfo.institution" parent="credentialProgramInfo.institution-parent"/>
 
- <bean id="credentialProgramInfo.learningObjectives-parent" abstract="true" parent="majorDisciplineInfo.learningObjectives-parent">
-  <property name="name" value="learningObjectives"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
- </bean>
- <bean id="credentialProgramInfo.learningObjectives" parent="credentialProgramInfo.learningObjectives-parent"/>
+    <bean id="credentialProgramInfo.learningObjectives-parent" abstract="true"
+          parent="majorDisciplineInfo.learningObjectives-parent">
+        <property name="name" value="learningObjectives"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+    </bean>
+    <bean id="credentialProgramInfo.learningObjectives" parent="credentialProgramInfo.learningObjectives-parent"/>
 
- <bean id="credentialProgramInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
-  <property name="name" value="longTitle"/>
- </bean>
- <bean id="credentialProgramInfo.longTitle" parent="credentialProgramInfo.longTitle-parent"/>
+    <bean id="credentialProgramInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
+        <property name="name" value="longTitle"/>
+    </bean>
+    <bean id="credentialProgramInfo.longTitle" parent="credentialProgramInfo.longTitle-parent"/>
 
- <bean id="credentialProgramInfo.programLevel-parent" abstract="true" parent="cluIdentifierInfo.level">
-  <property name="name" value="programLevel"/>
- </bean>
- <bean id="credentialProgramInfo.programLevel" parent="credentialProgramInfo.programLevel-parent"/>
+    <bean id="credentialProgramInfo.programLevel-parent" abstract="true" parent="cluIdentifierInfo.level">
+        <property name="name" value="programLevel"/>
+    </bean>
+    <bean id="credentialProgramInfo.programLevel" parent="credentialProgramInfo.programLevel-parent"/>
 
- <bean id="credentialProgramInfo.programRequirements-parent" abstract="true" parent="majorDisciplineInfo.programRequirements-parent">
-  <property name="name" value="programRequirements"/>
- </bean>
- <bean id="credentialProgramInfo.programRequirements" parent="credentialProgramInfo.programRequirements-parent"/>
+    <bean id="credentialProgramInfo.programRequirements-parent" abstract="true"
+          parent="majorDisciplineInfo.programRequirements-parent">
+        <property name="name" value="programRequirements"/>
+    </bean>
+    <bean id="credentialProgramInfo.programRequirements" parent="credentialProgramInfo.programRequirements-parent"/>
 
- <bean id="credentialProgramInfo.resultOptions-parent" abstract="true" parent="majorDisciplineInfo.resultOptions-parent">
-  <property name="name" value="resultOptions"/>
- </bean>
- <bean id="credentialProgramInfo.resultOptions" parent="credentialProgramInfo.resultOptions-parent"/>
+    <bean id="credentialProgramInfo.resultOptions-parent" abstract="true"
+          parent="majorDisciplineInfo.resultOptions-parent">
+        <property name="name" value="resultOptions"/>
+    </bean>
+    <bean id="credentialProgramInfo.resultOptions" parent="credentialProgramInfo.resultOptions-parent"/>
 
- <bean id="credentialProgramInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
-  <property name="name" value="shortTitle"/>
- </bean>
- <bean id="credentialProgramInfo.shortTitle" parent="credentialProgramInfo.shortTitle-parent"/>
+    <bean id="credentialProgramInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
+        <property name="name" value="shortTitle"/>
+    </bean>
+    <bean id="credentialProgramInfo.shortTitle" parent="credentialProgramInfo.shortTitle-parent"/>
 
- <bean id="credentialProgramInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
-  <property name="name" value="startTerm"/>
- </bean>
- <bean id="credentialProgramInfo.startTerm" parent="credentialProgramInfo.startTerm-parent"/>
+    <bean id="credentialProgramInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
+        <property name="name" value="startTerm"/>
+    </bean>
+    <bean id="credentialProgramInfo.startTerm" parent="credentialProgramInfo.startTerm-parent"/>
 
- <bean id="credentialProgramInfo.state-parent" abstract="true" parent="cluInfo.state">
-  <property name="name" value="state"/>
- </bean>
- <bean id="credentialProgramInfo.state" parent="credentialProgramInfo.state-parent"/>
+    <bean id="credentialProgramInfo.state-parent" abstract="true" parent="cluInfo.state">
+        <property name="name" value="state"/>
+    </bean>
+    <bean id="credentialProgramInfo.state" parent="credentialProgramInfo.state-parent"/>
 
- <bean id="credentialProgramInfo.transcriptTitle-parent" abstract="true" parent="majorDisciplineInfo.transcriptTitle-parent">
-  <property name="name" value="transcriptTitle"/>
- </bean>
- <bean id="credentialProgramInfo.transcriptTitle" parent="credentialProgramInfo.transcriptTitle-parent"/>
+    <bean id="credentialProgramInfo.transcriptTitle-parent" abstract="true"
+          parent="majorDisciplineInfo.transcriptTitle-parent">
+        <property name="name" value="transcriptTitle"/>
+    </bean>
+    <bean id="credentialProgramInfo.transcriptTitle" parent="credentialProgramInfo.transcriptTitle-parent"/>
 
- <bean id="credentialProgramInfo.unitsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.unitsContentOwner-parent">
-  <property name="name" value="unitsContentOwner"/>
- </bean>
- <bean id="credentialProgramInfo.unitsContentOwner" parent="credentialProgramInfo.unitsContentOwner-parent"/>
+    <bean id="credentialProgramInfo.unitsContentOwner-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsContentOwner-parent">
+        <property name="name" value="unitsContentOwner"/>
+    </bean>
+    <bean id="credentialProgramInfo.unitsContentOwner" parent="credentialProgramInfo.unitsContentOwner-parent"/>
 
- <bean id="credentialProgramInfo.unitsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.unitsStudentOversight-parent">
-  <property name="name" value="unitsStudentOversight"/>
- </bean>
- <bean id="credentialProgramInfo.unitsStudentOversight" parent="credentialProgramInfo.unitsStudentOversight-parent"/>
+    <bean id="credentialProgramInfo.unitsStudentOversight-parent" abstract="true"
+          parent="majorDisciplineInfo.unitsStudentOversight-parent">
+        <property name="name" value="unitsStudentOversight"/>
+    </bean>
+    <bean id="credentialProgramInfo.unitsStudentOversight" parent="credentialProgramInfo.unitsStudentOversight-parent"/>
 
- <bean id="credentialProgramInfo.universityClassification-parent" abstract="true" parent="majorDisciplineInfo.universityClassification-parent">
-  <property name="name" value="universityClassification"/>
- </bean>
- <bean id="credentialProgramInfo.universityClassification" parent="credentialProgramInfo.universityClassification-parent"/>
+    <bean id="credentialProgramInfo.universityClassification-parent" abstract="true"
+          parent="majorDisciplineInfo.universityClassification-parent">
+        <property name="name" value="universityClassification"/>
+    </bean>
+    <bean id="credentialProgramInfo.universityClassification"
+          parent="credentialProgramInfo.universityClassification-parent"/>
 
-<!-- MinorDisciplineInfo-->
- <bean id="org.kuali.student.lum.program.dto.MinorDisciplineInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.program.dto.MinorDisciplineInfo"/>
-  <property name="attributes">
-   <list>
-    <ref bean="minorDisciplineInfo.credentialProgramId"/>
-    <ref bean="minorDisciplineInfo.id"/>
-    <ref bean="minorDisciplineInfo.programRequirements"/>
-    <ref bean="minorDisciplineInfo.state"/>
-    <ref bean="minorDisciplineInfo.type"/>
-   </list>
-  </property>
-  <property name="hasMetaData" value="true"/>
- </bean>
- <bean id="org.kuali.student.lum.program.dto.MinorDisciplineInfo" parent="org.kuali.student.lum.program.dto.MinorDisciplineInfo-parent"/>
+    <!-- MinorDisciplineInfo-->
+    <bean id="org.kuali.student.lum.program.dto.MinorDisciplineInfo-parent" abstract="true"
+          parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.lum.program.dto.MinorDisciplineInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="minorDisciplineInfo.credentialProgramId"/>
+                <ref bean="minorDisciplineInfo.id"/>
+                <ref bean="minorDisciplineInfo.programRequirements"/>
+                <ref bean="minorDisciplineInfo.state"/>
+                <ref bean="minorDisciplineInfo.type"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.program.dto.MinorDisciplineInfo"
+          parent="org.kuali.student.lum.program.dto.MinorDisciplineInfo-parent"/>
 
- <bean id="minorDisciplineInfo.credentialProgramId-parent" abstract="true" parent="baseKualiCluId">
-  <property name="name" value="credentialProgramId"/>
- </bean>
- <bean id="minorDisciplineInfo.credentialProgramId" parent="minorDisciplineInfo.credentialProgramId-parent"/>
+    <bean id="minorDisciplineInfo.credentialProgramId-parent" abstract="true" parent="baseKualiCluId">
+        <property name="name" value="credentialProgramId"/>
+    </bean>
+    <bean id="minorDisciplineInfo.credentialProgramId" parent="minorDisciplineInfo.credentialProgramId-parent"/>
 
- <bean id="minorDisciplineInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
-  <property name="name" value="id"/>
- </bean>
- <bean id="minorDisciplineInfo.id" parent="minorDisciplineInfo.id-parent"/>
+    <bean id="minorDisciplineInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="minorDisciplineInfo.id" parent="minorDisciplineInfo.id-parent"/>
 
- <bean id="minorDisciplineInfo.programRequirements-parent" abstract="true" parent="majorDisciplineInfo.programRequirements-parent">
-  <property name="name" value="programRequirements"/>
- </bean>
- <bean id="minorDisciplineInfo.programRequirements" parent="minorDisciplineInfo.programRequirements-parent"/>
+    <bean id="minorDisciplineInfo.programRequirements-parent" abstract="true"
+          parent="majorDisciplineInfo.programRequirements-parent">
+        <property name="name" value="programRequirements"/>
+    </bean>
+    <bean id="minorDisciplineInfo.programRequirements" parent="minorDisciplineInfo.programRequirements-parent"/>
 
- <bean id="minorDisciplineInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
-  <property name="name" value="state"/>
- </bean>
- <bean id="minorDisciplineInfo.state" parent="minorDisciplineInfo.state-parent"/>
+    <bean id="minorDisciplineInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
+        <property name="name" value="state"/>
+    </bean>
+    <bean id="minorDisciplineInfo.state" parent="minorDisciplineInfo.state-parent"/>
 
- <bean id="minorDisciplineInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type"/>
- </bean>
- <bean id="minorDisciplineInfo.type" parent="minorDisciplineInfo.type-parent"/>
+    <bean id="minorDisciplineInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
+        <property name="name" value="type"/>
+    </bean>
+    <bean id="minorDisciplineInfo.type" parent="minorDisciplineInfo.type-parent"/>
+
+    <!-- ProgramRequirementInfo-->
+    <bean id="org.kuali.student.lum.program.dto.ProgramRequirementInfo-parent" abstract="true"
+          parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.lum.program.dto.ProgramRequirementInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="programRequirementInfo.descr"/>
+                <ref bean="programRequirementInfo.id"/>
+                <ref bean="programRequirementInfo.learningObjectives"/>
+                <ref bean="programRequirementInfo.longTitle"/>
+                <ref bean="programRequirementInfo.shortTitle"/>
+                <ref bean="programRequirementInfo.state"/>
+                <ref bean="programRequirementInfo.statement"/>
+                <ref bean="programRequirementInfo.type"/>
+                <ref bean="programRequirementInfo.minCredits"/>
+                <ref bean="programRequirementInfo.maxCredits"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.lum.program.dto.ProgramRequirementInfo"
+          parent="org.kuali.student.lum.program.dto.ProgramRequirementInfo-parent"/>
+
+    <bean id="programRequirementInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
+        <property name="name" value="descr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+    </bean>
+    <bean id="programRequirementInfo.descr" parent="programRequirementInfo.descr-parent"/>
+
+    <bean id="programRequirementInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="programRequirementInfo.id" parent="programRequirementInfo.id-parent"/>
+
+    <bean id="programRequirementInfo.learningObjectives-parent" abstract="true"
+          parent="majorDisciplineInfo.learningObjectives-parent">
+        <property name="name" value="learningObjectives"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+    </bean>
+    <bean id="programRequirementInfo.learningObjectives" parent="programRequirementInfo.learningObjectives-parent"/>
+
+    <bean id="programRequirementInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
+        <property name="name" value="longTitle"/>
+    </bean>
+    <bean id="programRequirementInfo.longTitle" parent="programRequirementInfo.longTitle-parent"/>
+
+    <bean id="programRequirementInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
+        <property name="name" value="shortTitle"/>
+        <property name="minOccurs" value="1"/>
+    </bean>
+    <bean id="programRequirementInfo.shortTitle" parent="programRequirementInfo.shortTitle-parent"/>
+    <bean id="programRequirementInfo.minCredits-parent" abstract="true" parent="baseInteger">
+        <property name="name" value="minCredits"/>
+        <property name="minOccurs" value="1"/>
+    </bean>
+    <bean id="programRequirementInfo.minCredits" parent="programRequirementInfo.minCredits-parent"/>
+    <bean id="programRequirementInfo.maxCredits-parent" abstract="true" parent="baseInteger">
+        <property name="name" value="maxCredits"/>
+        <property name="minOccurs" value="1"/>
+    </bean>
+    <bean id="programRequirementInfo.maxCredits" parent="programRequirementInfo.maxCredits-parent"/>
+    <bean id="programRequirementInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
+        <property name="name" value="state"/>
+    </bean>
+    <bean id="programRequirementInfo.state" parent="programRequirementInfo.state-parent"/>
+
+    <bean id="programRequirementInfo.statement-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="statement"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.core.statement.dto.StatementTreeViewInfo"/>
+    </bean>
+    <bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent"/>
+
+    <bean id="programRequirementInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
+        <property name="name" value="type"/>
+    </bean>
+    <bean id="programRequirementInfo.type" parent="programRequirementInfo.type-parent"/>
 
 </beans>

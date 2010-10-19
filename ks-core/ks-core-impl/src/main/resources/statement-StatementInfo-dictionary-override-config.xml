@@ -49,12 +49,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 </dict:type>
 <dict:type key="kuali.statement.type.course.academicReadiness.coreq" id="type.StatementInfo.CorequisiteRule" parent="type.StatementInfo.CorequisiteRule.abstract"/>
 
-<dict:type key="kuali.statement.type.course.academicReadiness.studentEligibility" id="type.StatementInfo.EnrollmentRestriction.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
+<dict:type key="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" id="type.StatementInfo.EnrollmentRestriction.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
 	<dict:name>Enrollment Restriction</dict:name>
 	<dict:desc>Rules other than perquisites that limit or restrict students from enrolling in a course that do not strictly deal with the student&apos;s academic ability to handle the material.</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 </dict:type>
-<dict:type key="kuali.statement.type.course.academicReadiness.studentEligibility" id="type.StatementInfo.EnrollmentRestriction" parent="type.StatementInfo.EnrollmentRestriction.abstract"/>
+<dict:type key="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" id="type.StatementInfo.EnrollmentRestriction" parent="type.StatementInfo.EnrollmentRestriction.abstract"/>
 
 <dict:type key="kuali.statement.type.course.academicReadiness.antireq" id="type.StatementInfo.AntirequisiteRule.abstract" abstract="true" parent="type.StatementInfo.RequisiteRules.abstract">
 	<dict:name>Antirequisite Rule</dict:name>

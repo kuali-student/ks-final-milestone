@@ -15,14 +15,12 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -32,7 +30,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -40,7 +37,7 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO")
+@Table(name = "KSLO_LO")
 @NamedQueries( {
 	@NamedQuery(name = "Lo.getAllowedLoLoRelationTypes", query = "SELECT relType.relationTypeId FROM AllowedLoLoRelationType relType WHERE relType.loTypeId = :loTypeKey AND relType.relatedLoTypeId = :relatedLoTypeKey"),	
 	@NamedQuery(name = "Lo.getRelatedLosByLoId", query = "SELECT rel.relatedLo FROM LoLoRelation rel WHERE rel.lo.id = :loId AND rel.loLoRelationType.id = :loLoRelationTypeId"),
@@ -54,9 +51,6 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name = "Lo.getLoCategoryJoin", query = "SELECT j FROM LoLoCategoryJoin j WHERE j.lo.id = :loId AND j.loCategory.id = :loCategoryId")
 })
 public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "NAME")
 	private
@@ -87,19 +81,6 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 
 	@Column(name = "ST")
 	private String state;
-	
-	@Override
-	protected void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	/**
 	 * @param name the name to set
@@ -137,34 +118,6 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 		return loRepository;
 	}
 
-//	/**
-//	 * @param relatedLos the relatedLos to set
-//	 */
-//	public void setRelatedLos(List<Lo> relatedLos) {
-//		this.relatedLos = relatedLos;
-//	}
-//
-//	/**
-//	 * @return the relatedLos
-//	 */
-//	public List<Lo> getRelatedLos() {
-//		if (null == relatedLos) {
-//			relatedLos = new ArrayList<Lo>(0);
-//		}
-//		return relatedLos;
-//	}
-
-//	public void setCategories(List<LoCategory> categories) {
-//		this.categories = categories;
-//	}
-//
-//	public List<LoCategory> getCategories() {
-//		if (null == categories) {
-//			categories = new ArrayList<LoCategory>(0);
-//		}
-//		return categories;
-//	}
-
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -186,9 +139,6 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 */
 	@Override
 	public List<LoAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoAttribute>(0);
-		}
 		return attributes;
 	}
 

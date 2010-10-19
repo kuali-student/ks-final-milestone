@@ -53,6 +53,10 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.statement.config.context.lu.CluInfo;
 import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
@@ -152,32 +156,32 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
 	// FIXME - Investigate why adding clu1, clu3, clu2 works but adding clu1, clu2, clu3 doesn't work
 	public void testGetNaturalLanguageForStatement() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.RULEEDIT", "en");
+    	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.RULE", "en");
 //		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		String nl = statementService.getNaturalLanguageForRefStatementRelation("ref-stmt-rel-5", "KUALI.RULEEDIT", "en");
+		String nl = statementService.getNaturalLanguageForRefStatementRelation("ref-stmt-rel-5", "KUALI.RULE", "en");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_1ofN() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULE", "en");
     	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
     }
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_1of1() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.RULEEDIT", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-5", "KUALI.RULE", "en");
     	assertEquals("Student must have completed MATH 180", nl);
     }
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_GradeCheck() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.RULEEDIT", "en");
+    	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-2", "KUALI.RULE", "en");
     	assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", nl);
     }
 
@@ -189,19 +193,19 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", null);
+		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULE", null);
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
 	@Test
 	public void testGetNaturalLanguageForReqComponent_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", null);
+		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULE", null);
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 
-        naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "de");
+        naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULE", "de");
         assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", naturalLanguage);
 
-		naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULEEDIT", "en");
+		naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.RULE", "en");
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
@@ -227,7 +231,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
 		field2.setId("2");
 		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
-		field2.setValue("greater_than_or_equal_to");
+		field2.setValue(">=");
 		fieldList.add(field2);
 
 		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
@@ -243,7 +247,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testTranslateReqComponentToNL() throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		ReqComponentInfo reqCompInfo = createReqComponent1();
-		String naturalLanguage = statementService.translateReqComponentToNL(reqCompInfo, "KUALI.RULEEDIT", "en");
+		String naturalLanguage = statementService.translateReqComponentToNL(reqCompInfo, "KUALI.RULE", "en");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
@@ -277,7 +281,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		ReqComponentInfo reqComp = new ReqComponentInfo();
 		reqComp.setReqCompFields(fieldList);
 		reqComp.setType(reqComponentType);
-		reqComp.setRequiredComponentType(reqCompType);
+		//reqComp.setRequiredComponentType(reqCompType);
 
 		return reqComp;
     }
@@ -301,7 +305,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 		statementInfo.setReqComponents(Arrays.asList(reqComp1, reqComp2));
 
-		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementInfo, "KUALI.RULEEDIT", "en");
+		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementInfo, "KUALI.RULE", "en");
 
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
@@ -796,6 +800,12 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertNotNull(si);
         assertTrue(si.getSuccess());
 		assertNotNull(si.getMessage());
+		try{
+			statementService.getStatement(stmt.getId());
+			assertTrue(false);
+		}catch(DoesNotExistException e){
+			assertTrue(true);
+		}
     }
 
     @Test
@@ -1033,7 +1043,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	// OR
     	// (Student must have completed 1 of MATH 152, MATH 180 AND Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)
 
-        StatementTreeViewInfo rootTree = statementService.getStatementTreeViewForNlUsageType("STMT-TV-1", "KUALI.RULEEDIT", "en");
+        StatementTreeViewInfo rootTree = statementService.getStatementTreeViewForNlUsageType("STMT-TV-1", "KUALI.RULE", "en");
 
         List<StatementTreeViewInfo> subTreeView = rootTree.getStatements();
         StatementTreeViewInfo subTree1 = subTreeView.get(0);
@@ -1052,9 +1062,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(subTree1.getReqComponents().get(1).getId(), "REQCOMP-TV-2");
         assertEquals("Student must have completed all of MATH 152, MATH 180", subTree1.getReqComponents().get(0).getNaturalLanguageTranslation());
         assertEquals("Student needs a minimum GPA of 3.5 in MATH 152, MATH 180", subTree1.getReqComponents().get(1).getNaturalLanguageTranslation());
-        assertEquals("Student must have completed all of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180",
-        		subTree1.getNaturalLanguageTranslation());
 
         // check reqComps of sub-tree 2
         assertEquals(subTree2.getId(), "STMT-TV-3");
@@ -1063,18 +1070,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(subTree2.getReqComponents().get(1).getId(), "REQCOMP-TV-4");
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", subTree2.getReqComponents().get(0).getNaturalLanguageTranslation());
         assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
-        assertEquals("Student must have completed 1 of MATH 152, MATH 180 " +
-        		"and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180",
-        		subTree2.getNaturalLanguageTranslation());
-
-        assertEquals(
-        		"(Student must have completed all of MATH 152, MATH 180 and Student needs a minimum GPA of 3.5 in MATH 152, MATH 180) " +
-        		"or (Student must have completed 1 of MATH 152, MATH 180 and Student needs a minimum GPA of 4.0 in MATH 152, MATH 180)",
-        		rootTree.getNaturalLanguageTranslation());
     }
 
     @Test
-    public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
         //     After tree is updated
         //                          STMT-TV-1:OR
         //          STMT TV 2:AND                   STMT TV 3:AND
@@ -1125,11 +1124,31 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         subStatements.add(subTreeView2);
         treeView.setStatements(subStatements);
 
-        StatementTreeViewInfo returnedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
+        StatementTreeViewInfo returnedTreeView = statementService.createStatementTreeView(treeView);
         testStatementTreeView(returnedTreeView);
 
         StatementTreeViewInfo retrievedUpdatedTreeView = statementService.getStatementTreeView(returnedTreeView.getId());
         testStatementTreeView(retrievedUpdatedTreeView);
+        
+        StatusInfo status = statementService.deleteStatementTreeView(retrievedUpdatedTreeView.getId());
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getStatements().get(0).getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
+        try{
+        	statementService.getStatementTreeView(returnedTreeView.getStatements().get(1).getId());
+        	assertTrue(false);
+        }catch(DoesNotExistException e){
+        	assertTrue(true);
+        }
     }
 
     private void testStatementTreeView(StatementTreeViewInfo treeView) {
@@ -1395,24 +1414,28 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 	private ReqComponentInfo createBadReqComponent1() {
 		ReqComponentInfo reqCompInfo = new ReqComponentInfo();
-		reqCompInfo.setId("REQCOMP-NL-X");
+//		reqCompInfo.setId("REQCOMP-NL-X");
+		reqCompInfo.setId("1234567890123456789012345678901234567890");
 		reqCompInfo.setType("kuali.reqComponent.type.courseList.nof");
 		reqCompInfo.setState("active");
 
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-		field1.setId(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
+		field1.setId("1234567890123456789012345678901234567890");
+		field1.setType(ReqComponentFieldTypes.REQUIRED_COUNT_KEY.getType());
 		field1.setValue("-1");
 		fieldList.add(field1);
 
 		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-		field2.setId(ReqComponentFieldTypes.OPERATOR_KEY.getType());
+		field2.setId("2");
+		field2.setType(ReqComponentFieldTypes.OPERATOR_KEY.getType());
 		field2.setValue("greater_than_or_equal_to42");
 		fieldList.add(field2);
 
 		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
-		field3.setId(ReqComponentFieldTypes.CLUSET_KEY.getType());
+		field3.setId("3");
+		field3.setType(ReqComponentFieldTypes.CLUSET_KEY.getType());
 		field3.setValue("CLUSET-NL-Y");
 		fieldList.add(field3);
 
@@ -1421,11 +1444,18 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	}
 
     @Test
+    // TODO: This should test valid ReqCompFieldInfo types and values, too
     public void testValidateReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	ReqComponentInfo reqInfo = createBadReqComponent1();
     	List<ValidationResultInfo> resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
-    	assertNotNull(resultInfo);
-    	assertEquals(2, resultInfo.size());
+
+	   	assertNotNull(resultInfo);
+//     System.out.println (resultInfo.size () + " errors");
+//     for (ValidationResultInfo vri: resultInfo)
+//     {
+//      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
+//     }
+    	assertEquals(4, resultInfo.size());
 
     	reqInfo = new ReqComponentInfo();
     	resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
@@ -1434,6 +1464,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	reqInfo = createReqComponent1();
     	resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
     	assertNotNull(resultInfo);
+     System.out.println (resultInfo.size () + " errors");
+     for (ValidationResultInfo vri: resultInfo)
+     {
+      System.out.println (vri.getErrorLevel () + " " + vri.getElement () + " " + vri.getMessage ());
+     }
     	assertEquals(0, resultInfo.size());
     }
 
@@ -1446,4 +1481,36 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertNotNull(resultInfo);
 		assertEquals(0, resultInfo.size());
     }
+
+	@Test
+	public void testSearchForCluInReqComponentTypes() throws Exception {
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("stmt.search.cluInReqComponent");
+
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        SearchParam searchParam1 = new SearchParam();
+        searchParam1.setKey("stmt.queryParam.reqComponentFieldType");
+        searchParam1.setValue("kuali.reqComponent.field.type.clu.id");
+        queryParamValues.add(searchParam1);
+
+        SearchParam searchParam2 = new SearchParam();
+        searchParam2.setKey("stmt.queryParam.reqComponentFieldValue");
+        searchParam2.setValue("CLU-NL-3");
+        queryParamValues.add(searchParam2);
+        
+		searchRequest.setParams(queryParamValues);
+		SearchResult result = statementService.search(searchRequest);
+		List<SearchResultCell> resultRow1Columns = result.getRows().get(0).getCells();
+		List<SearchResultCell> resultRow2Columns = result.getRows().get(1).getCells();
+
+		assertEquals(2, result.getRows().size());
+		assertEquals("REQCOMP-NL-3", resultRow1Columns.get(0).getValue());
+		assertEquals("REQCOMP-NL-5", resultRow2Columns.get(0).getValue());
+		assertEquals("kuali.reqComponent.type.courseList.1of1", resultRow2Columns.get(1).getValue());
+		assertEquals("One required course", resultRow2Columns.get(2).getValue());
+		assertEquals("Student must have completed <kuali.reqComponent.field.type.clu.id>", resultRow2Columns.get(3).getValue());
+		assertEquals("kuali.statement.type.course.academicReadiness.prereq", resultRow2Columns.get(4).getValue());
+		assertEquals("Academic Readiness Pre Reqs", resultRow2Columns.get(5).getValue());
+		assertEquals("Pre req rules used in the evaluation of a person's academic readiness for enrollment in a LU.", resultRow2Columns.get(6).getValue());
+	}
 }

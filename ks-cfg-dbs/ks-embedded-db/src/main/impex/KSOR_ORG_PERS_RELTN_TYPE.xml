@@ -3,57 +3,101 @@
 <dataset>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
         NAME="Administrative Assistant"
-        TYPE_DESC="Administrative Assistant" TYPE_KEY="kuali.org.PersonRelation.AdminAssistant"/>
+        OBJ_ID="1A0236645C3146D5B00F65A2BBA56632"
+        TYPE_DESC="Administrative Assistant"
+        TYPE_KEY="kuali.org.PersonRelation.AdminAssistant" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Administrative Member" TYPE_DESC="Administrative Member" TYPE_KEY="kuali.org.PersonRelation.AdminMember"/>
+        NAME="Administrative Member"
+        OBJ_ID="FB0770F1110644BF872B953BD494F898"
+        TYPE_DESC="Administrative Member"
+        TYPE_KEY="kuali.org.PersonRelation.AdminMember" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Administrative Officer" TYPE_DESC="Administrative Officer" TYPE_KEY="kuali.org.PersonRelation.AdministrativeOfficer"/>
+        NAME="Administrative Officer"
+        OBJ_ID="6CB844F31E764188A44014DE2C6797D6"
+        TYPE_DESC="Administrative Officer"
+        TYPE_KEY="kuali.org.PersonRelation.AdministrativeOfficer" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Associate Dean" TYPE_DESC="Associate Dean" TYPE_KEY="kuali.org.PersonRelation.AssocDean"/>
+        NAME="Associate Dean" OBJ_ID="077692A566804315BB7660326F63E1F9"
+        TYPE_DESC="Associate Dean"
+        TYPE_KEY="kuali.org.PersonRelation.AssocDean" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Associate Provost" TYPE_DESC="Associate Provost" TYPE_KEY="kuali.org.PersonRelation.AssocProvost"/>
+        NAME="Associate Provost"
+        OBJ_ID="8F160D43C92C4746A7911B7D41378F5F"
+        TYPE_DESC="Associate Provost"
+        TYPE_KEY="kuali.org.PersonRelation.AssocProvost" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Associate Registrar" TYPE_DESC="Associate Registrar" TYPE_KEY="kuali.org.PersonRelation.AssocRegistrar"/>
+        NAME="Associate Registrar"
+        OBJ_ID="5C78C4ADF2B94F7CB2B27EFFD9560268"
+        TYPE_DESC="Associate Registrar"
+        TYPE_KEY="kuali.org.PersonRelation.AssocRegistrar" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Chair"
-        TYPE_DESC="Chair" TYPE_KEY="kuali.org.PersonRelation.Chair"/>
+        OBJ_ID="79D96ECC804244A3BB50A31EBEE557FD" TYPE_DESC="Chair"
+        TYPE_KEY="kuali.org.PersonRelation.Chair" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Chancellor"
-        TYPE_DESC="Chancellor" TYPE_KEY="kuali.org.PersonRelation.Chancellor"/>
+        OBJ_ID="DE8B72325EA841939F89EBE0A24D8A3A" TYPE_DESC="Chancellor"
+        TYPE_KEY="kuali.org.PersonRelation.Chancellor" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Co-Chair"
-        TYPE_DESC="Co-Chair" TYPE_KEY="kuali.org.PersonRelation.Co-Chair"/>
+        OBJ_ID="EFF0E7B63AC74A699A576A634757D311" TYPE_DESC="Co-Chair"
+        TYPE_KEY="kuali.org.PersonRelation.Co-Chair" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Coordinator"
-        TYPE_DESC="Coordinator" TYPE_KEY="kuali.org.PersonRelation.Coordinator"/>
+        OBJ_ID="91EDD73D88644CC68304CD81B4C70ADD"
+        TYPE_DESC="Coordinator"
+        TYPE_KEY="kuali.org.PersonRelation.Coordinator" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Dean"
-        TYPE_DESC="Dean" TYPE_KEY="kuali.org.PersonRelation.Dean"/>
+        OBJ_ID="A49B227E87AA47E5973F4EE69A3D9839" TYPE_DESC="Dean"
+        TYPE_KEY="kuali.org.PersonRelation.Dean" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Director"
-        TYPE_DESC="Director" TYPE_KEY="kuali.org.PersonRelation.Director"/>
+        OBJ_ID="7583E322EDE14ED8AA5DF0BE6625E754" TYPE_DESC="Director"
+        TYPE_KEY="kuali.org.PersonRelation.Director" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
         NAME="Executive Vice President and Provost"
-        TYPE_DESC="Executive VP and Provost" TYPE_KEY="kuali.org.PersonRelation.EVPP"/>
+        OBJ_ID="DDBFC3787030436D89F3C895C1B29399"
+        TYPE_DESC="Executive VP and Provost"
+        TYPE_KEY="kuali.org.PersonRelation.EVPP" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Ex-Officio Member" TYPE_DESC="Ex-Officio Member" TYPE_KEY="kuali.org.PersonRelation.Ex-Officio"/>
+        NAME="Ex-Officio Member"
+        OBJ_ID="BCB77E77428F458F8204F7B7006D90CB"
+        TYPE_DESC="Ex-Officio Member"
+        TYPE_KEY="kuali.org.PersonRelation.Ex-Officio" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Executive Officer" TYPE_DESC="Executive Officer" TYPE_KEY="kuali.org.PersonRelation.ExecutiveOfficer"/>
+        NAME="Executive Officer"
+        OBJ_ID="3923BB72EB1B494A8D3847078B286A43"
+        TYPE_DESC="Executive Officer"
+        TYPE_KEY="kuali.org.PersonRelation.ExecutiveOfficer" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Head"
-        TYPE_DESC="Head" TYPE_KEY="kuali.org.PersonRelation.Head"/>
+        OBJ_ID="6743FE59F5F349978C863711EB3FAA2F" TYPE_DESC="Head"
+        TYPE_KEY="kuali.org.PersonRelation.Head" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Member"
-        TYPE_DESC="Member" TYPE_KEY="kuali.org.PersonRelation.Member"/>
+        OBJ_ID="2C1166B0CC1E461DBAD8B5BA70742F99" TYPE_DESC="Member"
+        TYPE_KEY="kuali.org.PersonRelation.Member" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Officer"
-        TYPE_DESC="Officer" TYPE_KEY="kuali.org.PersonRelation.Officer"/>
+        OBJ_ID="B1C44C3014DD4151BBB11FA61E6508B2" TYPE_DESC="Officer"
+        TYPE_KEY="kuali.org.PersonRelation.Officer" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="President"
-        TYPE_DESC="President" TYPE_KEY="kuali.org.PersonRelation.President"/>
+        OBJ_ID="BF4407B314BB4B7B96781027897CF8D2" TYPE_DESC="President"
+        TYPE_KEY="kuali.org.PersonRelation.President" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Professor"
-        TYPE_DESC="Professor" TYPE_KEY="kuali.org.PersonRelation.Professor"/>
+        OBJ_ID="55A6EDCA21E84DB79C13FD9E79D8D452" TYPE_DESC="Professor"
+        TYPE_KEY="kuali.org.PersonRelation.Professor" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Registrar"
-        TYPE_DESC="Registrar" TYPE_KEY="kuali.org.PersonRelation.Registrar"/>
+        OBJ_ID="24F2940C11704AA8A35B8185E0B8BF43" TYPE_DESC="Registrar"
+        TYPE_KEY="kuali.org.PersonRelation.Registrar" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Representative"
-        TYPE_DESC="Representative of a constituency" TYPE_KEY="kuali.org.PersonRelation.Rep"/>
+        NAME="Representative" OBJ_ID="B813BB1513874D7CA461B72F9C27D09E"
+        TYPE_DESC="Representative of a constituency"
+        TYPE_KEY="kuali.org.PersonRelation.Rep" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Secretary"
-        TYPE_DESC="Secretary" TYPE_KEY="kuali.org.PersonRelation.Secretary"/>
+        OBJ_ID="19320F501D1446EE867578B384213AB0" TYPE_DESC="Secretary"
+        TYPE_KEY="kuali.org.PersonRelation.Secretary" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Treasurer"
-        TYPE_DESC="Treasurer" TYPE_KEY="kuali.org.PersonRelation.Treasurer"/>
+        OBJ_ID="D106D34A0C924BA2919F3005F8D96C1D" TYPE_DESC="Treasurer"
+        TYPE_KEY="kuali.org.PersonRelation.Treasurer" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Vice Chancellor" TYPE_DESC="Vice Chancellor" TYPE_KEY="kuali.org.PersonRelation.ViceChancellor"/>
+        NAME="Vice Chancellor" OBJ_ID="29C08C5296A94160AA83A168A816B995"
+        TYPE_DESC="Vice Chancellor"
+        TYPE_KEY="kuali.org.PersonRelation.ViceChancellor" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Vice President" TYPE_DESC="Vice President" TYPE_KEY="kuali.org.PersonRelation.VicePresident"/>
+        NAME="Vice President" OBJ_ID="63A88C5D97374651B58E0230ED957414"
+        TYPE_DESC="Vice President"
+        TYPE_KEY="kuali.org.PersonRelation.VicePresident" VER_NBR="0"/>
 </dataset>

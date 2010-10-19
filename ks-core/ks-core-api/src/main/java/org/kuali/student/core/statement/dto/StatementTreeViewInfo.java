@@ -29,14 +29,6 @@ public class StatementTreeViewInfo extends AbstractStatementInfo {
     @XmlElement
     private List<ReqComponentInfo> reqComponents;
 
-    /**
-     * <code>naturalLanguageTranslation</code> element is a read-only
-     * element which is generated on-the-fly and should not be persisted.
-     */
-    @XmlElement
-    private String naturalLanguageTranslation;
-
-
     public List<StatementTreeViewInfo> getStatements() {
     	if (this.statements == null) {
     		this.statements = new ArrayList<StatementTreeViewInfo>(0);
@@ -58,15 +50,6 @@ public class StatementTreeViewInfo extends AbstractStatementInfo {
     public void setReqComponents(List<ReqComponentInfo> reqComponents) {
         this.reqComponents = reqComponents;
     }
-
-
-	public String getNaturalLanguageTranslation() {
-		return naturalLanguageTranslation;
-	}
-
-	public void setNaturalLanguageTranslation(String naturalLanguageTranslation) {
-		this.naturalLanguageTranslation = naturalLanguageTranslation;
-	}
 
 	@Override
 	public String toString() {

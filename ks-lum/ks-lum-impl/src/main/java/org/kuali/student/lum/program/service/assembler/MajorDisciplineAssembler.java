@@ -77,8 +77,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
         if (!shallowBuild) {
             mdInfo.setCredentialProgramId(programAssemblerUtils.getCredentialProgramID(clu.getId()));
-            mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId(), ProgramAssemblerConstants.CERTIFICATE_RESULTS));
-            mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLearningObjectives(clu.getId(), shallowBuild));
+            mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
+            mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
             mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
         }
@@ -145,7 +145,10 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.disassembleAtps(clu, major, operation);
         programAssemblerUtils.disassembleIdentifiers(clu, major, operation);
         programAssemblerUtils.disassemblePublicationInfo(clu, major, operation);
-
+        
+        if(major.getProgramRequirements() != null && !major.getProgramRequirements().isEmpty()) {
+        	programAssemblerUtils.disassembleRequirements(clu, major, operation, result);
+        }
 
         if (major.getVariations() != null && !major.getVariations().isEmpty()) {
             try {
@@ -179,7 +182,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         clu.setCampusLocations(major.getCampusLocations());
         clu.setDescr(major.getDescr());
 
-        //TODO programRequirements
         clu.setAccreditations(major.getAccreditingAgencies());
 
 		// Add the Clu to the result
@@ -203,10 +205,12 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     private void disassembleResultOptions(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
-        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
+        //TODO Check for ProgramAssemblerConstants.CERTIFICATE_RESULTS too
+        
+        BaseDTOAssemblyNode<?, ?> degreeResults = cluAssemblerUtils.disassembleCluResults(
                 major.getId(), major.getState(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
-        if (resultOptions != null) {
-            result.getChildNodes().add(resultOptions);           
+        if (degreeResults != null) {
+            result.getChildNodes().add(degreeResults);
         }
     }
 

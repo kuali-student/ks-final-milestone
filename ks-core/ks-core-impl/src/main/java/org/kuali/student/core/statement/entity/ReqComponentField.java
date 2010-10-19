@@ -17,42 +17,20 @@ package org.kuali.student.core.statement.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name="KSST_REQ_COM_FIELD")
-public class ReqComponentField {
+public class ReqComponentField extends BaseEntity{
 
-	@Id
-	@Column(name = "ID")
-	private String id;
-	
     @Column(name="REQ_COM_FIELD_TYPE")
     private String type;
 
     @Column(name="VALUE")
     private String value;
-    
-    /**
-     * AutoGenerate the Id
-     */
-    @PrePersist
-    public void prePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-    
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+   
     public String getType() {
         return type;
     }
@@ -71,7 +49,7 @@ public class ReqComponentField {
 
 	@Override
 	public String toString() {
-		return "ReqComponentField[id=" + id + ", type=" + type + ", value="
+		return "ReqComponentField[id=" + getId() + ", type=" + type + ", value="
 				+ value + "]";
 	}
 }

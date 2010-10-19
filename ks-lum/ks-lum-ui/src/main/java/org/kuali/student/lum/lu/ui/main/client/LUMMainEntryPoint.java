@@ -26,8 +26,10 @@ import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.BrowserUtils;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.messages.dto.MessageList;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
 import org.kuali.student.lum.lu.ui.main.client.widgets.ApplicationHeader;
@@ -60,6 +62,7 @@ public class LUMMainEntryPoint implements EntryPoint{
 
     private void initScreen(){
         manager = new ApplicationController("KualiStudent", new ApplicationHeader());
+        WindowTitleUtils.setApplicationTitle(Application.getApplicationContext().getMessage("applicationName"));
         ApplicationPanel.get().add(manager);
         HistoryManager.bind(manager, locations);
         BreadcrumbManager.bind(manager);

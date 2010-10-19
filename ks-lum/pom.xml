@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student</groupId>
         <artifactId>student</artifactId>
-        <version>1.1.0-ver-M8-SNAPSHOT</version>
+        <version>1.1.0-M9-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
@@ -18,6 +18,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+                <module>ks-lum-sql</module>
                 <module>ks-lum-api</module>
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>
@@ -30,6 +31,7 @@
         <profile>
             <id>embedded-only-war</id>
             <modules>
+                <module>ks-lum-sql</module>
                 <module>ks-lum-api</module>
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>
@@ -41,6 +43,7 @@
         <profile>
             <id>standalone-only-wars</id>
             <modules>
+                <module>ks-lum-sql</module>
                 <module>ks-lum-api</module>
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>
@@ -52,6 +55,7 @@
         <profile>
             <id>skip-lum-war</id>
             <modules>
+                <module>ks-lum-sql</module>
                 <module>ks-lum-api</module>
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>
@@ -63,6 +67,7 @@
         <profile>
             <id>skip-developer-wars</id>
             <modules>
+                <module>ks-lum-sql</module>
                 <module>ks-lum-api</module>
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>
@@ -74,6 +79,7 @@
         <profile>
             <id>skip-all-wars</id>
             <modules>
+                <module>ks-lum-sql</module>
                 <module>ks-lum-api</module>
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>

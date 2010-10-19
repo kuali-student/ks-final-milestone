@@ -65,9 +65,6 @@ public abstract class AbstractStatementInfo implements Serializable, Idable, Has
     @XmlAttribute
     private String id;
 
-    @XmlAttribute
-    private String parentId;
-
     /**
      * Friendly name for the LU statement.
      */
@@ -157,14 +154,6 @@ public abstract class AbstractStatementInfo implements Serializable, Idable, Has
 
     public void setId(String id) {
         this.id = id;
-    }
-
-	public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
     }
 
     @Override

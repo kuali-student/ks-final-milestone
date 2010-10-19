@@ -21,18 +21,15 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -51,10 +48,6 @@ import org.kuali.student.core.entity.MetaEntity;
         @NamedQuery(name = "Comment.getCommentsByRefId", query="SELECT comment FROM Comment comment JOIN comment.reference r1 WHERE r1.referenceId =:refId")})
 public class Comment extends MetaEntity implements AttributeOwner<CommentAttribute> {
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @Column(name = "ID")
-    private String id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
@@ -81,28 +74,6 @@ public class Comment extends MetaEntity implements AttributeOwner<CommentAttribu
 
     @Column(name = "STATE")
     private String state;
-
-    /**
-     * AutoGenerate the Id
-     */
-    @PrePersist
-    public void beforePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * @return the commentText

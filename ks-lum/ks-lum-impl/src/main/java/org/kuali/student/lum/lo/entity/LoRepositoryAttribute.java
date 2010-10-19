@@ -27,7 +27,7 @@ import org.kuali.student.core.entity.Attribute;
  *
  */
 @Entity
-@Table(name = "KSLU_LO_REPOSITORY_ATTR")
+@Table(name = "KSLO_LO_REPOSITORY_ATTR")
 public class LoRepositoryAttribute extends Attribute<LoRepository> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

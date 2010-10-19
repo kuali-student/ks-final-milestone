@@ -15,12 +15,7 @@
 
 package org.kuali.student.lum.lu.ui.course.client.service;
 
-import org.kuali.student.core.assembly.data.Data;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface CreditCourseProposalRpcServiceAsync extends CourseRpcServiceAsync{
-
-    public void getNewProposalWithCopyOfClu(String cluId, AsyncCallback<Data> callback);
 
 }

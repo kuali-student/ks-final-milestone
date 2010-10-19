@@ -23,8 +23,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
@@ -63,6 +63,7 @@ import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
+import org.springframework.util.StringUtils;
 /**
  * Assembler for CourseInfo. Provides assemble and disassemble operation on
  * CourseInfo from/to CluInfo and other base DTOs
@@ -90,12 +91,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Copy all the data from the clu to the course
 		
-
 		course.setAttributes(clu.getAttributes());
 		course.setCampusLocations(clu.getCampusLocations());
 		course.setCode(clu.getOfficialIdentifier().getCode());
 		course.setCourseNumberSuffix(clu.getOfficialIdentifier()
 				.getSuffixCode());
+		course.setLevel(clu.getOfficialIdentifier().getLevel());
 		course.setOutOfClassHours(clu.getIntensity());
 		course.setInstructors(clu.getInstructors());
 		course.setStartTerm(clu.getExpectedFirstAtp());
@@ -111,11 +112,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		course.setVariations(variations);
 		
 //		course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
-		if(course.getAdministeringOrgs()==null){
-			course.setAdministeringOrgs(new ArrayList<String>());
+		if(course.getUnitsDeployment()==null){
+			course.setUnitsDeployment(new ArrayList<String>());
 		}
-		if(course.getCurriculumOversightOrgs()==null){
-			course.setCurriculumOversightOrgs(new ArrayList<String>());
+		if(course.getUnitsContentOwner()==null){
+			course.setUnitsContentOwner(new ArrayList<String>());
 		}
 		List<String> courseAdminOrgs = new ArrayList<String>();
 		List<String> courseSubjectOrgs = new ArrayList<String>();
@@ -127,8 +128,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				courseSubjectOrgs.add(adminOrg.getOrgId());
 			}
 		}
-		course.setAdministeringOrgs(courseAdminOrgs);
-		course.setCurriculumOversightOrgs(courseSubjectOrgs);
+		course.setUnitsDeployment(courseAdminOrgs);
+		course.setUnitsContentOwner(courseSubjectOrgs);
 		course.setDescr(clu.getDescr());
 		course.setDuration(clu.getStdDuration());
 		course.setEffectiveDate(clu.getEffectiveDate());
@@ -259,7 +260,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 			
 			//Learning Objectives
-            course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLearningObjectives(course.getId(), shallowBuild));
+            course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLos(course.getId(), shallowBuild));
 			
 		}
 
@@ -316,6 +317,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			identifier.setCode(null);
 		}
 		
+		//Custom logic to set the level
+		if(StringUtils.hasText(course.getLevel())) {
+		    identifier.setLevel(course.getLevel());
+		} else if(course.getCourseNumberSuffix()!=null&&course.getCourseNumberSuffix().length()>=3){
+			identifier.setLevel(course.getCourseNumberSuffix().substring(0, 1)+"00");
+		}
+		
 		clu.setOfficialIdentifier(identifier);
 
 		clu.setAdminOrgs(new ArrayList<AdminOrgInfo>());
@@ -352,15 +360,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setSuffixCode(crossListing.getCourseNumberSuffix());
 			cluIdentifier.setDivision(crossListing.getSubjectArea());
 			cluIdentifier.setState(course.getState());
+			cluIdentifier.setOrgId(crossListing.getDepartment());
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
 
 		List<AdminOrgInfo> adminOrgInfos = new ArrayList<AdminOrgInfo>();
-		for(String org:course.getAdministeringOrgs()){
-//			if(org.getType().equals(CourseAssemblerConstants.ADMIN_ORG)){
-//				adminOrgInfos.add(org);
-//			}
-			//This is a temporary fix because list type in CourseInfo is changed from AdminOrgInfo to String
+		for(String org:course.getUnitsDeployment()){
 			AdminOrgInfo adminOrg = new AdminOrgInfo();
 			adminOrg.setType(CourseAssemblerConstants.ADMIN_ORG);
 			adminOrg.setOrgId(org);
@@ -369,10 +374,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.getAdminOrgs().addAll(adminOrgInfos);
 		
 		List<AdminOrgInfo> subjectOrgs = new ArrayList<AdminOrgInfo>();
-		for (String subOrg : course.getCurriculumOversightOrgs()) {
-//			if(subOrg.getType().equals(CourseAssemblerConstants.SUBJECT_ORG)){
-//				subjectOrgs.add(subOrg);
-//			}
+		for (String subOrg : course.getUnitsContentOwner()) {
 			AdminOrgInfo subjectOrg = new AdminOrgInfo();
 			subjectOrg.setType(CourseAssemblerConstants.SUBJECT_ORG);
 			subjectOrg.setOrgId(subOrg);
@@ -1073,6 +1075,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					crosslisting.setType(cluIdent.getType());
 					crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
 					crosslisting.setSubjectArea(cluIdent.getDivision());
+					crosslisting.setDepartment(cluIdent.getOrgId());
 					crossListings.add(crosslisting);
 				}
 			}
@@ -1090,7 +1093,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Get the current joints and put them in a map of joint id/relation
 		// id
-		Set<String> currentJointIds = new HashSet<String>();
+		Map<String, CluCluRelationInfo> currentJointIds = new HashMap<String, CluCluRelationInfo>();
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
@@ -1099,7 +1102,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				for (CluCluRelationInfo jointRelation : jointRelationships) {
 					if (CourseAssemblerConstants.JOINT_RELATION_TYPE
 							.equals(jointRelation.getType())) {
-						currentJointIds.add(jointRelation.getId());
+						currentJointIds.put(jointRelation.getId(),jointRelation);
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -1117,10 +1120,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 			// If this is a course create then all joints will be created
 			if (NodeOperation.UPDATE.equals(operation) && joint.getRelationId() != null
-					&& currentJointIds.contains(joint.getRelationId())) {
+					&& currentJointIds.containsKey(joint.getRelationId())) {
 				// remove this entry from the map so we can tell what needs to
 				// be deleted at the end
-				currentJointIds.remove(joint.getRelationId());
+				CluCluRelationInfo relation = currentJointIds.remove(joint.getRelationId());
+				relation.setRelatedCluId(joint.getCourseId());
+				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(courseJointAssembler);
+				jointNode.setBusinessDTORef(joint);
+				jointNode.setNodeData(relation);
+				jointNode.setOperation(NodeOperation.UPDATE);
+				results.add(jointNode);
 			} else if (!NodeOperation.DELETE.equals(operation)) {
 				// the joint does not exist, so create cluclurelation
 				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = courseJointAssembler
@@ -1132,7 +1141,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         // Now any leftover joint ids are no longer needed, so delete
         // joint relations
-        for (String id : currentJointIds) {
+        for (String id : currentJointIds.keySet()) {
             // Create a new relation with the id of the relation we want to
             // delete
             CluCluRelationInfo relationToDelete = new CluCluRelationInfo();

@@ -30,7 +30,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
  * information. <code>$cluSet</code> is this class.
  * <p>
  * Example:
- * <code>"Student must have completed $value of $cluSet.getCluSetAsShortName()"</code>
+ * <code>"Student must have completed $intValue of $cluSet.getCluSetAsShortName()"</code>
  * </p>
  * 
  * {@link CluSetInfo} wrapper class.

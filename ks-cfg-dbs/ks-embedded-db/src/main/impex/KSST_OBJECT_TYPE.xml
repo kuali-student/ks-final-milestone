@@ -2,5 +2,12 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_OBJECT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
-        NAME="Kuali CLU" TYPE_DESC="Kuali CLU" TYPE_KEY="clu"/>
+        NAME="Kuali CLU" TYPE_DESC="Kuali CLU" TYPE_KEY="clu" VER_NBR="0"/>
+    <KSST_OBJECT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Kuali CLU"
+        TYPE_DESC="An course offered for academic credit"
+        TYPE_KEY="kuali.lu.type.CreditCourse" VER_NBR="0"/>
+    <KSST_OBJECT_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Kuali CLU" TYPE_DESC="Program requirements"
+        TYPE_KEY="kuali.lu.type.Requirement" VER_NBR="0"/>
 </dataset>

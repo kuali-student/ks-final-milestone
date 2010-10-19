@@ -326,12 +326,12 @@
     </bean>
 
 <!--
-    <bean id="luClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
     </bean>
 
-    <bean id="proposalClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
     </bean>
@@ -375,13 +375,15 @@
         <property name="statementDao" ref="statementDao"/>
     </bean>
 
-    <bean id="statementServiceImpl"
+    <bean id="statementService"
         class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="lumDictionary" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService" />
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
+		<property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validator" ref="businessServiceValidator"/>        
         <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
     </bean>
 
@@ -493,11 +495,10 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
     <bean name="programRequirementAssembler" class="org.kuali.student.lum.program.service.impl.ProgramRequirementAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
+        <property name="statementService" ref="statementService"/>
         <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/>
         <property name="luService" ref="luServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
@@ -518,6 +519,7 @@
  	<bean id="credentialProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="luService" ref="luServiceImpl"/>
     </bean>
 
@@ -544,7 +546,7 @@
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
         <property name="luService" ref="luServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
-        <property name="statementService" ref="statementServiceImpl"/>
+        <property name="statementService" ref="statementService"/>
     </bean>
 
     <bean id="cluAssemblerUtils"
@@ -569,6 +571,7 @@
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
-        <property name="statementService" ref="statementServiceImpl"/>
+        <!--property name="statementService" ref="statementService"/-->
+        <property name="atpService" ref="atpServiceImpl"/>
     </bean>
 </beans>

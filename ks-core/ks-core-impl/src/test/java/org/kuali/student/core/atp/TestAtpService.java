@@ -16,6 +16,7 @@
 package org.kuali.student.core.atp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
@@ -123,8 +124,12 @@ public class TestAtpService extends AbstractServiceTest {
 		atpInfo.getDesc().setFormatted("Atp for fall 2008 semester");
 		atpInfo.getDesc().setPlain("Atp for fall 2008 semester");
 		atpInfo.setName("Fall 2008 Semester");
-		atpInfo.setEffectiveDate(new Date());
-		atpInfo.setExpirationDate(new Date());
+		atpInfo.setStartDate(new Date());
+		atpInfo.setEndDate(new Date());
+		
+		Date stDate = atpInfo.getStartDate();
+		Date enDate = atpInfo.getEndDate();
+		
 		atpInfo.setState("new");
 		
 		atpInfo.getAttributes().put(atpAttribute_notes, "Notes for the Fall 2008 Semester");
@@ -136,6 +141,9 @@ public class TestAtpService extends AbstractServiceTest {
 			LOG.error(e);
 			fail();
 		}
+		
+		assertTrue(stDate.equals(createdAtp.getStartDate()));
+		assertTrue(enDate.equals(createdAtp.getEndDate()));
 		
 		//Make a DateRange
 		DateRangeInfo dateRangeInfo=new DateRangeInfo();

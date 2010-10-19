@@ -57,8 +57,8 @@ public interface CreditCourseConstants
 	public static final String TYPE = "type";
 	public static final String EFFECTIVE_DATE = "effectiveDate";
 	public static final String EXPIRATION_DATE = "expirationDate";
-	public static final String CURRICULUM_OVERSIGHT_ORGS_ = "curriculumOversightOrgs";
-	public static final String ADMIN_ORGS = "administeringOrgs";
+	public static final String CURRICULUM_OVERSIGHT_ORGS_ = "unitsContentOwner";
+	public static final String ADMIN_ORGS = "unitsDeployment";
 	public static final String CAMPUS_LOCATIONS = "campusLocations";
 	public static final String PRIMARY_INSTRUCTOR = "primaryInstructor";
 	public static final String INSTRUCTORS = "instructors";

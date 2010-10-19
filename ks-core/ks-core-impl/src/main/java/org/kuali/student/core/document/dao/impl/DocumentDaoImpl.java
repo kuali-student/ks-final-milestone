@@ -21,12 +21,14 @@ import java.util.ListIterator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;
+import org.kuali.student.core.document.entity.RefDocRelation;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 
 /**
@@ -102,5 +104,25 @@ public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements Do
         update(document);
         return true;
     }
+
+	@Override
+	public List<RefDocRelation> getRefDocRelationsByRef(
+			String refObjectTypeKey, String refObjectId) {
+		Query query = em.createNamedQuery("RefDocRelation.getRefDocRelationsByRef");
+		query.setParameter("refObjectTypeKey", refObjectTypeKey);
+		query.setParameter("refObjectId", refObjectId);
+		@SuppressWarnings("unchecked")
+		List<RefDocRelation> resultList = query.getResultList();
+		return resultList;
+	}
+
+	@Override
+	public List<RefDocRelation> getRefDocRelationsByDoc(String documentId) {
+		Query query = em.createNamedQuery("RefDocRelation.getRefDocRelationsByDoc");
+		query.setParameter("documentId", documentId);
+		@SuppressWarnings("unchecked")
+		List<RefDocRelation> resultList = query.getResultList();
+		return resultList;
+	}
 
 }

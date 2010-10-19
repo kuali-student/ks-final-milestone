@@ -22,11 +22,13 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.core.statement.naturallanguage.Context;
 import org.kuali.student.core.statement.naturallanguage.ContextRegistry;
+import org.kuali.student.core.statement.service.impl.StatementAssembler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,10 +38,10 @@ import org.slf4j.LoggerFactory;
  */
 public class ReqComponentTranslator {
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
+	private final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
 
     private String language;
-    private ContextRegistry<Context<ReqComponent>> contextRegistry;
+    private ContextRegistry<Context<ReqComponentInfo>> contextRegistry;
     private TemplateTranslator templateTranslator = new TemplateTranslator();
 
     /**
@@ -64,7 +66,7 @@ public class ReqComponentTranslator {
      *
      * @param contextRegistry Template context registry
      */
-    public void setContextRegistry(final ContextRegistry<Context<ReqComponent>> contextRegistry) {
+    public void setContextRegistry(final ContextRegistry<Context<ReqComponentInfo>> contextRegistry) {
     	this.contextRegistry = contextRegistry;
     }
 
@@ -110,11 +112,18 @@ public class ReqComponentTranslator {
     	}
 
     	ReqComponentType reqComponentType = reqComponent.getRequiredComponentType();
-        Map<String, Object> contextMap = buildContextMap(reqComponent);
+    	ReqComponentInfo reqComponentInfo = StatementAssembler.toReqComponentInfo(reqComponent);
+    	Map<String, Object> contextMap = buildContextMap(reqComponentInfo);
         ReqComponentTypeNLTemplate template = getTemplate(reqComponentType, nlUsageTypeKey, language);
 
         try {
-			return this.templateTranslator.translate(contextMap, template.getTemplate());
+			String nl = this.templateTranslator.translate(contextMap, template.getTemplate());
+
+			if(logger.isInfoEnabled()) {
+    			logger.info("nl="+nl);
+    		}
+
+			return nl;
 		} catch (OperationFailedException e) {
 			String msg = "Generating template for requirement component failed: "+reqComponent;
 			logger.error(msg, e);
@@ -129,17 +138,20 @@ public class ReqComponentTranslator {
      * @throws DoesNotExistException Requirement component context not found in registry
      * @throws OperationFailedException Creating context map failed
      */
-    private Map<String, Object> buildContextMap(ReqComponent reqComponent) throws DoesNotExistException, OperationFailedException {
-    	String reqComponentTypeId = reqComponent.getRequiredComponentType().getId();
-        List<Context<ReqComponent>> contextList = this.contextRegistry.get(reqComponentTypeId);
+    private Map<String, Object> buildContextMap(ReqComponentInfo reqComponent) throws DoesNotExistException, OperationFailedException {
+        List<Context<ReqComponentInfo>> contextList = this.contextRegistry.get(reqComponent.getType());
         if(contextList == null || contextList.isEmpty()) {
-        	throw new DoesNotExistException("Requirement component context not found in registry for requirement component type id: " + reqComponentTypeId);
+        	throw new DoesNotExistException("Requirement component context not found in registry for requirement component type id: " + reqComponent.getType());
         }
         Map<String, Object> contextMap = new HashMap<String, Object>();
-        for(Context<ReqComponent> context : contextList) {
+        for(Context<ReqComponentInfo> context : contextList) {
     		Map<String, Object> cm = context.createContextMap(reqComponent);
     		contextMap.putAll(cm);
     	}
+
+        if(logger.isInfoEnabled()) {
+			logger.info("contextMap="+contextMap);
+		}
 
         return contextMap;
     }
@@ -158,6 +170,11 @@ public class ReqComponentTranslator {
     	List<ReqComponentTypeNLTemplate> templateList = reqComponentType.getNlUsageTemplates();
         for (ReqComponentTypeNLTemplate template : templateList) {
             if (nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
+
+            	if(logger.isInfoEnabled()) {
+        			logger.info("template="+template);
+        		}
+
                 return template;
             }
         }

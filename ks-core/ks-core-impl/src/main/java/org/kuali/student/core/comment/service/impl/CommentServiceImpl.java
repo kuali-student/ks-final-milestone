@@ -356,7 +356,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
 			Comment entity = commentDao.fetch(Comment.class, commentInfo.getId());
-			if (!String.valueOf(entity.getVersionInd()).equals(commentInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(entity.getVersionNumber()).equals(commentInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("ResultComponent to be updated is not the current version");
 			}
 

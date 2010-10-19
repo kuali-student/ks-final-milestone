@@ -24,6 +24,7 @@ import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
 import org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
@@ -136,7 +137,7 @@ public class NaturalLanguageUtil {
     }
 	
     public static ReqComponent createReqComponent(String reqComponentType, List<ReqComponentField> fieldList) {
-    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.RULEEDIT", reqComponentType);
+    	ReqComponentType reqCompType = createDefaultReqComponentType("KUALI.RULE", reqComponentType);
 		
 		ReqComponent reqComp = new ReqComponent();
 		reqComp.setReqComponentFields(fieldList);
@@ -247,20 +248,20 @@ public class NaturalLanguageUtil {
 //		List<StatementTypeHeaderTemplate> headerList = new ArrayList<StatementTypeHeaderTemplate>();
 //		StatementTypeHeaderTemplate header1 = new StatementTypeHeaderTemplate();
 //		header1.setLanguage("en");
-//		header1.setNlUsageTypeKey("KUALI.RULEEDIT");
+//		header1.setNlUsageTypeKey("KUALI.RULE");
 //		header1.setTemplate("Requirement for $clu.getOfficialIdentifier().getLongName(): ");
 //		headerList.add(header1);
 //		StatementTypeHeaderTemplate header2 = new StatementTypeHeaderTemplate();
 //		header2.setLanguage("de");
-//		header2.setNlUsageTypeKey("KUALI.RULEEDIT");
+//		header2.setNlUsageTypeKey("KUALI.RULE");
 //		header2.setTemplate("Voraussetzung fur die $clu.getOfficialIdentifier().getLongName(): ");
 //		headerList.add(header2);
 //		
 //		return headerList;
 //	}
     
-    public static ContextRegistry<Context<ReqComponent>> getReqComponentContextRegistry() {
-    	ContextRegistry<Context<ReqComponent>> contextRegistry = new ContextRegistry<Context<ReqComponent>>();
+    public static ContextRegistry<Context<ReqComponentInfo>> getReqComponentContextRegistry() {
+    	ContextRegistry<Context<ReqComponentInfo>> contextRegistry = new ContextRegistry<Context<ReqComponentInfo>>();
 
     	createData();
     	CourseListContextImpl.setCluInfo(cluList);

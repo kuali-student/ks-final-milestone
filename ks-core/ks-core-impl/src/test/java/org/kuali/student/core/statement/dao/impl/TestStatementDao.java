@@ -66,7 +66,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         assertEquals(createTime.getTime(), refStmtRel.getMeta().getCreateTime());
         assertEquals("UPDATEID", refStmtRel.getMeta().getUpdateId());
         assertEquals(updateTime.getTime(), refStmtRel.getMeta().getUpdateTime());
-        assertEquals(1, refStmtRel.getVersionInd());
+        assertEquals(Long.valueOf(1), refStmtRel.getVersionNumber());
         // Ref object type and object id
         assertEquals("CLU-NL-1", refStmtRel.getRefObjectId());
         assertEquals("clu", refStmtRel.getRefObjectTypeKey());
@@ -161,7 +161,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         
         assertNotNull(nlUsageTypeList);
         assertTrue(nlUsageTypeList.size() > 0);
-        NlUsageType nlUsageType = nlUsageTypeList.get(4);
+        NlUsageType nlUsageType = nlUsageTypeList.get(3);
         assertEquals("KUALI.COURSE.CATALOG", nlUsageType.getId());
         assertEquals("Kuali Course Catalog", nlUsageType.getName());
         assertEquals("Full Kuali Course Catalog", nlUsageType.getDescr());
@@ -205,12 +205,12 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         assertEquals(templates.size(), 3);
         
         ReqComponentTypeNLTemplate template = null;
-        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.RULEEDIT")) {
+        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.RULE")) {
             template = templates.get(0);
         } else {
             template = templates.get(1);
         }
-        assertEquals("KUALI.RULEEDIT", template.getNlUsageTypeKey());
+        assertEquals("KUALI.RULE", template.getNlUsageTypeKey());
         assertTrue(template.getTemplate().startsWith("Student must have completed $expectedValue"));
     }
 
@@ -222,7 +222,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
 //
 //        StatementTypeHeaderTemplate header = templates.get(0);
 //        assertEquals(templates.size(), 2);
-//        assertEquals("KUALI.RULEEDIT", header.getNlUsageTypeKey());
+//        assertEquals("KUALI.RULE", header.getNlUsageTypeKey());
 //        // should the statement header template be "$clu.getLongName()" instead of 
 //        //       "$clu.getOfficialIdentifier().getLongName()"? 
 //        //       in the old test sql file ks-lu.sql it is "$clu.getOfficialIdentifier().getLongName()" 

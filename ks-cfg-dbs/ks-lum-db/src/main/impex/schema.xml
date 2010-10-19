@@ -5212,7 +5212,7 @@
     </table>
     <table name="KSST_REQ_COM_FIELD">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="REQ_COM_FIELD_KEY" size="255" type="VARCHAR"/>
+        <column name="REQ_COM_FIELD_TYPE" size="255" type="VARCHAR"/>
         <column name="VALUE" size="255" type="VARCHAR"/>
     </table>
     <table name="KSST_REQ_COM_FIELD_TYPE">
@@ -5294,17 +5294,26 @@
         <column name="OPERATOR" size="255" type="VARCHAR"/>
         <column name="ST" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <column name="PARENT_STMT_ID" size="255" type="VARCHAR"/>
         <column name="STMT_TYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_STMT" name="FKD96C147E628FF7C1">
-            <reference foreign="ID" local="PARENT_STMT_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="KSST_RICH_TEXT_T" name="FKD96C147E59395123">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSST_STMT_TYPE" name="FKD96C147EB559587">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
+    </table>
+    <table name="KSST_STMT_JN_STMT">
+        <column name="STMT_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="CHLD_STMT_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSST_STMT" name="FK_CHLD_STMT_JN_STMT">
+            <reference foreign="ID" local="CHLD_STMT_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSST_STMT" name="FK_STMT_JN_STMT">
+            <reference foreign="ID" local="STMT_ID"/>
+        </foreign-key>
+        <unique name="STMT_JN_STMT_CHILD_CONSTR">
+            <unique-column name="CHLD_STMT_ID"/>
+        </unique>
     </table>
     <table name="KSST_STMT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>

@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1.0-ver-M8-SNAPSHOT</version>
+    <version>1.1.0-M9-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-db</artifactId>
@@ -24,21 +24,52 @@
       </snapshots>
     </repository>
   </repositories>
-  <modules>
-    <module>ks-embedded-db</module>
-    <module>ks-core-db</module>
-    <module>ks-lum-db</module>
-    <module>ks-rice-db</module>
-    <module>ks-rice-client-db</module>
-    <module>ks-rice-server-db</module>
-  </modules>
+  <properties>
+    <!-- Example values for db specific properties -->
+
+    <!-- Oracle JDBC url's don't contain a database name -->
+    <ks.impex.url.oracle>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.url.oracle>
+    <ks.impex.dba.username.oracle>system</ks.impex.dba.username.oracle>
+    <ks.impex.dba.password.oracle></ks.impex.dba.password.oracle>
+
+    <!-- MySQL JDBC url's do contain a database name -->
+    <ks.impex.url.mysql>jdbc:mysql://localhost/ksembedded</ks.impex.url.mysql>
+    <ks.impex.dba.username.mysql>root</ks.impex.dba.username.mysql>
+    <ks.impex.dba.password.mysql></ks.impex.dba.password.mysql>
+
+    <!-- *** Start REQUIRED properties *** -->
+    <!-- JDBC url -->
+    <ks.impex.url>${ks.impex.url.oracle}</ks.impex.url> 
+    <!-- User with DBA privileges -->
+    <ks.impex.dba.username>${ks.impex.dba.username.oracle}</ks.impex.dba.username>
+    <!-- Password for the DBA user -->
+    <ks.impex.dba.password>${ks.impex.dba.password.oracle}</ks.impex.dba.password>
+    <!-- *** End REQUIRED properties *** -->
+
+    <!-- *** Start OPTIONAL properties *** -->
+    <!-- Platform specific logic generates default values for these if they are not specified -->
+    <!-- A url for connecting directly to the database server ie no database specified -->
+    <ks.impex.server.url></ks.impex.server.url>
+
+    <!-- Aka "schema" for Oracle. This database/schema gets dropped/created by the DBA user-->
+    <ks.impex.database></ks.impex.database>
+    
+    <!-- This is the user the application will connect to the database as. -->
+    <!-- This user gets dropped/created by the DBA user -->
+    <ks.impex.username></ks.impex.username>
+    <ks.impex.password></ks.impex.password>
+
+    <!--  This is the format dates will be exported/imported as -->
+    <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
+    <!-- *** End OPTIONAL properties *** -->
+    
+    <!-- Properties located in the properties file, override POM properties, but not system properties -->
+    <ks.impex.properties>${user.home}/impex.properties</ks.impex.properties>
+  </properties>
   <build>
     <resources>
       <resource>
         <directory>${project.build.directory}/generated-impex</directory>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql</directory>
       </resource>
     </resources>
     <plugins>
@@ -53,62 +84,21 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.kuali.maven.properties</groupId>
-        <artifactId>maven-kuali-properties-plugin</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <configuration>
-          <locations>
-            <param>${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
-            <param>${additional.config.locations}</param>
-          </locations>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.3</version>
         <configuration>
           <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
           <schemaDir>${project.build.directory}/generated-impex</schemaDir>
-          <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}-schema.xml</schemaXMLFile>
-          <trimArtifactId>true</trimArtifactId>
+          <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
+          <dateFormat>${ks.impex.date.format}</dateFormat>
         </configuration>
-        <executions>
-          <execution>
-            <id>morph-xml</id>
-            <goals>
-              <goal>morphschema</goal>
-              <goal>morphdata</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-data-dtd</id>
-            <goals>
-              <goal>datadtd</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-oracle-sql</id>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-            <configuration>
-              <targetDatabase>oracle</targetDatabase>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-mysql-sql</id>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-            <configuration>
-              <targetDatabase>mysql</targetDatabase>
-            </configuration>
-          </execution>
-        </executions>
         <dependencies>
+          <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+          </dependency>
           <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
@@ -118,4 +108,268 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.properties</groupId>
+            <artifactId>maven-properties-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+              <execution>
+                <id>properties</id>
+                <goals>
+                  <goal>properties</goal>
+                </goals>
+                <configuration>
+                  <properties>${ks.impex.properties}</properties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>oracle-sql</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>mysql-sql</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>generate-sql</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>oracle</targetDatabase>
+                </configuration>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+                <configuration>
+                  <targetDatabase>mysql</targetDatabase>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>reset-db</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.properties</groupId>
+            <artifactId>maven-properties-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+              <execution>
+                <id>properties</id>
+                <goals>
+                  <goal>properties</goal>
+                </goals>
+                <configuration>
+                  <properties>${ks.impex.properties}</properties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <configuration>
+              <url>${ks.impex.url}</url>
+              <username>${ks.impex.username}</username>
+              <password>${ks.impex.password}</password>
+            </configuration>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>purge-db</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>drop</goal>
+                  <goal>create</goal>
+                </goals>
+                <configuration>
+                  <serverUrl>${ks.impex.server.url}</serverUrl>
+                  <username>${ks.impex.dba.username}</username>
+                  <password>${ks.impex.dba.password}</password>
+                  <database>${ks.impex.database}</database>
+                  <databaseUsername>${ks.impex.username}</databaseUsername>
+                  <databasePassword>${ks.impex.password}</databasePassword>
+                </configuration>
+              </execution>
+              <execution>
+                <id>import-data</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>import</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <modules>
+    <module>ks-embedded-db</module>
+    <!-- 
+    <module>ks-core-db</module>
+    <module>ks-lum-db</module>
+    <module>ks-rice-db</module>
+    <module>ks-rice-client-db</module>
+    <module>ks-rice-server-db</module>
+     -->
+  </modules>
 </project>

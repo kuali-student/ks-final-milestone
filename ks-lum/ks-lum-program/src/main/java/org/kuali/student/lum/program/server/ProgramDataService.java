@@ -1,10 +1,10 @@
 package org.kuali.student.lum.program.server;
 
+import java.util.Map;
+
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
@@ -46,7 +46,7 @@ public class ProgramDataService extends AbstractDataService {
     }
 
     @Override
-    protected Object save(Object dto) throws Exception {
+    protected Object save(Object dto, Map<String, Object> properties) throws Exception {
     	//TODO Just Major Discipline for now - need to check for other types later
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
@@ -60,11 +60,7 @@ public class ProgramDataService extends AbstractDataService {
             throw new InvalidParameterException("Only persistence of MajorDiscipline is currently implemented");
         }
 
-    }
-
-    public ProgramRequirementInfo getProgramRequirement(String programRequirementId) throws Exception {
-        return programService.getProgramRequirement(programRequirementId, null, null);
-    }    
+    }  
 
     @Override
     protected Class<?> getDtoClass() {

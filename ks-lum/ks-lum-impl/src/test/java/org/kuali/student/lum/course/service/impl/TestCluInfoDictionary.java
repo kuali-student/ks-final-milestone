@@ -24,9 +24,9 @@ public class TestCluInfoDictionary
  @Test
  public void testLoadCluInfoDictionary ()
  {
-  Set<Class<?>> startingClasses = new LinkedHashSet ();
-  startingClasses.add (CluInfo.class);
-  startingClasses.add (CluCluRelationInfo.class);
+  Set<String> startingClasses = new LinkedHashSet ();
+  startingClasses.add (CluInfo.class.getName ());
+//  startingClasses.add (CluCluRelationInfo.class.getName ());
   String contextFile = "ks-cluInfo-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
   DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,

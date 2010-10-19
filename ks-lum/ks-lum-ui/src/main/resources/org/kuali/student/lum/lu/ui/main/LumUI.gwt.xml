@@ -19,7 +19,6 @@
 
 
     <inherits name="org.kuali.student.common.ui.CommonUI"/>
-    <inherits name="org.kuali.student.lum.lu.ui.home.LUMHome"/>
     <inherits name="org.kuali.student.lum.lu.ui.course.Course"/>
     <inherits name="org.kuali.student.lum.lu.ui.tools.Tools"/>
     <inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
@@ -27,9 +26,7 @@
     <inherits name='org.kuali.student.lum.lu.assembly.data.LuData'/>
     <inherits name='org.kuali.student.core.search.Search'/>
 
-    <inherits name="org.kuali.student.lum.program.Program"/>
-    <inherits name="org.kuali.student.lum.course.Course"/>
-    <inherits name="org.kuali.student.lum.program.dto.Dto"/>     
+    <inherits name="org.kuali.student.lum.program.Program"/>     
 
     <!-- Theme                  -->
     <inherits name="org.kuali.student.lum.ui.theme.standard.StandardTheme"/>

@@ -22,7 +22,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -35,7 +34,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -46,10 +44,6 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(c) FROM CluSet c JOIN c.clus clu WHERE c.id = :cluSetId AND clu.id = :cluId")
 })
 public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute> {
-
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "NAME")
 	private String name;
@@ -96,23 +90,7 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
     @Column(name = "REFERENCEABLE")
     private Boolean isReferenceable;
 
-    @Override
-    public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public List<Clu> getClus() {
-		if(clus == null){
-			return new ArrayList<Clu>();
-		}
 		return clus;
 	}
 
@@ -153,9 +131,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public List<CluSet> getCluSets() {
-		if (cluSets == null) {
-			return new ArrayList<CluSet>();
-		}
 		return cluSets;
 	}
 
@@ -164,9 +139,6 @@ public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute
 	}
 
 	public List<CluSetAttribute> getAttributes() {
-		if (attributes == null) {
-			return new ArrayList<CluSetAttribute>();
-		}
 		return attributes;
 	}
 

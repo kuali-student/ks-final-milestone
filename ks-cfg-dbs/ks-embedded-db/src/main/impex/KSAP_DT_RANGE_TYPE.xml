@@ -3,26 +3,41 @@
 <dataset>
     <KSAP_DT_RANGE_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="Advance Registration Period"
-        TYPE_DESC="Advance Registration Period" TYPE_KEY="kuali.atp.DateRange.AdvanceRegistrationPeriod"/>
+        OBJ_ID="C9A3B848EC96470DA86E9487A0662E7F"
+        TYPE_DESC="Advance Registration Period"
+        TYPE_KEY="kuali.atp.DateRange.AdvanceRegistrationPeriod" VER_NBR="0"/>
     <KSAP_DT_RANGE_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="Fall Break"
-        TYPE_DESC="Fall Break" TYPE_KEY="kuali.atp.DateRange.FallBreak"/>
+        OBJ_ID="C784C90C365545D1A973B67EC130FED1" TYPE_DESC="Fall Break"
+        TYPE_KEY="kuali.atp.DateRange.FallBreak" VER_NBR="0"/>
     <KSAP_DT_RANGE_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="Family Weekend"
-        TYPE_DESC="Family Weekend" TYPE_KEY="kuali.atp.DateRange.FamilyWeekend"/>
+        OBJ_ID="E6B7A00F2FB7466A916909D40CB8CD1A"
+        TYPE_DESC="Family Weekend"
+        TYPE_KEY="kuali.atp.DateRange.FamilyWeekend" VER_NBR="0"/>
     <KSAP_DT_RANGE_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="Final Exam Period"
-        TYPE_DESC="Final Examinations" TYPE_KEY="kuali.atp.DateRange.FinalExamPeriod"/>
+        OBJ_ID="7C68763A12D742D195296C216B93DFA9"
+        TYPE_DESC="Final Examinations"
+        TYPE_KEY="kuali.atp.DateRange.FinalExamPeriod" VER_NBR="0"/>
     <KSAP_DT_RANGE_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="New Student Orientation"
-        TYPE_DESC="New Student Orientation" TYPE_KEY="kuali.atp.DateRange.NewStudentOrientation"/>
+        OBJ_ID="95F54004E218409C944A6AF70267ED88"
+        TYPE_DESC="New Student Orientation"
+        TYPE_KEY="kuali.atp.DateRange.NewStudentOrientation" VER_NBR="0"/>
     <KSAP_DT_RANGE_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="Proposal Period"
-        TYPE_DESC="Proposal Period" TYPE_KEY="kuali.atp.DateRange.ProposalPeriod"/>
+        OBJ_ID="0920DC59D6764C4991845FA2979C0EE4"
+        TYPE_DESC="Proposal Period"
+        TYPE_KEY="kuali.atp.DateRange.ProposalPeriod" VER_NBR="0"/>
     <KSAP_DT_RANGE_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="Reading Period"
-        TYPE_DESC="Reading Days" TYPE_KEY="kuali.atp.DateRange.ReadingPeriod"/>
+        OBJ_ID="89042CEF245A45A8AA9C8FF046FC5A97"
+        TYPE_DESC="Reading Days"
+        TYPE_KEY="kuali.atp.DateRange.ReadingPeriod" VER_NBR="0"/>
     <KSAP_DT_RANGE_TYPE EFF_DT="20000101000000"
         EXPIR_DT="21000101000000" NAME="Review Period"
-        TYPE_DESC="Period within which proposal are grouped and reviewed together for approval" TYPE_KEY="kuali.atp.DateRange.ReviewPeriod"/>
+        OBJ_ID="A7658B4571E24684A8E8F96845AC72E0"
+        TYPE_DESC="Period within which proposal are grouped and reviewed together for approval"
+        TYPE_KEY="kuali.atp.DateRange.ReviewPeriod" VER_NBR="0"/>
 </dataset>

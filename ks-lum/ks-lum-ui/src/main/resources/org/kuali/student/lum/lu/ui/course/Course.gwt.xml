@@ -20,15 +20,13 @@
   	<inherits name="org.kuali.student.common.ui.CommonUI"/>
 	<inherits name='org.kuali.student.lum.lu.typekey.Typekey'/>
 	<inherits name='org.kuali.student.core.proposal.Proposal'/>
-    <inherits name='org.kuali.student.lum.lu.Lu'/>
     <inherits name='org.kuali.student.lum.lo.Lo'/>
 	<inherits name='org.kuali.student.core.Core'/>  
 	<inherits name='org.kuali.student.core.search.Search'/>  
 	<inherits name='org.kuali.student.core.workflow.ui.WorkflowUI'/>
+	<inherits name='org.kuali.student.core.comments.ui.CommentsUI'/>
 	<inherits name='org.kuali.student.core.workflow.Workflow'/>
 	<inherits name='org.kuali.student.core.atp.Atp'/>
-	<inherits name='org.kuali.student.lum.ui.requirements.Requirements'/>
-
 	 
 	<!-- <inherits name='org.kuali.student.common.assembly.Assembly'/>
 	<inherits name='org.kuali.student.lum.lu.assembly.data.LuData' />

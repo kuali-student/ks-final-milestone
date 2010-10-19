@@ -3,6 +3,8 @@ package org.kuali.student.lum.course.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.kuali.student.core.dictionary.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
@@ -11,21 +13,30 @@ public class Dictionary2BeanComparer
 {
 
 
- private Class<?> clazz;
+ private String className;
  private ObjectStructureDefinition osDict;
 
- public Dictionary2BeanComparer (Class<?> clazz, ObjectStructureDefinition osDict)
+ public Dictionary2BeanComparer (String className, ObjectStructureDefinition osDict)
  {
-  this.clazz = clazz;
+  this.className = className;
   this.osDict = osDict;
  }
 
  
  public List<String> compare ()
  {
-  if (clazz == null)
+  if (className == null)
   {
    return Arrays.asList (osDict.getName () + " does not have a corresponding java class");
+  }
+  Class<?> clazz = null;
+  try
+  {
+   clazz = Class.forName (className);
+  }
+  catch (ClassNotFoundException ex)
+  {
+   return Arrays.asList (className + " does not have a corresponding java class");
   }
   ObjectStructureDefinition osBean = new Bean2DictionaryConverter (clazz).convert ();
   return compare (osDict, osBean);

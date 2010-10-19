@@ -15,9 +15,14 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 
@@ -45,13 +50,21 @@ public class CourseDataService extends AbstractDataService {
 	}
 
 	@Override
-	protected Object save(Object dto) throws Exception {
+	protected Object save(Object dto, Map<String, Object> properties) throws Exception {
 		CourseInfo courseInfo = (CourseInfo)dto;
-		
-		if (courseInfo.getId() == null){
-			courseInfo = courseService.createCourse(courseInfo);
-		} else {
-			courseInfo = courseService.updateCourse(courseInfo);
+		if(properties!=null&&"kuali.proposal.type.course.modify".equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
+			//For Modify Course, see if we need to create a new version instead of create
+			if(courseInfo.getId() == null){
+				courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
+			}else{
+				courseInfo = courseService.updateCourse(courseInfo);
+			}
+		}else{
+			if (courseInfo.getId() == null){
+				courseInfo = courseService.createCourse(courseInfo);
+			} else {
+				courseInfo = courseService.updateCourse(courseInfo);
+			}
 		}
 		return courseInfo;
 	}
@@ -63,7 +76,7 @@ public class CourseDataService extends AbstractDataService {
 
 	@Override
 	protected String getDefaultWorkflowDocumentType() {
-		return "CluCreditCourseProposal";
+		return "kuali.proposal.type.course.create";
 	}
 
 	@Override
@@ -78,6 +91,17 @@ public class CourseDataService extends AbstractDataService {
 
 	public void setCourseService(CourseService courseService) {
 		this.courseService = courseService;
+	}
+
+	public Data createNewCourseVersion(String courseId, String versionComment) throws OperationFailedException {
+		try {
+			//FIXME calling getData after createNewCourseVersion is inefficient, but we need to have the transformations/filters be applied
+			CourseInfo course = this.courseService.createNewCourseVersion(courseId, versionComment);
+			return getData(course.getId());
+		} catch (Exception e) {
+			throw new OperationFailedException("Error getting data",e);
+		} 
+		
 	}	
 
 }

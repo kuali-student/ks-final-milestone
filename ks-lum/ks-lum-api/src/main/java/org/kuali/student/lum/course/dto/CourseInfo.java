@@ -42,6 +42,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 
 /**
  * Detailed information about a single course.
+ * For specific usage, check the specific service(s) implementation(s)
  *
  * @Author KSContractMojo
  * @Author Daniel Epstein
@@ -59,6 +60,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
     private String courseNumberSuffix;
+
+    @XmlElement
+    private String level;
 
     @XmlElement
     private String courseTitle;
@@ -104,13 +108,13 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
 
-    private List<String> administeringOrgs;  // this is a temp fix. Change it back to list of AdminOrgInfo
+    private List<String> unitsDeployment;  
 
     private RichTextInfo feeJustification;
 
 
     @XmlElement
-    private List<String> curriculumOversightOrgs; // this is a temp fix. Change it back to list of AdminOrgInfo
+    private List<String> unitsContentOwner; 
 
     private List<CourseFeeInfo> fees;
 
@@ -187,6 +191,20 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     public void setCourseNumberSuffix(String courseNumberSuffix) {
         this.courseNumberSuffix = courseNumberSuffix;
+    }
+
+    /**
+     * 
+     * A code that indicates what level 100, 200 or upper division, lower division etc
+     * 
+     * @return
+     */
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     /**
@@ -365,12 +383,13 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public List<String> getAdministeringOrgs() {
-    	if(administeringOrgs == null){
-    		administeringOrgs = new ArrayList<String>(0);
+    public List<String> getUnitsDeployment() {
+    	if(unitsDeployment == null){
+    		unitsDeployment = new ArrayList<String>(0);
     	}
-        return administeringOrgs;
+        return unitsDeployment;
     }
+    
     /**
      * Narrative description of overall course fee justification.
      */
@@ -380,20 +399,22 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
 
-    public void setAdministeringOrgs(List<String> administeringOrgs) {
-        this.administeringOrgs = administeringOrgs;
+    public void setUnitsDeployment(List<String> unitsDeployment) {
+        this.unitsDeployment = unitsDeployment;
     }
+    
     public void setFeeJustification(RichTextInfo feeJustification) {
         this.feeJustification = feeJustification;
 
     }
 
-    public List<String> getCurriculumOversightOrgs() {
-    	if(curriculumOversightOrgs == null){
-    		curriculumOversightOrgs = new ArrayList<String>(0);
+    public List<String> getUnitsContentOwner() {
+    	if(unitsContentOwner == null){
+    		unitsContentOwner = new ArrayList<String>(0);
     	}
-    	return curriculumOversightOrgs;
+    	return unitsContentOwner;
     }
+    
     /**
      * Fees information associated with this Course.
      */
@@ -405,13 +426,12 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     }
 
-
-    public void setCurriculumOversightOrgs(List<String> curriculumOversightOrgs) {
-        this.curriculumOversightOrgs = curriculumOversightOrgs;
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
     }
+    
     public void setFees(List<CourseFeeInfo> fees) {
         this.fees = fees;
-
     }
 
     /**

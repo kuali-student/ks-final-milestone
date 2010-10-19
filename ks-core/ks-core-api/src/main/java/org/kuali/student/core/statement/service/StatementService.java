@@ -21,10 +21,11 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dictionary.service.old.DictionaryService;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -33,10 +34,10 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -621,4 +622,32 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
      */
     public StatementTreeViewInfo updateStatementTreeView(@WebParam(name="statementId")String statementId, @WebParam(name="statementTreeViewInfo")StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+	/**
+	 * Creates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else 
+	 * @param statementTreeViewInfo
+	 * @return Statement tree view
+	 * @throws CircularReferenceException included statement references the current statement
+	 * @throws AlreadyExistsException
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public StatementTreeViewInfo createStatementTreeView(@WebParam(name="statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+	
+	/**
+	 * Deletes the entire statement tree
+	 * @param statementId
+	 * @return Status of delete
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public StatusInfo deleteStatementTreeView(@WebParam(name="statementId") String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }

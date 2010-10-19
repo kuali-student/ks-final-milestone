@@ -15,36 +15,39 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import org.apache.log4j.Logger;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import java.util.List;
+
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
+import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 
+import org.apache.log4j.Logger;
+
 public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
-		CreditCourseProposalRpcService {
+        CreditCourseProposalRpcService {
 
 	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
-	
+
 	private static final long serialVersionUID = 1L;
-	ModifyCreditCourseProposalManager modifyCourseManager;
 
-	@Override
-	public Data getNewProposalWithCopyOfClu(String cluId)
-			throws OperationFailedException {
-		try {
-			return modifyCourseManager.getNewProposalWithCopyOfClu(cluId);
-		} catch (AssemblyException e) {
-			LOG.error("Copy Failed on id:"+cluId, e);
-			throw new OperationFailedException("Copy Failed on id:"+cluId,e);
-		}
-	}
+    @Override
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
+        return null;  
+    }
 
-	public void setModifyCourseManager(
-			ModifyCreditCourseProposalManager modifyCourseManager) {
-		this.modifyCourseManager = modifyCourseManager;
-	}
+    @Override
+    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return null;  
+    }
 
+    @Override
+    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return null;  
+    }
+
+    @Override
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return null;  
+    }
 }
