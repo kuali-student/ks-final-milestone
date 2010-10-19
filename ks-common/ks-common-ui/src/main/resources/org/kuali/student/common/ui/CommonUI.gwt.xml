@@ -67,6 +67,10 @@
     </replace-with> 
     -->
 	
+	<!-- RPC Blacklist - Classes gwt should not attempt to serialze b/c they are deprecated and just bloats the javascript -->	
+	<!-- GWT attempts to serialize all subclasses of Exception when RPC method throws Exception, -->
+	<extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.rpc.SerializableException"/>
+	
 	<source path='client' />
 	<source path='shared' />	
 </module>
