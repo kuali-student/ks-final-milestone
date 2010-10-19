@@ -898,6 +898,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String variation_parentProgram();
 
   /**
+   * Translated "Specialization Summary".
+   * 
+   * @return translated "Specialization Summary"
+   */
+  @DefaultMessage("Specialization Summary")
+  @Key("variation.summary")
+  String variation_summary();
+
+  /**
    * Translated "Specialization if {0}".
    * 
    * @return translated "Specialization if {0}"

@@ -8,8 +8,9 @@ import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.major.edit.*;
+import org.kuali.student.lum.program.client.major.view.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.variation.view.VariationInformationViewConfiguration;
 import org.kuali.student.lum.program.client.widgets.SummaryActionPanel;
 
 /**
@@ -23,14 +24,14 @@ public class VariationSummaryConfiguration extends AbstractControllerConfigurati
 
     @Override
     protected void buildLayout() {
-        rootSection.addWidget(new SummaryActionPanel());
+        //rootSection.addWidget(new SummaryActionPanel());
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(GWT.<Configuration>create(VariationInformationEditConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesEditConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationEditConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsEditConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesEditConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsEditConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(VariationInformationViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesViewConfiguration.class));
+        configurationManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsViewConfiguration.class));
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(controller);
