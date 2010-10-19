@@ -10,6 +10,10 @@
         TYPE_DESC="Must have successfully completed all courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.all" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Completed n courses"
+        TYPE_DESC="Must have successfully completed no more than &lt;n> courses from &lt;courses>"
+        TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.max" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="N of required courses"
         TYPE_DESC="Must have successfully completed a minimum of &lt;n> courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.nof" VER_NBR="0"/>

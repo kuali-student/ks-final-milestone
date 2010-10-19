@@ -65,6 +65,10 @@
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.minor.admitted.classstanding"
         TEMPLATE="Must be admitted to a minor program only if they have junior or senior class standing" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="1015" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE"
+        OWNER="kuali.reqComponent.type.course.courseset.completed.max"
+        TEMPLATE="Must have successfully completed no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="102" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.courseset.completed.all"
@@ -149,6 +153,10 @@
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.minor.admitted.classstanding"
         TEMPLATE="Must be admitted to a minor program only if they have junior or senior class standing" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="1115" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
+        OWNER="kuali.reqComponent.type.course.courseset.completed.max"
+        TEMPLATE="Must have successfully completed no more than $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from " VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="113" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.courseset.grade.min"
@@ -313,6 +321,10 @@
         NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE"
         OWNER="kuali.reqComponent.type.program.minor.admitted.classstanding"
         TEMPLATE="Must be admitted to a minor program only if they have junior or senior class standing" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="2015" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE"
+        OWNER="kuali.reqComponent.type.course.courseset.completed.max"
+        TEMPLATE="Must have successfully completed no more than 2 courses from (MATH111, 140, 220, and STAT100)" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="202" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE"
         OWNER="kuali.reqComponent.type.course.courseset.completed.all"
@@ -508,6 +520,10 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="3014" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION"
         OWNER="kuali.reqComponent.type.program.minor.admitted.classstanding" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="3015" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.courseset.completed.max"
+        TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> from &lt;reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="302" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION"
         OWNER="kuali.reqComponent.type.course.courseset.completed.all"

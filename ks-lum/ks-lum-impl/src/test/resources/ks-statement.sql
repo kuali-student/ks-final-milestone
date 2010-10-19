@@ -103,6 +103,7 @@ INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.program.enrolled.credits.final',          'Program enrolled in graduation major for final credits', '<program> student must be enrolled in their graduation major for the final <n> credits taken', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 0)
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.program.minors.nof',                      'Minors as part of a program', 'Must earn no more than <n> minors as part of a program', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 0)
 INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.program.minor.admitted.classstanding',    'Admitted to minor program for junior or senior class standing', 'Must be admitted to a minor program only if they have junior or senior class standing', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 0)
+INSERT INTO KSST_REQ_COM_TYPE (TYPE_KEY, NAME, TYPE_DESC, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('kuali.reqComponent.type.course.courseset.completed.max',          'Completed n courses', 'Must have successfully completed no more than <n> courses from <courses>', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 0)
 
 
 // REQUIREMENT COMPONENT FIELD TYPES
@@ -203,6 +204,8 @@ INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VAL
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqComponent.type.program.enrolled.credits.final','kuali.reqComponent.field.type.program.clu.id')
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqComponent.type.program.enrolled.credits.final','kuali.reqComponent.field.type.value.positive.integer')
 INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqComponent.type.program.minors.nof','kuali.reqComponent.field.type.value.positive.integer')
+INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqComponent.type.course.courseset.completed.max','kuali.reqComponent.field.type.course.cluSet.id')
+INSERT INTO KSST_RCTYP_JN_RCFLDTYP (REQ_COMP_TYPE_ID,REQ_COMP_FIELD_TYPE_ID) VALUES ('kuali.reqComponent.type.course.courseset.completed.max','kuali.reqComponent.field.type.value.positive.integer')
 
 
 // KSST_NL_USAGE_TYPE
@@ -350,6 +353,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1012', 'KUALI.RULE', '$programClu.getOfficialIdentifier().getShortName() students must be enrolled in their graduation major for the final $intValue $NLHelper.getProperGrammar($intValue, "credit") taken', 'kuali.reqComponent.type.program.enrolled.credits.final', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1013', 'KUALI.RULE', 'Must earn no more than $intValue $NLHelper.getProperGrammar($intValue, "minor") as part of a program', 'kuali.reqComponent.type.program.minors.nof', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1014', 'KUALI.RULE', 'Must be admitted to a minor program only if they have junior or senior class standing', 'kuali.reqComponent.type.program.minor.admitted.classstanding', 'en', 0)
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1015', 'KUALI.RULE', 'Must have successfully completed no more than $intValue $NLHelper.getProperGrammar($intValue, "course") from $courseCluSet.getCluSetAsCode()', 'kuali.reqComponent.type.course.courseset.completed.max', 'en', 0)
 // Programs - Rule Preview
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1101', 'KUALI.RULE.PREVIEW', 'Must have successfully completed a minimum of $intValue $NLHelper.getProperGrammar($intValue, "program") from $programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), "program")', 'kuali.reqComponent.type.program.programset.completed.nof', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1102', 'KUALI.RULE.PREVIEW', 'Must not have successfully completed #if($programCluSet.getCluList().size() > 1)any of #end$programCluSet.getCluSetAsShortName() $NLHelper.getProperGrammar($programCluSet.getCluList().size(), "program")', 'kuali.reqComponent.type.program.programset.notcompleted.nof', 'en', 0)
@@ -365,6 +369,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1112', 'KUALI.RULE.PREVIEW', '$programClu.getOfficialIdentifier().getShortName() students must be enrolled in their graduation major for the final $intValue $NLHelper.getProperGrammar($intValue, "credit") taken', 'kuali.reqComponent.type.program.enrolled.credits.final', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1113', 'KUALI.RULE.PREVIEW', 'Must earn no more than $intValue $NLHelper.getProperGrammar($intValue, "minor") as part of a program', 'kuali.reqComponent.type.program.minors.nof', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1114', 'KUALI.RULE.PREVIEW', 'Must be admitted to a minor program only if they have junior or senior class standing', 'kuali.reqComponent.type.program.minor.admitted.classstanding', 'en', 0)
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('1115', 'KUALI.RULE.PREVIEW', 'Must have successfully completed no more than $intValue $NLHelper.getProperGrammar($intValue, "course") from ', 'kuali.reqComponent.type.course.courseset.completed.max', 'en', 0)
 // Programs - Rule Example
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('2001', 'KUALI.RULE.EXAMPLE', 'Must have successfully completed a minimum of 1 program from (Geology or  Sociology) programs', 'kuali.reqComponent.type.program.programset.completed.nof', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('2002', 'KUALI.RULE.EXAMPLE', 'Must not have successfully completed any of (Geology or Sociology) programs', 'kuali.reqComponent.type.program.programset.notcompleted.nof', 'en', 0)
@@ -380,6 +385,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('2012', 'KUALI.RULE.EXAMPLE', 'Undergraduate students must be enrolled in their graduation major for the final 15 credits taken', 'kuali.reqComponent.type.program.enrolled.credits.final', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('2013', 'KUALI.RULE.EXAMPLE', 'Must earn no more than 2 minors as part of a program', 'kuali.reqComponent.type.program.minors.nof', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('2014', 'KUALI.RULE.EXAMPLE', 'Must be admitted to a minor program only if they have junior or senior class standing', 'kuali.reqComponent.type.program.minor.admitted.classstanding', 'en', 0)
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('2015', 'KUALI.RULE.EXAMPLE', 'Must have successfully completed no more than 2 courses from (MATH111, 140, 220, and STAT100)', 'kuali.reqComponent.type.course.courseset.completed.max', 'en', 0)
 // Programs - Rule Composition
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('3001', 'KUALI.RULE.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Programs> from <reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqComponent.type.program.programset.completed.nof', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('3002', 'KUALI.RULE.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.program.cluSet.id;reqCompFieldLabel=Programs>', 'kuali.reqComponent.type.program.programset.notcompleted.nof', 'en', 0)
@@ -395,6 +401,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('3012', 'KUALI.RULE.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.program.clu.id;reqCompFieldLabel=Program> for final credits of <reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Credits>', 'kuali.reqComponent.type.program.enrolled.credits.final', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('3013', 'KUALI.RULE.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Minors>', 'kuali.reqComponent.type.program.minors.nof', 'en', 0)
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('3014', 'KUALI.RULE.COMPOSITION', null, 'kuali.reqComponent.type.program.minor.admitted.classstanding', 'en', 0)
+INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('3015', 'KUALI.RULE.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Number of Courses> from <reqCompFieldType=kuali.reqComponent.field.type.course.cluSet.id;reqCompFieldLabel=Courses>', 'kuali.reqComponent.type.course.courseset.completed.max', 'en', 0)
 
 
 // STMT_TYPE <-> REQ_COM_TYPE
@@ -462,7 +469,6 @@ INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kual
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.satisfactoryProgress','kuali.reqComponent.type.program.credits.max')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.satisfactoryProgress','kuali.reqComponent.type.program.completion.duration')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.satisfactoryProgress','kuali.reqComponent.type.program.candidate.status.duration')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.satisfactoryProgress','kuali.reqComponent.type.course.test.score.min')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.satisfactoryProgress','kuali.reqComponent.type.course.courseset.nof.grade.min')
 // Program Entrance
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.program.programset.completed.nof')
@@ -473,6 +479,17 @@ INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kual
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.test.score.min')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.program.admitted.credits')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.program.minor.admitted.classstanding')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.completed.nof')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.completed.none')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.completed.all')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.credits.completed.nof')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.credits.completed.none')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.credits.completed.max')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.test.score.max')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.grade.min')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.nof.grade.min')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.courseset.grade.max')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.entrance','kuali.reqComponent.type.course.completed')
 // Program Completion
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.program.programset.completed.nof')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.program.programset.completed.all')
@@ -481,9 +498,16 @@ INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kual
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.program.credits.min')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.program.residence.credits.final')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.program.enrolled.credits.final')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.test.score.min')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.program.completion.duration.afterentry')
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.program.minors.nof')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.courseset.completed.nof')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.courseset.completed.all')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.courseset.credits.completed.nof')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.courseset.grade.min')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.courseset.nof.grade.min')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.org.credits.completed.min')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.completed')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.program.completion','kuali.reqComponent.type.course.courseset.completed.max')
 
 
 // KSST_OBJECT_TYPE

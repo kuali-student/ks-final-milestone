@@ -2,8 +2,6 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_RCTYP_JN_RCFLDTYP
-        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.none"/>
-    <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.all"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.nof"/>
@@ -135,4 +133,10 @@
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.enrolled.credits.final"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.minors.nof"/>
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.max"/>
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.none"/>
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.max"/>
 </dataset>
