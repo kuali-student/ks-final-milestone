@@ -131,6 +131,7 @@ public class WorkflowUtilities{
     private String proposalId = "";
     private String workflowId;
     private String proposalName="";
+    private String workflowActions="";
         
 	private List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
 	private Callback<Boolean> submitCallback;
@@ -247,9 +248,7 @@ public class WorkflowUtilities{
 	
 	public void enableWorkflowActionsWidgets(boolean enable){
 		workflowWidgetsEnabled = enable;
-		for(StylishDropDown widget: workflowWidgets){	
-			widget.setEnabled(enable);
-		}
+		updateWorkflowActionsWidget();
 	}
 	
 	public void doValidationCheck(Callback<List<ValidationResultInfo>> callback){
@@ -282,46 +281,8 @@ public class WorkflowUtilities{
 			workflowRpcServiceAsync.getActionsRequested(workflowId, new KSAsyncCallback<String>(){
 		
 				public void onSuccess(String result) {
-					items.clear();
-					if(result.contains("S")){
-						items.add(wfStartWorkflowItem);
-					}
-                    if(result.contains("C")){
-                        items.add(wfCancelWorkflowItem);
-                    }
-					if(result.contains("A")){
-	
-						items.add(wfApproveItem);
-						items.add(wfDisApproveItem);
-	
-					}
-					if(result.contains("K")){
-						items.add(wfAcknowledgeItem);
-					}
-					
-					if(result.contains("F")){
-						items.add(wfFYIWorkflowItem);
-					}
-                    if(result.contains("W")){
-                        items.add(wfWithdrawItem);
-                    }
-                    if(result.contains("R")){
-                        items.add(wfReturnToPreviousItem);
-                    }
-                    if(result.contains("B")){
-                        items.add(wfBlanketApproveItem);
-                    }
-					for(StylishDropDown widget: workflowWidgets){
-						
-						widget.setItems(items);
-						widget.setEnabled(workflowWidgetsEnabled);
-						if(items.isEmpty()){
-							widget.setVisible(false);
-						}
-						else{
-							widget.setVisible(true);
-						}
-					}
+					workflowActions = result;
+					updateWorkflowActionsWidget();
 				}
 			});
 		
@@ -339,6 +300,58 @@ public class WorkflowUtilities{
 		} else {
 			workflowStatusLabel.setText("Status: Draft");
 		}			
+	}
+	
+	private void updateWorkflowActionsWidget(){
+		items.clear();
+
+		//Display all workflow actions if workflowWidgetsEnabled, otherwise just display
+		//the cancel option.
+		if (workflowWidgetsEnabled){
+			if(workflowActions.contains("S")){
+				items.add(wfStartWorkflowItem);
+			}
+            if(workflowActions.contains("C")){
+                items.add(wfCancelWorkflowItem);
+            }
+			if(workflowActions.contains("A")){
+
+				items.add(wfApproveItem);
+				items.add(wfDisApproveItem);
+
+			}
+			if(workflowActions.contains("K")){
+				items.add(wfAcknowledgeItem);
+			}
+			
+			if(workflowActions.contains("F")){
+				items.add(wfFYIWorkflowItem);
+			}
+            if(workflowActions.contains("W")){
+                items.add(wfWithdrawItem);
+            }
+            if(workflowActions.contains("R")){
+                items.add(wfReturnToPreviousItem);
+            }
+            if(workflowActions.contains("B")){
+                items.add(wfBlanketApproveItem);
+            }
+		} else {
+            if(workflowActions.contains("C")){
+                items.add(wfCancelWorkflowItem);
+            }						
+		}
+		for(StylishDropDown widget: workflowWidgets){
+			
+			widget.setItems(items);
+			widget.setEnabled(true);
+			if(items.isEmpty()){
+				widget.setVisible(false);
+			}
+			else{
+				widget.setVisible(true);
+			}
+		}		
 	}
 	
 	private KSMenuItemData getFYIWorkflowItem() {
