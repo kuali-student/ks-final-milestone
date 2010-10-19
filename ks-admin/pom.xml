@@ -32,7 +32,7 @@
   <artifactId>ks-admin</artifactId>
   <version>1.1.0-M9-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>ks-admin</name>
+  <name>KS Admin</name>
 
   <!-- skipping tests until we get integrated ks test environment -->
   <build>
