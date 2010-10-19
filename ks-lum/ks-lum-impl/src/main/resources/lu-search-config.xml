@@ -26,7 +26,85 @@
 	 ">
 	<import resource="lu-dictionary-config.xml" />
 
+	<search:crossSearchType id="lu.search.mostCurrent.union">
+        <search:name>Search for most recent LUs</search:name>
+        <search:desc>LU Search that finds all current courses or most recent approved courses for non-active LUs</search:desc>
+        <search:searchResultTypeInfo>
+			<ref bean="lu.result.generic"/>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.luAdvancedCriteria"/>
+		</search:searchCriteriaTypeInfo>
+		
+		
+		<search:subSearch searchkey="lu.search.current" key="currentclu">
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalId" subSearchParam="lu.queryParam.luOptionalId"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalShortName" subSearchParam="lu.queryParam.luOptionalShortName"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDivision" subSearchParam="lu.queryParam.luOptionalDivision"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLevel" subSearchParam="lu.queryParam.luOptionalLevel"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDescr" subSearchParam="lu.queryParam.luOptionalDescr"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalStudySubjectArea" subSearchParam="lu.queryParam.luOptionalStudySubjectArea"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCrsNoRange" subSearchParam="lu.queryParam.luOptionalCrsNoRange"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalEffectiveDate1" subSearchParam="lu.queryParam.luOptionalEffectiveDate1"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalEffectiveDate2" subSearchParam="lu.queryParam.luOptionalEffectiveDate2"/>
+		</search:subSearch>
+		<search:subSearch searchkey="lu.search.noncurrent" key="recentclu">
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalId" subSearchParam="lu.queryParam.luOptionalId"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalShortName" subSearchParam="lu.queryParam.luOptionalShortName"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDivision" subSearchParam="lu.queryParam.luOptionalDivision"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLevel" subSearchParam="lu.queryParam.luOptionalLevel"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalDescr" subSearchParam="lu.queryParam.luOptionalDescr"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalStudySubjectArea" subSearchParam="lu.queryParam.luOptionalStudySubjectArea"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCrsNoRange" subSearchParam="lu.queryParam.luOptionalCrsNoRange"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalEffectiveDate1" subSearchParam="lu.queryParam.luOptionalEffectiveDate1"/>
+			<search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalEffectiveDate2" subSearchParam="lu.queryParam.luOptionalEffectiveDate2"/>
+		</search:subSearch>
+		
+		<!--  leaving this blank allows for a union -->
+		<search:joinCriteria type="AND">
+		</search:joinCriteria>
+		
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="currentclu" resultParam="lu.resultColumn.cluId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalShortName" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalShortName"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalLongName"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalCode" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalCode"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLevel" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalLevel"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalDescr" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalDescr"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalStudySubjectArea" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalStudySubjectArea"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalState" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalState"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionIndId" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalVersionIndId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionedFromId" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalVersionedFromId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionStartDate" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalVersionStartDate"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionEndDate" subSearchKey="currentclu" resultParam="lu.resultColumn.luOptionalVersionEndDate"/>
+
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="recentclu" resultParam="lu.resultColumn.cluId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalShortName" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalShortName"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalLongName"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalCode" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalCode"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLevel" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalLevel"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalDescr" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalDescr"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalStudySubjectArea" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalStudySubjectArea"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalState" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalState"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionIndId" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionIndId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionedFromId" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionedFromId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionStartDate" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionStartDate"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionEndDate" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionEndDate"/>
+	</search:crossSearchType>
+	
+	
+	
+	
 	<!-- definition for generic search component -->
+	<search:searchType id="lu.search.current" parent="lu.search.generic-parent"/>
+	<search:searchType id="lu.search.noncurrent" parent="lu.search.generic-parent"/>
 	<search:searchType id="lu.search.generic" parent="lu.search.generic-parent"/>
 	<search:searchType id="lu.search.generic-parent"  abstract="true">
 		<search:name>Basic and Advanced Search</search:name>
@@ -38,7 +116,7 @@
 			<ref bean="lu.criteria.luAdvancedCriteria"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-
+	
 	<search:searchCriteriaTypeInfo id="lu.criteria.luAdvancedCriteria" parent="lu.criteria.luAdvancedCriteria-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.luAdvancedCriteria-parent"  abstract="true">
 		<search:name>LuAdvancedCriteria</search:name>
@@ -825,7 +903,37 @@
 		            and clu.state = :lu_queryParam_cluState
 		            ORDER BY clu.officialIdentifier.code ASC</value>
 		        </entry>
-		       	<!-- search for courses but exclude 'Retired' courses -->
+                <entry key="lu.search.noncurrent">
+		       		<value>
+		       		SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+                    officialIdentifier.code, officialIdentifier.level,
+                    cludesc.plain, clu.studySubjectArea, clu.state,
+                    clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
+					FROM Clu clu 
+					LEFT JOIN clu.officialIdentifier officialIdentifier
+                    LEFT JOIN clu.descr cludesc
+                    WHERE clu.version.versionIndId IS NOT NULL 
+					AND clu.version.versionIndId NOT IN (
+					        SELECT activeclu.version.versionIndId 
+					        FROM Clu activeclu 
+					        WHERE activeclu.version.versionIndId=clu.version.versionIndId 
+					        AND (activeclu.version.currentVersionStart &lt;= CURRENT_DATE AND (activeclu.version.currentVersionEnd > CURRENT_DATE OR activeclu.version.currentVersionEnd IS NULL)) 											
+					)
+                    </value>
+                </entry>
+                
+               	<entry key="lu.search.current">
+		       		<value>
+		       		SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
+                    officialIdentifier.code, officialIdentifier.level,
+                    cludesc.plain, clu.studySubjectArea, clu.state,
+                    clu.version.versionIndId, clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd
+                    FROM Clu clu
+                    LEFT JOIN clu.officialIdentifier officialIdentifier
+                    LEFT JOIN clu.descr cludesc
+                    WHERE (clu.version.currentVersionStart &lt;= CURRENT_DATE AND (clu.version.currentVersionEnd &gt; CURRENT_DATE OR clu.version.currentVersionEnd IS NULL) )
+                    </value>
+                </entry>
 		        <entry key="lu.search.generic">
 <!--
 		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain, clu.primaryAdminOrg.orgId, clu.state FROM Clu clu WHERE clu.state NOT IN ('retired')</value>

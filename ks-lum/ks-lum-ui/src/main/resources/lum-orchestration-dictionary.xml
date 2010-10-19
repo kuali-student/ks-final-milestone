@@ -7454,7 +7454,7 @@
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
-					<property name="searchTypeId" value="lu.search.generic"/>
+					<property name="searchTypeId" value="lu.search.mostCurrent.union"/>
 					<property name="name" value="Course"/>
 					<property name="desc" value="Search for courses"/>
 					<property name="title" value="Course"/>
@@ -7540,6 +7540,8 @@
 									<list>
 										<value>Approved</value>
 										<value>Active</value>
+										<value>Retired</value>
+										<!--  need to add more states here (not draft or withdrawn) -->
 									</list>
 								</property>
 							</bean>
