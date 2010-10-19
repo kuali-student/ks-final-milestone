@@ -15,97 +15,124 @@
  limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-		
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student</groupId>
-	<artifactId>ks-admin</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>ks-admin</name>
-	
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                        http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<properties>
-		<rice.version>1.0.3-11</rice.version>
-	</properties>
+  <modelVersion>4.0.0</modelVersion>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+  <parent>
+    <groupId>org.kuali.student</groupId>
+    <artifactId>student</artifactId>
+    <version>1.1.0-M9-SNAPSHOT</version>
+  </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty</artifactId>
-			<version>6.1.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-api</artifactId>
-			<version>${rice.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-impl</artifactId>
-			<version>${rice.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.common</groupId>
-			<artifactId>ks-common-api</artifactId>
-			<version>1.1.0-M9-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.common</groupId>
-			<artifactId>ks-common-util</artifactId>
-			<version>1.1.0-M9-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-           <groupId>com.oracle</groupId>
-           <artifactId>ojdbc14</artifactId>
-           <version>10.2.0.3.0</version>
-           <scope>provided</scope>
-         </dependency>
-		<dependency>
-		  <groupId>p6spy</groupId>
-		  <artifactId>p6spy</artifactId>
-		  <version>1.3</version>
-		  <scope>provided</scope>
-		</dependency>
-         
-	</dependencies>
-	
-	<repositories>
-		<repository>
-			<id>kuali</id>
-			<name>Kuali Repository</name>
-			<url>https://test.kuali.org/maven</url>
-		</repository>
-		<repository>
-			<id>kuali.nexus</id>
-			<name>Nexus Repository Manager</name>
-			<url>http://nexus.kuali.org/content/repositories/kuali-snapshot/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+
+  <groupId>org.kuali.student.admin</groupId>
+  <artifactId>ks-admin</artifactId>
+  <version>1.1.0-M9-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>ks-admin</name>
+
+  <!-- skipping tests until we get integrated ks test environment -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    
+    <!-- set to provided until we get ks standard version -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.1.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-compiler</artifactId>
+      <version>5.5.15</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-runtime</artifactId>
+      <version>5.5.15</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>tomcat</groupId>
+      <artifactId>jasper-compiler-jdt</artifactId>
+      <version>5.5.15</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc14</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>p6spy</groupId>
+      <artifactId>p6spy</artifactId>
+      <version>1.3</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>kuali.nexus</id>
+      <name>Nexus Repository Manager</name>
+      <url>http://nexus.kuali.org/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
 </project>
