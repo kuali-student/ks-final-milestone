@@ -71,6 +71,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     private static Metadata dialogMetadata = null;  //simple caching
 
     private Map<String, SpanPanel> perProgramRequirementTypePanel = new LinkedHashMap<String, SpanPanel>();
+    private Map<String, KSLabel> perProgramRequirementTypeTotalCredits = new LinkedHashMap<String, KSLabel>();
 
     public ProgramRequirementsSummaryView(final ProgramRequirementsViewController parentController, Enum<?> viewEnum, String name,
                                                             String modelId, boolean isReadOnly) {
@@ -133,7 +134,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 			@Override
 			public void exec(View result) {
 				ProgramRequirementsManageView manageView = (ProgramRequirementsManageView) result;
-                           
+                
 				//return if user did not added or updated a rule
                 if (!manageView.isDirty() || !manageView.isUserClickedSaveButton()) {
                     onReadyCallback.exec(true);
@@ -221,6 +222,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             SpanPanel requirementsPanel = new SpanPanel();
             perProgramRequirementTypePanel.put(stmtTypeInfo.getId(), requirementsPanel);
             displayRequirementSectionForGivenType(requirementsPanel, stmtTypeInfo, firstRequirement);
+            updateTotalCreditPerType(stmtTypeInfo.getId());            
             firstRequirement = false;
 
             //now display each requirement for this Program Requirement type
@@ -244,6 +246,12 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         SectionTitle title = SectionTitle.generateH3Title(stmtTypeInfo.getName());
         title.setStyleName((firstRequirement ? "KS-Program-Requirements-Preview-Rule-Type-First-Header" : "KS-Program-Requirements-Preview-Rule-Type-Header"));  //make the header orange
         layout.add(title);
+
+        //add Total Credits
+        KSLabel totalCredits = new KSLabel();
+        totalCredits.addStyleName("KS-Program-Requirements-Preview-Rule-Type-Credits");
+        perProgramRequirementTypeTotalCredits.put(stmtTypeInfo.getId(), totalCredits);
+        layout.add(totalCredits);
 
         //add rule description
         KSLabel ruleTypeDesc = new KSLabel(stmtTypeInfo.getDescr());
@@ -311,7 +319,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                         //remove rule from display
                         requirementsPanel.remove(rulePreviewWidget);
                         setupNoRuleText(stmtTypeId);
-
+                        updateTotalCreditPerType(stmtTypeId);
                         dialog.hide();
                     }
                 });
@@ -568,6 +576,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 }
             }
         }
+
+        updateTotalCreditPerType(stmtTypeId);
     }
 
     private void setupNoRuleText(String stmtTypeId) {
@@ -575,7 +585,19 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     private String getTotalCreditsString(int min, int max) {
-        return "Expected Total Credits:" + min + "-" + max;        
+        return "Expected Total Credits:" + min + "-" + max;
+    }
+
+    private void updateTotalCreditPerType(String stmtTypeId) {
+        int min = 0;
+        int max = 0;
+        for (ProgramRequirementInfo ruleInfo : rules.getProgReqInfo(stmtTypeId)) {
+            min += ruleInfo.getMinCredits();
+            max += ruleInfo.getMaxCredits();
+        }
+
+        //update total
+        perProgramRequirementTypeTotalCredits.get(stmtTypeId).setText(getTotalCreditsString(min, max));
     }
 
     private void setupSaveCancelButtons() {
