@@ -97,19 +97,19 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.core</groupId>
+            <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-hibernate</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.core</groupId>
+            <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-cxf</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.core</groupId>
+            <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-jta</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
