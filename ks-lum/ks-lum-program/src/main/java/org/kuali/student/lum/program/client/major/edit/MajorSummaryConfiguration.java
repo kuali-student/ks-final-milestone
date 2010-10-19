@@ -25,12 +25,12 @@ public class MajorSummaryConfiguration extends AbstractControllerConfiguration {
     protected void buildLayout() {
         rootSection.addWidget(new SummaryActionPanel());
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(GWT.<Configuration>create(MajorInformationViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(SpecializationsViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesViewConfiguration.class));
+        configurationManager.registerConfiguration(new MajorInformationViewConfiguration());
+        configurationManager.registerConfiguration(new ManagingBodiesViewConfiguration());
+        configurationManager.registerConfiguration(new SpecializationsViewConfiguration());
+        configurationManager.registerConfiguration(new CatalogInformationViewConfiguration());
+        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(new LearningObjectivesViewConfiguration());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(controller);

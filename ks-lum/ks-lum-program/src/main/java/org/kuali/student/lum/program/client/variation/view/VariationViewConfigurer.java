@@ -11,12 +11,12 @@ public class VariationViewConfigurer extends AbstractProgramConfigurer {
 
     public VariationViewConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(VariationInformationViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(VariationViewAllConfiguration.class));
+        programSectionConfigManager.registerConfiguration(new VariationInformationViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new ManagingBodiesViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new CatalogInformationViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new LearningObjectivesViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new SupportingDocsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new VariationViewAllConfiguration());
     }
 }
