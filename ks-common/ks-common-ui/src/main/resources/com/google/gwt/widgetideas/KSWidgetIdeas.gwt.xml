@@ -14,8 +14,6 @@
 	the License.
 -->
 
-<!-- Combines all user facilities into a single module for convenience.     -->
-<!-- Most new code should inherit twh                                         -->
 <module>
 	<!--
 	This is the KS version of the gwt incubator widgetideas module config.
