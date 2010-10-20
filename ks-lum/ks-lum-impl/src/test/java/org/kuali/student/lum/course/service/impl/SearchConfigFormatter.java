@@ -151,7 +151,7 @@ public class SearchConfigFormatter
    builder.append (colSeperator);
    builder.append (qp.getKey ());
    builder.append (colSeperator);
-   builder.append (queryMap.get (qp.getKey ()));
+   builder.append ("{code:borderStyle=none}" + queryMap.get (qp.getKey ()) + "{code}");
    builder.append (colSeperator);
    builder.append (rowSeperator);
   }
@@ -218,4 +218,33 @@ public class SearchConfigFormatter
   builder.append ("{code}");
   builder.append (rowSeperator);
  }
+
+ private String escapeWiki(String str) {
+		StringBuilder bldr = new StringBuilder(str.length());
+		boolean precededByBackSlash = false;
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			switch (c) {
+			case '\\':
+			case '[':
+			case '*':
+			case ']':
+			case '|':
+				if (!precededByBackSlash) {
+					bldr.append('\\');
+				}
+				break;
+			default:
+				break;
+			}
+			bldr.append(c);
+			if (c == '\\') {
+				precededByBackSlash = true;
+			} else {
+				precededByBackSlash = false;
+			}
+		}
+		return bldr.toString();
+	}
+
 }
