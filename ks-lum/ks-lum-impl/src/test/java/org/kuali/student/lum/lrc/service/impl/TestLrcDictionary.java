@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.course.service.impl.DictionaryTesterHelper;
 import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.springframework.context.ApplicationContext;
@@ -31,8 +31,25 @@ public class TestLrcDictionary
                                                               contextFile
                                                               + ".xml",
                                                               false);
-  helper.doTest ();
+ List<String> errors = helper.doTest ();
+  if (errors.size () > 0)
+  {
+   fail ("failed dictionary validation:\n" + formatAsString (errors));
+  }
  }
+
+ private String formatAsString (List<String> errors)
+ {
+  int i = 0;
+  StringBuilder builder = new StringBuilder ();
+  for (String error : errors)
+  {
+   i ++;
+   builder.append (i + ". " + error + "\n");
+  }
+  return builder.toString ();
+ }
+
 
  @Test
  public void testCluInfoValidation () throws OperationFailedException
