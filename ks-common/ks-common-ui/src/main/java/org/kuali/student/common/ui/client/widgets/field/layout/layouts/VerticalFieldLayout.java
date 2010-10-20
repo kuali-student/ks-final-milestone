@@ -15,72 +15,77 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.HashMap;
+import java.util.Map;
 
-public class VerticalFieldLayout extends FieldLayout{
-	private Map<String, FlowPanel> fieldContainers = new HashMap<String, FlowPanel>();
-	
-	protected FlowPanel verticalLayout = new FlowPanel();
-	private SpanPanel buttonArea = new SpanPanel();
-	
-	public VerticalFieldLayout(){
-		super();
-		hasValidation = true;
-		init();
-	}
-	
-	public VerticalFieldLayout(boolean hasValidation){
-		super();
-		this.hasValidation = hasValidation;
-		init();
-	}
-	
-	public VerticalFieldLayout(SectionTitle title){
-		super();
-		this.setLayoutTitle(title);
-		this.hasValidation = true;
-		init();
-	}
-	
-	public VerticalFieldLayout(SectionTitle title, boolean hasValidation){
-		super();
-		this.setLayoutTitle(title);
-		this.hasValidation = hasValidation;
-		init();
-	}
-	
-	private void init(){
-		instructions.setVisible(false);
-		this.add(verticalLayout);
-		verticalLayout.add(instructions);
-		verticalLayout.add(message);
-		this.add(buttonArea);
-		verticalLayout.setStyleName("ks-form-module");
-	}
-	
-	
-	
-	@Override
-	public void addFieldToLayout(FieldElement field) {
+public class VerticalFieldLayout extends FieldLayout {
+    private Map<String, FlowPanel> fieldContainers = new HashMap<String, FlowPanel>();
+
+    protected FlowPanel verticalLayout = new FlowPanel();
+    private SpanPanel buttonArea = new SpanPanel();
+
+    public VerticalFieldLayout() {
+        super();
+        hasValidation = true;
+        init();
+    }
+
+    public VerticalFieldLayout(boolean hasValidation) {
+        super();
+        this.hasValidation = hasValidation;
+        init();
+    }
+
+    public VerticalFieldLayout(SectionTitle title) {
+        super();
+        this.setLayoutTitle(title);
+        this.hasValidation = true;
+        init();
+    }
+
+    public VerticalFieldLayout(Widget titleWidget) {
+        super();
+        this.setTitleWidget(titleWidget);
+        this.hasValidation = true;
+        init();
+    }
+
+    public VerticalFieldLayout(SectionTitle title, boolean hasValidation) {
+        super();
+        this.setLayoutTitle(title);
+        this.hasValidation = hasValidation;
+        init();
+    }
+
+    private void init() {
+        instructions.setVisible(false);
+        this.add(verticalLayout);
+        verticalLayout.add(instructions);
+        verticalLayout.add(message);
+        this.add(buttonArea);
+        verticalLayout.setStyleName("ks-form-module");
+    }
+
+
+    @Override
+    public void addFieldToLayout(FieldElement field) {
         FlowPanel fieldContainer = new FlowPanel();
         FlowPanel fieldLayout = new FlowPanel();
         fieldContainer.add(field);
         fieldLayout.add(fieldContainer);
-        if(hasValidation){
-	        ValidationMessagePanel validationPanel = new ValidationMessagePanel();
-	        fieldLayout.add(validationPanel);
-	        field.setValidationPanel(validationPanel);
-	        validationPanel.setStyleName("ks-form-module-validation-inline");
+        if (hasValidation) {
+            ValidationMessagePanel validationPanel = new ValidationMessagePanel();
+            fieldLayout.add(validationPanel);
+            field.setValidationPanel(validationPanel);
+            validationPanel.setStyleName("ks-form-module-validation-inline");
         }
         field.setParentPanel(fieldLayout);
         verticalLayout.add(fieldLayout);
@@ -89,53 +94,59 @@ public class VerticalFieldLayout extends FieldLayout{
         fieldLayout.addStyleName("clearfix");
         //field.addStyleName("ks-form-module-single-line-margin");
         fieldContainer.setStyleName("ks-form-module-fields");
-	}
+    }
 
-	@Override
-	public void addLayoutToLayout(FieldLayout layout) {
-		verticalLayout.add(layout);
-		layout.setParentLayout(this);
-	}
+    @Override
+    public void addLayoutToLayout(FieldLayout layout) {
+        verticalLayout.add(layout);
+        layout.setParentLayout(this);
+    }
 
-	@Override
-	public void addWidgetToLayout(Widget widget) {
-		widget.addStyleName("ks-section-widget");
-		verticalLayout.add(widget);
-	}
+    @Override
+    public void addWidgetToLayout(Widget widget) {
+        widget.addStyleName("ks-section-widget");
+        verticalLayout.add(widget);
+    }
 
-	@Override
-	public void removeWidgetFromLayout(Widget widget) {
-		verticalLayout.remove(widget);
-	}
-	
-	@Override
-	public void removeFieldLayoutComponentFromLayout(FieldLayoutComponent component){
-		if(component instanceof FieldElement){
-			FlowPanel panel = fieldContainers.get(component.getKey());
-			verticalLayout.remove(panel);
-			fieldContainers.remove(component.getKey());
-		}
-		else if(component instanceof FieldLayout){
-			verticalLayout.remove((FieldLayout)component);
-		}
-	}
+    @Override
+    public void removeWidgetFromLayout(Widget widget) {
+        verticalLayout.remove(widget);
+    }
 
-	@Override
-	public void setLayoutTitle(SectionTitle layoutTitle) {
-		if(this.layoutTitle != null){
-			verticalLayout.remove(this.layoutTitle);
-		}
-		if(layoutTitle != null){
-			this.layoutTitle = layoutTitle;
-			verticalLayout.insert(layoutTitle, 0);
-			layoutTitle.addStyleName("ks-layout-header");
-		}
-	}
+    @Override
+    public void removeFieldLayoutComponentFromLayout(FieldLayoutComponent component) {
+        if (component instanceof FieldElement) {
+            FlowPanel panel = fieldContainers.get(component.getKey());
+            verticalLayout.remove(panel);
+            fieldContainers.remove(component.getKey());
+        } else if (component instanceof FieldLayout) {
+            verticalLayout.remove((FieldLayout) component);
+        }
+    }
 
-	@Override
-	public void addButtonLayoutToLayout(ButtonLayout buttonLayout) {
-		buttonArea.add(buttonLayout);
-		
-	}
+    @Override
+    public void setLayoutTitle(SectionTitle layoutTitle) {
+        if (this.layoutTitle != null) {
+            verticalLayout.remove(this.layoutTitle);
+        }
+        if (layoutTitle != null) {
+            this.layoutTitle = layoutTitle;
+            verticalLayout.insert(layoutTitle, 0);
+            layoutTitle.addStyleName("ks-layout-header");
+        }
+    }
+
+    public void setTitleWidget(Widget layoutTitle) {
+        if (this.layoutTitle != null) {
+            verticalLayout.remove(this.layoutTitle);
+        }
+        verticalLayout.insert(layoutTitle, 0);
+    }
+
+    @Override
+    public void addButtonLayoutToLayout(ButtonLayout buttonLayout) {
+        buttonArea.add(buttonLayout);
+
+    }
 
 }

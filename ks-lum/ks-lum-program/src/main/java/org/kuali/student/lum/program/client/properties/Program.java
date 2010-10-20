@@ -889,6 +889,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String variation_menu_sections_variationInformation();
 
   /**
+   * Translated "New Variation".
+   * 
+   * @return translated "New Variation"
+   */
+  @DefaultMessage("New Variation")
+  @Key("variation.new")
+  String variation_new();
+
+  /**
    * Translated "Parent Program:".
    * 
    * @return translated "Parent Program:"
@@ -907,11 +916,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String variation_summary();
 
   /**
-   * Translated "Specialization if {0}".
+   * Translated "Specialization of {0}".
    * 
-   * @return translated "Specialization if {0}"
+   * @return translated "Specialization of {0}"
    */
-  @DefaultMessage("Specialization if {0}")
+  @DefaultMessage("Specialization of {0}")
   @Key("variation.title")
   String variation_title(String arg0);
 

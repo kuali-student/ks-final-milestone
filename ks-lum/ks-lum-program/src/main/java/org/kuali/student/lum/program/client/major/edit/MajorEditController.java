@@ -1,8 +1,9 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -24,10 +25,8 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -35,7 +34,7 @@ import com.google.gwt.event.shared.HandlerManager;
 public class MajorEditController extends MajorController {
 
     private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(),  KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
 
     /**
      * Constructor.
@@ -111,12 +110,12 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
-               String id = (String) programModel.get(ProgramConstants.ID);
-               if(id == null){
-                   showView(ProgramSections.PROGRAM_DETAILS_EDIT);
-               }else{
-                   showView(ProgramSections.SUMMARY);
-               }
+                String id = (String) programModel.get(ProgramConstants.ID);
+                if (id == null) {
+                    showView(ProgramSections.PROGRAM_DETAILS_EDIT);
+                } else {
+                    showView(ProgramSections.SUMMARY);
+                }
             }
         });
         eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
@@ -129,6 +128,12 @@ public class MajorEditController extends MajorController {
                     programRequirements.add(id);
                 }
                 doSave();
+            }
+        });
+        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEventHandler() {
+            @Override
+            public void onEvent(ChangeViewEvent event) {
+                showView(event.getViewToken());
             }
         });
     }
@@ -158,7 +163,8 @@ public class MajorEditController extends MajorController {
                             setHeaderTitle();
                             setStatus();
                             resetFieldInteractionFlag();
-                            eventBus.fireEvent(new ModelLoadedEvent(programModel));
+                            //eventBus.fireEvent(new ModelLoadedEvent(programModel));
+                            eventBus.fireEvent(new AfterSaveEvent(programModel));
                             HistoryManager.logHistoryChange();
                             KSNotifier.show(ProgramProperties.get().common_successfulSave());
                         }

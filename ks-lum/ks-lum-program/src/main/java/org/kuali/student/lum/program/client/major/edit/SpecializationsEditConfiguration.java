@@ -24,7 +24,7 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
     private KSButton addSpecializationButton = new KSButton(ProgramProperties.get().variationInformation_button_addSpecialization());
 
     public SpecializationsEditConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.SPECIALIZATIONS, ProgramProperties.get().program_menu_sections_specializations(), ProgramConstants.PROGRAM_MODEL_ID);
+        rootSection = new VerticalSectionView(ProgramSections.SPECIALIZATIONS_EDIT, ProgramProperties.get().program_menu_sections_specializations(), ProgramConstants.PROGRAM_MODEL_ID);
         bind();
     }
 
@@ -33,7 +33,6 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
             @Override
             public void onClick(ClickEvent event) {
                 Data newSpecializationData = new Data();
-                newSpecializationData.set(ProgramConstants.LONG_TITLE, "");
                 newSpecializationData.set(ProgramConstants.STATE, ProgramStatus.DRAFT.getValue());
                 newSpecializationData.set(ProgramConstants.TYPE, "kuali.lu.type.Variation");
                 VariationRegistry.setData(newSpecializationData);

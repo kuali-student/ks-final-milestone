@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.major.edit;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
@@ -13,9 +14,9 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -25,6 +26,10 @@ public class MajorInformationEditConfiguration extends AbstractSectionConfigurat
 
     public MajorInformationEditConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
+    }
+
+    public MajorInformationEditConfiguration(Widget widget) {
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, widget);
     }
 
     @Override
@@ -96,44 +101,43 @@ public class MajorInformationEditConfiguration extends AbstractSectionConfigurat
 
     private Section createAccreditingAgenciesSection() {
 
-        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY)) ;
+        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY));
         MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP, MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP, metadata);
         config.setAddItemLabel(ProgramProperties.get().programInformation_addAccreditation());
         config.setUpdateable(true);
         config.setItemLabel(ProgramProperties.get().programInformation_accreditation());
 
-        config.setParent(ProgramConstants.ACCREDITING_AGENCY , ProgramProperties.get().programInformation_accreditations(),  null, metadata);
+        config.setParent(ProgramConstants.ACCREDITING_AGENCY, ProgramProperties.get().programInformation_accreditations(), null, metadata);
 
-        Metadata orgMetadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY, QueryPath.getWildCard(), ProgramConstants.ORG_ID)) ;
+        Metadata orgMetadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY, QueryPath.getWildCard(), ProgramConstants.ORG_ID));
         config.addField(ProgramConstants.ORG_ID, null, ProgramConstants.ACCREDITING_AGENCY, orgMetadata);
 
         MultiplicitySection section = new MultiplicitySection(config);
 
         return section;
     }
-    
+
     public class DiplomaBinding extends ModelWidgetBindingSupport<KSTextBox> {
-		private boolean isEmpty(String value){
-			return value == null || (value != null && "".equals(value));
-		}
+        private boolean isEmpty(String value) {
+            return value == null || (value != null && "".equals(value));
+        }
 
-		@Override
-		public void setModelValue(KSTextBox widget, DataModel model, String path) {
-			String 	diplomaTitle = 	widget.getText();
-			if(diplomaTitle != null)
-				model.set(QueryPath.concat(null, "/" + ProgramConstants.DIPLOMA), diplomaTitle);
-		}
+        @Override
+        public void setModelValue(KSTextBox widget, DataModel model, String path) {
+            String diplomaTitle = widget.getText();
+            if (diplomaTitle != null)
+                model.set(QueryPath.concat(null, "/" + ProgramConstants.DIPLOMA), diplomaTitle);
+        }
 
-		@Override
-		public void setWidgetValue(KSTextBox widget, DataModel model, String path) {
-			String diplomaTitle = model.get("/" + ProgramConstants.DIPLOMA);
-			if(isEmpty(diplomaTitle)){
-				String programTitle = model.get("/" + ProgramConstants.LONG_TITLE);
-				if (!isEmpty(programTitle))
-					widget.setText(programTitle);
-			}
-			else
-				widget.setText(diplomaTitle);
-		}
-	}
+        @Override
+        public void setWidgetValue(KSTextBox widget, DataModel model, String path) {
+            String diplomaTitle = model.get("/" + ProgramConstants.DIPLOMA);
+            if (isEmpty(diplomaTitle)) {
+                String programTitle = model.get("/" + ProgramConstants.LONG_TITLE);
+                if (!isEmpty(programTitle))
+                    widget.setText(programTitle);
+            } else
+                widget.setText(diplomaTitle);
+        }
+    }
 }

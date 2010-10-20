@@ -13,6 +13,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -43,7 +44,7 @@ public abstract class VariationController extends ProgramController {
     protected void configureView() {
         setStatus();
         super.configureView();
-        setContentTitle(ProgramProperties.get().variation_title(getProgramName()));
+        setContentTitle(getProgramName());
         addContentWidget(createParentAnchor());
         addContentWidget(createCommentPanel());
     }
@@ -62,6 +63,15 @@ public abstract class VariationController extends ProgramController {
         anchorPanel.add(parentProgram);
         anchorPanel.add(anchor);
         return anchorPanel;
+    }
+
+    @Override
+    public String getProgramName() {
+        String name = (String) programModel.get(ProgramConstants.LONG_TITLE);
+        if (name == null) {
+            return ProgramProperties.get().variation_new();
+        }
+        return ProgramProperties.get().variation_title(name);
     }
 
     @Override

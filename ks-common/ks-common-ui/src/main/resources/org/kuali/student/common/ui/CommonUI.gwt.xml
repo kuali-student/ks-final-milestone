@@ -42,8 +42,10 @@
 
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
-    <inherits name='com.google.gwt.gen2.table.Table'/>
-
+    <inherits name='com.google.gwt.gen2.table.ScrollTable'/>
+	
+	<!-- Inherit a ks version of widgetideas module to cut down on gwt compile warnings.-->
+	<inherits name="com.google.gwt.widgetideas.KSWidgetIdeas"/>
  
 	<script src="http://www.google.com/jsapi"/>
     

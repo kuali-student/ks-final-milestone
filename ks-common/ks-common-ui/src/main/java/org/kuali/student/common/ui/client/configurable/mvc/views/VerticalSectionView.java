@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 
@@ -28,17 +29,23 @@ public class VerticalSectionView extends SectionView {
     public VerticalSectionView(Enum<?> viewEnum, String name, String modelId, boolean showTitle) {
         super(viewEnum, name);
         this.modelId = modelId;
-        if(name != null && !name.isEmpty()){
-	        SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
-	        if (showTitle) {
-	            layout = new VerticalFieldLayout(sectionTitle);
-	        } else {
-	            layout = new VerticalFieldLayout();
-	        }
+        if (name != null && !name.isEmpty()) {
+            SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
+            if (showTitle) {
+                layout = new VerticalFieldLayout(sectionTitle);
+            } else {
+                layout = new VerticalFieldLayout();
+            }
+        } else {
+            layout = new VerticalFieldLayout();
         }
-        else{
-        	layout = new VerticalFieldLayout();
-        }
+        this.add(layout);
+    }
+
+    public VerticalSectionView(Enum<?> viewEnum, String name, String programModelId, Widget titleWidget) {
+        super(viewEnum, name);
+        this.modelId = programModelId;
+        layout = new VerticalFieldLayout(titleWidget);
         this.add(layout);
     }
 
@@ -59,8 +66,8 @@ public class VerticalSectionView extends SectionView {
     public void clear() {
         // TODO Auto-generated method stub
     }
-    
-    public void setSectionTitle(String title){
-    	layout.setLayoutTitle(SectionTitle.generateH2Title(title));
+
+    public void setSectionTitle(String title) {
+        layout.setLayoutTitle(SectionTitle.generateH2Title(title));
     }
 }

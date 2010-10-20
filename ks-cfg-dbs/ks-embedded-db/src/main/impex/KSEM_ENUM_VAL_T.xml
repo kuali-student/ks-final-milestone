@@ -806,6 +806,11 @@
         ID="08c7be69-7e0b-4115-bad6-a6e048bdffd7"
         OBJ_ID="079339299C4645E88E088E16B5460724" SORT_KEY="860"
         VAL="Zoology/Animal Biology." VER_NBR="0"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="program" CD="program"
+        EFF_DT="20000101000000" ENUM_KEY="ks.message.groupNames"
+        ID="09020afd-f6d0-4e9e-8785-7ac956a639ee"
+        OBJ_ID="3cf916ec-1b07-4526-8969-bf07b495cded" SORT_KEY="1"
+        VAL="program" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="32.0101" CD="32.0101"
         ENUM_KEY="kuali.enum.type.cip2000"
         ID="0903b80a-9991-4a4c-bdaa-75348190edbd"
@@ -1457,12 +1462,12 @@
         OBJ_ID="7D48BD13CD324753A76CFA10F0C12614" SORT_KEY="224"
         VAL="Recording Arts Technology/Technician." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="ROBT" CD="ROBT" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="1"
+        ENUM_KEY="kuali.lu.subjectArea" ID="1"
         OBJ_ID="FA36F46FB7174F06B93891A01C9BE176" SORT_KEY="1"
         VAL="Robotics" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="BOTA" CD="BOTA" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="10" OBJ_ID="7E11B65E970D49019481CC2C3C876045" SORT_KEY="10"
+        ENUM_KEY="kuali.lu.subjectArea" ID="10"
+        OBJ_ID="7E11B65E970D49019481CC2C3C876045" SORT_KEY="10"
         VAL="Botany" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="13.1007" CD="13.1007"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -1555,8 +1560,8 @@
         OBJ_ID="960832158A2542F3A2A22D988EF75B67" SORT_KEY="1153"
         VAL="Health Psychology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="CHEE" CD="CHEE" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="11" OBJ_ID="BE022003578140B698F831F0D67918AA" SORT_KEY="11"
+        ENUM_KEY="kuali.lu.subjectArea" ID="11"
+        OBJ_ID="BE022003578140B698F831F0D67918AA" SORT_KEY="11"
         VAL="Chemical" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.3704" CD="51.3704"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -1659,8 +1664,8 @@
         OBJ_ID="B10E73E4D40043B5BD0BAF470F7015B7" SORT_KEY="915"
         VAL="Pharmacology and Toxicology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="CHEM" CD="CHEM" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="12" OBJ_ID="D1A54FF6C4C0468FA4F29E485406CE1F" SORT_KEY="12"
+        ENUM_KEY="kuali.lu.subjectArea" ID="12"
+        OBJ_ID="D1A54FF6C4C0468FA4F29E485406CE1F" SORT_KEY="12"
         VAL="Chemistry" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="42.2101" CD="42.2101"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -1728,8 +1733,8 @@
         OBJ_ID="E60B0745A2FB4418A8078294CB122E4C" SORT_KEY="1756"
         VAL="Cytogenetics/Genetics/Clinical Genetics Technology/Technologist." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="CIVI" CD="CIVI" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="13" OBJ_ID="52BE59B56B7B499E8ED8FC854F04EE58" SORT_KEY="13"
+        ENUM_KEY="kuali.lu.subjectArea" ID="13"
+        OBJ_ID="52BE59B56B7B499E8ED8FC854F04EE58" SORT_KEY="13"
         VAL="Civil" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="11.0201" CD="11.0201"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -1832,8 +1837,8 @@
         OBJ_ID="E3859649D86146D9AF78001D1D3CBCBF" SORT_KEY="392"
         VAL="Comparative Psychology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="CSCI" CD="CSCI" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="14" OBJ_ID="06B590CE84ED432FBC752B086B69B632" SORT_KEY="14"
+        ENUM_KEY="kuali.lu.subjectArea" ID="14"
+        OBJ_ID="06B590CE84ED432FBC752B086B69B632" SORT_KEY="14"
         VAL="CompSci" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="44.0501" CD="44.0501"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -1921,8 +1926,8 @@
         OBJ_ID="72D05B55AD8547C0B95A3D5638FEC958" SORT_KEY="7"
         VAL="Forest Production and Processing, Other." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="EDUC" CD="EDUC" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="15" OBJ_ID="C9878ADE94F64C2E81FEF3384900707A" SORT_KEY="15"
+        ENUM_KEY="kuali.lu.subjectArea" ID="15"
+        OBJ_ID="C9878ADE94F64C2E81FEF3384900707A" SORT_KEY="15"
         VAL="Education" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.14" CD="51.14"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -2026,8 +2031,8 @@
         OBJ_ID="65C953A6C0FD49DAA4AF02ACB20B49FE" SORT_KEY="1394"
         VAL="Public Policy Analysis, Other." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="ENGL" CD="ENGL" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="16" OBJ_ID="63D84D075F834FAE98913D7DD7EC4C3E" SORT_KEY="16"
+        ENUM_KEY="kuali.lu.subjectArea" ID="16"
+        OBJ_ID="63D84D075F834FAE98913D7DD7EC4C3E" SORT_KEY="16"
         VAL="English" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.07" CD="52.07"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -2115,8 +2120,8 @@
         OBJ_ID="3E4095BDC4274BB68EEA4A3D95B08FDD" SORT_KEY="1884"
         VAL="Geriatric Medicine." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="FINA" CD="FINA" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="17" OBJ_ID="2A0EA884182E44DCAF5BF69C336AFA09" SORT_KEY="17"
+        ENUM_KEY="kuali.lu.subjectArea" ID="17"
+        OBJ_ID="2A0EA884182E44DCAF5BF69C336AFA09" SORT_KEY="17"
         VAL="Finance" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="05.0121" CD="05.0121"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -2214,8 +2219,8 @@
         OBJ_ID="DED079CEC16D44E3B364F4F7511C18E0" SORT_KEY="52"
         VAL="Farm/Farm and Ranch Management." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="FREN" CD="FREN" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="18" OBJ_ID="2FF703CD80A8484F97604A5970CEBBB9" SORT_KEY="18"
+        ENUM_KEY="kuali.lu.subjectArea" ID="18"
+        OBJ_ID="2FF703CD80A8484F97604A5970CEBBB9" SORT_KEY="18"
         VAL="French" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="05.0119" CD="05.0119"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -2333,8 +2338,8 @@
         OBJ_ID="11953592A7844910A34F05F308B966FE" SORT_KEY="1928"
         VAL="Child Neurology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="GEOG" CD="GEOG" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="19" OBJ_ID="B66FBD88E68040E1A4B6F75E87F09A98" SORT_KEY="19"
+        ENUM_KEY="kuali.lu.subjectArea" ID="19"
+        OBJ_ID="B66FBD88E68040E1A4B6F75E87F09A98" SORT_KEY="19"
         VAL="Geography" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="43.0118" CD="43.0118"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -2887,12 +2892,12 @@
         OBJ_ID="705769002838425E94AFCC390146B591" SORT_KEY="2150"
         VAL="Pediatric Surgery." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="ROBT" CD="ROBT" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="2"
+        ENUM_KEY="kuali.lu.subjectArea" ID="2"
         OBJ_ID="D607F8DA97D04F46A5B60DA291936F94" SORT_KEY="2"
         VAL="CompSci" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="GEOL" CD="GEOL" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="20" OBJ_ID="E0DFE01EE9254A92BC318DF2866FEB1A" SORT_KEY="20"
+        ENUM_KEY="kuali.lu.subjectArea" ID="20"
+        OBJ_ID="E0DFE01EE9254A92BC318DF2866FEB1A" SORT_KEY="20"
         VAL="Geology" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="13.1199" CD="13.1199"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -2985,8 +2990,8 @@
         OBJ_ID="8663503FEF2D4A8FAE9C92E2BA5D6FCF" SORT_KEY="1873"
         VAL="Home Health Aide/Home Attendant." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="HIST" CD="HIST" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="21" OBJ_ID="A2EF23CFC5A84137BA6084E19763910B" SORT_KEY="21"
+        ENUM_KEY="kuali.lu.subjectArea" ID="21"
+        OBJ_ID="A2EF23CFC5A84137BA6084E19763910B" SORT_KEY="21"
         VAL="History" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0249" CD="60.0249"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3084,8 +3089,8 @@
         OBJ_ID="81C5E1AA031B43F68A717E08D1D4B42F" SORT_KEY="42"
         VAL="African Studies." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="INTB" CD="INTB" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="22" OBJ_ID="A5EBE658AA1D4EEA949A19AA99598C91" SORT_KEY="22"
+        ENUM_KEY="kuali.lu.subjectArea" ID="22"
+        OBJ_ID="A5EBE658AA1D4EEA949A19AA99598C91" SORT_KEY="22"
         VAL="InternationalBusiness" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="26.03" CD="26.03"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3178,8 +3183,8 @@
         OBJ_ID="9BF461D1193D46C7987D4CB647FED709" SORT_KEY="408"
         VAL="School Librarian/School Library Media Specialist." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="LING" CD="LING" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="23" OBJ_ID="69AE00CF4660478B97BCE0578BF10042" SORT_KEY="23"
+        ENUM_KEY="kuali.lu.subjectArea" ID="23"
+        OBJ_ID="69AE00CF4660478B97BCE0578BF10042" SORT_KEY="23"
         VAL="Linguistics" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="50.1001" CD="50.1001"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -3262,8 +3267,8 @@
         OBJ_ID="6FC71BD28E8645CF98FA0DEE030E54B1" SORT_KEY="1309"
         VAL="Small Engine Mechanics and Repair Technology/Technician." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="MARK" CD="MARK" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="24" OBJ_ID="6FE4361284E04B76892606BBB6214F54" SORT_KEY="24"
+        ENUM_KEY="kuali.lu.subjectArea" ID="24"
+        OBJ_ID="6FE4361284E04B76892606BBB6214F54" SORT_KEY="24"
         VAL="Marketing " VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="13." CD="13."
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3346,8 +3351,8 @@
         OBJ_ID="EB348E7E3FB4421090B511E0ABCFE2D4" SORT_KEY="1940"
         VAL="Registered Nursing, Nursing Administration, Nursing Research and Clinical Nursing, Other." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="MENG" CD="MENG" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="25" OBJ_ID="CD4A611E960A4BD38469FF45DB40323B" SORT_KEY="25"
+        ENUM_KEY="kuali.lu.subjectArea" ID="25"
+        OBJ_ID="CD4A611E960A4BD38469FF45DB40323B" SORT_KEY="25"
         VAL="Mechanical" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="36.0112" CD="36.0112"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3430,8 +3435,8 @@
         OBJ_ID="C46FCBD7593B4418A19D35EE72B55E1B" SORT_KEY="729"
         VAL="Family Systems." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="MUSC" CD="MUSC" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="26" OBJ_ID="1F372CD4977D4224BAF4A1959D9A875D" SORT_KEY="26"
+        ENUM_KEY="kuali.lu.subjectArea" ID="26"
+        OBJ_ID="1F372CD4977D4224BAF4A1959D9A875D" SORT_KEY="26"
         VAL="Music" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="14.11" CD="14.11"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3534,8 +3539,8 @@
         OBJ_ID="78BE0B43C79C4ADDBA53844E070A0B66" SORT_KEY="1151"
         VAL="PERSONAL AWARENESS AND SELF-IMPROVEMENT." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="PHIL" CD="PHIL" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="27" OBJ_ID="A57879F46FB7423194EC325D218ABD23" SORT_KEY="27"
+        ENUM_KEY="kuali.lu.subjectArea" ID="27"
+        OBJ_ID="A57879F46FB7423194EC325D218ABD23" SORT_KEY="27"
         VAL="Philosophy" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="46.01" CD="46.01"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3628,8 +3633,8 @@
         OBJ_ID="307D811CA41E48DD9E2EA8217CA5950E" SORT_KEY="986"
         VAL="Behavioral Sciences." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="POLI" CD="POLI" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="28" OBJ_ID="83B7EF4FBB3645ADBF59198C8F063CCC" SORT_KEY="28"
+        ENUM_KEY="kuali.lu.subjectArea" ID="28"
+        OBJ_ID="83B7EF4FBB3645ADBF59198C8F063CCC" SORT_KEY="28"
         VAL="PolySci" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="30.1301" CD="30.1301"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3702,8 +3707,8 @@
         OBJ_ID="5BA2569A5E8545D5A406458979A028F7" SORT_KEY="1408"
         VAL="Medical Anthropology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="PSYC" CD="PSYC" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="29" OBJ_ID="E74F2293B79F41CA884DABF8D4E58EF2" SORT_KEY="29"
+        ENUM_KEY="kuali.lu.subjectArea" ID="29"
+        OBJ_ID="E74F2293B79F41CA884DABF8D4E58EF2" SORT_KEY="29"
         VAL="Psychology" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="16.0410" CD="16.0410"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -4271,12 +4276,12 @@
         OBJ_ID="46A52E3DB38348FE9C4415FBDF11D30D" SORT_KEY="436"
         VAL="Ceramic Sciences and Engineering." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="ROBT" CD="ROBT" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="3"
+        ENUM_KEY="kuali.lu.subjectArea" ID="3"
         OBJ_ID="DE1D0F1AE3F74504AF2EA59B2B248442" SORT_KEY="3"
         VAL="Mechanical" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="PUAD" CD="PUAD" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="30" OBJ_ID="479C7B2212234194AFBFD1064C0C89AC" SORT_KEY="30"
+        ENUM_KEY="kuali.lu.subjectArea" ID="30"
+        OBJ_ID="479C7B2212234194AFBFD1064C0C89AC" SORT_KEY="30"
         VAL="PubAdmin" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="43.0112" CD="43.0112"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -4359,8 +4364,8 @@
         OBJ_ID="5AF9A6D5D7C844E8A4FC97D9982AD253" SORT_KEY="2282"
         VAL="Pediatric Dermatology Residency Program." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="SOCI" CD="SOCI" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="31" OBJ_ID="2795E89AB52D48E1826BC5D2CA4ED4B3" SORT_KEY="31"
+        ENUM_KEY="kuali.lu.subjectArea" ID="31"
+        OBJ_ID="2795E89AB52D48E1826BC5D2CA4ED4B3" SORT_KEY="31"
         VAL="Sociology" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="14.03" CD="14.03"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -4438,8 +4443,8 @@
         OBJ_ID="9DA4102A0ABF45D8BBAE73E39F6FA98A" SORT_KEY="294"
         VAL="Computer/Information Technology Services Administration andManagement, Other." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="SOWK" CD="SOWK" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="32" OBJ_ID="3D7E7221936B4D85A1FDCCAF91445234" SORT_KEY="32"
+        ENUM_KEY="kuali.lu.subjectArea" ID="32"
+        OBJ_ID="3D7E7221936B4D85A1FDCCAF91445234" SORT_KEY="32"
         VAL="Social Work" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="53.01" CD="53.01"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -4507,8 +4512,8 @@
         OBJ_ID="DE37D1D09229489690793F6BE8E141BF" SORT_KEY="332"
         VAL="Culinary Arts and Related Services, Other." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="North" CD="NO" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.campusLocation" EXPIR_DT="20000101000000"
-        ID="33" OBJ_ID="50F795EF658A4D5BA89BF4EF9FB125FB" SORT_KEY="31"
+        ENUM_KEY="kuali.lu.campusLocation" ID="33"
+        OBJ_ID="50F795EF658A4D5BA89BF4EF9FB125FB" SORT_KEY="31"
         VAL="North" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.18" CD="52.18"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -4611,8 +4616,8 @@
         OBJ_ID="C0461F0C3CB848E191263319FB77055E" SORT_KEY="1007"
         VAL="Aircraft Armament Systems Technology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="South" CD="SO" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.campusLocation" EXPIR_DT="20000101000000"
-        ID="34" OBJ_ID="45CDEA3809424FE3921EAC06C2B89478" SORT_KEY="32"
+        ENUM_KEY="kuali.lu.campusLocation" ID="34"
+        OBJ_ID="45CDEA3809424FE3921EAC06C2B89478" SORT_KEY="32"
         VAL="South" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.1502" CD="51.1502"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -4661,8 +4666,7 @@
         VAL="Public Health/Community Nurse/Nursing." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="per day" CD="kuali.atp.duration.day"
         EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.duration"
-        EXPIR_DT="20000101000000" ID="35"
-        OBJ_ID="C0B084D867FD4EF6B0E7F5F584372202" SORT_KEY="35"
+        ID="35" OBJ_ID="C0B084D867FD4EF6B0E7F5F584372202" SORT_KEY="35"
         VAL="per day" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="50.0799" CD="50.0799"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -4746,8 +4750,7 @@
         VAL="Ukraine Studies." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="per week" CD="kuali.atp.duration.week"
         EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.duration"
-        EXPIR_DT="20000101000000" ID="36"
-        OBJ_ID="DCA82E394B0C4288BBC068E0107701E9" SORT_KEY="36"
+        ID="36" OBJ_ID="DCA82E394B0C4288BBC068E0107701E9" SORT_KEY="36"
         VAL="per week" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="48.0105" CD="48.0105"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -4774,6 +4777,11 @@
         ID="361b663d-e4e4-47af-81d7-5b4e6d8ddb9f"
         OBJ_ID="96278D4EDB01414B8415A3BE107F7075" SORT_KEY="513"
         VAL="Engineering Chemistry." VER_NBR="0"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="clusetmanagement" CD="clusetmanagement"
+        EFF_DT="20000101000000" ENUM_KEY="ks.message.groupNames"
+        ID="363af65b-52bc-4368-91f4-849bafa78bae"
+        OBJ_ID="83cebaf4-af1c-4eef-a659-26decbc11abe" SORT_KEY="1"
+        VAL="clusetmanagement" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0554" CD="60.0554"
         ENUM_KEY="kuali.enum.type.cip2010"
         ID="3656117d-c7d3-4989-b55b-ec4b806f5bb6"
@@ -4831,8 +4839,8 @@
         VAL="Geographic Information Science and Cartography." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="per month"
         CD="kuali.atp.duration.month" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.atptype.duration" EXPIR_DT="20000101000000"
-        ID="37" OBJ_ID="B8A59DEF17394D7EADAD127F44D57660" SORT_KEY="37"
+        ENUM_KEY="kuali.atptype.duration" ID="37"
+        OBJ_ID="B8A59DEF17394D7EADAD127F44D57660" SORT_KEY="37"
         VAL="per month" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="32.0104" CD="32.0104"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -4910,8 +4918,7 @@
         OBJ_ID="56B569952BB246C58BF1F9296BD3E032" SORT_KEY="1725"
         VAL="Cardiovascular Technology/Technologist." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="template" CD="template"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="38"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="38"
         OBJ_ID="2D645753940144858F1353C6DC1D12D3" SORT_KEY="38"
         VAL="A template holds configuration for defaults for creating a new course" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="15.0101" CD="15.0101"
@@ -5000,8 +5007,7 @@
         OBJ_ID="D30775491C1440D3AABE997756BF422A" SORT_KEY="539"
         VAL="Heating, Ventilation, Air Conditioning and Refrigeration Engineering Technology/Technician." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="draft.private" CD="draft.private"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="39"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="39"
         OBJ_ID="F404211B893C4C97A22F26B5333B62DE" SORT_KEY="39"
         VAL="Exploratory/Private scratch pad" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="47.0402" CD="47.0402"
@@ -5655,12 +5661,11 @@
         OBJ_ID="7A3BAD8AF37943D3A9D0A7C5B646B642" SORT_KEY="2238"
         VAL="Child and Adolescent Psychiatry Residency Program." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="AACH" CD="AACH" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="4"
+        ENUM_KEY="kuali.lu.subjectArea" ID="4"
         OBJ_ID="64B25D178BE3430883D05FB22BB660C7" SORT_KEY="4"
         VAL="Architecture" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="draft.public" CD="draft.public"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="40"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="40"
         OBJ_ID="FFEA2A8C59CC44E7A21ED3FD26138239" SORT_KEY="40"
         VAL="Entered as draft but not yet submitted" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="11.05" CD="11.05"
@@ -5744,8 +5749,7 @@
         OBJ_ID="128E84E12DDE4DD690C9915C8E1E8783" SORT_KEY="2305"
         VAL="Rheumatology Residency Program." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="submitted" CD="submitted"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="41"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="41"
         OBJ_ID="CF92038408BF4284A3FFA0A2CC03FB2E" SORT_KEY="41"
         VAL="Submitted but not yet approved" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.1204" CD="52.1204"
@@ -5839,8 +5843,7 @@
         OBJ_ID="382AA539548E41DD8401325B1B11C492" SORT_KEY="1522"
         VAL="Nuclear Medical Technology/Technologist." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="withdrawn" CD="withdrawn"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="42"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="42"
         OBJ_ID="67273517CCBF41E98F1010AF40998EA8" SORT_KEY="42"
         VAL="Withdrawn (anytime before active)" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="48." CD="48."
@@ -5989,8 +5992,7 @@
         OBJ_ID="C2A74E0971A749EE95DDC50439466E17" SORT_KEY="1664"
         VAL="Speech-Language Pathology/Pathologist." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="approved" CD="approved"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="43"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="43"
         OBJ_ID="F0D20C91B9B54ED6B2C0D565F7B7D81A" SORT_KEY="43"
         VAL="Approved" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.01" CD="51.01"
@@ -6054,8 +6056,7 @@
         OBJ_ID="46CDF85870ED4C8C8A88C966079AEA45" SORT_KEY="1726"
         VAL="Logistics and Materials Management." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="rejected" CD="rejected"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="44"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="44"
         OBJ_ID="1E9331842FF44052A58B6B2BB8F145E5" SORT_KEY="44"
         VAL="Not approved (rejected)" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="48.0000" CD="48.0000"
@@ -6144,8 +6145,7 @@
         OBJ_ID="7670B2E1AEA243B591030AEC1014B6EB" SORT_KEY="1439"
         VAL="Conducting." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Active" CD="Active"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="45"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="45"
         OBJ_ID="F296FA84CD884B8894D3299F944E1F59" SORT_KEY="45"
         VAL="Active and ready to be published" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.0401" CD="52.0401"
@@ -6254,8 +6254,7 @@
         OBJ_ID="15EF369552AA4E4EAB90B43854072879" SORT_KEY="605"
         VAL="Linguistic, Comparative, and Related Language Studies and Services." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="retired" CD="retired"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.state"
-        EXPIR_DT="20000101000000" ID="46"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.state" ID="46"
         OBJ_ID="62E96263484B4926AD62A74E4D8AE407" SORT_KEY="46"
         VAL="Retired/No longer active" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="39.0605" CD="39.0605"
@@ -6330,8 +6329,8 @@
         VAL="Textile Sciences and Engineering." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Lab Fee"
         CD="kuali.enum.type.feeTypes.labFee" EFF_DT="20100407000000"
-        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20110407000000"
-        ID="47" OBJ_ID="BC2FB8A42EA94E5DB6D839596436CBEE" SORT_KEY="47"
+        ENUM_KEY="kuali.lu.fee.feeType" ID="47"
+        OBJ_ID="BC2FB8A42EA94E5DB6D839596436CBEE" SORT_KEY="47"
         VAL="Laboratory Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="01.0303" CD="01.0303"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -6400,8 +6399,7 @@
         VAL="Cytotechnology/Cytotechnologist." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Material Fee"
         CD="kuali.enum.type.feeTypes.materialFee"
-        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType"
-        EXPIR_DT="20110407000000" ID="48"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType" ID="48"
         OBJ_ID="F5768870E24A42E995FED7292FEDF84E" SORT_KEY="48"
         VAL="Materials Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="11.0501" CD="11.0501"
@@ -6501,8 +6499,8 @@
         VAL="Data Entry/Microcomputer Applications." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Studio Fee"
         CD="kuali.enum.type.feeTypes.studioFee" EFF_DT="20100407000000"
-        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20110407000000"
-        ID="49" OBJ_ID="7E3FEDAEEA624316BD7C9FC4463E33C5" SORT_KEY="49"
+        ENUM_KEY="kuali.lu.fee.feeType" ID="49"
+        OBJ_ID="7E3FEDAEEA624316BD7C9FC4463E33C5" SORT_KEY="49"
         VAL="Studio Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.03" CD="60.03"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -7075,13 +7073,12 @@
         OBJ_ID="4A1AA74753C945FEB85C0750EDE58F50" SORT_KEY="474"
         VAL="Structural Engineering." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="ACCT" CD="ACCT" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="5"
+        ENUM_KEY="kuali.lu.subjectArea" ID="5"
         OBJ_ID="B3D80ED2516140A78773B0F8EA79BEDF" SORT_KEY="5"
         VAL="Accounting" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Field Trip Fee"
         CD="kuali.enum.type.feeTypes.fieldTripFee"
-        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType"
-        EXPIR_DT="20110407000000" ID="50"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType" ID="50"
         OBJ_ID="74BD2B2C9DA44BAAA70ADF3AED789E57" SORT_KEY="50"
         VAL="Field Trip Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.1617" CD="51.1617"
@@ -7196,8 +7193,7 @@
         VAL="Forestry, General." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Field Study Fee"
         CD="kuali.enum.type.feeTypes.fieldStudyFee"
-        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType"
-        EXPIR_DT="20110407000000" ID="51"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType" ID="51"
         OBJ_ID="0E657382FED64C8AB8C32E91482A2674" SORT_KEY="51"
         VAL="Field Study Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.0301" CD="51.0301"
@@ -7287,8 +7283,7 @@
         VAL="Communication, General." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Admin Fee"
         CD="kuali.enum.type.feeTypes.administrativeFee"
-        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType"
-        EXPIR_DT="20110407000000" ID="52"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.feeType" ID="52"
         OBJ_ID="D8A4F4CEE7794CF08FB97D83747E4AAB" SORT_KEY="52"
         VAL="Administrative Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.1907" CD="52.1907"
@@ -7363,8 +7358,8 @@
         VAL="Nuclear Engineering." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Coop Fee"
         CD="kuali.enum.type.feeTypes.coopFee" EFF_DT="20100407000000"
-        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20110407000000"
-        ID="53" OBJ_ID="D3ECAE8E6DB84DE297511BAFC90EA880" SORT_KEY="53"
+        ENUM_KEY="kuali.lu.fee.feeType" ID="53"
+        OBJ_ID="D3ECAE8E6DB84DE297511BAFC90EA880" SORT_KEY="53"
         VAL="Coop Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0239" CD="60.0239"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -7458,8 +7453,8 @@
         VAL="Astrophysics." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Greens Fee"
         CD="kuali.enum.type.feeTypes.greensFee" EFF_DT="20100407000000"
-        ENUM_KEY="kuali.lu.fee.feeType" EXPIR_DT="20110407000000"
-        ID="54" OBJ_ID="298989939253462883D61964E9782585" SORT_KEY="54"
+        ENUM_KEY="kuali.lu.fee.feeType" ID="54"
+        OBJ_ID="298989939253462883D61964E9782585" SORT_KEY="54"
         VAL="Greens Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.0301" CD="52.0301"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -7532,8 +7527,7 @@
         OBJ_ID="C0493D46BC2348F4B9B30973E72CFCCA" SORT_KEY="16"
         VAL="Agricultural Mechanics and Equipment/Machine Technology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Variable Rate Fee" CD="variableRateFee"
-        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType"
-        EXPIR_DT="20110407000000" ID="55"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType" ID="55"
         OBJ_ID="D12B902F12C6431D809D70A8CF72A764" SORT_KEY="55"
         VAL="Variable Rate Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="54.0106" CD="54.0106"
@@ -7657,8 +7651,7 @@
         OBJ_ID="5DC9C2A98A4A45128B7DF42722BD10AA" SORT_KEY="1711"
         VAL="Occupational Therapist Assistant." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Fixed Rate Fee" CD="fixedRateFee"
-        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType"
-        EXPIR_DT="20110407000000" ID="56"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType" ID="56"
         OBJ_ID="A6E2E9AABE74434EB04443A4E75F35C5" SORT_KEY="56"
         VAL="Fixed Rate Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="45.0299" CD="45.0299"
@@ -7732,8 +7725,7 @@
         OBJ_ID="E617968C362E4E6CA2A43479870CC3F1" SORT_KEY="1499"
         VAL="Medical Administrative/Executive Assistant and Medical Secretary." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Multiple Rate Fee" CD="multipleRateFee"
-        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType"
-        EXPIR_DT="20110407000000" ID="57"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType" ID="57"
         OBJ_ID="C6D700BE63FF428D84E581D7DCDF8D26" SORT_KEY="57"
         VAL="Multiple Rate Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="10.0308" CD="10.0308"
@@ -7837,8 +7829,7 @@
         OBJ_ID="D5A1507A5F8E405F9C5B92128B294AE5" SORT_KEY="438"
         VAL="Chemical Engineering." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Per Credit Fee" CD="perCreditFee"
-        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType"
-        EXPIR_DT="20110407000000" ID="58"
+        EFF_DT="20100407000000" ENUM_KEY="kuali.lu.fee.rateType" ID="58"
         OBJ_ID="398FD257174841C0964D833AECA1B792" SORT_KEY="58"
         VAL="Per Credit Fee" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="40.1001" CD="40.1001"
@@ -7942,8 +7933,8 @@
         OBJ_ID="A96B13A3BAAA4A41983E64A453EA1037" SORT_KEY="749"
         VAL="Non-Professional General Legal Studies (Undergraduate)." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="AASP" CD="AASP" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="59" OBJ_ID="41973F945167495784C7E8A7718AE72D" SORT_KEY="59"
+        ENUM_KEY="kuali.lu.subjectArea" ID="59"
+        OBJ_ID="41973F945167495784C7E8A7718AE72D" SORT_KEY="59"
         VAL="African American Studies" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="45.07" CD="45.07"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -8551,12 +8542,12 @@
         OBJ_ID="D3635F7E129A432C970A1218BDF9AD0B" SORT_KEY="1045"
         VAL="Behavioral Sciences." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="ARTS" CD="ARTS" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="6"
+        ENUM_KEY="kuali.lu.subjectArea" ID="6"
         OBJ_ID="FE9B3DD43F2D44F19C874282421C8AE2" SORT_KEY="6"
         VAL="FineArts" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="AAST" CD="AAST" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000"
-        ID="60" OBJ_ID="7693517071324554BC145DF2829AD463" SORT_KEY="60"
+        ENUM_KEY="kuali.lu.subjectArea" ID="60"
+        OBJ_ID="7693517071324554BC145DF2829AD463" SORT_KEY="60"
         VAL="Asian American Studies" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="04.07" CD="04.07"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -8608,6 +8599,11 @@
         ID="60751b88-1748-41bb-a9d5-b2df99be874e"
         OBJ_ID="716A5ED4A0C14736A14849455D515102" SORT_KEY="1269"
         VAL="Plumber and Pipefitter." VER_NBR="0"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="common" CD="common"
+        EFF_DT="20000101000000" ENUM_KEY="ks.message.groupNames"
+        ID="607edf67-3ef1-4570-8407-ffc605b8f6fb"
+        OBJ_ID="953bb24c-840c-4b95-a8ce-0f4d429abc61" SORT_KEY="1"
+        VAL="common" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="23.1401" CD="23.1401"
         ENUM_KEY="kuali.enum.type.cip2010"
         ID="60838adc-1504-4641-8bc0-c288b61ce315"
@@ -8655,8 +8651,7 @@
         VAL="Business Family and Consumer Sciences/Human Sciences." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Standard final Exam" CD="STD"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.finalExam.status"
-        EXPIR_DT="20000101000000" ID="61"
-        OBJ_ID="B7AA6A025D9C491A87D31A6ACD8DB237" SORT_KEY="61"
+        ID="61" OBJ_ID="B7AA6A025D9C491A87D31A6ACD8DB237" SORT_KEY="61"
         VAL="Standard final Exam" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="46.0503" CD="46.0503"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -8750,8 +8745,7 @@
         VAL="Hospitality Administration/Management, General." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Alternate final assessment" CD="ALT"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.finalExam.status"
-        EXPIR_DT="20000101000000" ID="62"
-        OBJ_ID="239C75A3DAAA486D8B0043CCD6F89744" SORT_KEY="62"
+        ID="62" OBJ_ID="239C75A3DAAA486D8B0043CCD6F89744" SORT_KEY="62"
         VAL="Alternate final assessment" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.00" CD="51.00"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -8875,8 +8869,7 @@
         VAL="Animal/Livestock Husbandry and Production." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="No final exam or assessment" CD="None"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.finalExam.status"
-        EXPIR_DT="20000101000000" ID="63"
-        OBJ_ID="D150463AEF374825A0E8CB99A5D46366" SORT_KEY="63"
+        ID="63" OBJ_ID="D150463AEF374825A0E8CB99A5D46366" SORT_KEY="63"
         VAL="No final exam or assessment" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="40.0703" CD="40.0703"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -8935,8 +8928,7 @@
         VAL="Experimental Psychology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Extended" CD="EX"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
-        EXPIR_DT="20000101000000" ID="64"
-        OBJ_ID="5AD835728CA74894B16AE32CCEFED971" SORT_KEY="64"
+        ID="64" OBJ_ID="5AD835728CA74894B16AE32CCEFED971" SORT_KEY="64"
         VAL="Extended" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.1909" CD="52.1909"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -9059,8 +9051,8 @@
         OBJ_ID="A07ED0EDC1D64010B4265559B0B222D2" SORT_KEY="880"
         VAL="Endocrinology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="All" CD="AL" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.campusLocation" EXPIR_DT="20000101000000"
-        ID="65" OBJ_ID="D1E263A8272C4E9D84FECE754DCA98C5" SORT_KEY="65"
+        ENUM_KEY="kuali.lu.campusLocation" ID="65"
+        OBJ_ID="D1E263A8272C4E9D84FECE754DCA98C5" SORT_KEY="65"
         VAL="All" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0315" CD="60.0315"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -9903,7 +9895,7 @@
         OBJ_ID="8F77FDFBFF8545E8A1FB601FAA5BAFBA" SORT_KEY="1609"
         VAL="Film/Video and Photographic Arts." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="BENG" CD="BENG" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="7"
+        ENUM_KEY="kuali.lu.subjectArea" ID="7"
         OBJ_ID="7A965F3C2B8748838B77C5FE31CB5735" SORT_KEY="7"
         VAL="Biomed" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="14.0101" CD="14.0101"
@@ -11337,7 +11329,7 @@
         OBJ_ID="2449B900FB974CFBB9CDD57863B2363E" SORT_KEY="122"
         VAL="Agriculture, Agriculture Operations, and Related Sciences, Other." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="BIOC" CD="BIOC" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="8"
+        ENUM_KEY="kuali.lu.subjectArea" ID="8"
         OBJ_ID="90F3AE3CB37F4EF9AE56B3C0EE6E3E1A" SORT_KEY="8"
         VAL="Biochemistry" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.0509" CD="51.0509"
@@ -11820,6 +11812,11 @@
         ID="8520c101-23da-44f2-9a42-f142e1fd44d6"
         OBJ_ID="DCAF58ADDFEE49379D1B535FAE5E388A" SORT_KEY="1454"
         VAL="Carpentry/Carpenter." VER_NBR="0"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="validation" CD="validation"
+        EFF_DT="20000101000000" ENUM_KEY="ks.message.groupNames"
+        ID="852e87ca-94c6-4e41-a870-e923e87eb4fe"
+        OBJ_ID="c2e2afa8-3507-442e-b42c-3ee90a7ed446" SORT_KEY="1"
+        VAL="validation" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="01.0307" CD="01.0307"
         ENUM_KEY="kuali.enum.type.cip2010"
         ID="854c636f-b605-453d-87a4-a34e0ab347b1"
@@ -12812,7 +12809,7 @@
         OBJ_ID="5CD639F11AB04031A40BCED43583ED0E" SORT_KEY="1531"
         VAL="Leatherworking and Upholstery." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="BIOL" CD="BIOL" EFF_DT="20000101000000"
-        ENUM_KEY="kuali.lu.subjectArea" EXPIR_DT="20000101000000" ID="9"
+        ENUM_KEY="kuali.lu.subjectArea" ID="9"
         OBJ_ID="0C3BC6DB2F414EFBBFB7339FCC297760" SORT_KEY="9"
         VAL="Biology" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="14.3901" CD="14.3901"
@@ -13155,6 +13152,11 @@
         ID="947cabbf-76ea-4031-9e49-95722acda9a1"
         OBJ_ID="5840AF70C93D4E0CA7A7454EFA766CF2" SORT_KEY="227"
         VAL="Graphic Communications, Other." VER_NBR="0"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="es" CD="es" EFF_DT="20000101000000"
+        ENUM_KEY="ks.message.locales"
+        ID="94811268-45d7-445d-8818-aaa0d9ba5851"
+        OBJ_ID="613449a8-7ba9-41e1-a2b6-a4bebca951c2" SORT_KEY="1"
+        VAL="Spanish" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="13.11" CD="13.11"
         ENUM_KEY="kuali.enum.type.cip2010"
         ID="94834fe0-3bd6-40a3-aa5a-f01ad2f83402"
@@ -13805,6 +13807,11 @@
         ID="9cbeb916-8b64-41a7-aad8-13f4bf3d4fed"
         OBJ_ID="9C3AFE856CE7472AA2F59000B7C3695D" SORT_KEY="1287"
         VAL="Industrial and Organizational Psychology." VER_NBR="0"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="en" CD="en" EFF_DT="20000101000000"
+        ENUM_KEY="ks.message.locales"
+        ID="9cbf6b08-1169-43c7-8ffd-114ca3e46c0a"
+        OBJ_ID="f041c515-7ada-48f1-a922-13e0a4455186" SORT_KEY="1"
+        VAL="English" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="13.1320" CD="13.1320"
         ENUM_KEY="kuali.enum.type.cip2010"
         ID="9d07c816-8dcf-4589-b49f-79b2bccad069"
@@ -14350,6 +14357,11 @@
         ID="a3c90cd0-c31d-4dc3-9994-6648131575c9"
         OBJ_ID="E4F358A3F7BD4B07871107C8B5A6B1B1" SORT_KEY="397"
         VAL="Chemistry Teacher Education." VER_NBR="0"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="course" CD="course"
+        EFF_DT="20000101000000" ENUM_KEY="ks.message.groupNames"
+        ID="a3ca8af5-11a7-41b1-b0a1-068065995569"
+        OBJ_ID="283bb291-487a-4b60-b4ed-787ffa81777f" SORT_KEY="1"
+        VAL="course" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="53.0103" CD="53.0103"
         ENUM_KEY="kuali.enum.type.cip2000"
         ID="a3ee0876-d637-41ad-9828-1d20802ec97d"
@@ -18984,6 +18996,11 @@
         ID="dad99d55-309e-4542-b467-0e3a2c44f11c"
         OBJ_ID="B53BA81BB5064F388CCD8F12B9EDB039" SORT_KEY="244"
         VAL="Educational Assessment, Testing, and Measurement." VER_NBR="0"/>
+    <KSEM_ENUM_VAL_T ABBREV_VAL="org" CD="org" EFF_DT="20000101000000"
+        ENUM_KEY="ks.message.groupNames"
+        ID="dade18a7-3962-472a-9157-d496c22f19d2"
+        OBJ_ID="c8dd8e84-28bc-4143-abf7-0c89f90d1bcb" SORT_KEY="1"
+        VAL="org" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="10.02" CD="10.02"
         ENUM_KEY="kuali.enum.type.cip2000"
         ID="dae4ff95-68a9-492b-87a2-dac76acf0c7e"

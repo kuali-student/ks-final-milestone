@@ -73,6 +73,6 @@
     <property name="localServiceName" value="KSCoreContext" />
   </bean>
 
-  <bean id="ks.messageService" class="org.kuali.student.core.messages.service.impl.MessageServiceImpl" />
+  <bean id="ks.messageService" class="org.kuali.student.admin.messages.service.impl.MessageServiceImpl" />
         
 </beans>

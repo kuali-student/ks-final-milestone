@@ -13,12 +13,12 @@ public class ViewBaccConfigurer extends AbstractProgramConfigurer {
 
     public ViewBaccConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(BaccInformationViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(BaccManagingBodiesViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(BaccCatalogDetailsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(BaccRequirementsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(BaccLearningObjectivesViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(BaccViewAllSectionsConfiguration.class));
+        programSectionConfigManager.registerConfiguration(new BaccInformationViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccManagingBodiesViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccCatalogDetailsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccRequirementsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccLearningObjectivesViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new SupportingDocsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new BaccViewAllSectionsConfiguration());
     }
 }

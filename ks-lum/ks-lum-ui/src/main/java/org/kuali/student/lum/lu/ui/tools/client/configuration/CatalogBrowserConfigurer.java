@@ -15,24 +15,22 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogBySchoolOrCollegeConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
 
-import com.google.gwt.user.client.ui.Widget;
 
-public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCollegeConstants, BrowseCourseCatalogConstants {
+public class CatalogBrowserConfigurer {
 
 	public static final String CATALOG_BROWSER_MODEL = "CatalogBrowserModel";
 	private DataModelDefinition modelDefinition;
@@ -73,7 +71,7 @@ public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCo
 			new VerticalSectionView (Sections.BROWSE_BY_SUBJECT_AREA,
 					getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA),
 					CATALOG_BROWSER_MODEL);
-		String fieldKey = BY_SUBJECT_AREA + "/" + COURSE_ID;
+		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SUBJECT_AREA;
 		addField (nestedSectionView, fieldKey, null, configureKSBrowser (fieldKey));
 		return nestedSectionView;
 	}
@@ -84,16 +82,51 @@ public class CatalogBrowserConfigurer implements BrowseCourseCatalogBySchoolOrCo
 			new VerticalSectionView (Sections.BROWSE_BY_SCHOOL,
 					getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL),
 					CATALOG_BROWSER_MODEL);
-		String fieldKey = BY_SCHOOL_OR_COLLEGE + "/" + COURSE_ID;
+		String fieldKey =  CatalogBrowserConstants.FULLY_QUALIFIED_BY_SCHOOL_OR_COLLEGE;
 		addField (nestedSectionView, fieldKey, null, configureKSBrowser (fieldKey));
 		return nestedSectionView;
 	}
 
+ private String formatMetadata (Metadata md, String fieldKey) {
+  String msg = "metadata for fieldKey=" + fieldKey
+//    + "\n Name=" + md.getName ()
+    + "\n LabelKey=" + md.getLabelKey ()
+    + "\n defaultValuePath=" + md.getDefaultValuePath ()
+    + "\n LookupContextPath="  + md.getLookupContextPath ()
+//    + "\n maskForatter="  + md.getMaskFormatter ()
+//    + "\n partialMaskFormatter="  + md.getPartialMaskFormatter ()
+    + "\n dataType="  + md.getDataType ()
+    + "\n defaultValue="  + md.getDefaultValue ()
+    + "\n WriteAccess="  + md.getWriteAccess ()
+    + "\n initialLookup="  + md.getInitialLookup ()
+    + "\n additionalLookups="  + md.getAdditionalLookups ()
+    ;
+  if (md.getProperties () != null) {
+   msg += "\n It has " + md.getProperties ().size () + " properties: \n";
+   for (String fk : md.getProperties ().keySet ()) {
+    msg += "\n" + formatMetadata (md.getProperties ().get (fk), fk);
+   }
+  }
+  return msg;
+ }
+
 	private KSBrowser configureKSBrowser (String fieldKey)
 	{
 		QueryPath path = QueryPath.concat (null, fieldKey);
-		Metadata metaData = modelDefinition.getMetadata (path);
-		KSBrowser browser = new KSBrowser (metaData.getInitialLookup (), controller);
+		Metadata md = modelDefinition.getMetadata (path);
+  if (md == null) {
+			KSErrorDialog.show (new NullPointerException
+     ("Invalid lookup configuration: missing field in metadata."
+     + formatMetadata (modelDefinition.getMetadata (), fieldKey)));
+   return null;
+  }
+  if (md.getInitialLookup () == null) {
+			KSErrorDialog.show (new NullPointerException
+     ("Invalid lookup configuration: missing initial lookup in metadata." 
+     + formatMetadata (modelDefinition.getMetadata (), fieldKey)));
+			return null;
+		}
+		KSBrowser browser = new KSBrowser (md.getInitialLookup (), controller);
 		return browser;
 	}
 

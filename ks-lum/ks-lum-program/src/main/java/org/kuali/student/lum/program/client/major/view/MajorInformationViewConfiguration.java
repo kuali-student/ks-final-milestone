@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSe
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -14,14 +15,25 @@ import org.kuali.student.lum.common.client.configuration.AbstractSectionConfigur
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
  */
 public class MajorInformationViewConfiguration extends AbstractSectionConfiguration {
 
-    public MajorInformationViewConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
+    public static MajorInformationViewConfiguration create() {
+        MajorInformationViewConfiguration instance = new MajorInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID));
+        return instance;
+    }
+
+    public static MajorInformationViewConfiguration createSpecial() {
+        MajorInformationViewConfiguration instance = new MajorInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, new EditableHeader(ProgramProperties.get().program_menu_sections_programInformation(), ProgramSections.PROGRAM_DETAILS_EDIT)));
+        return instance;
+    }
+
+    private MajorInformationViewConfiguration(SectionView sectionView) {
+        rootSection = sectionView;
         rootSection.addStyleName("programInformationView");
     }
 
@@ -79,29 +91,29 @@ public class MajorInformationViewConfiguration extends AbstractSectionConfigurat
 
     private Section createDegreeTypeSection() {
 
-        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.DEGREE_TYPE)) ;
+        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.DEGREE_TYPE));
         MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.TABLE, MultiplicityConfiguration.StyleType.BORDERLESS_TABLE, metadata);
         config.setShowHeaders(false);
         config.setUpdateable(false);
 
-        config.setParent(ProgramConstants.DEGREE_TYPE , ProgramProperties.get().programInformation_degreeType(),  null, metadata);
+        config.setParent(ProgramConstants.DEGREE_TYPE, ProgramProperties.get().programInformation_degreeType(), null, metadata);
 
         MultiplicitySection section = new MultiplicitySection(config);
 
         return section;
     }
-    
+
 
     private Section createAccreditingAgenciesSection() {
 
-        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY)) ;
+        Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY));
         MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.TABLE, MultiplicityConfiguration.StyleType.BORDERLESS_TABLE, metadata);
         config.setShowHeaders(false);
         config.setUpdateable(false);
 
-        config.setParent(ProgramConstants.ACCREDITING_AGENCY , ProgramProperties.get().programInformation_accreditation(),  null, metadata);
+        config.setParent(ProgramConstants.ACCREDITING_AGENCY, ProgramProperties.get().programInformation_accreditation(), null, metadata);
 
-        Metadata orgMetadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY, QueryPath.getWildCard(), ProgramConstants.ORG_ID)) ;
+        Metadata orgMetadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY, QueryPath.getWildCard(), ProgramConstants.ORG_ID));
         config.addField(ProgramConstants.ORG_ID, null, ProgramConstants.ACCREDITING_AGENCY, orgMetadata);
 
         MultiplicitySection section = new MultiplicitySection(config);

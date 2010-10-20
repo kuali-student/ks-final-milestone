@@ -23,21 +23,19 @@ public class VariationSummaryConfiguration extends AbstractControllerConfigurati
 
     @Override
     protected void buildLayout() {
-        //rootSection.addWidget(new SummaryActionPanel());
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(GWT.<Configuration>create(VariationInformationViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesViewConfiguration.class));
-        configurationManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsViewConfiguration.class));
+        configurationManager.registerConfiguration(VariationInformationViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(new SupportingDocsViewConfiguration());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(controller);
             }
             rootSection.addSection((Section) configuration.getView());
         }
-        //rootSection.addWidget(new SummaryActionPanel());
     }
 }
 

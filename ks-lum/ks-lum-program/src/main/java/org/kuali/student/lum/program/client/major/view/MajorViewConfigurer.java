@@ -15,13 +15,13 @@ public class MajorViewConfigurer extends AbstractProgramConfigurer {
 
     public MajorViewConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(MajorInformationViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SpecializationsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsViewConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ViewAllSectionConfiguration.class));
+        programSectionConfigManager.registerConfiguration(MajorInformationViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(SpecializationsViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(CatalogInformationViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(new SupportingDocsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(new ViewAllSectionConfiguration());
     }
 }

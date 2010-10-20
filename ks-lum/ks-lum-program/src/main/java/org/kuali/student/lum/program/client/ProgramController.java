@@ -21,6 +21,8 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.lum.program.client.events.ChangeViewEvent;
+import org.kuali.student.lum.program.client.events.ChangeViewEventHandler;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -68,6 +70,7 @@ public abstract class ProgramController extends MenuSectionController {
         setViewContext(viewContext);
         initializeModel();
     }
+
 
     @Override
     public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {

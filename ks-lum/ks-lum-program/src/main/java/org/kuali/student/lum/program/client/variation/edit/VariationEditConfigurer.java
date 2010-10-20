@@ -15,12 +15,12 @@ public class VariationEditConfigurer extends AbstractProgramConfigurer {
 
     public VariationEditConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(VariationInformationEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ManagingBodiesEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CatalogInformationEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(ProgramRequirementsEditConfiguration.class)); 
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(LearningObjectivesEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(VariationSummaryConfiguration.class));
+        programSectionConfigManager.registerConfiguration(new VariationInformationEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new VariationSummaryConfiguration());
     }
 }

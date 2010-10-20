@@ -1,4 +1,4 @@
-package org.kuali.student.core.messages.service.impl;
+package org.kuali.student.admin.messages.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
