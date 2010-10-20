@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
-<dataset>
-    <KSCO_TAG_TYPE EFF_DT="20000101000000" EXPIR_DT="20001231000000"
-        NAME="Default" OBJ_ID="12A50145DB9448A199A26848B1F5CE54"
-        TYPE_DESC="Default tag type" TYPE_KEY="tagType.default" VER_NBR="0"/>
-</dataset>

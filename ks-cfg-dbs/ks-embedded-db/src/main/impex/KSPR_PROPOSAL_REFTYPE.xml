@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
-<dataset>
-    <KSPR_PROPOSAL_REFTYPE EFF_DT="20000101000000"
-        EXPIR_DT="20001231000000" NAME="Clu Proposal Reference"
-        OBJ_ID="EEFBFD0AB3024EC89DAEBA81B90E265D"
-        TYPE_DESC="Clu proposal reference type"
-        TYPE_KEY="kuali.proposal.referenceType.clu" VER_NBR="0"/>
-</dataset>

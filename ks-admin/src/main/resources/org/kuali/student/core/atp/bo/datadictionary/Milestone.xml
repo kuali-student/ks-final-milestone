@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="Milestone" parent="Milestone-parentBean" />
+    <bean id="Milestone-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.Milestone" />
+        <property name="titleAttribute" value="name" />
+        <property name="objectLabel" value="Milestone" />
+        <property name="lookupDefinition">
+            <ref bean="Milestone-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="Milestone-inquiryDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="Milestone-id" />
+                <ref bean="Milestone-name" />
+                <ref bean="Milestone-description.plain" />
+                <ref bean="Milestone-state" />
+                <ref bean="Milestone-createId" />
+                <ref bean="Milestone-createDate" />
+                <ref bean="Milestone-updateId" />
+                <ref bean="Milestone-updateDate" />
+                <ref bean="Milestone-typeId" />
+                <ref bean="Milestone-milestoneDate" />
+                <ref bean="Milestone-atpId" />
+                <ref bean="Milestone-atp.name" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Milestone-id" parent="Milestone-id-parentBean" />
+    <bean id="Milestone-id-parentBean" abstract="true" parent="CoreAttributeReference-id">
+    </bean>
+
+    <bean id="Milestone-name" parent="Milestone-name-parentBean" />
+    <bean id="Milestone-name-parentBean" abstract="true" parent="CoreAttributeReference-name">
+    </bean>
+
+    <bean id="Milestone-description.plain" parent="Milestone-description.plain-parentBean" />
+    <bean id="Milestone-description.plain-parentBean" abstract="true" parent="CoreAttributeReference-richText.plain">
+	  <property name="summary" value="Description for the Milestone"/>
+	  <property name="name" value="description.plain"/>
+	  <property name="label" value="Description"/>
+	  <property name="description" value="Description for the Milestone"/>
+	</bean>
+
+    <bean id="Milestone-milestoneDate" parent="Milestone-milestoneDate-parentBean" />
+    <bean id="Milestone-milestoneDate-parentBean" abstract="true" parent="CoreAttributeReference-genericDate">
+        <property name="shortLabel" value="Milestone Dt" />
+        <property name="summary" value="Date the milestone occurs" />
+        <property name="name" value="milestoneDate" />
+        <property name="label" value="Milestone Date" />
+        <property name="description" value="Date the milestone occurs" />
+    </bean>
+
+    <bean id="Milestone-state" parent="Milestone-state-parentBean" />
+    <bean id="Milestone-state-parentBean" abstract="true" parent="CoreAttributeReference-state">
+    </bean>
+
+    <bean id="Milestone-createId" parent="Milestone-createId-parentBean" />
+    <bean id="Milestone-createId-parentBean" abstract="true" parent="CoreAttributeReference-createId">
+    </bean>
+
+    <bean id="Milestone-createDate" parent="Milestone-createDate-parentBean" />
+    <bean id="Milestone-createDate-parentBean" abstract="true" parent="CoreAttributeReference-createDate">
+    </bean>
+
+    <bean id="Milestone-updateId" parent="Milestone-updateId-parentBean" />
+    <bean id="Milestone-updateId-parentBean" abstract="true" parent="CoreAttributeReference-updateId">
+    </bean>
+
+    <bean id="Milestone-updateDate" parent="Milestone-updateDate-parentBean" />
+    <bean id="Milestone-updateDate-parentBean" abstract="true" parent="CoreAttributeReference-updateDate">
+    </bean>
+
+    <bean id="Milestone-typeId" parent="Milestone-typeId-parentBean" />
+    <bean id="Milestone-typeId-parentBean" abstract="true" parent="CoreAttributeReference-typeId">
+    	<property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.MilestoneTypeValuesFinder"/>
+	    </property>
+    </bean>
+
+    <bean id="Milestone-atpId" parent="Milestone-atpId-parentBean" />
+    <bean id="Milestone-atpId-parentBean" abstract="true" parent="Atp-id">
+        <property name="shortLabel" value="Atp" />
+        <property name="summary" value="Id for the Atp that contains the date range" />
+        <property name="name" value="atpId" />
+        <property name="label" value="Atp Id" />
+        <property name="description" value="Id for the Atp that contains the date range" />
+    </bean>
+    
+    <bean id="Milestone-atp.name" parent="Milestone-atp.name-parentBean" />
+    <bean id="Milestone-atp.name-parentBean" abstract="true" parent="Atp-name">
+    	<property name="label" value="ATP" />
+    	<property name="name" value="atp.name" />
+    </bean>
+
+
+    <bean id="Milestone-lookupDefinition" parent="Milestone-lookupDefinition-parentBean" />
+    <bean id="Milestone-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="description.plain" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" />
+                <bean parent="FieldDefinition" p:attributeName="state" />
+                <bean parent="FieldDefinition" p:attributeName="atpId"/>
+                <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
+                <bean parent="FieldDefinition" p:attributeName="description.plain" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
+                <bean parent="FieldDefinition" p:attributeName="state" />
+                <bean parent="FieldDefinition" p:attributeName="atp.name"/>
+            </list>
+        </property>
+        <property name="title" value="Milestone Lookup" />
+    </bean>
+
+    <bean id="Milestone-inquiryDefinition" parent="Milestone-inquiryDefinition-parentBean" />
+    <bean id="Milestone-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Milestone Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Milestone" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" />
+                            <bean parent="FieldDefinition" p:attributeName="name" />
+                            <bean parent="FieldDefinition" p:attributeName="description.plain" />
+                            <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name"/>
+                            <bean parent="FieldDefinition" p:attributeName="milestoneDate" />
+                            <bean parent="FieldDefinition" p:attributeName="state" />
+                            <bean parent="FieldDefinition" p:attributeName="atpId" p:alternateDisplayAttributeName="atp.name"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="Milestone-inquirySection-metaInformation" />              
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="Milestone-inquirySection-metaInformation" parent="Milestone-inquirySection-metaInformation-parentBean" />
+    <bean id="Milestone-inquirySection-metaInformation-parentBean" abstract="true" parent="CoreAttributeReference-inquirySection-metaInformation">
+    </bean>
+
+</beans>

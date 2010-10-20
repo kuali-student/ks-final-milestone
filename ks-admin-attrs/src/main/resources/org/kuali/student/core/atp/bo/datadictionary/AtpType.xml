@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+>
+
+    <bean id="AtpType" parent="AtpType-parentBean" />
+
+    <bean id="AtpType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.AtpType" />
+        <property name="titleAttribute" value="id" />
+        <property name="objectLabel" value="Academic Time Period Type" />
+        <property name="lookupDefinition">
+            <ref bean="AtpType-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="AtpType-inquiryDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="AtpType-id" />
+                <ref bean="AtpType-name" />
+                <ref bean="AtpType-description" />
+                <ref bean="AtpType-activeFromDate" />
+                <ref bean="AtpType-activeToDate" />
+                <ref bean="AtpType-active" />
+                <ref bean="AtpType-seasonalTypeId" />
+                <ref bean="AtpType-durationTypeId" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AtpType-id" parent="AtpType-id-parentBean" />
+
+    <bean id="AtpType-id-parentBean" abstract="true" parent="AttributeReferenceKualiType-id">
+    </bean>
+
+    <bean id="AtpType-name" parent="AtpType-name-parentBean" />
+
+    <bean id="AtpType-name-parentBean" abstract="true" parent="AttributeReferenceKualiType-name">
+    </bean>
+
+    <bean id="AtpType-description" parent="AtpType-description-parentBean" />
+
+    <bean id="AtpType-description-parentBean" abstract="true" parent="AttributeReferenceKualiType-description">
+    </bean>
+
+    <bean id="AtpType-activeFromDate" parent="AtpType-activeFromDate-parentBean" />
+
+    <bean id="AtpType-activeFromDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeFromDate">
+    </bean>
+
+    <bean id="AtpType-activeToDate" parent="AtpType-activeToDate-parentBean" />
+
+    <bean id="AtpType-activeToDate-parentBean" abstract="true" parent="AttributeReferenceDummy-activeToDate">
+    </bean>
+
+    <bean id="AtpType-active" parent="AtpType-active-parentBean" />
+
+    <bean id="AtpType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active" />
+    </bean>
+
+    <bean id="AtpType-seasonalTypeId" parent="AtpType-seasonalTypeId-parentBean" />
+
+    <bean id="AtpType-seasonalTypeId-parentBean" abstract="true" parent="AttributeReferenceKualiType-typeId">
+        <property name="shortLabel" value="Seas Typ" />
+        <property name="summary" value="Id of the Seasonal Type" />
+        <property name="name" value="seasonalTypeId" />
+        <property name="label" value="Season" />
+        <property name="description" value="Id of the Seasonal Type" />
+        <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.AtpSeasonTypeValuesFinder"/>
+	    </property>
+    </bean>
+
+    <bean id="AtpType-durationTypeId" parent="AtpType-durationTypeId-parentBean" />
+
+    <bean id="AtpType-durationTypeId-parentBean" abstract="true" parent="AttributeReferenceKualiType-typeId">
+        <property name="shortLabel" value="Duration Typ" />
+        <property name="summary" value="Id of the Duration Type" />
+        <property name="name" value="durationTypeId" />
+        <property name="label" value="Duration" />
+        <property name="description" value="Id of the Duration Type" />
+        <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.AtpDurationTypeValuesFinder"/>
+	    </property>
+    </bean>
+
+    <bean id="AtpType-lookupDefinition" parent="AtpType-lookupDefinition-parentBean" />
+
+    <bean id="AtpType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="translateCodes" value="true" />
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="seasonalTypeId" />
+                <bean parent="FieldDefinition" p:attributeName="durationTypeId" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="seasonalTypeId" p:alternateDisplayAttributeName="seasonalType.name"/>
+                <bean parent="FieldDefinition" p:attributeName="durationTypeId" p:alternateDisplayAttributeName="durationType.name"/>
+                <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+            </list>
+        </property>
+        <property name="title" value="Atp Type Lookup" />
+    </bean>
+
+    <bean id="AtpType-inquiryDefinition" parent="AtpType-inquiryDefinition-parentBean" />
+
+    <bean id="AtpType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Atp Type Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Atp Type" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" />
+                            <bean parent="FieldDefinition" p:attributeName="name" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="seasonalTypeId" p:alternateDisplayAttributeName="seasonalType.name"/>
+                            <bean parent="FieldDefinition" p:attributeName="durationTypeId" p:alternateDisplayAttributeName="durationType.name"/>
+                            <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+                            <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Extension Attributes" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="attributes" />
+                                <property name="businessObjectClass" value="org.kuali.rice.kns.bo.BusinessObjectExtensionAttributeImpl" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Attribute" />
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="name" />
+                                        <bean parent="FieldDefinition" p:attributeName="value" />
+                                    </list>
+                                </property>
+                                <property name="summaryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="name" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>                
+            </list>
+        </property>
+    </bean>
+
+</beans>

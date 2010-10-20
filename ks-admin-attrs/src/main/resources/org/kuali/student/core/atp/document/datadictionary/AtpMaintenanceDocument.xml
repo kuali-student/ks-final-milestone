@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd"
+>
+
+    <bean id="AtpMaintenanceDocument" parent="AtpMaintenanceDocument-parentBean" />
+
+    <bean id="AtpMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.student.core.atp.bo.Atp"
+        p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" >
+        <property name="maintainableSections">
+            <list>
+                <ref bean="AtpMaintenanceDocument-atp" />
+                <ref bean="AtpMaintenanceDocument-attributes" />
+                <ref bean="AtpMaintenanceDocument-dateRanges" />
+                <ref bean="AtpMaintenanceDocument-milestones" />
+            </list>
+        </property>
+        <!-- 
+        <property name="defaultExistenceChecks">
+            <list>
+                <bean parent="ReferenceDefinition" p:attributeName="type" p:attributeToHighlightOnFail="typeId" />
+            </list>
+        </property>
+        -->
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="AcademicTimePeriodMaintenanceDocument" />
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="AtpMaintenanceDocument-atp" parent="AtpMaintenanceDocument-atp-parentBean" />
+
+    <bean id="AtpMaintenanceDocument-atp-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="title" value="Academic Time Period Maintenance" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="description" />
+                <bean parent="MaintainableFieldDefinition" p:name="typeId" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="activeFromDate" />
+                <bean parent="MaintainableFieldDefinition" p:name="activeToDate" />
+                <bean parent="MaintainableFieldDefinition" p:name="state" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="AtpMaintenanceDocument-attributes" parent="AtpMaintenanceDocument-attributes-parentBean" />
+
+    <bean id="AtpMaintenanceDocument-attributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Extension Attributes" />
+        <property name="title" value="Extension Attributes" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="attributes" />
+                    <property name="businessObjectClass" value="org.kuali.rice.kns.bo.BusinessObjectExtensionAttributeImpl" />
+                    <property name="summaryTitle" value="Attribute" />
+                    <property name="summaryFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="name" />
+                        </list>
+                    </property>
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="value" p:required="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="AtpMaintenanceDocument-dateRanges" parent="AtpMaintenanceDocument-dateRanges-parentBean" />
+
+    <bean id="AtpMaintenanceDocument-dateRanges-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="dateRanges" />
+        <property name="title" value="Date Ranges" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="dateRanges" />
+                    <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.DateRange" />
+                    <property name="summaryTitle" value="Date Range" />
+                    <property name="summaryFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="name" />
+                        </list>
+                    </property>
+                    <property name="maintainableFields">
+                        <list>
+                        	<bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" />
+                        	<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
+                        	<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+                        	<bean parent="MaintainableFieldDefinition" p:name="typeId" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="startDate" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="endDate" p:required="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="AtpMaintenanceDocument-milestones" parent="AtpMaintenanceDocument-milestones-parentBean" />
+
+    <bean id="AtpMaintenanceDocument-milestones-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="milestones" />
+        <property name="title" value="Milestones" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="milestones" />
+                    <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.Milestone" />
+                    <property name="summaryTitle" value="Milestones" />
+                    <property name="summaryFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="name" />
+                        </list>
+                    </property>
+                    <property name="maintainableFields">
+                        <list>
+                        	<bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" />
+                        	<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
+                        	<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+                        	<bean parent="MaintainableFieldDefinition" p:name="typeId" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="milestoneDate" p:required="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
