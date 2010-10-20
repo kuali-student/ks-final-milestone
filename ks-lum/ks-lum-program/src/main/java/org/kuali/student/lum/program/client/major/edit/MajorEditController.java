@@ -4,7 +4,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -147,34 +149,49 @@ public class MajorEditController extends MajorController {
             @Override
             public void onModelReady(DataModel model) {
                 MajorEditController.this.updateModelFromCurrentView();
-                programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+                model.validate(new Callback<List<ValidationResultInfo>>() {
                     @Override
-                    public void onSuccess(DataSaveResult result) {
-                        if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
-                            isValid(result.getValidationResults(), false, true);
-                            StringBuilder msg = new StringBuilder();
-                            for (ValidationResultInfo vri : result.getValidationResults()) {
-                                msg.append(vri.getMessage());
-                            }
-                            KSNotifier.show(ProgramProperties.get().common_failedSave(msg.toString()));
+                    public void exec(List<ValidationResultInfo> result) {
+                        boolean isSectionValid = isValid(result, true);
+                        if (isSectionValid) {
+                            saveData();
                         } else {
-                            super.onSuccess(result);
-                            programModel.setRoot(result.getValue());
-                            setHeaderTitle();
-                            setStatus();
-                            resetFieldInteractionFlag();
-                            //eventBus.fireEvent(new ModelLoadedEvent(programModel));
-                            eventBus.fireEvent(new AfterSaveEvent(programModel));
-                            HistoryManager.logHistoryChange();
-                            KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                            Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
                 });
+
             }
 
             @Override
             public void onRequestFail(Throwable cause) {
                 GWT.log("Unable to retrieve model for validation and save", cause);
+            }
+        });
+    }
+
+    private void saveData() {
+        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+            @Override
+            public void onSuccess(DataSaveResult result) {
+                if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
+                    isValid(result.getValidationResults(), false, true);
+                    StringBuilder msg = new StringBuilder();
+                    for (ValidationResultInfo vri : result.getValidationResults()) {
+                        msg.append(vri.getMessage());
+                    }
+                    KSNotifier.show(ProgramProperties.get().common_failedSave(msg.toString()));
+                } else {
+                    super.onSuccess(result);
+                    programModel.setRoot(result.getValue());
+                    setHeaderTitle();
+                    setStatus();
+                    resetFieldInteractionFlag();
+                    //eventBus.fireEvent(new ModelLoadedEvent(programModel));
+                    eventBus.fireEvent(new AfterSaveEvent(programModel));
+                    HistoryManager.logHistoryChange();
+                    KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                }
             }
         });
     }
