@@ -124,10 +124,12 @@ public class SearchResultsTable extends Composite{
         this.searchRequest = searchRequest;
         initializeTable(listResultMetadata, resultIdKey);
         if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
-
+            //FIXME Do we still need this if condition?
+            // Added an else to the if(pagedResults) line to prevent searches being executed
+            // twice if the search name includes cross
             performOnDemandSearch(0, 0);
         }
-        if(pagedResults){
+        else if(pagedResults){
         	performOnDemandSearch(0, PAGE_SIZE);
         }
         else{
