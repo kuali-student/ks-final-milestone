@@ -1,0 +1,778 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_CLU_IDENT CD="MATH570" DIV="MATH"
+        ID="015ae8d7-5a4a-4818-9467-02ea53e09c4d"
+        LNG_NAME="Optimization and Analysis I" LVL="500"
+        SHRT_NAME="OPTMZN ANLYS I" SUFX_CD="570"/>
+    <KSLU_CLU_IDENT CD="CHEM426" DIV="CHEM"
+        ID="03157e88-d06e-4af4-b4de-eada812a4b97"
+        LNG_NAME="Advanced Inorganic Synthesis" LVL="400"
+        SHRT_NAME="ADV INORG SYNTHS" SUFX_CD="426"/>
+    <KSLU_CLU_IDENT CD="CHEM235" DIV="CHEM"
+        ID="044b7991-50e4-4c76-ad0d-0c80052dd211"
+        LNG_NAME="Organic Chemistry Laboratory" LVL="200"
+        SHRT_NAME="Org Chem Lab" SUFX_CD="235"/>
+    <KSLU_CLU_IDENT CD="CHEM333" DIV="CHEM"
+        ID="062be9ba-9cb7-49eb-a48c-313ddc20a989"
+        LNG_NAME="Spectroscopic Techniques in Organic Chemistry"
+        LVL="300" SHRT_NAME="SPCTR TEC ORG CH" SUFX_CD="333"/>
+    <KSLU_CLU_IDENT CD="CHEM312" DIV="CHEM"
+        ID="075622a4-e378-49c4-a926-76fbca203226"
+        LNG_NAME="Introduction to Quantum Mechanics and Spectroscopy"
+        LVL="300" SHRT_NAME="INTR QUANTM MECH" SUFX_CD="312"/>
+    <KSLU_CLU_IDENT CD="CHEM568" DIV="CHEM"
+        ID="0afc65d3-6506-4beb-bd2c-8f9a3b8e4c6b"
+        LNG_NAME="Topics in Organic Chemistry" LVL="500"
+        SHRT_NAME="TPCS INORG CHEM" SUFX_CD="568"/>
+    <KSLU_CLU_IDENT CD="MATH613" DIV="MATH"
+        ID="0cf208cf-671c-47c6-ac98-6a2c679cf223"
+        LNG_NAME="Topics in Number Theory" LVL="600"
+        SHRT_NAME="NUMBER THEORY" SUFX_CD="613"/>
+    <KSLU_CLU_IDENT CD="MATH530" DIV="MATH"
+        ID="0e4952f7-df31-4267-92b8-88a742839749"
+        LNG_NAME="Geometric Topology " LVL="500"
+        SHRT_NAME="GEO TOPOLOGY " SUFX_CD="530"/>
+    <KSLU_CLU_IDENT CD="CHEM566" DIV="CHEM"
+        ID="105ff8e5-c5ac-44a4-92e1-0f39222edc49"
+        LNG_NAME="Advanced Organic Synthesis" LVL="500"
+        SHRT_NAME="ORGANIC SYNTHSIS" SUFX_CD="566"/>
+    <KSLU_CLU_IDENT CD="MATH308" DIV="MATH"
+        ID="108b07d0-c988-4590-b287-57eaeeb86cb2"
+        LNG_NAME="Euclidean Geometry" LVL="300"
+        SHRT_NAME="EUCLIDN GEOMETRY" SUFX_CD="308"/>
+    <KSLU_CLU_IDENT CD="CHEM405" DIV="CHEM"
+        ID="149cf719-9198-432c-906f-42259f8f62db"
+        LNG_NAME="Biophysical Chemistry" LVL="400"
+        SHRT_NAME="BIOPHYSICAL CHEM" SUFX_CD="405"/>
+    <KSLU_CLU_IDENT CD="CHEM514" DIV="CHEM"
+        ID="163bd2e7-da8a-4831-84d8-19236c7377c4"
+        LNG_NAME="Crystal Structures" LVL="500"
+        SHRT_NAME="CRYSTAL STRUCTRE" SUFX_CD="514"/>
+    <KSLU_CLU_IDENT CD="MATH523" DIV="MATH"
+        ID="16bfef0c-b086-4115-826d-13a675fb65f6"
+        LNG_NAME="Combinatorial Optimization" LVL="500"
+        SHRT_NAME="COMBNTRL OPTMZTN" SUFX_CD="523"/>
+    <KSLU_CLU_IDENT CD="CHEM524" DIV="CHEM"
+        ID="177bc519-84bf-4d19-b747-676643d6bf02"
+        LNG_NAME="Chemistry of Organometallic Compounds" LVL="500"
+        SHRT_NAME="ORGNOMETLC CMPDS" SUFX_CD="524"/>
+    <KSLU_CLU_IDENT CD="CHEM521" DIV="CHEM"
+        ID="19738abc-84c1-4366-9e51-5e620bc3cb7d"
+        LNG_NAME="Topics in Inorganic Chemistry" LVL="500"
+        SHRT_NAME="TPCS INORG CHEM" SUFX_CD="521"/>
+    <KSLU_CLU_IDENT CD="MATH337" DIV="MATH"
+        ID="19fa25c1-3c42-4884-a539-3c6df21dec30"
+        LNG_NAME="Mathematics for Teaching" LVL="300"
+        SHRT_NAME="MATH FR TEACHING" SUFX_CD="337"/>
+    <KSLU_CLU_IDENT CD="CHEM415" DIV="CHEM"
+        ID="1a1d3aeb-32ee-44a8-970b-dec9b8542441"
+        LNG_NAME="Advanced Chemistry Laboratory" LVL="400"
+        SHRT_NAME="CHEMISTRY LAB" SUFX_CD="415"/>
+    <KSLU_CLU_IDENT CD="MATH459" DIV="MATH"
+        ID="1abe639b-0934-4c1a-847a-2c4fb6172e52"
+        LNG_NAME="Mathematical Biology" LVL="400"
+        SHRT_NAME="MATHCL BIOL" SUFX_CD="459"/>
+    <KSLU_CLU_IDENT CD="CHEM508" DIV="CHEM"
+        ID="1c68311d-d295-4481-acf1-bae9feb17ece"
+        LNG_NAME="Chemical Kinetics and Reaction Dynamics" LVL="500"
+        SHRT_NAME="CHML KIN/REAC DY" SUFX_CD="508"/>
+    <KSLU_CLU_IDENT CD="MATH546" DIV="MATH"
+        ID="1d321d67-bbbb-49aa-9242-86e6c09ea07f"
+        LNG_NAME="Methods and Applications of Partial Differential Equations"
+        LVL="500" SHRT_NAME="PRTL DIFF EQUTNS" SUFX_CD="546"/>
+    <KSLU_CLU_IDENT CD="CHEM524" DIV="CHEM"
+        ID="1ed91a62-88b5-434f-ad57-a1652d187344"
+        LNG_NAME="Organometallic Catalysts" LVL="500"
+        SHRT_NAME="ORGNMTLC CATLYST" SUFX_CD="524"/>
+    <KSLU_CLU_IDENT CD="MATH184" DIV="MATH"
+        ID="2921935b-2b61-4a86-926d-9ca32c5ff8ef"
+        LNG_NAME="Differential Calculus for Social Science and Commerce"
+        LVL="100" SHRT_NAME="CALC SOCSCI COMM" SUFX_CD="184"/>
+    <KSLU_CLU_IDENT CD="MATH210" DIV="MATH"
+        ID="29cc69b6-e76b-4343-bb9b-3cd3728b016d"
+        LNG_NAME="Introduction to Mathematical Computing" LVL="200"
+        SHRT_NAME="INTRO MATH COMPU" SUFX_CD="210"/>
+    <KSLU_CLU_IDENT CD="MATH605" DIV="MATH"
+        ID="2a0f21f2-982c-47a6-a890-903c310d2117"
+        LNG_NAME="Topics in Applied Mathematics" LVL="600"
+        SHRT_NAME="TPCS APPL MATH" SUFX_CD="605"/>
+    <KSLU_CLU_IDENT CD="CHEM510" DIV="CHEM"
+        ID="2d305ca7-92b8-4a9c-b997-c17b68a5feba"
+        LNG_NAME="Advanced Electronic Structure Theory" LVL="500"
+        SHRT_NAME="ADV ELEC STRUCT" SUFX_CD="510"/>
+    <KSLU_CLU_IDENT CD="MATH426" DIV="MATH"
+        ID="2fa2664f-b7a6-4388-9633-50f6b14e6dc7"
+        LNG_NAME="Introduction to Topology" LVL="400"
+        SHRT_NAME="INTR TO TOPOLOGY" SUFX_CD="426"/>
+    <KSLU_CLU_IDENT CD="CHEM507" DIV="CHEM"
+        ID="2fe8a76d-a7be-4eeb-92ba-903ac41930ca"
+        LNG_NAME="Topics in Physical Chemistry" LVL="500"
+        SHRT_NAME="TPCS PHYS CHEM" SUFX_CD="507"/>
+    <KSLU_CLU_IDENT CD="MATH120" DIV="MATH"
+        ID="3024d05b-f7ac-4e91-a226-64b618743b34"
+        LNG_NAME="Honours Differential Calculus" LVL="100"
+        SHRT_NAME="DIFFER CALCULUS" SUFX_CD="120"/>
+    <KSLU_CLU_IDENT CD="CHEM499" DIV="CHEM"
+        ID="31104708-3625-4cf4-bb44-7a5fe4f4bc50"
+        LNG_NAME="Co-operative Work Placement IV" LVL="400"
+        SHRT_NAME="COOP WORK PL IV" SUFX_CD="499"/>
+    <KSLU_CLU_IDENT CD="MATH230" DIV="MATH"
+        ID="3207e642-a8b3-4c9e-9f3e-a87b6e3f386e"
+        LNG_NAME="Introduction to Finite Mathematics" LVL="200"
+        SHRT_NAME="INTRO FINITE MTH" SUFX_CD="230"/>
+    <KSLU_CLU_IDENT CD="MATH598" DIV="MATH"
+        ID="350f5c40-9bb0-4115-8e06-bc175f05cdbf"
+        LNG_NAME="Co-operative Work Placement II" LVL="500"
+        SHRT_NAME="CO-OP WORK II" SUFX_CD="598"/>
+    <KSLU_CLU_IDENT CD="MATH342" DIV="MATH"
+        ID="39caea9a-36dc-4172-99a6-6c3c3d0d1eba"
+        LNG_NAME="Algebra, Coding Theory, and Cryptography" LVL="300"
+        SHRT_NAME="ALG CODING CRYPT" SUFX_CD="342"/>
+    <KSLU_CLU_IDENT CD="MATH400" DIV="MATH"
+        ID="3b60d738-62aa-4d3f-86f9-3a5a9023f039"
+        LNG_NAME="Applied Partial Differential Equations" LVL="400"
+        SHRT_NAME="APP PART DIFF EQ" SUFX_CD="400"/>
+    <KSLU_CLU_IDENT CD="CHEM435" DIV="CHEM"
+        ID="3c83b9c4-6b7a-4db2-a733-6b2f2395ea61"
+        LNG_NAME="Bio-Inorganic Chemistry" LVL="400"
+        SHRT_NAME="BIO-INORGANIC" SUFX_CD="435"/>
+    <KSLU_CLU_IDENT CD="MATH217" DIV="MATH"
+        ID="3d3b9952-65f2-41e4-93aa-02aecfbea3f7"
+        LNG_NAME="Multivariable and Vector Calculus" LVL="200"
+        SHRT_NAME="MLTVAR&amp;VCTR CALC" SUFX_CD="217"/>
+    <KSLU_CLU_IDENT CD="MATH110" DIV="MATH"
+        ID="3e12660f-1871-4440-876f-52b0244be7f1"
+        LNG_NAME="Differential Calculus" LVL="100"
+        SHRT_NAME="DIFF CALCULUS" SUFX_CD="110"/>
+    <KSLU_CLU_IDENT CD="MATH256" DIV="MATH"
+        ID="400ce94f-3e52-4153-b702-e85c667af3e3"
+        LNG_NAME="Differential equations" LVL="200"
+        SHRT_NAME="DIFF EQUATIONS" SUFX_CD="256"/>
+    <KSLU_CLU_IDENT CD="CHEM412" DIV="CHEM"
+        ID="40177f0e-8b2d-4ab6-a0d0-745ddea0d438"
+        LNG_NAME="Methods in Bioanalytical Chemistry" LVL="400"
+        SHRT_NAME="MTHD BIOANL CHEM" SUFX_CD="412"/>
+    <KSLU_CLU_IDENT CD="MATH398" DIV="MATH"
+        ID="43841691-ff55-4c6c-8766-13a4308b4d3d"
+        LNG_NAME="Co-operative Work Placement I" LVL="300"
+        SHRT_NAME="COOP WRK PL I" SUFX_CD="398"/>
+    <KSLU_CLU_IDENT CD="MATH336" DIV="MATH"
+        ID="43d59e4f-5a27-48b5-8ee7-11e5c57ca732"
+        LNG_NAME="Mathematics by Inquiry" LVL="300"
+        SHRT_NAME="MATH BY INQUIRY" SUFX_CD="336"/>
+    <KSLU_CLU_IDENT CD="MATH340" DIV="MATH"
+        ID="45bc76c1-67dd-4714-97be-d6e3292a5320"
+        LNG_NAME="Introduction to Linear Programming" LVL="300"
+        SHRT_NAME="INTRO LIN PROG" SUFX_CD="340"/>
+    <KSLU_CLU_IDENT CD="CHEM427" DIV="CHEM"
+        ID="465f3180-d3ab-4a45-b76a-2b324e86321d"
+        LNG_NAME="Chemistry of Materials" LVL="400"
+        SHRT_NAME="CHEM MATERIALS" SUFX_CD="427"/>
+    <KSLU_CLU_IDENT CD="MATH307" DIV="MATH"
+        ID="469c0a40-7b8d-4e46-b831-eb1f00c22a7d"
+        LNG_NAME="Applied Linear Algebra" LVL="300"
+        SHRT_NAME="APPL LINEAR ALGB" SUFX_CD="307"/>
+    <KSLU_CLU_IDENT CD="MATH301" DIV="MATH"
+        ID="47d007ed-8b88-495d-a6e1-5c07610d6b96"
+        LNG_NAME="Applied Analysis" LVL="300"
+        SHRT_NAME="APPLIED ANALYSIS" SUFX_CD="301"/>
+    <KSLU_CLU_IDENT CD="CHEM417" DIV="CHEM"
+        ID="4803eef5-9766-476a-8378-2ae9f59d80ef"
+        LNG_NAME="Nuclear Chemistry and Radiochemistry" LVL="400"
+        SHRT_NAME="NUCLEAR CHEMISTY" SUFX_CD="417"/>
+    <KSLU_CLU_IDENT CD="MATH442" DIV="MATH"
+        ID="481b6468-be24-4868-9770-9e112ed5601d"
+        LNG_NAME="Optimization in Graphs and Networks" LVL="400"
+        SHRT_NAME="OPT GRPHS&amp;NETWKS" SUFX_CD="442"/>
+    <KSLU_CLU_IDENT CD="MATH445" DIV="MATH"
+        ID="491f623c-1e36-43ad-bc04-adef26384187"
+        LNG_NAME="Mathematical Modeling: Applications in the Natural and Social Sciences"
+        LVL="400" SHRT_NAME="MATH MOD: N&amp;S SC" SUFX_CD="445"/>
+    <KSLU_CLU_IDENT CD="MATH508" DIV="MATH"
+        ID="49e8187d-c1d0-41c4-aece-8fa765b36de0"
+        LNG_NAME="Complex Analysis " LVL="500"
+        SHRT_NAME="COMPLEX ANALY " SUFX_CD="508"/>
+    <KSLU_CLU_IDENT CD="CHEM214" DIV="CHEM"
+        ID="4c3c10dc-f498-48b0-9f45-b428d21250a8"
+        LNG_NAME="Organic Chemistry for Biological Sciences II"
+        LVL="200" SHRT_NAME="ORG CHEM BIOL II" SUFX_CD="214"/>
+    <KSLU_CLU_IDENT CD="CHEM123" DIV="CHEM"
+        ID="4ea0747c-3516-43a5-b520-1a958f294a87"
+        LNG_NAME="Physical and Organic Chemistry" LVL="100"
+        SHRT_NAME="Phys &amp; Org Chem" SUFX_CD="123"/>
+    <KSLU_CLU_IDENT CD="CHEM416" DIV="CHEM"
+        ID="5092687e-ef54-453f-8323-49988ebcda4e"
+        LNG_NAME="Physical and Theoretical Organic Chemistry" LVL="400"
+        SHRT_NAME="PHY&amp;THEOR ORGNIC" SUFX_CD="416"/>
+    <KSLU_CLU_IDENT CD="CHEM202" DIV="CHEM"
+        ID="529839dd-25cd-4780-95da-5a5c8b48970c"
+        LNG_NAME="Coordination Chemistry" LVL="200"
+        SHRT_NAME="COORDINAT'N CHEM" SUFX_CD="202"/>
+    <KSLU_CLU_IDENT CD="CHEM211" DIV="CHEM"
+        ID="53aee250-d528-4cb6-b415-8b757d0b3951"
+        LNG_NAME="Analytical Chemistry" LVL="200"
+        SHRT_NAME="ANALYTICAL CHEM" SUFX_CD="211"/>
+    <KSLU_CLU_IDENT CD="MATH255" DIV="MATH"
+        ID="53b3c36b-55f0-48ce-9a51-0010d5c689b4"
+        LNG_NAME="Ordinary Differential Equations" LVL="200"
+        SHRT_NAME="ORD DIFF EQUTNS" SUFX_CD="255"/>
+    <KSLU_CLU_IDENT CD="CHEM503" DIV="CHEM"
+        ID="53fdd07a-aa66-46cb-90e6-a5e595f660b7"
+        LNG_NAME="Equilibrium Statistical Mechanics in Chemistry"
+        LVL="500" SHRT_NAME="STAT MECH CHEM" SUFX_CD="503"/>
+    <KSLU_CLU_IDENT CD="CHEM213" DIV="CHEM"
+        ID="54d4f241-b3f6-4e67-978c-9f2e87066210"
+        LNG_NAME="Organic Chemistry for Biological Sciences I" LVL="200"
+        SHRT_NAME="ORG CHEM BIOL I" SUFX_CD="213"/>
+    <KSLU_CLU_IDENT CD="MATH361" DIV="MATH"
+        ID="554df52c-d9c9-4450-a60d-186fb551b32c"
+        LNG_NAME="Introduction to Mathematical Biology" LVL="300"
+        SHRT_NAME="INT MATH BIOLOGY" SUFX_CD="361"/>
+    <KSLU_CLU_IDENT CD="MATH498" DIV="MATH"
+        ID="55ffe886-705e-4412-81d8-4d6350f7b2ab"
+        LNG_NAME="Co-operative Work Placement III" LVL="400"
+        SHRT_NAME="COOP WRK PL III" SUFX_CD="498"/>
+    <KSLU_CLU_IDENT CD="MATH105" DIV="MATH"
+        ID="57fd537c-36a8-4a83-b17f-3a84626128fc"
+        LNG_NAME="Integral Calculus with Applications to Commerce and Social Sciences"
+        LVL="100" SHRT_NAME="INT CALC AP C&amp;SS" SUFX_CD="105"/>
+    <KSLU_CLU_IDENT CD="MATH499" DIV="MATH"
+        ID="585b321b-a25b-4313-a345-8dd0478ee7db"
+        LNG_NAME="Co-operative Work Placement IV" LVL="400"
+        SHRT_NAME="COOP WRK PL IV" SUFX_CD="499"/>
+    <KSLU_CLU_IDENT CD="MATH104" DIV="MATH"
+        ID="58c31cf1-32f5-40fb-9e35-e6b6d74d73cb"
+        LNG_NAME="Differential Calculus with Applications to Commerce and Social Sciences"
+        LVL="100" SHRT_NAME="DFF CALC AP C&amp;SS" SUFX_CD="104"/>
+    <KSLU_CLU_IDENT CD="CHEM309" DIV="CHEM"
+        ID="5983e550-7d3c-4c37-80ad-a9a29e02c427"
+        LNG_NAME="Foundations of Inorganic Chemistry" LVL="300"
+        SHRT_NAME="FNDTN INORG CHEM" SUFX_CD="309"/>
+    <KSLU_CLU_IDENT CD="MATH403" DIV="MATH"
+        ID="5c6277f6-fa7a-4456-8c26-80c6e8c7ac49"
+        LNG_NAME="Stabilization and Optimal Control of Dynamical Systems"
+        LVL="400" SHRT_NAME="STABLZT&amp;OPT CTRL" SUFX_CD="403"/>
+    <KSLU_CLU_IDENT CD="MATH318" DIV="MATH"
+        ID="5e3b4289-222a-47f4-a1db-568baa3c3599"
+        LNG_NAME="Probability with Physical Applications" LVL="300"
+        SHRT_NAME="PROB PHYS APP" SUFX_CD="318"/>
+    <KSLU_CLU_IDENT CD="MATH126" DIV="MATH"
+        ID="5ede72c4-6bd5-4bce-8b43-90616df3a424"
+        LNG_NAME="Basic Mathematics: An Aboriginal Perspective"
+        LVL="100" SHRT_NAME="BASIC MATH ABRGN" SUFX_CD="126"/>
+    <KSLU_CLU_IDENT CD="CHEM533" DIV="CHEM"
+        ID="5edfcb71-f9cf-4908-ba0d-147b64ff8479"
+        LNG_NAME="Bioanalytical Chemistry" LVL="500"
+        SHRT_NAME="BIOANYLTCL CHEM" SUFX_CD="533"/>
+    <KSLU_CLU_IDENT CD="MATH320" DIV="MATH"
+        ID="5feda0b0-eb2a-476e-b394-d9730af5bbff"
+        LNG_NAME="Real Variables I" LVL="300"
+        SHRT_NAME="REAL VARIABLS I" SUFX_CD="320"/>
+    <KSLU_CLU_IDENT CD="MATH226" DIV="MATH"
+        ID="60514562-61a6-43e4-a0d4-abdd3b96eb78"
+        LNG_NAME="Advanced Calculus I" LVL="200"
+        SHRT_NAME="ADV CALCULUS I" SUFX_CD="226"/>
+    <KSLU_CLU_IDENT CD="CHEM233" DIV="CHEM"
+        ID="606022d4-23fd-42ea-ba62-0a89be1c4671"
+        LNG_NAME="Organic Chemistry for the Biological Sciences"
+        LVL="200" SHRT_NAME="Org Chem Biol Sc" SUFX_CD="233"/>
+    <KSLU_CLU_IDENT CD="MATH552" DIV="MATH"
+        ID="60eef939-1dfa-4e34-8be2-01bf235fe300"
+        LNG_NAME="Introduction to Dynamical Systems" LVL="500"
+        SHRT_NAME="INTR DYN SYSTEMS" SUFX_CD="552"/>
+    <KSLU_CLU_IDENT CD="CHEM535" DIV="CHEM"
+        ID="62eb8abc-cbc6-47df-a135-91359916e75e"
+        LNG_NAME="Topics in Analytical Chemistry" LVL="500"
+        SHRT_NAME="TPCS ANLYTC CHEM" SUFX_CD="535"/>
+    <KSLU_CLU_IDENT CD="MATH215" DIV="MATH"
+        ID="65e05ddd-c28e-4852-9196-a8c2d3b095aa"
+        LNG_NAME="Elementary Differential Equations I" LVL="200"
+        SHRT_NAME="ELEM DIFF EQ I" SUFX_CD="215"/>
+    <KSLU_CLU_IDENT CD="MATH418" DIV="MATH"
+        ID="681a7c35-8ea8-4a8e-9cad-bac133073c17" LNG_NAME="Probability"
+        LVL="400" SHRT_NAME="PROBABILITY" SUFX_CD="418"/>
+    <KSLU_CLU_IDENT CD="MATH180" DIV="MATH"
+        ID="68791fdc-9da2-4db5-9776-e0eba598fccf"
+        LNG_NAME="Differential Calculus with Physical Applications"
+        LVL="100" SHRT_NAME="DIF CALC PHYS AP" SUFX_CD="180"/>
+    <KSLU_CLU_IDENT CD="CHEM501" DIV="CHEM"
+        ID="68c6c0d7-88e3-4f8e-971c-0d021af9ec09"
+        LNG_NAME="Applications of Quantum Mechanics in Chemistry"
+        LVL="500" SHRT_NAME="QUANT MECH CHEM" SUFX_CD="501"/>
+    <KSLU_CLU_IDENT CD="CHEM111" DIV="CHEM"
+        ID="69aa001b-48bd-43d3-93b0-dff785b89634"
+        LNG_NAME="Principles of Chemistry I" LVL="100"
+        SHRT_NAME="PRINCPLS CHEM I" SUFX_CD="111"/>
+    <KSLU_CLU_IDENT CD="MATH590" DIV="MATH"
+        ID="6a50e861-6ead-42da-b5b7-9be3a0720803"
+        LNG_NAME="Graduate Seminar" LVL="500" SHRT_NAME="GRAD SEMINAR" SUFX_CD="590"/>
+    <KSLU_CLU_IDENT CD="CHEM527" DIV="CHEM"
+        ID="6abbc7e7-98eb-41e8-a79d-771d0f9506f4"
+        LNG_NAME="Materials Chemistry" LVL="500"
+        SHRT_NAME="MATERIALS CHEM" SUFX_CD="527"/>
+    <KSLU_CLU_IDENT CD="CHEM154" DIV="CHEM"
+        ID="6adafa89-cdf5-41f0-bea2-2e883bfee98d"
+        LNG_NAME="Chemistry for Engineering" LVL="100"
+        SHRT_NAME="Chem for Eng" SUFX_CD="154"/>
+    <KSLU_CLU_IDENT CD="CHEM220" DIV="CHEM"
+        ID="6d1e1406-0477-46e9-af00-7b368a639638"
+        LNG_NAME="Atomic Structure and Molecular Bonding" LVL="200"
+        SHRT_NAME="A-STRUC &amp; M BOND" SUFX_CD="220"/>
+    <KSLU_CLU_IDENT CD="MATH432" DIV="MATH"
+        ID="6e89ca95-4d1d-407c-a108-676d0906a7cb"
+        LNG_NAME="Special Topics in Algebra" LVL="400"
+        SHRT_NAME="TOPICS IN ALGBRA" SUFX_CD="432"/>
+    <KSLU_CLU_IDENT CD="CHEM549" DIV="CHEM"
+        ID="706bdfcb-a9cc-4e38-9f87-82c94deab1ad"
+        LNG_NAME="M.Sc. Thesis" LVL="500" SHRT_NAME="MASTERS THESIS" SUFX_CD="549"/>
+    <KSLU_CLU_IDENT CD="MATH100" DIV="MATH"
+        ID="7124ad7f-4606-4e68-83aa-8fb0efffc931"
+        LNG_NAME="Differential Calculus with Applications to Physical Sciences and Engineering"
+        LVL="100" SHRT_NAME="DF CALC AP PH SC" SUFX_CD="100"/>
+    <KSLU_CLU_IDENT CD="MATH441" DIV="MATH"
+        ID="72370a65-ae49-4c9d-b149-aa20c90af2c2"
+        LNG_NAME="Mathematical Modeling: Discrete Optimization Problems"
+        LVL="400" SHRT_NAME="MOD DISCR OPT PR" SUFX_CD="441"/>
+    <KSLU_CLU_IDENT CD="MATH317" DIV="MATH"
+        ID="727937ed-a7d6-411a-873b-13108994b211" LNG_NAME="Calculus IV"
+        LVL="300" SHRT_NAME="CALCULUS IV" SUFX_CD="317"/>
+    <KSLU_CLU_IDENT CD="CHEM413" DIV="CHEM"
+        ID="7304eb0b-57c4-415f-9a9c-848a6e404b6a"
+        LNG_NAME="Mechanistic Enzymology" LVL="400"
+        SHRT_NAME="MECH ENZYMOLOGY" SUFX_CD="413"/>
+    <KSLU_CLU_IDENT CD="CHEM113" DIV="CHEM"
+        ID="735f38de-5d3e-42c8-a204-d4d254437b64"
+        LNG_NAME="Principles of Chemistry II" LVL="100"
+        SHRT_NAME="PRIN CHEMISTRY 2" SUFX_CD="113"/>
+    <KSLU_CLU_IDENT CD="MATH253" DIV="MATH"
+        ID="73eed74d-9133-45cf-9e53-a520406cb04a"
+        LNG_NAME="Multivariable Calculus" LVL="200"
+        SHRT_NAME="MULTIVRBL CALC" SUFX_CD="253"/>
+    <KSLU_CLU_IDENT CD="CHEM569" DIV="CHEM"
+        ID="75d149b4-a99a-479c-81aa-0a184ed2d0e9"
+        LNG_NAME="Advanced Mechanistic Enzymology" LVL="500"
+        SHRT_NAME="ADV MECH ENZYM" SUFX_CD="569"/>
+    <KSLU_CLU_IDENT CD="MATH303" DIV="MATH"
+        ID="768f3473-3ea2-42b1-bd49-1f19ecfa05e5"
+        LNG_NAME="Introduction to Stochastic Processes" LVL="300"
+        SHRT_NAME="INTR STOCH PROC" SUFX_CD="303"/>
+    <KSLU_CLU_IDENT CD="CHEM311" DIV="CHEM"
+        ID="799eca1e-ddd5-4f58-9ec5-4b0f4f30037f"
+        LNG_NAME="Instrumental Analytical Chemistry" LVL="300"
+        SHRT_NAME="INSTRL ANLY CHEM" SUFX_CD="311"/>
+    <KSLU_CLU_IDENT CD="MATH450" DIV="MATH"
+        ID="7aee11c5-c5dc-4a27-a69b-939e304079f1"
+        LNG_NAME="Asymptotic and Perturbation Methods" LVL="400"
+        SHRT_NAME="ASYMP&amp;PRTB MTHDS" SUFX_CD="450"/>
+    <KSLU_CLU_IDENT CD="CHEM425" DIV="CHEM"
+        ID="7b0d619b-69dd-473a-9fb9-9b74b5c2539f"
+        LNG_NAME="Chemistry Integrated Laboratory" LVL="400"
+        SHRT_NAME="CHEMISTRY LAB" SUFX_CD="425"/>
+    <KSLU_CLU_IDENT CD="CHEM498" DIV="CHEM"
+        ID="7b1b3bef-1646-44df-bb57-3a1796bf0b57"
+        LNG_NAME="Co-operative Work Placement III" LVL="400"
+        SHRT_NAME="COOP WORK PL III" SUFX_CD="498"/>
+    <KSLU_CLU_IDENT CD="CHEM424" DIV="CHEM"
+        ID="7bb27f1e-91e4-45d1-b463-f0c4da629a7a"
+        LNG_NAME="Organometallic Catalysts" LVL="400"
+        SHRT_NAME="ORGNOMTLC CTLYST" SUFX_CD="424"/>
+    <KSLU_CLU_IDENT CD="MATH560" DIV="MATH"
+        ID="8213411e-25b5-4f61-9bc4-f25a73a78b0f"
+        LNG_NAME="Mathematical Biology" LVL="500"
+        SHRT_NAME="MATH BIOLOGY" SUFX_CD="560"/>
+    <KSLU_CLU_IDENT CD="CHEM411" DIV="CHEM"
+        ID="8296700c-0a1c-4a76-98d7-49b355b945b6"
+        LNG_NAME="Synthesis and Chemistry of Natural Products" LVL="400"
+        SHRT_NAME="SYN&amp;CHEM NAT PRO" SUFX_CD="411"/>
+    <KSLU_CLU_IDENT CD="MATH004" DIV="MATH"
+        ID="82d3eb48-f183-4392-afed-7eb2682c7beb"
+        LNG_NAME="Differential Calculus II" LVL="000"
+        SHRT_NAME="DIF CALCULUS II" SUFX_CD="004"/>
+    <KSLU_CLU_IDENT CD="MATH538" DIV="MATH"
+        ID="83d25539-f884-45ac-b4e9-005c1ce99386"
+        LNG_NAME="Algebraic Number Theory " LVL="500"
+        SHRT_NAME="ALG NUM THEORY" SUFX_CD="538"/>
+    <KSLU_CLU_IDENT CD="CHEM418" DIV="CHEM"
+        ID="8408c5e8-20a2-4df4-8a6e-a7a4165ce476"
+        LNG_NAME="Organometallic Chemistry" LVL="400"
+        SHRT_NAME="ORGANOMETALLIC" SUFX_CD="418"/>
+    <KSLU_CLU_IDENT CD="CHEM301" DIV="CHEM"
+        ID="85fdc43e-47b6-417d-b215-4cef51c76f95"
+        LNG_NAME="Aqueous Environmental Chemistry" LVL="300"
+        SHRT_NAME="AQUEOUS ENVIRMNT" SUFX_CD="301"/>
+    <KSLU_CLU_IDENT CD="CHEM414" DIV="CHEM"
+        ID="86133232-99e3-44ac-b00f-bf277cd52d4e"
+        LNG_NAME="Coordination Chemistry of the Transition Elements"
+        LVL="400" SHRT_NAME="ADV COORD'N CHEM" SUFX_CD="414"/>
+    <KSLU_CLU_IDENT CD="MATH190" DIV="MATH"
+        ID="870ca0e0-919e-411e-a631-ad3e50ba39f0"
+        LNG_NAME="Calculus Survey" LVL="100" SHRT_NAME="CALCULUS SURVEY" SUFX_CD="190"/>
+    <KSLU_CLU_IDENT CD="MATH221" DIV="MATH"
+        ID="87793ed0-b76a-4abb-bcb3-b92090ebaf7c"
+        LNG_NAME="Matrix Algebra" LVL="200" SHRT_NAME="MATRIX ALGEBRA" SUFX_CD="221"/>
+    <KSLU_CLU_IDENT CD="MATH331" DIV="MATH"
+        ID="87b67317-67cd-4e7b-b119-99c5efa5735c"
+        LNG_NAME="Problem Solving" LVL="300" SHRT_NAME="PROBLEM SOLVING" SUFX_CD="331"/>
+    <KSLU_CLU_IDENT CD="MATH562" DIV="MATH"
+        ID="88307b59-4027-4fde-872d-fb8efbd048b9"
+        LNG_NAME="Mathematical Electrophysiology" LVL="500"
+        SHRT_NAME="MATH ELECTROPHYS" SUFX_CD="562"/>
+    <KSLU_CLU_IDENT CD="MATH223" DIV="MATH"
+        ID="892fa9cd-4417-42ff-a494-e38d70349d2c"
+        LNG_NAME="Linear Algebra" LVL="200" SHRT_NAME="LINEAR ALGEBRA I" SUFX_CD="223"/>
+    <KSLU_CLU_IDENT CD="CHEM313" DIV="CHEM"
+        ID="893d77e0-f9cf-4f6a-baf4-f0d7017be2c0"
+        LNG_NAME="Advanced Organic Chemistry for the Life Sciences"
+        LVL="300" SHRT_NAME="ADV ORG LIFE SC" SUFX_CD="313"/>
+    <KSLU_CLU_IDENT CD="CHEM649" DIV="CHEM"
+        ID="8a1264a8-734b-4bc9-9ae1-eda15cbd95eb"
+        LNG_NAME="Doctoral Dissertation" LVL="600"
+        SHRT_NAME="DOC DISSERTATION" SUFX_CD="649"/>
+    <KSLU_CLU_IDENT CD="CHEM507" DIV="CHEM"
+        ID="8b9b358a-a1a0-43c1-9c37-a2da3bc7bb25"
+        LNG_NAME="Topics in Physical and Theoretical Chemistry"
+        LVL="500" SHRT_NAME="TOP IN PHYS CHEM" SUFX_CD="507"/>
+    <KSLU_CLU_IDENT CD="CHEM517" DIV="CHEM"
+        ID="8c6cbfcf-e194-4843-89be-157a02a6667d"
+        LNG_NAME="Electrochemistry" LVL="500"
+        SHRT_NAME="ELECTROCHEMISTRY" SUFX_CD="517"/>
+    <KSLU_CLU_IDENT CD="CHEM250" DIV="CHEM"
+        ID="8dd935e9-9751-458d-b5cf-6cb9388ce918"
+        LNG_NAME="Inorganic Chemistry" LVL="200"
+        SHRT_NAME="INORGANIC CHEM" SUFX_CD="250"/>
+    <KSLU_CLU_IDENT CD="CHEM549" DIV="CHEM"
+        ID="8df1c0ae-cdf1-4c54-89bf-5aa181123881"
+        LNG_NAME="M.Sc. Thesis" LVL="500" SHRT_NAME="M.SC. THESIS" SUFX_CD="549"/>
+    <KSLU_CLU_IDENT CD="MATH345" DIV="MATH"
+        ID="8ecd541c-97da-46ff-a73e-491255e6b86c"
+        LNG_NAME="Applied Nonlinear Dynamics and Chaos" LVL="300"
+        SHRT_NAME="APPL NONLN DY&amp;CH" SUFX_CD="345"/>
+    <KSLU_CLU_IDENT CD="MATH423" DIV="MATH"
+        ID="8f05f5f7-a7d7-4b9f-a70b-242659843c61"
+        LNG_NAME="Topics in Algebra" LVL="400" SHRT_NAME="TPCS ALGEBRA" SUFX_CD="423"/>
+    <KSLU_CLU_IDENT CD="CHEM204" DIV="CHEM"
+        ID="8f9472ba-6e25-44ab-a315-8a4fddcc0f5b"
+        LNG_NAME="Organic Chemistry" LVL="200" SHRT_NAME="ORGANIC CHEM" SUFX_CD="204"/>
+    <KSLU_CLU_IDENT CD="CHEM448" DIV="CHEM"
+        ID="8fab9d40-dcaf-4be1-9525-a6aeff2579fa"
+        LNG_NAME="Directed Studies in Chemistry" LVL="400"
+        SHRT_NAME="DST CHEMISTRY" SUFX_CD="448"/>
+    <KSLU_CLU_IDENT CD="CHEM525" DIV="CHEM"
+        ID="8fb76b97-b035-4ef5-9bbd-3d31796bfbac"
+        LNG_NAME="Advanced Coordination Chemistry" LVL="500"
+        SHRT_NAME=" " SUFX_CD="525"/>
+    <KSLU_CLU_IDENT CD="MATH539" DIV="MATH"
+        ID="923083d0-c3e6-4165-ada7-c0bf0c8b77dd"
+        LNG_NAME="Analytic Number Theory " LVL="500"
+        SHRT_NAME="ANALYT NUM THRY" SUFX_CD="539"/>
+    <KSLU_CLU_IDENT CD="MATH463" DIV="MATH"
+        ID="93202fb8-e542-4faf-8ce1-d0189ae3560d"
+        LNG_NAME="Special Topics in Mathematical Biology" LVL="400"
+        SHRT_NAME="SPCL TPC MTH BIO" SUFX_CD="463"/>
+    <KSLU_CLU_IDENT CD="MATH428" DIV="MATH"
+        ID="936213a3-2d39-4e2a-aca8-a1bb5b3a5425"
+        LNG_NAME="Mathematical Classical Mechanics I" LVL="400"
+        SHRT_NAME="MATH CLS MECH I" SUFX_CD="428"/>
+    <KSLU_CLU_IDENT CD="CHEM399" DIV="CHEM"
+        ID="955fe102-e590-46d0-a2ac-43036f5fcc51"
+        LNG_NAME="Co-operative Work Placement II" LVL="300"
+        SHRT_NAME="COOP WORK PL II" SUFX_CD="399"/>
+    <KSLU_CLU_IDENT CD="CHEM502" DIV="CHEM"
+        ID="96f33a63-7e3e-4112-8732-a1160da2ff08"
+        LNG_NAME="Advanced Physical Chemistry of the Solid State"
+        LVL="500" SHRT_NAME="ADV PHYS CHEM" SUFX_CD="502"/>
+    <KSLU_CLU_IDENT CD="MATH417" DIV="MATH"
+        ID="973a1257-66d6-462a-afec-8911acf3ba7a"
+        LNG_NAME="Partial Differential Equations" LVL="400"
+        SHRT_NAME="PART DIFF EQUAT" SUFX_CD="417"/>
+    <KSLU_CLU_IDENT CD="MATH559" DIV="MATH"
+        ID="97be6ea5-b93a-4634-8d3c-ec3df1314e0b"
+        LNG_NAME="Mathematical Biology" LVL="500"
+        SHRT_NAME="MATHCL BIOLOGY" SUFX_CD="559"/>
+    <KSLU_CLU_IDENT CD="CHEM406" DIV="CHEM"
+        ID="98ca49fe-f72c-4e83-a211-bdb096c1e8ce"
+        LNG_NAME="Polymer Chemistry" LVL="400" SHRT_NAME="POLYMER CHEM" SUFX_CD="406"/>
+    <KSLU_CLU_IDENT CD="MATH449" DIV="MATH"
+        ID="9bb40628-e8f1-4739-a366-f03ba535f680"
+        LNG_NAME="Honours Reading" LVL="400" SHRT_NAME="HONOURS READING" SUFX_CD="449"/>
+    <KSLU_CLU_IDENT CD="MATH446" DIV="MATH"
+        ID="9c118e22-f9a5-4951-93c2-89cf39348f16"
+        LNG_NAME="Topics in the History of Mathematics I" LVL="400"
+        SHRT_NAME="TPCS HIS MATH I" SUFX_CD="446"/>
+    <KSLU_CLU_IDENT CD="CHEM330" DIV="CHEM"
+        ID="9c90aca7-aacc-4512-8bd3-5c2579a3eb03"
+        LNG_NAME="Advanced Organic Chemistry" LVL="300"
+        SHRT_NAME="ADV ORG CHEM" SUFX_CD="330"/>
+    <KSLU_CLU_IDENT CD="CHEM569" DIV="CHEM"
+        ID="9cae5569-9c44-4fad-92f8-19bbde86cd0c"
+        LNG_NAME="Advanced Mechanistic Enzymology" LVL="500"
+        SHRT_NAME="ADV MECH ENZYMLG" SUFX_CD="569"/>
+    <KSLU_CLU_IDENT CD="MATH415" DIV="MATH"
+        ID="9ecabb9e-3d9c-4478-aaa7-44d8a06da9d3"
+        LNG_NAME="Introduction to Mathematical Logic" LVL="400"
+        SHRT_NAME="INTR MATH LOGIC" SUFX_CD="415"/>
+    <KSLU_CLU_IDENT CD="MATH600" DIV="MATH"
+        ID="9f9ed72d-32bd-4051-9894-5971b0a5ba0c"
+        LNG_NAME="Topics in Algebra" LVL="600" SHRT_NAME="TPCS ALGEBRA" SUFX_CD="600"/>
+    <KSLU_CLU_IDENT CD="CHEM408" DIV="CHEM"
+        ID="a537e595-6d32-4e06-8c72-4120d80b786c"
+        LNG_NAME="Chemical Dynamics" LVL="400"
+        SHRT_NAME="CHEMCAL DYNAMICS" SUFX_CD="408"/>
+    <KSLU_CLU_IDENT CD="CHEM525" DIV="CHEM"
+        ID="a5c8ce2f-63ac-4782-9596-85593f06af78"
+        LNG_NAME="Advanced Inorganic Synthesis " LVL="500"
+        SHRT_NAME="ADV INORGNC SYNT" SUFX_CD="525"/>
+    <KSLU_CLU_IDENT CD="CHEM407" DIV="CHEM"
+        ID="a79c9479-924e-4b75-ad65-40561db2a847"
+        LNG_NAME="Statistical Mechanics in Chemistry" LVL="400"
+        SHRT_NAME="STAT'L MECH CHEM" SUFX_CD="407"/>
+    <KSLU_CLU_IDENT CD="CHEM310" DIV="CHEM"
+        ID="a83931c7-5217-4e12-a6db-b7bbf16a154a"
+        LNG_NAME="Chemistry of the Elements" LVL="300"
+        SHRT_NAME="CHEM ELEMENTS" SUFX_CD="310"/>
+    <KSLU_CLU_IDENT CD="MATH220" DIV="MATH"
+        ID="aa07b9da-c6b6-4300-9099-e40bb815def8"
+        LNG_NAME="Mathematical Proof" LVL="200" SHRT_NAME="MATH PROOF" SUFX_CD="220"/>
+    <KSLU_CLU_IDENT CD="MATH102" DIV="MATH"
+        ID="aec0c6c1-5990-47e9-ac8a-ad8559ca66c2"
+        LNG_NAME="Differential Calculus with applications to Life Sciences"
+        LVL="100" SHRT_NAME="DF CALC APP LF S" SUFX_CD="102"/>
+    <KSLU_CLU_IDENT CD="MATH563" DIV="MATH"
+        ID="b0db735c-f0b5-4ab5-85d2-116afce0e984"
+        LNG_NAME="Convex Optimization and Non-smooth Analysis" LVL="500"
+        SHRT_NAME="CNVX OPTM NSMTH" SUFX_CD="563"/>
+    <KSLU_CLU_IDENT CD="MATH300" DIV="MATH"
+        ID="b11d72f2-db97-4eab-bff5-afad6a08ae7d"
+        LNG_NAME="Introduction to Complex Variables" LVL="300"
+        SHRT_NAME="INTR COMPLEX VAR" SUFX_CD="300"/>
+    <KSLU_CLU_IDENT CD="CHEM563" DIV="CHEM"
+        ID="b2cabb3f-5092-4807-97f1-01e415dd90e3"
+        LNG_NAME="Advanced Physical Organic Chemistry" LVL="500"
+        SHRT_NAME="PHYSICAL ORGANIC" SUFX_CD="563"/>
+    <KSLU_CLU_IDENT CD="CHEM649" DIV="CHEM"
+        ID="b3e870e0-ebe3-49bc-abea-15f750a1a323"
+        LNG_NAME="Ph.D. Thesis" LVL="600" SHRT_NAME="PH.D. THESIS" SUFX_CD="649"/>
+    <KSLU_CLU_IDENT CD="MATH103" DIV="MATH"
+        ID="b614fea5-ba76-4321-9769-a2caa7a2583e"
+        LNG_NAME="Integral Calculus with Applications to Life Sciences"
+        LVL="100" SHRT_NAME="INT CALC AP LF S" SUFX_CD="103"/>
+    <KSLU_CLU_IDENT CD="CHEM534" DIV="CHEM"
+        ID="b76b786e-4afd-4c21-ae8a-a6d2a3b8e053"
+        LNG_NAME="Chromatography and Mass Spectrometry" LVL="500"
+        SHRT_NAME="CHRM MSS SPCTMTR" SUFX_CD="534"/>
+    <KSLU_CLU_IDENT CD="MATH462" DIV="MATH"
+        ID="b8106e0a-dd1d-4a0c-a27e-11d8731b44ea"
+        LNG_NAME="Projects in Mathematical Biology" LVL="400"
+        SHRT_NAME="PROJ MATHL BIOLG" SUFX_CD="462"/>
+    <KSLU_CLU_IDENT CD="CHEM121" DIV="CHEM"
+        ID="b85d8e71-08aa-4c3a-bf4d-fec8252ed31f"
+        LNG_NAME="Structural Chemistry, with Application to Chemistry of the Elements"
+        LVL="100" SHRT_NAME="STRUCTURAL CHEM" SUFX_CD="121"/>
+    <KSLU_CLU_IDENT CD="MATH227" DIV="MATH"
+        ID="ba0652dd-31ba-4f57-9db8-ed99ebc1f618"
+        LNG_NAME="Advanced Calculus II" LVL="200"
+        SHRT_NAME="ADV CALCULUS II" SUFX_CD="227"/>
+    <KSLU_CLU_IDENT CD="MATH200" DIV="MATH"
+        ID="badaa2e7-9476-461b-a9f3-9bba48207fbf"
+        LNG_NAME="Calculus III" LVL="200" SHRT_NAME="CALCULUS 3" SUFX_CD="200"/>
+    <KSLU_CLU_IDENT CD="MATH539" DIV="MATH"
+        ID="bc2f1ced-1f54-42bb-8d7a-e6dd62ba4774"
+        LNG_NAME="Analytic Number Theory" LVL="500"
+        SHRT_NAME="ANLYT NUMBR THRY" SUFX_CD="539"/>
+    <KSLU_CLU_IDENT CD="CHEM410" DIV="CHEM"
+        ID="c0083b9b-0ffb-4ded-a168-6159dbf84515"
+        LNG_NAME="Physical Chemistry of the Solid State" LVL="400"
+        SHRT_NAME="SOLID STATE CHEM" SUFX_CD="410"/>
+    <KSLU_CLU_IDENT CD="MATH313" DIV="MATH"
+        ID="c322a216-1c68-4dd1-b94f-5a28ca438f2e"
+        LNG_NAME="Topics in Number Theory" LVL="300"
+        SHRT_NAME="TPCS NUMBER THRY" SUFX_CD="313"/>
+    <KSLU_CLU_IDENT CD="MATH101" DIV="MATH"
+        ID="c4520f17-0e57-403d-8b46-d2eab712b17c"
+        LNG_NAME="Integral Calculus with Applications to Physical Sciences and Engineering"
+        LVL="100" SHRT_NAME="INT CALC AP PH S" SUFX_CD="101"/>
+    <KSLU_CLU_IDENT CD="MATH265" DIV="MATH"
+        ID="c7c2ef6a-2075-484f-9a36-595c15f4da39"
+        LNG_NAME="Linear Differential Equations" LVL="200"
+        SHRT_NAME="LINEAR EQUATIONS" SUFX_CD="265"/>
+    <KSLU_CLU_IDENT CD="MATH405" DIV="MATH"
+        ID="c88a85ed-b12a-4ab8-8251-3d962980b899"
+        LNG_NAME="Numerical Methods for Differential Equations"
+        LVL="400" SHRT_NAME="NUM MTHDS DFF EQ" SUFX_CD="405"/>
+    <KSLU_CLU_IDENT CD="CHEM201" DIV="CHEM"
+        ID="c89a5ae7-e668-4899-a35a-ea2ea2a3b0e1"
+        LNG_NAME="Introduction to Physical Chemistry" LVL="200"
+        SHRT_NAME="INTR PHYS CHEM" SUFX_CD="201"/>
+    <KSLU_CLU_IDENT CD="MATH422" DIV="MATH"
+        ID="c98f2fa8-75c3-476f-bd43-330736278784"
+        LNG_NAME="Groups and Fields" LVL="400"
+        SHRT_NAME="GROUPS&amp;FIELDS" SUFX_CD="422"/>
+    <KSLU_CLU_IDENT CD="CHEM335" DIV="CHEM"
+        ID="ca08e422-3436-46c1-89e9-31642bce6ae2"
+        LNG_NAME="Bioinorganic Chemistry" LVL="300"
+        SHRT_NAME="BIOINORG CHEM" SUFX_CD="335"/>
+    <KSLU_CLU_IDENT CD="MATH555" DIV="MATH"
+        ID="ceafa8f3-4657-45fa-a523-ea1443637d6f"
+        LNG_NAME="Theory of Error-Correcting Codes" LVL="500"
+        SHRT_NAME="ERR CORRCT CODES" SUFX_CD="555"/>
+    <KSLU_CLU_IDENT CD="MATH670" DIV="MATH"
+        ID="cf7993a8-17d6-4aef-9928-9f01bdc213e9"
+        LNG_NAME="Optimization and Analysis II" LVL="600"
+        SHRT_NAME="OPTMZN ANLYS II" SUFX_CD="670"/>
+    <KSLU_CLU_IDENT CD="MATH310" DIV="MATH"
+        ID="d12a20d0-f7fd-4c76-9c1c-eb928aed5570"
+        LNG_NAME="Abstract Linear Algebra" LVL="300"
+        SHRT_NAME="ABSTR LINEAR ALG" SUFX_CD="310"/>
+    <KSLU_CLU_IDENT CD="CHEM402" DIV="CHEM"
+        ID="d1936ccb-5523-460a-973d-c4a3b3e3041c"
+        LNG_NAME="Diffraction Methods" LVL="400"
+        SHRT_NAME="DIFRACTION MTHDS" SUFX_CD="402"/>
+    <KSLU_CLU_IDENT CD="MATH514" DIV="MATH"
+        ID="d45a3677-26e8-451c-bb13-c372352e05fb"
+        LNG_NAME="Ordinary Differential Equations" LVL="500"
+        SHRT_NAME="ORD DIFF EQUA" SUFX_CD="514"/>
+    <KSLU_CLU_IDENT CD="CHEM260" DIV="CHEM"
+        ID="d4ba692a-eed9-4dee-ba70-e817b0b95037"
+        LNG_NAME="Organic Chemistry for Engineers" LVL="200"
+        SHRT_NAME="ORG CHEM ENGNEER" SUFX_CD="260"/>
+    <KSLU_CLU_IDENT CD="MATH431" DIV="MATH"
+        ID="d5aec562-0f11-4d8f-a47c-6a8bd836e1ba"
+        LNG_NAME="Special Topics in Geometry" LVL="400"
+        SHRT_NAME="TOPICS IN GEOM" SUFX_CD="431"/>
+    <KSLU_CLU_IDENT CD="CHEM251" DIV="CHEM"
+        ID="d6e18f00-4994-4baf-b7cc-0dc5da95edfe"
+        LNG_NAME="Physical Chemistry for Engineers" LVL="200"
+        SHRT_NAME="PHY CHEM FOR ENG" SUFX_CD="251"/>
+    <KSLU_CLU_IDENT CD="MATH302" DIV="MATH"
+        ID="d72c3482-4a7f-47e9-8bc1-29d269888b08"
+        LNG_NAME="Introduction to Probability" LVL="300"
+        SHRT_NAME="INTR PROBABILITY" SUFX_CD="302"/>
+    <KSLU_CLU_IDENT CD="MATH604" DIV="MATH"
+        ID="d7840bb6-5e83-48be-b19f-c43c79bd2fa5"
+        LNG_NAME="Topics in Optimization" LVL="600"
+        SHRT_NAME="TPCS OPTMZATION" SUFX_CD="604"/>
+    <KSLU_CLU_IDENT CD="MATH430" DIV="MATH"
+        ID="d960a69e-2525-4a8a-ab20-f38e289e6d0c"
+        LNG_NAME="Special Topics in Analysis" LVL="400"
+        SHRT_NAME="TOPICS IN ANLYS" SUFX_CD="430"/>
+    <KSLU_CLU_IDENT CD="MATH002" DIV="MATH"
+        ID="d9ff99dd-ca4a-40e6-8fa1-f88974f3c052"
+        LNG_NAME="Pre-Calculus" LVL="000" SHRT_NAME="PRE-CALCULUS" SUFX_CD="002"/>
+    <KSLU_CLU_IDENT CD="CHEM302" DIV="CHEM"
+        ID="db5b77c1-d63f-49a4-be9f-06d4164f21a3"
+        LNG_NAME="Atmospheric Environmental Chemistry" LVL="300"
+        SHRT_NAME="ATMSPHR ENVIRMNT" SUFX_CD="302"/>
+    <KSLU_CLU_IDENT CD="MATH424" DIV="MATH"
+        ID="dc4db84a-07da-43f4-8daa-f4f98525f2a9"
+        LNG_NAME="Classical Differential Geometry" LVL="400"
+        SHRT_NAME="CLS DIFF GEOMTRY" SUFX_CD="424"/>
+    <KSLU_CLU_IDENT CD="MATH549" DIV="MATH"
+        ID="dd3f56ac-891e-4fb2-b694-4694cfbc1f00"
+        LNG_NAME="Thesis for Master's Degree" LVL="500"
+        SHRT_NAME="M.SC. THESIS" SUFX_CD="549"/>
+    <KSLU_CLU_IDENT CD="CHEM304" DIV="CHEM"
+        ID="dfadeddb-c770-4003-a8ad-0af5d0e7e884"
+        LNG_NAME="Fundamentals of Physical Chemistry" LVL="300"
+        SHRT_NAME="FUND PHYS CHEM" SUFX_CD="304"/>
+    <KSLU_CLU_IDENT CD="MATH399" DIV="MATH"
+        ID="e19684f7-d639-4b6f-b215-2a7e2faac28d"
+        LNG_NAME="Co-operative Work Placement II" LVL="300"
+        SHRT_NAME="COOP WRK PL II" SUFX_CD="399"/>
+    <KSLU_CLU_IDENT CD="CHEM526" DIV="CHEM"
+        ID="e1ebc6fa-c493-4256-bf8c-e4fcb16d03f1"
+        LNG_NAME="Bioinorganic Chemistry" LVL="500"
+        SHRT_NAME="BIOINORGANC CHEM" SUFX_CD="526"/>
+    <KSLU_CLU_IDENT CD="MATH414" DIV="MATH"
+        ID="e29d4ccf-99f2-423f-925e-89ca41d97c92"
+        LNG_NAME="Mathematical Demonstrations" LVL="400"
+        SHRT_NAME="MATH DEMONSTRTNS" SUFX_CD="414"/>
+    <KSLU_CLU_IDENT CD="CHEM540" DIV="CHEM"
+        ID="e36b07a7-dd0a-4b35-8771-acb8407feec7"
+        LNG_NAME="Seminar in Chemistry" LVL="500"
+        SHRT_NAME="SEMINAR IN CHEM" SUFX_CD="540"/>
+    <KSLU_CLU_IDENT CD="MATH620" DIV="MATH"
+        ID="e557302c-326f-46a8-9181-d6463e555a66"
+        LNG_NAME="Directed Studies in Mathematics" LVL="600"
+        SHRT_NAME="DIR STUDIES MATH" SUFX_CD="620"/>
+    <KSLU_CLU_IDENT CD="MATH003" DIV="MATH"
+        ID="e574cccd-7497-4e85-8f55-6965985625d7"
+        LNG_NAME="Differential Calculus I" LVL="000"
+        SHRT_NAME="DIF CALCULUS I" SUFX_CD="003"/>
+    <KSLU_CLU_IDENT CD="MATH443" DIV="MATH"
+        ID="e5a381aa-e926-4e34-8a2c-4c9c80fcef19"
+        LNG_NAME="Graph Theory" LVL="400" SHRT_NAME="GRAPH THEORY" SUFX_CD="443"/>
+    <KSLU_CLU_IDENT CD="MATH440" DIV="MATH"
+        ID="e61b7b1c-60f4-4936-813e-3305b549917d"
+        LNG_NAME="Complex Analysis" LVL="400"
+        SHRT_NAME="COMPLEX ANALYSIS" SUFX_CD="440"/>
+    <KSLU_CLU_IDENT CD="CHEM320" DIV="CHEM"
+        ID="eb413097-1ddb-4c0c-a360-2ed273f168ff"
+        LNG_NAME="Structure of Atoms and Molecules" LVL="300"
+        SHRT_NAME="ATOMS&amp;MOLECULES" SUFX_CD="320"/>
+    <KSLU_CLU_IDENT CD="MATH601" DIV="MATH"
+        ID="ef3af9cf-9fae-45eb-a515-d1b62e2bbbed"
+        LNG_NAME="Topics in Analysis" LVL="600"
+        SHRT_NAME="TPCS ANALYSIS" SUFX_CD="601"/>
+    <KSLU_CLU_IDENT CD="MATH121" DIV="MATH"
+        ID="f22a1f89-53be-44f8-851d-39a94e9bfb70"
+        LNG_NAME="Honours Integral Calculus" LVL="100"
+        SHRT_NAME="INTEGRAL CALCULU" SUFX_CD="121"/>
+    <KSLU_CLU_IDENT CD="MATH322" DIV="MATH"
+        ID="f2453eda-f2ce-42ee-8e71-1b14d4772117"
+        LNG_NAME="Introduction to Algebra" LVL="300"
+        SHRT_NAME="INTR ALGEBRA" SUFX_CD="322"/>
+    <KSLU_CLU_IDENT CD="CHEM412" DIV="CHEM"
+        ID="f32476a0-3efe-4bd7-b4cf-b8674e29fab6"
+        LNG_NAME="Industrial Organic Chemistry" LVL="400"
+        SHRT_NAME="INDUSTRL ORGANIC" SUFX_CD="412"/>
+    <KSLU_CLU_IDENT CD="CHEM305" DIV="CHEM"
+        ID="f3afbe8d-1130-472d-8e79-f4f39f0093b3"
+        LNG_NAME="Biophysical Chemistry" LVL="300"
+        SHRT_NAME="BIOPHYSICAL CHEM" SUFX_CD="305"/>
+    <KSLU_CLU_IDENT CD="MATH537" DIV="MATH"
+        ID="f4ac4863-d333-42cf-9cfa-5f2dd1f1b26c"
+        LNG_NAME="Elementary Number Theory" LVL="500"
+        SHRT_NAME="ELEM NUMBER THRY" SUFX_CD="537"/>
+    <KSLU_CLU_IDENT CD="CHEM307" DIV="CHEM"
+        ID="f5f6633c-10aa-4dd1-84f0-71a6bf167866"
+        LNG_NAME="Introduction to Surface Chemistry and Surface Analysis"
+        LVL="300" SHRT_NAME="IN SURF CHM&amp;ANLS" SUFX_CD="307"/>
+    <KSLU_CLU_IDENT CD="MATH649" DIV="MATH"
+        ID="f648ad80-fc17-4253-a745-25a409074a94"
+        LNG_NAME="Ph.D. Thesis" LVL="600" SHRT_NAME="PH.D. THESIS" SUFX_CD="649"/>
+    <KSLU_CLU_IDENT CD="MATH649" DIV="MATH"
+        ID="f6f8e9e2-f91f-4ee4-94bb-3127f218ed70"
+        LNG_NAME="Doctoral Dissertation" LVL="600"
+        SHRT_NAME="DOC DISSERTATION" SUFX_CD="649"/>
+    <KSLU_CLU_IDENT CD="MATH610" DIV="MATH"
+        ID="f6f999c0-ad2a-424b-8009-e2aecc3e6dd2"
+        LNG_NAME="Topics in Pure Mathematics" LVL="600"
+        SHRT_NAME="TPCS PURE MATH" SUFX_CD="610"/>
+    <KSLU_CLU_IDENT CD="CHEM398" DIV="CHEM"
+        ID="f7f5c71d-5f4d-4180-b8fd-57fc66b9e809"
+        LNG_NAME="Co-operative Work Placement I" LVL="300"
+        SHRT_NAME="COOP WORK PL I" SUFX_CD="398"/>
+    <KSLU_CLU_IDENT CD="MATH612" DIV="MATH"
+        ID="f87ef1ad-0e6a-411b-8d4b-5b427529b405"
+        LNG_NAME="Topics in Mathematical Biology" LVL="600"
+        SHRT_NAME="TPCS MATH BIOL" SUFX_CD="612"/>
+    <KSLU_CLU_IDENT CD="MATH538" DIV="MATH"
+        ID="fb45a1b2-3872-4b8f-b61c-5a754fdf4f4c"
+        LNG_NAME="Algebraic Number Theory" LVL="500"
+        SHRT_NAME="ALG NUMBR THRY" SUFX_CD="538"/>
+    <KSLU_CLU_IDENT CD="MATH001" DIV="MATH"
+        ID="fc82d1a7-d694-40ad-8aa1-1150c4645871" LNG_NAME="Algebra"
+        LVL="000" SHRT_NAME="ALGEBRA" SUFX_CD="001"/>
+    <KSLU_CLU_IDENT CD="CHEM540" DIV="CHEM"
+        ID="fdf571ef-bad9-476a-a793-28a36cdd20ac"
+        LNG_NAME="Graduate Seminar in Chemistry" LVL="500"
+        SHRT_NAME="GRAD SEMNR CHEM" SUFX_CD="540"/>
+    <KSLU_CLU_IDENT CD="CHEM503" DIV="CHEM"
+        ID="fe2263ff-e587-498d-a26b-0626111e6c0c"
+        LNG_NAME="Equilibrium Statistical Mechanics in Chemistry"
+        LVL="500" SHRT_NAME="EQUIL STAT MECH" SUFX_CD="503"/>
+    <KSLU_CLU_IDENT CD="SCIE001" DIV="SCIE"
+        ID="2fd1cf05-21d8-406c-af8e-d4158b4ea6c6"
+        LNG_NAME="Science One Program" LVL="000" SHRT_NAME="SCIENCE ONE" SUFX_CD="001"/>
+</dataset>
