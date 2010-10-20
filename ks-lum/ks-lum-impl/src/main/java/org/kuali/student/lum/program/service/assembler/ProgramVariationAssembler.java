@@ -52,7 +52,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.assembleAtps(clu, pvInfo);
         programAssemblerUtils.assembleLuCodes(clu, pvInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, pvInfo);
-        programAssemblerUtils.assembleRequirements(clu, pvInfo);
+        programAssemblerUtils.assembleProgramRequirements(clu, pvInfo, (null != programVariation) ? true : false);
         
         pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
         pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));

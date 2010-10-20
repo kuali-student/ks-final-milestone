@@ -204,6 +204,34 @@ public class ProgramAssemblerUtils {
 
     }
 
+    public Object assembleProgramRequirements(CluInfo clu, Object o, boolean update) throws AssemblyException {
+    	List<String> requirements = null;
+		try {
+			if (!update) requirements = luService.getRelatedCluIdsByCluId(clu.getId(), ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT);
+			if (requirements != null && requirements.size() > 0) {
+			    Class[] parms = new Class[]{List.class};
+			    Method method = o.getClass().getMethod("setProgramRequirements", parms);
+			    method.invoke(o, requirements);
+			}
+	    }
+	    catch (IllegalAccessException   e){
+	        throw new AssemblyException("Error assembling program requirements", e);
+	    }
+	    catch (InvocationTargetException e){
+	        throw new AssemblyException("Error assembling program requirements", e);
+	    }
+	    catch (NoSuchMethodException e)
+	    {
+	        throw new AssemblyException("Error assembling program requirements", e);
+	    }
+	    catch (Exception e)
+	    {
+	        throw new AssemblyException("Error assembling program requirements", e);
+	    }
+
+        return o;
+
+    }
     //TODO  maybe this should be in CluAssemblerUtils??
     public CluInfo disassembleRequirements(CluInfo clu, Object o, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result) throws AssemblyException {
         try {

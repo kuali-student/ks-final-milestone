@@ -66,7 +66,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.assembleAtps(clu, mdInfo);
         programAssemblerUtils.assembleLuCodes(clu, mdInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
-        programAssemblerUtils.assembleRequirements(clu, mdInfo);
+        programAssemblerUtils.assembleProgramRequirements(clu, mdInfo, (null != majorDiscipline) ? true : false);
 
         mdInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         mdInfo.setStdDuration(clu.getStdDuration());
