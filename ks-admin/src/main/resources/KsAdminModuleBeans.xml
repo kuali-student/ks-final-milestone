@@ -74,5 +74,15 @@
   </bean>
 
   <bean id="ks.messageService" class="org.kuali.student.core.messages.service.impl.MessageServiceImpl" />
-        
+  
+  <bean id="ks.enumerationManagementService" class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl" >
+  	<property name="searchDao">
+  		<bean id="ks.enumerationManagementDao" class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDaoImpl"/>
+  	</property>
+  	<property name="searchManager">
+  		<bean id="ks.enumerationManagement.searchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+  			<constructor-arg value="classpath:em-search-config.xml"/>
+  		</bean>
+  	</property>
+  </bean>
 </beans>

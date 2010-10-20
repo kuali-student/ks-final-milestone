@@ -27,5 +27,7 @@
   -->
   <alias alias="messageServiceImpl" name="ks.messageService" />
   <alias alias="ks.messageServiceMock" name="ks.messageService" />
+  <alias alias="enumerationManagementServiceImpl" name="ks.enumerationManagementService" />
+
 
 </beans>
