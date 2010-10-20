@@ -1013,10 +1013,31 @@ public class ProgramAssemblerUtils {
 
             try {
                 List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId);
-
+               
                 for (CluCluRelationInfo cluRelation : cluRelations) {
                     if (relationType.equals(cluRelation.getType())) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
+                    }
+                }
+            } catch (DoesNotExistException e) {
+            } catch (InvalidParameterException e) {
+            } catch (MissingParameterException e) {
+            } catch (OperationFailedException e) {
+                throw new AssemblyException("Error getting related clus", e);
+            }
+
+            return currentRelations;
+    }
+    
+    public Map<String, CluCluRelationInfo> getCluCluActiveRelations(String cluId, String relationType) throws AssemblyException{
+        Map<String, CluCluRelationInfo> currentRelations = new HashMap<String, CluCluRelationInfo>();
+
+            try {
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId);
+
+                for (CluCluRelationInfo cluRelation : cluRelations) {
+                    if (relationType.equals(cluRelation.getType()) && (!cluRelation.getState().isEmpty() && cluRelation.getState().equalsIgnoreCase(ProgramAssemblerConstants.ACTIVE))) {
+                        currentRelations.put(cluRelation.getRelatedCluId(), cluRelation);
                     }
                 }
             } catch (DoesNotExistException e) {
@@ -1058,7 +1079,20 @@ public class ProgramAssemblerUtils {
             results.add(relationToDeleteNode);
         }
     }
-
+    
+    public void addInactiveRelationNodes(Map<String, CluCluRelationInfo> currentRelations, List<BaseDTOAssemblyNode<?, ?>> results){
+        for (Map.Entry<String, CluCluRelationInfo> entry : currentRelations.entrySet()) {
+            CluCluRelationInfo inactiveRelation = new CluCluRelationInfo();
+            inactiveRelation = entry.getValue();
+            inactiveRelation.setState(ProgramAssemblerConstants.INACTIVE);
+            BaseDTOAssemblyNode<Object, CluCluRelationInfo> inactiveRelationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+                    null);
+            inactiveRelationNode.setNodeData(inactiveRelation);
+            inactiveRelationNode.setOperation(NodeOperation.UPDATE);
+            results.add(inactiveRelationNode);
+        }
+    }
+    
     private LuCodeInfo buildLuCodeFromProgram(Object o, String methodName, String codeType) throws AssemblyException {
 
         LuCodeInfo code = null;

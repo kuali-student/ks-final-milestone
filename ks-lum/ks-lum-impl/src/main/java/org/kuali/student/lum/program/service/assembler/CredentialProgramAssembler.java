@@ -11,6 +11,7 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -155,6 +156,20 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
 	                result.getChildNodes().addAll(coreResults);
 	            }
 	    	}
+	    	
+	        if(currentRelations != null && currentRelations.size() > 0){
+    	        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
+    	            // Create a new relation with the id of the relation we want to
+    	            // delete
+    	            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
+    	            relationToDelete.setId( entry.getValue() );
+    	            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+    	                    null);
+    	            relationToDeleteNode.setNodeData(relationToDelete);
+    	            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+    	            result.getChildNodes().add(relationToDeleteNode);
+    	        }
+	        }
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling Core programs", e);
         }
