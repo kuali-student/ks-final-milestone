@@ -20,6 +20,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
@@ -101,6 +102,7 @@ public class MajorEditController extends MajorController {
                 viewContext.setId(id);
                 viewContext.setIdType(IdAttributes.IdType.OBJECT_ID);
                 HistoryManager.navigate(AppLocations.Locations.EDIT_VARIATION.getLocation(), viewContext);
+
             }
         });
         eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEventHandler() {
@@ -112,11 +114,17 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
-                String id = (String) programModel.get(ProgramConstants.ID);
-                if (id == null) {
-                    showView(ProgramSections.PROGRAM_DETAILS_EDIT);
+                Enum<?> changeSection = ProgramRegistry.getSection();
+                if (changeSection != null) {
+                    showView(changeSection);
+                    ProgramRegistry.setSection(null);
                 } else {
-                    showView(ProgramSections.SUMMARY);
+                    String id = (String) programModel.get(ProgramConstants.ID);
+                    if (id == null) {
+                        showView(ProgramSections.PROGRAM_DETAILS_EDIT);
+                    } else {
+                        showView(ProgramSections.SUMMARY);
+                    }
                 }
             }
         });

@@ -35,7 +35,7 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
                 Data newSpecializationData = new Data();
                 newSpecializationData.set(ProgramConstants.STATE, ProgramStatus.DRAFT.getValue());
                 newSpecializationData.set(ProgramConstants.TYPE, "kuali.lu.type.Variation");
-                VariationRegistry.setData(newSpecializationData);
+                ProgramRegistry.setData(newSpecializationData);
                 ProgramManager.getEventBus().fireEvent(new AddSpecializationEvent());
             }
         });

@@ -7,7 +7,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.VariationRegistry;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,7 +42,7 @@ public class VariationsBinding extends ModelWidgetBindingSupport<VerticalPanel> 
                 anchor.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        VariationRegistry.setData(variationData);
+                        ProgramRegistry.setData(variationData);
                         String id = (String) model.get("id");
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(id);

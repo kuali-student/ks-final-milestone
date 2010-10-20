@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.MajorViewEvent;
 import org.kuali.student.lum.program.client.events.MajorViewEventHandler;
@@ -40,6 +41,7 @@ public class MajorViewController extends MajorController {
                 ActionType actionType = ActionType.of(actionBox.getSelectedValue());
                 if (actionType == ActionType.MODIFY) {
                     HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
+                    ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                 }
             }
         });
@@ -52,7 +54,7 @@ public class MajorViewController extends MajorController {
         eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
-               showView(ProgramSections.VIEW_ALL);
+                showView(ProgramSections.VIEW_ALL);
             }
         });
     }

@@ -16,9 +16,9 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramUtils;
-import org.kuali.student.lum.program.client.VariationRegistry;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
@@ -69,7 +69,7 @@ public class VariationEditController extends VariationController {
                         final Data variationData = property.getValue();
                         if (variationData.get(ProgramConstants.ID).equals(currentId)) {
                             programModel.setRoot(variationData);
-                            VariationRegistry.setData(variationData);
+                            ProgramRegistry.setData(variationData);
                             setContentTitle(ProgramProperties.get().variation_title(getProgramName()));
                             return;
                         }
