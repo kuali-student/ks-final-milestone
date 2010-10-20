@@ -20,8 +20,9 @@
 }
 
 .courseStatusLabel{
-	padding-top: 5px;
-	padding-right: 10px;
+     color: #807970;
+     padding-right: 10px; 
+     padding-top: 7px;
 }
 
 .versionHistoryLink{
