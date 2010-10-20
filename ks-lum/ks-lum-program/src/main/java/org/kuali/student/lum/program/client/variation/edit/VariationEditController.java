@@ -4,15 +4,19 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.VariationRegistry;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
@@ -20,6 +24,8 @@ import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
 import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
+
+import java.util.List;
 
 /**
  * @author Igor
@@ -98,13 +104,18 @@ public class VariationEditController extends VariationController {
             @Override
             public void onModelReady(final DataModel model) {
                 VariationEditController.this.updateModelFromCurrentView();
-                currentId = model.get("id");
-                if (currentId == null) {
-                    eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
-                } else {
-                    eventBus.fireEvent(new SpecializationUpdateEvent());
-                }
-                resetFieldInteractionFlag();
+                model.validate(new Callback<List<ValidationResultInfo>>() {
+                    @Override
+                    public void exec(List<ValidationResultInfo> result) {
+                        ProgramUtils.cutParentPartOfKey(result);
+                        boolean isSectionValid = isValid(result, true);
+                        if (isSectionValid) {
+                            saveData(model);
+                        } else {
+                            Window.alert("Save failed.  Please check fields for errors.");
+                        }
+                    }
+                });
             }
 
             @Override
@@ -113,5 +124,15 @@ public class VariationEditController extends VariationController {
             }
 
         });
+    }
+
+    private void saveData(DataModel model) {
+        currentId = model.get("id");
+        if (currentId == null) {
+            eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
+        } else {
+            eventBus.fireEvent(new SpecializationUpdateEvent());
+        }
+        resetFieldInteractionFlag();
     }
 }
