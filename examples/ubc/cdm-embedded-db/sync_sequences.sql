@@ -1,3 +1,5 @@
+-- Description: a procedure to sync Rice sequences to latest id values in the Rice tables
+-- Usage: execute this as a script in your Oracle environment (sqlplus, TOAD, etc)
 DECLARE
   curr_id   number(19);
   curr_seq_id  number(19);

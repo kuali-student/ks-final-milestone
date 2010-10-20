@@ -49,28 +49,12 @@ delete KSAP_ATP
 where type not in ('kuali.atp.type.Spring', 'kuali.atp.type.Fall', 'kuali.atp.type.Winter', 'kuali.atp.type.Summer');
 
 
+-- Remove North and South Campus
+delete KSEM_CTX_JN_ENUM_VAL_T
+where enum_val_id in ('33', '34');
 
-/**
-Sequence Correction
+delete KSEM_ENUM_VAL_T
+where id in ('33', '34');
 
-select max(doc_typ_id)
-from KREW_DOC_TYP_T;
-
-select KREW_DOC_HDR_S.nextval
-from dual;
-
-select max(rte_node_id)
-from KREW_RTE_NODE_T;
-
-select KREW_RTE_NODE_S.nextval
-from dual;
-
-select max(rte_node_cfg_parm_id)
-from KREW_RTE_NODE_CFG_PARM_T;
-
-select KREW_RTE_NODE_CFG_PARM_S.nextval
-from dual;
-
-*/
 
 commit;

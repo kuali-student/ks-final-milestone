@@ -139,12 +139,6 @@
         TTL="Chair of the Department of Chemistry" UPDATEID="admin"
         UPDATETIME="20100601160704" VERSIONIND="6"/>
     <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415160135"
-        DESCR="Chair of the Chemistry Curriculum Committee" ID="1017"
-        MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1014"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TTL="Chair of the Chemistry Curriculum Committee"
-        UPDATEID="admin" UPDATETIME="20100601132304" VERSIONIND="3"/>
-    <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20100415160135"
         DESCR="Member of the Chemistry Curriculum Committee" ID="1018"
         MAX_NUM_RELTN="100" MIN_NUM_RELTN="1" ORG="1014"
         PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
