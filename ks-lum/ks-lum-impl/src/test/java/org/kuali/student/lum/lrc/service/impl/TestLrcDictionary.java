@@ -22,8 +22,8 @@ public class TestLrcDictionary
  @Test
  public void testLoadCluInfoDictionary ()
  {
-  Set<Class<?>> startingClasses = new LinkedHashSet ();
-  startingClasses.add (ResultComponentInfo.class);
+  Set<String> startingClasses = new LinkedHashSet ();
+  startingClasses.add (ResultComponentInfo.class.getName ());
   String contextFile = "ks-lrc-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
   DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,

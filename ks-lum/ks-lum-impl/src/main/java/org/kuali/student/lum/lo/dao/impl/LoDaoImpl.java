@@ -183,7 +183,7 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	}
 
 	@Override
-	public void deleteLoLoRelation(String loLoRelationId) throws DoesNotExistException, DependentObjectsExistException {
+	public void deleteLoLoRelation(String loLoRelationId) throws DoesNotExistException {
 
 //		// make sure we don't orphan an LO (and potentially its children)
 //		LoLoRelation llRelation = fetch(LoLoRelation.class, loLoRelationId);

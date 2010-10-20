@@ -122,18 +122,18 @@
     <bean id="lumDictionary"
           class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0"
-                         value="${ks.lum.dictionary.serviceContextLocations}"/>
+                         value="${ks.lum.dictionary.old.serviceContextLocations}"/>
     </bean>
 
     <bean id="luClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lu}LuService"/>
     </bean>
 
     <bean id="proposalClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.proposal.service.ProposalService"/>
         <property name="serviceQName"
@@ -308,7 +308,7 @@
     </bean>
 
     <bean id="lrcClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lrc.service.LrcService"/>
         <property name="serviceQName"
@@ -335,7 +335,7 @@
     </bean>
 
     <bean id="loClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
         <property name="serviceQName"
@@ -365,7 +365,7 @@
     </bean>
 
     <bean id="orgClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.organization.service.OrganizationService"/>
         <property name="serviceQName"
@@ -373,36 +373,11 @@
     </bean>
 
     <bean id="enumServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/enumerationmanagement}EnumerationManagementService"/>
-    </bean>
-
-    <!-- Document Relation Mock Service Config -->
-    <!--Note: When this service is defined, move this declaration into core
-        context.
-    -->
-
-    <bean id="documentRelationServiceImpl"
-          class="org.kuali.student.lum.mock.service.impl.DocumentRelationServiceImpl">
-        <property name="proposalService" ref="proposalClient"/>
-    </bean>
-
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-                <property name="jaxWsService" value="true"/>
-                <property name="service" ref="documentRelationServiceImpl"/>
-                <property name="serviceInterface"
-                          value="org.kuali.student.core.mock.service.DocumentRelationService"/>
-                <property name="localServiceName" value="DocumentRelationService"/>
-                <property name="serviceNameSpaceURI"
-                          value="http://student.kuali.org/wsdl/documentRelation"/>
-                <property name="busSecurity" value="false"></property>
-            </bean>
-        </property>
     </bean>
 
     <!-- CourseService config -->
@@ -414,6 +389,7 @@
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="validator" ref="pocServiceValidator"/>
         <property name="validatorFactory" ref="validatorFactory"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -431,7 +407,7 @@
     </bean>
 
     <bean id="atpClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.atp.service.AtpService"/>
         <property name="serviceQName"
@@ -439,7 +415,7 @@
     </bean>
 
     <bean id="statementServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.statement.service.StatementService"/>
         <property name="serviceQName"
@@ -482,9 +458,7 @@
 
     <bean id="lumDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
-        <constructor-arg>
-	        <value>classpath:ks-courseInfo-dictionary-context.xml;classpath:ks-programInfo-dictionary-context.xml;classpath:ks-statement-dictionary-context.xml</value>
-        </constructor-arg>
+        <constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}"/>
     </bean>
 
     <bean id="pocServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
@@ -516,7 +490,6 @@
     </bean>
 
     <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
-        <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
     <bean id="programRequirementAssembler"
@@ -561,6 +534,7 @@
  	<bean id="credentialProgramAssembler"
           class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
+        <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="luService" ref="luClient"/>
     </bean>
 
@@ -596,6 +570,7 @@
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
+        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

@@ -17,13 +17,13 @@ package org.kuali.student.lum.statement.config.context;
 
 import java.util.Map;
 
-import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.naturallanguage.AbstractContext;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.config.context.util.NLHelper;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
-public class BasicContextImpl extends AbstractContext<ReqComponent> {
+public class BasicContextImpl extends AbstractContext<ReqComponentInfo> {
 	/**
 	 * <code>NLHelper</code> token (key) references a static natural language
 	 * helper class for use in templates.
@@ -52,13 +52,15 @@ public class BasicContextImpl extends AbstractContext<ReqComponent> {
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponent reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
     	String value = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
     	String operator = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.OPERATOR_KEY.getId());
     	
     	Map<String, Object> contextMap = super.createContextMap(reqComponent);
         contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
-        contextMap.put(OPERATOR_TOKEN, operator);
+		if(operator != null) {
+	        contextMap.put(OPERATOR_TOKEN, operator);
+		}
 		if(value != null) {
 			contextMap.put(INTEGER_VALUE_TOKEN, Integer.valueOf(value));
 		}

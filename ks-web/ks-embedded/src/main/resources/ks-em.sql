@@ -13,7 +13,20 @@
 -- permissions and limitations under the License.
 --
 
---Enumerations
+-- Enumerations 
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.subjectArea', 'Subject Area Enumeration', 'Subject Area Enumeration' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.campusLocation', 'Campus Location Enumeration', 'Campus Location Enumeration' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.atptype.duration', 'ATP Durations', 'ATP Durations' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.state', 'KS Data States', 'KS Data States' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.fee.feeType', 'Learning Unit Fee Type', 'Learning Unit Fee Type' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, NAME, DESCR, EFF_DT, EXPIR_DT ) values ('kuali.lu.fee.rateType', 'Learning Unit Rate Type', 'Learning Unit Rate Type' , {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'});
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.enum.type.cip2010', 'CIP 2010', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'CIP Codes 2010');
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.enum.type.cip2000', 'CIP 2000', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'CIP Codes 2000');
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.enum.lu.program.level', 'Program Level', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'Program Level');
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.lu.code.UniversityClassification', 'University Classification', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'University Classification');
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kuali.lu.finalExam.status', 'Final Exam Status', {ts '2000-01-01 00:00:00.0'}, {ts '2000-01-01 00:00:00.0'}, 'Final Exam Status');
+
+--Enumerated Values
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('1', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 1, 'Robotics');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('2', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 2, 'CompSci');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('3', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 3, 'Mechanical');
@@ -49,8 +62,10 @@ insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SOR
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('59', 'AASP', 'AASP', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 59, 'African American Studies');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('60', 'AAST', 'AAST', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 60, 'Asian American Studies');
 
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('33', 'North', 'NORTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 31, 'North Campus');
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('34', 'South', 'SOUTH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 32, 'South Campus');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('33', 'North', 'NO', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 31, 'North');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('34', 'South', 'SO', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 32, 'South');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('64', 'Extended', 'EX', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 64, 'Extended');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('65', 'All', 'AL', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.campusLocation', {ts '2000-01-01 00:00:00.0'}, 65, 'All');
 
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('35', 'per day', 'kuali.atp.duration.day', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 35, 'per day');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('36', 'per week', 'kuali.atp.duration.week', {ts '2000-01-01 00:00:00.0'}, 'kuali.atptype.duration', {ts '2000-01-01 00:00:00.0'}, 36, 'per week');
@@ -127,6 +142,8 @@ insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','60');
 
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','33');
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','34');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','64');
+insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','65');
 
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','35');
 insert into KSEM_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','36');

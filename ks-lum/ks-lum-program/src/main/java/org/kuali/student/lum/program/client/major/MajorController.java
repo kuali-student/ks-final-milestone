@@ -34,37 +34,8 @@ public class MajorController extends ProgramController {
     }
 
     @Override
-    public void requestModel(Class modelType, ModelRequestCallback callback) {
-        if (modelType == ReferenceModel.class) {
-            ReferenceModel referenceModel = new ReferenceModel();
-            referenceModel.setReferenceId((String) programModel.get("id"));
-            referenceModel.setReferenceTypeKey(ProgramConstants.MAJOR_TYPE_ID);
-            referenceModel.setReferenceType(ProgramConstants.MAJOR_OBJECT_ID);
-            Map<String, String> attributes = new HashMap<String, String>();
-            attributes.put("name", (String) programModel.get("name"));
-            referenceModel.setReferenceAttributes(attributes);
-            callback.onModelReady(referenceModel);
-        } else {
-            super.requestModel(modelType, callback);
-        }
-    }
-
-    @Override
     protected void configureView() {
         super.configureView();
         addContentWidget(createCommentPanel());
-    }
-
-    private Widget createCommentPanel() {
-        final CommentTool commentTool = new CommentTool(ProgramSections.COMMENTS, "Comments", "kuali.comment.type.generalRemarks", "Program Comments");
-        commentTool.setController(this);
-        KSButton commentsButton = new KSButton(ProgramProperties.get().comments_button(), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                commentTool.show();
-            }
-        });
-        return commentsButton;
     }
 }

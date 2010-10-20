@@ -21,17 +21,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
@@ -42,17 +32,7 @@
     <profile>
       <id>skip-core-war</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
@@ -62,17 +42,7 @@
     <profile>
       <id>skip-developer-wars</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
@@ -82,17 +52,7 @@
     <profile>
       <id>skip-all-wars</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
@@ -102,17 +62,7 @@
     <profile>
       <id>embedded-only-war</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
@@ -122,17 +72,7 @@
     <profile>
       <id>standalone-only-wars</id>
       <modules>
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
-        <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
-        <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
         <module>ks-core-rice</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
         <module>ks-core-api</module>
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>

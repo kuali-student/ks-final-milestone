@@ -2,21 +2,30 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="atpType.semester.fall"
-        CLU_ID="f77befe3-c76c-4963-b4c2-104197f51e96" ID="ATP-1"/>
+        CLU_ID="f77befe3-c76c-4963-b4c2-104197f51e96" ID="ATP-1"
+        OBJ_ID="E5D44BB6B63B4D58B341F550CB9730C5" VER_NBR="0"/>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="kuali.atp.type.Fall"
-        CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d" ID="ATP-11"/>
+        CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d" ID="ATP-11"
+        OBJ_ID="932817F6411B4DF7989E4372D9606C62" VER_NBR="0"/>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="kuali.atp.type.Spring"
-        CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d" ID="ATP-12"/>
+        CLU_ID="2f68e422-a54f-4f10-9cf2-37dd4083ce5d" ID="ATP-12"
+        OBJ_ID="A6340DEFB5A04D99ADC6133F0E508871" VER_NBR="0"/>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="atpType.semester.spring"
-        CLU_ID="8e108d5e-44d0-40eb-bd3e-01c4e8dd7472" ID="ATP-2"/>
+        CLU_ID="8e108d5e-44d0-40eb-bd3e-01c4e8dd7472" ID="ATP-2"
+        OBJ_ID="9135D52228304AA987C2B0E4495A9326" VER_NBR="0"/>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="atpType.semester.summer"
-        CLU_ID="f77befe3-c76c-4963-b4c2-104197f51e96" ID="ATP-3"/>
+        CLU_ID="f77befe3-c76c-4963-b4c2-104197f51e96" ID="ATP-3"
+        OBJ_ID="4AF9E3E34C6644FBAF8D2B2435CC2C00" VER_NBR="0"/>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="atpType.quarter.fall"
-        CLU_ID="f77befe3-c76c-4963-b4c2-104197f51e96" ID="ATP-4"/>
+        CLU_ID="f77befe3-c76c-4963-b4c2-104197f51e96" ID="ATP-4"
+        OBJ_ID="4CC63323947D46D2A820CE57DA3AE2AE" VER_NBR="0"/>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="atpType.quarter.winter"
-        CLU_ID="f77befe3-c76c-4963-b4c2-104197f51e96" ID="ATP-5"/>
+        CLU_ID="f77befe3-c76c-4963-b4c2-104197f51e96" ID="ATP-5"
+        OBJ_ID="3FD4BD88DCB7417B90BFEC22DF311F58" VER_NBR="0"/>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="atpType.quarter.spring"
-        CLU_ID="8e108d5e-44d0-40eb-bd3e-01c4e8dd7472" ID="ATP-6"/>
+        CLU_ID="8e108d5e-44d0-40eb-bd3e-01c4e8dd7472" ID="ATP-6"
+        OBJ_ID="BB73DE6C1EAF4D3A8224DD6893C41497" VER_NBR="0"/>
     <KSLU_CLU_ATP_TYPE_KEY ATP_TYPE_KEY="atpType.quarter.summer"
-        CLU_ID="8e108d5e-44d0-40eb-bd3e-01c4e8dd7472" ID="ATP-7"/>
+        CLU_ID="8e108d5e-44d0-40eb-bd3e-01c4e8dd7472" ID="ATP-7"
+        OBJ_ID="58A0E757D0844801B558138FC7C64C6F" VER_NBR="0"/>
 </dataset>

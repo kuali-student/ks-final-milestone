@@ -27,14 +27,14 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
     <bean id="luClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lu}LuService"/>
     </bean>
   
    <bean id="lrcClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lrc.service.LrcService"/>
         <property name="serviceQName"
@@ -42,7 +42,7 @@
     </bean>  
     
    <bean id="loClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
         <property name="serviceQName"
@@ -50,7 +50,7 @@
     </bean>
     
     <bean id="orgClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.organization.service.OrganizationService"/>
         <property name="serviceQName"
@@ -58,7 +58,7 @@
     </bean>
 
     <bean id="enumServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"

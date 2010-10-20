@@ -8,7 +8,8 @@ package org.kuali.student.lum.program.client;
 public enum ProgramSections {
     PROGRAM_DETAILS_VIEW,
     PROGRAM_DETAILS_EDIT,
-    SPECIALIZATIONS,
+    SPECIALIZATIONS_VIEW,
+    SPECIALIZATIONS_EDIT,
     PROGRAM_REQUIREMENTS_VIEW,
     PROGRAM_REQUIREMENTS_EDIT,
     MANAGE_BODIES_VIEW,
@@ -20,6 +21,7 @@ public enum ProgramSections {
     SUPPORTING_DOCUMENTS_VIEW,
     SUPPORTING_DOCUMENTS_EDIT,
     VIEW_ALL,
+    SUMMARY,
     COMMENTS,
     EMPTY
 }

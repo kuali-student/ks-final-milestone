@@ -38,8 +38,8 @@ import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 public class TestMetadataServiceDictionary
 {
@@ -47,15 +47,22 @@ public class TestMetadataServiceDictionary
  @Test
  public void testMetadataService ()
  {
-  Set<Class<?>> startingClasses = new LinkedHashSet ();
+  Set<String> startingClasses = new LinkedHashSet ();
   Map<String, Set<String>> types = new LinkedHashMap ();
-  startingClasses.add (CourseInfo.class);
-  startingClasses.add (MajorDisciplineInfo.class);
-  startingClasses.add (ProposalInfo.class);
-  startingClasses.add (CluSetInfo.class);
-  startingClasses.add (StatementInfo.class);
-  startingClasses.add (ReqComponentInfo.class);
-  startingClasses.add (ReqCompFieldInfo.class);
+  startingClasses.add (CourseInfo.class.getName ());
+  startingClasses.add (MajorDisciplineInfo.class.getName ());
+  startingClasses.add (ProgramRequirementInfo.class.getName ());
+  startingClasses.add (ProposalInfo.class.getName ());
+  startingClasses.add (StatementInfo.class.getName ());
+  startingClasses.add (ReqComponentInfo.class.getName ());
+  startingClasses.add (ReqCompFieldInfo.class.getName ());
+  startingClasses.add ("cluset");
+  startingClasses.add ("courseSet");
+  startingClasses.add ("programSet");
+  startingClasses.add ("testSet");
+  startingClasses.add ("search");
+  startingClasses.add ("browse");
+
 
   //  startingClasses.add (StatementTreeViewInfo.class);
 
@@ -64,8 +71,21 @@ public class TestMetadataServiceDictionary
   typesForClass.add ("kuali.reqComponent.field.type.gpa");
   typesForClass.add ("kuali.reqComponent.field.type.operator");
   typesForClass.add ("kuali.reqComponent.field.type.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.course.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.program.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.test.clu.id");
+  typesForClass.add ("kuali.reqComponent.field.type.test.score");
   typesForClass.add ("kuali.reqComponent.field.type.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.course.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.program.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.test.cluSet.id");
+  typesForClass.add ("kuali.reqComponent.field.type.person.id");
+  typesForClass.add ("kuali.reqComponent.field.type.org.id");
   typesForClass.add ("kuali.reqComponent.field.type.value.positive.integer");
+  typesForClass.add ("kuali.reqComponent.field.type.gradeType.id");
+  typesForClass.add ("kuali.reqComponent.field.type.grade.id");
+  typesForClass.add ("kuali.reqComponent.field.type.durationType.id");
+  typesForClass.add ("kuali.reqComponent.field.type.duration");
 
   DictionaryService courseDictService = new DictionaryServiceImpl (
     "classpath:ks-courseInfo-dictionary-context.xml");
@@ -73,6 +93,10 @@ public class TestMetadataServiceDictionary
     "classpath:ks-programInfo-dictionary-context.xml");
   DictionaryService cluSetDictService = new DictionaryServiceImpl (
     "classpath:ks-cluSetInfo-dictionary-context.xml");
+  for (String objType : cluSetDictService.getObjectTypes ())
+  {
+   System.out.println ("Cluset has object type=" + objType);
+  }
   DictionaryService proposalDictService = new DictionaryServiceImpl (
     "classpath:ks-proposalInfo-dictionary-context.xml");
   DictionaryService statementDictService = new DictionaryServiceImpl (
@@ -100,37 +124,37 @@ public class TestMetadataServiceDictionary
                + new Date ());
   out.println ("DO NOT UPDATE MANUALLY!");
   out.println ("");
-  out.print (
-    "This page represents a formatted view of the lum ui dictionary");
-  for (Class<?> clazz : startingClasses)
+  out.println (
+    "This page represents a formatted view of the lum ui dictionary:");
+  for (String className : startingClasses)
   {
-   out.println ("# " + clazz.getName ());
+   out.println ("# " + className);
   }
   out.println ("");
   out.println ("----");
   out.println ("{toc}");
   out.println ("----");
 
-  for (Class<?> clazz : startingClasses)
+  for (String className : startingClasses)
   {
-//   out.println ("getting meta data for " + clazz.getName ());
-   Metadata metadata = metadataService.getMetadata (clazz.getName ());
+//   out.println ("getting meta data for " + className);
+   Metadata metadata = metadataService.getMetadata (className);
    assertNotNull (metadata);
-   MetadataFormatter formatter = new MetadataFormatter (clazz.getName (),
+   MetadataFormatter formatter = new MetadataFormatter (className,
                                                         metadata, null,
                                                         null, new HashSet (),
                                                         1);
    out.println (formatter.formatForWiki ());
-   if (types.get (clazz.getName ()) == null)
+   if (types.get (className) == null)
    {
     continue;
    }
-   for (String type : types.get (clazz.getName ()))
+   for (String type : types.get (className))
    {
     System.out.println ("*** Generating formatted version for " + type);
-    metadata = metadataService.getMetadata (clazz.getName (), type, (String) null);
+    metadata = metadataService.getMetadata (className, type, (String) null);
     assertNotNull (metadata);
-    formatter = new MetadataFormatter (clazz.getName (),
+    formatter = new MetadataFormatter (className,
                                        metadata, type,
                                        null, new HashSet (),
                                        1);

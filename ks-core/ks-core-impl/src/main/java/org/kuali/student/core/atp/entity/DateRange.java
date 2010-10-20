@@ -18,10 +18,11 @@ package org.kuali.student.core.atp.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -40,11 +41,9 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name="DateRange.findDateRangesByAtp", query="SELECT dateRange FROM DateRange dateRange WHERE dateRange.atp.id = :atpId"),
 	@NamedQuery(name="DateRange.findDateRangesByDate", query="SELECT dateRange FROM DateRange dateRange WHERE dateRange.startDate <= :searchDate AND dateRange.endDate >= :searchDate")
 })
+@AttributeOverrides({
+    @AttributeOverride(name="id", column=@Column(name="DATERANGE_KEY"))})
 public class DateRange extends MetaEntity implements AttributeOwner<DateRangeAttribute> {
-	
-	@Id
-	@Column(name = "DATERANGE_KEY")
-	private String id;
 
 	@Column(name = "NAME")
 	private String name;
@@ -74,7 +73,7 @@ public class DateRange extends MetaEntity implements AttributeOwner<DateRangeAtt
 
 	@Column(name="STATE")
 	private String state;
-
+	
 	public String getName() {
 		return name;
 	}
@@ -137,14 +136,6 @@ public class DateRange extends MetaEntity implements AttributeOwner<DateRangeAtt
 
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 }

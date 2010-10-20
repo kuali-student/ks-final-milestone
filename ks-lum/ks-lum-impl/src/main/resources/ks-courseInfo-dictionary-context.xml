@@ -5,6 +5,9 @@
  <import resource="classpath:ks-cluInfo-dictionary-context.xml" />
  <import resource="classpath:ks-loInfo-dictionary-context.xml" />
  <import resource="classpath:ks-lrc-dictionary-context.xml" />
+ <import resource="classpath:ks-statement-dictionary-context.xml"/>
+ <import resource="classpath:ks-cluset-ui-object-dictionary-context.xml" />
+ <import resource="classpath:ks-lu-search-dictionary-context.xml" />
 
  <!-- CourseInfo-->
  <bean id="org.kuali.student.lum.course.dto.CourseInfo-parent"
@@ -17,6 +20,7 @@
     <ref bean="courseInfo.code" />
     <ref bean="courseInfo.unitsDeployment" />
     <ref bean="courseInfo.courseNumberSuffix" />
+    <ref bean="courseInfo.level" />
     <ref bean="courseInfo.courseSpecificLOs" />
     <ref bean="courseInfo.courseTitle" />
     <ref bean="courseInfo.crossListings" />
@@ -59,12 +63,11 @@
          their model structure 
     see https://jira.kuali.org/browse/KSLUM-375
     -->
-    <ref bean="search.cluset" />
-    <ref bean="search.findCourse" />
-    <!--<ref bean="search.proposedCourses" />
-    <ref bean="search.approvedCourses" />
-    <ref bean="search.reusableCluSets" />
-    <ref bean="search.courseRanges" />-->
+    <ref bean="courseInfo.searchCourseVersions"/>
+
+    <ref bean="freestanding.search.cluset" />
+    <ref bean="freestanding.search.findCourse" />
+    
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -119,6 +122,11 @@
   <property name="validChars" ref="digits" />
  </bean>
  <bean id="courseInfo.courseNumberSuffix" parent="courseInfo.courseNumberSuffix-parent" />
+
+ <bean id="courseInfo.level-parent" abstract="true" parent="cluIdentifierInfo.level-parent">
+  <property name="name" value="level" />
+ </bean>
+ <bean id="courseInfo.level" parent="courseInfo.level-parent" />
 
  <bean id="courseInfo.courseSpecificLOs-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="courseSpecificLOs" />
@@ -834,133 +842,13 @@
   <property name="maxLength" value="250" />
   <property name="validChars" ref="multiLineText"/>
  </bean>
-
- <!-- Searches -->
-
- <bean id="search.findCourse-parent" abstract="true" parent="cluInfo.id">
-  <property name="name" value="findCourse" />
- </bean>
- <bean id="search.findCourse" parent="search.findCourse-parent" />
- <bean id="search.proposedCourses-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="proposedCourses" />
-  <!--<property name="name" value="proposedClus" />-->
- </bean>
- <bean id="search.proposedCourses" parent="search.proposedCourses-parent" />
- <bean id="search.approvedCourses-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="approvedCourses" />
-  <!--<property name="name" value="clusets" />-->
- </bean>
- <bean id="search.approvedCourses" parent="search.approvedCourses-parent" />
- <bean id="search.reusableCluSets-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="reusableCluSets" />
-  <!--<property name="name" value="clusets" />-->
- </bean>
- <bean id="search.reusableCluSets" parent="search.reusableCluSets-parent" />
- <bean id="search.courseRanges-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="courseRanges" />
-  <!--<property name="name" value="clusetRange" />-->
- </bean>
- <bean id="search.courseRanges" parent="search.courseRanges-parent" />
-
- <!-- cluset -->
- <bean id="search.cluset-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="cluset" />
-  <property name="dataObjectStructure"
-            ref="searchCluSetInfo.CluSetInfo" />
- </bean>
- <bean id="search.cluset" parent="search.cluset-parent" />
- <bean id="searchCluSetInfo.CluSetInfo-parent"
-       abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="SearchCluSetInfo" />
-  <property name="attributes">
-   <list>
-    <ref bean="cluset.approvedClus" />
-    <ref bean="cluset.proposedClus"/>
-    <ref bean="cluset.clusets"/>
-    <ref bean="cluset.clusetRange"/>
-	<ref bean="cluset.clusetRangeEdit"/>
-	<ref bean="cluset.clusetRangeViewDetails"/>
-   </list>
-  </property>
-  <property name="hasMetaData" value="true" />
- </bean>
- <bean id="searchCluSetInfo.CluSetInfo" parent="searchCluSetInfo.CluSetInfo-parent" />
- <bean id="cluset.proposedClus-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="proposedClus" />
- </bean>
- <bean id="cluset.proposedClus" parent="cluset.proposedClus-parent" />
- <bean id="cluset.approvedClus-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="approvedClus" />
- </bean>
- <bean id="cluset.approvedClus" parent="cluset.approvedClus-parent" />
- <bean id="cluset.clusets-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="clusets" />
- </bean>
- <bean id="cluset.clusets" parent="cluset.clusets-parent" />
  
- <!--  courseRange -->
- <bean id="cluset.clusetRangeEdit-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="clusetRangeEdit" />
- </bean>
- <bean id="cluset.clusetRangeEdit" parent="cluset.clusetRangeEdit-parent" />
- <bean id="cluset.clusetRangeViewDetails-parent" abstract="true" parent="baseStringRepeating">
-  <property name="name" value="clusetRangeViewDetails" />
- </bean>
- <bean id="cluset.clusetRangeViewDetails" parent="cluset.clusetRangeViewDetails-parent" />
- <bean id="cluset.clusetRange" parent="cluset.clusetRange-parent" />
-<bean id="cluset.clusetRange-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="clusetRange" />
-  <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.lu.dto.ClusetRangeInfo" />
- </bean>
- <bean id="org.kuali.student.lum.lu.dto.ClusetRangeInfo" parent="org.kuali.student.lum.lu.dto.ClusetRangeInfo-parent" />
-  <bean id="org.kuali.student.lum.lu.dto.ClusetRangeInfo-parent"
-       abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lu.dto.ClusetRangeInfo" />
-  <property name="attributes">
-   <list>
-		<ref bean="clusetRange.id" />
-		<ref bean="clusetRange.searchTypeKey" />
-		<ref bean="clusetRange.queryParams" />
-   </list>
-  </property>
-  <property name="hasMetaData" value="true" />
- </bean>
- <bean id="clusetRange.id-parent" abstract="true" parent="baseKualiId">
-  <property name="name" value="id" />
- </bean>
- <bean id="clusetRange.id" parent="clusetRange.id-parent" />
- <bean id="clusetRange.searchTypeKey-parent" abstract="true" parent="baseString">
-  <property name="name" value="searchTypeKey" />
- </bean>
- <bean id="clusetRange.searchTypeKey" parent="clusetRange.searchTypeKey-parent" />
- <bean id="clusetRange.queryParams-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="clusetRange.queryParams" />
-  <property name="dataObjectStructure" ref="queryParams" />
- </bean>
- <bean id="clusetRange.queryParams" parent="clusetRange.queryParams-parent" />
- <bean id="queryParams-parent"
-       abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="queryParams" />
-  <property name="attributes">
-   <list>
-		<ref bean="queryParams.value" />
-		<ref bean="queryParams.key" />
-   </list>
-  </property>
-  <property name="hasMetaData" value="true" />
- </bean>
- <bean id="queryParams" parent="queryParams-parent" />
- <bean id="queryParams.value-parent" abstract="true" parent="baseString">
-  <property name="name" value="value" />
- </bean>
- <bean id="queryParams.value" parent="queryParams.value-parent" />
- <bean id="queryParams.key-parent" abstract="true" parent="baseString">
-  <property name="name" value="key" />
- </bean>
- <bean id="queryParams.key" parent="queryParams.key-parent" />
+
+<!-- Searches -->
+
+ <bean id="courseInfo.searchCourseVersions" parent="freestanding.search.courseVersions" />
  
-  <!-- courseFeeInfo.feeAmounts.CurrencyAmountInfo-->
+ <!-- courseFeeInfo.feeAmounts.CurrencyAmountInfo-->
  <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"

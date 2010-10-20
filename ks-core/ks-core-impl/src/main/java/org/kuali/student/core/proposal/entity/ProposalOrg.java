@@ -15,17 +15,16 @@
 
 package org.kuali.student.core.proposal.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -38,10 +37,8 @@ import org.kuali.student.common.util.UUIDHelper;
 @NamedQueries( {
     @NamedQuery(name = "ProposalOrg.getProposalOrg", query = "SELECT p FROM ProposalOrg p WHERE p.orgId = :orgId")
 })
-public class ProposalOrg {
-    @Id
-    @Column(name = "ORGREF_ID")
-    private String id;
+@AttributeOverride(name="id", column=@Column(name="ORGREF_ID"))
+public class ProposalOrg extends BaseEntity{
 
     @Column(name = "ORG_ID")
     private String orgId; // External service key
@@ -49,19 +46,6 @@ public class ProposalOrg {
     @ManyToOne
     @JoinColumn(name = "PROPOSAL_ID")
     private Proposal proposal;
-
-    @PrePersist
-    public void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getOrgId() {
         return orgId;

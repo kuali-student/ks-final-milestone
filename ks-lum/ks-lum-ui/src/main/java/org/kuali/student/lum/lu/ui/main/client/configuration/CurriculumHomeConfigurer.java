@@ -9,12 +9,13 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
 import org.kuali.student.common.ui.client.widgets.layout.LinkContentBlock;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
-import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -84,6 +85,10 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 		if(searchMetadata != null){
 		Metadata metadata = searchMetadata.getProperties().get("findProposal");                
 	        searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+	        SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+	        if(panel != null){
+	        	panel.setMutipleSelect(false);
+	        }
 	        ((KSPicker) searchWidget).setAdvancedSearchCallback(new Callback<List<SelectedResults>>(){
 	
 				@Override
@@ -91,7 +96,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 					SelectedResults value = result.get(0);
 					ViewContext viewContext = new ViewContext();
 					viewContext.setId(value.getResultRow().getId());
-					viewContext.setAttribute(IdAttributes.DOC_TYPE, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
+					viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalType"));
 					viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
 					Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
 					((KSPicker) searchWidget).getSearchWindow().hide();
@@ -111,6 +116,10 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 		if(searchMetadata != null){
 			Metadata metadata = searchMetadata.getProperties().get("findCourseTmp");
 	        searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+	        SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+	        if(panel != null){
+	        	panel.setMutipleSelect(false);
+	        }
 	        ((KSPicker) searchWidget).addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
 	            public void onValueChange(ValueChangeEvent<List<String>> event) {
 	                List<String> selection = event.getValue();
@@ -134,6 +143,10 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 		if(searchMetadata != null){
 			Metadata metadata = searchMetadata.getProperties().get("findMajor");  
 	        searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+	        SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+	        if(panel != null){
+	        	panel.setMutipleSelect(false);
+	        }
 	        ((KSPicker) searchWidget).addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
 	            public void onValueChange(ValueChangeEvent<List<String>> event) {
 	                List<String> selection = event.getValue();

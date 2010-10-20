@@ -66,7 +66,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         assertEquals(createTime.getTime(), refStmtRel.getMeta().getCreateTime());
         assertEquals("UPDATEID", refStmtRel.getMeta().getUpdateId());
         assertEquals(updateTime.getTime(), refStmtRel.getMeta().getUpdateTime());
-        assertEquals(1, refStmtRel.getVersionInd());
+        assertEquals(Long.valueOf(1), refStmtRel.getVersionNumber());
         // Ref object type and object id
         assertEquals("CLU-NL-1", refStmtRel.getRefObjectId());
         assertEquals("clu", refStmtRel.getRefObjectTypeKey());

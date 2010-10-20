@@ -83,10 +83,6 @@
 		<class>org.kuali.student.lum.lu.entity.LuCodeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuCodeType</class>	
 		<class>org.kuali.student.lum.lu.entity.LuCodeTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelation</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationType</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.Lui</class>
 		<class>org.kuali.student.lum.lu.entity.LuiAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuiLuiRelation</class>

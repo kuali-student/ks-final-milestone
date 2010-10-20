@@ -231,4 +231,14 @@ public class TestStatementServiceImplForProgram {
         String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-120", "KUALI.RULE", "en");
         assertEquals("Must be admitted to a minor program only if they have junior or senior class standing", nl);
     }	
+
+    /**
+     * Requirement component type: kuali.reqComponent.type.program.minor.admitted.classstanding
+     */
+    @Test
+    public void testGetNaturalLanguageForReqComponentType_kuali_reqComponent_type_course_courseset_completed_max() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        //req. type: 'kuali.reqComponent.type.course.courseset.completed.max'
+        String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-121", "KUALI.RULE", "en");
+        assertEquals("Must have successfully completed no more than 2 courses from (MATH152, MATH180)", nl);
+    }
 }

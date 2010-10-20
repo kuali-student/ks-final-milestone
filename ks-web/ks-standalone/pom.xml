@@ -71,7 +71,7 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -81,7 +81,7 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-hibernate</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -102,7 +102,7 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -124,8 +124,15 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
@@ -138,14 +145,14 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>

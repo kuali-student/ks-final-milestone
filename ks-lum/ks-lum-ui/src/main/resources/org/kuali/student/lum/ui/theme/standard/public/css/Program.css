@@ -27,12 +27,21 @@
     padding-top: 40px;
 }
 
+.KS-Program-Requirements-Preview-Rule-Type-Credits {
+    padding-bottom: 20px;
+}
+
+.KS-Program-Requirements-Preview-Rule-Type-Desc {
+    padding-bottom: 15px;
+    width: 650px;
+}
+
 .KS-Program-Requirements-Preview-No-Rule-Text {
     padding-top: 20px;
 }
 
 .KS-Program-Requirements-Preview-SaveContinue {
-    padding-top: 40px;    
+    padding-top: 40px;
 }
 
 /* Program Manage View */
@@ -52,6 +61,10 @@
     margin-top: 40px;
 }
 
+.KS-Program-Rule-ObjectView-RulePanel label {
+    display: inline
+}
+
 .programController {
 }
 
@@ -67,6 +80,65 @@
     background-color: #F1F1F1;
 }
 
-.KS-Program-Rule-ObjectView-RulePanel label {
-    display: inline
+.programController .programActionPanel {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 240px;
+}
+
+.programController .sideBar {
+    padding-top: 10px;
+    padding-left: 10px;
+    border-spacing: 6px;
+}
+
+.programController .sideBar .history {
+    font-weight: bold;
+}
+
+.programController .sideBar .datePanel {
+    border-spacing: 2px;
+}
+
+.programController .parentProgram {
+    padding-right: 3px;
+}
+
+.editableHeader {
+    height: 20px;
+}
+
+.editableHeader .sectionTitle {
+    font-size: 17px;
+    float: left;
+}
+
+.editableHeader .editButton {
+    padding-left: 2px;
+    padding-top: 2px;
+    position:relative;
+}
+
+.gwt-PopupPanel {
+    z-index: 3;
+}
+
+.longTitle {
+    width: 27.5em;
+}
+
+.shortTitle {
+    width: 27.5em;
+}
+
+.diplomaTitle {
+    width: 27.5em;
+}
+
+.shortTitle {
+    width: 27.5em;
+}
+
+.transcriptTitle {
+    width: 27.5em;
 }

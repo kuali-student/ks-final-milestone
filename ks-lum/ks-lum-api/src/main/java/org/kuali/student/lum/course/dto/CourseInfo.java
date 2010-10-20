@@ -42,6 +42,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 
 /**
  * Detailed information about a single course.
+ * For specific usage, check the specific service(s) implementation(s)
  *
  * @Author KSContractMojo
  * @Author Daniel Epstein
@@ -59,6 +60,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
     private String courseNumberSuffix;
+
+    @XmlElement
+    private String level;
 
     @XmlElement
     private String courseTitle;
@@ -187,6 +191,20 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     public void setCourseNumberSuffix(String courseNumberSuffix) {
         this.courseNumberSuffix = courseNumberSuffix;
+    }
+
+    /**
+     * 
+     * A code that indicates what level 100, 200 or upper division, lower division etc
+     * 
+     * @return
+     */
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     /**

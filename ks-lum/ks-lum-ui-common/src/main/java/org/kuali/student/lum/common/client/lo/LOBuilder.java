@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -75,6 +76,8 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         messageGroup = luGroup;
 
         //searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));  picker needs to handle labels like this
+        /* TODO - KSLUM-527: temporally comment out link to LO Search for M9. Need to be fixed later. */
+        /*
         if(metadata.getInitialLookup() != null){
         searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
         searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
@@ -85,6 +88,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         });
         searchMainPanel.add(searchWindow);
         }
+        */
 
         //adding search icon - should this be part of search link? coordinate with UX
         //searchImage.addClickHandler(searchClickHandler);
@@ -174,16 +178,16 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         
         public LearningObjectiveList(){
             mainPanel.add(outlineComposite);
-            KSLabel addnew = new KSLabel("Add item");
-            addnew.addStyleName("KS-LOBuilder-New");
-            mainPanel.add(addnew);
-            addnew.addClickHandler(new ClickHandler(){
+            KSButton addnew = new KSButton("Add item",new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     setValue(getValue()); 
                     appendLO("");
                     reDraw();
                 }
             });
+            
+            addnew.addStyleName("KS-LOBuilder-New");
+            mainPanel.add(addnew);
             super.initWidget(mainPanel);
             
             outlineComposite.setModel(outlineModel);

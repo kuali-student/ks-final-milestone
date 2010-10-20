@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -32,15 +31,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.BaseEntity;
 import org.kuali.student.core.entity.KSEntityConstants;
 
 @Entity
 @Table(name="KSOR_ORG_HIRCHY")
-public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
-	
-	@Id
-	@Column(name = "ID")
-	private String id;
+public class OrgHierarchy extends BaseEntity implements AttributeOwner<OrgHierarchyAttribute>{
 	
 	@Column(name = "NAME")
 	private String name; 
@@ -84,14 +80,6 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	@Override
 	public void setAttributes(List<OrgHierarchyAttribute> attributes) {
 		this.attributes=attributes;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getName() {

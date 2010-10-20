@@ -33,8 +33,8 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
@@ -43,22 +43,34 @@ public class OrganizationContextImplTest {
 	private OrganizationService organizationService = new OrganizationServiceMock();
 	private OrganizationContextImpl organizationContext = new OrganizationContextImpl();
 
-	private ReqComponent reqComponent1;
+	private ReqComponentInfo reqComponent1;
+	private ReqComponentInfo reqComponent2;
 	
 	private void setupReqComponent1() {
-		reqComponent1 = new ReqComponent();
-        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
-        ReqComponentField reqCompField1 = new ReqComponentField();
+		reqComponent1 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
         reqCompField1.setType(ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
         reqCompField1.setValue("59");
         reqCompFieldList.add(reqCompField1);
-		reqComponent1.setReqComponentFields(reqCompFieldList);
+		reqComponent1.setReqCompFields(reqCompFieldList);
+	}
+
+	private void setupReqComponent2() {
+		reqComponent2 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
+        reqCompField1.setType(ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
+        reqCompField1.setValue(null);
+        reqCompFieldList.add(reqCompField1);
+		reqComponent2.setReqCompFields(reqCompFieldList);
 	}
 
 	@Before
 	public void beforeMethod() {
 		organizationContext.setOrganizationService(organizationService);
 		setupReqComponent1();
+		setupReqComponent2();
 	}
 
 	@Test
@@ -70,6 +82,15 @@ public class OrganizationContextImplTest {
 		Assert.assertEquals("kuali.org.Department", org.getType());
 		Assert.assertEquals("Sociology", org.getShortName());
 		Assert.assertEquals("Sociology Dept", org.getLongName());
+	}
+
+	@Test
+    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
+		Map<String, Object> contextMap = organizationContext.createContextMap(reqComponent2);
+		OrgInfo org = (OrgInfo) contextMap.get(OrganizationContextImpl.ORG_TOKEN);
+
+		Assert.assertNotNull(contextMap);
+		Assert.assertEquals(null, org);
 	}
 
 	private static class OrganizationServiceMock implements OrganizationService {

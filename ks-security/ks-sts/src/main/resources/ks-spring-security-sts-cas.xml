@@ -93,7 +93,7 @@
 	<!-- Client for STS, ticket validation and SAML -->
 
 	<bean id="stsClient"
-		class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+		class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.security.trust.service.SecurityTokenService"/>
 		<property name="serviceQName" value="{http://schemas.xmlsoap.org/ws/2005/02/trust/wsdl}SecurityTokenService"/>
 	</bean>
