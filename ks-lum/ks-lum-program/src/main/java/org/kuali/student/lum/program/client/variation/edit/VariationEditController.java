@@ -18,10 +18,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.VariationRegistry;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
-import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
-import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 
@@ -74,6 +71,12 @@ public class VariationEditController extends VariationController {
                         }
                     }
                 }
+            }
+        });
+        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEventHandler() {
+            @Override
+            public void onEvent(ChangeViewEvent event) {
+                showView(event.getViewToken());
             }
         });
     }
