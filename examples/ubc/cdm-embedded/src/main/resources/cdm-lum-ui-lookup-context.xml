@@ -1,0 +1,137 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+  <!-- Important:-
+  For cross field searches please over write the searchtypeId here in the lookup definitions.
+  common-lookup-context does not define cross searches as they are not used for service side validation.
+        -->
+  <import resource="classpath:lum-ui-lookup-context.xml" /> 
+    <bean id="kuali.common.lookup.firstexpectedoffering.suggest"
+      parent="lookup">
+      <property name="id" value="kuali.common.lookup.firstexpectedoffering.suggest" />
+      <property name="searchTypeId" value="atp.search.advancedAtpSearch" />
+      <property name="name" value="Advanced ATP match" />
+      <property name="desc" value="Search atp type described by session, duration and year" />
+      <property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpId" />
+      <property name="params">
+        <list>
+          <bean parent="param">
+            <property name="key" value="atp.advancedAtpSearchParam.atpType" />
+            <property name="name" value="Atp types" />
+            <property name="desc" value="Atp types for courses" />
+            <property name="caseSensitive" value="false" />
+            <property name="writeAccess" value="NEVER" />
+            <property name="dataType" value="STRING" />
+            <property name="optional" value="true" />
+            <property name="defaultValueList">
+              <list> <!-- this list is not complete -->
+                <value>kuali.atp.type.Summer</value>
+                <value>kuali.atp.type.Winter</value>                  
+              </list>
+            </property>
+          </bean>
+        </list>
+      </property>
+      <property name="resultReturnKey" value="atp.resultColumn.atpId" />
+    </bean>   
+	  <bean id="courseInfo.changeCategory" parent="uilookup">
+	    <property name="path" value="courseInfo.changeCategory" />
+	    <property name="initialLookup" ref="kuali.enumeration.management.search.changeCategory" />   
+	  </bean>
+	  
+	  
+	  <bean id="kuali.common.enumeration.management.search.changeCategory"
+	    parent="lookup">
+	    <property name="id"
+	      value="kuali.enumeration.management.search.changeCategory" />
+	    <property name="name" value="Get enumerations" />
+	    <property name="desc" value="Get enumerated lists of values given context" />
+	    <property name="searchTypeId" value="enumeration.management.search" />
+	    <property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+	    <property name="params">
+	      <list>
+	        <bean parent="param">
+	          <property name="key" value="enumeration.queryParam.enumerationType" />
+	          <property name="name" value="Enumeration Type" />
+	          <property name="desc" value="The type of the enumeration to search" />
+	          <property name="writeAccess" value="NEVER" />
+	          <property name="dataType" value="STRING" />
+	          <property name="optional" value="true" />
+	          <property name="defaultValueString" value="kuali.lu.changeCategory" />
+	          <property name="caseSensitive" value="true" />
+	        </bean>
+	        <bean parent="param">
+	          <property name="key"
+	            value="enumeration.queryParam.enumerationOptionalCode" />
+	          <property name="name" value="Enumeration code" />
+	          <property name="desc" value="The enumeration code to lookup" />
+	          <property name="writeAccess" value="ALWAYS" />
+	          <property name="dataType" value="STRING" />
+	          <property name="usage" value="DEFAULT" />
+	          <property name="optional" value="true" />
+	          <property name="caseSensitive" value="true" />
+	        </bean>
+	      </list>
+	    </property>
+	    <property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	  </bean>	  
+	  <bean id="kuali.enumeration.management.search.changeCategory" class="org.kuali.student.core.assembly.data.UILookupData"
+	    parent="kuali.common.enumeration.management.search.changeCategory">
+	    <property name="id"
+	      value="kuali.enumeration.management.search.changeCategory" />
+	    <property name="name" value="Get enumerations" />
+	    <property name="desc" value="Get enumerated lists of values given context" />
+	    <property name="widget" value="DROP_DOWN" />
+	    <property name="resultDisplayKey" value="enumeration.resultColumn.value" />
+	    <property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
+	    <property name="results">
+	      <list>
+	        <bean parent="result">
+	          <property name="dataType" value="STRING" />
+	          <property name="desc"
+	            value="The internal code of the enumeration value" />
+	          <property name="hidden" value="false" />
+	          <property name="key" value="enumeration.resultColumn.code" />
+	          <property name="name" value="Code" />
+	        </bean>
+	        <bean parent="result">
+	          <property name="dataType" value="STRING" />
+	          <property name="desc" value="An abbreviation of the enumeration value" />
+	          <property name="hidden" value="false" />
+	          <property name="key" value="enumeration.resultColumn.abbrevValue" />
+	          <property name="name" value="Abbreviation of the code" />
+	        </bean>
+	        <bean parent="result">
+	          <property name="dataType" value="STRING" />
+	          <property name="desc" value="The description of the enumeration value" />
+	          <property name="hidden" value="false" />
+	          <property name="key" value="enumeration.resultColumn.value" />
+	          <property name="name" value="Description of the code" />
+	        </bean>
+	        <bean parent="result">
+	          <property name="dataType" value="TRUNCATED_DATE" />
+	          <property name="desc" value="The date the enumeration became effective" />
+	          <property name="hidden" value="false" />
+	          <property name="key" value="enumeration.resultColumn.effectiveDate" />
+	          <property name="name" value="Effective date" />
+	        </bean>
+	        <bean parent="result">
+	          <property name="dataType" value="TRUNCATED_DATE" />
+	          <property name="desc"
+	            value="The date the enumeration became non-effective" />
+	          <property name="hidden" value="false" />
+	          <property name="key" value="enumeration.resultColumn.expirationDate" />
+	          <property name="name" value="Expiration date" />
+	        </bean>
+	        <bean parent="result">
+	          <property name="dataType" value="STRING" />
+	          <property name="desc" value="The description of the type" />
+	          <property name="hidden" value="false" />
+	          <property name="key" value="enumeration.resultColumn.sortKey" />
+	          <property name="name" value="Key used to sort the results" />
+	        </bean>
+	      </list>
+	    </property>
+	  </bean>
+        
+</beans>
