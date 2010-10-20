@@ -1,6 +1,0 @@
-default: -r features/support -r features/environments/plain.rb -r features/step_definitions/plain features/feature_definitions/plain
-watir: -r features/support -r features/environments/watir.rb -r features/step_definitions/watir features/feature_definitions/watir
-selenium: -r features/support -r features/environments/selenium.rb -r features/step_definitions/selenium features/feature_definitions/selenium
-soap: -r features/support -r features/environments/soap.rb -r features/step_definitions/soap features/feature_definitions/soap
-culerity: -r features/support -r features/environments/culerity.rb -r features/step_definitions/culerity features/feature_definitions/culerity
-watir_html: -r features/support -r features/environments/watir.rb -r features/step_definitions/watir features/feature_definitions/watir -f TextmateFormatter

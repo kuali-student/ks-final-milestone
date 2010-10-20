@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+<import resource="classpath:lo-loInfo-dictionary-structure-config.xml"/>
+
+<!-- ********************************** -->
+<!-- object structure for object.loInfo -->
+<!-- ********************************** -->
+<!-- Detailed information about a learning objective -->
+<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoInfo" id="object.loInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.loInfo.singleUse"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoInfo" id="object.loInfo" parent="object.loInfo.abstract"/>
+
+<dict:type key="kuali.lo.type.singleUse" id="type.loInfo.singleUse.abstract" abstract="true">
+	<dict:name>singleUse</dict:name>
+	<dict:desc>LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course that are not intended for others to re-use</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.loInfo.singleUse.draft"/>
+		<dict:stateRef bean="state.loInfo.singleUse.active"/>
+		<dict:stateRef bean="state.loInfo.singleUse.inactive"/>
+</dict:type>
+<dict:type key="kuali.lo.type.singleUse" id="type.loInfo.singleUse" parent="type.loInfo.singleUse.abstract"/>
+
+<!-- ****************************************** -->
+<!-- State for state.loInfo.singleUse.(default) -->
+<!-- ****************************************** -->
+
+<dict:state key="*" id="state.loInfo.singleUse.abstract" abstract="true">
+	<dict:fieldRef bean="dict.singleUse.lo.name"/>
+	<dict:fieldRef bean="dict.singleUse.lo.desc"/>
+	<dict:fieldRef bean="dict.singleUse.lo.loRepository"/>
+	<dict:fieldRef bean="dict.singleUse.lo.effectiveDate"/>
+	<dict:fieldRef bean="dict.singleUse.lo.expirationDate"/>
+	<dict:fieldRef bean="dict.singleUse.lo.sequence"/>
+	<dict:fieldRef bean="dict.singleUse.lo.metaInfo"/>
+	<dict:fieldRef bean="dict.singleUse.lo.type"/>
+	<dict:fieldRef bean="dict.singleUse.lo.state"/>
+	<dict:fieldRef bean="dict.singleUse.lo.internal.id"/>
+</dict:state>
+
+<!-- ************************************** -->
+<!-- State for state.loInfo.singleUse.draft -->
+<!-- ************************************** -->
+
+<!-- TODO: add to simple spec -->
+<dict:state key="draft" parent="state.loInfo.singleUse.abstract" id="state.loInfo.singleUse.draft.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft" id="state.loInfo.singleUse.draft" parent="state.loInfo.singleUse.draft.abstract"/>
+
+<!-- *************************************** -->
+<!-- State for state.loInfo.singleUse.active -->
+<!-- *************************************** -->
+
+<!-- TODO: add to simple spec -->
+<dict:state key="active" parent="state.loInfo.singleUse.abstract" id="state.loInfo.singleUse.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.loInfo.singleUse.active" parent="state.loInfo.singleUse.active.abstract"/>
+
+<!-- ***************************************** -->
+<!-- State for state.loInfo.singleUse.inactive -->
+<!-- ***************************************** -->
+
+<!-- TODO: add to simple spec -->
+<dict:state key="inactive" parent="state.loInfo.singleUse.abstract" id="state.loInfo.singleUse.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.loInfo.singleUse.inactive" parent="state.loInfo.singleUse.inactive.abstract"/>
+
+
+<!-- ***************************************************************** -->
+<!-- object structure for object.field.loInfo.desc.singleUse.(default) -->
+<!-- ***************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.loInfo.desc.singleUse.abstract" abstract="true">
+	<dict:typeRef bean="type.field.loInfo.desc.singleUse"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.loInfo.desc.singleUse" parent="object.field.loInfo.desc.singleUse.abstract"/>
+
+<dict:type key="*" id="type.field.loInfo.desc.singleUse.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.loInfo.desc.singleUse"/>
+</dict:type>
+<dict:type key="*" id="type.field.loInfo.desc.singleUse" parent="type.field.loInfo.desc.singleUse.abstract"/>
+
+<!-- ************************************************************************* -->
+<!-- State for state.field.loInfo.desc.singleUse.(default).(default).(default) -->
+<!-- ************************************************************************* -->
+
+<dict:state key="*" id="state.field.loInfo.desc.singleUse.abstract" abstract="true">
+	<dict:fieldRef bean="dict.singleUse.lo.desc.plain"/>
+	<dict:fieldRef bean="dict.singleUse.lo.desc.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.loInfo.desc.singleUse" parent="state.field.loInfo.desc.singleUse.abstract"/>
+
+
+<!-- **************************** -->
+<!-- dict.singleUse.lo.desc.plain -->
+<!-- **************************** -->
+<dict:field key="plain" id="dict.singleUse.lo.desc.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.desc.plain.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.desc.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="dict.singleUse.lo.desc.plain" parent="dict.singleUse.lo.desc.plain.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.plain.fd.abstract" abstract="true">
+	<dict:name>informal lo desc plain text</dict:name>
+	<dict:desc>informal lo desc plain text</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.plain.fd" parent="dict.singleUse.lo.desc.plain.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.desc.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+	<dict:constraintRef bean="constraint.calc.plain.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="dict.singleUse.lo.desc.plain.cd" parent="dict.singleUse.lo.desc.plain.cd.abstract"/>
+
+<!-- ******************************** -->
+<!-- dict.singleUse.lo.desc.formatted -->
+<!-- ******************************** -->
+<dict:field key="formatted" id="dict.singleUse.lo.desc.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.desc.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.desc.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="dict.singleUse.lo.desc.formatted" parent="dict.singleUse.lo.desc.formatted.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.formatted.fd.abstract" abstract="true">
+	<dict:name>informal lo desc formatted</dict:name>
+	<dict:desc>informal lo desc formatted</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.formatted.fd" parent="dict.singleUse.lo.desc.formatted.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.desc.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="dict.singleUse.lo.desc.formatted.cd" parent="dict.singleUse.lo.desc.formatted.cd.abstract"/>
+
+<!-- ********************************************************************* -->
+<!-- object structure for object.field.loInfo.metaInfo.singleUse.(default) -->
+<!-- ********************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
+	<dict:typeRef bean="type.field.loInfo.metaInfo.singleUse"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse" parent="object.field.loInfo.metaInfo.singleUse.abstract"/>
+
+<dict:type key="*" id="type.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.loInfo.metaInfo.singleUse"/>
+</dict:type>
+<dict:type key="*" id="type.field.loInfo.metaInfo.singleUse" parent="type.field.loInfo.metaInfo.singleUse.abstract"/>
+
+<!-- ***************************************************************************** -->
+<!-- State for state.field.loInfo.metaInfo.singleUse.(default).(default).(default) -->
+<!-- ***************************************************************************** -->
+
+<dict:state key="*" id="state.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
+	<dict:fieldRef bean="dict.singleUse.lo.meta.versionInd"/>
+	<dict:fieldRef bean="dict.singleUse.lo.meta.createTime"/>
+	<dict:fieldRef bean="dict.singleUse.lo.meta.createId"/>
+	<dict:fieldRef bean="dict.singleUse.lo.meta.updateTime"/>
+	<dict:fieldRef bean="dict.singleUse.lo.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.loInfo.metaInfo.singleUse" parent="state.field.loInfo.metaInfo.singleUse.abstract"/>
+
+
+<!-- ********************************* -->
+<!-- dict.singleUse.lo.meta.versionInd -->
+<!-- ********************************* -->
+<dict:field key="versionInd" id="dict.singleUse.lo.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.singleUse.lo.meta.versionInd" parent="dict.singleUse.lo.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>informal lo meta versionInd</dict:name>
+	<dict:desc>informal lo meta versionInd</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.versionInd.fd" parent="dict.singleUse.lo.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.singleUse.lo.meta.versionInd.cd" parent="dict.singleUse.lo.meta.versionInd.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.singleUse.lo.meta.createTime -->
+<!-- ********************************* -->
+<dict:field key="createTime" id="dict.singleUse.lo.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.singleUse.lo.meta.createTime" parent="dict.singleUse.lo.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>informal lo meta createTime</dict:name>
+	<dict:desc>informal lo meta createTime</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.createTime.fd" parent="dict.singleUse.lo.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.singleUse.lo.meta.createTime.cd" parent="dict.singleUse.lo.meta.createTime.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.singleUse.lo.meta.createId -->
+<!-- ******************************* -->
+<dict:field key="createId" id="dict.singleUse.lo.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.singleUse.lo.meta.createId" parent="dict.singleUse.lo.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.createId.fd.abstract" abstract="true">
+	<dict:name>informal lo meta createId</dict:name>
+	<dict:desc>informal lo meta createId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.createId.fd" parent="dict.singleUse.lo.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.singleUse.lo.meta.createId.cd" parent="dict.singleUse.lo.meta.createId.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.singleUse.lo.meta.updateTime -->
+<!-- ********************************* -->
+<dict:field key="updateTime" id="dict.singleUse.lo.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.singleUse.lo.meta.updateTime" parent="dict.singleUse.lo.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>informal lo meta updateTime</dict:name>
+	<dict:desc>informal lo meta updateTime</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.updateTime.fd" parent="dict.singleUse.lo.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.singleUse.lo.meta.updateTime.cd" parent="dict.singleUse.lo.meta.updateTime.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.singleUse.lo.meta.updateId -->
+<!-- ******************************* -->
+<dict:field key="updateId" id="dict.singleUse.lo.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.singleUse.lo.meta.updateId" parent="dict.singleUse.lo.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>informal lo meta updateId</dict:name>
+	<dict:desc>informal lo meta updateId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.updateId.fd" parent="dict.singleUse.lo.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.singleUse.lo.meta.updateId.cd" parent="dict.singleUse.lo.meta.updateId.cd.abstract"/>
+
+<!-- ********************** -->
+<!-- dict.singleUse.lo.name -->
+<!-- ********************** -->
+<dict:field key="name" id="dict.singleUse.lo.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.name.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.name.cd"/>
+</dict:field>
+<dict:field key="name" id="dict.singleUse.lo.name" parent="dict.singleUse.lo.name.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.name.fd.abstract" abstract="true">
+	<dict:name>informal lo name</dict:name>
+	<dict:desc>the name of the lo</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.name.fd" parent="dict.singleUse.lo.name.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="dict.singleUse.lo.name.cd" parent="dict.singleUse.lo.name.cd.abstract"/>
+
+<!-- ********************** -->
+<!-- dict.singleUse.lo.desc -->
+<!-- ********************** -->
+<dict:field key="desc" id="dict.singleUse.lo.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.desc.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="dict.singleUse.lo.desc" parent="dict.singleUse.lo.desc.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.fd.abstract" abstract="true">
+	<dict:name>informal lo description</dict:name>
+	<dict:desc>the description of the lo</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.loInfo.desc.singleUse"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.fd" parent="dict.singleUse.lo.desc.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="dict.singleUse.lo.desc.cd" parent="dict.singleUse.lo.desc.cd.abstract"/>
+
+<!-- ****************************** -->
+<!-- dict.singleUse.lo.loRepository -->
+<!-- ****************************** -->
+<dict:field key="loRepositoryKey" id="dict.singleUse.lo.loRepository.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.loRepository.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.loRepository.cd"/>
+</dict:field>
+<dict:field key="loRepositoryKey" id="dict.singleUse.lo.loRepository" parent="dict.singleUse.lo.loRepository.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.loRepository.fd.abstract" abstract="true">
+	<dict:name>informal lo hierarcy</dict:name>
+	<dict:desc>the name of the hierarchy to which the lo belongs</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.loRepository.fd" parent="dict.singleUse.lo.loRepository.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.loRepository.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.lo.repositories"/>
+	<dict:constraintRef bean="constraint.hard.coded.singleUse.lo.repository"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="loRepositoryKey" id="dict.singleUse.lo.loRepository.cd" parent="dict.singleUse.lo.loRepository.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.singleUse.lo.effectiveDate -->
+<!-- ******************************* -->
+<dict:field key="effectiveDate" id="dict.singleUse.lo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.singleUse.lo.effectiveDate" parent="dict.singleUse.lo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>informal lo effective date</dict:name>
+	<dict:desc>the effective date of the lo</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.effectiveDate.fd" parent="dict.singleUse.lo.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.singleUse.lo.effectiveDate.cd" parent="dict.singleUse.lo.effectiveDate.cd.abstract"/>
+
+<!-- ******************************** -->
+<!-- dict.singleUse.lo.expirationDate -->
+<!-- ******************************** -->
+<dict:field key="expirationDate" id="dict.singleUse.lo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.singleUse.lo.expirationDate" parent="dict.singleUse.lo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>informal lo expiration date</dict:name>
+	<dict:desc>the expiration date of the lo</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.expirationDate.fd" parent="dict.singleUse.lo.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.singleUse.lo.expirationDate.cd" parent="dict.singleUse.lo.expirationDate.cd.abstract"/>
+
+<!-- ************************** -->
+<!-- dict.singleUse.lo.sequence -->
+<!-- ************************** -->
+<dict:field key="sequence" id="dict.singleUse.lo.sequence.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.sequence.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.sequence.cd"/>
+<dict:dynamic>true</dict:dynamic>
+</dict:field>
+<dict:field key="sequence" id="dict.singleUse.lo.sequence" parent="dict.singleUse.lo.sequence.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.sequence.fd.abstract" abstract="true">
+	<dict:name>single use lo sequence</dict:name>
+	<dict:desc>Value to capture the sequence of the Lo</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.sequence.fd" parent="dict.singleUse.lo.sequence.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.sequence.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="sequence" id="dict.singleUse.lo.sequence.cd" parent="dict.singleUse.lo.sequence.cd.abstract"/>
+
+<!-- ************************** -->
+<!-- dict.singleUse.lo.metaInfo -->
+<!-- ************************** -->
+<dict:field key="metaInfo" id="dict.singleUse.lo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.singleUse.lo.metaInfo" parent="dict.singleUse.lo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>informal lo meta info</dict:name>
+	<dict:desc>meta info</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.loInfo.metaInfo.singleUse"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.metaInfo.fd" parent="dict.singleUse.lo.metaInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.singleUse.lo.metaInfo.cd" parent="dict.singleUse.lo.metaInfo.cd.abstract"/>
+
+<!-- ********************** -->
+<!-- dict.singleUse.lo.type -->
+<!-- ********************** -->
+<dict:field key="type" id="dict.singleUse.lo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="dict.singleUse.lo.type" parent="dict.singleUse.lo.type.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.type.fd.abstract" abstract="true">
+	<dict:name>type</dict:name>
+	<dict:desc>the type of the lo</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.type.fd" parent="dict.singleUse.lo.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lo.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.singleUse.lo"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="dict.singleUse.lo.type.cd" parent="dict.singleUse.lo.type.cd.abstract"/>
+
+<!-- *********************** -->
+<!-- dict.singleUse.lo.state -->
+<!-- *********************** -->
+<dict:field key="state" id="dict.singleUse.lo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.state.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="dict.singleUse.lo.state" parent="dict.singleUse.lo.state.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.state.fd.abstract" abstract="true">
+	<dict:name>informal lo.state</dict:name>
+	<dict:desc>the state of the lo</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.state.fd" parent="dict.singleUse.lo.state.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="dict.singleUse.lo.state.cd" parent="dict.singleUse.lo.state.cd.abstract"/>
+
+<!-- ***************************** -->
+<!-- dict.singleUse.lo.internal.id -->
+<!-- ***************************** -->
+<dict:field key="id" id="dict.singleUse.lo.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.internal.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.singleUse.lo.internal.id" parent="dict.singleUse.lo.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.internal.id.fd.abstract" abstract="true">
+	<dict:name>informal lo internal id</dict:name>
+	<dict:desc>the internal id of the lo</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.singleUse.lo.internal.id.fd" parent="dict.singleUse.lo.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.singleUse.lo.internal.id.cd" parent="dict.singleUse.lo.internal.id.cd.abstract"/>
+</beans>
