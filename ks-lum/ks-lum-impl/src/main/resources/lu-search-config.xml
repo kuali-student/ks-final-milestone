@@ -1242,7 +1242,7 @@
 				</entry>
                 <entry key="lu.search.luProgramsByName">
                      <value>
-                         SELECT clu.id,' ', ident1.code, ident1.state, clu.luType.id, 'N/A',  ident1.longName
+                         SELECT clu.id,' ', ident1.code, ident1.state, clu.luType.id, ident1.longName, 'N/A'  
                          FROM Clu clu, CluIdentifier ident1
                          WHERE clu.officialIdentifier.id = ident1.id
                           AND clu.luType.id = 'kuali.lu.type.MajorDiscipline'

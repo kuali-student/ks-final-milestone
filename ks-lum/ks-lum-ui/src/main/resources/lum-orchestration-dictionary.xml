@@ -7527,6 +7527,7 @@
 								<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
+                                <property name="usage" value="CUSTOM"/>                                
 							</bean>
 							<bean parent="param"><!-- limit search to only return approved clus -->
 								<property name="key" value="lu.queryParam.luOptionalState" />
@@ -8213,14 +8214,14 @@
 							</bean>
                             <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalMajorName"/>
-								<property name="name" value="Major Name"/>
+								<property name="name" value="Major"/>
 								<property name="desc" value="Long Major name"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
                             <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalVariationName"/>
-								<property name="name" value="Variation Name"/>
+								<property name="name" value="Specialization"/>
 								<property name="desc" value="Long name of Variation"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
