@@ -19,14 +19,6 @@ public class PrintUtils {
     			
     		}
     	}
-/*    	NodeList<com.google.gwt.dom.client.Element> inputs = uiObject.getElement().getElementsByTagName("input");
-    	for(int i = 0; i < inputs.getLength(); i++){
-    		com.google.gwt.dom.client.Element e = inputs.getItem(i);
-			String v = e.getAttribute("value");
-			String id = e.getId();
-			String actual = Document.get().getElementById(id).getAttribute("value");
-			System.out.println(v);
-		}*/
     	headTag = "<HEAD><TITLE>Print - " + Window.getTitle() + "</TITLE>" + styleTags + "</HEAD>";
     	openPrintWindow(uiObject.getElement().getString(), headTag, num);
     	num++;
@@ -38,7 +30,7 @@ public class PrintUtils {
     	doc.open("text/html", "replace");
     	doc.write("<HTML>");
     	doc.write(headTag);
-    	doc.write("<BODY>");
+    	doc.write("<BODY style='overflow: auto;'>");
     	doc.write("<a class='ks-button-primary' style='cursor: pointer;' onClick='print();'>Print</a>");
     	doc.write("<DIV class='printPage'>");
     	doc.write(html);

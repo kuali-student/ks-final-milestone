@@ -165,7 +165,11 @@ public class MultiplicityConfiguration {
         if (getNestedConfig() != null) {
             copy.setNestedConfig(getNestedConfig().copy());
         }
-        copy.setParent(new FieldDescriptor(getParentFd().getFieldKey(), getParentFd().getMessageKey(), getParentFd().getMetadata()));
+        FieldDescriptor parent = new FieldDescriptor(getParentFd().getFieldKey(), getParentFd().getMessageKey(), getParentFd().getMetadata());
+        if(!getParentFd().isLabelShown()){
+        	parent.hideLabel();
+        }
+        copy.setParent(parent);
         for (Integer row  : getFields().keySet()) {
             List<MultiplicityFieldConfiguration> fields = getFields().get(row);
             for (MultiplicityFieldConfiguration fieldConfig : fields) {

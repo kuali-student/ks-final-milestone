@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSHeader extends Composite {
@@ -64,5 +65,9 @@ public class KSHeader extends Composite {
 
     public void addBottomContainerWidget(Widget w){
     	bottomContainer.add(w);
+    }
+    
+    public Panel getBottomContainer(){
+    	return bottomContainer;
     }
 }

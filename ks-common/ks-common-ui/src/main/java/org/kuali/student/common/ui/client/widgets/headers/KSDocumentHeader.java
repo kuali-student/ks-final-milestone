@@ -53,7 +53,7 @@ public class KSDocumentHeader extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				PrintUtils.print(ApplicationPanel.get());
+				PrintUtils.print(ApplicationPanel.get().getWidget(0));
 			}
 		});
 	}

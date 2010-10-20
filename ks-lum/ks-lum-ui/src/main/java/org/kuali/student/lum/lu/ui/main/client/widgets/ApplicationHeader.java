@@ -155,6 +155,7 @@ public class ApplicationHeader extends Composite{
 		createNavDropDown();
 		ksHeader.addNavigation(navDropDown);
 		ksHeader.addBottomContainerWidget(BreadcrumbManager.getBreadcrumbPanel());
+		BreadcrumbManager.setParentPanel(ksHeader.getBottomContainer());
 		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));

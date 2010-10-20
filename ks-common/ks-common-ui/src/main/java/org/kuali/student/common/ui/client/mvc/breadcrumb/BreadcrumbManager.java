@@ -18,6 +18,8 @@ public class BreadcrumbManager extends Composite{
 	private static ComplexPanel panel = new SpanPanel();
 	private static boolean panelEmpty = true;
 	
+	private static Panel parentPanel;
+	
 	private static class BreadcrumbData{
 		private String name;
 		private String path;
@@ -41,6 +43,7 @@ public class BreadcrumbManager extends Composite{
 		
 		String[] arr = HistoryManager.splitHistoryStack(historyStack);
 		List<BreadcrumbData> breadcrumbs = new ArrayList<BreadcrumbData>();
+
 		if(arr.length == names.size()){
 			String path = "";
 			//account for applicationController - skip first item from both
@@ -82,6 +85,16 @@ public class BreadcrumbManager extends Composite{
 			}
 		}
 		
+		if(parentPanel != null){
+			if(breadcrumbs.size() == 1){
+				panel.getParent().setVisible(false);
+			}
+			else{
+				panel.getParent().setVisible(true);
+
+			}
+		}
+		
 		for(int i = 0; i < breadcrumbs.size(); i++){
 			if(i < breadcrumbs.size() - 1){
 				createLink(breadcrumbs.get(i).name, breadcrumbs.get(i).path);
@@ -116,6 +129,11 @@ public class BreadcrumbManager extends Composite{
 	
 	public static ComplexPanel getBreadcrumbPanel(){
 		return panel;
+	}
+	
+	public static void setParentPanel(Panel panel){
+		parentPanel = panel;
+		parentPanel.setVisible(false);
 	}
 
 }

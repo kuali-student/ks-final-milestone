@@ -590,7 +590,7 @@ public class CourseSummaryConfigurer implements
 
 		reqsField.setFieldWidget(widget);
 		reqsField.setWidgetBinding(widgetBinding);
-		reqsField.showLabel(false);
+		reqsField.hideLabel();
 
 		FieldDescriptorReadOnly reqsField2 = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, null, null, widget);
         SummaryTableFieldRow aRow = new SummaryTableFieldRow(reqsField, reqsField2);
@@ -786,7 +786,7 @@ public class CourseSummaryConfigurer implements
 	public VerticalSectionView generateCourseCatalogSection() {
 		VerticalSectionView verticalSection = new VerticalSectionView(ViewCourseSections.CATALOG, "Catalog View", modelId, false);
 		FieldDescriptorReadOnly catalogField = new FieldDescriptorReadOnly("", null, null, new HTML());
-		catalogField.showLabel(false);
+		catalogField.hideLabel();
 		catalogField.setWidgetBinding(new ModelWidgetBinding<HTML>(){
 
 			@Override

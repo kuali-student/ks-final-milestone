@@ -562,13 +562,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 		saveActionEvent.setSaveSuccessful(true);
                 		cluProposalModel.setRoot(result.getValue());
                 		String title = getProposalTitle();
-                		if(isNew){
-                			RecentlyViewedHelper.addCurrentDocument(title);
-                		}
-                		else if(!currentTitle.equals(title)){
-                			RecentlyViewedHelper.updateTitle(currentTitle, title, (String)cluProposalModel.get(proposalPath+"/id"));
-                		}
-                		isNew = false;
+
 	    	            View currentView = getCurrentView();
 	    				if (currentView instanceof SectionView){
 	    					((SectionView)currentView).updateView(cluProposalModel);
@@ -584,6 +578,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				setProposalHeaderTitle();
 	    				setLastUpdated();
 	    				HistoryManager.logHistoryChange();
+                		if(isNew){
+                			RecentlyViewedHelper.addCurrentDocument(title);
+                		}
+                		else if(!currentTitle.equals(title)){
+                			RecentlyViewedHelper.updateTitle(currentTitle, title, (String)cluProposalModel.get(proposalPath+"/id"));
+                		}
+                		isNew = false;
 	    				
 	    				if(saveActionEvent.gotoNextView()){
 	    					CourseProposalController.this.showNextViewOnMenu();

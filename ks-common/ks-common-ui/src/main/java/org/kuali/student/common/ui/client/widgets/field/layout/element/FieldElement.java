@@ -52,6 +52,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 
 	private ValidationMessagePanel validationPanel;
 	private String fieldKey;
+	private boolean labelShown = true;
 
 	public void setValidationPanel(ValidationMessagePanel validationPanel) {
 		this.validationPanel = validationPanel;
@@ -416,11 +417,16 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		return exists;
 	}
 
-	public void showLabel(boolean show) {
+	public void hideLabel() {
 		layout.removeStyleName("ks-form-module-double-line-margin");
 		layout.removeStyleName("ks-form-module-triple-line-margin");
 		layout.addStyleName("ks-form-module-single-line-margin");
 		fieldTitle.setStyleName("accessibility-hidden");
 		instructions.setVisible(false);
+		labelShown = false;
+	}
+	
+	public boolean isLabelShown(){
+		return labelShown;
 	}
 }

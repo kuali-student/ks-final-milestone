@@ -230,7 +230,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         section.setController(layout);
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUConstants.COURSE_TITLE_LABEL_KEY));
-        addField(section, "proposal/rationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+        //addField(section, "proposal/rationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
         //addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
         layout.addStartViewPopup(section);
         layout.getStartPopup().setMaxHeight(600);
@@ -373,7 +373,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         config.setItemLabel(getLabel(itemLabelMessageKey));
         config.setUpdateable(true);
 
-        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
+        FieldDescriptor parentFd = buildMultiplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
         config.setParent(parentFd);
 
         if (fieldConfigs != null) {
@@ -422,11 +422,12 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     }
 
-    protected FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
+    protected FieldDescriptor buildMultiplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
 
         FieldDescriptor fd = new FieldDescriptor(path.toString(), generateMessageInfo(messageKey), meta);
+        fd.hideLabel();
         return fd;
     }
 

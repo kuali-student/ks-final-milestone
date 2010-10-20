@@ -93,8 +93,12 @@ public class FieldDescriptor {
     	}
     }
     
-    public void showLabel(boolean show){
-    	fieldElement.showLabel(show);
+    public void hideLabel(){
+    	fieldElement.hideLabel();
+    }
+    
+    public boolean isLabelShown(){
+    	return fieldElement.isLabelShown();
     }
 
     public FieldElement getFieldElement(){
