@@ -172,7 +172,11 @@
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalDescr" parent="lu.queryParam.luOptionalDescr-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalDescr-parent"  optional="true" abstract="true">
-		<ref bean="field.cluInfo.descr.fd"/>
+	 <dict:fieldDescriptor>
+   <dict:name>Clu Description</dict:name>
+    <dict:desc>Descxription of the clu</dict:desc>
+    <dict:dataType>string</dict:dataType>
+	 </dict:fieldDescriptor>
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalStudySubjectArea" parent="lu.queryParam.luOptionalStudySubjectArea-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalStudySubjectArea-parent"  optional="true" abstract="true">

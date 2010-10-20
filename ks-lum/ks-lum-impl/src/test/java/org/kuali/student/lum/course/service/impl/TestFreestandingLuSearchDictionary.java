@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.Test;
 
-public class TestLuSearchDictionary
+public class TestFreestandingLuSearchDictionary
 {
 
  @Test
