@@ -531,11 +531,6 @@ public class MetadataFormatter {
 				list.add(param);
     continue;
 			}
-   if (param.getChildLookup () != null)
-   {
-    list.add (param);
-    continue;
-   }
 		}
 		return list;
 	}
