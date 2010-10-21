@@ -1,56 +1,56 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.degree.ba" NAME="Bachelor of Arts"
         OBJ_ID="F41D195043484B82AC90496F22DE2751"
         RT_DESCR_ID="DEGREE-BA" TYPE="kuali.resultComponentType.degree" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.degree.bmus" NAME="Bachelor of Music"
         OBJ_ID="EA7EBF4C6EAF426B996A3CFC8A57F809"
         RT_DESCR_ID="DEGREE-BMUS"
         TYPE="kuali.resultComponentType.degree" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.degree.bsc" NAME="Bachelor of Science"
         OBJ_ID="698FE44E18D242DDBDD19AE1DFF21E21"
         RT_DESCR_ID="DEGREE-BSC" TYPE="kuali.resultComponentType.degree" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.grade.audit" NAME="Audit"
         OBJ_ID="8150CCBC115A4FE0AD787320D4B952E5"
         RT_DESCR_ID="RICHTEXT-LRC-RC-106"
         TYPE="kuali.resultComponentType.grade.finalGrade" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.grade.completedNotation"
         NAME="Completed notation"
         OBJ_ID="1B34460EB5484BF8B1B785C1F666636E"
         RT_DESCR_ID="RICHTEXT-LRC-RC-105"
         TYPE="kuali.resultComponentType.grade.finalGrade" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.grade.designReview"
         NAME="Design review" OBJ_ID="BBF94D4C7F4D4B2880B263DE0D35DFE9"
         RT_DESCR_ID="RICHTEXT-LRC-RC-104"
         TYPE="kuali.resultComponentType.grade.finalGrade" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.grade.letter" NAME="Letter"
         OBJ_ID="1AF2F0E2301542E286AA7268CB7C84F8"
         RT_DESCR_ID="RICHTEXT-LRC-RC-100"
         TYPE="kuali.resultComponentType.grade.finalGrade" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.grade.passFail" NAME="Pass-Fail"
         OBJ_ID="C6D31E3069BE454EAB15972B067A5C19"
         RT_DESCR_ID="RICHTEXT-LRC-RC-101"
         TYPE="kuali.resultComponentType.grade.finalGrade" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.grade.percentage" NAME="Percentage"
         OBJ_ID="DD95F4453D8E44CE9FA81271D55B358F"
         RT_DESCR_ID="RICHTEXT-LRC-RC-102"
         TYPE="kuali.resultComponentType.grade.finalGrade" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.grade.recitalReview"
         NAME="Recital review" OBJ_ID="0970118154754F8989B1E54120E35C09"
         RT_DESCR_ID="RICHTEXT-LRC-RC-103"
         TYPE="kuali.resultComponentType.grade.finalGrade" VER_NBR="0"/>
-    <KSLR_RESCOMP EFF_DT="20000101000000" EXPIR_DT="20200101000000"
+    <KSLR_RESCOMP EFF_DT="20000101000000" 
         ID="kuali.resultComponent.grade.satisfactory"
         NAME="Satisfactory/unsatisfactory"
         OBJ_ID="35B1F0FDE6CF42AA9341BBC7A8349D90"

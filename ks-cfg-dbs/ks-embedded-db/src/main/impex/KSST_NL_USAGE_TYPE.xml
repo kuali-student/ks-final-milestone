@@ -2,19 +2,19 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_NL_USAGE_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="Kuali Catalog"
+         NAME="Kuali Catalog"
         TYPE_DESC="Kuali Catalog" TYPE_KEY="KUALI.CATALOG" VER_NBR="0"/>
     <KSST_NL_USAGE_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="Rule Edit"
+         NAME="Rule Edit"
         TYPE_DESC="Kuali Rule Edit" TYPE_KEY="KUALI.RULE" VER_NBR="0"/>
     <KSST_NL_USAGE_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="Rule Composition"
+         NAME="Rule Composition"
         TYPE_DESC="Kuali Rule Composition"
         TYPE_KEY="KUALI.RULE.COMPOSITION" VER_NBR="0"/>
     <KSST_NL_USAGE_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="Rule Example"
+         NAME="Rule Example"
         TYPE_DESC="Kuali Rule Example" TYPE_KEY="KUALI.RULE.EXAMPLE" VER_NBR="0"/>
     <KSST_NL_USAGE_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="21001231000000" NAME="Rule Preview"
+         NAME="Rule Preview"
         TYPE_DESC="Kuali Rule Preview" TYPE_KEY="KUALI.RULE.PREVIEW" VER_NBR="0"/>
 </dataset>
