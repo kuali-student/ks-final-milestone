@@ -24,6 +24,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
@@ -37,11 +38,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRequirementsSummaryView extends VerticalSectionView {
 
-    private CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();
+    private static CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
-    private ActionCancelGroup actionCancelButtons  = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
+    private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
     private Map<String, Widget> addButtonsList = new HashMap<String, Widget>();
 
     //view's data
@@ -68,11 +69,16 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     }
 
     @Override
+    public boolean isDirty() {
+        return rules.isDirty();
+    }
+
+    @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
         //only when user wants to see rules then load requirements from database if they haven't been loaded yet
         if (!rules.isInitialized()) {
-            rules.retrieveCourseRequirements(new Callback<Boolean>() {
+            rules.retrieveCourseRequirements(AbstractCourseConfigurer.CLU_PROPOSAL_MODEL, new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
                     if (result) {
@@ -127,14 +133,22 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
             }
             @Override
             public void onModelReady(Model model) {
-                rules.updateCourseRequisites(((DataModel)model).getRoot(), new Callback<StatementTreeViewInfo>() {
+                //dto.get("id");
+                rules.updateCourseRequisites(((DataModel)model).getRoot().get("id").toString(), new Callback<List<StatementTreeViewInfo>>() {
                     @Override
-                    public void exec(StatementTreeViewInfo rule) {
-                        updateRequirementWidgets(rule);
+                    public void exec(List<StatementTreeViewInfo> rules) {
+                        for (StatementTreeViewInfo rule : rules) {
+                            updateRequirementWidgets(rule);
+                        }
                     }
                 });
             }
         });
+    }
+
+    public void revertRuleChanges() {
+        rules.revertRuleChanges();
+        displayRules();
     }
 
     private void updateRequirementWidgets(StatementTreeViewInfo rule) {
@@ -292,7 +306,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         return ((stmtInfo.getAllowedStatementTypes() != null) && !stmtInfo.getAllowedStatementTypes().isEmpty());
     }
 
-    private Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
+    static public Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
         Map<String, Widget> widgetList = new HashMap<String, Widget>();
         Set<String> cluSetIds = new HashSet<String>();
         findCluSetIds(rule, cluSetIds);
@@ -303,7 +317,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         return widgetList;
     }
 
-    private void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
+    static private void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
 
         List<StatementTreeViewInfo> statements = rule.getStatements();
         List<ReqComponentInfo> reqComponentInfos = rule.getReqComponents();
@@ -331,8 +345,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
              @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
-                if (result == ButtonEnumerations.SaveCancelEnum.SAVE) {
+                if (result == ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE) {
                     updateModel();
+                    ((CourseProposalController)parentController.getParentController()).showNextViewOnMenu();
                 } else {
                     	if(! ((CourseProposalController)parentController.getController()).isNew()){
                     		(parentController.getController()).showView(CourseConfigurer.CourseSections.SUMMARY);

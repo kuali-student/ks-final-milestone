@@ -196,6 +196,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
        
     protected void setEnabled(boolean enabled) {
         ruleManageWidget.setEanbled(enabled);
+        actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(enabled);
     }
 
     @Override
@@ -295,6 +296,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     };
 
     private void retrieveAndSetupReqCompTypes() {
+
         statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
             public void handleFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
@@ -348,7 +350,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
             if (RulesUtil.isCluSetWidget(fieldType)) {
                 String clusetType = "kuali.cluSet.type.Course";
                 if (fieldType.toLowerCase().indexOf("program") > 0) {
-                    clusetType = "kuali.cluSet.type.Program";    
+                    clusetType = "kuali.cluSet.type.Program";
                 }
                 editReqCompWidget.displayCustomWidget(fieldType, new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType));
             }

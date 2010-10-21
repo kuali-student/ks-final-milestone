@@ -114,8 +114,6 @@ public class ProgramRequirementsDataModel {
 
     private void retrieveRules(List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
 
-      //  programRequirementIds.add(new String("a4483f97-6ae2-4fd0-a7a4-849a70cc21a7"));        
-
         //true if no program requirements exist yet
         if ((programRequirementIds == null) || programRequirementIds.isEmpty()) {
             isInitialized = true;
@@ -204,10 +202,6 @@ public class ProgramRequirementsDataModel {
 
         return affectedRule;
     }
-
-    public boolean isEmptyRule(StatementTreeViewInfo tree) {
-        return (tree.getStatements() == null || tree.getStatements().isEmpty() && (tree.getReqComponents() == null || tree.getReqComponents().isEmpty()));
-    }  
 
     public void updateProgramEntities(final Callback<List<ProgramRequirementInfo>> callback) {
 
@@ -323,7 +317,7 @@ public class ProgramRequirementsDataModel {
         }
 
         Window.alert("Did not find StatementTypeInfo based on type: " + stmtTypeId);
-        GWT.log("Did not find StatementTypeInfo based on type: " + stmtTypeId);    
+        GWT.log("Did not find StatementTypeInfo based on type: " + stmtTypeId);
 
         return null;
     }
@@ -409,6 +403,10 @@ public class ProgramRequirementsDataModel {
     public ProgramRequirementInfo getProgReqByInternalId(Integer internalProgReqID) {
         return progReqInfos.get(internalProgReqID);
     }
+
+    public boolean isEmptyRule(StatementTreeViewInfo tree) {
+        return (tree.getStatements() == null || tree.getStatements().isEmpty() && (tree.getReqComponents() == null || tree.getReqComponents().isEmpty()));
+    }  
 
     public boolean isInitialized() {
         return isInitialized;

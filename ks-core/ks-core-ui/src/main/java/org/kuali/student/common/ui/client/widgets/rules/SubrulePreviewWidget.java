@@ -63,6 +63,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         if (!isReadOnly) {
             buildEditActionsWidget(header);
         }
+        this.add(header);        
     }
 
     private void buildEditActionsWidget(SectionTitle header) {
@@ -72,7 +73,6 @@ public class SubrulePreviewWidget extends FlowPanel {
         actions.add(deleteButton);
         actions.addStyleName("KS-Rule-Preview-Subrule-header-action");
         header.add(actions);
-        this.add(header);
     }
 
     private void buildRequirement(StatementTreeViewInfo stmtTreeInfo) {

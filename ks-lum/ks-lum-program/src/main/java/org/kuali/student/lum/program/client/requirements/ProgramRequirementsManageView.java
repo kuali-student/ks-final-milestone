@@ -244,7 +244,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                 return;
             }
 
-            KSBlockingProgressIndicator.addTask(creatingRuleTask);            
+            KSBlockingProgressIndicator.addTask(creatingRuleTask);
 
             //1. update NL for the req. component
             statementRpcServiceAsync.translateReqComponentToNL(reqComp, RULEEDIT_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
