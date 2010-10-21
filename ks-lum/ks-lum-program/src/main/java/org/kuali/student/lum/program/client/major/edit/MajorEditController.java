@@ -195,7 +195,6 @@ public class MajorEditController extends MajorController {
                     setHeaderTitle();
                     setStatus();
                     resetFieldInteractionFlag();
-                    //eventBus.fireEvent(new ModelLoadedEvent(programModel));
                     eventBus.fireEvent(new AfterSaveEvent(programModel));
                     HistoryManager.logHistoryChange();
                     showView(getCurrentViewEnum());

@@ -28,10 +28,6 @@ public class MajorInformationEditConfiguration extends AbstractSectionConfigurat
         rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    public MajorInformationEditConfiguration(Widget widget) {
-        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, widget);
-    }
-
     @Override
     protected void buildLayout() {
         HorizontalSection horizontalSection = new HorizontalSection();
