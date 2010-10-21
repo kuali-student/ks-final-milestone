@@ -748,20 +748,17 @@ a.ks-button-primary:hover {
 }
 
 .ks-button-primary-disabled {
-	line-height:2.25em;
-	text-decoration:none;
-	background-color: #F8F8F8;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 7px 10px 5px 10px;
-	color: #999999;
-	font-size: 1.167em;
-	font-weight: bold;
+                 -moz-border-radius:0 4px 0 4px;
+                 background-color:#F8F8F8;
+                 background-image:-moz-linear-gradient(-90deg, #FFFFFF, #CCCCCC);
+                 border:1px solid #999999;
+                 color:#999999;
+                 font-size:1em;
+                 font-weight:bold;
+                 line-height:1.93em;
+                 padding:3px 8px 2px;
+                 text-decoration:none;
 }
-
 /* ---- Secondary ------------------------- */
 a.ks-button-secondary {
 	line-height:2.25em;
