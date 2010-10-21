@@ -111,7 +111,7 @@
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -151,7 +151,7 @@
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -176,7 +176,7 @@
         <property name="identityService" ref="identityServiceClient"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -216,7 +216,7 @@
 		<property name="searchManager" ref="emSearchManager"/>
 	</bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.enumerationManagementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -268,7 +268,7 @@
         <property name="searchManager" ref="commentSearchManager" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.commentService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -309,7 +309,7 @@
         <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.documentService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -344,7 +344,7 @@
 		<property name="messageDAO" ref="messageDao" />
 	</bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.messageService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -386,7 +386,7 @@
         <constructor-arg index="0" value="classpath:proposal-search-config.xml" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.proposalService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />

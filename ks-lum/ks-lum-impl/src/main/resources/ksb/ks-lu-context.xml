@@ -148,7 +148,7 @@
         <property name="validator" ref="pocServiceValidator"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.luService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -227,7 +227,7 @@
         <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.statementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -320,7 +320,7 @@
         <property name="searchManager" ref="lrcSearchManager"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.lrcService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -350,7 +350,7 @@
         <property name="validator" ref="serviceValidator"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.loService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -392,7 +392,7 @@
         <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.courseService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
@@ -573,7 +573,7 @@
         <property name="atpService" ref="atpClient"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.programService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true"/>
