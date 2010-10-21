@@ -198,6 +198,7 @@ public class MajorEditController extends MajorController {
                     //eventBus.fireEvent(new ModelLoadedEvent(programModel));
                     eventBus.fireEvent(new AfterSaveEvent(programModel));
                     HistoryManager.logHistoryChange();
+                    showView(getCurrentViewEnum());
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                 }
             }

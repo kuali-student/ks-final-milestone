@@ -142,6 +142,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_failedSave(String arg0);
 
   /**
+   * Translated "Remove".
+   * 
+   * @return translated "Remove"
+   */
+  @DefaultMessage("Remove")
+  @Key("common.remove")
+  String common_remove();
+
+  /**
    * Translated "Retrieving Data...".
    * 
    * @return translated "Retrieving Data..."
