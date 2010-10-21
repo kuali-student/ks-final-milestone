@@ -15,27 +15,20 @@
 
 package org.kuali.student.core.assembly.data;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.Map.Entry;
-
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author wilj
  */
 @SuppressWarnings({"serial", "unchecked"})
 public class Data implements Serializable, Iterable<Data.Property>, HasChangeCallbacks {
-	@XmlType(name="lookUpDataType")
+    @XmlType(name = "lookUpDataType")
     public enum DataType {
         STRING, INTEGER, LONG, FLOAT, DOUBLE, BOOLEAN, DATE, TRUNCATED_DATE, DATA, LIST
     }
@@ -216,6 +209,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
          * 
          * @see java.lang.Object#equals(java.lang.Object)
          */
+
         @Override
         public boolean equals(final Object obj) {
             return obj instanceof IntegerKey && key.equals(((IntegerKey) obj).key);
@@ -236,6 +230,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
          * 
          * @see java.lang.Object#hashCode()
          */
+
         @Override
         public int hashCode() {
             return key.hashCode();
@@ -246,6 +241,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
          * 
          * @see java.lang.Object#toString()
          */
+
         @Override
         public String toString() {
             return String.valueOf(key);
@@ -387,6 +383,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
          * 
          * @see java.lang.Object#equals(java.lang.Object)
          */
+
         @Override
         public boolean equals(final Object obj) {
             return obj instanceof StringKey && key.equals(((StringKey) obj).key);
@@ -407,6 +404,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
          * 
          * @see java.lang.Object#hashCode()
          */
+
         @Override
         public int hashCode() {
             return key.hashCode();
@@ -417,6 +415,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
          * 
          * @see java.lang.Object#toString()
          */
+
         @Override
         public String toString() {
             return key;
@@ -450,10 +449,10 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         public String toString() {
             return value;
         }
-        
+
         public void setValue(String value) {
-			this.value = value;
-		}
+            this.value = value;
+        }
     }
 
     @XmlRootElement
@@ -655,8 +654,8 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (final Entry<Key, Value> e : map.entrySet()) {
             if (recurse && e.getValue().getType().equals(Data.class)) {
                 Data value = e.getValue().get();
-                if(value != null){
-                	value = value.copy();
+                if (value != null) {
+                    value = value.copy();
                 }
                 target.map.put(e.getKey(), new DataValue(value));
             } else {
@@ -707,14 +706,14 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         return result;
     }
 
-    
+
     /**
      * @return an Iterator that does not contain any _runtimeData
      */
-    public Iterator<Property> realPropertyIterator(){
-    	HashMap<Key, Value> propertyMap = new HashMap<Key, Value>(map);
+    public Iterator<Property> realPropertyIterator() {
+        HashMap<Key, Value> propertyMap = new HashMap<Key, Value>(map);
 //    	propertyMap.remove("_runtimeData");
-    	propertyMap.remove(new StringKey("_runtimeData"));
+        propertyMap.remove(new StringKey("_runtimeData"));
 
         final Iterator<Map.Entry<Key, Value>> impl = propertyMap.entrySet().iterator();
 
@@ -772,12 +771,13 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
             }
         };
     }
-    
+
     /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Iterable#iterator()
-     */
+    * (non-Javadoc)
+    *
+    * @see java.lang.Iterable#iterator()
+    */
+
     @Override
     public Iterator<Property> iterator() {
         final Iterator<Map.Entry<Key, Value>> impl = map.entrySet().iterator();
@@ -1046,8 +1046,8 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         for (Iterator itr = this.iterator(); itr.hasNext();) {
             Property p = (Property) itr.next();
             dataString.append(p.getKey() + "=" + p.getValue());
-            if(itr.hasNext()){
-            	dataString.append(", ");
+            if (itr.hasNext()) {
+                dataString.append(", ");
             }
         }
         dataString.append("}");
@@ -1066,7 +1066,11 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
     /**
      * @return set of top level keys known to this data branch
      */
-    public Set keySet(){
-    	return map.keySet();
+    public Set keySet() {
+        return map.keySet();
+    }
+
+    public boolean isEmpty() {
+        return map.isEmpty();
     }
 }

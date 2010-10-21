@@ -1,19 +1,12 @@
 package org.kuali.student.lum.common.client.lo;
 
 import com.google.gwt.user.client.ui.Label;
-
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * @author Igor
@@ -44,7 +37,7 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
             RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDesc());
             Data categoriesData = loDisplayInfoHelper.getCategoryInfoList();
             List<String> categories = new ArrayList<String>();
-            
+
             if (null != categoriesData) {
                 Iterator<Data.Property> itr = categoriesData.realPropertyIterator();
 
@@ -55,10 +48,13 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
                     categories.add(category.getName());
                 }
             }
-            int index = Integer.parseInt(loInfoHelper.getSequence());
-            StringTreeStructure childModel = new StringTreeStructure(index, descriptionHelper.getPlain(), categories);
-            transform(loDisplayInfoHelper.getDisplayInfoList(), childModel);
-            rootModel.addChild(childModel);
+            String sequence = loInfoHelper.getSequence();
+            if (sequence != null) {
+                int index = Integer.parseInt(sequence);
+                StringTreeStructure childModel = new StringTreeStructure(index, descriptionHelper.getPlain(), categories);
+                transform(loDisplayInfoHelper.getDisplayInfoList(), childModel);
+                rootModel.addChild(childModel);
+            }
         }
     }
 
@@ -76,19 +72,17 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
             for (StringTreeStructure child : element.getChildren()) {
                 addElement(child, subPanel);
             }
-            if(!element.getCategories().isEmpty()){
-        		listPanel.add(subPanel, element.getValue() + element.getCategoriesString());
-        	}
-        	else{
-        		listPanel.add(subPanel, element.getValue());
-        	}
+            if (!element.getCategories().isEmpty()) {
+                listPanel.add(subPanel, element.getValue() + element.getCategoriesString());
+            } else {
+                listPanel.add(subPanel, element.getValue());
+            }
         } else {
-        	if(!element.getCategories().isEmpty()){
-        		listPanel.add(new Label(element.getValue() + element.getCategoriesString()));
-        	}
-        	else{
-        		listPanel.add(new Label(element.getValue()));
-        	}
+            if (!element.getCategories().isEmpty()) {
+                listPanel.add(new Label(element.getValue() + element.getCategoriesString()));
+            } else {
+                listPanel.add(new Label(element.getValue()));
+            }
         }
     }
 
@@ -102,29 +96,29 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
 
         public StringTreeStructure(int index, String value, List<String> categories) {
             this.setIndex(index);
-        	this.value = value;
+            this.value = value;
             this.categories = categories;
         }
 
         public void sortChildren() {
-			Collections.sort(children, new Comparator<StringTreeStructure>(){
+            Collections.sort(children, new Comparator<StringTreeStructure>() {
 
-				@Override
-				public int compare(StringTreeStructure o1,
-						StringTreeStructure o2) {
-					return o1.getIndex() - o2.getIndex();
-				}
-			});
-		}
+                @Override
+                public int compare(StringTreeStructure o1,
+                                   StringTreeStructure o2) {
+                    return o1.getIndex() - o2.getIndex();
+                }
+            });
+        }
 
-		public StringTreeStructure() {
+        public StringTreeStructure() {
         }
 
         public List<String> getCategories() {
-			return categories;
-		}
+            return categories;
+        }
 
-		public String getValue() {
+        public String getValue() {
             return value;
         }
 
@@ -148,25 +142,24 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
             return !children.isEmpty();
         }
 
-		public void setIndex(int index) {
-			this.index = index;
-		}
+        public void setIndex(int index) {
+            this.index = index;
+        }
 
-		public int getIndex() {
-			return index;
-		}
-		
-		public String getCategoriesString(){
-			String result = " (";
-			for(int i = 0; i < categories.size(); i++){
-				if(i != categories.size() - 1){
-					result = result + categories.get(i) + ", ";
-				}
-				else{
-					result = result + categories.get(i) + ")";
-				}
-			}
-			return result;
-		}
+        public int getIndex() {
+            return index;
+        }
+
+        public String getCategoriesString() {
+            String result = " (";
+            for (int i = 0; i < categories.size(); i++) {
+                if (i != categories.size() - 1) {
+                    result = result + categories.get(i) + ", ";
+                } else {
+                    result = result + categories.get(i) + ")";
+                }
+            }
+            return result;
+        }
     }
 }
