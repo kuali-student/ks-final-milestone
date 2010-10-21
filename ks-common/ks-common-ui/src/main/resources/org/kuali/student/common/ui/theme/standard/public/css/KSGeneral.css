@@ -273,10 +273,10 @@ ul.ks-selected-list {
 }
 
 .ks-selected-list-value {
-    display: block;
-    min-height: 25px;
-    position: relative;
-    width: 22em;
+               display:block;
+              min-height:25px;
+              position:relative;
+                    padding: 9px 0 0 6px;
 
 }
 
