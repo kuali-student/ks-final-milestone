@@ -6439,5 +6439,4 @@
     <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
     <sequence name="KRSB_SVC_DEF_S" nextval="1116"/>
-    <sequence name="KSEM_ENUM_VAL_ID_S" nextval="2020"/>
 </database>
