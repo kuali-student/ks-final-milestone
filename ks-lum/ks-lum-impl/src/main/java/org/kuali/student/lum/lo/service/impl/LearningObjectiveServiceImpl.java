@@ -20,9 +20,9 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.common.validator.old.Validator;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -42,7 +42,7 @@ import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -67,7 +67,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.lum.lo.service.LearningObjectiveService", serviceName = "LearningObjectiveService", portName = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo")
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     private LoDao loDao;
 	private SearchManager searchManager;
@@ -451,7 +451,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		
 	    Lo lo = loDao.fetch(Lo.class, loId);
         
-        if (!String.valueOf(lo.getVersionInd()).equals(loInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(lo.getVersionNumber()).equals(loInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
@@ -486,7 +486,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		
 	    LoCategory loCategory = loDao.fetch(LoCategory.class, loCategoryId);
         
-        if (!String.valueOf(loCategory.getVersionInd()).equals(loCategoryInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(loCategory.getVersionNumber()).equals(loCategoryInfo.getMetaInfo().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
@@ -850,7 +850,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public StatusInfo deleteLoLoRelation(String loLoRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DependentObjectsExistException {
+			PermissionDeniedException {
 	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
 	    
 	    loDao.deleteLoLoRelation(loLoRelationId);

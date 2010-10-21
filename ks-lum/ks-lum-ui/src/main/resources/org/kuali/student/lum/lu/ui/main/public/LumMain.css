@@ -78,9 +78,8 @@
 }
 
 .KS-LOBuilder-Search-Panel {
-	padding: 10px;
-	width: 60%;
-	
+    line-height:1.5em;
+    width:100%;
 }
 
 .KS-LOBuilder-Spacer-Panel {
@@ -100,8 +99,7 @@
 }
 
 .KS-LOBuilder-Instructions {
-    font-size:70%;
-    margin:10px
+    font-size:1em;
 }
 
 .KS-LOBuilder-Highlighted-Item {
@@ -144,14 +142,15 @@
     height:20px;
 }
 .KS-LODeleteButton{
-    background: url("images/LODeleteButton.png") no-repeat 2px 2px;
-    width: 20px;
-    height:20px;
+                    background:none repeat scroll 0 0 transparent;
+                    border:medium none;
+                    color:blue;
+                    font-size :0.916em;
+                    margin:8px 4px 1px 457px;
 }
 .KS-LODeleteButtonDisabled{
-    background: url("images/LODeleteButtonDisabled.png") no-repeat 2px 2px;
-    width: 20px;
-    height:20px;
+	color:grey;
+	font-size:0.916em;
 }
 .KS-LOBuilder-LO-Item-Active {
 	background-color: #FFFFCC;	
@@ -159,6 +158,14 @@
 
 .KS-LOBuilder-LO-Item-InActive {
 	background-color: #FFFFFF;	
+}
+
+.KS-CluSetManagement-chooser {
+	background: lightgrey;
+}
+
+.KS-CluSetManagement-chooser-unselected {
+	background: transparent;
 }
 
 .cluInfo-officialIdentifier-longName{}

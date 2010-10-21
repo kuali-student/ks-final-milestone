@@ -15,14 +15,12 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -32,7 +30,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -44,12 +41,8 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name="CluLoRelation.getCluLoRelationByLo", query="SELECT rel FROM CluLoRelation rel WHERE rel.loId = :loId"),
 	@NamedQuery(name="CluLoRelation.getCluLoRelationByCluIdAndType", query="SELECT rel.id FROM CluLoRelation rel WHERE rel.clu.id = :cluId AND rel.type = :cluLoRelationType")
 })
-public class CluLoRelation  extends MetaEntity implements
+public class CluLoRelation extends MetaEntity implements
 AttributeOwner<CluLoRelationAttribute> {
-
-	@Id
-	@Column(name="ID")
-	private String id;
 
 	@ManyToOne
 	@JoinColumn(name="CLU_ID")
@@ -77,28 +70,12 @@ AttributeOwner<CluLoRelationAttribute> {
 	
 	@Override
 	public List<CluLoRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluLoRelationAttribute>();
-		}
 		return attributes;
 	}
 
 	@Override
 	public void setAttributes(List<CluLoRelationAttribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	@Override
-	public  void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public Clu getClu() {

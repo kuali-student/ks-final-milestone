@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLO_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="7bcd7c0e-3e6b-4527-ac55-254c58cecc22"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse" NAME="Modify Wiki"
+        OBJ_ID="69DCE9614F4140E69FE93FA5B6426154"
+        RT_DESCR_ID="RICHTEXT-17" ST="draft" VER_NBR="0"/>
+    <KSLO_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="81abea67-3bcc-4088-8348-e265f3670145"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Edit Wiki Message Structure"
+        OBJ_ID="939A9FEE55584F08A8E48D3CE09BBD59"
+        RT_DESCR_ID="RICHTEXT-9" ST="draft" VER_NBR="0"/>
+    <KSLO_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="91a91860-d796-4a17-976b-a6165b1a0b05"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Destroy Wiki" OBJ_ID="51E6E8FCEFE94584880147765702AE21"
+        RT_DESCR_ID="RICHTEXT-20" ST="draft" VER_NBR="0"/>
+    <KSLO_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="abd8ae21-34e9-4858-a714-b04134f55d68"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse" NAME="Create Wiki"
+        OBJ_ID="D487035ADDF64FEC933EE9C147BE080E"
+        RT_DESCR_ID="RICHTEXT-15" ST="draft" VER_NBR="0"/>
+    <KSLO_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="dd0658d2-fdc9-48fa-9578-67a2ce53bf8a"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Install Wiki Engine"
+        OBJ_ID="B482FFCA42CB4E6FAC49E802FE3F7D8E"
+        RT_DESCR_ID="RICHTEXT-13" ST="draft" VER_NBR="0"/>
+    <KSLO_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="e0619a90-66d6-4af4-b357-e73ae44f7e88"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse" NAME="Update Wiki"
+        OBJ_ID="7ED05A201E7B4B9E826FA565AB8AFDDF"
+        RT_DESCR_ID="RICHTEXT-16" ST="draft" VER_NBR="0"/>
+    <KSLO_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Navigate Wiki" OBJ_ID="438678B9572A48D6BAB9B3E8213C6B2D"
+        RT_DESCR_ID="RICHTEXT-12" ST="draft" VER_NBR="0"/>
+    <KSLO_LO EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="fde6421e-64b4-41af-bac5-269005101c2a"
+        LOTYPE_ID="kuali.lo.type.singleUse"
+        LO_REPO_ID="kuali.loRepository.key.singleUse"
+        NAME="Annihilate Wiki" OBJ_ID="27C12B83092645A6BEEC9FBB1B427436"
+        RT_DESCR_ID="RICHTEXT-21" ST="draft" VER_NBR="0"/>
+</dataset>

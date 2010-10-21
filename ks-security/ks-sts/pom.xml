@@ -3,29 +3,25 @@
   <parent>
     <groupId>org.kuali.student.security</groupId>
     <artifactId>ks-security</artifactId>
-    <version>1.1.0-M7-SNAPSHOT</version>
+    <version>1.1.0-M9-SNAPSHOT</version>
   </parent>
   <artifactId>ks-sts</artifactId>
   <name>KS Security Token Service</name>
   <description>A minimal implementation of WS-Trust STS</description>
-  <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-sts</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk/ks-security/ks-sts</developerConnection>
-  </scm>
   <dependencies>
     <dependency>
       <groupId>org.kuali.student.security</groupId>
       <artifactId>ks-standard-sec</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency> 
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-cxf</artifactId>
       <type>pom</type>
       <scope>test</scope>
@@ -85,7 +81,7 @@
         <executions>
           <execution>
             <id>SecurityTokenService-wsdl</id>
-            <phase>process-classes</phase>
+            <phase>${ks.java2ws.phase}</phase>
             <configuration>
               <className>org.kuali.student.security.trust.service.SecurityTokenService</className>
               <serviceName>SecurityTokenService</serviceName>

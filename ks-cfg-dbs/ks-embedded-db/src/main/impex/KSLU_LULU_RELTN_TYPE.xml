@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc9" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000"
+        ID="kuali.lu.lu.relation.type.hasCoreProgram" NAME="lazlo"
+        OBJ_ID="64AF5BC0B13C47FF8853EE93AC14E463" REV_DESC="rev desc9"
+        REV_NAME="rev name9" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc11" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000"
+        ID="kuali.lu.lu.relation.type.hasMajorProgram" NAME="brian"
+        OBJ_ID="8CC18C4C1BA349389BA092C02588D7D9" REV_DESC="rev desc11"
+        REV_NAME="rev name11" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc12" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000"
+        ID="kuali.lu.lu.relation.type.hasProgramRequirement"
+        NAME="reginald" OBJ_ID="7EA356A3330D49589DD33633FB40C4E2"
+        REV_DESC="rev desc12" REV_NAME="rev name12" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc10" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000"
+        ID="kuali.lu.lu.relation.type.hasVariationProgram"
+        NAME="artemis" OBJ_ID="A8E85D8551294948A5571FB0183766A2"
+        REV_DESC="rev desc10" REV_NAME="rev name10" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc8" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.co-located"
+        NAME="dan" OBJ_ID="1306E000A0AA46A59E5B171F4B038623"
+        REV_DESC="rev desc8" REV_NAME="rev name8" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc8" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="kuali.lu.relation.type.copyOfClu"
+        NAME="dan" OBJ_ID="38DD70E3625F4DD58A005F237013E93B"
+        REV_DESC="rev desc8" REV_NAME="rev name8" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc5" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuRelationType.alias" NAME="ted"
+        OBJ_ID="5CA1B0C66AE14C5AAE41AB268ABAC582" REV_DESC="rev desc5"
+        REV_NAME="rev name5" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc6" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuRelationType.colocated"
+        NAME="jim" OBJ_ID="22E2121CB4C24E56B10281CDE289A1D6"
+        REV_DESC="rev desc6" REV_NAME="rev name6" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc4" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuRelationType.contains"
+        NAME="alice" OBJ_ID="4A81B3D370F247638635502CA93FACE8"
+        REV_DESC="rev desc4" REV_NAME="rev name4" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc7" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuRelationType.hasCourseFormat"
+        NAME="sam" OBJ_ID="51AD3134A670441CB2082E8D8001A026"
+        REV_DESC="rev desc7" REV_NAME="rev name7" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc1" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuType.type1" NAME="bob"
+        OBJ_ID="239926CE0A75493B863784600536093C" REV_DESC="rev desc1"
+        REV_NAME="rev name1" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc2" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuType.type2" NAME="santiago"
+        OBJ_ID="F7AA373418764B26B2D929DDA6F87E77" REV_DESC="rev desc2"
+        REV_NAME="rev name2" VER_NBR="0"/>
+    <KSLU_LULU_RELTN_TYPE DESCR="my desc3" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="luLuType.type3" NAME="manolin"
+        OBJ_ID="094C5214DEF348D8877B0FD83E9AEA06" REV_DESC="rev desc3"
+        REV_NAME="rev name3" VER_NBR="0"/>
+</dataset>

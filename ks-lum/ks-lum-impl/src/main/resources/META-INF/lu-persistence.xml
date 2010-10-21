@@ -50,6 +50,7 @@
 		<class>org.kuali.student.lum.lu.entity.CluCluRelationAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluCredit</class>
 		<class>org.kuali.student.lum.lu.entity.CluFee</class>
+		<class>org.kuali.student.lum.lu.entity.CluFeeAmount</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeRecord</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeRecordAttribute</class>
@@ -60,8 +61,13 @@
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.CluLoRelationTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.CluPublishing</class>
-		<class>org.kuali.student.lum.lu.entity.CluPublishingAttribute</class>
+
+		<class>org.kuali.student.lum.lu.entity.CluPublication</class>
+		<class>org.kuali.student.lum.lu.entity.CluPublicationAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluPublicationType</class>
+		<class>org.kuali.student.lum.lu.entity.CluPublicationTypeAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluPublicationVariant</class>
+		
 		<class>org.kuali.student.lum.lu.entity.CluResult</class>
 		<class>org.kuali.student.lum.lu.entity.CluResultType</class>
 		<class>org.kuali.student.lum.lu.entity.CluResultTypeAttribute</class>
@@ -77,10 +83,6 @@
 		<class>org.kuali.student.lum.lu.entity.LuCodeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuCodeType</class>	
 		<class>org.kuali.student.lum.lu.entity.LuCodeTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelation</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationType</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.Lui</class>
 		<class>org.kuali.student.lum.lu.entity.LuiAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuiLuiRelation</class>

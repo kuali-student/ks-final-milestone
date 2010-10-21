@@ -19,7 +19,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,12 +26,9 @@ import javax.persistence.TemporalType;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_LOLO_ALLOWED_RELTN_TYPE")
+@Table(name = "KSLO_LO_ALLOWED_RELTN_TYPE")
 public class AllowedLoLoRelationType extends MetaEntity {
-	@Id
-	@Column(name = "ID")
-	private String id;
-	
+
 	@Column(name = "LOLO_RELTN_TYPE_ID")
 	private String relationTypeId;
 	
@@ -74,19 +70,6 @@ public class AllowedLoLoRelationType extends MetaEntity {
 		this.relatedLoTypeId = relatedLoTypeId;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
 
 	/**
 	 * @param effectiveDate the effectiveDate to set

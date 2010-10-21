@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLO_LO_TYPE
+        DESCR="LO governed by an organization external to department, e.g., the college at large, or a state or accrediting organization"
+        EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="kuali.lo.type.governed" NAME="Governed"
+        OBJ_ID="602171427CC94F7FB0A55829AED3F082" VER_NBR="0"/>
+    <KSLO_LO_TYPE
+        DESCR="LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course"
+        EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="kuali.lo.type.singleUse" NAME="Single use"
+        OBJ_ID="77E6218ADA8A4C049F8D0A1F1DC94F99" VER_NBR="0"/>
+</dataset>

@@ -66,7 +66,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         assertEquals(createTime.getTime(), refStmtRel.getMeta().getCreateTime());
         assertEquals("UPDATEID", refStmtRel.getMeta().getUpdateId());
         assertEquals(updateTime.getTime(), refStmtRel.getMeta().getUpdateTime());
-        assertEquals(1, refStmtRel.getVersionInd());
+        assertEquals(Long.valueOf(1), refStmtRel.getVersionNumber());
         // Ref object type and object id
         assertEquals("CLU-NL-1", refStmtRel.getRefObjectId());
         assertEquals("clu", refStmtRel.getRefObjectTypeKey());
@@ -160,8 +160,8 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         GregorianCalendar gregExp = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
         
         assertNotNull(nlUsageTypeList);
-        assertEquals(4, nlUsageTypeList.size());
-        NlUsageType nlUsageType = nlUsageTypeList.get(2);
+        assertTrue(nlUsageTypeList.size() > 0);
+        NlUsageType nlUsageType = nlUsageTypeList.get(3);
         assertEquals("KUALI.COURSE.CATALOG", nlUsageType.getId());
         assertEquals("Kuali Course Catalog", nlUsageType.getName());
         assertEquals("Full Kuali Course Catalog", nlUsageType.getDescr());
@@ -171,7 +171,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     
     @Test
     public void testGetStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        StatementType stmtType = dao.fetch(StatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
+        StatementType stmtType = dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.prereq");
         
         assertNotNull(stmtType);
         assertEquals(1, stmtType.getRefStatementRelationTypes().size());
@@ -198,31 +198,31 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     
     @Test
     public void testGetReqCompNLTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqCompType.courseList.nof");
+        ReqComponentType reqComp  = dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.courseList.nof");
 
         List<ReqComponentTypeNLTemplate> templates = reqComp.getNlUsageTemplates();
 
         assertEquals(templates.size(), 3);
         
         ReqComponentTypeNLTemplate template = null;
-        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.CATALOG")) {
+        if (templates.get(0).getNlUsageTypeKey().equals("KUALI.RULE")) {
             template = templates.get(0);
         } else {
             template = templates.get(1);
         }
-        assertEquals("KUALI.CATALOG", template.getNlUsageTypeKey());
+        assertEquals("KUALI.RULE", template.getNlUsageTypeKey());
         assertTrue(template.getTemplate().startsWith("Student must have completed $expectedValue"));
     }
 
 //    @Test
 //    public void testGetStatementHeaderTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-//        StatementType stmtType  = dao.fetch(StatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
+//        StatementType stmtType  = dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.prereq");
 //
 //        List<StatementTypeHeaderTemplate> templates = stmtType.getStatementHeaders();
 //
 //        StatementTypeHeaderTemplate header = templates.get(0);
 //        assertEquals(templates.size(), 2);
-//        assertEquals("KUALI.CATALOG", header.getNlUsageTypeKey());
+//        assertEquals("KUALI.RULE", header.getNlUsageTypeKey());
 //        // should the statement header template be "$clu.getLongName()" instead of 
 //        //       "$clu.getOfficialIdentifier().getLongName()"? 
 //        //       in the old test sql file ks-lu.sql it is "$clu.getOfficialIdentifier().getLongName()" 

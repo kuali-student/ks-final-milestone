@@ -15,14 +15,12 @@
 
 package org.kuali.student.lum.lrc.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -34,11 +32,8 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_LRC_SCALE")
+@Table(name = "KSLR_SCALE")
 public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
-    @Id
-    @Column(name = "ID")
-    private String id;
 
     @Column(name = "NAME")
     private String name;
@@ -57,20 +52,6 @@ public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ScaleAttribute> attributes;
-
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * @return the name
@@ -130,9 +111,6 @@ public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
 
     @Override
     public List<ScaleAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<ScaleAttribute>(0);
-        }
         return attributes;
     }
 

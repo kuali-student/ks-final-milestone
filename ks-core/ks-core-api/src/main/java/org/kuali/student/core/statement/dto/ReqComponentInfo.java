@@ -62,8 +62,12 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
     @XmlAttribute
     private String id;
 
-    @XmlElement
-    private ReqComponentTypeInfo requiredComponentType;
+    /**
+     * <code>naturalLanguageTranslation</code> attribute is a read-only 
+     * attribute which is generated on-the-fly and should not be persisted.
+     */
+    @XmlAttribute
+    private String naturalLanguageTranslation;
     
 	/**
      * Narrative description of the requirement component.
@@ -133,17 +137,6 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
     public void setType(String type) {
         this.type = type;
     }
-
-    public ReqComponentTypeInfo getRequiredComponentType() {
-        return requiredComponentType;
-    }
-
-    public void setRequiredComponentType(ReqComponentTypeInfo requiredComponentType) {
-        this.requiredComponentType = requiredComponentType;
-        if(requiredComponentType != null) {
-            setType(requiredComponentType.getId());
-        }
-    }
     
 	/**
      * The current status of the requirement component. The values for this field are constrained to those in the reqComponentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
@@ -166,6 +159,14 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
     public void setId(String id) {
         this.id = id;
     }
+
+	public String getNaturalLanguageTranslation() {
+		return naturalLanguageTranslation;
+	}
+
+	public void setNaturalLanguageTranslation(String naturalLanguageTranslation) {
+		this.naturalLanguageTranslation = naturalLanguageTranslation;
+	}
 
     @Override
 	public String toString() {

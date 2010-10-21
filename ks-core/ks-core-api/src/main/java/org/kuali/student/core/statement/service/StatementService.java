@@ -25,6 +25,7 @@ import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -33,10 +34,10 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -594,6 +595,19 @@ public interface StatementService extends DictionaryService, SearchService {
     public StatementTreeViewInfo getStatementTreeView(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
     /**
+     * Retrieves a view of a statement by its identifier with its referenced statements and requirement components expanded and translated
+     * @param statementId statement identifier
+	 * @param nlUsageTypeKey Natural language usage type identifier
+	 * @param language Translation language
+     * @return view of statement information with the referenced statements and requirement components expanded
+     * @throws DoesNotExistException statement not found
+     * @throws InvalidParameterException invalid statementId
+     * @throws MissingParameterException statementId not specified
+     * @throws OperationFailedException unable to complete request
+     */
+    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    /**
      * Updates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else
      * @param statementId identifier of the statement to be updated
      * @param statementTreeViewInfo The StatementTreeInfo to be updated
@@ -608,4 +622,32 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
      */
     public StatementTreeViewInfo updateStatementTreeView(@WebParam(name="statementId")String statementId, @WebParam(name="statementTreeViewInfo")StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+	/**
+	 * Creates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else 
+	 * @param statementTreeViewInfo
+	 * @return Statement tree view
+	 * @throws CircularReferenceException included statement references the current statement
+	 * @throws AlreadyExistsException
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public StatementTreeViewInfo createStatementTreeView(@WebParam(name="statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+	
+	/**
+	 * Deletes the entire statement tree
+	 * @param statementId
+	 * @return Status of delete
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public StatusInfo deleteStatementTreeView(@WebParam(name="statementId") String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }

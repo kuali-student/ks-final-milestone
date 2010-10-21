@@ -51,22 +51,22 @@ public class ToolsConstants {
     public static final String CLU_SET_NAME ="cluSetName";
     
     // Field Keys
-    public static final String SEARCH_CLU_SET = "search/findCluSet";
-    public static final String SEARCH_COURSE = "search/findCourse";
-    public static final String CLU_SET_ID = "cluset/id";
-    public static final String CLU_SET_ORGANIZATION_FIELD = "cluset/organization";
-    public static final String CLU_SET_NAME_FIELD = "cluset/name";
-    public static final String CLU_SET_DESCRIPTION_FIELD = "cluset/description";
-    public static final String CLU_SET_EFF_DATE_FIELD = "cluset/effectiveDate";
-    public static final String CLU_SET_EXP_DATE_FIELD = "cluset/expirationDate";
-    public static final String CLU_SET_ALL_CLUS_FIELD = "cluset/allClus";
-    public static final String CLU_SET_APPROVED_CLUS_FIELD = "cluset/approvedClus";
-    public static final String CLU_SET_PROPOSED_CLUS_FIELD = "cluset/proposedClus";
-    public static final String CLU_SET_CLU_SETS_FIELD = "cluset/clusets";
-    public static final String CLU_SET_CLU_SET_RANGE_FIELD = "cluset/clusetRange";
-    public static final String CLU_SET_CLU_SET_RANGE_EDIT_FIELD = "cluset/clusetRangeEdit";
-    public static final String CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD = "cluset/cluSetRangeViewDetails";
-    public static final String CLU_SET_TYPE_FIELD = "cluset/type";
+    public static final String SEARCH_CLU_SET = "cluset/clusets";
+    public static final String SEARCH_COURSE = "findCourse";
+    public static final String CLU_SET_ID = "id";
+    public static final String CLU_SET_ORGANIZATION_FIELD = "organization";
+    public static final String CLU_SET_NAME_FIELD = "name";
+    public static final String CLU_SET_DESCRIPTION_FIELD = "description";
+    public static final String CLU_SET_EFF_DATE_FIELD = "effectiveDate";
+    public static final String CLU_SET_EXP_DATE_FIELD = "expirationDate";
+    public static final String CLU_SET_ALL_CLUS_FIELD = "allClus";
+    public static final String CLU_SET_APPROVED_CLUS_FIELD = "approvedClus";
+    public static final String CLU_SET_PROPOSED_CLUS_FIELD = "proposedClus";
+    public static final String CLU_SET_CLU_SETS_FIELD = "clusets";
+    public static final String CLU_SET_CLU_SET_RANGE_FIELD = "clusetRange";
+    public static final String CLU_SET_CLU_SET_RANGE_EDIT_FIELD = "clusetRangeEdit";
+    public static final String CLU_SET_CLUSET_RANGE_VIEW_DETAILS_FIELD = "cluSetRangeViewDetails";
+    public static final String CLU_SET_TYPE_FIELD = "type";
     
     // Swappable Section Keys
     public static final String CLU_SET_SWAP_APPROVED_CLUS = "activatedClus";

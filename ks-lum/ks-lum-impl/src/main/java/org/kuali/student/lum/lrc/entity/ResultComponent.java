@@ -15,32 +15,26 @@
 
 package org.kuali.student.lum.lrc.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_LRC_RESCOMP")
+@Table(name = "KSLR_RESCOMP")
 @NamedQueries( {
     @NamedQuery(name = "ResultComponent.getResultComponentIdsByResult", query = "SELECT rc.id FROM ResultComponent rc JOIN rc.resultValues rv WHERE rv.id = :resultValueId AND rc.type.id = :resultComponentTypeKey"),
     @NamedQuery(name = "ResultComponent.getResultComponentIdsByResultComponentType", query = "SELECT rc.id FROM ResultComponent rc WHERE rc.type.id = :resultComponentTypeKey"),
@@ -50,10 +44,6 @@ import org.kuali.student.core.entity.MetaEntity;
 public class ResultComponent extends MetaEntity implements AttributeOwner<ResultComponentAttribute> {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "ID")
-    private String id;
-
     @Column(name = "NAME")
     private String name;
 
@@ -61,10 +51,7 @@ public class ResultComponent extends MetaEntity implements AttributeOwner<Result
     @JoinColumn(name = "RT_DESCR_ID")
     private LrcRichText descr;
 
-    @ManyToMany
-    @JoinTable(name="KSLU_LRC_RESCOMP_JN_RESVALUE",
-            joinColumns=@JoinColumn(name="COMPONENT_ID"),
-            inverseJoinColumns=@JoinColumn(name="RESULT_ID"))
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultComponent")
     private List<ResultValue> resultValues;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -84,28 +71,6 @@ public class ResultComponent extends MetaEntity implements AttributeOwner<Result
 
     @Column(name = "STATE")
     private String state;
-
-    /**
-     * AutoGenerate the Id
-     */
-    @PrePersist
-    public void prePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-   /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * @return the name
@@ -138,10 +103,7 @@ public class ResultComponent extends MetaEntity implements AttributeOwner<Result
     /**
      * @return the resultValues
      */
-    public List<? extends ResultValue> getResultValues() {
-        if (resultValues == null) {
-            resultValues = new ArrayList<ResultValue>();
-        }
+    public List<ResultValue> getResultValues() {
         return resultValues;
     }
 
@@ -210,9 +172,6 @@ public class ResultComponent extends MetaEntity implements AttributeOwner<Result
 
     @Override
     public List<ResultComponentAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<ResultComponentAttribute>(0);
-        }
         return attributes;
     }
 

@@ -77,6 +77,8 @@
             <map>
                 <entry key="hibernate.transaction.manager_lookup_class" value="${ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto" value="${ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.connection.release_mode" value="${ks.core.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+               	<!--<entry key="hibernate.connection.autocommit" value="${ks.core.jpa.JpaProperties.hibernate.connection.autocommit}"/>-->
             </map>
         </property>
     </bean>
@@ -162,7 +164,7 @@
         </property>
     </bean>
 
-    <bean id="identityServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
     </bean>
@@ -245,8 +247,13 @@
         <property name="em" ref="commentEntityManager" />
     </bean>
 
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="${ks.core.dictionary.old.serviceContextLocations}" />
+    </bean>
+
+    <bean id="coreDictionaryService"
+          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+		<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />	
     </bean>
 
     <bean id="commentSearchManager"
@@ -292,7 +299,7 @@
         <property name="em" ref="documentEntityManager" />
     </bean>
 
-    <bean id="documentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+    <bean id="documentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:document-dictionary-config.xml" />
     </bean>
 
@@ -370,7 +377,7 @@
     <bean name="proposalServiceImpl"
         class="org.kuali.student.core.proposal.service.impl.ProposalServiceImpl">
         <property name="proposalDao" ref="proposalDao"/>
-        <!-- <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/> -->
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="searchManager" ref="proposalSearchManager"/>
 	</bean>
 

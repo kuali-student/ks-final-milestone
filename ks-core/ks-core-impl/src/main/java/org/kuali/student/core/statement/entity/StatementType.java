@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,6 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.kuali.student.core.entity.Type;
@@ -35,8 +35,9 @@ public class StatementType extends Type<StatementTypeAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<StatementTypeAttribute> attributes;
     
-    @OneToMany
+	@ManyToMany
     @JoinTable(name = "KSST_STMT_TYP_JN_RC_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
+    @OrderBy("descr ASC")
     private List<ReqComponentType> allowedReqComponentTypes;
     
     @OneToMany
@@ -47,12 +48,9 @@ public class StatementType extends Type<StatementTypeAttribute> {
 //    private List<StatementTypeHeaderTemplate> statementHeaders;
     
     @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "statementTypeList") //, fetch = FetchType.EAGER)
-    private List<RefStatementRelationType> refStatementRelationTypes = new ArrayList<RefStatementRelationType>();
+    private List<RefStatementRelationType> refStatementRelationTypes;
 
 	public List<StatementTypeAttribute> getAttributes() {
-        if(null == attributes){
-            attributes = new ArrayList<StatementTypeAttribute>();
-        }        
         return attributes;
     }
 
@@ -61,10 +59,6 @@ public class StatementType extends Type<StatementTypeAttribute> {
     }
         
     public List<ReqComponentType> getAllowedReqComponentTypes() {
-        if(null == allowedReqComponentTypes) {
-            allowedReqComponentTypes = new ArrayList<ReqComponentType>();
-        }
-        
         return allowedReqComponentTypes;
     }
 
@@ -73,10 +67,6 @@ public class StatementType extends Type<StatementTypeAttribute> {
     }
 
     public List<StatementType> getAllowedStatementTypes() {
-        if(null == allowedStatementTypes) {
-            allowedStatementTypes = new ArrayList<StatementType>();
-        }
-        
         return allowedStatementTypes;
     }
 
@@ -84,20 +74,11 @@ public class StatementType extends Type<StatementTypeAttribute> {
         this.allowedStatementTypes = allowedStatementTypes;
     }
 
-//	public List<StatementTypeHeaderTemplate> getStatementHeaders() {
-//		return statementHeaders;
-//	}
-//
-//	public void setStatementHeaders(List<StatementTypeHeaderTemplate> header) {
-//		this.statementHeaders = header;
-//	}
-
 	public List<RefStatementRelationType> getRefStatementRelationTypes() {
 		return refStatementRelationTypes;
 	}
 
-	public void setRefStatementRelationTypes(
-			List<RefStatementRelationType> refStatementRelationTypes) {
+	public void setRefStatementRelationTypes(List<RefStatementRelationType> refStatementRelationTypes) {
 		this.refStatementRelationTypes = refStatementRelationTypes;
 	}
 

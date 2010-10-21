@@ -157,10 +157,20 @@
                     <list>
                         <value>classpath:ks-statement.sql</value>
 	                    <value>classpath:ks-statement-data.sql</value>
+                        <value>classpath:ks-statement-tree.sql</value>
                     </list>
                 </entry>
                 <entry key="Lu">
                     <value>classpath:ks-statement-lu-data.sql</value>
+                </entry>
+                <entry key="Organization">
+                    <value>classpath:ks-org.sql</value>
+                </entry>
+                <entry key="Atp">
+                    <value>classpath:ks-atp.sql</value>
+                </entry>
+                <entry key="Lrc">
+                    <value>classpath:ks-lrc.sql</value>
                 </entry>
             </map>
         </property>
@@ -189,9 +199,36 @@
         </aop:aspect>
     </aop:config>
 
+    <bean id="lumSearchDispatcher"
+          class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+        <property name="services">
+            <list>
+                <ref bean="luServiceImpl"/>
+                <ref bean="statementService"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="lumCrossServiceSearchManager"
+          class="org.kuali.student.core.search.service.impl.CrossSearchManager">
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+    <bean id="luSearchManager"
+          class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:lu-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+    <bean id="statementSearchManager"
+          class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:statement-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+
     <bean id="luServiceImpl"
         class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
         <property name="luDao" ref="luDao"/>
+        <property name="searchManager" ref="luSearchManager"/>
     </bean>
 
     <bean id="statementAssembler"
@@ -204,5 +241,95 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
+        <property name="searchManager" ref="statementSearchManager"/>
     </bean>
+
+    <!-- Atp Service Config -->
+    <bean id="atpEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Atp"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="atpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="atpEntityManagerFactory" />
+    </bean>
+
+    <bean id="atpDao"
+        class="org.kuali.student.core.atp.dao.impl.AtpDaoImpl">
+        <property name="em" ref="atpEntityManager" />
+    </bean>
+
+    <bean id="atpServiceImpl"
+        class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
+        <property name="atpDao" ref="atpDao" />
+        <property name="searchManager" ref="atpSearchManager"/>
+    </bean>
+
+    <bean id="atpSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+    </bean>
+
+    <!--  Organization Service Config -->
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+        <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
+    </bean>
+
+    <bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Organization"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/organization-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="orgEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="orgEntityManagerFactory" />
+    </bean>
+
+    <bean id="orgDao"
+        class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
+        <property name="em" ref="orgEntityManager" />
+    </bean>
+
+    <bean id="orgServiceImpl"
+        class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
+        <property name="organizationDao" ref="orgDao" />
+        <property name="searchManager" ref="orgSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
+    </bean>
+
+    <bean id="orgSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:organization-search-config.xml" />
+    </bean>
+
+    <!-- Learning Result service config -->
+    <bean id="lrcEntityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no" >
+        <property name="persistenceUnitName" value="Lrc"/>
+        <property name="persistenceXmlLocation"
+            value="classpath:META-INF/lrc-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="lrcEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
+        <property name="entityManagerFactory" ref="lrcEntityManagerFactory" />
+    </bean>
+
+    <bean id="lrcDao"
+        class="org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl">
+        <property name="em" ref="lrcEntityManager" />
+    </bean>
+
+    <bean id="lrcSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:lrc-search-config.xml" />
+        <!-- property name="crossSearchManager" ref="lumCrossServiceSearchManager"/-->
+    </bean>
+
+    <bean id="lrcServiceImpl"
+        class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+        <property name="lrcDao" ref="lrcDao" />
+        <property name="searchManager" ref="lrcSearchManager" />
+    </bean>
+
 </beans>

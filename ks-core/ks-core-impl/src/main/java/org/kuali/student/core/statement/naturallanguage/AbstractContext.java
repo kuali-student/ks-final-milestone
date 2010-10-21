@@ -16,11 +16,18 @@
 package org.kuali.student.core.statement.naturallanguage;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.service.StatementService;
 
 /**
  * This is an abstract class for creating a map (containing token/data) used
@@ -32,31 +39,53 @@ public abstract class AbstractContext<T> implements Context<T> {
 	/**
 	 * <p>These common shared tokens are needed since velocity doesn't 
 	 * allow periods in tokens.</p>
-	 * <p>E.g. reqCompFieldType.totalCredits must either be convert to 
+	 * <p>E.g. kuali.reqComponent.field.type.totalCredits must either be convert to 
 	 * totalCredits or reqCompFieldType_totalCredits so a template would look 
 	 * like:</p>
 	 * <p>'Student must take $totalCredits of MATH 100'</p>
 	 * or
 	 * <p>'Student must take $reqCompFieldType_totalCredits of MATH 100'</p>
 	 */
-	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
 	protected final static String FIELDS_TOKEN = "fields";
-	protected final static String OPERATOR_TOKEN = "relationalOperator";
 
-    /**
+	/*private StatementService statementService;
+
+	public void setStatementService(StatementService statementService) {
+		this.statementService = statementService;
+	}
+
+	private void validateReqComponentFields(ReqComponentInfo reqComponent) throws OperationFailedException {
+		try {
+			ReqComponentTypeInfo reqComponentType = statementService.getReqComponentType(reqComponent.getType());
+			Set<String> set = new HashSet<String>();
+			for(ReqCompFieldTypeInfo fieldType : reqComponentType.getReqCompFieldTypeInfos()) {
+				set.add(fieldType.getFieldDescriptor().getId());
+			}
+			
+			for(ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
+				if(!set.contains(field.getType())) {
+					throw new OperationFailedException("Invalid field type: " + field.getType());
+				}
+			}
+		} catch (Exception e) {
+			throw new OperationFailedException(e.getMessage(), e);
+		}
+	}*/
+	
+	/**
      * Gets requirement component fields as a map.
      * 
      * @param reqComponent Requirement component
      * @return Map of requirement component fields
      */
-    public Map<String, String> getReqComponentFieldMap(ReqComponent reqComponent) {
-        List<ReqComponentField> fields = reqComponent.getReqComponentFields();
+	protected Map<String, String> getReqComponentFieldMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+		//validateReqComponentFields(reqComponent);
+		List<ReqCompFieldInfo> fields = reqComponent.getReqCompFields();
         Map<String, String> map = new HashMap<String, String>();
-        for (ReqComponentField field : fields) {
-            String key = field.getKey();
-            //String key = field.getId();
+        for (ReqCompFieldInfo field : fields) {
+            String type = field.getType();
             String value = field.getValue();
-            map.put(key, value);
+            map.put(type, value);
         }
         return map;
     }
@@ -69,7 +98,20 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param key <code>ReqCompFieldInfo</code> key
      * @return Value of <code>ReqCompFieldInfo</code>
      */
-    public String getReqComponentFieldValue(ReqComponent reqComponent, String key) {
+	protected String getReqComponentFieldValue(ReqComponentInfo reqComponent, String key) throws OperationFailedException {
         return getReqComponentFieldMap(reqComponent).get(key);
+    }
+
+    /**
+     * Creates the context map (template data) for the requirement component.
+     * Also, adds the field token map to the context map.
+     *
+     * @param reqComponent Requirement component
+     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     */
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+        Map<String, Object> contextMap = new HashMap<String, Object>();
+        contextMap.put(FIELDS_TOKEN, getReqComponentFieldMap(reqComponent));
+        return contextMap;
     }
 }

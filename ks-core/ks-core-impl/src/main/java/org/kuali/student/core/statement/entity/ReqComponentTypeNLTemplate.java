@@ -78,6 +78,6 @@ public class ReqComponentTypeNLTemplate extends Attribute<ReqComponentType> {
 	public String toString() {
 		return "ReqComponentTypeNLTemplate[language=" + language
 				+ ", nlUsageTypeKey=" + nlUsageTypeKey
-				+ ", reqComponentTypeId" + owner.getId() + "]";
+				+ ", reqComponentTypeId=" + owner.getId() + "]";
 	}
 }

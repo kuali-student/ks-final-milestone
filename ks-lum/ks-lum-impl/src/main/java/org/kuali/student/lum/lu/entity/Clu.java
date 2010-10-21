@@ -24,7 +24,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -35,24 +34,65 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.Amount;
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.TimeAmount;
+import org.kuali.student.core.entity.VersionEntity;
 
 @Entity
-@Table(name = "KSLU_CLU")
+@Table(name = "KSLU_CLU", uniqueConstraints={@UniqueConstraint(columnNames={"VER_IND_ID", "SEQ_NUM"})} )
 @NamedQueries( {
+	//FIXME dates should be either set from the DB time as part of the insert statement, or set from the application.
+	//DB timestamp (CURRENT_TIMESTAMP) is preferred
+    @NamedQuery(name = "Clu.findCurrentVersionInfo", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.currentVersionStart <= :currentTime AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
+	@NamedQuery(name = "Clu.findCurrentVersionOnDate", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.currentVersionStart <= :date AND (c.version.currentVersionEnd > :date OR c.version.currentVersionEnd IS NULL)"),
+	@NamedQuery(name = "Clu.findFirstVersion", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.sequenceNumber IN (SELECT MIN(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
+	@NamedQuery(name = "Clu.findVersionBySequence", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.sequenceNumber = :sequenceNumber"),
+	@NamedQuery(name = "Clu.findVersions", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId"),
+	@NamedQuery(name = "Clu.findVersionsInDateRange", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND ( (c.version.currentVersionStart >= :from AND c.version.currentVersionStart < :to)" +
+    		"   OR (c.version.currentVersionStart < :from AND c.version.currentVersionEnd > :from) )"),
+	@NamedQuery(name = "Clu.findVersionsBeforeDate", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.currentVersionStart <= :date"),
+	@NamedQuery(name = "Clu.findVersionsAfterDate", query = "SELECT " +
+    		"NEW org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo(c.id, c.version.versionIndId, c.version.sequenceNumber, c.version.currentVersionStart, c.version.currentVersionEnd, c.version.versionComment, c.version.versionedFromId) " +
+    		"FROM Clu c " +
+    		"WHERE c.version.versionIndId = :versionIndId " +
+    		"AND c.version.currentVersionStart >= :date"),
+    @NamedQuery(name = "Clu.findLatestClu", query = "SELECT c FROM Clu c WHERE c.version.versionIndId = :versionIndId AND c.version.sequenceNumber IN (SELECT MAX(nc.version.sequenceNumber) FROM Clu nc WHERE nc.version.versionIndId = :versionIndId)"),
+    @NamedQuery(name = "Clu.findCurrentClu", query = "SELECT c FROM Clu c WHERE c.version.versionIndId = :versionIndId AND c.version.currentVersionStart <= :currentTime AND (c.version.currentVersionEnd > :currentTime OR c.version.currentVersionEnd IS NULL)"),
     @NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE c.id IN (:idList)"),
     @NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE c.state = :luState AND c.luType.id = :luTypeKey"),
     @NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.clu.id = :parentCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
 })
-public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
-    @Id
-    @Column(name = "ID")
-    private String id;
+public class Clu extends VersionEntity implements AttributeOwner<CluAttribute> {
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "OFFIC_CLU_ID")
@@ -61,9 +101,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "KSLU_CLU_JN_CLU_IDENT", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_CLU_ID"))
     private List<CluIdentifier> alternateIdentifiers;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
-    private List<CluAcademicSubjectOrg> academicSubjectOrgs;
 
     @Column(name = "STDY_SUBJ_AREA")
     private String studySubjectArea;
@@ -79,13 +116,8 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @JoinTable(name = "KSLU_CLU_JN_ACCRED", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ACCRED_ID"))
     private List<CluAccreditation> accreditations;
     
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="PRI_ADMIN_ORG_ID")
-    private CluAdminOrg primaryAdminOrg;
-    
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSLU_CLU_JN_ALT_ADMIN_ORG", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_ORG_ID"))
-    private List<CluAdminOrg> alternateAdminOrgs;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
+    private List<CluAdminOrg> adminOrgs;
     
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="PRI_INSTR_ID")
@@ -97,6 +129,12 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
         
     @Column(name = "EXP_FIRST_ATP")
     private String expectedFirstAtp;
+
+    @Column(name = "LAST_ATP")
+    private String lastAtp;
+
+    @Column(name = "LAST_ADMIT_ATP")
+    private String lastAdmitAtp;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -165,19 +203,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @Column(name = "ST")
     private String state;
     
-    @Override
-    protected void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public LuType getLuType() {
         return luType;
     }
@@ -188,9 +213,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
     @Override
     public List<CluAttribute> getAttributes() {
-//        if (attributes == null) {
-//            attributes = new ArrayList<CluAttribute>();
-//        }
         return attributes;
     }
 
@@ -208,9 +230,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<CluIdentifier> getAlternateIdentifiers() {
-//        if (alternateIdentifiers == null) {
-//            alternateIdentifiers = new ArrayList<CluIdentifier>();
-//        }
         return alternateIdentifiers;
     }
 
@@ -235,9 +254,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<CluInstructor> getInstructors() {
-//        if (instructors == null) {
-//            instructors = new ArrayList<CluInstructor>();
-//        }
         return instructors;
     }
 
@@ -286,9 +302,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     }
 
     public List<LuCode> getLuCodes() {
-//        if (luCodes == null) {
-//            luCodes = new ArrayList<LuCode>();
-//        }
         return luCodes;
     }
 
@@ -313,9 +326,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
      }
 
      public List<CluAtpTypeKey> getOfferedAtpTypes() {
-//         if (offeredAtpTypes == null) {
-//             offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
-//         }
          return offeredAtpTypes;
      }
 
@@ -388,21 +398,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
           this.primaryInstructor = primaryInstructor;
       }
 
-      public List<CluAcademicSubjectOrg> getAcademicSubjectOrgs() {
-//          if (academicSubjectOrgs == null) {
-//              academicSubjectOrgs = new ArrayList<CluAcademicSubjectOrg>();
-//          }
-          return academicSubjectOrgs;
-      }
-
-      public void setAcademicSubjectOrgs(List<CluAcademicSubjectOrg> academicSubjectOrgs) {
-          this.academicSubjectOrgs = academicSubjectOrgs;
-      }
-
       public List<CluCampusLocation> getCampusLocations() {
-//          if (campusLocationList == null) {
-//              campusLocationList = new ArrayList<CluCampusLocation>();
-//          }
           return campusLocations;
       }
 
@@ -419,9 +415,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
       }
 
       public List<CluAccreditation> getAccreditations() {
-//          if (accreditationList == null) {
-//              accreditationList = new ArrayList<CluAccreditation>();
-//          }
           return accreditations;
       }
 
@@ -429,23 +422,13 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
           this.accreditations = accreditations;
       }
 
-      public CluAdminOrg getPrimaryAdminOrg() {
-          return primaryAdminOrg;
+
+      public List<CluAdminOrg> getAdminOrgs() {
+          return adminOrgs;
       }
 
-      public void setPrimaryAdminOrg(CluAdminOrg primaryAdminOrg) {
-          this.primaryAdminOrg = primaryAdminOrg;
-      }
-
-      public List<CluAdminOrg> getAlternateAdminOrgs() {
-//          if (alternateAdminOrgs == null) {
-//              alternateAdminOrgs = new ArrayList<CluAdminOrg>();
-//          }
-          return alternateAdminOrgs;
-      }
-
-      public void setAlternateAdminOrgs(List<CluAdminOrg> alternateAdminOrgs) {
-          this.alternateAdminOrgs = alternateAdminOrgs;
+      public void setAdminOrgs(List<CluAdminOrg> adminOrgs) {
+          this.adminOrgs = adminOrgs;
       }
 
 	public String getExpectedFirstAtp() {
@@ -455,4 +438,20 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	public void setExpectedFirstAtp(String expectedFirstAtp) {
 		this.expectedFirstAtp = expectedFirstAtp;
 	}      
+
+	public String getLastAtp() {
+		return lastAtp;
+}
+
+	public void setLastAtp(String lastAtp) {
+		this.lastAtp = lastAtp;
+	}
+
+    public String getLastAdmitAtp() {
+        return lastAdmitAtp;
+    }
+
+    public void setLastAdmitAtp(String lastAdmitAtp) {
+        this.lastAdmitAtp = lastAdmitAtp;
+    }
 }

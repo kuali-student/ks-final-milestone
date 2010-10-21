@@ -246,7 +246,7 @@ public class MessageServiceMock implements MessageService {
 							MessageEntity.class).values().toArray();
 					for (Object o : beanArray) {
 						MessageEntity m = (MessageEntity) o;
-						putMessage(m.getLocale(), m.getGroupName(), m.getId(),
+						putMessage(m.getLocale(), m.getGroupName(), m.getMessageId(),
 								m.getValue());
 					}
 				} catch (Exception e) {

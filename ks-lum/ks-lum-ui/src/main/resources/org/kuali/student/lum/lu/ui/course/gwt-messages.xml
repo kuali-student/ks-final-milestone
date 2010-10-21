@@ -37,9 +37,35 @@
 		<property name="locale" value="en" />
 		<property name="groupName" value="clusetmanagement" />
 	</bean>
+	<!-- Curriculum Home messages -->
+	<bean parent="enCourse" p:messageId="curriculumManagement" p:value="Curriculum Management" />
+	 <bean parent="enCourse" p:messageId="howTo" p:value="How do I...?" />
+	 <bean parent="enCourse" p:messageId="create" p:value="Proposals" />
+	 <bean parent="enCourse" p:messageId="createDesc" p:value="Curriculum Management" />
+	 <bean parent="enCourse" p:messageId="howTo" p:value="How do I...?" />
+	 <bean parent="enCourse" p:messageId="create" p:value="Proposals" />
+	 <bean parent="enCourse" p:messageId="createDesc" p:value="Propose a new course, start a new program, or find and review submitted proposals." />
+	 <bean parent="enCourse" p:messageId="viewModify" p:value="Find Courses and Programs" />
+	 <bean parent="enCourse" p:messageId="viewModifyDesc" p:value="Search for proposals, courses and programs to view, modify or retire." />
+	 <bean parent="enCourse" p:messageId="tools" p:value="Management Tools" />
+	 <bean parent="enCourse" p:messageId="toolsDesc" p:value="Support tools for courses and programs." />
+	 <bean parent="enCourse" p:messageId="createCourse" p:value="Propose a Course" />
+	 <bean parent="enCourse" p:messageId="createProgram" p:value="Create a Program" />
+	 <bean parent="enCourse" p:messageId="findProposals" p:value="Find Course Proposals" />
+	 <bean parent="enCourse" p:messageId="actionList" p:value="My Actionlist" />
+	 <bean parent="enCourse" p:messageId="actionListDesc" p:value="" />
+	 <bean parent="enCourse" p:messageId="browseCatalog" p:value="Browse Course Catalog" />
+	 <bean parent="enCourse" p:messageId="findCourses" p:value="Find Courses" />
+	 <bean parent="enCourse" p:messageId="findMajors" p:value="Find Programs (major disciplines)" />
+	 <bean parent="enCourse" p:messageId="courseSets" p:value="Course Set Management" />
+	 <bean parent="enCourse" p:messageId="loCategories" p:value="Learning Objective Categories" />
+	 <bean parent="enCourse" p:messageId="depAnalysis" p:value="Dependency Analysis (coming soon)" />
+	 <bean parent="enCourse" p:messageId="los" p:value="Learning Objectives (coming soon)" />
+	 	 <bean parent="enCourse" p:messageId="recentlyViewed" p:value="Recently Viewed" />
+	 <bean parent="enCourse" p:messageId="recentlyViewedDesc" p:value="View courses and programs that you have recently visited." />
 
-	<bean parent="enCourse" p:id="beginTitle" p:value="Begin Proposal" />
-	<bean parent="enCourse" p:id="beginDirections">
+	<bean parent="enCourse" p:messageId="beginTitle" p:value="Begin Proposal" />
+	<bean parent="enCourse" p:messageId="beginDirections">
 		<property name="value">
 			<value>
 				By saving this information, you will create a saved draft that you can
@@ -51,163 +77,211 @@
 		</property>
 	</bean>
 
-	<bean parent="enCourse" p:id="cluProposalInformation" p:value="Proposal Information" />
-	<bean parent="enCourse" p:id="cluCourseInformation" p:value="Course Information" />
-	<bean parent="enCourse" p:id="cluProposalTitle" p:value="Proposal Title" />
-	<bean parent="enCourse" p:id="cluProposalRationale" p:value="Proposal Rationale" />
-	<bean parent="enCourse" p:id="cluProposalRationale-help" p:value="The proposal rationale describes the reason for proposing a new course.  For example, what holes does the new proposed course 
-	curriculum fill or what new or expanded topics will the proposed course cover?  Why is this proposed course necessary?" />
-	<bean parent="enCourse" p:id="cluProposalRationale-instruct" p:value="Enter the reason for proposing this course" />
-	<bean parent="enCourse" p:id="cluProposalTitleSection" p:value="Proposal Title and Rationale" />
-	<bean parent="enCourse" p:id="cluTitleLiteral" p:value="Title" />
-	<bean parent="enCourse" p:id="cluCredit" p:value="Credit" />
-	<bean parent="enCourse" p:id="cluCreditValue" p:value="Credit Value" />
-	<bean parent="enCourse" p:id="cluMaxCredits" p:value="Maximum Credits" />
-	<bean parent="enCourse" p:id="cluEvaluationType" p:value="Evaluation Type" />
-	<bean parent="enCourse" p:id="cluTermLiteral" p:value="Term" />
-	<bean parent="enCourse" p:id="cluDurationLiteral" p:value="Duration" />
-	<bean parent="enCourse" p:id="cluProposalDirections">
+	<bean parent="enCourse" p:messageId="cluProposalInformation" p:value="Proposal Information" />
+	<bean parent="enCourse" p:messageId="cluCourseInformation" p:value="Course Information" />
+	<bean parent="enCourse" p:messageId="cluProposalTitle" p:value="Proposal Title" />
+	<bean parent="enCourse" p:messageId="cluProposalTitle-help" p:value="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later." />
+	<bean parent="enCourse" p:messageId="cluProposalTitle-instruct" p:value="This title is used for identifying the proposal through the approval process.&lt;br&gt;It is highly recommended that you use the same name for the course and proposal title.">
+	</bean>
+	<bean parent="enCourse" p:messageId="cluProposalRationale" p:value="Proposal Rationale" />
+	<bean parent="enCourse" p:messageId="cluProposalRationale-instruct" p:value="This will be used in evaluating the proposal. It will not be published in the catalog." />
+	<bean parent="enCourse" p:messageId="cluProposalTitleSection" p:value="Description and Rationale" />
+	<bean parent="enCourse" p:messageId="cluTitleLiteral" p:value="Title" />
+	<bean parent="enCourse" p:messageId="cluCredit" p:value="Credit" />
+	<bean parent="enCourse" p:messageId="cluCreditValue" p:value="Credit Value" />
+	<bean parent="enCourse" p:messageId="cluMaxCredits" p:value="Maximum Credits" />
+	<bean parent="enCourse" p:messageId="cluEvaluationType" p:value="Evaluation Type" />
+	<bean parent="enCourse" p:messageId="cluTermLiteral" p:value="Term" />
+	<bean parent="enCourse" p:messageId="cluDurationLiteral" p:value="Duration" />
+	<bean parent="enCourse" p:messageId="cluDurationLiteral-instruct" p:value="First select the increment length, (term, month, week, weekend, day) then select the number of you would like. Most &lt;br/&gt;courses will have 1 13 week standard term." />
+	<bean parent="enCourse" p:messageId="cluFinalExam" p:value="Final Exam" />
+	<bean parent="enCourse" p:messageId="cluFinalExamStatus" p:value="Final Exam Status" />
+	<bean parent="enCourse" p:messageId="cluFinalExamRationale" p:value="Final Exam Rationale" />
+	<bean parent="enCourse" p:messageId="cluProposalDirections">
 		<property name="value">
 			<value>Enter the following to save a draft of the clu proposal.
 			</value>
 		</property>
 	</bean>
-	<bean parent="enCourse" p:id="cluProposalPerson" p:value="Originating Faculty Member" />
-	<bean parent="enCourse" p:id="cluCurrencySymbol" p:value="$" />
+	<bean parent="enCourse" p:messageId="cluProposalPerson" p:value="Originating Faculty Member" />
+	<bean parent="enCourse" p:messageId="cluCurrencySymbol" p:value="$" />
 
-	<bean parent="enCourse" p:id="cluEditTab" p:value="Edit Proposal" />
-	<bean parent="enCourse" p:id="toolComments" p:value="Comments" />
-	<bean parent="enCourse" p:id="toolDocuments" p:value="Supporting Documents" />
-	<bean parent="enCourse" p:id="cluSummary" p:value="Review Proposal" />
-	<bean parent="enCourse" p:id="cluBrief" p:value="Proposal Brief" />
-	<bean parent="enCourse" p:id="cluFullView" p:value="Proposal Details" />
-	<bean parent="enCourse" p:id="cluGovernance" p:value="Governance" />
-	<bean parent="enCourse" p:id="cluCurriculumOversight" p:value="Curriculum Oversight" />
-	<bean parent="enCourse" p:id="cluCampusLocation" p:value="Campus Locations" />
-	<bean parent="enCourse" p:id="cluAdminOrgs" p:value="Administering Organizations" />
-	<bean parent="enCourse" p:id="cluAdminOrg" p:value="Administering Organization" />
-	<bean parent="enCourse" p:id="cluAltAdminOrg"
+	<bean parent="enCourse" p:messageId="cluEditTab" p:value="Edit Proposal" />
+	<bean parent="enCourse" p:messageId="toolComments" p:value="Comments" />
+	<bean parent="enCourse" p:messageId="toolDocuments" p:value="Supporting Documents" />
+	<bean parent="enCourse" p:messageId="cluSummary" p:value="Review Proposal" />
+	<bean parent="enCourse" p:messageId="cluBrief" p:value="Proposal Brief" />
+	<bean parent="enCourse" p:messageId="cluFullView" p:value="Proposal Details" />
+	<bean parent="enCourse" p:messageId="cluGovernance" p:value="Governance" />
+	<bean parent="enCourse" p:messageId="cluCurriculumOversight" p:value="Curriculum Oversight" />
+	<bean parent="enCourse" p:messageId="cluCurriculumOversight-instruct" p:value="This is the organization(s) responsible for the content of the program. This selection will determine &lt;br/&gt;the workflow/approval process for this &lt;br&gt;proposal." />
+	<bean parent="enCourse" p:messageId="cluCampusLocation" p:value="Campus Locations" />
+	<bean parent="enCourse" p:messageId="cluAdminOrgs" p:value="Administering Organizations" />
+	<bean parent="enCourse" p:messageId="cluAdminOrg" p:value="Administering Organization" />
+	<bean parent="enCourse" p:messageId="cluAdminOrg-instruct" p:value="List the organization(s) that can administer, or offer, this course. In most cases this will be the same &lt;br/&gt;as the Curriculum Oversight organization, but additional and/or alternate organizations can also be &lt;/br&gt;listed as administering organizations." />
+	<bean parent="enCourse" p:messageId="cluAltAdminOrg"
 		p:value="Alternate Administering Organization" />
-	<bean parent="enCourse" p:id="cluLogistics" p:value="Course Logistics" />
-	<bean parent="enCourse" p:id="cluInstructors" p:value="Instructors" />
-	<bean parent="enCourse" p:id="cluInstructor" p:value="Instructor" />
-	<bean parent="enCourse" p:id="cluCredits" p:value="Credits" />
-	<bean parent="enCourse" p:id="cluLearningResults" p:value="Learning Results" />
-	<bean parent="enCourse" p:id="cluScheduling" p:value="Scheduling" />
-	<bean parent="enCourse" p:id="cluFormat" p:value="Course Format" />
-	<bean parent="enCourse" p:id="cluFormats" p:value="Course Formats" />
-	<bean parent="enCourse" p:id="cluAddFormat" p:value="Add Additional Format" />
-	<bean parent="enCourse" p:id="cluAddActivity" p:value="Add Activity" />
-	<bean parent="enCourse" p:id="cluActivityLiteral" p:value="Activity" />
-	<bean parent="enCourse" p:id="cluActivityType" p:value="Activity Type" />
-	<bean parent="enCourse" p:id="cluContactHours" p:value="Contact Hours" />
-	<bean parent="enCourse" p:id="cluClassSize" p:value="Class Size" />
+	<bean parent="enCourse" p:messageId="cluLogistics" p:value="Course Logistics" />
+	<bean parent="enCourse" p:messageId="cluLogistics-instruct" p:value="Indicate the scheduling, learning results and course format for this course.&lt;br/&gt;" />
+	<bean parent="enCourse" p:messageId="cluInstructors" p:value="Instructor(s)" />
+	<bean parent="enCourse" p:messageId="cluInstructors-help" p:value="This is not a restrictive list - names here will not determine who will eventually teach this course." />
+	<bean parent="enCourse" p:messageId="cluInstructor" p:value="Instructor" />
+	<bean parent="enCourse" p:messageId="cluCredits" p:value="Credits" />
+	<bean parent="enCourse" p:messageId="cluLearningResults" p:value="Learning Results" />
+	<bean parent="enCourse" p:messageId="cluScheduling" p:value="Scheduling" />
+	<bean parent="enCourse" p:messageId="cluFormat" p:value="Course Format" />
+	<bean parent="enCourse" p:messageId="cluFormats" p:value="Course Format(s)" />
+	<bean parent="enCourse" p:messageId="cluFormats-instruct" p:value="Each course format can consist of any number of activities, and you may have more than one course format for this &lt;br/&gt;course." />
+	<bean parent="enCourse" p:messageId="cluFormats-help" p:value="Is your course taught differently in the school year than it is in the summer? For example, online in the summer, lecture/lab in the fall. If so, you will need two course formats." />
+	<bean parent="enCourse" p:messageId="cluAddFormat" p:value="Add Additional Format" />
+	<bean parent="enCourse" p:messageId="cluAddActivity" p:value="Add Activity" />
+	<bean parent="enCourse" p:messageId="cluActivityLiteral" p:value="Activity" />
+	<bean parent="enCourse" p:messageId="cluActivityType" p:value="Activity Type" />
+	<bean parent="enCourse" p:messageId="cluContactHours" p:value="Contact Hours" />
+	<bean parent="enCourse" p:messageId="cluContactHours-help" p:value="Sum of contact hours will validate with credits (from learning results)" />
+	<bean parent="enCourse" p:messageId="cluContactFrequency" p:value="Frequency" />
+	<bean parent="enCourse" p:messageId="cluClassSize" p:value="Anticipated Class Size" />
+	<bean parent="enCourse" p:messageId="cluClassSize-help" p:value="This does not have to be exact - it will be used as an estimate for evaluation purposes only." />
 
-	<bean parent="enCourse" p:id="cluAcademicContent" p:value="Course Content" />
-	<bean parent="enCourse" p:id="cluInformation" p:value="Course Information" />
-	<bean parent="enCourse" p:id="cluIdentifier" p:value="Course Identifier" />
-	<bean parent="enCourse" p:id="cluIdentifiers" p:value="Course Identifiers" />
-	<bean parent="enCourse" p:id="cluAltIdentifier" p:value="Alternate Course Identifier" />
-	<bean parent="enCourse" p:id="cluAuthorsRationale" p:value="Authors &amp; Rationale"/>
+	<bean parent="enCourse" p:messageId="cluAcademicContent" p:value="Course Content" />
+	<bean parent="enCourse" p:messageId="cluInformation" p:value="Course Information" />
+	<bean parent="enCourse" p:messageId="cluIdentifier" p:value="Course Number" />
+	<bean parent="enCourse" p:messageId="cluIdentifiers" p:value="Course Identifiers" />
+	<bean parent="enCourse" p:messageId="cluAltIdentifier" p:value="Alternate Course Identifier" />
+	<bean parent="enCourse" p:messageId="cluAuthorsRationale" p:value="Authors &amp; Rationale"/>
 
 	<!-- Courses Cross Listed -->
-	<bean parent="enCourse" p:id="cluCrosslisted" p:value="Crosslisted Courses" />
-	<bean parent="enCourse" p:id="cluCrosslistedAlt">
+	<bean parent="enCourse" p:messageId="cluCrosslisted" p:value="Cross Listed" />
+	<bean parent="enCourse" p:messageId="cluCrosslisted-instruct" p:value="Cross Listing is used when the course will be offered under alternate course numbers" />
+	<bean parent="enCourse" p:messageId="cluCrosslistedAlt">
 		<property name="value">
 			<value>Cross Listed (offered under alternate course numbers)
 			</value>
 		</property>
 	</bean>
-	<bean parent="enCourse" p:id="cluCrosslistedItem" p:value="Cross Listed Course" />
-	<bean parent="enCourse" p:id="cluAddCrosslisted">
+	<bean parent="enCourse" p:messageId="cluCrosslistedItem" p:value="Course Listing" />
+	<bean parent="enCourse" p:messageId="cluAddCrosslisted">
 		<property name="value">
-			<value>Add Department</value>
+			<value>Add Another Cross Listing</value>
 		</property>
 	</bean>
 
 	<!-- Courses Offered Jointly -->
-	<bean parent="enCourse" p:id="cluJointOfferings" p:value="Courses Offered Jointly" />
-	<bean parent="enCourse" p:id="cluJointOfferingsAlt">
+	<bean parent="enCourse" p:messageId="cluJointOfferingsSectionTitle" p:value="Offered Jointly (co-located)" />
+	<bean parent="enCourse" p:messageId="cluJointOfferings" p:value="Course Number or Title" />
+	<bean parent="enCourse" p:messageId="cluJointOfferings-instruct" p:value="Enter an existing course or proposal." />
+	<bean parent="enCourse" p:messageId="cluJointOfferingsAlt">
 		<property name="value">
 			<value>Offered Jointly (co-located with another course)
 			</value>
 		</property>
 	</bean>
-	<bean parent="enCourse" p:id="cluJointOfferItem" p:value="Jointly-Offered Course" />
-	<bean parent="enCourse" p:id="cluAddExisting">
+	<bean parent="enCourse" p:messageId="cluJointOfferItem" p:value="Joint Offering" />
+	<bean parent="enCourse" p:messageId="cluAddExisting">
 		<property name="value">
-			<value>Add Course</value>
+			<value>Add Another Course</value>
 		</property>
 	</bean>
 
-	<bean parent="enCourse" p:id="cluCode" p:value="Code" />
-	<bean parent="enCourse" p:id="cluVersionCode" p:value="Version Code" />
-	<bean parent="enCourse" p:id="cluVersionCodes" p:value="Version Codes" />
-	<bean parent="enCourse" p:id="cluAddVersionCode" p:value="Add a Version Code" />
-	<bean parent="enCourse" p:id="cluTitle" p:value="Course Title" />
-	<bean parent="enCourse" p:id="cluSubjectCode" p:value="Subject Code" />
-	<bean parent="enCourse" p:id="cluCourseNumber" p:value="Course Number" />
-	<bean parent="enCourse" p:id="cluCourseNumberOrTitle" p:value="Course Number or Title" />
+	<bean parent="enCourse" p:messageId="cluCode" p:value="Code" />
+	<bean parent="enCourse" p:messageId="cluVersionCode" p:value="Version Code" />
+	<bean parent="enCourse" p:messageId="cluVersionCodes" p:value="Version Codes" />
+	<bean parent="enCourse" p:messageId="cluAddVersionCode" p:value="Add a Version Code" />
+	<bean parent="enCourse" p:messageId="cluTitle" p:value="Course Title" />
+	<bean parent="enCourse" p:messageId="courseTitle" p:value="Course Title" />
+	<bean parent="enCourse" p:messageId="courseTitle-instruct" p:value="It is highly recommended that you use the same name for the course and proposal title." />
+	<bean parent="enCourse" p:messageId="cluSubjectCode" p:value="Subject Code" />
+	<bean parent="enCourse" p:messageId="cluSubjectCode-constraints" p:value="Must be 4 letter code" />
+	<bean parent="enCourse" p:messageId="cluSubjectCode-watermark" p:value="AAAA" />
+	<bean parent="enCourse" p:messageId="cluCourseNumber" p:value="Course Number" />
+	<bean parent="enCourse" p:messageId="cluCourseNumber-constraints" p:value="Must be 3 digit number" />
+	<bean parent="enCourse" p:messageId="cluCourseNumber-watermark" p:value="111" />
+	<bean parent="enCourse" p:messageId="cluCrossListedVersionJoin" p:value="Cross List, Offer Jointly, Add Version Codes" />
+	<bean parent="enCourse" p:messageId="cluCourseNumberOrTitle" p:value="Course Number or Title" />
+	<bean parent="enCourse" p:messageId="cluCourseNumberOrTitle-instruct" p:value="Enter an existing course or proposal." />
+	<bean parent="enCourse" p:messageId="cluCourseNumberOrTitle-help">
+		<property name="value">
+			<value>
+				Can't find the course?&lt;/br&gt;
+				If a course is still in proposal (pre-approval) stage, 
+				you may not be able to find it without being designated 
+				as a collaborator on that proposal. If you can't find a
+				proposal you know exists, contact the author and ask 
+				them to make you a collaborator.
+			</value>
+		</property>
+	</bean>
+	<bean parent="enCourse" p:messageId="cluShortTitle" p:value="Transcript Course Title" />
+	<bean parent="enCourse" p:messageId="cluShortTitle-instruct" p:value="This is the truncated title that will appear on the printed transcript." />
+	<bean parent="enCourse" p:messageId="cluDescription" p:value="Description" />
+	<bean parent="enCourse" p:messageId="cluDescription-instruct" p:value="This description will appear in the catalog." />
+	<bean parent="enCourse" p:messageId="cluDescriptionLabel" p:value="Description:    " />
+	<bean parent="enCourse" p:messageId="cluStatus" p:value="Status:    " />
 
-	<bean parent="enCourse" p:id="cluShortTitle" p:value="Short Course Title" />
-	<bean parent="enCourse" p:id="cluDescription" p:value="Course Description" />
-	<bean parent="enCourse" p:id="cluDescriptionLabel" p:value="Description:    " />
-	<bean parent="enCourse" p:id="cluStatus" p:value="Status:    " />
-
-	<bean parent="enCourse" p:id="cluDivision" p:value="Division:    " />
-	<bean parent="enCourse" p:id="cluSuffixCode" p:value="Suffix Code:    " />
-	<bean parent="enCourse" p:id="cluLevel" p:value="Level:    " />
-	<bean parent="enCourse" p:id="cluProposer" p:value="Proposer:    " />
-	<bean parent="enCourse" p:id="cluDelegate" p:value="Delegate:    " />
-	<bean parent="enCourse" p:id="cluCollaborators" p:value="Collaborators:    " />
-	<bean parent="enCourse" p:id="cluLearningObjectives" p:value="Learning Objectives" />
-	<bean parent="enCourse" p:id="cluLearningObjective" p:value="Learning Objective" />
-	<bean parent="enCourse" p:id="cluAddLOs" p:value="+ Add More Learning Objectives" />
-	<bean parent="enCourse" p:id="cluLOName" p:value="Name" />
+	<bean parent="enCourse" p:messageId="cluDivision" p:value="Division:    " />
+	<bean parent="enCourse" p:messageId="cluSuffixCode" p:value="Suffix Code:    " />
+	<bean parent="enCourse" p:messageId="cluLevel" p:value="Level:    " />
+	<bean parent="enCourse" p:messageId="cluProposer" p:value="Proposer:    " />
+	<bean parent="enCourse" p:messageId="cluDelegate" p:value="Delegate:    " />
+	<bean parent="enCourse" p:messageId="cluCollaborators" p:value="Collaborators:    " />
+	<bean parent="enCourse" p:messageId="cluLearningObjectives" p:value="Learning Objectives" />
+	<bean parent="enCourse" p:messageId="cluLearningObjective" p:value="Learning Objective" />
+	<bean parent="enCourse" p:messageId="cluAddLOs" p:value="+ Add More Learning Objectives" />
+	<bean parent="enCourse" p:messageId="cluLOName" p:value="Name" />
 
 
-	<bean parent="enCourse" p:id="cluLOCluCodeSearch" p:value="Search by Course Code" />
-	<bean parent="enCourse" p:id="cluLOWordSearch"
+	<bean parent="enCourse" p:messageId="cluLOCluCodeSearch" p:value="Search by Course Code" />
+	<bean parent="enCourse" p:messageId="cluLOWordSearch"
 		p:value="Search for word in Learning Objectives" />
-	<bean parent="enCourse" p:id="cluLOSearch" p:value="Search for Learning Objectives" />
-	<bean parent="enCourse" p:id="cluLOSearchAgain" p:value="Search again?" />
-	<bean parent="enCourse" p:id="cluLOInstructions"
+	<bean parent="enCourse" p:messageId="cluLOSearch" p:value="Search for Learning Objectives" />
+	<bean parent="enCourse" p:messageId="cluLOSearchAgain" p:value="Search again?" />
+	<bean parent="enCourse" p:messageId="cluLOInstructions"
 		p:value="250 characters max for each Learning Objective" />
-	<bean parent="enCourse" p:id="cluLOCategory" p:value="Category" />
+	<bean parent="enCourse" p:messageId="cluLOCategory" p:value="Category" />
+	<bean parent="enCourse" p:messageId="cluLOCategory-help" p:value="Add a category to classify your learning objectives. The categories will be used for administrative analysis." />
 
-	<bean parent="enCourse" p:id="cluStudentEligibility" p:value="Student Eligibility" />
-	<bean parent="enCourse" p:id="cluCourseRestrictions" p:value="Course Restrictions" />
-	<bean parent="enCourse" p:id="cluCourseRequisites" p:value="Course Requisites" />
-	<bean parent="enCourse" p:id="cluPreRequisites" p:value="Pre-Requisites" />
-	<bean parent="enCourse" p:id="cluCoRequisites" p:value="Co-Requisites" />
-	<bean parent="enCourse" p:id="cluAntiRequisites" p:value="Anti-Requisites" />
-	<bean parent="enCourse" p:id="cluEnrollRequisites" p:value="Enrollment-Requisites" />
+	<bean parent="enCourse" p:messageId="cluStudentEligibility" p:value="Student Eligibility" />
+	<bean parent="enCourse" p:messageId="cluCourseRestrictions" p:value="Course Restrictions" />
+	<bean parent="enCourse" p:messageId="cluCourseRequisites" p:value="Course Requisites" />
+	<bean parent="enCourse" p:messageId="cluPreRequisites" p:value="Pre-Requisites" />
+	<bean parent="enCourse" p:messageId="cluCoRequisites" p:value="Co-Requisites" />
+	<bean parent="enCourse" p:messageId="cluAntiRequisites" p:value="Anti-Requisites" />
+	<bean parent="enCourse" p:messageId="cluEnrollRequisites" p:value="Enrollment-Requisites" />
 	
-	<bean parent="enCourse" p:id="cluAdministration" p:value="Administration" />
-	<bean parent="enCourse" p:id="cluEffectiveDate" p:value="Course active on" />
+	<bean parent="enCourse" p:messageId="cluAdministration" p:value="Administration" />
+	<bean parent="enCourse" p:messageId="cluEffectiveDate" p:value="Course active on" />
 
-	<bean parent="enCourse" p:id="cluActiveDates" p:value="Active Dates" />
-	<bean parent="enCourse" p:id="cluStartDate" p:value="Start Date" />
-	<bean parent="enCourse" p:id="cluStart" p:value="Start" />
-	<bean parent="enCourse" p:id="cluEndDate" p:value="End Date" />
-	<bean parent="enCourse" p:id="cluExpirationDate" p:value="Course inactive on" />
-	<bean parent="enCourse" p:id="cluCreatedDate" p:value="Date created:   " />
-	<bean parent="enCourse" p:id="cluLastChangedDate" p:value="Date last changed:   " />
+	<bean parent="enCourse" p:messageId="cluActiveDates" p:value="Active Dates" />
+	<bean parent="enCourse" p:messageId="cluStartTerm" p:value="Start Term" />
+	<bean parent="enCourse" p:messageId="cluStartTerm-help" p:value="The course will not necessarily be offered on this date, but it will be available for offer on or after this date." />
+	<bean parent="enCourse" p:messageId="cluStartTerm-instruct" p:value="What term will this course become active?" />
+	<bean parent="enCourse" p:messageId="cluEndTerm" p:value="End Term" />
+	<bean parent="enCourse" p:messageId="cluEndTerm-help" p:value="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses." />
+	<bean parent="enCourse" p:messageId="cluEndTerm-instruct" p:value="What term will this course become inactive?" />
+	<bean parent="enCourse" p:messageId="cluPilotCourse" p:value="Pilot Course" />
+	<bean parent="enCourse" p:messageId="cluPilotCourseText" p:value="Yes, this is a one-time/pilot course" />
+	<bean parent="enCourse" p:messageId="cluPilotCourse-help" p:value="If this is a pilot course, you must select an End Term." />
+	<bean parent="enCourse" p:messageId="cluStartDate" p:value="Start Date" />
+	<bean parent="enCourse" p:messageId="cluStart" p:value="Start" />
+	<bean parent="enCourse" p:messageId="cluEndDate" p:value="End Date" />
+	<bean parent="enCourse" p:messageId="cluExpirationDate" p:value="Course inactive on" />
+	<bean parent="enCourse" p:messageId="cluCreatedDate" p:value="Date created:   " />
+	<bean parent="enCourse" p:messageId="cluLastChangedDate" p:value="Date last changed:   " />
 
-	<bean parent="enCourse" p:id="cluFinancials" p:value="Financials" />
-	<bean parent="enCourse" p:id="cluFeeType" p:value="Fee Type" />
-	<bean parent="enCourse" p:id="cluFeeAmount" p:value="Fee Amount" />
-	<bean parent="enCourse" p:id="cluFeeDescription" p:value="Fee Description" />
-	<bean parent="enCourse" p:id="cluInternalFeeNotification" p:value="Internal Fee Notation" />
-	<bean parent="enCourse" p:id="cluTaxable" p:value="Taxable" />
-	<bean parent="enCourse" p:id="cluProgramRequirements" p:value="Program Requirements" />
-	<bean parent="enCourse" p:id="cluGeneralRequirements"
+	<bean parent="enCourse" p:messageId="cluFinancials" p:value="Financials" />
+	<bean parent="enCourse" p:messageId="cluFeeType" p:value="Fee Type" />
+	<bean parent="enCourse" p:messageId="cluFeeAmount" p:value="Fee Amount" />
+	<bean parent="enCourse" p:messageId="cluFeeDescription" p:value="Fee Description" />
+	<bean parent="enCourse" p:messageId="cluInternalFeeNotification" p:value="Internal Fee Notation" />
+	<bean parent="enCourse" p:messageId="cluTaxable" p:value="Taxable" />
+	<bean parent="enCourse" p:messageId="cluProgramRequirements" p:value="Program Requirements" />
+	<bean parent="enCourse" p:messageId="cluGeneralRequirements"
 		p:value="General, University and Breadth Requirements" />
-	<bean parent="enCourse" p:id="cluDeptRequirements" p:value="Departmental Requirements" />
-	<bean parent="enCourse" p:id="cluDept" p:value="Department" />
+	<bean parent="enCourse" p:messageId="cluDeptRequirements" p:value="Departmental Requirements" />
+	<bean parent="enCourse" p:messageId="cluDept" p:value="Department" />
 
-	<bean parent="enCourse" p:id="beginTitle" p:value="Begin Proposal" />
-	<bean parent="enCourse" p:id="beginDirections">
+	<bean parent="enCourse" p:messageId="beginTitle" p:value="Begin Proposal" />
+	<bean parent="enCourse" p:messageId="beginDirections">
 		<property name="value">
 			<value>
 				By saving this information, you will create a saved draft that you can
@@ -220,64 +294,65 @@
 	</bean>
 
 	<!--  View Course labels -->
-	<bean parent="enCourse" p:id="cluState" p:value="State" />
-	<bean parent="enCourse" p:id="cluType" p:value="Type" />
-	<bean parent="enCourse" p:id="cluPrimaryInstructor" p:value="Primary Instructor" />
-	<bean parent="enCourse" p:id="cluDisclosurePanelHeading" p:value="Click to show/hide details" />
-	<bean parent="enCourse" p:id="cluTermsOffered" p:value="Terms Offered" />
-	<bean parent="enCourse" p:id="cluDurationType" p:value="Duration Type" />
-	<bean parent="enCourse" p:id="cluDurationQuantity" p:value="Duration Quantity" />
-	<bean parent="enCourse" p:id="cluCurrentView" p:value="Current" />
-	<bean parent="enCourse" p:id="cluCourseDetails" p:value="Course Details" />
-	<bean parent="enCourse" p:id="cluFirstOffering" p:value="Expected First Offering" />
+	<bean parent="enCourse" p:messageId="cluState" p:value="State" />
+	<bean parent="enCourse" p:messageId="cluType" p:value="Type" />
+	<bean parent="enCourse" p:messageId="cluPrimaryInstructor" p:value="Primary Instructor" />
+	<bean parent="enCourse" p:messageId="cluDisclosurePanelHeading" p:value="Click to show/hide details" />
+	<bean parent="enCourse" p:messageId="cluTermsOffered" p:value="Term" />
+	<bean parent="enCourse" p:messageId="cluTermsOffered-instruct" p:value="Selecting a single term will restrict this course to only that term. 'Any' will allow the course to be offered &lt;br&gt;in any term that matches the duration selected below." />
+	<bean parent="enCourse" p:messageId="cluDurationType" p:value="Duration Type" />
+	<bean parent="enCourse" p:messageId="cluDurationQuantity" p:value="Duration Count" />
+	<bean parent="enCourse" p:messageId="cluCurrentView" p:value="Current" />
+	<bean parent="enCourse" p:messageId="cluCourseDetails" p:value="Course Details" />
+	<bean parent="enCourse" p:messageId="cluFirstOffering" p:value="Expected First Offering" />
 
-	<bean parent="esCourse" p:id="cluProposalInformation" p:value="Informaci�n de la oferta" />
-	<bean parent="esCourse" p:id="cluSummary" p:value="Resumen" />
-	<bean parent="esCourse" p:id="cluBrief" p:value="Escrito de la oferta" />
-	<bean parent="esCourse" p:id="cluFullView" p:value="Detalles de la oferta" />
-	<bean parent="esCourse" p:id="cluGovernance" p:value="Gobierno" />
-	<bean parent="esCourse" p:id="cluCurriculumOversight" p:value="Descuido del plan de estudios" />
-	<bean parent="esCourse" p:id="cluCampusLocation" p:value="Localizaciones del campus" />
-	<bean parent="esCourse" p:id="cluAdminOrgs" p:value="Organizaciones de administraci�n" />
-	<bean parent="esCourse" p:id="cluLogistics" p:value="Log�stica del curso" />
-	<bean parent="esCourse" p:id="cluInstructors" p:value="Instructores" />
-	<bean parent="esCourse" p:id="cluCredits" p:value="Cr�ditos" />
-	<bean parent="esCourse" p:id="cluLearningResults" p:value="Aprendizaje de resultados" />
-	<bean parent="esCourse" p:id="cluScheduling" p:value="Horario" />
-	<bean parent="esCourse" p:id="cluFormats" p:value="Formatos del curso" />
+	<bean parent="esCourse" p:messageId="cluProposalInformation" p:value="Informaci�n de la oferta" />
+	<bean parent="esCourse" p:messageId="cluSummary" p:value="Resumen" />
+	<bean parent="esCourse" p:messageId="cluBrief" p:value="Escrito de la oferta" />
+	<bean parent="esCourse" p:messageId="cluFullView" p:value="Detalles de la oferta" />
+	<bean parent="esCourse" p:messageId="cluGovernance" p:value="Gobierno" />
+	<bean parent="esCourse" p:messageId="cluCurriculumOversight" p:value="Descuido del plan de estudios" />
+	<bean parent="esCourse" p:messageId="cluCampusLocation" p:value="Localizaciones del campus" />
+	<bean parent="esCourse" p:messageId="cluAdminOrgs" p:value="Organizaciones de administraci�n" />
+	<bean parent="esCourse" p:messageId="cluLogistics" p:value="Log�stica del curso" />
+	<bean parent="esCourse" p:messageId="cluInstructors" p:value="Instructores" />
+	<bean parent="esCourse" p:messageId="cluCredits" p:value="Cr�ditos" />
+	<bean parent="esCourse" p:messageId="cluLearningResults" p:value="Aprendizaje de resultados" />
+	<bean parent="esCourse" p:messageId="cluScheduling" p:value="Horario" />
+	<bean parent="esCourse" p:messageId="cluFormats" p:value="Formatos del curso" />
 
-	<bean parent="esCourse" p:id="cluAcademicContent" p:value="Contenido acad�mico" />
-	<bean parent="esCourse" p:id="cluInformation" p:value="Informaci�n del curso" />
-	<bean parent="esCourse" p:id="cluIdentifiers" p:value="Identificador del curso" />
-	<bean parent="esCourse" p:id="cluCrosslisted" p:value="Cursos de compartido" />
-	<bean parent="esCourse" p:id="cluJointOfferings" p:value="Cursos ofrecidos en com�n" />
-	<bean parent="esCourse" p:id="cluVersionCodes" p:value="C�digos de la versi�n" />
-	<bean parent="esCourse" p:id="cluTitle" p:value="T�tulo del curso" />
-	<bean parent="esCourse" p:id="cluShortTitle" p:value="T�tulo del curso corto" />
-	<bean parent="esCourse" p:id="cluDescription" p:value="Descripci�n de curso" />
-	<bean parent="esCourse" p:id="cluRationale" p:value="An�lisis razonado del curso" />
+	<bean parent="esCourse" p:messageId="cluAcademicContent" p:value="Contenido acad�mico" />
+	<bean parent="esCourse" p:messageId="cluInformation" p:value="Informaci�n del curso" />
+	<bean parent="esCourse" p:messageId="cluIdentifiers" p:value="Identificador del curso" />
+	<bean parent="esCourse" p:messageId="cluCrosslisted" p:value="Cursos de compartido" />
+	<bean parent="esCourse" p:messageId="cluJointOfferings" p:value="Cursos ofrecidos en com�n" />
+	<bean parent="esCourse" p:messageId="cluVersionCodes" p:value="C�digos de la versi�n" />
+	<bean parent="esCourse" p:messageId="cluTitle" p:value="T�tulo del curso" />
+	<bean parent="esCourse" p:messageId="cluShortTitle" p:value="T�tulo del curso corto" />
+	<bean parent="esCourse" p:messageId="cluDescription" p:value="Descripci�n de curso" />
+	<bean parent="esCourse" p:messageId="cluRationale" p:value="An�lisis razonado del curso" />
 
-	<bean parent="esCourse" p:id="cluLearningObjectives" p:value="Aprendizaje de objetivos" />
-	<bean parent="esCourse" p:id="cluLOSearch" p:value="B�squeda para aprender objetivos" />
+	<bean parent="esCourse" p:messageId="cluLearningObjectives" p:value="Aprendizaje de objetivos" />
+	<bean parent="esCourse" p:messageId="cluLOSearch" p:value="B�squeda para aprender objetivos" />
 
-	<bean parent="esCourse" p:id="cluStudentEligibility" p:value="Elegibilidad del estudiante" />
-	<bean parent="esCourse" p:id="cluCourseRestrictions" p:value="Restricciones del curso" />
-	<bean parent="esCourse" p:id="cluCourseRequisites" p:value="Requisitos del curso" />
-	<bean parent="esCourse" p:id="cluPreRequisites" p:value="Requisitos previos" />
-	<bean parent="esCourse" p:id="cluCoRequisites" p:value="Corequisites" />
+	<bean parent="esCourse" p:messageId="cluStudentEligibility" p:value="Elegibilidad del estudiante" />
+	<bean parent="esCourse" p:messageId="cluCourseRestrictions" p:value="Restricciones del curso" />
+	<bean parent="esCourse" p:messageId="cluCourseRequisites" p:value="Requisitos del curso" />
+	<bean parent="esCourse" p:messageId="cluPreRequisites" p:value="Requisitos previos" />
+	<bean parent="esCourse" p:messageId="cluCoRequisites" p:value="Corequisites" />
 
-	<bean parent="esCourse" p:id="cluAdministration" p:value="La administraci�n" />
-	<bean parent="esCourse" p:id="cluActiveDates" p:value="Fechas activas" />
-	<bean parent="esCourse" p:id="cluStartDate" p:value="Fecha de inicio" />
-	<bean parent="esCourse" p:id="cluEndDate" p:value="Fecha de extremo" />
-	<bean parent="esCourse" p:id="cluFinancials" p:value="Financieros" />
-	<bean parent="esCourse" p:id="cluFeeType" p:value="Tipo del honorario" />
-	<bean parent="esCourse" p:id="cluFeeAmount" p:value="Cantidad del honorario" />
-	<bean parent="esCourse" p:id="cluFeeDescription" p:value="Descripci�n del honorario" />
-	<bean parent="esCourse" p:id="cluProgramRequirements" p:value="Requisitos del programa" />
-	<bean parent="esCourse" p:id="cluGeneralRequirements"
+	<bean parent="esCourse" p:messageId="cluAdministration" p:value="La administraci�n" />
+	<bean parent="esCourse" p:messageId="cluActiveDates" p:value="Fechas activas" />
+	<bean parent="esCourse" p:messageId="cluStartDate" p:value="Fecha de inicio" />
+	<bean parent="esCourse" p:messageId="cluEndDate" p:value="Fecha de extremo" />
+	<bean parent="esCourse" p:messageId="cluFinancials" p:value="Financieros" />
+	<bean parent="esCourse" p:messageId="cluFeeType" p:value="Tipo del honorario" />
+	<bean parent="esCourse" p:messageId="cluFeeAmount" p:value="Cantidad del honorario" />
+	<bean parent="esCourse" p:messageId="cluFeeDescription" p:value="Descripci�n del honorario" />
+	<bean parent="esCourse" p:messageId="cluProgramRequirements" p:value="Requisitos del programa" />
+	<bean parent="esCourse" p:messageId="cluGeneralRequirements"
 		p:value="Requisitos del general, de la universidad y de la anchura" />
-	<bean parent="esCourse" p:id="cluDeptRequirements" p:value="Requisitos departamentales" />
+	<bean parent="esCourse" p:messageId="cluDeptRequirements" p:value="Requisitos departamentales" />
 
 	<!-- Program proposal labels -->
 
@@ -287,69 +362,102 @@
 		<property name="groupName" value="program" />
 	</bean>
 
-	<bean parent="enProgram" p:id="cluAcademicContent" p:value="Academic Content" />
-	<bean parent="enProgram" p:id="cluInformation" p:value="Program Information" />
-	<bean parent="enProgram" p:id="cluShortTitle" p:value="Short Program Title" />
+	<bean parent="enProgram" p:messageId="cluAcademicContent" p:value="Academic Content" />
+	<bean parent="enProgram" p:messageId="cluInformation" p:value="Program Information" />
+	<bean parent="enProgram" p:messageId="cluShortTitle" p:value="Short Program Title" />
 
     <!-- Learning Results labels -->
     
-	<bean parent="enCourse" p:id="cluLearningResults"                   p:value="Learning Results"/>
-	<bean parent="enCourse" p:id="cluAddLearningResultAssessmentScale"  p:value="Add Grading Scale Option"/>
-	<bean parent="enCourse" p:id="cluLearningResultAssessmentScale"     p:value="Assessment Scale"/>
-	<bean parent="enCourse" p:id="cluLearningResultsStudentRegiOptions" p:value="Student Registration Options"/>
-	<bean parent="enCourse" p:id="cluAddLearningResultOutcome"          p:value="Add Outcome"/>
-	<bean parent="enCourse" p:id="cluLearningResultOutcome"             p:value="Outcome"/>
-	<bean parent="enCourse" p:id="cluLearningResultOutcomeType"         p:value="Type"/>
-	<bean parent="enCourse" p:id="cluLearningResultsOutcomeCreditValue" p:value="Credit Value"/>
-	<bean parent="enCourse" p:id="cluLearningResultsOutcomeMaxCredits"  p:value="Maximum Credits"/>
-
+	<bean parent="enCourse" p:messageId="cluLearningResults"                   p:value="Learning Results"/>
+	<bean parent="enCourse" p:messageId="cluLearningResults-instruct"          p:value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options &lt;br/&gt;for either type, which can be used for multiple course formats, or to account for variations in course offerings."/>
+	<bean parent="enCourse" p:messageId="cluAddLearningResultAssessmentScale"  p:value="Add Grading Scale Option"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultGradesAssessments"	p:value="Grades/Assessments"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultStudentRegistration"	p:value="Student Registration Options"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultOutcomes"			p:value="Outcomes"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultFinalExam"			p:value="Final Exam"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultAudit"    			p:value="Audit"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultAuditText"    		p:value="This course can be audited"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultPassFail"   			p:value="Pass Fail Transcript Grade"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultPassFailText"		p:value="This course will have a student selectable pass/fail option"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultAssessmentScale"     p:value="Assessment Scale"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultAssessmentScale-help">
+		<property name="value">
+			<value>&lt;b&gt;Letter, Standard Values&lt;/b&gt;&lt;br/&gt;
+			A, B, C, D, F&lt;br/&gt;&lt;br/&gt;
+			&lt;b&gt;Satisfactory Values&lt;/b&gt;&lt;br/&gt;
+			Satisfactory, unsatisfactory&lt;br/&gt;&lt;br/&gt;
+			&lt;b&gt;Percentage Values&lt;/b&gt;&lt;br/&gt;
+			&amp;gt;60% pass&lt;br/&gt;&lt;br/&gt;
+			&lt;b&gt;Recital Review&lt;/b&gt;&lt;br/&gt;
+			Iorem ipsum description of recital review&lt;br/&gt;&lt;br/&gt;
+			&lt;b&gt;Design Review&lt;/b&gt;&lt;br/&gt;
+			Iorem ipsum description of design review&lt;br/&gt;&lt;br/&gt;
+			&lt;b&gt;Completed Notation&lt;/b&gt;&lt;br/&gt;
+			complete, incomplete&lt;br/&gt;&lt;br/&gt;</value>
+		</property>
+	</bean>
+	<bean parent="enCourse" p:messageId="cluLearningResultsStudentRegiOptions" p:value="Student Registration Options"/>
+	<bean parent="enCourse" p:messageId="cluAddLearningResultOutcome"          p:value="Add Outcome"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultOutcome"             p:value="Outcome"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultOutcomeType"         p:value="Type"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultsOutcomeMinCredits"  p:value="Minimum Credit Value"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultsOutcomeMaxCredits"  p:value="Maximum Credit Value"/>
+	<bean parent="enCourse" p:messageId="cluLearningResultsOutcomeFixedCredits" p:value="Credit Value"/>
+	
     <!-- Financial Section labels -->
     
-	<bean parent="enCourse" p:id="cluCourseFeesTitle"                   p:value="Course Fees"/>
-	<bean parent="enCourse" p:id="cluJustificationOfFees"               p:value="Justification of Fees"/>
-	<bean parent="enCourse" p:id="cluFinancialInformation"              p:value="Financial Information"/>
-	<bean parent="enCourse" p:id="cluRevenue"                           p:value="Revenue"/>
-	<bean parent="enCourse" p:id="cluAmount"                            p:value="Amount"/>
-	<bean parent="enCourse" p:id="cluExpenditure"                       p:value="Expenditure"/>
-	<bean parent="enCourse" p:id="cluVariableRate"                      p:value="Variable Rate"/>
-	<bean parent="enCourse" p:id="cluFixedRate"                         p:value="Fixed Rate"/>
-	<bean parent="enCourse" p:id="cluMultipleRate"                      p:value="Multiple Rate"/>
-	<bean parent="enCourse" p:id="cluPerCreditRate"                     p:value="Per Credit Rate"/>
-	<bean parent="enCourse" p:id="cluLabFee"                            p:value="Lab Fee"/>
-	<bean parent="enCourse" p:id="cluMaterialFee"                       p:value="Material Fee"/>
-	<bean parent="enCourse" p:id="cluStudioFee"                         p:value="Studio Fee"/>
-	<bean parent="enCourse" p:id="cluFieldTripFee"                      p:value="Field Trip Fee"/>
-	<bean parent="enCourse" p:id="cluFieldStudyFee"                     p:value="Field Study Fee"/>
-	<bean parent="enCourse" p:id="cluAdministrativeFee"                 p:value="Administrative Fee"/>
-	<bean parent="enCourse" p:id="cluCoopFee"                           p:value="Coop Fee"/>
-	<bean parent="enCourse" p:id="cluGreensFee"                         p:value="Greens Fee"/>
-	<bean parent="enCourse" p:id="cluAddAfee"                           p:value="Add a fee"/>
-	<bean parent="enCourse" p:id="cluTo"                                p:value="To"/>
-	<bean parent="enCourse" p:id="cluRateType"                          p:value="Rate Type"/>
-	<bean parent="enCourse" p:id="cluAddAnotherFee"                     p:value="Add another Fee"/>		
-	<bean parent="enCourse" p:id="cluFee"                               p:value="Fee"/>
-	<bean parent="enCourse" p:id="cluOrganization"                      p:value="Organization"/>
-	<bean parent="enCourse" p:id="cluAddAnotherOrganization"                      p:value="Add another Organization"/>
-	<bean parent="enCourse" p:id="cluPercentage"                      p:value="Percentage"/>
+	<bean parent="enCourse" p:messageId="cluCourseFeesTitle"                   p:value="Course Fees"/>
+	<bean parent="enCourse" p:messageId="cluCourseFeesTitle-instruct"          p:value="These are the required fees for the course, for example lab, material, field trips."/>
+	<bean parent="enCourse" p:messageId="cluJustificationOfFees"               p:value="Justification of Fees"/>
+	<bean parent="enCourse" p:messageId="cluJustificationOfFees-instruct"      p:value="This is for internal use only and will not be seen by students."/>
+	<bean parent="enCourse" p:messageId="cluFinancialInformation"              p:value="Financial Information"/>
+	<bean parent="enCourse" p:messageId="cluFinancialInformation-instruct"     p:value="Enter the organizations that will receive (revenue) and are responsible for distributing (expenditure) the course funds."/>
+	<bean parent="enCourse" p:messageId="cluRevenue"                           p:value="Revenue"/>
+	<bean parent="enCourse" p:messageId="cluAmount"                            p:value="Amount"/>
+	<bean parent="enCourse" p:messageId="cluExpenditure"                       p:value="Expenditure"/>
+	<bean parent="enCourse" p:messageId="cluVariableRate"                      p:value="Variable Rate"/>
+	<bean parent="enCourse" p:messageId="cluFixedRate"                         p:value="Fixed Rate"/>
+	<bean parent="enCourse" p:messageId="cluMultipleRate"                      p:value="Multiple Rate"/>
+	<bean parent="enCourse" p:messageId="cluPerCreditRate"                     p:value="Per Credit Rate"/>
+	<bean parent="enCourse" p:messageId="cluLabFee"                            p:value="Lab Fee"/>
+	<bean parent="enCourse" p:messageId="cluMaterialFee"                       p:value="Material Fee"/>
+	<bean parent="enCourse" p:messageId="cluStudioFee"                         p:value="Studio Fee"/>
+	<bean parent="enCourse" p:messageId="cluFieldTripFee"                      p:value="Field Trip Fee"/>
+	<bean parent="enCourse" p:messageId="cluFieldStudyFee"                     p:value="Field Study Fee"/>
+	<bean parent="enCourse" p:messageId="cluAdministrativeFee"                 p:value="Administrative Fee"/>
+	<bean parent="enCourse" p:messageId="cluCoopFee"                           p:value="Coop Fee"/>
+	<bean parent="enCourse" p:messageId="cluGreensFee"                         p:value="Greens Fee"/>
+	<bean parent="enCourse" p:messageId="cluAddAfee"                           p:value="Add a fee"/>
+	<bean parent="enCourse" p:messageId="cluTo"                                p:value="To"/>
+	<bean parent="enCourse" p:messageId="cluRateType"                          p:value="Rate Type"/>
+	<bean parent="enCourse" p:messageId="cluAddAnotherFee"                     p:value="Add another Fee"/>		
+	<bean parent="enCourse" p:messageId="cluFee"                               p:value="Fee"/>
+	<bean parent="enCourse" p:messageId="cluOrganization"                      p:value="Organization"/>
+	<bean parent="enCourse" p:messageId="cluAddAnotherOrganization"                      p:value="Add another Organization"/>
+	<bean parent="enCourse" p:messageId="cluPercentage"                      p:value="Percentage"/>
 	
 	 <!-- CluSet Management  labels -->
-	<bean parent="enClusetmanagement" p:id="cluSetInformation"                      p:value="CluSet Information"/>
-	<bean parent="enClusetmanagement" p:id="cluSetNew"                      p:value="Create New Clu Set"/>
-	<bean parent="enClusetmanagement" p:id="cluSetNewInformation"                      p:value="Define CLU set"/>
-	<bean parent="enClusetmanagement" p:id="cluSetContent"                      p:value="Content"/>
-	<bean parent="enClusetmanagement" p:id="cluSetApprovedCourses"                      p:value="Approved Courses"/>
-	<bean parent="enClusetmanagement" p:id="cluSetProposedCourses"                      p:value="Proposed Courses"/>
-	<bean parent="enClusetmanagement" p:id="cluSetCourseRange"                      p:value="Course Range"/>
-	<bean parent="enClusetmanagement" p:id="clusetSubCluSet"                 p:value="CLUs and/or CLU Sets"/>
-	<bean parent="enClusetmanagement" p:id="cluSetOrganization"                      p:value="Organization"/>
-	<bean parent="enClusetmanagement" p:id="cluSetTitle"                      p:value="Title"/>
-	<bean parent="enClusetmanagement" p:id="cluSetDescription"                      p:value="Description"/>
-	<bean parent="enClusetmanagement" p:id="cluSetEffectiveDate"                      p:value="Effective Date"/>
-	<bean parent="enClusetmanagement" p:id="cluSetExpirationDate"                      p:value="Expiration Date"/>
-	<bean parent="enClusetmanagement" p:id="cluSetName"                      p:value="Name"/>
-	<bean parent="enClusetmanagement" p:id="cluSetEditInformation"                      p:value="Search CLU set"/>
-	<bean parent="enClusetmanagement" p:id="cluSetEditCluSet"                      p:value="Edit Clu Set"/>
-	<bean parent="enClusetmanagement" p:id="cluSetViewCluSet"                      p:value="View Clu Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetInformation"                      p:value="CluSet Information"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetNew"                      p:value="Create New Clu Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetNewInformation"                      p:value="Define CLU set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetContent"                      p:value="Content"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetApprovedCourse"                      p:value="Approved Courses"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetProposedCourse"                      p:value="Proposed Courses"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetRangeCourse"                      p:value="Course Range"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetApprovedProgram"                      p:value="Approved Programs"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetProposedProgram"                      p:value="Proposed Programs"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetRangeProgram"                      p:value="Program Range"/>
+	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetCourse"                 p:value="Course Sets"/>
+	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetProgram"                 p:value="Program Sets"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetOrganization"                      p:value="Organization"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetTitle"                      p:value="Title"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetDescription"                      p:value="Description"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetEffectiveDate"                      p:value="Effective Date"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetExpirationDate"                      p:value="Expiration Date"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetName"                      p:value="Name"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetEditInformation"                      p:value="Search CLU set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetEditCluSet"                      p:value="Edit Clu Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetViewCluSet"                      p:value="View Clu Set"/>
 	
 	
 	
