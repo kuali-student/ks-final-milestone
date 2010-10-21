@@ -27,37 +27,23 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.event.ActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionHandler;
-import org.kuali.student.common.ui.client.event.SubmitProposalEvent;
-import org.kuali.student.common.ui.client.event.SubmitProposalHandler;
-import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
-import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
-import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.mvc.WorkQueue;
+import org.kuali.student.common.ui.client.event.*;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes;
@@ -65,12 +51,11 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.workflow.ui.client.widgets.CollaboratorTool;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
-import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
@@ -78,14 +63,11 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.views.CourseReqSummaryHolder;
-import org.kuali.student.lum.lu.ui.main.client.AppLocations;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -126,6 +108,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 	private BlockingTask initializingTask = new BlockingTask("Loading");
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+	private BlockingTask saving = new BlockingTask("Saving");
 
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
@@ -154,7 +137,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	//TODO get from messages
 
    		proposalPath = cfg.getProposalPath();
-   		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath, createOnWorkflowSubmitSuccessHandler());
+   		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath);
 
         super.setDefaultModelId(cfg.getModelId());
         super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
@@ -198,22 +181,21 @@ public class CourseProposalController extends MenuEditableSectionController impl
             @Override
             public void onValidateRequest(final ValidateRequestEvent event) {
             	if(event.getFieldDescriptor().isDirty()){
+            		//TODO: When field descriptor dirty flag set, it should fire content dirty event
             		setContentWarning("You have unsaved changes");
             	}
             }
+        });
+        super.addApplicationEventHandler(ContentDirtyEvent.TYPE, new ContentDirtyEventHandler(){
+			public void onContentDirty(ContentDirtyEvent event) {
+        		setContentWarning("You have unsaved changes");				
+			}        	
         });
 
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
             public void doSave(SaveActionEvent saveAction) {
                 GWT.log("CluProposalController received save action request.", null);
                 doSaveAction(saveAction);
-            }
-        });
-
-        addApplicationEventHandler(SubmitProposalEvent.TYPE, new SubmitProposalHandler(){
-            public void onSubmitProposal() {
-                GWT.log("CluProposalController received submit proposal request.", null);
-                CourseProposalController.this.updateModel();
             }
         });
     }
@@ -274,7 +256,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
 		    			currentDocType = MODIFY_TYPE;
 		    		}
-		    		idAttributes.put(IdAttributes.DOC_TYPE, currentDocType);
+		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);
 
 		    		//Get metadata and complete initializing the screen
 		    		cluProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
@@ -326,16 +308,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
         
     }
 
-    private CloseHandler<KSLightBox> createOnWorkflowSubmitSuccessHandler() {
-    	CloseHandler<KSLightBox> handler = new CloseHandler<KSLightBox>(){
-			@Override
-			public void onClose(CloseEvent<KSLightBox> event) {
-				removeMenuNavigation();
-			}
-    	};
-		return handler;
-	}
-
 	/**
      * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
      */
@@ -372,17 +344,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
         		callback.onModelReady(ref);
         	}
-        } else if(modelType == CollaboratorTool.CollaboratorModel.class){
-        	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
-        	String proposalId=null;
-        	if(cluProposalModel!=null && cluProposalModel.get(cfg.getProposalPath())!=null){
-        		proposalId=cluProposalModel.get(cfg.getProposalPath()+"/id" );
-        	}
-        	collaboratorModel.setDataId(proposalId);
-        	collaboratorModel.setWorkflowDocType(currentDocType);
-        	callback.onModelReady(collaboratorModel);
-
-        }else if (modelType == LuData.class){
+        } else if (modelType == LuData.class){
         	requestModel(cfg.getModelId(), callback);
         } else {
             super.requestModel(modelType, callback);
@@ -491,6 +453,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				cluProposalModel.setRoot(result.getValue());
 				setProposalHeaderTitle();
 		        setLastUpdated();
+		        //add to recently viewed now that we know the id of proposal
+		        ViewContext docContext = new ViewContext();
+		        docContext.setId((String) cluProposalModel.get(cfg.getProposalPath()+"/id"));
+		        docContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+		        RecentlyViewedHelper.addDocument(getProposalTitle(), 
+		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
+		        		+ "/SUMMARY");
 		        getCourseComparisonModel(callback, workCompleteCallback);
 			}
 			
@@ -530,7 +499,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                             }
                     	}
                     	else{
-                    		saveActionEvent.doActionComplete();
+                    		//saveActionEvent.doActionComplete();
                     		Window.alert("Save failed.  Please check fields for errors.");
                     	}
 
@@ -563,39 +532,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
-        final KSLightBox saveWindow = new KSLightBox();
-        saveWindow.removeCloseLink();
-        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
-        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
-
-                @Override
-                public void exec(OkEnum result) {
-                    saveWindow.hide();
-                    saveActionEvent.doActionComplete();
-                }
-            });
-
-        buttonGroup.setWidth("250px");
-        buttonGroup.getButton(OkEnum.Ok).setEnabled(false);
-        buttonGroup.setContent(saveMessage);
-
-
-        if (saveActionEvent.isAcknowledgeRequired()){
-            saveWindow.setWidget(buttonGroup);
-        } else {
-            saveWindow.setWidget(saveMessage);
-        }
-        saveWindow.show();
-
+    	KSBlockingProgressIndicator.addTask(saving);
         final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
 
 			@Override
 			public void exec(Throwable caught) {
 				 GWT.log("Save Failed.", caught);
-                 saveWindow.setWidget(buttonGroup);
-               	 saveMessage.setText("Save Failed!  Please try again. ");
-                 buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-                 saveActionEvent.doActionComplete();
+				 KSBlockingProgressIndicator.removeTask(saving);
+                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, 5000));
 			}
 
         };
@@ -606,40 +550,26 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 }
 
                 public void onSuccess(DataSaveResult result) {
-                	// FIXME [KSCOR-225] needs to check validation results and display messages if validation failed
+                	KSBlockingProgressIndicator.removeTask(saving);
+
                 	if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
                 		isValid(result.getValidationResults(), false, true);
                 	    saveActionEvent.setGotoNextView(false);
-               	    	if (saveActionEvent.isAcknowledgeRequired()){
-	                        saveMessage.setText("Save Unsuccessful. There were validation errors.");
-	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-	                    } else {
-	                        saveWindow.hide();
-	                        saveActionEvent.doActionComplete();
-	                    }
+                        saveActionEvent.doActionComplete();
+                        KSNotifier.add(new KSNotification("Save Failed. There were validation errors.", false, 5000));
                 	}else{
+                		
                 		saveActionEvent.setSaveSuccessful(true);
                 		cluProposalModel.setRoot(result.getValue());
                 		String title = getProposalTitle();
-                		if(isNew){
-                			RecentlyViewedHelper.addCurrentDocument(title);
-                		}
-                		else if(!currentTitle.equals(title)){
-                			RecentlyViewedHelper.updateTitle(currentTitle, title);
-                		}
-                		isNew = false;
+
 	    	            View currentView = getCurrentView();
 	    				if (currentView instanceof SectionView){
 	    					((SectionView)currentView).updateView(cluProposalModel);
 	    					((SectionView) currentView).resetDirtyFlags();
 	    	            }
-	    				if (saveActionEvent.isAcknowledgeRequired()){
-	                        saveMessage.setText("Save Successful");
-	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-	                    } else {
-	                        saveWindow.hide();
-	                        saveActionEvent.doActionComplete();
-	                    }
+	                    saveActionEvent.doActionComplete();
+	                    
 	    				ViewContext context = CourseProposalController.this.getViewContext();
 	    				context.setId((String)cluProposalModel.get(proposalPath+"/id"));
 	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
@@ -648,10 +578,18 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				setProposalHeaderTitle();
 	    				setLastUpdated();
 	    				HistoryManager.logHistoryChange();
+                		if(isNew){
+                			RecentlyViewedHelper.addCurrentDocument(title);
+                		}
+                		else if(!currentTitle.equals(title)){
+                			RecentlyViewedHelper.updateTitle(currentTitle, title, (String)cluProposalModel.get(proposalPath+"/id"));
+                		}
+                		isNew = false;
 	    				
 	    				if(saveActionEvent.gotoNextView()){
 	    					CourseProposalController.this.showNextViewOnMenu();
 	    				}
+	    				KSNotifier.add(new KSNotification("Save Successful", false, 4000));
                 	}
                 }
             });
@@ -689,10 +627,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	@Override
     public void setParentController(Controller controller) {
         super.setParentController(controller);
-        if (CourseReqSummaryHolder.getView() != null) {
-            CourseReqSummaryHolder.getView().setTheController(controller);
-            CourseReqSummaryHolder.getView().redraw();
-        }
     }
 
 	@Override
@@ -746,6 +680,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	}
     	this.setContentTitle(title);
     	this.setName(title);
+    	WindowTitleUtils.setContextTitle(title);
 		currentTitle = title;
     }
 
@@ -755,12 +690,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 
 	@Override
-	public void beforeViewChange(final Callback<Boolean> okToChange) {
+	public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
 		//We do this check here because theoretically the subcontroller views
 		//will display their own messages to the user to give them a reason why the view
 		//change has been cancelled, otherwise continue to check for reasons not to change
 		//with this controller
-		super.beforeViewChange(new Callback<Boolean>(){
+		super.beforeViewChange(viewChangingTo, new Callback<Boolean>(){
 
 			@Override
 			public void exec(Boolean result) {
@@ -835,12 +770,46 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		});
 	}
 	
+    public KSButton getSaveButton(){
+    	if(currentDocType != MODIFY_TYPE){
+	        return new KSButton("Save and Continue", new ClickHandler(){
+	                    public void onClick(ClickEvent event) {
+	                    	CourseProposalController.this.fireApplicationEvent(new SaveActionEvent(true));
+	                    }
+	                });
+    	}
+    	else{
+    		return new KSButton("Save", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    CourseProposalController.this.fireApplicationEvent(new SaveActionEvent(false));
+                }
+            });
+    	}
+    }
+    
+    public KSButton getCancelButton(final Enum<?> summaryView){
+    	
+        return new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                    	if(!isNew){
+                    		CourseProposalController.this.showView(summaryView);
+                    	}
+                    	else{
+                    		Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+                    	}
+                    }
+                });
+
+    }
+	
 	@Override
 	public void onHistoryEvent(String historyStack) {
 		super.onHistoryEvent(historyStack);
-		if(cluProposalModel.get(cfg.getProposalTitlePath()) != null){
+		//we dont want to add proposals that are brand new before saving, or copy addresses (as they will initiate
+		//the modify/copy logic again if called)
+		if(cluProposalModel.get(cfg.getProposalTitlePath()) != null && 
+				this.getViewContext().getIdType() != IdType.COPY_OF_OBJECT_ID){
 			RecentlyViewedHelper.addCurrentDocument(getProposalTitle());
-
 		}
 	}
 	
@@ -850,4 +819,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		sb.append(" (Proposal)");
 		return sb.toString();
 	}
+
+    public boolean isNew() {
+        return isNew;
+    }
 }

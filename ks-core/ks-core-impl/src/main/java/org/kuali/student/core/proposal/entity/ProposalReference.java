@@ -17,19 +17,18 @@ package org.kuali.student.core.proposal.entity;
 
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 /**
  * Join table between Proposal and what it references
@@ -42,10 +41,8 @@ import org.kuali.student.common.util.UUIDHelper;
 @NamedQueries( {
     @NamedQuery(name = "ProposalReference.getObjectReference", query = "SELECT o FROM ProposalReference o WHERE o.objectReferenceId = :objectReferenceId AND o.type.id = :objectReferenceType")
 })
-public class ProposalReference {
-    @Id
-    @Column(name = "REFERENCE_ID")
-    private String id;
+@AttributeOverride(name="id", column=@Column(name="REFERENCE_ID"))
+public class ProposalReference extends BaseEntity{
 
     @ManyToMany(mappedBy="proposalReference",fetch=FetchType.EAGER)
     private List<Proposal> proposals;
@@ -56,19 +53,6 @@ public class ProposalReference {
     @ManyToOne(optional=true)
     @JoinColumn(name = "TYPE")
     private ProposalReferenceType type;
-
-    @PrePersist
-    protected void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public List<Proposal> getProposals() {
         return proposals;

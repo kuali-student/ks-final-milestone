@@ -54,7 +54,7 @@ public class LUConstants {
     //Section names
     public static final String COURSE_SECTIONS = "Course Sections";
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
-    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "People & Permissions";
+    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "Authors & Collaborators";
     public static final String SECTION_GOVERNANCE = "Governance";
     public static final String SECTION_COURSE_LOGISTICS = "Course Logistics";
 
@@ -171,6 +171,7 @@ public class LUConstants {
     public static final String ACTIVITY_LITERAL_LABEL_KEY = "cluActivityLiteral";
     public static final String ACTIVITY_TYPE_LABEL_KEY = "cluActivityType";
     public static final String CONTACT_HOURS_LABEL_KEY = "cluContactHours";
+    public static final String CONTACT_HOURS_FREQUENCY_LABEL_KEY = "cluContactFrequency";
     public static final String CLASS_SIZE_LABEL_KEY = "cluClassSize";
 
     //Information labels
@@ -304,6 +305,7 @@ public class LUConstants {
     public static final String ORGANIZATION = "cluOrganization";
     public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
     public static final String PERCENTAGE = "cluPercentage";
+	public static final String REF_DOC_RELATION_PROPOSAL_TYPE = "kuali.org.RefObjectType.ProposalInfo";
 
 
 

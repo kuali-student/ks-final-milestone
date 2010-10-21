@@ -25,95 +25,63 @@
   </ui:style>
 
   <g:HTMLPanel>
-  	<table class='{style.helpTable}'>
-  		<tr class='{style.tableSectionHeader}'>
-  			<td width='30%'>Courses and course proposals</td>
-  			<td></td>
-  		</tr>
-  		<tr>
-  			<td>View a course or browse the catalog?</td>
-  			<td>Under View and Modify, use the search box to find a specific course. To browse
-the catalog, click on the Browse the catalog link, located under the search box.</td>
-  		</tr>
-  		<tr>
-  			<td>Propose a new course?</td>
-  			<td>Under Create, use the dropdown to select the type of course you want to propose.
-This will start a new course proposal.</td>
-  		</tr>
-  		<tr>
-  			<td>Modify a course</td>
-  			<td>Under View and Modify, use the search box to locate the course you want to
-modify. Then use the dropdown 'Proposal Actions', just below the course title,
-and select 'Modify this Course' which will start a modification proposal.</td>
-  		</tr>
-  		<tr>
-  			<td>Modify a group of courses at once?</td>
-  			<td>Under View and Modify, click on the manage a group link. The system will ask
-you to identify the courses you wish to modify, and you will start a modification
-proposal.</td>
-  		</tr>
-  		<tr>
-  			<td>Check the status of my course proposal?</td>
-  			<td>Under Create, click the See my proposed courses link. This will take you to the
-outbox section of your Action List, where you will see a list of documents. Find
-the document you wish to check, and open it to reveal the document log.</td>
-  		</tr>
-  		<tr>
-  			<td>See what proposals are in review?</td>
-  			<td>Under View and Modify, you can search for proposals using the search box.
-Just change the dropdown from Courses to Proposals.</td>
-  		</tr>
-  		<tr>
-  			<td>Approve (or reject) a course proposal?</td>
-  			<td>Under the Navigate to dropdown, select My Actionlist. This will take you to
-your list of Kuali Student documents and processes requiring your attention. You
-can sort the list by document type, and then proceed through the list of course
-proposals. In order to approve or reject a proposal, select it from the list. It will
-open on the summary page, where you can review the proposal. Use the
-Workflow Actions dropdown to make a decision for the proposal.</td>
-  		</tr>
-  		<tr class='{style.tableSectionHeader}'>
-  			<td>Programs</td>
-  			<td></td>
-  		</tr>
-  		<tr>
-  			<td>View program details? (entrance or
-completion requirements)</td>
-  			<td>Under View and Modify, use the search box to find a specific program. To
-browse the catalog, click on the Browse the catalog link, located under the
-search box.</td>
-  		</tr>
-  		<tr>
-  			<td>Edit a program?</td>
-  			<td>Under View and Modify, use the search box to locate the program you want to
-modify. Then use the Edit link, in the left navigation panel, which will take you into
-an editable mode for the program.</td>
-  		</tr>
-  		<tr class='{style.tableSectionHeader}'>
-  			<td>Other Curriculum Tools</td>
-  			<td></td>
-  		</tr>
-  		<tr>
-  			<td>View a course set or build a new one?</td>
-  			<td>Under Curriculum Tools, click on the Course Sets link, where you will have the
-option to search for a course set or create a new one.</td>
-  		</tr>
-  		<tr>
-  			<td>Manage course and program fees for my
-department?</td>
-  			<td>Under Curriculum Tools, click on the Fees link, where you will have the option to
-search for a fee or create a new one.</td>
-  		</tr>
-  		<tr>
-  			<td>Manage Learning Objectives?</td>
-  			<td>Under Curriculum Tools, click on the Learning Objectives link, where you will
-have the option to search for a Learning Objective or create a new one.</td>
-  		</tr>
-  		<tr>
-  			<td>Run analysis (examine prerequisite chains)</td>
-  			<td>Under Curriculum Tools, click on the Run Analysis link, where you can enter the
-course you wish to run analysis on.</td>
-  		</tr>
-  	</table>
+<table class='{style.helpTable}'>
+    <tr class='{style.tableSectionHeader}'>
+     <td width='30%'>Courses and Course Proposals</td>
+     <td></td>
+    </tr>
+    <tr>
+     <td>View a course or browse the catalog?</td>
+     <td>Under <b>Find Courses and Programs</b>, select a link to locate a course or program. To browse the catalog, click <a href="#/HOME/CURRICULUM_HOME/COURSE_CATALOG">Browse Course Catalog</a>.</td>
+    </tr>
+    <tr>
+     <td>Propose a new course?</td>
+     <td>Under <b>Proposals</b>, select <a href="#/HOME/CURRICULUM_HOME/COURSE_PROPOSAL">Propose a Course</a>. This will start a new course proposal.</td>
+    </tr>
+    <tr>
+     <td>Modify a course?</td>
+     <td>Under <b>Find Courses and Programs</b>, click <b>Find Courses</b> locate the course you want to modify. Then use the dropdown <b>'Proposal Actions'</b>, just below the course title, and select <b>'Modify this Course'</b>. This will start a modification proposal. </td>
+    </tr>
+    <tr>
+     <td>Check the status of my course proposal?</td>
+     <td>Under <b>Proposals</b>, click <a href="#/HOME">My Actionlist</a>. Then go to the outbox section of your Action List, where you will see a list of documents. Find the document you wish to check, and open it to review the document log. </td>
+    </tr>
+    <tr>
+     <td>See what proposals are in review?</td>
+     <td>Under <b>Proposals</b>, you can search for proposals using the <b>Find Course Proposals</b> link</td>
+    </tr>
+    <tr>
+     <td>Approve (or reject) a course proposal?</td>
+     <td>Under <b>Proposals</b>, click <a href="#/HOME">My Actionlist</a>.   This will take you to your list of Kuali Student documents and processes requiring your attention. You can sort the list by document type, and then proceed through the list of course proposals.  In order to approve or reject a proposal, select it from the list. It will open on the summary page, where you can review the proposal. Use the Workflow Actions dropdown to make a decision for the proposal. </td>
+    </tr>
+    <tr class='{style.tableSectionHeader}'>
+     <td>Programs</td>
+     <td></td>
+    </tr>
+    <tr>
+     <td>View program details? (entrance or completion requirements)</td>
+     <td>Under <b>Find Courses and Programs</b>, click the Find Programs link to locate the  program. To browse the catalog, click <a href="#/HOME/CURRICULUM_HOME/COURSE_CATALOG">Browse Course Catalog</a>.</td>
+    </tr>
+    <tr>
+     <td>Edit a program?</td>
+     <td>Under <b>Find Courses and Programs</b>, click <b>Find Programs</b> to locate the program. Then click the <b>Edit</b> link in the left navigation panel, which will activate an editable mode for the program. </td>
+    </tr>
+    <tr class='{style.tableSectionHeader}'>
+     <td>Other Curriculum Tools</td>
+     <td></td>
+    </tr>
+    <tr>
+     <td>View a course set or build a new one?</td>
+     <td>Under <b>Management Tools</b>, click <a href="#/HOME/CURRICULUM_HOME/CLU_SETS">Course Set Management</a>, where you will have the option to search for a course set or create a new one</td>
+    </tr>
+    <tr>
+     <td>Manage Learning Objectives? (coming soon)</td>
+     <td>Under Management Tools, click on the Learning Objectives, where you will have the option to search for a Learning Objective or create a new one.</td>
+    </tr>
+    <tr>
+     <td>Run analysis (examine prerequisite chains)? (coming soon)</td>
+     <td>Under Management Tools, click on the Run Analysis link, where you can enter the course you want to run analysis on.</td>
+    </tr>
+   </table>
   </g:HTMLPanel>
 </ui:UiBinder> 

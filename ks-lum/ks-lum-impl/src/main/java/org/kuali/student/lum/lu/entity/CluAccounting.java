@@ -15,30 +15,22 @@
 
 package org.kuali.student.lum.lu.entity;
  
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_CLU_ACCT")
-public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
-
-    @Id
-    @Column(name = "ID")
-    private String id;
+public class CluAccounting extends BaseEntity implements AttributeOwner<CluAccountingAttribute> {
     
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluAccountingAttribute> attributes;
@@ -46,11 +38,6 @@ public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_ACCT_JN_AFFIL_ORG", joinColumns = @JoinColumn(name = "CLU_ACCT_ID"), inverseJoinColumns = @JoinColumn(name = "AFFIL_ORG_ID"))
 	private List<AffiliatedOrg> affiliatedOrgs;
-	
-	@PrePersist
-	public  void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
 	
     public List<CluAccountingAttribute> getAttributes() {
         return attributes;
@@ -60,14 +47,6 @@ public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
         this.attributes = attributes;
     }
     
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
 	public List<AffiliatedOrg> getAffiliatedOrgs() {
 		return this.affiliatedOrgs;
 	}

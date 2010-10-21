@@ -45,12 +45,17 @@ class OutlineManagerToolbar extends HorizontalPanel {
 
 		moveUpButton.sinkEvents(Event.ONMOUSEMOVE);
 		moveUpButton.sinkEvents(Event.ONMOUSEOUT);
+		moveUpButton.setTitle("Move learning objective up");
 		moveUpButton.addStyleName("KS-LOMoveUpButton");
 		moveDownButton.addStyleName("KS-LOMoveDownButton");
+		moveDownButton.setTitle("Move learning objective down");
 		deleteButton.setText("Delete");
+		deleteButton.setTitle("Delete");
 		deleteButton.addStyleName("KS-LODeleteButton");
 		indentButton.addStyleName("KS-LOIndentButton");
+		indentButton.setTitle("Indent learning objective");
 		outdentButton.addStyleName("KS-LOOutdentButton");
+		outdentButton.setTitle("Outdent learning objective");
 
 		moveUpButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {

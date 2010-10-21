@@ -35,8 +35,6 @@ package org.kuali.student.lum.statement.typekey;
 public enum ReqComponentFieldTypes {
 	INTEGER_VALUE1_KEY("kuali.reqComponent.field.type.value.positive.integer"),
 	OPERATOR_KEY("kuali.reqComponent.field.type.operator"),
-	CLU_KEY("kuali.reqComponent.field.type.clu.id"),
-	CLUSET_KEY("kuali.reqComponent.field.type.cluSet.id"),
     GPA_KEY("kuali.reqComponent.field.type.gpa"),
     TOTAL_CREDIT_KEY("kuali.reqComponent.field.type.totalCredits"),
 	INCLUSION_FILTER_TYPE_KEY("kuali.reqComponent.field.type.inclusionFilter.type"),
@@ -46,8 +44,16 @@ public enum ReqComponentFieldTypes {
     ORGANIZATION_KEY("kuali.reqComponent.field.type.org.id"),
     PERSON_KEY("kuali.reqComponent.field.type.person.id"),
     DURATION_KEY("kuali.reqComponent.field.type.duration"),
-    DURATION_TYPE_KEY("kuali.reqComponent.field.type.durationType.id");
-	
+    DURATION_TYPE_KEY("kuali.reqComponent.field.type.durationType.id"),
+	CLU_KEY("kuali.reqComponent.field.type.clu.id"),
+	CLUSET_KEY("kuali.reqComponent.field.type.cluSet.id"),
+	COURSE_CLU_KEY("kuali.reqComponent.field.type.course.clu.id"),
+	COURSE_CLUSET_KEY("kuali.reqComponent.field.type.course.cluSet.id"),
+	PROGRAM_CLU_KEY("kuali.reqComponent.field.type.program.clu.id"),
+	PROGRAM_CLUSET_KEY("kuali.reqComponent.field.type.program.cluSet.id"),
+	TEST_CLU_KEY("kuali.reqComponent.field.type.test.clu.id"),
+	TEST_CLUSET_KEY("kuali.reqComponent.field.type.test.cluSet.id");
+
 	private String id;
 	
 	ReqComponentFieldTypes(String id) {

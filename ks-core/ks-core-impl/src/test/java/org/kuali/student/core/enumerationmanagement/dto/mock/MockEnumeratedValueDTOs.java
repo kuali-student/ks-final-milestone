@@ -38,6 +38,7 @@ public class MockEnumeratedValueDTOs {
 	private String abbrev = "Abbrev";
 	private String code = "Code";
 	private String value = "Value";
+	private String enumKey = "enumKey";
 	private MockContextDTOs mockContextDTOs = null;
 	private List<EnumeratedValueInfo> enumeratedValues = null;
 
@@ -64,8 +65,9 @@ public class MockEnumeratedValueDTOs {
 	 * @param initial index value
 	 * @param last index value
 	 */
-	public MockEnumeratedValueDTOs(String valueName) {
+	public MockEnumeratedValueDTOs(String valueName, String enumKey) {
 		value = valueName;
+		this.enumKey = enumKey;
 		mockContextDTOs = new MockContextDTOs();
 		enumeratedValues = createEnumeratedValues(0, 10);
 	}
@@ -91,6 +93,7 @@ public class MockEnumeratedValueDTOs {
 		enumeratedValue.setExpirationDate(new Date(now + (TEN_M * i)));
 		enumeratedValue.setSortKey(Integer.toString(i));
 		enumeratedValue.setValue(value + i);
+		enumeratedValue.setEnumerationKey(enumKey);
 		return enumeratedValue;
 	}
 	
@@ -119,6 +122,7 @@ public class MockEnumeratedValueDTOs {
 		copy.setExpirationDate(src.getExpirationDate());
 		copy.setSortKey(src.getSortKey());
 		copy.setValue(src.getValue());
+		copy.setEnumerationKey(enumKey);
 		return copy;
 	}
 	

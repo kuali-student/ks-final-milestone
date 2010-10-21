@@ -15,16 +15,46 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import org.apache.log4j.Logger;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 
+import org.apache.log4j.Logger;
+
 public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
-		CreditCourseProposalRpcService {
+        CreditCourseProposalRpcService {
 
 	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
-	
+
 	private static final long serialVersionUID = 1L;
 
+    @Override
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
+        return null;  
+    }
 
+    @Override
+    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, Map<Integer, CourseRequirementsDataModel.requirementState> states, Map<Integer, StatementTreeViewInfo> rules) throws Exception {
+        return null;
+    }
+
+    @Override
+    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return null;  
+    }
+
+    @Override
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return null;  
+    }
+    
+    @Override
+    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        return null;
+    }
 }

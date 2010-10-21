@@ -1190,7 +1190,7 @@ public class LuServiceImpl implements LuService {
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
 
-		if (!String.valueOf(clu.getVersionInd()).equals(
+		if (!String.valueOf(clu.getVersionNumber()).equals(
 				cluInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"Clu to be updated is not the current version");
@@ -1301,7 +1301,7 @@ public class LuServiceImpl implements LuService {
 			if (luCode == null) {
 				luCode = new LuCode();
 			} else {
-				if (!String.valueOf(luCode.getVersionInd()).equals(
+				if (!String.valueOf(luCode.getVersionNumber()).equals(
 						luCodeInfo.getMetaInfo().getVersionInd())) {
 					throw new VersionMismatchException(
 							"LuCode to be updated is not the current version");
@@ -1763,7 +1763,7 @@ public class LuServiceImpl implements LuService {
 		
 		CluPublication cluPub = luDao.fetch(CluPublication.class, cluPublicationId);
 		
-		if (!String.valueOf(cluPub.getVersionInd()).equals(
+		if (!String.valueOf(cluPub.getVersionNumber()).equals(
 				cluPublicationInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"CluPublication to be updated is not the current version");
@@ -1891,7 +1891,7 @@ public class LuServiceImpl implements LuService {
 		}
 
 		CluResult result = luDao.fetch(CluResult.class, cluResultId);
-		if (!String.valueOf(result.getVersionInd()).equals(
+		if (!String.valueOf(result.getVersionNumber()).equals(
 				cluResultInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"CluResult to be updated is not the current version");
@@ -2045,7 +2045,7 @@ public class LuServiceImpl implements LuService {
 
 		CluLoRelation reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
 
-		if (!String.valueOf(reltn.getVersionInd()).equals(
+		if (!String.valueOf(reltn.getVersionNumber()).equals(
 				cluLoRelationInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"CluLoRelation to be updated is not the current version");
@@ -2244,13 +2244,13 @@ public class LuServiceImpl implements LuService {
 			throw new UnsupportedActionException("CluSet type is set at creation time and cannot be updated. CluSet id="+cluSetId);
 		}
 
-		if (!String.valueOf(cluSet.getVersionInd()).equals(
+		if (!String.valueOf(cluSet.getVersionNumber()).equals(
 				cluSetInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"CluSet (id=" + cluSetId +
 					") to be updated is not the current version " +
 					"(version=" + cluSetInfo.getMetaInfo().getVersionInd() +
-					"), current version="+cluSet.getVersionInd());
+					"), current version="+cluSet.getVersionNumber());
 		}
 
 		// update the cluIds
@@ -2519,7 +2519,7 @@ public class LuServiceImpl implements LuService {
 
 		Lui lui = luDao.fetch(Lui.class, luiId);
 
-		if (!String.valueOf(lui.getVersionInd()).equals(
+		if (!String.valueOf(lui.getVersionNumber()).equals(
 				luiInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"Lui to be updated is not the current version");
@@ -2654,7 +2654,7 @@ public class LuServiceImpl implements LuService {
 		LuiLuiRelation luiLuiRelation = luDao.fetch(LuiLuiRelation.class,
 				luiLuiRelationId);
 
-		if (!String.valueOf(luiLuiRelation.getVersionInd()).equals(
+		if (!String.valueOf(luiLuiRelation.getVersionNumber()).equals(
 				luiLuiRelationInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
 					"LuiLuiRelation to be updated is not the current version");
@@ -2814,17 +2814,26 @@ public class LuServiceImpl implements LuService {
 
 	private void findClusInCluSet(List<Clu> clus, CluSet parentCluSet)
 			throws DoesNotExistException {
-		for (Clu clu : parentCluSet.getClus()) {
-			if (!clus.contains(clu)) {
-				clus.add(clu);
-			}
-		}
-		// Recursion possible problem? Stack overflow
-		if(parentCluSet.getCluSets()!=null){
-			for (CluSet cluSet : parentCluSet.getCluSets()) {
-				findClusInCluSet(clus, cluSet);
-			}
-		}
+        List<String> processedCluSetIds = new ArrayList<String>();
+        doFindClusInCluSet(processedCluSetIds, clus, parentCluSet);
+	}
+	
+	private void doFindClusInCluSet(List<String> processedCluSetIds, 
+	        List<Clu> clus, CluSet parentCluSet) {
+        for (Clu clu : parentCluSet.getClus()) {
+            if (!clus.contains(clu)) {
+                clus.add(clu);
+            }
+        }
+        if(parentCluSet.getCluSets()!=null){
+            for (CluSet cluSet : parentCluSet.getCluSets()) {
+                // This condition avoids infinite recursion problem
+                if (!processedCluSetIds.contains(cluSet.getId())) {
+                    processedCluSetIds.add(cluSet.getId());
+                    doFindClusInCluSet(processedCluSetIds, clus, cluSet);
+                }
+            }
+        }
 	}
 
 	@Override

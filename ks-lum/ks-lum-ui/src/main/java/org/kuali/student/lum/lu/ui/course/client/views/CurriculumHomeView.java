@@ -31,11 +31,11 @@ public class CurriculumHomeView extends ViewComposite{
 	}
 	
 	protected void setup(){
-        metadataServiceAsync.getMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
+        metadataServiceAsync.getOldMetadata("search", "", "", new KSAsyncCallback<Metadata>() {
             @Override
             public void handleFailure(Throwable caught) {
             	container.add(configurer.configure(null));
-                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
+                throw new RuntimeException("Could not retreive metadata: " + caught.getMessage(), caught);
             }
             @Override
             public void onSuccess(Metadata metadata) {

@@ -330,6 +330,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		desc.setFormatted("<p>Formatted Desc</p>");
 		desc.setPlain("plain");
 		cluSetInfo.setType("kuali.cluSet.type.creditCourse");
+  cluSetInfo.setState ("draft");
 		cluSetInfo.setAdminOrg("uuid-1234");
 		cluSetInfo.setDescr(desc);
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
@@ -2284,7 +2285,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-        assertEquals(109, createdCluSet.getCluIds().size());
+        assertEquals(111, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
@@ -2856,6 +2857,17 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		client.setCurrentCluVersion(cluV3.getId(), null);
 		versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId());
 		assertEquals(versionDisplayInfo.getId(),cluV3.getId());
+		
+		
+		SearchRequest searchRequest = new SearchRequest();
+		SearchParam param = new SearchParam();
+		param.setKey("lu.queryParam.cluVersionIndId");
+		param.setValue(versionDisplayInfo.getVersionIndId());
+		searchRequest.getParams().add(param);
+		searchRequest.setSearchKey("lu.search.clu.versions");
+		SearchResult searchResult = client.search(searchRequest);
+		assertEquals(3,searchResult.getRows().size());
+		
 	}
 	
 	private CluSetInfo createCluSetInfo() throws ParseException {
@@ -2868,7 +2880,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
 		cluSetInfo.setExpirationDate(DF.parse("20180101"));
 		cluSetInfo.setName("Clu set name");
-
+  cluSetInfo.setState ("draft");
+  cluSetInfo.setType ("kuali.cluset.course");
 		return cluSetInfo;
 	}
 

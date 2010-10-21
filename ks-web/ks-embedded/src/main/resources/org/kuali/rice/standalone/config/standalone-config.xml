@@ -92,12 +92,19 @@
         Setting this property allows selective loading lum or core project or both
     -->
     <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
-        classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml,classpath:ks-embedded-context.xml
+        classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml
 	</param>
+  
+    <!--
+      this property allows switching between the ks-embedded-admin-context which loads
+      the ks admin app into rice the old ks-embedded-context.xml which skips ks admin
+      and loads a mock messageservice impl
+    -->
+    <param name="ks.embedded.context">classpath:ks-embedded-admin-context.xml</param>
 
     <!-- additional context files -->
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.projects},${ks.authentication.context},classpath:StudentStandaloneSpringBeans.xml,${ks.institutional.context}</param>
+    <param name="rice.additionalSpringFiles">${ks.projects},${ks.embedded.context},${ks.authentication.context},classpath:StudentStandaloneSpringBeans.xml,${ks.institutional.context}</param>
 
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">${application.url}</param>
@@ -109,6 +116,7 @@
 
     <!-- KS Urls -->
     <param name="ks.logout.url" override="false">${application.url}/j_spring_security_logout</param>
+    <param name="rice.portal.logoff.redirectUrl">${ks.logout.url}</param>
 
     <!-- OrgUrls -->
     <param name="ks.org.MainEntryPoint" override="false"> ${application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</param>

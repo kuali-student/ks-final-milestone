@@ -58,6 +58,7 @@ public class ProgramAssemblerConstants {
 	public static final String DRAFT = "draft";
 	public static final String ACTIVE = "Active"; // also use for identifiers
 													// and relations
+	public static final String INACTIVE = "Inactive";
 	public static final String SUPERSEDED = "superseded";
 	public static final String SUSPENDED = "suspended";
 	public static final String RETIRED = "retired";
@@ -110,4 +111,11 @@ public class ProgramAssemblerConstants {
     // 	 resultOptionInfo Types
     public static final String DEGREE_AWARDED = "kuali.resultUsageType.DegreeAwarded ";
     public static final String CERTIFICATE_AWARDED = "kuali.resultUsageType.CertificateAwarded ";
+
+	// FIXME ask norm about this value
+	public static final String PROGRAM_REFERENCE_TYPE = "kuali.referenceType.CLU";
+    
+    //Program Requirements
+    public static final String MIN_CREDITS = "minCredits";
+    public static final String MAX_CREDITS = "maxCredits";
 }

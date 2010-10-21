@@ -22,7 +22,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -32,7 +31,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
@@ -46,9 +44,6 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
     @NamedQuery(name = "Statement.getParentStatement", query = "SELECT DISTINCT stmt FROM Statement stmt JOIN stmt.children children WHERE children.id = :childId")
 })
 public class Statement extends MetaEntity implements AttributeOwner<StatementAttribute>{
-    @Id
-    @Column(name = "ID")
-    private String id;
 
     @Column(name="NAME")
     private String name;
@@ -64,7 +59,7 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     @Enumerated(EnumType.STRING)
     private StatementOperatorTypeKey operator;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "KSST_STMT_JN_STMT", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_ID"))
     private List<Statement> children;
 
@@ -82,22 +77,6 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
     @OneToMany(mappedBy = "statement")
     private List<RefStatementRelation> refStatementRelations;
-
-    /**
-     * AutoGenerate the Id
-     */
-    @Override
-    public void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public List<Statement> getChildren() {
         return children;
@@ -176,7 +155,7 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
 	@Override
 	public String toString() {
-		return "Statement[id=" + id + ", statementType="
+		return "Statement[id=" + getId() + ", statementType="
 		+ (statementType == null ? "null" : statementType.getId())
 		+ ", operator=" + operator + "]";
 	}

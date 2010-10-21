@@ -16,23 +16,20 @@
 package org.kuali.student.lum.program.server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.statement.dto.*;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.common.ui.client.widgets.rules.StatementVO;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.apache.log4j.Logger;
 
-/**
- * @author Zdenek Zraly
- */
 public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> implements StatementRpcService {
 
     final static Logger LOG = Logger.getLogger(StatementRpcServlet.class);
@@ -41,6 +38,70 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     
     private static final long serialVersionUID = 822326113643828855L;
 
+    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
+
+
+        String[] desiredSequenceEnrollmentElig = {"kuali.statement.type.course.academicReadiness.studentEligibilityPrereq",
+                                                    "kuali.statement.type.course.academicReadiness.coreq",
+                                                    "kuali.statement.type.course.recommendedPreparation",
+                                                    "kuali.statement.type.course.academicReadiness.antireq"};
+
+        String[] desiredSequenceCreditConstraints = {"kuali.statement.type.course.credit.restriction",
+                                                        "kuali.statement.type.course.credit.repeatable"};        
+
+        List<StatementTypeInfo> statementTypesSorted = new ArrayList<StatementTypeInfo>();
+
+        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
+
+        //ensure the correct sequence of statement types; hard-coded for now
+        if (statementTypeNames.contains("kuali.statement.type.course.enrollmentEligibility")) {
+            statementTypeNames.remove("kuali.statement.type.course.enrollmentEligibility");
+            statementTypeNames.add(0, "kuali.statement.type.course.enrollmentEligibility");
+        }
+
+        for (String statementTypeName : statementTypeNames) {
+            StatementTypeInfo stmtInfo = statementService.getStatementType(statementTypeName);
+
+            statementTypesSorted.add(statementService.getStatementType(statementTypeName));
+
+            //true if we found sub statement type
+            List<String> subStmtInfos = stmtInfo.getAllowedStatementTypes();
+            List<StatementTypeInfo> statementTypesOrig = new ArrayList<StatementTypeInfo>();
+            if ((subStmtInfos != null) && !subStmtInfos.isEmpty()) {
+                List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(statementTypeName);
+                for (String subStatementTypeName : subStatementTypeNames) {
+                    statementTypesOrig.add(statementService.getStatementType(subStatementTypeName));
+                }
+                if (statementTypeName.contains("kuali.statement.type.course.enrollmentEligibility")) {
+                    for (String stmtType : desiredSequenceEnrollmentElig) {
+                        Iterator<StatementTypeInfo> iter = statementTypesOrig.iterator();
+                        while (iter.hasNext()) {
+                            StatementTypeInfo stmtT = iter.next();
+                            if (stmtT.getId().equals(stmtType)) {
+                                statementTypesSorted.add(stmtT);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (statementTypeName.contains("kuali.statement.type.course.creditConstraints")) {
+                    for (String stmtType : desiredSequenceCreditConstraints) {
+                        Iterator<StatementTypeInfo> iter = statementTypesOrig.iterator();
+                        while (iter.hasNext()) {
+                            StatementTypeInfo stmtT = iter.next();
+                            if (stmtT.getId().equals(stmtType)) {
+                                statementTypesSorted.add(stmtT);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }            
+        }
+        
+        return statementTypesSorted;
+    }
+    
     @Override
     public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
@@ -49,33 +110,6 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
             statementTypes.add(statementService.getStatementType(statementTypeName));
         }
         return statementTypes;
-    }
-
-    //TODO do we need this?
-    public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, String language) throws Exception {
-        StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
-        
-        // first translate StatementVO to StatementTreeViewInfo object
-        String error = statementVO.composeStatementTreeViewInfo(statementVO, statementTreeViewInfo);
-        if (error.isEmpty() == false) {
-            throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);
-        }
-
-        // cluId can't be empty
-        if ((cluId != null) && cluId.isEmpty()) {
-            cluId = null;
-        }
-        
-        // then get natural language for the statement
-        String nlStatement = "";
-        try {
-            nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
-        } catch (Exception ex) {
-            LOG.error(ex);
-            throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
-        }
-        
-        return nlStatement;
     }
     
     public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey) throws Exception {

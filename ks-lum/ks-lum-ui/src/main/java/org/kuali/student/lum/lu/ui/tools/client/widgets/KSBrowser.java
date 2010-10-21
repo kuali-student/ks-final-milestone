@@ -46,11 +46,6 @@ public class KSBrowser extends Composite {
 	public KSBrowser (LookupMetadata fieldLookup, Controller controller)
 	{
 		this.fieldLookup = fieldLookup;
-		if (this.fieldLookup == null)
-		{			
-			KSErrorDialog.show (new Throwable ("Invalid lookup configuration: missing initial lookup metadata."));
-			return;
-		}
 
 		if (config == null)
 		{

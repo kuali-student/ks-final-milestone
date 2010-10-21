@@ -2,12 +2,12 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSCO_REFERENCE_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="20001231000000" NAME="Clu"
-        TYPE_DESC="Clu reference type" TYPE_KEY="referenceType.clu"/>
+         NAME="Clu"
+        OBJ_ID="27B3302EC30F43FB936FDA7313094869"
+        TYPE_DESC="Clu reference type" TYPE_KEY="referenceType.clu" VER_NBR="0"/>
     <KSCO_REFERENCE_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="20001231000000" NAME="Clu Proposal"
-        TYPE_DESC="Clu reference type" TYPE_KEY="referenceType.clu.proposal"/>
-    <KSCO_REFERENCE_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="20001231000000" NAME="Reference 1"
-        TYPE_DESC="A Basic Reference 1" TYPE_KEY="referenceType.type1"/>
+         NAME="Clu Proposal"
+        OBJ_ID="7619651AED59491093D04AED1ECD9414"
+        TYPE_DESC="Clu reference type"
+        TYPE_KEY="referenceType.clu.proposal" VER_NBR="0"/>
 </dataset>

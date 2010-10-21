@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -39,9 +38,6 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSLO_LO_REPOSITORY")
 public class LoRepository extends MetaEntity implements AttributeOwner<LoRepositoryAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "NAME")
 	private String name;
@@ -152,20 +148,6 @@ public class LoRepository extends MetaEntity implements AttributeOwner<LoReposit
 	@Override
 	public void setAttributes(List<LoRepositoryAttribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the key
-	 */
-	public String getId() {
-		return id;
 	}
 
 	/**

@@ -164,7 +164,7 @@
         </property>
     </bean>
 
-    <bean id="identityServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+    <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
     </bean>
@@ -248,16 +248,12 @@
     </bean>
 
     <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
+        <constructor-arg index="0" value="${ks.core.dictionary.old.serviceContextLocations}" />
     </bean>
 
     <bean id="coreDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
-        <constructor-arg>
-            <list>
-                <value>classpath:ks-proposalInfo-dictionary-context.xml</value>
-            </list>
-        </constructor-arg>
+		<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />	
     </bean>
 
     <bean id="commentSearchManager"
@@ -403,34 +399,6 @@
         </property>
     </bean>
 
-	<!--  Data pre-load -->
-    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-        <property name="jtaTxManager" ref="transactionManager"/>
-        <property name="shouldLoadData" value="${ks.core.doDataLoad}"/>
-       	<property name="preloadMap">
-        	<map>
-            	<entry key="Organization">
-                	<value>classpath:ks-org.sql</value>
-               	</entry>
-               	<entry key="Comment">
-					<value>classpath:ks-comment.sql</value>
-				</entry>
-				<entry key="Document">
-					<value>classpath:ks-document.sql</value>
-				</entry>
-				<entry key="Proposal">
-					<value>classpath:ks-proposal.sql</value>
-				</entry>
-				<entry key="Atp">
-					<value>classpath:ks-atp.sql</value>
-				</entry>
-				<entry key="EnumerationManagement">
-					<value>classpath:ks-em.sql</value>
-				</entry>
-           	</map>
-        </property>
- 	</bean>
-
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"
@@ -445,6 +413,7 @@
 			</map>
 		</property>
 	</bean>
+	
 	<aop:config>
 		<aop:aspect id="dataAccessToBusinessException"
 			ref="mapExceptionAdvisor">
