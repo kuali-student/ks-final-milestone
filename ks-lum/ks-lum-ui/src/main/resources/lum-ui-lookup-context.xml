@@ -2477,6 +2477,31 @@
 			</list>
 		</property>
 	</bean>
+   
+	<bean id="programVariationInfo.startTerm" parent="uilookupconfig-parent">
+	       <property name="path" value="majorDisciplineInfo.variations.startTerm" />
+	       <property name="initialLookup"
+	           ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	           
+	</bean>
+	
+	<bean id="programVariationInfo.endInstAdmitTerm" parent="uilookupconfig-parent">
+	       <property name="path" value="majorDisciplineInfo.variations.endInstAdmitTerm" />
+	       <property name="initialLookup"
+	           ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	</bean>
+	
+	<bean id="programVariationInfo.endProgramEntryTerm" parent="uilookupconfig-parent">
+		<property name="path" value="majorDisciplineInfo.variations.endProgramEntryTerm" />
+		<property name="initialLookup"
+			ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	</bean>
+	
+	<bean id="programVariationInfo.endTerm" parent="uilookupconfig-parent">
+	        <property name="path" value="majorDisciplineInfo.variations.endTerm" />
+	        <property name="initialLookup"
+	            ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+	</bean>
 	
 	<bean id="kuali.enumeration.management.search.cip2000Code" class="org.kuali.student.core.assembly.data.UILookupData"
 		parent="kuali.common.enumeration.management.search.cip2000Code">
