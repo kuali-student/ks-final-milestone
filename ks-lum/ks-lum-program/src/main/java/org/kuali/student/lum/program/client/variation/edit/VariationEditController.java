@@ -1,10 +1,8 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -23,7 +21,11 @@ import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
@@ -89,8 +91,11 @@ public class VariationEditController extends VariationController {
     protected void configureView() {
         super.configureView();
         if (!initialized) {
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton);
+            List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
+            excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
+            excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
         }
     }
