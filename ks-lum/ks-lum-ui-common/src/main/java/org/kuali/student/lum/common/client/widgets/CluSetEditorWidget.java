@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
@@ -47,6 +48,7 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -55,7 +57,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
     private List<KSSelectedListPanelPair> selectedListPanelPairs = new ArrayList<KSSelectedListPanelPair>();
     private DataModelDefinition modelDefinition;
 //    private final List<HandlerRegistration> showClusetDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
-    private final List<HandlerRegistration> showCluRangeDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
+    private final Map<String, HandlerRegistration> showCluRangeDetailsHandlerRegs = new HashMap<String, HandlerRegistration>();
     private List<KSItemLabelPanelPair> itemLabelPanelPairs = new ArrayList<KSItemLabelPanelPair>();
     private String cluSetType;
     private String metadataId;
@@ -324,7 +326,12 @@ public class CluSetEditorWidget extends VerticalSectionView {
             final SearchRequest searchRequest) {
         clusetRangeModelHelper.setLookupMetadata(lookupMetadata);
         clusetRangeLabel.setValue(new DataValue(searchRequestData));
-        showCluRangeDetailsHandlerRegs.add(clusetRangeLabel.addShowDetailsHandler(new ClickHandler() {
+        if (showCluRangeDetailsHandlerRegs != null && 
+                showCluRangeDetailsHandlerRegs.get(Integer.toString(clusetRangeLabel.instanceId)) != null) {
+            ((HandlerRegistration)showCluRangeDetailsHandlerRegs.get(Integer.toString(clusetRangeLabel.instanceId))).removeHandler();
+        }
+        showCluRangeDetailsHandlerRegs.put(Integer.toString(clusetRangeLabel.instanceId), 
+                clusetRangeLabel.addShowDetailsHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 SearchResultsLightBox srLightBox = new SearchResultsLightBox("View Course Range",
@@ -685,12 +692,12 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 searchRequest.setParams(membershipQueryInfo.getQueryParamValueList());
                 searchRequest.setSortColumn(lookupMetadata.getResultSortKey());
                 
-                if (showCluRangeDetailsHandlerRegs != null) {
-                    for (HandlerRegistration showCluRangeDetailsHandlerReg : showCluRangeDetailsHandlerRegs) {
-                        showCluRangeDetailsHandlerReg.removeHandler();
-                    }
-                    showCluRangeDetailsHandlerRegs.clear();
-                }
+//                if (showCluRangeDetailsHandlerRegs != null) {
+//                    for (HandlerRegistration showCluRangeDetailsHandlerReg : showCluRangeDetailsHandlerRegs) {
+//                        showCluRangeDetailsHandlerReg.removeHandler();
+//                    }
+//                    showCluRangeDetailsHandlerRegs.clear();
+//                }
                 addClusetItemViewHandler(clusetRangeModelHelper,
                         (KSItemLabel)widget,
                         lookupMetadata,
