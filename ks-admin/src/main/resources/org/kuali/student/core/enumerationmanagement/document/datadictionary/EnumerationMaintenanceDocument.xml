@@ -12,7 +12,7 @@
 
     <bean id="EnumerationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
         p:businessObjectClass="org.kuali.student.core.enumerationmanagement.bo.Enumeration"
-        p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+        p:maintainableClass="org.kuali.student.core.enumerationmanagement.document.EnumerationMaintainableImpl">
         <property name="maintainableSections">
             <list>
                 <ref bean="EnumerationMaintenanceDocument-EnumerationMaintenance" />
