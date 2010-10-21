@@ -85,7 +85,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-                if(getViewContext().getId() != null){
+                if(getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
             		getCourseFromCluId(getViewContext().getId(), 1, callback, true);
                 }
                 else{
@@ -97,7 +97,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
         super.registerModel("ComparisonModel", new ModelProvider<DataModel>() {
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
-            	if(getViewContext().getAttribute("docId2") != null){
+            	if(getViewContext().getAttribute("docId2") != null && !getViewContext().getId().isEmpty()){
             		getCourseFromCluId(getViewContext().getAttribute("docId2"), 2, callback, false);	
             	}
             	else{
