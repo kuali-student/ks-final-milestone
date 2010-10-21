@@ -53,8 +53,8 @@
   <modules>
     <module>ks-common</module>
     <module>ks-security</module>
-    <module>ks-core</module>
     <module>ks-admin</module>
+    <module>ks-core</module>
     <module>ks-lum</module>
     <module>ks-web</module>    
   </modules>
@@ -86,7 +86,7 @@
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
-    <spring.version>2.5.4</spring.version>
+    <spring.version>2.5.6</spring.version>
     <spring.security.version>2.0.4</spring.security.version>
     <spring.security.javadoc.version>2.0.x</spring.security.javadoc.version>
     <velocity.version>1.6.4</velocity.version>
