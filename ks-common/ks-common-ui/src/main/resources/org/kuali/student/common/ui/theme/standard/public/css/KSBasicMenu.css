@@ -108,6 +108,7 @@
 }
 
 .KS-Navigation-DropDown .KS-CustomDropDown-TitlePanel{
+         cursor:pointer;
           width:230px;
           background-color: #E8E8E8;       
           padding: 4px 4px 3px 4px; 
@@ -115,6 +116,7 @@
 }
 
 .KS-Navigation-DropDown .KS-CutomDropDown-TitleLabel{
+cursor:pointer;
 float:left;
 margin-bottom:5px;
 margin-top:5px;
