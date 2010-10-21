@@ -16,16 +16,16 @@
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class InfoMessage extends Composite{
 	private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
-	private KSImage icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();
+	private Image icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();
 	private HTMLPanel message = new HTMLPanel("");
 
 	public InfoMessage(String text, boolean visible){

@@ -53,9 +53,6 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     @Source("org/kuali/student/common/ui/theme/standard/public/css/Header.css")
     @CssResource.NotStrict
 	public CssResource helpLinkCss();
-    @Source("org/kuali/student/common/ui/theme/standard/public/css/KSImage.css")
-	@CssResource.NotStrict
-	public CssResource imageCss();
     @Source("org/kuali/student/common/ui/theme/standard/public/css/KSLabel.css")
 	@CssResource.NotStrict
 	public CssResource labelCss();

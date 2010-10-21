@@ -37,7 +37,6 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgPersonHelper;

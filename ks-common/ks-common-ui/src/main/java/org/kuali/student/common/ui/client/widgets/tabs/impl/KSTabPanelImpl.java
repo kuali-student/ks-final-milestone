@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.ClickablePanel;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
@@ -40,6 +39,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -109,7 +109,7 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 		private String tabKey = "";
 		private List<Callback<String>> callbacks = new ArrayList<Callback<String>>();
 		
-		public Tab(String key, String label, KSImage image, Widget displayContent){
+		public Tab(String key, String label, Image image, Widget displayContent){
 			tabKey = key;
 			HorizontalPanel tabContent = new HorizontalPanel();
 			tabContent.add(image);
@@ -331,14 +331,14 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 	}
 
 	@Override
-	public void addTab(String key, String label, KSImage image, Widget content, TabPosition position){
+	public void addTab(String key, String label, Image image, Widget content, TabPosition position){
 		Tab tab = new Tab(key, label, image, content);
 		tabMap.put(key, tab);
 		positionTab(tab, position);
 	}
 
 	@Override
-	public void addTab(String key, String label, KSImage image, Widget content){
+	public void addTab(String key, String label, Image image, Widget content){
 		Tab tab = new Tab(key, label, image, content);
 		tabMap.put(key, tab);
 		positionTab(tab, TabPosition.LEFT);

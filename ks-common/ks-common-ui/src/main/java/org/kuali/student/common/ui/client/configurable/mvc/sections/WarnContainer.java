@@ -1,15 +1,14 @@
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSImage;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class WarnContainer extends Composite{
-	private KSImage icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();
+	private Image icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();
 	private FlowPanel layout = new FlowPanel();
 	private FlowPanel normalLayout = new FlowPanel();
 	private FlowPanel warnLayout = new FlowPanel();

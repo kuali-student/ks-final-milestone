@@ -16,10 +16,10 @@
 package org.kuali.student.common.ui.client.widgets.tabs;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.tabs.impl.KSTabPanelImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSTabPanel extends KSTabPanelAbstract {
@@ -53,14 +53,14 @@ public class KSTabPanel extends KSTabPanelAbstract {
 	}
 
 	@Override
-	public void addTab(String key, String label, KSImage image, Widget content,
+	public void addTab(String key, String label, Image image, Widget content,
 			TabPosition position) {
 		panel.addTab(key, label, image, content, position);
 		
 	}
 
 	@Override
-	public void addTab(String key, String label, KSImage image, Widget content) {
+	public void addTab(String key, String label, Image image, Widget content) {
 		panel.addTab(key, label, image, content);
 		
 	}

@@ -15,8 +15,9 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import com.google.gwt.core.client.GWT;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import java.util.Iterator;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityTable;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -25,8 +26,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataType;
 
-import java.util.Iterator;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
 
 /**
  * This class handles transferring data between the model and the widgets 

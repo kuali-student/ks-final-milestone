@@ -18,12 +18,13 @@
  */
 package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
 
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
+
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This abstract class will create a layout with a header containing supplied text, a help action button

@@ -11,7 +11,7 @@ public class KSBlockingDialog {
        FlowPanel mainPanel = new FlowPanel();
 
        messageLabel.setText("Loading...");
-       KSImage twiddler = new KSImage("images/common/twiddler3.gif");
+       Image twiddler = new Image("images/common/twiddler3.gif");
       
        mainPanel.setStyleName("KSBlockingDialog-mainPanel");
        messageLabel.setStyleName("KSBlockingDialog-message");

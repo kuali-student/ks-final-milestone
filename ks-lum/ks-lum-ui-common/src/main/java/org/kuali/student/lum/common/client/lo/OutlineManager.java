@@ -18,13 +18,13 @@ package org.kuali.student.lum.common.client.lo;
 import java.util.ArrayList;
 
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -85,7 +85,7 @@ public class OutlineManager extends Composite {
 			super.sinkEvents(Event.ONMOUSEMOVE);
 			super.sinkEvents(Event.ONMOUSEOUT);
 			emptySpacePanel.setStyleName("KS-LOOutlineManagerToolbar");
-			KSImage ieHack = Theme.INSTANCE.getCommonImages().getSpacer();
+			Image ieHack = Theme.INSTANCE.getCommonImages().getSpacer();
 			emptySpacePanel.add(ieHack);
 			super.insert(emptySpacePanel,0);
 		}

@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.widgets.menus.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenuAbstract;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -38,6 +37,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -233,7 +233,7 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
             this.add(contentPanel);
         }
 
-        public void addImage(KSImage shownIcon) {
+        public void addImage(Image shownIcon) {
             shownIcon.addStyleName("KS-Basic-Menu-Item-Image");
             contentPanel.add(shownIcon);
 

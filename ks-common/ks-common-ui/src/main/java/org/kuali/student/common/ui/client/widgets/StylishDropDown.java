@@ -29,15 +29,12 @@ import org.kuali.student.common.ui.client.widgets.menus.impl.KSListMenuImpl;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class StylishDropDown extends Composite{
@@ -50,9 +47,9 @@ public class StylishDropDown extends Composite{
 	private KSListMenuImpl menu = new KSListMenuImpl();
 	private HorizontalPanel layout = new HorizontalPanel();
 	private KSLabel titleLabel = new KSLabel();
-	private KSImage titleImage = Theme.INSTANCE.getCommonImages().getSpacer();
+	private Image titleImage = Theme.INSTANCE.getCommonImages().getSpacer();
 	private HorizontalPanel titleLayout = new HorizontalPanel();
-	private KSImage defaultArrow = Theme.INSTANCE.getCommonImages().getDropDownIconBlack();
+	private Image defaultArrow = Theme.INSTANCE.getCommonImages().getDropDownIconBlack();
 	private boolean mouseOver = false;
 	private MenuImageLocation imgLoc = MenuImageLocation.RIGHT;
 	private boolean makeButton = false;
@@ -110,7 +107,7 @@ public class StylishDropDown extends Composite{
 		init();
 	}
 	
-	public StylishDropDown(String title, KSImage image, MenuImageLocation imgLoc){
+	public StylishDropDown(String title, Image image, MenuImageLocation imgLoc){
 		titleLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		titleLabel.setText(title);
 		titleImage = image;
@@ -158,8 +155,8 @@ public class StylishDropDown extends Composite{
 						titleLabel.setText(item.getLabel());
 						if(item.getShownIcon() != null && showTitleIcon){
 							titleLayout.remove(titleImage);
-							Image image = item.getShownIcon().getImage();
-							titleImage = new KSImage(image.getUrl(), image.getOriginLeft(), 
+							Image image = item.getShownIcon();
+							titleImage = new Image(image.getUrl(), image.getOriginLeft(), 
 									image.getOriginTop(), image.getWidth(), image.getHeight());
 							if(imgLoc == MenuImageLocation.RIGHT){
 								titleLayout.add(titleImage);
@@ -194,7 +191,7 @@ public class StylishDropDown extends Composite{
 		menuPanel.hide();
 	}
 	
-	public void setArrowImage(KSImage arrow){
+	public void setArrowImage(Image arrow){
 		layout.remove(defaultArrow);
 		arrow.addStyleName("KS-CustomDropDown-Arrow");
 		layout.add(arrow);

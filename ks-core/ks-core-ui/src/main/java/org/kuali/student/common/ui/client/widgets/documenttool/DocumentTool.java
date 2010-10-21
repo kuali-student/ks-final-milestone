@@ -32,8 +32,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.dto.FileStatus;
-import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
+import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -43,12 +43,11 @@ import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
@@ -64,6 +63,7 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
@@ -557,7 +557,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	}
 
 	@Override
-	public KSImage getImage() {
+	public Image getImage() {
 		return Theme.INSTANCE.getCommonImages().getDocumentIcon();
 	}
 

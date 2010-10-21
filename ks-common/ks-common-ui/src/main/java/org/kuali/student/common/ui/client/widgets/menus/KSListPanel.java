@@ -16,10 +16,10 @@
 package org.kuali.student.common.ui.client.widgets.menus;
 
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.Element;
 
 /**
  * @author wilj

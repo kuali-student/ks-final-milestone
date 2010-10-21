@@ -1,9 +1,5 @@
 package org.kuali.student.common.ui.client.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
 

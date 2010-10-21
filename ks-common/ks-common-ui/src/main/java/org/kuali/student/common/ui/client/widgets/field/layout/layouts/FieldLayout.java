@@ -31,7 +31,6 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class FieldLayout extends FlowPanel implements FieldLayoutComponent{

@@ -15,6 +15,8 @@
 
 package org.kuali.student.common.ui.client.widgets.search;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
@@ -23,8 +25,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCanc
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.search.dto.SearchRequest;
-
-import java.util.List;
 
 public class AdvancedSearchWindow {
     

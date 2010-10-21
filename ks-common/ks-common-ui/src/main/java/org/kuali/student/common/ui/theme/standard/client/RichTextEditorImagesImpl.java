@@ -16,122 +16,123 @@
 package org.kuali.student.common.ui.theme.standard.client;
 
 import org.kuali.student.common.ui.client.theme.RichTextEditorImages;
-import org.kuali.student.common.ui.client.widgets.KSImage;
+
+import com.google.gwt.user.client.ui.Image;
 
 public class RichTextEditorImagesImpl implements RichTextEditorImages{
 
 	@Override
-	public KSImage bold() {
+	public Image bold() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.bold());
+		return new Image(KSClientBundle.INSTANCE.bold());
 	}
 
 	@Override
-	public KSImage createLink() {
+	public Image createLink() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.createLink());
+		return new Image(KSClientBundle.INSTANCE.createLink());
 	}
 
 	@Override
-	public KSImage hr() {
+	public Image hr() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.hr());
+		return new Image(KSClientBundle.INSTANCE.hr());
 	}
 
 	@Override
-	public KSImage indent() {
+	public Image indent() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.indent());
+		return new Image(KSClientBundle.INSTANCE.indent());
 	}
 
 	@Override
-	public KSImage insertImage() {
+	public Image insertImage() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.insertImage());
+		return new Image(KSClientBundle.INSTANCE.insertImage());
 	}
 
 	@Override
-	public KSImage italic() {
+	public Image italic() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.italic());
+		return new Image(KSClientBundle.INSTANCE.italic());
 	}
 
 	@Override
-	public KSImage justifyCenter() {
+	public Image justifyCenter() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.justifyCenter());
+		return new Image(KSClientBundle.INSTANCE.justifyCenter());
 	}
 
 	@Override
-	public KSImage justifyLeft() {
+	public Image justifyLeft() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.justifyLeft());
+		return new Image(KSClientBundle.INSTANCE.justifyLeft());
 	}
 
 	@Override
-	public KSImage justifyRight() {
+	public Image justifyRight() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.justifyRight());
+		return new Image(KSClientBundle.INSTANCE.justifyRight());
 	}
 
 	@Override
-	public KSImage ol() {
+	public Image ol() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.ol());
+		return new Image(KSClientBundle.INSTANCE.ol());
 	}
 
 	@Override
-	public KSImage outdent() {
+	public Image outdent() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.outdent());
+		return new Image(KSClientBundle.INSTANCE.outdent());
 	}
 
 	@Override
-	public KSImage popout() {
+	public Image popout() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.popout());
+		return new Image(KSClientBundle.INSTANCE.popout());
 	}
 
 	@Override
-	public KSImage removeFormat() {
+	public Image removeFormat() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.removeFormat());
+		return new Image(KSClientBundle.INSTANCE.removeFormat());
 	}
 
 	@Override
-	public KSImage removeLink() {
+	public Image removeLink() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.removeLink());
+		return new Image(KSClientBundle.INSTANCE.removeLink());
 	}
 
 	@Override
-	public KSImage strikeThrough() {
+	public Image strikeThrough() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.strikeThrough());
+		return new Image(KSClientBundle.INSTANCE.strikeThrough());
 	}
 
 	@Override
-	public KSImage subscript() {
+	public Image subscript() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.subscript());
+		return new Image(KSClientBundle.INSTANCE.subscript());
 	}
 
 	@Override
-	public KSImage superscript() {
+	public Image superscript() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.superscript());
+		return new Image(KSClientBundle.INSTANCE.superscript());
 	}
 
 	@Override
-	public KSImage ul() {
+	public Image ul() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.ul());
+		return new Image(KSClientBundle.INSTANCE.ul());
 	}
 
 	@Override
-	public KSImage underline() {
+	public Image underline() {
 		
-		return new KSImage(KSClientBundle.INSTANCE.underline());
+		return new Image(KSClientBundle.INSTANCE.underline());
 	}
 
 }

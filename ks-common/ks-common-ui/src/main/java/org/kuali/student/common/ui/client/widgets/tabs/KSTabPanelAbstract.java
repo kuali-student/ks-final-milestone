@@ -16,11 +16,11 @@
 package org.kuali.student.common.ui.client.widgets.tabs;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPanelStyle;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class KSTabPanelAbstract extends Composite {
@@ -29,9 +29,9 @@ public abstract class KSTabPanelAbstract extends Composite {
 	
 	public abstract void addTab(String key, String label, Widget content, TabPosition position);
 	
-	public abstract void addTab(String key, String label, KSImage image, Widget content, TabPosition position);
+	public abstract void addTab(String key, String label, Image image, Widget content, TabPosition position);
 	
-	public abstract void addTab(String key, String label, KSImage image, Widget content);
+	public abstract void addTab(String key, String label, Image image, Widget content);
 	
 	public abstract void addTab(String key, String label, Widget content);
 	

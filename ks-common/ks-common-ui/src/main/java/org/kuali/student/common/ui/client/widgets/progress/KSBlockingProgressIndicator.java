@@ -17,12 +17,10 @@ package org.kuali.student.common.ui.client.widgets.progress;
 
 import java.util.LinkedList;
 
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -100,9 +98,9 @@ public class KSBlockingProgressIndicator{
 		listPanel.clear();
 		BlockingTask task = tasks.getLast();
 		HorizontalPanel taskPanel = new HorizontalPanel();
-	    KSImage kSImage = new KSImage("images/common/twiddler3.gif");
+	    Image Image = new Image("images/common/twiddler3.gif");
 
-		taskPanel.add(kSImage);
+		taskPanel.add(Image);
 		taskPanel.add(new Label(task.getDescription()));
 		listPanel.add(taskPanel);
 		

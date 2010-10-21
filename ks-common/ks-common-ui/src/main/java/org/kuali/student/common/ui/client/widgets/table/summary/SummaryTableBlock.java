@@ -3,8 +3,6 @@ package org.kuali.student.common.ui.client.widgets.table.summary;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-
 import com.google.gwt.event.dom.client.ClickHandler;
 
 public class SummaryTableBlock {

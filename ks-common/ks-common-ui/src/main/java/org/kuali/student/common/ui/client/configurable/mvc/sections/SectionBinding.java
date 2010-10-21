@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +27,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBi
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataType;
-import org.kuali.student.core.assembly.data.Data.Value;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.util.StringKey;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SectionBinding extends ModelWidgetBindingSupport<Section> {

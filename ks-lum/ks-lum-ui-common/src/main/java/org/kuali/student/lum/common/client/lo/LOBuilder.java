@@ -92,7 +92,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
 
         //adding search icon - should this be part of search link? coordinate with UX
         //searchImage.addClickHandler(searchClickHandler);
-        //KSImage searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
+        //Image searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
         //searchLinkPanel.add(searchImage);
               
         instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS_KEY));

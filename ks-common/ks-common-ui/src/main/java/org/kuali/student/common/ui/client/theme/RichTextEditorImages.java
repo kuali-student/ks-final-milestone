@@ -15,63 +15,64 @@
 
 package org.kuali.student.common.ui.client.theme;
 
-import org.kuali.student.common.ui.client.widgets.KSImage;
+import com.google.gwt.user.client.ui.Image;
+
 
 public interface RichTextEditorImages {
     
-    public KSImage bold();
+    public Image bold();
 
     
-    public KSImage createLink();
+    public Image createLink();
 
     
-    public KSImage hr();
+    public Image hr();
 
     
-    public KSImage indent();
+    public Image indent();
 
     
-    public KSImage insertImage();
+    public Image insertImage();
 
     
-    public KSImage italic();
+    public Image italic();
 
     
-    public KSImage justifyCenter();
+    public Image justifyCenter();
 
     
-    public KSImage justifyLeft();
+    public Image justifyLeft();
 
     
-    public KSImage justifyRight();
+    public Image justifyRight();
 
     
-    public KSImage ol();
+    public Image ol();
 
     
-    public KSImage outdent();
+    public Image outdent();
 
     
-    public KSImage removeFormat();
+    public Image removeFormat();
 
     
-    public KSImage removeLink();
+    public Image removeLink();
 
     
-    public KSImage strikeThrough();
+    public Image strikeThrough();
 
     
-    public KSImage subscript();
+    public Image subscript();
 
     
-    public KSImage superscript();
+    public Image superscript();
 
     
-    public KSImage ul();
+    public Image ul();
 
     
-    public KSImage underline();
+    public Image underline();
     
     
-    public KSImage popout();
+    public Image popout();
 }
