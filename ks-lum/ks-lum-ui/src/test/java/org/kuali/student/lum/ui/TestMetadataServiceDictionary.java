@@ -172,6 +172,7 @@ public class TestMetadataServiceDictionary
    {
     System.out.println ("error: " + error);
    }
+   System.out.println (errors.size () + " errors found when validating metadata");
 //   fail (errors.size () + " errors found when validating metadata");
   }
  }
@@ -209,7 +210,6 @@ public class TestMetadataServiceDictionary
   }
   return searchInfoTypeMap;
  }
-
  private MetadataServiceDictionaryValidator validator = null;
 
  private MetadataServiceDictionaryValidator getValidator ()
@@ -220,7 +220,6 @@ public class TestMetadataServiceDictionary
   }
   return validator;
  }
-
 
  private List<String> validateMetadata (Metadata md, String name, String type)
  {
