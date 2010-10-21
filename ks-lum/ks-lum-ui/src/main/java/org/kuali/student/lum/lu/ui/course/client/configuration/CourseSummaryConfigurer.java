@@ -563,37 +563,23 @@ public class CourseSummaryConfigurer implements
                     final FlowPanel panel2 = new FlowPanel();
                     final SummaryTableFieldRow arow = new SummaryTableFieldRow(addRequisiteField(panel1, stmtType), addRequisiteField(panel2, stmtType));
                     block.addSummaryTableFieldRow(arow);
-                    controller.requestModel(modelId, new ModelRequestCallback<DataModel>() {
-
-                        @Override
-                        public void onModelReady(DataModel model) {
-                            if (model != null) {
-                                ((ModelWidgetBinding<FlowPanel>)arow.getFieldDescriptor1().getModelWidgetBinding()).setWidgetValue(panel1, model, "");
-                            }
-                            KSBlockingProgressIndicator.removeTask(loadDataTask);
-                        }
-
-                        @Override
-                        public void onRequestFail(Throwable cause) {
-                            KSBlockingProgressIndicator.removeTask(loadDataTask);
-                        }
-                    });
-                    controller.requestModel("ComparisonModel", new ModelRequestCallback<DataModel>() {
-
-                        @Override
-                        public void onModelReady(DataModel model) {
-                            if (model != null) {
-                                ((ModelWidgetBinding<FlowPanel>)arow.getFieldDescriptor2().getModelWidgetBinding()).setWidgetValue(panel2, model, "");
-                            }
-                            KSBlockingProgressIndicator.removeTask(loadDataTask);                            
-                        }
-
-                        @Override
-                        public void onRequestFail(Throwable cause) {
-                            KSBlockingProgressIndicator.removeTask(loadDataTask);
-                        }
-                    });
                 }
+
+                controller.requestModel(modelId, new ModelRequestCallback<DataModel>() {
+
+                    @Override
+                    public void onModelReady(DataModel model) {
+                        if (model != null) {
+                            tableSection.updateWidgetData(model);
+                        }
+                        KSBlockingProgressIndicator.removeTask(loadDataTask);
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        KSBlockingProgressIndicator.removeTask(loadDataTask);
+                    }
+                });
             }
         });
 
@@ -631,7 +617,6 @@ public class CourseSummaryConfigurer implements
 
         FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, new MessageKeyInfo(stmtType.getName()), null, panel);
         requisiteField.setWidgetBinding(widgetBinding);
-        //requisiteField.showLabel(true);
 
         return requisiteField;
     }

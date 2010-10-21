@@ -183,7 +183,7 @@ public class CourseRequirementsDataModel {
 
         final List<String> referencedProgReqIds = new ArrayList<String>();
 
-        courseRemoteService.storeCourseStatements(courseId, courseReqState, courseReqInfos, new KSAsyncCallback<Map<Integer, StatementTreeViewInfo>>() {
+        courseRemoteService.storeCourseStatements(courseId.toString(), courseReqState, courseReqInfos, new KSAsyncCallback<Map<Integer, StatementTreeViewInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
