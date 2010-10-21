@@ -391,8 +391,11 @@
 	width: 500px;
 }
 .KS-CluSetManagement-chooser-unselected {
-	background: transparent;
-	width: 500px;
+    background-color: lightgrey;
+    width:500px;
+    height:100px;
+    padding:10px;
+
 }
 
 .cluInfo-officialIdentifier-longName{}
