@@ -85,6 +85,11 @@
       <version>${kuali.rice.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.kuali.student.admin</groupId>
+      <artifactId>ks-admin</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-rice</artifactId>
       <version>${project.version}</version>

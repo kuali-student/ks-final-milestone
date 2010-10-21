@@ -15,15 +15,12 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Kuali Student" />
+<channel:portalChannelTop channelTitle="Kuali Student Applications" />
 <div class="body">
   
   <ul class="chan">
     <li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>
     <li><a href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
-<!--
-    <li><portal:portalLink displayTitle="true" title="Travel Account Type Lookup" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=edu.sampleu.travel.bo.TravelAccountType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
--->
   </ul>
 <br/>
   <ul class="chan">
