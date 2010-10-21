@@ -101,7 +101,7 @@ CreditCourseLearningResultsConstants
         dropdown.addStyleName("KS-Workflow-DropDown");
         layoutController.addContentWidget(dropdown);
         layoutController.addContentWidget(layoutController.getVersionHistoryWidget());
-
+        layoutController.showPrint(true);
     }
     
     public void generateLayout(TabMenuController layoutController, String modelId) {

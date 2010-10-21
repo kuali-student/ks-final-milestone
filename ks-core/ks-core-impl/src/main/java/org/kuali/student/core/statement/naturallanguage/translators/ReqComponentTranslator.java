@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ReqComponentTranslator {
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
+	private final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
 
     private String language;
     private ContextRegistry<Context<ReqComponentInfo>> contextRegistry;
@@ -117,7 +117,13 @@ public class ReqComponentTranslator {
         ReqComponentTypeNLTemplate template = getTemplate(reqComponentType, nlUsageTypeKey, language);
 
         try {
-			return this.templateTranslator.translate(contextMap, template.getTemplate());
+			String nl = this.templateTranslator.translate(contextMap, template.getTemplate());
+
+			if(logger.isInfoEnabled()) {
+    			logger.info("nl="+nl);
+    		}
+
+			return nl;
 		} catch (OperationFailedException e) {
 			String msg = "Generating template for requirement component failed: "+reqComponent;
 			logger.error(msg, e);
@@ -143,6 +149,10 @@ public class ReqComponentTranslator {
     		contextMap.putAll(cm);
     	}
 
+        if(logger.isInfoEnabled()) {
+			logger.info("contextMap="+contextMap);
+		}
+
         return contextMap;
     }
 
@@ -160,6 +170,11 @@ public class ReqComponentTranslator {
     	List<ReqComponentTypeNLTemplate> templateList = reqComponentType.getNlUsageTemplates();
         for (ReqComponentTypeNLTemplate template : templateList) {
             if (nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
+
+            	if(logger.isInfoEnabled()) {
+        			logger.info("template="+template);
+        		}
+
                 return template;
             }
         }

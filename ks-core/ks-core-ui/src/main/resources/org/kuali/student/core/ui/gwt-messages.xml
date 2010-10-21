@@ -36,8 +36,8 @@
         <property name="groupName"      value="course" />
 	</bean>
 
-   	<bean parent="enCourse" p:id="beginTitle"		p:value="Begin Proposal"/>
-   	<bean parent="enCourse" p:id="beginDirections" >
+   	<bean parent="enCourse" p:messageId="beginTitle"		p:value="Begin Proposal"/>
+   	<bean parent="enCourse" p:messageId="beginDirections" >
    		<property name="value">
    			<value>
    				By saving this information, you will create a saved draft that you can continue working on at a later time. You can access the draft upon logging into KS by checking your task list.
@@ -46,64 +46,64 @@
    		</property>
    	</bean>
 
-   	<bean parent="enOrg" p:id="orgType"		p:value="Type"/>
-   	<bean parent="enOrg" p:id="orgName"		p:value="Name"/>
-   	<bean parent="enOrg" p:id="orgAbbr"		p:value="Abbreviation"/>
-   	<bean parent="enOrg" p:id="orgDesc"		p:value="Description"/>
-   	<bean parent="enOrg" p:id="orgEffDate"		p:value="Effective Date"/>
-   	<bean parent="enOrg" p:id="orgExpDate"		p:value="Expiration Date"/>
+   	<bean parent="enOrg" p:messageId="orgType"		p:value="Type"/>
+   	<bean parent="enOrg" p:messageId="orgName"		p:value="Name"/>
+   	<bean parent="enOrg" p:messageId="orgAbbr"		p:value="Abbreviation"/>
+   	<bean parent="enOrg" p:messageId="orgDesc"		p:value="Description"/>
+   	<bean parent="enOrg" p:messageId="orgEffDate"		p:value="Effective Date"/>
+   	<bean parent="enOrg" p:messageId="orgExpDate"		p:value="Expiration Date"/>
 
-   	<bean parent="enOrg" p:id="orgPersonRelationExpDate"		p:value="Expiration Date"/>
-   	<bean parent="enOrg" p:id="orgPersonRelationEffDate"		p:value="Effective Date"/>
-   	<bean parent="enOrg" p:id="orgPersonRelationType"		p:value="Relationship"/>
-   	<bean parent="enOrg" p:id="orgPersonRelationPersonId"		p:value="Person Id"/>
-   	<bean parent="enOrg" p:id="orgPersonRelationSection"		p:value="Membership"/>
-    <bean parent="enOrg" p:id="orgPersonRelationPerson"        p:value="Person"/>
-    <bean parent="enOrg" p:id="orgPersonRelationFindPersonBtn"        p:value="Find Person"/>
+   	<bean parent="enOrg" p:messageId="orgPersonRelationExpDate"		p:value="Expiration Date"/>
+   	<bean parent="enOrg" p:messageId="orgPersonRelationEffDate"		p:value="Effective Date"/>
+   	<bean parent="enOrg" p:messageId="orgPersonRelationType"		p:value="Relationship"/>
+   	<bean parent="enOrg" p:messageId="orgPersonRelationPersonId"		p:value="Person Id"/>
+   	<bean parent="enOrg" p:messageId="orgPersonRelationSection"		p:value="Membership"/>
+    <bean parent="enOrg" p:messageId="orgPersonRelationPerson"        p:value="Person"/>
+    <bean parent="enOrg" p:messageId="orgPersonRelationFindPersonBtn"        p:value="Find Person"/>
 
-   	<bean parent="enOrg" p:id="orgPositionRelationTypeKey"		p:value="Position"/>
-   	<bean parent="enOrg" p:id="orgPositionRelationTitle"		p:value="Title"/>
-   	<bean parent="enOrg" p:id="orgPositionRelationDesc"		p:value="Description"/>
-   	<bean parent="enOrg" p:id="orgPositionRelationMinPpl"		p:value="Min people"/>
-   	<bean parent="enOrg" p:id="orgPositionRelationMaxPpl"		p:value="Max people"/>
-   	<bean parent="enOrg" p:id="orgPositionRelationSection"		p:value="Positions"/>
+   	<bean parent="enOrg" p:messageId="orgPositionRelationTypeKey"		p:value="Position"/>
+   	<bean parent="enOrg" p:messageId="orgPositionRelationTitle"		p:value="Title"/>
+   	<bean parent="enOrg" p:messageId="orgPositionRelationDesc"		p:value="Description"/>
+   	<bean parent="enOrg" p:messageId="orgPositionRelationMinPpl"		p:value="Min people"/>
+   	<bean parent="enOrg" p:messageId="orgPositionRelationMaxPpl"		p:value="Max people"/>
+   	<bean parent="enOrg" p:messageId="orgPositionRelationSection"		p:value="Positions"/>
 
-   	<bean parent="enOrg" p:id="orgOrgRelationName"		p:value="Organization"/>
-   	<bean parent="enOrg" p:id="orgOrgRelationId"		p:value="Organization Id"/>
-   	<bean parent="enOrg" p:id="orgOrgRelationType"		p:value="Relationship"/>
-   	<bean parent="enOrg" p:id="orgOrgRelationEffDate"		p:value="Effective date"/>
-   	<bean parent="enOrg" p:id="orgOrgRelationExpDate"		p:value="Expiration date"/>
-   	<bean parent="enOrg" p:id="orgOrgRelationNote"		p:value="Note"/>
-   	<bean parent="enOrg" p:id="orgOrgRelationSection"		p:value="Relationships/Links"/>
+   	<bean parent="enOrg" p:messageId="orgOrgRelationName"		p:value="Organization"/>
+   	<bean parent="enOrg" p:messageId="orgOrgRelationId"		p:value="Organization Id"/>
+   	<bean parent="enOrg" p:messageId="orgOrgRelationType"		p:value="Relationship"/>
+   	<bean parent="enOrg" p:messageId="orgOrgRelationEffDate"		p:value="Effective date"/>
+   	<bean parent="enOrg" p:messageId="orgOrgRelationExpDate"		p:value="Expiration date"/>
+   	<bean parent="enOrg" p:messageId="orgOrgRelationNote"		p:value="Note"/>
+   	<bean parent="enOrg" p:messageId="orgOrgRelationSection"		p:value="Relationships/Links"/>
 
-    <bean parent="enOrg" p:id="orgSearchBasic"       p:value="Basic Search"/>
-    <bean parent="enOrg" p:id="orgSearchAdvanced"       p:value="Advanced Search"/>
-    <bean parent="enOrg" p:id="orgSearchCustom"       p:value="Custom Search"/>
+    <bean parent="enOrg" p:messageId="orgSearchBasic"       p:value="Basic Search"/>
+    <bean parent="enOrg" p:messageId="orgSearchAdvanced"       p:value="Advanced Search"/>
+    <bean parent="enOrg" p:messageId="orgSearchCustom"       p:value="Custom Search"/>
 
-    <bean parent="enOrg" p:id="orgPositionTablePersonId"       p:value="Person ID"/>
-    <bean parent="enOrg" p:id="orgPositionTablePositionName"       p:value="Position Name"/>
-    <bean parent="enOrg" p:id="orgPositionTablePositionDesc"       p:value="Position Description"/>
+    <bean parent="enOrg" p:messageId="orgPositionTablePersonId"       p:value="Person ID"/>
+    <bean parent="enOrg" p:messageId="orgPositionTablePositionName"       p:value="Position Name"/>
+    <bean parent="enOrg" p:messageId="orgPositionTablePositionDesc"       p:value="Position Description"/>
 
-    <bean parent="enOrg" p:id="orgMembersTableFirstName"       p:value="First Name"/>
-    <bean parent="enOrg" p:id="orgMembersTableLastName"       p:value="Last Name"/>
-    <bean parent="enOrg" p:id="orgMembersTablePoistionName"       p:value="Position Name"/>
+    <bean parent="enOrg" p:messageId="orgMembersTableFirstName"       p:value="First Name"/>
+    <bean parent="enOrg" p:messageId="orgMembersTableLastName"       p:value="Last Name"/>
+    <bean parent="enOrg" p:messageId="orgMembersTablePoistionName"       p:value="Position Name"/>
 
-	<bean parent="enOrg" p:id="orgId"		p:value="Organization Id"/>
+	<bean parent="enOrg" p:messageId="orgId"		p:value="Organization Id"/>
 
-    <bean parent="enOrg" p:id="orgFieldCantBeEmpty"       p:value="Field value cannot be empty"/>
+    <bean parent="enOrg" p:messageId="orgFieldCantBeEmpty"       p:value="Field value cannot be empty"/>
 
 	<!-- Organization Management panel -->
-    <bean parent="enOrg" p:id="orgTitleOrg"      p:value="Organization Management" />
-    <bean parent="enOrg" p:id="orgDocSearchClose"     p:value="Close" />
-    <bean parent="enOrg" p:id="orgCrud"     p:value="Create, Modify and Browse" />
-    <bean parent="enOrg" p:id="orgSearchTab"     p:value="Search/Modify" />
-    <bean parent="enOrg" p:id="orgPositionTab"     p:value="Positions/Members" />
-    <bean parent="enOrg" p:id="orgOrgTab"     p:value="Organization" />
-    <bean parent="enOrg" p:id="orgLoading"     p:value="Loading" />
-    <bean parent="enOrg" p:id="orgModify"     p:value="Modify" />
-    <bean parent="enOrg" p:id="orgSave"     p:value="Save" />
-    <bean parent="enOrg" p:id="orgCancel"     p:value="Cancel" />
-    <bean parent="enOrg" p:id="orgSaveOk"     p:value="Save Successful" />
-    <bean parent="enOrg" p:id="orgSaveFailed"     p:value="Save Failed!  Please Try Again." />
+    <bean parent="enOrg" p:messageId="orgTitleOrg"      p:value="Organization Management" />
+    <bean parent="enOrg" p:messageId="orgDocSearchClose"     p:value="Close" />
+    <bean parent="enOrg" p:messageId="orgCrud"     p:value="Create, Modify and Browse" />
+    <bean parent="enOrg" p:messageId="orgSearchTab"     p:value="Search/Modify" />
+    <bean parent="enOrg" p:messageId="orgPositionTab"     p:value="Positions/Members" />
+    <bean parent="enOrg" p:messageId="orgOrgTab"     p:value="Organization" />
+    <bean parent="enOrg" p:messageId="orgLoading"     p:value="Loading" />
+    <bean parent="enOrg" p:messageId="orgModify"     p:value="Modify" />
+    <bean parent="enOrg" p:messageId="orgSave"     p:value="Save" />
+    <bean parent="enOrg" p:messageId="orgCancel"     p:value="Cancel" />
+    <bean parent="enOrg" p:messageId="orgSaveOk"     p:value="Save Successful" />
+    <bean parent="enOrg" p:messageId="orgSaveFailed"     p:value="Save Failed!  Please Try Again." />
 
 </beans>

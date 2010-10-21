@@ -120,7 +120,11 @@ public class ProgramDataGeneratorUtils {
 			   return null;
             }
 		}
-		
+
+        if("programRequirements".equals(name)){
+        	return "REQ-200";
+        }
+        
 		if("type".equals(name)){
 			
 			if(null==parentPropertyName){

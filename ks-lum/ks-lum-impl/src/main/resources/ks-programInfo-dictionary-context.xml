@@ -1056,14 +1056,17 @@
 
     <bean id="programRequirementInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
         <property name="name" value="shortTitle"/>
+        <property name="minOccurs" value="1"/>
     </bean>
     <bean id="programRequirementInfo.shortTitle" parent="programRequirementInfo.shortTitle-parent"/>
     <bean id="programRequirementInfo.minCredits-parent" abstract="true" parent="baseInteger">
         <property name="name" value="minCredits"/>
+        <property name="minOccurs" value="1"/>
     </bean>
     <bean id="programRequirementInfo.minCredits" parent="programRequirementInfo.minCredits-parent"/>
     <bean id="programRequirementInfo.maxCredits-parent" abstract="true" parent="baseInteger">
         <property name="name" value="maxCredits"/>
+        <property name="minOccurs" value="1"/>
     </bean>
     <bean id="programRequirementInfo.maxCredits" parent="programRequirementInfo.maxCredits-parent"/>
     <bean id="programRequirementInfo.state-parent" abstract="true" parent="cluInfo.state-parent">

@@ -9,7 +9,7 @@
         TYPE_DESC="Describes where one organization is administratively responsible for another organization that is not simply &quot;part&quot; of that organization and where the relationship cannot be said to be so strong that there is a &quot;reporting&quot; relationship"
         TYPE_KEY="kuali.org.Administer" VER_NBR="0"/>
     <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
-        EXPIR_DT="20001231000000" NAME="Advises"
+         NAME="Advises"
         OBJ_ID="B4B60D00590B4068B36AB6EDC6C44A82"
         ORG_HIRCHY="kuali.org.hierarchy.Main"
         REV_DESCR="Indicates that this organization receives advice from the leadership of another organization"

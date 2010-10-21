@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
@@ -35,6 +36,7 @@ import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -153,6 +155,7 @@ public class ApplicationHeader extends Composite{
 		createNavDropDown();
 		ksHeader.addNavigation(navDropDown);
 		ksHeader.addBottomContainerWidget(BreadcrumbManager.getBreadcrumbPanel());
+		BreadcrumbManager.setParentPanel(ksHeader.getBottomContainer());
 		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
@@ -191,11 +194,18 @@ public class ApplicationHeader extends Composite{
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleHome"),Theme.INSTANCE.getCommonImages().getApplicationIcon(),
-    			new WrapperNavigationHandler("#/HOME"))
-    	);
+    			new ClickHandler(){
+
+					@Override
+					public void onClick(ClickEvent event) {
+						HistoryManager.navigate(AppLocations.Locations.HOME.getLocation());
+					}}));
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleCurriculumManagement"),Theme.INSTANCE.getCommonImages().getBookIcon(),
-    			new WrapperNavigationHandler("#/HOME/CURRICULUM_HOME"))
-    	);
+    			new ClickHandler(){
+					@Override
+					public void onClick(ClickEvent event) {
+						HistoryManager.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+					}}));
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleOrg"), Theme.INSTANCE.getCommonImages().getPeopleIcon(),
     			new WrapperNavigationHandler(lumAppUrl+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
     	);
@@ -208,7 +218,7 @@ public class ApplicationHeader extends Composite{
 						docSearchDialog.show();
 					}})
     	);
-    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getSpacerIcon(),
+    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getRiceIcon(),
     			new WrapperNavigationHandler(
     					appUrl+"/portal.do?selectedTab=main"))
     	);

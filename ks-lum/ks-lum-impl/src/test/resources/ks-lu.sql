@@ -54,6 +54,13 @@ INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VA
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.CoreProgram', 'Program containing core requirements', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Core',0)
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.Requirement', 'Program requirements', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Req',0)
 
+--Publication types
+INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('cluPublication.Test.Type.1', 'TestType1', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'TestType1',0)
+INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('cluPublication.Test.Type.2', 'TestType2', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'TestType2',0)
+INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('kuali.lu.publication.Catalog', 'Catalog', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Catalog',0)
+INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('kuali.lu.publication.UndergradCatalog', 'Undergraduate Catalog', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Undergrad Catalog',0)
+INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('kuali.lu.publication.GradCatalog', 'Graduate Catalog', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Grad Catalog',0)
+
 // CluInstructor
 INSERT INTO KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID,VER_NBR) VALUES ('INSTR-1', 'ORG-1', 'PersonID',0)
 INSERT INTO KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID,VER_NBR) VALUES ('INSTR-2', 'ORG-2', 'PersonID',0)
@@ -626,6 +633,8 @@ INSERT into KSLU_RICH_TEXT_T (id, plain ,VER_NBR) VALUES ('MAJOR-102','Bachelor 
 insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VER_NBR,RES_COMP_ID,ST, RT_DESCR_ID) Values ('MAJOR-102','admin',{ts '2010-04-15 10:00:00.0'}, 0, 'kuali.resultComponent.degree.bsc','active', 'MAJOR-102');
 insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('MAJOR-101','MAJOR-102');
 
+INSERT INTO KSLU_CLU_PUBL (ID, CLU_ID, CLU_PUB_TYPE_ID, CREATEID,CREATETIME,VER_NBR) values ('MAJOR-101', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.publication.Catalog', 'admin', {ts '2030-12-31 00:00:00.0'},0)
+
 // Test data for Variations
 // Variation 1
 INSERT into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('VAR-201', '<b>Zooarchaeology</b>', 'Zooarchaeology',0)
@@ -722,6 +731,7 @@ insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VER_NBR, CAN_CREATE_LUI, DEF_EN
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VER_NBR, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID,VER_IND_ID,SEQ_NUM,CURR_VER_START,CURR_VER_END) values ('CLU-VERSIONTEST-V3', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture','CLU-VERSIONTEST-IND',3,{ts '2010-04-01 00:00:00.0'},{ts '2010-05-01 00:00:00.0'})
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VER_NBR, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, LUTYPE_ID,VER_IND_ID,SEQ_NUM,CURR_VER_START,CURR_VER_END) values ('CLU-VERSIONTEST-V4', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture','CLU-VERSIONTEST-IND',4,{ts '2010-05-01 00:00:00.0'},null)
 
---Publication types
-INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('cluPublication.Test.Type.1', 'TestType1', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'TestType1',0)
-INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('cluPublication.Test.Type.2', 'TestType2', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'TestType2',0)
+--Requirements
+insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID) values ('REQ-200', null, {ts '2010-07-24 12:05:36.0'}, null, {ts '2010-08-24 12:05:36.0'}, 1, 0, 0, 0, {ts '2010-07-24 00:00:00.0'}, null, 0, 0, 0, null, null, 'Active', null, null, null, null, 'VAR-201', null,  'kuali.lu.type.Requirement', 'VAR-201', 'INSTR-1')
+insert into KSLU_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, EXPIR_DT, HAS_EARLY_DROP_DEDLN, IS_ENRL, IS_HAZR_DISBLD_STU, NEXT_REVIEW_PRD, REF_URL, ST, ATP_DUR_TYP_KEY, TM_QUANTITY, STDY_SUBJ_AREA, ACCT_ID, RT_DESCR_ID, FEE_ID, LUTYPE_ID, OFFIC_CLU_ID, PRI_INSTR_ID) values ('REQ-300', null, {ts '2010-07-24 12:05:36.0'}, null, {ts '2010-08-24 12:05:36.0'}, 1, 0, 0, 0, {ts '2010-07-24 00:00:00.0'}, null, 0, 0, 0, null, null, 'Active', null, null, null, null, 'VAR-201', null,  'kuali.lu.type.Requirement', 'VAR-201', 'INSTR-1')
+insert into KSLU_CLUCLU_RELTN (id, createid, createtime, VER_NBR, clu_reltn_req, eff_dt, st, clu_id, lu_reltn_type_id, related_clu_id) VALUES ('REQ-201', 'CREATEID', {ts '2010-02-16 10:00:00.0'}, 0, 1, {ts '2010-01-16 10:00:00.0'}, 'active', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.lu.relation.type.hasProgramRequirement', 'REQ-200' );

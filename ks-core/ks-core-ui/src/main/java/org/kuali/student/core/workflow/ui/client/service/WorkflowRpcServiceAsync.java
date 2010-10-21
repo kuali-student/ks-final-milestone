@@ -41,6 +41,7 @@ public interface WorkflowRpcServiceAsync {
 	public void acknowledgeDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
 	public void fyiDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
 	public void withdrawDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+    public void blanketApproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
     public void returnDocumentWithId(String workflowId, String nodeName, AsyncCallback<Boolean> callback);
     public void getPreviousRouteNodeNames(String workflowId, AsyncCallback<List<String>> callback);
 	

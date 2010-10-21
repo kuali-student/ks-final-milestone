@@ -30,6 +30,8 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -401,6 +403,15 @@ public class CourseServiceImpl implements CourseService {
 			// Use the results to make the appropriate service calls here
 			courseServiceMethodInvoker.invokeServiceCalls(results);
 
+			//copy statements
+			List<StatementTreeViewInfo> statementTreeViews = getCourseStatements(currentVersion.getId(),null,null);
+			
+			clearStatementTreeViewIds(statementTreeViews);
+			
+			for(StatementTreeViewInfo statementTreeView:statementTreeViews){
+				createCourseStatement(results.getBusinessDTORef().getId(), statementTreeView);
+			}
+			
 			return results.getBusinessDTORef();
 		} catch (AlreadyExistsException e) {
 			throw new OperationFailedException("Error creating new course version",e);
@@ -418,6 +429,26 @@ public class CourseServiceImpl implements CourseService {
 			throw new OperationFailedException("Error creating new course version",e);
 		}
 
+	}
+
+	private void clearStatementTreeViewIds(
+			List<StatementTreeViewInfo> statementTreeViews) {
+		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
+			clearStatementTreeViewIdsRecursively(statementTreeView);
+		}
+	}
+
+	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView){
+		statementTreeView.setId(null);
+		for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
+			reqComp.setId(null);
+			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
+				field.setId(null);
+			}
+		}
+		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
+			clearStatementTreeViewIdsRecursively(child);
+		}
 	}
 
 	private void resetIds(CourseInfo course) {

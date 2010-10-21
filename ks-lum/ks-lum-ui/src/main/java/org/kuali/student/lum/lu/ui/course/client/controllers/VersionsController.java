@@ -179,6 +179,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     @Override
     public void beforeShow(Callback<Boolean> onReadyCallback) {
     	versionHistoryButton.setVisible(false);
+    	this.getHeader().showPrint(false);
     	showDefaultView(onReadyCallback);
     }
     
@@ -238,16 +239,12 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	@Override
 	public <V extends Enum<?>> void showView(V viewType, Callback<Boolean> onReadyCallback) {
 		if(viewType != Views.VERSION_SELECT){
-			ViewContext context = new ViewContext();
-			context.setId(select.getId1());
-			if(select.getId2() != null){
-				context.setAttribute("docId2", select.getId2());
-			}
-			this.setViewContext(context);
 			versionHistoryButton.setVisible(true);
+			this.getHeader().showPrint(true);
 		}
 		else{
 			versionHistoryButton.setVisible(false);
+			this.getHeader().showPrint(false);
 		}
 		super.showView(viewType, onReadyCallback);
 	}

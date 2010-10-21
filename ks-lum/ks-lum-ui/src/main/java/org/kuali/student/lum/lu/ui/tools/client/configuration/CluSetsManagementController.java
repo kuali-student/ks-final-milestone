@@ -233,7 +233,7 @@ public class CluSetsManagementController extends BasicLayout {
         } else {
             progressWindow.show();
 
-            cluSetManagementRpcServiceAsync.getMetadata("cluset", null, new KSAsyncCallback<Metadata>(){
+            cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -378,15 +378,25 @@ public class CluSetsManagementController extends BasicLayout {
 
                 @Override
                 public void onSuccess(DataSaveResult result) {
-                    // FIXME needs to check validation results and display messages if validation failed
-                    dataModel.setRoot(result.getValue());
-                    if (saveActionEvent.isAcknowledgeRequired()){
-                        saveMessage.setText("Save Successful");
+                    if (result.getValidationResults() != null &&
+                            !result.getValidationResults().isEmpty()) {
+                        StringBuilder errorMessage = new StringBuilder();
+                        errorMessage.append("Validation error: ");
+                        for (ValidationResultInfo validationError : result.getValidationResults()) {
+                            errorMessage.append(validationError.getMessage()).append(" ");
+                        }
+                        saveMessage.setText(errorMessage.toString());
                         buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
                     } else {
-                        saveWindow.hide();
-                        saveActionEvent.doActionComplete();
-                    } 
+                        dataModel.setRoot(result.getValue());
+                        if (saveActionEvent.isAcknowledgeRequired()){
+                            saveMessage.setText("Save Successful");
+                            buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+                        } else {
+                            saveWindow.hide();
+                            saveActionEvent.doActionComplete();
+                        }
+                    }
                 }
             });
 

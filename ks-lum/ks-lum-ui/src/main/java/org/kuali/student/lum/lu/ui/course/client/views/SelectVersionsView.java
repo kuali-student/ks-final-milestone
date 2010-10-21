@@ -3,11 +3,9 @@ package org.kuali.student.lum.lu.ui.course.client.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
@@ -16,25 +14,21 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
-import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.search.SearchResultsTable;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SortDirection;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
-import org.kuali.student.lum.lu.ui.main.client.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
 
 public class SelectVersionsView extends ViewComposite{
 
@@ -70,17 +64,23 @@ public class SelectVersionsView extends ViewComposite{
 				if(table.getSelectedIds().size() == 1){
 					id1 = table.getSelectedIds().get(0);
 					id2 = null;
+					ViewContext context = new ViewContext();
+					context.setId(id1);
+					getController().setViewContext(context);
 					getController().showView(VersionsController.Views.VERSION_VIEW);
 				}
 				else if(table.getSelectedIds().size() == 2){
 					id1 = table.getSelectedIds().get(0);
 					id2 = table.getSelectedIds().get(1);
+					ViewContext context = new ViewContext();
+					context.setId(id1);
+					context.setAttribute("docId2", id2);
+					getController().setViewContext(context);
 					getController().showView(VersionsController.Views.VERSION_COMPARE);
 				}
 				else{
 					Window.alert("Please select either a single version to VIEW or two versions to COMPARE");
 				}
-				
 			}
 		}));
 		buttons.addButton(new KSButton("Return to Current Course", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){

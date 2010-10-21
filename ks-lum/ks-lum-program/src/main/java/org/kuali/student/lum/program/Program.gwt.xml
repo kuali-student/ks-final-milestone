@@ -17,4 +17,5 @@
 
     -->
     <inherits name="org.kuali.student.lum.common.LumUiCommon"/>
+	<inherits name="org.kuali.student.lum.program.ProgramDto"/>
 </module>

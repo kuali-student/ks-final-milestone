@@ -27,6 +27,10 @@
     padding-top: 40px;
 }
 
+.KS-Program-Requirements-Preview-Rule-Type-Credits {
+    padding-bottom: 20px;
+}
+
 .KS-Program-Requirements-Preview-Rule-Type-Desc {
     padding-bottom: 15px;
     width: 650px;
@@ -73,8 +77,18 @@
 }
 
 .programController .programInformationView {
-    background-color: #F1F1F1;
+                    background-color: #f1f1f1; 
+                    padding: 15px 15px 0 15px; 
+                    margin-bottom: 2em; 
 }
+
+.programInformationView h4 { 
+       text-transform: uppercase;
+       letter-spacing: .03em;
+       border-bottom: 1px dotted #808080;
+       font-size: 1.1em;
+} 
+
 
 .programController .programActionPanel {
     padding-top: 10px;
@@ -94,6 +108,25 @@
 
 .programController .sideBar .datePanel {
     border-spacing: 2px;
+}
+
+.programController .parentProgram {
+    padding-right: 3px;
+}
+
+.editableHeader {
+    height: 20px;
+}
+
+.editableHeader .sectionTitle {
+    font-size: 17px;
+    float: left;
+}
+
+.editableHeader .editButton {
+    padding-left: 2px;
+    padding-top: 2px;
+    position:relative;
 }
 
 .gwt-PopupPanel {

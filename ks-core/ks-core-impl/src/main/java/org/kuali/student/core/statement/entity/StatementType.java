@@ -23,6 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.kuali.student.core.entity.Type;
@@ -36,6 +37,7 @@ public class StatementType extends Type<StatementTypeAttribute> {
     
 	@ManyToMany
     @JoinTable(name = "KSST_STMT_TYP_JN_RC_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
+    @OrderBy("descr ASC")
     private List<ReqComponentType> allowedReqComponentTypes;
     
     @OneToMany
@@ -71,14 +73,6 @@ public class StatementType extends Type<StatementTypeAttribute> {
     public void setAllowedStatementTypes(List<StatementType> allowedStatementTypes) {
         this.allowedStatementTypes = allowedStatementTypes;
     }
-
-//	public List<StatementTypeHeaderTemplate> getStatementHeaders() {
-//		return statementHeaders;
-//	}
-//
-//	public void setStatementHeaders(List<StatementTypeHeaderTemplate> header) {
-//		this.statementHeaders = header;
-//	}
 
 	public List<RefStatementRelationType> getRefStatementRelationTypes() {
 		return refStatementRelationTypes;

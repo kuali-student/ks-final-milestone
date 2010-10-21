@@ -2,6 +2,7 @@ package org.kuali.student.lum.course.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -14,6 +15,7 @@ import org.kuali.student.common.validator.SampCustomValidator;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -34,8 +36,24 @@ public class TestCourseInfoDictionary {
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
 				startingClasses, contextFile + ".xml", true);
-		helper.doTest();
-	}
+	 List<String> errors = helper.doTest ();
+  if (errors.size () > 0)
+  {
+   fail ("failed dictionary validation:\n" + formatAsString (errors));
+  }
+ }
+
+ private String formatAsString (List<String> errors)
+ {
+  int i = 0;
+  StringBuilder builder = new StringBuilder ();
+  for (String error : errors)
+  {
+   i ++;
+   builder.append (i + ". " + error + "\n");
+  }
+  return builder.toString ();
+ }
 
 	@Test
 	public void testCourseInfoValidation() throws OperationFailedException {

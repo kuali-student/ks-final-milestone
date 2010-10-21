@@ -217,6 +217,9 @@
     <KSLU_RICH_TEXT_T FORMATTED="&lt;p>First year arts CluSet&lt;/p>"
         ID="RICHTEXT-801" OBJ_ID="FAA0AAFD006942DFA30F234AB6C2A3AC"
         PLAIN="First year arts CluSet" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T FORMATTED="&lt;p>Antho BSC Program CluSet&lt;/p>"
+        ID="RICHTEXT-901" OBJ_ID="441848C9427E48A4A75FBC6D069AC3A7"
+        PLAIN="Antho BSC Program CluSet" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T FORMATTED="Zooarchaeology" ID="VAR-201"
         OBJ_ID="0E4C86FAD45D44109D8B2C15E13CB2D2" PLAIN="Zooarchaeology" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T FORMATTED="Zooarchaeology" ID="VAR-202"

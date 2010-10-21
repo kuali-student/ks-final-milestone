@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.service.assembler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.BOAssembler;
@@ -10,6 +11,7 @@ import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -91,7 +93,10 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         programAssemblerUtils.disassembleAdminOrgs(clu, credential, operation);
         programAssemblerUtils.disassembleAtps(clu, credential, operation);    
         programAssemblerUtils.disassembleLuCodes(clu, credential, operation);
-        programAssemblerUtils.disassembleRequirements(clu, credential, operation);
+        
+        if(credential.getProgramRequirements() != null && !credential.getProgramRequirements().isEmpty()) {
+        	programAssemblerUtils.disassembleRequirements(clu, credential, operation, result);
+        }
  
         if (credential.getResultOptions() != null) {
             disassembleResultOptions(credential, operation, result);           
@@ -138,13 +143,33 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
     private void disassembleCorePrograms(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result) throws AssemblyException{
     	List<BaseDTOAssemblyNode<?, ?>> coreResults;
     	
-    	try{    		
+    	try{    
+           	Map<String, String> currentRelations = null;
+
+            if (!NodeOperation.CREATE.equals(operation)) {
+            	currentRelations = programAssemblerUtils.getCluCluRelations(credential.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM);
+            }
+            
 	    	for (String coreProgramId : credential.getCoreProgramIds()){
-	    		coreResults = programAssemblerUtils.addRelationNodes(credential.getId(), coreProgramId, ProgramAssemblerConstants.HAS_CORE_PROGRAM, operation);
+	    		coreResults = programAssemblerUtils.addAllRelationNodes(credential.getId(), coreProgramId, ProgramAssemblerConstants.HAS_CORE_PROGRAM, operation, currentRelations);
 	            if (coreResults != null && coreResults.size()> 0) {
 	                result.getChildNodes().addAll(coreResults);
 	            }
 	    	}
+	    	
+	        if(currentRelations != null && currentRelations.size() > 0){
+    	        for (Map.Entry<String, String> entry : currentRelations.entrySet()) {
+    	            // Create a new relation with the id of the relation we want to
+    	            // delete
+    	            CluCluRelationInfo relationToDelete = new CluCluRelationInfo();
+    	            relationToDelete.setId( entry.getValue() );
+    	            BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+    	                    null);
+    	            relationToDeleteNode.setNodeData(relationToDelete);
+    	            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+    	            result.getChildNodes().add(relationToDeleteNode);
+    	        }
+	        }
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling Core programs", e);
         }

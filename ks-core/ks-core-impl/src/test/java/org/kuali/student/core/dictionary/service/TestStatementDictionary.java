@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -23,16 +24,33 @@ public class TestStatementDictionary {
 	@Test
 	public void testLoadStatementInfoDictionary() {
   System.out.println ("testing statement dictionary");
-		Set<Class<?>> startingClasses = new LinkedHashSet<Class<?>>();
-		startingClasses.add(StatementInfo.class);
-		startingClasses.add(ReqComponentInfo.class);
-		startingClasses.add(StatementTreeViewInfo.class);
+		Set<String> startingClasses = new LinkedHashSet();
+		startingClasses.add(StatementInfo.class.getName ());
+		startingClasses.add(ReqComponentInfo.class.getName ());
+		startingClasses.add(StatementTreeViewInfo.class.getName ());
 		String contextFile = "ks-statement-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryTesterHelper helper = new DictionaryTesterHelper(outFile,
 				startingClasses, contextFile + ".xml", false);
-		helper.doTest();
-	}
+	 List<String> errors = helper.doTest ();
+  if (errors.size () > 0)
+  {
+   fail ("failed dictionary validation:\n" + formatAsString (errors));
+  }
+ }
+
+ private String formatAsString (List<String> errors)
+ {
+  int i = 0;
+  StringBuilder builder = new StringBuilder ();
+  for (String error : errors)
+  {
+   i ++;
+   builder.append (i + ". " + error + "\n");
+  }
+  return builder.toString ();
+ }
+
 
 	@Test
 	public void testStatementInfoValidation() throws OperationFailedException {

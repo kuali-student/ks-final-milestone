@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.rules.AccessWidgetValue;
@@ -47,6 +48,7 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
     public enum BuildCourseView {VIEW}
     private BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
     private String cluSetType;
+    private String metadataId;
 
     public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType) {
         super();
@@ -55,11 +57,16 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
                 new CluSetRetrieverImpl(),
                 BuildCourseView.VIEW,
                 "", CLUSET_MODEL_ID, false,
-                null);
+                null, cluSetType);
 
         ruleFieldsData = new DataModel();
         ruleFieldsData.setRoot(new Data());
         this.cluSetType = cluSetType;
+        if (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program")) {
+            this.metadataId = "programSet";
+        } else {
+            this.metadataId = "courseSet";
+        }
 
         //setup controller
         final CluSetRetriever theRetriever = cluSetRetriever;
@@ -71,7 +78,7 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
             @Override
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
                 if (ruleFieldsData.getDefinition() == null) {
-                    theRetriever.getMetadata("cluset", new Callback<Metadata>(){
+                    theRetriever.getMetadata(metadataId, new Callback<Metadata>(){
                         @Override
                         public void exec(Metadata result) {
                             DataModelDefinition def = new DataModelDefinition(result);
@@ -155,10 +162,21 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
                         cluSetRetriever.saveData(ruleFieldsData.getRoot(), new Callback<DataSaveResult>() {
                             @Override
                             public void exec(DataSaveResult result) {
-                                // FIXME needs to check validation results and display messages if validation failed
-                                ruleFieldsData.setRoot(result.getValue());
-                                String cluSetId = CluSetHelper.wrap((Data)ruleFieldsData.getRoot()).getId();
-                                doneSaveCallback.exec(cluSetId);
+                                if (result.getValidationResults() != null &&
+                                        !result.getValidationResults().isEmpty()) {
+                                    StringBuilder errorMessage = new StringBuilder();
+                                    errorMessage.append("Validation error: ");
+                                    for (ValidationResultInfo validationError : result.getValidationResults()) {
+                                        errorMessage.append(validationError.getMessage()).append(" ");
+                                    }
+                                    doneSaveCallback.exec(null);
+                                    Window.alert(errorMessage.toString());
+                                } else {
+                                    ruleFieldsData.setRoot(result.getValue());
+                                    String cluSetId = 
+                                        CluSetHelper.wrap((Data)ruleFieldsData.getRoot()).getId();
+                                    doneSaveCallback.exec(cluSetId);
+                                }
                             }
                         });
                     }

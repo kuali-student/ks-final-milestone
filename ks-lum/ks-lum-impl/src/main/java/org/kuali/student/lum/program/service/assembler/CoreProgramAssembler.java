@@ -89,7 +89,10 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         programAssemblerUtils.disassembleAtps(clu, core, operation);    
         programAssemblerUtils.disassembleLuCodes(clu, core, operation);
         programAssemblerUtils.disassemblePublicationInfo(clu, core, operation);
-        programAssemblerUtils.disassembleRequirements(clu, core, operation);
+        
+        if(core.getProgramRequirements() != null && !core.getProgramRequirements().isEmpty()) {
+        	programAssemblerUtils.disassembleRequirements(clu, core, operation, result);
+        }
         
         if (core.getLearningObjectives() != null) {
             disassembleLearningObjectives(core, operation, result);

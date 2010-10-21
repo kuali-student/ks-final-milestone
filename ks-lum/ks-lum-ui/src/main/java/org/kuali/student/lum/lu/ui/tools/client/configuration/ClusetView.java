@@ -69,10 +69,11 @@ public class ClusetView extends VerticalSectionView {
                 clusetViewEnum == CluSetsManagementViews.EDIT) {
             cluSetEditor = new CluSetEditorWidget(
                     new CluSetRetrieverImpl(),
-                    clusetViewEnum, name, modelId, false, null);
+                    clusetViewEnum, name, modelId, false, null,
+                    "kuali.cluSet.type.creditCourse");
         }
         viewEnum = clusetViewEnum;
-        cluSetManagementRpcServiceAsync.getMetadata("cluset", null, new KSAsyncCallback<Metadata>(){
+        cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert("Failed to retrieve cluset definition");
@@ -222,10 +223,10 @@ public class ClusetView extends VerticalSectionView {
 
     private void setupCreateEditClusetView() {
         VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), true);
-        FieldDescriptor typeField = getFieldDescriptor(ToolsConstants.CLU_SET_TYPE_FIELD, null, null, null);
-        typeField.getFieldWidget().setVisible(false);
-        ((HasText)typeField.getFieldWidget()).setText("kuali.cluSet.type.creditCourse");
-        defineCluSet.addField(typeField);
+//        FieldDescriptor typeField = getFieldDescriptor(ToolsConstants.CLU_SET_TYPE_FIELD, null, null, null);
+//        typeField.getFieldWidget().setVisible(false);
+//        ((HasText)typeField.getFieldWidget()).setText("kuali.cluSet.type.creditCourse");
+//        defineCluSet.addField(typeField);
         addField(defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, generateMessageInfo(ToolsConstants.ORGANIZATION), null, null);
         addField(defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.TITLE), null, null);
         addField(defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, generateMessageInfo(ToolsConstants.DESCRIPTION), new KSTextArea(), null);

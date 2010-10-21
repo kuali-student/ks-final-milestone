@@ -564,11 +564,16 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
         assertNotNull(reqCompTypeInfoList);
         assertEquals(9, reqCompTypeInfoList.size());
-
-        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqComponent.type.courseList.all");
-
-        assertNotNull(rqt);
-        assertEquals(rqt.getName(), "All of required courses");
+        // Test StatementType.allowedReqComponentTypes sort order
+        assertEquals(reqCompTypeInfoList.get(0).getDescr(), "Student must have completed none of <courses>");
+        assertEquals(reqCompTypeInfoList.get(1).getDescr(), "Student must have completed all of <courses>");
+        assertEquals(reqCompTypeInfoList.get(2).getDescr(), "Student must have completed <course>");
+        assertEquals(reqCompTypeInfoList.get(3).getDescr(), "Student must have completed <course-1> or <course-2>");
+        assertEquals(reqCompTypeInfoList.get(4).getDescr(), "Student needs <n> courses from the following <courses>");
+        assertEquals(reqCompTypeInfoList.get(5).getDescr(), "Student needs a minimum GPA of <GPA>");
+        assertEquals(reqCompTypeInfoList.get(6).getDescr(), "Student needs a <credits> credits from the following <courses>");
+        assertEquals(reqCompTypeInfoList.get(7).getDescr(), "Student must be enrolled in all of the following <courses>");
+        assertEquals(reqCompTypeInfoList.get(8).getDescr(), "Student must be enrolled in one of the following <courses>");
     }
 
     @Test
@@ -577,7 +582,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
         assertNotNull(rqt);
         assertEquals(rqt.getId(), "kuali.reqComponent.type.courseList.all");
-        assertEquals(rqt.getDescr(), "Student must have completed all of <kuali.reqComponent.field.type.cluSet.id>");
+        assertEquals(rqt.getDescr(), "Student must have completed all of <courses>");
         assertEquals(rqt.getName(), "All of required courses");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20001231"));
@@ -603,17 +608,15 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     @Test
     public void testGetReqComponentTypesForStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = statementService.getReqComponentTypesForStatementType("kuali.statement.type.course.academicReadiness.prereq");
-
-        assertNotNull(reqCompTypeInfoList);
+        
         assertEquals(6, reqCompTypeInfoList.size());
-
-        ReqComponentTypeInfo rqt = getReqComponentTypeInfo(reqCompTypeInfoList, "kuali.reqComponent.type.gradecheck");
-
-        assertNotNull(rqt);
-        assertEquals(rqt.getDescr(), "Student needs a minimum GPA of <kuali.reqComponent.field.type.gpa>");
-        assertEquals(rqt.getName(), "Minimum overall GPA");
-        assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
-        assertEquals(rqt.getExpirationDate(), df.parse("20011130"));
+        // Test StatementType.allowedReqComponentTypes sort order
+        assertEquals(reqCompTypeInfoList.get(0).getDescr(), "Student must have completed <course-1> or <course-2>");
+        assertEquals(reqCompTypeInfoList.get(1).getDescr(), "Student must have completed <course>");
+        assertEquals(reqCompTypeInfoList.get(2).getDescr(), "Student must have completed all of <courses>");
+        assertEquals(reqCompTypeInfoList.get(3).getDescr(), "Student needs <n> courses from the following <courses>");
+        assertEquals(reqCompTypeInfoList.get(4).getDescr(), "Student needs a <credits> credits from the following <courses>");
+        assertEquals(reqCompTypeInfoList.get(5).getDescr(), "Student needs a minimum GPA of <GPA>");
     }
 
     @Test
@@ -1508,7 +1511,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertEquals("REQCOMP-NL-5", resultRow2Columns.get(0).getValue());
 		assertEquals("kuali.reqComponent.type.courseList.1of1", resultRow2Columns.get(1).getValue());
 		assertEquals("One required course", resultRow2Columns.get(2).getValue());
-		assertEquals("Student must have completed <kuali.reqComponent.field.type.clu.id>", resultRow2Columns.get(3).getValue());
+		assertEquals("Student must have completed <course>", resultRow2Columns.get(3).getValue());
 		assertEquals("kuali.statement.type.course.academicReadiness.prereq", resultRow2Columns.get(4).getValue());
 		assertEquals("Academic Readiness Pre Reqs", resultRow2Columns.get(5).getValue());
 		assertEquals("Pre req rules used in the evaluation of a person's academic readiness for enrollment in a LU.", resultRow2Columns.get(6).getValue());

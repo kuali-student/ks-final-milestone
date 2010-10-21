@@ -88,7 +88,7 @@
  <bean id="freestanding.browse.courseCatalog" parent="freestanding.browse.courseCatalog-parent" />
 
 <bean id="freestanding.browse.courseCatalogObject-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="BrowseCourseCatalog"/>
+  <property name="name" value="browse.courseCatalog"/>
   <property name="attributes">
    <list>
     <ref bean="freestanding.browse.courseCatalog.bySchoolOrCollege"/>

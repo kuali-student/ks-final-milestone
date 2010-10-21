@@ -12,9 +12,9 @@ public class CoreEditConfigurer extends AbstractProgramConfigurer {
 
     public CoreEditConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CoreInformationEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CoreManagingBodiesEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CoreRequirementsEditConfiguration.class));
-        programSectionConfigManager.registerConfiguration(GWT.<Configuration>create(CoreLeaningObjectivesEditConfiguration.class));
+        programSectionConfigManager.registerConfiguration(new CoreInformationEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new CoreManagingBodiesEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new CoreRequirementsEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new CoreLeaningObjectivesEditConfiguration());
     }
 }

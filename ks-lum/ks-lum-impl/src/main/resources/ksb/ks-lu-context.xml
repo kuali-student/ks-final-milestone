@@ -122,18 +122,18 @@
     <bean id="lumDictionary"
           class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0"
-                         value="${ks.lum.dictionary.serviceContextLocations}"/>
+                         value="${ks.lum.dictionary.old.serviceContextLocations}"/>
     </bean>
 
     <bean id="luClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lu}LuService"/>
     </bean>
 
     <bean id="proposalClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.proposal.service.ProposalService"/>
         <property name="serviceQName"
@@ -308,7 +308,7 @@
     </bean>
 
     <bean id="lrcClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lrc.service.LrcService"/>
         <property name="serviceQName"
@@ -335,7 +335,7 @@
     </bean>
 
     <bean id="loClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
         <property name="serviceQName"
@@ -365,7 +365,7 @@
     </bean>
 
     <bean id="orgClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.organization.service.OrganizationService"/>
         <property name="serviceQName"
@@ -373,7 +373,7 @@
     </bean>
 
     <bean id="enumServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService"/>
         <property name="serviceQName"
@@ -407,7 +407,7 @@
     </bean>
 
     <bean id="atpClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.atp.service.AtpService"/>
         <property name="serviceQName"
@@ -415,7 +415,7 @@
     </bean>
 
     <bean id="statementServiceClient"
-          class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
                   value="org.kuali.student.core.statement.service.StatementService"/>
         <property name="serviceQName"
@@ -458,9 +458,7 @@
 
     <bean id="lumDictionaryService"
           class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
-        <constructor-arg>
-	        <value>classpath:ks-courseInfo-dictionary-context.xml;classpath:ks-programInfo-dictionary-context.xml;classpath:ks-statement-dictionary-context.xml</value>
-        </constructor-arg>
+        <constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}"/>
     </bean>
 
     <bean id="pocServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
@@ -587,28 +585,6 @@
                           value="http://student.kuali.org/wsdl/program"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
             </bean>
-        </property>
-    </bean>
-
-    <!-- Preloaded data -->
-    <bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-        <property name="jtaTxManager" ref="transactionManager"/>
-        <property name="shouldLoadData" value="${ks.lum.doDataLoad}"/>
-        <property name="preloadMap">
-            <map>
-                <entry key="Lo">
-                    <value>classpath:ks-lo.sql</value>
-                </entry>
-                <entry key="Lu">
-                    <value>classpath:ks-lu.sql</value>
-                </entry>
-                <entry key="Statement">
-                    <value>classpath:ks-statement.sql</value>
-                </entry>
-                <entry key="Lrc">
-                    <value>classpath:ks-lrc.sql</value>
-                </entry>
-            </map>
         </property>
     </bean>
 

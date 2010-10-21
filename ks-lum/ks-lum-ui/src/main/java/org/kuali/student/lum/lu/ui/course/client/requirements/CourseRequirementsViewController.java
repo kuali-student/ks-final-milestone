@@ -18,7 +18,6 @@ public class CourseRequirementsViewController extends BasicLayout {
 
     public static final String COURSE_RULES_MODEL_ID = "courseRulesModelId";
     private CourseRequirementsSummaryView preview;
-    private boolean isReadOnly;
 
     public CourseRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
 		super(CourseRequirementsViewController.class.getName());
@@ -27,7 +26,6 @@ public class CourseRequirementsViewController extends BasicLayout {
 		super.setViewEnum(viewType);
         super.setDefaultModelId(ProgramConstants.PROGRAM_MODEL_ID);
         super.setParentController(controller);
-        this.isReadOnly = isReadOnly;
 
 		this.setDefaultView(CourseRequirementsViews.PREVIEW);
 
@@ -57,7 +55,7 @@ public class CourseRequirementsViewController extends BasicLayout {
     }
 
     @Override
-    public void beforeViewChange(final Callback<Boolean> okToChange) {
+    public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
 
         if (getCurrentView() == null) {
             okToChange.exec(true);
@@ -67,7 +65,7 @@ public class CourseRequirementsViewController extends BasicLayout {
         //We do this check here because theoretically the subcontroller views
         //will display their own messages to the user to give them a reason why the view
         //change has been cancelled, otherwise continue to check for reasons not to change with this controller
-        super.beforeViewChange(new Callback<Boolean>(){
+        super.beforeViewChange(viewChangingTo, new Callback<Boolean>(){
 
             @Override
             public void exec(Boolean result) {
