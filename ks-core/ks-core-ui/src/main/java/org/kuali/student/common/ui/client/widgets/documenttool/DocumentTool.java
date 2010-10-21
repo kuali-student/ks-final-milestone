@@ -458,7 +458,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		progressPanel.add(progressButtons);
 		progressPanel.setWidth("500px");
 		progressWindow.setWidget(progressPanel);
-
+        progressWindow.setSize(520,270);
 
 		return layout;
 	}
