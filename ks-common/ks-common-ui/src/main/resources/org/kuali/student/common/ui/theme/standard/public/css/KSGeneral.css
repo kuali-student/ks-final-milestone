@@ -267,11 +267,9 @@ ul.ks-selected-list {
 
 .ks-selected-list ul li {
     border: 1px solid #CDCDCD;
-    display: block;
-    height: 1.5em;
-    margin: 0;
-    padding: 9px 0 0 6px;
-    width: 20em;
+         display: block;
+         margin: 0;
+         width: 30em;
 }
 
 .ks-selected-list-value {
