@@ -56,7 +56,7 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor {
 	}
 
 	@Override
-	protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException, WSSecurityException {
+	protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException {
 		super.doResults(msg, actor, doc, wsResult);
 
 		QName wsseQN = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");
