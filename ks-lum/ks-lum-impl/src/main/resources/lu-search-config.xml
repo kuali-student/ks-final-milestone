@@ -1176,7 +1176,7 @@
 					<value>clu.officialIdentifier.longName</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalCode">
-					<value>clu.officialIdentifier.code</value>
+					<value>LOWER(clu.officialIdentifier.code) LIKE '%' || :lu_queryParam_luOptionalCode || '%'</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalDivision">
 					<value>clu.officialIdentifier.division</value>

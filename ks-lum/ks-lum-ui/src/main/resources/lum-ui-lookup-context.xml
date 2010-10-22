@@ -1628,7 +1628,7 @@
    <list>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalLongName"/>
-     <property name="name" value="Name"/>
+     <property name="name" value="Course Title"/>
      <property name="desc" value="Course title."/>
      <property name="dataType" value="STRING"/>
      <property name="writeAccess" value="ALWAYS"/>
@@ -1638,7 +1638,7 @@
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalCode"/>
-     <property name="name" value="Course Number"/>
+     <property name="name" value="Course Code (Subject Code/Number)"/>
      <property name="desc" value="Course number."/>
      <property name="dataType" value="STRING"/>
      <property name="writeAccess" value="ALWAYS"/>
