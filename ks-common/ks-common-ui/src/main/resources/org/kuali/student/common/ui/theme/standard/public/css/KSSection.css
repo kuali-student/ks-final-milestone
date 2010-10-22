@@ -901,8 +901,8 @@ a.ks-button-secondary-small:hover {
 }
 
 .ks-link-large{
-	line-height: 2.25em;
-	font-size: 1.167em;
+    font-size:1.167em;
+    line-height:2.15em;
 }
 
 .ks-link-large-disabled{
