@@ -10,11 +10,10 @@ padding:0 0 0 9px;
 }
 
 .ks-menu-layout-rightColumn{
-	padding-left: 20px;
-	display: inline-block;
-	white-space: normal;
-	zoom:1; 
-	\*display: inline;
+display:inline-block;
+padding-left:20px;
+white-space:normal;
+width:790px;
 }
 
 .ks-menu-layout-special-menu-item-panel{
