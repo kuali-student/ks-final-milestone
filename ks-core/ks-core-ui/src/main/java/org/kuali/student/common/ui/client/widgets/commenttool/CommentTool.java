@@ -260,7 +260,7 @@ public class CommentTool implements HasReferenceId {
     
     private void checkPermissionsAndRedrawTable(final List<CommentInfo> commentInfos) {
         // check permission to see if user can comment
-        commentServiceAsync.isAuthorizedAddComment(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
+        commentServiceAsync.isAuthorizedAddComment(referenceId, new KSAsyncCallback<Boolean>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -270,7 +270,6 @@ public class CommentTool implements HasReferenceId {
 
             @Override
             public void onSuccess(Boolean result) {
-                result = true;
                 GWT.log("User is " + ((result) ? "" : "not ") + 
                         "authorized to add comment.", null);
                 if(referenceId != null && !(referenceId.isEmpty())){

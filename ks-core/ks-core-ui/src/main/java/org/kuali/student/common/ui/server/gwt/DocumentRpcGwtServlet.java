@@ -54,15 +54,14 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
     }
 
 	@Override
-    public Boolean isAuthorizedUploadDocuments(String referenceId, String referenceTypeKey) {
-		if (referenceId != null && (!"".equals(referenceId.trim()))) {
+    public Boolean isAuthorizedUploadDocuments(String proposalId) {
+		if (proposalId != null && (!"".equals(proposalId.trim()))) {
 			String namespaceCode = "KS-SYS";
 			String permissionTemplateName = "Upload to Document";
 			String user = getCurrentUser();
 			AttributeSet permissionDetails = new AttributeSet();
 			AttributeSet roleQuals = new AttributeSet();
-			roleQuals.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE,referenceTypeKey);
-			roleQuals.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID, referenceId);
+			roleQuals.put(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID, proposalId);
 			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, permissionDetails, roleQuals));
 		}
 		return Boolean.TRUE;

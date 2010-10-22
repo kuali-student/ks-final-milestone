@@ -312,7 +312,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
     private void isAuthorizedAddComment() {
         // check permission to see if user can comment
-        commentServiceAsync.isAuthorizedAddComment(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
+        commentServiceAsync.isAuthorizedAddComment(referenceId, new KSAsyncCallback<Boolean>() {
 
 			@Override
             public void onFailure(Throwable caught) {
