@@ -5,8 +5,7 @@
 }
 
 .ks-menu-layout-menu .ks-page-sub-navigation{
-                    background-color:#F1F1F1;
-                    padding:0 15px 20px;
+padding:0 0 0 9px;
 
 }
 
@@ -37,8 +36,8 @@
 }
 
 .ks-menu-layout-leftColumn{
-	margin-top: 5em;
-	float: left;
+float:left;
+margin-top:5.2em;
 }
 
 .ks-menu-layout-menu .ks-page-sub-navigation-menu{
