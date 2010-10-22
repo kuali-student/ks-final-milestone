@@ -50,14 +50,15 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
     private String cluSetType;
     private String metadataId;
 
-    public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType) {
+    public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType,
+            boolean singularCluOnly) {
         super();
 
         cluSetEditorWidgetView = new CluSetEditorWidget(
                 new CluSetRetrieverImpl(),
                 BuildCourseView.VIEW,
                 "", CLUSET_MODEL_ID, false,
-                null, cluSetType);
+                null, cluSetType, singularCluOnly);
 
         ruleFieldsData = new DataModel();
         ruleFieldsData.setRoot(new Data());

@@ -70,7 +70,7 @@ public class ClusetView extends VerticalSectionView {
             cluSetEditor = new CluSetEditorWidget(
                     new CluSetRetrieverImpl(),
                     clusetViewEnum, name, modelId, false, null,
-                    "kuali.cluSet.type.CreditCourse");
+                    "kuali.cluSet.type.CreditCourse", false);
         }
         viewEnum = clusetViewEnum;
         cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
