@@ -50,6 +50,10 @@
 .KS-Basic-Menu-Item-Panel-Hover{
 }
 
+div.KS-Basic-Menu-Item-Panel .KS-Basic-Menu-Toplevel-Item-Panel {
+  border-top:1px solid #333;
+}
+
 .KS-Basic-Menu-Item-Label-Hover{
 
 }
