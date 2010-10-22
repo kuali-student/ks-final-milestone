@@ -49,12 +49,10 @@ padding:0.5em 0 0.2em 0.4em;
 white-space:nowrap;
 }
 .columnTitle{
-  	background-color:gainsboro;
-	border-left:1px solid #999;
-	border-top:1px solid #999;
-	font-size:14px;
-	font-weight:bold;
-	padding:5px;
+font-size:14px;
+font-weight:bold;
+padding:5px;
+border-bottom:1px dotted #999999;
 }
 .rowHighlight{
     background-color: #FFE0E9;

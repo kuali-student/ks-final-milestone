@@ -49,28 +49,25 @@ html, body {
 }
 
 .ks-lightbox {
-    background-color: #FFFFFF;
-    border: 3px solid #54565C;
-    color: #333333;
-    overflow: visible;
-    padding: 3px;
-    z-index: 2;
-    -moz-border-radius: 0 20px 0 20px;
-
+-moz-border-radius:10px 10px 10px 10px;
+background-color:#FFFFFF;
+border:3px solid #54565C;
+color:#333333;
+overflow:visible;
+z-index:2;
 }
 
 .ks-lightbox .Caption {
-    background-color: #DFE2E9;
-    color: #000000;
-    cursor: move;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 0 0.25em 0.25em;
-    padding: 10px 0 10px 16px;
-    position: relative;
-    text-align: left;
-    text-shadow: 0 2px 2px #FFFFFF;
-    -moz-border-radius: 0 15px 0 0;
+-moz-border-radius:8px 8px 0px 0px;
+background-color:#DFE2E9;
+color:#000000;
+cursor:move;
+font-size:1.2em;
+font-weight:bold;
+padding:10px 0 10px 16px;
+position:relative;
+text-align:left;
+text-shadow:0 2px 2px #FFFFFF;
 }
 
 .ks-lightbox-mainPanel {
