@@ -23,7 +23,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("rpcservices/MetadataRpcService")
 public interface MetadataRpcService extends RemoteService {
-    public Metadata getOldMetadata(String objectKey, String type, String state);
     public Metadata getMetadata(String objectKey, String type, String state);
     public List<Metadata> getMetadataList(String objectKey, List<String> types, String state);
     public Metadata getMetadataList(String objectKey, String state);    
