@@ -53,13 +53,12 @@ padding-bottom:2px;
 }
 
 h3.ks-layout-header{
-                      padding-bottom: 0px;
-                      padding-right: 0px;
-                      margin-bottom : 2px;
-                      color: #000;
-                      font-size: 1.5em;
-                      font-weight: normal;
-                      padding-top: 0px;
+border-bottom:1px dotted #BBBBBB;
+color:#000000;
+font-size:1.3em;
+font-weight:normal;
+letter-spacing:0.05em;
+margin-bottom:9px;
 }
 
 h4.ks-layout-header{
@@ -257,23 +256,25 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
                     margin-bottom:1em;
 }
 .ks-form-bordered-header {
-                    background-color:#E4E6F2;   
-                    margin:0; 
-                    padding:4px 8px; 
+border-bottom:1px dotted #BBBBBB;
+color:#000000;
+font-size:1.3em;
+font-weight:normal;
+letter-spacing:0.05em;
+margin-bottom:9px;
 
 }
 
 .ks-form-bordered-header-title {
-                    color:#424242;
-                    display:table; 
-                    float:left; 
-                    font-size:1.167em; 
-                    font-weight:bold; 
-                    height:1%; 
-                    letter-spacing:0.04em;         
-                    line-height:1.6em;              
-                    padding:0 0 0 5px;             
-                    text-transform:uppercase;    
+color:#424242;
+display:table;
+float:left;
+font-size:1em;
+height:1%;
+letter-spacing:0.06em;
+line-height:1.6em;
+padding:0 0 0 5px;
+text-transform:uppercase;  
 }
 .ks-form-bordered-header-title h4 {
 	margin: 0;
@@ -326,11 +327,11 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 .ks-form-course-format-activity { padding: 10px; margin-bottom: 10px; }
 
 .ks-form-course-format-activity-header {
-               border-bottom:1px solid #CCCCCC; 
-               height:1.5em; 
-               margin-bottom:0.75em; 
-               padding:4px 0; 
-               position:relative; 
+border-bottom:1px dotted #CCCCCC;
+height:1.5em;
+margin-bottom:0.1em;
+padding:1px 0;
+position:relative;
 
 }
 
@@ -464,13 +465,13 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-elements-delete a{
-                    -moz-border-radius: 0 4px 0 4px;
-                    border: 1px solid #CCCCCC; 
-                    color: #AAAAAA; 
-                    font-size: 12px; 
-                    font-weight: bold; 
-                    padding: 3px 4px 1px;
-                    text-decoration:none; 
+-moz-border-radius:0 4px 0 4px;
+border:1px solid #CCCCCC;
+color:#AAAAAA;
+font-size:12px;
+padding:1px 3px 0;
+text-decoration:none;
+text-transform:lowercase;
 }
 
 .ks-form-module-elements-help a:hover, .ks-form-module-elements-delete a:hover {
