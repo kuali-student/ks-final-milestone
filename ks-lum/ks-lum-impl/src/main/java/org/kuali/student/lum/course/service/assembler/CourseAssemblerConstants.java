@@ -84,7 +84,7 @@ public class CourseAssemblerConstants {
 
 	public static final String COURSE_LO_RELATION_INCLUDES = "kuali.lo.relation.type.includes";
 	public static final String COURSE_LO_SEQUENCE = "sequence";
-	public static final String COURSE_LO_COURSE_SPECIFIC_RELATION = "cluLuType.default";
+	public static final String COURSE_LO_COURSE_SPECIFIC_RELATION = "kuali.lu.lo.relation.type.includes";
 	public static final String COURSE_LO_TYPE = "kuali.lo.type.singleUse";
 	public static final String COURSE_LO_REPOSITORY_KEY = "kuali.loRepository.key.singleUse";
 	public static final String COURSE_FINANCIALS_REVENUE_TYPE = "REVENUE";

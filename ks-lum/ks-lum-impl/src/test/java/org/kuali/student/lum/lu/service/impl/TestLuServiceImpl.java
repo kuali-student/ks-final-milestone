@@ -1598,20 +1598,20 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		reltnInfo.setCluId("CLU-1");
 		reltnInfo.setLoId("LO-1");
 		reltnInfo.setState("FINAL");
-		reltnInfo.setType("GRADE");
+		reltnInfo.setType("kuali.lu.lo.relation.type.includes");
 		reltnInfo.setEffectiveDate(DF.parse("20101203"));
 		reltnInfo.setExpirationDate(DF.parse("20801231"));
 
 		CluLoRelationInfo crReltnInfo = client.createCluLoRelation("CLU-1",
-				"LO-1", "GRADE", reltnInfo);
+				"LO-1", "kuali.lu.lo.relation.type.includes", reltnInfo);
 
 		assertEquals(crReltnInfo.getCluId(), "CLU-1");
 		assertEquals(crReltnInfo.getLoId(), "LO-1");
 		assertEquals(crReltnInfo.getState(), "FINAL");
-		assertEquals(crReltnInfo.getType(), "GRADE");
+		assertEquals(crReltnInfo.getType(), "kuali.lu.lo.relation.type.includes");
 
 		try {
-			client.createCluLoRelation("CLU-1", "LO-1", "GRADE", reltnInfo);
+			client.createCluLoRelation("CLU-1", "LO-1", "kuali.lu.lo.relation.type.includes", reltnInfo);
 			fail("Should have thrown AlreadyExistsException");
 		} catch (AlreadyExistsException e) {
 
@@ -1619,7 +1619,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		try {
 			reltnInfo.setCluId("MISSING CLU");
-			client.createCluLoRelation("MISSING CLU", "LO-1", "GRADE",
+			client.createCluLoRelation("MISSING CLU", "LO-1", "kuali.lu.lo.relation.type.includes",
 					reltnInfo);
 			fail("Should have thrown DoesNotExistException");
 		} catch (DoesNotExistException e) {
@@ -1632,18 +1632,18 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(gtReltnInfo.getCluId(), "CLU-1");
 		assertEquals(gtReltnInfo.getLoId(), "LO-1");
 		assertEquals(gtReltnInfo.getState(), "FINAL");
-		assertEquals(gtReltnInfo.getType(), "GRADE");
+		assertEquals(gtReltnInfo.getType(), "kuali.lu.lo.relation.type.includes");
 
 		CluLoRelationInfo reltnInfo1 = new CluLoRelationInfo();
 		reltnInfo1.setCluId("CLU-1");
 		reltnInfo1.setLoId("LO-2");
 		reltnInfo1.setState("FINAL");
-		reltnInfo1.setType("GRADE");
+		reltnInfo1.setType("kuali.lu.lo.relation.type.includes");
 		reltnInfo1.setEffectiveDate(DF.parse("20101203"));
 		reltnInfo1.setExpirationDate(DF.parse("20801231"));
 
 		CluLoRelationInfo crReltnInfo1 = client.createCluLoRelation("CLU-1",
-				"LO-2", "GRADE", reltnInfo1);
+				"LO-2", "kuali.lu.lo.relation.type.includes", reltnInfo1);
 
 		List<CluLoRelationInfo> reltns = client.getCluLoRelationsByClu("CLU-1");
 		assertEquals(2, reltns.size());
@@ -1653,10 +1653,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(reltns1.get(0).getCluId(), "CLU-1");
 
 		// Test update relation
-		crReltnInfo1.setType("NEW");
+		crReltnInfo1.setState("NEW");
 		CluLoRelationInfo updateReltn = client.updateCluLoRelation(crReltnInfo1
 				.getId(), crReltnInfo1);
-		assertEquals("NEW", updateReltn.getType());
+		assertEquals("NEW", updateReltn.getState());
 
 		StatusInfo status = client.deleteCluLoRelation(crReltnInfo.getId());
 		assertTrue(status.getSuccess());

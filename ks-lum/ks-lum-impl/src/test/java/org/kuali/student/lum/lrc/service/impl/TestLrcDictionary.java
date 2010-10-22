@@ -1,8 +1,12 @@
 package org.kuali.student.lum.lrc.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
@@ -14,7 +18,6 @@ import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.junit.Assert.*;
 
 public class TestLrcDictionary
 {
@@ -22,7 +25,7 @@ public class TestLrcDictionary
  @Test
  public void testLoadCluInfoDictionary ()
  {
-  Set<String> startingClasses = new LinkedHashSet ();
+  Set<String> startingClasses = new LinkedHashSet<String> ();
   startingClasses.add (ResultComponentInfo.class.getName ());
   String contextFile = "ks-lrc-dictionary-context";
   String outFile = "target/" + contextFile + ".txt";
