@@ -70,6 +70,7 @@ public interface WorkflowRpcService extends RemoteService {
 	public Boolean acknowledgeDocumentWithId(String workflowId) throws OperationFailedException;
 	public Boolean fyiDocumentWithId(String workflowId) throws OperationFailedException;
 	public Boolean withdrawDocumentWithId(String workflowId) throws OperationFailedException;
+    public Boolean blanketApproveDocumentWithId(String workflowId) throws OperationFailedException;
     public Boolean returnDocumentWithId(String workflowId, String nodeName) throws OperationFailedException;
     public List<String> getPreviousRouteNodeNames(String workflowId) throws OperationFailedException;
 	

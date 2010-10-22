@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * @author Igor
  */
-public class ProgramController extends MenuSectionController {
+public abstract class ProgramController extends MenuSectionController {
 
     protected final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
 
@@ -54,6 +54,8 @@ public class ProgramController extends MenuSectionController {
 
     protected ProgramSideBar sideBar;
 
+    private boolean needToLoadOldModel = false;
+
     /**
      * Constructor.
      *
@@ -68,9 +70,10 @@ public class ProgramController extends MenuSectionController {
         initializeModel();
     }
 
+
     @Override
-    public void beforeViewChange(final Callback<Boolean> okToChange) {
-        super.beforeViewChange(new Callback<Boolean>() {
+    public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChange) {
+        super.beforeViewChange(viewChangingTo, new Callback<Boolean>() {
 
             @Override
             public void exec(Boolean result) {
@@ -85,14 +88,14 @@ public class ProgramController extends MenuSectionController {
                                 switch (result) {
                                     case YES:
                                         dialog.hide();
-                                        eventBus.fireEvent(new UpdateEvent());
-                                        ((Section) getCurrentView()).resetFieldInteractionFlags();
-                                         okToChange.exec(true);
+                                        eventBus.fireEvent(new UpdateEvent(okToChange));
+                                        resetFieldInteractionFlag();
                                         break;
                                     case NO:
                                         dialog.hide();
-                                        programModel.resetRoot();
-                                        ((Section) getCurrentView()).resetFieldInteractionFlags();
+                                        resetModel();
+                                        needToLoadOldModel = true;
+                                        resetFieldInteractionFlag();
                                         okToChange.exec(true);
                                         break;
                                     case CANCEL:
@@ -111,6 +114,17 @@ public class ProgramController extends MenuSectionController {
                 }
             }
         });
+    }
+
+    protected void resetModel() {
+        programModel.resetRoot();
+    }
+
+    protected void resetFieldInteractionFlag() {
+        View currentView = getCurrentView();
+        if (currentView instanceof Section) {
+            ((Section) currentView).resetFieldInteractionFlags();
+        }
     }
 
     /**
@@ -153,7 +167,7 @@ public class ProgramController extends MenuSectionController {
      *
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
-    private void loadModel(final ModelRequestCallback<DataModel> callback) {
+    protected void loadModel(final ModelRequestCallback<DataModel> callback) {
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
             @Override
@@ -169,7 +183,12 @@ public class ProgramController extends MenuSectionController {
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
-                eventBus.fireEvent(new ModelLoadedEvent(programModel));
+                //We don't want to throw ModelLoadedEvent when we just want to rollback the model
+                if (needToLoadOldModel) {
+                    needToLoadOldModel = false;
+                } else {
+                    eventBus.fireEvent(new ModelLoadedEvent(programModel));
+                }
             }
         });
     }
@@ -285,5 +304,8 @@ public class ProgramController extends MenuSectionController {
             }
         });
         return commentsButton;
+    }
+
+    protected void doSave() {
     }
 }

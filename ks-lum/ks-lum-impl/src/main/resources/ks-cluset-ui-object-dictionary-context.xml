@@ -31,6 +31,78 @@
  </bean>
  <bean id="freestanding.cluset" parent="freestanding.cluset-parent"/>
 
+ <bean id="freestanding.courseSet-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="courseSet"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.cluset.allClus"/>
+    <ref bean="freestanding.cluset.approvedClus" />
+    <ref bean="freestanding.cluset.cluSetRangeViewDetails"/>
+    <ref bean="freestanding.cluset.clusetRange"/>
+    <ref bean="freestanding.cluset.clusetRangeEdit"/>
+    <ref bean="freestanding.cluset.clusets"/>
+    <ref bean="freestanding.cluset.effectiveDate"/>
+    <ref bean="freestanding.cluset.expirationDate"/>
+    <ref bean="freestanding.cluset.id"/>
+    <ref bean="freestanding.cluset.description"/>
+    <ref bean="freestanding.cluset.name"/>
+    <ref bean="freestanding.cluset.organization" />
+    <ref bean="freestanding.cluset.proposedClus"/>
+    <ref bean="freestanding.cluset.type"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="freestanding.courseSet" parent="freestanding.courseSet-parent"/>
+
+ <bean id="freestanding.programSet-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="programSet"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.cluset.allClus"/>
+    <ref bean="freestanding.cluset.approvedClus" />
+    <ref bean="freestanding.cluset.cluSetRangeViewDetails"/>
+    <ref bean="freestanding.cluset.clusetRange"/>
+    <ref bean="freestanding.cluset.clusetRangeEdit"/>
+    <ref bean="freestanding.cluset.clusets"/>
+    <ref bean="freestanding.cluset.effectiveDate"/>
+    <ref bean="freestanding.cluset.expirationDate"/>
+    <ref bean="freestanding.cluset.id"/>
+    <ref bean="freestanding.cluset.description"/>
+    <ref bean="freestanding.cluset.name"/>
+    <ref bean="freestanding.cluset.organization" />
+    <ref bean="freestanding.cluset.proposedClus"/>
+    <ref bean="freestanding.cluset.type"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="freestanding.programSet" parent="freestanding.programSet-parent"/>
+
+ <bean id="freestanding.testSet-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="testSet"/>
+  <property name="attributes">
+   <list>
+    <ref bean="freestanding.cluset.allClus"/>
+    <ref bean="freestanding.cluset.approvedClus" />
+    <ref bean="freestanding.cluset.cluSetRangeViewDetails"/>
+    <ref bean="freestanding.cluset.clusetRange"/>
+    <ref bean="freestanding.cluset.clusetRangeEdit"/>
+    <ref bean="freestanding.cluset.clusets"/>
+    <ref bean="freestanding.cluset.effectiveDate"/>
+    <ref bean="freestanding.cluset.expirationDate"/>
+    <ref bean="freestanding.cluset.id"/>
+    <ref bean="freestanding.cluset.description"/>
+    <ref bean="freestanding.cluset.name"/>
+    <ref bean="freestanding.cluset.organization" />
+    <ref bean="freestanding.cluset.proposedClus"/>
+    <ref bean="freestanding.cluset.type"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="freestanding.testSet" parent="freestanding.testSet-parent"/>
+
  <bean id="freestanding.cluset.description-parent" abstract="true" parent="baseKualiDescription">
   <property name="name" value="description"/>
   <property name="minOccurs" value="1"/>

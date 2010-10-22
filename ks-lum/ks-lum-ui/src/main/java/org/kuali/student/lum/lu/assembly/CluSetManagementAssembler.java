@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.hibernate.type.MetaType;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
@@ -35,6 +34,7 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
@@ -237,7 +237,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 cluSetInfo.setCluIds(null);
                 try {
                     if (wrapperCluSet.getType() == null) {
-                	    wrapperCluSet.setType("kuali.cluSet.type.creditCourse");
+                	    wrapperCluSet.setType("kuali.cluSet.type.CreditCourse");
                     }
                     wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
                 } catch (Exception e) {
@@ -281,12 +281,30 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     private SaveResult<Data> saveCluSet(Data input) throws AssemblyException {
         SaveResult<Data> result = new SaveResult<Data>();
 //        CluSetHelper cluSetHelper = new CluSetHelper((Data)input.get("cluset"));
+        List<ValidationResultInfo> saveValidationResults = null;
         CluSetHelper cluSetHelper = new CluSetHelper(input);
         CluSetInfo cluSetInfo = toCluSetInfo(cluSetHelper);
         CluSetInfo updatedCluSetInfo = null;
         CluSetHelper resultCluSetHelper = null;
         Data resultData = null;
         wrap(cluSetInfo);
+        
+        if ((cluSetInfo.getCluIds() == null || cluSetInfo.getCluIds().isEmpty()) &&
+                (cluSetInfo.getCluSetIds() == null || cluSetInfo.getCluSetIds().isEmpty()) &&
+                (cluSetInfo.getMembershipQuery() == null)){
+            ValidationResultInfo cluSetCannotBeEmpty = new ValidationResultInfo();
+            saveValidationResults = (saveValidationResults == null)? new ArrayList<ValidationResultInfo>() :
+                saveValidationResults;
+            result.setValue(null);
+            cluSetCannotBeEmpty.setElement("");
+            cluSetCannotBeEmpty.setMessage("Clu set cannot be empty");
+            cluSetCannotBeEmpty.setError("Clu set cannot be empty");
+            cluSetCannotBeEmpty.setLevel(ErrorLevel.ERROR);
+            saveValidationResults.add(cluSetCannotBeEmpty);
+            result.setValidationResults(saveValidationResults);
+            return result;
+        }
+        
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
                 updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);
@@ -297,7 +315,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         } else {
             try {
                 if (cluSetInfo.getType() == null) {
-                    cluSetInfo.setType("kuali.cluSet.type.creditCourse");
+                    cluSetInfo.setType("kuali.cluSet.type.CreditCourse");
                 }
                 updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
             } catch (Exception e) {

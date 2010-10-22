@@ -75,6 +75,8 @@
         ID="RICHTEXT-701" PLAIN="First year science CluSet"/>
     <KSLU_RICH_TEXT_T FORMATTED="&lt;p>First year arts CluSet&lt;/p>"
         ID="RICHTEXT-801" PLAIN="First year arts CluSet"/>
+    <KSLU_RICH_TEXT_T FORMATTED="&lt;p>Antho BSC Program CluSet&lt;/p>"
+        ID="RICHTEXT-901" PLAIN="Antho BSC Program CluSet"/>
     <KSLU_RICH_TEXT_T ID="a05fbec9-c1ba-42b6-8aff-b8fe7ba23084" PLAIN="Variational formulations of linear and nonlinear elliptic boundary value problems; formulation of the finite element method; construction of finite element subspaces; error estimates; eigenvalue problems; time dependent problems."/>
     <KSLU_RICH_TEXT_T ID="a28be30b-1286-4c40-a4b0-0e6dcf1486a4" PLAIN="Individual research, thesis and oral defense. The research project will be conducted under the supervision of a faculty member."/>
     <KSLU_RICH_TEXT_T ID="a4e52312-e762-423c-901b-af200e907088" PLAIN="The readings will be directed by the faculty of African American Studies. Topics to be covered will be chosen to meet the needs and interests of individual students."/>

@@ -20,7 +20,6 @@
   	<inherits name="org.kuali.student.common.ui.CommonUI"/>
 	<inherits name='org.kuali.student.lum.lu.typekey.Typekey'/>
 	<inherits name='org.kuali.student.core.proposal.Proposal'/>
-    <inherits name='org.kuali.student.lum.lu.Lu'/>
     <inherits name='org.kuali.student.lum.lo.Lo'/>
 	<inherits name='org.kuali.student.core.Core'/>  
 	<inherits name='org.kuali.student.core.search.Search'/>  

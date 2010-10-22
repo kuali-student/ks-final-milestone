@@ -1,0 +1,84 @@
+.summaryTable{
+   border-collapse:collapse;
+   max-width:800px;
+   width:100%;
+}
+
+.rowTitleColunm{
+	width:180px;
+}
+.cell1Colunm{
+}
+.cell2Colunm{
+}
+
+.cell1{
+	padding-bottom: 3px;
+    padding-top: 3px;
+    min-width: 310px;
+}
+
+.cell2{
+	padding-bottom: 3px;
+    padding-top: 3px;
+    min-width: 310px;
+}
+    
+.sectionTitleRow{
+    background-color:#F6F6F6; 
+    padding: 7px 0 5px 10px; 
+}
+.sectionTitle{
+          font-size:1.2em; 
+          font-weight:bold; 
+          letter-spacing: .03em; 
+	
+}
+.sectionEditLink{
+               font-size:1.1em;
+               margin-bottom:0;
+               margin-left:30px; 
+               padding-bottom:0; 
+               text-decoration:none; 
+               letter-spacing:.02em;
+}
+.rowTitle{
+     padding-right: 1.4em;
+}
+.columnTitle{
+  	background-color:gainsboro;
+	border-left:1px solid #999;
+	border-top:1px solid #999;
+	font-size:14px;
+	font-weight:bold;
+	padding:5px;
+}
+.rowHighlight{
+    background-color: #FFE0E9;
+}
+.cellHighlight{
+    background-color: #FFE0E9;
+}
+
+.rowDiffHighlight{
+    background-color: #FFF8C6;
+}
+
+.summary-table-multiplicity-level-1{
+    font-size:1.1em; 
+    padding:1.6em 0 0.2em 0.3em; 
+}
+
+.summary-table-multiplicity-level-2{
+	font-size: 1.1em;
+}
+
+.summaryTable-lo-cell ul{
+	margin: 0;
+	padding-left: 1.1em;
+	list-style: inherit outside none;
+}
+
+.firstRowInUnnamedBlock{
+	border-top:1px solid #999999; 
+}

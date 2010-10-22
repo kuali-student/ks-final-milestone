@@ -394,6 +394,7 @@
                 <!--Dynamic Attributes-->
                 <ref bean="programVariationInfo.durationNotes"/>
                 <ref bean="programVariationInfo.coreFaculties"/>
+                <ref bean="programVariationInfo.endInstAdmitTerm"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -477,14 +478,15 @@
     </bean>
     <bean id="programVariationInfo.effectiveDate" parent="programVariationInfo.effectiveDate-parent"/>
 
-    <bean id="programVariationInfo.endProgramEntryTerm-parent" abstract="true" parent="baseString">
+    <bean id="programVariationInfo.endProgramEntryTerm-parent" abstract="true" parent="majorDisciplineInfo.endProgramEntryTerm-parent">
         <property name="name" value="endProgramEntryTerm"/>
     </bean>
     <bean id="programVariationInfo.endProgramEntryTerm" parent="programVariationInfo.endProgramEntryTerm-parent"/>
 
-    <bean id="programVariationInfo.endTerm-parent" abstract="true" parent="baseString">
+    <bean id="programVariationInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
         <property name="name" value="endTerm"/>
     </bean>
+
     <bean id="programVariationInfo.endTerm" parent="programVariationInfo.endTerm-parent"/>
 
     <bean id="programVariationInfo.hegisCode-parent" abstract="true" parent="baseString">
@@ -649,6 +651,13 @@
         <property name="dynamic" value="true"/>
     </bean>
     <bean id="programVariationInfo.coreFaculties" parent="programVariationInfo.coreFaculties-parent"/>
+
+	<bean id="programVariationInfo.endInstAdmitTerm-parent" abstract="true" parent="programVariationInfo.endTerm-parent">
+	    <property name="name" value="endInstAdmitTerm"/>
+	    <property name="dynamic" value="true"/>
+	</bean>
+	
+	<bean id="programVariationInfo.endInstAdmitTerm" parent="programVariationInfo.endInstAdmitTerm-parent"/>
     
     <!-- CoreProgramInfo-->
     <bean id="org.kuali.student.lum.program.dto.CoreProgramInfo-parent" abstract="true"
@@ -1056,14 +1065,17 @@
 
     <bean id="programRequirementInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
         <property name="name" value="shortTitle"/>
+        <property name="minOccurs" value="1"/>
     </bean>
     <bean id="programRequirementInfo.shortTitle" parent="programRequirementInfo.shortTitle-parent"/>
     <bean id="programRequirementInfo.minCredits-parent" abstract="true" parent="baseInteger">
         <property name="name" value="minCredits"/>
+        <property name="minOccurs" value="1"/>
     </bean>
     <bean id="programRequirementInfo.minCredits" parent="programRequirementInfo.minCredits-parent"/>
     <bean id="programRequirementInfo.maxCredits-parent" abstract="true" parent="baseInteger">
         <property name="name" value="maxCredits"/>
+        <property name="minOccurs" value="1"/>
     </bean>
     <bean id="programRequirementInfo.maxCredits" parent="programRequirementInfo.maxCredits-parent"/>
     <bean id="programRequirementInfo.state-parent" abstract="true" parent="cluInfo.state-parent">

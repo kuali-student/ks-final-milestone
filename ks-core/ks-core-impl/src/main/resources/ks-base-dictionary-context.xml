@@ -55,10 +55,10 @@
   <property name="value" value="regex:[A-Z]*"/>
  </bean>
  <bean id="lineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t ]*"/>
  </bean>
  <bean id="multiLineText" parent="ValidCharDefinition">
-  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r ]*"/>
+  <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r ]*"/>
  </bean>
  
 

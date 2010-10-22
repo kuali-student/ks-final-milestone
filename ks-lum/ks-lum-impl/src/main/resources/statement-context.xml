@@ -220,6 +220,9 @@
                 <entry key="kuali.reqComponent.type.program.minor.admitted.classstanding">
                     <ref local="basicContext"/>                
                 </entry>                
+                <entry key="kuali.reqComponent.type.course.courseset.completed.max">
+                    <ref local="luContext"/>
+                </entry>
             </map>
         </constructor-arg>
     </bean>

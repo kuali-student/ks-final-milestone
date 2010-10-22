@@ -43,6 +43,7 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.entity.NlUsageType;
 import org.kuali.student.core.statement.entity.ObjectSubType;
 import org.kuali.student.core.statement.entity.ObjectType;
+import org.kuali.student.core.statement.entity.OrderedStatementType;
 import org.kuali.student.core.statement.entity.RefStatementRelation;
 import org.kuali.student.core.statement.entity.RefStatementRelationAttribute;
 import org.kuali.student.core.statement.entity.RefStatementRelationType;
@@ -50,6 +51,7 @@ import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
 import org.kuali.student.core.statement.entity.ReqComponentFieldType;
 import org.kuali.student.core.statement.entity.ReqComponentType;
+import org.kuali.student.core.statement.entity.OrderedReqComponentType;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementAttribute;
 import org.kuali.student.core.statement.entity.StatementRichText;
@@ -221,6 +223,15 @@ public class StatementAssembler extends BaseAssembler {
         List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(entities.size());
         for (ReqComponentType entity : entities) {
             dtos.add(toReqComponentTypeInfo(entity));
+        }
+        return dtos;
+
+    }
+
+    public static List<ReqComponentTypeInfo> toReqComponentTypeInfosOrdered(List<OrderedReqComponentType> entities) {
+        List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(entities.size());
+        for (OrderedReqComponentType entity : entities) {
+            dtos.add(toReqComponentTypeInfo(entity.getReqComponentType()));
         }
         return dtos;
 
@@ -543,20 +554,20 @@ public class StatementAssembler extends BaseAssembler {
 
         // Copy allowed RequiredComponent Types
         List<String> reqTypeIds = new ArrayList<String>(entity.getAllowedReqComponentTypes().size());
-        for (ReqComponentType reqComponentType : entity.getAllowedReqComponentTypes()) {
-            reqTypeIds.add(reqComponentType.getId());
+        for (OrderedReqComponentType reqComponentTypeOrder : entity.getAllowedReqComponentTypes()) {
+            reqTypeIds.add(reqComponentTypeOrder.getReqComponentType().getId());
         }
         stmtTypeInfo.setAllowedReqComponentTypes(reqTypeIds);
 
         // Copy allowed Statement Types
         List<String> stmtIds = new ArrayList<String>(entity.getAllowedStatementTypes().size());
-        for (StatementType stmtType : entity.getAllowedStatementTypes()) {
-            stmtIds.add(stmtType.getId());
+        for (OrderedStatementType stmtType : entity.getAllowedStatementTypes()) {
+            stmtIds.add(stmtType.getChildStatementType().getId());
         }
         stmtTypeInfo.setAllowedStatementTypes(stmtIds);
 
         // statement type header is no longer defined in specification
-//        stmtTypeInfo.setHeaders(toStatementTypeHeaderTemplateInfos(entity.getHeaders()));
+        //stmtTypeInfo.setHeaders(toStatementTypeHeaderTemplateInfos(entity.getHeaders()));
 
         stmtTypeInfo.setDescr(entity.getDescr());
 

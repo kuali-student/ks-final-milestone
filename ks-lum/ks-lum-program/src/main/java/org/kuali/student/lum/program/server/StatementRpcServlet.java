@@ -16,6 +16,7 @@
 package org.kuali.student.lum.program.server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
@@ -38,7 +39,17 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     private static final long serialVersionUID = 822326113643828855L;
 
     public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
-        List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
+
+
+        String[] desiredSequenceEnrollmentElig = {"kuali.statement.type.course.academicReadiness.studentEligibilityPrereq",
+                                                    "kuali.statement.type.course.academicReadiness.coreq",
+                                                    "kuali.statement.type.course.recommendedPreparation",
+                                                    "kuali.statement.type.course.academicReadiness.antireq"};
+
+        String[] desiredSequenceCreditConstraints = {"kuali.statement.type.course.credit.restriction",
+                                                        "kuali.statement.type.course.credit.repeatable"};        
+
+        List<StatementTypeInfo> statementTypesSorted = new ArrayList<StatementTypeInfo>();
 
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
 
@@ -51,19 +62,44 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
         for (String statementTypeName : statementTypeNames) {
             StatementTypeInfo stmtInfo = statementService.getStatementType(statementTypeName);
 
-            statementTypes.add(statementService.getStatementType(statementTypeName));
+            statementTypesSorted.add(statementService.getStatementType(statementTypeName));
 
             //true if we found sub statement type
             List<String> subStmtInfos = stmtInfo.getAllowedStatementTypes();
+            List<StatementTypeInfo> statementTypesOrig = new ArrayList<StatementTypeInfo>();
             if ((subStmtInfos != null) && !subStmtInfos.isEmpty()) {
                 List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(statementTypeName);
                 for (String subStatementTypeName : subStatementTypeNames) {
-                    statementTypes.add(statementService.getStatementType(subStatementTypeName));
+                    statementTypesOrig.add(statementService.getStatementType(subStatementTypeName));
+                }
+                if (statementTypeName.contains("kuali.statement.type.course.enrollmentEligibility")) {
+                    for (String stmtType : desiredSequenceEnrollmentElig) {
+                        Iterator<StatementTypeInfo> iter = statementTypesOrig.iterator();
+                        while (iter.hasNext()) {
+                            StatementTypeInfo stmtT = iter.next();
+                            if (stmtT.getId().equals(stmtType)) {
+                                statementTypesSorted.add(stmtT);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (statementTypeName.contains("kuali.statement.type.course.creditConstraints")) {
+                    for (String stmtType : desiredSequenceCreditConstraints) {
+                        Iterator<StatementTypeInfo> iter = statementTypesOrig.iterator();
+                        while (iter.hasNext()) {
+                            StatementTypeInfo stmtT = iter.next();
+                            if (stmtT.getId().equals(stmtType)) {
+                                statementTypesSorted.add(stmtT);
+                                break;
+                            }
+                        }
+                    }
                 }
             }            
         }
         
-        return statementTypes;
+        return statementTypesSorted;
     }
     
     @Override

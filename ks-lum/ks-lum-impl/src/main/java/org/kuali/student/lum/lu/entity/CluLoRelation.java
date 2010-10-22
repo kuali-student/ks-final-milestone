@@ -39,7 +39,7 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name="CluLoRelation.getCluLoRelation", query="SELECT rel FROM CluLoRelation rel WHERE rel.clu.id = :cluId and rel.loId = :loId"),
 	@NamedQuery(name="CluLoRelation.getCluLoRelationByClu", query="SELECT rel FROM CluLoRelation rel WHERE rel.clu.id = :cluId"),
 	@NamedQuery(name="CluLoRelation.getCluLoRelationByLo", query="SELECT rel FROM CluLoRelation rel WHERE rel.loId = :loId"),
-	@NamedQuery(name="CluLoRelation.getCluLoRelationByCluIdAndType", query="SELECT rel.id FROM CluLoRelation rel WHERE rel.clu.id = :cluId AND rel.type = :cluLoRelationType")
+	@NamedQuery(name="CluLoRelation.getCluLoRelationByCluIdAndType", query="SELECT rel.id FROM CluLoRelation rel WHERE rel.clu.id = :cluId AND rel.type.id = :cluLoRelationType")
 })
 public class CluLoRelation extends MetaEntity implements
 AttributeOwner<CluLoRelationAttribute> {
@@ -62,8 +62,9 @@ AttributeOwner<CluLoRelationAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluLoRelationAttribute> attributes;
 
-	@Column(name="TYPE")
-	private String type;
+    @ManyToOne
+    @JoinColumn(name = "TYPE")
+	private CluLoRelationType type;
 
 	@Column(name = "ST")
     private String state;
@@ -110,11 +111,11 @@ AttributeOwner<CluLoRelationAttribute> {
 		this.expirationDate = expirationDate;
 	}
 
-	public String getType() {
+	public CluLoRelationType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(CluLoRelationType type) {
 		this.type = type;
 	}
 

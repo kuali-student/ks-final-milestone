@@ -30,6 +30,8 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -44,6 +46,7 @@ import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -401,6 +404,15 @@ public class CourseServiceImpl implements CourseService {
 			// Use the results to make the appropriate service calls here
 			courseServiceMethodInvoker.invokeServiceCalls(results);
 
+			//copy statements
+			List<StatementTreeViewInfo> statementTreeViews = getCourseStatements(currentVersion.getId(),null,null);
+			
+			clearStatementTreeViewIds(statementTreeViews);
+			
+			for(StatementTreeViewInfo statementTreeView:statementTreeViews){
+				createCourseStatement(results.getBusinessDTORef().getId(), statementTreeView);
+			}
+			
 			return results.getBusinessDTORef();
 		} catch (AlreadyExistsException e) {
 			throw new OperationFailedException("Error creating new course version",e);
@@ -418,6 +430,38 @@ public class CourseServiceImpl implements CourseService {
 			throw new OperationFailedException("Error creating new course version",e);
 		}
 
+	}
+
+	private void clearStatementTreeViewIds(
+			List<StatementTreeViewInfo> statementTreeViews) throws OperationFailedException {
+		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
+			clearStatementTreeViewIdsRecursively(statementTreeView);
+		}
+	}
+
+	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
+		statementTreeView.setId(null);
+		for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
+			reqComp.setId(null);
+			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
+				field.setId(null);
+				//copy any clusets that are adhoc'd and set the field value to the new cluset
+				if(CourseAssemblerConstants.COURSE_REQ_COMP_FIELD_TYPE_CLUSET_ID.equals(field.getType())){
+					try {
+						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
+						cluSet.setId(null);
+						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
+						field.setValue(cluSet.getId());
+					} catch (Exception e) {
+						throw new OperationFailedException("Error copying clusets.", e);
+					}
+				}
+				
+			}
+		}
+		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
+			clearStatementTreeViewIdsRecursively(child);
+		}
 	}
 
 	private void resetIds(CourseInfo course) {

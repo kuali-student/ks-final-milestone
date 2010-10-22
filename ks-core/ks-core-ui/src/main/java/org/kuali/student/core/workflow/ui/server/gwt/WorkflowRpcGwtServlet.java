@@ -105,14 +105,6 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		try{
             //get a user name
             String username = SecurityUtils.getCurrentUserId();
-
-            //Lookup the workflowId from the id
-//            DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(workflowId));
-//            if(docDetail==null){
-//            	throw new OperationFailedException("Error found getting document. " );
-//            }
-//            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(workflowId));
-//	        StandardResponse stdResp = getSimpleDocService().approve(workflowId, username, docDetail.getDocTitle(), docContent.getApplicationContent(), approveComment);
             StandardResponse stdResp = getSimpleDocService().approve(workflowId, username, null, null, "");
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
@@ -124,6 +116,24 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		}
         return Boolean.TRUE;
 	}
+
+    @Override
+    public Boolean blanketApproveDocumentWithId(String workflowId) throws OperationFailedException {
+
+        try{
+            //get a user name
+            String username = SecurityUtils.getCurrentUserId();
+            StandardResponse stdResp = getSimpleDocService().blanketApprove(workflowId, username, null, null, "");
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+                throw new OperationFailedException("Error found blanket approving document: " + stdResp.getErrorMessage());
+            }
+
+        }catch(Exception e){
+            LOG.error("Error blanket approving document",e);
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
 
 	@Override
 	public Boolean disapproveDocumentWithId(String workflowId) {
@@ -284,11 +294,44 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             	actionsRequestedBuffer.append("W");
             }
 
+            Map<String,String> permDetails2 = new HashMap<String,String>();
+            permDetails2.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
+            permDetails2.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocRouteStatus());
+            // first check permission with no node name
+            boolean canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
+                    PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
+                    PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new AttributeSet(permDetails2), 
+                    new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
+            for (String nodeName : getCurrentActiveNodeNames(docDetail.getRouteHeaderId())) {
+                if (canBlanketApprove) {
+                    break;
+                }
+                AttributeSet newSet = new AttributeSet(permDetails2);
+                newSet.put(StudentIdentityConstants.ROUTE_NODE_NAME, nodeName);
+                canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
+                        PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
+                        PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), newSet, 
+                        new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
+            }
+            if (canBlanketApprove) {
+                LOG.info("User '" + principalId + "' is allowed to Blanket Approve the Document");
+                actionsRequestedBuffer.append("B");
+            }
+
             return actionsRequestedBuffer.toString();
         } catch (Exception e) {
         	LOG.error("Error getting actions Requested",e);
             throw new OperationFailedException("Error getting actions Requested");
         }
+	}
+
+	protected List<String> getCurrentActiveNodeNames(Long routeHeaderId) throws OperationFailedException, WorkflowException {
+        List<String> currentActiveNodeNames = new ArrayList<String>();
+        RouteNodeInstanceDTO[] nodeInstances = getWorkflowUtilityService().getActiveNodeInstances(routeHeaderId);
+        for (RouteNodeInstanceDTO routeNodeInstanceDTO : nodeInstances) {
+            currentActiveNodeNames.add(routeNodeInstanceDTO.getName());
+        }
+        return currentActiveNodeNames;
 	}
 
 	@Override

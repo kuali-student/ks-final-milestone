@@ -19,10 +19,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,6 +59,9 @@ public class TestMetadataServiceDictionary
   startingClasses.add (ReqComponentInfo.class.getName ());
   startingClasses.add (ReqCompFieldInfo.class.getName ());
   startingClasses.add ("cluset");
+  startingClasses.add ("courseSet");
+  startingClasses.add ("programSet");
+  startingClasses.add ("testSet");
   startingClasses.add ("search");
   startingClasses.add ("browse");
 
@@ -80,7 +85,7 @@ public class TestMetadataServiceDictionary
   typesForClass.add ("kuali.reqComponent.field.type.org.id");
   typesForClass.add ("kuali.reqComponent.field.type.value.positive.integer");
   typesForClass.add ("kuali.reqComponent.field.type.gradeType.id");
-  typesForClass.add ("kuali.reqComponent.field.type.grade");
+  typesForClass.add ("kuali.reqComponent.field.type.grade.id");
   typesForClass.add ("kuali.reqComponent.field.type.durationType.id");
   typesForClass.add ("kuali.reqComponent.field.type.duration");
 
@@ -105,38 +110,36 @@ public class TestMetadataServiceDictionary
     proposalDictService,
     statementDictService);
   metadataService.setUiLookupContext ("classpath:lum-ui-lookup-context.xml");
-  String outFile = "target/metadata.txt";
-  File file = new File (outFile);
-  OutputStream outputStream = null;
-  try
-  {
-   outputStream = new FileOutputStream (file, false);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new RuntimeException (ex);
-  }
-  PrintStream out = new PrintStream (outputStream);
-  out.println ("(!) This page was automatically generated on "
-               + new Date ());
-  out.println ("DO NOT UPDATE MANUALLY!");
-  out.println ("");
-  out.println (
-    "This page represents a formatted view of the lum ui dictionary:");
+  List<String> errors = new ArrayList ();
   for (String className : startingClasses)
   {
-   out.println ("# " + className);
-  }
-  out.println ("");
-  out.println ("----");
-  out.println ("{toc}");
-  out.println ("----");
-
-  for (String className : startingClasses)
-  {
+   String outFile = "target/metadata-for-" + className + ".txt";
+   File file = new File (outFile);
+   OutputStream outputStream = null;
+   try
+   {
+    outputStream = new FileOutputStream (file, false);
+   }
+   catch (FileNotFoundException ex)
+   {
+    throw new RuntimeException (ex);
+   }
+   PrintStream out = new PrintStream (outputStream);
+   out.println ("(!) This page was automatically generated on "
+                + new Date ());
+   out.println ("DO NOT UPDATE MANUALLY!");
+   out.println ("");
+   out.println (
+     "This page represents a formatted view of the lum ui dictionary for "
+     + className);
+   out.println ("");
+   out.println ("----");
+   out.println ("{toc}");
+   out.println ("----");
 //   out.println ("getting meta data for " + className);
    Metadata metadata = metadataService.getMetadata (className);
    assertNotNull (metadata);
+   errors.addAll (this.validateMetadata (metadata, className, null));
    MetadataFormatter formatter = new MetadataFormatter (className,
                                                         metadata, null,
                                                         null, new HashSet (),
@@ -151,12 +154,39 @@ public class TestMetadataServiceDictionary
     System.out.println ("*** Generating formatted version for " + type);
     metadata = metadataService.getMetadata (className, type, (String) null);
     assertNotNull (metadata);
+    errors.addAll (this.validateMetadata (metadata, className, type));
     formatter = new MetadataFormatter (className,
                                        metadata, type,
                                        null, new HashSet (),
                                        1);
     out.println (formatter.formatForWiki ());
    }
+   out.close ();
   }
+  if (errors.size () > 0)
+  {
+   for (String error : errors)
+   {
+    System.out.println ("error: " + error);
+   }
+   System.out.println (errors.size () + " errors found when validating metadata");
+//   fail (errors.size () + " errors found when validating metadata");
+  }
+ }
+
+ private MetadataServiceDictionaryValidator validator = null;
+
+ private MetadataServiceDictionaryValidator getValidator ()
+ {
+  if (validator == null)
+  {
+   validator = new MetadataServiceDictionaryValidator ();
+  }
+  return validator;
+ }
+
+ private List<String> validateMetadata (Metadata md, String name, String type)
+ {
+  return getValidator ().validateMetadata (md, name, type);
  }
 }

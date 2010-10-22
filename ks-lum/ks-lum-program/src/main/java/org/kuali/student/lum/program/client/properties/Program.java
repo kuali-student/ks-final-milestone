@@ -142,6 +142,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String common_failedSave(String arg0);
 
   /**
+   * Translated "Remove".
+   * 
+   * @return translated "Remove"
+   */
+  @DefaultMessage("Remove")
+  @Key("common.remove")
+  String common_remove();
+
+  /**
    * Translated "Retrieving Data...".
    * 
    * @return translated "Retrieving Data..."
@@ -887,6 +896,42 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Key Specialization Information")
   @Key("variation.menu.sections.variationInformation")
   String variation_menu_sections_variationInformation();
+
+  /**
+   * Translated "New Variation".
+   * 
+   * @return translated "New Variation"
+   */
+  @DefaultMessage("New Variation")
+  @Key("variation.new")
+  String variation_new();
+
+  /**
+   * Translated "Parent Program:".
+   * 
+   * @return translated "Parent Program:"
+   */
+  @DefaultMessage("Parent Program:")
+  @Key("variation.parentProgram")
+  String variation_parentProgram();
+
+  /**
+   * Translated "Specialization Summary".
+   * 
+   * @return translated "Specialization Summary"
+   */
+  @DefaultMessage("Specialization Summary")
+  @Key("variation.summary")
+  String variation_summary();
+
+  /**
+   * Translated "Specialization of {0}".
+   * 
+   * @return translated "Specialization of {0}"
+   */
+  @DefaultMessage("Specialization of {0}")
+  @Key("variation.title")
+  String variation_title(String arg0);
 
   /**
    * Translated "Specialization Description".

@@ -1,11 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
@@ -16,10 +11,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -27,6 +19,9 @@ import org.kuali.student.common.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentListBinding;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
@@ -35,40 +30,29 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.LUConstants;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.AffiliatedOrgInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseExpenditureInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseRevenueInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.*;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
-import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController.CourseRequirementsViews;
-import org.kuali.student.lum.lu.ui.main.client.AppLocations;
-import org.kuali.student.lum.program.client.ProgramConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseSummaryConfigurer implements
@@ -98,15 +82,14 @@ public class CourseSummaryConfigurer implements
     protected String state = "draft";
     protected String groupName;
     protected DataModelDefinition modelDefinition;
+    private List<StatementTypeInfo> stmtTypes;
 
     private Controller controller;
     private SummaryTableSection tableSection;
     private String modelId;
 
-
-
-
-
+	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+    
     private class EditHandler implements ClickHandler{
 
     	Enum<?> view;
@@ -119,15 +102,15 @@ public class CourseSummaryConfigurer implements
 		public void onClick(ClickEvent event) {
 			controller.showView(view);
 		}
-
     }
 
     public CourseSummaryConfigurer(String type, String state,
-            String groupName, DataModelDefinition modelDefinition, Controller controller, String modelId) {
+            String groupName, DataModelDefinition modelDefinition, List<StatementTypeInfo> stmtTypes, Controller controller, String modelId) {
         this.type = type;
         this.state = state;
         this.groupName = groupName;
         this.modelDefinition = modelDefinition;
+        this.stmtTypes = stmtTypes;
         this.controller = controller;
         this.modelId = modelId;
         tableSection = new SummaryTableSection((Controller)controller);
@@ -178,16 +161,17 @@ public class CourseSummaryConfigurer implements
         return fieldRow;
     }
 
-    @SuppressWarnings("unchecked")
 	public VerticalSectionView generateProposalSummarySection(boolean canEditSections){
         tableSection.setEditable(canEditSections);
         tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposal());
         tableSection.addSummaryTableFieldBlock(generateGovernanceSection());
         tableSection.addSummaryTableFieldBlock(generateCourseLogisticsSection());
         tableSection.addSummaryTableFieldBlock(generateLearningObjectivesSection());
+        tableSection.addSummaryTableFieldBlock(generateRequirementsSection());
         tableSection.addSummaryTableFieldBlock(generateActiveDatesSection());
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
         tableSection.addSummaryTableFieldBlock(generateProposalDocumentsSection());
+        
         if(controller instanceof WorkflowEnhancedNavController){
 	        final WarnContainer infoContainer1;
 	        final WarnContainer infoContainer2;
@@ -319,16 +303,15 @@ public class CourseSummaryConfigurer implements
         return warnContainer;
     }
 
-    @SuppressWarnings("unchecked")
 	public VerticalSectionView generateCourseSummarySection(){
         tableSection.setEditable(false);
         tableSection.addSummaryTableFieldBlock(generateCourseInformation());
         tableSection.addSummaryTableFieldBlock(generateGovernanceSection());
         tableSection.addSummaryTableFieldBlock(generateCourseLogisticsSection());
         tableSection.addSummaryTableFieldBlock(generateLearningObjectivesSection());
+        tableSection.addSummaryTableFieldBlock(generateRequirementsSection());
         tableSection.addSummaryTableFieldBlock(generateActiveDatesSection());
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
-        tableSection.addWidget(generateRequirementsSection());
 
         VerticalSectionView verticalSection = new VerticalSectionView(ViewCourseSections.DETAILED, getLabel(LUConstants.SUMMARY_LABEL_KEY), modelId, false);
         verticalSection.addSection(tableSection);
@@ -561,14 +544,55 @@ public class CourseSummaryConfigurer implements
         return block;
 	}
 
-    public Widget generateRequirementsSection(){
-    	SummaryTableFieldBlock block = new SummaryTableFieldBlock();
-    	block.addEditingHandler(new EditHandler(CourseSections.COURSE_REQUISITES));
-        block.setTitle(getLabel(LUConstants.PROGRAM_REQUIREMENTS_LABEL_KEY));
-        CourseRequirementsSummaryView preview = new CourseRequirementsSummaryView(null, CourseRequirementsViews.PREVIEW, "Course Requirements", ProgramConstants.PROGRAM_MODEL_ID,
-				new CourseRequirementsDataModel(controller), true);
+    public SummaryTableFieldBlock generateRequirementsSection(){
 
-        return preview;
+    	final SummaryTableFieldBlock block = new SummaryTableFieldBlock();
+    	block.addEditingHandler(new EditHandler(CourseSections.COURSE_REQUISITES));
+        block.setTitle(getLabel(LUConstants.REQUISITES_LABEL_KEY));
+
+        //one row per requirement type
+        for (StatementTypeInfo stmtType : stmtTypes) {
+            SummaryTableFieldRow arow = new SummaryTableFieldRow(addRequisiteField(new FlowPanel(), stmtType), addRequisiteField(new FlowPanel(), stmtType));
+            block.addSummaryTableFieldRow(arow);
+        }
+
+        return block;
+    }
+
+    private FieldDescriptorReadOnly addRequisiteField(final FlowPanel panel, final StatementTypeInfo stmtType) {
+
+        final ModelWidgetBinding<FlowPanel> widgetBinding = new ModelWidgetBinding<FlowPanel>() {
+
+            @Override
+            public void setModelValue(FlowPanel panel, DataModel model, String path) {
+            }
+
+            @Override
+            public void setWidgetValue(final FlowPanel panel, DataModel model, String path) {
+                String courseId = (model).getRoot().get("id");
+                KSBlockingProgressIndicator.addTask(loadDataTask);
+                
+                final CourseRequirementsDataModel reqDataModel = new CourseRequirementsDataModel(controller);
+                reqDataModel.retrieveStatementTypes(courseId, new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {
+                        Iterator<StatementTreeViewInfo> iter = reqDataModel.getCourseReqInfo(stmtType.getId()).iterator();
+                        panel.clear();                        
+                        if (iter.hasNext()) {
+                            StatementTreeViewInfo rule = iter.next();
+                            SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                            panel.add(ruleWidget);
+                        }
+                        KSBlockingProgressIndicator.removeTask(loadDataTask);                        
+                    }
+                });
+            }
+        };
+
+        FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, new MessageKeyInfo(stmtType.getName()), null, panel);
+        requisiteField.setWidgetBinding(widgetBinding);
+
+        return requisiteField;
     }
 
     private MultiplicityConfiguration getMultiplicityConfig(String path,
@@ -758,7 +782,7 @@ public class CourseSummaryConfigurer implements
 	public VerticalSectionView generateCourseCatalogSection() {
 		VerticalSectionView verticalSection = new VerticalSectionView(ViewCourseSections.CATALOG, "Catalog View", modelId, false);
 		FieldDescriptorReadOnly catalogField = new FieldDescriptorReadOnly("", null, null, new HTML());
-		catalogField.showLabel(false);
+		catalogField.hideLabel();
 		catalogField.setWidgetBinding(new ModelWidgetBinding<HTML>(){
 
 			@Override
@@ -806,33 +830,6 @@ public class CourseSummaryConfigurer implements
 		});
 		verticalSection.addField(catalogField);
 
-		FieldDescriptorReadOnly reqsField = new FieldDescriptorReadOnly("", null, null, new VerticalSectionView(ViewCourseSections.CATALOG, "Catalog View", modelId, false));
-		reqsField.showLabel(false);
-		reqsField.setWidgetBinding(new ModelWidgetBinding<VerticalSectionView>(){
-
-			@Override
-			public void setModelValue(VerticalSectionView widget, DataModel model,
-					String path) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void setWidgetValue(VerticalSectionView widget, DataModel model,
-					String path) {
-		        CourseRequirementsSummaryView preview = new CourseRequirementsSummaryView(null, CourseRequirementsViews.PREVIEW, "Course Requirements", ProgramConstants.PROGRAM_MODEL_ID,
-						new CourseRequirementsDataModel(controller), true);
-		        preview.beforeShow(new Callback<Boolean>(){
-
-					@Override
-					public void exec(Boolean result) {
-						// TODO Auto-generated method stub
-
-					}});
-				widget.addWidget(preview);
-
-			}});
-		verticalSection.addField(reqsField);
 		return verticalSection;
 	}
 }

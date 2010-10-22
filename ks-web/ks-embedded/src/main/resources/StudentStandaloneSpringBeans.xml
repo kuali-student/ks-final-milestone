@@ -27,7 +27,7 @@
 
 	<bean id="kimIdentityService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl" />
 
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimPermissionService"

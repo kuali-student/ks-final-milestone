@@ -69,6 +69,7 @@ public class ProgramConstants {
 
     //Program Specializations
     public static final String VARIATIONS = "variations";
+    public static final String PROGRAM_REQUIREMENTS = "programRequirements";
 
     //Dynamic attributes
     public static final String IS_VARIATION_REQUIRED = "isVariationRequired";
@@ -78,7 +79,4 @@ public class ProgramConstants {
     //History
     public static final String SCHEDULED_REVIEW_DATE = "nextReviewPeriod";
     public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
-
-    //Navigation Tokens
-     public static final String VARIATION_EDIT_URL = "/HOME/CURRICULUM_HOME/VARIATION_EDIT";
 }

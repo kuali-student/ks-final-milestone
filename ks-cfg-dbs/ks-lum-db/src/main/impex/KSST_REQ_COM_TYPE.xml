@@ -10,6 +10,10 @@
         TYPE_DESC="Must have successfully completed all courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.all" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Completed n courses"
+        TYPE_DESC="Must have successfully completed no more than &lt;n> courses from &lt;courses>"
+        TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.max" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="N of required courses"
         TYPE_DESC="Must have successfully completed a minimum of &lt;n> courses from &lt;courses>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.completed.nof" VER_NBR="0"/>
@@ -139,22 +143,22 @@
         TYPE_KEY="kuali.reqComponent.type.program.minors.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="All of required programs"
-        TYPE_DESC="Must have successfully completed all of &lt;programs> programs"
+        TYPE_DESC="Must have successfully completed all of &lt;programs>"
         TYPE_KEY="kuali.reqComponent.type.program.programset.completed.all" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum of n programs from programs"
-        TYPE_DESC="Must have successfully completed a minimum of &lt;n> programs from &lt;programs> programs"
+        TYPE_DESC="Must have successfully completed a minimum of &lt;n> programs from &lt;programs>"
         TYPE_KEY="kuali.reqComponent.type.program.programset.completed.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Minimum courses from programs"
-        TYPE_DESC="Must have successfully completed a minimum of &lt;n> courses from &lt;programs> programs"
+        TYPE_DESC="Must have successfully completed a minimum of &lt;n> courses from &lt;programs>"
         TYPE_KEY="kuali.reqComponent.type.program.programset.coursecompleted.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Not completed any programs"
-        TYPE_DESC="Must not have successfully completed any of &lt;programs> programs"
+        TYPE_DESC="Must not have successfully completed any of &lt;programs>"
         TYPE_KEY="kuali.reqComponent.type.program.programset.notcompleted.nof" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
         NAME="Program final credits in residence"
-        TYPE_DESC="&lt;program> student smust take their final &lt;n> credits in residence"
+        TYPE_DESC="&lt;program> students must take their final &lt;n> credits in residence"
         TYPE_KEY="kuali.reqComponent.type.program.residence.credits.final" VER_NBR="0"/>
 </dataset>

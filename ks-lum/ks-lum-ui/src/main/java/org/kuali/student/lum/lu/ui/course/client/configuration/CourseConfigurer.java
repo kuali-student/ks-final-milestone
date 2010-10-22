@@ -82,6 +82,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPanel;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
 import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
@@ -130,9 +131,14 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected DataModelDefinition modelDefinition;
+    private List<StatementTypeInfo> stmtTypes;
 
     public void setModelDefinition(DataModelDefinition modelDefinition) {
         this.modelDefinition = modelDefinition;
+    }
+
+    public void setStatementTypes(List<StatementTypeInfo> stmtTypes) {
+        this.stmtTypes = stmtTypes;
     }
 
     public void configure(final CourseProposalController layout) {
@@ -171,7 +177,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout, CLU_PROPOSAL_MODEL);
+            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -186,11 +192,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout, CLU_PROPOSAL_MODEL);
+        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
-        
+        layout.showPrint(true);
         layout.setDefaultView(CourseSections.SUMMARY);
         layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
         final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
@@ -230,7 +236,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         section.setController(layout);
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUConstants.COURSE_TITLE_LABEL_KEY));
-        addField(section, "proposal/rationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
+        //addField(section, "proposal/rationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
         //addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
         layout.addStartViewPopup(section);
         layout.getStartPopup().setMaxHeight(600);
@@ -373,7 +379,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         config.setItemLabel(getLabel(itemLabelMessageKey));
         config.setUpdateable(true);
 
-        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
+        FieldDescriptor parentFd = buildMultiplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
         config.setParent(parentFd);
 
         if (fieldConfigs != null) {
@@ -422,11 +428,12 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 
     }
 
-    protected FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
+    protected FieldDescriptor buildMultiplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
 
         FieldDescriptor fd = new FieldDescriptor(path.toString(), generateMessageInfo(messageKey), meta);
+        fd.hideLabel();
         return fd;
     }
 
