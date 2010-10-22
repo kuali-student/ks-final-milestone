@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataFormatter;
 import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
-import org.kuali.student.lum.lu.assembly.MetadataLoaderTest;
+import org.kuali.student.lum.lu.assembly.OldMetadataLoaderTest;
 
 public class TestOldMetadataServiceDictionary
 {
@@ -52,7 +52,7 @@ public class TestOldMetadataServiceDictionary
   Set<String> typesForClass = new LinkedHashSet ();
 
   MetadataServiceImpl metadataService =
-                      new MetadataServiceImpl (MetadataLoaderTest.ORCH_DICTIONARY_CONFIG_LOCATION);
+                      new MetadataServiceImpl (OldMetadataLoaderTest.ORCH_DICTIONARY_CONFIG_LOCATION);
 
   Metadata metadata =
            metadataService.getMetadata ("CreditCourseProposal", "default", "default");

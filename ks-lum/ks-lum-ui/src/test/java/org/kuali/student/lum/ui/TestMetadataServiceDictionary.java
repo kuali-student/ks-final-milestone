@@ -170,10 +170,22 @@ public class TestMetadataServiceDictionary
     System.out.println ("error: " + error);
    }
    System.out.println (errors.size () + " errors found when validating metadata");
-//   fail (errors.size () + " errors found when validating metadata");
+   // these first 6 are becaue the recusion stops but the final field still is flagged as DATA even though it cannot have sub fields
+   //error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.variations.*.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.orgCoreProgram.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.statement.statements.*.statements.*.statements.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   // TODO: figure out this last one -- it is a problem with the cross search that I think Heather wrote.
+   //error: search.findMajor has an additional lookup : kuali.lu.lookup.findMajor.advanced that has a parameter lu.resultColumn.luOptionalMajorName that does not exist in the underlying search lu.search.union.majors
+   //7 errors found when validating metadata
+   if (errors.size () != 6 && errors.size () != 7)
+   {
+    fail (errors.size () + " errors found when validating metadata");
+   }
   }
  }
-
  private MetadataServiceDictionaryValidator validator = null;
 
  private MetadataServiceDictionaryValidator getValidator ()

@@ -30,10 +30,10 @@ import org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl;
  *
  * @author nwright
  */
-public class MetadataLoaderTest
+public class OldMetadataLoaderTest
 {
 
- public MetadataLoaderTest ()
+ public OldMetadataLoaderTest ()
  {
  }
 
