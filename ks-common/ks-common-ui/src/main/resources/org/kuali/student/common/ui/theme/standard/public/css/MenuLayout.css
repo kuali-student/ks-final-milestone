@@ -42,15 +42,14 @@ margin-top:5.2em;
 
 
 .ks-menu-layout-menu .ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
-               color:#707270;
-               font-family:Georgia,Times New Roman,serif;
-               font-size:1.2em;
-               margin:0 0 3px;
-               letter-spacing: 0.04em;
-               overflow:hidden;
-               padding:10px 0 0 5px;
-               text-transform:uppercase;
-               white-space:nowrap;
+color:#333;
+font-size:1.1em;
+letter-spacing:0.04em;
+margin:0 0 3px;
+overflow:hidden;
+padding:10px 0 0 4px;
+text-transform:uppercase;
+white-space:nowrap;
 }
 
 .ks-menu-layout-menu .ks-page-sub-navigation-menu ul {
@@ -79,10 +78,10 @@ margin-top:5.2em;
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel{
-	padding: 3px;
-	color: #333333;
-	cursor: pointer;
-	border-bottom: 1px solid #d7d7d7;
+border-bottom:1px solid #D7D7D7;
+color:#333;
+cursor:pointer;
+padding:3px 10px 3px 5px;
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel a{
