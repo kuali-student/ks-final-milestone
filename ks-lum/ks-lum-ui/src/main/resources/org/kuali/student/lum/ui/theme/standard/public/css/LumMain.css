@@ -287,8 +287,12 @@ margin-bottom: 15px;
     margin-left: 0px;	
 }
 .KS-LOSelectedCategories .ks-selected-list-value {
-	border: solid 1px #cdcdcd;
-	background: none repeat scroll 0 0 white;
+                      border-bottom: #cdcdcd 1px solid;
+                      border-left: #cdcdcd 1px solid;
+                      background: white 0px 0px;
+                      border-top: #cdcdcd 1px solid;
+                      border-right: #cdcdcd 1px solid;
+                      width: 15em;
 }
 .KSLOLightBox {
 }
