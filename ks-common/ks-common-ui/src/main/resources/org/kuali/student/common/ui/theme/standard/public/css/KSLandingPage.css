@@ -50,9 +50,9 @@
 }
 
 .contentBlock-titlePanel{
-	border-bottom: 1px solid black;
-	height: 8em;
-	overflow: hidden;
+border-bottom:1px dotted gray;
+height:5em;
+overflow:hidden;
 }
 
 .contentBlock-title{
@@ -61,8 +61,8 @@
 }
 
 .contentBlock-desc{
-	font-size: 1.25em;
-	color: gray;
+color:gray;
+font-size:1.1em;
 }
 
 .contentBlock-size3{
@@ -94,7 +94,7 @@
 }
 
 .contentBlock-navLink{
-	font-size: 1.6em;
+font-size:1.3em;
 }
 
 .contentBlock-navLink-disabled{
