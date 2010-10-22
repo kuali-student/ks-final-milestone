@@ -65,8 +65,9 @@
 }
 
 .KS-Course-Requisites-Preview-Rule-Type-Desc {
-    padding-bottom:15px;
-    width:650px;
+                      padding-bottom: 15px;
+                      width: 650px;
+                      line-height: 1.4em;
 }
 
 .KS-Course-Requisites-Button-Spacer {
