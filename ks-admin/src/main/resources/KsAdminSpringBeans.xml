@@ -9,6 +9,12 @@
   
   <import resource="classpath:KsAdminModuleBeans.xml"/>
   
+  <bean id="ojbConfigurer" class="org.kuali.rice.core.ojb.JtaOjbConfigurer">
+    <property name="transactionManager" ref="jtaTransactionManager" />
+  </bean>
+  
+  <alias alias="ksAdminDataSource" name="riceDataSource" />
+  
   <bean id="ks.exp.messageService" class="org.kuali.rice.ksb.messaging.KSBExporter">
     <property name="serviceDefinition">
       <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">

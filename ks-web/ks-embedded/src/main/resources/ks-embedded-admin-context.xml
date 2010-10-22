@@ -12,6 +12,9 @@
   
   <import resource="classpath:KsAdminModuleBeans.xml"/>
   
+  <!-- ks-admin needs a connection to the core tables -->
+  <alias alias="ksAdminDataSource" name="coreDataSource" />
+  
   <!-- create an empty bean for disabling beans we don't want -->
   <bean id="nullBean" class="java.lang.Object" />
   

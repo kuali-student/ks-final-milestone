@@ -9,8 +9,9 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-  <bean id="kstestModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+  <bean id="ksAdminModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
     <property name="namespaceCode" value="KS-ADMIN" />
+    <property name="dataSourceName" value="ksAdminDataSource" />
     <property name="databaseRepositoryFilePaths">
       <list>
         <value>OJB-repository-ksadmin.xml</value>
@@ -65,8 +66,8 @@
     </property>
   </bean>
 
-  <bean id="kstestModuleService" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
-    <property name="moduleConfiguration" ref="kstestModuleConfiguration" />
+  <bean id="ksAdminModuleService" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+    <property name="moduleConfiguration" ref="ksAdminModuleConfiguration" />
   </bean>
 
   <bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
