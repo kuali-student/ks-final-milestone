@@ -37,18 +37,18 @@ public class VerticalCollapsableDrawer extends Composite{
 		
 		public VerticalCollapsableDrawer(){
 			initWidget(uiBinder.createAndBindUi(this));
-			drawerHandle.setText("<");
+			drawerHandle.setText("\u00AB");
 			drawerHandle.addClickHandler(new ClickHandler(){
 
 				@Override
 				public void onClick(ClickEvent event) {
 					if(isOpen){
 						close();
-						drawerHandle.setText(">");
+						drawerHandle.setText("\u00BB");
 					}
 					else{
 						open();
-						drawerHandle.setText("<");
+						drawerHandle.setText("\u00AB");
 					}
 					
 				}
