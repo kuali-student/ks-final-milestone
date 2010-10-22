@@ -36,15 +36,12 @@ import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestMetadataServiceDictionary
 {
@@ -177,39 +174,6 @@ public class TestMetadataServiceDictionary
   }
  }
 
- private SearchTypeInfo getSearchTypeInfo (String searchType)
- {
-  return this.getSearchInfoTypeMap ().get (searchType);
- }
- private Map<String, SearchTypeInfo> searchInfoTypeMap = null;
-
- private Map<String, SearchTypeInfo> getSearchInfoTypeMap ()
- {
-  if (this.searchInfoTypeMap != null)
-  {
-   return this.searchInfoTypeMap;
-  }
-  String[] searchConfigFiles =
-  {
-   "lu", "lo", "lrc", "organization", "atp", "em"
-  };
-  for (int i = 0; i < searchConfigFiles.length; i ++)
-  {
-   System.out.println ("loading search configurations for "
-                       + searchConfigFiles[i]);
-   ApplicationContext ac = new ClassPathXmlApplicationContext (
-     "classpath:" + searchConfigFiles[i] + "-search-config.xml");
-   if (searchInfoTypeMap == null)
-   {
-    searchInfoTypeMap = ac.getBeansOfType (SearchTypeInfo.class);
-   }
-   else
-   {
-    searchInfoTypeMap.putAll (ac.getBeansOfType (SearchTypeInfo.class));
-   }
-  }
-  return searchInfoTypeMap;
- }
  private MetadataServiceDictionaryValidator validator = null;
 
  private MetadataServiceDictionaryValidator getValidator ()

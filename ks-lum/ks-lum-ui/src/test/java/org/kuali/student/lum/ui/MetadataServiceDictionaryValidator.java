@@ -50,7 +50,7 @@ public class MetadataServiceDictionaryValidator
   }
   String[] searchConfigFiles =
   {
-   "lu", "lo", "lrc", "organization", "atp", "em"
+   "lu", "lo", "lrc", "proposal", "organization", "atp", "em"
   };
   for (int i = 0; i < searchConfigFiles.length; i ++)
   {
@@ -77,7 +77,7 @@ public class MetadataServiceDictionaryValidator
  public List<String> validateMetadata (Metadata md, String name, String type)
  {
   List<String> errors = new ArrayList ();
-  if (md.getInitialLookup () != null)
+  if (md.getInitialLookup () != null && md.getInitialLookup ().getSearchTypeId () != null)
   {
    errors.addAll (validateLookup (md.getInitialLookup (), name, type, "initial"));
   }
@@ -299,8 +299,8 @@ public class MetadataServiceDictionaryValidator
   }
   if (st instanceof CrossSearchTypeInfo)
   {
-   System.out.println (
-     "CROSS SEARCH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//   System.out.println (
+//     "CROSS SEARCH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
    CrossSearchTypeInfo cst = (CrossSearchTypeInfo) st;
    if (cst.getJoinResultMappings () != null)
    {
@@ -318,7 +318,12 @@ public class MetadataServiceDictionaryValidator
         {
          return null;
         }
-        return findResultColumn (subSearchType, paramKey);
+        ResultColumnInfo rc = findResultColumn (subSearchType, jrm.getSubSearchResultParam ());
+        if (rc == null)
+        {
+         throw new RuntimeException ("Cross-Search " + st.getKey () + " is not configured properly "
+           + jrm.getSubSearchResultParam () + " is not defined as a result in the subSearchTyp e" + ss.getSearchkey ());
+        }
        }
       }
      }
@@ -358,7 +363,7 @@ public class MetadataServiceDictionaryValidator
   String msg = name;
   if (type != null)
   {
-   msg += "with type " + type;
+   msg += " with type " + type;
   }
 //  System.out.println ("buildErrorPrefix called for " + msg);
 //  new RuntimeException ().printStackTrace ();

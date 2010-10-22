@@ -115,7 +115,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 	protected Widget getFindCoursesWidget(){
 		Widget searchWidget;
 		if(searchMetadata != null){
-			Metadata metadata = searchMetadata.getProperties().get("findCourseTmp");
+			Metadata metadata = searchMetadata.getProperties().get("findCourse");
 	        searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
 	        SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
 	        if(panel != null){

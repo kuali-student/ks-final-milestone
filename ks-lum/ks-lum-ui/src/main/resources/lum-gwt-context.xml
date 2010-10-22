@@ -510,8 +510,7 @@
     <bean id="LogRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet"/>
 
     <bean id="MetadataRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.MetadataRpcGwtServlet">
-        <property name="oldServiceImpl" ref="metadataServiceImpl"/>
-        <property name="serviceImpl" ref="metadataServiceImplPOC"/>        
+         <property name="serviceImpl" ref="metadataServiceImplPOC"/>        
     </bean>
 
     <!-- Service clients -->
