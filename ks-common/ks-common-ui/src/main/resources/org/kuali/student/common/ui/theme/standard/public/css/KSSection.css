@@ -170,7 +170,11 @@ h7.ks-layout-header{
 /*** Messages ***/
 
 .ks-message-static {
-	background-color: #f4e271; padding: 6px 6px 6px 15px; position:relative; color: #000; margin-bottom: 10px;
+background-color:#EDDC91;
+color:#000000;
+margin-bottom:10px;
+padding:6px 6px 6px 15px;
+position:relative;
 }
 
 .ks-message-static-margin{
@@ -178,7 +182,10 @@ h7.ks-layout-header{
 }
 
 .ks-message-static-image {
-	position:absolute; top: -5px; left: -5px; z-index: 2;
+display:inline;
+left:-9px;
+position:absolute;
+top:2px;
 }
 
 .ks-message-static a { }
