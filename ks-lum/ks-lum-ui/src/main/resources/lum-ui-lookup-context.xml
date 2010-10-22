@@ -1647,16 +1647,6 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
-     <property name="name" value="Department Code"/>
-     <property name="desc" value="Department Code."/>
-     <property name="dataType" value="STRING"/>
-     <property name="writeAccess" value="ALWAYS"/>
-     <property name="caseSensitive" value="false"/>
-     <property name="usage" value="ADVANCED_CUSTOM"/>
-     <property name="widget" value="SUGGEST_BOX"/>
-    </bean>
-    <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalDescr"/>
      <property name="name" value="Phrase in Description"/>
      <property name="desc" value="Course description"/>
@@ -1673,6 +1663,16 @@
      <property name="writeAccess" value="ALWAYS"/>
      <property name="caseSensitive" value="true"/>
      <property name="usage" value="CUSTOM"/>
+    </bean>
+    <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
+     <property name="name" value="Subject Area Code"/>
+     <property name="desc" value="Subject Area Code."/>
+     <property name="dataType" value="STRING"/>
+     <property name="writeAccess" value="ALWAYS"/>
+     <property name="caseSensitive" value="false"/>
+     <property name="usage" value="CUSTOM"/>
+     <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalType"/>
