@@ -185,10 +185,10 @@ padding-left:5px;
 }
 
 .KS-Workflow-DropDown .KS-CustomDropDown-TitlePanel{
-          background-color:#F3F3F3;
-          border:1px solid #B2B2B2;
-          cursor:pointer;
-          padding:6px 6px 4px;
+    background-color:#F3F3F3;
+    border:1px solid #D2D2D2;
+    cursor:pointer;
+    padding:3px 6px;
 }
 
 .KS-Workflow-DropDown .KS-CutomDropDown-TitleLabel{
