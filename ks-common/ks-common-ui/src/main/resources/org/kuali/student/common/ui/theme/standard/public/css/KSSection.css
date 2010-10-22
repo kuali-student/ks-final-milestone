@@ -392,16 +392,14 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 @if user.agent ie6 ie7 ie8 ie{  
 	.ks-form-module-group, .ks-form-module-solo{
-              margin-bottom:0.1em; 
-               padding-bottom:5px; 
-               margin-left:15px; 
+            padding-bottom: 5px;
+            margin-bottom: 0.1em;
 	}
 }
 
 .ks-form-module-group, .ks-form-module-solo {
-              margin-bottom:0.1em; 
-               padding-bottom:5px; 
-               margin-left:15px; 
+        padding-bottom: 5px;
+        margin-bottom: 0.1em;
 }
 
 .ks-form-module-fields {
