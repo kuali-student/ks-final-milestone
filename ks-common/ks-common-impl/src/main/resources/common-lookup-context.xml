@@ -1355,6 +1355,7 @@
 							<property name="key" value="cluset.queryParam.optionalReusable" />
 							<property name="name" value="Reusable" />
 							<property name="desc" value="Reusable" />
+       <property name="dataType" value="BOOLEAN" />
 							<property name="writeAccess" value="NEVER" />
 							<property name="defaultValueString" value="true" />
 							<property name="caseSensitive" value="true" />
@@ -1416,6 +1417,7 @@
 					<property name="key" value="cluset.queryParam.optionalReusable" />
 					<property name="name" value="Reusable" />
 					<property name="desc" value="Reusable" />
+					<property name="dataType" value="BOOLEAN"/>
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueString" value="true" />
 					<property name="caseSensitive" value="true" />
@@ -1870,13 +1872,6 @@
                     <property name="desc" value="Publication Type Id"/>
                     <property name="dataType" value="STRING"/>
                     <property name="writeAccess" value="ALWAYS"/>
-                </bean>
-                <bean parent="param">
-                    <property name="key" value="lu.queryParam.publicationType.type"/>
-                    <property name="name" value="Publication Type"/>
-                    <property name="desc" value="Publication Type"/>
-                    <property name="dataType" value="STRING"/>
-                    <property name="writeAccess" value="NEVER"/>
                 </bean>
             </list>
 		</property>
