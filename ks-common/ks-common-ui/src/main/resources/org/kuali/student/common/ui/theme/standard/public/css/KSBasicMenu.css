@@ -118,9 +118,9 @@
 .KS-Navigation-DropDown .KS-CutomDropDown-TitleLabel{
 cursor:pointer;
 float:left;
-margin-bottom:5px;
-margin-top:5px;
-padding-left:5px;
+margin-bottom:1px;
+margin-top:2px;
+padding-left:6px;
 }
 
 .KS-Navigation-DropDown ul{
