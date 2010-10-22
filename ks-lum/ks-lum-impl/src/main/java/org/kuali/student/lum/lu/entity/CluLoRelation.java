@@ -15,14 +15,12 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -32,7 +30,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -42,14 +39,10 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name="CluLoRelation.getCluLoRelation", query="SELECT rel FROM CluLoRelation rel WHERE rel.clu.id = :cluId and rel.loId = :loId"),
 	@NamedQuery(name="CluLoRelation.getCluLoRelationByClu", query="SELECT rel FROM CluLoRelation rel WHERE rel.clu.id = :cluId"),
 	@NamedQuery(name="CluLoRelation.getCluLoRelationByLo", query="SELECT rel FROM CluLoRelation rel WHERE rel.loId = :loId"),
-	@NamedQuery(name="CluLoRelation.getCluLoRelationByCluIdAndType", query="SELECT rel.id FROM CluLoRelation rel WHERE rel.clu.id = :cluId AND rel.type = :cluLoRelationType")
+	@NamedQuery(name="CluLoRelation.getCluLoRelationByCluIdAndType", query="SELECT rel.id FROM CluLoRelation rel WHERE rel.clu.id = :cluId AND rel.type.id = :cluLoRelationType")
 })
-public class CluLoRelation  extends MetaEntity implements
+public class CluLoRelation extends MetaEntity implements
 AttributeOwner<CluLoRelationAttribute> {
-
-	@Id
-	@Column(name="ID")
-	private String id;
 
 	@ManyToOne
 	@JoinColumn(name="CLU_ID")
@@ -69,8 +62,9 @@ AttributeOwner<CluLoRelationAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluLoRelationAttribute> attributes;
 
-	@Column(name="TYPE")
-	private String type;
+    @ManyToOne
+    @JoinColumn(name = "TYPE")
+	private CluLoRelationType type;
 
 	@Column(name = "ST")
     private String state;
@@ -83,19 +77,6 @@ AttributeOwner<CluLoRelationAttribute> {
 	@Override
 	public void setAttributes(List<CluLoRelationAttribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	@Override
-	public  void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public Clu getClu() {
@@ -130,11 +111,11 @@ AttributeOwner<CluLoRelationAttribute> {
 		this.expirationDate = expirationDate;
 	}
 
-	public String getType() {
+	public CluLoRelationType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(CluLoRelationType type) {
 		this.type = type;
 	}
 

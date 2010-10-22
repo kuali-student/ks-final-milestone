@@ -23,32 +23,29 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.PrePersist;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name="KSEM_ENUM_VAL_T")
-public class EnumeratedValue {
-    @Id
-    @Column(name="ID")
-    String id;
+public class EnumeratedValue extends BaseEntity {
 
-    @Column(name="CD")
+	@Column(name="CD")
     String code;
     
     @Column(name="VAL")
     String value;
 
-    @Column(name="ENUM_KEY")
-    String enumerationKey;
+    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity=Enumeration.class )
+    @JoinColumn(name="ENUM_KEY")
+    Enumeration enumeration;
         
     @Column(name="ABBREV_VAL")
     String abbrevValue;
@@ -73,27 +70,12 @@ public class EnumeratedValue {
     )
     List<ContextEntity> contextEntityList = new ArrayList<ContextEntity>();
 
-    /**
-     * AutoGenerate the id
-     */
-    @PrePersist
-    public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
-    }
-    public String getId() {
-        return id;
+    public Enumeration getEnumeration() {
+        return enumeration;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getEnumerationKey() {
-        return enumerationKey;
-    }
-
-    public void setEnumerationKey(String enumerationKey) {
-        this.enumerationKey = enumerationKey;
+    public void setEnumeration(Enumeration enumeration) {
+        this.enumeration = enumeration;
     }
 
     public String getCode() {

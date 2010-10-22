@@ -43,6 +43,7 @@
         <search:name>ProposalAdvancedCriteria</search:name>
         <search:desc>Advanced criteria</search:desc>
         <search:queryParams>
+            <ref bean="proposal.queryParam.proposalId"/>
             <ref bean="proposal.queryParam.proposalOptionalName"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>

@@ -44,6 +44,7 @@ public class OrganizationContextImplTest {
 	private OrganizationContextImpl organizationContext = new OrganizationContextImpl();
 
 	private ReqComponentInfo reqComponent1;
+	private ReqComponentInfo reqComponent2;
 	
 	private void setupReqComponent1() {
 		reqComponent1 = new ReqComponentInfo();
@@ -55,10 +56,21 @@ public class OrganizationContextImplTest {
 		reqComponent1.setReqCompFields(reqCompFieldList);
 	}
 
+	private void setupReqComponent2() {
+		reqComponent2 = new ReqComponentInfo();
+        List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
+        reqCompField1.setType(ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
+        reqCompField1.setValue(null);
+        reqCompFieldList.add(reqCompField1);
+		reqComponent2.setReqCompFields(reqCompFieldList);
+	}
+
 	@Before
 	public void beforeMethod() {
 		organizationContext.setOrganizationService(organizationService);
 		setupReqComponent1();
+		setupReqComponent2();
 	}
 
 	@Test
@@ -70,6 +82,15 @@ public class OrganizationContextImplTest {
 		Assert.assertEquals("kuali.org.Department", org.getType());
 		Assert.assertEquals("Sociology", org.getShortName());
 		Assert.assertEquals("Sociology Dept", org.getLongName());
+	}
+
+	@Test
+    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
+		Map<String, Object> contextMap = organizationContext.createContextMap(reqComponent2);
+		OrgInfo org = (OrgInfo) contextMap.get(OrganizationContextImpl.ORG_TOKEN);
+
+		Assert.assertNotNull(contextMap);
+		Assert.assertEquals(null, org);
 	}
 
 	private static class OrganizationServiceMock implements OrganizationService {

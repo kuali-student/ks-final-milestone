@@ -1,12 +1,11 @@
 package org.kuali.student.lum.program.client;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
-import org.kuali.student.lum.program.client.major.edit.ProgramRequirementsEditConfiguration;
+import org.kuali.student.lum.program.client.major.edit.MajorSummaryConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.major.view.ProgramRequirementsViewConfiguration;
-import org.kuali.student.lum.program.client.major.view.ViewAllSectionConfiguration;
 
 import java.util.ArrayList;
 
@@ -15,12 +14,12 @@ import java.util.ArrayList;
  */
 public abstract class AbstractProgramConfigurer extends Configurer {
 
-    private ProgramController viewController;
+    private ProgramController programController;
 
     protected ConfigurationManager programSectionConfigManager;
 
     public void configure(ProgramController viewController) {
-        this.viewController = viewController;
+        this.programController = viewController;
         configureProgramSections();
     }
 
@@ -29,21 +28,21 @@ public abstract class AbstractProgramConfigurer extends Configurer {
      */
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
-        viewController.addMenu(programSectionLabel);
+        programController.addMenu(programSectionLabel);
         ArrayList<Configuration> configurations = programSectionConfigManager.getConfigurations();
         for (Configuration configuration : configurations) {
-            if (configuration instanceof ProgramRequirementsEditConfiguration) {
-                ((ProgramRequirementsEditConfiguration) configuration).setViewController(viewController);
-            } else if (configuration instanceof ProgramRequirementsViewConfiguration) {
-                ((ProgramRequirementsViewConfiguration) configuration).setViewController(viewController);
-            } else if (configuration instanceof ViewAllSectionConfiguration) {
-                ((ViewAllSectionConfiguration) configuration).setViewController(viewController);
+            if (configuration instanceof AbstractControllerConfiguration) {
+                ((AbstractControllerConfiguration) configuration).setController(programController);
             }
-            viewController.addMenuItem(programSectionLabel, configuration.getView());
+            if (configuration instanceof MajorSummaryConfiguration) {
+                programController.addSpecialMenuItem(configuration.getView(), programSectionLabel);
+            } else {
+                programController.addMenuItem(programSectionLabel, configuration.getView());
+            }
         }
     }
 
-    public ProgramController getViewController() {
-        return viewController;
+    public ProgramController getProgramController() {
+        return programController;
     }
 }

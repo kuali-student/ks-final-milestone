@@ -15,11 +15,9 @@
 
 package org.kuali.student.core.messages.service.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.messages.entity.MessageEntity;
@@ -30,26 +28,17 @@ public class MessageAssembler {
     
 	public static void toMessageEntity(Message message,
 			MessageEntity messageEntity) {
-
-		try {
-			BeanUtils.copyProperties(messageEntity, message);
-		} catch (IllegalAccessException e) {
-		    logger.error("Exception occured: ", e);
-		} catch (InvocationTargetException e) {
-		    logger.error("Exception occured: ", e);
-		}
+		messageEntity.setGroupName(message.getGroupName());
+		messageEntity.setMessageId(message.getId());
+		messageEntity.setLocale(message.getLocale());
+		messageEntity.setValue(message.getValue());
 	}
 
 	public static void toMessage(MessageEntity messageEntity, Message message) {
-
-		try {
-			BeanUtils.copyProperties(message, messageEntity);
-		} catch (IllegalAccessException e) {
-		    logger.error("Exception occured: ", e);
-		} catch (InvocationTargetException e) {
-		    logger.error("Exception occured: ", e);
-		}
-
+		message.setGroupName(messageEntity.getGroupName());
+		message.setId(messageEntity.getMessageId());
+		message.setLocale(messageEntity.getLocale());
+		message.setValue(messageEntity.getValue());
 	}
 
 	public static List<Message> toMessageList(List<MessageEntity> messages,
@@ -57,15 +46,8 @@ public class MessageAssembler {
 		List<Message> result = new ArrayList<Message>();
 		Message m1 = new Message();
 		for (MessageEntity e : messages) {
-
-			try {
-				BeanUtils.copyProperties(m1, e);
-			} catch (IllegalAccessException e1) {
-			    logger.error("Exception occured: ", e1);
-			} catch (InvocationTargetException e1) {
-			    logger.error("Exception occured: ", e1);
-			}
-			result.add((m1));
+			toMessage(e, m1);
+			result.add(m1);
 		}
 		return result;
 

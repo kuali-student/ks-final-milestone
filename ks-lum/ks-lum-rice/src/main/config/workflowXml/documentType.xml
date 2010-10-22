@@ -78,7 +78,8 @@
       <parent>CluCreditCourseParentDocument</parent>
       <description>Credit Course Retirement</description>
       <label>Credit Course Retirement</label>
-      <active>true</active>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
+      <active>false</active>
       <routePaths>
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
@@ -107,6 +108,7 @@
       <parent>CluCreditCourseParentDocument</parent>
       <description>Credit Course Modification</description>
       <label>Credit Course Modification</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
       <active>true</active>
       <routePaths>
         <routePath>
@@ -175,7 +177,7 @@
       <parent>CluCreditCourseParentDocument</parent>
       <description>Credit Course Proposal</description>
       <label>Credit Course Proposal</label>
-      <postProcessorName>org.kuali.student.lum.workflow.CluPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
       <active>true</active>
       <routePaths>
         <routePath>

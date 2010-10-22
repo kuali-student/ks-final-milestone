@@ -16,11 +16,12 @@
 package org.kuali.student.core.statement.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.jws.WebService;
-import javax.persistence.NoResultException;
 
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
@@ -61,14 +62,19 @@ import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementType;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslator;
+import org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class StatementServiceImpl implements StatementService {
+
+	private final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
 
 	private StatementDao statementDao;
 	private NaturalLanguageTranslator naturalLanguageTranslator;
@@ -111,13 +117,13 @@ public class StatementServiceImpl implements StatementService {
         return statementDao;
     }
 
-    public NaturalLanguageTranslator getNaturalLanguageTranslator() {
-        return naturalLanguageTranslator;
-    }
-
     public void setStatementDao(final StatementDao statementDao) {
 		this.statementDao = statementDao;
 	}
+
+    public NaturalLanguageTranslator getNaturalLanguageTranslator() {
+        return naturalLanguageTranslator;
+    }
 
 	public void setNaturalLanguageTranslator(final NaturalLanguageTranslator translator) {
 		this.naturalLanguageTranslator = translator;
@@ -232,6 +238,14 @@ public class StatementServiceImpl implements StatementService {
 
 		ReqComponent reqComponent = this.statementDao.fetch(ReqComponent.class, reqComponentId);
 		String nl = this.naturalLanguageTranslator.translateReqComponent(reqComponent, nlUsageTypeKey, language);
+
+		if(logger.isInfoEnabled()) {
+			logger.info("reqComponentId="+reqComponentId);
+			logger.info("nlUsageTypeKey="+nlUsageTypeKey);
+			logger.info("language="+language);
+			logger.info("ReqComponent translation="+nl);
+		}
+
 		return nl;
 	}
 
@@ -268,6 +282,14 @@ public class StatementServiceImpl implements StatementService {
 
 		Statement statement = this.statementDao.fetch(Statement.class, statementId);
 		String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey, language);
+
+		if(logger.isInfoEnabled()) {
+			logger.info("statementId="+statementId);
+			logger.info("nlUsageTypeKey="+nlUsageTypeKey);
+			logger.info("language="+language);
+			logger.info("Statement translation="+nl);
+		}
+
 		return nl;
 	}
 
@@ -279,6 +301,14 @@ public class StatementServiceImpl implements StatementService {
 		RefStatementRelation refStatementRelation = this.statementDao.fetch(RefStatementRelation.class, refStatementRelationId);
 		Statement statement = refStatementRelation.getStatement();
 		String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey, language);
+
+		if(logger.isInfoEnabled()) {
+			logger.info("refStatementRelationId="+refStatementRelationId);
+			logger.info("nlUsageTypeKey="+nlUsageTypeKey);
+			logger.info("language="+language);
+			logger.info("Statement translation="+nl);
+		}
+
 		return nl;
 	}
 
@@ -292,10 +322,13 @@ public class StatementServiceImpl implements StatementService {
 		try {
 			// test usage type key exists
 			getNlUsageType(nlUsageTypeKey);
-
 			ReqComponent req = statementAssembler.toReqComponentRelation(false, reqComponentInfo);
-
 			String nl = this.naturalLanguageTranslator.translateReqComponent(req, nlUsageTypeKey, language);
+
+			if(logger.isInfoEnabled()) {
+    			logger.info("ReqComponent translation="+nl);
+    		}
+
 			return nl;
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException("Requirement component translation failed: " + e.getMessage());
@@ -315,6 +348,11 @@ public class StatementServiceImpl implements StatementService {
 			Statement statement = statementAssembler.toStatement(statementTreeViewInfo);
 
 			String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey, language);
+
+			if(logger.isInfoEnabled()) {
+    			logger.info("StatementTreeView translation="+nl);
+    		}
+
 			return nl;
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException("Statement tree view translation failed: " + e.getMessage());
@@ -409,7 +447,13 @@ public class StatementServiceImpl implements StatementService {
     @Override
     public StatementTreeViewInfo createStatementTreeView(final StatementTreeViewInfo statementTreeViewInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, CircularReferenceException {
     	try {
-			return updateStatementTreeView(null, statementTreeViewInfo);
+            // insert statements and reqComponents if they do not already exists in database
+            updateSTVHelperCreateStatements(statementTreeViewInfo);
+
+            updateStatementTreeViewHelper(statementTreeViewInfo);
+            StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
+
+            return test;
 		} catch (VersionMismatchException e) {
 			throw new OperationFailedException("Create failed.", e);
 		}
@@ -707,7 +751,7 @@ public class StatementServiceImpl implements StatementService {
             throw new DoesNotExistException("Statement Type: " + statementTypeKey + " does not exist.");
         }
 
-        return StatementAssembler.toReqComponentTypeInfos( stmtType.getAllowedReqComponentTypes() );
+        return StatementAssembler.toReqComponentTypeInfosOrdered( stmtType.getAllowedReqComponentTypes() );
     }
 
     @Override
@@ -740,6 +784,9 @@ public class StatementServiceImpl implements StatementService {
 		Statement statement = this.statementDao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
 		RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationInfo.getType());
 
+        // make sure refObjectType exist
+        this.statementDao.fetch(ObjectType.class, refStatementRelationInfo.getRefObjectTypeKey());
+		
 		RefStatementRelation entity = new RefStatementRelation();
 
 		BeanUtils.copyProperties(refStatementRelationInfo, entity, new String[] {
@@ -888,8 +935,6 @@ public class StatementServiceImpl implements StatementService {
                 List<StatementTreeViewInfo> statements =
                     (statementTreeViewInfo.getStatements() == null) ? new ArrayList<StatementTreeViewInfo>() : statementTreeViewInfo.getStatements();
                 StatementTreeViewInfo subStatementTreeViewInfo = new StatementTreeViewInfo();
-    	        String nl = translateStatement(statementId, nlUsageTypeKey, language);
-                subStatementTreeViewInfo.setNaturalLanguageTranslation(nl);
 
                 // recursive call to get subStatementTreeViewInfo
                 getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo, nlUsageTypeKey, language);
@@ -897,68 +942,51 @@ public class StatementServiceImpl implements StatementService {
                 statementTreeViewInfo.setStatements(statements);
             }
         }
-        String nl = translateStatement(statementTreeViewInfo.getId(), nlUsageTypeKey, language);
-        statementTreeViewInfo.setNaturalLanguageTranslation(nl);
-    }
-
-    private String translateStatement(String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException {
-        Statement stmt = this.statementDao.fetch(Statement.class, statementId);
-        if(nlUsageTypeKey != null && language != null) {
-	        String nl = this.naturalLanguageTranslator.translateStatement(stmt, nlUsageTypeKey);
-	        return nl;
-        }
-        return null;
     }
 
     @Override
     public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo)
     	throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        StatementTreeViewInfo origTree = null;
-
-        if (statementId != null) {
-            try {
-                origTree = getStatementTreeView(statementId);
-            } catch (DoesNotExistException dnee) {
-                origTree = null;
-            }
-        }
-
-        // insert statements and reqComponents if they do not already exists in database
-        updateSTVHelperCreateStatements(statementTreeViewInfo);
-        // check the two lists of relationships for ones that need to be deleted/created
-        if (origTree != null) {
-            List<String> toBeDeleted = notIn(origTree, statementTreeViewInfo);
-            for (String delStatementId : toBeDeleted) {
-                deleteStatement(delStatementId);
-            }
-        }
-        updateStatementTreeViewHelper(statementTreeViewInfo);
-        StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
-
-        return test;
-
-
-    	/*
-    	statementTreeViewInfo.setId(statementId);
-    	NodeOperation operation;
-    	if (statementId == null) {
-    		operation = NodeOperation.CREATE;
-    	} else {
-    		operation = NodeOperation.UPDATE;
-    	}
-    	try {
-			statementTreeViewAssembler.disassemble(statementTreeViewInfo, operation);
-		} catch (AssemblyException e) {
-			throw new OperationFailedException(e.getMessage(), e);
+		
+		Statement stmt = this.statementDao.fetch(Statement.class, statementTreeViewInfo.getId());
+	    if (stmt == null) {
+	        throw new DoesNotExistException("Statement does not exist for id: " + statementTreeViewInfo.getId());
 		}
+		if (!String.valueOf(stmt.getVersionNumber()).equals(statementTreeViewInfo.getMetaInfo().getVersionInd())) {
+		    throw new VersionMismatchException("Statement to be updated is not the current version");
+		}
+		   
+	    Set<String> statementIdsToDelete = new HashSet<String>();
+	    List<ReqComponent> requirementComponentsToCreate = new ArrayList<ReqComponent>();
+	    List<Statement> statmentsToUpdate = new ArrayList<Statement>();
+	    
+	    //Transform the tree into a statement with all of its children
+	    stmt = statementAssembler.toStatementFromTree(stmt, statementTreeViewInfo, statementIdsToDelete, statmentsToUpdate, requirementComponentsToCreate);
+		
+	    //Create any new reqComponents 
+	    for(ReqComponent reqComponent:requirementComponentsToCreate){
+			statementDao.create(reqComponent);
+		}
+	    
+	    //Update the actual statement
+	    stmt = statementDao.update(stmt);
+	    
+	    //Update statements where the join table needs to be cleared
+	    
+	    //delete orphaned statements
+	    for(String statementIdToDelete:statementIdsToDelete){
+	    	statementDao.delete(Statement.class, statementIdToDelete);
+	    }
+	    
+	    //Transform back to a dto
+	    StatementTreeViewInfo result = statementAssembler.toStatementTreeViewInfo(stmt);
+	
+		return result;
 
-        StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
 
-        return test;
-        */
     }
 
-    private List<String> notIn(
+    /*private List<String> notIn(
             StatementTreeViewInfo oldTree,
             StatementTreeViewInfo newTree) {
         List<String> results = new ArrayList<String>(17);
@@ -991,7 +1019,7 @@ public class StatementServiceImpl implements StatementService {
             }
         }
         statementIds.add(statementTreeViewInfo.getId());
-    }
+    }*/
 
     private void updateStatementTreeViewHelper(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         if (statementTreeViewInfo.getStatements() != null) {
@@ -1066,7 +1094,7 @@ public class StatementServiceImpl implements StatementService {
         if (origStatementInfo == null) {
             // the id here even if it is not null it is the temporary ids assigned by client
             // so resets the id to null to allow a new id to be generated.
-            statementTreeViewInfo.setId(null);
+//            statementTreeViewInfo.setId(null);
             newStatementInfo = statementAssembler.toStatementInfo(statementTreeViewInfo);
             try {
                 newStatementInfo = createStatement(newStatementInfo.getType(), newStatementInfo);

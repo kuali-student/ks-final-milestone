@@ -70,7 +70,7 @@
 						Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
 						which has problems finding exception beans.
 					-->
-          <groupId>org.kuali.student.core</groupId>
+          <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-cxf</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
@@ -114,20 +114,32 @@
   <dependencies>
     <!-- KS common & core dependencies (GWT dependencies come from ks-common-ui)-->
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
@@ -140,6 +152,18 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-core-rice</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-core-rice</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>

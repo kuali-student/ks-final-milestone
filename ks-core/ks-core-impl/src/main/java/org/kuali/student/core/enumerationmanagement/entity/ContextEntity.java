@@ -21,20 +21,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.BaseEntity;
 
 @Entity
 @Table(name="KSEM_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})
-public class ContextEntity {
-    @Id
-    @Column(name="ID")
-    String id;
+public class ContextEntity extends BaseEntity {
     
     @Column(name="CTX_KEY")
     String contextKey;
@@ -45,21 +40,6 @@ public class ContextEntity {
     @ManyToMany(mappedBy="contextEntityList", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     List<EnumeratedValue> enumeratedValueList;
     
-    /**
-     * AutoGenerate the id
-     */
-    @PrePersist
-    public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
-    }
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getContextKey() {
         return contextKey;
     }

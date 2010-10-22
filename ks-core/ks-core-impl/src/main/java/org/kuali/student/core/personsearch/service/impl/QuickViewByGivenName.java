@@ -29,19 +29,23 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.dto.SortDirection;
 
 
 public final class QuickViewByGivenName extends PersonSearch implements SearchOperation {
-    final static private String NAME_PARAM = "person.queryParam.personGivenName";
-    final static private String ID_PARAM = "person.queryParam.personId";
-    final static private String AFFILIATION_PARAM = "person.queryParam.personAffiliation";
+    public static final String SEARCH_TYPE = "person.search.personQuickViewByGivenName";
+    public static final String CRITERIA_TYPE = "person.search.personByGivenName";
+    public static final String RESULT_TYPE = "person.search.personQuickView";
+    final static public String NAME_PARAM = "person.queryParam.personGivenName";
+    final static public String ID_PARAM = "person.queryParam.personId";
+    final static public String AFFILIATION_PARAM = "person.queryParam.personAffiliation";
 
-    final static private String PRINCIPAL_ID_RESULT = "person.resultColumn.PersonId";
-    final static private String ENTITY_ID_RESULT = "person.resultColumn.EntityId";
-    final static private String DISPLAY_NAME_RESULT = "person.resultColumn.DisplayName";// Smith, John (jsmith)
-    final static private String GIVEN_NAME_RESULT = "person.resultColumn.GivenName";// Smith, John
-    final static private String PRINCIPAL_NAME_RESULT = "person.resultColumn.PrincipalName";
+    final static public String PERSON_ID_RESULT = "person.resultColumn.PersonId";
+    final static public String ENTITY_ID_RESULT = "person.resultColumn.EntityId";
+    final static public String DISPLAY_NAME_RESULT = "person.resultColumn.DisplayName";// Smith, John (jsmith)
+    final static public String GIVEN_NAME_RESULT = "person.resultColumn.GivenName";// Smith, John
+    final static public String PRINCIPAL_NAME_RESULT = "person.resultColumn.PrincipalName";
 
     final static private String KIM_PERSON_AFFILIATION_TYPE_CODE = "affiliationTypeCode";
 
@@ -164,7 +168,7 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
             resultRow.getCells().add(cell);
             
             cell = new SearchResultCell();
-            cell.setKey(PRINCIPAL_ID_RESULT);
+            cell.setKey(PERSON_ID_RESULT);
             cell.setValue(person.getPrincipalId());
             resultRow.getCells().add(cell);
             
@@ -191,5 +195,12 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
         result.setTotalResults(result.getRows().size()); // TODO fix this
         return result;
     }
+
+ @Override
+ public SearchTypeInfo getType ()
+ {
+  return new QuickViewByGivenNameSearchTypeCreator ().get ();
+ }
+
 
 }

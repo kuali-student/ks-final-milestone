@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
@@ -24,31 +23,30 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.DocumentLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.WorkQueue;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 
@@ -84,10 +82,12 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	private BlockingTask initTask = new BlockingTask("Initializing....");
 	private KSLabel statusLabel = new KSLabel("");
             
-    public ViewCourseController(){
+    public ViewCourseController(Enum<?> viewType){
     	super(CourseProposalController.class.getName());
         initialize();
         addStyleName("courseView");
+        this.tabPanel.addStyleName("standard-content-padding");
+        this.setViewEnum(viewType);
     }
     
     @Override
@@ -143,7 +143,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 					ViewContext viewContext = new ViewContext();
 					viewContext.setId((String)cluModel.get("versionInfo/versionIndId"));
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                    viewContext.setAttribute(IdAttributes.DOC_TYPE, "kuali.proposal.type.course.modify");
+                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.modify");
 					HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
 				}
 			}
@@ -185,22 +185,40 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                 public void onSuccess(Metadata result) {
                 	DataModelDefinition def = new DataModelDefinition(result);
                     cluModel.setDefinition(def);
-                    init(def);
-                    onReadyCallback.exec(true);
-                    KSBlockingProgressIndicator.removeTask(initTask);
+                    init(def, onReadyCallback);
                 }
 	          });
             
         }
     }
     
-    private void init(DataModelDefinition modelDefinition){
-        ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
-        
-        cfg.setModelDefinition(modelDefinition);
-        cfg.generateLayout(this);
-        
-        initialized = true;
+    private void init(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
+        final ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
+
+        CourseRequirementsDataModel.getStatementTypes(new Callback<List<StatementTypeInfo>>() {
+
+            @Override
+            public void exec(List<StatementTypeInfo> stmtTypes) {
+                List<StatementTypeInfo> stmtTypesOut = new ArrayList<StatementTypeInfo>();
+                if (stmtTypes != null) {
+                    for (StatementTypeInfo stmtType : stmtTypes) {
+                        if (stmtType.getId().contains("kuali.statement.type.course.enrollmentEligibility") ||
+                            stmtType.getId().contains("kuali.statement.type.course.creditConstraints")) {
+                            continue;
+                        }
+                        stmtTypesOut.add(stmtType);
+                    }
+                }
+
+                cfg.setStatementTypes(stmtTypesOut);
+                cfg.setModelDefinition(modelDefinition);
+                cfg.generateLayout(ViewCourseController.this);
+                initialized = true;
+
+                onReadyCallback.exec(true);
+                KSBlockingProgressIndicator.removeTask(initTask);
+            }
+        });
     }
         
     /**
@@ -273,6 +291,10 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     public String getCourseId() {
         return courseId;
     }
+    
+    public String getVersionIndId() {
+        return (String)cluModel.get("versionInfo/versionIndId");
+    }
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
@@ -286,8 +308,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
             this.cluModel.setRoot(new LuData());            
         }
         this.courseId = null;
-    }
-    
+    }    
     
     @Override
     public void showDefaultView(final Callback<Boolean> onReadyCallback) {
@@ -334,7 +355,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     	
     	this.setContentTitle(title);
     	this.setName(title);
-
+    	WindowTitleUtils.setContextTitle(title);
     }
     
     private CloseHandler<KSLightBox> createActionSubmitSuccessHandler() {
@@ -353,20 +374,33 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 		return statusLabel;
 	}
 	
+	public Widget getVersionHistoryWidget(){
+		KSButton button = new KSButton("Version History", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				parentController.showView(ViewCourseParentController.Views.VERSIONS);
+			}
+		});
+		button.addStyleName("versionHistoryLink");
+		return button;
+		
+	}
+	
 	@Override
 	public void onHistoryEvent(String historyStack) {
 		super.onHistoryEvent(historyStack);
-		if (cluModel.get("transcriptTitle") != null){
+		if (cluModel.get("courseTitle") != null){
 			RecentlyViewedHelper.addCurrentDocument(getCourseTitle());
 		}
 	}
 	
-	private String getCourseTitle(){
-		StringBuffer sb = new StringBuffer();
-		sb.append(cluModel.get("code"));
-		sb.append(" - ");
-		sb.append(cluModel.get("transcriptTitle"));
-		return sb.toString();
+	public String getCourseTitle(){
+		return cluModel.get("courseTitle");
+	}
+
+	public String getCurrentId() {
+		return cluModel.get("id");
 	}
 
 }

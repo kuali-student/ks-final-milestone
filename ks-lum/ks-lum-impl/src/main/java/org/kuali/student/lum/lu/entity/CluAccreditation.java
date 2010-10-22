@@ -15,21 +15,17 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -45,10 +41,6 @@ import org.kuali.student.core.entity.MetaEntity;
 @Table(name = "KSLU_CLU_ACCRED")
 public class CluAccreditation extends MetaEntity implements
 		AttributeOwner<CluAccreditationAttribute> {
-	
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "ORG_ID")
 	private String orgId;
@@ -63,11 +55,6 @@ public class CluAccreditation extends MetaEntity implements
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluAccreditationAttribute> attributes;
-
-	@PrePersist
-	public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
 
 	public List<CluAccreditationAttribute> getAttributes() {
 		return attributes;
@@ -101,11 +88,4 @@ public class CluAccreditation extends MetaEntity implements
 		this.expirationDate = expirationDate;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 }

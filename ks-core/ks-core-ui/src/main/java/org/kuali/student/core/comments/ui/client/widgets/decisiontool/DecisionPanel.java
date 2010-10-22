@@ -18,7 +18,6 @@ import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -31,11 +30,13 @@ import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -63,12 +64,6 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 	private String decisionTypeKey;
 	private ArrayList<String> personIds;
 
-	private static String APPROVE_DECISION = "kuali.comment.type.workflowDecisionRationale.approve";
-	private static String REJECT_DECISION = "kuali.comment.type.workflowDecisionRationale.reject";
-	private static String RETURN_DECISION = "kuali.comment.type.workflowDecisionRationale.return";
-	private static String ACK_DECISION = "kuali.comment.type.workflowDecisionRationale.acknowledge";
-	private static String FYI_DECISION = "kuali.comment.type.workflowDecisionRationale.fyi";
-
 	private DefaultTableModel tableModel;
 
 	public DecisionPanel(Enum<?> viewEnum, String viewName,
@@ -80,29 +75,30 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 	}
 
 	private void init() {
-		if (commentLightBox == null) {
-			commentLightBox = new KSLightBox();
-		}
 		KSButton closeActionButton = new KSButton(getMessage("wrapperPanelClose"));
 		closeActionButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				commentLightBox.hide();
 			}
 		});
+		if (commentLightBox == null) {
+			commentLightBox = new KSLightBox("Proposal Decisions");
+			commentLightBox.addButton(closeActionButton);
+		}
 		scrollPanel = new VerticalPanel();
 		contentPanel = new VerticalFlowPanel();
-		titlePanel = new VerticalPanel();
+		//titlePanel = new VerticalPanel();
 		// contentPanel.add(htmlLabel);
 		table = new Table();
 		table.getScrollPanel().setHeight("400px");
 		table.setTableModel(tableModel);
 		scrollPanel.add(table);
-		scrollPanel.add(closeActionButton);
-		contentPanel.add(titlePanel);
+		
+		//contentPanel.add(titlePanel);
 		contentPanel.add(scrollPanel);
 		// commentLightBox.setWidget(titlePanel);
 		commentLightBox.setWidget(contentPanel);
-		commentLightBox.setSize(600, 400);
+		commentLightBox.setMaxHeight(600);
 
 	}
 
@@ -111,12 +107,12 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 		init();
 		StringBuilder titleTextSb = new StringBuilder();
 		titleTextSb.append(referenceAttributes.get("name"));
-		proposalNameHeader = SectionTitle.generateH3Title(titleTextSb
+/*		proposalNameHeader = SectionTitle.generateH3Title(titleTextSb
 				.toString());
 		titlePanel.add(proposalNameHeader);
 		title = SectionTitle.generateH1Title("Proposal Decisions");
 		title.addStyleName("ks-layout-header");
-		titlePanel.add(title);
+		titlePanel.add(title);*/
 		getDecisions();
 	}
 
@@ -174,55 +170,42 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 		if (commentInfos != null) {
 			int rowIndex = 0;
 			for (final CommentInfo commentInfo : commentInfos) {
-				int columnIndex = 0;
-				if (rowIndex == 0) {
-					initializeDecisionTable();
-					rowIndex++;
-				}
-				ResultRow theRow = new ResultRow();
-				if (commentInfo.getType().equals(APPROVE_DECISION)) {
-					theRow.setId(commentInfo.getId());
-					theRow.setValue("Decision", "Approved");
-				}
-				if (commentInfo.getType().equals(REJECT_DECISION)) {
-					theRow.setId(commentInfo.getId());
-					theRow.setValue("Decision", "Reject");
-				}
-				if (commentInfo.getType().equals(RETURN_DECISION)) {
-					theRow.setId(commentInfo.getId());
-					theRow.setValue("Decision", "Sent for Revisions");
-				}
-				if (commentInfo.getType().equals(ACK_DECISION)) {
-					theRow.setId(commentInfo.getId());
-					theRow.setValue("Decision", "Acknowledged");
-				}
-				if (commentInfo.getType().equals(FYI_DECISION)) {
-					theRow.setId(commentInfo.getId());
-					theRow.setValue("Decision", "FYI");
-				}
-				SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
-				StringBuilder rationaleDate = new StringBuilder(dateformat
-						.format(commentInfo.getMetaInfo().getCreateTime()));
-
-				theRow.setId(commentInfo.getId());
-				theRow.setValue("Date", rationaleDate.toString());
-
-				if (members.get(commentInfo.getMetaInfo().getCreateId()) != null) {
-					MembershipInfo memberInfo = members.get(commentInfo
-							.getMetaInfo().getCreateId());
-					StringBuilder memberName = new StringBuilder();
-					memberName.append(memberInfo.getFirstName());
-					memberName.append(" ");
-					memberName.append(memberInfo.getLastName());
-					theRow.setId(commentInfo.getId());
-					theRow.setValue("Actor", memberName.toString());
-				}
-				theRow.setId(commentInfo.getId());
-				theRow.setValue("Rationale", commentInfo.getCommentText()
-						.getPlain());
-
-				tableModel.addRow(new RationaleRow(theRow));
-
+			    /* we only want decision rationale comments so if no DecisionRationaleDetail is returned for comment
+                 * type then don't add that comment to the table
+                 */
+			    DecisionRationaleDetail drDetails = DecisionRationaleDetail.getByType(commentInfo.getType());
+			    if (drDetails != null) {
+    				int columnIndex = 0;
+    				if (rowIndex == 0) {
+    					initializeDecisionTable();
+    					rowIndex++;
+    				}
+    				ResultRow theRow = new ResultRow();
+                    theRow.setId(commentInfo.getId());
+                    theRow.setValue("Decision", drDetails.getLabel());
+    				SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
+    				StringBuilder rationaleDate = new StringBuilder(dateformat
+    						.format(commentInfo.getMetaInfo().getCreateTime()));
+    
+    				theRow.setId(commentInfo.getId());
+    				theRow.setValue("Date", rationaleDate.toString());
+    
+    				if (members.get(commentInfo.getMetaInfo().getCreateId()) != null) {
+    					MembershipInfo memberInfo = members.get(commentInfo
+    							.getMetaInfo().getCreateId());
+    					StringBuilder memberName = new StringBuilder();
+    					memberName.append(memberInfo.getFirstName());
+    					memberName.append(" ");
+    					memberName.append(memberInfo.getLastName());
+    					theRow.setId(commentInfo.getId());
+    					theRow.setValue("Actor", memberName.toString());
+    				}
+    				theRow.setId(commentInfo.getId());
+    				theRow.setValue("Rationale", commentInfo.getCommentText()
+    						.getPlain());
+    
+    				tableModel.addRow(new RationaleRow(theRow));
+			    }
 			}
 			tableModel.fireTableDataChanged();
 
@@ -345,7 +328,7 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 	}
 
 	@Override
-	public KSImage getImage() {
+	public Image getImage() {
 
 		return Theme.INSTANCE.getCommonImages().getCommentIcon();
 	}

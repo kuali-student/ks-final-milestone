@@ -61,7 +61,6 @@
 		<search:searchResultTypeInfo> <ref bean="atp.result.atpBasicView" />
 		</search:searchResultTypeInfo> <search:searchCriteriaTypeInfo> <ref
 		bean="atp.criteria.atpByShortName" /> </search:searchCriteriaTypeInfo>
-		</search:searchType>
 	-->
 	<search:searchType id="atp.search.advancedAtpSearch"
 		parent="atp.search.advancedAtpSearch-parent" />
@@ -607,7 +606,7 @@
 						atp.name,
 						atp.type.seasonalType.name,
 						atp.type.durationType.name,
-						atp.effectiveDate,
+						atp.startDate,
 						atp.type.name,
 						atp.descr.plain
 						FROM Atp atp</value>
@@ -621,7 +620,7 @@
 						JOIN atptype.seasonalType seasonaltype
 						JOIN atptype.durationType durtype
 						WHERE
-						:atp_queryParam_searchDate BETWEEN atp.effectiveDate AND atp.expirationDate</value>
+						:atp_queryParam_searchDate BETWEEN atp.startDate AND atp.endDate</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpShortName">
 					<value>atp.name</value>
@@ -630,10 +629,10 @@
 					<value>atp.id = :atp_advancedAtpSearchParam_atpId</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpStartDate">
-					<value>atp.effectiveDate = :atp_advancedAtpSearchParam_atpStartDate</value>
+					<value>atp.startDate = :atp_advancedAtpSearchParam_atpStartDate</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpEndDate">
-					<value>atp.expirationDate = :atp_advancedAtpSearchParam_atpEndDate</value>
+					<value>atp.endDate = :atp_advancedAtpSearchParam_atpEndDate</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpTypeName">
 					<value>atp.type.name</value>

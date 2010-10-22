@@ -31,8 +31,10 @@ import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
-import org.kuali.student.common.ui.client.widgets.buttongroups.CreateCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.CreateCancelEnum;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
+import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonRow;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
@@ -275,10 +277,10 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 main.add(titleBar);
                 main.add(new KSLabel("Select a Type"));
                 main.add(typesDropDown);
-                CreateCancelGroup buttonPanel = new CreateCancelGroup(new Callback<CreateCancelEnum>(){
+                CreateLoCancelGroup buttonPanel = new CreateLoCancelGroup(new Callback<LoCancelEnum>(){
 
                     @Override
-                    public void exec(CreateCancelEnum result) {
+                    public void exec(LoCancelEnum result) {
                         switch(result){
                             case CREATE:
                                 final LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
@@ -804,4 +806,69 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
          }
           
       }
+     
+     public class CreateLoCancelGroup extends ButtonGroup<LoCancelEnum> {
+         public CreateLoCancelGroup(Callback<LoCancelEnum> callback) {
+             layout = new ButtonRow();
+             this.addCallback(callback);
+
+             addButton(LoCancelEnum.CANCEL);
+             addButtonToSecondaryGroup(LoCancelEnum.CREATE);
+
+             this.initWidget(layout);
+         }
+
+         private void addButton(final LoCancelEnum type){
+             KSButton button = new KSButton(type.getText(), new ClickHandler(){
+                 
+                 @Override
+                 public void onClick(ClickEvent event) {
+                     sendCallbacks(type);
+                 }
+             });
+             layout.addButton(button);
+             buttonMap.put(type, button);
+         }
+         
+         private void addButtonToSecondaryGroup(final LoCancelEnum type){
+             KSButton button = new KSButton(type.getText(), new ClickHandler(){
+                 
+                 @Override
+                 public void onClick(ClickEvent event) {
+                     sendCallbacks(type);
+                 }
+             });
+             ((ButtonRow)layout).addButtonToSecondaryGroup(button);
+             buttonMap.put(type, button);
+         }
+     }
+     
+     public static enum LoCancelEnum implements ButtonEnum {
+        CREATE, CANCEL;
+        @Override
+        public ButtonEnum getActionType() {
+            return CREATE;  
+        }
+
+        @Override
+        public ButtonEnum getCancelType() {
+            return CANCEL;
+        }
+
+        @Override
+        public ButtonStyle getStyle() {
+            return ButtonStyle.PRIMARY;
+        }
+
+        @Override
+        public String getText() {
+            switch(this){
+                case CREATE:
+                    return "Create";
+                case CANCEL:
+                    return "Cancel";
+            }
+            return null;
+        }
+     }
 }

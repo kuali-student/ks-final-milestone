@@ -2,10 +2,12 @@ package org.kuali.student.lum.program.client;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.lum.program.client.major.edit.ProgramEditController;
+import org.kuali.student.lum.program.client.events.MajorViewEvent;
+import org.kuali.student.lum.program.client.major.edit.MajorEditController;
+import org.kuali.student.lum.program.client.major.view.MajorViewController;
 import org.kuali.student.lum.program.client.variation.edit.VariationEditController;
 import org.kuali.student.lum.program.client.variation.view.VariationViewController;
-import org.kuali.student.lum.program.client.major.view.ProgramViewController;
+
 import com.google.gwt.event.shared.HandlerManager;
 
 /**
@@ -13,9 +15,9 @@ import com.google.gwt.event.shared.HandlerManager;
  */
 public class ProgramManager {
 
-    private ProgramViewController programViewController;
+    private MajorViewController majorViewController;
 
-    private ProgramEditController programEditController;
+    private MajorEditController majorEditController;
 
     private VariationViewController variationViewController;
 
@@ -25,38 +27,48 @@ public class ProgramManager {
 
     private ViewContext viewContext = new ViewContext();
 
-    private HandlerManager eventBus = new HandlerManager(null);
+    private static HandlerManager eventBus = new HandlerManager(null);
 
     public ProgramManager() {
         programModel = new DataModel();
     }
 
-    public ProgramViewController getProgramViewController() {
+    public MajorViewController getProgramViewController() {
         programModel.resetRoot();
-        if (programViewController == null) {
-            programViewController = new ProgramViewController("Programs", programModel, viewContext, eventBus);
+        if (majorViewController == null) {
+            majorViewController = new MajorViewController("Programs", programModel, viewContext, eventBus);
         }
-        return programViewController;
+        eventBus.fireEvent(new MajorViewEvent());
+        return majorViewController;
     }
 
     public VariationViewController getVariationViewController() {
-        String name = programViewController.getProgramName();
-        programModel.setRoot(VariationRegistry.getData());
-        variationViewController = new VariationViewController(name, programModel, viewContext, eventBus);
+        String name = majorViewController.getProgramName();
+        DataModel variationModel = new DataModel();
+        variationModel.setDefinition(programModel.getDefinition());
+        variationModel.setRoot(ProgramRegistry.getData());
+        variationViewController = new VariationViewController(name, variationModel, viewContext, eventBus);
         return variationViewController;
     }
 
     public VariationEditController getVariationEditController() {
-        String name = programEditController.getProgramName();
-        programModel.setRoot(VariationRegistry.getData());
-        variationEditController = new VariationEditController(name, programModel, viewContext, eventBus);
+        String name = majorEditController.getProgramName();
+        DataModel variationModel = new DataModel();
+        variationModel.setDefinition(programModel.getDefinition());
+        variationModel.setRoot(ProgramRegistry.getData());
+        variationEditController = new VariationEditController(name, variationModel, viewContext, eventBus);
         return variationEditController;
     }
 
-    public ProgramEditController getProgramEditController() {   	
+    public MajorEditController getProgramEditController() {
         programModel.resetRoot();
-        programEditController = new ProgramEditController("Programs", programModel, viewContext, eventBus);
-        
-        return programEditController;
+        if (majorEditController == null)  {
+            majorEditController = new MajorEditController("Programs", programModel, viewContext, eventBus);           
+        }
+        return majorEditController;
+    }
+
+    public static HandlerManager getEventBus() {
+        return eventBus;
     }
 }

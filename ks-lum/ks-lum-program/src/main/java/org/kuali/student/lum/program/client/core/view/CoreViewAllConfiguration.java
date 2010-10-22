@@ -3,6 +3,7 @@ package org.kuali.student.lum.program.client.core.view;
 import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
@@ -34,14 +35,10 @@ public class CoreViewAllConfiguration extends AbstractSectionConfiguration {
         configurationManager.registerConfiguration(GWT.<Configuration>create(CoreLearningObjectivesViewConfiguration.class));
         configurationManager.registerConfiguration(GWT.<Configuration>create(SupportingDocsViewConfiguration.class));
         for (Configuration configuration : configurationManager.getConfigurations()) {
-            if (configuration instanceof ProgramRequirementsViewConfiguration) {
-                ((ProgramRequirementsViewConfiguration) configuration).setViewController(viewController);
+            if (configuration instanceof AbstractControllerConfiguration) {
+                ((AbstractControllerConfiguration) configuration).setController(viewController);
             }
             rootSection.addSection((Section) configuration.getView());
         }
-    }
-
-    public void setViewController(ProgramController viewController) {
-        this.viewController = viewController;
     }
 }

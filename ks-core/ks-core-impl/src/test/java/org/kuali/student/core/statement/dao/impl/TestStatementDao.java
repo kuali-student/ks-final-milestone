@@ -66,7 +66,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         assertEquals(createTime.getTime(), refStmtRel.getMeta().getCreateTime());
         assertEquals("UPDATEID", refStmtRel.getMeta().getUpdateId());
         assertEquals(updateTime.getTime(), refStmtRel.getMeta().getUpdateTime());
-        assertEquals(1, refStmtRel.getVersionInd());
+        assertEquals(Long.valueOf(1), refStmtRel.getVersionNumber());
         // Ref object type and object id
         assertEquals("CLU-NL-1", refStmtRel.getRefObjectId());
         assertEquals("clu", refStmtRel.getRefObjectTypeKey());
@@ -191,7 +191,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     @Test
     public void testGetReqComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         List<ReqComponentType> reqCompTypeList = dao.find(ReqComponentType.class);
-        
+
         assertNotNull(reqCompTypeList);
         assertEquals(9, reqCompTypeList.size());
     }

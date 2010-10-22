@@ -57,8 +57,6 @@ import org.kuali.student.lum.lu.dto.FieldInfo;
 import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeTypeInfo;
-import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
-import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -96,8 +94,6 @@ import org.kuali.student.lum.lu.entity.DeliveryMethodType;
 import org.kuali.student.lum.lu.entity.InstructionalFormatType;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeType;
-import org.kuali.student.lum.lu.entity.LuDocumentRelation;
-import org.kuali.student.lum.lu.entity.LuDocumentRelationType;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.lum.lu.entity.LuPublicationType;
 import org.kuali.student.lum.lu.entity.LuRichText;
@@ -151,7 +147,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setRelatedCluId(entity.getRelatedClu().getId());
 		dto.setType(entity.getLuLuRelationType().getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		return dto;
 
@@ -176,12 +172,13 @@ public class LuServiceAssembler extends BaseAssembler {
 		}
 		CluLoRelationInfo dto = new CluLoRelationInfo();
 		BeanUtils.copyProperties(entity, dto, new String[] { "cluId",
-				"attributes", "metaInfo" });
+				"attributes", "metaInfo", "type" });
 
 		dto.setCluId(entity.getClu().getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+		dto.setType(entity.getType().getId());
+		
 		return dto;
 	}
 
@@ -246,7 +243,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setAccountingInfo(toCluAccountingInfo(entity.getAccounting()));
 
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		dto.setType(entity.getLuType().getId());
 
@@ -329,7 +326,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setCluIds(cluIds);
 
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		MembershipQueryInfo mqInfo = toMembershipQueryInfo(entity.getMembershipQuery());
 		dto.setMembershipQuery(mqInfo);
@@ -484,7 +481,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		if(type!=null){
 			dto.setType(type.getId());
 		}
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		return dto;
 	}
@@ -522,90 +519,7 @@ public class LuServiceAssembler extends BaseAssembler {
 			dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
 		}
 		dto.setDesc(toRichTextInfo(entity.getDesc()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-
-		return dto;
-	}
-
-	public static List<LuDocRelationTypeInfo> toLuDocRelationType(
-			List<LuDocumentRelationType> entities) {
-		List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
-				entities.size());
-		if (entities != null) {
-			for (LuDocumentRelationType entity : entities) {
-				dtos.add(toLuDocRelationTypeInfo(entity));
-			}
-		}
-		return dtos;
-
-	}
-
-	public static LuDocRelationInfo toLuDocRelationInfo(
-			LuDocumentRelation entity) {
-		if (entity != null) {
-			return null;
-		}
-		LuDocRelationInfo dto = new LuDocRelationInfo();
-
-		BeanUtils.copyProperties(entity, dto, new String[] { "desc",
-				"luDocumentRelationType", "attributes", "metInfo" });
-
-		dto.setCluId(entity.getClu().getId());
-		dto.setDesc(toRichTextInfo(entity.getDescr()));
-		dto.setType(entity.getLuDocumentRelationType().getId());
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-
-		return dto;
-	}
-
-	public static List<LuDocRelationInfo> toLuDocRelationInfos(
-			List<LuDocumentRelation> entities) {
-		List<LuDocRelationInfo> dtos = new ArrayList<LuDocRelationInfo>(
-				entities.size());
-		if (entities != null) {
-			for (LuDocumentRelation entity : entities) {
-				dtos.add(toLuDocRelationInfo(entity));
-			}
-		}
-		return dtos;
-	}
-
-	public static List<LuDocRelationTypeInfo> toLuDocRelationTypeInfos(
-			List<LuDocumentRelationType> entities) {
-		List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
-				entities.size());
-		if (entities != null) {
-			for (LuDocumentRelationType entity : entities) {
-				dtos.add(toLuDocRelationTypeInfo(entity));
-			}
-		}
-		return dtos;
-
-	}
-
-	public static List<LuDocRelationTypeInfo> toLuDocumentRelationTypes(
-			List<LuDocumentRelationType> entities) {
-		List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
-				entities.size());
-		if (entities != null) {
-			for (LuDocumentRelationType entity : entities) {
-				dtos.add(toLuDocRelationTypeInfo(entity));
-			}
-		}
-		return dtos;
-	}
-
-	public static LuDocRelationTypeInfo toLuDocRelationTypeInfo(
-			LuDocumentRelationType entity) {
-		if (entity == null) {
-			return null;
-		}
-		LuDocRelationTypeInfo dto = new LuDocRelationTypeInfo();
-
-		BeanUtils.copyProperties(entity, dto, new String[] { "attributes" });
-
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		return dto;
 	}
@@ -672,7 +586,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		luiInfo
 				.setMetaInfo(toMetaInfo(entity.getMeta(), entity
-						.getVersionInd()));
+						.getVersionNumber()));
 
 		luiInfo.setAttributes(toAttributeMap(entity.getAttributes()));
 
@@ -694,7 +608,7 @@ public class LuServiceAssembler extends BaseAssembler {
 						"Lui does not exist for id: ").append(luiInfo.getId())
 						.toString());
 			}
-			if (!String.valueOf(lui.getVersionInd()).equals(
+			if (!String.valueOf(lui.getVersionNumber()).equals(
 					luiInfo.getMetaInfo().getVersionInd())) {
 				throw new VersionMismatchException(
 						"Lui to be updated is not the current version");
@@ -744,7 +658,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setRelatedLuiId(entity.getRelatedLui().getId());
 		dto.setType(entity.getLuLuRelationType().getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 		return dto;
 	}
 
@@ -839,7 +753,7 @@ public class LuServiceAssembler extends BaseAssembler {
 				"metInfo" });
 
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		return dto;
 	}
@@ -891,7 +805,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setId(entity.getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 		dto.setDescr(toRichTextInfo(entity.getDescr()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		return dto;
 	}
@@ -921,7 +835,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setFeeAmounts(toFeeAmounts(entity.getFeeAmounts()));
 		dto.setDescr(toRichTextInfo(entity.getDescr()));
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		return dto;
 	}
@@ -1129,7 +1043,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		if (isUpdate) {
 			fee = clu.getFee();
-			if (!String.valueOf(fee.getVersionInd()).equals(
+			if (!String.valueOf(fee.getVersionNumber()).equals(
 					feeInfo.getMetaInfo().getVersionInd())) {
 				throw new VersionMismatchException(
 						"CluFee to be updated is not the current version");
@@ -1383,7 +1297,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		cluPubInfo.setExpirationDate(cluPub.getExpirationDate());
 		cluPubInfo.setState(cluPub.getState());
 		cluPubInfo.setType(cluPub.getType().getId());
-		cluPubInfo.setMetaInfo(toMetaInfo(cluPub.getMeta(), cluPub.getVersionInd()));
+		cluPubInfo.setMetaInfo(toMetaInfo(cluPub.getMeta(), cluPub.getVersionNumber()));
 		cluPubInfo.setAttributes(LuServiceAssembler.toAttributeMap(cluPub.getAttributes()));
 		cluPubInfo.setVariants(LuServiceAssembler.toCluPublicationVariantInfos(cluPub.getVariants()));
 		
