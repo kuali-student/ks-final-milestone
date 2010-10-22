@@ -27,8 +27,8 @@ sync_sequences.sql
   <param name="ks.institutional.context">classpath:CdmSpringBeans.xml</param>
   <param name="ks.lum.dictionary.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml,classpath:cdm-lu-dictionary-config.xml,classpath:cdm-lo-dictionary-config.xml</param> 
   <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml,classpath:cdm-lum-orchestration-dictionary.xml</param>
-  <param name="ks.lum.ui.lookupContextLocations">classpath:cdm-lum-ui-lookup-context.xml</param>  
-  <param name="ks.core.dictionary.serviceContextLocations">classpath:comment-dictionary-config.xml,classpath:document-dictionary-config.xml,classpath:organization-dictionary-config.xml,classpath:cdm-core-dictionary-config.xml</param>
+  <param name="ks.lum.ui.lookupContextLocations">classpath:cdm-lum-ui-lookup-context.xml</param>
+  <param name="ks.core.dictionary.serviceContextLocations">classpath:comment-dictionary-config.xml,classpath:document-dictionary-config.xml,classpath:organization-dictionary-config.xml,classpath:statement-dictionary-config.xml,classpath:cdm-core-dictionary-config.xml</param>  
   <param name="ks.core.orchestration.dictionaryContextLocations">classpath:org-orchestration-dictionary.xml,classpath:cdm-org-orchestration-dictionary.xml</param>
   <param name="encryption.key">yourencryptionkey</param>
   
