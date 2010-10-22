@@ -3379,10 +3379,10 @@
        class="org.kuali.student.core.assembly.data.UILookupData">
   <property name="id"
             value="kuali.lu.browse.CourseCatalogBySchoolOrCollege" />
-  <property name="searchTypeId" value="lu.search.generic" />
-  <property name="name" value="Basic and Advanced Search" />
+  <property name="searchTypeId" value="lu.search.by.admin.org" />
+  <property name="name" value="Search by admin org id" />
   <property name="desc"
-            value="Query with multiple optional elements to satisfy most advanced pickers" />
+            value="find courses that match the admin org id and type" />
   <property name="widget" value="NO_WIDGET" />
   <property name="params">
    <list>
@@ -3440,13 +3440,13 @@
      <property name="widget" value="TEXT_BOX" />
     </bean>
     <bean parent="param">
-     <property name="key" value="lu.queryParam.luOptionalPrimaryAdminOrgId" />
+     <property name="key" value="lu.queryParam.luOptionalAdminOrgIds" />
      <property name="childLookup" ref="kuali.lu.browse.departments.in.school" />
      <property name="writeAccess" value="ALWAYS" />
      <property name="dataType" value="STRING" />
      <property name="optional" value="true" />
-     <property name="name" value="Primary Admin Org Id" />
-     <property name="desc" value="Primary Admin Org Id" />
+     <property name="name" value="Admin Org Id" />
+     <property name="desc" value="Admin Org Id" />
      <property name="caseSensitive" value="true" />
      <property name="usage" value="ADVANCED" />
      <property name="widget" value="TEXT_BOX" />
@@ -3709,18 +3709,6 @@
      <property name="widget" value="TEXT_BOX" />
     </bean>
     <bean parent="param">
-     <property name="key"
-               value="lu.queryParam.luOptionalPrimaryAdminOrgId" />
-     <property name="writeAccess" value="ALWAYS" />
-     <property name="dataType" value="STRING" />
-     <property name="optional" value="true" />
-     <property name="name" value="Primary Admin Org Id" />
-     <property name="desc" value="Primary Admin Org Id" />
-     <property name="caseSensitive" value="true" />
-     <property name="usage" value="ADVANCED" />
-     <property name="widget" value="TEXT_BOX" />
-    </bean>
-    <bean parent="param">
      <property name="key" value="lu.queryParam.luOptionalCode" />
      <property name="writeAccess" value="ALWAYS" />
      <property name="dataType" value="STRING" />
@@ -3738,18 +3726,6 @@
      <property name="optional" value="true" />
      <property name="name" value="Division" />
      <property name="desc" value="Division or Subject Area" />
-     <property name="caseSensitive" value="true" />
-     <property name="usage" value="ADVANCED" />
-     <property name="widget" value="TEXT_BOX" />
-    </bean>
-    <bean parent="param">
-     <property name="key"
-               value="lu.queryParam.luOptionalPrimaryAdminOrgId" />
-     <property name="writeAccess" value="ALWAYS" />
-     <property name="dataType" value="STRING" />
-     <property name="optional" value="true" />
-     <property name="name" value="Primary Admin Org Id" />
-     <property name="desc" value="Primary Admin Org Id" />
      <property name="caseSensitive" value="true" />
      <property name="usage" value="ADVANCED" />
      <property name="widget" value="TEXT_BOX" />
