@@ -410,9 +410,10 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-elements {
-	float:left;
-	margin-right: 20px;
-	margin-bottom: 1px;
+    margin-bottom: 1px;
+    float: left;
+    margin-right: 20px;
+    line-height: 1.4em;
 }
 
 .ks-form-module-elements-required {
