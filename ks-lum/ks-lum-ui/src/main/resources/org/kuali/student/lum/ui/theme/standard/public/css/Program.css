@@ -85,10 +85,11 @@
 }
 
 .programInformationView h4 { 
-       text-transform: uppercase;
-       letter-spacing: .03em;
-       border-bottom: 1px dotted #808080;
-       font-size: 1.1em;
+    border-bottom: 1px dotted #808080;
+   font-size: 1.1em;
+   letter-spacing: 0.03em;
+   margin-top: 15px;
+   text-transform: uppercase;
 } 
 
 
