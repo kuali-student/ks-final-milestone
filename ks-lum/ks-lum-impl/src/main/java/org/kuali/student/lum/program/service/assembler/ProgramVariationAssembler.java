@@ -52,11 +52,13 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.assembleAtps(clu, pvInfo);
         programAssemblerUtils.assembleLuCodes(clu, pvInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, pvInfo);
-        programAssemblerUtils.assembleProgramRequirements(clu, pvInfo, (null != programVariation) ? true : false);
         
-        pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
-        pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
-
+        if (!shallowBuild) {
+        	programAssemblerUtils.assembleRequirements(clu, pvInfo);
+        	pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
+            pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
+        }
+        
         pvInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         pvInfo.setCampusLocations(clu.getCampusLocations());  
         pvInfo.setEffectiveDate(clu.getEffectiveDate());
