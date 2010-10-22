@@ -83,7 +83,11 @@
                     padding: 15px 15px 0 15px; 
                     margin-bottom: 2em; 
 }
+.programInformationView .ks-table-plain td {
+padding-top:0;
+padding-bottom:0;
 
+}
 .programInformationView h4 { 
     border-bottom: 1px dotted #808080;
    font-size: 1.1em;
