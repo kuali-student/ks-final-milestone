@@ -161,7 +161,9 @@
 }
 
 .KS-CluSetManagement-chooser {
-	background: lightgrey;
+background-color: lightgrey;
+width:500px;
+padding:10px
 }
 
 .KS-CluSetManagement-chooser-unselected {

@@ -387,8 +387,9 @@
 }
 
 .KS-CluSetManagement-chooser {
-	background: lightgrey;
-	width: 500px;
+background-color: lightgrey;
+width:500px;
+padding:10px
 }
 .KS-CluSetManagement-chooser-unselected {
     background-color: lightgrey;
