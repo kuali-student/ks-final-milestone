@@ -58,7 +58,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
     @Override
     public MajorDisciplineInfo assemble(CluInfo clu, MajorDisciplineInfo majorDiscipline, boolean shallowBuild) throws AssemblyException {
-
         MajorDisciplineInfo mdInfo = (null != majorDiscipline) ? majorDiscipline : new MajorDisciplineInfo();
 
         // Copy all the data from the clu to the majordiscipline
@@ -68,7 +67,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.assembleAtps(clu, mdInfo);
         programAssemblerUtils.assembleLuCodes(clu, mdInfo);
         programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
-        programAssemblerUtils.assembleProgramRequirements(clu, mdInfo, (null != majorDiscipline) ? true : false);
 
         mdInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         mdInfo.setStdDuration(clu.getStdDuration());
@@ -79,6 +77,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setDescr(clu.getDescr());
 
         if (!shallowBuild) {
+        	programAssemblerUtils.assembleRequirements(clu, mdInfo);
             mdInfo.setCredentialProgramId(programAssemblerUtils.getCredentialProgramID(clu.getId()));
             mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
             mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
@@ -266,19 +265,21 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         // Now any leftover variation ids are no longer needed, so inactive them
         if(currentRelations != null && currentRelations.size() > 0){
         	programAssemblerUtils.addInactiveRelationNodes(currentRelations, nodes);  	
-        	deactivateVariations(currentRelations);
+        	addInactivateVariationNodes(currentRelations, nodes);
         }
 
         result.getChildNodes().addAll(nodes);
     }
 
-    private void deactivateVariations(Map<String, CluCluRelationInfo> currentRelations) throws AssemblyException{
+    private void addInactivateVariationNodes(Map<String, CluCluRelationInfo> currentRelations, List<BaseDTOAssemblyNode<?, ?>> nodes) throws AssemblyException{
     	for (String variationId : currentRelations.keySet()) {
 			CluInfo variationClu;
 			try {
 				variationClu = luService.getClu(variationId);
-				variationClu.setState(ProgramAssemblerConstants.INACTIVE);
-				luService.updateClu(variationId, variationClu);
+				ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true);
+				delVariation.setState(ProgramAssemblerConstants.INACTIVE);
+				BaseDTOAssemblyNode<?,?> variationNode = programVariationAssembler.disassemble(delVariation , NodeOperation.UPDATE);
+				if (variationNode != null) nodes.add(variationNode);
 			} catch (Exception e) {
 				throw new AssemblyException("Error while disassembling variation, deactivateVariations", e);
 			}
