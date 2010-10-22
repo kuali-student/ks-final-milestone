@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -54,7 +53,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	
 	@Test
 	public void testGetCluLoRelationTypeInfo() throws DoesNotExistException{
-        CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "cluLoType.default");
+        CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "kuali.lu.lo.relation.type.includes");
 		assertEquals("Default Clu-Lo relation type", relType.getDescr());
 	}
 

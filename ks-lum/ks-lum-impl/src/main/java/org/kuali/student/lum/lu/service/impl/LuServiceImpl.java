@@ -2003,6 +2003,12 @@ public class LuServiceImpl implements LuService {
 			throw new DoesNotExistException("Clu does not exist for id: "
 					+ cluId);
 		}
+		
+		CluLoRelationType cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationType);
+		if (cluLoRelationTypeEntity == null) {
+			throw new DoesNotExistException("CluLoRelationType does not exist for id: "
+					+ cluLoRelationType);
+		}
 
 		// Check to see if this relation already exists
 		List<CluLoRelation> reltns = luDao.getCluLoRelationsByCludIdAndLoId(
@@ -2015,13 +2021,14 @@ public class LuServiceImpl implements LuService {
 
 		CluLoRelation cluLoRelation = new CluLoRelation();
 		BeanUtils.copyProperties(cluLoRelationInfo, cluLoRelation,
-				new String[] { "cluId", "attributes", "metaInfo" });
+				new String[] { "cluId", "attributes", "metaInfo", "type" });
 
 		cluLoRelation.setClu(clu);
 		cluLoRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluLoRelationAttribute.class,
 				cluLoRelationInfo.getAttributes(), cluLoRelation, luDao));
-
+		cluLoRelation.setType(cluLoRelationTypeEntity);
+		
 		luDao.create(cluLoRelation);
 
 		return LuServiceAssembler.toCluLoRelationInfo(cluLoRelation);
@@ -2057,14 +2064,20 @@ public class LuServiceImpl implements LuService {
 					+ cluLoRelationInfo.getCluId());
 		}
 
+		CluLoRelationType cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationInfo.getType());
+		if (cluLoRelationTypeEntity == null) {
+			throw new DoesNotExistException("CluLoRelationType does not exist for id: "
+					+ cluLoRelationInfo.getType());
+		}
+		
 		BeanUtils.copyProperties(cluLoRelationInfo, reltn, new String[] {
-				"cluId", "attributes", "metaInfo" });
+				"cluId", "attributes", "metaInfo", "type"});
 
 		reltn.setClu(clu);
 		reltn.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluLoRelationAttribute.class,
 				cluLoRelationInfo.getAttributes(), reltn, luDao));
-
+		reltn.setType(cluLoRelationTypeEntity);
 		CluLoRelation updated = luDao.update(reltn);
 
 		return LuServiceAssembler.toCluLoRelationInfo(updated);

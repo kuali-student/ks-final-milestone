@@ -172,12 +172,13 @@ public class LuServiceAssembler extends BaseAssembler {
 		}
 		CluLoRelationInfo dto = new CluLoRelationInfo();
 		BeanUtils.copyProperties(entity, dto, new String[] { "cluId",
-				"attributes", "metaInfo" });
+				"attributes", "metaInfo", "type" });
 
 		dto.setCluId(entity.getClu().getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-
+		dto.setType(entity.getType().getId());
+		
 		return dto;
 	}
 
