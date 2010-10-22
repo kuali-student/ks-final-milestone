@@ -146,11 +146,11 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     public void testValidReqComponentTypesForAntireqType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.antireq");
     	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
-    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.credits.completed.none", types.get(0).getReqComponentType().getId());
-    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.credits.completed.max", types.get(1).getReqComponentType().getId());
-    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.completed.none", types.get(2).getReqComponentType().getId());
-    	Assert.assertEquals("kuali.reqComponent.type.course.test.score.max", types.get(3).getReqComponentType().getId());
-    	Assert.assertEquals("kuali.reqComponent.type.course.notcompleted", types.get(4).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.notcompleted", types.get(0).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.completed.none", types.get(1).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.credits.completed.none", types.get(2).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.credits.completed.max", types.get(3).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.test.score.max", types.get(4).getReqComponentType().getId());
     }
 
     @Test
