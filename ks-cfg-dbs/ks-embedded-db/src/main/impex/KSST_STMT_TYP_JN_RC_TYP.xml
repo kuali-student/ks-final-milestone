@@ -1,352 +1,352 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSST_STMT_TYP_JN_RC_TYP ID="1"
+    <KSST_STMT_TYP_JN_RC_TYP 
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.notcompleted"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="10"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"
-        SORT_ORDER="5"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="11"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"
-        SORT_ORDER="6"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="12"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.permission.org.required"
-        SORT_ORDER="7"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="13"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.permission.instructor.required"
-        SORT_ORDER="8"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="14"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.test.score.min"
-        SORT_ORDER="9"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="15"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"
-        SORT_ORDER="10"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="16"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.admitted.org.duration"
-        SORT_ORDER="11"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="17"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.org.credits.completed.min"
-        SORT_ORDER="12"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="18"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.completed"
-        SORT_ORDER="13"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="19"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.enrolled"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="2"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.none"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="20"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.enrolled.nof"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="21"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.notadmitted.org.duration"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="22"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.org.program.admitted"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="23"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.notadmitted"
-        SORT_ORDER="3"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="24"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.admitted"
-        SORT_ORDER="4"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="25"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.completed"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="26"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.all"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="27"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.nof"
-        SORT_ORDER="3"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="28"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.nof"
-        SORT_ORDER="4"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="29"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.org.credits.completed.min"
-        SORT_ORDER="5"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="3"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.none"
-        SORT_ORDER="3"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="30"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.gpa.min"
-        SORT_ORDER="6"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="31"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"
-        SORT_ORDER="7"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="32"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"
-        SORT_ORDER="8"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="33"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"
-        SORT_ORDER="9"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="34"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.admitted"
-        SORT_ORDER="10"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="35"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.org.program.admitted"
-        SORT_ORDER="11"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="36"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.notadmitted"
-        SORT_ORDER="12"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="37"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.permission.instructor.required"
-        SORT_ORDER="13"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="38"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.permission.org.required"
-        SORT_ORDER="14"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="39"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.test.score.min"
-        SORT_ORDER="15"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="4"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.max"
-        SORT_ORDER="4"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="40"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.admitted.org.duration"
-        SORT_ORDER="16"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="41"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.program.notadmitted.org.duration"
-        SORT_ORDER="17"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="42"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.credits.repeat.max"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.course.credit.repeatable" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="43"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.credit.repeatable" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.completed"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="44"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.org.credits.completed.min"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="45"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.notcompleted"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.course.credit.restriction" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="46"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.credit.restriction" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.none"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.course.credit.restriction" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="47"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.credit.restriction" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.admitted.credits"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="48"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.max"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="49"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.completion.duration"
-        SORT_ORDER="3"
-        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="5"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.test.score.max"
-        SORT_ORDER="5"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="50"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.candidate.status.duration"
-        SORT_ORDER="4"
-        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="51"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"
-        SORT_ORDER="5"
-        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="52"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.completed.nof"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="53"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.notcompleted.nof"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="54"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.completed.all"
-        SORT_ORDER="3"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="55"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.coursecompleted.nof"
-        SORT_ORDER="4"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="56"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.gpa.min"
-        SORT_ORDER="5"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="57"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.test.score.min"
-        SORT_ORDER="6"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="58"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.admitted.credits"
-        SORT_ORDER="7"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="59"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.minor.admitted.classstanding"
-        SORT_ORDER="8"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="6"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.all"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="60"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.nof"
-        SORT_ORDER="9"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="61"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.none"
-        SORT_ORDER="10"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="62"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.all"
-        SORT_ORDER="11"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="63"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.nof"
-        SORT_ORDER="12"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="64"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.none"
-        SORT_ORDER="13"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="65"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.max"
-        SORT_ORDER="14"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="66"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.test.score.max"
-        SORT_ORDER="15"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="67"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"
-        SORT_ORDER="16"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="68"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"
-        SORT_ORDER="17"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="69"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.max"
-        SORT_ORDER="18"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="7"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.nof"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="70"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.completed"
-        SORT_ORDER="19"
-        STMT_TYPE_ID="kuali.statement.type.program.entrance" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="71"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.entrance" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.completed.nof"
-        SORT_ORDER="1"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="72"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.completed.all"
-        SORT_ORDER="2"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="73"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.programset.coursecompleted.nof"
-        SORT_ORDER="3"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="74"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.gpa.min"
-        SORT_ORDER="4"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="75"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.min"
-        SORT_ORDER="5"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="76"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.residence.credits.final"
-        SORT_ORDER="6"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="77"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.enrolled.credits.final"
-        SORT_ORDER="7"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="78"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.completion.duration.afterentry"
-        SORT_ORDER="8"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="79"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.minors.nof"
-        SORT_ORDER="9"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="8"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.nof"
-        SORT_ORDER="3"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="80"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.nof"
-        SORT_ORDER="10"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="81"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.all"
-        SORT_ORDER="11"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="82"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.credits.completed.nof"
-        SORT_ORDER="12"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="83"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.grade.min"
-        SORT_ORDER="13"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="84"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.nof.grade.min"
-        SORT_ORDER="14"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="85"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.org.credits.completed.min"
-        SORT_ORDER="15"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="86"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.completed"
-        SORT_ORDER="16"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="87"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.max"
-        SORT_ORDER="17"
-        STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_RC_TYP ID="9"
+        
+        STMT_TYPE_ID="kuali.statement.type.program.completion" />
+    <KSST_STMT_TYP_JN_RC_TYP
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.gpa.min"
-        SORT_ORDER="4"
-        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" VER_NBR="0"/>
+        
+        STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq" />
 </dataset>
