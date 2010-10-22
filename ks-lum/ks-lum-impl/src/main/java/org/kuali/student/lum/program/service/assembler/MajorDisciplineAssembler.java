@@ -30,6 +30,8 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -104,7 +106,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     private List<ProgramVariationInfo> assembleVariations(String cluId, boolean shallowBuild) throws AssemblyException {
-//        List<String> variationIds;
         List<ProgramVariationInfo> variations = new ArrayList<ProgramVariationInfo>();
 
         try {
@@ -117,12 +118,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         			variations.add(programVariationAssembler.assemble(variationClu, null, shallowBuild));
         		}
         	}
-//            variationIds = luService.getRelatedCluIdsByCluId(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
-//
-//            for (String variationId : variationIds) {
-//                CluInfo variationClu = luService.getClu(variationId);
-//                variations.add(programVariationAssembler.assemble(variationClu, null, shallowBuild));
-//            }
         } catch (Exception e) {
             throw new AssemblyException(e);
         }
@@ -249,7 +244,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     	// Loop through all the variations in this MD
         for (ProgramVariationInfo variation : major.getVariations()) {
             BaseDTOAssemblyNode<?,?> variationNode;
-            
             try {
 	            if (NodeOperation.UPDATE.equals(operation) && variation.getId() != null
 						&& (currentRelations != null && currentRelations.containsKey(variation.getId()))) {
@@ -271,12 +265,26 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         
         // Now any leftover variation ids are no longer needed, so inactive them
         if(currentRelations != null && currentRelations.size() > 0){
-        	programAssemblerUtils.addInactiveRelationNodes(currentRelations, nodes);
+        	programAssemblerUtils.addInactiveRelationNodes(currentRelations, nodes);  	
+        	deactivateVariations(currentRelations);
         }
-        
+
         result.getChildNodes().addAll(nodes);
     }
 
+    private void deactivateVariations(Map<String, CluCluRelationInfo> currentRelations) throws AssemblyException{
+    	for (String variationId : currentRelations.keySet()) {
+			CluInfo variationClu;
+			try {
+				variationClu = luService.getClu(variationId);
+				variationClu.setState(ProgramAssemblerConstants.INACTIVE);
+				luService.updateClu(variationId, variationClu);
+			} catch (Exception e) {
+				throw new AssemblyException("Error while disassembling variation, deactivateVariations", e);
+			}
+    	}
+    }
+    
     private void disassembleCoreProgram(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
 
         BaseDTOAssemblyNode<?,?> coreResults;
