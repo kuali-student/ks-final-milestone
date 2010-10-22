@@ -341,6 +341,16 @@
   </property>
  </bean>
 
+ <bean id="search.courseSet.clusets" parent="uilookupconfig-parent">
+  <property name="path" value="search.courseSet.clusets" />
+  <property name="initialLookup" ref="kuali.lu.lookup.basic.reusableCourseCluSets" />
+  <property name="additionalLookups">
+   <list>
+    <ref bean="kuali.lu.lookup.advanced.reusableCourseCluSets" />
+    </list>
+  </property>
+ </bean>
+
  <bean id="search.cluset.clusetRangeEdit" parent="uilookupconfig-parent">
   <property name="path" value="search.cluset.clusetRangeEdit" />
   <property name="initialLookup" ref="kuali.lu.lookup.basic.courseRanges" />
@@ -1258,7 +1268,7 @@
      <property name="desc" value="Type of Clu Set" />
      <property name="dataType" value="STRING" />
      <property name="writeAccess" value="NEVER" />
-     <property name="defaultValueString" value="kuali.cluSet.type.creditCourse" />
+     <property name="defaultValueString" value="kuali.cluSet.type.CreditCourse" />
      <property name="caseSensitive" value="true" />
     </bean>
    </list>
@@ -1977,7 +1987,7 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalLongName"/>
+     <property name="key" value="lu.queryParam.luOptionalCode"/>
      <property name="name" value="Course Name"/>
      <property name="desc" value="Course Name"/>
      <property name="dataType" value="STRING"/>

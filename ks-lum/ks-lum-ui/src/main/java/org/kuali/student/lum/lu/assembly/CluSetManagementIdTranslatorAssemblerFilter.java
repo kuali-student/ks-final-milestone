@@ -59,7 +59,7 @@ public class CluSetManagementIdTranslatorAssemblerFilter extends PassThroughAsse
         CluSetHelper cluSetHelper = new CluSetHelper(data);
         Assembler<Data, Void> a = chain.getManager().getTarget();
         Metadata metadata = null;
-        if (cluSetHelper.getType() == null || cluSetHelper.getType().equals("kuali.cluSet.type.creditCourse")) {
+        if (cluSetHelper.getType() == null || cluSetHelper.getType().equals("kuali.cluSet.type.CreditCourse")) {
             metadata = metadataService.getMetadata("courseSet");
         } else {
             metadata = metadataService.getMetadata("programSet");

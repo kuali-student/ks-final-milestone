@@ -11,6 +11,7 @@
   <property name="attributes">
    <list>
     <ref bean="freestanding.search.cluset" />
+    <ref bean="freestanding.search.courseset" />
     <ref bean="freestanding.search.findCourse" />
     <ref bean="freestanding.search.courseVersions" />
     <ref bean="freestanding.search.findProposal" />
@@ -33,6 +34,13 @@
             ref="freestanding.cluset" />
  </bean>
  <bean id="freestanding.search.cluset" parent="freestanding.search.cluset-parent" />
+
+ <bean id="freestanding.search.courseset-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="courseSet" />
+  <property name="dataObjectStructure"
+            ref="freestanding.courseSet" />
+ </bean>
+ <bean id="freestanding.search.courseset" parent="freestanding.search.courseset-parent" />
 
  <bean id="freestanding.search.findCourse-parent" abstract="true" parent="baseKualiCluId">
   <property name="name" value="findCourse" />

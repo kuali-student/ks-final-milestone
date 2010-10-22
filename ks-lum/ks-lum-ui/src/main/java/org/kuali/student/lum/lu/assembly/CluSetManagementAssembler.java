@@ -237,7 +237,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 cluSetInfo.setCluIds(null);
                 try {
                     if (wrapperCluSet.getType() == null) {
-                	    wrapperCluSet.setType("kuali.cluSet.type.creditCourse");
+                	    wrapperCluSet.setType("kuali.cluSet.type.CreditCourse");
                     }
                     wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
                 } catch (Exception e) {
@@ -315,7 +315,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         } else {
             try {
                 if (cluSetInfo.getType() == null) {
-                    cluSetInfo.setType("kuali.cluSet.type.creditCourse");
+                    cluSetInfo.setType("kuali.cluSet.type.CreditCourse");
                 }
                 updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
             } catch (Exception e) {

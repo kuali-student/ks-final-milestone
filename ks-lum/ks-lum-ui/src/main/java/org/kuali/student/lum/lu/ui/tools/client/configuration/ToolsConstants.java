@@ -52,6 +52,7 @@ public class ToolsConstants {
     
     // Field Keys
     public static final String SEARCH_CLU_SET = "cluset/clusets";
+    public static final String SEARCH_COURSE_SET = "courseSet/clusets";
     public static final String SEARCH_COURSE = "findCourse";
     public static final String CLU_SET_ID = "id";
     public static final String CLU_SET_ORGANIZATION_FIELD = "organization";

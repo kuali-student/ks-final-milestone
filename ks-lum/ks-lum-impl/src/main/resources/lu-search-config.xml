@@ -610,6 +610,7 @@
 			<ref bean="cluset.queryParam.optionalName"/>
 			<ref bean="cluset.queryParam.optionalDescription"/>
 			<ref bean="lu.queryParam.luOptionalLongName"/>
+			<ref bean="lu.queryParam.luOptionalCode"/>
 			<ref bean="cluset.queryParam.optionalSubCluSetName"/>
 			<ref bean="cluset.queryParam.optionalReusable"/>
    <ref bean="cluset.queryParam.optionalReferenceable"/>
@@ -1175,7 +1176,7 @@
 					<value>clu.officialIdentifier.longName</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalCode">
-					<value>clu.officialIdentifier.code LIKE '%' || :lu_queryParam_luOptionalCode || '%'</value>
+					<value>clu.officialIdentifier.code</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalDivision">
 					<value>clu.officialIdentifier.division</value>
