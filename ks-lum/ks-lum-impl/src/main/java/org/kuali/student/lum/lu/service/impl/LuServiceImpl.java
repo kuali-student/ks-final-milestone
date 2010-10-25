@@ -1736,7 +1736,9 @@ public class LuServiceImpl implements LuService {
 		cluPub.setType(type);
 		cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
 		cluPub.setVariants(LuServiceAssembler.toCluPublicationVariants(cluPublicationInfo.getVariants(), cluPub, luDao));
-		
+
+        luDao.create(cluPub);
+
 		return LuServiceAssembler.toCluPublicationInfo(luDao.create(cluPub));
 	}
 
@@ -1801,8 +1803,14 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, DependentObjectsExistException,
 			OperationFailedException, PermissionDeniedException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
-	}
+		checkForMissingParameter(cluPublicationId, "cluPublicationId");
+
+		luDao.delete(CluPublication.class, cluPublicationId);
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;	}
 
 	@Override
 	public List<ValidationResultInfo> validateCluResult(String validationType,

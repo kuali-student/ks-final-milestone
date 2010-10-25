@@ -540,9 +540,9 @@ public class TestProgramServiceImpl {
             assertEquals("plain-test", createdMD.getCatalogDescr().getPlain());
             assertEquals("formatted-test", createdMD.getCatalogDescr().getFormatted());
 
-//            assertNotNull(createdMD.getCatalogPublicationTargets());
-//            assertTrue(createdMD.getCatalogPublicationTargets().size() == 2);
-//            assertEquals("catalogPublicationTargets-test", createdMD.getCatalogPublicationTargets().get(0));
+            assertNotNull(createdMD.getCatalogPublicationTargets());
+            assertTrue(createdMD.getCatalogPublicationTargets().size() == 2);
+            assertEquals("kuali.lu.publication.Catalog", createdMD.getCatalogPublicationTargets().get(0));
 
             assertNotNull(createdMD.getLearningObjectives());
             assertTrue(createdMD.getLearningObjectives().size() == 2);
@@ -1000,6 +1000,9 @@ public class TestProgramServiceImpl {
             //major.setEndProgramEntryTerm("kuali.atp.FA2008-2009");
             //major.setStartTerm("kuali.atp.FA2008-2009");
 
+
+            major.getCatalogPublicationTargets().add("kuali.lu.publication.UndergradCatalog");
+
             for (String orgInfoId : major.getDivisionsFinancialControl()) {
                 orgInfoId = orgInfoId + "-updated";
             }
@@ -1044,6 +1047,9 @@ public class TestProgramServiceImpl {
         assertEquals("MAIN", updatedMD.getCampusLocations().get(2));
 
 //        assertEquals(1, updatedMD.getProgramRequirements().size());
+
+        assertNotNull(updatedMD.getCatalogPublicationTargets());
+        assertEquals(2, updatedMD.getCatalogPublicationTargets().size());
 
         assertEquals("Anthropology-updated", updatedMD.getLongTitle());
         assertEquals("45.0202-updated", updatedMD.getCip2000Code());

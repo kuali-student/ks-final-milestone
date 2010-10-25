@@ -35,6 +35,7 @@ import org.kuali.student.lum.lrc.service.LrcService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
+import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -311,6 +312,19 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				break;
 			case DELETE:
 				statementService.deleteStatementTreeView(treeView.getId());
+				break;
+			}
+   		}else if(nodeData instanceof CluPublicationInfo){
+			CluPublicationInfo cluPublication = (CluPublicationInfo) nodeData;
+			switch(results.getOperation()){
+			case CREATE:
+				luService.createCluPublication(cluPublication.getCluId(), cluPublication.getType(), cluPublication);
+				break;
+			case UPDATE:
+				luService.updateCluPublication(cluPublication.getId(), cluPublication);
+				break;
+			case DELETE:
+				luService.deleteCluPublication(cluPublication.getId());
 				break;
 			}
 		}else{

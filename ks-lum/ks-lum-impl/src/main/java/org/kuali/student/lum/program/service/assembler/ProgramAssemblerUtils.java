@@ -795,7 +795,7 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-    public CluInfo disassemblePublicationInfo(CluInfo clu, Object o, NodeOperation operation) throws AssemblyException {
+    public CluInfo disassemblePublications(CluInfo clu, Object o, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result) throws AssemblyException {
 
         Method method;
         String value;
@@ -805,13 +805,10 @@ public class ProgramAssemblerUtils {
             value = (String)method.invoke(o, null);
             clu.setReferenceURL(value);
 
-            //TODO diasassembleCatalogDescr
-//            method = o.getClass().getMethod("getCatalogDescr", null);
-//            RichTextInfo descr = (RichTextInfo)method.invoke(o, null);
-//            clu.setDescr(descr);
-
-//TODO        clu.setPublicationInfo(major.getCatalogPublicationTargets());
-
+            List<BaseDTOAssemblyNode<?, ?>> pubResults = disassemblePublicationInfos(o, operation);
+            if (pubResults != null && pubResults.size()> 0) {
+                result.getChildNodes().addAll(pubResults);
+            }
         }
 
         catch (IllegalAccessException   e){
@@ -1172,6 +1169,120 @@ public class ProgramAssemblerUtils {
 //        }
 //        return returnInfo;
         return null;
+    }
+
+    /**
+     * Copy publications from program to clu
+     *
+     * @param clu
+     * @param o
+     * @param operation
+     * @return
+     * @throws AssemblyException
+          */
+    private List<BaseDTOAssemblyNode<?, ?>> disassemblePublicationInfos(Object o,  NodeOperation operation) throws AssemblyException {
+
+        List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
+
+
+        Method  method = null;
+        String programId = null;
+        List<String> publicationTypes = null;
+
+        try {
+
+            method = o.getClass().getMethod("getId", null);
+            programId = (String)method.invoke(o, null);
+
+            method = o.getClass().getMethod("getCatalogPublicationTargets", null);
+            publicationTypes = (List)method.invoke(o, null);
+
+            //TODO diasassembleCatalogDescr
+//            method = o.getClass().getMethod("getCatalogDescr", null);
+//            RichTextInfo descr = (RichTextInfo)method.invoke(o, null);
+//            clu.setDescr(descr);
+            
+        } catch (NoSuchMethodException e) {
+        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException e) {
+            throw new AssemblyException("Error disassembling program publications", e);
+        }
+
+        Map<String, CluPublicationInfo> currentPubs = new HashMap<String, CluPublicationInfo>();
+        if (!NodeOperation.CREATE.equals(operation)) {
+
+            // Get the current publications and put them in a map
+            try {
+                List<CluPublicationInfo> cluPubs = luService.getCluPublicationsByCluId(programId);
+                for(CluPublicationInfo cluPub : cluPubs){
+                    currentPubs.put(cluPub.getType(), cluPub);
+                }
+            } catch (DoesNotExistException e) {
+            } catch (Exception e) {
+                throw new AssemblyException("Error finding publications");
+            }
+        }
+
+        if (publicationTypes != null && !publicationTypes.isEmpty()) {
+            for (String publicationType : publicationTypes) {
+                //  If this is a create then create new publication
+                if (NodeOperation.CREATE == operation
+                        || (NodeOperation.UPDATE == operation && !currentPubs.containsKey(publicationType) )) {
+                    // the publication does not exist, so create
+                    CluPublicationInfo pubInfo = buildCluPublicationInfo(programId, publicationType);
+
+                    BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
+                            null);
+                    pubNode.setNodeData(pubInfo);
+                    pubNode.setOperation(NodeOperation.CREATE);
+
+                    results.add(pubNode);
+                } else if (NodeOperation.UPDATE == operation
+                        && currentPubs.containsKey(publicationType)) {
+                    //Only types are exposed to the user so don't need to do anything here
+
+                    currentPubs.remove(publicationType);
+                } else if (NodeOperation.DELETE == operation
+                        && currentPubs.containsKey(publicationType))  {
+
+                    CluPublicationInfo pubToDelete = new CluPublicationInfo();
+                    pubToDelete.setId(publicationType);
+                    BaseDTOAssemblyNode<Object, CluPublicationInfo> pubToDeleteNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
+                            null);
+                    pubToDeleteNode.setNodeData(pubToDelete);
+                    pubToDeleteNode.setOperation(NodeOperation.DELETE);
+                    results.add(pubToDeleteNode);
+
+                    currentPubs.remove(publicationType);
+                }
+
+            }
+        }
+
+
+        for (Map.Entry<String, CluPublicationInfo> entry : currentPubs.entrySet()) {
+            // Create a new relation with the id of the relation we want to
+            // delete
+            CluPublicationInfo pubToDelete = new CluPublicationInfo();
+            pubToDelete.setId( entry.getValue().getId() );
+            BaseDTOAssemblyNode<Object, CluPublicationInfo> pubToDeleteNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
+                    null);
+            pubToDeleteNode.setNodeData(pubToDelete);
+            pubToDeleteNode.setOperation(NodeOperation.DELETE);
+            results.add(pubToDeleteNode);
+        }
+
+        return results;
+    }
+
+    private CluPublicationInfo buildCluPublicationInfo(String programId, String publicationType) throws AssemblyException {
+
+        CluPublicationInfo pubInfo = new CluPublicationInfo();
+        pubInfo.setType(publicationType);
+        pubInfo.setCluId(programId);
+        pubInfo.setState(ProgramAssemblerConstants.ACTIVE);
+
+        return pubInfo;
     }
 
     private List<AdminOrgInfo> getAdminOrgsFromProgram(Object t, String methodName, String adminOrgType) {

@@ -136,6 +136,9 @@ public class MajorDisciplineDataGenerator {
         if("programRequirements".equals(name)){
         	return "REQ-200";
         }
+        if("catalogPublicationTargets".equals(name)){
+			return ProgramAssemblerConstants.CATALOG;
+		}
 		if("type".equals(name)){
 			
 			if(null==parentPropertyName){
@@ -187,7 +190,7 @@ public class MajorDisciplineDataGenerator {
 			}
             if("unitsFinancialControl".equals(parentPropertyName)){
 				return ProgramAssemblerConstants.FINANCIAL_CONTROL_UNIT;
-			}
+            }
 
 			//Temporary change added because of addition of type field to AdminOrgInfo.
 			// Please add the type values for MajorDisciplineInfo admin orgs

@@ -66,7 +66,6 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.assembleAdminOrgIds(clu, mdInfo);
         programAssemblerUtils.assembleAtps(clu, mdInfo);
         programAssemblerUtils.assembleLuCodes(clu, mdInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
 
         mdInfo.setIntensity((null != clu.getIntensity()) ? clu.getIntensity().getUnitType() : null);
         mdInfo.setStdDuration(clu.getStdDuration());
@@ -83,6 +82,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
             mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
             mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
+            programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
         }
         
        return mdInfo;
@@ -149,7 +149,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.disassembleAdminOrgs(clu, major, operation);
         programAssemblerUtils.disassembleAtps(clu, major, operation);
         programAssemblerUtils.disassembleIdentifiers(clu, major, operation);
-        programAssemblerUtils.disassemblePublicationInfo(clu, major, operation);
+        programAssemblerUtils.disassemblePublications(clu, major, operation, result);
         
         if(major.getProgramRequirements() != null && !major.getProgramRequirements().isEmpty()) {
         	programAssemblerUtils.disassembleRequirements(clu, major, operation, result);
