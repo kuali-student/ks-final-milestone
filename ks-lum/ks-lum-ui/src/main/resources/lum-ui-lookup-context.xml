@@ -3962,6 +3962,13 @@
      <property name="hidden" value="true"/>
     </bean>
     <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+        <property name="key" value="lu.resultColumn.variationId"/>
+        <property name="name" value="Identifier"/>
+        <property name="desc" value="Identifier for the variation."/>
+        <property name="dataType" value="STRING"/>
+        <property name="hidden" value="true"/>
+    </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.resultColumn.luOptionalCode"/>
      <property name="name" value="Code"/>
      <property name="desc" value="Course code."/>

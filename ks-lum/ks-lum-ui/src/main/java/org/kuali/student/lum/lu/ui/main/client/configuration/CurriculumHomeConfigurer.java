@@ -148,15 +148,6 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 	        if(panel != null){
 	        	panel.setMutipleSelect(false);
 	        }
-//	        ((KSPicker) searchWidget).addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
-//	            public void onValueChange(ValueChangeEvent<List<String>> event) {
-//	                List<String> selection = event.getValue();
-//	                ViewContext viewContext = new ViewContext();
-//	                viewContext.setId(selection.get(0));
-//	                viewContext.setIdType(IdType.OBJECT_ID);
-//	                Application.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), viewContext);
-//	            }
-//	        });
             ((KSPicker) searchWidget).setAdvancedSearchCallback(new Callback<List<SelectedResults>>(){
 
                 @Override
@@ -164,7 +155,14 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
                     SelectedResults value = result.get(0);
                     ViewContext viewContext = new ViewContext();
                     viewContext.setId(value.getResultRow().getId());
-                    viewContext.setAttribute(ProgramConstants.TYPE, value.getResultRow().getValue("lu.resultColumn.luOptionalType"));
+                    String cluType = value.getResultRow().getValue("lu.resultColumn.luOptionalType");
+                    if (cluType != null) {
+                        viewContext.setAttribute(ProgramConstants.TYPE, cluType);                                         
+                    }
+                    String variationId = value.getResultRow().getValue("lu.resultColumn.variationId");
+                    if (variationId != null && !variationId.trim().isEmpty()) {
+                       viewContext.setAttribute(ProgramConstants.VARIATION_ID, variationId);                      
+                    }
                     viewContext.setIdType(IdType.OBJECT_ID);
                     Application.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), viewContext);
                     ((KSPicker) searchWidget).getSearchWindow().hide();

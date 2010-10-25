@@ -901,12 +901,14 @@
 			<!--<empty join criteria to make the cross search manager perform a db union">-->
 		</search:joinCriteria>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="pgm" resultParam="lu.resultColumn.cluId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.variationId" subSearchKey="pgm" resultParam="lu.resultColumn.variationId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalCode" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalCode"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalState" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalState"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalMajorName" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalMajorName"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalVariationName"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalType" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalType"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="var" resultParam="lu.resultColumn.cluId"/>
+        <search:joinResultMapping subSearchResultParam="lu.resultColumn.variationId" subSearchKey="var" resultParam="lu.resultColumn.variationId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalCode" subSearchKey="var" resultParam="lu.resultColumn.luOptionalCode"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalState" subSearchKey="var" resultParam="lu.resultColumn.luOptionalState"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalMajorName" subSearchKey="var" resultParam="lu.resultColumn.luOptionalMajorName"/>
@@ -920,6 +922,7 @@
         <search:desc>Full view of clus</search:desc>
         <search:resultColumns>
             <ref bean="lu.resultColumn.cluId" />
+            <ref bean="lu.resultColumn.variationId" />
             <ref bean="lu.resultColumn.luOptionalCode"/>
             <ref bean="lu.resultColumn.luOptionalState"/>
             <ref bean="lu.resultColumn.luOptionalMajorName"/>
@@ -938,6 +941,12 @@
 	<search:resultColumn id="lu.resultColumn.luOptionalVariationName-parent"  abstract="true">
 		<search:name>Name</search:name>
 		<search:desc>Long name for the lu, recorded as the default listing.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+    <search:resultColumn id="lu.resultColumn.variationId" parent="lu.resultColumn.variationId-parent"/>
+	<search:resultColumn id="lu.resultColumn.variationId-parent"  abstract="true">
+		<search:name>Name</search:name>
+		<search:desc>id for this variation</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
@@ -990,7 +999,7 @@
         <search:desc>Full view of clus</search:desc>
         <search:resultColumns>
             <ref bean="lu.resultColumn.cluId" />
-            <ref bean="lu.resultColumn.majorId" />
+            <ref bean="lu.resultColumn.variationId" />
             <ref bean="lu.resultColumn.luOptionalCode"/>
             <ref bean="lu.resultColumn.luOptionalState"/>
             <ref bean="lu.resultColumn.luOptionalType"/>
@@ -1029,7 +1038,7 @@
         <search:desc>Full view of clus</search:desc>
         <search:resultColumns>
             <ref bean="lu.resultColumn.cluId" />
-            <ref bean="lu.resultColumn.majorId" />
+            <ref bean="lu.resultColumn.variationId" />
             <ref bean="lu.resultColumn.luOptionalCode"/>
             <ref bean="lu.resultColumn.luOptionalState"/>
             <ref bean="lu.resultColumn.luOptionalType"/>

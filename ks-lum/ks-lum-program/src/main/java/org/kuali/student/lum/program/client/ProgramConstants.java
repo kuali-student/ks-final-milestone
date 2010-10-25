@@ -11,6 +11,7 @@ public class ProgramConstants {
     public static final String STATE = "state";
     public static final String TYPE = "type";
     public static final String MAJOR_OBJECT_ID = "kuali.lu.type.MajorDiscipline";
+    public static final String VARIATION_TYPE_KEY = "kuali.lu.type.Variation";
     public static final String MAJOR_TYPE_ID = "referenceType.clu";
 
     //Identifying Details
@@ -70,6 +71,7 @@ public class ProgramConstants {
     //Program Specializations
     public static final String VARIATIONS = "variations";
     public static final String PROGRAM_REQUIREMENTS = "programRequirements";
+    public static final String VARIATION_ID = "variationId";
 
     //Dynamic attributes
     public static final String IS_VARIATION_REQUIRED = "isVariationRequired";
