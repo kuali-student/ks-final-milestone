@@ -22,7 +22,6 @@ INSERT INTO KSST_STMT_TYP_JN_STMT_TYP (ID, STMT_TYPE_ID, CHLD_STMT_TYPE_ID, SORT
 INSERT INTO KSST_STMT_TYP_JN_STMT_TYP (ID, STMT_TYPE_ID, CHLD_STMT_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('8', 'kuali.statement.type.course.creditConstraints','kuali.statement.type.course.credit.repeatable', 8, 0)
 /
 -- Program
-/
 INSERT INTO KSST_STMT_TYP_JN_STMT_TYP (ID, STMT_TYPE_ID, CHLD_STMT_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('12', 'kuali.statement.type.program','kuali.statement.type.program.entrance', 1, 0)
 /
 INSERT INTO KSST_STMT_TYP_JN_STMT_TYP (ID, STMT_TYPE_ID, CHLD_STMT_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('13', 'kuali.statement.type.program','kuali.statement.type.program.satisfactoryProgress', 2, 0)
