@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.client.events;
 
 import com.google.gwt.event.shared.GwtEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
 
 /**
  * @author Igor
@@ -13,6 +14,7 @@ public class UpdateEvent extends GwtEvent<UpdateEventHandler> {
     private Callback<Boolean> okCallback;
 
     public UpdateEvent() {
+        okCallback = Controller.NO_OP_CALLBACK;
     }
 
     public UpdateEvent(Callback<Boolean> okCallback) {
