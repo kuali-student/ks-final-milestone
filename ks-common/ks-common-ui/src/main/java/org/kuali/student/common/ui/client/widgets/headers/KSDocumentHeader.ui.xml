@@ -7,10 +7,10 @@
 	
 	<ui:style>
 		.title h2{
-             font-family:Georgia,"Times New Roman",Times,serif;
-          font-size:24px; 
-          margin:10px 0 10px; 
-              letter-spacing: 0.02em;
+font-family:Georgia,"Times New Roman",Times,serif;
+font-size:1.8em;
+letter-spacing:0.02em;
+margin:10px 0 11px;
 		}
 		
 		.info{
@@ -25,10 +25,9 @@
 		}
 		
 		.container{
-               border-bottom:1px dotted #D7D7D7;
-               margin-bottom:1.5em;
-               padding-bottom:5px;
-               width:100%;
+border-bottom:3px solid #000000;
+margin-bottom:1.1em;
+padding-bottom:2px;
 		}
 		
 	</ui:style>
