@@ -263,7 +263,7 @@ public class CourseSummaryConfigurer implements
     	WarnContainer warnContainer = new WarnContainer();
         warnContainer.add(w);
         w.addStyleName("ks-button-spacing");
-        warnContainer.add(new KSButton("Return to Curriculum Management", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+        warnContainer.add(new KSButton("Return to Curriculum Management", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
