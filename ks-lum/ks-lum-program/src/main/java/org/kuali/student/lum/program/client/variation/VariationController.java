@@ -86,7 +86,6 @@ public abstract class VariationController extends ProgramController {
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
     @Override
-    @Deprecated
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {
         programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
 
