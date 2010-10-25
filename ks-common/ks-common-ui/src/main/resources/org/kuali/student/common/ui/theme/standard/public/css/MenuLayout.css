@@ -1,3 +1,4 @@
+
 .ks-menu-layout{
 	white-space: nowrap;
 }
@@ -118,4 +119,13 @@ font-size:0.9em;
 
 .tabLayout-ContentHeader{
 	margin-left: 20px;
+}
+
+.contentHeader-utilities .gwt-ListBox {
+	background:none repeat scroll 0 0 #EEEEEE;
+	border:1px solid #999999;
+	color:#2679C7;
+	font-size:0.9em;
+	margin-top:-6px;
+	padding:1px;
 }
