@@ -89,7 +89,6 @@ public abstract class ProgramController extends MenuSectionController {
                                     case YES:
                                         dialog.hide();
                                         fireUpdateEvent(okToChange);
-                                        resetFieldInteractionFlag();
                                         break;
                                     case NO:
                                         dialog.hide();

@@ -71,7 +71,7 @@ public class VariationEditController extends VariationController {
                         if (variationData.get(ProgramConstants.ID).equals(currentId)) {
                             programModel.setRoot(variationData);
                             ProgramRegistry.setData(variationData);
-                            setContentTitle(ProgramProperties.get().variation_title(getProgramName()));
+                            setContentTitle(getProgramName());
                             return;
                         }
                     }
