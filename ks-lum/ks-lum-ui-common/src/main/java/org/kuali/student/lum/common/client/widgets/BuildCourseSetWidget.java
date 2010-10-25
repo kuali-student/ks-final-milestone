@@ -51,11 +51,13 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
     private String cluSetType;
     private String metadataId;
     private String itemLabel;
+    private boolean singularCluOnly;
 
     public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType,
             boolean singularCluOnly) {
         super();
 
+        this.singularCluOnly = singularCluOnly;
         cluSetEditorWidgetView = new CluSetEditorWidget(
                 new CluSetRetrieverImpl(),
                 BuildCourseView.VIEW,
@@ -204,9 +206,34 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
                                         Window.alert(errorMessage.toString());
                                     } else {
                                         ruleFieldsData.setRoot(result.getValue());
+                                        CluSetHelper helper = 
+                                            CluSetHelper.wrap((Data)ruleFieldsData.getRoot());
                                         String cluSetId = 
-                                            CluSetHelper.wrap((Data)ruleFieldsData.getRoot()).getId();
-                                        doneSaveCallback.exec(cluSetId);
+                                            helper.getId();
+                                        Data approvedClusData = helper.getApprovedClus();
+                                        Data proposedClusData = helper.getProposedClus();
+                                        String cluId = null;
+                                        if (singularCluOnly) {
+                                            if (cluId == null && approvedClusData != null) {
+                                                for (Data.Property p : approvedClusData) {
+                                                    if(!"_runtimeData".equals(p.getKey())){
+                                                        cluId = p.getValue();
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if (cluId == null && proposedClusData != null) {
+                                                for (Data.Property p : proposedClusData) {
+                                                    if(!"_runtimeData".equals(p.getKey())){
+                                                        cluId = p.getValue();
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            doneSaveCallback.exec(cluId);
+                                        } else {
+                                            doneSaveCallback.exec(cluSetId);
+                                        }
                                     }
                                 }
                             });
