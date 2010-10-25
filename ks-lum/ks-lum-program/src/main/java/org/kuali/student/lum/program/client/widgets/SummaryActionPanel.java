@@ -74,6 +74,9 @@ public class SummaryActionPanel extends Composite {
         path.add(new Data.StringKey(ProgramConstants.STATE));
         dataModel.set(path, status.getValue());
         ProgramManager.getEventBus().fireEvent(new UpdateEvent());
+        // TODO: check if active. Fire new event ActivateEvent which will 
+        // Supercede currently active version if one exists.  This depends on
+        // versioning work to be done on the program service.
     }
 
     private void processStatus(ProgramStatus programStatus) {
