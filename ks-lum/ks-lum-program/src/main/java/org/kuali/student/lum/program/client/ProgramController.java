@@ -88,7 +88,7 @@ public abstract class ProgramController extends MenuSectionController {
                                 switch (result) {
                                     case YES:
                                         dialog.hide();
-                                        eventBus.fireEvent(new UpdateEvent(okToChange));
+                                        fireUpdateEvent(okToChange);
                                         resetFieldInteractionFlag();
                                         break;
                                     case NO:
@@ -114,6 +114,10 @@ public abstract class ProgramController extends MenuSectionController {
                 }
             }
         });
+    }
+
+    protected void fireUpdateEvent(final Callback<Boolean> okToChange) {
+        eventBus.fireEvent(new UpdateEvent(okToChange));
     }
 
     protected void resetModel() {

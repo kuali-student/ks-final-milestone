@@ -1,8 +1,10 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -21,11 +23,8 @@ import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -88,6 +87,40 @@ public class VariationEditController extends VariationController {
     }
 
     @Override
+    protected void fireUpdateEvent(Callback<Boolean> okToChange) {
+        doSave(okToChange);
+    }
+
+    private void doSave(final Callback<Boolean> okToChange) {
+        requestModel(new ModelRequestCallback<DataModel>() {
+            @Override
+            public void onModelReady(final DataModel model) {
+                VariationEditController.this.updateModelFromCurrentView();
+                model.validate(new Callback<List<ValidationResultInfo>>() {
+                    @Override
+                    public void exec(List<ValidationResultInfo> result) {
+                        ProgramUtils.cutParentPartOfKey(result);
+                        boolean isSectionValid = isValid(result, true);
+                        if (isSectionValid) {
+                            saveData(model);
+                            okToChange.exec(true);
+                        } else {
+                            okToChange.exec(false);
+                            Window.alert("Save failed.  Please check fields for errors.");
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                GWT.log("Unable to retrieve model for validation and save", cause);
+            }
+
+        });
+    }
+
+    @Override
     protected void configureView() {
         super.configureView();
         if (!initialized) {
@@ -112,30 +145,7 @@ public class VariationEditController extends VariationController {
 
     @Override
     protected void doSave() {
-        requestModel(new ModelRequestCallback<DataModel>() {
-            @Override
-            public void onModelReady(final DataModel model) {
-                VariationEditController.this.updateModelFromCurrentView();
-                model.validate(new Callback<List<ValidationResultInfo>>() {
-                    @Override
-                    public void exec(List<ValidationResultInfo> result) {
-                        ProgramUtils.cutParentPartOfKey(result);
-                        boolean isSectionValid = isValid(result, true);
-                        if (isSectionValid) {
-                            saveData(model);
-                        } else {
-                            Window.alert("Save failed.  Please check fields for errors.");
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onRequestFail(Throwable cause) {
-                GWT.log("Unable to retrieve model for validation and save", cause);
-            }
-
-        });
+        doSave(NO_OP_CALLBACK);
     }
 
     private void saveData(DataModel model) {
