@@ -306,6 +306,10 @@ public class LUConstants {
     public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
     public static final String PERCENTAGE = "cluPercentage";
 	public static final String REF_DOC_RELATION_PROPOSAL_TYPE = "kuali.org.RefObjectType.ProposalInfo";
+    public static final String ADD_A_OUTCOME = "cluAddAOutcome";
+    public static final String OUTCOME = "cluOutcome";		
+    public static final String ADD_A_CREDITVALUE = "cluAddACreditValue";
+    public static final String CREDITVALUE = "cluCreditValue";	
 
 
 
