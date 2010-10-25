@@ -176,7 +176,7 @@ public class MajorEditController extends MajorController {
     }
 
     private void doCancel() {
-        HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
+        showView(ProgramSections.SUMMARY);
     }
 
     protected void doSave() {
