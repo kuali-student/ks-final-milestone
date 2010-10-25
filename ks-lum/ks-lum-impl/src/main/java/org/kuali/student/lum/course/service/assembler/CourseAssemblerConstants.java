@@ -94,7 +94,4 @@ public class CourseAssemblerConstants {
 
 	// State
 	public static final String ACTIVE = "Active";
-	
-	
-	public static final String COURSE_REQ_COMP_FIELD_TYPE_CLUSET_ID = "kuali.reqComponent.field.type.course.cluSet.id";
 }
