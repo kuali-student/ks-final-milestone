@@ -1731,13 +1731,13 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="dataType" value="STRING" />
 					<property name="optional" value="true" />
-					<property name="defaultValueString" value="kuali.atptype.duration" />
+					<property name="defaultValueString" value="kuali.atptype.intensity" />
 					<property name="caseSensitive" value="true" />
 				</bean>
 				<bean parent="param">
 					<property name="key"
 						value="enumeration.queryParam.enumerationOptionalCode" />
-					<property name="name" value="UniversityClassification code" />
+					<property name="name" value="Intensity code" />
 					<property name="desc" value="The enumeration code to lookup" />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="dataType" value="STRING" />
