@@ -356,6 +356,13 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                 //TODO add condition to check if a singular program is the rule type
                 editReqCompWidget.displayCustomWidget(fieldType, 
                         new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType, false));
+            } else if (RulesUtil.isCluWidget(fieldType)) {
+                String clusetType = "kuali.cluSet.type.Course";
+                if (fieldType.toLowerCase().indexOf("program") > 0) {
+                    clusetType = "kuali.cluSet.type.Program";
+                }
+                editReqCompWidget.displayCustomWidget(fieldType, 
+                        new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType, true));
             }
         }
     };

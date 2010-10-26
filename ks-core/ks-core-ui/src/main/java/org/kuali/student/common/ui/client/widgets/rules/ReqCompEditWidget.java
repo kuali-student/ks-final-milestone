@@ -354,7 +354,7 @@ public class ReqCompEditWidget extends FlowPanel {
             String fieldType = selectedReqCompFieldTypes.get(ix++);
 
             //add clusets separately
-            if (RulesUtil.isCluSetWidget(fieldType)) {
+            if (RulesUtil.isCluSetWidget(fieldType) || RulesUtil.isCluWidget(fieldType)) {
                 displayCustomWidgetCallback.exec(fieldType);
                 continue;
             }
@@ -371,7 +371,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //now we add fields to the panel in proper order based on composition template
         for (String type : getFieldSequence()) {
-            if (RulesUtil.isCluSetWidget(type)) {
+            if (RulesUtil.isCluSetWidget(type) || RulesUtil.isCluWidget(type)) {
                 continue;
             }
             reqCompFieldsPanel.addField(fields.get(type));
@@ -391,7 +391,7 @@ public class ReqCompEditWidget extends FlowPanel {
             for (String fieldType : selectedReqCompFieldTypes) {
                 String fieldValue = getFieldValue(reqCompFields, fieldType);
                 if (fieldValue != null) {
-                    if (RulesUtil.isCluSetWidget(fieldType)) {
+                    if (RulesUtil.isCluSetWidget(fieldType) || RulesUtil.isCluWidget(fieldType)) {
                         ((AccessWidgetValue)customWidgets.get(fieldType)).setValue(fieldValue);    
                     } else {
                         ruleFieldsData.set(QueryPath.parse(fieldType), fieldValue);

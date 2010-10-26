@@ -221,4 +221,9 @@ public class RulesUtil {
         return ((fieldType.toLowerCase().indexOf("course.cluSet".toLowerCase()) > 0) ||
                 (fieldType.toLowerCase().indexOf("program.cluSet".toLowerCase()) > 0));
     }
+
+    public static boolean isCluWidget(String fieldType) {
+        return ((fieldType.toLowerCase().indexOf("course.clu".toLowerCase()) > 0) ||
+                (fieldType.toLowerCase().indexOf("program.clu".toLowerCase()) > 0));
+    }
 }
