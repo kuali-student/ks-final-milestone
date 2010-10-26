@@ -325,8 +325,9 @@
             <list>
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
-                <ref bean="idTranslatorFilter"/>
                 <ref bean="credentialProgramFilter"/>
+                <ref bean="idTranslatorFilter"/>
+
             </list>
         </property>
     </bean>

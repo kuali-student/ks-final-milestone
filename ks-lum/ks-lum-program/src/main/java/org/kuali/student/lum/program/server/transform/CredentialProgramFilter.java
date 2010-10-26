@@ -70,9 +70,9 @@ public class CredentialProgramFilter extends AbstractDataFilter {
     }
 
     private Metadata getCredProgramMetadata() {
-        if (credPgmMetadata == null) {
+        //if (credPgmMetadata == null) {
             credPgmMetadata = metadataService.getMetadata(CredentialProgramInfo.class.getName());
-        }
+        //}
         return credPgmMetadata;
     }
 }

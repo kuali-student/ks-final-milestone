@@ -2654,6 +2654,14 @@
 	            ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
 	</bean>
 
+
+    <bean id="credentialProgramInfo.credentialProgramType" parent="uilookupconfig-parent">
+         <property name="path" value="credentialProgramInfo.credentialProgramType" />
+         <property name="initialLookup" ref="kuali.lookup.lutypes" />
+    </bean>
+
+
+
 	<bean id="kuali.enumeration.management.search.cip2000Code" class="org.kuali.student.core.assembly.data.UILookupData"
 		parent="kuali.common.enumeration.management.search.cip2000Code">
 		<property name="id" value="kuali.enumeration.management.search.cip2000Code" />

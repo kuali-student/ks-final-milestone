@@ -7,6 +7,7 @@ package org.kuali.student.lum.program.client;
 public class ProgramConstants {
     public static final String PROGRAM_MODEL_ID = "programModelId";
     public static final String CREDENTIAL_PROGRAM_ID = "credentialProgramId";
+    public static final String CREDENTIAL_PROGRAM_TYPE = "credentialProgramType";
     public static final String ID = "id";
     public static final String STATE = "state";
     public static final String TYPE = "type";
@@ -17,7 +18,7 @@ public class ProgramConstants {
     //Identifying Details
     public static final String CODE = "code";
     public static final String PROGRAM_LEVEL = "programLevel";
-    public static final String CREDENTIAL_PROGRAM = "credentialProgram";
+    public static final String CREDENTIAL_PROGRAM = "credentialProgramInfo";
     public static final String PROGRAM_CLASSIFICATION = "universityClassification";
     public static final String DEGREE_TYPE = "resultOptions";
 
