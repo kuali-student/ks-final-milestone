@@ -49,16 +49,15 @@ html, body {
 }
 
 .ks-lightbox {
--moz-border-radius:10px 10px 10px 10px;
 background-color:#FFFFFF;
 border:3px solid #54565C;
 color:#333333;
 overflow:visible;
 z-index:2;
+    -moz-border-radius:10px 10px 10px 10px;
 }
 
 .ks-lightbox .Caption {
--moz-border-radius:8px 8px 0px 0px;
 background-color:#DFE2E9;
 color:#000000;
 cursor:move;
@@ -68,6 +67,7 @@ padding:10px 0 10px 16px;
 position:relative;
 text-align:left;
 text-shadow:0 2px 2px #FFFFFF;
+-moz-border-radius:8px 8px 0px 0px;
 }
 
 .ks-lightbox-mainPanel {
