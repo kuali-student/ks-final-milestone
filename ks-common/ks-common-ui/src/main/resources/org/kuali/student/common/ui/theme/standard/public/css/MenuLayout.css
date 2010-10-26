@@ -103,7 +103,9 @@ padding:3px 10px 3px 5px;
 	cursor: pointer;
 	color:white;
 }
-
+.ks-menu-layout-special-menu-item-panel a:hover, .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel a:hover {
+   color: white;
+}
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Selected{
                background-color: #636D05;
 }
