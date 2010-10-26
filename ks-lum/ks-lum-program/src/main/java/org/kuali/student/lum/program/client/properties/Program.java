@@ -106,11 +106,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String catalogInformation_stdDuration();
 
   /**
-   * Translated "Add/View Comments".
+   * Translated "Comments".
    * 
-   * @return translated "Add/View Comments"
+   * @return translated "Comments"
    */
-  @DefaultMessage("Add/View Comments")
+  @DefaultMessage("Comments")
   @Key("comments.button")
   String comments_button();
 
