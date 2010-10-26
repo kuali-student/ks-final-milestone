@@ -94,7 +94,9 @@ div.KS-Basic-Menu-Item-Panel .KS-Basic-Menu-Toplevel-Item-Panel {
 .KS-CustomDropDown-Arrow{
 	float: right;
 }
-
+.KS-CustomDropDown-Arrow .KS-Image {
+   margin:2px;
+}
 .KS-CustomDropDown-Layout{
 	width: 100%;
 }
