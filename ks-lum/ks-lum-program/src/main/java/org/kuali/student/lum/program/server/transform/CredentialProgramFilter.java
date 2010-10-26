@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.assembly.transform.AbstractDataFilter;
 import org.kuali.student.core.assembly.transform.DataBeanMapper;
 import org.kuali.student.core.assembly.transform.DefaultDataBeanMapper;
@@ -12,22 +13,29 @@ import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
- * Add/remove the related CredentialProgram data to/from Program data (for display purposes only, as the data is obviously
- * not persisted).
+ * Add/remove the related CredentialProgram data & metadata
+ * to/from Program data (for display purposes only, as the data
+ * is obviously not persisted).
  * 
  * @author Jim
  */
 public class CredentialProgramFilter extends AbstractDataFilter {
 
+	private MetadataServiceImpl metadataService;
 	private ProgramService programService;
     private final DataBeanMapper mapper = new DefaultDataBeanMapper();
+    private Metadata credPgmMetadata = null;
 
     /**
-     * Remove CredentialProgram data
+	 *	Remove CredentialProgram data and metadata
      */
 	@Override
 	public void applyInboundDataFilter(Data data, Metadata metadata,
 			Map<String, Object> properties) throws Exception {
+        // remove the CredentialProgram metadata from the metadata passed in
+        Map<String, Metadata> metaProps = metadata.getProperties();
+        metaProps.remove(ProgramConstants.CREDENTIAL_PROGRAM);
+
         // remove the CredentialProgram from the data passed in
         data.remove(new Data.StringKey(ProgramConstants.CREDENTIAL_PROGRAM));
 	}
@@ -47,9 +55,24 @@ public class CredentialProgramFilter extends AbstractDataFilter {
 	    
         // Add the CredentialProgram to the data passed in
         data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
+
+        // Add the CredentialProgram metadata to metadata passed in
+        Map<String, Metadata> metaProps = metadata.getProperties();
+        metaProps.put(ProgramConstants.CREDENTIAL_PROGRAM, getCredProgramMetadata());
 	}
 	
+	public void setMetadataService(MetadataServiceImpl metadataService) {
+		this.metadataService = metadataService;
+	}
+
     public void setProgramService(ProgramService programService) {
         this.programService = programService;
+    }
+
+    private Metadata getCredProgramMetadata() {
+        if (credPgmMetadata == null) {
+            credPgmMetadata = metadataService.getMetadata(CredentialProgramInfo.class.getName());
+        }
+        return credPgmMetadata;
     }
 }
