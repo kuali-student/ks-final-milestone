@@ -261,6 +261,11 @@ ul.ks-selected-list {
     padding: 0;
 
 }
+.ks-selected-list-value abbr {
+    position:absolute;
+    right:3px;
+    top:12px;
+}
 
 .ks-selected-list ul li {
     border: 1px solid #CDCDCD;
