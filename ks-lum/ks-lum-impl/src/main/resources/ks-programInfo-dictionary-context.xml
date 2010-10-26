@@ -640,13 +640,13 @@
     </bean>
     <bean id="programVariationInfo.durationNotes" parent="programVariationInfo.durationNotes-parent"/>
 
-    <bean id="majorDisciplineInfo.coreFaculties-parent" abstract="true" parent="baseString">
+    <bean id="majorDisciplineInfo.coreFaculties-parent" abstract="true" parent="baseStringLong">
         <property name="name" value="coreFaculties"/>
         <property name="dynamic" value="true"/>
     </bean>
     <bean id="majorDisciplineInfo.coreFaculties" parent="majorDisciplineInfo.coreFaculties-parent"/>
 
-    <bean id="programVariationInfo.coreFaculties-parent" abstract="true" parent="baseString">
+    <bean id="programVariationInfo.coreFaculties-parent" abstract="true" parent="baseStringLong">
         <property name="name" value="coreFaculties"/>
         <property name="dynamic" value="true"/>
     </bean>
