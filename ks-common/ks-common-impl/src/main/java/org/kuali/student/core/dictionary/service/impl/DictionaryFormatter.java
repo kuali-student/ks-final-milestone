@@ -310,7 +310,7 @@ public class DictionaryFormatter
    {
     if (Integer.parseInt (fd.getMaxOccurs ()) == 0)
     {
-     return "NOT USED";
+     return "Not allowed";
     }
    }
   }
@@ -686,7 +686,15 @@ public class DictionaryFormatter
                           cons.getExclusiveMin ()));
   b.append (calcOverride ("inclusiveMax", fd.getInclusiveMax (),
                           cons.getInclusiveMax ()));
-  b.append (calcOverride ("minOccurs", fd.getMinOccurs (), cons.getMinOccurs ()));
+  String minOccursMessage = calcOverride ("minOccurs", fd.getMinOccurs (), cons.getMinOccurs ());
+  if ( ! minOccursMessage.trim ().equals (""))
+  {
+   if (cons.getMinOccurs () != null && cons.getMinOccurs () == 1)
+   {
+    minOccursMessage = " REQUIRED";
+   }
+  }
+  b.append (minOccursMessage);
   b.append (calcOverride ("validchars", fd.getValidChars (),
                           cons.getValidChars ()));
   b.append (calcOverride ("validchars", fd.getLookupDefinition (),
