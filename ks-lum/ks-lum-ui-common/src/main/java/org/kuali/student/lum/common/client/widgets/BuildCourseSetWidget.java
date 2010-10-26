@@ -188,7 +188,7 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
                             }
                             numClus = numClus + proposedCluIds.size();
                         }
-                        if (numClus > 1) {
+                        if (singularCluOnly && numClus > 1) {
                             Window.alert("Only one " + itemLabel + " is allowed.  " +
                                     "Please delete all " + itemLabel + " until there is only one left.");
                         } else {
@@ -206,10 +206,8 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
                                         Window.alert(errorMessage.toString());
                                     } else {
                                         ruleFieldsData.setRoot(result.getValue());
-                                        CluSetHelper helper = 
-                                            CluSetHelper.wrap((Data)ruleFieldsData.getRoot());
-                                        String cluSetId = 
-                                            helper.getId();
+                                        CluSetHelper helper = CluSetHelper.wrap((Data)ruleFieldsData.getRoot());
+                                        String cluSetId = helper.getId();
                                         Data approvedClusData = helper.getApprovedClus();
                                         Data proposedClusData = helper.getProposedClus();
                                         String cluId = null;
