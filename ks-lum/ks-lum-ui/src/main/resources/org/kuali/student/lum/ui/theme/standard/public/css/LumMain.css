@@ -194,12 +194,11 @@ margin-bottom: 15px;
 	height: 32px;
 }
 .KS-LOButtonPanel {
-    border-bottom: medium none;
-    border-left: #D2D8E3 1px solid;
-    width: 100%;
     border-collapse: collapse;
-    border-top: #D2D8E3 1px solid;
-    border-right: #D2D8E3 1px solid;
+    border-color: #D2D8E3 #D2D8E3 -moz-use-text-color;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    width: 790px;
 }
 .KS-LOMoveUpButton{
     background: url("images/ArrowUp.png") no-repeat 2px 2px;
