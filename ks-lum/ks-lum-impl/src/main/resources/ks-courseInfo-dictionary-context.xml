@@ -248,7 +248,7 @@
   <!--TODO: make this required to submit (see descr) and allow longer when draft-->
   <property name="name" value="courseTitle" />
   <property name="minOccurs" value="1" />
-  <property name="maxLength" value="255"/>
+  <property name="maxLength" value="150"/>
  </bean>
  <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
 
