@@ -255,7 +255,7 @@
 <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseComplexRepeating">
  <property name="name" value="creditOptions"/>
  <property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/>
-  <property name="caseConstraint">
+<!--  <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
     <property name="fieldPath" value="state"/>
@@ -271,7 +271,7 @@
         </list>
        </property>
        <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
+        Copy all the properties from above adding minOccurs = 1
         <bean parent="baseComplexRepeating">
          <property name="minOccurs" value="1" />
         </bean>
@@ -280,7 +280,7 @@
      </list>
     </property>
    </bean>
-  </property>
+  </property>-->
 </bean>
 <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
 
