@@ -36,7 +36,6 @@ import org.w3c.dom.Element;
 
 public class KualiTorqueSchemaDumpTask extends DumpTask {
 
-	boolean antCompatibilityMode;
 	boolean processTables = true;
 	boolean processViews = true;
 	boolean processSequences = true;
@@ -658,13 +657,5 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 
 	public void setProcessSequences(boolean processSequences) {
 		this.processSequences = processSequences;
-	}
-
-	public boolean isAntCompatibilityMode() {
-		return antCompatibilityMode;
-	}
-
-	public void setAntCompatibilityMode(boolean antCompatibilityMode) {
-		this.antCompatibilityMode = antCompatibilityMode;
 	}
 }

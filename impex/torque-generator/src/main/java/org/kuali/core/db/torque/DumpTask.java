@@ -12,9 +12,12 @@ import org.kuali.db.ConnectionHandler;
 import org.kuali.db.Credentials;
 
 public class DumpTask extends Task {
+
 	Utils utils = new Utils();
 
 	ConnectionHandler connectionHandler = new ConnectionHandler();
+
+	boolean antCompatibilityMode;
 
 	protected void showConfiguration() {
 		log("Schema: " + schema);
@@ -199,6 +202,14 @@ public class DumpTask extends Task {
 
 	public void setArtifactId(String artifactId) {
 		this.artifactId = artifactId;
+	}
+
+	public boolean isAntCompatibilityMode() {
+		return antCompatibilityMode;
+	}
+
+	public void setAntCompatibilityMode(boolean antCompatibilityMode) {
+		this.antCompatibilityMode = antCompatibilityMode;
 	}
 
 }

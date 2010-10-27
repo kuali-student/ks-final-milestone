@@ -255,7 +255,11 @@ public class KualiTorqueDataDumpTask extends DumpTask {
 	 * Return the systemId to use
 	 */
 	protected String getSystemId() {
-		return getArtifactId() + ".dtd";
+		if (antCompatibilityMode) {
+			return "data.dtd";
+		} else {
+			return getArtifactId() + ".dtd";
+		}
 	}
 
 	/**
