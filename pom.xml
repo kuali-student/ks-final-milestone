@@ -18,7 +18,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.1.0-M9.2</version>
+  <version>1.1.0-M10.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <organization>
@@ -58,9 +58,9 @@
     <module>ks-web</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.1.0-M9.2</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.1.0-M9.2</developerConnection>
-    <url>https://test.kuali.org/svn/student/tags/tags/student-1.1.0-M9.2</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/student-1.1.0-M9</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/student-1.1.0-M9</developerConnection>
+    <url>https://test.kuali.org/svn/student/tags/branches/student-1.1.0-M9</url>
   </scm>
   <properties>
     <!-- Shared between compiler, pmd, and javadoc plugins -->
