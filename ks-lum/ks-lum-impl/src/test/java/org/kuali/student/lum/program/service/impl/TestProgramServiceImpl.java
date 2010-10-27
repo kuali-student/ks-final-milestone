@@ -1025,10 +1025,10 @@ public class TestProgramServiceImpl {
                 orgInfoId = orgInfoId + "-updated";
             }
 
-            List<String> reqIds = new ArrayList<String>();
-            reqIds.add("REQ-200");
-            reqIds.add("REQ-300");
-            major.setProgramRequirements(reqIds);
+//            List<String> reqIds = new ArrayList<String>();
+//            reqIds.add("REQ-200");
+//            reqIds.add("REQ-300");
+//            major.setProgramRequirements(reqIds);
 
            //Perform the update
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major);
