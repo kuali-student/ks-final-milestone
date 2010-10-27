@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
+import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -146,7 +147,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	    	dirty = model.get(qPathDirty);
 	    }
 	    if(dirty){
-	    	isDirty = true;
+	    	setIsDirty(true);
 	    	fieldDescriptor.setDirty(true);
 	    }
 	}
@@ -173,7 +174,8 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	@Override
 	public String addSection(Section section) {
 
-        sections.add(section);
+        section.setLayoutController(layoutController);
+		sections.add(section);
         String key = layout.addLayout(section.getLayout());
         return key;
 	}
@@ -458,7 +460,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			//Check child sections for dirtyness
 			for(Section s: sections){
 				if(s.isDirty()){
-					isDirty = true;
+					setIsDirty(true);
 					break;
 				}
 			}
@@ -466,8 +468,17 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		return isDirty;
 	}
 
-    public void setIsDirty(boolean state) {
-        isDirty = state;
+    public void setIsDirty(boolean state) {   	
+		//Should this trust layoutController to be already set?
+    	if (layoutController == null){
+    		layoutController = LayoutController.findParentLayout(layout);
+    	}
+    	if (isDirty != state){
+        	isDirty = state;
+	    	if (layoutController != null && isDirty){    		
+	    		layoutController.fireApplicationEvent(new ContentDirtyEvent());
+	    	}
+    	}
     }
 
 	/**

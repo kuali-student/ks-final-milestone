@@ -59,9 +59,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
         }
 
         dataToOutlineNodes(data, loOutlineNodes, 0);
-        if (loOutlineNodes != null && !loOutlineNodes.isEmpty()) {
-            builder.setValue(loOutlineNodes);
-        }
+        builder.setValue(loOutlineNodes);
     }
 
     private List<OutlineNode<LOPicker>> stripeOutEmptyInput(List<OutlineNode<LOPicker>> input) {
@@ -96,6 +94,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
             }
             for (LoDisplayInfoHelper loDisplayInfoHelper : sortedDisplayInfos) {
                 LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState(), LOBuilder.getRepoKey());
+                
                 LoInfoHelper loInfoHelper = new LoInfoHelper(loDisplayInfoHelper.getLoInfo());
                 RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDesc());
                 picker.setLOText(descriptionHelper.getPlain());
