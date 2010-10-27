@@ -62,7 +62,7 @@
 	<bean id="proposalInfo.name-parent" abstract="true" parent="baseKualiName">
 		<property name="name" value="name" />
 		<property name="minOccurs" value="1" />
-		<property name="maxLength" value="255"/>
+		<property name="maxLength" value="150"/>
 	</bean>
 	<bean id="proposalInfo.name" parent="proposalInfo.name-parent" />
 
