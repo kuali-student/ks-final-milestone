@@ -108,8 +108,8 @@
 
 
 .KS-LOBuilder-LO-Panel {
-	background-color: #FFFFFF;	
-	margin: 10px;
+margin-bottom: 10px;
+    margin-top: 10px;
 }
 .KS-LOMoveUpButton{
     background: url("images/LOMoveUpButton.png") no-repeat 2px 2px;
