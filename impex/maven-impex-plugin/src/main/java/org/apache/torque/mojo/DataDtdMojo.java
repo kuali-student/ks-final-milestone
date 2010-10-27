@@ -1,6 +1,10 @@
 package org.apache.torque.mojo;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.torque.task.TorqueDataModelTask;
 import org.kuali.core.db.torque.Utils;
@@ -14,6 +18,18 @@ import org.kuali.core.db.torque.Utils;
 public class DataDtdMojo extends DataModelTaskMojo {
 	/** The context property for the name of the project. */
 	public static final String PROJECT_CONTEXT_PROPERTY = "project";
+
+	/**
+	 * @parameter expression="${antCompatibilityMode}" antCompatibilityMode="false"
+	 */
+	boolean antCompatibilityMode;
+
+	/**
+	 * Only used if antCompatibilityMode is set to true. If so, the dtd that gets generated will be copied to
+	 * 
+	 * @parameter expression="${copyToFile}" default-value="${basedir}/src/main/impex/data.dtd"
+	 */
+	String copyToFile;
 
 	/**
 	 * The directory in which the DTD will be generated
@@ -137,5 +153,31 @@ public class DataDtdMojo extends DataModelTaskMojo {
 		getLog().info("Generating database DTD");
 		getLog().info("------------------------------------------------------------------------");
 		super.executeMojo();
+		if (antCompatibilityMode) {
+			File srcFile = new File(getOutputDir() + FS + getProject().getArtifactId() + ".dtd");
+			File destFile = new File(copyToFile);
+			getLog().info("Creating " + destFile.getAbsolutePath() + " for Ant compatibility mode");
+			try {
+				FileUtils.copyFile(srcFile, destFile);
+			} catch (IOException e) {
+				throw new MojoExecutionException("Error copying file", e);
+			}
+		}
+	}
+
+	public boolean isAntCompatibilityMode() {
+		return antCompatibilityMode;
+	}
+
+	public void setAntCompatibilityMode(boolean antCompatibilityMode) {
+		this.antCompatibilityMode = antCompatibilityMode;
+	}
+
+	public String getCopyToFile() {
+		return copyToFile;
+	}
+
+	public void setCopyToFile(String copyToFile) {
+		this.copyToFile = copyToFile;
 	}
 }
