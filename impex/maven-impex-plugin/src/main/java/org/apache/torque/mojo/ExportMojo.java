@@ -14,6 +14,13 @@ import org.kuali.core.db.torque.StringFilter;
 public abstract class ExportMojo extends AntTaskMojo {
 
 	/**
+	 * If true, files will be exported in a format that the Ant impex tasks can understand
+	 * 
+	 * @parameter expression="${antCompatibilityMode}" default-value="false"
+	 */
+	private boolean antCompatibilityMode;
+
+	/**
 	 * The Maven artifactId. Included here as a simple property of the mojo itself to facilitate usage of
 	 * <code>BeanUtils.copyProperties()</code> to copy properties between Mojo's and Ant tasks
 	 * 
@@ -247,5 +254,13 @@ public abstract class ExportMojo extends AntTaskMojo {
 
 	public void setArtifactId(String artifactId) {
 		this.artifactId = artifactId;
+	}
+
+	public boolean isAntCompatibilityMode() {
+		return antCompatibilityMode;
+	}
+
+	public void setAntCompatibilityMode(boolean antCompatibilityMode) {
+		this.antCompatibilityMode = antCompatibilityMode;
 	}
 }

@@ -36,6 +36,7 @@ import org.w3c.dom.Element;
 
 public class KualiTorqueSchemaDumpTask extends DumpTask {
 
+	boolean antCompatibilityMode;
 	boolean processTables = true;
 	boolean processViews = true;
 	boolean processSequences = true;
@@ -65,8 +66,16 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 		log("Exporting to: " + schemaXMLFile.getAbsolutePath());
 	}
 
+	protected String getSystemId() {
+		if (antCompatibilityMode) {
+			return "database.dtd";
+		} else {
+			return ImpexDTDResolver.DTD_LOCATION;
+		}
+	}
+
 	protected DocumentImpl getDocumentImpl() {
-		DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, ImpexDTDResolver.DTD_LOCATION);
+		DocumentTypeImpl docType = new DocumentTypeImpl(null, "database", null, getSystemId());
 		DocumentImpl doc = new DocumentImpl(docType);
 		doc.appendChild(doc.createComment(" " + getComment() + " "));
 		return doc;
@@ -312,6 +321,14 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 		doc.appendChild(databaseNode);
 	}
 
+	protected String getName() {
+		if (antCompatibilityMode) {
+			return "kfs";
+		} else {
+			return artifactId;
+		}
+	}
+
 	/**
 	 * Generates an XML database schema from JDBC metadata.
 	 * 
@@ -329,7 +346,7 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 			DatabaseMetaData dbMetaData = connection.getMetaData();
 
 			databaseNode = doc.createElement("database");
-			databaseNode.setAttribute("name", artifactId);
+			databaseNode.setAttribute("name", getName());
 			// JHK added naming method
 			databaseNode.setAttribute("defaultJavaNamingMethod", "nochange");
 
@@ -641,5 +658,13 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 
 	public void setProcessSequences(boolean processSequences) {
 		this.processSequences = processSequences;
+	}
+
+	public boolean isAntCompatibilityMode() {
+		return antCompatibilityMode;
+	}
+
+	public void setAntCompatibilityMode(boolean antCompatibilityMode) {
+		this.antCompatibilityMode = antCompatibilityMode;
 	}
 }
