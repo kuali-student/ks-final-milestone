@@ -263,12 +263,9 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
                     margin-bottom:1em;
 }
 .ks-form-bordered-header {
-border-bottom:1px dotted #BBBBBB;
-color:#000000;
-font-size:1.3em;
-font-weight:normal;
-letter-spacing:0.05em;
-margin-bottom:9px;
+background-color:#E4E6F2;
+margin:0;
+padding:4px 6px;
 
 }
 
