@@ -14,8 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.helpers.FileUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.torque.engine.database.model.TypeMap;
@@ -104,6 +106,7 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	protected void serialize() throws BuildException {
 		Writer out = null;
 		try {
+			FileUtils.mkDir(new File(FilenameUtils.getFullPath(getSchemaXMLFile().getCanonicalPath())));
 			out = new PrintWriter(new FileOutputStream(getSchemaXMLFile()));
 			OutputFormat format = new OutputFormat(Method.XML, getEncoding(), true);
 			XMLSerializer xmlSerializer = new XMLSerializer(out, format);
