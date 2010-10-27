@@ -18,31 +18,30 @@ package org.kuali.student.lum.common.client.lo;
 import java.util.ArrayList;
 
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
-public class OutlineManager extends Composite {
+public class OutlineManager extends Composite implements HasValue<OutlineNodeModel>{
 	OutlineNodeModel outlineModel;
-
 
 	VerticalPanel mainPanel = new VerticalPanel();
 
 	public OutlineManager() {
 		super.initWidget(mainPanel);
 		mainPanel.setStyleName("KS-LOMainPanel");
-	}
-
-	public void setModel(OutlineNodeModel model) {
-		outlineModel = model;
 	}
 
 	public void render() {
@@ -57,6 +56,7 @@ public class OutlineManager extends Composite {
 			showAllToolbar();
 		}
 	}
+	
 	public void closeAllToolbar(){
 		for(int i=0;i< mainPanel.getWidgetCount();i++){
 			if(mainPanel.getWidget(i) instanceof NodePanel){
@@ -65,6 +65,7 @@ public class OutlineManager extends Composite {
 			}
 		}
 	}
+	
 	public void showAllToolbar(){
 		for(int i=0;i< mainPanel.getWidgetCount();i++){
 			if(mainPanel.getWidget(i) instanceof NodePanel){
@@ -73,6 +74,7 @@ public class OutlineManager extends Composite {
 			}
 		}
 	}
+	
 	class NodePanel extends  VerticalPanel{
 		OutlineManagerToolbar toolbar = new OutlineManagerToolbar();
 		HorizontalPanel emptySpacePanel = new HorizontalPanel();
@@ -85,7 +87,7 @@ public class OutlineManager extends Composite {
 			super.sinkEvents(Event.ONMOUSEMOVE);
 			super.sinkEvents(Event.ONMOUSEOUT);
 			emptySpacePanel.setStyleName("KS-LOOutlineManagerToolbar");
-			KSImage ieHack = Theme.INSTANCE.getCommonImages().getSpacer();
+			Image ieHack = Theme.INSTANCE.getCommonImages().getSpacer();
 			emptySpacePanel.add(ieHack);
 			super.insert(emptySpacePanel,0);
 		}
@@ -141,5 +143,25 @@ public class OutlineManager extends Composite {
 			}
 			super.onBrowserEvent(event);
 		}
+	}
+	
+	@Override
+	public OutlineNodeModel getValue() {
+		return outlineModel;
+	}
+
+	@Override
+	public void setValue(OutlineNodeModel value) {
+		outlineModel = value;		
+	}
+
+	@Override
+	public void setValue(OutlineNodeModel value, boolean fireEvents) {
+		setValue(value);
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<OutlineNodeModel> handler) {
+		return addHandler(handler, ValueChangeEvent.getType());
 	}
 }

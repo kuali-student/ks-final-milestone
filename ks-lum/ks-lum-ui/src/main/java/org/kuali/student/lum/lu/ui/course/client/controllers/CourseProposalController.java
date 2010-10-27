@@ -16,10 +16,7 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import java.text.DateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -53,17 +50,19 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -177,15 +176,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 
             }
         });
-        super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
-            @Override
-            public void onValidateRequest(final ValidateRequestEvent event) {
-            	if(event.getFieldDescriptor().isDirty()){
-            		//TODO: When field descriptor dirty flag set, it should fire content dirty event
-            		setContentWarning("You have unsaved changes");
-            	}
-            }
-        });
         super.addApplicationEventHandler(ContentDirtyEvent.TYPE, new ContentDirtyEventHandler(){
 			public void onContentDirty(ContentDirtyEvent event) {
         		setContentWarning("You have unsaved changes");				
@@ -280,9 +270,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		                    cluProposalModel.setDefinition(def);
 		                    comparisonModel.setDefinition(def);
 
-		                    configureScreens(def);
-		                    onReadyCallback.exec(true);
-		                    KSBlockingProgressIndicator.removeTask(initializingTask);
+		                    configureScreens(def, onReadyCallback);
 		                }
 			          });
 					
@@ -294,18 +282,36 @@ public class CourseProposalController extends MenuEditableSectionController impl
 					onReadyCallback.exec(false);
 				}
 			});
-            
-    		
+                		
     	}
     }
 
-    private void configureScreens(DataModelDefinition modelDefinition){
+    private void configureScreens(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
         workflowUtil.requestAndSetupModel();
 
-    	cfg.setModelDefinition(modelDefinition);
-    	cfg.configure(this);
+        CourseRequirementsDataModel.getStatementTypes(new Callback<List<StatementTypeInfo>>() {
 
-        
+            @Override
+            public void exec(List<StatementTypeInfo> stmtTypes) {
+                List<StatementTypeInfo> stmtTypesOut = new ArrayList<StatementTypeInfo>();
+                if (stmtTypes != null) {
+                    for (StatementTypeInfo stmtType : stmtTypes) {
+                        if (stmtType.getId().contains("kuali.statement.type.course.enrollmentEligibility") ||
+                            stmtType.getId().contains("kuali.statement.type.course.creditConstraints")) {
+                            continue;
+                        }
+                        stmtTypesOut.add(stmtType);
+                    }
+                }
+
+                cfg.setStatementTypes(stmtTypesOut);
+                cfg.setModelDefinition(modelDefinition);
+                cfg.configure(CourseProposalController.this);
+
+                onReadyCallback.exec(true);
+                KSBlockingProgressIndicator.removeTask(initializingTask);
+            }
+        });
     }
 
 	/**

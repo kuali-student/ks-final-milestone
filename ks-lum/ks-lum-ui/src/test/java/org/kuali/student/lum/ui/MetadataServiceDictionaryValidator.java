@@ -24,9 +24,12 @@ import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.personsearch.service.impl.QuickViewByGivenNameSearchTypeCreator;
+import org.kuali.student.core.search.dto.CrossSearchTypeInfo;
+import org.kuali.student.core.search.dto.JoinResultMappingInfo;
 import org.kuali.student.core.search.dto.QueryParamInfo;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.dto.SubSearchInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -47,7 +50,7 @@ public class MetadataServiceDictionaryValidator
   }
   String[] searchConfigFiles =
   {
-   "lu", "lo", "lrc", "organization", "atp", "em"
+   "lu", "lo", "lrc", "proposal", "organization", "atp", "em"
   };
   for (int i = 0; i < searchConfigFiles.length; i ++)
   {
@@ -64,7 +67,8 @@ public class MetadataServiceDictionaryValidator
     searchInfoTypeMap.putAll (ac.getBeansOfType (SearchTypeInfo.class));
    }
   }
-  SearchTypeInfo personSearchType = new QuickViewByGivenNameSearchTypeCreator ().get ();
+  SearchTypeInfo personSearchType =
+                 new QuickViewByGivenNameSearchTypeCreator ().get ();
   searchInfoTypeMap.put (personSearchType.getKey (), personSearchType);
 
   return searchInfoTypeMap;
@@ -73,7 +77,7 @@ public class MetadataServiceDictionaryValidator
  public List<String> validateMetadata (Metadata md, String name, String type)
  {
   List<String> errors = new ArrayList ();
-  if (md.getInitialLookup () != null)
+  if (md.getInitialLookup () != null && md.getInitialLookup ().getSearchTypeId () != null)
   {
    errors.addAll (validateLookup (md.getInitialLookup (), name, type, "initial"));
   }
@@ -101,7 +105,7 @@ public class MetadataServiceDictionaryValidator
   if (md.getProperties () != null && md.getProperties ().size () != 0)
   {
    if ( ! (md.getDataType ().equals (Data.DataType.DATA)
-        || md.getDataType ().equals (Data.DataType.LIST)))
+           || md.getDataType ().equals (Data.DataType.LIST)))
    {
     errors.add (buildErrorPrefix1 (name, type)
                 + " is NOT of type DATA or LIST but it does have properties");
@@ -129,6 +133,51 @@ public class MetadataServiceDictionaryValidator
                + lookup.getSearchTypeId ()
                + " that does not exist");
    return errors;
+  }
+  if (lookup.getResultDisplayKey () != null)
+  {
+   String key = lookup.getResultDisplayKey ().trim ();
+   if ( ! key.equals (""))
+   {
+    ResultColumnInfo rc = findResultColumn (st, key);
+    if (rc == null)
+    {
+     errors.add (buildErrorPrefix3 (lookup, name, type, lookupType)
+                 + " that has a result display column " + key
+                 + " that does not exist in the underlying search "
+                 + lookup.getSearchTypeId ());
+    }
+   }
+  }
+  if (lookup.getResultReturnKey () != null)
+  {
+   String key = lookup.getResultReturnKey ().trim ();
+   if (( ! key.equals ("")))
+   {
+    ResultColumnInfo rc = findResultColumn (st, key);
+    if (rc == null)
+    {
+     errors.add (buildErrorPrefix3 (lookup, name, type, lookupType)
+                 + " that has a result return key " + key
+                 + " that does not exist in the underlying search "
+                 + lookup.getSearchTypeId ());
+    }
+   }
+  }
+  if (lookup.getResultSortKey () != null)
+  {
+   String key = lookup.getResultSortKey ().trim ();
+   if ( ! key.equals (""))
+   {
+    ResultColumnInfo rc = findResultColumn (st, key);
+    if (rc == null)
+    {
+     errors.add (buildErrorPrefix3 (lookup, name, type, lookupType)
+                 + " that has a result sort key " + key
+                 + " that does not exist in the underlying search "
+                 + lookup.getSearchTypeId ());
+    }
+   }
   }
   // check params
   for (LookupParamMetadata param : lookup.getParams ())
@@ -222,6 +271,10 @@ public class MetadataServiceDictionaryValidator
     {
      return true;
     }
+    if (qp.equalsIgnoreCase ("dateTime"))
+    {
+     return true;
+    }
     return false;
    case DATA:
     if (qp.equalsIgnoreCase ("complex"))
@@ -242,6 +295,39 @@ public class MetadataServiceDictionaryValidator
    if (rc.getKey ().equals (paramKey))
    {
     return rc;
+   }
+  }
+  if (st instanceof CrossSearchTypeInfo)
+  {
+//   System.out.println (
+//     "CROSS SEARCH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+   CrossSearchTypeInfo cst = (CrossSearchTypeInfo) st;
+   if (cst.getJoinResultMappings () != null)
+   {
+    for (JoinResultMappingInfo jrm : cst.getJoinResultMappings ())
+    {
+     if (jrm.getResultParam ().equalsIgnoreCase (paramKey))
+     {
+      for (SubSearchInfo ss : cst.getSubSearches ())
+      {
+       if (ss.getKey ().equalsIgnoreCase (jrm.getSubSearchKey ()))
+       {
+        SearchTypeInfo subSearchType = this.getSearchTypeInfo (
+          ss.getSearchkey ());
+        if (subSearchType == null)
+        {
+         return null;
+        }
+        ResultColumnInfo rc = findResultColumn (subSearchType, jrm.getSubSearchResultParam ());
+        if (rc == null)
+        {
+         throw new RuntimeException ("Cross-Search " + st.getKey () + " is not configured properly "
+           + jrm.getSubSearchResultParam () + " is not defined as a result in the subSearchTyp e" + ss.getSearchkey ());
+        }
+       }
+      }
+     }
+    }
    }
   }
   return null;
@@ -277,7 +363,7 @@ public class MetadataServiceDictionaryValidator
   String msg = name;
   if (type != null)
   {
-   msg += "with type " + type;
+   msg += " with type " + type;
   }
 //  System.out.println ("buildErrorPrefix called for " + msg);
 //  new RuntimeException ().printStackTrace ();

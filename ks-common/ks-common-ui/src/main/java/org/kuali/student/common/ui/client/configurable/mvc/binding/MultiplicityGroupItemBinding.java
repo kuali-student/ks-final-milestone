@@ -15,13 +15,14 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.QueryPath;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This binding simply adds an index key to the multiplicity item's parent path and then calls the binding ModelWidgetBinding

@@ -32,7 +32,6 @@ import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
@@ -55,6 +54,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -312,7 +312,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
 
     private void isAuthorizedAddComment() {
         // check permission to see if user can comment
-        commentServiceAsync.isAuthorizedAddComment(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
+        commentServiceAsync.isAuthorizedAddComment(referenceId, new KSAsyncCallback<Boolean>() {
 
 			@Override
             public void onFailure(Throwable caught) {
@@ -514,8 +514,8 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
         private HorizontalBlockFlowPanel footer = new HorizontalBlockFlowPanel();
         private HorizontalBlockFlowPanel editActions = new HorizontalBlockFlowPanel();
 
-        KSImage edit = Theme.INSTANCE.getCommonImages().getEditCommentIcon();
-        KSImage delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
+        Image edit = Theme.INSTANCE.getCommonImages().getEditCommentIcon();
+        Image delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
 
         private KSLabel name = new KSLabel();
         private HTML commentText = new HTML();
@@ -674,7 +674,7 @@ public class CommentPanel extends DelayedToolView implements HasReferenceId {
     }
 
 	@Override
-	public KSImage getImage() {
+	public Image getImage() {
 		return Theme.INSTANCE.getCommonImages().getCommentIcon();
 	}
 }

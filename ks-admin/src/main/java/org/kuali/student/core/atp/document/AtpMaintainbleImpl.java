@@ -5,6 +5,7 @@ import java.util.Map;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.student.core.atp.bo.Atp;
+import org.kuali.student.core.atp.bo.AtpRichText;
 import org.kuali.student.core.atp.bo.DateRange;
 import org.kuali.student.core.atp.bo.Milestone;
 
@@ -22,10 +23,28 @@ public class AtpMaintainbleImpl extends KualiMaintainableImpl {
 
 		for (DateRange dateRange : atp.getDateRanges()) {
 			dateRange.setId(null);
+			
+			AtpRichText description = dateRange.getDescription();
+			if (description != null) {
+				description.setId(null);
+				dateRange.setDescriptionId(null);
+			}
 		}
 
 		for (Milestone milestone : atp.getMilestones()) {
 			milestone.setId(null);
+			
+			AtpRichText description = milestone.getDescription();
+			if (description != null) {
+				description.setId(null);
+				milestone.setDescriptionId(null);
+			}
+		}
+		
+		AtpRichText description = atp.getDescription();
+		if (description != null) {
+			description.setId(null);
+			atp.setDescriptionId(null);
 		}
 	}
 

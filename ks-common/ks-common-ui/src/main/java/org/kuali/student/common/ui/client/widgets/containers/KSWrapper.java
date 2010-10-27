@@ -206,7 +206,7 @@ public class KSWrapper extends Composite{
     	);
 		items.add(new KSMenuItemData(getMessage("wrapperPanelTitleCurriculumManagement"),Theme.INSTANCE.getCommonImages().getBookIcon(),
     			new WrapperNavigationHandler(
-    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=curriculum"+(codeServer.isEmpty()?"":"&"+codeServer)))
+    					lumAppUrl+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=CURRICULUM_MANAGEMENT"+(codeServer.isEmpty()?"":"&"+codeServer)))
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleOrg"), Theme.INSTANCE.getCommonImages().getPeopleIcon(),
     			new WrapperNavigationHandler(
@@ -221,7 +221,7 @@ public class KSWrapper extends Composite{
 						docSearchDialog.show();
 					}})
     	);
-    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getSpacerIcon(),
+    	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getRiceIcon(),
     			new WrapperNavigationHandler(
     					appUrl+"/portal.do?selectedTab=main"))
     	);

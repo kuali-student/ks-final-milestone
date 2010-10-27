@@ -2874,18 +2874,18 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSAP_ATP_TYPE" name="KSAP_ATP_FK1">
-            <reference foreign="TYPE_KEY" local="TYPE"/>
-        </foreign-key>
-		<index name="KSAP_ATP_I1">
-			<index-column name="TYPE"/>
-		</index>
         <foreign-key foreignTable="KSAP_RICH_TEXT_T" name="KSAP_ATP_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSAP_ATP_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <foreign-key foreignTable="KSAP_ATP_TYPE" name="KSAP_ATP_FK1">
+            <reference foreign="TYPE_KEY" local="TYPE"/>
+        </foreign-key>
+        <index name="KSAP_ATP_I1">
+            <index-column name="TYPE"/>
+        </index>
+        <index name="KSAP_ATP_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSAP_ATP_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -2897,9 +2897,9 @@
         <foreign-key foreignTable="KSAP_ATP" name="KSAP_ATP_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSAP_ATP_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSAP_ATP_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSAP_ATP_DUR_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -2920,9 +2920,9 @@
         <foreign-key foreignTable="KSAP_ATP_DUR_TYPE" name="KSAP_ATP_DUR_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSAP_ATP_DUR_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSAP_ATP_DUR_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSAP_ATP_SEASONAL_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -2943,9 +2943,9 @@
         <foreign-key foreignTable="KSAP_ATP_SEASONAL_TYPE" name="KSAP_ATP_SEAS_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSAP_ATP_SEAS_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSAP_ATP_SEAS_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSAP_ATP_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -2960,15 +2960,15 @@
         <foreign-key foreignTable="KSAP_ATP_SEASONAL_TYPE" name="KSAP_ATP_TYPE_FK1">
             <reference foreign="TYPE_KEY" local="SEASONAL_TYPE"/>
         </foreign-key>
-		<index name="KSAP_ATP_TYPE_I1">
-			<index-column name="SEASONAL_TYPE"/>
-		</index>
         <foreign-key foreignTable="KSAP_ATP_DUR_TYPE" name="KSAP_ATP_TYPE_FK2">
             <reference foreign="TYPE_KEY" local="DUR_TYPE"/>
         </foreign-key>
-		<index name="KSAP_ATP_TYPE_I2">
-			<index-column name="DUR_TYPE"/>
-		</index>
+        <index name="KSAP_ATP_TYPE_I1">
+            <index-column name="SEASONAL_TYPE"/>
+        </index>
+        <index name="KSAP_ATP_TYPE_I2">
+            <index-column name="DUR_TYPE"/>
+        </index>
     </table>
     <table name="KSAP_ATP_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -2980,9 +2980,9 @@
         <foreign-key foreignTable="KSAP_ATP_TYPE" name="KSAP_ATP_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSAP_ATP_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSAP_ATP_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSAP_DT_RANGE">
         <column name="DATERANGE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3002,21 +3002,21 @@
         <foreign-key foreignTable="KSAP_DT_RANGE_TYPE" name="KSAP_DT_RANGE_FK1">
             <reference foreign="TYPE_KEY" local="DT_RANGE_TYPE_ID"/>
         </foreign-key>
-		<index name="KSAP_DT_RANGE_I1">
-			<index-column name="DT_RANGE_TYPE_ID"/>
-		</index>
-        <foreign-key foreignTable="KSAP_RICH_TEXT_T" name="KSAP_DT_RANGE_FK2">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
-		<index name="KSAP_DT_RANGE_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
         <foreign-key foreignTable="KSAP_ATP" name="KSAP_DT_RANGE_FK3">
             <reference foreign="ID" local="ATP_ID"/>
         </foreign-key>
-		<index name="KSAP_DT_RANGE_I3">
-			<index-column name="ATP_ID"/>
-		</index>
+        <foreign-key foreignTable="KSAP_RICH_TEXT_T" name="KSAP_DT_RANGE_FK2">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <index name="KSAP_DT_RANGE_I1">
+            <index-column name="DT_RANGE_TYPE_ID"/>
+        </index>
+        <index name="KSAP_DT_RANGE_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSAP_DT_RANGE_I3">
+            <index-column name="ATP_ID"/>
+        </index>
     </table>
     <table name="KSAP_DT_RANGE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3028,9 +3028,9 @@
         <foreign-key foreignTable="KSAP_DT_RANGE" name="KSAP_DT_RANGE_ATTR_FK1">
             <reference foreign="DATERANGE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSAP_DT_RANGE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSAP_DT_RANGE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSAP_DT_RANGE_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3051,9 +3051,9 @@
         <foreign-key foreignTable="KSAP_DT_RANGE_TYPE" name="KSAP_DT_RANGE_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSAP_DT_RANGE_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSAP_DT_RANGE_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSAP_MLSTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3069,24 +3069,24 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="MLSTN_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSAP_ATP" name="KSAP_MLSTN_FK1">
-            <reference foreign="ID" local="ATP_ID"/>
-        </foreign-key>
-		<index name="KSAP_MLSTN_I1">
-			<index-column name="ATP_ID"/>
-		</index>
         <foreign-key foreignTable="KSAP_RICH_TEXT_T" name="KSAP_MLSTN_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSAP_MLSTN_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
         <foreign-key foreignTable="KSAP_MLSTN_TYPE" name="KSAP_MLSTN_FK3">
             <reference foreign="TYPE_KEY" local="MLSTN_TYPE_ID"/>
         </foreign-key>
-		<index name="KSAP_MLSTN_I3">
-			<index-column name="MLSTN_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSAP_ATP" name="KSAP_MLSTN_FK1">
+            <reference foreign="ID" local="ATP_ID"/>
+        </foreign-key>
+        <index name="KSAP_MLSTN_I1">
+            <index-column name="ATP_ID"/>
+        </index>
+        <index name="KSAP_MLSTN_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSAP_MLSTN_I3">
+            <index-column name="MLSTN_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSAP_MLSTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3098,9 +3098,9 @@
         <foreign-key foreignTable="KSAP_MLSTN" name="KSAP_MLSTN_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSAP_MLSTN_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSAP_MLSTN_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSAP_MLSTN_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3121,9 +3121,9 @@
         <foreign-key foreignTable="KSAP_MLSTN_TYPE" name="KSAP_MLSTN_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSAP_MLSTN_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSAP_MLSTN_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSAP_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3149,21 +3149,21 @@
         <foreign-key foreignTable="KSCO_COMMENT_TYPE" name="KSCO_COMMENT_FK1">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
-		<index name="KSCO_COMMENT_I1">
-			<index-column name="TYPE"/>
-		</index>
         <foreign-key foreignTable="KSCO_RICH_TEXT_T" name="KSCO_COMMENT_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSCO_COMMENT_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
         <foreign-key foreignTable="KSCO_REFERENCE" name="KSCO_COMMENT_FK3">
             <reference foreign="ID" local="REFERENCE"/>
         </foreign-key>
-		<index name="KSCO_COMMENT_I3">
-			<index-column name="REFERENCE"/>
-		</index>
+        <index name="KSCO_COMMENT_I1">
+            <index-column name="TYPE"/>
+        </index>
+        <index name="KSCO_COMMENT_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSCO_COMMENT_I3">
+            <index-column name="REFERENCE"/>
+        </index>
     </table>
     <table name="KSCO_COMMENT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3175,9 +3175,9 @@
         <foreign-key foreignTable="KSCO_COMMENT" name="KSCO_COMMENT_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSCO_COMMENT_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSCO_COMMENT_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSCO_COMMENT_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3198,9 +3198,9 @@
         <foreign-key foreignTable="KSCO_COMMENT_TYPE" name="KSCO_COMMENT_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSCO_COMMENT_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSCO_COMMENT_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSCO_REFERENCE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3211,13 +3211,13 @@
         <foreign-key foreignTable="KSCO_REFERENCE_TYPE" name="KSCO_REFERENCE_FK1">
             <reference foreign="TYPE_KEY" local="REFERENCE_TYPE"/>
         </foreign-key>
-		<index name="KSCO_REFERENCE_I1">
-			<index-column name="REFERENCE_TYPE"/>
-		</index>
         <unique name="SYS_C0033779">
             <unique-column name="REFERENCE_ID"/>
             <unique-column name="REFERENCE_TYPE"/>
         </unique>
+        <index name="KSCO_REFERENCE_I1">
+            <index-column name="REFERENCE_TYPE"/>
+        </index>
     </table>
     <table name="KSCO_REFERENCE_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3238,9 +3238,9 @@
         <foreign-key foreignTable="KSCO_REFERENCE_TYPE" name="KSCO_REFERENCE_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSCO_REFERENCE_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSCO_REFERENCE_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSCO_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3268,15 +3268,15 @@
         <foreign-key foreignTable="KSCO_REFERENCE" name="KSCO_TAG_FK1">
             <reference foreign="ID" local="REFERENCE"/>
         </foreign-key>
-		<index name="KSCO_TAG_I1">
-			<index-column name="REFERENCE"/>
-		</index>
         <foreign-key foreignTable="KSCO_TAG_TYPE" name="KSCO_TAG_FK2">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
-		<index name="KSCO_TAG_I2">
-			<index-column name="TYPE"/>
-		</index>
+        <index name="KSCO_TAG_I1">
+            <index-column name="REFERENCE"/>
+        </index>
+        <index name="KSCO_TAG_I2">
+            <index-column name="TYPE"/>
+        </index>
     </table>
     <table name="KSCO_TAG_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3288,9 +3288,9 @@
         <foreign-key foreignTable="KSCO_TAG" name="KSCO_TAG_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSCO_TAG_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSCO_TAG_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSCO_TAG_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3311,9 +3311,9 @@
         <foreign-key foreignTable="KSCO_TAG_TYPE" name="KSCO_TAG_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSCO_TAG_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSCO_TAG_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSDO_DOCUMENT">
         <column name="DOC_ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3334,15 +3334,15 @@
         <foreign-key foreignTable="KSDO_RICH_TEXT_T" name="KSDO_DOCUMENT_FK1">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSDO_DOCUMENT_I1">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
         <foreign-key foreignTable="KSDO_DOCUMENT_TYPE" name="KSDO_DOCUMENT_FK2">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
-		<index name="KSDO_DOCUMENT_I2">
-			<index-column name="TYPE"/>
-		</index>
+        <index name="KSDO_DOCUMENT_I1">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSDO_DOCUMENT_I2">
+            <index-column name="TYPE"/>
+        </index>
     </table>
     <table name="KSDO_DOCUMENT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3354,9 +3354,9 @@
         <foreign-key foreignTable="KSDO_DOCUMENT" name="KSDO_DOCUMENT_ATTR_FK1">
             <reference foreign="DOC_ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSDO_DOCUMENT_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSDO_DOCUMENT_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSDO_DOCUMENT_CATEGORY">
         <column name="CATEGORY_ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3369,9 +3369,9 @@
         <foreign-key foreignTable="KSDO_RICH_TEXT_T" name="KSDO_DOCUMENT_CATEGORY_FK1">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSDO_DOCUMENT_CATEGORY_I1">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <index name="KSDO_DOCUMENT_CATEGORY_I1">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSDO_DOCUMENT_CATEGORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3383,9 +3383,9 @@
         <foreign-key foreignTable="KSDO_DOCUMENT_CATEGORY" name="KSDO_DOC_CATEGORY_ATTR_FK1">
             <reference foreign="CATEGORY_ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSDO_DOC_CATEGORY_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSDO_DOC_CATEGORY_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSDO_DOCUMENT_JN_DOC_CATEGORY">
         <column name="DOC_ID" required="true" size="255" type="VARCHAR"/>
@@ -3393,14 +3393,14 @@
         <foreign-key foreignTable="KSDO_DOCUMENT" name="KSDO_DOC_JN_DOC_CATEGORY_FK1">
             <reference foreign="DOC_ID" local="DOC_ID"/>
         </foreign-key>
-        <index name="KSDO_DOC_JN_DOC_CATEGORY_I1">
-        	<index-column name="DOC_ID"/>
-        </index>
         <foreign-key foreignTable="KSDO_DOCUMENT_CATEGORY" name="KSDO_DOC_JN_DOC_CATEGORY_FK2">
             <reference foreign="CATEGORY_ID" local="CATEGORY_ID"/>
         </foreign-key>
+        <index name="KSDO_DOC_JN_DOC_CATEGORY_I1">
+            <index-column name="DOC_ID"/>
+        </index>
         <index name="KSDO_DOC_JN_DOC_CATEGORY_I2">
-        	<index-column name="CATEGORY_ID"/>
+            <index-column name="CATEGORY_ID"/>
         </index>
     </table>
     <table name="KSDO_DOCUMENT_TYPE">
@@ -3422,9 +3422,9 @@
         <foreign-key foreignTable="KSDO_DOCUMENT_TYPE" name="KSDO_DOCUMENT_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSDO_DOCUMENT_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSDO_DOCUMENT_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSDO_REF_DOC_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3443,30 +3443,30 @@
         <column name="TYPE_KEY" size="255" type="VARCHAR"/>
         <column name="REF_OBJ_TYPE_KEY" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="KSDO_REF_DOC_RELTN_FK1">
-            <reference foreign="TYPE_KEY" local="TYPE_KEY"/>
-        </foreign-key>
-		<index name="KSDO_REF_DOC_RELTN_I1">
-			<index-column name="TYPE_KEY"/>
-		</index>
         <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="KSDO_REF_DOC_RELTN_FK2">
             <reference foreign="TYPE_KEY" local="REF_OBJ_TYPE_KEY"/>
         </foreign-key>
-		<index name="KSDO_REF_DOC_RELTN_I2">
-			<index-column name="REF_OBJ_TYPE_KEY"/>
-		</index>
         <foreign-key foreignTable="KSDO_RICH_TEXT_T" name="KSDO_REF_DOC_RELTN_FK3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSDO_REF_DOC_RELTN_I3">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="KSDO_REF_DOC_RELTN_FK1">
+            <reference foreign="TYPE_KEY" local="TYPE_KEY"/>
+        </foreign-key>
         <foreign-key foreignTable="KSDO_DOCUMENT" name="KSDO_REF_DOC_RELTN_FK4">
             <reference foreign="DOC_ID" local="DOC_ID"/>
         </foreign-key>
-		<index name="KSDO_REF_DOC_RELTN_I4">
-			<index-column name="DOC_ID"/>
-		</index>
+        <index name="KSDO_REF_DOC_RELTN_I1">
+            <index-column name="TYPE_KEY"/>
+        </index>
+        <index name="KSDO_REF_DOC_RELTN_I2">
+            <index-column name="REF_OBJ_TYPE_KEY"/>
+        </index>
+        <index name="KSDO_REF_DOC_RELTN_I3">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSDO_REF_DOC_RELTN_I4">
+            <index-column name="DOC_ID"/>
+        </index>
     </table>
     <table name="KSDO_REF_DOC_RELTN_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3487,9 +3487,9 @@
         <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="KSDO_REF_DOC_REL_TYP_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSDO_REF_DOC_REL_TYP_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSDO_REF_DOC_REL_TYP_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSDO_REF_DOC_REL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3501,9 +3501,9 @@
         <foreign-key foreignTable="KSDO_REF_DOC_RELTN" name="KSDO_REF_DOC_REL_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSDO_REF_DOC_REL_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSDO_REF_DOC_REL_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSDO_REF_OBJ_SUB_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3517,9 +3517,9 @@
         <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="KSDO_REF_OBJ_SUB_TYPE_FK1">
             <reference foreign="TYPE_KEY" local="REF_OBJ_TYPE_KEY"/>
         </foreign-key>
-		<index name="KSDO_REF_OBJ_SUB_TYPE_I1">
-			<index-column name="REF_OBJ_TYPE_KEY"/>
-		</index>
+        <index name="KSDO_REF_OBJ_SUB_TYPE_I1">
+            <index-column name="REF_OBJ_TYPE_KEY"/>
+        </index>
     </table>
     <table name="KSDO_REF_OBJ_SUB_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3531,9 +3531,9 @@
         <foreign-key foreignTable="KSDO_REF_OBJ_SUB_TYPE" name="KSDO_REF_OBJ_SUB_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSDO_REF_OBJ_SUB_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSDO_REF_OBJ_SUB_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSDO_REF_OBJ_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3554,9 +3554,9 @@
         <foreign-key foreignTable="KSDO_REF_OBJ_TYPE" name="KSDO_REF_OBJ_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSDO_REF_OBJ_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSDO_REF_OBJ_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSDO_REF_REL_TYP_JN_SUB_TYP">
         <column name="REF_DOC_RELTN_TYPE_KEY" required="true" size="255" type="VARCHAR"/>
@@ -3564,15 +3564,15 @@
         <foreign-key foreignTable="KSDO_REF_OBJ_SUB_TYPE" name="KSDO_REF_REL_TYP_JN_SUBTYP_FK1">
             <reference foreign="TYPE_KEY" local="REF_OBJ_SUB_TYPE_KEY"/>
         </foreign-key>
-		<index name="KSDO_REF_REL_TYP_JN_SUBTYP_I1">
-			<index-column name="REF_OBJ_SUB_TYPE_KEY"/>
-		</index>
         <foreign-key foreignTable="KSDO_REF_DOC_RELTN_TYPE" name="KSDO_REF_REL_TYP_JN_SUBTYP_FK2">
             <reference foreign="TYPE_KEY" local="REF_DOC_RELTN_TYPE_KEY"/>
         </foreign-key>
-		<index name="KSDO_REF_REL_TYP_JN_SUBTYP_I2">
-			<index-column name="REF_DOC_RELTN_TYPE_KEY"/>
-		</index>
+        <index name="KSDO_REF_REL_TYP_JN_SUBTYP_I1">
+            <index-column name="REF_OBJ_SUB_TYPE_KEY"/>
+        </index>
+        <index name="KSDO_REF_REL_TYP_JN_SUBTYP_I2">
+            <index-column name="REF_DOC_RELTN_TYPE_KEY"/>
+        </index>
     </table>
     <table name="KSDO_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3587,15 +3587,15 @@
         <foreign-key foreignTable="KSEM_CTX_T" name="KSEM_CTX_JN_ENUM_VAL_T_FK1">
             <reference foreign="ID" local="CTX_ID"/>
         </foreign-key>
-		<index name="KSEM_CTX_JN_ENUM_VAL_T_I1">
-			<index-column name="CTX_ID"/>
-		</index>
         <foreign-key foreignTable="KSEM_ENUM_VAL_T" name="KSEM_CTX_JN_ENUM_VAL_T_FK2">
             <reference foreign="ID" local="ENUM_VAL_ID"/>
         </foreign-key>
-		<index name="KSEM_CTX_JN_ENUM_VAL_T_I2">
-			<index-column name="ENUM_VAL_ID"/>
-		</index>
+        <index name="KSEM_CTX_JN_ENUM_VAL_T_I1">
+            <index-column name="CTX_ID"/>
+        </index>
+        <index name="KSEM_CTX_JN_ENUM_VAL_T_I2">
+            <index-column name="ENUM_VAL_ID"/>
+        </index>
     </table>
     <table name="KSEM_CTX_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3631,9 +3631,9 @@
         <foreign-key foreignTable="KSEM_ENUM_T" name="KSEM_ENUM_VAL_T_FK1">
             <reference foreign="ENUM_KEY" local="ENUM_KEY"/>
         </foreign-key>
-		<index name="KSEM_ENUM_VAL_T_I1">
-			<index-column name="ENUM_KEY"/>
-		</index>
+        <index name="KSEM_ENUM_VAL_T_I1">
+            <index-column name="ENUM_KEY"/>
+        </index>
     </table>
     <table name="KSLO_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3645,9 +3645,9 @@
         <foreign-key foreignTable="KSLO_LO" name="KSLO_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLO_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLO_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLO_LO">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3664,24 +3664,24 @@
         <column name="LO_REPO_ID" size="255" type="VARCHAR"/>
         <column name="LOTYPE_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="KSLO_LO_FK1">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
-		<index name="KSLO_LO_I1">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
         <foreign-key foreignTable="KSLO_LO_TYPE" name="KSLO_LO_FK2">
             <reference foreign="ID" local="LOTYPE_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_I2">
-			<index-column name="LOTYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="KSLO_LO_FK1">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="KSLO_LO_REPOSITORY" name="KSLO_LO_FK3">
             <reference foreign="ID" local="LO_REPO_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_I3">
-			<index-column name="LO_REPO_ID"/>
-		</index>
+        <index name="KSLO_LO_I1">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSLO_LO_I2">
+            <index-column name="LOTYPE_ID"/>
+        </index>
+        <index name="KSLO_LO_I3">
+            <index-column name="LO_REPO_ID"/>
+        </index>
     </table>
     <table name="KSLO_LO_ALLOWED_RELTN_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3715,21 +3715,21 @@
         <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="KSLO_LO_CATEGORY_FK1">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_CATEGORY_I1">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
-        <foreign-key foreignTable="KSLO_LO_REPOSITORY" name="KSLO_LO_CATEGORY_FK2">
-            <reference foreign="ID" local="LO_REPO_ID"/>
-        </foreign-key>
-		<index name="KSLO_LO_CATEGORY_I2">
-			<index-column name="LO_REPO_ID"/>
-		</index>
         <foreign-key foreignTable="KSLO_LO_CATEGORY_TYPE" name="KSLO_LO_CATEGORY_FK3">
             <reference foreign="ID" local="LO_CATEGORY_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_CATEGORY_I3">
-			<index-column name="LO_CATEGORY_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLO_LO_REPOSITORY" name="KSLO_LO_CATEGORY_FK2">
+            <reference foreign="ID" local="LO_REPO_ID"/>
+        </foreign-key>
+        <index name="KSLO_LO_CATEGORY_I1">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSLO_LO_CATEGORY_I2">
+            <index-column name="LO_REPO_ID"/>
+        </index>
+        <index name="KSLO_LO_CATEGORY_I3">
+            <index-column name="LO_CATEGORY_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLO_LO_CATEGORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3741,9 +3741,9 @@
         <foreign-key foreignTable="KSLO_LO_CATEGORY" name="KSLO_LO_CATEGORY_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLO_LO_CATEGORY_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLO_LO_CATEGORY_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLO_LO_CATEGORY_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3766,9 +3766,9 @@
         <foreign-key foreignTable="KSLO_LO_CATEGORY_TYPE" name="KSLO_LO_CATEGORY_TYPE_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLO_LO_CATEGORY_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLO_LO_CATEGORY_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLO_LO_JN_LOCATEGORY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3779,19 +3779,19 @@
         <foreign-key foreignTable="KSLO_LO_CATEGORY" name="KSLO_LO_JN_LOCATEGORY_FK1">
             <reference foreign="ID" local="LOCATEGORY_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_JN_LOCATEGORY_I1">
-			<index-column name="LOCATEGORY_ID"/>
-		</index>
         <foreign-key foreignTable="KSLO_LO" name="KSLO_LO_JN_LOCATEGORY_FK2">
             <reference foreign="ID" local="LO_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_JN_LOCATEGORY_I2">
-			<index-column name="LO_ID"/>
-		</index>
         <unique name="SYS_C0011301">
             <unique-column name="LO_ID"/>
             <unique-column name="LOCATEGORY_ID"/>
         </unique>
+        <index name="KSLO_LO_JN_LOCATEGORY_I1">
+            <index-column name="LOCATEGORY_ID"/>
+        </index>
+        <index name="KSLO_LO_JN_LOCATEGORY_I2">
+            <index-column name="LO_ID"/>
+        </index>
     </table>
     <table name="KSLO_LO_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3807,24 +3807,24 @@
         <column name="LO_LO_RELATION_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="RELATED_LO_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLO_LO_RELTN_TYPE" name="KSLO_LO_RELTN_FK1">
-            <reference foreign="ID" local="LO_LO_RELATION_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSLO_LO_RELTN_I1">
-			<index-column name="LO_LO_RELATION_TYPE_ID"/>
-		</index>
-        <foreign-key foreignTable="KSLO_LO" name="KSLO_LO_RELTN_FK2">
-            <reference foreign="ID" local="RELATED_LO_ID"/>
-        </foreign-key>
-		<index name="KSLO_LO_RELTN_I2">
-			<index-column name="RELATED_LO_ID"/>
-		</index>
         <foreign-key foreignTable="KSLO_LO" name="KSLO_LO_RELTN_FK3">
             <reference foreign="ID" local="LO_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_RELTN_I3">
-			<index-column name="LO_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLO_LO_RELTN_TYPE" name="KSLO_LO_RELTN_FK1">
+            <reference foreign="ID" local="LO_LO_RELATION_TYPE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLO_LO" name="KSLO_LO_RELTN_FK2">
+            <reference foreign="ID" local="RELATED_LO_ID"/>
+        </foreign-key>
+        <index name="KSLO_LO_RELTN_I1">
+            <index-column name="LO_LO_RELATION_TYPE_ID"/>
+        </index>
+        <index name="KSLO_LO_RELTN_I2">
+            <index-column name="RELATED_LO_ID"/>
+        </index>
+        <index name="KSLO_LO_RELTN_I3">
+            <index-column name="LO_ID"/>
+        </index>
     </table>
     <table name="KSLO_LO_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3836,9 +3836,9 @@
         <foreign-key foreignTable="KSLO_LO_RELTN" name="KSLO_LO_RELTN_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLO_LO_RELTN_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLO_LO_RELTN_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLO_LO_RELTN_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3863,9 +3863,9 @@
         <foreign-key foreignTable="KSLO_LO_RELTN_TYPE" name="KSLO_LO_RELTN_TYPE_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLO_LO_RELTN_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLO_LO_RELTN_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLO_LO_REPOSITORY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3883,15 +3883,15 @@
         <foreign-key foreignTable="KSLO_LO" name="KSLO_LO_REPOSITORY_FK1">
             <reference foreign="ID" local="LO_ROOT_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_REPOSITORY_I1">
-			<index-column name="LO_ROOT_ID"/>
-		</index>
         <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="KSLO_LO_REPOSITORY_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLO_LO_REPOSITORY_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <index name="KSLO_LO_REPOSITORY_I1">
+            <index-column name="LO_ROOT_ID"/>
+        </index>
+        <index name="KSLO_LO_REPOSITORY_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSLO_LO_REPOSITORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3903,9 +3903,9 @@
         <foreign-key foreignTable="KSLO_LO_REPOSITORY" name="KSLO_LO_REPOSITORY_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLO_LO_REPOSITORY_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLO_LO_REPOSITORY_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLO_LO_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3928,9 +3928,9 @@
         <foreign-key foreignTable="KSLO_LO_TYPE" name="KSLO_LO_TYPE_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLO_LO_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLO_LO_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLO_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3953,18 +3953,18 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLR_RESCOMP_TYPE" name="KSLR_RESCOMP_FK1">
-            <reference foreign="TYPE_KEY" local="TYPE"/>
-        </foreign-key>
-		<index name="KSLR_RESCOMP_I1">
-			<index-column name="TYPE"/>
-		</index>
         <foreign-key foreignTable="KSLR_RICH_TEXT_T" name="KSLR_RESCOMP_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLR_RESCOMP_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLR_RESCOMP_TYPE" name="KSLR_RESCOMP_FK1">
+            <reference foreign="TYPE_KEY" local="TYPE"/>
+        </foreign-key>
+        <index name="KSLR_RESCOMP_I1">
+            <index-column name="TYPE"/>
+        </index>
+        <index name="KSLR_RESCOMP_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSLR_RESCOMP_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -3976,9 +3976,9 @@
         <foreign-key foreignTable="KSLR_RESCOMP" name="KSLR_RESCOMP_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLR_RESCOMP_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLR_RESCOMP_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLR_RESCOMP_JN_RESVALUE">
         <column name="COMPONENT_ID" required="true" size="255" type="VARCHAR"/>
@@ -4003,9 +4003,9 @@
         <foreign-key foreignTable="KSLR_RESCOMP_TYPE" name="KSLR_RESCOMP_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLR_RESCOMP_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLR_RESCOMP_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLR_RESULT_VALUE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4016,9 +4016,9 @@
         <foreign-key foreignTable="KSLR_RESCOMP" name="KSLR_RESULT_VALUE_FK1">
             <reference foreign="ID" local="RSLT_COMP_ID"/>
         </foreign-key>
-		<index name="KSLR_RESULT_VALUE_I1">
-			<index-column name="RSLT_COMP_ID"/>
-		</index>
+        <index name="KSLR_RESULT_VALUE_I1">
+            <index-column name="RSLT_COMP_ID"/>
+        </index>
     </table>
     <table name="KSLR_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4042,9 +4042,9 @@
         <foreign-key foreignTable="KSLR_RICH_TEXT_T" name="KSLR_SCALE_FK1">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLR_SCALE_I1">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <index name="KSLR_SCALE_I1">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSLR_SCALE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4056,9 +4056,9 @@
         <foreign-key foreignTable="KSLR_SCALE" name="KSLR_SCALE_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLR_SCALE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLR_SCALE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4102,43 +4102,43 @@
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="KSLU_CLU_FK1">
             <reference foreign="ID" local="PRI_INSTR_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_I1">
-			<index-column name="PRI_INSTR_ID"/>
-		</index>
-        <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_CLU_FK2">
-            <reference foreign="TYPE_KEY" local="LUTYPE_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_I2">
-			<index-column name="LUTYPE_ID"/>
-		</index>
-        <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="KSLU_CLU_FK3">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_I3">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_FEE" name="KSLU_CLU_FK4">
             <reference foreign="ID" local="FEE_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_I4">
-			<index-column name="FEE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_IDENT" name="KSLU_CLU_FK5">
             <reference foreign="ID" local="OFFIC_CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_I5">
-			<index-column name="OFFIC_CLU_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_CLU_FK2">
+            <reference foreign="TYPE_KEY" local="LUTYPE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="KSLU_CLU_FK3">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="KSLU_CLU_ACCT" name="KSLU_CLU_FK6">
             <reference foreign="ID" local="ACCT_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_I6">
-			<index-column name="ACCT_ID"/>
-		</index>
         <unique name="SYS_C0011370">
             <unique-column name="VER_IND_ID"/>
             <unique-column name="SEQ_NUM"/>
         </unique>
+        <index name="KSLU_CLU_I1">
+            <index-column name="PRI_INSTR_ID"/>
+        </index>
+        <index name="KSLU_CLU_I2">
+            <index-column name="LUTYPE_ID"/>
+        </index>
+        <index name="KSLU_CLU_I3">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSLU_CLU_I4">
+            <index-column name="FEE_ID"/>
+        </index>
+        <index name="KSLU_CLU_I5">
+            <index-column name="OFFIC_CLU_ID"/>
+        </index>
+        <index name="KSLU_CLU_I6">
+            <index-column name="ACCT_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLUCLU_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4158,21 +4158,21 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLUCLU_RELTN_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLUCLU_RELTN_I1">
-			<index-column name="CLU_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLUCLU_RELTN_FK2">
             <reference foreign="ID" local="RELATED_CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLUCLU_RELTN_I2">
-			<index-column name="RELATED_CLU_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="KSLU_CLUCLU_RELTN_FK3">
             <reference foreign="ID" local="LU_RELTN_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_CLUCLU_RELTN_I3">
-			<index-column name="LU_RELTN_TYPE_ID"/>
-		</index>
+        <index name="KSLU_CLUCLU_RELTN_I1">
+            <index-column name="CLU_ID"/>
+        </index>
+        <index name="KSLU_CLUCLU_RELTN_I2">
+            <index-column name="RELATED_CLU_ID"/>
+        </index>
+        <index name="KSLU_CLUCLU_RELTN_I3">
+            <index-column name="LU_RELTN_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLUCLU_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4184,9 +4184,9 @@
         <foreign-key foreignTable="KSLU_CLUCLU_RELTN" name="KSLU_CLUCLU_RELTN_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLUCLU_RELTN_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLUCLU_RELTN_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLURES_JN_RESOPT">
         <column name="CLU_RES_ID" required="true" size="255" type="VARCHAR"/>
@@ -4194,15 +4194,15 @@
         <foreign-key foreignTable="KSLU_CLU_RSLT" name="KSLU_CLURES_JN_RESOPT_FK1">
             <reference foreign="ID" local="CLU_RES_ID"/>
         </foreign-key>
-		<index name="KSLU_CLURES_JN_RESOPT_I1">
-			<index-column name="CLU_RES_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_RSLT_OPT" name="KSLU_CLURES_JN_RESOPT_FK2">
             <reference foreign="ID" local="RES_OPT_ID"/>
         </foreign-key>
         <unique name="SYS_C0011378">
             <unique-column name="RES_OPT_ID"/>
         </unique>
+        <index name="KSLU_CLURES_JN_RESOPT_I1">
+            <index-column name="CLU_RES_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_ACCRED">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4226,9 +4226,9 @@
         <foreign-key foreignTable="KSLU_CLU_ACCRED" name="KSLU_CLU_ACCRED_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_ACCRED_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_ACCRED_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_ACCT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4245,25 +4245,25 @@
         <foreign-key foreignTable="KSLU_CLU_ACCT" name="KSLU_CLU_ACCT_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_ACCT_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_ACCT_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_ACCT_JN_AFFIL_ORG">
         <column name="CLU_ACCT_ID" required="true" size="255" type="VARCHAR"/>
         <column name="AFFIL_ORG_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_AFFIL_ORG" name="KSLU_CLU_ACCT_JN_AFFIL_ORG_FK1">
-            <reference foreign="ID" local="AFFIL_ORG_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_ACCT_JN_AFFIL_ORG_I1">
-			<index-column name="AFFIL_ORG_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_ACCT" name="KSLU_CLU_ACCT_JN_AFFIL_ORG_FK2">
             <reference foreign="ID" local="CLU_ACCT_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_ACCT_JN_AFFIL_ORG_I2">
-			<index-column name="CLU_ACCT_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_CLU_AFFIL_ORG" name="KSLU_CLU_ACCT_JN_AFFIL_ORG_FK1">
+            <reference foreign="ID" local="AFFIL_ORG_ID"/>
+        </foreign-key>
+        <index name="KSLU_CLU_ACCT_JN_AFFIL_ORG_I1">
+            <index-column name="AFFIL_ORG_ID"/>
+        </index>
+        <index name="KSLU_CLU_ACCT_JN_AFFIL_ORG_I2">
+            <index-column name="CLU_ACCT_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_ADMIN_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4276,9 +4276,9 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_ADMIN_ORG_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_ADMIN_ORG_I1">
-			<index-column name="CLU_ID"/>
-		</index>
+        <index name="KSLU_CLU_ADMIN_ORG_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_ADMIN_ORG_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4290,9 +4290,9 @@
         <foreign-key foreignTable="KSLU_CLU_ADMIN_ORG" name="KSLU_CLU_ADMIN_ORG_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_ADMIN_ORG_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_ADMIN_ORG_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_AFFIL_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4312,9 +4312,9 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_ATP_TYPE_KEY_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_ATP_TYPE_KEY_I1">
-			<index-column name="CLU_ID"/>
-		</index>
+        <index name="KSLU_CLU_ATP_TYPE_KEY_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4326,9 +4326,9 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_CR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4362,25 +4362,25 @@
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="KSLU_CLU_FEE_FK1">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_FEE_I1">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <index name="KSLU_CLU_FEE_I1">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_FEEREC_JN_AFFIL_ORG">
         <column name="CLU_FEE_REC_ID" required="true" size="255" type="VARCHAR"/>
         <column name="AFFIL_ORG_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_AFFIL_ORG" name="KSLU_CLU_FEEREC_JN_AFF_ORG_FK1">
-            <reference foreign="ID" local="AFFIL_ORG_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_FEEREC_JN_AFF_ORG_I1">
-			<index-column name="AFFIL_ORG_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="KSLU_CLU_FEEREC_JN_AFF_ORG_FK2">
             <reference foreign="ID" local="CLU_FEE_REC_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_FEEREC_JN_AFF_ORG_I2">
-			<index-column name="CLU_FEE_REC_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_CLU_AFFIL_ORG" name="KSLU_CLU_FEEREC_JN_AFF_ORG_FK1">
+            <reference foreign="ID" local="AFFIL_ORG_ID"/>
+        </foreign-key>
+        <index name="KSLU_CLU_FEEREC_JN_AFF_ORG_I1">
+            <index-column name="AFFIL_ORG_ID"/>
+        </index>
+        <index name="KSLU_CLU_FEEREC_JN_AFF_ORG_I2">
+            <index-column name="CLU_FEE_REC_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_FEE_AMOUNT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4392,9 +4392,9 @@
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="KSLU_CLU_FEE_AMOUNT_FK1">
             <reference foreign="ID" local="CLUE_FEE_REC_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_FEE_AMOUNT_I1">
-			<index-column name="CLUE_FEE_REC_ID"/>
-		</index>
+        <index name="KSLU_CLU_FEE_AMOUNT_I1">
+            <index-column name="CLUE_FEE_REC_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_FEE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4406,9 +4406,9 @@
         <foreign-key foreignTable="KSLU_CLU_FEE" name="KSLU_CLU_FEE_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_FEE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_FEE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_FEE_JN_CLU_FEE_REC">
         <column name="CLU_FEE_ID" required="true" size="255" type="VARCHAR"/>
@@ -4416,15 +4416,15 @@
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="KSLU_CLUFEE_JN_CLUFEE_REC_FK1">
             <reference foreign="ID" local="CLU_FEE_REC_ID"/>
         </foreign-key>
-		<index name="KSLU_CLUFEE_JN_CLUFEE_REC_I1">
-			<index-column name="CLU_FEE_REC_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_FEE" name="KSLU_CLUFEE_JN_CLUFEE_REC_FK2">
             <reference foreign="ID" local="CLU_FEE_ID"/>
         </foreign-key>
-		<index name="KSLU_CLUFEE_JN_CLUFEE_REC_I2">
-			<index-column name="CLU_FEE_ID"/>
-		</index>
+        <index name="KSLU_CLUFEE_JN_CLUFEE_REC_I1">
+            <index-column name="CLU_FEE_REC_ID"/>
+        </index>
+        <index name="KSLU_CLUFEE_JN_CLUFEE_REC_I2">
+            <index-column name="CLU_FEE_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_FEE_REC">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4440,9 +4440,9 @@
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="KSLU_CLU_FEE_REC_FK1">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_FEE_REC_I1">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <index name="KSLU_CLU_FEE_REC_I1">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_FEE_REC_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4454,9 +4454,9 @@
         <foreign-key foreignTable="KSLU_CLU_FEE_REC" name="KSLU_CLU_FEE_REC_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_FEE_REC_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_FEE_REC_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_IDENT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4490,25 +4490,25 @@
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="KSLU_CLU_INSTR_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_INSTR_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_INSTR_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_JN_ACCRED">
         <column name="CLU_ID" required="true" size="255" type="VARCHAR"/>
         <column name="CLU_ACCRED_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_ACCRED_FK1">
-            <reference foreign="ID" local="CLU_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_JN_ACCRED_I1">
-			<index-column name="CLU_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_ACCRED" name="KSLU_CLU_JN_ACCRED_FK2">
             <reference foreign="ID" local="CLU_ACCRED_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_ACCRED_FK1">
+            <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
         <unique name="SYS_C0011436">
             <unique-column name="CLU_ACCRED_ID"/>
         </unique>
+        <index name="KSLU_CLU_JN_ACCRED_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_JN_CAMP_LOC">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4519,9 +4519,9 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_CAMP_LOC_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_JN_CAMP_LOC_I1">
-			<index-column name="CLU_ID"/>
-		</index>
+        <index name="KSLU_CLU_JN_CAMP_LOC_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_JN_CLU_IDENT">
         <column name="CLU_ID" required="true" size="255" type="VARCHAR"/>
@@ -4532,28 +4532,28 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_CLU_IDENT_FK2">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_JN_CLU_IDENT_I2">
-			<index-column name="CLU_ID"/>
-		</index>
         <unique name="SYS_C0011441">
             <unique-column name="ALT_CLU_ID"/>
         </unique>
+        <index name="KSLU_CLU_JN_CLU_IDENT_I2">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_JN_CLU_INSTR">
         <column name="CLU_ID" required="true" size="255" type="VARCHAR"/>
         <column name="CLU_INSTR_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_CLU_INSTR_FK1">
-            <reference foreign="ID" local="CLU_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_JN_CLU_INSTR_I1">
-			<index-column name="CLU_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_INSTR" name="KSLU_CLU_JN_CLU_INSTR_FK2">
             <reference foreign="ID" local="CLU_INSTR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_CLU_INSTR_FK1">
+            <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
         <unique name="SYS_C0011444">
             <unique-column name="CLU_INSTR_ID"/>
         </unique>
+        <index name="KSLU_CLU_JN_CLU_INSTR_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_JN_SUBJ_ORG">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4564,9 +4564,9 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_SUBJ_ORG_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_JN_SUBJ_ORG_I1">
-			<index-column name="CLU_ID"/>
-		</index>
+        <index name="KSLU_CLU_JN_SUBJ_ORG_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_LO_ALOW_RELTN_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4581,18 +4581,18 @@
         <column name="CLULO_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LU_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_CLU_LO_ALOW_REL_TYPE_FK1">
-            <reference foreign="TYPE_KEY" local="LU_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_LO_ALOW_REL_TYPE_I1">
-			<index-column name="LU_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_LO_RELTN_TYPE" name="KSLU_CLU_LO_ALOW_REL_TYPE_FK2">
             <reference foreign="TYPE_KEY" local="CLULO_RELTN_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_LO_ALOW_REL_TYPE_I2">
-			<index-column name="CLULO_RELTN_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_CLU_LO_ALOW_REL_TYPE_FK1">
+            <reference foreign="TYPE_KEY" local="LU_TYPE_ID"/>
+        </foreign-key>
+        <index name="KSLU_CLU_LO_ALOW_REL_TYPE_I1">
+            <index-column name="LU_TYPE_ID"/>
+        </index>
+        <index name="KSLU_CLU_LO_ALOW_REL_TYPE_I2">
+            <index-column name="CLULO_RELTN_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_LO_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4608,12 +4608,18 @@
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="CLU_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KSLU_CLU_LO_RELTN_TYPE" name="KSLU_CLU_LO_RELTN_FK2">
+            <reference foreign="TYPE_KEY" local="TYPE"/>
+        </foreign-key>
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_LO_RELTN_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_LO_RELTN_I1">
-			<index-column name="CLU_ID"/>
-		</index>
+        <index name="KSLU_CLU_LO_RELTN_I1">
+            <index-column name="CLU_ID"/>
+        </index>
+        <index name="KSLU_CLU_LO_RELTN_I2">
+            <index-column name="TYPE"/>
+        </index>
     </table>
     <table name="KSLU_CLU_LO_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4625,9 +4631,9 @@
         <foreign-key foreignTable="KSLU_CLU_LO_RELTN" name="KSLU_CLU_LO_RELTN_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_LO_RELTN_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_LO_RELTN_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_LO_RELTN_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4648,9 +4654,9 @@
         <foreign-key foreignTable="KSLU_CLU_LO_RELTN_TYPE" name="KSLU_CLU_LO_REL_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_LO_REL_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_LO_REL_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_PUBL">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4670,15 +4676,15 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_PUBL_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_PUBL_I1">
-			<index-column name="CLU_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_PUBL_TYPE" name="KSLU_CLU_PUBL_FK2">
             <reference foreign="TYPE_KEY" local="CLU_PUB_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_PUBL_I2">
-			<index-column name="CLU_PUB_TYPE_ID"/>
-		</index>
+        <index name="KSLU_CLU_PUBL_I1">
+            <index-column name="CLU_ID"/>
+        </index>
+        <index name="KSLU_CLU_PUBL_I2">
+            <index-column name="CLU_PUB_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_PUBL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4690,9 +4696,9 @@
         <foreign-key foreignTable="KSLU_CLU_PUBL" name="KSLU_CLU_PUBL_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_PUBL_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_PUBL_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_PUBL_JN_CLU_INSTR">
         <column name="CLU_PUBL_ID" required="true" size="255" type="VARCHAR"/>
@@ -4720,9 +4726,9 @@
         <foreign-key foreignTable="KSLU_CLU_PUBL_TYPE" name="KSLU_CLU_PUBL_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_PUBL_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_PUBL_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_PUBL_VARI">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4734,13 +4740,13 @@
         <foreign-key foreignTable="KSLU_CLU_PUBL" name="KSLU_CLU_PUBL_VARI_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_PUBL_VARI_I1">
-			<index-column name="OWNER"/>
-		</index>
         <unique name="SYS_C0011470">
             <unique-column name="VARI_KEY"/>
             <unique-column name="OWNER"/>
         </unique>
+        <index name="KSLU_CLU_PUBL_VARI_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_PUB_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4759,9 +4765,9 @@
         <foreign-key foreignTable="KSLU_CLU_PUB_TYPE" name="KSLU_CLU_PUB_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_PUB_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_PUB_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_RESULT_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4773,9 +4779,9 @@
         <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="KSLU_CLU_RESULT_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_RESULT_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_RESULT_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_RSLT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4794,21 +4800,21 @@
         <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="KSLU_CLU_RSLT_FK1">
             <reference foreign="TYPE_KEY" local="TYPE_KEY_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_RSLT_I1">
-			<index-column name="TYPE_KEY_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_RSLT_FK2">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_RSLT_I2">
-			<index-column name="CLU_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="KSLU_CLU_RSLT_FK3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_RSLT_I3">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <index name="KSLU_CLU_RSLT_I1">
+            <index-column name="TYPE_KEY_ID"/>
+        </index>
+        <index name="KSLU_CLU_RSLT_I2">
+            <index-column name="CLU_ID"/>
+        </index>
+        <index name="KSLU_CLU_RSLT_I3">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_RSLT_LU_ALOW_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4822,18 +4828,18 @@
         <column name="CLU_RSLT_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LU_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="KSLU_CLU_RSLT_LU_ALOW_TYPE_FK1">
-            <reference foreign="TYPE_KEY" local="CLU_RSLT_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_RSLT_LU_ALOW_TYPE_I1">
-			<index-column name="CLU_RSLT_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_CLU_RSLT_LU_ALOW_TYPE_FK2">
             <reference foreign="TYPE_KEY" local="LU_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_RSLT_LU_ALOW_TYPE_I2">
-			<index-column name="LU_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_CLU_RSLT_TYP" name="KSLU_CLU_RSLT_LU_ALOW_TYPE_FK1">
+            <reference foreign="TYPE_KEY" local="CLU_RSLT_TYPE_ID"/>
+        </foreign-key>
+        <index name="KSLU_CLU_RSLT_LU_ALOW_TYPE_I1">
+            <index-column name="CLU_RSLT_TYPE_ID"/>
+        </index>
+        <index name="KSLU_CLU_RSLT_LU_ALOW_TYPE_I2">
+            <index-column name="LU_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_RSLT_TYP">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4865,15 +4871,15 @@
         <foreign-key foreignTable="KSLU_MEMSHIP" name="KSLU_CLU_SET_FK1">
             <reference foreign="ID" local="MEM_QUERY_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_SET_I1">
-			<index-column name="MEM_QUERY_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="KSLU_CLU_SET_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_SET_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <index name="KSLU_CLU_SET_I1">
+            <index-column name="MEM_QUERY_ID"/>
+        </index>
+        <index name="KSLU_CLU_SET_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_SET_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4885,25 +4891,25 @@
         <foreign-key foreignTable="KSLU_CLU_SET" name="KSLU_CLU_SET_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_SET_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_SET_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_CLU_SET_JN_CLU">
         <column name="CLU_SET_ID" required="true" size="255" type="VARCHAR"/>
         <column name="CLU_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU_SET" name="KSLU_CLU_SET_JN_CLU_FK1">
-            <reference foreign="ID" local="CLU_SET_ID"/>
-        </foreign-key>
-		<index name="KSLU_CLU_SET_JN_CLU_I1">
-			<index-column name="CLU_SET_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_SET_JN_CLU_FK2">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_SET_JN_CLU_I2">
-			<index-column name="CLU_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_CLU_SET" name="KSLU_CLU_SET_JN_CLU_FK1">
+            <reference foreign="ID" local="CLU_SET_ID"/>
+        </foreign-key>
+        <index name="KSLU_CLU_SET_JN_CLU_I1">
+            <index-column name="CLU_SET_ID"/>
+        </index>
+        <index name="KSLU_CLU_SET_JN_CLU_I2">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_SET_JN_CLU_SET">
         <column name="CLU_SET_PARENT_ID" required="true" size="255" type="VARCHAR"/>
@@ -4911,15 +4917,15 @@
         <foreign-key foreignTable="KSLU_CLU_SET" name="KSLU_CLU_SET_JN_CLU_SET_FK1">
             <reference foreign="ID" local="CLU_SET_PARENT_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_SET_JN_CLU_SET_I1">
-			<index-column name="CLU_SET_PARENT_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_CLU_SET" name="KSLU_CLU_SET_JN_CLU_SET_FK2">
             <reference foreign="ID" local="CLU_SET_CHILD_ID"/>
         </foreign-key>
-		<index name="KSLU_CLU_SET_JN_CLU_SET_I2">
-			<index-column name="CLU_SET_CHILD_ID"/>
-		</index>
+        <index name="KSLU_CLU_SET_JN_CLU_SET_I1">
+            <index-column name="CLU_SET_PARENT_ID"/>
+        </index>
+        <index name="KSLU_CLU_SET_JN_CLU_SET_I2">
+            <index-column name="CLU_SET_CHILD_ID"/>
+        </index>
     </table>
     <table name="KSLU_CLU_SET_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4940,9 +4946,9 @@
         <foreign-key foreignTable="KSLU_CLU_SET_TYPE" name="KSLU_CLU_SET_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_CLU_SET_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_CLU_SET_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_DLVMTHD_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4963,9 +4969,9 @@
         <foreign-key foreignTable="KSLU_DLVMTHD_TYPE" name="KSLU_DLVMTHD_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_DLVMTHD_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_DLVMTHD_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_INSTFRMT_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4986,9 +4992,9 @@
         <foreign-key foreignTable="KSLU_INSTFRMT_TYPE" name="KSLU_INSTFRMT_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_INSTFRMT_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_INSTFRMT_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_LUI">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5008,9 +5014,9 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_LUI_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_LUI_I1">
-			<index-column name="CLU_ID"/>
-		</index>
+        <index name="KSLU_LUI_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_LUILUI_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5026,24 +5032,24 @@
         <column name="LUI_ID" size="255" type="VARCHAR"/>
         <column name="RELATED_LUI_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LUI" name="KSLU_LUILUI_RELTN_FK1">
-            <reference foreign="ID" local="RELATED_LUI_ID"/>
-        </foreign-key>
-		<index name="KSLU_LUILUI_RELTN_I1">
-			<index-column name="RELATED_LUI_ID"/>
-		</index>
-        <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="KSLU_LUILUI_RELTN_FK2">
-            <reference foreign="ID" local="LULU_RELTN_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSLU_LUILUI_RELTN_I2">
-			<index-column name="LULU_RELTN_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_LUI" name="KSLU_LUILUI_RELTN_FK3">
             <reference foreign="ID" local="LUI_ID"/>
         </foreign-key>
-		<index name="KSLU_LUILUI_RELTN_I3">
-			<index-column name="LUI_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="KSLU_LUILUI_RELTN_FK2">
+            <reference foreign="ID" local="LULU_RELTN_TYPE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_LUI" name="KSLU_LUILUI_RELTN_FK1">
+            <reference foreign="ID" local="RELATED_LUI_ID"/>
+        </foreign-key>
+        <index name="KSLU_LUILUI_RELTN_I1">
+            <index-column name="RELATED_LUI_ID"/>
+        </index>
+        <index name="KSLU_LUILUI_RELTN_I2">
+            <index-column name="LULU_RELTN_TYPE_ID"/>
+        </index>
+        <index name="KSLU_LUILUI_RELTN_I3">
+            <index-column name="LUI_ID"/>
+        </index>
     </table>
     <table name="KSLU_LUILUI_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5055,9 +5061,9 @@
         <foreign-key foreignTable="KSLU_LUILUI_RELTN" name="KSLU_LUILUI_RELTN_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_LUILUI_RELTN_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_LUILUI_RELTN_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_LUI_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5069,9 +5075,9 @@
         <foreign-key foreignTable="KSLU_LUI" name="KSLU_LUI_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_LUI_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_LUI_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_LULU_RELTN_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5098,25 +5104,25 @@
         <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="KSLU_LULU_RELTN_TYPE_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_LULU_RELTN_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_LULU_RELTN_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_LULU_RELTN_TYPE_JN_LU_TYP">
         <column name="LULU_RELTN_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="LU_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="KSLU_LULU_RELTYP_JN_LUTYP_FK1">
-            <reference foreign="ID" local="LULU_RELTN_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSLU_LULU_RELTYP_JN_LUTYP_I1">
-			<index-column name="LULU_RELTN_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_LULU_RELTYP_JN_LUTYP_FK2">
             <reference foreign="TYPE_KEY" local="LU_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_LULU_RELTYP_JN_LUTYP_I2">
-			<index-column name="LU_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="KSLU_LULU_RELTYP_JN_LUTYP_FK1">
+            <reference foreign="ID" local="LULU_RELTN_TYPE_ID"/>
+        </foreign-key>
+        <index name="KSLU_LULU_RELTYP_JN_LUTYP_I1">
+            <index-column name="LULU_RELTN_TYPE_ID"/>
+        </index>
+        <index name="KSLU_LULU_RELTYP_JN_LUTYP_I2">
+            <index-column name="LU_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLU_LUTYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5148,9 +5154,9 @@
         <foreign-key foreignTable="KSLU_LU_CD_TYPE" name="KSLU_LU_CD_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_LU_CD_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_LU_CD_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_LU_CODE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5167,9 +5173,9 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_LU_CODE_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_LU_CODE_I1">
-			<index-column name="CLU_ID"/>
-		</index>
+        <index name="KSLU_LU_CODE_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_LU_CODE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5181,9 +5187,9 @@
         <foreign-key foreignTable="KSLU_LU_CODE" name="KSLU_LU_CODE_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_LU_CODE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_LU_CODE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_LU_LU_ALOW_RELTN_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5198,24 +5204,24 @@
         <column name="LU_REL_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LU_LU_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_LU_LU_ALOW_RELTN_TYPE_FK1">
-            <reference foreign="TYPE_KEY" local="LU_REL_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSLU_LU_LU_ALOW_RELTN_TYPE_I1">
-			<index-column name="LU_REL_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_LULU_RELTN_TYPE" name="KSLU_LU_LU_ALOW_RELTN_TYPE_FK2">
             <reference foreign="ID" local="LU_LU_RELTN_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_LU_LU_ALOW_RELTN_TYPE_I2">
-			<index-column name="LU_LU_RELTN_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_LU_LU_ALOW_RELTN_TYPE_FK3">
             <reference foreign="TYPE_KEY" local="LU_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_LU_LU_ALOW_RELTN_TYPE_I3">
-			<index-column name="LU_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_LU_LU_ALOW_RELTN_TYPE_FK1">
+            <reference foreign="TYPE_KEY" local="LU_REL_TYPE_ID"/>
+        </foreign-key>
+        <index name="KSLU_LU_LU_ALOW_RELTN_TYPE_I1">
+            <index-column name="LU_REL_TYPE_ID"/>
+        </index>
+        <index name="KSLU_LU_LU_ALOW_RELTN_TYPE_I2">
+            <index-column name="LU_LU_RELTN_TYPE_ID"/>
+        </index>
+        <index name="KSLU_LU_LU_ALOW_RELTN_TYPE_I3">
+            <index-column name="LU_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLU_LU_PUBL_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5236,9 +5242,9 @@
         <foreign-key foreignTable="KSLU_LU_PUBL_TYPE" name="KSLU_LU_PUBL_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_LU_PUBL_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_LU_PUBL_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_LU_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5250,9 +5256,9 @@
         <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_LU_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_LU_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_LU_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_MEMSHIP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5263,18 +5269,18 @@
     <table name="KSLU_MEMSHIP_KSLU_SPARAM">
         <column name="KSLU_MEMSHIP_ID" required="true" size="255" type="VARCHAR"/>
         <column name="SEARCHPARAMETERS_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_MEMSHIP" name="KSLU_MEMSHIP_KSLU_SPARAM_FK1">
-            <reference foreign="ID" local="KSLU_MEMSHIP_ID"/>
-        </foreign-key>
-		<index name="KSLU_MEMSHIP_KSLU_SPARAM_I1">
-			<index-column name="KSLU_MEMSHIP_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_SPARAM" name="KSLU_MEMSHIP_KSLU_SPARAM_FK2">
             <reference foreign="ID" local="SEARCHPARAMETERS_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSLU_MEMSHIP" name="KSLU_MEMSHIP_KSLU_SPARAM_FK1">
+            <reference foreign="ID" local="KSLU_MEMSHIP_ID"/>
         </foreign-key>
         <unique name="SYS_C0011543">
             <unique-column name="SEARCHPARAMETERS_ID"/>
         </unique>
+        <index name="KSLU_MEMSHIP_KSLU_SPARAM_I1">
+            <index-column name="KSLU_MEMSHIP_ID"/>
+        </index>
     </table>
     <table name="KSLU_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5295,18 +5301,18 @@
         <column name="LU_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="CLU_RSLT_USAGE_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="KSLU_RSLTUSAGE_LU_ALOW_TYP_FK1">
-            <reference foreign="TYPE_KEY" local="CLU_RSLT_USAGE_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSLU_RSLTUSAGE_LU_ALOW_TYP_I1">
-			<index-column name="CLU_RSLT_USAGE_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_LUTYPE" name="KSLU_RSLTUSAGE_LU_ALOW_TYP_FK2">
             <reference foreign="TYPE_KEY" local="LU_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_RSLTUSAGE_LU_ALOW_TYP_I2">
-			<index-column name="LU_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="KSLU_RSLTUSAGE_LU_ALOW_TYP_FK1">
+            <reference foreign="TYPE_KEY" local="CLU_RSLT_USAGE_TYPE_ID"/>
+        </foreign-key>
+        <index name="KSLU_RSLTUSAGE_LU_ALOW_TYP_I1">
+            <index-column name="CLU_RSLT_USAGE_TYPE_ID"/>
+        </index>
+        <index name="KSLU_RSLTUSAGE_LU_ALOW_TYP_I2">
+            <index-column name="LU_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLU_RSLT_COMP_USG_ALOW_TYPE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5323,9 +5329,9 @@
         <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="KSLU_RSLTCOMP_USG_ALOW_TYP_FK1">
             <reference foreign="TYPE_KEY" local="RSLT_USG_TYPE_ID"/>
         </foreign-key>
-		<index name="KSLU_RSLTCOMP_USG_ALOW_TYP_I1">
-			<index-column name="RSLT_USG_TYPE_ID"/>
-		</index>
+        <index name="KSLU_RSLTCOMP_USG_ALOW_TYP_I1">
+            <index-column name="RSLT_USG_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSLU_RSLT_OPT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5341,18 +5347,18 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="RES_USAGE_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="KSLU_RSLT_OPT_FK1">
-            <reference foreign="TYPE_KEY" local="RES_USAGE_ID"/>
-        </foreign-key>
-		<index name="KSLU_RSLT_OPT_I1">
-			<index-column name="RES_USAGE_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_RICH_TEXT_T" name="KSLU_RSLT_OPT_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSLU_RSLT_OPT_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="KSLU_RSLT_OPT_FK1">
+            <reference foreign="TYPE_KEY" local="RES_USAGE_ID"/>
+        </foreign-key>
+        <index name="KSLU_RSLT_OPT_I1">
+            <index-column name="RES_USAGE_ID"/>
+        </index>
+        <index name="KSLU_RSLT_OPT_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSLU_RSLT_USG_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5373,9 +5379,9 @@
         <foreign-key foreignTable="KSLU_RSLT_USG_TYPE" name="KSLU_RSLT_USG_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSLU_RSLT_USG_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSLU_RSLT_USG_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSLU_RSRC">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5386,13 +5392,13 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_RSRC_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-		<index name="KSLU_RSRC_I1">
-			<index-column name="CLU_ID"/>
-		</index>
         <unique name="SYS_C0011561">
             <unique-column name="RSRC_TYPE_ID"/>
             <unique-column name="CLU_ID"/>
         </unique>
+        <index name="KSLU_RSRC_I1">
+            <index-column name="CLU_ID"/>
+        </index>
     </table>
     <table name="KSLU_SPARAM">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5406,15 +5412,15 @@
         <foreign-key foreignTable="KSLU_SPARAM" name="KSLU_SPARAM_KSLU_SPVALUE_FK1">
             <reference foreign="ID" local="KSLU_SPARAM_ID"/>
         </foreign-key>
-		<index name="KSLU_SPARAM_KSLU_SPVALUE_I1">
-			<index-column name="KSLU_SPARAM_ID"/>
-		</index>
         <foreign-key foreignTable="KSLU_SPVALUE" name="KSLU_SPARAM_KSLU_SPVALUE_FK2">
             <reference foreign="ID" local="VALUES_ID"/>
         </foreign-key>
         <unique name="SYS_C0011566">
             <unique-column name="VALUES_ID"/>
         </unique>
+        <index name="KSLU_SPARAM_KSLU_SPVALUE_I1">
+            <index-column name="KSLU_SPARAM_ID"/>
+        </index>
     </table>
     <table name="KSLU_SPVALUE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5450,9 +5456,9 @@
         <foreign-key foreignTable="KSOR_ORG_TYPE" name="KSOR_ORG_FK1">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
-		<index name="KSOR_ORG_I1">
-			<index-column name="TYPE"/>
-		</index>
+        <index name="KSOR_ORG_I1">
+            <index-column name="TYPE"/>
+        </index>
     </table>
     <table name="KSOR_ORG_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5464,9 +5470,9 @@
         <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSOR_ORG_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSOR_ORG_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSOR_ORG_HIRCHY">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5480,9 +5486,9 @@
         <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_HIRCHY_FK1">
             <reference foreign="ID" local="ROOT_ORG"/>
         </foreign-key>
-		<index name="KSOR_ORG_HIRCHY_I1">
-			<index-column name="ROOT_ORG"/>
-		</index>
+        <index name="KSOR_ORG_HIRCHY_I1">
+            <index-column name="ROOT_ORG"/>
+        </index>
     </table>
     <table name="KSOR_ORG_HIRCHY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5494,25 +5500,25 @@
         <foreign-key foreignTable="KSOR_ORG_HIRCHY" name="KSOR_ORG_HIRCHY_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSOR_ORG_HIRCHY_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSOR_ORG_HIRCHY_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSOR_ORG_HIRCHY_JN_ORG_TYPE">
         <column name="ORG_HIRCHY_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ORG_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSOR_ORG_HIRCHY" name="KSOR_ORG_HIRCHY_JN_ORG_TYP_FK1">
-            <reference foreign="ID" local="ORG_HIRCHY_ID"/>
-        </foreign-key>
-		<index name="KSOR_ORG_HIRCHY_JN_ORG_TYP_I1">
-			<index-column name="ORG_HIRCHY_ID"/>
-		</index>
         <foreign-key foreignTable="KSOR_ORG_TYPE" name="KSOR_ORG_HIRCHY_JN_ORG_TYP_FK2">
             <reference foreign="TYPE_KEY" local="ORG_TYPE_ID"/>
         </foreign-key>
-		<index name="KSOR_ORG_HIRCHY_JN_ORG_TYP_I2">
-			<index-column name="ORG_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSOR_ORG_HIRCHY" name="KSOR_ORG_HIRCHY_JN_ORG_TYP_FK1">
+            <reference foreign="ID" local="ORG_HIRCHY_ID"/>
+        </foreign-key>
+        <index name="KSOR_ORG_HIRCHY_JN_ORG_TYP_I1">
+            <index-column name="ORG_HIRCHY_ID"/>
+        </index>
+        <index name="KSOR_ORG_HIRCHY_JN_ORG_TYP_I2">
+            <index-column name="ORG_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSOR_ORG_JN_ORG_PERS_REL_TYPE">
         <column name="ORG_ID" required="true" size="255" type="VARCHAR"/>
@@ -5520,15 +5526,15 @@
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="KSOR_ORG_JN_ORG_PERREL_TYP_FK1">
             <reference foreign="TYPE_KEY" local="ORG_PERS_RELTN_TYPE_ID"/>
         </foreign-key>
-		<index name="KSOR_ORG_JN_ORG_PERREL_TYP_I1">
-			<index-column name="ORG_PERS_RELTN_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_JN_ORG_PERREL_TYP_FK2">
             <reference foreign="ID" local="ORG_ID"/>
         </foreign-key>
-		<index name="KSOR_ORG_JN_ORG_PERREL_TYP_I2">
-			<index-column name="ORG_ID"/>
-		</index>
+        <index name="KSOR_ORG_JN_ORG_PERREL_TYP_I1">
+            <index-column name="ORG_PERS_RELTN_TYPE_ID"/>
+        </index>
+        <index name="KSOR_ORG_JN_ORG_PERREL_TYP_I2">
+            <index-column name="ORG_ID"/>
+        </index>
     </table>
     <table name="KSOR_ORG_ORG_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5544,24 +5550,24 @@
         <column name="RELATED_ORG" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_ORG_RELTN_FK1">
-            <reference foreign="ID" local="ORG"/>
-        </foreign-key>
-		<index name="KSOR_ORG_ORG_RELTN_I1">
-			<index-column name="ORG"/>
-		</index>
         <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_ORG_RELTN_FK2">
             <reference foreign="ID" local="RELATED_ORG"/>
         </foreign-key>
-		<index name="KSOR_ORG_ORG_RELTN_I2">
-			<index-column name="RELATED_ORG"/>
-		</index>
+        <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_ORG_RELTN_FK1">
+            <reference foreign="ID" local="ORG"/>
+        </foreign-key>
         <foreign-key foreignTable="KSOR_ORG_ORG_RELTN_TYPE" name="KSOR_ORG_ORG_RELTN_FK3">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
-		<index name="KSOR_ORG_ORG_RELTN_I3">
-			<index-column name="TYPE"/>
-		</index>
+        <index name="KSOR_ORG_ORG_RELTN_I1">
+            <index-column name="ORG"/>
+        </index>
+        <index name="KSOR_ORG_ORG_RELTN_I2">
+            <index-column name="RELATED_ORG"/>
+        </index>
+        <index name="KSOR_ORG_ORG_RELTN_I3">
+            <index-column name="TYPE"/>
+        </index>
     </table>
     <table name="KSOR_ORG_ORG_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5573,9 +5579,9 @@
         <foreign-key foreignTable="KSOR_ORG_ORG_RELTN" name="KSOR_ORG_ORG_RELTN_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSOR_ORG_ORG_RELTN_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSOR_ORG_ORG_RELTN_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSOR_ORG_ORG_RELTN_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5591,9 +5597,9 @@
         <foreign-key foreignTable="KSOR_ORG_HIRCHY" name="KSOR_ORG_ORG_RELTN_TYPE_FK1">
             <reference foreign="ID" local="ORG_HIRCHY"/>
         </foreign-key>
-		<index name="KSOR_ORG_ORG_RELTN_TYPE_I1">
-			<index-column name="ORG_HIRCHY"/>
-		</index>
+        <index name="KSOR_ORG_ORG_RELTN_TYPE_I1">
+            <index-column name="ORG_HIRCHY"/>
+        </index>
     </table>
     <table name="KSOR_ORG_ORG_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5605,9 +5611,9 @@
         <foreign-key foreignTable="KSOR_ORG_ORG_RELTN_TYPE" name="KSOR_ORG_ORG_REL_TYP_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSOR_ORG_ORG_REL_TYP_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSOR_ORG_ORG_REL_TYP_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSOR_ORG_PERS_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5623,23 +5629,23 @@
         <column name="ORG" size="255" type="VARCHAR"/>
         <column name="ORG_PERS_RELTN_TYPE" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_PERS_RELTN_FK1">
-            <reference foreign="ID" local="ORG"/>
-        </foreign-key>
-		<index name="KSOR_ORG_PERS_RELTN_I1">
-			<index-column name="ORG"/>
-		</index>
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="KSOR_ORG_PERS_RELTN_FK2">
             <reference foreign="TYPE_KEY" local="ORG_PERS_RELTN_TYPE"/>
         </foreign-key>
-		<index name="KSOR_ORG_PERS_RELTN_I2">
-			<index-column name="ORG_PERS_RELTN_TYPE"/>
-		</index>
+        <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_PERS_RELTN_FK1">
+            <reference foreign="ID" local="ORG"/>
+        </foreign-key>
         <unique name="SYS_C0011691">
             <unique-column name="ORG_PERS_RELTN_TYPE"/>
             <unique-column name="ORG"/>
             <unique-column name="PERS_ID"/>
         </unique>
+        <index name="KSOR_ORG_PERS_RELTN_I1">
+            <index-column name="ORG"/>
+        </index>
+        <index name="KSOR_ORG_PERS_RELTN_I2">
+            <index-column name="ORG_PERS_RELTN_TYPE"/>
+        </index>
     </table>
     <table name="KSOR_ORG_PERS_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5651,9 +5657,9 @@
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN" name="KSOR_ORG_PERS_RELTN_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSOR_ORG_PERS_RELTN_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSOR_ORG_PERS_RELTN_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSOR_ORG_PERS_RELTN_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5674,9 +5680,9 @@
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="KSOR_ORG_PERS_REL_TYP_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSOR_ORG_PERS_REL_TYP_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSOR_ORG_PERS_REL_TYP_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSOR_ORG_POS_RESTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5694,22 +5700,22 @@
         <column name="ORG" size="255" type="VARCHAR"/>
         <column name="PERS_RELTN_TYPE" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="KSOR_ORG_POS_RESTR_FK1">
-            <reference foreign="TYPE_KEY" local="PERS_RELTN_TYPE"/>
-        </foreign-key>
-		<index name="KSOR_ORG_POS_RESTR_I1">
-			<index-column name="PERS_RELTN_TYPE"/>
-		</index>
         <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_POS_RESTR_FK2">
             <reference foreign="ID" local="ORG"/>
         </foreign-key>
-		<index name="KSOR_ORG_POS_RESTR_I2">
-			<index-column name="ORG"/>
-		</index>
+        <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="KSOR_ORG_POS_RESTR_FK1">
+            <reference foreign="TYPE_KEY" local="PERS_RELTN_TYPE"/>
+        </foreign-key>
         <unique name="SYS_C0011701">
             <unique-column name="ORG"/>
             <unique-column name="PERS_RELTN_TYPE"/>
         </unique>
+        <index name="KSOR_ORG_POS_RESTR_I1">
+            <index-column name="PERS_RELTN_TYPE"/>
+        </index>
+        <index name="KSOR_ORG_POS_RESTR_I2">
+            <index-column name="ORG"/>
+        </index>
     </table>
     <table name="KSOR_ORG_POS_RESTR_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5721,9 +5727,9 @@
         <foreign-key foreignTable="KSOR_ORG_POS_RESTR" name="KSOR_ORG_POS_RESTR_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSOR_ORG_POS_RESTR_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSOR_ORG_POS_RESTR_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSOR_ORG_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5744,9 +5750,9 @@
         <foreign-key foreignTable="KSOR_ORG_TYPE" name="KSOR_ORG_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSOR_ORG_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSOR_ORG_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSOR_ORG_TYPE_JN_ORG_PERRL_TYP">
         <column name="ORG_TYPE_ID" required="true" size="255" type="VARCHAR"/>
@@ -5754,15 +5760,15 @@
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="KSOR_ORGTYP_JN_ORGPREL_TYP_FK1">
             <reference foreign="TYPE_KEY" local="ORG_PERS_RELTN_TYPE_ID"/>
         </foreign-key>
-		<index name="KSOR_ORGTYP_JN_ORGPREL_TYP_I1">
-			<index-column name="ORG_PERS_RELTN_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSOR_ORG_TYPE" name="KSOR_ORGTYP_JN_ORGPREL_TYP_FK2">
             <reference foreign="TYPE_KEY" local="ORG_TYPE_ID"/>
         </foreign-key>
-		<index name="KSOR_ORGTYP_JN_ORGPREL_TYP_I2">
-			<index-column name="ORG_TYPE_ID"/>
-		</index>
+        <index name="KSOR_ORGTYP_JN_ORGPREL_TYP_I1">
+            <index-column name="ORG_PERS_RELTN_TYPE_ID"/>
+        </index>
+        <index name="KSOR_ORGTYP_JN_ORGPREL_TYP_I2">
+            <index-column name="ORG_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSPR_PROPOSAL">
         <column name="PROPOSAL_ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5783,9 +5789,9 @@
         <foreign-key foreignTable="KSPR_PROPOSAL_TYPE" name="KSPR_PROPOSAL_FK1">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
-		<index name="KSPR_PROPOSAL_I1">
-			<index-column name="TYPE"/>
-		</index>
+        <index name="KSPR_PROPOSAL_I1">
+            <index-column name="TYPE"/>
+        </index>
     </table>
     <table name="KSPR_PROPOSAL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5797,9 +5803,9 @@
         <foreign-key foreignTable="KSPR_PROPOSAL" name="KSPR_PROPOSAL_ATTR_FK1">
             <reference foreign="PROPOSAL_ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSPR_PROPOSAL_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSPR_PROPOSAL_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSPR_PROPOSAL_JN_ORG">
         <column name="ORGREF_ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5810,9 +5816,9 @@
         <foreign-key foreignTable="KSPR_PROPOSAL" name="KSPR_PROPOSAL_JN_ORG_FK1">
             <reference foreign="PROPOSAL_ID" local="PROPOSAL_ID"/>
         </foreign-key>
-		<index name="KSPR_PROPOSAL_JN_ORG_I1">
-			<index-column name="PROPOSAL_ID"/>
-		</index>
+        <index name="KSPR_PROPOSAL_JN_ORG_I1">
+            <index-column name="PROPOSAL_ID"/>
+        </index>
     </table>
     <table name="KSPR_PROPOSAL_JN_PERSON">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5823,25 +5829,25 @@
         <foreign-key foreignTable="KSPR_PROPOSAL" name="KSPR_PROPOSAL_JN_PERSON_FK1">
             <reference foreign="PROPOSAL_ID" local="PROPOSAL_ID"/>
         </foreign-key>
-		<index name="KSPR_PROPOSAL_JN_PERSON_I1">
-			<index-column name="PROPOSAL_ID"/>
-		</index>
+        <index name="KSPR_PROPOSAL_JN_PERSON_I1">
+            <index-column name="PROPOSAL_ID"/>
+        </index>
     </table>
     <table name="KSPR_PROPOSAL_JN_REFERENCE">
         <column name="PROPOSAL_ID" required="true" size="255" type="VARCHAR"/>
         <column name="REFERENCE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSPR_PROPOSAL_REFERENCE" name="KSPR_PROPOSAL_JN_REFERENCE_FK1">
-            <reference foreign="REFERENCE_ID" local="REFERENCE_ID"/>
-        </foreign-key>
-		<index name="KSPR_PROPOSAL_JN_REFERENCE_I1">
-			<index-column name="REFERENCE_ID"/>
-		</index>
         <foreign-key foreignTable="KSPR_PROPOSAL" name="KSPR_PROPOSAL_JN_REFERENCE_FK2">
             <reference foreign="PROPOSAL_ID" local="PROPOSAL_ID"/>
         </foreign-key>
-		<index name="KSPR_PROPOSAL_JN_REFERENCE_I2">
-			<index-column name="PROPOSAL_ID"/>
-		</index>
+        <foreign-key foreignTable="KSPR_PROPOSAL_REFERENCE" name="KSPR_PROPOSAL_JN_REFERENCE_FK1">
+            <reference foreign="REFERENCE_ID" local="REFERENCE_ID"/>
+        </foreign-key>
+        <index name="KSPR_PROPOSAL_JN_REFERENCE_I1">
+            <index-column name="REFERENCE_ID"/>
+        </index>
+        <index name="KSPR_PROPOSAL_JN_REFERENCE_I2">
+            <index-column name="PROPOSAL_ID"/>
+        </index>
     </table>
     <table name="KSPR_PROPOSAL_REFERENCE">
         <column name="REFERENCE_ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5852,9 +5858,9 @@
         <foreign-key foreignTable="KSPR_PROPOSAL_REFTYPE" name="KSPR_PROPOSAL_REFERENCE_FK1">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
-		<index name="KSPR_PROPOSAL_REFERENCE_I1">
-			<index-column name="TYPE"/>
-		</index>
+        <index name="KSPR_PROPOSAL_REFERENCE_I1">
+            <index-column name="TYPE"/>
+        </index>
     </table>
     <table name="KSPR_PROPOSAL_REFTYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5875,9 +5881,9 @@
         <foreign-key foreignTable="KSPR_PROPOSAL_REFTYPE" name="KSPR_PROPOSAL_REFTYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSPR_PROPOSAL_REFTYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSPR_PROPOSAL_REFTYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSPR_PROPOSAL_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5898,9 +5904,9 @@
         <foreign-key foreignTable="KSPR_PROPOSAL_TYPE" name="KSPR_PROPOSAL_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSPR_PROPOSAL_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSPR_PROPOSAL_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSPR_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5937,9 +5943,9 @@
         <foreign-key foreignTable="KSST_OBJECT_SUB_TYPE" name="KSST_OBJECT_SUB_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_OBJECT_SUB_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_OBJECT_SUB_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSST_OBJECT_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -5960,25 +5966,25 @@
         <foreign-key foreignTable="KSST_OBJECT_TYPE" name="KSST_OBJECT_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_OBJECT_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_OBJECT_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSST_OBJ_TYP_JN_OBJ_SUB_TYP">
         <column name="OBJ_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="OBJ_SUB_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_OBJECT_SUB_TYPE" name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_FK1">
-            <reference foreign="TYPE_KEY" local="OBJ_SUB_TYPE_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="KSST_OBJECT_TYPE" name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_FK2">
             <reference foreign="TYPE_KEY" local="OBJ_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_I2">
-			<index-column name="OBJ_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSST_OBJECT_SUB_TYPE" name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_FK1">
+            <reference foreign="TYPE_KEY" local="OBJ_SUB_TYPE_ID"/>
+        </foreign-key>
         <unique name="SYS_C0011792">
             <unique-column name="OBJ_SUB_TYPE_ID"/>
         </unique>
+        <index name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_I2">
+            <index-column name="OBJ_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSST_RCTYP_JN_RCFLDTYP">
         <column name="REQ_COMP_TYPE_ID" required="true" size="255" type="VARCHAR"/>
@@ -5986,31 +5992,31 @@
         <foreign-key foreignTable="KSST_REQ_COM_FIELD_TYPE" name="KSST_RCTYP_JN_RCFLDTYP_FK1">
             <reference foreign="ID" local="REQ_COMP_FIELD_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_RCTYP_JN_RCFLDTYP_I1">
-			<index-column name="REQ_COMP_FIELD_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="KSST_RCTYP_JN_RCFLDTYP_FK2">
             <reference foreign="TYPE_KEY" local="REQ_COMP_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_RCTYP_JN_RCFLDTYP_I2">
-			<index-column name="REQ_COMP_TYPE_ID"/>
-		</index>
+        <index name="KSST_RCTYP_JN_RCFLDTYP_I1">
+            <index-column name="REQ_COMP_FIELD_TYPE_ID"/>
+        </index>
+        <index name="KSST_RCTYP_JN_RCFLDTYP_I2">
+            <index-column name="REQ_COMP_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSST_RC_JN_RC_FIELD">
         <column name="REQ_COM_ID" required="true" size="255" type="VARCHAR"/>
         <column name="REQ_COM_FIELD_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_REQ_COM" name="KSST_RC_JN_RC_FIELD_FK1">
-            <reference foreign="ID" local="REQ_COM_ID"/>
-        </foreign-key>
-		<index name="KSST_RC_JN_RC_FIELD_I1">
-			<index-column name="REQ_COM_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_REQ_COM_FIELD" name="KSST_RC_JN_RC_FIELD_FK2">
             <reference foreign="ID" local="REQ_COM_FIELD_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSST_REQ_COM" name="KSST_RC_JN_RC_FIELD_FK1">
+            <reference foreign="ID" local="REQ_COM_ID"/>
         </foreign-key>
         <unique name="SYS_C0011797">
             <unique-column name="REQ_COM_FIELD_ID"/>
         </unique>
+        <index name="KSST_RC_JN_RC_FIELD_I1">
+            <index-column name="REQ_COM_ID"/>
+        </index>
     </table>
     <table name="KSST_REF_STMT_REL">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6030,15 +6036,15 @@
         <foreign-key foreignTable="KSST_REF_STMT_REL_TYPE" name="KSST_REF_STMT_REL_FK1">
             <reference foreign="TYPE_KEY" local="REF_STMT_REL_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_REF_STMT_REL_I1">
-			<index-column name="REF_STMT_REL_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_STMT" name="KSST_REF_STMT_REL_FK2">
             <reference foreign="ID" local="STMT_ID"/>
         </foreign-key>
-		<index name="KSST_REF_STMT_REL_I2">
-			<index-column name="STMT_ID"/>
-		</index>
+        <index name="KSST_REF_STMT_REL_I1">
+            <index-column name="REF_STMT_REL_TYPE_ID"/>
+        </index>
+        <index name="KSST_REF_STMT_REL_I2">
+            <index-column name="STMT_ID"/>
+        </index>
     </table>
     <table name="KSST_REF_STMT_REL_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6050,9 +6056,9 @@
         <foreign-key foreignTable="KSST_REF_STMT_REL" name="KSST_REF_STMT_REL_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_REF_STMT_REL_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_REF_STMT_REL_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSST_REF_STMT_REL_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6073,9 +6079,9 @@
         <foreign-key foreignTable="KSST_REF_STMT_REL_TYPE" name="KSST_REF_STMT_REL_TYP_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_REF_STMT_REL_TYP_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_REF_STMT_REL_TYP_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSST_REQ_COM">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6090,18 +6096,18 @@
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="REQ_COM_TYPE_ID" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="KSST_REQ_COM_FK1">
-            <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSST_REQ_COM_I1">
-			<index-column name="REQ_COM_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_RICH_TEXT_T" name="KSST_REQ_COM_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSST_REQ_COM_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="KSST_REQ_COM_FK1">
+            <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
+        </foreign-key>
+        <index name="KSST_REQ_COM_I1">
+            <index-column name="REQ_COM_TYPE_ID"/>
+        </index>
+        <index name="KSST_REQ_COM_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSST_REQ_COM_FIELD">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6146,9 +6152,9 @@
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="KSST_REQ_COM_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_REQ_COM_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_REQ_COM_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSST_REQ_COM_TYPE_NL_TMPL">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6163,9 +6169,9 @@
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="KSST_REQ_COM_TYPE_NL_TMPL_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_REQ_COM_TYPE_NL_TMPL_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_REQ_COM_TYPE_NL_TMPL_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSST_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6177,34 +6183,34 @@
     <table name="KSST_RSTMT_RTYP_JN_OSUB_TYP">
         <column name="REF_STMT_REL_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="OBJ_SUB_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_OBJECT_SUB_TYPE" name="KSST_RSTMT_RTYP_JN_OSUBTYP_FK1">
-            <reference foreign="TYPE_KEY" local="OBJ_SUB_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSST_RSTMT_RTYP_JN_OSUBTYP_I1">
-			<index-column name="OBJ_SUB_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_REF_STMT_REL_TYPE" name="KSST_RSTMT_RTYP_JN_OSUBTYP_FK2">
             <reference foreign="TYPE_KEY" local="REF_STMT_REL_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_RSTMT_RTYP_JN_OSUBTYP_I2">
-			<index-column name="REF_STMT_REL_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSST_OBJECT_SUB_TYPE" name="KSST_RSTMT_RTYP_JN_OSUBTYP_FK1">
+            <reference foreign="TYPE_KEY" local="OBJ_SUB_TYPE_ID"/>
+        </foreign-key>
+        <index name="KSST_RSTMT_RTYP_JN_OSUBTYP_I1">
+            <index-column name="OBJ_SUB_TYPE_ID"/>
+        </index>
+        <index name="KSST_RSTMT_RTYP_JN_OSUBTYP_I2">
+            <index-column name="REF_STMT_REL_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSST_RSTMT_RTYP_JN_STMT_TYP">
         <column name="REF_STMT_REL_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_REF_STMT_REL_TYPE" name="KSST_RSTMT_RTYP_JN_ST_TYP_FK1">
-            <reference foreign="TYPE_KEY" local="REF_STMT_REL_TYPE_ID"/>
-        </foreign-key>
-		<index name="KSST_RSTMT_RTYP_JN_ST_TYP_I1">
-			<index-column name="REF_STMT_REL_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_RSTMT_RTYP_JN_ST_TYP_FK2">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_RSTMT_RTYP_JN_ST_TYP_I2">
-			<index-column name="STMT_TYPE_ID"/>
-		</index>
+        <foreign-key foreignTable="KSST_REF_STMT_REL_TYPE" name="KSST_RSTMT_RTYP_JN_ST_TYP_FK1">
+            <reference foreign="TYPE_KEY" local="REF_STMT_REL_TYPE_ID"/>
+        </foreign-key>
+        <index name="KSST_RSTMT_RTYP_JN_ST_TYP_I1">
+            <index-column name="REF_STMT_REL_TYPE_ID"/>
+        </index>
+        <index name="KSST_RSTMT_RTYP_JN_ST_TYP_I2">
+            <index-column name="STMT_TYPE_ID"/>
+        </index>
     </table>
     <table name="KSST_STMT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6222,15 +6228,15 @@
         <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_STMT_FK1">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_I1">
-			<index-column name="STMT_TYPE_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_RICH_TEXT_T" name="KSST_STMT_FK2">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_I2">
-			<index-column name="RT_DESCR_ID"/>
-		</index>
+        <index name="KSST_STMT_I1">
+            <index-column name="STMT_TYPE_ID"/>
+        </index>
+        <index name="KSST_STMT_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
     </table>
     <table name="KSST_STMT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6242,25 +6248,25 @@
         <foreign-key foreignTable="KSST_STMT" name="KSST_STMT_ATTR_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_STMT_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_STMT_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSST_STMT_JN_REQ_COM">
         <column name="STMT_ID" required="true" size="255" type="VARCHAR"/>
         <column name="REQ_COM_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_STMT" name="KSST_STMT_JN_REQ_COM_FK1">
-            <reference foreign="ID" local="STMT_ID"/>
-        </foreign-key>
-		<index name="KSST_STMT_JN_REQ_COM_I1">
-			<index-column name="STMT_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_REQ_COM" name="KSST_STMT_JN_REQ_COM_FK2">
             <reference foreign="ID" local="REQ_COM_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_JN_REQ_COM_I2">
-			<index-column name="REQ_COM_ID"/>
-		</index>
+        <foreign-key foreignTable="KSST_STMT" name="KSST_STMT_JN_REQ_COM_FK1">
+            <reference foreign="ID" local="STMT_ID"/>
+        </foreign-key>
+        <index name="KSST_STMT_JN_REQ_COM_I1">
+            <index-column name="STMT_ID"/>
+        </index>
+        <index name="KSST_STMT_JN_REQ_COM_I2">
+            <index-column name="REQ_COM_ID"/>
+        </index>
     </table>
     <table name="KSST_STMT_JN_STMT">
         <column name="STMT_ID" required="true" size="255" type="VARCHAR"/>
@@ -6268,15 +6274,15 @@
         <foreign-key foreignTable="KSST_STMT" name="KSST_STMT_JN_STMT_FK1">
             <reference foreign="ID" local="STMT_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_JN_STMT_I1">
-			<index-column name="STMT_ID"/>
-		</index>
         <foreign-key foreignTable="KSST_STMT" name="KSST_STMT_JN_STMT_FK2">
             <reference foreign="ID" local="CHLD_STMT_ID"/>
         </foreign-key>
         <unique name="SYS_C0011839">
             <unique-column name="CHLD_STMT_ID"/>
         </unique>
+        <index name="KSST_STMT_JN_STMT_I1">
+            <index-column name="STMT_ID"/>
+        </index>
     </table>
     <table name="KSST_STMT_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6297,41 +6303,37 @@
         <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_STMT_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_STMT_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_STMT_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <table name="KSST_STMT_TYP_JN_RC_TYP">
-        <column name="STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="REQ_COM_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="KSST_STMT_TYP_JN_RC_TYP_FK1">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="REQ_COM_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="SORT_ORDER" size="10" type="DECIMAL"/>
+        <column name="STMT_TYPE_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FKEE1C67E3F942310E">
             <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_TYP_JN_RC_TYP_I1">
-			<index-column name="REQ_COM_TYPE_ID"/>
-		</index>
-        <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_STMT_TYP_JN_RC_TYP_FK2">
+        <foreign-key foreignTable="KSST_STMT_TYPE" name="FKEE1C67E3BD6236BE">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_TYP_JN_RC_TYP_I2">
-			<index-column name="STMT_TYPE_ID"/>
-		</index>
     </table>
     <table name="KSST_STMT_TYP_JN_STMT_TYP">
-        <column name="STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="CHLD_STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_STMT_TYP_JN_STMT_TYP_FK1">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CHLD_STMT_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="SORT_ORDER" size="10" type="DECIMAL"/>
+        <column name="STMT_TYPE_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07A38283320">
             <reference foreign="TYPE_KEY" local="CHLD_STMT_TYPE_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_STMT_TYP_JN_STMT_TYP_FK2">
+        <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07ABD6236BE">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_TYP_JN_STMT_TYP_I2">
-			<index-column name="STMT_TYPE_ID"/>
-		</index>
-        <unique name="SYS_C0011848">
-            <unique-column name="CHLD_STMT_TYPE_ID"/>
-        </unique>
     </table>
     <table name="KSST_USAGE_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -6343,9 +6345,9 @@
         <foreign-key foreignTable="KSST_NL_USAGE_TYPE" name="KSST_USAGE_TYPE_ATTR_FK1">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
-		<index name="KSST_USAGE_TYPE_ATTR_I1">
-			<index-column name="OWNER"/>
-		</index>
+        <index name="KSST_USAGE_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
     </table>
     <view name="KRIM_GRP_MBR_V" viewdefinition="SELECT g.NMSPC_CD&#10;, g.grp_nm&#10;, g.GRP_ID&#10;, p.PRNCPL_NM&#10;, p.PRNCPL_ID&#10;, mg.GRP_NM AS mbr_grp_nm&#10;, mg.GRP_ID AS mbr_grp_id&#10;FROM KRIM_GRP_MBR_T gm&#10;LEFT JOIN krim_grp_t g&#10;ON g.GRP_ID = gm.GRP_ID&#10;LEFT OUTER JOIN krim_grp_t mg&#10;ON mg.GRP_ID = gm.MBR_ID&#10;AND gm.MBR_TYP_CD = 'G'&#10;LEFT OUTER JOIN krim_prncpl_t p&#10;ON p.PRNCPL_ID = gm.MBR_ID&#10;AND gm.MBR_TYP_CD = 'P'&#10;LEFT OUTER JOIN krim_entity_nm_t en&#10;ON en.ENTITY_ID = p.ENTITY_ID&#10;AND en.DFLT_IND = 'Y'&#10;AND en.ACTV_IND = 'Y'&#10;ORDER BY nmspc_cd, grp_nm, prncpl_nm&#10;&#10;&#10;"/>
     <view name="KRIM_GRP_V" viewdefinition="SELECT g.NMSPC_CD&#10;, g.grp_nm&#10;, g.GRP_ID&#10;, t.NM AS grp_typ_nm&#10;, a.NM AS attr_nm&#10;, d.ATTR_VAL AS attr_val&#10;FROM krim_grp_t g&#10;LEFT OUTER JOIN KRIM_GRP_ATTR_DATA_T d&#10;ON d.grp_id = g.GRP_ID&#10;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#10;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#10;LEFT OUTER JOIN KRIM_TYP_T t&#10;ON g.KIM_TYP_ID = t.KIM_TYP_ID&#10;&#10;&#10;"/>
@@ -6439,5 +6441,4 @@
     <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
     <sequence name="KRSB_SVC_DEF_S" nextval="1116"/>
-    <sequence name="KSEM_ENUM_VAL_ID_S" nextval="2020"/>
 </database>

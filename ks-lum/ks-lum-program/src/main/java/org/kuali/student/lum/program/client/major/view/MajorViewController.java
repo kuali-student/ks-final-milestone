@@ -1,5 +1,7 @@
 package org.kuali.student.lum.program.client.major.view;
 
+import java.util.Iterator;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -7,8 +9,11 @@ import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.MajorViewEvent;
@@ -53,10 +58,43 @@ public class MajorViewController extends MajorController {
         });
         eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
             @Override
-            public void onEvent(ModelLoadedEvent event) {
-                showView(ProgramSections.VIEW_ALL);
+            public void onEvent(ModelLoadedEvent event) { 
+                String type = context.getAttributes().get(ProgramConstants.TYPE);
+                if (type != null) {
+                    context.getAttributes().remove(ProgramConstants.TYPE);
+                    if (type.equals(ProgramConstants.VARIATION_TYPE_KEY)) {
+                        showVariationView();
+                    }      
+                    else {
+                       showView(ProgramSections.VIEW_ALL);                       
+                    }
+                }
+                else {
+                   showView(ProgramSections.VIEW_ALL);
+                }
             }
         });
+    }
+
+    private void showVariationView() {
+        String variationId = context.getAttributes().get(ProgramConstants.VARIATION_ID);
+        if (variationId != null) {
+           context.getAttributes().remove(ProgramConstants.VARIATION_ID);
+           final Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
+            if (variationMap != null) {
+                Iterator<Property> itr = variationMap.iterator();
+                while (itr.hasNext()) {
+                    Property p = itr.next();
+                    final Data variationData = p.getValue();
+                    if (variationData != null) {
+                        if (variationData.get(ProgramConstants.ID).equals(variationId)) {
+                            ProgramRegistry.setData(variationData);
+                        }
+                    }
+                }
+                HistoryManager.navigate(AppLocations.Locations.VIEW_VARIATION.getLocation(), context);
+            }
+        }
     }
 
     @Override

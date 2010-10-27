@@ -315,31 +315,31 @@ public class WorkflowUtilities{
                 items.add(wfCancelWorkflowItem);
             }
 			if(workflowActions.contains("A")){
-
 				items.add(wfApproveItem);
 				items.add(wfDisApproveItem);
-
 			}
 			if(workflowActions.contains("K")){
 				items.add(wfAcknowledgeItem);
 			}
-			
 			if(workflowActions.contains("F")){
 				items.add(wfFYIWorkflowItem);
 			}
-            if(workflowActions.contains("W")){
-                items.add(wfWithdrawItem);
-            }
             if(workflowActions.contains("R")){
                 items.add(wfReturnToPreviousItem);
             }
             if(workflowActions.contains("B")){
                 items.add(wfBlanketApproveItem);
             }
+            if(workflowActions.contains("W")){
+                items.add(wfWithdrawItem);
+            }
 		} else {
             if(workflowActions.contains("C")){
                 items.add(wfCancelWorkflowItem);
-            }						
+            }
+            if(workflowActions.contains("W")){
+                items.add(wfWithdrawItem);
+            }
 		}
 		for(StylishDropDown widget: workflowWidgets){
 			

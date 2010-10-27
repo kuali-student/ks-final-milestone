@@ -86,7 +86,7 @@ public class CluSetDetailsWidget extends Composite {
         StringBuilder titleTextSb = new StringBuilder();
         titleTextSb.append("INDIVIDUAL COURSE(S)");
         KSLabel coursesHeader = new KSLabel(titleTextSb.toString());
-        coursesHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
+        //coursesHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
         detailsTable.setWidget(rowIndex, 0, coursesHeader);
         detailsTable.getFlexCellFormatter().setColSpan(rowIndex, 0, 2);
         if (cluSets != null && cluSets.size() > 0 ||

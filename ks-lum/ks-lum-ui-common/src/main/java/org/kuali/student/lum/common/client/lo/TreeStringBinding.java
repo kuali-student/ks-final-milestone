@@ -59,6 +59,7 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
     }
 
     private void bind(StringTreeStructure stringTreeStructure, KSListPanel ksListPanel) {
+    	stringTreeStructure.sortChildren();
         List<StringTreeStructure> firstLevelChildren = stringTreeStructure.getChildren();
         for (StringTreeStructure firstLevelChild : firstLevelChildren) {
             addElement(firstLevelChild, ksListPanel);

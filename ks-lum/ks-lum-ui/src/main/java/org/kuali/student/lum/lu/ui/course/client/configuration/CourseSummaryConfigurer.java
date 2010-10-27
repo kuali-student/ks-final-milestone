@@ -82,6 +82,7 @@ public class CourseSummaryConfigurer implements
     protected String state = "draft";
     protected String groupName;
     protected DataModelDefinition modelDefinition;
+    private List<StatementTypeInfo> stmtTypes;
 
     private Controller controller;
     private SummaryTableSection tableSection;
@@ -104,11 +105,12 @@ public class CourseSummaryConfigurer implements
     }
 
     public CourseSummaryConfigurer(String type, String state,
-            String groupName, DataModelDefinition modelDefinition, Controller controller, String modelId) {
+            String groupName, DataModelDefinition modelDefinition, List<StatementTypeInfo> stmtTypes, Controller controller, String modelId) {
         this.type = type;
         this.state = state;
         this.groupName = groupName;
         this.modelDefinition = modelDefinition;
+        this.stmtTypes = stmtTypes;
         this.controller = controller;
         this.modelId = modelId;
         tableSection = new SummaryTableSection((Controller)controller);
@@ -261,7 +263,7 @@ public class CourseSummaryConfigurer implements
     	WarnContainer warnContainer = new WarnContainer();
         warnContainer.add(w);
         w.addStyleName("ks-button-spacing");
-        warnContainer.add(new KSButton("Return to Curriculum Management", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+        warnContainer.add(new KSButton("Return to Curriculum Management", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -548,54 +550,11 @@ public class CourseSummaryConfigurer implements
     	block.addEditingHandler(new EditHandler(CourseSections.COURSE_REQUISITES));
         block.setTitle(getLabel(LUConstants.REQUISITES_LABEL_KEY));
 
-        KSBlockingProgressIndicator.addTask(loadDataTask);
-        CourseRequirementsDataModel.getStatementTypes(new Callback<List<StatementTypeInfo>>() {
-
-            @Override
-            public void exec(List<StatementTypeInfo> stmtTypes) {
-                for (StatementTypeInfo stmtType : stmtTypes) {
-                    if (stmtType.getId().contains("kuali.statement.type.course.enrollmentEligibility") ||
-                        stmtType.getId().contains("kuali.statement.type.course.creditConstraints")) {
-                        continue;
-                    }
-
-                    final FlowPanel panel1 = new FlowPanel();
-                    final FlowPanel panel2 = new FlowPanel();
-                    final SummaryTableFieldRow arow = new SummaryTableFieldRow(addRequisiteField(panel1, stmtType), addRequisiteField(panel2, stmtType));
-                    block.addSummaryTableFieldRow(arow);
-                    controller.requestModel(modelId, new ModelRequestCallback<DataModel>() {
-
-                        @Override
-                        public void onModelReady(DataModel model) {
-                            if (model != null) {
-                                ((ModelWidgetBinding<FlowPanel>)arow.getFieldDescriptor1().getModelWidgetBinding()).setWidgetValue(panel1, model, "");
-                            }
-                            KSBlockingProgressIndicator.removeTask(loadDataTask);
-                        }
-
-                        @Override
-                        public void onRequestFail(Throwable cause) {
-                            KSBlockingProgressIndicator.removeTask(loadDataTask);
-                        }
-                    });
-                    controller.requestModel("ComparisonModel", new ModelRequestCallback<DataModel>() {
-
-                        @Override
-                        public void onModelReady(DataModel model) {
-                            if (model != null) {
-                                ((ModelWidgetBinding<FlowPanel>)arow.getFieldDescriptor2().getModelWidgetBinding()).setWidgetValue(panel2, model, "");
-                            }
-                            KSBlockingProgressIndicator.removeTask(loadDataTask);                            
-                        }
-
-                        @Override
-                        public void onRequestFail(Throwable cause) {
-                            KSBlockingProgressIndicator.removeTask(loadDataTask);
-                        }
-                    });
-                }
-            }
-        });
+        //one row per requirement type
+        for (StatementTypeInfo stmtType : stmtTypes) {
+            SummaryTableFieldRow arow = new SummaryTableFieldRow(addRequisiteField(new FlowPanel(), stmtType), addRequisiteField(new FlowPanel(), stmtType));
+            block.addSummaryTableFieldRow(arow);
+        }
 
         return block;
     }
@@ -610,20 +569,21 @@ public class CourseSummaryConfigurer implements
 
             @Override
             public void setWidgetValue(final FlowPanel panel, DataModel model, String path) {
-                final CourseRequirementsDataModel reqDataModel = new CourseRequirementsDataModel(controller);
-
-                panel.clear();
                 String courseId = (model).getRoot().get("id");
+                KSBlockingProgressIndicator.addTask(loadDataTask);
+                
+                final CourseRequirementsDataModel reqDataModel = new CourseRequirementsDataModel(controller);
                 reqDataModel.retrieveStatementTypes(courseId, new Callback<Boolean>() {
                     @Override
                     public void exec(Boolean result) {
                         Iterator<StatementTreeViewInfo> iter = reqDataModel.getCourseReqInfo(stmtType.getId()).iterator();
-                        Widget ruleWidget;
+                        panel.clear();                        
                         if (iter.hasNext()) {
                             StatementTreeViewInfo rule = iter.next();
-                            ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                            SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
                             panel.add(ruleWidget);
                         }
+                        KSBlockingProgressIndicator.removeTask(loadDataTask);                        
                     }
                 });
             }
@@ -631,7 +591,6 @@ public class CourseSummaryConfigurer implements
 
         FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(COURSE + "/" + CreditCourseConstants.ID, new MessageKeyInfo(stmtType.getName()), null, panel);
         requisiteField.setWidgetBinding(widgetBinding);
-        //requisiteField.showLabel(true);
 
         return requisiteField;
     }

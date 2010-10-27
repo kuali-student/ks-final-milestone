@@ -28,14 +28,7 @@ public class MetadataRpcGwtServlet extends RemoteServiceServlet implements Metad
     private static final long serialVersionUID = 1L;
 
     private MetadataServiceImpl serviceImpl;
-    private org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl oldServiceImpl;
-
-    @Override
-    @Deprecated
-    public Metadata getOldMetadata(String objectKey, String type, String state) {
-        return oldServiceImpl.getMetadata(objectKey, type, state);
-    }
-
+    
     @Override
     public Metadata getMetadata(String objectKey, String type, String state) {
         return serviceImpl.getMetadata(objectKey, type, state);
@@ -53,10 +46,6 @@ public class MetadataRpcGwtServlet extends RemoteServiceServlet implements Metad
         return serviceImpl.getMetadata(objectKey, state);                
     }
     
-    public void setOldServiceImpl(org.kuali.student.core.assembly.dictionary.old.MetadataServiceImpl serviceImpl) {
-        this.oldServiceImpl = serviceImpl;
-    }
-
     public void setServiceImpl(MetadataServiceImpl serviceImpl) {
         this.serviceImpl = serviceImpl;
     }

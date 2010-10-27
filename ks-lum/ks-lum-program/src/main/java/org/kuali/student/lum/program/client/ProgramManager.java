@@ -35,15 +35,14 @@ public class ProgramManager {
 
     public MajorViewController getProgramViewController() {
         programModel.resetRoot();
-        if (majorViewController == null) {
-            majorViewController = new MajorViewController("Programs", programModel, viewContext, eventBus);
-        }
+        getMajorViewController();
         eventBus.fireEvent(new MajorViewEvent());
         return majorViewController;
     }
 
+
     public VariationViewController getVariationViewController() {
-        String name = majorViewController.getProgramName();
+        String name = getMajorViewController().getProgramName();
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
@@ -51,8 +50,8 @@ public class ProgramManager {
         return variationViewController;
     }
 
-    public VariationEditController getVariationEditController() {
-        String name = majorEditController.getProgramName();
+    public VariationEditController getVariationEditController() { 
+        String name = getMajorEditController().getProgramName();
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
@@ -62,13 +61,24 @@ public class ProgramManager {
 
     public MajorEditController getProgramEditController() {
         programModel.resetRoot();
-        if (majorEditController == null)  {
-            majorEditController = new MajorEditController("Programs", programModel, viewContext, eventBus);           
-        }
-        return majorEditController;
+        return getMajorEditController();
     }
 
     public static HandlerManager getEventBus() {
         return eventBus;
+    }
+
+    private MajorEditController getMajorEditController() {
+        if (majorEditController == null)  {
+            majorEditController = new MajorEditController("Programs", programModel, viewContext, eventBus);
+        }
+        return majorEditController;
+    }
+
+    private MajorViewController getMajorViewController() {
+        if (majorViewController == null) {
+            majorViewController = new MajorViewController("Programs", programModel, viewContext, eventBus);
+        }
+        return majorViewController;
     }
 }

@@ -116,14 +116,17 @@
 
     <!-- KS Urls -->
     <param name="ks.logout.url" override="false">${application.url}/j_spring_security_logout</param>
-    <param name="rice.portal.logoff.redirectUrl">${ks.logout.url}</param>
+    <param name="rice.portal.logout.redirectUrl">${ks.logout.url}</param>
 
     <!-- OrgUrls -->
     <param name="ks.org.MainEntryPoint" override="false"> ${application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</param>
 
     <!-- LumUrls -->
     <param name="lum.application.url" override="false">${application.url}</param>
-    <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
+    <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=CURRICULUM_MANAGEMENT</param>
+    
+    <!-- KS Home Url -->
+    <param name="ks.home.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
 
     <param name="ks.embedded.doDataLoad">false</param>
 

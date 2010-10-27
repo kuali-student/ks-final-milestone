@@ -10,6 +10,8 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.statement.dao.StatementDao;
 import org.kuali.student.core.statement.entity.NlUsageType;
+import org.kuali.student.core.statement.entity.OrderedReqComponentType;
+import org.kuali.student.core.statement.entity.OrderedStatementType;
 import org.kuali.student.core.statement.entity.ReqComponentFieldType;
 import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
@@ -20,9 +22,9 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Dao(value = "org.kuali.student.core.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement.sql")
     public StatementDao dao;
 
-    private boolean containsStatementType(List<StatementType> typeList, String id) {
-    	for(StatementType type : typeList) {
-    		if(type.getId().equals(id)) {
+    private boolean containsStatementType(List<OrderedStatementType> typeList, String id) {
+    	for(OrderedStatementType type : typeList) {
+    		if(type.getChildStatementType().getId().equals(id)) {
     			return true;
     		}
     	}
@@ -38,7 +40,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidStatementSubTypesForCourse() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course");
-    	List<StatementType> subTypes = statementType.getAllowedStatementTypes();
+    	List<OrderedStatementType> subTypes = statementType.getAllowedStatementTypes();
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.enrollmentEligibility"));
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.creditConstraints"));
     }
@@ -46,7 +48,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidStatementSubTypesForEnrollmentEligibility() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.enrollmentEligibility");
-    	List<StatementType> subTypes = statementType.getAllowedStatementTypes();
+    	List<OrderedStatementType> subTypes = statementType.getAllowedStatementTypes();
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"));
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.academicReadiness.coreq"));
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.recommendedPreparation"));
@@ -56,7 +58,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidStatementSubTypesForCreditConstraints() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.creditConstraints");
-    	List<StatementType> subTypes = statementType.getAllowedStatementTypes();
+    	List<OrderedStatementType> subTypes = statementType.getAllowedStatementTypes();
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.credit.restriction"));
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.course.credit.repeatable"));
     }
@@ -64,7 +66,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidStatementSubTypesForProgram() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.program");
-    	List<StatementType> subTypes = statementType.getAllowedStatementTypes();
+    	List<OrderedStatementType> subTypes = statementType.getAllowedStatementTypes();
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.program.entrance"));
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.program.satisfactoryProgress"));
     	Assert.assertTrue(containsStatementType(subTypes, "kuali.statement.type.program.completion"));
@@ -125,9 +127,9 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     	Assert.assertTrue(containsNlUsageType(nlUsageTypes, "KUALI.RULE.COMPOSITION"));
     }
     
-    private boolean containsReqComponentType(List<ReqComponentType> typeList, String id) {
-    	for(ReqComponentType type : typeList) {
-    		if(type.getId().equals(id)) {
+    private boolean containsReqComponentType(List<OrderedReqComponentType> typeList, String id) {
+    	for(OrderedReqComponentType type : typeList) {
+    		if(type.getReqComponentType().getId().equals(id)) {
     			return true;
     		}
     	}
@@ -143,11 +145,12 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForAntireqType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.antireq");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
-    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.credits.completed.none"));
-    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.credits.completed.max"));
-    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.completed.none"));
-    	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.test.score.max"));
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	Assert.assertEquals("kuali.reqComponent.type.course.notcompleted", types.get(0).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.completed.none", types.get(1).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.credits.completed.none", types.get(2).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.courseset.credits.completed.max", types.get(3).getReqComponentType().getId());
+    	Assert.assertEquals("kuali.reqComponent.type.course.test.score.max", types.get(4).getReqComponentType().getId());
     }
 
     @Test
@@ -159,7 +162,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForPrereqType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.prereq");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.completed.all"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.completed.nof"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.credits.completed.nof"));
@@ -183,7 +186,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForCoreqType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.coreq");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.courseList.coreq.all"));
     	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.courseList.coreq.oneof"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.enrolled.nof"));
@@ -199,7 +202,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForStudentEligibilityType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.programList.enroll.oneof"));
     	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.programList.enroll.none"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.program.notadmitted.org.duration"));
@@ -217,7 +220,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForStudentEligibilityPreReqType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.programList.enroll.oneof"));
     	//Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.programList.enroll.none"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.program.notadmitted.org.duration"));
@@ -248,7 +251,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForRepeatableForCreditType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.credit.repeatable");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.credits.repeat.max"));
     }
 
@@ -261,7 +264,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForRecommendedPreparationType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.recommendedPreparation");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.org.credits.completed.min"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.completed"));
     }
@@ -275,7 +278,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForCoursesThatRestrictCreditType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.course.credit.restriction");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.courseset.completed.none"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.course.notcompleted"));
     }
@@ -289,7 +292,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForProgramSatisfactoryProgressType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.program.satisfactoryProgress");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.admitted.credits"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.credits.max"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.completion.duration"));
@@ -306,7 +309,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForProgramEntranceType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.program.entrance");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.programset.completed.nof"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.programset.notcompleted.nof"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.programset.completed.all"));
@@ -326,7 +329,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
     @Test
     public void testValidReqComponentTypesForProgramCompletionType() throws DoesNotExistException {
     	StatementType statementType = this.dao.fetch(StatementType.class, "kuali.statement.type.program.completion");
-    	List<ReqComponentType> types = statementType.getAllowedReqComponentTypes();
+    	List<OrderedReqComponentType> types = statementType.getAllowedReqComponentTypes();
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.programset.completed.nof"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.programset.completed.all"));
     	Assert.assertTrue(containsReqComponentType(types, "kuali.reqComponent.type.program.programset.coursecompleted.nof"));

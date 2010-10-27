@@ -1736,7 +1736,9 @@ public class LuServiceImpl implements LuService {
 		cluPub.setType(type);
 		cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
 		cluPub.setVariants(LuServiceAssembler.toCluPublicationVariants(cluPublicationInfo.getVariants(), cluPub, luDao));
-		
+
+        luDao.create(cluPub);
+
 		return LuServiceAssembler.toCluPublicationInfo(luDao.create(cluPub));
 	}
 
@@ -1801,8 +1803,14 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, DependentObjectsExistException,
 			OperationFailedException, PermissionDeniedException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
-	}
+		checkForMissingParameter(cluPublicationId, "cluPublicationId");
+
+		luDao.delete(CluPublication.class, cluPublicationId);
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+
+		return statusInfo;	}
 
 	@Override
 	public List<ValidationResultInfo> validateCluResult(String validationType,
@@ -2003,6 +2011,12 @@ public class LuServiceImpl implements LuService {
 			throw new DoesNotExistException("Clu does not exist for id: "
 					+ cluId);
 		}
+		
+		CluLoRelationType cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationType);
+		if (cluLoRelationTypeEntity == null) {
+			throw new DoesNotExistException("CluLoRelationType does not exist for id: "
+					+ cluLoRelationType);
+		}
 
 		// Check to see if this relation already exists
 		List<CluLoRelation> reltns = luDao.getCluLoRelationsByCludIdAndLoId(
@@ -2015,13 +2029,14 @@ public class LuServiceImpl implements LuService {
 
 		CluLoRelation cluLoRelation = new CluLoRelation();
 		BeanUtils.copyProperties(cluLoRelationInfo, cluLoRelation,
-				new String[] { "cluId", "attributes", "metaInfo" });
+				new String[] { "cluId", "attributes", "metaInfo", "type" });
 
 		cluLoRelation.setClu(clu);
 		cluLoRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluLoRelationAttribute.class,
 				cluLoRelationInfo.getAttributes(), cluLoRelation, luDao));
-
+		cluLoRelation.setType(cluLoRelationTypeEntity);
+		
 		luDao.create(cluLoRelation);
 
 		return LuServiceAssembler.toCluLoRelationInfo(cluLoRelation);
@@ -2057,14 +2072,20 @@ public class LuServiceImpl implements LuService {
 					+ cluLoRelationInfo.getCluId());
 		}
 
+		CluLoRelationType cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationInfo.getType());
+		if (cluLoRelationTypeEntity == null) {
+			throw new DoesNotExistException("CluLoRelationType does not exist for id: "
+					+ cluLoRelationInfo.getType());
+		}
+		
 		BeanUtils.copyProperties(cluLoRelationInfo, reltn, new String[] {
-				"cluId", "attributes", "metaInfo" });
+				"cluId", "attributes", "metaInfo", "type"});
 
 		reltn.setClu(clu);
 		reltn.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluLoRelationAttribute.class,
 				cluLoRelationInfo.getAttributes(), reltn, luDao));
-
+		reltn.setType(cluLoRelationTypeEntity);
 		CluLoRelation updated = luDao.update(reltn);
 
 		return LuServiceAssembler.toCluLoRelationInfo(updated);

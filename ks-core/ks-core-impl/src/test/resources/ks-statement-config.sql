@@ -77,19 +77,19 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 //INSERT INTO KSST_STMT_TYPE_HEADER_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE,VER_NBR) VALUES ('2', 'KUALI.RULE', 'Voraussetzung fur die $clu.getLongName(): ', 'kuali.statement.type.course.academicReadiness.prereq', 'de',0)
 
 // STMT_TYPE <-> REQ_COM_TYPE
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.prereq','kuali.reqComponent.type.courseList.all')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.prereq','kuali.reqComponent.type.courseList.nof')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.prereq','kuali.reqComponent.type.courseList.1of1')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.prereq','kuali.reqComponent.type.courseList.1of2')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.prereq','kuali.reqComponent.type.grdCondCourseList')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.prereq','kuali.reqComponent.type.gradecheck')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.coreq','kuali.reqComponent.type.courseList.coreq.all')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.coreq','kuali.reqComponent.type.courseList.coreq.oneof')
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (STMT_TYPE_ID,REQ_COM_TYPE_ID) VALUES ('kuali.statement.type.course.academicReadiness.coreq','kuali.reqComponent.type.gradecheck')
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('1', 'kuali.statement.type.course.academicReadiness.prereq', 'kuali.reqComponent.type.courseList.all', 3, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('2', 'kuali.statement.type.course.academicReadiness.prereq', 'kuali.reqComponent.type.courseList.nof', 2, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('3', 'kuali.statement.type.course.academicReadiness.prereq', 'kuali.reqComponent.type.courseList.1of1', 1, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('4', 'kuali.statement.type.course.academicReadiness.prereq', 'kuali.reqComponent.type.courseList.1of2', 4, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('5', 'kuali.statement.type.course.academicReadiness.prereq', 'kuali.reqComponent.type.grdCondCourseList', 5, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('6', 'kuali.statement.type.course.academicReadiness.prereq', 'kuali.reqComponent.type.gradecheck', 6, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('7', 'kuali.statement.type.course.academicReadiness.coreq', 'kuali.reqComponent.type.courseList.coreq.all', 1, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('8', 'kuali.statement.type.course.academicReadiness.coreq', 'kuali.reqComponent.type.courseList.coreq.oneof', 2, 0)
+INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('9', 'kuali.statement.type.course.academicReadiness.coreq', 'kuali.reqComponent.type.gradecheck', 3, 0)
 
 // STMT_TYPE <-> STMT_TYPE
-INSERT INTO KSST_STMT_TYP_JN_STMT_TYP (STMT_TYPE_ID, CHLD_STMT_TYPE_ID) VALUES ('kuali.statement.type.course','kuali.statement.type.course.academicReadiness.prereq')
-INSERT INTO KSST_STMT_TYP_JN_STMT_TYP (STMT_TYPE_ID, CHLD_STMT_TYPE_ID) VALUES ('kuali.statement.type.course','kuali.statement.type.course.academicReadiness.coreq')
+INSERT INTO KSST_STMT_TYP_JN_STMT_TYP (ID, STMT_TYPE_ID, CHLD_STMT_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('1', 'kuali.statement.type.course','kuali.statement.type.course.academicReadiness.prereq', 1, 0)
+INSERT INTO KSST_STMT_TYP_JN_STMT_TYP (ID, STMT_TYPE_ID, CHLD_STMT_TYPE_ID, SORT_ORDER, VER_NBR) VALUES ('2', 'kuali.statement.type.course','kuali.statement.type.course.academicReadiness.coreq', 2, 0)
 
 // KSST_NL_USAGE_TYPE
 INSERT INTO KSST_NL_USAGE_TYPE (TYPE_KEY, TYPE_DESC, NAME, EFF_DT, EXPIR_DT,VER_NBR) VALUES ('KUALI.CATALOG', 'Kuali Catalog', 'Kuali Catalog', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'},0)

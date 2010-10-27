@@ -1,7 +1,6 @@
 package org.kuali.student.common.ui.client.widgets.table.scroll;
 
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;

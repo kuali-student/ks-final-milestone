@@ -19,12 +19,9 @@
 <div class="body">
   
   <ul class="chan">
-    <li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>
+    <li><a href="${ConfigProperties.ks.home.MainEntryPoint}">Kuali Student Home</a></li>
     <li><a href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
-  </ul>
-<br/>
-  <ul class="chan">
-    <li><a href="${ConfigProperties.ks.logout.url}">Logout</a></li>
+    <li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>
   </ul>
   
 </div>

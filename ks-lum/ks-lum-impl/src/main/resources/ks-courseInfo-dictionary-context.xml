@@ -105,6 +105,32 @@
 
  <bean id="courseInfo.campusLocations-parent" abstract="true" parent="cluInfo.campusLocations-parent">
   <property name="name" value="campusLocations" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.campusLocations-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.campusLocations" parent="courseInfo.campusLocations-parent" />
 
@@ -112,6 +138,34 @@
   <property name="name" value="code" />
   <property name="minLength" value="7" />
   <property name="maxLength" value="7" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluIdentifierInfo.code-parent">
+         <property name="minOccurs" value="1" />
+         <property name="minLength" value="7" />
+         <property name="maxLength" value="7" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.code" parent="courseInfo.code-parent" />
 
@@ -120,11 +174,66 @@
   <property name="minLength" value="3" />
   <property name="maxLength" value="3" />
   <property name="validChars" ref="digits" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluIdentifierInfo.suffixCode-parent">
+         <property name="minOccurs" value="1" />
+         <property name="minLength" value="3" />
+         <property name="maxLength" value="3" />
+         <property name="validChars" ref="digits" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.courseNumberSuffix" parent="courseInfo.courseNumberSuffix-parent" />
 
  <bean id="courseInfo.level-parent" abstract="true" parent="cluIdentifierInfo.level-parent">
   <property name="name" value="level" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluIdentifierInfo.level-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.level" parent="courseInfo.level-parent" />
 
@@ -139,18 +248,70 @@
   <!--TODO: make this required to submit (see descr) and allow longer when draft-->
   <property name="name" value="courseTitle" />
   <property name="minOccurs" value="1" />
-  <property name="maxLength" value="60"/>
+  <property name="maxLength" value="150"/>
  </bean>
  <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
 
 <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseComplexRepeating">
-<property name="name" value="creditOptions"/>
-<property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/>
+ <property name="name" value="creditOptions"/>
+ <property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseComplexRepeating">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
 </bean>
 <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
 
  <bean id="courseInfo.gradingOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
  <property name="name" value="gradingOptions"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiTypeRepeating">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.gradingOptions" parent="courseInfo.gradingOptions-parent"/>
 
@@ -240,6 +401,32 @@
  <bean id="courseInfo.duration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
   <property name="name" value="duration" />
   <property name="dataObjectStructure" ref="courseInfo.duration.TimeAmountInfo" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.stdDuration-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.duration" parent="courseInfo.duration-parent" />
 
@@ -282,6 +469,7 @@
   <property name="minLength" value="1" />
   <property name="maxLength" value="3" />
   <property name="validChars" ref="numeric" />
+
  </bean>
  <bean id="courseInfo.duration.timeQuantity" parent="courseInfo.duration.timeQuantity-parent" />
 
@@ -333,6 +521,32 @@
 
  <bean id="courseInfo.startTerm-parent" abstract="true" parent="cluInfo.expectedFirstAtp-parent">
   <property name="name" value="startTerm" />
+    <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.expectedFirstAtp-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.startTerm" parent="courseInfo.startTerm-parent" />
 
@@ -344,6 +558,32 @@
  <bean id="courseInfo.formats-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="formats" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.FormatInfo" />
+   <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseComplexRepeating">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.formats" parent="courseInfo.formats-parent" />
 
@@ -363,6 +603,32 @@
   <property name="name" value="primaryInstructor" />
   <property name="dataObjectStructure"
             ref="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
+   <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.primaryInstructor-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.primaryInstructor" parent="courseInfo.primaryInstructor-parent" />
 
@@ -390,6 +656,35 @@
   <property name="minLength" value="4" />
   <property name="maxLength" value="4" />
   <property name="validChars" ref="upperAlpha" />
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluIdentifierInfo.division-parent">
+         <property name="minOccurs" value="1" />
+         <property name="minLength" value="4" />
+         <property name="maxLength" value="4" />
+         <property name="validChars" ref="upperAlpha" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.subjectArea" parent="courseInfo.subjectArea-parent" />
 
@@ -401,6 +696,33 @@
  <bean id="courseInfo.transcriptTitle-parent" abstract="true" parent="cluIdentifierInfo.shortName-parent">
   <property name="name" value="transcriptTitle" />
   <property name="maxLength" value="20"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluIdentifierInfo.shortName-parent">
+         <property name="minOccurs" value="1" />
+         <property name="maxLength" value="20"/>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.transcriptTitle" parent="courseInfo.transcriptTitle-parent" />
 
@@ -793,6 +1115,37 @@
   <property name="validChars" ref="alpha"/>
   <!-- Maybe a lookup constraint to restrict the values -->
   <property name="dynamic" value="true"/>
+   <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>SUBMITTED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseString">
+         <property name="minOccurs" value="1" />
+         <property name="maxOccurs" value="1" />
+         <property name="maxLength" value="15" />
+         <property name="validChars" ref="alpha"/>
+         <!-- Maybe a lookup constraint to restrict the values -->
+         <property name="dynamic" value="true"/>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="courseInfo.pilotCourse" parent="baseBoolean">
   <property name="name" value="pilotCourse" />
@@ -838,9 +1191,37 @@
   <property name="name" value="finalExamRationale" />
   <property name="dynamic" value="true"/>
   <property name="minOccurs" value="0" />
-  <property name="maxOccurs" value="1" />
+  <property name="maxOccurs" value="0" />
   <property name="maxLength" value="250" />
   <property name="validChars" ref="multiLineText"/>
+   <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="NOT_EQUAL"/>
+    <property name="fieldPath" value="finalExamStatus"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>STD</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseString">
+         <property name="minOccurs" value="1" />
+         <property name="dynamic" value="true"/>
+         <property name="maxOccurs" value="1" />
+         <property name="maxLength" value="250" />
+         <property name="validChars" ref="multiLineText"/>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  
 

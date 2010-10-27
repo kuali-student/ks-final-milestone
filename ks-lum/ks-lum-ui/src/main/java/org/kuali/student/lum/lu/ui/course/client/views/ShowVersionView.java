@@ -1,11 +1,13 @@
 package org.kuali.student.lum.lu.ui.course.client.views;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
 
@@ -18,11 +20,12 @@ public class ShowVersionView extends VerticalSectionView{
     private TabMenuController courseInfoTabs = new TabMenuController("");
     private VersionsController parent;
 
-	public ShowVersionView(Enum<?> viewEnum, String name, String modelId, VersionsController controller) {
+	public ShowVersionView(Enum<?> viewEnum, String name, String modelId, VersionsController controller, List<StatementTypeInfo> stmtTypes) {
 		super(viewEnum, name, modelId);
 		this.setLayoutController(controller);
 		ViewCourseConfigurer cfg = new ViewCourseConfigurer();
 		cfg.setModelDefinition(controller.getDefinition());
+        cfg.setStatementTypes(stmtTypes);
 		cfg.generateLayout(courseInfoTabs, modelId);
 		this.addWidget(courseInfoTabs);
 		parent = controller;
@@ -55,5 +58,4 @@ public class ShowVersionView extends VerticalSectionView{
 	public void showWarningMessage(boolean show){
 		this.layout.showMessage(show);
 	}
-
 }

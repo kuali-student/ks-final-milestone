@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.StatementRpcService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
@@ -26,7 +27,6 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import org.apache.log4j.Logger;
 
 public class StatementRpcServlet extends RemoteServiceServlet implements StatementRpcService {
 

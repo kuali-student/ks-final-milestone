@@ -44,6 +44,9 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
     private List<Callback<Value>> valueChangeCallbacks =
         new ArrayList<Callback<Value>>();
     private String deletedKey;
+    // the instanceId is used to identify instances.
+    private static int classInstanceId = -1;
+    public int instanceId;
     
     public KSItemLabel(boolean canEdit, DataHelper dataParser) {
         init(canEdit, false, dataParser);
@@ -54,6 +57,8 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
     }
 
     private void init(boolean canEdit, boolean hasDetails, DataHelper dataParser) {
+        classInstanceId++;
+        instanceId = classInstanceId;
         mainPanel = new FlowPanel();
         mainPanel.setStyleName("ks-selected-list-value");
         panel = new HTMLPanel(PANEL_CONTENT_OPEN + PANEL_CONTENT_BACKGROUND);

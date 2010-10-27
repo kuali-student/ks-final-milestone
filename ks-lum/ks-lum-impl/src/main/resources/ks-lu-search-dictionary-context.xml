@@ -11,9 +11,11 @@
   <property name="attributes">
    <list>
     <ref bean="freestanding.search.cluset" />
+    <ref bean="freestanding.search.courseset" />
     <ref bean="freestanding.search.findCourse" />
     <ref bean="freestanding.search.courseVersions" />
     <ref bean="freestanding.search.findProposal" />
+    <ref bean="freestanding.search.findMajor" />
 
     <!--Not sure these are actually used-->
     <ref bean="freestanding.search.approvedCourses" />
@@ -33,6 +35,13 @@
  </bean>
  <bean id="freestanding.search.cluset" parent="freestanding.search.cluset-parent" />
 
+ <bean id="freestanding.search.courseset-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="courseSet" />
+  <property name="dataObjectStructure"
+            ref="freestanding.courseSet" />
+ </bean>
+ <bean id="freestanding.search.courseset" parent="freestanding.search.courseset-parent" />
+
  <bean id="freestanding.search.findCourse-parent" abstract="true" parent="baseKualiCluId">
   <property name="name" value="findCourse" />
  </bean>
@@ -42,6 +51,11 @@
   <property name="name" value="findProposal" />
  </bean>
  <bean id="freestanding.search.findProposal" parent="freestanding.search.findProposal-parent" />
+
+ <bean id="freestanding.search.findMajor-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="findMajor" />
+ </bean>
+ <bean id="freestanding.search.findMajor" parent="freestanding.search.findMajor-parent" />
 
  <bean id="freestanding.search.approvedCourses-parent" abstract="true" parent="baseKualiProposalId">
   <property name="name" value="approvedCourses" />

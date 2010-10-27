@@ -37,7 +37,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -51,6 +50,7 @@ public class ClusetView extends VerticalSectionView {
     private CluSetsManagementViews viewEnum;
     private SimplePanel cluSetDisplay = new SimplePanel();
     private CluSetEditorWidget cluSetEditor;
+    private String cluSetType;
 
     public enum CluSetsManagementViews {
         MAIN,
@@ -60,17 +60,18 @@ public class ClusetView extends VerticalSectionView {
     }
     
     public ClusetView(CluSetsManagementViews clusetViewEnum, String name, String modelId, final Callback<Boolean> onReady) {
-        this(clusetViewEnum, name, modelId, true, onReady);
+        this(clusetViewEnum, name, modelId, false, onReady);
     }
 
     public ClusetView(final CluSetsManagementViews clusetViewEnum, String name, String modelId, boolean showTitle, final Callback<Boolean> onReady) {
         super(clusetViewEnum, name, modelId, showTitle);
+        cluSetType = "kuali.cluSet.type.CreditCourse";
         if (clusetViewEnum == CluSetsManagementViews.CREATE ||
                 clusetViewEnum == CluSetsManagementViews.EDIT) {
             cluSetEditor = new CluSetEditorWidget(
                     new CluSetRetrieverImpl(),
-                    clusetViewEnum, name, modelId, false, null,
-                    "kuali.cluSet.type.creditCourse");
+                    clusetViewEnum, name, modelId, true, null,
+                    cluSetType, false);
         }
         viewEnum = clusetViewEnum;
         cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
@@ -196,7 +197,7 @@ public class ClusetView extends VerticalSectionView {
         this.addWidget(new KSLabel("Build a new Course set from courses, Course Sets, " +
         		"or specific criteria."));
 
-        Picker cluSetPicker = configureSearch(ToolsConstants.SEARCH_CLU_SET);
+        Picker cluSetPicker = configureSearch(ToolsConstants.SEARCH_COURSE_SET);
         cluSetPicker.addBasicSelectionCompletedCallback(new Callback<SelectedResults>() {
             @Override
             public void exec(SelectedResults result) {
@@ -222,13 +223,15 @@ public class ClusetView extends VerticalSectionView {
     }
 
     private void setupCreateEditClusetView() {
-        VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), true);
+        String contextName = (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program"))?
+                "Program" : "Course";
+        VerticalSection defineCluSet = initSection(getH3Title(ToolsConstants.DEFINE_CLUSET + contextName), true);
 //        FieldDescriptor typeField = getFieldDescriptor(ToolsConstants.CLU_SET_TYPE_FIELD, null, null, null);
 //        typeField.getFieldWidget().setVisible(false);
-//        ((HasText)typeField.getFieldWidget()).setText("kuali.cluSet.type.creditCourse");
+//        ((HasText)typeField.getFieldWidget()).setText("kuali.cluSet.type.CreditCourse");
 //        defineCluSet.addField(typeField);
         addField(defineCluSet, ToolsConstants.CLU_SET_ORGANIZATION_FIELD, generateMessageInfo(ToolsConstants.ORGANIZATION), null, null);
-        addField(defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.TITLE), null, null);
+        addField(defineCluSet, ToolsConstants.CLU_SET_NAME_FIELD, generateMessageInfo(ToolsConstants.TITLE + contextName), null, null);
         addField(defineCluSet, ToolsConstants.CLU_SET_DESCRIPTION_FIELD, generateMessageInfo(ToolsConstants.DESCRIPTION), new KSTextArea(), null);
         addField(defineCluSet, ToolsConstants.CLU_SET_EFF_DATE_FIELD, generateMessageInfo(ToolsConstants.EFFECTIVE_DATE), new KSDatePicker(), null);
         addField(defineCluSet, ToolsConstants.CLU_SET_EXP_DATE_FIELD, generateMessageInfo(ToolsConstants.EXPIRATION_DATE), new KSDatePicker(), null);

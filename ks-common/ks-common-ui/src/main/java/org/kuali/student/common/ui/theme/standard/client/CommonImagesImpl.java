@@ -16,151 +16,155 @@
 package org.kuali.student.common.ui.theme.standard.client;
 
 import org.kuali.student.common.ui.client.theme.CommonImages;
-import org.kuali.student.common.ui.client.widgets.KSImage;
+
+import com.google.gwt.user.client.ui.Image;
 
 public class CommonImagesImpl implements CommonImages{
 	@Override
-	public KSImage getAsterisk() {
-		return new KSImage(KSClientBundle.INSTANCE.asterisk());
+	public Image getAsterisk() {
+		return new Image(KSClientBundle.INSTANCE.asterisk());
 	}
 
 	@Override
-	public KSImage getHelpIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.helpIcon());
+	public Image getHelpIcon() {
+		return new Image(KSClientBundle.INSTANCE.helpIcon());
 	}
 
 	@Override
-	public KSImage getDeleteCommentIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.deleteComment());
+	public Image getDeleteCommentIcon() {
+		return new Image(KSClientBundle.INSTANCE.deleteComment());
 	}
 
 	@Override
-	public KSImage getEditCommentIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.editComment());
+	public Image getEditCommentIcon() {
+		return new Image(KSClientBundle.INSTANCE.editComment());
 	}
 
 	@Override
-	public KSImage getErrorIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.errorIcon());
+	public Image getErrorIcon() {
+		return new Image(KSClientBundle.INSTANCE.errorIcon());
 	}
 
 	@Override
-	public KSImage getOkIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.okIcon());
+	public Image getOkIcon() {
+		return new Image(KSClientBundle.INSTANCE.okIcon());
 	}
 
 
 	@Override
-	public KSImage getWarningIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.warningIcon());
+	public Image getWarningIcon() {
+		return new Image(KSClientBundle.INSTANCE.warningIcon());
 	}
 	
 	
     @Override
-	public KSImage getWarningDiamondIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.warningDiamondIcon());
+	public Image getWarningDiamondIcon() {
+		return new Image(KSClientBundle.INSTANCE.warningDiamondIcon());
 	}
 
 	@Override
-	public KSImage getProgressSpinner() {
-		return new KSImage(KSClientBundle.INSTANCE.spinner());
+	public Image getProgressSpinner() {
+		return new Image(KSClientBundle.INSTANCE.spinner());
 	}
 
 	@Override
-	public KSImage getSpacer() {
-		return new KSImage(KSClientBundle.INSTANCE.spacer());
+	public Image getSpacer() {
+		return new Image(KSClientBundle.INSTANCE.spacer());
 	}
 	
 	@Override
-	public KSImage getCurriculumManagementImage() {
-		return new KSImage(KSClientBundle.INSTANCE.curriculumManagementImage());
+	public Image getCurriculumManagementImage() {
+		return new Image(KSClientBundle.INSTANCE.curriculumManagementImage());
 	}
 
 	@Override
-	public KSImage getDropDownIconBlack() {
-		return new KSImage(KSClientBundle.INSTANCE.dropdownBlack());
+	public Image getDropDownIconBlack() {
+		return new Image(KSClientBundle.INSTANCE.dropdownBlack());
 	}
 
 	@Override
-	public KSImage getDropDownIconCustom() {
-		return new KSImage(KSClientBundle.INSTANCE.dropdownCustom());
+	public Image getDropDownIconCustom() {
+		return new Image(KSClientBundle.INSTANCE.dropdownCustom());
 	}
 
 	@Override
-	public KSImage getDropDownIconWhite() {
-		return new KSImage(KSClientBundle.INSTANCE.dropdownWhite());
+	public Image getDropDownIconWhite() {
+		return new Image(KSClientBundle.INSTANCE.dropdownWhite());
 	}
 
 	@Override
-	public KSImage getLightBulbIcon() {
+	public Image getLightBulbIcon() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public KSImage getSearchIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.rightMagnifierIcon());
+	public Image getSearchIcon() {
+		return new Image(KSClientBundle.INSTANCE.rightMagnifierIcon());
 	}
 
 	@Override
-	public KSImage getAnalysisIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.analysisIcon());
+	public Image getAnalysisIcon() {
+		return new Image(KSClientBundle.INSTANCE.analysisIcon());
 	}
 
 	@Override
-	public KSImage getCommentIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.commentIcon());
+	public Image getCommentIcon() {
+		return new Image(KSClientBundle.INSTANCE.commentIcon());
 	}
 
 	@Override
-	public KSImage getDocumentIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.documentIcon());
+	public Image getDocumentIcon() {
+		return new Image(KSClientBundle.INSTANCE.documentIcon());
 	}
 
 	@Override
-	public KSImage getPersonIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.personIcon());
+	public Image getPersonIcon() {
+		return new Image(KSClientBundle.INSTANCE.personIcon());
 	}
 	
 	@Override
-	public KSImage getSpacerIcon(){
-		return new KSImage(KSClientBundle.INSTANCE.spacerIcon());
+	public Image getSpacerIcon(){
+		return new Image(KSClientBundle.INSTANCE.spacerIcon());
 	}
 	
 	@Override
-	public KSImage getApplicationIcon(){
-		return new KSImage(KSClientBundle.INSTANCE.applicationIcon());		
+	public Image getApplicationIcon(){
+		return new Image(KSClientBundle.INSTANCE.applicationIcon());		
 	}
 
 	@Override
-	public KSImage getBookIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.bookIcon());
+	public Image getBookIcon() {
+		return new Image(KSClientBundle.INSTANCE.bookIcon());
 	}
 
 	@Override
-	public KSImage getNodeIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.nodeIcon());	
+	public Image getNodeIcon() {
+		return new Image(KSClientBundle.INSTANCE.nodeIcon());	
 	}
 
 	@Override
-	public KSImage getPeopleIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.peopleIcon());
+	public Image getPeopleIcon() {
+		return new Image(KSClientBundle.INSTANCE.peopleIcon());
 	}
 
 	@Override
-	public KSImage getDisclosureClosedIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.disclosureClosedIcon());
+	public Image getDisclosureClosedIcon() {
+		return new Image(KSClientBundle.INSTANCE.disclosureClosedIcon());
 	}
 
 	@Override
-	public KSImage getDisclosureOpenedIcon() {
-		return new KSImage(KSClientBundle.INSTANCE.disclosureOpenedIcon());
+	public Image getDisclosureOpenedIcon() {
+		return new Image(KSClientBundle.INSTANCE.disclosureOpenedIcon());
 	}
 
 	@Override
-	public KSImage getFooterImage() {
-		return new KSImage(KSClientBundle.INSTANCE.footerImage());
+	public Image getFooterImage() {
+		return new Image(KSClientBundle.INSTANCE.footerImage());
 	}
 	
+	public Image getRiceIcon() {
+		return new Image(KSClientBundle.INSTANCE.riceIcon());
+	}
 	
 }

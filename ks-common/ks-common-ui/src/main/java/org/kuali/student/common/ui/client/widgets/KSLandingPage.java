@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -61,7 +62,7 @@ public class KSLandingPage extends Composite{
 
 	}
 
-	public KSLandingPage(String title, KSImage mainImage, String largeDescription){
+	public KSLandingPage(String title, Image mainImage, String largeDescription){
 		this.titleLabel.setText(title);
 		this.largeDescription.setHTML(largeDescription);
 		innerLayout.add(mainImage);

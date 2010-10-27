@@ -50,6 +50,10 @@
 .KS-Basic-Menu-Item-Panel-Hover{
 }
 
+div.KS-Basic-Menu-Item-Panel .KS-Basic-Menu-Toplevel-Item-Panel {
+  border-top:1px solid #333;
+}
+
 .KS-Basic-Menu-Item-Label-Hover{
 
 }
@@ -90,7 +94,9 @@
 .KS-CustomDropDown-Arrow{
 	float: right;
 }
-
+.KS-CustomDropDown-Arrow .KS-Image {
+   margin:2px;
+}
 .KS-CustomDropDown-Layout{
 	width: 100%;
 }
@@ -108,6 +114,7 @@
 }
 
 .KS-Navigation-DropDown .KS-CustomDropDown-TitlePanel{
+         cursor:pointer;
           width:230px;
           background-color: #E8E8E8;       
           padding: 4px 4px 3px 4px; 
@@ -115,10 +122,12 @@
 }
 
 .KS-Navigation-DropDown .KS-CutomDropDown-TitleLabel{
-          padding-left: 10px; 
-          float:left; 
-          margin-bottom:8px; 
-          width:50%; 
+color:#2C61E6;
+cursor:pointer;
+float:left;
+margin-bottom:1px;
+margin-top:2px;
+padding-left:6px;
 }
 
 .KS-Navigation-DropDown ul{
@@ -153,7 +162,7 @@
 }
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel a{
-	color: #333333;
+	color: #2C61E6;
 }
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel a:hover{
@@ -183,10 +192,10 @@
 }
 
 .KS-Workflow-DropDown .KS-CustomDropDown-TitlePanel{
-          background-color:#F3F3F3;
-          border:1px solid #B2B2B2;
-          cursor:pointer;
-          padding:6px 6px 4px;
+    background-color:#F3F3F3;
+    border:1px solid #D2D2D2;
+    cursor:pointer;
+    padding:3px 6px;
 }
 
 .KS-Workflow-DropDown .KS-CutomDropDown-TitleLabel{

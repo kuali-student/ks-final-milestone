@@ -73,20 +73,27 @@
 }
 
 .programController .readOnlySection {
-    background-color: #F1F1F1;
+      background-color: #f1f1f1;
+      padding: 0px 15px 15px 15px;
+      border: 1px solid #999;
 }
 
 .programController .programInformationView {
-                    background-color: #f1f1f1; 
-                    padding: 15px 15px 0 15px; 
-                    margin-bottom: 2em; 
+background-color:#F1F2DC;
+margin-bottom:2em;
+padding:15px 15px 0;
 }
+.programInformationView .ks-table-plain td {
+padding-top:0;
+padding-bottom:0;
 
+}
 .programInformationView h4 { 
-       text-transform: uppercase;
-       letter-spacing: .03em;
-       border-bottom: 1px dotted #808080;
-       font-size: 1.1em;
+border-bottom:1px dotted #808080;
+font-size:1.1em;
+letter-spacing:0.03em;
+margin-right:10px;
+text-transform:uppercase;
 } 
 
 

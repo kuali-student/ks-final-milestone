@@ -1,3 +1,4 @@
+
 .ks-menu-layout{
 	white-space: nowrap;
 }
@@ -5,26 +6,25 @@
 }
 
 .ks-menu-layout-menu .ks-page-sub-navigation{
-                    background-color:#F1F1F1;
-                    padding:0 15px 20px;
+padding:0 0 0 9px;
 
 }
 
 .ks-menu-layout-rightColumn{
-	padding-left: 20px;
-	display: inline-block;
-	white-space: normal;
-	zoom:1; 
-	\*display: inline;
+display:inline-block;
+padding-left:20px;
+white-space:normal;
+width:790px;
 }
 
 .ks-menu-layout-special-menu-item-panel{
-	color: #333333;
-	cursor: pointer;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	border-bottom: 2px solid #d7d7d7;
-	border-top: 2px solid #d7d7d7;
+border-bottom:2px solid #DADADA;
+border-top:1px solid #DADADA;
+color:#333333;
+cursor:pointer;
+padding-bottom:10px;
+padding-left:5px;
+padding-top:10px;
 }
 
 .ks-menu-layout-special-menu-item-panel a{
@@ -37,24 +37,20 @@
 }
 
 .ks-menu-layout-leftColumn{
-	margin-top: 5em;
-	float: left;
+float:left;
+margin-top:5.2em;
 }
 
-.ks-menu-layout-menu .ks-page-sub-navigation-menu{
-	padding-top: 20px;
-}
 
 .ks-menu-layout-menu .ks-page-sub-navigation-menu .KS-Basic-Menu-Toplevel-Item-Label {
-               color:#707270;
-               font-family:Georgia,Times New Roman,serif;
-               font-size:1.2em;
-               margin:0 0 3px;
-               letter-spacing: 0.04em;
-               overflow:hidden;
-               padding:10px 0 0 5px;
-               text-transform:uppercase;
-               white-space:nowrap;
+color:#333;
+font-size:1.1em;
+letter-spacing:0.04em;
+margin:0 0 3px;
+overflow:hidden;
+padding:10px 0 0 4px;
+text-transform:uppercase;
+white-space:nowrap;
 }
 
 .ks-menu-layout-menu .ks-page-sub-navigation-menu ul {
@@ -83,10 +79,10 @@
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel{
-	padding: 3px;
-	color: #333333;
-	cursor: pointer;
-	border-bottom: 1px solid #d7d7d7;
+border-bottom:1px solid #D7D7D7;
+color:#333;
+cursor:pointer;
+padding:3px 10px 3px 5px;
 }
 
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel a{
@@ -107,14 +103,16 @@
 	cursor: pointer;
 	color:white;
 }
-
+.ks-menu-layout-special-menu-item-panel a:hover, .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel a:hover {
+   color: white;
+}
 .ks-menu-layout-menu .KS-Basic-Menu-Item-Panel-Selected{
-               background-color: #708992;
+               background-color: #636D05;
 }
 
 .content-warning{
-	font-weight: bold;
-    color: #FEAB3E;
+color:#C4951D;
+font-size:0.9em;
 }
 
 .content-info{
@@ -123,4 +121,13 @@
 
 .tabLayout-ContentHeader{
 	margin-left: 20px;
+}
+
+.contentHeader-utilities .gwt-ListBox {
+	background:none repeat scroll 0 0 #EEEEEE;
+	border:1px solid #999999;
+	color:#2679C7;
+	font-size:0.9em;
+	margin-top:-6px;
+	padding:1px;
 }

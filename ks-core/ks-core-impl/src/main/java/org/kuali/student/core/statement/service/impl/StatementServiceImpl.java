@@ -751,7 +751,7 @@ public class StatementServiceImpl implements StatementService {
             throw new DoesNotExistException("Statement Type: " + statementTypeKey + " does not exist.");
         }
 
-        return StatementAssembler.toReqComponentTypeInfos( stmtType.getAllowedReqComponentTypes() );
+        return StatementAssembler.toReqComponentTypeInfosOrdered( stmtType.getAllowedReqComponentTypes() );
     }
 
     @Override

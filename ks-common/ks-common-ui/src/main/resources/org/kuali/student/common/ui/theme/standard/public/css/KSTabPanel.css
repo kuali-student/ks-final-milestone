@@ -191,9 +191,15 @@
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Content{
-     background-color:#F7EEE1;
-     border:1px solid #9D9D9D;
-     padding: 15px 0 5px 25px;
+   border-bottom: #9d9d9d 1px solid;
+   border-left: #9d9d9d 1px solid;
+   padding-bottom: 25px;
+   background-color: #f7eee1;
+   padding-left: 25px;
+   padding-right: 25px;
+   border-top: #9d9d9d 1px solid;
+   border-right: #9d9d9d 1px solid;
+   padding-top: 15px;
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Tab-Hover{

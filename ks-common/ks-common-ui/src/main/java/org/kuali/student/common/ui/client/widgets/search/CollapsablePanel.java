@@ -17,7 +17,6 @@ package org.kuali.student.common.ui.client.widgets.search;
 
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -28,6 +27,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -41,8 +41,8 @@ public class CollapsablePanel extends Composite{
 	private boolean withImages;
 	private String buttonLabel;
 
-	KSImage closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
-    KSImage openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
+	Image closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
+    Image openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
 	 private static class ContentAnimation extends Animation {
 		    /**
 		     * Whether the item is being opened or closed.

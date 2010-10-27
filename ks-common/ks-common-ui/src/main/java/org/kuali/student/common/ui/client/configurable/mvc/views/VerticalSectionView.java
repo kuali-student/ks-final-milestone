@@ -15,9 +15,10 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
-import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
+
+import com.google.gwt.user.client.ui.Widget;
 
 public class VerticalSectionView extends SectionView {
 

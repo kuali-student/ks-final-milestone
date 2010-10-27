@@ -49,28 +49,25 @@ html, body {
 }
 
 .ks-lightbox {
-    background-color: #FFFFFF;
-    border: 3px solid #54565C;
-    color: #333333;
-    overflow: visible;
-    padding: 3px;
-    z-index: 2;
-    -moz-border-radius: 0 20px 0 20px;
-
+background-color:#FFFFFF;
+border:3px solid #54565C;
+color:#333333;
+overflow:visible;
+z-index:2;
+    -moz-border-radius:10px 10px 10px 10px;
 }
 
 .ks-lightbox .Caption {
-    background-color: #DFE2E9;
-    color: #000000;
-    cursor: move;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 0 0.25em 0.25em;
-    padding: 10px 0 10px 16px;
-    position: relative;
-    text-align: left;
-    text-shadow: 0 2px 2px #FFFFFF;
-    -moz-border-radius: 0 15px 0 0;
+background-color:#DFE2E9;
+color:#000000;
+cursor:move;
+font-size:1.2em;
+font-weight:bold;
+padding:10px 0 10px 16px;
+position:relative;
+text-align:left;
+text-shadow:0 2px 2px #FFFFFF;
+-moz-border-radius:8px 8px 0px 0px;
 }
 
 .ks-lightbox-mainPanel {
@@ -264,21 +261,24 @@ ul.ks-selected-list {
     padding: 0;
 
 }
+.ks-selected-list-value abbr {
+    position:absolute;
+    right:3px;
+    top:12px;
+}
 
 .ks-selected-list ul li {
     border: 1px solid #CDCDCD;
-    display: block;
-    height: 1.5em;
-    margin: 0;
-    padding: 9px 0 0 6px;
-    width: 20em;
+         display: block;
+         margin: 0;
+         width: 30em;
 }
 
 .ks-selected-list-value {
-    display: block;
-    min-height: 25px;
-    position: relative;
-    width: 22em;
+display:block;
+min-height:25px;
+padding:9px 7px 0 6px;
+position:relative;
 
 }
 
@@ -347,8 +347,9 @@ ul.ks-selected-list {
 }
 
 .header-appTitle {
-    padding: 15px 0 5px 14px;
-    font-weight: bold;
-    font-size: 20px;
-    color: #707270;
+    color:#CCCCCC;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:4px;
+    padding:15px 0 5px 14px;
 }

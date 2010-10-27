@@ -78,7 +78,10 @@ public class DictionaryTesterHelper
                                                             new HashSet (),
                                                             false);
    List<String> errors = validator.validate ();
-   return errors;
+   if (errors.size () > 0)
+   {
+    return errors;
+   }
   }
 
 
@@ -120,6 +123,7 @@ public class DictionaryTesterHelper
 //   System.out.println ("processing class " + clazz.getSimpleName ());
    doTestOnClass (className, ac);
   }
+  out.close ();
   return new ArrayList ();
  }
 

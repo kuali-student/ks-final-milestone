@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" EXPIR_DT="20201231000000"
-        NAME="Certificate" OBJ_ID="812939CF237F4457BED0A6135AB739C9"
+    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" NAME="Certificate"
+        OBJ_ID="812939CF237F4457BED0A6135AB739C9"
         TYPE_DESC="Final learning result for a Certificate Program."
         TYPE_KEY="kuali.resultType.certificate" VER_NBR="0"/>
-    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" EXPIR_DT="20201231000000"
-        NAME="Final Credits" OBJ_ID="B76D726C8C184E0D9594F2A6FA4993F5"
+    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" NAME="Final Credits"
+        OBJ_ID="B76D726C8C184E0D9594F2A6FA4993F5"
         TYPE_DESC="Final learning result for an LU. A stereotypical usage is the course credits."
         TYPE_KEY="kuali.resultType.creditCourseResult" VER_NBR="0"/>
-    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" EXPIR_DT="20201231000000"
-        NAME="Degree" OBJ_ID="A7EC40518F954C818C97A6D3EC8768A9"
+    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" NAME="Degree"
+        OBJ_ID="A7EC40518F954C818C97A6D3EC8768A9"
         TYPE_DESC="Final learning result for a degree"
         TYPE_KEY="kuali.resultType.degree" VER_NBR="0"/>
-    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" EXPIR_DT="20201231000000"
-        NAME="Final Grade" OBJ_ID="10C75FAB3EB24D1DA7D0C87E63260C90"
+    <KSLU_CLU_RSLT_TYP EFF_DT="20000101000000" NAME="Final Grade"
+        OBJ_ID="10C75FAB3EB24D1DA7D0C87E63260C90"
         TYPE_DESC="Final learning result for an LU. A stereotypical usage is the final grade in a course."
         TYPE_KEY="kuali.resultType.gradeCourseResult" VER_NBR="0"/>
 </dataset>

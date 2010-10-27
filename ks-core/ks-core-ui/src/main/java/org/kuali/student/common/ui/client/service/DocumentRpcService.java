@@ -39,10 +39,9 @@ public interface DocumentRpcService extends BaseRpcService {
 
     /**
      * Check for authorization to upload documents
-     * @param referenceId identifier of reference
-     * @param referenceTypeKey reference type
+     * @param proposalId identifier of the proposal
      */
-    public Boolean isAuthorizedUploadDocuments(String referenceId, String referenceTypeKey);
+    public Boolean isAuthorizedUploadDocuments(String proposalId);
     
 	public StatusInfo deleteRefDocRelation(String docRelationId) throws Exception;
 	

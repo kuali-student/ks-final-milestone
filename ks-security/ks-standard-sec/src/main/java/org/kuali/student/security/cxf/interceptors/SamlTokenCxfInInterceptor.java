@@ -41,91 +41,89 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor {
 
-public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
-    
-    private String samlIssuerForUser = null;
-    
-    public SamlTokenCxfInInterceptor(Map<String, Object> properties) {
-        super(properties);
-    }
-    
-    @Override
-    protected void computeAction(SoapMessage msg, RequestData reqData) {
-        super.computeAction(msg, reqData);
-    }
+	private String samlIssuerForUser = null;
 
-    @Override
-    protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException {
-        super.doResults(msg, actor, doc, wsResult);
-        
-        QName wsseQN = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");
-        if(msg.hasHeader(wsseQN)){
-            Header wsseHeader = msg.getHeader(wsseQN);
-            
-            if(wsseHeader != null){
-                Node domSecurityHeader = (Node) wsseHeader.getObject();
-                NodeList nodeList = domSecurityHeader.getChildNodes();
-                Node childNode = null;
-                
-                for(int i=0; i < nodeList.getLength(); i++){
-                    childNode = nodeList.item(i);
-                    
-                    if((childNode.getNodeName().equals("Assertion")) && (childNode.getNodeType() == Node.ELEMENT_NODE)){
-                        SAMLTokenProcessor stp = new SAMLTokenProcessor();
-                        
-                        try {
-                            SAMLAssertion samlAssertion = stp.handleSAMLToken((Element)childNode);
-                            
-                            if(samlAssertion.getIssuer().equals(samlIssuerForUser)){
-                                CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-                                cat.setDetails(samlAssertion);
-                                break;
-                            }                           
-                        }catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }    
-            }
-            
-            
-            System.out.println("\n\n THE WHOLE MESSAGE RECEIVED IN INTERCEPTOR ...... ");
-            Node env = msg.getContent(Node.class);
-            DOMSource domSource = new DOMSource(env);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer;
-            try {
-                transformer = tf.newTransformer();
-                transformer.transform(domSource, result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            writer.flush();
-            System.out.println(writer.toString());
-            
-        }
-    }
+	public SamlTokenCxfInInterceptor(Map<String, Object> properties) {
+		super(properties);
+	}
 
-    @Override
-    public void handleMessage(SoapMessage msg) throws Fault {
-        super.handleMessage(msg);
-    }
+	@Override
+	protected void computeAction(SoapMessage msg, RequestData reqData) {
+		super.computeAction(msg, reqData);
+	}
 
-    @Override
-    public void setIgnoreActions(boolean i) {
-        super.setIgnoreActions(i);
-    }
+	@Override
+	protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException {
+		super.doResults(msg, actor, doc, wsResult);
 
-    public String getSamlIssuerForUser() {
-        return samlIssuerForUser;
-    }
+		QName wsseQN = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");
+		if (msg.hasHeader(wsseQN)) {
+			Header wsseHeader = msg.getHeader(wsseQN);
 
-    public void setSamlIssuerForUser(String samlIssuerForUser) {
-        this.samlIssuerForUser = samlIssuerForUser;
-    }
+			if (wsseHeader != null) {
+				Node domSecurityHeader = (Node) wsseHeader.getObject();
+				NodeList nodeList = domSecurityHeader.getChildNodes();
+				Node childNode = null;
+
+				for (int i = 0; i < nodeList.getLength(); i++) {
+					childNode = nodeList.item(i);
+
+					if ((childNode.getNodeName().equals("Assertion")) && (childNode.getNodeType() == Node.ELEMENT_NODE)) {
+						SAMLTokenProcessor stp = new SAMLTokenProcessor();
+
+						try {
+							SAMLAssertion samlAssertion = stp.handleSAMLToken((Element) childNode);
+
+							if (samlAssertion.getIssuer().equals(samlIssuerForUser)) {
+								CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+								cat.setDetails(samlAssertion);
+								break;
+							}
+						} catch (Exception e) {
+							throw new RuntimeException(e);
+						}
+					}
+				}
+			}
+
+			System.out.println("\n\n THE WHOLE MESSAGE RECEIVED IN INTERCEPTOR ...... ");
+			Node env = msg.getContent(Node.class);
+			DOMSource domSource = new DOMSource(env);
+			StringWriter writer = new StringWriter();
+			StreamResult result = new StreamResult(writer);
+
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer;
+			try {
+				transformer = tf.newTransformer();
+				transformer.transform(domSource, result);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			writer.flush();
+			System.out.println(writer.toString());
+
+		}
+	}
+
+	@Override
+	public void handleMessage(SoapMessage msg) throws Fault {
+		super.handleMessage(msg);
+	}
+
+	@Override
+	public void setIgnoreActions(boolean i) {
+		super.setIgnoreActions(i);
+	}
+
+	public String getSamlIssuerForUser() {
+		return samlIssuerForUser;
+	}
+
+	public void setSamlIssuerForUser(String samlIssuerForUser) {
+		this.samlIssuerForUser = samlIssuerForUser;
+	}
 
 }

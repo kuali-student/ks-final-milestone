@@ -15,14 +15,15 @@
 
 package org.kuali.student.common.ui.client.widgets.notification;
 
+import org.kuali.student.common.ui.client.mvc.Holder;
+import org.kuali.student.common.ui.client.util.Elements;
+
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import org.kuali.student.common.ui.client.mvc.Holder;
-import org.kuali.student.common.ui.client.util.Elements;
 
 public class KSNotifier {
     private static final FlowPanel notifier = new FlowPanel();

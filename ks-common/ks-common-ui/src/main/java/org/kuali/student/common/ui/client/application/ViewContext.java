@@ -79,7 +79,7 @@ public class ViewContext implements Comparable<ViewContext>{
 
 	@Override
 	public int compareTo(ViewContext o) {
-		if(o.getId().equals(id) && o.getIdType() == idType ){
+		if(o.getId().equals(id) && o.getIdType() == idType && o.getAttributes().equals(attributes)){
 			return 0;
 		}
 		else{
@@ -87,7 +87,7 @@ public class ViewContext implements Comparable<ViewContext>{
 		}
 	}
 
-	public void setAttribute(String key, String value) {
+    public void setAttribute(String key, String value) {
 		attributes.put(key, value);
 	}
 	

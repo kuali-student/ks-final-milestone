@@ -16,16 +16,16 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicatorAbstract;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 
 public class KSProgressIndicatorImpl extends KSProgressIndicatorAbstract {
 
     HorizontalPanel main = new HorizontalPanel();
-    private KSImage image = Theme.INSTANCE.getCommonImages().getProgressSpinner();
+    private Image image = Theme.INSTANCE.getCommonImages().getProgressSpinner();
     private KSLabel label = new KSLabel();
 
     public KSProgressIndicatorImpl(){

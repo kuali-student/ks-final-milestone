@@ -42,6 +42,7 @@ public class ToolsConstants {
     public static final String VIEW_CLU_SET = "cluSetViewCluSet";
     public static final String EDIT_CLU_SET_INFO = "cluSetEditInformation";
     public static final String ORGANIZATION = "cluSetOrganization";
+    public static final String DEFINE_CLUSET = "cluSetDefine";
     public static final String TITLE = "cluSetTitle";
     public static final String DESCRIPTION = "cluSetDescription";
     public static final String EFFECTIVE_DATE = "cluSetEffectiveDate";
@@ -52,6 +53,7 @@ public class ToolsConstants {
     
     // Field Keys
     public static final String SEARCH_CLU_SET = "cluset/clusets";
+    public static final String SEARCH_COURSE_SET = "courseSet/clusets";
     public static final String SEARCH_COURSE = "findCourse";
     public static final String CLU_SET_ID = "id";
     public static final String CLU_SET_ORGANIZATION_FIELD = "organization";

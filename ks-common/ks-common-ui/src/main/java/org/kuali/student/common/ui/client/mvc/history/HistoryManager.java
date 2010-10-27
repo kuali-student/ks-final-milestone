@@ -17,14 +17,12 @@ package org.kuali.student.common.ui.client.mvc.history;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
@@ -104,6 +102,11 @@ public class HistoryManager {
     				navigate(path, context);
     				navigateSuccess = true;
     			}
+    		}
+    		else if(view != null){
+    			String path = locations.getLocation(view);
+    			navigate(path);
+				navigateSuccess = true;
     		}
     	}
     	if(!navigateSuccess){

@@ -22,6 +22,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -83,7 +84,7 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(UpdateEvent.TYPE, new UpdateEventHandler() {
             @Override
             public void onEvent(UpdateEvent event) {
-                doSave();
+                doSave(event.getOkCallback());
             }
         });
 
@@ -148,11 +149,7 @@ public class MajorEditController extends MajorController {
         });
     }
 
-    private void doCancel() {
-        HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
-    }
-
-    protected void doSave() {
+    private void doSave(final Callback<Boolean> okCallback) {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
@@ -162,8 +159,9 @@ public class MajorEditController extends MajorController {
                     public void exec(List<ValidationResultInfo> result) {
                         boolean isSectionValid = isValid(result, true);
                         if (isSectionValid) {
-                            saveData();
+                            saveData(okCallback);
                         } else {
+                            okCallback.exec(false);
                             Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
@@ -178,7 +176,15 @@ public class MajorEditController extends MajorController {
         });
     }
 
-    private void saveData() {
+    private void doCancel() {
+        showView(ProgramSections.SUMMARY);
+    }
+
+    protected void doSave() {
+        doSave(NO_OP_CALLBACK);
+    }
+
+    private void saveData(final Callback<Boolean> okCallback) {
         programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
             @Override
             public void onSuccess(DataSaveResult result) {
@@ -189,6 +195,7 @@ public class MajorEditController extends MajorController {
                         msg.append(vri.getMessage());
                     }
                     KSNotifier.show(ProgramProperties.get().common_failedSave(msg.toString()));
+                    okCallback.exec(false);
                 } else {
                     super.onSuccess(result);
                     programModel.setRoot(result.getValue());
@@ -199,6 +206,7 @@ public class MajorEditController extends MajorController {
                     HistoryManager.logHistoryChange();
                     showView(getCurrentViewEnum());
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                    okCallback.exec(true);
                 }
             }
         });

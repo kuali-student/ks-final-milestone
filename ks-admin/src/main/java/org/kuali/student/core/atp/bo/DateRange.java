@@ -105,11 +105,11 @@ public class DateRange extends TypeStateBusinessObjectBase {
 		this.type = type;
 	}
 
-    public String getRichTextId() {
+    public String getDescriptionId() {
         return descriptionId;
     }
 
-    public void setRichTextId(String descriptionId) {
+    public void setDescriptionId(String descriptionId) {
         this.descriptionId = descriptionId;
     }
 

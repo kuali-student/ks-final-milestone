@@ -171,6 +171,7 @@
 .KS-LOMainPanel {
 }
 .KS-LONodePanel {
+margin-bottom: 15px;
 }
 .KS-LONodeIndent {
 	width:50px;
@@ -192,12 +193,12 @@
 	height: 32px;
 }
 .KS-LOButtonPanel {
-	border-top: 1px solid gray;
-	border-left: 1px solid gray;
-	border-right: 1px solid gray;
-	border-bottom: none;
-	border-collapse: collapse;
-	width: 100%;
+    border-bottom: medium none;
+    border-left: #D2D8E3 1px solid;
+    width: 100%;
+    border-collapse: collapse;
+    border-top: #D2D8E3 1px solid;
+    border-right: #D2D8E3 1px solid;
 }
 .KS-LOMoveUpButton{
     background: url("images/ArrowUp.png") no-repeat 2px 2px;
@@ -286,8 +287,12 @@
     margin-left: 0px;	
 }
 .KS-LOSelectedCategories .ks-selected-list-value {
-	border: solid 1px #cdcdcd;
-	background: none repeat scroll 0 0 white;
+                      border-bottom: #cdcdcd 1px solid;
+                      border-left: #cdcdcd 1px solid;
+                      background: white 0px 0px;
+                      border-top: #cdcdcd 1px solid;
+                      border-right: #cdcdcd 1px solid;
+                      width: 15em;
 }
 .KSLOLightBox {
 }
@@ -387,12 +392,16 @@
 }
 
 .KS-CluSetManagement-chooser {
-	background: lightgrey;
-	width: 500px;
+background-color: lightgrey;
+width:500px;
+padding:10px
 }
 .KS-CluSetManagement-chooser-unselected {
-	background: transparent;
-	width: 500px;
+    background-color: lightgrey;
+    width:500px;
+    height:100px;
+    padding:10px;
+
 }
 
 .cluInfo-officialIdentifier-longName{}

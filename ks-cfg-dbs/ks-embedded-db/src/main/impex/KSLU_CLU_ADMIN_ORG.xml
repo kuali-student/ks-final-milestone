@@ -9,10 +9,6 @@
         ID="ADMIN-ORG-2" IS_PR="1"
         OBJ_ID="75261F29DFD4480EB8BA2A39F5D39C06" ORG_ID="44"
         TYPE="kuali.adminOrg.type.Administration" VER_NBR="0"/>
-    <KSLU_CLU_ADMIN_ORG CLU_ID="d02dbbd3-20e2-410d-ab52-1bd6d362748b"
-        ID="Maryland" IS_PR="0"
-        OBJ_ID="CFE00C66041D401E9C5EB653A12F2FB9" ORG_ID="52"
-        TYPE="kuali.adminOrg.type.Institution" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
         ID="MAJOR-1" IS_PR="0" OBJ_ID="D4119D7F31D14DAAAD86AB6F61791DF9"
         ORG_ID="31"
@@ -54,6 +50,10 @@
     <KSLU_CLU_ADMIN_ORG CLU_ID="d4ea77dd-b492-4554-b104-863e42c5f8b7"
         ID="MAJOR-9" IS_PR="0" OBJ_ID="CBCB63F3C39645599A31378506F7F560"
         ORG_ID="44" TYPE="kuali.adminOrg.type.FinancialResourcesUnit" VER_NBR="0"/>
+    <KSLU_CLU_ADMIN_ORG CLU_ID="d02dbbd3-20e2-410d-ab52-1bd6d362748b"
+        ID="Maryland" IS_PR="0"
+        OBJ_ID="CFE00C66041D401E9C5EB653A12F2FB9" ORG_ID="52"
+        TYPE="kuali.adminOrg.type.Institution" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="VAR-200" ID="VAR-201" IS_PR="0"
         OBJ_ID="287E52D59FD544C587F447C4B3E3E150" ORG_ID="31"
         TYPE="kuali.adminOrg.type.CurriculumOversightDivision" VER_NBR="0"/>

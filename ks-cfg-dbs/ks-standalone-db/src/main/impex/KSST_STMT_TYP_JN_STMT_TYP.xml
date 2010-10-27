@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility"
+         STMT_TYPE_ID="kuali.statement.type.course" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.entrance"
+        
+        STMT_TYPE_ID="kuali.statement.type.program" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress"
+        
+        STMT_TYPE_ID="kuali.statement.type.program" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.completion"
+        
+        STMT_TYPE_ID="kuali.statement.type.program" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.creditConstraints"
+         STMT_TYPE_ID="kuali.statement.type.course" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.credit.restriction"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.creditConstraints" />
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.credit.repeatable"
+        
+        STMT_TYPE_ID="kuali.statement.type.course.creditConstraints" />
+</dataset>

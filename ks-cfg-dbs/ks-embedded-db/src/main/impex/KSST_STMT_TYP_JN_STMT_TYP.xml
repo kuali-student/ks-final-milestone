@@ -2,25 +2,45 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" STMT_TYPE_ID="kuali.statement.type.course"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility"
+        ID="1" SORT_ORDER="1" STMT_TYPE_ID="kuali.statement.type.course" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq" STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.entrance"
+        ID="12" SORT_ORDER="1"
+        STMT_TYPE_ID="kuali.statement.type.program" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq" STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress"
+        ID="13" SORT_ORDER="2"
+        STMT_TYPE_ID="kuali.statement.type.program" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation" STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.program.completion"
+        ID="14" SORT_ORDER="3"
+        STMT_TYPE_ID="kuali.statement.type.program" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq" STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
+        ID="2" SORT_ORDER="2"
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.creditConstraints" STMT_TYPE_ID="kuali.statement.type.course"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq"
+        ID="3" SORT_ORDER="3"
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.credit.restriction" STMT_TYPE_ID="kuali.statement.type.course.creditConstraints"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation"
+        ID="4" SORT_ORDER="4"
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.credit.repeatable" STMT_TYPE_ID="kuali.statement.type.course.creditConstraints"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"
+        ID="5" SORT_ORDER="5"
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.program.entrance" STMT_TYPE_ID="kuali.statement.type.program"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.creditConstraints"
+        ID="6" SORT_ORDER="6" STMT_TYPE_ID="kuali.statement.type.course" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.program.satisfactoryProgress" STMT_TYPE_ID="kuali.statement.type.program"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.credit.restriction"
+        ID="7" SORT_ORDER="7"
+        STMT_TYPE_ID="kuali.statement.type.course.creditConstraints" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.program.completion" STMT_TYPE_ID="kuali.statement.type.program"/>
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.credit.repeatable"
+        ID="8" SORT_ORDER="8"
+        STMT_TYPE_ID="kuali.statement.type.course.creditConstraints" VER_NBR="0"/>
 </dataset>

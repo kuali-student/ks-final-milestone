@@ -17,9 +17,15 @@ package org.kuali.student.lum.common.client.lo;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
@@ -29,7 +35,7 @@ import com.google.gwt.user.client.ui.TextArea;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
-public class LOPicker extends HorizontalPanel{ 
+public class LOPicker extends HorizontalPanel implements HasSelectionChangeHandlers{ 
     TextArea loTextArea = new TextArea();
     LOCategoryBuilder loCategoryBuilder;
     Data metaInfoData; // temporary storage of metaInfo data this is needed when LO is updated
@@ -40,6 +46,19 @@ public class LOPicker extends HorizontalPanel{
         loTextArea.addStyleName("KS-LOTextArea");
         super.add(loTextArea);
         super.add(loCategoryBuilder);
+        
+        loTextArea.addValueChangeHandler(new ValueChangeHandler<String>(){
+			public void onValueChange(ValueChangeEvent<String> event) {
+				fireChangeEvent();
+			}        	
+        });
+        
+        loCategoryBuilder.addValueChangeHandler(new ValueChangeHandler<List<LoCategoryInfo>>(){
+			public void onValueChange(
+					ValueChangeEvent<List<LoCategoryInfo>> event) {
+				fireChangeEvent();
+			}        	
+        });
     }
     public void setLOCategories(List<LoCategoryInfo> categories){
         loCategoryBuilder.setValue(categories);
@@ -59,5 +78,17 @@ public class LOPicker extends HorizontalPanel{
     public void setMetaInfoData(Data metaInfoData) {
         this.metaInfoData = metaInfoData;
     }
+	
+    @Override
+	public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
+    	return addHandler(handler, SelectionChangeEvent.getType());
+    }
     
+    public boolean hasChangeHandler(){
+    	return this.getHandlerCount(SelectionChangeEvent.getType()) > 0;
+    }
+	
+    private void fireChangeEvent(){
+    	SelectionChangeEvent.fire(this);
+    }
 }

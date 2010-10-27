@@ -14,6 +14,7 @@
  */
 package org.kuali.student.lum.common.client.widgets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
@@ -49,23 +50,29 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
     private BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
     private String cluSetType;
     private String metadataId;
+    private String itemLabel;
+    private boolean singularCluOnly;
 
-    public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType) {
+    public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType,
+            boolean singularCluOnly) {
         super();
 
+        this.singularCluOnly = singularCluOnly;
         cluSetEditorWidgetView = new CluSetEditorWidget(
                 new CluSetRetrieverImpl(),
                 BuildCourseView.VIEW,
                 "", CLUSET_MODEL_ID, false,
-                null, cluSetType);
+                null, cluSetType, singularCluOnly);
 
         ruleFieldsData = new DataModel();
         ruleFieldsData.setRoot(new Data());
         this.cluSetType = cluSetType;
         if (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program")) {
             this.metadataId = "programSet";
+            this.itemLabel = "program";
         } else {
             this.metadataId = "courseSet";
+            this.itemLabel = "course";
         }
 
         //setup controller
@@ -159,26 +166,76 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
                         cluSetHelper.setReferenceable(new Boolean(false));
                         cluSetHelper.setEffectiveDate(startCal.getTime());
                         cluSetHelper.setEffectiveDate(endCal.getTime());
-                        cluSetRetriever.saveData(ruleFieldsData.getRoot(), new Callback<DataSaveResult>() {
-                            @Override
-                            public void exec(DataSaveResult result) {
-                                if (result.getValidationResults() != null &&
-                                        !result.getValidationResults().isEmpty()) {
-                                    StringBuilder errorMessage = new StringBuilder();
-                                    errorMessage.append("Validation error: ");
-                                    for (ValidationResultInfo validationError : result.getValidationResults()) {
-                                        errorMessage.append(validationError.getMessage()).append(" ");
-                                    }
-                                    doneSaveCallback.exec(null);
-                                    Window.alert(errorMessage.toString());
-                                } else {
-                                    ruleFieldsData.setRoot(result.getValue());
-                                    String cluSetId = 
-                                        CluSetHelper.wrap((Data)ruleFieldsData.getRoot()).getId();
-                                    doneSaveCallback.exec(cluSetId);
+                        
+                        int numClus = 0;
+                        if (cluSetHelper.getApprovedClus() != null) {
+                            List<String> approvedCluIds = new ArrayList<String>();
+                            for (Data.Property p : cluSetHelper.getApprovedClus()) {
+                                if(!"_runtimeData".equals(p.getKey())){
+                                    String approvedCluId = p.getValue();
+                                    approvedCluIds.add(approvedCluId);
                                 }
                             }
-                        });
+                            numClus = numClus + approvedCluIds.size();
+                        }
+                        if (cluSetHelper.getProposedClus() != null) {
+                            List<String> proposedCluIds = new ArrayList<String>();
+                            for (Data.Property p : cluSetHelper.getProposedClus()) {
+                                if(!"_runtimeData".equals(p.getKey())){
+                                    String proposedCluId = p.getValue();
+                                    proposedCluIds.add(proposedCluId);
+                                }
+                            }
+                            numClus = numClus + proposedCluIds.size();
+                        }
+                        if (singularCluOnly && numClus > 1) {
+                            Window.alert("Only one " + itemLabel + " is allowed.  " +
+                                    "Please delete all " + itemLabel + " until there is only one left.");
+                        } else {
+                            cluSetRetriever.saveData(ruleFieldsData.getRoot(), new Callback<DataSaveResult>() {
+                                @Override
+                                public void exec(DataSaveResult result) {
+                                    if (result.getValidationResults() != null &&
+                                            !result.getValidationResults().isEmpty()) {
+                                        StringBuilder errorMessage = new StringBuilder();
+                                        errorMessage.append("Validation error: ");
+                                        for (ValidationResultInfo validationError : result.getValidationResults()) {
+                                            errorMessage.append(validationError.getMessage()).append(" ");
+                                        }
+                                        doneSaveCallback.exec(null);
+                                        Window.alert(errorMessage.toString());
+                                    } else {
+                                        ruleFieldsData.setRoot(result.getValue());
+                                        CluSetHelper helper = CluSetHelper.wrap((Data)ruleFieldsData.getRoot());
+                                        String cluSetId = helper.getId();
+                                        Data approvedClusData = helper.getApprovedClus();
+                                        Data proposedClusData = helper.getProposedClus();
+                                        String cluId = null;
+                                        if (singularCluOnly) {
+                                            if (cluId == null && approvedClusData != null) {
+                                                for (Data.Property p : approvedClusData) {
+                                                    if(!"_runtimeData".equals(p.getKey())){
+                                                        cluId = p.getValue();
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if (cluId == null && proposedClusData != null) {
+                                                for (Data.Property p : proposedClusData) {
+                                                    if(!"_runtimeData".equals(p.getKey())){
+                                                        cluId = p.getValue();
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            doneSaveCallback.exec(cluId);
+                                        } else {
+                                            doneSaveCallback.exec(cluSetId);
+                                        }
+                                    }
+                                }
+                            });
+                        }
                     }
                     else {
                         Window.alert("Save failed.  Please check fields for errors.");

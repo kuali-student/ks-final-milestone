@@ -9,7 +9,6 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.data.Data.StringValue;
 
 public class ListOfStringBinding implements ModelWidgetBinding<ListOfStringWidget> {
 

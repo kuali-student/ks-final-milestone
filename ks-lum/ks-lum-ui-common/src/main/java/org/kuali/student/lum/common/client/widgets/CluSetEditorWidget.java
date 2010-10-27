@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
@@ -47,6 +48,8 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -55,18 +58,25 @@ public class CluSetEditorWidget extends VerticalSectionView {
     private List<KSSelectedListPanelPair> selectedListPanelPairs = new ArrayList<KSSelectedListPanelPair>();
     private DataModelDefinition modelDefinition;
 //    private final List<HandlerRegistration> showClusetDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
-    private final List<HandlerRegistration> showCluRangeDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
+    private final Map<String, HandlerRegistration> showCluRangeDetailsHandlerRegs = new HashMap<String, HandlerRegistration>();
     private List<KSItemLabelPanelPair> itemLabelPanelPairs = new ArrayList<KSItemLabelPanelPair>();
     private String cluSetType;
     private String metadataId;
     private static Map<String, DataModelDefinition> modelDefinitionCache = new HashMap<String, DataModelDefinition>();
-    private BlockingTask initializeTask = new BlockingTask("Initializing");    
+    private BlockingTask initializeTask = new BlockingTask("Initializing");
+    private boolean singularCluOnly;
+    private KSSelectedList approvedClusSelection;
+    
+    private enum CluSetManagementField {
+        APPROVED, PROPOSED, CLUSETS, RANGE
+    }
 
     public CluSetEditorWidget(CluSetRetriever cluSetRetriever, Enum<?> viewEnum,
             String name, String modelId, boolean showTitle,
-            final Callback<Boolean> onReady, String cluSetType) {
+            final Callback<Boolean> onReady, String cluSetType, boolean singularCluOnly) {
         super(viewEnum, name, modelId, showTitle);
         this.cluSetType = cluSetType;
+        this.singularCluOnly = singularCluOnly;
         if (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program")) {
             this.metadataId = "programSet";
         } else {
@@ -121,7 +131,11 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_APPROVED + labelType),
                 null,
                 null);
-        final KSSelectedList approvedClusSelection = (KSSelectedList) approvedClusFd.getFieldWidget();
+        HTML html = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
+                "add any combination of courses, dynamic course ranges, or Course sets. ");
+        approvedClusSection.addWidget(
+                html);
+        approvedClusSelection = (KSSelectedList) approvedClusFd.getFieldWidget();
         KSListPanel approvedClusListPanel = approvedClusSelection.separateValuesPanel();
         clusetDetails.addSection(approvedClusSection, CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS);
         // END OF items related to Add Approved Clus
@@ -140,7 +154,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
 
         // ****** Add Clu Range *******
         KSItemLabel clusetRangeLabel = null;
-        if (cluSetType == null || !cluSetType.equals("kuali.cluSet.type.Program")) {
+        if (displayField(CluSetManagementField.RANGE)) {
             Section cluRangeSection = new VerticalSection();
             final Picker cluSetRangePicker = configureSearch(CommonWidgetConstants.CLU_SET_CLU_SET_RANGE_EDIT_FIELD);
             addField(cluRangeSection, 
@@ -205,58 +219,28 @@ public class CluSetEditorWidget extends VerticalSectionView {
         // END OF items related to Add Clu Range
 
         // ****** Add cluSets *******
-        Section cluSetSection = new VerticalSection();
-        FieldDescriptor cluSetsTempFd = getFieldDescriptor( 
-                CommonWidgetConstants.CLU_SET_CLU_SETS_FIELD, 
-                generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_CLUSET + labelType),
-                null,
-                null);
-        KSSelectedList tempCluSetsSelection = (KSSelectedList) cluSetsTempFd.getFieldWidget();
-        WidgetConfigInfo config = tempCluSetsSelection.getConfig();
-        final KSSelectedList cluSetsSelection = new KSSelectedList(config, false);
-        KSListPanel cluSetsListPanel = cluSetsSelection.separateValuesPanel();
-        final FieldDescriptor cluSetsFd = addField(
-                cluSetSection, 
-                CommonWidgetConstants.CLU_SET_CLU_SETS_FIELD, 
-                generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_CLUSET + labelType),
-                cluSetsSelection, 
-                null);
-        cluSetsFd.setWidgetBinding(new CluSetBinding());
-//        cluSetsSelection.addSelectionChangeHandler(new SelectionChangeHandler() {
-//            @Override
-//            public void onSelectionChange(SelectionChangeEvent event) {
-//                if (showClusetDetailsHandlerRegs != null) {
-//                    for (HandlerRegistration showDetailsHandlerReg : showClusetDetailsHandlerRegs) {
-//                        showDetailsHandlerReg.removeHandler();
-//                    }
-//                    showClusetDetailsHandlerRegs.clear();
-//                }
-//                List<KSItemLabel> selectedCluSets = cluSetsSelection.getSelectedItems();
-//                for (final KSItemLabel selectedCluSet : selectedCluSets) {
-//                    showClusetDetailsHandlerRegs.add(selectedCluSet.addShowDetailsHandler(new ClickHandler() {
-//                        @Override
-//                        public void onClick(ClickEvent event) {
-//                            List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
-//                            SearchParam cluSetIdParam = new SearchParam();
-//                            cluSetIdParam.setKey("cluset.queryParam.optionalId");
-//                            cluSetIdParam.setValue(selectedCluSet.getKey());
-//                            queryParamValues.add(cluSetIdParam);
-//                            SearchRequest clusInCluSetSearch = new SearchRequest();
-//                            clusInCluSetSearch.setSearchKey("lu.search.clusInCluset");
-//                            clusInCluSetSearch.setSortColumn("lu.resultColumn.cluOfficialIdentifier.longName");
-//                            clusInCluSetSearch.setParams(queryParamValues);
-//                            Metadata metaDataClusInCluSet =
-//                                modelDefinition.getMetadata(QueryPath.parse("search/findClusInCluset"));
-//                            SearchResultsLightBox srLightBox = new SearchResultsLightBox("View Course Set",
-//                                    clusInCluSetSearch, metaDataClusInCluSet.getAdditionalLookups().get(0));
-//                            srLightBox.show();
-//                        }
-//                    }));
-//                }
-//            }
-//        });
-        
-        clusetDetails.addSection(cluSetSection, CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS);
+        KSListPanel cluSetsListPanel = null;
+        KSSelectedList cluSetsSelection = null;
+        if (displayField(CluSetManagementField.CLUSETS)) {
+            Section cluSetSection = new VerticalSection();
+            FieldDescriptor cluSetsTempFd = getFieldDescriptor( 
+                    CommonWidgetConstants.CLU_SET_CLU_SETS_FIELD, 
+                    generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_CLUSET + labelType),
+                    null,
+                    null);
+            KSSelectedList tempCluSetsSelection = (KSSelectedList) cluSetsTempFd.getFieldWidget();
+            WidgetConfigInfo config = tempCluSetsSelection.getConfig();
+            cluSetsSelection = new KSSelectedList(config, false);
+            cluSetsListPanel = cluSetsSelection.separateValuesPanel();
+            final FieldDescriptor cluSetsFd = addField(
+                    cluSetSection, 
+                    CommonWidgetConstants.CLU_SET_CLU_SETS_FIELD, 
+                    generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_CLUSET + labelType),
+                    cluSetsSelection, 
+                    null);
+            cluSetsFd.setWidgetBinding(new CluSetBinding());
+            clusetDetails.addSection(cluSetSection, CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS);
+        }
         // END OF items related to Add CluSets
 
         // display item type title if the list selected items is populated
@@ -270,35 +254,46 @@ public class CluSetEditorWidget extends VerticalSectionView {
         VerticalFlowPanel proposedClusPanel = prepareValuesPanel(proposedClusListPanel, "PROPOSED " + contextName);
         proposedClusPanel.getElement().getStyle().setPaddingTop(15, Style.Unit.PX);
         VerticalFlowPanel rangePanel = null;
-        if (cluSetType == null || !cluSetType.equals("kuali.cluSet.type.Program")) {
+        if (displayField(CluSetManagementField.RANGE)) {
             rangePanel = prepareValuesPanel(clusetRangeLabel, contextName + " RANGE");
             rangePanel.getElement().getStyle().setPaddingTop(15, Style.Unit.PX);
         }
-        VerticalFlowPanel cluSetsPanel = prepareValuesPanel(cluSetsListPanel, contextName + " SETS");
-        cluSetsPanel.getElement().getStyle().setPaddingTop(15, Style.Unit.PX);
-
+        VerticalFlowPanel cluSetsPanel = null;
+        if (displayField(CluSetManagementField.CLUSETS)) {
+            cluSetsPanel = prepareValuesPanel(cluSetsListPanel, contextName + " SETS");
+            cluSetsPanel.getElement().getStyle().setPaddingTop(15, Style.Unit.PX);
+        }
+        
         selectedValuesPanel.add(approvedClusPanel);
         selectedValuesPanel.add(proposedClusPanel);
-        if (cluSetType == null || !cluSetType.equals("kuali.cluSet.type.Program")) {
+        if (displayField(CluSetManagementField.RANGE)) {
             selectedValuesPanel.add(rangePanel);
         }
-        selectedValuesPanel.add(cluSetsPanel);
+        if (displayField(CluSetManagementField.CLUSETS)) {
+            selectedValuesPanel.add(cluSetsPanel);
+        }
 
         addVisibilityHandlers(approvedClusSelection, approvedClusPanel);
         addVisibilityHandlers(proposedClusSelection, proposedClusPanel);
-        if (cluSetType == null || !cluSetType.equals("kuali.cluSet.type.Program")) {
+        if (displayField(CluSetManagementField.RANGE)) {
             addVisibilityHandlers(clusetRangeLabel, rangePanel);
         }
-        addVisibilityHandlers(cluSetsSelection, cluSetsPanel);
+        if (displayField(CluSetManagementField.CLUSETS)) {
+            addVisibilityHandlers(cluSetsSelection, cluSetsPanel);
+        }
         
         selectedListPanelPairs.add(new KSSelectedListPanelPair(approvedClusSelection, approvedClusPanel));
         selectedListPanelPairs.add(new KSSelectedListPanelPair(proposedClusSelection, proposedClusPanel));
-        selectedListPanelPairs.add(new KSSelectedListPanelPair(cluSetsSelection, cluSetsPanel));
-        if (cluSetType == null || !cluSetType.equals("kuali.cluSet.type.Program")) {
+        if (displayField(CluSetManagementField.CLUSETS)) {
+            selectedListPanelPairs.add(new KSSelectedListPanelPair(cluSetsSelection, cluSetsPanel));
+        }
+        if (displayField(CluSetManagementField.RANGE)) {
             itemLabelPanelPairs.add(new KSItemLabelPanelPair(clusetRangeLabel, rangePanel));
         }
         
         final VerticalSection choosingSection = new VerticalSection();
+        choosingSection.addWidget(
+                new HTML("<b>Add a course, course set, or course range</b>"));
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
         chooser.addSelectionChangeHandler(new SelectionChangeHandler() {
@@ -317,6 +312,31 @@ public class CluSetEditorWidget extends VerticalSectionView {
         this.addWidget(selectedValuesPanel);
     }
     
+    private boolean displayField(CluSetManagementField field) {
+        boolean result = false;
+        switch(field) {
+            case APPROVED:
+            case PROPOSED:
+                result = true;
+                break;
+            case RANGE:
+                if (!singularCluOnly && (cluSetType == null || !cluSetType.equals("kuali.cluSet.type.Program"))) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+                break;
+            case CLUSETS:
+                if (!singularCluOnly) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+                break;
+        }
+        return result;
+    }
+    
     private void addClusetItemViewHandler(CluSetRangeDataHelper clusetRangeModelHelper,
             KSItemLabel clusetRangeLabel,
             final LookupMetadata lookupMetadata,
@@ -324,7 +344,12 @@ public class CluSetEditorWidget extends VerticalSectionView {
             final SearchRequest searchRequest) {
         clusetRangeModelHelper.setLookupMetadata(lookupMetadata);
         clusetRangeLabel.setValue(new DataValue(searchRequestData));
-        showCluRangeDetailsHandlerRegs.add(clusetRangeLabel.addShowDetailsHandler(new ClickHandler() {
+        if (showCluRangeDetailsHandlerRegs != null && 
+                showCluRangeDetailsHandlerRegs.get(Integer.toString(clusetRangeLabel.instanceId)) != null) {
+            ((HandlerRegistration)showCluRangeDetailsHandlerRegs.get(Integer.toString(clusetRangeLabel.instanceId))).removeHandler();
+        }
+        showCluRangeDetailsHandlerRegs.put(Integer.toString(clusetRangeLabel.instanceId), 
+                clusetRangeLabel.addShowDetailsHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 SearchResultsLightBox srLightBox = new SearchResultsLightBox("View Course Range",
@@ -501,6 +526,14 @@ public class CluSetEditorWidget extends VerticalSectionView {
         return result;
     }
     
+    @Override
+    public void updateModel() {
+        
+        super.updateModel();
+    }
+
+
+
     public class CluSetEditOptionDropdown extends KSDropDown {
         public CluSetEditOptionDropdown(){
             SimpleListItems editOptions = new SimpleListItems();
@@ -508,12 +541,16 @@ public class CluSetEditorWidget extends VerticalSectionView {
             if (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program")) {
                 editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS, "Approved Programs");
                 editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_PROPOSED_CLUS, "Proposed Programs");
-                editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "Program Sets");
+                if (!CluSetEditorWidget.this.singularCluOnly) {
+                    editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "Program Sets");
+                }
             } else {
                 editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS, "Approved Courses");
                 editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_PROPOSED_CLUS, "Proposed Courses");
-                editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "Course Sets");
-                editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SET_RANGE, "Course Ranges (Course numbers, common learning objectives, etc)");
+                if (!CluSetEditorWidget.this.singularCluOnly) {
+                    editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "Course Sets");
+                    editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SET_RANGE, "Course Ranges (Course numbers, common learning objectives, etc)");
+                }
             }
             super.setListItems(editOptions);
         }
@@ -610,34 +647,6 @@ public class CluSetEditorWidget extends VerticalSectionView {
         @Override
         public void setWidgetValue(HasDataValue widget, DataModel model, String path) {
             binding.setWidgetValue(widget, model, path);
-//            if (showClusetDetailsHandlerRegs != null) {
-//                for (HandlerRegistration showDetailsHandlerReg : showClusetDetailsHandlerRegs) {
-//                    showDetailsHandlerReg.removeHandler();
-//                }
-//                showClusetDetailsHandlerRegs.clear();
-//            }
-//            List<KSItemLabel> selectedCluSets = ((KSSelectedList)widget).getSelectedItems();
-//            for (final KSItemLabel selectedCluSet : selectedCluSets) {
-//                showClusetDetailsHandlerRegs.add(selectedCluSet.addShowDetailsHandler(new ClickHandler() {
-//                    @Override
-//                    public void onClick(ClickEvent event) {
-//                        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
-//                        SearchParam cluSetIdParam = new SearchParam();
-//                        cluSetIdParam.setKey("cluset.queryParam.optionalId");
-//                        cluSetIdParam.setValue(selectedCluSet.getKey());
-//                        queryParamValues.add(cluSetIdParam);
-//                        SearchRequest clusInCluSetSearch = new SearchRequest();
-//                        clusInCluSetSearch.setSearchKey("lu.search.clusInCluset");
-//                        clusInCluSetSearch.setSortColumn("lu.resultColumn.cluOfficialIdentifier.longName");
-//                        clusInCluSetSearch.setParams(queryParamValues);
-//                        Metadata metaDataClusInCluSet =
-//                            modelDefinition.getMetadata(QueryPath.parse("search/findClusInCluset"));
-//                        SearchResultsLightBox srLightBox = new SearchResultsLightBox("View Course Set",
-//                                clusInCluSetSearch, metaDataClusInCluSet.getAdditionalLookups().get(0));
-//                        srLightBox.show();
-//                    }
-//                }));
-//            }
         }
     }
     
@@ -685,12 +694,12 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 searchRequest.setParams(membershipQueryInfo.getQueryParamValueList());
                 searchRequest.setSortColumn(lookupMetadata.getResultSortKey());
                 
-                if (showCluRangeDetailsHandlerRegs != null) {
-                    for (HandlerRegistration showCluRangeDetailsHandlerReg : showCluRangeDetailsHandlerRegs) {
-                        showCluRangeDetailsHandlerReg.removeHandler();
-                    }
-                    showCluRangeDetailsHandlerRegs.clear();
-                }
+//                if (showCluRangeDetailsHandlerRegs != null) {
+//                    for (HandlerRegistration showCluRangeDetailsHandlerReg : showCluRangeDetailsHandlerRegs) {
+//                        showCluRangeDetailsHandlerReg.removeHandler();
+//                    }
+//                    showCluRangeDetailsHandlerRegs.clear();
+//                }
                 addClusetItemViewHandler(clusetRangeModelHelper,
                         (KSItemLabel)widget,
                         lookupMetadata,

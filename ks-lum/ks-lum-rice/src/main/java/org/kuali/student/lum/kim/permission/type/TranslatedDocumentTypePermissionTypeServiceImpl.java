@@ -46,10 +46,13 @@ public class TranslatedDocumentTypePermissionTypeServiceImpl extends DocumentTyp
 		listTwo.add( KimAttributes.DOCUMENT_TYPE_NAME );
 		listTwo.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 		attributes.add(listTwo);
-		List<String> listThree = new ArrayList<String>();
-		listThree.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
-		listThree.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
-		attributes.add(listThree);
+        List<String> listThree = new ArrayList<String>();
+        listThree.add( StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID );
+        attributes.add(listThree);
+//		List<String> listFour = new ArrayList<String>();
+//		listFour.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
+//		listFour.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
+//		attributes.add(listFour);
 
 	}
 

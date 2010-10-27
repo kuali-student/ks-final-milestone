@@ -6,7 +6,7 @@
   <parent>
     <artifactId>ks-core</artifactId>
     <groupId>org.kuali.student.core</groupId>
-    <version>1.1.0-M9-SNAPSHOT</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -21,7 +21,7 @@
   </build>
   <dependencies>
     <!--  We need to be able to implement this using only rice-api -->
-    <!-- 
+    <!--
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
@@ -29,6 +29,6 @@
       <type>pom</type>
       <scope>provided</scope>
     </dependency>
-	-->    
+	-->
   </dependencies>
 </project>

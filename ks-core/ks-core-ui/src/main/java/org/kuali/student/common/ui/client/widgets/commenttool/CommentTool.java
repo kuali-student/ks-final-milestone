@@ -13,16 +13,13 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
-import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
@@ -42,7 +39,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
-//import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -264,7 +260,7 @@ public class CommentTool implements HasReferenceId {
     
     private void checkPermissionsAndRedrawTable(final List<CommentInfo> commentInfos) {
         // check permission to see if user can comment
-        commentServiceAsync.isAuthorizedAddComment(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
+        commentServiceAsync.isAuthorizedAddComment(referenceId, new KSAsyncCallback<Boolean>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -274,7 +270,6 @@ public class CommentTool implements HasReferenceId {
 
             @Override
             public void onSuccess(Boolean result) {
-                result = true;
                 GWT.log("User is " + ((result) ? "" : "not ") + 
                         "authorized to add comment.", null);
                 if(referenceId != null && !(referenceId.isEmpty())){

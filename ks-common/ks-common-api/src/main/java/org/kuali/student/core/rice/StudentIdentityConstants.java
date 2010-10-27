@@ -24,7 +24,9 @@ public class StudentIdentityConstants {
 	public static final String SYSTEM_USER_PRINCIPAL_NAME = "KS";
 
 	// role qualification keys
-	public static final String QUALIFICATION_KEW_OBJECT_ID     = "kualiStudentObjectWorkflowId";
+    public static final String QUALIFICATION_KS_PROPOSAL_ID    = "kualiStudentProposalId";
+
+    public static final String QUALIFICATION_KEW_OBJECT_ID     = "kualiStudentObjectWorkflowId";
 	public static final String QUALIFICATION_KEW_OBJECT_TYPE   = "kualiStudentObjectWorkflowType";
 
 	// this must be equal to Rice constant KimAttributes.DOCUMENT_NUMBER

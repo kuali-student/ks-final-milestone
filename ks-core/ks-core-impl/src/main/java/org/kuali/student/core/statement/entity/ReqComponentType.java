@@ -22,6 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,8 +32,9 @@ import org.kuali.student.core.entity.Type;
 @Table(name="KSST_REQ_COM_TYPE")
 public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     
-    @ManyToMany(mappedBy="allowedReqComponentTypes")
-    private List<StatementType> statementTypes;
+	@ManyToMany
+    @JoinTable(name = "KSST_STMT_TYP_JN_RC_TYP", inverseJoinColumns = @JoinColumn(name = "STMT_TYPE_ID"), joinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
+	public List<StatementType> statementTypes;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ReqComponentTypeAttribute> attributes;

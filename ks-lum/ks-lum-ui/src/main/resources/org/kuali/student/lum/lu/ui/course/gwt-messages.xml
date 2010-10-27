@@ -450,7 +450,10 @@
 	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetCourse"                 p:value="Course Sets"/>
 	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetProgram"                 p:value="Program Sets"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetOrganization"                      p:value="Organization"/>
-	<bean parent="enClusetmanagement" p:messageId="cluSetTitle"                      p:value="Title"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetDefineCourse"                      p:value="Define Course Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetDefineProgram"                      p:value="Define Program Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetTitleCourse"                      p:value="Course Set Name"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetTitleProgram"                      p:value="Program Set Name"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetDescription"                      p:value="Description"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetEffectiveDate"                      p:value="Effective Date"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetExpirationDate"                      p:value="Expiration Date"/>

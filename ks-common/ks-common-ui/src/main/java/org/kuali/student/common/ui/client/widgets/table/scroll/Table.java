@@ -3,8 +3,6 @@ package org.kuali.student.common.ui.client.widgets.table.scroll;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 
 import com.google.gwt.core.client.GWT;
@@ -23,7 +21,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLPanel;

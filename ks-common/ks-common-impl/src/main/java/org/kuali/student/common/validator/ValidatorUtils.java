@@ -76,11 +76,13 @@ public class ValidatorUtils {
 				result = true;
 			}
 
-			if ("greater_than".equalsIgnoreCase(operator) && 1 == compareResult) {
+			if (("not_equal".equalsIgnoreCase (operator)
+     || "greater_than".equalsIgnoreCase(operator)) && compareResult >= 1) {
 				result = true;
 			}
 
-			if ("less_than".equalsIgnoreCase(operator) && -1 == compareResult) {
+			if (("not_equal".equalsIgnoreCase (operator)
+     || "less_than".equalsIgnoreCase(operator)) && compareResult <= -1) {
 				result = true;
 			}
 		}

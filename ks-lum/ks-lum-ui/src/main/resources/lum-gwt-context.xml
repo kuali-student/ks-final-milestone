@@ -325,8 +325,9 @@
             <list>
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
-                <ref bean="idTranslatorFilter"/>
                 <ref bean="credentialProgramFilter"/>
+                <ref bean="idTranslatorFilter"/>
+
             </list>
         </property>
     </bean>
@@ -392,6 +393,7 @@
     </bean>
 
     <bean id="credentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CredentialProgramFilter">
+        <property name="metadataService" ref="metadataServiceImplPOC"/>
         <property name="programService" ref="programClient"/>
     </bean>
 
@@ -510,8 +512,7 @@
     <bean id="LogRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.LogRpcGwtServlet"/>
 
     <bean id="MetadataRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.MetadataRpcGwtServlet">
-        <property name="oldServiceImpl" ref="metadataServiceImpl"/>
-        <property name="serviceImpl" ref="metadataServiceImplPOC"/>        
+         <property name="serviceImpl" ref="metadataServiceImplPOC"/>        
     </bean>
 
     <!-- Service clients -->

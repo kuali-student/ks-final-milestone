@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.KSImage;
-
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * The data object used to populate interactive ui menus.
@@ -39,7 +38,7 @@ public class KSMenuItemData {
 	private List<KSMenuItemData> subItems = new ArrayList<KSMenuItemData>();
 	private KSMenuItemData parent = null;
 	private boolean selected = false;
-	private KSImage shownIcon = null;
+	private Image shownIcon = null;
 	
 	private HandlerManager manager = new HandlerManager(this);
 
@@ -54,7 +53,7 @@ public class KSMenuItemData {
 		this.clickHandler = clickHandler;
 	}
 	
-	public KSMenuItemData(String label, KSImage icon, ClickHandler clickHandler) {
+	public KSMenuItemData(String label, Image icon, ClickHandler clickHandler) {
 		super();
 		this.label = label;
 		this.shownIcon = icon;
@@ -156,11 +155,11 @@ public class KSMenuItemData {
         this.selected = selected;
     }
 
-    public KSImage getShownIcon() {
+    public Image getShownIcon() {
         return shownIcon;
     }
 
-    public void setShownIcon(KSImage shownIcon) {
+    public void setShownIcon(Image shownIcon) {
         this.shownIcon = shownIcon;
         manager.fireEvent(new MenuChangeEvent());
     }

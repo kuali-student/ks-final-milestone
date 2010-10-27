@@ -9,12 +9,10 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -23,6 +21,7 @@ import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,10 +69,11 @@ public class VariationEditController extends VariationController {
                         if (variationData.get(ProgramConstants.ID).equals(currentId)) {
                             programModel.setRoot(variationData);
                             ProgramRegistry.setData(variationData);
-                            setContentTitle(ProgramProperties.get().variation_title(getProgramName()));
+                            setContentTitle(getProgramName());
                             return;
                         }
                     }
+                    programModel.setRoot(ProgramUtils.getNewSpecialization());
                 }
             }
         });
@@ -86,27 +86,11 @@ public class VariationEditController extends VariationController {
     }
 
     @Override
-    protected void configureView() {
-        super.configureView();
-        if (!initialized) {
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton);
-            initialized = true;
-        }
+    protected void fireUpdateEvent(Callback<Boolean> okToChange) {
+        doSave(okToChange);
     }
 
-    @Override
-    protected void resetModel() {
-        currentId = programModel.get(ProgramConstants.ID);
-        programModel.resetRoot();
-    }
-
-    private void doCancel() {
-        HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
-    }
-
-    @Override
-    protected void doSave() {
+    private void doSave(final Callback<Boolean> okToChange) {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(final DataModel model) {
@@ -118,7 +102,9 @@ public class VariationEditController extends VariationController {
                         boolean isSectionValid = isValid(result, true);
                         if (isSectionValid) {
                             saveData(model);
+                            okToChange.exec(true);
                         } else {
+                            okToChange.exec(false);
                             Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
@@ -131,6 +117,34 @@ public class VariationEditController extends VariationController {
             }
 
         });
+    }
+
+    @Override
+    protected void configureView() {
+        super.configureView();
+        if (!initialized) {
+            List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
+            excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
+            excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
+            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
+            initialized = true;
+        }
+    }
+
+    @Override
+    protected void resetModel() {
+        currentId = programModel.get(ProgramConstants.ID);
+        programModel.resetRoot();
+    }
+
+    private void doCancel() {
+        showView(ProgramSections.SUMMARY);
+    }
+
+    @Override
+    protected void doSave() {
+        doSave(NO_OP_CALLBACK);
     }
 
     private void saveData(DataModel model) {

@@ -39,13 +39,11 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.CompositeConditionOperator;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldWidgetInitializer;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
@@ -65,7 +63,6 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
@@ -82,10 +79,13 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.Value;
 import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPanel;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
 import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
+import org.kuali.student.lum.common.client.lo.LOPicker;
 import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.lum.common.client.lo.OutlineNode;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
@@ -95,6 +95,8 @@ import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirements
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -130,9 +132,14 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected DataModelDefinition modelDefinition;
+    private List<StatementTypeInfo> stmtTypes;
 
     public void setModelDefinition(DataModelDefinition modelDefinition) {
         this.modelDefinition = modelDefinition;
+    }
+
+    public void setStatementTypes(List<StatementTypeInfo> stmtTypes) {
+        this.stmtTypes = stmtTypes;
     }
 
     public void configure(final CourseProposalController layout) {
@@ -171,7 +178,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout, CLU_PROPOSAL_MODEL);
+            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -186,7 +193,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, (Controller)layout, CLU_PROPOSAL_MODEL);
+        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, (Controller)layout, CLU_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
@@ -479,35 +486,35 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected Section generateOutcomesSection() {
+        VerticalSection courseOutcomes = initSection(getH3Title(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), WITH_DIVIDER);
 
+        Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition =
+            new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
         String path = COURSE + QueryPath.getPathSeparator() + CREDIT_OPTIONS;
         QueryPath creditTypeFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CreditCourseConstants.TYPE);
         QueryPath creditOptionFixedFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_FIXED_CREDITS);
         QueryPath creditOptionMinFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_MIN_CREDITS);
         QueryPath creditOptionMaxFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_MAX_CREDITS);
-        QueryPath creditResultValuesFullPath = QueryPath.concat(path, QueryPath.getWildCard(), "resultValues");
+        QueryPath deletionPath = QueryPath.concat(path.toString(), QueryPath.getWildCard(), "resultValues");
 
-        VerticalSection courseOutcomes = initSection(getH3Title(LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), WITH_DIVIDER);
-        Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition =
-            new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
         SwapCompositeCondition fixedCreditCondition = new SwapCompositeCondition(
                 CompositeConditionOperator.AND);
         fixedCreditCondition.getChildrenConditions().add(
                 makeCondition(creditTypeFullPath, LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.fixed")
         );
-        fixedCreditCondition.setConditionId("1");
-        SwapCompositeCondition multipleCreditCondition = new SwapCompositeCondition(
-                CompositeConditionOperator.AND);
-        multipleCreditCondition.getChildrenConditions().add(
-                makeCondition(creditTypeFullPath, LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.multiple")
-        );
-        multipleCreditCondition.setConditionId("2");
+        fixedCreditCondition.setConditionId("0");
         SwapCompositeCondition variableCreditCondition = new SwapCompositeCondition(
                 CompositeConditionOperator.AND);
         variableCreditCondition.getChildrenConditions().add(
                 makeCondition(creditTypeFullPath, LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.range")
         );
-        variableCreditCondition.setConditionId("3");
+        variableCreditCondition.setConditionId("1");
+        SwapCompositeCondition multipleCreditCondition = new SwapCompositeCondition(
+                CompositeConditionOperator.AND);
+        multipleCreditCondition.getChildrenConditions().add(
+                makeCondition(creditTypeFullPath, LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.multiple")
+        );
+        multipleCreditCondition.setConditionId("2");        
         
         swappableFieldsDefinition.put(fixedCreditCondition,
                 Arrays.asList(
@@ -520,31 +527,8 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 null
                         )
                 )
-        );
-        MultiplicityFieldWidgetInitializer multipleCreditInitializer = 
-            new MultiplicityFieldWidgetInitializer() {
-                @Override
-                public ModelWidgetBinding getModelWidgetBindingInstance() {
-                    return new ListOfStringBinding();
-                }
-                @Override
-                public Widget getNewWidget() {
-                    return new ListOfStringWidget("Add Item");
-                }
-        };
-        
-        swappableFieldsDefinition.put(multipleCreditCondition,
-                Arrays.asList(
-                        new SwapCompositeConditionFieldConfig(
-                                new MultiplicityFieldConfiguration(
-                                        creditResultValuesFullPath.toString(),
-                                        generateMessageInfo(LUConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY),
-                                        modelDefinition.getMetadata(creditResultValuesFullPath),
-                                        multipleCreditInitializer),
-                                null
-                        )
-                )
-        );
+        ); 
+     
         swappableFieldsDefinition.put(variableCreditCondition,
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
@@ -565,19 +549,42 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                         )
                 )
         );
+ 
         
-        addMultiplicityFields(
-                courseOutcomes, 
-                path, 
-                LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
-                LUConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
+        MultiplicityConfiguration multipleCreditValuesConfig = setupMultiplicityConfig(
+                MultiplicityConfiguration.MultiplicityType.GROUP,
+                MultiplicityConfiguration.StyleType.BORDERLESS_TABLE,
+                path,
+                LUConstants.ADD_A_CREDITVALUE,
+                LUConstants.CREDITVALUE,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                CreditCourseConstants.TYPE,
-                                LUConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY,
-                                null, null, true)
-                ), swappableFieldsDefinition, null);
-
+                                "resultValues", 
+                                "Credit Value", null, null, true)),
+                null,
+                null);
+        
+        
+        swappableFieldsDefinition.put(multipleCreditCondition,
+                Arrays.asList(
+                        new SwapCompositeConditionFieldConfig(
+                                null, multipleCreditValuesConfig
+                                ))
+                );       
+        
+        // re-use method for fee
+        addFeeMultiplicityFields(courseOutcomes, 
+                path,
+                LUConstants.ADD_A_OUTCOME,
+                LUConstants.OUTCOME,
+                Arrays.asList(
+                        new MultiplicityFieldConfig(
+                                "type", 
+                                "Type", null, null, true)),
+                swappableFieldsDefinition,
+                Arrays.asList(
+                        deletionPath.toString()));                     
+        
         return courseOutcomes;
 
     }
@@ -714,19 +721,22 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected VerticalSection generateLearningObjectivesNestedSection() {
-        VerticalSection los = initSection(null, NO_DIVIDER);
+        final VerticalSection los = initSection(null, NO_DIVIDER);
 
-//        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
         QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
         Metadata meta = modelDefinition.getMetadata(path);
 
-        // FIXME [KSCOR-225]  where should repo key come from?
-        FieldDescriptor fd = addField(los,
-                CreditCourseConstants.COURSE_SPECIFIC_LOS,
-                null,
-                new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta),
-                COURSE);
-
+        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta);
+        final FieldDescriptor fd = addField(los, CreditCourseConstants.COURSE_SPECIFIC_LOS, null,loBuilder, COURSE);
+        
+        loBuilder.addValueChangeHandler(new ValueChangeHandler<List<OutlineNode<LOPicker>>>(){
+			@Override
+			public void onValueChange(ValueChangeEvent<List<OutlineNode<LOPicker>>> event) {
+				los.setIsDirty(true);
+				fd.setDirty(true);
+			}        	
+        });
+        
         // have to do this here, because decision on binding is done in ks-core,
         // and we obviously don't want ks-core referring to LOBuilder
         fd.setWidgetBinding(LOBuilderBinding.INSTANCE);

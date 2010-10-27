@@ -81,7 +81,13 @@ public class TestProgramInfoDictionary {
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());
         }
-        assertEquals(11, validationResults.size());
+//      /credentialProgramId validation.required
+//      /universityClassification validation.required
+//      /longTitle validation.required
+//      /divisionsContentOwner validation.required
+//      /type validation.required
+//      /state validation.required
+        assertEquals(6, validationResults.size());
 
         try {
             info =

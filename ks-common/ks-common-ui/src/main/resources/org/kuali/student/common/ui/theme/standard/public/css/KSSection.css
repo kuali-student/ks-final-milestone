@@ -46,18 +46,19 @@ h1.ks-layout-header{
 }
 
 h2.ks-layout-header{
-	font-size: 2em;
-	color: #940b07;
-	padding-bottom: 2px;
-    margin-bottom: 2px;
+color:#636D05;
+font-size:1.6em;
+margin-bottom:2px;
+padding-bottom:2px;
 }
 
 h3.ks-layout-header{
-                                   font-size: 1.5em; 
-                                   color: #000; 
-                                   font-weight: normal; 
-                                   padding: 0 0 0 17px;
-                                   margin-bottom: 2px; 
+border-bottom:1px dotted #BBBBBB;
+color:#000000;
+font-size:1.3em;
+font-weight:normal;
+letter-spacing:0.05em;
+margin-bottom:9px;
 }
 
 h4.ks-layout-header{
@@ -169,7 +170,11 @@ h7.ks-layout-header{
 /*** Messages ***/
 
 .ks-message-static {
-	background-color: #f4e271; padding: 6px 6px 6px 15px; position:relative; color: #000; margin-bottom: 10px;
+background-color:#EDDC91;
+color:#000000;
+margin-bottom:10px;
+padding:6px 6px 6px 15px;
+position:relative;
 }
 
 .ks-message-static-margin{
@@ -177,7 +182,10 @@ h7.ks-layout-header{
 }
 
 .ks-message-static-image {
-	position:absolute; top: -5px; left: -5px; z-index: 2;
+display:inline;
+left:-9px;
+position:absolute;
+top:2px;
 }
 
 .ks-message-static a { }
@@ -255,23 +263,25 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
                     margin-bottom:1em;
 }
 .ks-form-bordered-header {
-                    background-color:#E4E6F2;   
-                    margin:0; 
-                    padding:4px 8px; 
+border-bottom:1px dotted #BBBBBB;
+color:#000000;
+font-size:1.3em;
+font-weight:normal;
+letter-spacing:0.05em;
+margin-bottom:9px;
 
 }
 
 .ks-form-bordered-header-title {
-                    color:#424242;
-                    display:table; 
-                    float:left; 
-                    font-size:1.167em; 
-                    font-weight:bold; 
-                    height:1%; 
-                    letter-spacing:0.04em;         
-                    line-height:1.6em;              
-                    padding:0 0 0 5px;             
-                    text-transform:uppercase;    
+color:#424242;
+display:table;
+float:left;
+font-size:1em;
+height:1%;
+letter-spacing:0.06em;
+line-height:1.6em;
+padding:0 0 0 5px;
+text-transform:uppercase;  
 }
 .ks-form-bordered-header-title h4 {
 	margin: 0;
@@ -324,11 +334,11 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 .ks-form-course-format-activity { padding: 10px; margin-bottom: 10px; }
 
 .ks-form-course-format-activity-header {
-               border-bottom:1px solid #CCCCCC; 
-               height:1.5em; 
-               margin-bottom:0.75em; 
-               padding:4px 0; 
-               position:relative; 
+border-bottom:1px dotted #CCCCCC;
+height:1.5em;
+margin-bottom:0.1em;
+padding:1px 0;
+position:relative;
 
 }
 
@@ -392,16 +402,14 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 
 @if user.agent ie6 ie7 ie8 ie{  
 	.ks-form-module-group, .ks-form-module-solo{
-              margin-bottom:0.1em; 
-               padding-bottom:5px; 
-               margin-left:15px; 
+            padding-bottom: 5px;
+            margin-bottom: 0.1em;
 	}
 }
 
 .ks-form-module-group, .ks-form-module-solo {
-              margin-bottom:0.1em; 
-               padding-bottom:5px; 
-               margin-left:15px; 
+        padding-bottom: 5px;
+        margin-bottom: 0.1em;
 }
 
 .ks-form-module-fields {
@@ -410,9 +418,10 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-elements {
-	float:left;
-	margin-right: 20px;
-	margin-bottom: 1px;
+    margin-bottom: 1px;
+    float: left;
+    margin-right: 20px;
+    line-height: 1.4em;
 }
 
 .ks-form-module-elements-required {
@@ -463,13 +472,13 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 }
 
 .ks-form-module-elements-delete a{
-                    -moz-border-radius: 0 4px 0 4px;
-                    border: 1px solid #CCCCCC; 
-                    color: #AAAAAA; 
-                    font-size: 12px; 
-                    font-weight: bold; 
-                    padding: 3px 4px 1px;
-                    text-decoration:none; 
+-moz-border-radius:0 4px 0 4px;
+border:1px solid #CCCCCC;
+color:#AAAAAA;
+font-size:12px;
+padding:1px 3px 0;
+text-decoration:none;
+text-transform:lowercase;
 }
 
 .ks-form-module-elements-help a:hover, .ks-form-module-elements-delete a:hover {
@@ -587,8 +596,14 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 .ks-form-module-elements input[type="radio"] + label { display: inline; white-space: nowrap; font-weight: normal; } /* for label fields that follow a radio */
 
 .ks-form-module-elements input[type="text"] { 
-   border: 1px solid #B5BDBD; 
-   padding: 3px;  
+                      border-bottom: #b5bdbd 1px solid;
+                      border-left : #b5bdbd 1px solid;
+                      padding-bottom: 3px;
+                      padding-left: 3px;
+                      border-top: #b5bdbd 1px solid;
+                      border-right: #b5bdbd 1px solid;
+                      padding-top: 3px;
+                      margin-right: 0.938em;
 }
 
 .ks-form-module-elements textarea  { 
@@ -642,7 +657,7 @@ a.ks-form-button-large, span.ks-form-button-large {
 
 a.ks-form-button-small, span.ks-form-button-small {
 	text-decoration:none;
-	font-size: .85em;
+	font-size: .9em;
 	text-decoration:none;
 	background: #f3f3f3 url('images/common/plus_13px.png') no-repeat 6px center;
 	padding: 5px 8px 3px 22px;
@@ -719,17 +734,22 @@ a:focus{
 
 /* ---- Primary ------------------------- */
 a.ks-button-primary {
-               -moz-border-radius:0 4px 0 4px; 
-               background-color:#E4EBFF; 
-               background-image:-moz-linear-gradient(-90deg, #E4EBFF, #BFD1FF); 
-               border:1px solid #A1BAF7; 
-               color:#2C61E6; 
-               font-size:1.167em; 
-               font-weight:bold; 
-               line-height:1.93em; 
-               padding:4px 15px 2px; 
-               text-decoration:none; 
-
+                      border-bottom: #a1baf7 1px solid;
+                      border-left: #a1baf7 1px solid;
+                      padding-bottom: 2px;
+                      line-height: 1.93em;
+                      background-color: #e4ebff;
+                      padding-left: 15px;
+                      padding-right: 15px;
+                      color: #2c61e6;
+                      font-size: 1.16em;
+                      border-top: #a1baf7 1px solid;
+                      font-weight: bold;
+                      border-right: #a1baf7 1px solid;
+                      text-decoration: none;
+                      padding-top: 4px;
+                      -moz-border-radius: 4px;
+                      -webkit-border-radius: 4px;
 }
 
 a.ks-button-primary:focus{
@@ -748,34 +768,41 @@ a.ks-button-primary:hover {
 }
 
 .ks-button-primary-disabled {
-	line-height:2.25em;
-	text-decoration:none;
-	background-color: #F8F8F8;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 7px 10px 5px 10px;
-	color: #999999;
-	font-size: 1.167em;
-	font-weight: bold;
+                      border-bottom: #999 1px solid;
+                      border-left: #999 1px solid;
+                      padding-bottom: 2px;
+                      line-height: 1.93em;
+                      background-color: #f8f8f8;
+                      padding-left: 10px;
+                      padding-right: 10px;
+                      color: #999;
+                      font-size: 1.16em;
+                      border-top: #999 1px solid;
+                      font-weight: bold;
+                      border-right: #999 1px solid;
+                      text-decoration: none;
+                      padding-top: 4px;
+                      -moz-border-radius: 4px;
+                      -webkit-border-radius: 4px;
 }
-
 /* ---- Secondary ------------------------- */
 a.ks-button-secondary {
-	line-height:2.25em;
-	text-decoration:none;
-
-	background-color: #ECECEC;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 7px 10px 5px 10px;
-	color: #2C61E6;
-	font-size: 1.167em;
+                      border-bottom: #999 1px solid;
+                      border-left: #999 1px solid;
+                      padding-bottom: 2px;
+                      line-height: 1.93em;
+                      background-color: #ececec;
+                      padding-left: 10px;
+                      padding-right: 10px;
+                      color: #2c61e6;
+                      font-size: 1.16em;
+                      border-top: #999 1px solid;
+                      font-weight: bold;
+                      border-right: #999 1px solid;
+                      text-decoration: none;
+                      padding-top: 4px;
+                      -moz-border-radius: 4px;
+                      -webkit-border-radius: 4px;
 }
 
 a.ks-button-secondary:focus {
@@ -793,18 +820,22 @@ a.ks-button-secondary:hover {
 }
 
 .ks-button-secondary-disabled {
-	line-height:2.25em;
-	text-decoration:none;
-
-	background-color: #F8F8F8;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 7px 10px 5px 10px;
-	color: #999999;
-	font-size: 1.167em;
+                      border-bottom: #999 1px solid;
+                      border-left: #999 1px solid;
+                      padding-bottom: 2px;
+                      line-height: 1.93em;
+                      background-color: #f8f8f8;
+                      padding-left: 10px;
+                      padding-right: 10px;
+                      color: #999;
+                      font-size: 1.16em;
+                      border-top: #999 1px solid;
+                      font-weight: bold;
+                      border-right: #999 1px solid;
+                      text-decoration: none;
+                      padding-top: 4px;
+                      -moz-border-radius: 4px;
+                      -webkit-border-radius: 4px
 }
 
 /* ---- Primary Small ------------------- */
@@ -906,8 +937,8 @@ a.ks-button-secondary-small:hover {
 }
 
 .ks-link-large{
-	line-height: 2.25em;
-	font-size: 1.167em;
+    font-size:1.167em;
+    line-height:2.15em;
 }
 
 .ks-link-large-disabled{

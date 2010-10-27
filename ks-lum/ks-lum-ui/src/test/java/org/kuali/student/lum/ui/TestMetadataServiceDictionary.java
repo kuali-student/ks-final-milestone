@@ -36,15 +36,12 @@ import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestMetadataServiceDictionary
 {
@@ -172,44 +169,23 @@ public class TestMetadataServiceDictionary
    {
     System.out.println ("error: " + error);
    }
-//   fail (errors.size () + " errors found when validating metadata");
-  }
- }
-
- private SearchTypeInfo getSearchTypeInfo (String searchType)
- {
-  return this.getSearchInfoTypeMap ().get (searchType);
- }
- private Map<String, SearchTypeInfo> searchInfoTypeMap = null;
-
- private Map<String, SearchTypeInfo> getSearchInfoTypeMap ()
- {
-  if (this.searchInfoTypeMap != null)
-  {
-   return this.searchInfoTypeMap;
-  }
-  String[] searchConfigFiles =
-  {
-   "lu", "lo", "lrc", "organization", "atp", "em"
-  };
-  for (int i = 0; i < searchConfigFiles.length; i ++)
-  {
-   System.out.println ("loading search configurations for "
-                       + searchConfigFiles[i]);
-   ApplicationContext ac = new ClassPathXmlApplicationContext (
-     "classpath:" + searchConfigFiles[i] + "-search-config.xml");
-   if (searchInfoTypeMap == null)
+   System.out.println (errors.size () + " errors found when validating metadata");
+   // these first 6 are becaue the recusion stops but the final field still is flagged as DATA even though it cannot have sub fields
+   //error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.variations.*.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.orgCoreProgram.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.MajorDisciplineInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.statement.statements.*.statements.*.statements.* is of type DATA but it has no properties
+   //error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
+   // TODO: figure out this last one -- it is a problem with the cross search that I think Heather wrote.
+   //error: search.findMajor has an additional lookup : kuali.lu.lookup.findMajor.advanced that has a parameter lu.resultColumn.luOptionalMajorName that does not exist in the underlying search lu.search.union.majors
+   //7 errors found when validating metadata
+   if (errors.size () != 6 && errors.size () != 7)
    {
-    searchInfoTypeMap = ac.getBeansOfType (SearchTypeInfo.class);
-   }
-   else
-   {
-    searchInfoTypeMap.putAll (ac.getBeansOfType (SearchTypeInfo.class));
+    fail (errors.size () + " errors found when validating metadata");
    }
   }
-  return searchInfoTypeMap;
  }
-
  private MetadataServiceDictionaryValidator validator = null;
 
  private MetadataServiceDictionaryValidator getValidator ()
@@ -220,7 +196,6 @@ public class TestMetadataServiceDictionary
   }
   return validator;
  }
-
 
  private List<String> validateMetadata (Metadata md, String name, String type)
  {

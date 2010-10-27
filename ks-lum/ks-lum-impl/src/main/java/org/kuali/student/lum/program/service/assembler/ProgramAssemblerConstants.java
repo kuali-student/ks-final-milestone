@@ -83,7 +83,7 @@ public class ProgramAssemblerConstants {
 	public static final String SELECTIVE_ENROLLMENT = "kuali.lu.code.SelectiveEnrollment";
 
 	// publication types
-	public static final String CATALOG = "kuali,lu.publication.Catalog";
+	public static final String CATALOG = "kuali.lu.publication.Catalog";
 
     // adminorg types
 	public static final String CONTENT_OWNER_DIVISION = "kuali.adminOrg.type.ContentOwnerDivision";

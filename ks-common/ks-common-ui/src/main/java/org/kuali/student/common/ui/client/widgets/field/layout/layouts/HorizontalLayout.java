@@ -7,7 +7,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElem
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Widget;
 
