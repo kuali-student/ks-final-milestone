@@ -3444,36 +3444,32 @@
 		</index>
     </table>
     <table name="KSST_STMT_TYP_JN_RC_TYP">
-        <column name="STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="REQ_COM_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="KSST_STMT_TYP_JN_RC_TYP_FK1">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="REQ_COM_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="SORT_ORDER" size="10" type="DECIMAL"/>
+        <column name="STMT_TYPE_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="FKEE1C67E3F942310E">
             <reference foreign="TYPE_KEY" local="REQ_COM_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_TYP_JN_RC_TYP_I1">
-			<index-column name="REQ_COM_TYPE_ID"/>
-		</index>
-        <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_STMT_TYP_JN_RC_TYP_FK2">
+        <foreign-key foreignTable="KSST_STMT_TYPE" name="FKEE1C67E3BD6236BE">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_TYP_JN_RC_TYP_I2">
-			<index-column name="STMT_TYPE_ID"/>
-		</index>
     </table>
     <table name="KSST_STMT_TYP_JN_STMT_TYP">
-        <column name="STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="CHLD_STMT_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_STMT_TYP_JN_STMT_TYP_FK1">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CHLD_STMT_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="SORT_ORDER" size="10" type="DECIMAL"/>
+        <column name="STMT_TYPE_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07A38283320">
             <reference foreign="TYPE_KEY" local="CHLD_STMT_TYPE_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSST_STMT_TYPE" name="KSST_STMT_TYP_JN_STMT_TYP_FK2">
+        <foreign-key foreignTable="KSST_STMT_TYPE" name="FKA518B07ABD6236BE">
             <reference foreign="TYPE_KEY" local="STMT_TYPE_ID"/>
         </foreign-key>
-		<index name="KSST_STMT_TYP_JN_STMT_TYP_I2">
-			<index-column name="STMT_TYPE_ID"/>
-		</index>
-        <unique name="SYS_C0011848">
-            <unique-column name="CHLD_STMT_TYPE_ID"/>
-        </unique>
     </table>
     <table name="KSST_USAGE_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
