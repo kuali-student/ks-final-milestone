@@ -49,6 +49,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -130,6 +131,10 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_APPROVED + labelType),
                 null,
                 null);
+        HTML html = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
+                "add any combination of courses, dynamic course ranges, or Course sets. ");
+        approvedClusSection.addWidget(
+                html);
         approvedClusSelection = (KSSelectedList) approvedClusFd.getFieldWidget();
         KSListPanel approvedClusListPanel = approvedClusSelection.separateValuesPanel();
         clusetDetails.addSection(approvedClusSection, CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS);
@@ -287,6 +292,8 @@ public class CluSetEditorWidget extends VerticalSectionView {
         }
         
         final VerticalSection choosingSection = new VerticalSection();
+        choosingSection.addWidget(
+                new HTML("<b>Add a course, course set, or course range</b>"));
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
         chooser.addSelectionChangeHandler(new SelectionChangeHandler() {
