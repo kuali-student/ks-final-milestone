@@ -32,6 +32,7 @@
 	<security:http auto-config="false">
     	<security:intercept-url pattern="/logout.html*" filters="none"/>
     	<security:intercept-url pattern="/services/*" filters="none"/>
+    	<security:intercept-url pattern="/favicon.ico" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
 		<security:form-login />
     </security:http>
