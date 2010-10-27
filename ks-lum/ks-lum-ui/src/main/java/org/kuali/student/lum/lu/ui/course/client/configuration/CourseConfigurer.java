@@ -39,13 +39,11 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.CompositeConditionOperator;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldWidgetInitializer;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
@@ -65,7 +63,6 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
@@ -86,7 +83,9 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
 import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
+import org.kuali.student.lum.common.client.lo.LOPicker;
 import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.lum.common.client.lo.OutlineNode;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
@@ -96,6 +95,8 @@ import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirements
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -720,19 +721,22 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
     }
 
     protected VerticalSection generateLearningObjectivesNestedSection() {
-        VerticalSection los = initSection(null, NO_DIVIDER);
+        final VerticalSection los = initSection(null, NO_DIVIDER);
 
-//        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
         QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
         Metadata meta = modelDefinition.getMetadata(path);
 
-        // FIXME [KSCOR-225]  where should repo key come from?
-        FieldDescriptor fd = addField(los,
-                CreditCourseConstants.COURSE_SPECIFIC_LOS,
-                null,
-                new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta),
-                COURSE);
-
+        LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta);
+        final FieldDescriptor fd = addField(los, CreditCourseConstants.COURSE_SPECIFIC_LOS, null,loBuilder, COURSE);
+        
+        loBuilder.addValueChangeHandler(new ValueChangeHandler<List<OutlineNode<LOPicker>>>(){
+			@Override
+			public void onValueChange(ValueChangeEvent<List<OutlineNode<LOPicker>>> event) {
+				los.setIsDirty(true);
+				fd.setDirty(true);
+			}        	
+        });
+        
         // have to do this here, because decision on binding is done in ks-core,
         // and we obviously don't want ks-core referring to LOBuilder
         fd.setWidgetBinding(LOBuilderBinding.INSTANCE);
