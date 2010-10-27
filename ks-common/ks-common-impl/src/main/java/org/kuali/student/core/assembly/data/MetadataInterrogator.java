@@ -324,7 +324,7 @@ public class MetadataInterrogator {
 		if (!result) {
 			Integer maxLength = getSmallestMaxLength(meta);
 			if (maxLength != null) {
-				if (maxLength > 60) {
+				if (maxLength > 150) {
 					result = true;
 				}
 			}
