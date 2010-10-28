@@ -248,7 +248,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -284,7 +284,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -341,7 +341,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -383,7 +383,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -417,7 +417,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -449,7 +449,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -520,7 +520,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -559,7 +559,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -607,7 +607,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -640,7 +640,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -671,7 +671,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -703,7 +703,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -735,7 +735,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -766,7 +766,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -802,7 +802,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -833,7 +833,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -1149,7 +1149,7 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
