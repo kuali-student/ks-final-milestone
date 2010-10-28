@@ -1050,7 +1050,6 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testUpdateMajorDisciplineRemoveRule() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
@@ -1069,9 +1068,9 @@ public class TestProgramServiceImpl {
             programService.deleteProgramRequirement(req1.getId());
             retrievedMD.getProgramRequirements().clear();
             MajorDisciplineInfo updatedMD2 = programService.updateMajorDiscipline(retrievedMD);
-
             assertEquals(0, updatedMD2.getProgramRequirements().size());
-
+            retrievedMD = programService.getMajorDiscipline(major.getId());
+            assertEquals(0, retrievedMD.getProgramRequirements().size());
     }
 
 
