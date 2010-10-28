@@ -85,10 +85,10 @@ public class FieldDescriptor {
     protected void setupField() {
     	if(metadata != null){
     		if(MetadataInterrogator.isRequired(metadata)){
-    			fieldElement.setRequiredString("requiredMarker");
+    			fieldElement.setRequiredString("requiredMarker", "ks-form-module-elements-required");
     		}
     		else if(MetadataInterrogator.isRequiredForNextState(metadata)){
-    			fieldElement.setRequiredString("requiredOnSubmit");
+    			fieldElement.setRequiredString("requiredOnSubmit", "ks-form-required-for-submit");
     		}
     	}
     }

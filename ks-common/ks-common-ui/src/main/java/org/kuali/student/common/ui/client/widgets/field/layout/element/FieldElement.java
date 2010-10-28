@@ -211,6 +211,13 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	required.setText(requiredText);
     	required.setVisible(true);
     }
+    
+    public void setRequiredString(String requiredKey, String style){
+    	String requiredText = Application.getApplicationContext().getMessage(requiredKey);
+    	required.setText(requiredText);
+    	required.setStyleName(style);
+    	required.setVisible(true);
+    }
 
     public Widget getFieldWidget(){
     	return fieldWidget;
