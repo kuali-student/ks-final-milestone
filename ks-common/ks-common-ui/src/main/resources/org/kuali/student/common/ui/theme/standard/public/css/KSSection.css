@@ -270,15 +270,15 @@ padding:4px 6px;
 }
 
 .ks-form-bordered-header-title {
-color:#424242;
-display:table;
-float:left;
-font-size:1em;
-height:1%;
-letter-spacing:0.06em;
-line-height:1.6em;
-padding:0 0 0 5px;
-text-transform:uppercase;  
+    color:#424242;
+    display:table;
+    float:left;
+    font-size:1em;
+    height:1%;
+    letter-spacing:0.06em;
+    line-height:1.6em;
+    padding:0 0 0 5px;
+    text-transform:uppercase;  
 }
 .ks-form-bordered-header-title h4 {
 	margin: 0;
@@ -420,7 +420,13 @@ position:relative;
     margin-right: 20px;
     line-height: 1.4em;
 }
-
+.ks-form-required-for-submit {
+color:#999999;
+font-size:0.9em;
+font-style:italic;
+font-weight:normal;
+margin-left:4px;
+}
 .ks-form-module-elements-required {
 	color:red;
 }
