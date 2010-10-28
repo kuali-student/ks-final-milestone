@@ -76,7 +76,6 @@ public class VariationEditController extends VariationController {
                             return;
                         }
                     }
-                    programModel.setRoot(ProgramUtils.getNewSpecialization());
                 }
             }
         });

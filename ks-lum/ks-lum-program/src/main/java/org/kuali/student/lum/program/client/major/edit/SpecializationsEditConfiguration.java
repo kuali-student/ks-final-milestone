@@ -34,7 +34,6 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
         addSpecializationButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                ProgramUtils.getNewSpecialization();
                 ProgramManager.getEventBus().fireEvent(new AddSpecializationEvent());
             }
         });

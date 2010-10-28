@@ -16,6 +16,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramManager;
 import org.kuali.student.lum.program.client.ProgramRegistry;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -53,6 +54,7 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                     public void onClick(ClickEvent event) {
                         ProgramRegistry.setData(variationData);
                         ProgramRegistry.setRow(currentRow);
+                        ProgramUtils.addCredentialProgramDataToVariation(variationData, model);
                         String id = (String) model.get("id");
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(id);

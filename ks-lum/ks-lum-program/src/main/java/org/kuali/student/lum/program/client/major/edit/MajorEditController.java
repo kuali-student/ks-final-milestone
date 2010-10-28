@@ -20,6 +20,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -100,6 +101,7 @@ public class MajorEditController extends MajorController {
             public void onEvent(AddSpecializationEvent event) {
                 String id = (String) programModel.get(ProgramConstants.ID);
                 ProgramRegistry.setRow(programModel.<Data>get(ProgramConstants.VARIATIONS).size());
+                ProgramRegistry.setData(ProgramUtils.createNewSpecializationBasedOnMajor(programModel));
                 ViewContext viewContext = new ViewContext();
                 viewContext.setId(id);
                 viewContext.setIdType(IdAttributes.IdType.OBJECT_ID);

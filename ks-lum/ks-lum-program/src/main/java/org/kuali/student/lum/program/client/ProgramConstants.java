@@ -14,6 +14,8 @@ public class ProgramConstants {
     public static final String MAJOR_OBJECT_ID = "kuali.lu.type.MajorDiscipline";
     public static final String VARIATION_TYPE_KEY = "kuali.lu.type.Variation";
     public static final String MAJOR_TYPE_ID = "referenceType.clu";
+    public static final String RUNTIME_DATA = "_runtimeData";
+    public static final String ID_TRANSLATION = "id-translation";
 
     //Identifying Details
     public static final String CODE = "code";
