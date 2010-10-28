@@ -181,10 +181,10 @@ text-shadow:0 2px 2px #FFFFFF;
 }
 
 .ks-notification-container {
-    position: absolute;
-    right: 25px;
-    bottom: 25px;
+    top: 45px;
     overflow: visible;
+    position: absolute;
+    left: 400px;
 }
 
 .ks-notification-message {
