@@ -64,12 +64,15 @@ public class VariationEditController extends VariationController {
                 DataModel dataModel = event.getModel();
                 Data variationMap = dataModel.get(ProgramConstants.VARIATIONS);
                 if (variationMap != null) {
+                    int row = 0;
                     for (Data.Property property : variationMap) {
                         final Data variationData = property.getValue();
                         if (variationData.get(ProgramConstants.ID).equals(currentId)) {
                             programModel.setRoot(variationData);
                             ProgramRegistry.setData(variationData);
+                            ProgramRegistry.setRow(row);
                             setContentTitle(getProgramName());
+                            row++;
                             return;
                         }
                     }
@@ -97,9 +100,9 @@ public class VariationEditController extends VariationController {
                 VariationEditController.this.updateModelFromCurrentView();
                 model.validate(new Callback<List<ValidationResultInfo>>() {
                     @Override
-                    public void exec(List<ValidationResultInfo> result) {
-                        ProgramUtils.cutParentPartOfKey(result);
-                        boolean isSectionValid = isValid(result, true);
+                    public void exec(List<ValidationResultInfo> validationResultInfos) {
+                        List<ValidationResultInfo> results = ProgramUtils.cutParentPartOfKey(validationResultInfos, ProgramConstants.VARIATIONS + "/" + ProgramRegistry.getRow());
+                        boolean isSectionValid = isValid(results, true);
                         if (isSectionValid) {
                             saveData(model);
                             okToChange.exec(true);

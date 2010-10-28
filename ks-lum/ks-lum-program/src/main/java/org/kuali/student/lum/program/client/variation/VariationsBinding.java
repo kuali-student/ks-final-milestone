@@ -46,11 +46,13 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
             int row = 0;
             for (final Data.Property property : variationMap) {
                 final Data variationData = property.getValue();
+                final int currentRow = row;
                 Anchor anchor = new Anchor(getVariationName(variationData));
                 anchor.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         ProgramRegistry.setData(variationData);
+                        ProgramRegistry.setRow(currentRow);
                         String id = (String) model.get("id");
                         ViewContext viewContext = new ViewContext();
                         viewContext.setId(id);
@@ -62,7 +64,6 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                 if (editable) {
                     KSButton removeButton = new KSButton(ProgramProperties.get().common_remove());
                     table.setWidget(row, 1, removeButton);
-                    final int currentRow = row;
                     removeButton.addClickHandler(new ClickHandler() {
 
                         @Override

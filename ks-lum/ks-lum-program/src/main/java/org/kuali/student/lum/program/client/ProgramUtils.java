@@ -4,6 +4,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +17,16 @@ public class ProgramUtils {
     private ProgramUtils() {
     }
 
-    public static void cutParentPartOfKey(List<ValidationResultInfo> result) {
-        for (ValidationResultInfo validationResultInfo : result) {
-            validationResultInfo.setElement(getLastPart(validationResultInfo.getElement()));
+    public static List<ValidationResultInfo> cutParentPartOfKey(List<ValidationResultInfo> validationResultInfos, String key) {
+        List<ValidationResultInfo> result = new ArrayList<ValidationResultInfo>();
+        for (ValidationResultInfo validationResultInfo : validationResultInfos) {
+            String elementKey = validationResultInfo.getElement();
+            if (elementKey.startsWith(key)) {
+                validationResultInfo.setElement(getLastPart(elementKey));
+                result.add(validationResultInfo);
+            }
         }
+        return result;
     }
 
     private static String getLastPart(String element) {

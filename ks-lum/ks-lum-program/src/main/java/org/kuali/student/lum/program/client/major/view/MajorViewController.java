@@ -82,14 +82,15 @@ public class MajorViewController extends MajorController {
            context.getAttributes().remove(ProgramConstants.VARIATION_ID);
            final Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
             if (variationMap != null) {
-                Iterator<Property> itr = variationMap.iterator();
-                while (itr.hasNext()) {
-                    Property p = itr.next();
+                int row = 0;
+                for (Property p : variationMap) {
                     final Data variationData = p.getValue();
                     if (variationData != null) {
                         if (variationData.get(ProgramConstants.ID).equals(variationId)) {
                             ProgramRegistry.setData(variationData);
+                            ProgramRegistry.setRow(row);
                         }
+                        row++;
                     }
                 }
                 HistoryManager.navigate(AppLocations.Locations.VIEW_VARIATION.getLocation(), context);

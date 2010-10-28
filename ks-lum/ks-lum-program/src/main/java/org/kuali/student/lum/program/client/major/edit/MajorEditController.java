@@ -22,7 +22,6 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -99,6 +98,7 @@ public class MajorEditController extends MajorController {
             @Override
             public void onEvent(AddSpecializationEvent event) {
                 String id = (String) programModel.get(ProgramConstants.ID);
+                ProgramRegistry.setRow(programModel.<Data>get(ProgramConstants.VARIATIONS).size());
                 ViewContext viewContext = new ViewContext();
                 viewContext.setId(id);
                 viewContext.setIdType(IdAttributes.IdType.OBJECT_ID);
@@ -188,6 +188,7 @@ public class MajorEditController extends MajorController {
         programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
             @Override
             public void onSuccess(DataSaveResult result) {
+                super.onSuccess(result);
                 if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
                     isValid(result.getValidationResults(), false, true);
                     StringBuilder msg = new StringBuilder();
@@ -197,7 +198,6 @@ public class MajorEditController extends MajorController {
                     KSNotifier.show(ProgramProperties.get().common_failedSave(msg.toString()));
                     okCallback.exec(false);
                 } else {
-                    super.onSuccess(result);
                     programModel.setRoot(result.getValue());
                     setHeaderTitle();
                     setStatus();
