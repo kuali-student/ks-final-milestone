@@ -1025,22 +1025,22 @@ public class TestProgramServiceImpl {
                 orgInfoId = orgInfoId + "-updated";
             }
 
-//            List<String> reqIds = new ArrayList<String>();
-//            reqIds.add("REQ-200");
-//            reqIds.add("REQ-300");
-//            major.setProgramRequirements(reqIds);
+            List<String> reqIds = new ArrayList<String>();
+            reqIds.add("REQ-200");
+            reqIds.add("REQ-300");
+            major.setProgramRequirements(reqIds);
 
            //Perform the update
             MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major);
 
             //Verify the update
             verifyUpdate(updatedMD);
-            //assertEquals(2, updatedMD.getProgramRequirements().size());
+            assertEquals(2, updatedMD.getProgramRequirements().size());
 
             // Now explicitly get it
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(major.getId());
             verifyUpdate(retrievedMD);
-            //assertEquals(2, retrievedMD.getProgramRequirements().size());
+            assertEquals(2, retrievedMD.getProgramRequirements().size());
             //TODO: add version update
 
         } catch (Exception e) {
@@ -1050,7 +1050,6 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testUpdateMajorDisciplineRemoveRule() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
