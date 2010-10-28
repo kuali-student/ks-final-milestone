@@ -192,7 +192,7 @@
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange" parent="lu.queryParam.luOptionalCrsNoRange-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalCrsNoRange-parent"  optional="true" abstract="true">
-	    <ref bean="field.cluInfo.officialIdentifier.level.fd"/>
+	    <ref bean="field.cluInfo.officialIdentifier.suffixCode.fd"/>
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate1" parent="lu.queryParam.luOptionalEffectiveDate1-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalEffectiveDate1-parent"  optional="true" abstract="true">
@@ -1343,7 +1343,7 @@
 					<value>lut.id</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalCrsNoRange">
-				    <value>!!NUMBER_RANGE clu.officialIdentifier.level</value>
+				    <value>!!NUMBER_RANGE clu.officialIdentifier.suffixCode</value>
 				</entry>
 				<entry key="lu.queryParam.luOptionalEffectiveDate1">
 				    <value>clu.effectiveDate &gt;= :lu_queryParam_luOptionalEffectiveDate1</value>

@@ -162,6 +162,7 @@ public class ClusetView extends VerticalSectionView {
         cluSetTitle.getElement().getStyle().setProperty("fontWeight", "bold");
         cluSetTitle.getElement().getStyle().setProperty("fontSize", "16px");
         cluSetTitle.getElement().getStyle().setProperty("borderBotton", "1px solid #D8D8D8");
+        
         addField(generalClusInfoSection, 
                 ToolsConstants.CLU_SET_NAME_FIELD, 
                 null,
@@ -178,6 +179,7 @@ public class ClusetView extends VerticalSectionView {
                 new KSLabel(),
                 null);
         this.addSection(generalClusInfoSection);
+        addWidget(new KSLabel("Items in this Course Set"));
         this.addWidget(cluSetDisplay);
     }
     

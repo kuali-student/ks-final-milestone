@@ -131,10 +131,6 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 generateMessageInfo(CommonWidgetConstants.NEW_CLU_SET_CONTENT_APPROVED + labelType),
                 null,
                 null);
-        HTML html = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
-                "add any combination of courses, dynamic course ranges, or Course sets. ");
-        approvedClusSection.addWidget(
-                html);
         approvedClusSelection = (KSSelectedList) approvedClusFd.getFieldWidget();
         KSListPanel approvedClusListPanel = approvedClusSelection.separateValuesPanel();
         clusetDetails.addSection(approvedClusSection, CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS);
@@ -166,6 +162,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             clusetRangeLabel = new KSItemLabel(true, true, clusetRangeModelHelper);
             final KSItemLabel theClusetRangeLabel = clusetRangeLabel;
             clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
+            clusetRangeLabel.getElement().getStyle().setProperty("width", "354px");
             final FieldDescriptor cluRangeFieldDescriptor = addField(
                     cluRangeSection, 
                     CommonWidgetConstants.CLU_SET_CLU_SET_RANGE_FIELD, 
@@ -308,6 +305,9 @@ public class CluSetEditorWidget extends VerticalSectionView {
             }
         });
         
+        HTML html = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
+            "add any combination of courses, dynamic course ranges, or Course sets. ");
+        this.addWidget(html);
         this.addSection(choosingSection);
         this.addWidget(selectedValuesPanel);
     }
