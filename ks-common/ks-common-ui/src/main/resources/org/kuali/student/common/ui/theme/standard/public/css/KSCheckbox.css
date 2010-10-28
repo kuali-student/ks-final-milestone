@@ -29,3 +29,7 @@
 .KS-Checkbox-Focus{
 	color: #9B251C;
 }
+.KS-Checkbox-Table td {
+    vertical-align: bottom;
+}
+                      
