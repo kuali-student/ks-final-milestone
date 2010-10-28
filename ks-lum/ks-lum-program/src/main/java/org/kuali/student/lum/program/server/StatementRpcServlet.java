@@ -53,12 +53,6 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
 
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
 
-        //ensure the correct sequence of statement types; hard-coded for now
-        if (statementTypeNames.contains("kuali.statement.type.course.enrollmentEligibility")) {
-            statementTypeNames.remove("kuali.statement.type.course.enrollmentEligibility");
-            statementTypeNames.add(0, "kuali.statement.type.course.enrollmentEligibility");
-        }
-
         for (String statementTypeName : statementTypeNames) {
             StatementTypeInfo stmtInfo = statementService.getStatementType(statementTypeName);
 

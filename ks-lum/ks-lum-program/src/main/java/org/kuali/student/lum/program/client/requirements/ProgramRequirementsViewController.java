@@ -104,12 +104,16 @@ public class ProgramRequirementsViewController extends BasicLayout {
                         switch (result) {
                             case YES:
                                 dialog.hide();
-                                preview.storeRules();
-                                okToChange.exec(true);
+                                preview.storeRules(new Callback<Boolean>() {
+                                    @Override
+                                    public void exec(Boolean result) {
+                                        okToChange.exec(true);                                        
+                                    }
+                                });
                                 break;
                             case NO:
                                 dialog.hide();
-                                preview.revertRuleChanges();                                
+                                preview.revertRuleChanges();
                                 okToChange.exec(true);
                                 break;
                             case CANCEL:

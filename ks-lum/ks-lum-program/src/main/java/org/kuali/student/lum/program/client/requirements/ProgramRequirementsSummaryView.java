@@ -32,9 +32,6 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.program.client.ProgramManager;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
@@ -80,7 +77,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         resetRules();
         this.isReadOnly = isReadOnly;
 
-        //since we don't how did user get to this screen, we always load rule data from database on each event
+        //since we don't know how user got to this screen, we always load rule data from database on each event
+        /*
         ProgramManager.getEventBus().addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
@@ -93,7 +91,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     }
                 });
             }
-        });
+        }); */
 
         if (!isReadOnly) {        
             setupSaveCancelButtons();
@@ -108,15 +106,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
-        //for read-only view, we don't need to worry about rules being added or modified
-        if (isReadOnly) {
-            //displayRules();
-            onReadyCallback.exec(true);
-            return;
-        }
-
         //only when user wants to see rules then load requirements from database if they haven't been loaded yet
-        if (!rules.isInitialized()) {
+        if (!rules.isInitialized() || isReadOnly) {
             rules.retrieveProgramRequirements(new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
@@ -128,6 +119,14 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             });
             return;
         }
+
+        //for read-only view, we don't need to worry about rules being added or modified
+        /*
+        if (isReadOnly) {
+            displayRules();
+            onReadyCallback.exec(true);
+            return;
+        } */       
 
         //see if we need to update a rule if user is returning from rule manage screen
         parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
@@ -154,7 +153,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 		});        
     }
 
-    public void storeRules() {
+    public void storeRules(final Callback<Boolean> callback) {
         rules.updateProgramEntities(new Callback<List<ProgramRequirementInfo>>() {
             @Override
             public void exec(List<ProgramRequirementInfo> programReqInfos) {
@@ -164,6 +163,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
                     updateRequirementWidgets(programReqInfo);
                 } */
+
+                if (callback != null) {
+                    callback.exec(true);
+                }
             }
         });
     }
@@ -503,7 +506,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //initialize fields with values if user is editing an existing rule
         if (internalProgReqID != null) {
             ProgramRequirementInfo progReq = rules.getProgReqByInternalId(internalProgReqID);
-            progReqData.set(QueryPath.parse("shortTitle"), progReq.getShortTitle());
+            progReqData.set(QueryPath.parse("shortTitle"), progReq.getShortTitle());         
             progReqData.set(QueryPath.parse("minCredits"), progReq.getMinCredits());
             progReqData.set(QueryPath.parse("maxCredits"), progReq.getMaxCredits()); 
             progReqData.set(QueryPath.parse("descr"), progReq.getDescr().getPlain());
@@ -558,6 +561,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         text.setPlain((String)(progReqData.getRoot().get("descr")));
         progReqInfo.setDescr(text);
         progReqInfo.setShortTitle((String)progReqData.getRoot().get("shortTitle"));
+        progReqInfo.setLongTitle((String)progReqData.getRoot().get("shortTitle"));        
         progReqInfo.setMinCredits((Integer)progReqData.getRoot().get("minCredits"));
         progReqInfo.setMaxCredits((Integer)progReqData.getRoot().get("maxCredits"));
 
@@ -606,7 +610,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
              @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
                 if (result == ButtonEnumerations.SaveCancelEnum.SAVE) {
-                    storeRules();
+                    storeRules(null);
                 } else {
                     HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), parentController.getViewContext());
                 }
