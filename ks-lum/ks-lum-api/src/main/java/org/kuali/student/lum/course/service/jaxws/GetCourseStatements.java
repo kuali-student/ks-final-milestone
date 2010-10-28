@@ -30,5 +30,27 @@ public class GetCourseStatements {
         this.courseId = newCourseId;
     }
 
+       @XmlElement(name = "nlUsageTypeKey")
+    private java.lang.String nlUsageTypeKey;
+
+    public java.lang.String getNlUsageTypeKey() {
+        return this.nlUsageTypeKey;
+    }
+
+    public void setNlUsageTypeKey(java.lang.String nlUsageTypeKey)  {
+        this.nlUsageTypeKey = nlUsageTypeKey;
+    }
+
+        @XmlElement(name = "language")
+    private java.lang.String language;
+
+    public java.lang.String getLanguage () {
+        return this.language;
+    }
+
+    public void setLanguage(java.lang.String language)  {
+        this.language = language;
+    }
+
 }
 
