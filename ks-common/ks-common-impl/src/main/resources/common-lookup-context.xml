@@ -592,7 +592,7 @@
 					<property name="name" value="Lu Type" />
 					<property name="desc" value="Type of a learning unit" />
 					<property name="writeAccess" value="NEVER" />
-					<property name="defaultValueString" value="kuali.lu.type.creditCourse" />
+					<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 					<property name="caseSensitive" value="true" />
 				</bean>
 			</list>
