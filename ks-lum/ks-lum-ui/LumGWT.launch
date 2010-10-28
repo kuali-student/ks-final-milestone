@@ -37,6 +37,6 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-war ${workspace_loc:ks-lum}/ks-lum-ui/target/ks-lum-ui-webapp -startupUrl org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp org.kuali.student.lum.lu.ui.main.LUMMain"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="ks-lum"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512M -XX:PermSize=128m""/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512M -XX:PermSize=128m"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:ks-lum/ks-lum-ui/target}"/>
 </launchConfiguration>
