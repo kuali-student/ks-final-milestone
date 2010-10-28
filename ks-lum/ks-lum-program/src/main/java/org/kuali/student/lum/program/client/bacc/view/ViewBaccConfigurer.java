@@ -18,7 +18,7 @@ public class ViewBaccConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(new BaccCatalogDetailsViewConfiguration());
         programSectionConfigManager.registerConfiguration(new BaccRequirementsViewConfiguration());
         programSectionConfigManager.registerConfiguration(new BaccLearningObjectivesViewConfiguration());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsViewConfiguration());
+        programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(new BaccViewAllSectionsConfiguration());
     }
 }

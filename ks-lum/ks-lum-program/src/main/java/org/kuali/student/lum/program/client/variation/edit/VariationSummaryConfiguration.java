@@ -29,7 +29,7 @@ public class VariationSummaryConfiguration extends AbstractControllerConfigurati
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
         configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(new SupportingDocsViewConfiguration());
+        configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial());
         for (Configuration configuration : configurationManager.getConfigurations()) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(controller);
