@@ -32,6 +32,9 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
+import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
+import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
@@ -45,6 +48,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     private MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
+    private static CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();    
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
@@ -123,10 +127,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //for read-only view, we don't need to worry about rules being added or modified
         /*
         if (isReadOnly) {
-            displayRules();
             onReadyCallback.exec(true);
             return;
-        } */       
+        } */
 
         //see if we need to update a rule if user is returning from rule manage screen
         parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
@@ -375,8 +378,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         Set<String> cluSetIds = new HashSet<String>();
         findCluSetIds(rule, cluSetIds);
         for (String clusetId : cluSetIds) {
-           //TODO after Sherman changes
-            //widgetList.put(clusetId, new CluSetDetailsWidget(clusetId, cluSetManagementRpcServiceAsync));
+            widgetList.put(clusetId, new CluSetDetailsWidget(clusetId, cluSetRetriever));
         }
 
         return widgetList;
