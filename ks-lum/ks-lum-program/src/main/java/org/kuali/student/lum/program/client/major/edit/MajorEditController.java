@@ -1,10 +1,8 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -28,8 +26,11 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
@@ -132,9 +133,55 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
             @Override
             public void onEvent(StoreRequirementIDsEvent event) {
+                String programId = event.getProgramId();       //this can be either Major or Specialization ID
+                String programType = event.getProgramType();
                 List<String> ids = event.getProgramRequirementIds();
-                programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
-                Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                Data programRequirements = null;
+
+                //specializations will be handled differently from Major
+                if (programType.equals("kuali.lu.type.Variation")) {
+
+                    Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
+
+                    //if we are saving rules and this specialization program was not yet saved
+                    if (programId == null) {
+                        //define data model for the new specialization
+                        DataModel variationModel = new DataModel();
+                        variationModel.setDefinition(programModel.getDefinition());
+                        variationModel.setRoot(ProgramRegistry.getData());
+
+                        //if this is the first specialization, create a container map
+                        if (variationMap == null) {
+                            variationMap = new Data();
+                            programModel.set(QueryPath.parse(ProgramConstants.VARIATIONS), variationMap);
+                        }
+                        variationMap.add(variationModel.getRoot());
+                        programRequirements = variationModel.getRoot().get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                        
+                    } else { //at least one specialization is saved
+
+                        //find the specialization that we need to update
+                        for (Data.Property property : variationMap) {
+                            final Data variationData = property.getValue();
+                            if (variationData.get(ProgramConstants.ID).equals(programId)) {
+                                variationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
+                                programRequirements = variationData.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                                break;
+                            }
+                        }
+                    }
+                    
+                } else {                                       
+                    programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
+                    programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                }
+
+                if (programRequirements == null) {
+                    Window.alert("Cannot find program requirements in data model.");
+                    GWT.log("Cannot find program requirements in data model", null);
+                    return;
+                }
+
                 for (String id : ids) {
                     programRequirements.add(id);
                 }

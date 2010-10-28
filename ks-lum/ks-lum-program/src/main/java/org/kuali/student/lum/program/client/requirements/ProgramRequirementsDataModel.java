@@ -206,7 +206,7 @@ public class ProgramRequirementsDataModel {
     public void updateProgramEntities(final Callback<List<ProgramRequirementInfo>> callback) {
 
         final List<String> referencedProgReqIds = new ArrayList<String>();
-        final ProgramRequirementsDataModel myClass = this;
+
 
         programRemoteService.storeProgramRequirements(progReqState, progReqInfos, new KSAsyncCallback<Map<Integer, ProgramRequirementInfo>>() {
             @Override
@@ -222,7 +222,7 @@ public class ProgramRequirementsDataModel {
                     switch (progReqState.get(internalProgReqID)) {
                         case STORED:
                             //rule was not changed so continue
-                            referencedProgReqIds.add(storedRule.getId());
+                            referencedProgReqIds.add(progReqInfos.get(internalProgReqID).getId());
                             break;
                         case ADDED:
                             referencedProgReqIds.add(storedRule.getId());
@@ -249,11 +249,31 @@ public class ProgramRequirementsDataModel {
                     }
                 }
 
-                //KSNotifier.show(ProgramProperties.get().common_successfulSave()); 
-                ProgramManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
-                callback.exec(new ArrayList(storedRules.values()));  //update display widgets
+                saveRequirementIds(referencedProgReqIds, storedRules, callback);
             }
         });        
+    }
+
+    private void saveRequirementIds(final List<String> referencedProgReqIds, final Map<Integer, ProgramRequirementInfo> storedRules, final Callback<List<ProgramRequirementInfo>> callback) {
+        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert(cause.getMessage());
+                GWT.log("Unable to retrieve model for program requirements view", cause);
+                callback.exec(new ArrayList(storedRules.values()));
+            }
+
+            @Override
+            public void onModelReady(Model model) {
+                String programId = ((DataModel)model).getRoot().get("id");
+                String programType = ((DataModel)model).getRoot().get("type");
+
+                ProgramManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(programId, programType, referencedProgReqIds));
+                callback.exec(new ArrayList(storedRules.values()));  //update display widgets
+
+            }
+        });
     }
 
     public static void stripStatementIds(StatementTreeViewInfo tree) {
