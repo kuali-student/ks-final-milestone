@@ -77,7 +77,7 @@ public class ProgramRequirementsDataModel {
 
             @Override
             public void onModelReady(Model model) {
-                Data program = ((DataModel)model).getRoot().get("programRequirements");
+                Data program = ((DataModel)model).getRoot().get(ProgramConstants.PROGRAM_REQUIREMENTS);
                 Iterator<Data.Property> realPropertyIterator = program.realPropertyIterator();
                 ArrayList<String> programRequirementIds = new ArrayList<String>();
                 while(realPropertyIterator.hasNext()) {
@@ -207,7 +207,6 @@ public class ProgramRequirementsDataModel {
 
         final List<String> referencedProgReqIds = new ArrayList<String>();
 
-
         programRemoteService.storeProgramRequirements(progReqState, progReqInfos, new KSAsyncCallback<Map<Integer, ProgramRequirementInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
@@ -271,7 +270,6 @@ public class ProgramRequirementsDataModel {
 
                 ProgramManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(programId, programType, referencedProgReqIds));
                 callback.exec(new ArrayList(storedRules.values()));  //update display widgets
-
             }
         });
     }

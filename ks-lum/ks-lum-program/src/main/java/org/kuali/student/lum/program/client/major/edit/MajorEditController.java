@@ -145,8 +145,10 @@ public class MajorEditController extends MajorController {
 
                     Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
 
+                    //TODO we don't need this code since we prevent user from saving rules before
+                    //saving key program information...
                     //if we are saving rules and this specialization program was not yet saved
-                    if (programId == null) {
+                /*    if (programId == null) {
                         //define data model for the new specialization
                         DataModel variationModel = new DataModel();
                         variationModel.setDefinition(programModel.getDefinition());
@@ -160,7 +162,7 @@ public class MajorEditController extends MajorController {
                         variationMap.add(variationModel.getRoot());
                         programRequirements = variationModel.getRoot().get(ProgramConstants.PROGRAM_REQUIREMENTS);
                         
-                    } else { //at least one specialization is saved
+                    } else { //at least one specialization is saved */
 
                         //find the specialization that we need to update
                         for (Data.Property property : variationMap) {
@@ -171,7 +173,7 @@ public class MajorEditController extends MajorController {
                                 break;
                             }
                         }
-                    }
+                   // }
                     
                 } else {                                       
                     programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
@@ -253,7 +255,9 @@ public class MajorEditController extends MajorController {
                     resetFieldInteractionFlag();
                     eventBus.fireEvent(new AfterSaveEvent(programModel));
                     HistoryManager.logHistoryChange();
-                    showView(getCurrentViewEnum());
+                    if (getCurrentViewEnum().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
+                        showView(getCurrentViewEnum());
+                    }
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);
                 }

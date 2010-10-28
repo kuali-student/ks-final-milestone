@@ -35,6 +35,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
@@ -81,22 +82,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         resetRules();
         this.isReadOnly = isReadOnly;
 
-        //since we don't know how user got to this screen, we always load rule data from database on each event
-        /*
-        ProgramManager.getEventBus().addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
-            @Override
-            public void onEvent(ModelLoadedEvent event) {
-                rules.retrieveProgramRequirements(new Callback<Boolean>() {
-                    @Override
-                    public void exec(Boolean result) {
-                        if (result) {
-                            displayRules();
-                        }
-                    }
-                });
-            }
-        }); */
-
         if (!isReadOnly) {        
             setupSaveCancelButtons();
         }
@@ -109,6 +94,30 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
+
+        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert(cause.getMessage());
+                GWT.log("Unable to retrieve program model for program summary view", cause);
+                onReadyCallback.exec(false);
+            }
+
+            @Override
+            public void onModelReady(Model model) {
+
+                //if program does not have id it means user is trying to create a new one
+                String programId = ((DataModel)model).getRoot().get(ProgramConstants.ID);                
+                if (programId == null) {
+                    resetRules();
+                }
+                showRules(onReadyCallback);
+            }
+        });
+    }
+
+    private void showRules(final Callback<Boolean> onReadyCallback) {
 
         //only when user wants to see rules then load requirements from database if they haven't been loaded yet
         if (!rules.isInitialized() || isReadOnly) {
@@ -123,13 +132,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             });
             return;
         }
-
-        //for read-only view, we don't need to worry about rules being added or modified
-        /*
-        if (isReadOnly) {
-            onReadyCallback.exec(true);
-            return;
-        } */
 
         //see if we need to update a rule if user is returning from rule manage screen
         parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
@@ -160,12 +162,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         rules.updateProgramEntities(new Callback<List<ProgramRequirementInfo>>() {
             @Override
             public void exec(List<ProgramRequirementInfo> programReqInfos) {
-                /* we don't need to do this anymore since we reload everything by catching ModelLoadedEvent
-                   optimally we would be able to distinquish between program data being loaded from database and
-                   program data being stored in the database 
+                
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
                     updateRequirementWidgets(programReqInfo);
-                } */
+                }
 
                 if (callback != null) {
                     callback.exec(true);
@@ -222,6 +222,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         
         //iterate and display rules for each Program Requirement type e.g. Entrance Requirements, Completion Requirements
         Boolean firstRequirement = true;
+        perProgramRequirementTypePanel.clear();
         for (StatementTypeInfo stmtTypeInfo : rules.getStmtTypes()) {
 
             //create and display one type of program requirement section
@@ -451,24 +452,53 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }    
 
     private void createAddProgramReqDialog(final KSLightBox dialog, final ActionCancelGroup actionCancelButtons, final Integer internalProgReqID) {
-        if (dialogMetadata == null) {
-            KSBlockingProgressIndicator.addTask(gettingMetadataTask);
-            metadataServiceAsync.getMetadataList("org.kuali.student.lum.program.dto.ProgramRequirementInfo", "Active", new KSAsyncCallback<Metadata>() {
-                public void handleFailure(Throwable caught) {
-                    KSBlockingProgressIndicator.removeTask(gettingMetadataTask);
-                    Window.alert(caught.getMessage());
-                    GWT.log("getMetadataList failed for ProgramRequirementInfo", caught);
+
+        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                Window.alert(cause.getMessage());
+                GWT.log("Unable to retrieve program model for program summary view", cause);
+            }
+
+            @Override
+            public void onModelReady(Model model) {
+
+                //program has to be in the database before we can save program requirements
+                String programId = ((DataModel)model).getRoot().get(ProgramConstants.ID);                
+                if (programId == null) {
+                    final ConfirmationDialog dialog = new ConfirmationDialog("Save Program Key Info", "Before saving rules please save program key info");
+                    dialog.getConfirmButton().addClickHandler(new ClickHandler(){
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            dialog.hide();
+                        }
+                    });
+                    dialog.show();
+                    return;
                 }
 
-                public void onSuccess(final Metadata metadata) {
-                    KSBlockingProgressIndicator.removeTask(gettingMetadataTask);
-                    dialogMetadata = metadata;
-                    showDialog(dialog, actionCancelButtons, metadata, internalProgReqID);
+                if (dialogMetadata == null) {
+                    KSBlockingProgressIndicator.addTask(gettingMetadataTask);
+                    metadataServiceAsync.getMetadataList("org.kuali.student.lum.program.dto.ProgramRequirementInfo", "Active", new KSAsyncCallback<Metadata>() {
+                        public void handleFailure(Throwable caught) {
+                            KSBlockingProgressIndicator.removeTask(gettingMetadataTask);
+                            Window.alert(caught.getMessage());
+                            GWT.log("getMetadataList failed for ProgramRequirementInfo", caught);
+                        }
+
+                        public void onSuccess(final Metadata metadata) {
+                            KSBlockingProgressIndicator.removeTask(gettingMetadataTask);
+                            dialogMetadata = metadata;
+                            showDialog(dialog, actionCancelButtons, metadata, internalProgReqID);
+                        }
+                    });
+                } else {
+                    showDialog(dialog, actionCancelButtons, dialogMetadata, internalProgReqID);
                 }
-            });
-        } else {
-            showDialog(dialog, actionCancelButtons, dialogMetadata, internalProgReqID);
-        }
+
+            }
+        });
     }
 
     //TODO rework to use Configurer if possible

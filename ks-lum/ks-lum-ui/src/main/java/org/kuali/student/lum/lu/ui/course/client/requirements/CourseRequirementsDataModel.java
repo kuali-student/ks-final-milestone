@@ -416,7 +416,6 @@ public class CourseRequirementsDataModel {
         });
     }
 
-
     public static boolean isEmpty(StatementTreeViewInfo rule) {
         return (((rule.getStatements() == null) || rule.getStatements().isEmpty()) && ((rule.getReqComponents() == null) || rule.getReqComponents().isEmpty()));
     }
