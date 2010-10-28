@@ -117,7 +117,7 @@ public class MajorInformationEditConfiguration extends AbstractSectionConfigurat
 
     public class DiplomaBinding extends ModelWidgetBindingSupport<KSTextBox> {
         private boolean isEmpty(String value) {
-            return value == null || (value != null && "".equals(value));
+            return value == null || value.isEmpty();
         }
 
         @Override
@@ -132,8 +132,11 @@ public class MajorInformationEditConfiguration extends AbstractSectionConfigurat
             String diplomaTitle = model.get("/" + ProgramConstants.DIPLOMA);
             if (isEmpty(diplomaTitle)) {
                 String programTitle = model.get("/" + ProgramConstants.LONG_TITLE);
-                if (!isEmpty(programTitle))
+                if (!isEmpty(programTitle)){
                     widget.setText(programTitle);
+                }else{
+                    widget.setText("");
+                }
             } else
                 widget.setText(diplomaTitle);
         }
