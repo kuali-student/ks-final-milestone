@@ -1110,7 +1110,7 @@
         CD="kuali.atp.intensity.parttime" EFF_DT="20000101000000"
         ENUM_KEY="kuali.atptype.intensity"
         ID="0c253cda-8583-4608-9df8-5ae2c22777f6"
-        OBJ_ID="E99DD03C641842E0851D06AFDA7923E5" SORT_KEY="2321"
+        OBJ_ID="18CB5564CE55479694F6DEA7785BBC3C" SORT_KEY="2321"
         VAL="Part Time" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="30.05" CD="30.05"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -2953,7 +2953,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="Specialization" CD="SPEC"
         ENUM_KEY="kuali.lu.code.UniversityClassification"
         ID="205b06aa-15e1-4263-ba15-02573cf51040"
-        OBJ_ID="CC25EC847E5E478393AA4FA029A53092" SORT_KEY="11"
+        OBJ_ID="4229565321B34E4E83E0812335C1789C" SORT_KEY="11"
         VAL="Program Specialization" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="45.10" CD="45.10"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3621,7 +3621,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="Both" CD="kuali.atp.intensity.both"
         EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.intensity"
         ID="27cac13b-5d76-4d4e-a556-5f485410b959"
-        OBJ_ID="6E0E4D66C8284C60B363D402C9E7227B" SORT_KEY="2322"
+        OBJ_ID="454AA681A493455BAA5D040267E20B10" SORT_KEY="2322"
         VAL="Both" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="50.0701" CD="50.0701"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -14707,7 +14707,7 @@
         CD="kuali.atp.intensity.fulltime" EFF_DT="20000101000000"
         ENUM_KEY="kuali.atptype.intensity"
         ID="a8fdd335-ecac-4075-9feb-89266fa6e4d7"
-        OBJ_ID="57A96AEFCBFF4489B47CE0155B27CE98" SORT_KEY="2320"
+        OBJ_ID="3E9B7576612D45DCA1D9B6AD4431FCE8" SORT_KEY="2320"
         VAL="Full Time" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.0910" CD="51.0910"
         ENUM_KEY="kuali.enum.type.cip2000"
