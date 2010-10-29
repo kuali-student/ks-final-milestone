@@ -234,6 +234,7 @@
           <plugin>
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
+            <version>1.0.6-SNAPSHOT</version>
             <configuration>
               <forceMojoExecution>true</forceMojoExecution>
               <url>${ks.masterdb.url}</url>
@@ -244,29 +245,41 @@
             </configuration>
             <executions>
               <execution>
-                <id>export-impex-xml-for-ks-embedded-db</id>
+                <id>morph-xml</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
+                <id>export-impex-for-ks-embedded-db</id>
                 <phase>process-resources</phase>
                 <goals>
                   <goal>exportschema</goal>
                   <goal>exportdata</goal>
+                  <goal>datadtd</goal>
                 </goals>
                 <configuration>
                   <includes>^KS.*,^KR.*</includes>
                   <schemaXMLFile>${basedir}/../ks-embedded-db/src/main/impex/schema.xml</schemaXMLFile>
                   <dataXMLDir>${basedir}/../ks-embedded-db/src/main/impex</dataXMLDir>
+                  <copyToFile>${basedir}/../ks-embedded-db/src/main/impex/data.dtdd</copyToFile>
                 </configuration>
               </execution>
               <execution>
-                <id>export-impex-xml-for-ks-standalone-db</id>
+                <id>export-impex-for-ks-standalone-db</id>
                 <phase>process-resources</phase>
                 <goals>
                   <goal>exportschema</goal>
                   <goal>exportdata</goal>
+                  <goal>datadtd</goal>
                 </goals>
                 <configuration>
                   <includes>^KS.*</includes>
                   <schemaXMLFile>${basedir}/../ks-standalone-db/src/main/impex/schema.xml</schemaXMLFile>
                   <dataXMLDir>${basedir}/../ks-standalone-db/src/main/impex</dataXMLDir>
+                  <copyToFile>${basedir}/../ks-embedded-db/src/main/impex/data.dtd</copyToFile>
                 </configuration>
               </execution>
             </executions>
