@@ -8,5 +8,7 @@
   </parent>
   <artifactId>ks-embedded-db</artifactId>
   <name>KS Embedded DB</name>
+
   <description>Kuali Student Embedded Database</description>
+
 </project>

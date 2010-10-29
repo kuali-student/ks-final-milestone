@@ -8,5 +8,7 @@
   </parent>
   <artifactId>ks-standalone-db</artifactId>
   <name>KS Standalone DB</name>
+
   <description>Kuali Student Standalne Database</description>
+
 </project>
