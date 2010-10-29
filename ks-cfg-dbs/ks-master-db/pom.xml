@@ -234,7 +234,6 @@
           <plugin>
             <groupId>org.kuali.maven.impex</groupId>
             <artifactId>maven-impex-plugin</artifactId>
-            <version>1.0.6-SNAPSHOT</version>
             <configuration>
               <forceMojoExecution>true</forceMojoExecution>
               <url>${ks.masterdb.url}</url>
@@ -279,7 +278,7 @@
                   <includes>^KS.*</includes>
                   <schemaXMLFile>${basedir}/../ks-standalone-db/src/main/impex/schema.xml</schemaXMLFile>
                   <dataXMLDir>${basedir}/../ks-standalone-db/src/main/impex</dataXMLDir>
-                  <copyToFile>${basedir}/../ks-embedded-db/src/main/impex/data.dtd</copyToFile>
+                  <copyToFile>${basedir}/../ks-standalone-db/src/main/impex/data.dtd</copyToFile>
                 </configuration>
               </execution>
             </executions>
