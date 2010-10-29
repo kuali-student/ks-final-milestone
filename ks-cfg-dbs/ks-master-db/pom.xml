@@ -240,6 +240,7 @@
               <username>${ks.masterdb.username}</username>
               <password>${ks.masterdb.password}</password>
               <database>${ks.masterdb.username}</database>
+              <schema>${ks.masterdb.username}</schema>
               <antCompatibilityMode>true</antCompatibilityMode>
             </configuration>
             <executions>
@@ -252,7 +253,7 @@
                 <phase>none</phase>
               </execution>
               <execution>
-                <id>export-impex-for-ks-embedded-db</id>
+                <id>export-xml-for-ks-embedded-db</id>
                 <phase>process-resources</phase>
                 <goals>
                   <goal>exportschema</goal>
@@ -264,6 +265,7 @@
                   <schemaXMLFile>${basedir}/../ks-embedded-db/src/main/impex/schema.xml</schemaXMLFile>
                   <dataXMLDir>${basedir}/../ks-embedded-db/src/main/impex</dataXMLDir>
                   <copyToFile>${basedir}/../ks-embedded-db/src/main/impex/data.dtd</copyToFile>
+                  <artifactId>ks-embedded-db</artifactId>
                 </configuration>
               </execution>
               <execution>
@@ -279,6 +281,7 @@
                   <schemaXMLFile>${basedir}/../ks-standalone-db/src/main/impex/schema.xml</schemaXMLFile>
                   <dataXMLDir>${basedir}/../ks-standalone-db/src/main/impex</dataXMLDir>
                   <copyToFile>${basedir}/../ks-standalone-db/src/main/impex/data.dtd</copyToFile>
+                  <artifactId>ks-standalone-db</artifactId>
                 </configuration>
               </execution>
             </executions>
