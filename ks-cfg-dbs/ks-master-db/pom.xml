@@ -16,6 +16,22 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.kuali.maven.properties</groupId>
+            <artifactId>maven-properties-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+              <execution>
+                <id>properties</id>
+                <goals>
+                  <goal>properties</goal>
+                </goals>
+                <configuration>
+                  <properties>${ks.impex.properties}</properties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
             <executions>
@@ -45,7 +61,7 @@
                       <artifactId>ks-rice-db</artifactId>
                       <version>${project.version}</version>
                       <includes>**/*.*</includes>
-                      <outputDirectory>${project.build.directory}/gen/data/rice</outputDirectory>
+                      <outputDirectory>${project.build.directory}/impex/rice</outputDirectory>
                     </artifactItem>
                   </artifactItems>
                 </configuration>
