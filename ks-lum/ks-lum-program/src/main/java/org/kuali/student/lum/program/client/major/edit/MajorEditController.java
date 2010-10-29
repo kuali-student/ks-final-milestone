@@ -1,8 +1,10 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -17,18 +19,18 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.program.client.*;
+import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramRegistry;
+import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Igor
@@ -139,40 +141,17 @@ public class MajorEditController extends MajorController {
 
                 //specializations will be handled differently from Major
                 if (programType.equals("kuali.lu.type.Variation")) {
-
                     Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
-
-                    //TODO we don't need this code since we prevent user from saving rules before
-                    //saving key program information...
-                    //if we are saving rules and this specialization program was not yet saved
-                /*    if (programId == null) {
-                        //define data model for the new specialization
-                        DataModel variationModel = new DataModel();
-                        variationModel.setDefinition(programModel.getDefinition());
-                        variationModel.setRoot(ProgramRegistry.getData());
-
-                        //if this is the first specialization, create a container map
-                        if (variationMap == null) {
-                            variationMap = new Data();
-                            programModel.set(QueryPath.parse(ProgramConstants.VARIATIONS), variationMap);
+                    //find the specialization that we need to update
+                    for (Data.Property property : variationMap) {
+                        final Data variationData = property.getValue();
+                        if (variationData.get(ProgramConstants.ID).equals(programId)) {
+                            variationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
+                            programRequirements = variationData.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                            break;
                         }
-                        variationMap.add(variationModel.getRoot());
-                        programRequirements = variationModel.getRoot().get(ProgramConstants.PROGRAM_REQUIREMENTS);
-                        
-                    } else { //at least one specialization is saved */
-
-                        //find the specialization that we need to update
-                        for (Data.Property property : variationMap) {
-                            final Data variationData = property.getValue();
-                            if (variationData.get(ProgramConstants.ID).equals(programId)) {
-                                variationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
-                                programRequirements = variationData.get(ProgramConstants.PROGRAM_REQUIREMENTS);
-                                break;
-                            }
-                        }
-                   // }
-                    
-                } else {                                       
+                    }
+                } else {
                     programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
                     programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
                 }
