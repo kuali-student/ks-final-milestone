@@ -12,6 +12,7 @@
   <description>Kuali Student Master Database</description>
   <properties>
     <ks.masterdb.url>jdbc:oracle:thin:@localhost:1521:XE</ks.masterdb.url>
+    <ks.masterdb.driver>oracle.jdbc.driver.OracleDriver</ks.masterdb.driver>
     <ks.masterdb.username>KSMASTER</ks.masterdb.username>
     <ks.masterdb.password>KSMASTER</ks.masterdb.password>
     <ks.masterdb.dba.username>KSDBA</ks.masterdb.dba.username>
@@ -154,7 +155,7 @@
               </dependency>
             </dependencies>
             <configuration>
-              <driver>oracle.jdbc.driver.OracleDriver</driver>
+              <driver>${ks.masterdb.driver}</driver>
               <url>${ks.masterdb.url}</url>
               <username>${ks.masterdb.username}</username>
               <password>${ks.masterdb.password}</password>
