@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.1.0-M9-SNAPSHOT</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-db</artifactId>
@@ -26,6 +26,9 @@
   </repositories>
   <properties>
     <!-- Example values for db specific properties -->
+
+    <!-- Oracle JDBC url's don't contain a database name -->
+    <ks.impex.jdbc.driver.oracle>oracle.jdbc.driver.OracleDriver</ks.impex.jdbc.driver.oracle>
 
     <!-- Oracle JDBC url's don't contain a database name -->
     <ks.impex.url.oracle>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.url.oracle>
@@ -75,6 +78,11 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.4</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
@@ -86,13 +94,7 @@
       <plugin>
         <groupId>org.kuali.maven.impex</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.3</version>
-        <configuration>
-          <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
-          <schemaDir>${project.build.directory}/generated-impex</schemaDir>
-          <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
-          <dateFormat>${ks.impex.date.format}</dateFormat>
-        </configuration>
+        <version>1.0.7</version>
         <dependencies>
           <dependency>
             <groupId>mysql</groupId>
@@ -105,6 +107,12 @@
             <version>${oracle.ojdbc.version}</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <dataXMLDir>${project.build.directory}/generated-impex/xml</dataXMLDir>
+          <schemaDir>${project.build.directory}/generated-impex</schemaDir>
+          <schemaXMLFile>${project.build.directory}/generated-impex/${project.artifactId}.xml</schemaXMLFile>
+          <dateFormat>${ks.impex.date.format}</dateFormat>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -114,6 +122,11 @@
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
+      <modules>
+        <module>ks-rice-db</module>
+        <module>ks-embedded-db</module>
+        <module>ks-standalone-db</module>
+      </modules>
       <build>
         <plugins>
           <plugin>
@@ -155,7 +168,12 @@
       </build>
     </profile>
     <profile>
-      <id>oracle-sql</id>
+      <id>generate-oracle-sql</id>
+      <modules>
+        <module>ks-rice-db</module>
+        <module>ks-embedded-db</module>
+        <module>ks-standalone-db</module>
+      </modules>
       <build>
         <plugins>
           <plugin>
@@ -191,7 +209,12 @@
       </build>
     </profile>
     <profile>
-      <id>mysql-sql</id>
+      <id>generate-mysql-sql</id>
+      <modules>
+        <module>ks-rice-db</module>
+        <module>ks-embedded-db</module>
+        <module>ks-standalone-db</module>
+      </modules>
       <build>
         <plugins>
           <plugin>
@@ -227,7 +250,12 @@
       </build>
     </profile>
     <profile>
-      <id>generate-sql</id>
+      <id>generate-all-sql</id>
+      <modules>
+        <module>ks-rice-db</module>
+        <module>ks-embedded-db</module>
+        <module>ks-standalone-db</module>
+      </modules>
       <build>
         <plugins>
           <plugin>
@@ -273,7 +301,12 @@
       </build>
     </profile>
     <profile>
-      <id>reset-db</id>
+      <id>reset-dbs</id>
+      <modules>
+        <module>ks-embedded-db</module>
+        <module>ks-rice-db</module>
+        <module>ks-standalone-db</module>
+      </modules>
       <build>
         <plugins>
           <plugin>
@@ -361,15 +394,120 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>reset-db</id>
+      <modules>
+        <module>ks-embedded-db</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.properties</groupId>
+            <artifactId>maven-properties-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+              <execution>
+                <id>properties</id>
+                <goals>
+                  <goal>properties</goal>
+                </goals>
+                <configuration>
+                  <properties>${ks.impex.properties}</properties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.kuali.maven.impex</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
+            <configuration>
+              <url>${ks.impex.url}</url>
+              <username>${ks.impex.username}</username>
+              <password>${ks.impex.password}</password>
+            </configuration>
+            <executions>
+              <execution>
+                <id>morph-xml</id>
+                <goals>
+                  <goal>morphschema</goal>
+                  <goal>morphdata</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <goals>
+                  <goal>datadtd</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>generate-sql</id>
+                <goals>
+                  <goal>schemasql</goal>
+                  <goal>datasql</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>purge-db</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>drop</goal>
+                  <goal>create</goal>
+                </goals>
+                <configuration>
+                  <serverUrl>${ks.impex.server.url}</serverUrl>
+                  <username>${ks.impex.dba.username}</username>
+                  <password>${ks.impex.dba.password}</password>
+                  <database>${ks.impex.database}</database>
+                  <databaseUsername>${ks.impex.username}</databaseUsername>
+                  <databasePassword>${ks.impex.password}</databasePassword>
+                </configuration>
+              </execution>
+              <execution>
+                <id>import-data</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>import</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.ojdbc.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>commit-impex-changes</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>commit-impex-changes</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>checkin</goal>
+                </goals>
+                <configuration>
+                  <message>Automated Impex update</message>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
-  <modules>
-    <module>ks-embedded-db</module>
-    <!-- 
-    <module>ks-core-db</module>
-    <module>ks-lum-db</module>
-    <module>ks-rice-db</module>
-    <module>ks-rice-client-db</module>
-    <module>ks-rice-server-db</module>
-     -->
-  </modules>
 </project>

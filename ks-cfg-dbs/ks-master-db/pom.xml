@@ -222,6 +222,40 @@
                   </fileset>
                 </configuration>
               </execution>
+              <execution>
+                <id>clear-recyle-bin</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <sqlCommand>
+                    purge recyclebin
+                    /
+
+                    DECLARE temp NUMBER;
+                    BEGIN
+                    SELECT COUNT(*) INTO temp FROM user_tables WHERE
+                    table_name = 'KS_DB_VERSION';
+                    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KS_DB_VERSION CASCADE
+                    CONSTRAINTS PURGE'; END IF;
+                    END;
+                    /
+
+                    CREATE TABLE KS_DB_VERSION
+                    (
+                    BUILD_ID VARCHAR2(255)
+                    , BUILD_TIME
+                    VARCHAR2(255)
+                    )
+                    /
+
+                    INSERT INTO KS_DB_VERSION (BUILD_ID,BUILD_TIME) VALUES
+                    ('${env.BUILD_NUMBER}','${maven.build.timestamp}')
+                    /
+                    </sqlCommand>
+                </configuration>
+              </execution>
             </executions>
           </plugin>
         </plugins>
