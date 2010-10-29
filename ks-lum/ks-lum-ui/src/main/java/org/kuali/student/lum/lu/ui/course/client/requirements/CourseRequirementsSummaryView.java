@@ -161,7 +161,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         //display 'Course Requirements' page title (don't add if read only because the section itself will display the title)
         if (!isReadOnly) {
             SectionTitle pageTitle = SectionTitle.generateH2Title("Course Requisites");
-            pageTitle.setStyleName("KS-Course-Requisites-Section-header");  //make the header orange
+            pageTitle.addStyleName("ks-layout-header");  //make the header orange
             layout.add(pageTitle);
         }
 
