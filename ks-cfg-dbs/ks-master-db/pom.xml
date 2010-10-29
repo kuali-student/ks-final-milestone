@@ -230,9 +230,6 @@
                 </goals>
                 <configuration>
                   <sqlCommand>
-                    purge recyclebin
-                    /
-
                     DECLARE temp NUMBER;
                     BEGIN
                     SELECT COUNT(*) INTO temp FROM user_tables WHERE
@@ -252,6 +249,9 @@
 
                     INSERT INTO KS_DB_VERSION (BUILD_ID,BUILD_TIME) VALUES
                     ('${env.BUILD_NUMBER}','${maven.build.timestamp}')
+                    /
+                    
+                    purge recyclebin
                     /
                     </sqlCommand>
                 </configuration>
