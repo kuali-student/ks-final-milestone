@@ -250,7 +250,7 @@
       </build>
     </profile>
     <profile>
-      <id>generate-all-sql</id>
+      <id>generate-sql</id>
       <modules>
         <module>ks-rice-db</module>
         <module>ks-embedded-db</module>
