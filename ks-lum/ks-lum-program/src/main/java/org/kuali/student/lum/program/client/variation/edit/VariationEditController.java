@@ -99,10 +99,10 @@ public class VariationEditController extends VariationController {
             @Override
             public void onModelReady(final DataModel model) {
                 VariationEditController.this.updateModelFromCurrentView();
+                model.setParentPath(ProgramConstants.VARIATIONS + "/" + ProgramRegistry.getRow());
                 model.validate(new Callback<List<ValidationResultInfo>>() {
                     @Override
-                    public void exec(List<ValidationResultInfo> validationResultInfos) {
-                        List<ValidationResultInfo> results = ProgramUtils.cutParentPartOfKey(validationResultInfos, ProgramConstants.VARIATIONS + "/" + ProgramRegistry.getRow());
+                    public void exec(List<ValidationResultInfo> results) {
                         boolean isSectionValid = isValid(results, true);
                         if (isSectionValid) {
                             saveData(model);
