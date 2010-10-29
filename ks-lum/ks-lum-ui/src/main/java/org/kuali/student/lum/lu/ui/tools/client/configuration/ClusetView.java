@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
@@ -284,17 +285,18 @@ public class ClusetView extends VerticalSectionView {
     }
 
     private void setupMainView() {
-        Anchor createCluSet = new Anchor("Create Course Set");
+        this.addStyleName("blockLayout");
+        KSDocumentHeader header = new KSDocumentHeader();
+        header.setTitle("Course Set Management");
+        this.addWidget(header);
+        
+        Anchor createCluSet = new Anchor("<h2>Create Course Set</h2>", true);
         createCluSet.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 getController().showView(CluSetsManagementViews.CREATE);
             }
         });
-        Style createClusetStyle = createCluSet.getElement().getStyle();
-        createClusetStyle.setPaddingTop(40, Style.Unit.PX);
-        createClusetStyle.setProperty("fontSize", "16px");
-        createClusetStyle.setProperty("fontWeight", "bold");
         this.addWidget(createCluSet);
         this.addWidget(new KSLabel("Build a new Course set from courses, Course Sets, " +
         		"or specific criteria."));
@@ -310,7 +312,7 @@ public class ClusetView extends VerticalSectionView {
                 }
             }
         });
-        SectionTitle modifyCluSetTitle = SectionTitle.generateH3Title("View or Modify Course Sets");
+        SectionTitle modifyCluSetTitle = SectionTitle.generateH2Title("View or Modify Course Sets");
         modifyCluSetTitle.getElement().getStyle().setPaddingTop(40, Style.Unit.PX);
         this.addWidget(modifyCluSetTitle);
         this.addWidget(cluSetPicker);
