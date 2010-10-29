@@ -89,6 +89,14 @@
             </configuration>
             <executions>
               <execution>
+                <id>morph-xml</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
                 <id>drob-create-db</id>
                 <phase>initialize</phase>
                 <goals>
