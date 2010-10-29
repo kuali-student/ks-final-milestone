@@ -9,12 +9,18 @@
   </parent>
   <artifactId>maven-checkin-testing</artifactId>
   <name>Testing SCM Checking via Maven</name>
-  <description></description>
-  <dependencies>
-    <dependency>
-      <groupId>org.kuali.maven.mojo</groupId>
-      <artifactId>kuali-maven-common</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-  </dependencies>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-checkin-testing</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven-checkin-testing</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven-checkin-testing</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.4</version>
+      </plugin>
+    </plugins>
+  </build>
 </project>
