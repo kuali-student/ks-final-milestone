@@ -324,11 +324,7 @@ public class KualiTorqueSchemaDumpTask extends DumpTask {
 	}
 
 	protected String getName() {
-		if (antCompatibilityMode) {
-			return "kfs";
-		} else {
-			return artifactId;
-		}
+		return artifactId;
 	}
 
 	/**
