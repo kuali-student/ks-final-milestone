@@ -1,6 +1,7 @@
 package org.apache.torque.mojo;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -154,7 +155,7 @@ public class DataDtdMojo extends DataModelTaskMojo {
 		getLog().info("------------------------------------------------------------------------");
 		super.executeMojo();
 		if (antCompatibilityMode) {
-			File srcFile = new File(getOutputDir() + FS + getProject().getArtifactId() + ".dtd");
+			File srcFile = getSrcFile();
 			File destFile = new File(copyToFile);
 			getLog().info("Creating " + destFile.getAbsolutePath() + " for Ant compatibility mode");
 			try {
@@ -163,6 +164,20 @@ public class DataDtdMojo extends DataModelTaskMojo {
 				throw new MojoExecutionException("Error copying file", e);
 			}
 		}
+	}
+
+	protected File getSrcFile() throws MojoExecutionException {
+		FilenameFilter dtdFilter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return (name.endsWith(".dtd"));
+			}
+		};
+		File dir = new File(getOutputDir());
+		String[] files = dir.list(dtdFilter);
+		if (files.length != 1) {
+			throw new MojoExecutionException("Located more than on DTD file to process");
+		}
+		return new File(dir.getAbsolutePath() + FS + files[0]);
 	}
 
 	public boolean isAntCompatibilityMode() {
