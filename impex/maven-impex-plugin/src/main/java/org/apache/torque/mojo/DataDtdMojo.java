@@ -1,7 +1,6 @@
 package org.apache.torque.mojo;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -31,6 +30,13 @@ public class DataDtdMojo extends DataModelTaskMojo {
 	 * @parameter expression="${copyToFile}" default-value="${basedir}/src/main/impex/data.dtd"
 	 */
 	String copyToFile;
+
+	/**
+	 * Included here as a simple property to facilitate generating DTD's for other artifacts
+	 * 
+	 * @parameter expression="${artifactId}" default-value="${project.artifactId}"
+	 */
+	String artifactId;
 
 	/**
 	 * The directory in which the DTD will be generated
@@ -155,29 +161,15 @@ public class DataDtdMojo extends DataModelTaskMojo {
 		getLog().info("------------------------------------------------------------------------");
 		super.executeMojo();
 		if (antCompatibilityMode) {
-			File srcFile = getSrcFile();
-			File destFile = new File(copyToFile);
-			getLog().info("Creating " + destFile.getAbsolutePath() + " for Ant compatibility mode");
+			File srcFile = new File(getOutputDir() + FS + getArtifactId() + ".dtd");
+			File dstFile = new File(copyToFile);
+			getLog().info("Creating " + dstFile.getAbsolutePath() + " for Ant compatibility mode");
 			try {
-				FileUtils.copyFile(srcFile, destFile);
+				FileUtils.copyFile(srcFile, dstFile);
 			} catch (IOException e) {
 				throw new MojoExecutionException("Error copying file", e);
 			}
 		}
-	}
-
-	protected File getSrcFile() throws MojoExecutionException {
-		FilenameFilter dtdFilter = new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return (name.endsWith(".dtd"));
-			}
-		};
-		File dir = new File(getOutputDir());
-		String[] files = dir.list(dtdFilter);
-		if (files.length != 1) {
-			throw new MojoExecutionException("Located more than one DTD file to process");
-		}
-		return new File(dir.getAbsolutePath() + FS + files[0]);
 	}
 
 	public boolean isAntCompatibilityMode() {
@@ -194,5 +186,13 @@ public class DataDtdMojo extends DataModelTaskMojo {
 
 	public void setCopyToFile(String copyToFile) {
 		this.copyToFile = copyToFile;
+	}
+
+	public String getArtifactId() {
+		return artifactId;
+	}
+
+	public void setArtifactId(String artifactId) {
+		this.artifactId = artifactId;
 	}
 }
