@@ -264,7 +264,7 @@
                   <includes>^KS.*,^KR.*</includes>
                   <schemaXMLFile>${basedir}/../ks-embedded-db/src/main/impex/schema.xml</schemaXMLFile>
                   <dataXMLDir>${basedir}/../ks-embedded-db/src/main/impex</dataXMLDir>
-                  <copyToFile>${basedir}/../ks-embedded-db/src/main/impex/data.dtdd</copyToFile>
+                  <copyToFile>${basedir}/../ks-embedded-db/src/main/impex/data.dtd</copyToFile>
                 </configuration>
               </execution>
               <execution>
