@@ -17,7 +17,6 @@
     <ks.masterdb.password>KSMASTER</ks.masterdb.password>
     <ks.masterdb.dba.username>KSDBA</ks.masterdb.dba.username>
     <ks.masterdb.dba.password>KSDBA</ks.masterdb.dba.password>
-
   </properties>
   <profiles>
     <profile>
