@@ -95,7 +95,9 @@ letter-spacing:0.03em;
 margin-right:10px;
 text-transform:uppercase;
 } 
-
+.programInformationView label {
+    white-space: nowrap;
+}
 
 .programController .programActionPanel {
     padding-top: 10px;
