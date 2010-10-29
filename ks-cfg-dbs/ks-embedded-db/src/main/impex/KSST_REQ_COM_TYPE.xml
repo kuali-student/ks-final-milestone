@@ -126,6 +126,14 @@
         NAME="Earned minimum n credits"
         TYPE_DESC="Must have earned a minimum of &lt;n> total credits"
         TYPE_KEY="kuali.reqComponent.type.program.credits.min" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Minimum cumulative GPA"
+        TYPE_DESC="Must have earned a minimum cumulative GPA of &lt;GPA>"
+        TYPE_KEY="kuali.reqComponent.type.program.cumulative.gpa.min" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20000101000000" EXPIR_DT="21001231000000"
+        NAME="Minimum duration GPA"
+        TYPE_DESC="Must have earned a minimum &lt;duration> GPA of &lt;GPA>"
+        TYPE_KEY="kuali.reqComponent.type.program.duration.gpa.min" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000"
         NAME="Program enrolled in graduation major for final credits"
         TYPE_DESC="&lt;program> student must be enrolled in their graduation major for the final &lt;n> credits taken"

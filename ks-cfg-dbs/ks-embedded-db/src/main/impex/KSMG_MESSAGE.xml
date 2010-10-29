@@ -1249,6 +1249,18 @@
         MSG_ID="cluCourseNumberOrTitle"
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
+        MSG_ID="reqActivate" MSG_VALUE="Required for Activate"
+        OBJ_ID="F541325E-D4A2-FAD3-52A6-129460B02DAB" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="F542A334-9605-DF43-A3DB-8219006C138D" LOCALE="en"
+        MSG_ID="reqApproval" MSG_VALUE="Required for Approval"
+        OBJ_ID="F542A373-B5DF-7210-8FD8-1A60BC955FF5" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="F542A344-E26D-2F2D-33E8-AC3EE8B9FC4B" LOCALE="en"
+        MSG_ID="reqDeactivate" MSG_VALUE="Require for Deactivate"
+        OBJ_ID="F542A382-FF7F-7F17-B97A-A52E203BDF64" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="a0b85000-bc44-4c1c-8f8c-22e1af2f1070" LOCALE="en"
         MSG_ID="cluMaxCredits" MSG_VALUE="Maximum Credits"
@@ -1610,7 +1622,8 @@
         OBJ_ID="34c94966-b73e-492b-b1ec-1c3327faef1c" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d059d4fb-c10e-4bcd-8bae-78808136f1e9" LOCALE="en"
-        MSG_ID="createDesc" MSG_VALUE="Curriculum Management"
+        MSG_ID="createDesc"
+        MSG_VALUE="Propose a new course, start a new program, or find and review submitted proposals."
         OBJ_ID="2331768b-00ad-4e1f-b305-9fa0897f70ff" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d06584e8-e2f7-4c44-893c-37fe13427c31" LOCALE="en"

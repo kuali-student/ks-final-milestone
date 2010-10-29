@@ -139,4 +139,10 @@
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.course.cluSet.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.none"/>
     <KSST_RCTYP_JN_RCFLDTYP
         REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.value.positive.integer" REQ_COMP_TYPE_ID="kuali.reqComponent.type.course.courseset.completed.max"/>
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gpa" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.cumulative.gpa.min"/>
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.gpa" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.duration.gpa.min"/>
+    <KSST_RCTYP_JN_RCFLDTYP
+        REQ_COMP_FIELD_TYPE_ID="kuali.reqComponent.field.type.durationType.id" REQ_COMP_TYPE_ID="kuali.reqComponent.type.program.duration.gpa.min"/>
 </dataset>
