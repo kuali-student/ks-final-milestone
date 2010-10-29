@@ -52,7 +52,7 @@ public class VariationInformationEditConfiguration extends AbstractSectionConfig
     }
 
     private VerticalSection createKeyProgramInformationSection() {
-        VerticalSection section = new VerticalSection();
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_identifyingDetails()));
         configurer.addField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
         configurer.addField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
         configurer.addField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
@@ -60,7 +60,7 @@ public class VariationInformationEditConfiguration extends AbstractSectionConfig
     }
 
     private VerticalSection createProgramTitleSection() {
-        VerticalSection section = new VerticalSection();
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_programTitle()));
         configurer.addField(section, ProgramConstants.LONG_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleFull()));
         configurer.addField(section, ProgramConstants.SHORT_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleShort()));
         configurer.addField(section, ProgramConstants.TRANSCRIPT, new MessageKeyInfo(ProgramProperties.get().programInformation_titleTranscript()));
