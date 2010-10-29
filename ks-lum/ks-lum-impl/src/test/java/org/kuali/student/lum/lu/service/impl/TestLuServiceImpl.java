@@ -1043,6 +1043,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		assertEquals("luType.shell.program", updatedClu.getType());
 
+		assertEquals(false,updatedClu.isEnrollable());
+		assertEquals(false,updatedClu.isHazardousForDisabledStudents());
+		
 		assertNotNull(updatedClu.getMetaInfo());
 		assertNotNull(updatedClu.getMetaInfo().getVersionInd());
 		assertNotNull(updatedClu.getMetaInfo().getCreateTime());
@@ -2951,7 +2954,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setExpirationDate(DF.parse("21001231"));
 
 		clu.setEnrollable(true);
-
+		clu.setHazardousForDisabledStudents(true);
+		
 		AffiliatedOrgInfo aforg = new AffiliatedOrgInfo();
 		aforg.setOrgId("AFF-ORG1");
 		aforg.setPercentage(35l);
