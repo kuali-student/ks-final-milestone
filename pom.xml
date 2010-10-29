@@ -69,6 +69,7 @@
     <clover.history.dir>${user.home}/.m2/repository/.clover/history/${project.groupId}/${project.artifactId}/${project.version}</clover.history.dir>
     <ks.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</ks.clover.exclude.pattern.1>
     <ks.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</ks.clover.exclude.pattern.2>
+    <ks.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</ks.clover.exclude.pattern.3>
 
     <!-- artifact versions -->
     <aspectj.version>1.5.4</aspectj.version>
@@ -193,6 +194,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]></license>
           <excludes>
             <exclude>${ks.clover.exclude.pattern.1}</exclude>
             <exclude>${ks.clover.exclude.pattern.2}</exclude>
+            <exclude>${ks.clover.exclude.pattern.3}</exclude>
           </excludes>
         </configuration>
       </plugin>
