@@ -231,7 +231,7 @@ public class MajorEditController extends MajorController {
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
-                    if (getCurrentViewEnum() == ProgramSections.SPECIALIZATIONS_EDIT) {
+                    if (getCurrentViewEnum().name().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
                         showView(getCurrentViewEnum());
                     }
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
