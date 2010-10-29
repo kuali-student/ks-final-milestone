@@ -56,8 +56,9 @@ overflow:hidden;
 }
 
 .contentBlock-title{
-	margin-bottom: 5px;
-	font-weight: bold;
+    font-size:1.5em;
+    font-weight:bold;
+    margin-bottom:5px;
 }
 
 .contentBlock-desc{
