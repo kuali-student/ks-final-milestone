@@ -11,7 +11,7 @@
   <name>KS Master Database</name>
   <description>Kuali Student Master Database</description>
   <properties>
-    <ks.masterdb.url>jdbc:oracle:thin:@localhost:1521:XE</ks.masterdb.url>
+    <ks.masterdb.url>jdbc:oracle:thin:@deploy.ks.kuali.org:1521:KS</ks.masterdb.url>
     <ks.masterdb.driver>oracle.jdbc.driver.OracleDriver</ks.masterdb.driver>
     <ks.masterdb.username>KSMASTER</ks.masterdb.username>
     <ks.masterdb.password>KSMASTER</ks.masterdb.password>
