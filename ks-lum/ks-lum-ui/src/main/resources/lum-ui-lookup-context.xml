@@ -1354,8 +1354,8 @@
  <bean id="kuali.lu.lookup.basic.courseRanges" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="kuali.common.lookup.basic.courseRanges">
   <property name="id"	value="kuali.lu.lookup.basic.courseRanges" />
-  <property name="name" value="set search parameters" />
-  <property name="desc" value="set search parameters" />
+  <property name="name" value="Define Course Range" />
+  <property name="desc" value="Define Course Range" />
   <property name="widget" value="NO_WIDGET"/>
  </bean>
 

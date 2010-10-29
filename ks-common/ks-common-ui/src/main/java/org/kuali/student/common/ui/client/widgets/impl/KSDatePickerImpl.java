@@ -82,7 +82,9 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 				dateField.addStyleName("KS-Datefield-Focus");
 				popup.setPopupPosition(getAbsoluteLeft(), getAbsoluteTop() + dateField.getOffsetHeight());
 				if(justPicked){
-					dateField.selectAll();
+				    if (dateField.getText() != null) {
+					    dateField.selectAll();
+				    }
 					justPicked = false;
 				}
 				else{
@@ -262,57 +264,17 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 
     @Override
     public boolean hasWatermark() {
-        return hasWatermark;
+        return dateField.hasWatermark();
     }
 
     @Override
     public void setWatermarkText(String text) {
-        if(!hasWatermark){
-            hasWatermark = true;
-            watermarkText = text;
-            if(dateField.getText() == null || dateField.getText().isEmpty()){
-                addStyleName("watermark-text");
-                dateField.setText(watermarkText);
-                watermarkShowing = true;
-            }
-            
-            this.addFocusHandler(new FocusHandler(){
-    
-                @Override
-                public void onFocus(FocusEvent event) {
-                    if(watermarkShowing){
-                        removeStyleName("watermark-text");
-                        dateField.setText("");
-                        watermarkShowing = false;
-                    }
-                }
-            });
-            
-            this.addBlurHandler(new BlurHandler(){
-    
-                @Override
-                public void onBlur(BlurEvent event) {
-                    if(dateField.getText() == null || dateField.getText().isEmpty()){
-                        addStyleName("watermark-text");
-                        dateField.setText(watermarkText);
-                        watermarkShowing = true;
-                    }
-                }
-            });
-        }
-        else{
-            watermarkText = text;
-            if(dateField.getText() == null || dateField.getText().isEmpty()){
-                addStyleName("watermark-text");
-                dateField.setText(watermarkText);
-                watermarkShowing = true;
-            }
-        }
+        dateField.setWatermarkText(text);
     }
 
     @Override
     public boolean watermarkShowing() {
-        return watermarkShowing;
+        return dateField.watermarkShowing();
     }
 
 }
