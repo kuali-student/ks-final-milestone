@@ -474,13 +474,13 @@ margin-left:4px;
 }
 
 .ks-form-module-elements-delete a{
--moz-border-radius:0 4px 0 4px;
-border:1px solid #CCCCCC;
-color:#AAAAAA;
-font-size:12px;
-padding:1px 3px 0;
-text-decoration:none;
-text-transform:lowercase;
+   border:1px solid #CCCCCC;
+   color:#AAAAAA;
+   font-size:12px;
+   font-weight:bold;
+   padding:0 3px 1px;
+   text-decoration:none;
+   text-transform:lowercase;
 }
 
 .ks-form-module-elements-help a:hover, .ks-form-module-elements-delete a:hover {
