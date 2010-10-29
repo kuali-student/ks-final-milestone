@@ -14,6 +14,8 @@
     <ks.masterdb.url>jdbc:oracle:thin:@localhost:1521:XE</ks.masterdb.url>
     <ks.masterdb.username>KSMASTER</ks.masterdb.username>
     <ks.masterdb.password>KSMASTER</ks.masterdb.password>
+    <ks.masterdb.dba.username>KSDBA</ks.masterdb.dba.username>
+    <ks.masterdb.dba.password>KSDBA</ks.masterdb.dba.password>
   </properties>
   <profiles>
     <profile>
@@ -94,8 +96,8 @@
                   <goal>create</goal>
                 </goals>
                 <configuration>
-                  <username>system</username>
-                  <password>gw570229</password>
+                  <username>${ks.masterdb.dba.username}</username>
+                  <password>${ks.masterdb.dba.password}</password>
                   <databaseUsername>${ks.masterdb.username}</databaseUsername>
                   <databasePassword>${ks.masterdb.password}</databasePassword>
                 </configuration>
