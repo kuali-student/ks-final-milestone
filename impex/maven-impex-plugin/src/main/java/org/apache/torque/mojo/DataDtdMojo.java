@@ -175,7 +175,7 @@ public class DataDtdMojo extends DataModelTaskMojo {
 		File dir = new File(getOutputDir());
 		String[] files = dir.list(dtdFilter);
 		if (files.length != 1) {
-			throw new MojoExecutionException("Located more than on DTD file to process");
+			throw new MojoExecutionException("Located more than one DTD file to process");
 		}
 		return new File(dir.getAbsolutePath() + FS + files[0]);
 	}
