@@ -17,10 +17,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramRegistry;
-import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.ProgramUtils;
+import org.kuali.student.lum.program.client.*;
 import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -253,7 +250,7 @@ public class MajorEditController extends MajorController {
                     setHeaderTitle();
                     setStatus();
                     resetFieldInteractionFlag();
-                    eventBus.fireEvent(new AfterSaveEvent(programModel));
+                    throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
                     if (getCurrentViewEnum().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
                         showView(getCurrentViewEnum());
@@ -263,5 +260,9 @@ public class MajorEditController extends MajorController {
                 }
             }
         });
+    }
+
+    private void throwAfterSaveEvent() {
+        eventBus.fireEvent(new AfterSaveEvent(programModel, this));
     }
 }

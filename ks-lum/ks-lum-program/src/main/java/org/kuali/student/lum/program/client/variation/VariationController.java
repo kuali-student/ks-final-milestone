@@ -38,6 +38,7 @@ public abstract class VariationController extends ProgramController {
         super("", programModel, viewContext, eventBus);
         this.name = name;
         setName(getProgramName());
+        sideBar.setMetadata(programModel.getDefinition(), this);
     }
 
     @Override

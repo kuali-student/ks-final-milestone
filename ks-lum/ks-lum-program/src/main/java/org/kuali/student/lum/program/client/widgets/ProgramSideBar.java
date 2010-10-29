@@ -8,9 +8,13 @@ import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
+import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramUtils;
+import org.kuali.student.lum.program.client.events.AfterSaveEvent;
+import org.kuali.student.lum.program.client.events.AfterSaveEventHandler;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -49,17 +53,30 @@ public class ProgramSideBar extends Composite {
         eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
-                DataModel model = event.getModel();
-                setDate((Date) model.get(ProgramConstants.LAST_UPDATED_DATE), lastUpdatedDate);
-                lastReviewDate.setText((String) model.get(ProgramConstants.LAST_REVIEW_DATE));
-                setWidget(ProgramConstants.SCHEDULED_REVIEW_DATE, scheduledReviewDate, model);
+                updateDialog(event.getModel());
             }
         });
+        eventBus.addHandler(AfterSaveEvent.TYPE, new AfterSaveEventHandler() {
+            @Override
+            public void onEvent(AfterSaveEvent event) {
+                DataModel model = event.getModel();
+                dialogManager.configureView(model.getDefinition(), event.getController());
+                updateDialog(event.getModel());
+            }
+        });
+    }
+
+    private void updateDialog(DataModel model) {
+        setDate((Date) model.get(ProgramConstants.LAST_UPDATED_DATE), lastUpdatedDate);
+        lastReviewDate.setText((String) model.get(ProgramConstants.LAST_REVIEW_DATE));
+        setWidget(ProgramConstants.SCHEDULED_REVIEW_DATE, scheduledReviewDate, model);
     }
 
     private void setDate(Date updatedDate, Label lastUpdatedDate) {
         if (updatedDate != null) {
             lastUpdatedDate.setText(ProgramUtils.df.format(updatedDate));
+        } else {
+            lastUpdatedDate.setText("");
         }
     }
 
@@ -108,6 +125,10 @@ public class ProgramSideBar extends Composite {
     private void setStyles() {
         content.addStyleName("sideBar");
         historyLabel.addStyleName("history");
+    }
+
+    public void setMetadata(ModelDefinition modelDefinition, ProgramController controller) {
+        dialogManager.configureView(modelDefinition, controller);
     }
 
     public static enum State {
