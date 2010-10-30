@@ -160,6 +160,7 @@
               <username>${ks.masterdb.username}</username>
               <password>${ks.masterdb.password}</password>
               <delimiter>/</delimiter>
+              <orderFile>ascending</orderFile>
             </configuration>
             <executions>
               <execution>
