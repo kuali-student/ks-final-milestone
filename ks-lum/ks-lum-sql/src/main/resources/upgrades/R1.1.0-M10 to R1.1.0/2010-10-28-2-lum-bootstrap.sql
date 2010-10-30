@@ -30,7 +30,7 @@ INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, 
 INSERT INTO KSST_REQ_COM_TYPE_NL_TMPL (ID, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER, LANGUAGE, VER_NBR) VALUES ('3017', 'KUALI.RULE.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.durationType.id;reqCompFieldLabel=Duration Type> <reqCompFieldType=kuali.reqComponent.field.type.gpa;reqCompFieldLabel=GPA>', 'kuali.reqComponent.type.program.duration.gpa.min', 'en', 0)
 /
 
-TRUNCATE TABLE KSST_STMT_TYP_JN_RC_TYP;
+TRUNCATE TABLE KSST_STMT_TYP_JN_RC_TYP
 /
 
 -- STMT_TYPE <-> REQ_COM_TYPE
