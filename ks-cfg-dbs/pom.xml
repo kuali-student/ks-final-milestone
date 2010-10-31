@@ -772,6 +772,7 @@
                 <configuration>
                   <includes>^KS.*,^KR.*</includes>
                   <schemaXMLFile>${basedir}/ks-embedded-db/src/main/impex/schema.xml</schemaXMLFile>
+                  <dataXMLDir>${basedir}/ks-embedded-db/src/main/impex</dataXMLDir>
                   <copyToFile>${basedir}/ks-embedded-db/src/main/impex/data.dtd</copyToFile>
                   <artifactId>ks-embedded-db</artifactId>
                 </configuration>
@@ -809,10 +810,12 @@
                 <id>commit-impex-changes</id>
                 <phase>prepare-package</phase>
                 <goals>
+                  <goal>add</goal>
                   <goal>checkin</goal>
                 </goals>
                 <configuration>
                   <message>Automated Impex update</message>
+                  <includes>**/src/main/impex/*.xml,**/src/main/impex/*.dtd</includes>
                 </configuration>
               </execution>
             </executions>
