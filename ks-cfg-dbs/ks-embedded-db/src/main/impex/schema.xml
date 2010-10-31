@@ -6362,6 +6362,7 @@
         </index>
     </table>
     <table name="KS_DB_VERSION">
+        <column name="VERSION" size="255" type="VARCHAR"/>
         <column name="BUILD_ID" size="255" type="VARCHAR"/>
         <column name="BUILD_TIME" size="255" type="VARCHAR"/>
     </table>
