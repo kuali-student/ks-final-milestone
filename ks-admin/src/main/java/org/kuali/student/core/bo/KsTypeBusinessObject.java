@@ -1,7 +1,7 @@
 package org.kuali.student.core.bo;
 
 
-public interface TypeBusinessObject extends KsBusinessObject{
+public interface KsTypeBusinessObject extends KsBusinessObject{
    
    public String getName();
    

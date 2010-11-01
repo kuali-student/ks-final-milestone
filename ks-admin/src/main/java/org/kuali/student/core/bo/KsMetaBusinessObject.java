@@ -2,7 +2,7 @@ package org.kuali.student.core.bo;
 
 import java.util.Date;
 
-public interface MetaBusinessObject extends KsBusinessObject {
+public interface KsMetaBusinessObject extends KsBusinessObject {
 
     public String getCreateId();
 

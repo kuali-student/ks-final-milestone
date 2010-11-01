@@ -1,7 +1,7 @@
 package org.kuali.student.core.bo;
 
 
-public abstract class TypeStateBusinessObjectBase extends MetaBusinessObjectBase implements TypeStateBusinessObject {
+public abstract class KsTypeStateBusinessObjectBase extends KsMetaBusinessObjectBase implements KsTypeStateBusinessObject {
 
     private static final long serialVersionUID = -8215829676177229024L;
 

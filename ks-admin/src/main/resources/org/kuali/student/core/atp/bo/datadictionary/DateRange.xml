@@ -35,9 +35,7 @@
         </property>
     </bean>
 
-    <bean id="DateRange-id" parent="DateRange-id-parentBean" />
-    <bean id="DateRange-id-parentBean" abstract="true" parent="CoreAttributeReference-id">
-    </bean>
+    <alias alias="DateRange-id" name="CoreAttributeReference-id" />
 
     <bean id="DateRange-name" parent="DateRange-name-parentBean" />
     <bean id="DateRange-name-parentBean" abstract="true" parent="CoreAttributeReference-name">
@@ -73,21 +71,10 @@
     <bean id="DateRange-state-parentBean" abstract="true" parent="CoreAttributeReference-state">
     </bean>
 
-    <bean id="DateRange-createId" parent="DateRange-createId-parentBean" />
-    <bean id="DateRange-createId-parentBean" abstract="true" parent="CoreAttributeReference-createId">
-    </bean>
-
-    <bean id="DateRange-createDate" parent="DateRange-createDate-parentBean" />
-    <bean id="DateRange-createDate-parentBean" abstract="true" parent="CoreAttributeReference-createDate">
-    </bean>
-
-    <bean id="DateRange-updateId" parent="DateRange-updateId-parentBean" />
-    <bean id="DateRange-updateId-parentBean" abstract="true" parent="CoreAttributeReference-updateId">
-    </bean>
-
-    <bean id="DateRange-updateDate" parent="DateRange-updateDate-parentBean" />
-    <bean id="DateRange-updateDate-parentBean" abstract="true" parent="CoreAttributeReference-updateDate">
-    </bean>
+    <alias alias="DateRange-createId" name="CoreAttributeReference-createId" />
+    <alias alias="DateRange-createDate" name="CoreAttributeReference-createDate" />
+    <alias alias="DateRange-updateId" name="CoreAttributeReference-updateId" />
+    <alias alias="DateRange-updateDate" name="CoreAttributeReference-updateDate" />
 
     <bean id="DateRange-typeId" parent="DateRange-typeId-parentBean" />
     <bean id="DateRange-typeId-parentBean" abstract="true" parent="CoreAttributeReference-typeId">
@@ -165,8 +152,6 @@
         </property>
     </bean>
     
-    <bean id="DateRange-inquirySection-metaInformation" parent="DateRange-inquirySection-metaInformation-parentBean" />
-    <bean id="DateRange-inquirySection-metaInformation-parentBean" abstract="true" parent="CoreAttributeReference-inquirySection-metaInformation">
-    </bean>
+    <alias alias="DateRange-inquirySection-metaInformation" name="CoreAttributeReference-inquirySection-metaInformation" />
 
 </beans>

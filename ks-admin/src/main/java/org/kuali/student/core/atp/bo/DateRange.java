@@ -27,7 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
+import org.kuali.student.core.bo.KsTypeStateBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_DT_RANGE")
@@ -35,7 +35,7 @@ import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
 	@NamedQuery(name="DateRange.findDateRangesByAtp", query="SELECT dateRange FROM DateRange dateRange WHERE dateRange.atp.id = :atpId"),
 	@NamedQuery(name="DateRange.findDateRangesByDate", query="SELECT dateRange FROM DateRange dateRange WHERE dateRange.startDate <= :searchDate AND dateRange.endDate >= :searchDate")
 })
-public class DateRange extends TypeStateBusinessObjectBase {
+public class DateRange extends KsTypeStateBusinessObjectBase {
 	private static final long serialVersionUID = -9071561165465644092L;
 
 	@Column(name = "ATP_ID")

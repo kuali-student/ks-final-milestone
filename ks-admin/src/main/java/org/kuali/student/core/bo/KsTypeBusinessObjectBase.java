@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class TypeBusinessObjectBase extends KsInactivatableFromToBase implements TypeBusinessObject {
+public abstract class KsTypeBusinessObjectBase extends KsInactivatableFromToBase implements KsTypeBusinessObject {
 	
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,7 @@ public abstract class TypeBusinessObjectBase extends KsInactivatableFromToBase i
 	@Column(name = "TYPE_DESC")
 	private String description;
 
-	public TypeBusinessObjectBase() {
+	public KsTypeBusinessObjectBase() {
 		super();
 	}
 

@@ -34,9 +34,7 @@
         </property>
     </bean>
 
-    <bean id="Milestone-id" parent="Milestone-id-parentBean" />
-    <bean id="Milestone-id-parentBean" abstract="true" parent="CoreAttributeReference-id">
-    </bean>
+    <alias alias="Milestone-id" name="CoreAttributeReference-id" />
 
     <bean id="Milestone-name" parent="Milestone-name-parentBean" />
     <bean id="Milestone-name-parentBean" abstract="true" parent="CoreAttributeReference-name">
@@ -63,21 +61,10 @@
     <bean id="Milestone-state-parentBean" abstract="true" parent="CoreAttributeReference-state">
     </bean>
 
-    <bean id="Milestone-createId" parent="Milestone-createId-parentBean" />
-    <bean id="Milestone-createId-parentBean" abstract="true" parent="CoreAttributeReference-createId">
-    </bean>
-
-    <bean id="Milestone-createDate" parent="Milestone-createDate-parentBean" />
-    <bean id="Milestone-createDate-parentBean" abstract="true" parent="CoreAttributeReference-createDate">
-    </bean>
-
-    <bean id="Milestone-updateId" parent="Milestone-updateId-parentBean" />
-    <bean id="Milestone-updateId-parentBean" abstract="true" parent="CoreAttributeReference-updateId">
-    </bean>
-
-    <bean id="Milestone-updateDate" parent="Milestone-updateDate-parentBean" />
-    <bean id="Milestone-updateDate-parentBean" abstract="true" parent="CoreAttributeReference-updateDate">
-    </bean>
+    <alias alias="Milestone-createId" name="CoreAttributeReference-createId" />
+    <alias alias="Milestone-createDate" name="CoreAttributeReference-createDate" />
+    <alias alias="Milestone-updateId" name="CoreAttributeReference-updateId" />
+    <alias alias="Milestone-updateDate" name="CoreAttributeReference-updateDate" />
 
     <bean id="Milestone-typeId" parent="Milestone-typeId-parentBean" />
     <bean id="Milestone-typeId-parentBean" abstract="true" parent="CoreAttributeReference-typeId">
@@ -152,8 +139,6 @@
         </property>
     </bean>
     
-    <bean id="Milestone-inquirySection-metaInformation" parent="Milestone-inquirySection-metaInformation-parentBean" />
-    <bean id="Milestone-inquirySection-metaInformation-parentBean" abstract="true" parent="CoreAttributeReference-inquirySection-metaInformation">
-    </bean>
+    <alias alias="Milestone-inquirySection-metaInformation" name="CoreAttributeReference-inquirySection-metaInformation" />
 
 </beans>

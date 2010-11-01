@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class RichText extends KsBusinessObjectBase {
+public class KsRichTextBusinessObjectBase extends KsBusinessObjectBase {
     
     private static final long serialVersionUID = -8080006030631944540L;
 

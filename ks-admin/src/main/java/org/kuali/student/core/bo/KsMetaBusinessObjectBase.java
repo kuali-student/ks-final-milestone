@@ -8,7 +8,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-public class MetaBusinessObjectBase extends KsBusinessObjectBase implements MetaBusinessObject {
+public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements KsMetaBusinessObject {
 
     private static final long serialVersionUID = -6804800481530556124L;
 
@@ -43,25 +43,27 @@ public class MetaBusinessObjectBase extends KsBusinessObjectBase implements Meta
      * This will set the internal properties from the incoming Meta object.
      * This is to support the KS embedded style Meta object for future compatibility.  OJB/KNS
      * do not seem to support embedded entities (called Nested in OJB terms).
+     * 
+     * Uses setter methods to allow behavior from subclass.
      */
     @Override
     public void setMeta(Meta meta) {
-        this.createId = meta.getCreateId();
-        this.createDate = meta.getCreateTime();
-        this.updateId = meta.getUpdateId();
-        this.updateDate = meta.getCreateTime();
+        this.setCreateId(meta.getCreateId());
+        this.setCreateDate(meta.getCreateTime());
+        this.setUpdateId(meta.getUpdateId());
+        this.setUpdateDate(meta.getCreateTime());
     }
     
     @Override
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.beforeInsert(persistenceBroker);
 
-        if (StringUtils.isBlank(createId)) {
-            this.createId = GlobalVariables.getUserSession().getPrincipalName();
+        if (StringUtils.isBlank(this.getCreateId())) {
+            this.setCreateId(GlobalVariables.getUserSession().getPrincipalName());
         }
 
-        if (createDate == null) {
-            this.createDate = KNSServiceLocator.getDateTimeService().getCurrentSqlDate();
+        if (this.getCreateDate() == null) {
+            this.setCreateDate(KNSServiceLocator.getDateTimeService().getCurrentSqlDate());
         }
     }
 
@@ -69,8 +71,8 @@ public class MetaBusinessObjectBase extends KsBusinessObjectBase implements Meta
     public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.beforeUpdate(persistenceBroker);
 
-        this.updateId = GlobalVariables.getUserSession().getPrincipalName();
-        this.updateDate = KNSServiceLocator.getDateTimeService().getCurrentSqlDate();
+        this.setUpdateId(GlobalVariables.getUserSession().getPrincipalName());
+        this.setUpdateDate(KNSServiceLocator.getDateTimeService().getCurrentSqlDate());
     }
 
     public String getCreateId() {

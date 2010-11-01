@@ -124,6 +124,11 @@
       <artifactId>ks-common-util</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-core-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- required to compile the test case -->
     <dependency>

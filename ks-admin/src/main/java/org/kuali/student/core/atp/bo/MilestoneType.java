@@ -20,14 +20,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.kuali.student.core.bo.TypeBusinessObjectBase;
+import org.kuali.student.core.bo.KsTypeBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_MLSTN_TYPE")
 @NamedQueries( { 
 	@NamedQuery(name = "MilestoneType.findMilestoneTypesForAtpType", query = "SELECT milestone.type FROM Milestone milestone WHERE milestone.atp.type.id = :atpTypeId") 
 })
-public class MilestoneType extends TypeBusinessObjectBase {
+public class MilestoneType extends KsTypeBusinessObjectBase {
     
 	private static final long serialVersionUID = 8876156342723088190L;
 
