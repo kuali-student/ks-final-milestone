@@ -2870,6 +2870,12 @@
   <property name="initialLookup"
             ref="kuali.enumeration.management.search.intensity" />
  </bean>
+ 
+ <bean id="programVariationInfo.intensity" parent="uilookupconfig-parent">
+  <property name="path" value="majorDisciplineInfo.variations.intensity" />
+  <property name="initialLookup"
+            ref="kuali.enumeration.management.search.intensity" />
+ </bean>
 
  <bean id="kuali.enumeration.management.search.intensity" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="kuali.common.enumeration.management.search.intensity">
