@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.client.core.view;
 
-import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;

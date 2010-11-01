@@ -1,9 +1,9 @@
 package org.kuali.student.lum.program.client.events;
 
-import java.util.List;
-
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
+
+import java.util.List;
 
 public class StoreRequirementIDsEvent extends GwtEvent<StoreRequirementIDsEvent.Handler> {
 

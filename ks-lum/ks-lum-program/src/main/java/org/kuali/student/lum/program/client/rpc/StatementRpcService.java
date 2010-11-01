@@ -1,14 +1,13 @@
 package org.kuali.student.lum.program.client.rpc;
 
-import java.util.List;
-
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import java.util.List;
 
 @RemoteServiceRelativePath("rpcservices/statementRpcService")
 public interface StatementRpcService extends BaseRpcService {

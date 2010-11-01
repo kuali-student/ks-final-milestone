@@ -14,8 +14,8 @@
  */
 package org.kuali.student.lum.program.client.requirements;
 
-import java.util.*;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
@@ -33,8 +33,7 @@ import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
+import java.util.*;
 
 public class ProgramRequirementsDataModel {
 

@@ -1,14 +1,13 @@
 package org.kuali.student.lum.program.client.rpc;
 
-import java.util.List;
-
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.List;
 
 public interface StatementRpcServiceAsync extends BaseRpcServiceAsync {
     public void getStatementTypesForStatementTypeForCourse(String statementTypeKey, AsyncCallback<List<StatementTypeInfo>> callback);

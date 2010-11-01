@@ -1,14 +1,13 @@
 package org.kuali.student.lum.program.client.rpc;
 
-import java.util.List;
-import java.util.Map;
-
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import java.util.List;
+import java.util.Map;
 
 @RemoteServiceRelativePath("rpcservices/programRpcService")
 public interface ProgramRpcService extends BaseDataOrchestrationRpcService {

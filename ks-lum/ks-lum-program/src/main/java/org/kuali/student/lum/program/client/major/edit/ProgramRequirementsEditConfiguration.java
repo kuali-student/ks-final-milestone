@@ -1,13 +1,12 @@
 package org.kuali.student.lum.program.client.major.edit;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
-
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  *

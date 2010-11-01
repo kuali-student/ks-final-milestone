@@ -1,10 +1,10 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -23,33 +23,16 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramUtils;
-import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
-import org.kuali.student.lum.program.client.events.AddSpecializationEventHandler;
-import org.kuali.student.lum.program.client.events.AfterSaveEvent;
-import org.kuali.student.lum.program.client.events.ChangeViewEvent;
-import org.kuali.student.lum.program.client.events.ChangeViewEventHandler;
-import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
-import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
-import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
-import org.kuali.student.lum.program.client.events.SpecializationSaveEventHandler;
-import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
-import org.kuali.student.lum.program.client.events.SpecializationUpdateEventHandler;
-import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
-import org.kuali.student.lum.program.client.events.StoreRequirementIdsEventHandler;
-import org.kuali.student.lum.program.client.events.UpdateEvent;
-import org.kuali.student.lum.program.client.events.UpdateEventHandler;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Igor

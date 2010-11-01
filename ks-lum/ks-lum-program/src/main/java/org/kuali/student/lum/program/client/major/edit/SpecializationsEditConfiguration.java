@@ -13,7 +13,6 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramManager;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationsBinding;
