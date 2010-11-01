@@ -1,10 +1,8 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -17,21 +15,31 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramUtils;
-import org.kuali.student.lum.program.client.events.*;
+import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
+import org.kuali.student.lum.program.client.events.SpecializationCreatedEventHandler;
+import org.kuali.student.lum.program.client.events.ChangeViewEvent;
+import org.kuali.student.lum.program.client.events.ChangeViewEventHandler;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
+import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
+import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
  */
 public class VariationEditController extends VariationController {
 
-    private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
+    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
 
     private String currentId;
 
@@ -85,6 +93,13 @@ public class VariationEditController extends VariationController {
             @Override
             public void onEvent(ChangeViewEvent event) {
                 showView(event.getViewToken());
+            }
+        });
+        eventBus.addHandler(SpecializationCreatedEvent.TYPE, new SpecializationCreatedEventHandler() {
+
+            @Override
+            public void onEvent(SpecializationCreatedEvent event) {
+                programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
             }
         });
     }

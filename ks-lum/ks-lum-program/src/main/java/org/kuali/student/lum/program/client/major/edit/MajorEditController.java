@@ -1,10 +1,10 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -23,22 +23,42 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramUtils;
-import org.kuali.student.lum.program.client.events.*;
+import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
+import org.kuali.student.lum.program.client.events.AddSpecializationEventHandler;
+import org.kuali.student.lum.program.client.events.AfterSaveEvent;
+import org.kuali.student.lum.program.client.events.ChangeViewEvent;
+import org.kuali.student.lum.program.client.events.ChangeViewEventHandler;
+import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
+import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
+import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
+import org.kuali.student.lum.program.client.events.SpecializationSaveEventHandler;
+import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
+import org.kuali.student.lum.program.client.events.SpecializationUpdateEventHandler;
+import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
+import org.kuali.student.lum.program.client.events.StoreRequirementIdsEventHandler;
+import org.kuali.student.lum.program.client.events.UpdateEvent;
+import org.kuali.student.lum.program.client.events.UpdateEventHandler;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
  */
 public class MajorEditController extends MajorController {
 
-    private KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
+    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private final Set<String> existingVariationIds = new TreeSet<String>();
 
     /**
      * Constructor.
@@ -91,7 +111,13 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(SpecializationSaveEvent.TYPE, new SpecializationSaveEventHandler() {
             @Override
             public void onEvent(SpecializationSaveEvent event) {
-                ((Data) programModel.get(ProgramConstants.VARIATIONS)).add(event.getData());
+                Data variations = (Data) programModel.get(ProgramConstants.VARIATIONS);
+                existingVariationIds.clear();
+
+                for (Data.Property prop : variations) {
+                    existingVariationIds.add((String) ((Data) prop.getValue()).get(ProgramConstants.ID));
+                }
+                variations.add(event.getData());
                 doSave();
             }
         });
@@ -142,7 +168,7 @@ public class MajorEditController extends MajorController {
                 //specializations will be handled differently from Major
                 if (programType.equals("kuali.lu.type.Variation")) {
                     Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
-                    //find the specialization that we need to update
+                    // find the specialization that we need to update
                     for (Data.Property property : variationMap) {
                         final Data variationData = property.getValue();
                         if (variationData.get(ProgramConstants.ID).equals(programId)) {
@@ -151,7 +177,7 @@ public class MajorEditController extends MajorController {
                             break;
                         }
                     }
-                } else {
+                } else {                                       
                     programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
                     programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
                 }
@@ -207,6 +233,7 @@ public class MajorEditController extends MajorController {
         showView(ProgramSections.SUMMARY);
     }
 
+    @Override
     protected void doSave() {
         doSave(NO_OP_CALLBACK);
     }
@@ -229,10 +256,23 @@ public class MajorEditController extends MajorController {
                     setHeaderTitle();
                     setStatus();
                     resetFieldInteractionFlag();
+
+                    List<String> newVariations = new ArrayList<String>();
+                    Data variations = programModel.get(ProgramConstants.VARIATIONS);
+	                for (Data.Property prop : variations) {
+	                    String varId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+                        if ( ! existingVariationIds.contains(varId) ) {
+                            newVariations.add(varId);
+	                    }
+	                }
+                    assert (newVariations.size() <= 1);
+                    if (newVariations.size() == 1) {
+                        eventBus.fireEvent(new SpecializationCreatedEvent(newVariations.get(0)));
+                    }
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
                     if (getCurrentViewEnum().name().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
-                        showView(getCurrentViewEnum());
+                    	showView(getCurrentViewEnum());
                     }
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);
