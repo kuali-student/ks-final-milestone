@@ -862,6 +862,7 @@
 		<search:desc>Publication Type criteria</search:desc>
 		<search:queryParams>
 			<ref bean="lu.queryParam.publicationType.id" />
+			<ref bean="lu.queryParam.publicationType.idRestrictionList" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -874,6 +875,19 @@
 	<dict:fieldDescriptor id="lu.queryParam.publicationType.id.fd-abstract" abstract="true">
 		<dict:name>Publication Type Key</dict:name>
 		<dict:desc>Publication Type Key</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+    <search:queryParam id="lu.queryParam.publicationType.idRestrictionList" parent="lu.queryParam.publicationType.idRestrictionList-parent"/>
+	<search:queryParam id="lu.queryParam.publicationType.idRestrictionList-parent" optional="true" abstract="true">
+		<ref bean="lu.queryParam.publicationType.idRestrictionList.fd"/>	
+	</search:queryParam>
+
+	<dict:fieldDescriptor id="lu.queryParam.publicationType.idRestrictionList.fd" parent="lu.queryParam.publicationType.idRestrictionList.fd-abstract"/>
+	<dict:fieldDescriptor id="lu.queryParam.publicationType.idRestrictionList.fd-abstract" abstract="true">
+		<dict:name>Publication Type Ids Key</dict:name>
+		<dict:desc>Publication Type Ids Key</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
@@ -1362,6 +1376,9 @@
 		        </entry>                                                
 				<entry key="lu.queryParam.publicationType.id">
 					<value>pub.id = :lu_queryParam_publicationType_id</value>
+				</entry>
+   				<entry key="lu.queryParam.publicationType.idRestrictionList">
+					<value>pub.id IN (:lu_queryParam_publicationType_idRestrictionList)</value>
 				</entry>
                 <entry key="lu.search.luProgramsByName">
                      <value>

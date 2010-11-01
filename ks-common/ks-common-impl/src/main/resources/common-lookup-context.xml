@@ -1873,6 +1873,19 @@
                     <property name="dataType" value="STRING"/>
                     <property name="writeAccess" value="ALWAYS"/>
                 </bean>
+                <bean parent="param">
+					<property name="key" value="lu.queryParam.publicationType.idRestrictionList"/>
+					<property name="name" value="Publication Type Id Restriction"/>
+					<property name="desc" value="Publication Type Id Restriction"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="NEVER"/>
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.lu.publication.GradCatalog</value>
+							<value>kuali.lu.publication.UndergradCatalog</value>
+						</list>
+					</property>
+				</bean>
             </list>
 		</property>
 	</bean>
