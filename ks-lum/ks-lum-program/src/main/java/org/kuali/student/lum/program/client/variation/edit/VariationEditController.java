@@ -17,6 +17,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.*;
+import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
@@ -34,8 +35,8 @@ public class VariationEditController extends VariationController {
 
     private String currentId;
 
-    public VariationEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public VariationEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorEditController majorController) {
+        super(name, programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
         if (programModel.get("id") != null) {

@@ -311,4 +311,8 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected void doSave() {
     }
+
+    public DataModel getProgramModel() {
+        return programModel;
+    }
 }

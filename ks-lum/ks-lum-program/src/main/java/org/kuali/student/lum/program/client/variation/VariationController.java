@@ -16,6 +16,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
@@ -28,17 +29,20 @@ public abstract class VariationController extends ProgramController {
 
     private String name;
 
+    private MajorController majorController;
+
     /**
      * Constructor.
      *
      * @param programModel
      * @param eventBus
      */
-    public VariationController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+    public VariationController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorController majorController) {
         super("", programModel, viewContext, eventBus);
         this.name = name;
+        this.majorController = majorController;
         setName(getProgramName());
-        sideBar.setMetadata(programModel.getDefinition(), this);
+        sideBar.initialize(majorController);
     }
 
     @Override

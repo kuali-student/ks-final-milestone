@@ -8,14 +8,14 @@ import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
-import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.variation.VariationController;
 
 import java.util.Date;
 
@@ -45,6 +45,12 @@ public class ProgramSideBar extends Composite {
         setStyles();
         buildLayout();
         bind();
+    }
+
+    public void initialize(MajorController controller) {
+        DataModel model = controller.getProgramModel();
+        dialogManager.configureView(model.getDefinition(), controller);
+        updateFields(model);
     }
 
     private void bind() {
@@ -123,10 +129,6 @@ public class ProgramSideBar extends Composite {
     private void setStyles() {
         content.addStyleName("sideBar");
         historyLabel.addStyleName("history");
-    }
-
-    public void setMetadata(ModelDefinition modelDefinition, ProgramController controller) {
-        dialogManager.configureView(modelDefinition, controller);
     }
 
     public static enum State {

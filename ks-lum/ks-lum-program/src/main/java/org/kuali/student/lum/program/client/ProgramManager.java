@@ -45,7 +45,7 @@ public class ProgramManager {
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
-        variationViewController = new VariationViewController(name, variationModel, viewContext, eventBus);
+        variationViewController = new VariationViewController(name, variationModel, viewContext, eventBus, majorViewController);
         return variationViewController;
     }
 
@@ -54,7 +54,7 @@ public class ProgramManager {
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
-        variationEditController = new VariationEditController(name, variationModel, viewContext, eventBus);
+        variationEditController = new VariationEditController(name, variationModel, viewContext, eventBus, majorEditController);
         return variationEditController;
     }
 

@@ -54,19 +54,17 @@ public class MajorViewController extends MajorController {
         });
         eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
-            public void onEvent(ModelLoadedEvent event) { 
+            public void onEvent(ModelLoadedEvent event) {
                 String type = context.getAttributes().get(ProgramConstants.TYPE);
                 if (type != null) {
                     context.getAttributes().remove(ProgramConstants.TYPE);
                     if (type.equals(ProgramConstants.VARIATION_TYPE_KEY)) {
                         showVariationView();
-                    }      
-                    else {
-                       showView(ProgramSections.VIEW_ALL);                       
+                    } else {
+                        showView(ProgramSections.VIEW_ALL);
                     }
-                }
-                else {
-                   showView(ProgramSections.VIEW_ALL);
+                } else {
+                    showView(ProgramSections.VIEW_ALL);
                 }
             }
         });
@@ -75,8 +73,8 @@ public class MajorViewController extends MajorController {
     private void showVariationView() {
         String variationId = context.getAttributes().get(ProgramConstants.VARIATION_ID);
         if (variationId != null) {
-           context.getAttributes().remove(ProgramConstants.VARIATION_ID);
-           final Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
+            context.getAttributes().remove(ProgramConstants.VARIATION_ID);
+            final Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
             if (variationMap != null) {
                 int row = 0;
                 for (Property p : variationMap) {
