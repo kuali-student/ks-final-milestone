@@ -87,9 +87,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 
-        if (courseInfo == null) {
-            throw new MissingParameterException("CourseInfo can not be null");
-        }
+        checkForMissingParameter(courseInfo, "CourseInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
@@ -111,10 +109,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
-        if (courseInfo == null) {
-            throw new MissingParameterException("CourseInfo can not be null");
-        }
-
+        checkForMissingParameter(courseInfo, "CourseInfo");
+        
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
         if (null != validationResults && validationResults.size() > 0) {
