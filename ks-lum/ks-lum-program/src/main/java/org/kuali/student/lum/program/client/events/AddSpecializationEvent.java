@@ -1,21 +1,26 @@
 package org.kuali.student.lum.program.client.events;
 
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * @author Igor
  */
-public class AddSpecializationEvent extends GwtEvent<AddSpecializationEventHandler> {
+public class AddSpecializationEvent extends GwtEvent<AddSpecializationEvent.Handler> {
 
-    public static Type<AddSpecializationEventHandler> TYPE = new Type<AddSpecializationEventHandler>();
+    public static Type<Handler> TYPE = new Type<Handler>();
 
     @Override
-    public Type<AddSpecializationEventHandler> getAssociatedType() {
+    public Type<Handler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(AddSpecializationEventHandler handler) {
+    protected void dispatch(Handler handler) {
         handler.onEvent(this);
+    }
+
+    public static interface Handler extends EventHandler {
+        void onEvent(AddSpecializationEvent event);
     }
 }

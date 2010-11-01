@@ -14,9 +14,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
-import org.kuali.student.lum.program.client.events.AfterSaveEventHandler;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import java.util.Date;
@@ -50,23 +48,23 @@ public class ProgramSideBar extends Composite {
     }
 
     private void bind() {
-        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
-                updateDialog(event.getModel());
+                updateFields(event.getModel());
             }
         });
-        eventBus.addHandler(AfterSaveEvent.TYPE, new AfterSaveEventHandler() {
+        eventBus.addHandler(AfterSaveEvent.TYPE, new AfterSaveEvent.Handler() {
             @Override
             public void onEvent(AfterSaveEvent event) {
                 DataModel model = event.getModel();
                 dialogManager.configureView(model.getDefinition(), event.getController());
-                updateDialog(event.getModel());
+                updateFields(event.getModel());
             }
         });
     }
 
-    private void updateDialog(DataModel model) {
+    private void updateFields(DataModel model) {
         setDate((Date) model.get(ProgramConstants.LAST_UPDATED_DATE), lastUpdatedDate);
         lastReviewDate.setText((String) model.get(ProgramConstants.LAST_REVIEW_DATE));
         setWidget(ProgramConstants.SCHEDULED_REVIEW_DATE, scheduledReviewDate, model);

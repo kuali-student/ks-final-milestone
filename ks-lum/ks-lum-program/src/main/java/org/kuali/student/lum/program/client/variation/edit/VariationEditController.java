@@ -68,7 +68,7 @@ public class VariationEditController extends VariationController {
                 doCancel();
             }
         });
-        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 DataModel dataModel = event.getModel();
@@ -89,7 +89,7 @@ public class VariationEditController extends VariationController {
                 }
             }
         });
-        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEventHandler() {
+        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
             @Override
             public void onEvent(ChangeViewEvent event) {
                 showView(event.getViewToken());

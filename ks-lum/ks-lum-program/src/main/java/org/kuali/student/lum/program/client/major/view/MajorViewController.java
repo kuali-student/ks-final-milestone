@@ -1,7 +1,5 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import java.util.Iterator;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -17,9 +15,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.MajorViewEvent;
-import org.kuali.student.lum.program.client.events.MajorViewEventHandler;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
 import org.kuali.student.lum.program.client.major.ActionType;
 import org.kuali.student.lum.program.client.major.MajorController;
 
@@ -50,13 +46,13 @@ public class MajorViewController extends MajorController {
                 }
             }
         });
-        eventBus.addHandler(MajorViewEvent.TYPE, new MajorViewEventHandler() {
+        eventBus.addHandler(MajorViewEvent.TYPE, new MajorViewEvent.Handler() {
             @Override
             public void onEvent(MajorViewEvent event) {
                 actionBox.setSelectedIndex(0);
             }
         });
-        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) { 
                 String type = context.getAttributes().get(ProgramConstants.TYPE);

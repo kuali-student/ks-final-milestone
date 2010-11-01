@@ -101,14 +101,14 @@ public class MajorEditController extends MajorController {
                 doCancel();
             }
         });
-        eventBus.addHandler(UpdateEvent.TYPE, new UpdateEventHandler() {
+        eventBus.addHandler(UpdateEvent.TYPE, new UpdateEvent.Handler() {
             @Override
             public void onEvent(UpdateEvent event) {
                 doSave(event.getOkCallback());
             }
         });
 
-        eventBus.addHandler(SpecializationSaveEvent.TYPE, new SpecializationSaveEventHandler() {
+        eventBus.addHandler(SpecializationSaveEvent.TYPE, new SpecializationSaveEvent.Handler() {
             @Override
             public void onEvent(SpecializationSaveEvent event) {
                 Data variations = (Data) programModel.get(ProgramConstants.VARIATIONS);
@@ -121,7 +121,7 @@ public class MajorEditController extends MajorController {
                 doSave();
             }
         });
-        eventBus.addHandler(AddSpecializationEvent.TYPE, new AddSpecializationEventHandler() {
+        eventBus.addHandler(AddSpecializationEvent.TYPE, new AddSpecializationEvent.Handler() {
             @Override
             public void onEvent(AddSpecializationEvent event) {
                 String id = (String) programModel.get(ProgramConstants.ID);
@@ -134,13 +134,13 @@ public class MajorEditController extends MajorController {
 
             }
         });
-        eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEventHandler() {
+        eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEvent.Handler() {
             @Override
             public void onEvent(SpecializationUpdateEvent event) {
                 doSave();
             }
         });
-        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 Enum<?> changeSection = ProgramRegistry.getSection();
@@ -157,7 +157,7 @@ public class MajorEditController extends MajorController {
                 }
             }
         });
-        eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIdsEventHandler() {
+        eventBus.addHandler(StoreRequirementIDsEvent.TYPE, new StoreRequirementIDsEvent.Handler() {
             @Override
             public void onEvent(StoreRequirementIDsEvent event) {
                 String programId = event.getProgramId();       //this can be either Major or Specialization ID
@@ -194,7 +194,7 @@ public class MajorEditController extends MajorController {
                 doSave();
             }
         });
-        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEventHandler() {
+        eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
             @Override
             public void onEvent(ChangeViewEvent event) {
                 showView(event.getViewToken());

@@ -14,7 +14,6 @@ import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
-import org.kuali.student.lum.program.client.events.MetadataLoadedEventHandler;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -55,7 +54,7 @@ class SideBarDialogManager {
 
             }
         });
-        eventBus.addHandler(MetadataLoadedEvent.TYPE, new MetadataLoadedEventHandler() {
+        eventBus.addHandler(MetadataLoadedEvent.TYPE, new MetadataLoadedEvent.Handler() {
             @Override
             public void onEvent(MetadataLoadedEvent event) {
                 configureView(event.getModelDefinition(), event.getController());

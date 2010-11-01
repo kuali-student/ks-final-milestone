@@ -1,21 +1,26 @@
 package org.kuali.student.lum.program.client.events;
 
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * @author Igor
  */
-public class MajorViewEvent extends GwtEvent<MajorViewEventHandler> {
+public class MajorViewEvent extends GwtEvent<MajorViewEvent.Handler> {
 
-    public static Type<MajorViewEventHandler> TYPE = new Type<MajorViewEventHandler>();
+    public static Type<Handler> TYPE = new Type<Handler>();
 
     @Override
-    public Type<MajorViewEventHandler> getAssociatedType() {
+    public Type<Handler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(MajorViewEventHandler handler) {
+    protected void dispatch(Handler handler) {
         handler.onEvent(this);
+    }
+
+    public static interface Handler extends EventHandler {
+        void onEvent(MajorViewEvent event);
     }
 }

@@ -15,7 +15,6 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramManager;
 import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEventHandler;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -42,7 +41,7 @@ public class SummaryActionPanel extends Composite {
     }
 
     private void bind() {
-        ProgramManager.getEventBus().addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEventHandler() {
+        ProgramManager.getEventBus().addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 dataModel = event.getModel();
