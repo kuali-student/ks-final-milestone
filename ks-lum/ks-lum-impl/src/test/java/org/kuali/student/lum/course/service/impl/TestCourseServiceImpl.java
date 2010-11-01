@@ -9,8 +9,10 @@ import static org.junit.Assert.fail;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -855,5 +857,80 @@ public class TestCourseServiceImpl {
             assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
         }
     }
+    
+    /**
+     * 
+     * This method checks for an UnsupportedOperationException to be thrown from the methods in the created list.
+     * 
+     */
+    @Test
+    public void testExpectedUnsupported() throws Exception {
+        String[] unsupportedOperations = {"getCourseActivities", "getCourseFormats", "getCourseLos"};
+        
+        Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(unsupportedOperations.length);
+        for(String s : unsupportedOperations) {
+            ServiceMethodInvocationData invocationData = new ServiceMethodInvocationData();
+            invocationData.methodName = s;
+            invocationData.parameters = new Object[1];
+            methods.add(invocationData);
+        }
+        
+        invokeForExpectedException(methods, UnsupportedOperationException.class);
+    }
+
+    private class ServiceMethodInvocationData {
+        String methodName;
+        Object[] parameters;
+    }
+    
+    private void invokeForExpectedException(Collection<ServiceMethodInvocationData> methods, Class<? extends Exception> expectedExceptionClass) throws Exception {
+        for(ServiceMethodInvocationData methodData : methods) {
+            Method method = courseService.getClass().getMethod(methodData.methodName, String.class);
+            Throwable expected = null;
+            Exception unexpected = null;
+            try {
+                method.invoke(courseService, methodData.parameters);
+            }
+            catch(InvocationTargetException ex) {
+                if(ex.getCause() != null && ex.getCause().getClass().equals(expectedExceptionClass)) {
+                    expected = ex.getCause();
+                }
+                else {
+                    unexpected = ex;
+                    unexpected.printStackTrace();
+                }
+            }
+            catch(Exception other) {
+                unexpected = other;
+            }
+            finally {
+                assertNotNull("An exception of class: " + expectedExceptionClass.toString() + " was expected, but the method: " + methodData.methodName + " threw this exception: " + unexpected, expected);
+            }
+        }
+    }
+    
+    @Test
+    public void testGetVersionMethodsForInvalidParameters() throws Exception {
+        String[] getVersionMethods = {"getVersionBySequenceNumber", "getVersions", "getVersionsInDateRange", "getCurrentVersion", "getCurrentVersionOnDate"};
+        
+        // build an object array with the appropriate number of arguments for each version method to be called
+        Object[][] getVersionParams = {new Object[3], new Object[2], new Object[4], new Object[2], new Object[3]};
+        
+        String badRefObjectTypeURI = "BADBADBAD";
+        Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(getVersionMethods.length);
+        for(int i = 0; i < getVersionMethods.length; i++) {
+            ServiceMethodInvocationData invocationData = new ServiceMethodInvocationData();
+            invocationData.methodName = getVersionMethods[i];
+            
+            // set the first parameter of each invocation to the invalid data
+            getVersionParams[i][0] = badRefObjectTypeURI;
+            
+            invocationData.parameters = getVersionParams[i];
+        }
+        
+        invokeForExpectedException(methods, InvalidParameterException.class);
+    }
+    
+    
 
 }
