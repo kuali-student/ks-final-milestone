@@ -61,6 +61,7 @@ public class ProgramConstants {
     //Program Description and Catalog Details
     public static final String DESCRIPTION = "descr";
     public static final String CATALOG_DESCRIPTION = "catalogDescr";
+    public static final String PLAIN_TEXT = "plain";
     //public static final String CORE_FACULTY_MEMBERS = "publishedInstructors";
     public static final String CORE_FACULTY_MEMBERS = "coreFaculties";
     public static final String PUBLICATION_TARGETS = "catalogPublicationTargets";

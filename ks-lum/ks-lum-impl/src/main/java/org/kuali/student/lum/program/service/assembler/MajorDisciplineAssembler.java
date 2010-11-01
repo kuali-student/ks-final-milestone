@@ -30,8 +30,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -82,7 +80,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
             mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
             mdInfo.setVariations(assembleVariations(clu.getId(), shallowBuild));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(clu.getId(), shallowBuild));
-            programAssemblerUtils.assemblePublicationInfo(clu, mdInfo);
+            programAssemblerUtils.assemblePublications(clu, mdInfo);
         }
         
        return mdInfo;

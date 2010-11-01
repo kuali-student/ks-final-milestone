@@ -54,7 +54,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         programAssemblerUtils.assembleAtps(clu, cpInfo);
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
         programAssemblerUtils.assembleRequirements(clu, cpInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, cpInfo);
+        programAssemblerUtils.assemblePublications(clu, cpInfo);
 
         cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
 

@@ -39,9 +39,9 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
+import org.kuali.student.lum.lu.dto.FieldInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 public class ProgramAssemblerUtils {
@@ -753,7 +753,7 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-    public Object assemblePublicationInfo(CluInfo clu, Object o) throws AssemblyException {
+    public Object assemblePublications(CluInfo clu, Object o) throws AssemblyException {
 
         Method method;
         Class[] parms;
@@ -768,29 +768,27 @@ public class ProgramAssemblerUtils {
                 method.invoke(o, value);
             }
 
-            //TODO assemble catalogDescr
-
-            RichTextInfo description = assembleCatalogDescr(clu.getId());
-//            if (description != null) {
-//                parms = new Class[]{RichTextInfo.class};
-//                method = o.getClass().getMethod("setCatalogDescr", parms);
-//                value = new Object[]{description};
-//                method.invoke(o, value);
-//            }
-
             try {
                 List<CluPublicationInfo> cluPublications = luService.getCluPublicationsByCluId(clu.getId());
 
                 List<String> targets = new ArrayList<String>();
 
                 for (CluPublicationInfo cluPublication : cluPublications) {
-                    targets.add(cluPublication.getType());
+                    if (cluPublication.getType().equals(ProgramAssemblerConstants.CATALOG)) {
+                        assembleCatalogDescr(o, cluPublication);
+                    }
+                    else {
+                        targets.add(cluPublication.getType());
+                    }
                 }
 
-                parms =  new Class[]{List.class};
-                method = o.getClass().getMethod("setCatalogPublicationTargets", parms);
-                value = new Object[]{targets};
-                method.invoke(o, value);
+                if (targets != null && !targets.isEmpty()) {
+                    parms =  new Class[]{List.class};
+                    method = o.getClass().getMethod("setCatalogPublicationTargets", parms);
+                    value = new Object[]{targets};
+                    method.invoke(o, value);
+                }
+
 
             } catch (DoesNotExistException e) {
             } catch (InvalidParameterException e) {
@@ -815,6 +813,117 @@ public class ProgramAssemblerUtils {
         return o;
     }
 
+    private void assembleCatalogDescr(Object o, CluPublicationInfo cluPublication) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+
+        for (FieldInfo fieldInfo : cluPublication.getVariants()) {
+            if (fieldInfo.getId().equals(ProgramAssemblerConstants.CATALOG_DESCR)) {
+                Class[] parms = new Class[]{RichTextInfo.class};
+                Method method = o.getClass().getMethod("setCatalogDescr", parms);
+                RichTextInfo desc = new RichTextInfo();
+                desc.setPlain(fieldInfo.getValue());
+                desc.setFormatted(fieldInfo.getValue());
+                Object[] value = new Object[]{desc};
+                method.invoke(o, value);
+                break;
+            }
+        }
+    }
+
+     private List<BaseDTOAssemblyNode<?, ?>> disassembleCatalogDescr(Object o,  NodeOperation operation) throws AssemblyException {
+
+         List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
+
+
+         Method  method = null;
+         String programId = null;
+         RichTextInfo catalogDescr = null;
+
+         CluPublicationInfo currentPubInfo = null;
+
+         try {
+
+             method = o.getClass().getMethod("getId", null);
+             programId = (String)method.invoke(o, null);
+
+             method = o.getClass().getMethod("getCatalogDescr", null);
+             catalogDescr = (RichTextInfo)method.invoke(o, null);
+
+             // if not create get current catalog descr
+             if (!NodeOperation.CREATE.equals(operation)) {
+                 List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(programId);
+                 for (CluPublicationInfo pubInfo : pubs) {
+                     if (pubInfo.getType().equals(ProgramAssemblerConstants.CATALOG)) {
+                         currentPubInfo = pubInfo;
+                     }
+                 }
+             }
+
+             if (catalogDescr != null) {
+                 //  If this is a create then create new catalog descr
+                 if (NodeOperation.CREATE == operation
+                         || (NodeOperation.UPDATE == operation && currentPubInfo == null )) {
+                     // the description does not exist, so create
+                     CluPublicationInfo pubInfo = buildCluPublicationInfo(programId, ProgramAssemblerConstants.CATALOG);
+
+                     FieldInfo variant = new FieldInfo();
+                     variant.setId(ProgramAssemblerConstants.CATALOG_DESCR);
+                     variant.setValue(catalogDescr.getPlain());
+                     pubInfo.getVariants().add(variant);
+
+                     BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
+                             null);
+                     pubNode.setNodeData(pubInfo);
+                     pubNode.setOperation(NodeOperation.CREATE);
+
+                     results.add(pubNode);
+                 } else if (NodeOperation.UPDATE == operation
+                         && currentPubInfo != null) {
+
+                     CluPublicationInfo pubInfo = currentPubInfo;
+
+                     for (FieldInfo fieldInfo : pubInfo.getVariants()) {
+                         if (fieldInfo.getId().equals(ProgramAssemblerConstants.CATALOG_DESCR)) {
+                             fieldInfo.setValue(catalogDescr.getPlain());
+                             break;
+                         }
+                     }
+
+                     BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
+                             null);
+                     pubNode.setNodeData(pubInfo);
+                     pubNode.setOperation(NodeOperation.UPDATE);
+
+                     results.add(pubNode);
+                     
+                 }
+                 else if (NodeOperation.DELETE == operation  )  {
+
+                     deletePublicationInfo(results, currentPubInfo);
+                 }
+             }
+
+
+         } catch (NoSuchMethodException e) {
+         } catch (InvocationTargetException e) {
+         } catch (IllegalAccessException e) {
+             throw new AssemblyException("Error disassembling program catalog description", e);
+
+         } catch (Exception e) {
+             throw new AssemblyException(e);
+         }
+         return results;
+    }
+
+    private void deletePublicationInfo(List<BaseDTOAssemblyNode<?, ?>> results, CluPublicationInfo currentPubInfo) {
+        CluPublicationInfo descrToDelete = new CluPublicationInfo();
+        descrToDelete.setId(currentPubInfo.getId());
+        BaseDTOAssemblyNode<Object, CluPublicationInfo> pubToDeleteNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
+                null);
+        pubToDeleteNode.setNodeData(descrToDelete);
+        pubToDeleteNode.setOperation(NodeOperation.DELETE);
+        results.add(pubToDeleteNode);
+    }
+
     /**
      * Copy publication values from program to clu
      *
@@ -834,9 +943,14 @@ public class ProgramAssemblerUtils {
             value = (String)method.invoke(o, null);
             clu.setReferenceURL(value);
 
-            List<BaseDTOAssemblyNode<?, ?>> pubResults = disassemblePublicationInfos(o, operation);
-            if (pubResults != null && pubResults.size()> 0) {
-                result.getChildNodes().addAll(pubResults);
+            List<BaseDTOAssemblyNode<?, ?>> targetResults = disassemblePublicationTargets(o, operation);
+            if (targetResults != null && targetResults.size()> 0) {
+                result.getChildNodes().addAll(targetResults);
+            }
+
+            List<BaseDTOAssemblyNode<?, ?>> descrResults = disassembleCatalogDescr(o, operation) ;
+            if (descrResults != null && descrResults.size()> 0) {
+                result.getChildNodes().addAll(descrResults);
             }
         }
 
@@ -1164,46 +1278,6 @@ public class ProgramAssemblerUtils {
         method.invoke(o, value);
     }
 
-    //TODO assembleCatalogDescr
-    private RichTextInfo assembleCatalogDescr(String cluId) throws AssemblyException {
-//        RichTextInfo returnInfo = new RichTextInfo();
-//        try {
-//            List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(cluId);
-//            for (CluPublicationInfo pubInfo : pubs) {
-//                for (FieldInfo fieldInfo : pubInfo.getVariants()) {
-//                    if (fieldInfo.getId().equals(ProgramAssemblerConstants.CLU_INFO + "." + ProgramAssemblerConstants.DESCR)) {
-//                        returnInfo.setPlain(fieldInfo.getValue());
-//                        return returnInfo; // or break to a label to avoid multiple return points
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            throw new AssemblyException(e);
-//        }
-//        return returnInfo;
-        return null;
-    }
-
-    //TODO disassembleCatalogDescr
-     private CluInfo disassembleCatalogDescr(String cluId) throws AssemblyException {
-//        RichTextInfo returnInfo = new RichTextInfo();
-//        try {
-//            List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(cluId);
-//            for (CluPublicationInfo pubInfo : pubs) {
-//                for (FieldInfo fieldInfo : pubInfo.getVariants()) {
-//                    if (fieldInfo.getId().equals(ProgramAssemblerConstants.CLU_INFO + "." + ProgramAssemblerConstants.DESCR)) {
-//                        returnInfo.setPlain(fieldInfo.getValue());
-//                        return returnInfo; // or break to a label to avoid multiple return points
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            throw new AssemblyException(e);
-//        }
-//        return returnInfo;
-        return null;
-    }
-
     /**
      * Copy publications from program to clu
      *
@@ -1213,7 +1287,7 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
           */
-    private List<BaseDTOAssemblyNode<?, ?>> disassemblePublicationInfos(Object o,  NodeOperation operation) throws AssemblyException {
+    private List<BaseDTOAssemblyNode<?, ?>> disassemblePublicationTargets(Object o,  NodeOperation operation) throws AssemblyException {
 
         List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
@@ -1229,11 +1303,6 @@ public class ProgramAssemblerUtils {
 
             method = o.getClass().getMethod("getCatalogPublicationTargets", null);
             publicationTypes = (List)method.invoke(o, null);
-
-            //TODO diasassembleCatalogDescr
-//            method = o.getClass().getMethod("getCatalogDescr", null);
-//            RichTextInfo descr = (RichTextInfo)method.invoke(o, null);
-//            clu.setDescr(descr);
             
         } catch (NoSuchMethodException e) {
         } catch (InvocationTargetException e) {
@@ -1248,7 +1317,9 @@ public class ProgramAssemblerUtils {
             try {
                 List<CluPublicationInfo> cluPubs = luService.getCluPublicationsByCluId(programId);
                 for(CluPublicationInfo cluPub : cluPubs){
-                    currentPubs.put(cluPub.getType(), cluPub);
+                    if (!cluPub.getType().equals(ProgramAssemblerConstants.CATALOG)) {
+                        currentPubs.put(cluPub.getType(), cluPub);                        
+                    }
                 }
             } catch (DoesNotExistException e) {
             } catch (Exception e) {
@@ -1296,13 +1367,7 @@ public class ProgramAssemblerUtils {
         for (Map.Entry<String, CluPublicationInfo> entry : currentPubs.entrySet()) {
             // Create a new relation with the id of the relation we want to
             // delete
-            CluPublicationInfo pubToDelete = new CluPublicationInfo();
-            pubToDelete.setId( entry.getValue().getId() );
-            BaseDTOAssemblyNode<Object, CluPublicationInfo> pubToDeleteNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
-                    null);
-            pubToDeleteNode.setNodeData(pubToDelete);
-            pubToDeleteNode.setOperation(NodeOperation.DELETE);
-            results.add(pubToDeleteNode);
+            deletePublicationInfo(results, entry.getValue());
         }
 
         return results;

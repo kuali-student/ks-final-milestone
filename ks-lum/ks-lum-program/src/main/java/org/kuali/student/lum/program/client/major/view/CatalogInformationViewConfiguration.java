@@ -34,7 +34,7 @@ public class CatalogInformationViewConfiguration extends AbstractSectionConfigur
     protected void buildLayout() {
         TableSection section = new TableSection(SectionTitle.generateEmptyTitle());
         configurer.addReadOnlyField(section, ProgramConstants.DESCRIPTION + "/plain", new MessageKeyInfo(ProgramProperties.get().catalogInformation_descr()));
-        configurer.addReadOnlyField(section, ProgramConstants.CATALOG_DESCRIPTION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogDescr()));
+        configurer.addReadOnlyField(section, ProgramConstants.CATALOG_DESCRIPTION + "/" + ProgramConstants.PLAIN_TEXT, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogDescr()));
         configurer.addReadOnlyField(section, ProgramConstants.CORE_FACULTY_MEMBERS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_publishedInstructors()));
         configurer.addReadOnlyField(section, ProgramConstants.PUBLICATION_TARGETS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogPublicationTargets()));
         configurer.addReadOnlyField(section, ProgramConstants.FULL_PART_TIME, new MessageKeyInfo(ProgramProperties.get().catalogInformation_intensity()));

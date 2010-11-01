@@ -637,8 +637,6 @@ INSERT into KSLU_RICH_TEXT_T (id, plain ,VER_NBR) VALUES ('MAJOR-102','Bachelor 
 insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VER_NBR,RES_COMP_ID,ST, RT_DESCR_ID) Values ('MAJOR-102','admin',{ts '2010-04-15 10:00:00.0'}, 0, 'kuali.resultComponent.degree.bsc','active', 'MAJOR-102');
 insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('MAJOR-101','MAJOR-102');
 
-INSERT INTO KSLU_CLU_PUBL (ID, CLU_ID, CLU_PUB_TYPE_ID, CREATEID,CREATETIME,VER_NBR) values ('MAJOR-101', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.publication.Catalog', 'admin', {ts '2030-12-31 00:00:00.0'},0)
-
 // Test data for Variations
 // Variation 1
 INSERT into KSLU_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('VAR-201', '<b>Zooarchaeology</b>', 'Zooarchaeology',0)
@@ -726,6 +724,16 @@ insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('VAR-301','VA
 
 INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, VER_NBR, LO_ID, CLU_ID, EFF_DT,  ST, TYPE) VALUES ('CORE-101', 'CREATEID', {ts '2010-08-04 09:00:00.0'}, 1,'LO-111', '00f5f8c5-fff1-4c8b-92fc-789b891e0849', {ts '2009-01-01 00:00:00.0'},  'active', 'kuali.lu.lo.relation.type.includes')
 --
+
+INSERT INTO KSLU_CLU_PUBL (ID, CLU_ID, CLU_PUB_TYPE_ID, CREATEID,CREATETIME,VER_NBR) values ('MAJOR-101', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.publication.Catalog', 'admin', {ts '2030-12-31 00:00:00.0'},0)
+INSERT INTO KSLU_CLU_PUBL_VARI (ID, OWNER, VARI_KEY, VARI_VALUE, VER_NBR) values ('MAJOR-101', 'MAJOR-101', 'cluInfo.descr','This is the catalog description', 0)
+INSERT INTO KSLU_CLU_PUBL (ID, CLU_ID, CLU_PUB_TYPE_ID, CREATEID,CREATETIME,VER_NBR) values ('MAJOR-102', 'd4ea77dd-b492-4554-b104-863e42c5f8b7', 'kuali.lu.publication.UndergradCatalog', 'admin', {ts '2030-12-31 00:00:00.0'},0)
+
+INSERT INTO KSLU_CLU_PUBL (ID, CLU_ID, CLU_PUB_TYPE_ID, CREATEID,CREATETIME,VER_NBR) values ('VAR-201', 'VAR-200', 'kuali.lu.publication.Catalog', 'admin', {ts '2030-12-31 00:00:00.0'},0)
+INSERT INTO KSLU_CLU_PUBL_VARI (ID, OWNER, VARI_KEY, VARI_VALUE, VER_NBR) values ('VAR-201', 'VAR-201', 'cluInfo.descr','Specializing in Zooarchaeology', 0)
+INSERT INTO KSLU_CLU_PUBL (ID, CLU_ID, CLU_PUB_TYPE_ID, CREATEID,CREATETIME,VER_NBR) values ('VAR-301', 'VAR-300', 'kuali.lu.publication.Catalog', 'admin', {ts '2030-12-31 00:00:00.0'},0)
+INSERT INTO KSLU_CLU_PUBL_VARI (ID, OWNER, VARI_KEY, VARI_VALUE, VER_NBR) values ('VAR-301', 'VAR-301', 'cluInfo.descr','Specializing in Archaeobotany', 0)
+
 --
 --
 --Versioning tests

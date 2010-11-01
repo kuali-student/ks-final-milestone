@@ -79,6 +79,7 @@ import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
 import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
+import org.kuali.student.lum.lu.dto.FieldInfo;
 import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuCodeTypeInfo;
@@ -112,6 +113,7 @@ import org.kuali.student.lum.lu.entity.CluLoRelationType;
 import org.kuali.student.lum.lu.entity.CluPublication;
 import org.kuali.student.lum.lu.entity.CluPublicationAttribute;
 import org.kuali.student.lum.lu.entity.CluPublicationType;
+import org.kuali.student.lum.lu.entity.CluPublicationVariant;
 import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
@@ -1739,7 +1741,7 @@ public class LuServiceImpl implements LuService {
 
         luDao.create(cluPub);
 
-		return LuServiceAssembler.toCluPublicationInfo(luDao.create(cluPub));
+		return LuServiceAssembler.toCluPublicationInfo(cluPub);
 	}
 
 	@Override
@@ -1784,7 +1786,40 @@ public class LuServiceImpl implements LuService {
 		} catch (DoesNotExistException e) {
 			throw new InvalidParameterException("CluPublication Type does not exist for id:" + cluPublicationInfo.getType());
 		}
-		
+
+        // Update the list of variants
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, CluPublicationVariant> oldVariantMap = new HashMap<String, CluPublicationVariant>();
+        for (CluPublicationVariant variant : cluPub.getVariants()) {
+            oldVariantMap.put(variant.getKey(), variant);
+        }
+        cluPub.getVariants().clear();
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list otherwise create a new entry
+        CluPublicationVariant variant = null;
+        for (FieldInfo fieldInfo : cluPublicationInfo.getVariants()) {
+            if (!oldVariantMap.containsKey(fieldInfo.getId())) {
+                // New variant key
+                variant = new CluPublicationVariant();
+                variant.setKey(fieldInfo.getId());
+                variant.setValue(fieldInfo.getValue());
+            } else {
+                // Update existing variant
+                variant = oldVariantMap.get(fieldInfo.getId());
+                variant.setValue(fieldInfo.getValue());
+                oldVariantMap.remove(fieldInfo.getId());
+            }
+
+            cluPub.getVariants().add(variant);
+        }
+
+        // Now delete anything left over
+        for (Entry<String, CluPublicationVariant> entry : oldVariantMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+       
 		cluPub.setClu(clu);
 		cluPub.setEndCycle(cluPublicationInfo.getEndCycle());
 		cluPub.setStartCycle(cluPublicationInfo.getStartCycle());
@@ -1793,9 +1828,10 @@ public class LuServiceImpl implements LuService {
 		cluPub.setState(cluPublicationInfo.getState());
 		cluPub.setType(type);
 		cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
-		cluPub.setVariants(LuServiceAssembler.toCluPublicationVariants(cluPublicationInfo.getVariants(), cluPub, luDao));
-		
-		return LuServiceAssembler.toCluPublicationInfo(luDao.update(cluPub));
+
+        CluPublication updated = luDao.update(cluPub);
+
+		return LuServiceAssembler.toCluPublicationInfo(updated);
 	}
 
 	@Override

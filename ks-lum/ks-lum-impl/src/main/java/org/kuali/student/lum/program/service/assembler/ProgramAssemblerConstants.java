@@ -84,6 +84,7 @@ public class ProgramAssemblerConstants {
 
 	// publication types
 	public static final String CATALOG = "kuali.lu.publication.Catalog";
+	public static final String CATALOG_DESCR = "cluInfo.descr";
 
     // adminorg types
 	public static final String CONTENT_OWNER_DIVISION = "kuali.adminOrg.type.ContentOwnerDivision";

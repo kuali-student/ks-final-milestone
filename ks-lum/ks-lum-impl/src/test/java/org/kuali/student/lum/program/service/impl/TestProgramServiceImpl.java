@@ -313,9 +313,12 @@ public class TestProgramServiceImpl {
             assertEquals("Anthropology Major", major.getDescr().getPlain());
 
             //TODO catalog descr
+
+            assertNotNull(major.getCatalogDescr());
+            assertEquals("This is the catalog description", major.getCatalogDescr().getPlain());
             assertNotNull(major.getCatalogPublicationTargets());
             assertEquals(1, major.getCatalogPublicationTargets().size());
-            assertEquals("kuali.lu.publication.Catalog", major.getCatalogPublicationTargets().get(0));
+            assertEquals("kuali.lu.publication.UndergradCatalog", major.getCatalogPublicationTargets().get(0));
             assertNotNull(major.getLearningObjectives());
             assertTrue(major.getLearningObjectives().size() ==1);
             assertEquals("Annihilate Wiki", major.getLearningObjectives().get(0).getLoInfo().getDesc().getPlain());
@@ -515,8 +518,6 @@ public class TestProgramServiceImpl {
             assertNotNull(createdMD.getDescr());
             assertEquals("plain-test", createdMD.getDescr().getPlain());
             assertEquals("formatted-test", createdMD.getDescr().getFormatted());
-
-            //TODO catalog pub targets
 
             assertNotNull(createdMD.getCatalogDescr());
             assertEquals("plain-test", createdMD.getCatalogDescr().getPlain());
@@ -986,8 +987,8 @@ public class TestProgramServiceImpl {
             //major.setEndProgramEntryTerm("kuali.atp.FA2008-2009");
             //major.setStartTerm("kuali.atp.FA2008-2009");
 
-
-            major.getCatalogPublicationTargets().add("kuali.lu.publication.UndergradCatalog");
+            major.getCatalogDescr().setPlain(major.getCatalogDescr().getPlain() + "-updated");
+            major.getCatalogPublicationTargets().add("kuali.lu.publication.GradCatalog");
 
             for (String orgInfoId : major.getDivisionsFinancialControl()) {
                 orgInfoId = orgInfoId + "-updated";
@@ -1054,6 +1055,9 @@ public class TestProgramServiceImpl {
         assertEquals("MAIN", updatedMD.getCampusLocations().get(2));
 
 //        assertEquals(1, updatedMD.getProgramRequirements().size());
+
+        assertNotNull(updatedMD.getCatalogDescr());
+        assertEquals("This is the catalog description-updated", updatedMD.getCatalogDescr().getPlain());
 
         assertNotNull(updatedMD.getCatalogPublicationTargets());
         assertEquals(2, updatedMD.getCatalogPublicationTargets().size());
