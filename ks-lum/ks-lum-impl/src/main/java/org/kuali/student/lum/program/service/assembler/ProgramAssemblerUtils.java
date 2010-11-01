@@ -499,6 +499,7 @@ public class ProgramAssemblerUtils {
 
         try {
             if (clu.getAdminOrgs() != null) {
+            	clearProgramAdminOrgs(o);
                 for (AdminOrgInfo cluOrg : clu.getAdminOrgs()) {
                     if (cluOrg.getType().equals(ProgramAssemblerConstants.CONTENT_OWNER_DIVISION)) {
                         addOrgIdToProgram(o, cluOrg, "getDivisionsContentOwner", "setDivisionsContentOwner");
@@ -547,6 +548,34 @@ public class ProgramAssemblerUtils {
         return o;
     }
 
+    private void clearProgramAdminOrgs(Object o) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        clearAdminOrgs(o, "setDivisionsContentOwner");
+        clearAdminOrgs(o, "setDivisionsStudentOversight");
+        clearAdminOrgs(o, "setDivisionsDeployment");
+        clearAdminOrgs(o, "setDivisionsFinancialResources");
+        clearAdminOrgs(o, "setDivisionsFinancialControl");
+        clearAdminOrgs(o, "setUnitsContentOwner");
+        clearAdminOrgs(o, "setUnitsStudentOversight");
+        clearAdminOrgs(o, "setUnitsDeployment");
+        clearAdminOrgs(o, "setUnitsFinancialResources");
+        clearAdminOrgs(o, "setUnitsFinancialControl");
+    }
+
+    private void clearAdminOrgs(Object o, String setMethodName) throws InvocationTargetException, IllegalAccessException {
+        Class[] parms =  new Class[]{List.class};
+        Method  method = null;
+        try {
+            method = o.getClass().getMethod(setMethodName, parms);
+            List<String> objOrgs = new ArrayList<String>();
+
+            Object[] value = new Object[]{objOrgs};
+            method.invoke(o, value);
+        } catch (NoSuchMethodException ignore) {
+            // Not all programs have all org types.
+            //  This will be fixed by JIRA KSLUM-414 later
+        }
+
+    }
 
     /**
      * Copy AdminOrg values from program to clu
@@ -1123,7 +1152,11 @@ public class ProgramAssemblerUtils {
     private void addOrgIdToProgram(Object o, AdminOrgInfo cluOrg, String getMethod, String setMethod) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         Method method = o.getClass().getMethod(getMethod, null);
-        List<String> objOrgs= new ArrayList<String>();
+        List<String> objOrgs = (List<String>) method.invoke(o, null);
+
+        if (objOrgs == null)     {
+            objOrgs = new ArrayList<String>();
+        }
         objOrgs.add(cluOrg.getOrgId());
         Class[] parms =  new Class[]{List.class};
         method = o.getClass().getMethod(setMethod, parms);
