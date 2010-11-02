@@ -258,7 +258,6 @@ public class ProgramRequirementsDataModel {
 
             @Override
             public void onRequestFail(Throwable cause) {
-                Window.alert(cause.getMessage());
                 GWT.log("Unable to retrieve model for program requirements view", cause);
                 callback.exec(new ArrayList(storedRules.values()));
             }
