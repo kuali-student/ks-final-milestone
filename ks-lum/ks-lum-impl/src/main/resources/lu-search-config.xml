@@ -1389,7 +1389,7 @@
 				</entry>
                 <entry key="lu.search.luProgramsByName">
                      <value>
-                         SELECT clu.id,' ', ident1.code, ident1.state, clu.luType.id, ident1.longName, 'N/A'  
+                         SELECT clu.id,' ', ident1.code, clu.state, clu.luType.id, ident1.longName, 'N/A'  
                          FROM Clu clu, CluIdentifier ident1
                          WHERE clu.officialIdentifier.id = ident1.id
                           AND clu.luType.id = 'kuali.lu.type.MajorDiscipline'
@@ -1397,7 +1397,7 @@
                  </entry>
                 <entry key="lu.search.luVariationsByName">
                      <value>
-                         SELECT clu2.id, clu.id,  ident.code, clu2.state,  clu.luType.id, ident2.longName, ident.longName
+                         SELECT clu2.id, clu.id,  ident.code, clu.state,  clu.luType.id, ident2.longName, ident.longName
                          FROM Clu clu, CluIdentifier ident, Clu clu2, CluIdentifier ident2, CluCluRelation rel
                          WHERE clu.id = rel.relatedClu.id    and  rel.clu.id = clu2.id
                          and  clu.officialIdentifier.id = ident.id
