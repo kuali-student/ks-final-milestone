@@ -47,7 +47,6 @@ public class ProgramDataService extends AbstractDataService {
 
     @Override
     protected Object save(Object dto, Map<String, Object> properties) throws Exception {
-    	//TODO Just Major Discipline for now - need to check for other types later
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
             if (mdInfo.getId() == null) {
@@ -57,9 +56,8 @@ public class ProgramDataService extends AbstractDataService {
             }
             return mdInfo;
         } else {
-            throw new InvalidParameterException("Only persistence of MajorDiscipline is currently implemented");
+            throw new InvalidParameterException("Only persistence of MajorDiscipline is supported by this DataService implementation.");
         }
-
     }  
 
     @Override

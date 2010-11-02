@@ -110,6 +110,12 @@
         <property name="servletInstance" ref="programRpcServlet"/>
     </bean>
 
+    <bean id="credPgmRpcServletController"
+          class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="CredentialProgramRpcServlet"/>
+        <property name="servletInstance" ref="credPgmRpcServlet"/>
+    </bean>
+
     <bean id="ServerPropertiesServletController"
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="ServerPropertiesServlet"/>
@@ -288,7 +294,19 @@
         <property name="statementService" ref="statementServiceClient"/>        
     </bean>
 
+    <bean id="credPgmRpcServlet" class="org.kuali.student.lum.program.server.CredentialProgramRpcServlet">
+		<property name="dataService" ref="credPgmDataService"/>
+		<property name="programService" ref="programClient"/>
+        <property name="statementService" ref="statementServiceClient"/>        
+    </bean>
+
     <bean id="programDataService" class="org.kuali.student.lum.program.server.ProgramDataService">
+        <property name="transformationManager" ref="programTransformationManager"/>
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="programService" ref="programClient"/>
+    </bean>
+
+    <bean id="credPgmDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">
         <property name="transformationManager" ref="programTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
