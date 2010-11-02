@@ -100,6 +100,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -1030,7 +1032,17 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         financialInfoInstruction.setHTML(getLabel(LUConstants.FINANCIAL_INFORMATION + FieldLayoutComponent.INSTRUCT_MESSAGE_KEY));
         financialInfoInstruction.setVisible(true);
         financialSection.addWidget(financialInfoInstruction);
+        SpanPanel revenuepan = new SpanPanel();
+        revenuepan.setStyleName("ks-multiplicity-section-label");
+        revenuepan.setHTML("<br>Revenue");
+        revenuepan.setVisible(true);
+        financialSection.addWidget(revenuepan);
         setupRevenueSection(financialSection);
+        SpanPanel expendpan = new SpanPanel();
+        expendpan.setStyleName("ks-multiplicity-section-label");
+        expendpan.setHTML("Expenditures");
+        expendpan.setVisible(true);
+        financialSection.addWidget(expendpan);
         setupExpenditureSection(financialSection);
         section.addSection(financialSection);
 
