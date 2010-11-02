@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.comment.service.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -24,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -56,6 +58,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 @Daos( { @Dao(value = "org.kuali.student.core.comment.dao.impl.CommentDaoImpl",testSqlFile="classpath:ks-comment.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentServiceImpl extends AbstractServiceTest {
+	final Logger LOG = Logger.getLogger(TestCommentServiceImpl.class);
     @Client(value = "org.kuali.student.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
     public CommentService client;
 
@@ -286,7 +289,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
             TagInfo tagInfoTest = client.getTag(createdTagInfo.getId());
             assertEquals(tagInfoTest.getId(), createdTagInfo.getId());
         } catch (DoesNotExistException e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
 
         assertEquals("UnitedStates3",createdTagInfo.getNamespace());

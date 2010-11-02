@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
 	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
@@ -44,7 +61,6 @@
 		<search:searchResultTypeInfo> <ref bean="atp.result.atpBasicView" />
 		</search:searchResultTypeInfo> <search:searchCriteriaTypeInfo> <ref
 		bean="atp.criteria.atpByShortName" /> </search:searchCriteriaTypeInfo>
-		</search:searchType>
 	-->
 	<search:searchType id="atp.search.advancedAtpSearch"
 		parent="atp.search.advancedAtpSearch-parent" />
@@ -60,22 +76,45 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
-	<search:searchCriteriaTypeInfo id="atp.criteria.advancedAtpSearch"
-		parent="atp.criteria.advancedAtpSearch-parent" />
-	<search:searchCriteriaTypeInfo id="atp.criteria.advancedAtpSearch-parent"
+	<search:searchType id="atp.search.atpSeasonTypes" parent="atp.search.atpSeasonTypes-parent" />
+	<search:searchType id="atp.search.atpSeasonTypes-parent"
 		abstract="true">
-		<search:name>AdvancedAtpSearchCriteria</search:name>
-		<search:desc>
-			AdvancedAtpSearchCriteria Description
-		</search:desc>
-		<search:queryParams>
-			<ref bean="atp.advancedAtpSearchParam.atpShortName" />
-			<ref bean="atp.advancedAtpSearchParam.atpId" />
-			<ref bean="atp.advancedAtpSearchParam.atpStartDate" />
-			<ref bean="atp.advancedAtpSearchParam.atpEndDate" />
-			<ref bean="atp.advancedAtpSearchParam.atpTypeName" />
-		</search:queryParams>
-	</search:searchCriteriaTypeInfo>
+		<search:name>All ATP Seasonal types</search:name>
+		<search:desc>Returns the list of all ATP Seasonal types</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="atp.result.atpSeasonTypes" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="atp.criteria.atpSeasonTypes" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchType id="atp.search.atpByDate" parent="atp.search.atpByDate-parent" />
+	<search:searchType id="atp.search.atpByDate-parent"
+		abstract="true">
+		<search:name>Date match</search:name>
+		<search:desc>Search on shortName only.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="atp.result.atpByDate" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="atp.criteria.atpByDate" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchType id="atp.search.atpDurationTypes" parent="atp.search.atpDurationTypes-parent" />
+	<search:searchType id="atp.search.atpDurationTypes-parent" abstract="true">
+		<search:name>All ATP duration types</search:name>
+		<search:desc>Returns the list of all ATP duration types</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="atp.result.atpDurationType" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="atp.criteria.atpDurationType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<!-- Query Param -->
 
 	<search:queryParam id="atp.advancedAtpSearchParam.atpShortName"
 		parent="atp.advancedAtpSearchParam.atpShortName-parent" />
@@ -119,6 +158,51 @@
 		<ref bean="atp.fieldDescriptor.typeName" />
 	</search:queryParam>
 
+	<search:queryParam id="atp.queryParam.atpShortName"
+		parent="atp.queryParam.atpShortName-parent" />
+	<search:queryParam id="atp.queryParam.atpShortName-parent"
+		abstract="true">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Name</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="atp.queryParam.atpId" parent="atp.queryParam.atpId-parent" />
+	<search:queryParam id="atp.queryParam.atpId-parent"
+		abstract="true">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>ATP Id</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="atp.queryParam.searchDate"
+		parent="atp.queryParam.searchDate-parent" />
+	<search:queryParam id="atp.queryParam.searchDate-parent"
+		abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Date</dict:name>
+			<dict:dataType>date</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="atp.queryParam.atpDurationType"
+		parent="atp.queryParam.atpDurationType-parent" />
+	<search:queryParam id="atp.queryParam.atpDurationType-parent"
+		optional="true" abstract="true">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Duration Type</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="atp.queryParam.atpSeasonType"
+		parent="atp.queryParam.atpSeasonType-parent" />
+	<search:queryParam id="atp.queryParam.atpSeasonType-parent"
+		optional="true" abstract="true">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Season Type</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
 	<dict:fieldDescriptor id="atp.fieldDescriptor.shortName"
 		parent="atp.fieldDescriptor.shortName-parent" />
 	<dict:fieldDescriptor id="atp.fieldDescriptor.shortName-parent"
@@ -178,6 +262,31 @@
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 
+	<dict:fieldDescriptor id="parentFieldDescriptor"
+		parent="parentFieldDescriptor-parent" />
+	<dict:fieldDescriptor id="parentFieldDescriptor-parent"
+		abstract="true">
+		<dict:name>CLU Identifier</dict:name>
+		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<dict:fieldDescriptor id="list" parent="list-parent" />
+	<dict:fieldDescriptor id="list-parent" abstract="true">
+		<dict:name>CLU Identifier</dict:name>
+		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+		<dict:dataType>complex</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<dict:fieldDescriptor id="childFieldDescriptor"
+		parent="parentFieldDescriptor">
+		<dict:name>Child CLU Identifier</dict:name>
+	</dict:fieldDescriptor>
+
+	<!-- Search Result Type Infos -->
+
 	<search:searchResultTypeInfo id="atp.result.advancedAtpSearch"
 		parent="atp.result.advancedAtpSearch-parent" />
 	<search:searchResultTypeInfo id="atp.result.advancedAtpSearch-parent"
@@ -193,23 +302,9 @@
 			<ref bean="atp.resultColumn.atpDurType" />
 			<ref bean="atp.resultColumn.atpStartDate" />
 			<ref bean="atp.resultColumn.atpTypeName" />
+			<ref bean="atp.resultColumn.atpDescrPlain" />			
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
-
-	<search:searchType id="atp.search.atpByDate" parent="atp.search.atpByDate-parent" />
-	<search:searchType id="atp.search.atpByDate-parent"
-		abstract="true">
-		<search:name>Date match</search:name>
-		<search:desc>Search on shortName only.</search:desc>
-		<search:searchResultTypeInfo>
-			<ref bean="atp.result.atpByDate" />
-		</search:searchResultTypeInfo>
-		<search:searchCriteriaTypeInfo>
-			<ref bean="atp.criteria.atpByDate" />
-		</search:searchCriteriaTypeInfo>
-	</search:searchType>
-
-	<!-- Search Result Type Infos -->
 
 	<search:searchResultTypeInfo id="atp.result.atpQuickView"
 		parent="atp.result.atpQuickView-parent" />
@@ -246,6 +341,19 @@
 		bean="atp.resultColumn.atpTypeName" /> </search:resultColumns>
 		</search:searchResultTypeInfo>
 	-->
+	<search:searchResultTypeInfo id="atp.result.atpSeasonTypes"
+		parent="atp.result.atpSeasonTypes-parent" />
+	<search:searchResultTypeInfo id="atp.result.atpSeasonTypes-parent"
+		abstract="true">
+		<search:name>ATP By Date</search:name>
+		<search:desc>ATP By Date</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpSeasonType" />
+			<ref bean="atp.resultColumn.atpSeasonTypeName" />
+			<ref bean="atp.resultColumn.atpSeasonTypeDesc" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
 	<search:searchResultTypeInfo id="atp.result.atpByDate"
 		parent="atp.result.atpByDate-parent" />
 	<search:searchResultTypeInfo id="atp.result.atpByDate-parent"
@@ -255,6 +363,19 @@
 		<search:resultColumns>
 			<ref bean="atp.resultColumn.atpId" />
 			<ref bean="atp.resultColumn.atpByDateDisplay" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="atp.result.atpDurationType"
+		parent="atp.result.atpDurationType-parent" />
+	<search:searchResultTypeInfo id="atp.result.atpDurationType-parent"
+		abstract="true">
+		<search:name>ATP DurationTypes</search:name>
+		<search:desc>ATP Duration Types</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpDurType" />
+			<ref bean="atp.resultColumn.atpDurTypeName" />
+			<ref bean="atp.resultColumn.atpDurTypeDesc" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -296,6 +417,33 @@
 		<search:desc>Will return Season Type.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+	
+	<search:resultColumn id="atp.resultColumn.atpSeasonType"
+		parent="atp.resultColumn.atpSeasonType-parent" />
+	<search:resultColumn id="atp.resultColumn.atpSeasonType-parent"
+		abstract="true">
+		<search:name>Season Type</search:name>
+		<search:desc>Will return Season Type.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:resultColumn id="atp.resultColumn.atpSeasonTypeName"
+		parent="atp.resultColumn.atpSeasonTypeName-parent" />
+	<search:resultColumn id="atp.resultColumn.atpSeasonTypeName-parent"
+		abstract="true">
+		<search:name>Season Type Name</search:name>
+		<search:desc>Will return Season Type Name.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
+	
+	<search:resultColumn id="atp.resultColumn.atpSeasonTypeDesc"
+		parent="atp.resultColumn.atpSeasonTypeDesc-parent" />
+	<search:resultColumn id="atp.resultColumn.atpSeasonTypeDesc-parent"
+		abstract="true">
+		<search:name>Season Type Desc</search:name>
+		<search:desc>Will return Season Type Desc.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>		
 
 	<search:resultColumn id="atp.resultColumn.atpDurType"
 		parent="atp.resultColumn.atpDurType-parent" />
@@ -305,6 +453,24 @@
 		<search:desc>Will return Duration Type.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+	
+	<search:resultColumn id="atp.resultColumn.atpDurTypeName"
+		parent="atp.resultColumn.atpDurTypeName-parent" />
+	<search:resultColumn id="atp.resultColumn.atpDurTypeName-parent"
+		abstract="true">
+		<search:name>Duration Type Name</search:name>
+		<search:desc>Will return Duration Type Name.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>	
+	
+	<search:resultColumn id="atp.resultColumn.atpDurTypeDesc"
+		parent="atp.resultColumn.atpDurTypeDesc-parent" />
+	<search:resultColumn id="atp.resultColumn.atpDurTypeDesc-parent"
+		abstract="true">
+		<search:name>Duration Type Desc</search:name>
+		<search:desc>Will return Duration Type Desc.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>		
 
 	<search:resultColumn id="atp.resultColumn.atpTypeName"
 		parent="atp.resultColumn.atpTypeName-parent" />
@@ -312,6 +478,15 @@
 		abstract="true">
 		<search:name>Type Name</search:name>
 		<search:desc>Type of the ATP.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn> 
+
+	<search:resultColumn id="atp.resultColumn.atpDescrPlain"
+		parent="atp.resultColumn.atpDescrPlain-parent" />
+	<search:resultColumn id="atp.resultColumn.atpDescrPlain-parent"
+		abstract="true">
+		<search:name>Plain Description</search:name>
+		<search:desc>Plain ATP description.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
@@ -335,6 +510,24 @@
 
 
 	<!-- Search Criteria Types -->
+
+	<search:searchCriteriaTypeInfo id="atp.criteria.advancedAtpSearch"
+		parent="atp.criteria.advancedAtpSearch-parent" />
+	<search:searchCriteriaTypeInfo id="atp.criteria.advancedAtpSearch-parent"
+		abstract="true">
+		<search:name>AdvancedAtpSearchCriteria</search:name>
+		<search:desc>
+			AdvancedAtpSearchCriteria Description
+		</search:desc>
+		<search:queryParams>
+			<ref bean="atp.advancedAtpSearchParam.atpShortName" />
+			<ref bean="atp.advancedAtpSearchParam.atpId" />
+			<ref bean="atp.advancedAtpSearchParam.atpStartDate" />
+			<ref bean="atp.advancedAtpSearchParam.atpEndDate" />
+			<ref bean="atp.advancedAtpSearchParam.atpTypeName" />
+			<ref bean="atp.advancedAtpSearchParam.atpType" />					
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 
 	<search:searchCriteriaTypeInfo id="atp.criteria.atpType"
 		parent="atp.criteria.atpType-parent" />
@@ -366,55 +559,27 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
-	<search:queryParam id="atp.queryParam.atpShortName"
-		parent="atp.queryParam.atpShortName-parent" />
-	<search:queryParam id="atp.queryParam.atpShortName-parent"
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpDurationType"
+		parent="atp.criteria.atpDurationType-parent" />
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpDurationType-parent"
 		abstract="true">
-		<dict:fieldDescriptor parent="childFieldDescriptor">
-			<dict:name>Name</dict:name>
-		</dict:fieldDescriptor>
-	</search:queryParam>
-
-	<search:queryParam id="atp.queryParam.atpId" parent="atp.queryParam.atpId-parent" />
-	<search:queryParam id="atp.queryParam.atpId-parent"
+		<search:name>Atp Duration Type</search:name>
+		<search:desc>Atp Duration Type</search:desc>
+		<search:queryParams>
+			<ref bean="atp.queryParam.atpDurationType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpSeasonTypes"
+		parent="atp.criteria.atpSeasonTypes-parent" />
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpSeasonTypes-parent"
 		abstract="true">
-		<dict:fieldDescriptor parent="childFieldDescriptor">
-			<dict:name>ATP Id</dict:name>
-		</dict:fieldDescriptor>
-	</search:queryParam>
-
-	<search:queryParam id="atp.queryParam.searchDate"
-		parent="atp.queryParam.searchDate-parent" />
-	<search:queryParam id="atp.queryParam.searchDate-parent"
-		abstract="true">
-		<dict:fieldDescriptor>
-			<dict:name>Date</dict:name>
-			<dict:dataType>date</dict:dataType>
-		</dict:fieldDescriptor>
-	</search:queryParam>
-
-	<dict:fieldDescriptor id="parentFieldDescriptor"
-		parent="parentFieldDescriptor-parent" />
-	<dict:fieldDescriptor id="parentFieldDescriptor-parent"
-		abstract="true">
-		<dict:name>CLU Identifier</dict:name>
-		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
-		<dict:dataType>string</dict:dataType>
-		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-
-	<dict:fieldDescriptor id="list" parent="list-parent" />
-	<dict:fieldDescriptor id="list-parent" abstract="true">
-		<dict:name>CLU Identifier</dict:name>
-		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
-		<dict:dataType>complex</dict:dataType>
-		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-
-	<dict:fieldDescriptor id="childFieldDescriptor"
-		parent="parentFieldDescriptor">
-		<dict:name>Child CLU Identifier</dict:name>
-	</dict:fieldDescriptor>
+		<search:name>Atp Season Type</search:name>
+		<search:desc>Atp Season Type</search:desc>
+		<search:queryParams>
+			<ref bean="atp.queryParam.atpSeasonType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -441,10 +606,10 @@
 						atp.name,
 						atp.type.seasonalType.name,
 						atp.type.durationType.name,
-						atp.effectiveDate,
-						atp.type.name
-						FROM Atp atp
-                           </value>
+						atp.startDate,
+						atp.type.name,
+						atp.descr.plain
+						FROM Atp atp</value>
 				</entry>
 				<entry key="atp.search.atpByDate">
 					<value>SELECT
@@ -455,7 +620,7 @@
 						JOIN atptype.seasonalType seasonaltype
 						JOIN atptype.durationType durtype
 						WHERE
-						:atp_queryParam_searchDate BETWEEN atp.effectiveDate AND atp.expirationDate</value>
+						:atp_queryParam_searchDate BETWEEN atp.startDate AND atp.endDate</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpShortName">
 					<value>atp.name</value>
@@ -464,19 +629,32 @@
 					<value>atp.id = :atp_advancedAtpSearchParam_atpId</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpStartDate">
-					<value>atp.effectiveDate =
-						:atp_advancedAtpSearchParam_atpStartDate</value>
+					<value>atp.startDate = :atp_advancedAtpSearchParam_atpStartDate</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpEndDate">
-					<value>atp.expirationDate =
-						:atp_advancedAtpSearchParam_atpEndDate</value>
+					<value>atp.endDate = :atp_advancedAtpSearchParam_atpEndDate</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpTypeName">
 					<value>atp.type.name</value>
 				</entry>
+				<entry key="atp.resultColumn.atpDescrPlain">
+					<value>atp.descr.plain</value>
+				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpType">
-					<value>atptype.id = :atp_advancedAtpSearchParam_atpType
+					<value>atp.type.id IN (:atp_advancedAtpSearchParam_atpType)
 					</value>
+				</entry>
+				<entry key="atp.search.atpDurationTypes">
+					<value>SELECT atpdurtype.id, atpdurtype.name, atpdurtype.descr FROM AtpDurationType atpdurtype</value>
+				</entry>
+				<entry  key="atp.queryParam.atpDurationType">
+					<value> atpdurtype.id  =  :atp_queryParam_atpDurationType </value>
+				</entry>
+				<entry key="atp.search.atpSeasonTypes">
+					<value>SELECT atpseasontype.id, atpseasontype.name, atpseasontype.descr FROM AtpSeasonalType atpseasontype WHERE atpseasontype.id IN ('kuali.atp.season.Any', 'kuali.atp.season.Fall', 'kuali.atp.season.Spring', 'kuali.atp.season.Summer', 'kuali.atp.season.Winter')</value>
+				</entry>				
+				<entry  key="atp.queryParam.atpSeasonType">
+					<value> atpseasontype.id  =  :atp_queryParam_atpSeasonType </value>
 				</entry>
 			</map>
 		</property>

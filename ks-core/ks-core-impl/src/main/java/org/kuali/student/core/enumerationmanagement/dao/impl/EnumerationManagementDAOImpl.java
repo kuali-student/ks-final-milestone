@@ -1,20 +1,20 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.enumerationmanagement.dao.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,15 +25,15 @@ import javax.persistence.Query;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.enumerationmanagement.EnumerationException;
 import org.kuali.student.core.enumerationmanagement.dao.EnumerationManagementDAO;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity;
+import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
+import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl implements EnumerationManagementDAO {
-    
+
     final static Logger logger = LoggerFactory.getLogger(EnumerationManagementDAOImpl.class);
 
 	@PersistenceContext(unitName = "EnumerationManagement")
@@ -42,73 +42,52 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 		super.setEm(em);
 	}
 
-	public List<EnumerationMetaEntity> findEnumerationMetas() {
-    	List<EnumerationMetaEntity> metas = new ArrayList<EnumerationMetaEntity>();
+	public List<Enumeration> findEnumerations() {
+    	List<Enumeration> metas;
     	try{
-	        Query query = em.createQuery("SELECT e FROM EnumerationMetaEntity e");
-	        @SuppressWarnings("unchecked")	        
-	        List<EnumerationMetaEntity> resultList = (List<EnumerationMetaEntity>) query.getResultList();
+	        Query query = em.createQuery("SELECT e FROM Enumeration e");
+	        @SuppressWarnings("unchecked")
+	        List<Enumeration> resultList = (List<Enumeration>) query.getResultList();
 			metas = resultList;
     	}
         catch(Exception e){
-	    	logger.error("findEnumerationMetas query failed.", e);
-			throw new EnumerationException("findEnumerationMetas query failed.", e);
+	    	logger.error("findEnumerations query failed.", e);
+			throw new EnumerationException("findEnumerations query failed.", e);
 	    }
         return metas;
     }
-    
-    public EnumerationMetaEntity addEnumerationMeta(EnumerationMetaEntity entity){
+
+    public Enumeration addEnumeration(Enumeration entity){
     	try{
 	        em.persist(entity);
-	        entity = em.find(EnumerationMetaEntity.class, entity.getId());
+	        entity = em.find(Enumeration.class, entity.getId());
 		}
 	    catch(Exception e){
 	    	throw new EnumerationException("addEnumerationMeta query failed.", e);
 	    }
         return entity;
     }
-    
-    public boolean removeEnumerationMeta(String enumerationKey){
+
+    public boolean removeEnumeration(String enumerationKey){
         boolean removed = false;
         try{
-	    	EnumerationMetaEntity meta = this.fetchEnumerationMeta(enumerationKey);
+	    	Enumeration meta = this.fetch(Enumeration.class, enumerationKey);
 	        if(meta != null){
 	        	em.remove(meta);
 	        	removed = true;
 	        }
 		}
 	    catch(Exception e){
-	    	logger.error("removeEnumerationMeta query failed.", e);
-			throw new EnumerationException("removeEnumerationMeta query failed.", e);
+	    	logger.error("removeEnumeration query failed.", e);
+			throw new EnumerationException("removeEnumeration query failed.", e);
 	    }
-	    	
+
 	    return removed;
 	}
 
-    public EnumerationMetaEntity fetchEnumerationMeta(String enumerationKey) {
-    	EnumerationMetaEntity enumerationMetaEntity = null;
-    	try{
-	    	Query query = em.createQuery("SELECT e FROM EnumerationMetaEntity e where e.enumerationKey = :key");
-	        query.setParameter("key", enumerationKey);
-	        
-	        if(!query.getResultList().isEmpty()){
-	        	enumerationMetaEntity = (EnumerationMetaEntity)query.getResultList().get(0);
-	        }else{
-	            return null;
-	        }
-    	}
-        catch(Exception e){
-        	logger.error("fetchEnumerationMeta query failed.", e);
-			throw new EnumerationException("fetchEnumerationMeta query failed.", e);
-        }
-
-        return enumerationMetaEntity;
-    }
-
-    public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value) {
-    	try{
+    public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue value) {
+    	try{    
 	        em.persist(value);
-	        value.setEnumerationKey(enumerationKey);
     	}
         catch(Exception e){
         	logger.error("addEnumeratedValue query failed.", e);
@@ -117,71 +96,46 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 
         return value;
     }
-    
-    
-    public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity enumeratedValueEntity) {
-        //this.removeEnumeratedValue(enumerationKey, code);
-        //this.addEnumeratedValue(enumerationKey, enumeratedValueEntity);
-    	
-    	//Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value where e.enumerationKey = :key and e.code = :code");
-        //query.setParameter("key", enumerationKey);
-        //query.setParameter("code", code);
-        //query.setParameter("value", enumeratedValueEntity.getValue());
-        
-        //query.executeUpdate();
-    	EnumeratedValueEntity returnValue = null;
+
+
+    public EnumeratedValue updateEnumeratedValue(Enumeration enumeration, String code, EnumeratedValue enumeratedValue) {
+
+        EnumeratedValue returnValue = null;
     	try{
-	        
-	    	List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
-	        for(EnumeratedValueEntity e: list){
+    	    
+    	    List<EnumeratedValue> list = this.fetchEnumeratedValues(enumeration.getId());
+	        for(EnumeratedValue e: list){
 	        	if(e.getCode().equals(code)){
-	        		e.setCode(enumeratedValueEntity.getCode());
-	        		e.setEffectiveDate(enumeratedValueEntity.getEffectiveDate());
-	        		e.setExpirationDate(enumeratedValueEntity.getExpirationDate());
-	        		e.setEnumerationKey(enumerationKey);
-	        		e.setSortKey(enumeratedValueEntity.getSortKey());
-	        		e.setValue(enumeratedValueEntity.getValue());
-	        		e.setAbbrevValue(enumeratedValueEntity.getAbbrevValue());
-	        		e.setContextEntityList(enumeratedValueEntity.getContextEntityList());
+	        		e.setCode(enumeratedValue.getCode());
+	        		e.setEffectiveDate(enumeratedValue.getEffectiveDate());
+	        		e.setExpirationDate(enumeratedValue.getExpirationDate());
+	        		e.setEnumeration(enumeration);
+	        		e.setSortKey(enumeratedValue.getSortKey());
+	        		e.setValue(enumeratedValue.getValue());
+	        		e.setAbbrevValue(enumeratedValue.getAbbrevValue());
+	        		e.setContextEntityList(enumeratedValue.getContextEntityList());
 	        		em.merge(e);
 	        		returnValue = e;
+	        		break;
 	        	}
 	        }
-
     	}
         catch(Exception e){
 			throw new EnumerationException("updateEnumeratedValue query failed.", e);
         }
-        
-    	//entityManager.merge(enumeratedValueEntity);
-    	//for(ContextEntity c: enumeratedValueEntity.getContextEntityList()){
-    		//entityManager.merge(c);
-    	//}
-/*
-    	Query query = entityManager.createQuery(
-	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
-	            "where e.enumerationKey = :enumerationKey "+
-	            "and e.code = :code");
-		query.setParameter("enumerationKey", enumerationKey);
-        query.setParameter("code", code);
-        Object obj = query.getResultList().get(0);
-*/
-        
-        //return (EnumeratedValueEntity) obj;
+
         return returnValue;
     }
-    
+
     public boolean removeEnumeratedValue(String enumerationKey, String code) {
-        //Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
-        //query.setParameter("key", enumerationKey);
-       // query.setParameter("code", code);
         boolean removed = false;
         try{
-	    	List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
-	        for(EnumeratedValueEntity e: list){
+	    	List<EnumeratedValue> list = this.fetchEnumeratedValues(enumerationKey);
+	        for(EnumeratedValue e: list){
 	        	if(e.getCode().equals(code)){
 	        		em.remove(e);
 	        		removed = true;
+	        		break;
 	        	}
 	        }
         }
@@ -189,43 +143,43 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 			logger.error("removeEnumeratedValue query failed.", e);
 			throw new EnumerationException("removeEnumeratedValue query failed.", e);
 		}
-        //query.executeUpdate();
         return removed;
     }
-    
-    
-	public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey) {
-		
-		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+
+
+	public List<EnumeratedValue> fetchEnumeratedValues(String enumerationKey) {
+
+		List<EnumeratedValue> list ;
 		try{
 			Query query = em.createQuery(
-		            "select e from EnumeratedValueEntity e " +
-		            "where e.enumerationKey = :enumerationKey ");
+		            "select e from EnumeratedValue e " +
+		            "where e.enumeration.id = :enumerationKey ");
 			query.setParameter("enumerationKey", enumerationKey);
 			@SuppressWarnings("unchecked")
-			List<EnumeratedValueEntity> resultList = (List<EnumeratedValueEntity>)query.getResultList();
+			List<EnumeratedValue> resultList = (List<EnumeratedValue>)query.getResultList();
 			list = resultList;
 		}
 		catch(Exception e){
 			logger.error("fetchEnumeration query failed.", e);
 			throw new EnumerationException("fetchEnumeration query failed.", e);
 		}
-		 
+
 		return list;
 	}
-	public List<EnumeratedValueEntity> fetchEnumerationWithDate(String enumerationKey, Date contextDate) {
-		
-		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+	
+	public List<EnumeratedValue> fetchEnumeratedValuesWithDate(String enumerationKey, Date contextDate) {
+
+		List<EnumeratedValue> list;
 		try{
 			Query query = em.createQuery(
-		            "select e from EnumeratedValueEntity e " +
+		            "select e from EnumeratedValue e " +
 		            "where e.effectiveDate <= :contextDate and " +
 		            "(e.expirationDate is null or e.expirationDate >= :contextDate) and " +
-		            "e.enumerationKey = :enumerationKey ");
+		            "e.enumeration.id = :enumerationKey ");
 			query.setParameter("enumerationKey", enumerationKey);
 			query.setParameter("contextDate", contextDate);
 		    @SuppressWarnings("unchecked")
-			List<EnumeratedValueEntity> resultList = (List<EnumeratedValueEntity>)query.getResultList();
+			List<EnumeratedValue> resultList = (List<EnumeratedValue>)query.getResultList();
 			list = resultList;
 		}
 		catch(Exception e){
@@ -234,21 +188,21 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 		}
 		return list;
 	}
-	public List<EnumeratedValueEntity> fetchEnumerationWithContext(String enumerationKey, String enumContextKey, String contextValue) {
-		
-		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+	public List<EnumeratedValue> fetchEnumeratedValuesWithContext(String enumerationKey, String enumContextKey, String contextValue) {
+
+		List<EnumeratedValue> list;
 		try{
 			Query query = em.createQuery(
-		            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
+		            "select e from EnumeratedValue e JOIN e.contextEntityList c " +
 		            "where c.contextValue = :contextValue and " +
 		            "c.contextKey = :enumContextKey and " +
-		            "e.enumerationKey = :enumerationKey ");
+		            "e.enumeration.id = :enumerationKey ");
 			 query.setParameter("enumerationKey", enumerationKey);
-			 query.setParameter("enumContextKey", enumContextKey);        
+			 query.setParameter("enumContextKey", enumContextKey);
 			 query.setParameter("contextValue", contextValue);
-			 
+
 			@SuppressWarnings("unchecked")
- 		 	List<EnumeratedValueEntity> resultList = (List<EnumeratedValueEntity>)query.getResultList();
+ 		 	List<EnumeratedValue> resultList = (List<EnumeratedValue>)query.getResultList();
 			list = resultList;
 		}
 		catch(Exception e){
@@ -257,101 +211,33 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
 		}
 		return list;
 	}
-	
-	public List<EnumeratedValueEntity> fetchEnumerationWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue,
+
+	public List<EnumeratedValue> fetchEnumeratedValuesWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue,
 			Date contextDate) {
-    	
-		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
-    	
+
+		List<EnumeratedValue> list;
+
 		try{
 	        Query query = em.createQuery(
-	                "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " 
+	                "select e from EnumeratedValue e, IN(e.contextEntityList) c "
 	                + "where e.effectiveDate <= :contextDate and " +
-	                "(e.expirationDate is null or e.expirationDate >= :contextDate) and " + 
-	                "c.contextValue = :contextValue and " + 
+	                "(e.expirationDate is null or e.expirationDate >= :contextDate) and " +
+	                "c.contextValue = :contextValue and " +
 	                "c.contextKey = :enumContextKey and " +
-	                "e.enumerationKey = :enumKey ");
+	                "e.enumeration.id = :enumKey ");
 	        query.setParameter("contextDate", contextDate);
 	        query.setParameter("contextValue", contextValue);
 	        query.setParameter("enumContextKey", enumContextKey);
 	        query.setParameter("enumKey", enumerationKey);
 	        @SuppressWarnings("unchecked")
-	        List<EnumeratedValueEntity> resultList = (List<EnumeratedValueEntity>)query.getResultList();
+	        List<EnumeratedValue> resultList = (List<EnumeratedValue>)query.getResultList();
 			list = resultList;
 		}
 		catch(Exception e){
 			logger.error("fetchEnumerationWithContextAndDate query failed.", e);
 			throw new EnumerationException("fetchEnumerationWithContextAndDate query failed.", e);
 		}
-         
+
         return list;
 	}
-	
-    /*
-    public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
-    	
-
-    	
-    	if(enumerationKey != null){
-    		if(enumContextKey == null || contextValue == null){
-    			//check to see if there is a date, return all results under these conditions if one does not exist
-    			if(contextDate != null){
-    				Query query = entityManager.createQuery(
-    			            "select e from EnumeratedValueEntity e, ContextEntity c " +
-    			            "where e.id = c.enumerationId and " +
-    			            "e.effectiveDate < :contextDate and " +
-    			            "e.expirationDate > :contextDate and " +
-    			            "e.enumerationKey = :enumerationKey ");
-    				 query.setParameter("enumerationKey", enumerationKey);
-    				 query.setParameter("contextDate", contextDate);
-    				 list = (List<EnumeratedValueEntity>)query.getResultList();
-    			}
-    			else{
-    				Query query = entityManager.createQuery(
-    			            "select e from EnumeratedValueEntity e, ContextEntity c " +
-    			            "where e.id = c.enumerationId and " +
-    			            "e.enumerationKey = :enumerationKey ");
-    				 query.setParameter("enumerationKey", enumerationKey);
-    				 list = (List<EnumeratedValueEntity>)query.getResultList();
-    			}
-    		}
-    		//enumContextKey and contextValue are both not null
-    		else{
-    			//check to see if there is a date, return all results under these conditions if one does not exist
-    			if(contextDate != null){
-    				Query query = entityManager.createQuery(
-    			            "select e from EnumeratedValueEntity e, ContextEntity c " +
-    			            "where e.id = c.enumerationId and " +
-    			            "e.effectiveDate < :contextDate and " +
-    			            "e.expirationDate > :contextDate and " +
-    			            "c.value = :contextValue and " +
-    			            "c.key = :enumContextKey and " +
-    			            "e.enumerationKey = :enumerationKey ");
-    				 query.setParameter("enumerationKey", enumerationKey);
-    				 query.setParameter("enumContextKey", enumContextKey);        
-    				 query.setParameter("contextValue", contextValue);
-    				 query.setParameter("contextDate", contextDate);
-    				 list = (List<EnumeratedValueEntity>)query.getResultList();
-    			}
-    			else{
-    				Query query = entityManager.createQuery(
-    			            "select e from EnumeratedValueEntity e, ContextEntity c " +
-    			            "where e.id = c.enumerationId and " +
-    			            "c.value = :contextValue and " +
-    			            "c.key = :enumContextKey and " +
-    			            "e.enumerationKey = :enumerationKey ");
-    				 query.setParameter("enumerationKey", enumerationKey);
-    				 query.setParameter("enumContextKey", enumContextKey);        
-    				 query.setParameter("contextValue", contextValue);
-    				 list = (List<EnumeratedValueEntity>)query.getResultList();
-    			}
-    		}
-    		
-		    
-    	}
- 	
-
-
-    }
-      */ 
-}
+  }

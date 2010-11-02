@@ -1,0 +1,193 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/*** font.css - Used for setting the base font sizes and styling ***/
+
+/* Default font settings. The font-size percentage is of 16px. (12px / 16px = .75) */ 
+body {
+	font-size: 75%; /* 12px */ 
+	background: #fff;
+	font-family: Helvetica, Arial, sans-serif;
+}
+/* Headings -------------------------------------------------------------- */
+
+h1 {
+	font-size: 2.2em; /* 28px / 12px = 2.333 */
+	line-height: 1;
+	margin-bottom: 0.5em;
+}
+h2 {
+	font-size: 2em; /* 24px */
+	font-weight: normal;
+	margin-bottom: 0.75em;
+}
+h3 {
+	font-size: 1.5em; /* 18px */
+	line-height: 1;
+	margin-bottom: 1em;
+}
+h4 {
+	font-size: 1.167em; /* 14px */
+	line-height: 1.25em;
+	/*margin-bottom: 1em;*/
+}
+
+h5 {
+	font-size: 1.083em; /* 13px */
+	font-weight: bold;
+	margin-bottom: 1em;
+
+}
+
+h6 {
+	font-size: 1em; /* 12px black */
+	font-weight: bold; 
+	margin-bottom: 0;
+	color: #000;
+}
+
+h7 { 
+	font-size: 0.916em; /* 11px */
+	text-transform: uppercase; 
+}
+
+/* Text elements -------------------------------------------------------------- */ 
+
+p {
+	margin: 0 0 1.5em;
+	line-height: 1.25em;
+}
+p img.left {
+	float: left;
+	margin: 1.5em 1.5em 1.5em 0;
+	padding: 0;
+}
+p img.right {
+	float: right;
+	margin: 1.5em 0 1.5em 1.5em;
+}
+
+
+a, a:visited {
+	color: #2c61e6; /* Default link color */
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:active {
+	color: red;
+}
+
+a.disabled{
+	text-decoration: none;
+	color: #999999;
+	pointer: none;
+}
+a.disabled:hover{
+	text-decoration: none;
+	color: #999999;
+}
+a.disabled:visited{
+	text-decoration: none;
+	color: #999999;
+}
+a.disabled:active{
+	text-decoration: none;
+	color: #999999;
+}
+
+blockquote {
+	margin: 1.5em;
+	color: #666;
+	font-style: italic;
+}
+strong {
+	font-weight: bold;
+}
+em,dfn {
+	font-style: italic;
+}
+dfn {
+	font-weight: bold;
+}
+sup, sub {
+	line-height: 0;
+}
+abbr, acronym {
+	/*border-bottom: 1px dotted #666;*/
+}
+address {
+	margin: 0 0 1.5em;
+	font-style: italic;
+}
+del {
+	color: #666;
+}
+pre {
+	margin: 1.5em 0;
+	white-space: pre;
+}
+pre,code,tt {
+	font: 1em 'andale mono', 'lucida console', monospace;
+	line-height: 1.5;
+}
+/* Lists -------------------------------------------------------------- */ 
+li ul, li ol {
+	margin: 0 1.5em;
+}
+ul, ol {
+	margin: 0 1.5em 1.5em 1.5em;
+}
+ul {
+	list-style-type: disc;
+}
+ol {
+	list-style-type: decimal;
+}
+dl {
+	margin: 0 0 1.5em 0;
+}
+dl dt {
+	font-weight: bold;
+}
+dd {
+	margin-left: 1.5em;
+}
+/* Tables -------------------------------------------------------------- */
+/* table {
+	margin-bottom: 1.4em;
+	width: 100%;
+}*/
+th {
+	font-weight: bold;
+}
+thead th {
+	background: #c3d9ff;
+}
+/*th,td,caption {
+	padding: 4px 10px 4px 5px;
+}*/
+tr.even td {
+	background: #e5ecf9;
+}
+tfoot {
+	font-style: italic;
+}
+caption {
+	background: #eee;
+}

@@ -1,18 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.personsearch.service.impl;
 
 import java.util.ArrayList;
@@ -52,14 +52,15 @@ public class PersonSearchServiceImpl implements SearchService {
     static final public Map<String,String> PERSON_CRITERIA = new HashMap<String,String>();
 
     static final public Map<String, SearchOperation> searchOperations = new HashMap<String, SearchOperation>();
-
+    
     static {
         PERSON_CRITERIA.put("entityTypes.active", "Y");
         PERSON_CRITERIA.put("principals.active", "Y");
         PERSON_CRITERIA.put("active", "Y");
         PERSON_CRITERIA.put("entityTypes.entityTypeCode", "PERSON|SYSTEM");
-        searchOperations.put("person.search.personQuickViewByGivenName", new QuickViewByGivenName());
+        searchOperations.put(QuickViewByGivenName.SEARCH_TYPE, new QuickViewByGivenName());
     }
+
 
     public PersonSearchServiceImpl() {
     }
@@ -73,9 +74,8 @@ public class PersonSearchServiceImpl implements SearchService {
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
         final List<SearchTypeInfo> searchTypes =  new ArrayList<SearchTypeInfo>(searchOperations.size());
         for (String searchKey : searchOperations.keySet()) {
-            final SearchTypeInfo searchType = new SearchTypeInfo();
-            searchType.setKey(searchKey);
-            searchTypes.add(searchType);
+            SearchOperation so = searchOperations.get (searchKey);
+            searchTypes.add(so.getType ());
         }
         return searchTypes;
     }

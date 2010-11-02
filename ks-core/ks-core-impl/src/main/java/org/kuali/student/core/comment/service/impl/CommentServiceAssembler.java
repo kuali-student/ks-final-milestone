@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.comment.service.impl;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class CommentServiceAssembler extends BaseAssembler {
 
         dto.setCommentText(toRichTextInfo(entity.getCommentText()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setType(entity.getType().getId());
 
         return dto;
@@ -136,8 +137,7 @@ public class CommentServiceAssembler extends BaseAssembler {
         entity.setType(type);
         entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
         entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, dao));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-        // TODO comment type
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         return entity;
     }
     public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
@@ -184,7 +184,7 @@ public class CommentServiceAssembler extends BaseAssembler {
 					"Tag Type does not exist for id: " + dto.getType());
 		}
 		entity.setType(type);
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		Reference reference = commentDao.getReference(referenceId,
 				referenceTypeKey);

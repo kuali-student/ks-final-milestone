@@ -1,20 +1,22 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.atp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
@@ -23,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -46,6 +49,8 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 @Daos( { @Dao(value = "org.kuali.student.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
 public class TestAtpService extends AbstractServiceTest {
+	final Logger LOG = Logger.getLogger(TestAtpService.class);
+	
 	@Client(value = "org.kuali.student.core.atp.service.impl.AtpServiceImpl")
 	public AtpService client;
 
@@ -119,8 +124,12 @@ public class TestAtpService extends AbstractServiceTest {
 		atpInfo.getDesc().setFormatted("Atp for fall 2008 semester");
 		atpInfo.getDesc().setPlain("Atp for fall 2008 semester");
 		atpInfo.setName("Fall 2008 Semester");
-		atpInfo.setEffectiveDate(new Date());
-		atpInfo.setExpirationDate(new Date());
+		atpInfo.setStartDate(new Date());
+		atpInfo.setEndDate(new Date());
+		
+		Date stDate = atpInfo.getStartDate();
+		Date enDate = atpInfo.getEndDate();
+		
 		atpInfo.setState("new");
 		
 		atpInfo.getAttributes().put(atpAttribute_notes, "Notes for the Fall 2008 Semester");
@@ -129,9 +138,12 @@ public class TestAtpService extends AbstractServiceTest {
 		try {
 			createdAtp = client.createAtp(atpType_fallSemester, atp_fall2008Semester, atpInfo);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		}
+		
+		assertTrue(stDate.equals(createdAtp.getStartDate()));
+		assertTrue(enDate.equals(createdAtp.getEndDate()));
 		
 		//Make a DateRange
 		DateRangeInfo dateRangeInfo=new DateRangeInfo();
@@ -150,7 +162,7 @@ public class TestAtpService extends AbstractServiceTest {
 		try {
 			createdDateRange = client.addDateRange(atp_fall2008Semester, dateRange_finalsFall2008, dateRangeInfo);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		} 
 		
@@ -170,7 +182,7 @@ public class TestAtpService extends AbstractServiceTest {
 		try {
 			createdMilestone = client.addMilestone(atp_fall2008Semester, milestone_lastDateToDropFall2008, milestoneInfo);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		} 
 		
@@ -184,7 +196,7 @@ public class TestAtpService extends AbstractServiceTest {
 			assertEquals("1",updatedAtp.getMetaInfo().getVersionInd());
 			assertEquals("Updated Atp for the Fall 2008 Semester", updatedAtp.getDesc().getFormatted());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		}
 		
@@ -195,7 +207,7 @@ public class TestAtpService extends AbstractServiceTest {
 		} catch (VersionMismatchException vme) {
 			// what we expect
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		}
 		
@@ -207,7 +219,7 @@ public class TestAtpService extends AbstractServiceTest {
 			assertEquals("1",updatedDateRange.getMetaInfo().getVersionInd());
 			assertEquals("Updated DateRange for the Finals date range Fall 2008 Semester", updatedDateRange.getDesc().getFormatted());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		}
 		
@@ -218,7 +230,7 @@ public class TestAtpService extends AbstractServiceTest {
 		} catch (VersionMismatchException vme) {
 			// what we expect
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		}
 		
@@ -230,7 +242,7 @@ public class TestAtpService extends AbstractServiceTest {
 			assertEquals("1",updatedMilestone.getMetaInfo().getVersionInd());
 			assertEquals("Updated Milestone for fall 2008 semester last day to drop", updatedMilestone.getDesc().getFormatted());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 		}
 		
 		//Try to update again should fail
@@ -240,7 +252,7 @@ public class TestAtpService extends AbstractServiceTest {
 		} catch (VersionMismatchException vme) {
 			// what we expect
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		}
 		
@@ -248,7 +260,7 @@ public class TestAtpService extends AbstractServiceTest {
 		try {
 			client.deleteAtp(atp_fall2008Semester);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 			fail();
 		}
 	}

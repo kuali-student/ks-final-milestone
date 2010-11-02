@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:security="http://www.springframework.org/schema/security"
@@ -10,18 +27,31 @@
            http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 
-	<import resource="ksss-auth-provider.xml"/>
+	<import resource="ksss-auth-common.xml"/>
 	
 	<security:http auto-config="false">
     	<security:intercept-url pattern="/logout.html*" filters="none"/>
     	<security:intercept-url pattern="/services/*" filters="none"/>
+    	<security:intercept-url pattern="/favicon.ico" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
 		<security:form-login />
-<!--  	<security:logout/>  -->
     </security:http>
     
     <bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter">
     	<security:custom-filter position="LOGOUT_FILTER"/>
   	</bean>
   	
+  	<!--List of Custom Providers that can be registered with the default authentication manager -->
+  	<bean id="daoAuthenticationProvider" 
+      	class="org.kuali.student.security.kim.KimAuthenticationProvider">
+      	<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
+    	<security:custom-authentication-provider />
+   	</bean>
+   	
+   	<bean id="daoAuthenticationProvider2" 
+      	class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+      	<property name="userDetailsService" ref="ksUserDetailsService"/>
+    	<security:custom-authentication-provider />
+   	</bean>
+    
 </beans>

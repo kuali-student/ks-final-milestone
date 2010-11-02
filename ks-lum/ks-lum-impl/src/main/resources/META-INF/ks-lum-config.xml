@@ -1,3 +1,20 @@
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <config>
 
     <param name="module.name">ks-lum-impl</param>
@@ -30,10 +47,18 @@
     <param name="ks.lum.jpa.generateDdl">false</param>
     <param name="ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JOTMTransactionManagerLookup</param>
     <param name="ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
-    
+    <param name="ks.lum.jpa.JpaProperties.hibernate.connection.release_mode">after_statement</param>
+    <param name="ks.lum.jpa.JpaProperties.hibernate.connection.autocommit">false</param>
+                	   
     <param name="ks.lum.bus.security">false</param>
     
     <param name="ks.lum.doDataLoad">false</param>
+    
+    <param name="ks.lum.dictionary.old.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
+    <param name="ks.lum.dictionary.serviceContextLocations">classpath:ks-courseInfo-dictionary-context.xml;classpath:ks-programInfo-dictionary-context.xml;classpath:ks-statement-dictionary-context.xml</param>
+    <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
+    <param name="ks.lum.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
+    
     
         <!-- Rice URLS -->
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-embedded-dev/kr/lookup.do</param>

@@ -1,27 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>org.kuali.student</groupId>
   <artifactId>ks-embedded</artifactId>
-  <version>1.0.0-m5</version>
   <packaging>war</packaging>
-
-  <name>KS Embedded</name>
+  <name>Kuali Student Embedded</name>
   <description>Contains all KS modules and Rice</description>
-
   <parent>
-    <groupId>org.kuali.student</groupId>
+    <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.0.0-m5</version>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
-
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
     <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
-    <ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab>
   </properties>
-
   <build>
     <plugins>
       <plugin>
@@ -46,9 +37,7 @@
           <modules>
             <module>${ks.gwt.module.org}</module>
             <module>${ks.gwt.module.lum}</module>
-            <module>${ks.gwt.module.collab}</module>
           </modules>
-          <style>PRETTY</style>
         </configuration>
       </plugin>
       <plugin>
@@ -63,35 +52,25 @@
           <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
+            <version>${oracle.ojdbc.version}</version>
           </dependency>
         </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.0.1</version>
         <configuration>
           <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-          <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,**/sampleTravelApplication.tag</dependentWarExcludes>
+          <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,**/sampleTravelApplication.tag </dependentWarExcludes>
         </configuration>
       </plugin>
     </plugins>
   </build>
-
   <dependencies>
-    <!-- 
-		<dependency>
-			<groupId>org.kuali.student.psu</groupId>
-			<artifactId>ks-psu</artifactId>
-            <version>1.0.0-m5-SNAPSHOT</version>
-		</dependency> -->
-
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-web</artifactId>
@@ -99,43 +78,50 @@
       <type>war</type>
       <scope>runtime</scope>
     </dependency>
-
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
       <version>${kuali.rice.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.kuali.student.admin</groupId>
+      <artifactId>ks-admin</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-rice</artifactId>
-      <version>${ks-lum.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
-      <version>${ks-lum.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-impl</artifactId>
-      <version>${ks-lum.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-ui</artifactId>
-      <version>${ks-lum.version}</version>
+      <version>${project.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
-      <version>${ks-core.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
-      <version>${ks-core.version}</version>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.security</groupId>
+      <artifactId>ks-sts</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- these are needed for rice jsp's to work properly -->
@@ -169,61 +155,78 @@
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-ui</artifactId>
       <classifier>sources</classifier>
-      <version>${ks-core.version}</version>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
+      <artifactId>ks-core-rice</artifactId>
+      <classifier>sources</classifier>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
-      <version>${ks-core.version}</version>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${ks-core.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${ks-core.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${ks-core.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
-
-
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-ui</artifactId>
       <classifier>sources</classifier>
-      <version>${ks-lum.version}</version>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.lum</groupId>
+      <artifactId>ks-lum-program</artifactId>
+      <classifier>sources</classifier>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.lum</groupId>
+      <artifactId>ks-lum-ui-common</artifactId>
+      <classifier>sources</classifier>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
-      <version>${ks-lum.version}</version>
-      <classifier>sources</classifier>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.kuali.student.brms.statement</groupId>
-      <artifactId>ks-statement-api</artifactId>
-      <version>${ks-brms.version}</version>
+      <version>${project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
 </project>

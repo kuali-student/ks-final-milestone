@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.enumerationmanagement.dto.mock;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class MockEnumeratedValueDTOs {
 	private String abbrev = "Abbrev";
 	private String code = "Code";
 	private String value = "Value";
+	private String enumKey = "enumKey";
 	private MockContextDTOs mockContextDTOs = null;
 	private List<EnumeratedValueInfo> enumeratedValues = null;
 
@@ -63,8 +65,9 @@ public class MockEnumeratedValueDTOs {
 	 * @param initial index value
 	 * @param last index value
 	 */
-	public MockEnumeratedValueDTOs(String valueName) {
+	public MockEnumeratedValueDTOs(String valueName, String enumKey) {
 		value = valueName;
+		this.enumKey = enumKey;
 		mockContextDTOs = new MockContextDTOs();
 		enumeratedValues = createEnumeratedValues(0, 10);
 	}
@@ -90,6 +93,7 @@ public class MockEnumeratedValueDTOs {
 		enumeratedValue.setExpirationDate(new Date(now + (TEN_M * i)));
 		enumeratedValue.setSortKey(Integer.toString(i));
 		enumeratedValue.setValue(value + i);
+		enumeratedValue.setEnumerationKey(enumKey);
 		return enumeratedValue;
 	}
 	
@@ -118,6 +122,7 @@ public class MockEnumeratedValueDTOs {
 		copy.setExpirationDate(src.getExpirationDate());
 		copy.setSortKey(src.getSortKey());
 		copy.setValue(src.getValue());
+		copy.setEnumerationKey(enumKey);
 		return copy;
 	}
 	

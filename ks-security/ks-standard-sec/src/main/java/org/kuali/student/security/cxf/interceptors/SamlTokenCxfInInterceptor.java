@@ -1,11 +1,11 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -32,7 +32,6 @@ import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
-import org.apache.ws.security.WSSecurityException;
 import org.apache.ws.security.handler.RequestData;
 import org.apache.ws.security.processor.SAMLTokenProcessor;
 import org.opensaml.SAMLAssertion;
@@ -55,9 +54,8 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor {
 		super.computeAction(msg, reqData);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException, WSSecurityException {
+	protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException {
 		super.doResults(msg, actor, doc, wsResult);
 
 		QName wsseQN = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");

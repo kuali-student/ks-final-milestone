@@ -1,33 +1,25 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.ui.requirements.util;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
-import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.brms.statement.dto.RefStatementRelationTypeInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.brms.statement.dto.StatementTypeInfo;
-import org.kuali.student.brms.statement.service.StatementService;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -43,6 +35,15 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class StatementServiceMock implements StatementService {
@@ -192,23 +193,13 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return null;
     }
 
     @Override
     public List<String> getObjectTypes() {
         return null;
-    }
-
-    @Override
-    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return false;
-    }
-
-    @Override
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return false;
     }
 
     @Override
@@ -348,6 +339,31 @@ public class StatementServiceMock implements StatementService {
 	@Override
 	public List<ValidationResultInfo> validateRefStatementRelation(String validationType, RefStatementRelationInfo refStatementRelationInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	public StatementTreeViewInfo getStatementTreeViewForNlUsageType(String statementId, String nlUsageTypeKey, String language)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public StatementTreeViewInfo createStatementTreeView(
+			StatementTreeViewInfo statementTreeViewInfo)
+			throws CircularReferenceException, AlreadyExistsException,
+			DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteStatementTreeView(String statementId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
 		return null;
 	}
     

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 .FlexTable {
   border-top: thin solid #444444;
   border-left: thin solid #444444;
@@ -40,11 +55,6 @@
 }
 
 
-.KS-Textbox{
-	width: 200px;
-	font-size: 16px; 	
-}
-
 .KS-Course-Section-Header {
 	font-size: 20px;
 	margin-bottom: 30px;
@@ -68,9 +78,8 @@
 }
 
 .KS-LOBuilder-Search-Panel {
-	padding: 10px;
-	width: 60%;
-	
+    line-height:1.5em;
+    width:100%;
 }
 
 .KS-LOBuilder-Spacer-Panel {
@@ -90,8 +99,7 @@
 }
 
 .KS-LOBuilder-Instructions {
-    font-size:70%;
-    margin:10px
+    font-size:1em;
 }
 
 .KS-LOBuilder-Highlighted-Item {
@@ -100,8 +108,8 @@
 
 
 .KS-LOBuilder-LO-Panel {
-	background-color: #FFFFFF;	
-	margin: 10px;
+margin-bottom: 10px;
+    margin-top: 10px;
 }
 .KS-LOMoveUpButton{
     background: url("images/LOMoveUpButton.png") no-repeat 2px 2px;
@@ -134,14 +142,16 @@
     height:20px;
 }
 .KS-LODeleteButton{
-    background: url("images/LODeleteButton.png") no-repeat 2px 2px;
-    width: 20px;
-    height:20px;
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: blue;
+    float: right;
+    font-size: 0.916em;
+    margin: 8px 4px 1px 320px;  /* not ideal but the quickest fix */
 }
 .KS-LODeleteButtonDisabled{
-    background: url("images/LODeleteButtonDisabled.png") no-repeat 2px 2px;
-    width: 20px;
-    height:20px;
+	color:grey;
+	font-size:0.916em;
 }
 .KS-LOBuilder-LO-Item-Active {
 	background-color: #FFFFCC;	
@@ -149,6 +159,19 @@
 
 .KS-LOBuilder-LO-Item-InActive {
 	background-color: #FFFFFF;	
+}
+
+.KS-CluSetManagement-chooser {
+background-color: lightgrey;
+width:500px;
+padding:10px
+}
+
+.KS-CluSetManagement-chooser-unselected {
+    background-color: lightgrey;
+    width:500px;
+    height:100px;
+    padding:10px;
 }
 
 .cluInfo-officialIdentifier-longName{}

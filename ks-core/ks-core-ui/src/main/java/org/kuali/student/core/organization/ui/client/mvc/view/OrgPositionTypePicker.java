@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.ArrayList;
@@ -5,16 +20,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
-import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-//import org.kuali.student.core.organization.ui.client.view.SingleListItem;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class OrgPositionTypePicker extends KSDropDown{
 
@@ -28,10 +41,7 @@ public class OrgPositionTypePicker extends KSDropDown{
 		super.onLoad();
 		
 		if (!loaded) {
-            orgRpcServiceAsync.getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>() {
-                public void onFailure(Throwable caught) {
-
-                }
+            orgRpcServiceAsync.getOrgPersonRelationTypes(new KSAsyncCallback<List<OrgPersonRelationTypeInfo>>() {
 
                 public void onSuccess(List<OrgPersonRelationTypeInfo> posTypes) {
                     final Map<String, String> map = new LinkedHashMap<String, String>();

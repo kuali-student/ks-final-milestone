@@ -1,27 +1,28 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.proposal.entity;
 
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -33,7 +34,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -50,14 +50,16 @@ import org.kuali.student.core.entity.MetaEntity;
     @NamedQuery(name = "Proposal.getProposalsByProposalType", query = "SELECT DISTINCT p FROM Proposal p WHERE p.type.id = :proposalTypeId"),
     @NamedQuery(name = "Proposal.getProposalsByReference", query = "SELECT r.proposals FROM ProposalReference r WHERE r.objectReferenceId = :referenceId AND r.type.id = :referenceTypeId"),
     @NamedQuery(name = "Proposal.getProposalsByState", query = "SELECT DISTINCT p FROM Proposal p WHERE p.state = :proposalState AND p.type.id = :proposalTypeId"),
+    @NamedQuery(name = "Proposal.getProposalByWorkflowId", query = "SELECT DISTINCT p FROM Proposal p WHERE p.workflowId = :workflowId"),
     @NamedQuery(name = "Proposal.getProposalTypesForReferenceType", query = "SELECT DISTINCT p.type FROM ProposalReference r JOIN r.proposals p WHERE r.type.id = :referenceTypeId")
 })
+@AttributeOverride(name="id", column=@Column(name="PROPOSAL_ID"))
 public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttribute> {
-    @Id
-    @Column(name = "PROPOSAL_ID")
-    private String id;
 
-    @Column(name="NAME")
+	@Column(name="WORKFLOW_ID")
+    private String workflowId;
+
+	@Column(name="NAME")
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proposal")
@@ -98,19 +100,6 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
 
     @Column(name = "STATE")
     private String state;
-
-    @Override
-    protected void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -203,4 +192,11 @@ public class Proposal extends MetaEntity implements AttributeOwner<ProposalAttri
         this.attributes = attributes;
     }
 
+    public String getWorkflowId() {
+		return workflowId;
+	}
+
+	public void setWorkflowId(String workflowId) {
+		this.workflowId = workflowId;
+	}
 }

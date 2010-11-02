@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.atp.service.impl;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class AtpAssembler extends BaseAssembler{
 			if (atp == null) {
 				throw new DoesNotExistException("Atp does not exist for key: " + atpInfo.getId());
 			}
-			if (!String.valueOf(atp.getVersionInd()).equals(atpInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(atp.getVersionNumber()).equals(atpInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("Atp to be updated is not the current version");
 			}
 		} else {
@@ -84,7 +85,7 @@ public class AtpAssembler extends BaseAssembler{
 
 		// copy attributes, metadata, Atp, and Type
 		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
-		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionInd()));
+		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionNumber()));
 		atpInfo.setType(atp.getType().getId());
 		atpInfo.setDesc(toRichTextInfo(atp.getDescr()));
 		
@@ -137,7 +138,7 @@ public class AtpAssembler extends BaseAssembler{
 			if (dateRange == null) {
 				throw new DoesNotExistException("DateRange does not exist for key: " + dateRangeInfo.getId());
 			}
-			if (!String.valueOf(dateRange.getVersionInd()).equals(dateRangeInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(dateRange.getVersionNumber()).equals(dateRangeInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("DateRange to be updated is not the current version");
 			}
 		} else {
@@ -185,7 +186,7 @@ public class AtpAssembler extends BaseAssembler{
 		dateRangeInfo
 				.setAttributes(toAttributeMap(dateRange.getAttributes()));
 		dateRangeInfo.setMetaInfo(toMetaInfo(dateRange.getMeta(), dateRange
-				.getVersionInd()));
+				.getVersionNumber()));
 		dateRangeInfo.setType(dateRange.getType().getId());
 		dateRangeInfo.setAtpId(dateRange.getAtp().getId());
 		dateRangeInfo.setDesc(toRichTextInfo(dateRange.getDescr()));
@@ -214,7 +215,7 @@ public class AtpAssembler extends BaseAssembler{
 			if (milestone == null) {
 				throw new DoesNotExistException("Milestone does not exist for key: " + milestoneInfo.getId());
 			}
-			if (!String.valueOf(milestone.getVersionInd()).equals(milestoneInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(milestone.getVersionNumber()).equals(milestoneInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("Milestone to be updated is not the current version");
 			}
 		} else {
@@ -263,7 +264,7 @@ public class AtpAssembler extends BaseAssembler{
 		milestoneInfo
 				.setAttributes(toAttributeMap(milestone.getAttributes()));
 		milestoneInfo.setMetaInfo(toMetaInfo(milestone.getMeta(), milestone
-				.getVersionInd()));
+				.getVersionNumber()));
 		milestoneInfo.setType(milestone.getType().getId());
 		milestoneInfo.setAtpId(milestone.getAtp().getId());
 		milestoneInfo.setDesc(toRichTextInfo(milestone.getDescr()));

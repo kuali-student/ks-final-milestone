@@ -1,72 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student.db</groupId>
-    <artifactId>ks-cfg-dbs</artifactId>
-    <version>1.0.0-m5-SNAPSHOT</version>
+    <artifactId>ks-db</artifactId>
+    <version>1.1.0-M10-SNAPSHOT</version>
   </parent>
   <artifactId>ks-rice-db</artifactId>
-  <name>KS Rice Database</name>
+  <name>KS Rice DB</name>
   <description>Kuali Student Rice Database</description>
-  <properties>
-    <ks.rice.url>jdbc:oracle:thin:@localhost:1521:XE</ks.rice.url>
-    <ks.rice.schema>KSRICE</ks.rice.schema>
-    <ks.rice.username>KSRICE</ks.rice.username>
-    <ks.rice.password>KSRICE</ks.rice.password>
-  </properties>
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/impex/data</directory>
-      </resource>
-      <resource>
-        <directory>src/main/impex/schema</directory>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/generated-sql/impex</directory>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.kuali.impex</groupId>
-        <artifactId>maven-impex-plugin</artifactId>
-        <configuration>
-          <targetDatabase>${ks.db.type}</targetDatabase>
-          <driver>${ks.db.driver}</driver>
-          <url>${ks.rice.url}</url>
-          <schema>${ks.rice.schema}</schema>
-          <username>${ks.rice.username}</username>
-          <password>${ks.rice.password}</password>
-        </configuration>
-        <executions>
-          <execution>
-            <id>generate-datadtd</id>
-            <goals>
-              <goal>datadtd</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-oracle-sql</id>
-            <configuration>
-              <targetDatabase>oracle</targetDatabase>
-            </configuration>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generate-mysql-sql</id>
-            <configuration>
-              <targetDatabase>mysql</targetDatabase>
-            </configuration>
-            <goals>
-              <goal>schemasql</goal>
-              <goal>datasql</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>

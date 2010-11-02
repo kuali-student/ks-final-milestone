@@ -1,29 +1,26 @@
-/*
- * Copyright 2009 The Kuali Foundation
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0
  *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -39,11 +36,8 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_REPOSITORY")
+@Table(name = "KSLO_LO_REPOSITORY")
 public class LoRepository extends MetaEntity implements AttributeOwner<LoRepositoryAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "NAME")
 	private String name;
@@ -145,9 +139,6 @@ public class LoRepository extends MetaEntity implements AttributeOwner<LoReposit
 	 */
 	@Override
 	public List<LoRepositoryAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoRepositoryAttribute>(0);
-		}
 		return attributes;
 	}
 
@@ -157,20 +148,6 @@ public class LoRepository extends MetaEntity implements AttributeOwner<LoReposit
 	@Override
 	public void setAttributes(List<LoRepositoryAttribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the key
-	 */
-	public String getId() {
-		return id;
 	}
 
 	/**

@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.organization.service.impl;
 
 import java.util.ArrayList;
@@ -94,7 +95,7 @@ public class OrganizationAssembler extends BaseAssembler{
 
 		// copy attributes, metadata, and Type
 		orgInfo.setAttributes(toAttributeMap(org.getAttributes()));
-		orgInfo.setMetaInfo(toMetaInfo(org.getMeta(), org.getVersionInd()));
+		orgInfo.setMetaInfo(toMetaInfo(org.getMeta(), org.getVersionNumber()));
 		orgInfo.setType(org.getType().getId());
 
 		return orgInfo;
@@ -116,7 +117,7 @@ public class OrganizationAssembler extends BaseAssembler{
 
 		relationInfo.setOrgId(relation.getOrg().getId());
 		relationInfo.setAttributes(toAttributeMap(relation.getAttributes()));
-		relationInfo.setMetaInfo(toMetaInfo(relation.getMeta(), relation.getVersionInd()));
+		relationInfo.setMetaInfo(toMetaInfo(relation.getMeta(), relation.getVersionNumber()));
 		relationInfo.setType(relation.getType().getId());
 		//relationInfo.setId(relation.getId());
 		return relationInfo;
@@ -143,7 +144,7 @@ public class OrganizationAssembler extends BaseAssembler{
 
 		// copy attributes, metadata, Type, and related orgs
 		orgOrgRelationInfo.setAttributes(toAttributeMap(orgOrgRelation.getAttributes()));
-		orgOrgRelationInfo.setMetaInfo(toMetaInfo(orgOrgRelation.getMeta(), orgOrgRelation.getVersionInd()));
+		orgOrgRelationInfo.setMetaInfo(toMetaInfo(orgOrgRelation.getMeta(), orgOrgRelation.getVersionNumber()));
 		orgOrgRelationInfo.setType(orgOrgRelation.getType().getId());
 		orgOrgRelationInfo.setOrgId(orgOrgRelation.getOrg().getId());
 		orgOrgRelationInfo.setRelatedOrgId(orgOrgRelation.getRelatedOrg().getId());
@@ -163,7 +164,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		
 		restrictionInfo.setOrgId(restriction.getOrg().getId());
 		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
-		restrictionInfo.setMetaInfo(toMetaInfo(restriction.getMeta(), restriction.getVersionInd()));
+		restrictionInfo.setMetaInfo(toMetaInfo(restriction.getMeta(), restriction.getVersionNumber()));
 		restrictionInfo.setOrgPersonRelationTypeKey(restriction.getPersonRelationType().getId());
 		restrictionInfo.setDesc(restriction.getDescr());
 		return restrictionInfo;
@@ -235,7 +236,7 @@ public class OrganizationAssembler extends BaseAssembler{
 			if (org == null) {
 				throw new DoesNotExistException("Org does not exist for id: " + orgInfo.getId());
 			}
-			if (!String.valueOf(org.getVersionInd()).equals(orgInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(org.getVersionNumber()).equals(orgInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("Org to be updated is not the current version");
 			}
 		} else {
@@ -269,7 +270,7 @@ public class OrganizationAssembler extends BaseAssembler{
 			if (orgOrgRelation == null) {
 				throw new DoesNotExistException("OrgOrgRelation does not exist for id: " + orgOrgRelationInfo.getId());
 			}
-			if (!String.valueOf(orgOrgRelation.getVersionInd()).equals(orgOrgRelationInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(orgOrgRelation.getVersionNumber()).equals(orgOrgRelationInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("OrgOrgRelation to be updated is not the current version");
 			}
 		} else {
@@ -319,7 +320,7 @@ public class OrganizationAssembler extends BaseAssembler{
 			if (orgPersonRelation == null) {
 				throw new DoesNotExistException("OrgOrgRelation does not exist for id: " + orgPersonRelationInfo.getId());
 			}
-			if (!String.valueOf(orgPersonRelation.getVersionInd()).equals(orgPersonRelationInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(orgPersonRelation.getVersionNumber()).equals(orgPersonRelationInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("OrgOrgRelation to be updated is not the current version");
 			}
 		} else {
@@ -371,7 +372,7 @@ public class OrganizationAssembler extends BaseAssembler{
 			if (orgPositionRestriction == null) {
 				throw new DoesNotExistException("OrgPositionRestriction does not exist for id: " + orgPositionRestrictionInfo.getId());
 			}
-			if (!String.valueOf(orgPositionRestriction.getVersionInd()).equals(orgPositionRestrictionInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(orgPositionRestriction.getVersionNumber()).equals(orgPositionRestrictionInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("OrgPositionRestriction to be updated is not the current version");
 			}
 		} else {

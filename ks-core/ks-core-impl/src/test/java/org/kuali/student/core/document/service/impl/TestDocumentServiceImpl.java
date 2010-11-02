@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.document.service.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +38,8 @@ import org.kuali.student.core.document.dto.DocumentBinaryInfo;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.DocumentTypeInfo;
+import org.kuali.student.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.core.document.dto.RefDocRelationTypeInfo;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
@@ -46,7 +50,6 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -57,7 +60,10 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 @Daos( { @Dao(value = "org.kuali.student.core.document.dao.impl.DocumentDaoImpl",testSqlFile="classpath:ks-document.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/document-persistence.xml")
 public class TestDocumentServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.core.document.service.impl.DocumentServiceImpl", additionalContextFile="classpath:document-additional-context.xml")
+	
+	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMdd");
+	
+	@Client(value = "org.kuali.student.core.document.service.impl.DocumentServiceImpl", additionalContextFile="classpath:document-additional-context.xml")
     public DocumentService client;
 
 
@@ -252,4 +258,119 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
 //            assertTrue(validationResult.isOk());
 //        }
     }
+    
+    
+    @Test
+    public void testDocRelationsCrud() throws Exception{
+        //Create a document to get relations from
+    	DocumentInfo documentInfo = new DocumentInfo();
+        DocumentBinaryInfo binaryInfo = new DocumentBinaryInfo();
+        binaryInfo.setBinary("Test document");
+        documentInfo.setDocumentBinaryInfo(binaryInfo);
+        documentInfo.setFileName("Sample");
+        documentInfo.setType("documentType.type1");
+        
+        documentInfo = client.createDocument("documentType.type1", "CAT_1", documentInfo);
+    	
+        RefDocRelationInfo relation = new RefDocRelationInfo();
+        relation.setDesc(new RichTextInfo());
+        relation.getDesc().setFormatted("formatted");
+        relation.getDesc().setPlain("plain");
+        relation.setDocumentId(documentInfo.getId());
+        relation.setEffectiveDate(DF.parse("20100101"));
+        relation.setExpirationDate(DF.parse("20100102"));
+        relation.setRefObjectId("REFER_TO_ME");
+        relation.setRefObjectTypeKey("refObjectTypeKey");
+        relation.setState("state");
+        relation.setType("type");
+        relation.setTitle("Title");
+        
+        try{
+        	client.createRefDocRelation(relation.getRefObjectTypeKey(), relation.getRefObjectId(), relation.getDocumentId(), relation.getType(), relation);
+        	assertTrue(false);
+        }catch(InvalidParameterException e){     	
+        }
+    	
+        relation.setType("kuali.org.DocRelation.allObjectTypes");
+        try{
+        	client.createRefDocRelation(relation.getRefObjectTypeKey(), relation.getRefObjectId(), relation.getDocumentId(), relation.getType(), relation);
+	       	assertTrue(false);
+	    }catch(InvalidParameterException e){     	
+	    }
+	    
+	    relation.setRefObjectTypeKey("kuali.org.RefObjectType.CluInfo");
+	    
+	    RefDocRelationInfo created = client.createRefDocRelation(relation.getRefObjectTypeKey(), relation.getRefObjectId(), relation.getDocumentId(), relation.getType(), relation);
+
+	    //compare with original
+	    assertRefDocRelationsEquals(relation, created);
+	    
+	    //Change some values
+        created.setDesc(new RichTextInfo());
+        created.getDesc().setFormatted("formattedU");
+        created.getDesc().setPlain("plainU");
+        created.setDocumentId(documentInfo.getId());
+        created.setEffectiveDate(DF.parse("20100103"));
+        created.setExpirationDate(DF.parse("20100104"));
+        created.setRefObjectId("REFER_TO_MEU");
+        created.setState("stateU");
+        created.setTitle("TitleU");
+        
+        //Update
+        RefDocRelationInfo updated = client.updateRefDocRelation(created.getId(), created);
+        
+        //Test version mismatch
+        try{
+        	updated = client.updateRefDocRelation(created.getId(), created);
+	       	assertTrue(false);
+        }catch(VersionMismatchException e){
+        }
+        assertRefDocRelationsEquals(created,updated);
+	    
+	    //Test Gets
+	    List<RefDocRelationTypeInfo> docRelationTypes = client.getRefDocRelationTypes();
+	    assertEquals(1, docRelationTypes.size());
+	    
+	    docRelationTypes = client.getRefDocRelationTypesForRefObjectSubType("kuali.org.RefObjectSubType.Program");
+	    assertEquals(1, docRelationTypes.size());
+	    
+	    List<String> subTypes = client.getRefObjectSubTypes("kuali.org.RefObjectType.CluInfo");
+	    assertEquals(2, subTypes.size());
+	    
+	    List<String> objectTypes = client.getRefObjectTypes();
+	    assertEquals(2, objectTypes.size());
+	    
+        List<RefDocRelationInfo> fetchedList = client.getRefDocRelationsByDoc(created.getDocumentId());
+	    assertEquals(1,fetchedList.size());
+	    assertRefDocRelationsEquals(updated,fetchedList.get(0));
+
+	    fetchedList = client.getRefDocRelationsByRef(updated.getRefObjectTypeKey(), updated.getRefObjectId());
+	    assertEquals(1,fetchedList.size());
+	    assertRefDocRelationsEquals(updated,fetchedList.get(0));
+	    
+	    RefDocRelationInfo fetched = client.getRefDocRelation(updated.getId());
+	    assertRefDocRelationsEquals(updated,fetched);
+	    	    
+	    //Test delete
+	    client.deleteRefDocRelation(fetched.getId());
+	    
+	    try{
+	    	fetched = client.getRefDocRelation(updated.getId());
+	    	assertTrue(false);
+	    }catch(DoesNotExistException e){}
+    }
+    
+    private void assertRefDocRelationsEquals(RefDocRelationInfo ref1, RefDocRelationInfo ref2){
+	    assertEquals(ref1.getDesc().getFormatted(),ref2.getDesc().getFormatted());
+	    assertEquals(ref1.getDesc().getPlain(),ref2.getDesc().getPlain());
+	    assertEquals(ref1.getDocumentId(),ref2.getDocumentId());
+	    assertEquals(ref1.getEffectiveDate(),ref2.getEffectiveDate());
+	    assertEquals(ref1.getExpirationDate(),ref2.getExpirationDate());
+	    assertEquals(ref1.getRefObjectId(),ref2.getRefObjectId());
+	    assertEquals(ref1.getRefObjectTypeKey(),ref2.getRefObjectTypeKey());
+	    assertEquals(ref1.getState(),ref2.getState());
+	    assertEquals(ref1.getTitle(),ref2.getTitle());
+	    assertEquals(ref1.getType(),ref2.getType());
+    }
+    
 }

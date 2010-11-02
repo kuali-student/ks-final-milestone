@@ -1,9 +1,27 @@
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <config>
     
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
-    <param name="config.location">classpath:META-INF/ks-lum-config.xml</param> 
+    <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
+    <param name="config.location">classpath:ks-security-config.xml</param>
     
     <param name="module.name">ks-standalone</param>
     <param name="db.vendor">oracle</param>
@@ -80,9 +98,24 @@
 
 
     <!-- Keystore Configuration -->
-    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
+    <param name="keystore.file">src/main/resources/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
+    
+    
+    <!-- additional config files -->
+    <!--
+        Setting this property allows selective loading lum or core project or both
+    -->
+    <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
+        classpath:ks-spring-security-saml.xml
+	</param>
+
+    <!-- additional context files -->
+    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
+    <param name="rice.additionalSpringFiles">${ks.projects},${ks.authentication.context},${ks.institutional.context}</param>
+    
+    
     
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">http://localhost:8081/ks-rice-${environment}</param>
@@ -99,12 +132,11 @@
     <param name="ks.logout.url" override="false">${application.url}/j_spring_security_logout</param>
 
     <!-- OrgUrls -->
-    <param name="ks.org.MainEntryPoint" override="false">${application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</param>
+    <param name="ks.org.MainEntryPoint" override="false">${application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</param>
 
     <!-- LumUrls -->
     <param name="lum.application.url" override="false">${application.url}</param>
     <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
-    
     
     <!-- system params for derby network version -->
     <param name="derby.system.home" system="true" override="false">target</param>

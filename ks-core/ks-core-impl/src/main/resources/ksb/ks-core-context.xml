@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
@@ -14,7 +31,7 @@
 	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
     
 	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSCoreContext"/>
@@ -33,7 +50,7 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
 
 	<!-- Default Datasource -->
-	<bean id="coreDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource">
+	<bean id="coreDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
         <property name="transactionManager" ref="userTransaction" />
         <property name="driverClassName" value="${ks.core.datasource.driver.name}" />
         <property name="maxSize" value="${ks.core.datasource.maxSize}" />
@@ -60,6 +77,8 @@
             <map>
                 <entry key="hibernate.transaction.manager_lookup_class" value="${ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto" value="${ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.connection.release_mode" value="${ks.core.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+               	<!--<entry key="hibernate.connection.autocommit" value="${ks.core.jpa.JpaProperties.hibernate.connection.autocommit}"/>-->
             </map>
         </property>
     </bean>
@@ -84,21 +103,15 @@
         class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="searchManager" ref="orgSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="orgDictionaryServiceDelegate"/>
-    </bean>
-
-    <bean id="orgDictionaryServiceDelegate"
-        class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="classpath:organization-dictionary-config.xml" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
     </bean>
 
     <bean id="orgSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -134,12 +147,11 @@
     </bean>
 
     <bean id="atpSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -164,7 +176,7 @@
         <property name="identityService" ref="identityServiceClient"/>
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -193,20 +205,25 @@
 		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
         <property name="em" ref="emEntityManager" />
 	</bean>
+	
+	<bean id="emSearchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0" value="classpath:em-search-config.xml" />
+	</bean>
 
 	<bean id="emServiceImpl"
 		class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
 		<property name="enumDAO" ref="emDao" />
+		<property name="searchManager" ref="emSearchManager"/>
 	</bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.enumerationManagementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="emServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService" />
                 <property name="localServiceName" value="EnumerationManagementService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/EnumerationManagementService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/enumerationmanagement" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
@@ -230,24 +247,28 @@
         <property name="em" ref="commentEntityManager" />
     </bean>
 
-    <bean id="commentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="${ks.core.dictionary.old.serviceContextLocations}" />
+    </bean>
+
+    <bean id="coreDictionaryService"
+          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+		<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />	
     </bean>
 
     <bean id="commentSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:comment-search-config.xml" />
     </bean>
 
     <bean id="commentServiceImpl"
         class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
-        <property name="dictionaryServiceDelegate" ref="commentDictionaryServiceDelegate" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
         <property name="searchManager" ref="commentSearchManager" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.commentService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -278,24 +299,17 @@
         <property name="em" ref="documentEntityManager" />
     </bean>
 
-    <bean id="documentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+    <bean id="documentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:document-dictionary-config.xml" />
     </bean>
-<!--
-    <bean id="documentSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
-        <constructor-arg index="0" value="classpath:document-search-config.xml" />
-    </bean>-->
 
     <bean id="documentServiceImpl"
         class="org.kuali.student.core.document.service.impl.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao1" />
-        <property name="dictionaryServiceDelegate" ref="documentDictionaryServiceDelegate" />
-<!--        <property name="searchManager" ref="documentSearchManager" />-->
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.documentService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -330,7 +344,7 @@
 		<property name="messageDAO" ref="messageDao" />
 	</bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.messageService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -363,24 +377,16 @@
     <bean name="proposalServiceImpl"
         class="org.kuali.student.core.proposal.service.impl.ProposalServiceImpl">
         <property name="proposalDao" ref="proposalDao"/>
-        <!-- <property name="dictionaryServiceDelegate" ref="proposalDictionaryServiceDelegate"/> -->
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="searchManager" ref="proposalSearchManager"/>
 	</bean>
 
-<!--
-    <bean id="proposalDictionaryServiceDelegate"
-        class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="classpath:proposal-dictionary-config.xml" />
-    </bean>
--->
-
     <bean id="proposalSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:proposal-search-config.xml" />
     </bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.proposalService" class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -392,34 +398,6 @@
             </bean>
         </property>
     </bean>
-
-	<!--  Data pre-load -->
-    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-        <property name="jtaTxManager" ref="transactionManager"/>
-        <property name="shouldLoadData" value="${ks.core.doDataLoad}"/>
-       	<property name="preloadMap">
-        	<map>
-            	<entry key="Organization">
-                	<value>classpath:ks-org.sql</value>
-               	</entry>
-               	<entry key="Comment">
-					<value>classpath:ks-comment.sql</value>
-				</entry>
-				<entry key="Document">
-					<value>classpath:ks-document.sql</value>
-				</entry>
-				<entry key="Proposal">
-					<value>classpath:ks-proposal.sql</value>
-				</entry>
-				<entry key="Atp">
-					<value>classpath:ks-atp.sql</value>
-				</entry>
-				<entry key="EnumerationManagement">
-					<value>classpath:ks-em.sql</value>
-				</entry>
-           	</map>
-        </property>
- 	</bean>
 
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
@@ -435,6 +413,7 @@
 			</map>
 		</property>
 	</bean>
+	
 	<aop:config>
 		<aop:aspect id="dataAccessToBusinessException"
 			ref="mapExceptionAdvisor">
@@ -449,6 +428,9 @@
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
 				pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.core.proposal.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>

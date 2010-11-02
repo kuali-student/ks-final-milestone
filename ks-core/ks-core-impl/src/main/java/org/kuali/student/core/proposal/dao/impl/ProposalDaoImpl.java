@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.proposal.dao.impl;
 
 import java.util.List;
@@ -25,8 +26,6 @@ import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dao.ProposalDao;
 import org.kuali.student.core.proposal.entity.Proposal;
-import org.kuali.student.core.proposal.entity.ProposalDocRelation;
-import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalReference;
@@ -60,9 +59,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("proposalTypeId", proposalTypeId);
         @SuppressWarnings("unchecked")
         List<Proposal> proposals = query.getResultList();
-        if (proposals == null || proposals.isEmpty()) {
-            throw new DoesNotExistException(proposalTypeId);
-        }
         return proposals;
     }
 
@@ -73,9 +69,6 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("referenceTypeId", referenceTypeId);
         @SuppressWarnings("unchecked")
         List<Proposal> proposals = query.getResultList();
-        if (proposals == null || proposals.isEmpty()) {
-            throw new DoesNotExistException(referenceId +":" + referenceTypeId);
-        }
         return proposals;
     }
 
@@ -86,11 +79,18 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("proposalTypeId", proposalTypeId);
         @SuppressWarnings("unchecked")
         List<Proposal> proposals = query.getResultList();
-        if (proposals == null || proposals.isEmpty()) {
-            throw new DoesNotExistException(proposalState +":" + proposalTypeId);
-        }
         return proposals;
     }
+
+	@Override
+	public Proposal getProposalByWorkflowId(String workflowId)
+			throws DoesNotExistException {
+        Query query = em.createNamedQuery("Proposal.getProposalByWorkflowId");
+        query.setParameter("workflowId", workflowId);
+
+        Proposal proposal = (Proposal)query.getSingleResult();
+		return proposal;
+	}
 
     @Override
     public List<ProposalType> getProposalTypesForReferenceType(String referenceTypeId) throws DoesNotExistException {
@@ -98,60 +98,9 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         query.setParameter("referenceTypeId", referenceTypeId);
         @SuppressWarnings("unchecked")
         List<ProposalType> proposalTypes = query.getResultList();
-        if (proposalTypes == null || proposalTypes.isEmpty()) {
-            throw new DoesNotExistException(referenceTypeId);
-        }
         return proposalTypes;
-
     }
 
-    @Override
-    public List<ProposalDocRelation> getProposalDocRelationsByDocument(String documentId) throws DoesNotExistException {
-        Query query = em.createNamedQuery("ProposalDocRelation.getByDocId");
-        query.setParameter("documentId", documentId);
-        @SuppressWarnings("unchecked")
-        List<ProposalDocRelation> proposalDocRelations = query.getResultList();
-        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
-            throw new DoesNotExistException(documentId);
-        }
-        return proposalDocRelations;
-    }
-
-    @Override
-    public List<ProposalDocRelation> getProposalDocRelationsByIdList(List<String> idList) throws DoesNotExistException {
-        Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByIdList");
-        query.setParameter("idList", idList);
-        @SuppressWarnings("unchecked")
-        List<ProposalDocRelation> proposalDocRelations = query.getResultList();
-        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
-            throw new DoesNotExistException("For given list of ids");
-        }
-        return proposalDocRelations;
-    }
-
-    @Override
-    public List<ProposalDocRelation> getProposalDocRelationsByProposal(String proposalId) throws DoesNotExistException {
-        Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByProposal");
-        query.setParameter("proposalId", proposalId);
-        @SuppressWarnings("unchecked")
-        List<ProposalDocRelation> proposalDocRelations = query.getResultList();
-        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
-            throw new DoesNotExistException(proposalId);
-        }
-        return proposalDocRelations;
-    }
-
-    @Override
-    public List<ProposalDocRelation> getProposalDocRelationsByType(String proposalDocRelationTypeKey) throws DoesNotExistException {
-        Query query = em.createNamedQuery("ProposalDocRelation.getProposalDocRelationsByType");
-        query.setParameter("proposalDocRelationTypeKey", proposalDocRelationTypeKey);
-        @SuppressWarnings("unchecked")
-        List<ProposalDocRelation> proposalDocRelations = query.getResultList();
-        if(proposalDocRelations==null||proposalDocRelations.isEmpty()){
-            throw new DoesNotExistException(proposalDocRelationTypeKey);
-        }
-        return proposalDocRelations;
-    }
 
     @Override
     public ProposalPerson getProposalPerson(String proposerId) {
@@ -178,15 +127,4 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         return objectReference;
     }
 
-    @Override
-    public List<ProposalDocRelationType> getAllowedProposalDocRelationTypesForProposalType(String proposalTypeKey) throws DoesNotExistException {
-        Query query = em.createNamedQuery("Proposal.getDocRelationTypesForProposalType");
-        query.setParameter("proposalTypeKey", proposalTypeKey);
-        @SuppressWarnings("unchecked")
-        List<ProposalDocRelationType> proposalDocRelationTypeList = query.getResultList();
-        if(proposalDocRelationTypeList==null||proposalDocRelationTypeList.isEmpty()){
-            throw new DoesNotExistException(proposalTypeKey);
-        }
-        return proposalDocRelationTypeList;
-    }
 }

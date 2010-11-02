@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.messages.dao.impl;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
     
 	@SuppressWarnings("unchecked")
 	public List<String> getLocales() {
-		List<String> locales = new ArrayList<String>();
+		List<String> locales;
     	try{
 	        Query query = entityManager.createQuery("SELECT distinct m.locale FROM MessageEntity m");
 	        locales = (List<String>) query.getResultList();
@@ -83,7 +84,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 	
 	@SuppressWarnings("unchecked")
 	public List<String> getMessageGroups() {
-		List<String> groups = new ArrayList<String>();
+		List<String> groups;
     	try{
 	        Query query = entityManager.createQuery("SELECT distinct m.groupName FROM MessageEntity m");
 	        groups = (List<String>) query.getResultList();
@@ -103,7 +104,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 			        "select m from MessageEntity m " +
 			        "where m.locale = :locale and " +
 			        "m.groupName = :groupKey and " +
-			        "m.id = :messageKey");
+			        "m.messageId = :messageKey");
 			 query.setParameter("locale", locale);
 			 query.setParameter("groupKey", groupKey);
 			 query.setParameter("messageKey", messageKey);
@@ -124,7 +125,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<MessageEntity> getMessages(String locale, String groupKey) {
-		List<MessageEntity> list = new ArrayList<MessageEntity>();
+		List<MessageEntity> list;
 		try{
 			Query query = entityManager.createQuery(
 		            "select m from MessageEntity m " +
@@ -169,7 +170,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 	    	MessageEntity theEntity = this.getMessage(locale, groupKey, messageKey);
 	        if(theEntity != null){
         		theEntity.setValue(updatedMessage.getValue());
-        		theEntity.setId(updatedMessage.getId());
+        		theEntity.setMessageId(updatedMessage.getMessageId());
         		theEntity.setLocale(updatedMessage.getLocale());
         		theEntity.setGroupName(updatedMessage.getGroupName());
         		entityManager.merge(theEntity);

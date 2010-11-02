@@ -1,27 +1,27 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.comment.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.old.Validator;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
@@ -34,8 +34,8 @@ import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.entity.TagType;
 import org.kuali.student.core.comment.service.CommentService;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -46,8 +46,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,13 +57,13 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.core.comment.service.CommentService", serviceName = "CommentService", portName = "CommentService", targetNamespace = "http://student.kuali.org/wsdl/commentService")
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CommentServiceImpl implements CommentService {
     
     final Logger logger = Logger.getLogger(CommentServiceImpl.class);
     
     private CommentDao commentDao;
-    private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+    private DictionaryService dictionaryServiceDelegate;
     private SearchManager searchManager;
     private Validator validator;
 
@@ -357,7 +356,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
 			Comment entity = commentDao.fetch(Comment.class, commentInfo.getId());
-			if (!String.valueOf(entity.getVersionInd()).equals(commentInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(entity.getVersionNumber()).equals(commentInfo.getMetaInfo().getVersionInd())){
 				throw new VersionMismatchException("ResultComponent to be updated is not the current version");
 			}
 
@@ -378,16 +377,13 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#validateComment(java.lang.String, org.kuali.student.core.comment.dto.CommentInfo)
      */
     @Override
-    public List<ValidationResultContainer> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateComment(String validationType, CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(commentInfo, "commentInfo");
 
 		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(commentInfo, getObjectStructure("commentInfo")); 
-		ValidationResultContainer valContainer = new ValidationResultContainer();
-		valContainer.setValidationResults(valResults);
-		
-		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
-		return valContList;
+
+		return valResults;
     }
 
     /**
@@ -453,18 +449,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<String> getObjectTypes() {
 		return dictionaryServiceDelegate.getObjectTypes();
-	}
-
-	@Override
-	public boolean validateObject(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
-	}
-
-	@Override
-	public boolean validateStructureData(String objectTypeKey, String stateKey,
-			String info) {
-		return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
 	}
 
 	public Validator getValidator() {

@@ -1,17 +1,18 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.core.comment.service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
-import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dictionary.service.old.DictionaryService;
 import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -34,7 +35,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 /**
  *
@@ -90,7 +91,7 @@ public interface CommentService extends DictionaryService {
      * @throws MissingParameterException missing validationTypeKey, commentInfo
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<ValidationResultContainer> validateComment(@WebParam(name="validationType")String validationType, @WebParam(name="commentInfo")CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateComment(@WebParam(name="validationType")String validationType, @WebParam(name="commentInfo")CommentInfo commentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves comment information for a reference. The expected behavior is that if the caller is not authorized to invoke the getComments operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getComments, only comments that the caller is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized to view are filtered out of the return parameter.

@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
@@ -7,7 +24,6 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 19 08:39:14 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -371,11 +387,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluResultInfo.resultOptions.expirationDate.fd" parent="field.cluResultInfo.resultOptions.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.cluResultInfo.resultOptions.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluResultInfo.resultOptions.expirationDate.cd" parent="field.cluResultInfo.resultOptions.expirationDate.cd.abstract"/>
 
@@ -389,13 +406,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.fd" parent="field.cluResultInfo.resultOptions.metaInfo.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.cluResultInfo.resultOptions.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.cluResultInfo.resultOptions.metaInfo.cd" parent="field.cluResultInfo.resultOptions.metaInfo.cd.abstract"/>
 
@@ -562,13 +581,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>Result Option Identifier</dict:name>
 	<dict:desc>Unique identifier for a result option. This is optional, due to the identifier being set at the time of creation. Once the result option has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluResultInfo.resultOptions.id.fd" parent="field.cluResultInfo.resultOptions.id.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluResultInfo.resultOptions.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluResultInfo.resultOptions.id.cd" parent="field.cluResultInfo.resultOptions.id.cd.abstract"/>
 
@@ -602,11 +623,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluResultInfo.expirationDate.fd" parent="field.cluResultInfo.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.cluResultInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluResultInfo.expirationDate.cd" parent="field.cluResultInfo.expirationDate.cd.abstract"/>
 
@@ -620,13 +642,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluResultInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluResultInfo.metaInfo.fd" parent="field.cluResultInfo.metaInfo.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.cluResultInfo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.cluResultInfo.metaInfo.cd" parent="field.cluResultInfo.metaInfo.cd.abstract"/>
 
@@ -775,10 +799,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluResultInfo.type.fd" parent="field.cluResultInfo.type.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); In list of configured cluResultTypes -->
+<!-- Optional; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured cluResultTypes -->
 <dict:constraintDescriptor id="field.cluResultInfo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.cluResult.types"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="field.cluResultInfo.type.cd" parent="field.cluResultInfo.type.cd.abstract"/>
@@ -812,13 +837,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>CLU Result Identifier</dict:name>
 	<dict:desc>Unique identifier for a CLU result. This is optional, due to the identifier being set at the time of creation. Once the result set has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluResultInfo.id.fd" parent="field.cluResultInfo.id.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluResultInfo.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluResultInfo.id.cd" parent="field.cluResultInfo.id.cd.abstract"/>
 </beans>

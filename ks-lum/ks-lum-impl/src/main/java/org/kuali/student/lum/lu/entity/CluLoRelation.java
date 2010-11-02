@@ -1,27 +1,26 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -31,7 +30,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -41,14 +39,10 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name="CluLoRelation.getCluLoRelation", query="SELECT rel FROM CluLoRelation rel WHERE rel.clu.id = :cluId and rel.loId = :loId"),
 	@NamedQuery(name="CluLoRelation.getCluLoRelationByClu", query="SELECT rel FROM CluLoRelation rel WHERE rel.clu.id = :cluId"),
 	@NamedQuery(name="CluLoRelation.getCluLoRelationByLo", query="SELECT rel FROM CluLoRelation rel WHERE rel.loId = :loId"),
-	@NamedQuery(name="CluLoRelation.getCluLoRelationByCluIdAndType", query="SELECT rel.id FROM CluLoRelation rel WHERE rel.clu.id = :cluId AND rel.type = :cluLoRelationType")
+	@NamedQuery(name="CluLoRelation.getCluLoRelationByCluIdAndType", query="SELECT rel.id FROM CluLoRelation rel WHERE rel.clu.id = :cluId AND rel.type.id = :cluLoRelationType")
 })
-public class CluLoRelation  extends MetaEntity implements
+public class CluLoRelation extends MetaEntity implements
 AttributeOwner<CluLoRelationAttribute> {
-
-	@Id
-	@Column(name="ID")
-	private String id;
 
 	@ManyToOne
 	@JoinColumn(name="CLU_ID")
@@ -68,36 +62,21 @@ AttributeOwner<CluLoRelationAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CluLoRelationAttribute> attributes;
 
-	@Column(name="TYPE")
-	private String type;
+    @ManyToOne
+    @JoinColumn(name = "TYPE")
+	private CluLoRelationType type;
 
 	@Column(name = "ST")
     private String state;
 	
 	@Override
 	public List<CluLoRelationAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<CluLoRelationAttribute>();
-		}
 		return attributes;
 	}
 
 	@Override
 	public void setAttributes(List<CluLoRelationAttribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	@Override
-	public  void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public Clu getClu() {
@@ -132,11 +111,11 @@ AttributeOwner<CluLoRelationAttribute> {
 		this.expirationDate = expirationDate;
 	}
 
-	public String getType() {
+	public CluLoRelationType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(CluLoRelationType type) {
 		this.type = type;
 	}
 

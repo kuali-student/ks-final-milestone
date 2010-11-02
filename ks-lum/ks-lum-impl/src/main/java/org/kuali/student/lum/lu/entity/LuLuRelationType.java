@@ -1,27 +1,26 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -36,9 +35,6 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSLU_LULU_RELTN_TYPE")
 public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuRelationTypeAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@ManyToMany
 	@JoinTable(name = "KSLU_LULU_RELTN_TYPE_JN_LU_TYP", joinColumns = @JoinColumn(name = "LULU_RELTN_TYPE_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID", referencedColumnName = "TYPE_KEY"))
@@ -75,14 +71,6 @@ public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuR
 		this.luTypes = luTypes;
 	}
     
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -132,9 +120,6 @@ public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuR
 	}
 
 	public List<LuLuRelationTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LuLuRelationTypeAttribute>();
-		}
 		return attributes;
 	}
 

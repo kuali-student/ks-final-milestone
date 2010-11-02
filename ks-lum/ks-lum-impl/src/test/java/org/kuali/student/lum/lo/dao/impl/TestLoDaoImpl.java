@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.lum.lo.dao.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -13,11 +28,9 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
-import org.kuali.student.lum.lo.entity.LoCategory;
 import org.kuali.student.lum.lo.entity.LoRepository;
 
 @PersistenceFileLocation("classpath:META-INF/lo-persistence.xml")
@@ -29,7 +42,7 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 	public void addLosToRepository() throws DoesNotExistException {
 		// set the hierarchy's root Lo; constraint violation if we do it in ks-lo.sql
 		LoRepository repository = dao.fetch(LoRepository.class, "kuali.loRepository.key.singleUse");
-		Lo lo = dao.fetch(Lo.class, "81ABEA67-3BCC-4088-8348-E265F3670145");
+		Lo lo = dao.fetch(Lo.class, "81abea67-3bcc-4088-8348-e265f3670145");
 		repository.setRootLo(lo);
 	}
 
@@ -38,7 +51,7 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 	{
 		Lo lo = null;
 		try {
-			lo = dao.fetch(Lo.class, "81ABEA67-3BCC-4088-8348-E265F3670145");
+			lo = dao.fetch(Lo.class, "81abea67-3bcc-4088-8348-e265f3670145");
 		} catch (DoesNotExistException dnee) {
 			fail("Unable to find existing Learning Objective");
 		}
@@ -46,7 +59,7 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 		assertEquals("Edit Wiki Message Structure", lo.getName());
 		assertEquals("singleUse", lo.getLoRepository().getName());
 		try {
-			lo = dao.fetch(Lo.class, "91A91860-D796-4A17-976B-A6165B1A0B05");
+			lo = dao.fetch(Lo.class, "91a91860-d796-4a17-976b-a6165b1a0b05");
 		} catch (DoesNotExistException dnee) {
 			fail("Unable to find existing Learning Objective");
 		}
@@ -57,7 +70,7 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 	@Test
 	public void testGetRelatedLosByLoId() 
 	{
-		String loId = "81ABEA67-3BCC-4088-8348-E265F3670145";
+		String loId = "81abea67-3bcc-4088-8348-e265f3670145";
 		List<Lo> relatedLos = null;
 		try {
 			relatedLos = dao.getRelatedLosByLoId(loId, "kuali.lo.relation.type.includes");
@@ -66,13 +79,13 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 		}
 		assertNotNull(relatedLos);
 		assertEquals(2, relatedLos.size());
-		assertTrue(relatedLos.get(0).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF") || relatedLos.get(1).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"));
+		assertTrue(relatedLos.get(0).getId().equals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf") || relatedLos.get(1).getId().equals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf"));
 	}
 	
 	@Test
 	public void testGetLosByRelatedLoId() 
 	{
-		String relatedLoId = "ABD8AE21-34E9-4858-A714-B04134F55D68";
+		String relatedLoId = "abd8ae21-34e9-4858-a714-b04134f55d68";
 		List<Lo> relatedLos = null;
 		try {
 			relatedLos = dao.getLosByRelatedLoId(relatedLoId, "kuali.lo.relation.type.includes");
@@ -81,12 +94,12 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 		}
 		assertNotNull(relatedLos);
 		assertEquals(2, relatedLos.size());
-		assertTrue(relatedLos.get(0).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF") || relatedLos.get(1).getId().equals("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF"));
+		assertTrue(relatedLos.get(0).getId().equals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf") || relatedLos.get(1).getId().equals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf"));
 	}
 	
 	@Test
 	public void getLoByIdList() {
-		List<Lo> los = dao.getLoByIdList(Arrays.asList("81ABEA67-3BCC-4088-8348-E265F3670145", "E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A"));
+		List<Lo> los = dao.getLoByIdList(Arrays.asList("81abea67-3bcc-4088-8348-e265f3670145", "e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf", "dd0658d2-fdc9-48fa-9578-67a2ce53bf8a"));
 		assertNotNull(los);
 		assertEquals(3, los.size());
 	}
