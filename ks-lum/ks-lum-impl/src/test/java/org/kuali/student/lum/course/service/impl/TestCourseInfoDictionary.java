@@ -11,7 +11,6 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.common.validator.SampCustomValidator;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
@@ -60,7 +59,7 @@ public class TestCourseInfoDictionary {
 		ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-courseInfo-dictionary-context.xml");
 		System.out.println("h1. Test Validation");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
-		val.setValidatorFactory(new ValidatorFactory(new SampCustomValidator()));
+		val.setValidatorFactory(new ValidatorFactory());
 		val.setDateParser(new ServerDateParser());
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		CourseInfo info = new CourseInfo();

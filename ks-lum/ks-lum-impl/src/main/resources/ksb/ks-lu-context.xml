@@ -144,8 +144,7 @@
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
-		<property name="validatorFactory" ref="validatorFactory"/>
-        <property name="validator" ref="pocServiceValidator"/>
+		<property name="validatorFactory" ref="lumValidatorFactory"/>
     </bean>
 
     <bean id="ks.exp.luService" class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -222,8 +221,7 @@
         <property name="searchManager" ref="statementSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
-		<property name="validatorFactory" ref="validatorFactory"/>
-        <property name="validator" ref="pocServiceValidator"/>
+		<property name="validatorFactory" ref="lumValidatorFactory"/>
         <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
     </bean>
 
@@ -346,8 +344,8 @@
           class="org.kuali.student.lum.lo.service.impl.LearningObjectiveServiceImpl">
         <property name="loDao" ref="loDao"/>
         <property name="searchManager" ref="loSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionary"/>
-        <property name="validator" ref="serviceValidator"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>        
     </bean>
 
     <bean id="ks.exp.loService" class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -387,8 +385,7 @@
         <property name="courseAssembler" ref="courseAssembler"/>
         <property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
-        <property name="validator" ref="pocServiceValidator"/>
-        <property name="validatorFactory" ref="validatorFactory"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>
         <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
@@ -461,25 +458,22 @@
         <constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}"/>
     </bean>
 
-    <bean id="pocServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+    <bean id="lumServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
         <!--<property name="messageService" ref="ks.messageServiceMock"/> -->
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
-    <bean id="validatorFactory"
+    <bean id="lumValidatorFactory"
           class="org.kuali.student.common.validator.ValidatorFactory">
-        <constructor-arg index="0">
-            <list>
-                <ref bean="customValidator1"/>
-            </list>
-        </constructor-arg>
-        <property name="defaultValidator" ref="pocServiceValidator"/>
+        <property name="defaultValidator" ref="lumServiceValidator"/>
+        <property name="validatorList">
+        	<list>
+        		<!--  Add custom validators here -->
+        	</list>
+        </property>
     </bean>
 
-    <bean id="customValidator1"
-          class="org.kuali.student.common.validator.SampCustomValidator">
 
-    </bean>
 
     <!-- Program Service Config -->
 
@@ -565,7 +559,7 @@
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="searchManager" ref="programSearchManager"/>
         <property name="dictionaryService" ref="lumDictionaryService"/>
-        <property name="validator" ref="pocServiceValidator"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>
         <property name="programServiceMethodInvoker" ref="programServiceMethodInvoker"/>
         <property name="majorDisciplineAssembler" ref="majorDisciplineAssembler"/>
         <property name="credentialProgramAssembler" ref="credentialProgramAssembler"/>

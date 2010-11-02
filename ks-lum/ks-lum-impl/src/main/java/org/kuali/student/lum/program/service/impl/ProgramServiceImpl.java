@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
+import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
@@ -34,7 +35,6 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
@@ -58,7 +58,7 @@ public class ProgramServiceImpl implements ProgramService {
     final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
     private LuService luService;
-    private Validator validator;
+    private ValidatorFactory validatorFactory;
     private BusinessServiceMethodInvoker programServiceMethodInvoker;
     private DictionaryService dictionaryService;
     private SearchManager searchManager;
@@ -513,6 +513,7 @@ public class ProgramServiceImpl implements ProgramService {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
         if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
             ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
+            Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(credentialProgramInfo, objStructure));
         }
 
@@ -537,6 +538,7 @@ public class ProgramServiceImpl implements ProgramService {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
         if ( ! ProgramAssemblerConstants.DRAFT.equals(majorDisciplineInfo.getState()) ) {
             ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
+            Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(majorDisciplineInfo, objStructure));
         }
         validateMajorDisciplineAtps(majorDisciplineInfo,validationResults);
@@ -559,6 +561,7 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(ProgramRequirementInfo.class.getName());
+        Validator validator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = validator.validateObject(programRequirementInfo, objStructure);
 
         return validationResults;
@@ -723,8 +726,8 @@ public class ProgramServiceImpl implements ProgramService {
         this.programServiceMethodInvoker = serviceMethodInvoker;
     }
 
-    public void setValidator(Validator validator) {
-        this.validator = validator;
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+        this.validatorFactory = validatorFactory;
     }
 
 	public void setCoreProgramAssembler(CoreProgramAssembler coreProgramAssembler) {
@@ -839,6 +842,7 @@ public class ProgramServiceImpl implements ProgramService {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
         if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
 	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
+	        Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(coreProgramInfo, objStructure));
         }
         return validationResults;

@@ -201,7 +201,6 @@ public class CourseServiceImpl implements CourseService {
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(courseInfo, objStructure);
         return validationResults;
@@ -283,11 +282,10 @@ public class CourseServiceImpl implements CourseService {
 		}
 
     	ObjectStructureDefinition objStructure = this.getObjectStructure(StatementTreeViewInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementTreeViewInfo, objStructure);
         return validationResults;
-    }
+    }   
 
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
@@ -331,21 +329,6 @@ public class CourseServiceImpl implements CourseService {
 		courseServiceMethodInvoker.invokeServiceCalls(results);
 
         return results.getBusinessDTORef();
-    }
-
-    /**
-     * @param validator
-     *            the validator to set
-     */
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-
-    /**
-     * @return the validator
-     */
-    public Validator getValidator() {
-        return validator;
     }
 
     public ValidatorFactory getValidatorFactory() {

@@ -63,10 +63,6 @@
 
     <bean id="validatorFactory"
           class="org.kuali.student.common.validator.ValidatorFactory">
-        <constructor-arg index="0">
-            <list>
-            </list>
-        </constructor-arg>
         <property name="defaultValidator" ref="validator"/>
     </bean>
 

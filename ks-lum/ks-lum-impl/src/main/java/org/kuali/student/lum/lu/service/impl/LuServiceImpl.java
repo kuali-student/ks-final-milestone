@@ -152,7 +152,6 @@ public class LuServiceImpl implements LuService {
 	private LuDao luDao;
 	private SearchManager searchManager;
 	private DictionaryService dictionaryServiceDelegate;
-	private Validator validator;
 	private ValidatorFactory validatorFactory;
 
 	public void setSearchManager(SearchManager searchManager) {
@@ -168,13 +167,6 @@ public class LuServiceImpl implements LuService {
 		return dictionaryServiceDelegate;
 	}
 
-	public Validator getValidator() {
-		return validator;
-	}
-
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
 
 	/**************************************************************************
 	 * SETUP OPERATION *
@@ -984,7 +976,6 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(cluInfo, "cluInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure);
         
@@ -1557,7 +1548,6 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure);
         
@@ -1685,7 +1675,6 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 		
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluPublicationInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure);
         return validationResults;
@@ -1857,7 +1846,6 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure);
         return validationResults;
@@ -2019,7 +2007,6 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluLoRelation.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure);
         return validationResults;
@@ -2174,7 +2161,6 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluSetInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure);
         return validationResults;
@@ -2522,7 +2508,6 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(luiInfo, "luiInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LuiInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure);
         return validationResults;
@@ -2637,7 +2622,6 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LuiLuiRelation.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure);
         return validationResults;

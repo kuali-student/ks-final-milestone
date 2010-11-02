@@ -204,7 +204,6 @@ public class TestCourseServiceImpl {
 
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-31"));
             assertTrue(retrievedCourse.getGradingOptions().contains("gradingOptions-32"));
-
             assertEquals(createdCourse.isPilotCourse(), cInfo.isPilotCourse());
             assertEquals(createdCourse.isSpecialTopicsCourse(), cInfo.isSpecialTopicsCourse());
 
@@ -457,11 +456,99 @@ public class TestCourseServiceImpl {
     }
 
     @Test
+    public void testCreditOptions() {
+        CourseDataGenerator generator = new CourseDataGenerator();
+        try {
+            CourseInfo cInfo = generator.getCourseTestData();
+            assertNotNull(cInfo);
+            
+            // Check to see if variable credit with float increment works
+            ResultComponentInfo rc1 = new ResultComponentInfo();
+            rc1.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+            HashMap<String, String> attributes = new HashMap<String,String>();
+            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0");
+            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0");
+            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR, "0.5");
+            rc1.setAttributes(attributes);
+            
+            // Check to see if variable credit with no increments
+            ResultComponentInfo rc2 = new ResultComponentInfo();
+            rc2.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+            HashMap<String, String> attributes2 = new HashMap<String,String>();
+            attributes2.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0");
+            attributes2.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0");
+            rc2.setAttributes(attributes2);
+            
+            // Check to see floating point multiple is accepted
+            ResultComponentInfo rc3 = new ResultComponentInfo();
+            rc3.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE);
+            List<String> rv = new ArrayList<String>();
+            rv.add("1.0");
+            rv.add("1.5");
+            rv.add("2.0");
+            rc3.setResultValues(rv);
+            
+
+            List<ResultComponentInfo> creditOptions = new ArrayList<ResultComponentInfo>();
+            creditOptions.add(rc1);
+            creditOptions.add(rc2);
+            creditOptions.add(rc3);
+                        
+            cInfo.setCreditOptions(creditOptions);
+                        
+            try {
+                cInfo = courseService.createCourse(cInfo);
+            } catch (DataValidationErrorException e) {
+                dumpValidationErrors(cInfo);
+                fail("DataValidationError: " + e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail("failed creating course:" + e.getMessage());
+            }
+            
+            CourseInfo rcInfo = courseService.getCourse(cInfo.getId());
+            
+            List<ResultComponentInfo> co = rcInfo.getCreditOptions();
+            
+            assertEquals(3, co.size());
+            
+            // Check to see if multiple was set properly
+            for(ResultComponentInfo rc : co) {
+                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(rc.getType())){
+                    assertEquals(3, rc.getResultValues().size());
+                    assertTrue(rc.getResultValues().contains("1.0"));
+                    assertTrue(rc.getResultValues().contains("1.5"));
+                    assertTrue(rc.getResultValues().contains("2.0"));                    
+                }
+                
+                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getType())){
+                    if(3 == rc.getAttributes().size()) {
+                        assertEquals(9, rc.getResultValues().size());
+                        assertTrue(rc.getResultValues().contains("1.5"));
+                    } else {                        
+                        assertEquals(5, rc.getResultValues().size());
+                        assertTrue(rc.getResultValues().contains("3.0"));
+                    }
+                }                
+            }
+                        
+            
+        } catch (Exception e) {
+            System.out.println("caught exception: " + e.getClass().getName());
+            System.out.println("message: " + e.getMessage());
+            e.printStackTrace(System.out);
+            e.printStackTrace();
+            fail(e.getMessage());
+        }        
+    }
+    
+    @Test
     public void testDynamicAttributes() {
         System.out.println("testDynamicAttributes");
         CourseDataGenerator generator = new CourseDataGenerator();
         try {
             CourseInfo cInfo = generator.getCourseTestData();
+                        
             assertNotNull(cInfo);
 
             Map<String, String> attrMap = new HashMap<String, String>();
@@ -472,6 +559,23 @@ public class TestCourseServiceImpl {
 
             cInfo.setAttributes(attrMap);
 
+            FormatInfo fInfo = new FormatInfo();
+            fInfo.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+            ActivityInfo aInfo = new ActivityInfo();
+            aInfo.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
+            Map<String, String> activityAttrs = new HashMap<String, String>();
+            activityAttrs.put("ACTIVITY_KEY", "ACTIVITY_VALUE");
+            aInfo.setAttributes(activityAttrs);
+            
+            List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
+            activities.add(aInfo);                       
+            fInfo.setActivities(activities);
+           
+            List<FormatInfo> formats = new ArrayList<FormatInfo>();
+            formats.add(fInfo);
+            
+            cInfo.setFormats(formats);
+            
             try {
                 cInfo = courseService.createCourse(cInfo);
             } catch (DataValidationErrorException e) {
@@ -488,6 +592,10 @@ public class TestCourseServiceImpl {
             assertEquals("GRD", cInfo.getAttributes().get("finalExamStatus"));
             assertEquals("Some123description", cInfo.getAttributes().get("altFinalExamStatusDescr"));
 
+            
+            // Check if the attributes are being set in the activity
+            assertEquals("ACTIVITY_VALUE", cInfo.getFormats().get(0).getActivities().get(0).getAttributes().get("ACTIVITY_KEY"));
+            
         } catch (Exception e) {
             System.out.println("caught exception: " + e.getClass().getName());
             System.out.println("message: " + e.getMessage());
