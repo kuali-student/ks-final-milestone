@@ -324,8 +324,9 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		ErrorLevel status = ErrorLevel.OK;
 
 		if(vr.getLevel() == ErrorLevel.ERROR){
-			this.addValidationErrorMessage(vr.getMessage());
-
+			String message = Application.getApplicationContext().getUILabel("validation", vr.getMessage());
+			this.addValidationErrorMessage(message);
+			
 			if(status.getLevel() < ErrorLevel.ERROR.getLevel()){
 				status = vr.getLevel();
 			}
