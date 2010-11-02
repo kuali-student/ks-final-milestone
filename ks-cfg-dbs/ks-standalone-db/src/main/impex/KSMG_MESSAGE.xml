@@ -720,7 +720,7 @@
         OBJ_ID="65e8969d-a2eb-436f-ade1-8a6172d7cbb5" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="5d7fcdd1-9c71-4b84-b529-479d96edf2cd" LOCALE="en"
-        MSG_ID="cluRevenue" MSG_VALUE="Revenue"
+        MSG_ID="cluRevenue" MSG_VALUE="Revenue Source"
         OBJ_ID="c9ecab10-55b0-47c4-bba4-cc0bc6f2a1dc" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="5d97af31-232f-4f0c-ae36-564f6372fcf2" LOCALE="es"
@@ -965,7 +965,7 @@
         OBJ_ID="c9245d8d-9de5-46fd-a010-7f5d94dbcedc" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="798a7c35-6bfc-4192-b2df-c0c0c710d628" LOCALE="en"
-        MSG_ID="cluExpenditure" MSG_VALUE="Expenditure"
+        MSG_ID="cluExpenditure" MSG_VALUE="Expending Organization"
         OBJ_ID="15fb08db-06e4-44db-b472-0a976bd59208" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="7a4e0aca-8534-403d-a545-73cfd819a6f3" LOCALE="es"
