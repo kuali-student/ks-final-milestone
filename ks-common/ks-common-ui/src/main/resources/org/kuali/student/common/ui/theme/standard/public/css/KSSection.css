@@ -985,3 +985,10 @@ a.ks-button-secondary-small:hover {
 	height:1px;
 	overflow:hidden;
 }
+
+.ks-multiplicity-section-label{ 
+	margin-top: 0em;
+	margin-bottom: 0; 
+	font-weight: bold; 
+	color: #000;
+}
