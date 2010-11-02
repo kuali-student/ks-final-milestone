@@ -89,9 +89,9 @@ public class MajorInformationEditConfiguration extends AbstractSectionConfigurat
 
     private VerticalSection createReadOnlySection() {
         VerticalSection section = new VerticalSection();
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/_runtimeData/" + ProgramConstants.CREDENTIAL_PROGRAM_TYPE + "/id-translation", new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_INSTITUTION_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_TYPE_NAME, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
         return section;
     }
 

@@ -62,7 +62,6 @@ public class ProgramConstants {
     public static final String DESCRIPTION = "descr";
     public static final String CATALOG_DESCRIPTION = "catalogDescr";
     public static final String PLAIN_TEXT = "plain";
-    //public static final String CORE_FACULTY_MEMBERS = "publishedInstructors";
     public static final String CORE_FACULTY_MEMBERS = "coreFaculties";
     public static final String PUBLICATION_TARGETS = "catalogPublicationTargets";
     public static final String FULL_PART_TIME = "intensity";
@@ -85,4 +84,9 @@ public class ProgramConstants {
     //History
     public static final String SCHEDULED_REVIEW_DATE = "nextReviewPeriod";
     public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
+
+    //Compound constants
+    public static final String CREDENTIAL_PROGRAM_INSTITUTION_ID = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID;
+    public static final String CREDENTIAL_PROGRAM_TYPE_NAME = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.RUNTIME_DATA + "/" + ProgramConstants.CREDENTIAL_PROGRAM_TYPE + "/" + ProgramConstants.ID_TRANSLATION;
+    public static final String CREDENTIAL_PROGRAM_LEVEL = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.PROGRAM_LEVEL;
 }

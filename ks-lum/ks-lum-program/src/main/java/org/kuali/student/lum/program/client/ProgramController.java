@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public abstract class ProgramController extends MenuSectionController {
 
-    protected ProgramRpcServiceAsync programRemoteService = createProgramRemoteService();
+    protected ProgramRpcServiceAsync programRemoteService;
 
     protected boolean initialized = false;
 
@@ -63,6 +63,7 @@ public abstract class ProgramController extends MenuSectionController {
      */
     public ProgramController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name);
+        programRemoteService = createProgramRemoteService();
         this.eventBus = eventBus;
         this.programModel = programModel;
         sideBar = new ProgramSideBar(eventBus);
