@@ -11,10 +11,10 @@ public class CoreViewConfigurer extends AbstractProgramConfigurer {
 
     public CoreViewConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(new CoreInformationViewConfiguration());
-        programSectionConfigManager.registerConfiguration(new CoreManagingBodiesViewConfiguration());
-        programSectionConfigManager.registerConfiguration(new CoreCatalogInformationViewConfiguration());
-        programSectionConfigManager.registerConfiguration(new CoreLearningObjectivesViewConfiguration());
+        programSectionConfigManager.registerConfiguration(CoreInformationViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(CoreManagingBodiesViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(CoreCatalogInformationViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(CoreLearningObjectivesViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(new CoreViewAllConfiguration());
     }

@@ -15,10 +15,7 @@
 
 package org.kuali.student.lum.program.server;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
@@ -28,7 +25,9 @@ import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> implements StatementRpcService {
 

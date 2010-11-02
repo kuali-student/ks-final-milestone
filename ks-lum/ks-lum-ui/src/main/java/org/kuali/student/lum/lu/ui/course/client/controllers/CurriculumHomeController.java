@@ -44,7 +44,11 @@ public class CurriculumHomeController extends LayoutController {
         VARIATION_VIEW,
         VARIATION_EDIT,
         COURSE_CATALOG,
-        LO_CATEGORIES
+        LO_CATEGORIES,
+        BACC_PROGRAM_VIEW,
+        BACC_PROGRAM_EDIT,
+        CORE_PROGRAM_VIEW,
+        CORE_PROGRAM_EDIT
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
@@ -141,6 +145,38 @@ public class CurriculumHomeController extends LayoutController {
                     }
                 });
                 break;
+            case CORE_PROGRAM_VIEW:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(programManager.getCoreViewController());
+                    }
+                });
+                break;
+            case CORE_PROGRAM_EDIT:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(programManager.getCoreEditController());
+                    }
+                });
+                break;
+            case BACC_PROGRAM_VIEW:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(programManager.getBaccViewController());
+                    }
+                });
+                break;
+            case BACC_PROGRAM_EDIT:
+                GWT.runAsync(new RunAsyncGetView() {
+                    @Override
+                    public void onSuccess() {
+                        callback.exec(programManager.getBaccEditController());
+                    }
+                });
+                break;
             case LO_CATEGORIES:
                 GWT.runAsync(new RunAsyncGetView() {
                     @Override
@@ -205,12 +241,14 @@ public class CurriculumHomeController extends LayoutController {
     public void updateModel() {
         // No model needed here
     }
-    
+
     public <V extends Enum<?>> void showView(V viewType, Callback<Boolean> onReadyCallback) {
-    	if(viewType == LUMViews.DEFAULT){
-    		WindowTitleUtils.setContextTitle(name);
-    	}
-    	super.showView(viewType, onReadyCallback);
-    };
+        if (viewType == LUMViews.DEFAULT) {
+            WindowTitleUtils.setContextTitle(name);
+        }
+        super.showView(viewType, onReadyCallback);
+    }
+
+    ;
 
 }

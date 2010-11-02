@@ -1,10 +1,5 @@
 package org.kuali.student.lum.program.server;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -15,6 +10,11 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSumm
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProgramRpcServlet extends DataGwtServlet implements ProgramRpcService {
 

@@ -1,11 +1,11 @@
 package org.kuali.student.lum.program.server;
 
-import java.util.Map;
-
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+
+import java.util.Map;
 
 /**
  * @author Igor

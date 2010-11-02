@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.bacc.edit;
+package org.kuali.student.lum.program.client.bacc.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -9,15 +9,16 @@ import org.kuali.student.lum.program.client.bacc.BaccController;
 /**
  * @author Igor
  */
-public class EditBaccController extends BaccController{
+public class BaccViewController extends BaccController{
+
 
     /**
      * Constructor.
      *
      * @param programModel
      */
-    public EditBaccController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+    public BaccViewController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(name, programModel, viewContext, eventBus);
-        configurer = GWT.create(EditBaccConfigurer.class);
+        configurer = GWT.create(ViewBaccConfigurer.class);
     }
 }

@@ -2,20 +2,31 @@ package org.kuali.student.lum.program.client.core.view;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
  */
 public class CoreCatalogInformationViewConfiguration extends AbstractSectionConfiguration {
 
-    public CoreCatalogInformationViewConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, ProgramProperties.get().program_menu_sections_catalogInfo(), ProgramConstants.PROGRAM_MODEL_ID);
+     public static CoreCatalogInformationViewConfiguration create() {
+        return new CoreCatalogInformationViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, ProgramProperties.get().program_menu_sections_catalogInfo(), ProgramConstants.PROGRAM_MODEL_ID));
+    }
+
+    public static CoreCatalogInformationViewConfiguration createSpecial() {
+        String title = ProgramProperties.get().program_menu_sections_catalogInfo();
+        return new CoreCatalogInformationViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new EditableHeader(title, ProgramSections.CATALOG_INFO_EDIT)));
+    }
+
+    private CoreCatalogInformationViewConfiguration(SectionView sectionView) {
+        rootSection = sectionView;
     }
 
     @Override
