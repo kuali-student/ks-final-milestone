@@ -35,8 +35,8 @@ public class VariationEditController extends VariationController {
 
     private String currentId;
 
-    public VariationEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorEditController majorController) {
-        super(name, programModel, viewContext, eventBus, majorController);
+    public VariationEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorEditController majorController) {
+        super(programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
         if (programModel.get("id") != null) {

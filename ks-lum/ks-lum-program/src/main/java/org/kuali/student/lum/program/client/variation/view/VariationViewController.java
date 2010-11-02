@@ -10,8 +10,8 @@ import org.kuali.student.lum.program.client.variation.VariationController;
 
 public class VariationViewController extends VariationController {
 
-    public VariationViewController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorController majorController) {
-        super(name, programModel, viewContext, eventBus, majorController);
+    public VariationViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorController majorController) {
+        super(programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationViewConfigurer.class);
         setDefaultView(ProgramSections.VIEW_ALL);
     }

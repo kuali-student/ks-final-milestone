@@ -53,20 +53,18 @@ public class ProgramManager {
 
 
     public VariationViewController getVariationViewController() {
-        String name = getMajorViewController().getProgramName();
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
-        variationViewController = new VariationViewController(name, variationModel, viewContext, eventBus, majorViewController);
+        variationViewController = new VariationViewController(variationModel, viewContext, eventBus, majorViewController);
         return variationViewController;
     }
 
     public VariationEditController getVariationEditController() {
-        String name = getMajorEditController().getProgramName();
         DataModel variationModel = new DataModel();
         variationModel.setDefinition(programModel.getDefinition());
         variationModel.setRoot(ProgramRegistry.getData());
-        variationEditController = new VariationEditController(name, variationModel, viewContext, eventBus, majorEditController);
+        variationEditController = new VariationEditController(variationModel, viewContext, eventBus, majorEditController);
         return variationEditController;
     }
 
@@ -81,14 +79,14 @@ public class ProgramManager {
 
     private MajorEditController getMajorEditController() {
         if (majorEditController == null) {
-            majorEditController = new MajorEditController("Programs", programModel, viewContext, eventBus);
+            majorEditController = new MajorEditController(programModel, viewContext, eventBus);
         }
         return majorEditController;
     }
 
     private MajorViewController getMajorViewController() {
         if (majorViewController == null) {
-            majorViewController = new MajorViewController("Programs", programModel, viewContext, eventBus);
+            majorViewController = new MajorViewController(programModel, viewContext, eventBus);
         }
         return majorViewController;
     }
@@ -96,7 +94,7 @@ public class ProgramManager {
     public CoreViewController getCoreViewController() {
         programModel.resetRoot();
         if (coreViewController == null) {
-            coreViewController = new CoreViewController("CoreProgram", programModel, viewContext, eventBus);
+            coreViewController = new CoreViewController(programModel, viewContext, eventBus);
         }
         return coreViewController;
     }
@@ -104,7 +102,7 @@ public class ProgramManager {
     public CoreEditController getCoreEditController() {
         programModel.resetRoot();
         if (coreEditController == null) {
-            coreEditController = new CoreEditController("CoreProgram", programModel, viewContext, eventBus);
+            coreEditController = new CoreEditController(programModel, viewContext, eventBus);
         }
         return coreEditController;
     }
@@ -112,7 +110,7 @@ public class ProgramManager {
     public BaccViewController getBaccViewController() {
         programModel.resetRoot();
         if (baccViewController == null) {
-            baccViewController = new BaccViewController("BaccProgram", programModel, viewContext, eventBus);
+            baccViewController = new BaccViewController(programModel, viewContext, eventBus);
         }
         return baccViewController;
     }
@@ -120,7 +118,7 @@ public class ProgramManager {
     public BaccEditController getBaccEditController() {
         programModel.resetRoot();
         if (baccEditController == null) {
-            baccEditController = new BaccEditController("BaccProgram", programModel, viewContext, eventBus);
+            baccEditController = new BaccEditController(programModel, viewContext, eventBus);
         }
         return baccEditController;
     }

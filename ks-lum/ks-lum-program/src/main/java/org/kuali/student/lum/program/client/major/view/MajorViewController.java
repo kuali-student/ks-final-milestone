@@ -29,8 +29,8 @@ public class MajorViewController extends MajorController {
      *
      * @param programModel
      */
-    public MajorViewController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public MajorViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(programModel, viewContext, eventBus);
         configurer = GWT.create(MajorViewConfigurer.class);
         initHandlers();
     }

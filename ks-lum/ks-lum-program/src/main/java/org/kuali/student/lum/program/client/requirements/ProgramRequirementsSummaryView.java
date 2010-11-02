@@ -99,7 +99,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
             @Override
             public void onRequestFail(Throwable cause) {
-                Window.alert(cause.getMessage());
                 GWT.log("Unable to retrieve program model for program summary view", cause);
                 onReadyCallback.exec(false);
             }

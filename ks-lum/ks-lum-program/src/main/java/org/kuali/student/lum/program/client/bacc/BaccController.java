@@ -17,8 +17,8 @@ public class BaccController extends ProgramController{
      *
      * @param programModel
      */
-    public BaccController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public BaccController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super("Bacc", programModel, viewContext, eventBus);
     }
 
     /**

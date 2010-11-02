@@ -16,8 +16,8 @@ public class BaccEditController extends BaccController{
      *
      * @param programModel
      */
-    public BaccEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public BaccEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(programModel, viewContext, eventBus);
         configurer = GWT.create(EditBaccConfigurer.class);
     }
 }

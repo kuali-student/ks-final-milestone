@@ -17,8 +17,8 @@ public class BaccViewController extends BaccController{
      *
      * @param programModel
      */
-    public BaccViewController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public BaccViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(programModel, viewContext, eventBus);
         configurer = GWT.create(ViewBaccConfigurer.class);
     }
 }

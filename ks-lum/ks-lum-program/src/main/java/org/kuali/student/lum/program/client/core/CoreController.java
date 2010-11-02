@@ -14,7 +14,7 @@ public class CoreController extends ProgramController{
      *
      * @param programModel
      */
-    public CoreController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public CoreController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super("CoreProgram", programModel, viewContext, eventBus);
     }
 }

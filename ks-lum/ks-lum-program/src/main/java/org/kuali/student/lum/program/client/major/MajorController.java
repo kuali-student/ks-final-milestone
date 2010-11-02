@@ -15,8 +15,8 @@ public class MajorController extends ProgramController {
      *
      * @param programModel
      */
-    public MajorController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public MajorController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super("Major", programModel, viewContext, eventBus);
     }
 
     @Override

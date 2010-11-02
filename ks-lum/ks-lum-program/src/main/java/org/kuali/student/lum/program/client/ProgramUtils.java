@@ -18,22 +18,6 @@ public class ProgramUtils {
     private ProgramUtils() {
     }
 
-    public static List<ValidationResultInfo> cutParentPartOfKey(List<ValidationResultInfo> validationResultInfos, String key) {
-        List<ValidationResultInfo> result = new ArrayList<ValidationResultInfo>();
-        for (ValidationResultInfo validationResultInfo : validationResultInfos) {
-            String elementKey = validationResultInfo.getElement();
-            if (elementKey.startsWith(key)) {
-                validationResultInfo.setElement(getLastPart(elementKey));
-                result.add(validationResultInfo);
-            }
-        }
-        return result;
-    }
-
-    private static String getLastPart(String element) {
-        return element.substring(element.lastIndexOf("/") + 1);
-    }
-
     public static void addCredentialProgramDataToVariation(Data variationData, DataModel model) {
         String institutionKey = ProgramConstants.CREDENTIAL_PROGRAM + "/" + ProgramConstants.INSTITUTION + "/" + ProgramConstants.ID;
         Data credentialProgram = new Data();

@@ -27,7 +27,7 @@ import java.util.List;
  */
 public abstract class VariationController extends ProgramController {
 
-    private String name;
+    private String parentName;
 
     private MajorController majorController;
 
@@ -37,9 +37,9 @@ public abstract class VariationController extends ProgramController {
      * @param programModel
      * @param eventBus
      */
-    public VariationController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorController majorController) {
+    public VariationController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorController majorController) {
         super("", programModel, viewContext, eventBus);
-        this.name = name;
+        this.parentName = majorController.getName();
         this.majorController = majorController;
         setName(getProgramName());
         sideBar.initialize(majorController);
@@ -56,7 +56,7 @@ public abstract class VariationController extends ProgramController {
 
     private Widget createParentAnchor() {
         HorizontalPanel anchorPanel = new HorizontalPanel();
-        Anchor anchor = new Anchor(name);
+        Anchor anchor = new Anchor(parentName);
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -81,7 +81,7 @@ public abstract class VariationController extends ProgramController {
 
     @Override
     public void collectBreadcrumbNames(List<String> names) {
-        names.add(name + "@" + HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext()));
+        names.add(parentName + "@" + HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext()));
         super.collectBreadcrumbNames(names);
     }
 

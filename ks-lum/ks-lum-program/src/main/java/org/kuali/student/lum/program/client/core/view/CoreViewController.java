@@ -16,8 +16,8 @@ public class CoreViewController extends CoreController {
      *
      * @param programModel
      */
-    public CoreViewController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public CoreViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(programModel, viewContext, eventBus);
         configurer = GWT.create(CoreViewConfigurer.class);
     }
 }

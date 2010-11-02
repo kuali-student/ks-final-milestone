@@ -16,8 +16,8 @@ public class CoreEditController extends CoreController {
      *
      * @param programModel
      */
-    public CoreEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public CoreEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(programModel, viewContext, eventBus);
         configurer = GWT.create(CoreEditConfigurer.class);
     }
 }

@@ -48,8 +48,8 @@ public class MajorEditController extends MajorController {
      *
      * @param programModel
      */
-    public MajorEditController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name, programModel, viewContext, eventBus);
+    public MajorEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+        super(programModel, viewContext, eventBus);
         configurer = GWT.create(MajorEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
