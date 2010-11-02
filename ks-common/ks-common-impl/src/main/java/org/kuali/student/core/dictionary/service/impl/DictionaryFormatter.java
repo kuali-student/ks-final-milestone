@@ -14,6 +14,7 @@ import org.kuali.student.core.dictionary.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.dto.LookupConstraint;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.dto.RequiredConstraint;
+import org.kuali.student.core.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.core.dictionary.dto.WhenConstraint;
 
 public class DictionaryFormatter
@@ -88,7 +89,8 @@ public class DictionaryFormatter
   builder.append (rowSeperator);
   if (className != null)
   {
-   builder.append ("The corresponding java class for this dictionary object is " + os.getName ());
+   builder.append ("The corresponding java class for this dictionary object is "
+                   + os.getName ());
   }
   if (os.isHasMetaData ())
   {
@@ -158,7 +160,8 @@ public class DictionaryFormatter
   if (className == null)
   {
    discrepancies = new ArrayList (1);
-   discrepancies.add ("There is no corresponding java class for this dictionary object structure");
+   discrepancies.add (
+     "There is no corresponding java class for this dictionary object structure");
   }
   else
   {
@@ -176,19 +179,22 @@ public class DictionaryFormatter
 
 //  builder.append ("======= end dump of object structure definition ========");
   builder.append (rowSeperator);
-  Set<ObjectStructureDefinition> subStructuresAlreadyProcessedBeforeProcessingSubStructures = new HashSet ();
+  Set<ObjectStructureDefinition> subStructuresAlreadyProcessedBeforeProcessingSubStructures =
+                                 new HashSet ();
   subStructuresAlreadyProcessedBeforeProcessingSubStructures.addAll (
     subStructuresAlreadyProcessed);
   for (String subName : this.subStructuresToProcess.keySet ())
   {
    ObjectStructureDefinition subOs = this.subStructuresToProcess.get (subName);
-   if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (subOs))
+   if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (
+     subOs))
    {
     this.subStructuresAlreadyProcessed.add (subOs);
 //    System.out.println ("formatting substructure " + subName);
     Class<?> subClazz = getClass (subOs.getName ());
     DictionaryFormatter formatter =
-                        new DictionaryFormatter (subName, subOs.getName (), subOs,
+                        new DictionaryFormatter (subName, subOs.getName (),
+                                                 subOs,
                                                  subStructuresAlreadyProcessed,
                                                  level + 1,
                                                  this.processSubstructures);
@@ -335,12 +341,17 @@ public class DictionaryFormatter
   {
    return " ";
   }
-  String labelKey = fd.getValidChars ().getLabelKey ();
+  return calcValidChars (fd.getValidChars ());
+ }
+
+ private String calcValidChars (ValidCharsConstraint cons)
+ {
+  String labelKey = cons.getLabelKey ();
   if (labelKey == null)
   {
    labelKey = "validation.validChars";
   }
-  String validChars = escapeWiki (fd.getValidChars ().getValue ());
+  String validChars = escapeWiki (cons.getValue ());
   String descr = "[" + labelKey + "|" + LINK_TO_DEFINITIONS + "]" + "\\\\\n"
                  + validChars;
   return descr;
@@ -370,36 +381,40 @@ public class DictionaryFormatter
   {
    return " ";
   }
-  StringBuilder builder = new StringBuilder ();
-  LookupConstraint lc = fd.getLookupDefinition ();
-  builder.append (lc.getId ());
+  return calcLookup (fd.getLookupDefinition ());
+ }
+
+ private String calcLookup (LookupConstraint lc)
+ {
+  StringBuilder bldr = new StringBuilder ();
+  bldr.append (lc.getId ());
 //  this is the search description not the lookup description
 //  builder.append (" - ");
 //  builder.append (lc.getDesc ());
   String and = "";
-  builder.append ("\\\\");
-  builder.append ("\n");
-  builder.append ("Implemented using search: ");
+  bldr.append ("\\\\");
+  bldr.append ("\n");
+  bldr.append ("Implemented using search: ");
   String searchPage = calcWikiSearchPage (lc.getSearchTypeId ());
-  builder.append ("[" + lc.getSearchTypeId () + "|" + searchPage + "#"
+  bldr.append ("[" + lc.getSearchTypeId () + "|" + searchPage + "#"
                   + lc.getSearchTypeId () + "]");
   List<CommonLookupParam> configuredParameters = filterConfiguredParams (
     lc.getParams ());
   if (configuredParameters.size () > 0)
   {
-   builder.append ("\\\\");
-   builder.append ("\n");
-   builder.append (" where ");
+   bldr.append ("\\\\");
+   bldr.append ("\n");
+   bldr.append (" where ");
    and = "";
    for (CommonLookupParam param : configuredParameters)
    {
-    builder.append (and);
+    bldr.append (and);
     and = " and ";
-    builder.append (param.getName ());
-    builder.append ("=");
+    bldr.append (param.getName ());
+    bldr.append ("=");
     if (param.getDefaultValueString () != null)
     {
-     builder.append (param.getDefaultValueString ());
+     bldr.append (param.getDefaultValueString ());
      continue;
     }
     if (param.getDefaultValueList () != null)
@@ -407,14 +422,14 @@ public class DictionaryFormatter
      String comma = "";
      for (String defValue : param.getDefaultValueList ())
      {
-      builder.append (comma);
+      bldr.append (comma);
       comma = ", ";
-      builder.append (defValue);
+      bldr.append (defValue);
      }
     }
    }
   }
-  return builder.toString ();
+  return bldr.toString ();
  }
 
  private String calcValidCharsMinMax (FieldDefinition fd)
@@ -686,7 +701,8 @@ public class DictionaryFormatter
                           cons.getExclusiveMin ()));
   b.append (calcOverride ("inclusiveMax", fd.getInclusiveMax (),
                           cons.getInclusiveMax ()));
-  String minOccursMessage = calcOverride ("minOccurs", fd.getMinOccurs (), cons.getMinOccurs ());
+  String minOccursMessage = calcOverride ("minOccurs", fd.getMinOccurs (),
+                                          cons.getMinOccurs ());
   if ( ! minOccursMessage.trim ().equals (""))
   {
    if (cons.getMinOccurs () != null && cons.getMinOccurs () == 1)
@@ -697,10 +713,46 @@ public class DictionaryFormatter
   b.append (minOccursMessage);
   b.append (calcOverride ("validchars", fd.getValidChars (),
                           cons.getValidChars ()));
-  b.append (calcOverride ("validchars", fd.getLookupDefinition (),
+  b.append (calcOverride ("lookup", fd.getLookupDefinition (),
                           cons.getLookupDefinition ()));
   //TODO: other more complex constraints
   return b.toString ();
+ }
+
+ private String calcOverride (String attribute, LookupConstraint val1,
+                              LookupConstraint val2)
+ {
+  if (val1 == val2)
+  {
+   return "";
+  }
+  if (val1 == null && val2 != null)
+  {
+   return " add lookup " + this.calcLookup (val2);
+  }
+  if (val1 != null && val2 == null)
+  {
+   return " remove lookup constraint";
+  }
+  return " change lookup to " + calcLookup (val2);
+ }
+
+ private String calcOverride (String attribute, ValidCharsConstraint val1,
+                              ValidCharsConstraint val2)
+ {
+  if (val1 == val2)
+  {
+   return "";
+  }
+  if (val1 == null && val2 != null)
+  {
+   return " add validchars " + calcValidChars (val2);
+  }
+  if (val1 != null && val2 == null)
+  {
+   return " remove validchars constraint";
+  }
+  return " change validchars to " + calcValidChars (val2);
  }
 
  private String calcOverride (String attribute, boolean val1, boolean val2)
@@ -724,7 +776,7 @@ public class DictionaryFormatter
   }
   if (val1 == null)
   {
-   return attribute + "=" + val2;
+   return " " + attribute + "=" + val2;
   }
   if (val1.equals (val2))
   {
@@ -745,7 +797,7 @@ public class DictionaryFormatter
   }
   if (val1 == null)
   {
-   return attribute + "=" + val2;
+   return " " + attribute + "=" + val2;
   }
   if (val1.equals (val2))
   {
