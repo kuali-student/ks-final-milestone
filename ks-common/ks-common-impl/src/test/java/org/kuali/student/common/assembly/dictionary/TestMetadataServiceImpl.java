@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Map;
 import java.util.Set;
@@ -58,11 +59,13 @@ public class TestMetadataServiceImpl {
 		// Check requiredness for default state of draft
 		ConstraintMetadata gpaConstraints = properties.get("gpa").getConstraints().get(0);
 		assertTrue(gpaConstraints.isRequiredForNextState());
+		assertEquals("SUBMITTED", gpaConstraints.getNextState());
 
 		// Check requiredness for state of RETIRED (there should be no next state)
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT, "RETIRED");
 		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
 		assertFalse(gpaConstraints.isRequiredForNextState());
+		assertNull(gpaConstraints.getNextState());
 
 		// Check type and nested state
 		metadata = metadataService.getMetadata(ADDRESS_INFO);

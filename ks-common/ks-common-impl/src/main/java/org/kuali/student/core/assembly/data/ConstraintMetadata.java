@@ -61,6 +61,8 @@ public class ConstraintMetadata implements Serializable {
 	private String validCharsMessageId;
 	
 	private boolean requiredForNextState = false;
+	
+	private String nextState;
 
 	public List<ConstraintMetadata> getChildConstraints() {
 		return childConstraints;
@@ -181,5 +183,12 @@ public class ConstraintMetadata implements Serializable {
 	public void setRequiredForNextState(boolean requiredForNextState) {
 		this.requiredForNextState = requiredForNextState;
 	}
-	
+
+	public String getNextState() {
+		return nextState;
+	}
+
+	public void setNextState(String nextState) {
+		this.nextState = nextState;
+	}	
 }
