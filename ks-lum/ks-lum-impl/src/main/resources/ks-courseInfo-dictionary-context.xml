@@ -87,6 +87,7 @@
 	      <property name="values">
 	       <list>
 	        <value>SUBMITTED</value>
+         <value>APPROVED</value>
 	        <value>ACTIVE</value>
 	        <value>RETIRED</value>
 	       </list>
@@ -116,6 +117,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -149,6 +151,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -185,6 +188,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -219,6 +223,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -266,6 +271,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -297,6 +303,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -360,6 +367,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -412,6 +420,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -532,6 +541,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -569,6 +579,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -614,6 +625,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -667,6 +679,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -707,6 +720,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
@@ -1126,6 +1140,7 @@
        <property name="values">
         <list>
          <value>SUBMITTED</value>
+         <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
