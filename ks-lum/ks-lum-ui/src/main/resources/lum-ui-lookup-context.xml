@@ -3928,7 +3928,7 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.resultColumn.luOptionalMajorName" />
+     <property name="key" value="lu.queryParam.luOptionalLongName" />
      <property name="name" value="Title" />
      <property name="desc" value="Long title" />
      <property name="writeAccess" value="ALWAYS" />
@@ -3938,28 +3938,15 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param">
-     <property name="key" value="lu.queryParam.luOptionalState" />
+     <property name="key" value="lu.queryParam.luOptionalSingleState" />
      <property name="name" value="Program Status" />
      <property name="desc" value="CLU State" />
      <property name="dataType" value="STRING"/>
-     <property name="writeAccess" value="NEVER" />
+     <property name="writeAccess" value="ALWAYS" />
      <property name="optional" value="true"/>
      <property name="caseSensitive" value="false" />
+     <property name="usage" value="CUSTOM"/>
      <property name="widget" value="DROPDOWN_LIST"/>
-     <property name="defaultValueList">
-      <list>
-       <!--
-          <value>draft</value>
-          <value>submitted</value>
-          <value>withdrawn</value>
-          <value>approved</value>
-         -->
-       <value>draft</value>
-       <value>active</value>
-       <value>Draft</value>
-       <value>Active</value>
-      </list>
-     </property>
     </bean>
    </list>
   </property>

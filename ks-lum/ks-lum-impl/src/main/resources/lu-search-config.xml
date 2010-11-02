@@ -898,18 +898,18 @@
         <search:searchResultTypeInfo>
         	<ref bean="lu.result.union.majors" />
         </search:searchResultTypeInfo>
-        <search:searchCriteriaTypeInfo>
+        <search:searchCriteriaTypeInfo>                                                                         
         	<ref bean="lu.criteria.union.majors"/>
         </search:searchCriteriaTypeInfo>
         <search:subSearch searchkey="lu.search.luProgramsByName" key="pgm">
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
-	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
         </search:subSearch>
         <search:subSearch searchkey="lu.search.luVariationsByName" key="var">
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
-            <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalState" subSearchParam="lu.queryParam.luOptionalState"/>
+            <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
         </search:subSearch>
 		<search:joinCriteria type="AND">
 			<!--<empty join criteria to make the cross search manager perform a db union">-->
@@ -972,10 +972,14 @@
             <ref bean="lu.queryParam.luOptionalId"/>
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
-            <ref bean="lu.queryParam.luOptionalState"/>
+            <ref bean="lu.queryParam.luOptionalSingleState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
+   	<search:queryParam id="lu.queryParam.luOptionalSingleState" parent="lu.queryParam.luOptionalSingleState-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalSingleState-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.state.fd"/>
+	</search:queryParam>
 
     <search:searchType id="lu.search.luProgramsByName" parent="lu.search.luProgramsByName-parent"/>
     <search:searchType id="lu.search.luProgramsByName-parent"  abstract="true">
@@ -998,7 +1002,7 @@
             <ref bean="lu.queryParam.luOptionalId"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalLongName"/>
-            <ref bean="lu.queryParam.luOptionalState"/>
+            <ref bean="lu.queryParam.luOptionalSingleState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1042,7 +1046,7 @@
             <ref bean="lu.queryParam.luOptionalId"/>
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
-            <ref bean="lu.queryParam.luOptionalState"/>
+            <ref bean="lu.queryParam.luOptionalSingleState"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1328,6 +1332,9 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalState">
 					<value>clu.state IN (:lu_queryParam_luOptionalState)</value>
+				</entry>
+                <entry key="lu.queryParam.luOptionalSingleState">
+					<value>lower(clu.state) like '%' || LOWER(:lu_queryParam_luOptionalSingleState) || '%' </value>
 				</entry>
 				<entry key="cluset.queryParam.optionalId">
 					<value>cluset.id = :cluset_queryParam_optionalId</value>
