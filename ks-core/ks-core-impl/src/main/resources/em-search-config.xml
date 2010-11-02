@@ -202,7 +202,10 @@
 				</entry>
 				<entry key="enumeration.queryParam.enumerationOptionalCode">
 					<value>enumValue.code</value>
-				</entry>				
+				</entry>	
+				<entry key="enumeration.queryParam.contextValue">
+					<value>LOWER(enumValue.value) LIKE '%' || LOWER(:enumeration_queryParam_contextValue) || '%'</value>
+				</entry>							
 			</map>
 		</property>
 	</bean>
