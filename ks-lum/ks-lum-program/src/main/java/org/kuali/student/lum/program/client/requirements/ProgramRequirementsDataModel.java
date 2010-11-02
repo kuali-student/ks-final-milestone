@@ -14,8 +14,8 @@
  */
 package org.kuali.student.lum.program.client.requirements;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
+import java.util.*;
+
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
@@ -33,7 +33,8 @@ import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
-import java.util.*;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 
 public class ProgramRequirementsDataModel {
 
@@ -277,7 +278,7 @@ public class ProgramRequirementsDataModel {
         List<StatementTreeViewInfo> statements = tree.getStatements();
         List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
 
-        if (tree.getId().indexOf(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID) >= 0) {
+        if ((tree.getId() != null) && (tree.getId().indexOf(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID) >= 0)) {
             tree.setId(null);
         }
         tree.setState("Active");
@@ -290,7 +291,7 @@ public class ProgramRequirementsDataModel {
         } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
             // retrieve all req. component LEAFS
             for (ReqComponentInfo reqComponent : reqComponentInfos) {
-                if (reqComponent.getId().indexOf(ProgramRequirementsSummaryView.NEW_REQ_COMP_ID) >= 0) {
+                if ((reqComponent.getId() != null) && (reqComponent.getId().indexOf(ProgramRequirementsSummaryView.NEW_REQ_COMP_ID) >= 0)) {
                     reqComponent.setId(null);
                 }
 

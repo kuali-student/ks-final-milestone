@@ -1,11 +1,7 @@
 package org.kuali.student.lum.program.client.requirements;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.*;
+
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -43,7 +39,12 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
-import java.util.*;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
@@ -160,15 +161,11 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     public void storeRules(final Callback<Boolean> callback) {
         rules.updateProgramEntities(new Callback<List<ProgramRequirementInfo>>() {
             @Override
-            public void exec(List<ProgramRequirementInfo> programReqInfos) {
-                
+            public void exec(List<ProgramRequirementInfo> programReqInfos) {                
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
                     updateRequirementWidgets(programReqInfo);
                 }
-
-                if (callback != null) {
-                    callback.exec(true);
-                }
+                callback.exec(true);                
             }
         });
     }
@@ -294,9 +291,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         int minCredits = (progReqInfo.getMinCredits() == null ? 0 : progReqInfo.getMinCredits());
         int maxCredits = (progReqInfo.getMaxCredits() == null ? 0 : progReqInfo.getMaxCredits());
+        String plainDesc =  (progReqInfo.getDescr() == null ? "" : progReqInfo.getDescr().getPlain());
         final RulePreviewWidget rulePreviewWidget = new RulePreviewWidget(internalProgReqID, progReqInfo.getShortTitle(),
                                                             getTotalCreditsString(minCredits, maxCredits), 
-                                                            progReqInfo.getDescr().getPlain(), progReqInfo.getStatement(),
+                                                            plainDesc, progReqInfo.getStatement(),
                                                             isReadOnly, getCluSetWidgetList(progReqInfo.getStatement()));
         addRulePreviewWidgetHandlers(requirementsPanel, rulePreviewWidget, stmtTypeId, internalProgReqID);
         return rulePreviewWidget;
@@ -641,7 +639,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
              @Override
             public void exec(ButtonEnumerations.ButtonEnum result) {
                 if (result == ButtonEnumerations.SaveCancelEnum.SAVE) {
-                    storeRules(null);
+                    storeRules(Controller.NO_OP_CALLBACK);
                 } else {
                     HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), parentController.getViewContext());
                 }
