@@ -225,7 +225,11 @@ public abstract class BaseSection extends SpanPanel implements Section{
 
 				if(f.hasHadFocus()){
 					for(ValidationResultInfo vr: results){
-						if(vr.getElement().equals(f.getFieldKey())){
+                        String vrElement = vr.getElement();
+                        if(vrElement.startsWith("/")){
+                            vrElement = vrElement.substring(1);
+                        }
+						if(vrElement.equals(f.getFieldKey())){
 							FieldElement element = f.getFieldElement();
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
@@ -468,14 +472,14 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		return isDirty;
 	}
 
-    public void setIsDirty(boolean state) {   	
+    public void setIsDirty(boolean state) {
 		//Should this trust layoutController to be already set?
     	if (layoutController == null){
     		layoutController = LayoutController.findParentLayout(layout);
     	}
     	if (isDirty != state){
         	isDirty = state;
-	    	if (layoutController != null && isDirty){    		
+	    	if (layoutController != null && isDirty){
 	    		layoutController.fireApplicationEvent(new ContentDirtyEvent());
 	    	}
     	}

@@ -160,7 +160,7 @@ public class MajorEditController extends MajorController {
                             break;
                         }
                     }
-                } else {                                       
+                } else {
                     programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
                     programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
                 }
@@ -198,6 +198,7 @@ public class MajorEditController extends MajorController {
                             saveData(okCallback);
                         } else {
                             okCallback.exec(false);
+                            eventBus.fireEvent(new ValidationFailedEvent());
                             Window.alert("Save failed.  Please check fields for errors.");
                         }
                     }
@@ -232,7 +233,7 @@ public class MajorEditController extends MajorController {
                     for (ValidationResultInfo vri : result.getValidationResults()) {
                         msg.append(vri.getMessage());
                     }
-                    KSNotifier.show(ProgramProperties.get().common_failedSave(msg.toString()));
+                    eventBus.fireEvent(new ValidationFailedEvent());
                     okCallback.exec(false);
                 } else {
                     programModel.setRoot(result.getValue());
@@ -242,12 +243,12 @@ public class MajorEditController extends MajorController {
 
                     List<String> newVariations = new ArrayList<String>();
                     Data variations = programModel.get(ProgramConstants.VARIATIONS);
-	                for (Data.Property prop : variations) {
-	                    String varId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
-                        if ( ! existingVariationIds.contains(varId) ) {
+                    for (Data.Property prop : variations) {
+                        String varId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+                        if (!existingVariationIds.contains(varId)) {
                             newVariations.add(varId);
-	                    }
-	                }
+                        }
+                    }
                     assert (newVariations.size() <= 1);
                     if (newVariations.size() == 1) {
                         eventBus.fireEvent(new SpecializationCreatedEvent(newVariations.get(0)));
@@ -255,7 +256,7 @@ public class MajorEditController extends MajorController {
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
                     if (getCurrentViewEnum().name().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
-                    	showView(getCurrentViewEnum());
+                        showView(getCurrentViewEnum());
                     }
                     KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);

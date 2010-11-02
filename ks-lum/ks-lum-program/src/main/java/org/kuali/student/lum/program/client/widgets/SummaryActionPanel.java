@@ -14,14 +14,18 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramManager;
 import org.kuali.student.lum.program.client.ProgramStatus;
+import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
+import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
 public class SummaryActionPanel extends Composite {
+
+    private static boolean initiatedEvent = false;
 
     private HorizontalPanel content = new HorizontalPanel();
 
@@ -33,6 +37,8 @@ public class SummaryActionPanel extends Composite {
 
     private DataModel dataModel;
 
+    private ProgramStatus previousStatus;
+
     public SummaryActionPanel() {
         initWidget(content);
         buildLayout();
@@ -41,11 +47,34 @@ public class SummaryActionPanel extends Composite {
     }
 
     private void bind() {
+        ProgramManager.getEventBus().addHandler(AfterSaveEvent.TYPE, new AfterSaveEvent.Handler() {
+            @Override
+            public void onEvent(AfterSaveEvent event) {
+                if (initiatedEvent) {
+                    dataModel = event.getModel();
+                    previousStatus = getStatus();
+                    processStatus(previousStatus);
+                    initiatedEvent = false;
+                }
+            }
+        });
         ProgramManager.getEventBus().addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 dataModel = event.getModel();
-                processStatus(ProgramStatus.of(dataModel.<String>get(ProgramConstants.STATE)));
+                previousStatus = getStatus();
+                processStatus(previousStatus);
+            }
+        });
+        ProgramManager.getEventBus().addHandler(ValidationFailedEvent.TYPE, new ValidationFailedEvent.Handler() {
+            @Override
+            public void onEvent(ValidationFailedEvent event) {
+                if (initiatedEvent) {
+                    QueryPath queryPath = new QueryPath();
+                    queryPath.add(new Data.StringKey(ProgramConstants.STATE));
+                    dataModel.set(queryPath, previousStatus.getValue());
+                    initiatedEvent = false;
+                }
             }
         });
         approveButton.addClickHandler(new ClickHandler() {
@@ -73,6 +102,7 @@ public class SummaryActionPanel extends Composite {
         path.add(new Data.StringKey(ProgramConstants.STATE));
         dataModel.set(path, status.getValue());
         ProgramManager.getEventBus().fireEvent(new UpdateEvent());
+        initiatedEvent = true;
         // TODO: check if active. Fire new event ActivateEvent which will 
         // Supercede currently active version if one exists.  This depends on
         // versioning work to be done on the program service.
@@ -102,5 +132,9 @@ public class SummaryActionPanel extends Composite {
     private void enableButtons(boolean enableApprove, boolean enableActivate) {
         approveButton.setEnabled(enableApprove);
         activateButton.setEnabled(enableActivate);
+    }
+
+    private ProgramStatus getStatus() {
+        return ProgramStatus.of(dataModel.<String>get(ProgramConstants.STATE));
     }
 }
