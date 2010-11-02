@@ -1,11 +1,5 @@
 package org.kuali.student.lum.program.client.widgets;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -20,6 +14,13 @@ import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+
 /**
  * @author Igor
  */
@@ -27,13 +28,13 @@ public class SummaryActionPanel extends Composite {
 
     private static boolean initiatedEvent = false;
 
-    private HorizontalPanel content = new HorizontalPanel();
+    private final HorizontalPanel content = new HorizontalPanel();
 
-    private KSButton approveButton = new KSButton(ProgramProperties.get().button_approve());
+    private final KSButton approveButton = new KSButton(ProgramProperties.get().button_approve());
 
-    private KSButton activateButton = new KSButton(ProgramProperties.get().button_activate());
+    private final KSButton activateButton = new KSButton(ProgramProperties.get().button_activate());
 
-    private Anchor exitAnchor = new Anchor(ProgramProperties.get().link_exit());
+    private final Anchor exitAnchor = new Anchor(ProgramProperties.get().link_exit());
 
     private DataModel dataModel;
 
@@ -80,7 +81,7 @@ public class SummaryActionPanel extends Composite {
         approveButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                processButtonClick(ProgramStatus.APPROVE);
+                processButtonClick(ProgramStatus.APPROVED);
             }
         });
         activateButton.addClickHandler(new ClickHandler() {
@@ -101,6 +102,13 @@ public class SummaryActionPanel extends Composite {
         QueryPath path = new QueryPath();
         path.add(new Data.StringKey(ProgramConstants.STATE));
         dataModel.set(path, status.getValue());
+
+        // set variations' state to same value
+
+        // set programrequirements' related clus' state to same value
+
+        // if going to state='Approved', set approval date
+
         ProgramManager.getEventBus().fireEvent(new UpdateEvent());
         initiatedEvent = true;
         // TODO: check if active. Fire new event ActivateEvent which will 
@@ -111,7 +119,7 @@ public class SummaryActionPanel extends Composite {
     private void processStatus(ProgramStatus programStatus) {
         if (programStatus == ProgramStatus.DRAFT) {
             enableButtons(true, false);
-        } else if (programStatus == ProgramStatus.APPROVE) {
+        } else if (programStatus == ProgramStatus.APPROVED) {
             enableButtons(false, true);
         } else if (programStatus == ProgramStatus.ACTIVE) {
             enableButtons(false, false);
