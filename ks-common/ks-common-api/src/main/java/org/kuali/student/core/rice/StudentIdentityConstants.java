@@ -15,38 +15,43 @@
 
 package org.kuali.student.core.rice;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author delyea
- *
+ * 
  */
 public class StudentIdentityConstants {
 
-	public static final String SYSTEM_USER_PRINCIPAL_NAME = "KS";
+    public static final String SYSTEM_USER_PRINCIPAL_NAME = "KS";
 
-	// role qualification keys
-    public static final String QUALIFICATION_KS_PROPOSAL_ID    = "kualiStudentProposalId";
+    public static final String QUALIFICATION_KS_PROPOSAL_ID = "ksProposalIdQualificationKey";
 
-    public static final String QUALIFICATION_KEW_OBJECT_ID     = "kualiStudentObjectWorkflowId";
-	public static final String QUALIFICATION_KEW_OBJECT_TYPE   = "kualiStudentObjectWorkflowType";
+    public static final Set<String> QUALIFICATION_PROPOSAL_ID_REF_TYPES = new HashSet<String>();
+    static {
+        // this must contain all proposal reference types
+        QUALIFICATION_PROPOSAL_ID_REF_TYPES.add("referenceType.clu.proposal");
+    }
 
-	// this must be equal to Rice constant KimAttributes.DOCUMENT_NUMBER
-	public static final String DOCUMENT_NUMBER                 = "documentNumber";
-	
-	// this must be equal to Rice constant KimAttributes.DOCUMENT_TYPE_NAME 
-	// TODO: It seems wrong to include DOCUMENT_TYPE_NAME in an identity constants class
-	public static final String DOCUMENT_TYPE_NAME              = "documentTypeName";		
-	
+    public static final String QUALIFICATION_KEW_OBJECT_ID = "kualiStudentObjectWorkflowId";
+    public static final String QUALIFICATION_KEW_OBJECT_TYPE = "kualiStudentObjectWorkflowType";
+
+    // this must be equal to Rice constant KimAttributes.DOCUMENT_NUMBER
+    public static final String DOCUMENT_NUMBER = "documentNumber";
+
+    // this must be equal to Rice constant KimAttributes.DOCUMENT_TYPE_NAME
+    // TODO: It seems wrong to include DOCUMENT_TYPE_NAME in an identity constants class
+    public static final String DOCUMENT_TYPE_NAME = "documentTypeName";
+
     // this must be equal to Rice constant KimAttributes.ROUTE_STATUS_CODE
-    public static final String ROUTE_STATUS_CODE               = "routeStatusCode";
+    public static final String ROUTE_STATUS_CODE = "routeStatusCode";
 
     // this must be equal to Rice constant KimAttributes.ROUTE_NODE_NAME
-    public static final String ROUTE_NODE_NAME                 = "routeNodeName";
+    public static final String ROUTE_NODE_NAME = "routeNodeName";
 
-	public static final String QUALIFICATION_DATA_ID           = "dataId";
-	
-	//Permission Labels (Should these be moved to the PermissionType class?)
-    public static final String VIEW = "View";
-    public static final String COMMENT_VIEW = "Comment, View";
-    public static final String EDIT_COMMENT_VIEW = "Edit, Comment, View";	
-	
+    public static final String KS_REFERENCE_TYPE_KEY = "ksReferenceTypeKey";
+
+    public static final String QUALIFICATION_DATA_ID = "dataId";
+
 }
