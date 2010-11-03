@@ -12,7 +12,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,12 +49,14 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -980,6 +984,9 @@ public class TestCourseServiceImpl {
             ServiceMethodInvocationData invocationData = new ServiceMethodInvocationData();
             invocationData.methodName = s;
             invocationData.parameters = new Object[1];
+            
+            // all the parameter types for these methods are the same
+            invocationData.paramterTypes = new Class<?>[] {String.class};
             methods.add(invocationData);
         }
         
@@ -989,11 +996,12 @@ public class TestCourseServiceImpl {
     private class ServiceMethodInvocationData {
         String methodName;
         Object[] parameters;
+        Class<?>[] paramterTypes;
     }
     
     private void invokeForExpectedException(Collection<ServiceMethodInvocationData> methods, Class<? extends Exception> expectedExceptionClass) throws Exception {
         for(ServiceMethodInvocationData methodData : methods) {
-            Method method = courseService.getClass().getMethod(methodData.methodName, String.class);
+            Method method = courseService.getClass().getMethod(methodData.methodName, methodData.paramterTypes);
             Throwable expected = null;
             Exception unexpected = null;
             try {
@@ -1024,6 +1032,13 @@ public class TestCourseServiceImpl {
         // build an object array with the appropriate number of arguments for each version method to be called
         Object[][] getVersionParams = {new Object[3], new Object[2], new Object[4], new Object[2], new Object[3]};
         
+        // build a class array with the parameter types for each method call
+        Class<?>[][] getVersionParamTypes = {{String.class, String.class, Long.class}, // for getVersionBySequenceNumber
+                {String.class, String.class}, // for getVersions
+                {String.class, String.class, Date.class, Date.class}, // for getVersionsInDateRange
+                {String.class, String.class}, // for getCurrentVersion
+                {String.class, String.class, Date.class}}; // for getCurrentVersionOnDate
+        
         String badRefObjectTypeURI = "BADBADBAD";
         Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(getVersionMethods.length);
         for(int i = 0; i < getVersionMethods.length; i++) {
@@ -1034,9 +1049,97 @@ public class TestCourseServiceImpl {
             getVersionParams[i][0] = badRefObjectTypeURI;
             
             invocationData.parameters = getVersionParams[i];
+            invocationData.paramterTypes = getVersionParamTypes[i];
+            
+            methods.add(invocationData);
         }
         
         invokeForExpectedException(methods, InvalidParameterException.class);
+    }
+    
+    @Test
+    public void testGetCurrentVersion() throws Exception {
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        // Make the created the current version
+        courseService.setCurrentCourseVersion(createdCourse.getId(), null);
+        
+        try {
+            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
+        
+        assertNotNull(versionInfo);
+        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
+    }
+    
+    @Test
+    public void testGetCurrentVersionOnDate() throws Exception {
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        // Make the created the current version
+        courseService.setCurrentCourseVersion(createdCourse.getId(), null);
+        
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), new Date());
+        
+        assertNotNull(versionInfo);
+        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
+        
+        
+        // make a second version of the course, set it to be the current version a month in the future, and ensure that getting today's version gets the one that was created first
+        CourseInfo cInfo2 = null;
+        try {
+            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, 1);
+        
+        // Make the created the current version one month from now
+        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime());
+        
+        // make sure when we get the current version for today, it still returns the first one created
+        versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, cInfo2.getVersionInfo().getVersionIndId(), new Date());
+        
+        assertNotNull(versionInfo);
+        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(), versionInfo.getSequenceNumber());
+    }
+    
+    @Test
+    public void testGetVersions() throws Exception {
+        
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo createdCourse = courseService.createCourse(cInfo);
+
+        // Make the created the current version
+        courseService.setCurrentCourseVersion(createdCourse.getId(), null);
+        
+        List<VersionDisplayInfo> versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
+        
+        assertEquals(1, versions.size());
+        
+        try {
+            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        
+        versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
+        
+        assertEquals(2, versions.size());
     }
     
     
