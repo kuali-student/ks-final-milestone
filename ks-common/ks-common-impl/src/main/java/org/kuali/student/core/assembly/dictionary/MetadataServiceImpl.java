@@ -34,6 +34,7 @@ import org.kuali.student.core.dictionary.dto.FieldDefinition;
 import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.dto.WhenConstraint;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dto.DtoConstants.DtoState;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -371,8 +372,8 @@ public class MetadataServiceImpl {
             // Process a state constraint
 
         	// Defaults for state and nextState
-        	state = (state == null ? "DRAFT":state);
-            nextState = (nextState == null ? getNextState(state):nextState);
+        	state = (state == null ? DtoState.DRAFT.toString():state);
+        	nextState = (nextState == null ? DtoState.getNextStateAsString(state):nextState);
 
             if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
                 for (WhenConstraint whenConstraint : whenConstraints) {
@@ -408,31 +409,6 @@ public class MetadataServiceImpl {
                 }
             }
         }
-    }
-
-    /**
-     * This is used to determine the next state.
-     * 
-     * TODO: Ideally this method should not be hardcoded here.  Also determining next state may
-     * be a more complicated and not just be a simple sequence.
-     * 
-     * @param state
-     * @return the next state
-     */
-    protected String getNextState(String state){
-        if ("DRAFT".equals(state.toUpperCase())) {
-            return "SUBMITTED";
-        } else if ("SUBMITTED".equals(state.toUpperCase())) {
-            return "APPROVED";
-        } else if ("APPROVED".equals(state.toUpperCase())) {
-        	return "ACTIVE";
-        } else if ("ACTIVE".equals(state.toUpperCase())) {
-        	return "INACTIVE";
-        } else if ("INACTIVE".equals(state.toUpperCase())) {
-        	return "RETIRED";
-        }
-
-        return null;
     }
     
     /**

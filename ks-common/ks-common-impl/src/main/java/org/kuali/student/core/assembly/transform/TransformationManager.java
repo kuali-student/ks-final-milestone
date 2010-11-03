@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.dto.DtoConstants;
 
 public class TransformationManager {
 	final Logger LOG = Logger.getLogger(TransformationManager.class);
@@ -128,7 +129,10 @@ public class TransformationManager {
 	}
 	
 	public Metadata getMetadata(String dtoName, Map<String,Object> filterProperties){
-		Metadata metadata = metadataService.getMetadata(dtoName);
+		String state = (String)filterProperties.get(DtoConstants.DTO_STATE);
+		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
+		
+		Metadata metadata = metadataService.getMetadata(dtoName, null, state, nextState);
 			
 		applyMetadataFilters(dtoName, metadata, filterProperties);
 		return metadata;
