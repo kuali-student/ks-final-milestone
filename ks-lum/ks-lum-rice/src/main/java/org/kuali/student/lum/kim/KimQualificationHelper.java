@@ -109,12 +109,21 @@ public class KimQualificationHelper {
         throw new KimTypeAttributeValidationException(errorMessage.toString());
     }
 
+    protected static String getProposalId(AttributeSet qualification) {
+        for (String proposalReferenceType : StudentIdentityConstants.QUALIFICATION_PROPOSAL_ID_REF_TYPES) {
+            if (qualification.containsKey(proposalReferenceType)) {
+                return qualification.get(proposalReferenceType);
+            }
+        }
+        return null;
+    }
+
     public static AttributeSet translateInputAttributeSet(AttributeSet qualification) {
 		try {
 			DocumentDetailDTO docDetail = null;
 			// first get a valid DocumentDetailDTO object if possible
 			String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
-			String proposalId = qualification.get(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID);
+			String proposalId = getProposalId(qualification);
 			if (StringUtils.isBlank(documentNumber)) {
 			    // if document number is not in qualification try to get it using proposal id qualification
 	            if (StringUtils.isNotBlank(proposalId)) {

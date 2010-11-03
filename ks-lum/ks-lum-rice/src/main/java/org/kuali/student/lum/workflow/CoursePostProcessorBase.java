@@ -7,6 +7,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.postprocessor.IDocumentEvent;
@@ -34,6 +35,14 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         LOG.info("Will set CLU state to '" + CLU_STATE_SUBMITTED + "'");
         CluInfo cluInfo = getLuService().getClu(getCluId(proposalInfo));
         updateClu(actionTakenEvent, CLU_STATE_SUBMITTED, cluInfo);
+    }
+
+    @Override
+    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken, ProposalInfo proposalInfo) throws Exception {
+        String cluId = getCluId(proposalInfo);
+        CluInfo cluInfo = getLuService().getClu(cluId);
+        updateClu(actionTakenEvent, null, cluInfo);
+        return true;
     }
 
     @Override
@@ -92,13 +101,16 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
 
     protected void updateClu(IDocumentEvent iDocumentEvent, String cluState, CluInfo cluInfo) throws Exception {
         // only change the state if the clu is not currently set to that state
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Setting state '" + cluState + "' on CLU with cluId='" + cluInfo.getId() + "'");
-        }
         boolean requiresSave = false;
         if (cluState != null) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Setting state '" + cluState + "' on CLU with cluId='" + cluInfo.getId() + "'");
+            }
             cluInfo.setState(cluState);
             requiresSave = true;
+        }
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Running preProcessCluSave with cluId='" + cluInfo.getId() + "'");
         }
         requiresSave |= preProcessCluSave(iDocumentEvent, cluInfo);
         if (requiresSave) {
