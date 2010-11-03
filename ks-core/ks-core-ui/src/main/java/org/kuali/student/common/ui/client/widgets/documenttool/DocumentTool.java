@@ -263,7 +263,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 	}
 
 	protected void isAuthorizedUploadDocuments() {
-        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, new KSAsyncCallback<Boolean>() {
+        documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
 
 			@Override
             public void handleFailure(Throwable caught) {

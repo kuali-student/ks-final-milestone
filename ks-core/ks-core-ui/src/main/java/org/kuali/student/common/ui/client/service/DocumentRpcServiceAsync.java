@@ -38,9 +38,10 @@ public interface DocumentRpcServiceAsync extends BaseRpcServiceAsync{
 
     /**
      * Check for authorization to upload documents
-     * @param proposalId identifier of the proposal
+     * @param id identifier of the object related to the reference type key
+     * @param referenceTypeKey reference type key of the object document is being put on
      */
-    public void isAuthorizedUploadDocuments(String proposalId, AsyncCallback<Boolean> callback);
+    public void isAuthorizedUploadDocuments(String id, String referenceTypeKey, AsyncCallback<Boolean> callback);
 
 	public void deleteRefDocRelation(String docRelationId, AsyncCallback<StatusInfo> callback);
 
