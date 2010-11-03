@@ -520,7 +520,7 @@
     <KSMG_MESSAGE GRP_NAME="course"
         ID="44044bfb-11c9-45de-8fe4-67eb1b08118c" LOCALE="en"
         MSG_ID="cluStartTerm-instruct"
-        MSG_VALUE="What term will this course become active?"
+        MSG_VALUE="Proposed term for modifications to take effect. "
         OBJ_ID="1c4dc123-4900-4d26-a91f-85419e50a312" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="453a62d0-0602-41c2-84ee-f36cb9d4fb0f" LOCALE="en"
@@ -1157,7 +1157,7 @@
     <KSMG_MESSAGE GRP_NAME="course"
         ID="946776b5-7948-40ac-8429-8fe8f461dff7" LOCALE="en"
         MSG_ID="cluEndTerm-instruct"
-        MSG_VALUE="What term will this course become inactive?"
+        MSG_VALUE="Proposed term for course to become inactive. "
         OBJ_ID="02ec87d2-2762-42bf-8883-53a616137896" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="94a325e5-7931-4df8-a052-fc459a070766" LOCALE="es"
@@ -1192,7 +1192,7 @@
     <KSMG_MESSAGE GRP_NAME="course"
         ID="977cc391-7b99-4907-ba10-f4781eb2ed35" LOCALE="en"
         MSG_ID="cluStartTerm-help"
-        MSG_VALUE="The course will not necessarily be offered on this date, but it will be available for offer on or after this date."
+        MSG_VALUE="Any instances of the course offered on or after this term will reflect modifications. "
         OBJ_ID="60bec45e-c7c9-4e20-b3a0-2655ef31612a" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="98c71ea6-0ff8-4e61-beca-3c698a3919f5" LOCALE="en"
