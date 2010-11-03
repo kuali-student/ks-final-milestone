@@ -861,13 +861,13 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("status.active")
   String status_active();
 
-    /**
-     * Translated "Approved".
-     * 
-     * @return translated "Approved"
-     */
-    @DefaultMessage("Approved")
-    @Key("status.approved")
+  /**
+   * Translated "Approved".
+   * 
+   * @return translated "Approved"
+   */
+  @DefaultMessage("Approved")
+  @Key("status.approved")
   String status_approved();
 
   /**
