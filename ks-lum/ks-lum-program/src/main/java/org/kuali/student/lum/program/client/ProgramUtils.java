@@ -45,8 +45,6 @@ public class ProgramUtils {
         statePath.add(new Data.StringKey(ProgramConstants.STATE));
         dataModel.set(statePath, status);
         setStatus((Data) dataModel.get(ProgramConstants.VARIATIONS), status);
-        setStatus((Data) dataModel.get(ProgramConstants.PROGRAM_REQUIREMENTS), status);
-
     }
 
     private static void setStatus(Data inputData, String status) {
