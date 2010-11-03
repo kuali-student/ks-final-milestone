@@ -95,11 +95,7 @@ public class MajorEditController extends MajorController {
             @Override
             public void onEvent(SpecializationSaveEvent event) {
                 Data variations = (Data) programModel.get(ProgramConstants.VARIATIONS);
-                existingVariationIds.clear();
-
-                for (Data.Property prop : variations) {
-                    existingVariationIds.add((String) ((Data) prop.getValue()).get(ProgramConstants.ID));
-                }
+                updateExistingVariationIds(variations);
                 variations.add(event.getData());
                 doSave();
             }
@@ -120,6 +116,7 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEvent.Handler() {
             @Override
             public void onEvent(SpecializationUpdateEvent event) {
+                updateExistingVariationIds((Data) programModel.get(ProgramConstants.VARIATIONS));
                 doSave();
             }
         });
@@ -185,6 +182,13 @@ public class MajorEditController extends MajorController {
         });
     }
 
+    private void updateExistingVariationIds(Data variations) {
+        existingVariationIds.clear();
+        for (Data.Property prop : variations) {
+            existingVariationIds.add((String) ((Data) prop.getValue()).get(ProgramConstants.ID));
+        }
+    }
+
     private void doSave(final Callback<Boolean> okCallback) {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
@@ -241,18 +245,7 @@ public class MajorEditController extends MajorController {
                     setStatus();
                     resetFieldInteractionFlag();
 
-                    List<String> newVariations = new ArrayList<String>();
-                    Data variations = programModel.get(ProgramConstants.VARIATIONS);
-                    for (Data.Property prop : variations) {
-                        String varId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
-                        if (!existingVariationIds.contains(varId)) {
-                            newVariations.add(varId);
-                        }
-                    }
-                    assert (newVariations.size() <= 1);
-                    if (newVariations.size() == 1) {
-                        eventBus.fireEvent(new SpecializationCreatedEvent(newVariations.get(0)));
-                    }
+                    handleSpecializations();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
                     if (getCurrentViewEnum().name().equals(ProgramSections.SPECIALIZATIONS_EDIT.name())) {
@@ -263,6 +256,25 @@ public class MajorEditController extends MajorController {
                 }
             }
         });
+    }
+
+    /**
+     * Handles after save work for specializations.
+     */
+    private void handleSpecializations() {
+        String newVariationId = null;
+        Data variations = programModel.get(ProgramConstants.VARIATIONS);
+        for (Data.Property prop : variations) {
+            String varId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+            if (!existingVariationIds.contains(varId)) {
+                newVariationId = varId;
+                existingVariationIds.add(newVariationId);
+                break;
+            }
+        }
+        if (newVariationId != null) {
+            eventBus.fireEvent(new SpecializationCreatedEvent(newVariationId));
+        }
     }
 
     private void throwAfterSaveEvent() {
