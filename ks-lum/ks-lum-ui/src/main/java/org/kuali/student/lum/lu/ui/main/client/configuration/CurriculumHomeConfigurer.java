@@ -49,9 +49,9 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
                 getMessage(VIEW_MODIFY_DESC));
         viewModify.addNavLinkWidget(getMessage(BROWSE_CATALOG), AppLocations.Locations.BROWSE_CATALOG.getLocation());
         viewModify.add(getFindCoursesWidget());
-        viewModify.add(getFindProgramsWidget());
-        viewModify.add(getViewCoreProgramWidget());
-        viewModify.add(getViewBaccProgramWidget());
+        viewModify.add(getFindMajorsWidget());
+        viewModify.add(getFindCoreProgramWidget());
+        viewModify.add(getFindCredentialProgramWidget());
 
         //Tools
         LinkContentBlock tools = new LinkContentBlock(
@@ -81,8 +81,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return layout;
     }
 
-    private Widget getViewBaccProgramWidget() {
-        Anchor anchor = createNavigationWidget("View Baccalaureate Program");
+    private Widget getFindCredentialProgramWidget() {
+        Anchor anchor = createNavigationWidget(getMessage(FIND_CREDENTIALS));
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -92,8 +92,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return anchor;
     }
 
-    private Widget getViewCoreProgramWidget() {
-        Anchor anchor = createNavigationWidget("View Core Program");
+    private Widget getFindCoreProgramWidget() {
+        Anchor anchor = createNavigationWidget(getMessage(FIND_CORES));
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -160,7 +160,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return searchWidget;
     }
 
-    protected Widget getFindProgramsWidget() {
+    protected Widget getFindMajorsWidget() {
         final Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findMajor");

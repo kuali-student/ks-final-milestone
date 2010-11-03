@@ -56,7 +56,6 @@
 	 <bean parent="enCourse" p:messageId="actionListDesc" p:value="" />
 	 <bean parent="enCourse" p:messageId="browseCatalog" p:value="Browse Course Catalog" />
 	 <bean parent="enCourse" p:messageId="findCourses" p:value="Find Courses" />
-	 <bean parent="enCourse" p:messageId="findMajors" p:value="Find Programs (major disciplines)" />
 	 <bean parent="enCourse" p:messageId="courseSets" p:value="Course Set Management" />
 	 <bean parent="enCourse" p:messageId="loCategories" p:value="Learning Objective Categories" />
 	 <bean parent="enCourse" p:messageId="depAnalysis" p:value="Dependency Analysis (coming soon)" />
