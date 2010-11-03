@@ -8,11 +8,16 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -76,8 +81,10 @@ public class VariationInformationEditConfiguration extends AbstractSectionConfig
     private VerticalSection createOtherInformationSection() {
         VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_otherInformation()));
         configurer.addField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()));
-        configurer.addField(section, ProgramConstants.CIP_2000, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2000()));
-        configurer.addField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()));
+        Widget cip2000Picker = configureSearch(ProgramConstants.CIP_2000);
+        configurer.addField(section, ProgramConstants.CIP_2000, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2000()), cip2000Picker);
+        Widget cip2010Picker = configureSearch(ProgramConstants.CIP_2010);
+        configurer.addField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()), cip2010Picker);
         configurer.addField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegis()));
         return section;
     }
@@ -90,6 +97,20 @@ public class VariationInformationEditConfiguration extends AbstractSectionConfig
         return section;
     }
 
+	private Widget configureSearch(String fieldKey) {	    
+		Widget searchWidget;
+		QueryPath path = QueryPath.concat(null, fieldKey);
+		Metadata meta = configurer.getModelDefinition().getMetadata(path);
+	        
+		searchWidget = new KSPicker(meta.getInitialLookup(), meta.getAdditionalLookups());
+		SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+        if (panel != null) {
+            panel.setMutipleSelect(false);
+        }
+        
+		return searchWidget;
+	}
+	
     public class DiplomaBinding extends ModelWidgetBindingSupport<KSTextBox> {
 		private boolean isEmpty(String value){
 			return value == null || (value != null && "".equals(value));
