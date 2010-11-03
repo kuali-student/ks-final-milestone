@@ -3,6 +3,7 @@ package org.kuali.student.lum.program.client;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.QueryPath;
 
 /**
  * @author Igor
@@ -32,10 +33,26 @@ public class ProgramUtils {
 
     public static Data createNewSpecializationBasedOnMajor(DataModel programModel) {
         Data newSpecializationData = new Data();
-        newSpecializationData.set(ProgramConstants.STATE, ProgramStatus.DRAFT.getValue());
+        newSpecializationData.set(ProgramConstants.STATE, programModel.<String>get(ProgramConstants.STATE));
         newSpecializationData.set(ProgramConstants.TYPE, ProgramConstants.VARIATION_TYPE_KEY);
         newSpecializationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
         addCredentialProgramDataToVariation(newSpecializationData, programModel);
         return newSpecializationData;
+    }
+
+    public static void setStatus(DataModel dataModel, String status) {
+        QueryPath statePath = new QueryPath();
+        statePath.add(new Data.StringKey(ProgramConstants.STATE));
+        dataModel.set(statePath, status);
+        setStatus((Data) dataModel.get(ProgramConstants.VARIATIONS), status);
+        setStatus((Data) dataModel.get(ProgramConstants.PROGRAM_REQUIREMENTS), status);
+
+    }
+
+    private static void setStatus(Data inputData, String status) {
+        for (Data.Property property : inputData) {
+            Data data = property.getValue();
+            data.set(new Data.StringKey(ProgramConstants.STATE), status);
+        }
     }
 }

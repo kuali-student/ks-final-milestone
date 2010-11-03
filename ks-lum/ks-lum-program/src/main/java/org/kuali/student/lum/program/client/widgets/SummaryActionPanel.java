@@ -8,6 +8,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramManager;
 import org.kuali.student.lum.program.client.ProgramStatus;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
@@ -73,6 +74,7 @@ public class SummaryActionPanel extends Composite {
                 if (initiatedEvent) {
                     QueryPath queryPath = new QueryPath();
                     queryPath.add(new Data.StringKey(ProgramConstants.STATE));
+                    setStatus(previousStatus);
                     dataModel.set(queryPath, previousStatus.getValue());
                     initiatedEvent = false;
                 }
@@ -98,10 +100,13 @@ public class SummaryActionPanel extends Composite {
         });
     }
 
+    private void setStatus(ProgramStatus status) {
+        ProgramUtils.setStatus(dataModel, status.getValue());
+    }
+
     private void processButtonClick(ProgramStatus status) {
-        QueryPath path = new QueryPath();
-        path.add(new Data.StringKey(ProgramConstants.STATE));
-        dataModel.set(path, status.getValue());
+        initiatedEvent = true;
+        setStatus(status);
 
         // set variations' state to same value
 
@@ -110,10 +115,6 @@ public class SummaryActionPanel extends Composite {
         // if going to state='Approved', set approval date
 
         ProgramManager.getEventBus().fireEvent(new UpdateEvent());
-        initiatedEvent = true;
-        // TODO: check if active. Fire new event ActivateEvent which will 
-        // Supercede currently active version if one exists.  This depends on
-        // versioning work to be done on the program service.
     }
 
     private void processStatus(ProgramStatus programStatus) {
