@@ -32,6 +32,7 @@ import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
+import org.apache.ws.security.WSSecurityException;
 import org.apache.ws.security.handler.RequestData;
 import org.apache.ws.security.processor.SAMLTokenProcessor;
 import org.opensaml.SAMLAssertion;
@@ -55,7 +56,7 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor {
 	}
 
 	@Override
-	protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException {
+	protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException, WSSecurityException {
 		super.doResults(msg, actor, doc, wsResult);
 
 		QName wsseQN = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");
