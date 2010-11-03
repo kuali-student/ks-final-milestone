@@ -1074,9 +1074,16 @@
         MSG_ID="orgPositionTablePersonId" MSG_VALUE="Person ID"
         OBJ_ID="4b7569d8-d0d1-4dfe-bd66-faddfbae585f" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="86cac51e-ae83-4518-8ff5-6dc85abc4b2e" LOCALE="en"
+        MSG_ID="findCredentials" MSG_VALUE="Find Programs: Credentials"
+        OBJ_ID="e2082755-149c-4545-918d-682682e6be9b" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="86cac51e-ae83-4518-8ff5-6dc85abc4e3e" LOCALE="en"
+        MSG_ID="findCores" MSG_VALUE="Find Programs: Core"
+        OBJ_ID="e2082755-149c-4545-918d-682682e6be9c" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="86cac51e-ae83-4518-8ff5-6dc85cae4e3e" LOCALE="en"
-        MSG_ID="findMajors"
-        MSG_VALUE="Find Programs (major disciplines)"
+        MSG_ID="findMajors" MSG_VALUE="Find Programs: Major Disciplines"
         OBJ_ID="e2082755-149c-4545-918d-682682e6be9a" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="87ed480c-c4da-4e52-953d-321dd044cc84" LOCALE="en"
