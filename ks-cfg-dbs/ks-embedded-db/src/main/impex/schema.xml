@@ -4897,19 +4897,17 @@
     </table>
     <table name="KSLU_CLU_SET_JN_CLU">
         <column name="CLU_SET_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="CLU_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_SET_JN_CLU_FK2">
-            <reference foreign="ID" local="CLU_ID"/>
-        </foreign-key>
+        <column name="CLU_VER_IND_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="KSLU_CLU_SET" name="KSLU_CLU_SET_JN_CLU_FK1">
             <reference foreign="ID" local="CLU_SET_ID"/>
         </foreign-key>
-        <index name="KSLU_CLU_SET_JN_CLU_I1">
-            <index-column name="CLU_SET_ID"/>
-        </index>
-        <index name="KSLU_CLU_SET_JN_CLU_I2">
-            <index-column name="CLU_ID"/>
-        </index>
+        <unique name="KSLU_CLU_SET_JN_CLU_I1">
+            <unique-column name="CLU_SET_ID"/>
+            <unique-column name="CLU_VER_IND_ID"/>
+        </unique>
     </table>
     <table name="KSLU_CLU_SET_JN_CLU_SET">
         <column name="CLU_SET_PARENT_ID" required="true" size="255" type="VARCHAR"/>
