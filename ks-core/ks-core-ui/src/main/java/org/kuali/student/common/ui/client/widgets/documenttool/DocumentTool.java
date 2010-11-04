@@ -43,6 +43,7 @@ import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
@@ -403,7 +404,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		layout.add(saveWarning);
 		saveWarning.setVisible(false);
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
-
+		buttonPanel.getButton(OkEnum.Ok).setStyleName(ButtonStyle.SECONDARY.getStyle());
+		
 		uploadList.add(createUploadForm());
 		form.setWidget(uploadList);
 		form.setMethod(FormPanel.METHOD_POST);
