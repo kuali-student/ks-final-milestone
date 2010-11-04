@@ -1458,15 +1458,8 @@ public class LuServiceImpl implements LuService {
 		// Update the List of alternate admin orgs
 		// Get a map of Id->object of all the currently persisted objects in the
 		// list
-		Map<String, CluAdminOrg> oldAdminOrgsMap = new HashMap<String, CluAdminOrg>();
-		if(clu.getAdminOrgs()!=null){
-			for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
-				oldAdminOrgsMap.put(cluOrg.getOrgId(), cluOrg);
-			}
-		}
-		
-		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
-			luDao.delete(entry.getValue());
+	    for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
+			luDao.delete(cluOrg);
 		}
 		clu.setAdminOrgs(new ArrayList<CluAdminOrg>());
 
