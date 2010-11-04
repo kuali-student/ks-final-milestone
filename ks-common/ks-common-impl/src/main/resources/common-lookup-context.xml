@@ -1394,7 +1394,7 @@
 					<property name="widget" value="SUGGEST_BOX"/>
 				</bean>
 				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="lu.queryParam.luOptionalLongName"/>
+					<property name="key" value="cluset.queryParam.luOptionalLongName"/>
 					<property name="name" value="Long Name"/>
 					<property name="desc" value="Long Clu Name"/>
 					<property name="dataType" value="STRING"/>
@@ -1436,7 +1436,7 @@
 		<property name="searchTypeId" value="lu.search.generic"/>
 		<property name="name" value="Course Number"/>
 		<property name="desc" value="Search used to define course range by Course Number"/>					
-		<property name="resultReturnKey" value="lu.resultColumn.cluId"/>									
+		<property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>									
 		<property name="params">
 			<list>
 				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">

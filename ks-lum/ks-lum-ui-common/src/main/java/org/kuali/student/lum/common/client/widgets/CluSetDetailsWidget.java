@@ -254,7 +254,7 @@ public class CluSetDetailsWidget extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 ViewContext viewContext = new ViewContext();
-                viewContext.setId(clu.getId());
+                viewContext.setId(clu.getVerIndependentId());
                 viewContext.setIdType(IdType.OBJECT_ID);
                 Application.navigate("/HOME/CURRICULUM_HOME/VIEW_COURSE", viewContext);
             }

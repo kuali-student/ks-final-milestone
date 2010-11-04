@@ -89,6 +89,7 @@ import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.CluSetAttribute;
+import org.kuali.student.lum.lu.entity.CluSetJoinVersionIndClu;
 import org.kuali.student.lum.lu.entity.CluSetType;
 import org.kuali.student.lum.lu.entity.DeliveryMethodType;
 import org.kuali.student.lum.lu.entity.InstructionalFormatType;
@@ -285,7 +286,10 @@ public class LuServiceAssembler extends BaseAssembler {
 		cluSet.setDescr(toRichText(LuRichText.class, cluSetInfo.getDescr()));
 
 		for (String cluId : cluSetInfo.getCluIds()) {
-			cluSet.getClus().add(luDao.fetch(Clu.class, cluId));
+			CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+			join.setCluSet(cluSet);
+			join.setCluVersionIndId(cluId);
+			cluSet.getCluVerIndIds().add(join);
 		}
 		for (String cluSetId : cluSetInfo.getCluSetIds()) {
 			CluSet c = luDao.fetch(CluSet.class, cluSetId);
@@ -319,9 +323,9 @@ public class LuServiceAssembler extends BaseAssembler {
 			dto.setCluSetIds(cluSetIds);
 		}
 
-		List<String> cluIds = new ArrayList<String>(entity.getClus().size());
-		for (Clu id : entity.getClus()) {
-			cluIds.add(id.getId());
+		List<String> cluIds = new ArrayList<String>(entity.getCluVerIndIds().size());
+		for (CluSetJoinVersionIndClu join : entity.getCluVerIndIds()) {
+			cluIds.add(join.getCluVersionIndId());
 		}
 		dto.setCluIds(cluIds);
 

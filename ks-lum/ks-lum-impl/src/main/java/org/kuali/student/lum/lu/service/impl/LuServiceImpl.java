@@ -118,6 +118,7 @@ import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.CluSetAttribute;
+import org.kuali.student.lum.lu.entity.CluSetJoinVersionIndClu;
 import org.kuali.student.lum.lu.entity.CluSetType;
 import org.kuali.student.lum.lu.entity.DeliveryMethodType;
 import org.kuali.student.lum.lu.entity.InstructionalFormatType;
@@ -718,13 +719,14 @@ public class LuServiceImpl implements LuService {
 
                 cluSetTreeViewInfo.setCluSets(cluSets);
 			}
-		} else {
-			List<CluInfo> clus = new ArrayList<CluInfo>(cluSetInfo.getCluIds().size());
-			for (String cluId : cluSetInfo.getCluIds()) {
-				clus.add(getClu(cluId));
-			}
-			cluSetTreeViewInfo.setClus(clus);
 		}
+		List<CluInfo> clus = new ArrayList<CluInfo>(cluSetInfo.getCluIds().size());
+		for (String cluId : cluSetInfo.getCluIds()) {
+			if(cluId!=null){
+				clus.add(LuServiceAssembler.toCluInfo(luDao.getCurrentCluVersion(cluId)));
+			}
+		}
+		cluSetTreeViewInfo.setClus(clus);
 	}
 
 	@Override
@@ -745,7 +747,7 @@ public class LuServiceImpl implements LuService {
 			PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
-		List<String> ids = new ArrayList<String>(cluSet.getClus().size());
+		List<String> ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
 		if(cluSet.getCluSets()!=null){
 			for (CluSet cluSet2 : cluSet.getCluSets()) {
 				ids.add(cluSet2.getId());
@@ -769,9 +771,9 @@ public class LuServiceImpl implements LuService {
 			PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
-		List<CluInfo> clus = new ArrayList<CluInfo>(cluSet.getClus().size());
-		for (Clu clu : cluSet.getClus()) {
-			clus.add(LuServiceAssembler.toCluInfo(clu));
+		List<CluInfo> clus = new ArrayList<CluInfo>(cluSet.getCluVerIndIds().size());
+		for (CluSetJoinVersionIndClu cluSetJnClu : cluSet.getCluVerIndIds()) {
+			clus.add(LuServiceAssembler.toCluInfo(luDao.getCurrentCluVersion(cluSetJnClu.getCluVersionIndId())));
 		}
 		return clus;
 	}
@@ -783,9 +785,9 @@ public class LuServiceImpl implements LuService {
 			PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
-		List<String> ids = new ArrayList<String>(cluSet.getClus().size());
-		for (Clu clu : cluSet.getClus()) {
-			ids.add(clu.getId());
+		List<String> ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
+		for (CluSetJoinVersionIndClu cluSetJnClu : cluSet.getCluVerIndIds()) {
+			ids.add(cluSetJnClu.getCluVersionIndId());
 		}
 		return ids;
 	}
@@ -796,12 +798,12 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
-		List<Clu> clus = new ArrayList<Clu>();
+		List<String> cluIndIds = new ArrayList<String>();
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
-		findClusInCluSet(clus, cluSet);
-		List<CluInfo> infos = new ArrayList<CluInfo>(clus.size());
-		for (Clu clu : clus) {
-			infos.add(LuServiceAssembler.toCluInfo(clu));
+		findClusInCluSet(cluIndIds, cluSet);
+		List<CluInfo> infos = new ArrayList<CluInfo>(cluIndIds.size());
+		for (String cluIndId : cluIndIds) {
+			infos.add(LuServiceAssembler.toCluInfo(luDao.getCurrentCluVersion(cluIndId)));
 		}
 		return infos;
 	}
@@ -812,13 +814,9 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
-		List<Clu> clus = new ArrayList<Clu>();
+		List<String> ids = new ArrayList<String>();
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
-		findClusInCluSet(clus, cluSet);
-		List<String> ids = new ArrayList<String>(clus.size());
-		for (Clu clu : clus) {
-			ids.add(clu.getId());
-		}
+		findClusInCluSet(ids, cluSet);
 		return ids;
 	}
 
@@ -989,6 +987,11 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		Clu clu = toCluForCreate(luTypeKey,cluInfo);
+		//Set current (since this is brand new and every verIndId needs one current)
+		if(clu.getVersion() == null){
+			clu.setVersion(new Version());
+		}
+		clu.getVersion().setCurrentVersionStart(new Date());
 		luDao.create(clu);
 		return LuServiceAssembler.toCluInfo(clu);
 	}
@@ -1468,9 +1471,7 @@ public class LuServiceImpl implements LuService {
 		// otherwise create a new entry
 		for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
 			CluAdminOrg cluOrg = new CluAdminOrg();
-			if (cluOrg == null) {
-				cluOrg = new CluAdminOrg();
-			}
+
 			// Do Copy
 			BeanUtils.copyProperties(orgInfo, cluOrg,
 					new String[] { "attributes","id" });
@@ -2222,17 +2223,17 @@ public class LuServiceImpl implements LuService {
 
 		SearchResult result = search(sr);
 
-		List<String> cluIds = new ArrayList<String>();
+		Set<String> cluIds = new HashSet<String>();
 		List<SearchResultRow> rows = result.getRows();
 		for(SearchResultRow row : rows) {
 			List<SearchResultCell> cells = row.getCells();
 			for(SearchResultCell cell : cells) {
-				if(cell.getKey().equals("lu.resultColumn.cluId")) {
+				if(cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")&&cell.getValue()!=null) {
 					cluIds.add(cell.getValue());
 				}
 			}
 		}
-		return cluIds;
+		return new ArrayList<String>(cluIds);
 	}
 
 	private void validateCluSet(CluSetInfo cluSetInfo) throws UnsupportedActionException {
@@ -2290,20 +2291,26 @@ public class LuServiceImpl implements LuService {
 		}
 
 		// update the cluIds
-		
-		cluSet.setClus(new ArrayList<Clu>());
-		if(cluSet.getCluSets()==null){
-			cluSet.setCluSets(new ArrayList<CluSet>());
+		Map<String, CluSetJoinVersionIndClu> oldClus = new HashMap<String, CluSetJoinVersionIndClu>();
+		for(CluSetJoinVersionIndClu join:cluSet.getCluVerIndIds()){
+			oldClus.put(join.getCluVersionIndId(), join);
 		}
-		if(!cluSetInfo.getCluIds().isEmpty()) {
-			Set<String> newCluIds = new HashSet<String>(cluSetInfo.getCluIds());
-			for (Iterator<Clu> i = cluSet.getClus().iterator(); i.hasNext();) {
-				if (!newCluIds.remove(i.next().getId())) {
-					i.remove();
-				}
+
+		cluSet.getCluVerIndIds().clear();
+		// Loop through the new list, if the item exists already update and remove from the list otherwise create a new entry
+		for (String newCluId : cluSetInfo.getCluIds()) {
+			CluSetJoinVersionIndClu join = oldClus.remove(newCluId);
+			if (join == null) {
+				join = new CluSetJoinVersionIndClu();
+				join.setCluSet(cluSet);
+				join.setCluVersionIndId(newCluId);
 			}
-			List<Clu> cluList = luDao.getClusByIdList(new ArrayList<String>(newCluIds));
-			cluSet.setClus(cluList);
+			cluSet.getCluVerIndIds().add(join);
+		}
+
+		// Now delete anything left over
+		for (Entry<String, CluSetJoinVersionIndClu> entry : oldClus.entrySet()) {
+			luDao.delete(entry.getValue());
 		}
 
         // clean up existing wrappers if any
@@ -2324,6 +2331,9 @@ public class LuServiceImpl implements LuService {
         }
 
 		// update the cluSetIds
+		if(cluSet.getCluSets()==null){
+			cluSet.setCluSets(new ArrayList<CluSet>());
+		}
 		cluSet.setCluSets(null);
 		if(!cluSetInfo.getCluSetIds().isEmpty()) {
 			Set<String> newCluSetIds = new HashSet<String>(cluSetInfo.getCluSetIds());
@@ -2448,11 +2458,19 @@ public class LuServiceImpl implements LuService {
 
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
-		Clu clu = luDao.fetch(Clu.class, cluId);
-
 		checkCluAlreadyAdded(cluSet, cluId);
-
-		cluSet.getClus().add(clu);
+		
+		try{
+			luDao.getCurrentCluVersionInfo(cluId, LuServiceConstants.CLU_NAMESPACE_URI);
+		}catch(NoResultException e){
+			throw new DoesNotExistException();
+		}
+		
+		CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+		join.setCluSet(cluSet);
+		join.setCluVersionIndId(cluId);
+		
+		cluSet.getCluVerIndIds().add(join);
 
 		luDao.update(cluSet);
 
@@ -2473,10 +2491,11 @@ public class LuServiceImpl implements LuService {
 
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
-		for (Iterator<Clu> i = cluSet.getClus().iterator(); i.hasNext();) {
-			Clu clu = i.next();
-			if (clu.getId().equals(cluId)) {
+		for (Iterator<CluSetJoinVersionIndClu> i = cluSet.getCluVerIndIds().iterator(); i.hasNext();) {
+			CluSetJoinVersionIndClu join = i.next();
+			if (join.getCluVersionIndId().equals(cluId)) {
 				i.remove();
+				luDao.delete(join);
 				luDao.update(cluSet);
 				StatusInfo statusInfo = new StatusInfo();
 				statusInfo.setSuccess(true);
@@ -2808,8 +2827,8 @@ public class LuServiceImpl implements LuService {
 
 	private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
 			throws OperationFailedException {
-		for (Clu childClu : cluSet.getClus()) {
-			if (childClu.getId().equals(cluId)) {
+		for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
+			if (join.getCluVersionIndId().equals(cluId)) {
 				throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
 			}
 		}
@@ -2846,17 +2865,17 @@ public class LuServiceImpl implements LuService {
 		}
 	}
 
-	private void findClusInCluSet(List<Clu> clus, CluSet parentCluSet)
+	private void findClusInCluSet(List<String> clus, CluSet parentCluSet)
 			throws DoesNotExistException {
         List<String> processedCluSetIds = new ArrayList<String>();
         doFindClusInCluSet(processedCluSetIds, clus, parentCluSet);
 	}
 	
 	private void doFindClusInCluSet(List<String> processedCluSetIds, 
-	        List<Clu> clus, CluSet parentCluSet) {
-        for (Clu clu : parentCluSet.getClus()) {
-            if (!clus.contains(clu)) {
-                clus.add(clu);
+	        List<String> clus, CluSet parentCluSet) {
+        for (CluSetJoinVersionIndClu join : parentCluSet.getCluVerIndIds()) {
+            if (!clus.contains(join.getCluVersionIndId())) {
+                clus.add(join.getCluVersionIndId());
             }
         }
         if(parentCluSet.getCluSets()!=null){
@@ -2957,7 +2976,7 @@ public class LuServiceImpl implements LuService {
 
 		checkForMissingParameter(cluIdList, "cluIdList");
 		checkForMissingParameter(cluSetId, "cluSetId");
-
+		
 		for(String cluId : cluIdList) {
 			StatusInfo status = addCluToCluSet(cluId, cluSetId);
 			if (!status.getSuccess()) {

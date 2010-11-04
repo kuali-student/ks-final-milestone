@@ -2288,7 +2288,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-        assertEquals(111, createdCluSet.getCluIds().size());
+        assertEquals(107, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
@@ -2832,20 +2832,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluInfo clu = createCluInfo();
 		clu.setType("luType.shell.course");
 		CluInfo cluV1 = client.createClu(clu.getType(), clu);
-		try{
-			//Try to make a new version when there is no current version
-			client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"foo");
-			assertTrue(false);
-		}catch(Exception e){}
 
 		try{
 			//Try to set the start date in the past
 			client.setCurrentCluVersion(cluV1.getId(), DF.parse("19000101"));
 			assertTrue(false);
 		}catch(Exception e){}
-		
-		//Make the current version
-		client.setCurrentCluVersion(cluV1.getId(), null);
 		
 		CluInfo justMadeCurrentClu = client.getClu(cluV1.getId());
 		assertTrue(justMadeCurrentClu.getVersionInfo().getCurrentVersionStart().compareTo(new Date())<1);
@@ -3404,7 +3396,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
         SearchParam searchParam = new SearchParam();
-        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setKey("cluset.queryParam.luOptionalId");
         searchParam.setValue("CLU-5");
         queryParamValues.add(searchParam);
 

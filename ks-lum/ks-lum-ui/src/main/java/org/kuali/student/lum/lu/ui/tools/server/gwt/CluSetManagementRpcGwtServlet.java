@@ -29,6 +29,7 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
@@ -37,6 +38,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 
 public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
@@ -161,7 +163,8 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         if (cluIds != null) {
             for (String cluId : cluIds) {
                 try {
-                    CluInfo cluInfo = luService.getClu(cluId);
+                	VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
+                    CluInfo cluInfo = luService.getClu(versionInfo.getId());
                     if (cluInfo != null) {
                         CluInformation cluInformation = new CluInformation();
                         // TODO credits
@@ -192,7 +195,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                             cluInformation.setCode(cluInfo.getOfficialIdentifier().getCode());
                             cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
                         }
-                        cluInformation.setId(cluInfo.getId());
+                        cluInformation.setVerIndependentId(cluInfo.getVersionInfo().getVersionIndId());
                         result.add(cluInformation);
                     }
                 } catch (Exception e) {
@@ -235,8 +238,8 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                 List<SearchResultCell> cells = row.getCells();
                 CluInformation cluInformation = new CluInformation();
                 for(SearchResultCell cell : cells) {
-                    if(cell.getKey().equals("lu.resultColumn.cluId")) {
-                        cluInformation.setId(cell.getValue());
+                    if(cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")) {
+                        cluInformation.setVerIndependentId(cell.getValue());
                     }
                     if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {
                         cluInformation.setCode(cell.getValue());

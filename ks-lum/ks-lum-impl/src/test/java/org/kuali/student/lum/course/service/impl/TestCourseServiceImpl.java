@@ -655,16 +655,6 @@ public class TestCourseServiceImpl {
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo);
 
-        try {
-            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version");
-            assertTrue(false);
-        } catch (Exception e) {
-            assertTrue(true);
-        }
-
-        // Make the created the current version
-        courseService.setCurrentCourseVersion(createdCourse.getId(), null);
-
         CourseInfo newCourse = null;
         try {
             newCourse = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version");
@@ -1063,9 +1053,6 @@ public class TestCourseServiceImpl {
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo);
 
-        // Make the created the current version
-        courseService.setCurrentCourseVersion(createdCourse.getId(), null);
-        
         try {
             courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
             assertTrue(true);
@@ -1085,9 +1072,6 @@ public class TestCourseServiceImpl {
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo);
 
-        // Make the created the current version
-        courseService.setCurrentCourseVersion(createdCourse.getId(), null);
-        
         VersionDisplayInfo versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), new Date());
         
         assertNotNull(versionInfo);
@@ -1123,9 +1107,6 @@ public class TestCourseServiceImpl {
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo);
 
-        // Make the created the current version
-        courseService.setCurrentCourseVersion(createdCourse.getId(), null);
-        
         List<VersionDisplayInfo> versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
         
         assertEquals(1, versions.size());

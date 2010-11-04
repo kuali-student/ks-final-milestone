@@ -313,20 +313,20 @@
  </bean>
  <bean id="search.cluset.approvedClus" parent="uilookupconfig-parent">
   <property name="path" value="search.cluset.approvedClus" />
-  <property name="initialLookup" ref="kuali.lu.lookup.basic.approvedCourses" />
+  <property name="initialLookup" ref="kuali.lu.lookup.basic.approvedCourses.returnVerIndId" />
   <property name="additionalLookups">
    <list>
-    <ref bean="kuali.lu.lookup.advanced.approvedCourses" />
+    <ref bean="kuali.lu.lookup.advanced.approvedCourses.returnVerIndId" />
    </list>
   </property>
  </bean>
 
  <bean id="search.cluset.proposedClus" parent="uilookupconfig-parent">
   <property name="path" value="search.cluset.proposedClus" />
-  <property name="initialLookup" ref="kuali.lu.lookup.basic.proposedCourses" />
+  <property name="initialLookup" ref="kuali.lu.lookup.basic.proposedCourses.returnVerIndId" />
   <property name="additionalLookups">
    <list>
-    <ref bean="kuali.lu.lookup.advanced.proposedCourses" />
+    <ref bean="kuali.lu.lookup.advanced.proposedCourses.returnVerIndId" />
    </list>
   </property>
  </bean>
@@ -985,7 +985,11 @@
   <property name="id" value="kuali.lu.lookup.termsOffered" />
  </bean>
 
-
+ <bean id="kuali.lu.lookup.findCourse.suggest.returnVerIndId" parent="kuali.lu.lookup.findCourse.suggest">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
+ </bean>
+ 
  <bean id="kuali.lu.lookup.findCourse.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="kuali.common.lookup.findCourse.suggest">
   <property name="id" value="kuali.lu.lookup.findCourse.suggest" />
@@ -1012,6 +1016,11 @@
   </property>
  </bean>
 
+ <bean id="kuali.lu.lookup.findProgram.suggest.returnVerIndId" parent="kuali.lu.lookup.findProgram.suggest">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
+ </bean>
+ 
  <bean id="kuali.lu.lookup.findProgram.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="kuali.common.lookup.findProgram.suggest">
   <property name="id" value="kuali.lu.lookup.findProgram.suggest" />
@@ -1094,6 +1103,11 @@
   </property>
  </bean>
 
+ <bean id="kuali.lu.lookup.basic.approvedCourses.returnVerIndId" parent="kuali.lu.lookup.basic.approvedCourses">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
+ </bean>
+ 
  <bean id="kuali.lu.lookup.basic.approvedCourses" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="kuali.common.lookup.basic.approvedCourses">
   <property name="id" value="kuali.lu.lookup.basic.approvedCourses" />
@@ -1167,6 +1181,11 @@
   </property>
  </bean>
 
+ <bean id="kuali.lu.lookup.basic.proposedCourses.returnVerIndId" parent="kuali.lu.lookup.basic.proposedCourses">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
+ </bean>
+ 
  <bean id="kuali.lu.lookup.basic.proposedCourses" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="kuali.common.lookup.basic.proposedCourses">
   <property name="id" value="kuali.lu.lookup.basic.proposedCourses" />
@@ -1505,6 +1524,11 @@
   </property>
  </bean>
 
+ <bean id="kuali.lu.lookup.findCourse.advanced.coursesonly.returnVerIndId" parent="kuali.lu.lookup.findCourse.advanced.coursesonly">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
+ </bean>
+
  <bean id="kuali.lu.lookup.findCourse.advanced.coursesonly" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="kuali.common.lookup.findCourse.advanced.coursesonly">
   <property name="id"
@@ -1559,6 +1583,11 @@
     </bean>
    </list>
   </property>
+ </bean>
+
+ <bean id="kuali.lu.lookup.findCourse.advanced.proposalsonly.returnVerIndId" parent="kuali.lu.lookup.findCourse.advanced.proposalsonly">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
  </bean>
 
  <bean id="kuali.lu.lookup.findCourse.advanced.proposalsonly"
@@ -1825,6 +1854,12 @@
   </property>
  </bean>
 
+ <bean id="kuali.lu.lookup.advanced.approvedCourses.returnVerIndId"
+       parent="kuali.lu.lookup.advanced.approvedCourses">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
+ </bean>
+
  <bean id="kuali.lu.lookup.advanced.approvedCourses" class="org.kuali.student.core.assembly.data.UILookupData"
        parent="kuali.common.lookup.advanced.approvedCourses">
   <property name="id" value="kuali.lu.lookup.advanced.approvedCourses" />
@@ -1873,6 +1908,11 @@
     </bean>
    </list>
   </property>
+ </bean>
+
+ <bean id="kuali.lu.lookup.advanced.proposedCourses.returnVerIndId" parent="kuali.lu.lookup.advanced.proposedCourses">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
  </bean>
 
  <bean id="kuali.lu.lookup.advanced.proposedCourses" class="org.kuali.student.core.assembly.data.UILookupData"
@@ -1987,7 +2027,7 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalCode"/>
+     <property name="key" value="cluset.queryParam.luOptionalCode"/>
      <property name="name" value="Course Name"/>
      <property name="desc" value="Course Name"/>
      <property name="dataType" value="STRING"/>
@@ -2059,7 +2099,7 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalLongName"/>
+     <property name="key" value="cluset.queryParam.luOptionalLongName"/>
      <property name="name" value="Program Name"/>
      <property name="desc" value="Program Name"/>
      <property name="dataType" value="STRING"/>
@@ -2131,7 +2171,7 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalLongName"/>
+     <property name="key" value="cluset.queryParam.luOptionalLongName"/>
      <property name="name" value="Standardized Test Name"/>
      <property name="desc" value="Standardized Test Name"/>
      <property name="dataType" value="STRING"/>
@@ -3124,12 +3164,12 @@
  <!--This is just a renaming of cluIds so just copy it-->
  <bean id="courseSet.allClus" parent="uilookupconfig-parent">
   <property name="path" value="courseSet.allClus" />
-  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest.returnVerIndId" />
  </bean>
 
  <bean id="programSet.allClus" parent="uilookupconfig-parent">
   <property name="path" value="programSet.allClus" />
-  <property name="initialLookup" ref="kuali.lu.lookup.findProgram.suggest" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findProgram.suggest.returnVerIndId" />
  </bean>
 
  <bean id="testSet.allClus" parent="uilookupconfig-parent">
@@ -3140,22 +3180,22 @@
 
  <bean id="cluset.cluSetRangeViewDetails" parent="uilookupconfig-parent">
   <property name="path" value="cluset.cluSetRangeViewDetails" />
-  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.suggest.returnVerIndId" />
  </bean>
 
  <bean id="courseSet.approvedClus" parent="uilookupconfig-parent">
   <property name="path" value="courseSet.approvedClus" />
-  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.approved.suggest" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.approved.suggest.returnVerIndId" />
   <property name="additionalLookups">
    <list>
-    <ref bean="kuali.lu.lookup.findCourse.advanced.coursesonly" />
+    <ref bean="kuali.lu.lookup.findCourse.advanced.coursesonly.returnVerIndId" />
    </list>
   </property>
  </bean>
 
  <bean id="programSet.approvedClus" parent="uilookupconfig-parent">
   <property name="path" value="programSet.approvedClus" />
-  <property name="initialLookup" ref="kuali.lu.lookup.findProgram.approved.suggest" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findProgram.approved.suggest.returnVerIndId" />
  </bean>
 
  <bean id="testSet.approvedClus" parent="uilookupconfig-parent">
@@ -3165,10 +3205,10 @@
 
  <bean id="courseSet.proposedClus" parent="uilookupconfig-parent">
   <property name="path" value="courseSet.proposedClus" />
-  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.proposed.suggest" />
+  <property name="initialLookup" ref="kuali.lu.lookup.findCourse.proposed.suggest.returnVerIndId" />
   <property name="additionalLookups">
    <list>
-    <ref bean="kuali.lu.lookup.findCourse.advanced.proposalsonly" />
+    <ref bean="kuali.lu.lookup.findCourse.advanced.proposalsonly.returnVerIndId" />
    </list>
   </property>
  </bean>
@@ -3184,6 +3224,11 @@
  </bean>
 
  <!--Approved-->
+ <bean id="kuali.lu.lookup.findCourse.approved.suggest.returnVerIndId" parent="kuali.lu.lookup.findCourse.approved.suggest">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
+ </bean>
+ 
  <bean id="kuali.lu.lookup.findCourse.approved.suggest" parent="kuali.lu.lookup.findCourse.suggest">
   <property name="id" value="kuali.lu.lookup.findCourse.approved.suggest" />
   <property name="params">
@@ -3203,6 +3248,11 @@
     </bean>
    </list>
   </property>
+ </bean>
+
+ <bean id="kuali.lu.lookup.findProgram.approved.suggest.returnVerIndId" parent="kuali.lu.lookup.findProgram.approved.suggest">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
  </bean>
 
  <bean id="kuali.lu.lookup.findProgram.approved.suggest" parent="kuali.lu.lookup.findProgram.suggest">
@@ -3249,6 +3299,11 @@
 
 
  <!--Proposed-->
+ <bean id="kuali.lu.lookup.findCourse.proposed.suggest.returnVerIndId" parent="kuali.lu.lookup.findCourse.proposed.suggest">
+  <property name="resultReturnKey" value="lu.resultColumn.luOptionalVersionIndId"/>
+  <property name="searchParamIdKey" value="lu.queryParam.luOptionalVersionIndId"/>
+ </bean>
+ 
  <bean id="kuali.lu.lookup.findCourse.proposed.suggest" parent="kuali.lu.lookup.findCourse.suggest">
   <property name="id" value="kuali.lu.lookup.findCourse.proposed.suggest" />
   <property name="params">
