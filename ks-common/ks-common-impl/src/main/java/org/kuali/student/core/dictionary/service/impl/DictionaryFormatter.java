@@ -1,6 +1,8 @@
 package org.kuali.student.core.dictionary.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -131,7 +133,7 @@ public class DictionaryFormatter
   builder.append (colSeperator);
   builder.append (colSeperator);
   builder.append (rowSeperator);
-  for (FieldDefinition fd : os.getAttributes ())
+  for (FieldDefinition fd : getSortedFields ())
   {
    builder.append (colSeperator);
    builder.append (pad (fd.getName (), 30));
@@ -204,6 +206,25 @@ public class DictionaryFormatter
   }
 
   return builder.toString ();
+ }
+
+
+
+ private List<FieldDefinition> getSortedFields ()
+ {
+   List<FieldDefinition> fields = os.getAttributes ();
+   Collections.sort (fields, new FieldDefinitionNameComparator ());
+   return fields;
+ }
+
+ private static class FieldDefinitionNameComparator implements Comparator <FieldDefinition>
+ {
+  @Override
+  public int compare (FieldDefinition o1, FieldDefinition o2)
+  {
+   return o1.getName ().toLowerCase ().compareTo (o2.getName ().toLowerCase ());
+  }
+
  }
 
  private Class getClass (String className)
@@ -818,4 +839,4 @@ public class DictionaryFormatter
   }
   return value.toString ();
  }
-}
+ }
