@@ -177,11 +177,11 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="113" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.courseset.grade.min"
-        TEMPLATE="Must have earned a minimum grade of $gradeType.getName().toLowerCase() $grade in" VER_NBR="0"/>
+        TEMPLATE="Must have earned a minimum grade of #if($gradeType.getId().equals(&quot;kuali.resultComponent.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.resultComponent.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade in" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="114" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.courseset.grade.max"
-        TEMPLATE="Must not have earned a maximum grade of $gradeType.getName().toLowerCase() $grade or higher in" VER_NBR="0"/>
+        TEMPLATE="Must not have earned a maximum grade of #if($gradeType.getId().equals(&quot;kuali.resultComponent.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.resultComponent.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade or higher in" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="115" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.permission.org.required"
@@ -201,7 +201,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="119" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.courseset.nof.grade.min"
-        TEMPLATE="Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) with a minimum grade of $gradeType.getName().toLowerCase() $grade from" VER_NBR="0"/>
+        TEMPLATE="Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) with a minimum grade of #if($gradeType.getId().equals(&quot;kuali.resultComponent.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.resultComponent.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade from" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="120" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.course.program.admitted.org.duration"
@@ -245,11 +245,11 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="13" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.grade.min"
-        TEMPLATE="Must have earned a minimum grade of $gradeType.getName().toLowerCase() $grade in $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
+        TEMPLATE="Must have earned a minimum grade of #if($gradeType.getId().equals(&quot;kuali.resultComponent.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.resultComponent.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade in $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="14" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.grade.max"
-        TEMPLATE="Must not have earned a maximum grade of $gradeType.getName().toLowerCase() $grade or higher in $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
+        TEMPLATE="Must not have earned a maximum grade of #if($gradeType.getId().equals(&quot;kuali.resultComponent.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.resultComponent.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade or higher in $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="15" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.permission.org.required"
@@ -269,7 +269,7 @@
     <KSST_REQ_COM_TYPE_NL_TMPL ID="19" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.nof.grade.min"
-        TEMPLATE="Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) with a minimum grade of $gradeType.getName().toLowerCase() $grade from $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
+        TEMPLATE="Must successfully complete a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) with a minimum grade of #if($gradeType.getId().equals(&quot;kuali.resultComponent.grade.letter&quot;) || $gradeType.getId().equals(&quot;kuali.resultComponent.grade.percentage&quot;))$gradeType.getName().toLowerCase() #{end}$grade from $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="2" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.completed.all"
