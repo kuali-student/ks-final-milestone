@@ -1,14 +1,9 @@
 package org.kuali.student.lum.program.client.widgets;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -21,6 +16,13 @@ import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.events.ValidationFailedEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+
 /**
  * @author Igor
  */
@@ -32,7 +34,7 @@ public class SummaryActionPanel extends Composite {
 
     private final KSButton approveButton = new KSButton(ProgramProperties.get().button_approve());
 
-    private final KSButton activateButton = new KSButton(ProgramProperties.get().button_activate());
+    private final KSButton activateButton = new KSButton(ProgramProperties.get().button_activate(),ButtonStyle.SECONDARY);
 
     private final Anchor exitAnchor = new Anchor(ProgramProperties.get().link_exit());
 
