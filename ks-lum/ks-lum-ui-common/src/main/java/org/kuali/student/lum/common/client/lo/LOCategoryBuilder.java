@@ -99,7 +99,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
     VerticalPanel root = new VerticalPanel();
 
-    private KSButton addButton = new KSButton("Add");
+    private KSButton addButton = new KSButton("Add", ButtonStyle.SECONDARY);
 
     private KSLightBox createCategoryWindow;
     Anchor browseCategoryLink = new Anchor("Browse for categories");

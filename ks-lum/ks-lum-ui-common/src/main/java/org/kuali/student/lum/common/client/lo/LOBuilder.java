@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
@@ -191,7 +192,7 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 		
 		public LearningObjectiveList() {
 			mainPanel.add(outlineComposite);
-			KSButton addnew = new KSButton("Add item", new ClickHandler() {
+			KSButton addnew = new KSButton("Add item",ButtonStyle.SECONDARY, new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					setValue(getValue());
 					appendLO("");
