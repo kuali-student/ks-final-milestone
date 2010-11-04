@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
@@ -59,7 +60,7 @@ public class CollaboratorSectionView extends SectionView {
     private FieldDescriptor permissions;    
     private FieldDescriptor actionRequests;
     private FieldDescriptor authorNotation;
-    private KSButton addButton = new KSButton("Add Collaborator");
+    private KSButton addButton = new KSButton("Add Collaborator",ButtonStyle.SECONDARY);
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
