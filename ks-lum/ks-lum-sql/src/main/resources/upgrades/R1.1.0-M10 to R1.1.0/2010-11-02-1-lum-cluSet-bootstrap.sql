@@ -53,7 +53,16 @@ WHERE
         AND c.VER_IND_ID IS NOT NULL
     )
 /    
-    
+
+UPDATE
+    KSLU_CLU_SET_JN_CLU j
+SET
+    j.ID = SYS_GUID(),
+    j.OBJ_ID = SYS_GUID(),
+    j.VER_NBR = 0
+WHERE
+    j.ID IS NULL 
+/
     
 ALTER TABLE
     KSLU_CLU_SET_JN_CLU ADD PRIMARY KEY (ID)
