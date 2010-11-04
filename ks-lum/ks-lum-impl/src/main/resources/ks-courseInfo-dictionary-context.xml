@@ -518,7 +518,9 @@
   <property name="maxOccurs" value="unbounded" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseRevenueInfo" />
  </bean>
- <bean id="courseInfo.revenues" parent="courseInfo.revenues-parent" />
+ <bean id="courseInfo.revenues" parent="courseInfo.revenues-parent" >
+   <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
+ </bean>
 
  <bean id="courseInfo.expenditure-parent" abstract="true" parent="baseComplex">
   <property name="name" value="expenditure" />
@@ -526,7 +528,9 @@
   <property name="maxOccurs" value="1" />
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseExpenditureInfo" />
  </bean>
- <bean id="courseInfo.expenditure" parent="courseInfo.expenditure-parent" />
+ <bean id="courseInfo.expenditure" parent="courseInfo.expenditure-parent" >
+ <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator"/>
+ </bean>
 
  <bean id="courseInfo.startTerm-parent" abstract="true" parent="cluInfo.expectedFirstAtp-parent">
   <property name="name" value="startTerm" />

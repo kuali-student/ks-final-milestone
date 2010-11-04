@@ -37,8 +37,9 @@ public class ValidatorFactory {
 	
 	
 	public Validator getValidator(String customValidator) {
-	    
-	    if(null == customValidator) {
+	
+	    System.out.println("Retrieving validatior:" + customValidator);
+	    if(null == customValidators) {
 	        initializeMap();
 	    }
 	    

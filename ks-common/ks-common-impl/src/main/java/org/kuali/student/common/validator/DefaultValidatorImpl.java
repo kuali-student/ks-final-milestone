@@ -138,7 +138,6 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             return results;
         }
 
-        // Validate with the matching Type/State
         for (FieldDefinition f : objStructure.getAttributes()) {
             List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack);
             

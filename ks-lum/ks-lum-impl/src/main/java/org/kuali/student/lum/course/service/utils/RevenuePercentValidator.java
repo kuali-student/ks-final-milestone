@@ -1,6 +1,7 @@
 package org.kuali.student.lum.course.service.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
@@ -14,7 +15,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 
-public class RevenuePercentValidation extends DefaultValidatorImpl {
+public class RevenuePercentValidator extends DefaultValidatorImpl {
 
     private static final String COURSE_REVENUE_FIELD = "revenues";
 
@@ -42,29 +43,36 @@ public class RevenuePercentValidation extends DefaultValidatorImpl {
         dataProvider.initialize(data);
 
         // Get revenues data
-        Object revenueObj = dataProvider.getValue(field.getName());
+        Object revenuesObj = dataProvider.getValue(field.getName());
 
-        if (!(revenueObj instanceof CourseRevenueInfo)) {
-            throw new RuntimeException("Custom Validator " + this.getClass().getName() + " was not called with right data: CourseRevenueInfo");
+        if (!(revenuesObj instanceof Collection)) {
+            throw new RuntimeException("Custom Validator " + this.getClass().getName() + " was not called with right data: CourseRevenueInfo Collection");
         }
 
-        CourseRevenueInfo courseRevenue = (CourseRevenueInfo) revenueObj;
-
-        // Sum all org percents and make sure they add up to 100
         long totalOrgPercent = 0l;
+        // Sum all org percents and make sure they add up to 100
+        for (Object o : (Collection<?>) revenuesObj) {
 
-        if (courseRevenue.getAffiliatedOrgs().size() > 0) {
-            for (AffiliatedOrgInfo org : courseRevenue.getAffiliatedOrgs()) {
-                totalOrgPercent += org.getPercentage();
+            if (!(o instanceof CourseRevenueInfo)) {
+                throw new RuntimeException("Custom Validator " + this.getClass().getName() + " was not called with right data: CourseRevenueInfo");
             }
 
-            if (totalOrgPercent != 100l) {
-                ValidationResultInfo valRes = new ValidationResultInfo(getElementXpath(elementStack));
-                valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), toMap(field)));
-                results.add(valRes);
+            CourseRevenueInfo courseRevenue = (CourseRevenueInfo) o;
+
+            if (courseRevenue.getAffiliatedOrgs().size() > 0) {
+                for (AffiliatedOrgInfo org : courseRevenue.getAffiliatedOrgs()) {
+                    totalOrgPercent += org.getPercentage();
+                }
             }
         }
-        
+
+        if (((Collection<?>) revenuesObj).size() > 0 && totalOrgPercent != 100l) {
+            ValidationResultInfo valRes = new ValidationResultInfo(getElementXpath(elementStack));
+            valRes.setElement("/revenues");
+            valRes.setError(MessageUtils.interpolate(getMessage("validation.revenueTotal"), toMap(field)));
+            results.add(valRes);
+        }
+
         return results;
     }
 }

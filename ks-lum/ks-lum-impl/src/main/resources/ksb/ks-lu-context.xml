@@ -468,12 +468,18 @@
         <property name="defaultValidator" ref="lumServiceValidator"/>
         <property name="validatorList">
         	<list>
-        		<!--  Add custom validators here -->
-        	</list>
+				<!--  Add Custom Validators Here -->
+				
+				<!--  Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
+			    <bean class="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
+			    <bean class="org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator"/>    	
+			
+			</list>
         </property>
     </bean>
 
-
+	
+    
 
     <!-- Program Service Config -->
 
