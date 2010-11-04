@@ -30,7 +30,7 @@ public class CoreLeaningObjectivesEditConfiguration extends AbstractSectionConfi
         Metadata meta = configurer.getModelDefinition().getMetadata(path);
         FieldDescriptor fd = addField(section, ProgramConstants.LEARNING_OBJECTIVES,
                 null,
-                new LOBuilder("type", "state", "program", "kuali.loRepository.key.singleUse", meta),
+                new LOBuilder("type", "state", "course", "kuali.loRepository.key.singleUse", meta),
                 "");
         fd.setWidgetBinding(LOBuilderBinding.INSTANCE);
         section.addStyleName("KS-LUM-Section-Divider");
