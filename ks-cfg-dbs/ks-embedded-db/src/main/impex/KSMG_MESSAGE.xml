@@ -82,11 +82,21 @@
         ID="07eb91eb-75f8-4d8c-9867-a9366ebd49ca" LOCALE="en"
         MSG_ID="kuali.lu.type.CreditCourse.draft" MSG_VALUE="Proposal"
         OBJ_ID="f0a0d755-59dd-4aec-9334-9105069cbb0a" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="082a5389-2135-486d-805a-62a3fd2e9952" LOCALE="en"
+        MSG_ID="validation.revenueTotal"
+        MSG_VALUE="Sum of percentages from all the revenue organizations should be 100."
+        OBJ_ID="73f2a5d6-2a6f-49f1-8d2b-c9ccd9ea127b" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="0ae67afa-55e2-4b82-b7c5-ccf0b245ef4c" LOCALE="es"
         MSG_ID="cluCourseRestrictions"
         MSG_VALUE="Restricciones del curso"
         OBJ_ID="ec9f580f-dfd9-4763-bdd5-8001d6316b08" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="0b46a024-6fce-42b4-9dab-c1290c186a18" LOCALE="en"
+        MSG_ID="validation.expenditureTotal"
+        MSG_VALUE="Sum of percentages from all the expenditure organizations should be 100."
+        OBJ_ID="1526f910-2a5c-4c8f-9968-c1d98b7052da" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="0cac93c8-a3c6-46b4-86fb-f0b52071a5e2" LOCALE="en"
         MSG_ID="cluFormats-instruct"
