@@ -148,34 +148,6 @@
   <property name="maxLength" value="7"/>
   <property name="validChars" ref="validchars.cip.codes"/>
   <!--TODO: add in a lookup-->
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-         <value>ACTIVE</value>
-         <value>RETIRED</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="luCodeInfo.value-parent">
-         <property name="minOccurs" value="1" />
-         <property name="minLength" value="3"/>
-         <property name="maxLength" value="7"/>
-         <property name="validChars" ref="validchars.cip.codes"/>
-        </bean>
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>
  </bean>
  <bean id="majorDisciplineInfo.cip2000Code" parent="majorDisciplineInfo.cip2000Code-parent"/>
 
@@ -220,6 +192,34 @@
   <property name="minLength" value="6"/>
   <property name="maxLength" value="6"/>
   <property name="validChars" ref="digits"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="luCodeInfo.value-parent">
+         <property name="minOccurs" value="1" />
+         <property name="minLength" value="6"/>
+         <property name="maxLength" value="6"/>
+         <property name="validChars" ref="digits"/>
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="majorDisciplineInfo.hegisCode" parent="majorDisciplineInfo.hegisCode-parent"/>
 
@@ -591,7 +591,32 @@
 
  <bean id="majorDisciplineInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="divisionsContentOwner"/>
-  <property name="minOccurs" value="1"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="majorDisciplineInfo.divisionsContentOwner" parent="majorDisciplineInfo.divisionsContentOwner-parent">
  </bean>
@@ -922,7 +947,7 @@
  <bean id="org.kuali.student.lum.program.dto.ProgramVariationInfo"
        parent="org.kuali.student.lum.program.dto.ProgramVariationInfo-parent"/>
 
- <bean id="programVariationInfo.campusLocations-parent" abstract="true" parent="baseStringRepeating">
+ <bean id="programVariationInfo.campusLocations-parent" abstract="true" parent="majorDisciplineInfo.campusLocations-parent">
   <property name="name" value="campusLocations"/>
  </bean>
  <bean id="programVariationInfo.campusLocations" parent="programVariationInfo.campusLocations-parent"/>
@@ -933,7 +958,7 @@
  </bean>
  <bean id="programVariationInfo.catalogDescr" parent="programVariationInfo.catalogDescr-parent"/>
 
- <bean id="programVariationInfo.catalogPublicationTargets-parent" abstract="true" parent="baseStringRepeating">
+ <bean id="programVariationInfo.catalogPublicationTargets-parent" abstract="true" parent="majorDisciplineInfo.catalogPublicationTargets-parent">
   <property name="name" value="catalogPublicationTargets"/>
  </bean>
  <bean id="programVariationInfo.catalogPublicationTargets"
@@ -949,51 +974,51 @@
  </bean>
  <bean id="programVariationInfo.cip2010Code" parent="programVariationInfo.cip2010Code-parent"/>
 
- <bean id="programVariationInfo.code-parent" abstract="true" parent="baseString">
+ <bean id="programVariationInfo.code-parent" abstract="true" parent="majorDisciplineInfo.code-parent">
   <property name="name" value="code"/>
  </bean>
  <bean id="programVariationInfo.code" parent="programVariationInfo.code-parent"/>
 
- <bean id="programVariationInfo.descr-parent" abstract="true" parent="baseComplex">
+ <bean id="programVariationInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
   <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
  </bean>
  <bean id="programVariationInfo.descr" parent="programVariationInfo.descr-parent"/>
 
- <bean id="programVariationInfo.diplomaTitle-parent" abstract="true" parent="baseString">
+ <bean id="programVariationInfo.diplomaTitle-parent" abstract="true" parent="majorDisciplineInfo.diplomaTitle-parent">
   <property name="name" value="diplomaTitle"/>
  </bean>
  <bean id="programVariationInfo.diplomaTitle" parent="programVariationInfo.diplomaTitle-parent"/>
 
- <bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+ <bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
   <property name="name" value="divisionsContentOwner"/>
  </bean>
  <bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo.divisionsContentOwner-parent"/>
 
- <bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+ <bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="majorDisciplineInfo.divisionsDeployment-parent">
   <property name="name" value="divisionsDeployment"/>
  </bean>
  <bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo.divisionsDeployment-parent"/>
 
- <bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+ <bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialControl-parent">
   <property name="name" value="divisionsFinancialControl"/>
  </bean>
  <bean id="programVariationInfo.divisionsFinancialControl"
        parent="programVariationInfo.divisionsFinancialControl-parent"/>
 
- <bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+ <bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialResources-parent">
   <property name="name" value="divisionsFinancialResources"/>
  </bean>
  <bean id="programVariationInfo.divisionsFinancialResources"
        parent="programVariationInfo.divisionsFinancialResources-parent"/>
 
- <bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
+ <bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
   <property name="name" value="divisionsStudentOversight"/>
  </bean>
  <bean id="programVariationInfo.divisionsStudentOversight"
        parent="programVariationInfo.divisionsStudentOversight-parent"/>
 
- <bean id="programVariationInfo.effectiveDate-parent" abstract="true" parent="baseDate">
+ <bean id="programVariationInfo.effectiveDate-parent" abstract="true" parent="majorDisciplineInfo.effectiveDate-parent">
   <property name="name" value="effectiveDate"/>
  </bean>
  <bean id="programVariationInfo.effectiveDate" parent="programVariationInfo.effectiveDate-parent"/>
@@ -1006,10 +1031,9 @@
  <bean id="programVariationInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
   <property name="name" value="endTerm"/>
  </bean>
-
  <bean id="programVariationInfo.endTerm" parent="programVariationInfo.endTerm-parent"/>
 
- <bean id="programVariationInfo.hegisCode-parent" abstract="true" parent="baseString">
+ <bean id="programVariationInfo.hegisCode-parent" abstract="true" parent="majorDisciplineInfo.hegisCode-parent">
   <property name="name" value="hegisCode"/>
  </bean>
  <bean id="programVariationInfo.hegisCode" parent="programVariationInfo.hegisCode-parent"/>
@@ -1024,8 +1048,7 @@
  </bean>
  <bean id="programVariationInfo.intensity" parent="programVariationInfo.intensity-parent"/>
 
- <bean id="programVariationInfo.learningObjectives-parent" abstract="true"
-       parent="majorDisciplineInfo.learningObjectives-parent">
+ <bean id="programVariationInfo.learningObjectives-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="learningObjectives"/>
   <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
  </bean>

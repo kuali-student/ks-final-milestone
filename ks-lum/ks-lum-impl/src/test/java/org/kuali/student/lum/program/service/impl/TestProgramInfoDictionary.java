@@ -83,10 +83,9 @@ public class TestProgramInfoDictionary {
 //      /credentialProgramId validation.required
 //      /universityClassification validation.required
 //      /longTitle validation.required
-//      /divisionsContentOwner validation.required
 //      /type validation.required
 //      /state validation.required
-        assertEquals(6, validationResults.size());
+        assertEquals(5, validationResults.size());
 
         try {
             info =
