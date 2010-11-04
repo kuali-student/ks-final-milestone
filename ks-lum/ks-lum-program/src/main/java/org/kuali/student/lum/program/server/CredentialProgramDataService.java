@@ -1,11 +1,15 @@
 package org.kuali.student.lum.program.server;
 
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.program.client.CredentialProgramConstants;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;
-
-import java.util.Map;
 
 /**
  * @author Igor
@@ -15,6 +19,7 @@ public class CredentialProgramDataService extends AbstractDataService {
     private static final long serialVersionUID = 1L;
     
     private ProgramService programService;
+    private LuService luService;
     
     @Override
     protected String getDefaultWorkflowDocumentType() {
@@ -28,10 +33,16 @@ public class CredentialProgramDataService extends AbstractDataService {
 
     @Override
     protected Object get(String id) throws Exception {
-        if (null == id || id.length() == 0) {
+        if (null == id || id.length() == 0 || ! CredentialProgramConstants.CREDENTIAL_PROGRAM_TYPES.contains(id)) {
             throw new InvalidParameterException("No valid id for retrieving CredentialProgram");
         } else {
-            return programService.getCredentialProgram(id);
+            List<String> credIds = luService.getCluIdsByLuType(id, CredentialProgramConstants.CREDENTIAL_STATE_ACTIVE);
+            if (null == credIds || credIds.size() != 1) {
+                throw new OperationFailedException("A single credential program of type " + id + " is required; database contains " +
+                                                    (null == credIds ? "0" : credIds.size() +
+                                                    "."));
+            }
+            return programService.getCredentialProgram(credIds.get(0));
         }
     }
 
@@ -57,5 +68,9 @@ public class CredentialProgramDataService extends AbstractDataService {
 
     public void setProgramService(ProgramService programService) {
         this.programService = programService;
+    }
+
+    public void setLuService(LuService luService) {
+        this.luService = luService;
     }
 }

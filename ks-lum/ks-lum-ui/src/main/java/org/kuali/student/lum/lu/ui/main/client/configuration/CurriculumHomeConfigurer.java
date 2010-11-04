@@ -1,12 +1,7 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -21,9 +16,16 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
+import org.kuali.student.lum.program.client.CredentialProgramConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 
-import java.util.List;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
@@ -86,7 +88,9 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Application.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation());
+                ViewContext baccViewContext = new ViewContext();
+                baccViewContext.setId(CredentialProgramConstants.CREDENTIAL_BACCALAUREATE_PROGRAM);
+                Application.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation(), baccViewContext);
             }
         });
         return anchor;

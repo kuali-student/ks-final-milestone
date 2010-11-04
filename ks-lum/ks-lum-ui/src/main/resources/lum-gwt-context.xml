@@ -82,6 +82,8 @@
                        value-ref="metadataGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/programRpcService"
                        value-ref="programRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/credPgmRpcService"
+                       value-ref="credPgmRpcServletController"/>
             </map>
         </property>
     </bean>
@@ -310,6 +312,7 @@
         <property name="transformationManager" ref="programTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
     </bean>
 
 	<!--  Transformation Managers -->
