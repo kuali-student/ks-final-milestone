@@ -1546,11 +1546,10 @@
 					<property name="defaultValueList">
 						<list>
 							<value>kuali.resultComponent.grade.letter</value>
+                            <value>kuali.resultComponent.grade.passFail</value>
 							<value>kuali.resultComponent.grade.satisfactory</value>
-							<value>kuali.resultComponent.grade.percentage</value>
-							<value>kuali.resultComponent.grade.recitalReview</value>
-							<value>kuali.resultComponent.grade.designReview</value>
 							<value>kuali.resultComponent.grade.completedNotation</value>
+                            <value>kuali.resultComponent.grade.percentage</value>
 						</list>
 					</property>
 				</bean>
