@@ -1,8 +1,9 @@
-package org.kuali.student.lum.program.client;
+package org.kuali.student.lum.program.client.major;
 
 import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.bacc.edit.BaccEditController;
 import org.kuali.student.lum.program.client.bacc.view.BaccViewController;
 import org.kuali.student.lum.program.client.core.edit.CoreEditController;
@@ -16,7 +17,7 @@ import org.kuali.student.lum.program.client.variation.view.VariationViewControll
 /**
  * @author Igor
  */
-public class ProgramManager {
+public class MajorManager {
 
     private MajorViewController majorViewController;
 
@@ -30,17 +31,13 @@ public class ProgramManager {
 
     private CoreEditController coreEditController;
 
-    private BaccViewController baccViewController;
-
-    private BaccEditController baccEditController;
-
     protected DataModel programModel;
 
     private ViewContext viewContext = new ViewContext();
 
     private static HandlerManager eventBus = new HandlerManager(null);
 
-    public ProgramManager() {
+    public MajorManager() {
         programModel = new DataModel();
     }
 
@@ -105,21 +102,5 @@ public class ProgramManager {
             coreEditController = new CoreEditController(programModel, viewContext, eventBus);
         }
         return coreEditController;
-    }
-
-    public BaccViewController getBaccViewController() {
-        programModel.resetRoot();
-        if (baccViewController == null) {
-            baccViewController = new BaccViewController(programModel, viewContext, eventBus);
-        }
-        return baccViewController;
-    }
-
-    public BaccEditController getBaccEditController() {
-        programModel.resetRoot();
-        if (baccEditController == null) {
-            baccEditController = new BaccEditController(programModel, viewContext, eventBus);
-        }
-        return baccEditController;
     }
 }

@@ -11,13 +11,13 @@ import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
 /**
  * @author Igor
  */
-public class BaccController extends ProgramController{
+public class CredentialController extends ProgramController{
     /**
      * Constructor.
      *
      * @param programModel
      */
-    public BaccController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
+    public CredentialController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super("Bacc", programModel, viewContext, eventBus);
     }
 

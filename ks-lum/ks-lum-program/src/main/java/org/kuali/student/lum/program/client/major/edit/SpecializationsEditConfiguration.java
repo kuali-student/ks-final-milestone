@@ -11,7 +11,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramManager;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -33,7 +33,7 @@ public class SpecializationsEditConfiguration extends AbstractSectionConfigurati
         addSpecializationButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                ProgramManager.getEventBus().fireEvent(new AddSpecializationEvent());
+                MajorManager.getEventBus().fireEvent(new AddSpecializationEvent());
             }
         });
     }

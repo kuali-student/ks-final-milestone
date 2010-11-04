@@ -14,7 +14,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramManager;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
@@ -72,7 +72,7 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                         public void onClick(ClickEvent event) {
                             if (Window.confirm("Are you sure you want to delete specialization?")) {
                                 variationMap.remove(new Data.IntegerKey(currentRow));
-                                ProgramManager.getEventBus().fireEvent(new UpdateEvent());
+                                MajorManager.getEventBus().fireEvent(new UpdateEvent());
                             }
                         }
                     });

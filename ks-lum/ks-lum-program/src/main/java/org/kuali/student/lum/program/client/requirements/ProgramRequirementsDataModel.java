@@ -25,7 +25,7 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramManager;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
 import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
@@ -267,7 +267,7 @@ public class ProgramRequirementsDataModel {
                 String programId = ((DataModel)model).getRoot().get("id");
                 String programType = ((DataModel)model).getRoot().get("type");
 
-                ProgramManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(programId, programType, referencedProgReqIds));
+                MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(programId, programType, referencedProgReqIds));
                 callback.exec(new ArrayList(storedRules.values()));  //update display widgets
             }
         });

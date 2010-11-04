@@ -12,7 +12,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.ProgramManager;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
@@ -48,7 +48,7 @@ public class SummaryActionPanel extends Composite {
     }
 
     private void bind() {
-        ProgramManager.getEventBus().addHandler(AfterSaveEvent.TYPE, new AfterSaveEvent.Handler() {
+        MajorManager.getEventBus().addHandler(AfterSaveEvent.TYPE, new AfterSaveEvent.Handler() {
             @Override
             public void onEvent(AfterSaveEvent event) {
                 if (initiatedEvent) {
@@ -59,7 +59,7 @@ public class SummaryActionPanel extends Composite {
                 }
             }
         });
-        ProgramManager.getEventBus().addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
+        MajorManager.getEventBus().addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
                 dataModel = event.getModel();
@@ -67,7 +67,7 @@ public class SummaryActionPanel extends Composite {
                 processStatus(previousStatus);
             }
         });
-        ProgramManager.getEventBus().addHandler(ValidationFailedEvent.TYPE, new ValidationFailedEvent.Handler() {
+        MajorManager.getEventBus().addHandler(ValidationFailedEvent.TYPE, new ValidationFailedEvent.Handler() {
             @Override
             public void onEvent(ValidationFailedEvent event) {
                 if (initiatedEvent) {
@@ -106,7 +106,7 @@ public class SummaryActionPanel extends Composite {
     private void processButtonClick(ProgramStatus status) {
         initiatedEvent = true;
         setStatus(status);
-        ProgramManager.getEventBus().fireEvent(new UpdateEvent());
+        MajorManager.getEventBus().fireEvent(new UpdateEvent());
     }
 
     private void processStatus(ProgramStatus programStatus) {

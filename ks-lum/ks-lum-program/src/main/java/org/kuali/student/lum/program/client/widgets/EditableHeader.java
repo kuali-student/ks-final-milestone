@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.lum.program.client.ProgramManager;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.events.ChangeViewEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -37,7 +37,7 @@ public class EditableHeader extends Composite {
         editButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                ProgramManager.getEventBus().fireEvent(new ChangeViewEvent(viewToken));
+                MajorManager.getEventBus().fireEvent(new ChangeViewEvent(viewToken));
             }
         });
     }
