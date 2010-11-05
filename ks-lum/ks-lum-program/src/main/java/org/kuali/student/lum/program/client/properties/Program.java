@@ -223,6 +223,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String link_exit();
 
   /**
+   * Translated "Return to Curriculum Management".
+   * 
+   * @return translated "Return to Curriculum Management"
+   */
+  @DefaultMessage("Return to Curriculum Management")
+  @Key("link.backCurriculum")
+  String link_back_curriculum();
+  
+  /**
    * Translated "Learning Objectives".
    * 
    * @return translated "Learning Objectives"

@@ -36,7 +36,7 @@ public class SummaryActionPanel extends Composite {
 
     private final KSButton activateButton = new KSButton(ProgramProperties.get().button_activate(),ButtonStyle.SECONDARY);
 
-    private final Anchor exitAnchor = new Anchor(ProgramProperties.get().link_exit());
+    private final Anchor exitAnchor = new Anchor(ProgramProperties.get().link_back_curriculum());
 
     private DataModel dataModel;
 
