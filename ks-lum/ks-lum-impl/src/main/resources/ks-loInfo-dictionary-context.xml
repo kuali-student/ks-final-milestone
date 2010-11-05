@@ -137,9 +137,32 @@
 
  <bean id="loInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc" />
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo" />
+  <property name="dataObjectStructure" ref="loInfo.desc.RichTextInfo" />
  </bean>
  <bean id="loInfo.desc" parent="loInfo.desc-parent" />
+ 
+ <bean id="loInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+   <property name="attributes">
+    <list>
+     <ref bean="loInfo.desc.formatted" />
+     <ref bean="loInfo.desc.plain" />
+    </list>
+   </property>
+ </bean>
+ <bean id="loInfo.desc.RichTextInfo" parent="loInfo.desc.RichTextInfo-parent" />
+ 
+  <bean id="loInfo.desc.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+   <property name="name" value="formatted" />
+   <property name="maxLength" value="250" />
+  </bean>
+  <bean id="loInfo.desc.formatted" parent="loInfo.desc.formatted-parent" />
+ 
+  <bean id="loInfo.desc.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+   <property name="name" value="plain" />
+   <property name="maxLength" value="250" />
+  </bean>
+ <bean id="loInfo.desc.plain" parent="loInfo.desc.plain-parent" />
+ 
 
  <bean id="loInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate" />
