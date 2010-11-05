@@ -141,7 +141,7 @@ public class VariationEditController extends VariationController {
             addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
         }
-    }
+    }  
 
     @Override
     protected void resetModel() {
@@ -160,11 +160,11 @@ public class VariationEditController extends VariationController {
 
     private void saveData(DataModel model) {
         currentId = model.get("id");
-        if (currentId == null) {
+//        if (currentId == null) {
             eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
-        } else {
-            eventBus.fireEvent(new SpecializationUpdateEvent());
-        }
+//        } else {
+//            eventBus.fireEvent(new SpecializationUpdateEvent());
+//        }
         resetFieldInteractionFlag();
     }
 }

@@ -94,9 +94,45 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(SpecializationSaveEvent.TYPE, new SpecializationSaveEvent.Handler() {
             @Override
             public void onEvent(SpecializationSaveEvent event) {
-                Data variations = (Data) programModel.get(ProgramConstants.VARIATIONS);
-                updateExistingVariationIds(variations);
-                variations.add(event.getData());
+
+                Data currentVariations = (Data) programModel.get(ProgramConstants.VARIATIONS);
+
+                existingVariationIds.clear();
+
+                for (Data.Property prop : currentVariations) {
+                    String existingId = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+                    existingVariationIds.add(existingId);
+                }
+                String updatedId = event.getData().get(ProgramConstants.ID);
+                Integer updatedKey = null;
+
+                //FIXME: This is ugly but gets us past a  blocker issue. 
+                // Theres something wrong with the way the models are
+                // handled in the major and variation controllers  so they get out of sync.
+                // This is a temporary workaround
+                if (updatedId != null) { // this is an update of an existing variation
+                    for (Data.Property prop : currentVariations) {
+                        String id = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
+                        if (updatedId.equals(id)) {
+                            updatedKey = prop.getKey(); 
+                            Data currentMetaInfo =  ((Data)prop.getValue()).get("metaInfo");
+                            String latestVersionInd = currentMetaInfo.get("versionInd");
+                            Data newMetaInfo = event.getData().get("metaInfo");
+                            if (newMetaInfo == null) {
+                                newMetaInfo = new Data();
+                                event.getData().set("metaInfo", newMetaInfo);
+                            }                  
+                            newMetaInfo.set("versionInd", latestVersionInd); 
+                            break;
+                        }
+                    }
+                  
+                    currentVariations.set(updatedKey, event.getData());
+                }
+                else {
+                    currentVariations.add(event.getData());
+
+                }
                 doSave();
             }
         });
@@ -113,13 +149,7 @@ public class MajorEditController extends MajorController {
 
             }
         });
-        eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEvent.Handler() {
-            @Override
-            public void onEvent(SpecializationUpdateEvent event) {
-                updateExistingVariationIds((Data) programModel.get(ProgramConstants.VARIATIONS));
-                doSave();
-            }
-        });
+
         eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler() {
             @Override
             public void onEvent(ModelLoadedEvent event) {
