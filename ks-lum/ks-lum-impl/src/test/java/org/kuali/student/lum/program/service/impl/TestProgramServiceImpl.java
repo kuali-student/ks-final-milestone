@@ -19,12 +19,16 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
@@ -33,8 +37,10 @@ import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.lum.course.service.impl.CourseDataGenerator;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -601,6 +607,36 @@ public class TestProgramServiceImpl {
 //            testDate = new Date(createTime.getTimeInMillis());
 //            assertTrue(createdMD.getEffectiveDate().compareTo(testDate) == 0);
 	}
+
+    @Test
+    public void testMajorDisciplineVersioning() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, IllegalVersionSequencingException {
+		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
+        MajorDisciplineInfo mdInfo = mdGenerator.getMajorDisciplineInfoTestData();
+        MajorDisciplineInfo createdMajor = programService.createMajorDiscipline(mdInfo);
+
+        /*
+        try {
+            programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
+            assertTrue(false);
+        } catch (Exception e) {
+            assertTrue(true);
+        }
+
+        // Make the created the current version
+        programService.setCurrentCourseVersion(createdCourse.getId(), null);
+
+		MajorDisciplineInfo	 newMajor = null;
+        try {
+            newMajor = programServiceService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+
+        assertNotNull(newMajor);
+        */
+
+    }
 
     @Test
     public void testCreateMajorDisciplineDeleteRule() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {

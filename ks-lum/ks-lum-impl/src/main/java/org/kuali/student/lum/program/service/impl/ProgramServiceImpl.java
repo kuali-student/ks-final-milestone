@@ -3,6 +3,7 @@ package org.kuali.student.lum.program.service.impl;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -23,6 +24,7 @@ import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
@@ -36,6 +38,7 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -55,7 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
-    final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
+	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
     private LuService luService;
     private ValidatorFactory validatorFactory;
@@ -150,8 +153,29 @@ public class ProgramServiceImpl implements ProgramService {
             throw new OperationFailedException("Error creating Major Discipline");
         }
     }
-
+    
     @Override
+	public MajorDisciplineInfo createNewMajorDisciplineVersion(
+			String majorDisciplineId, String versionComment)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException {
+		// TODO Auto-generated method stub
+    	return null;
+	}
+    
+    
+    @Override
+	public StatusInfo setCurrentMajorDisciplineVersion(
+			String majorDisciplineId, Date currentVersionStart)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, IllegalVersionSequencingException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
     public MinorDisciplineInfo createMinorDiscipline(
             MinorDisciplineInfo minorDisciplineInfo)
             throws AlreadyExistsException, DataValidationErrorException,
@@ -847,6 +871,62 @@ public class ProgramServiceImpl implements ProgramService {
         }
         return validationResults;
     }
+        
+	@Override
+	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
+			String refObjectId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
+			String refObjectId, Date date) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
+			String refObjectId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public VersionDisplayInfo getVersionBySequenceNumber(
+			String refObjectTypeURI, String refObjectId, Long sequence)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
+			String refObjectId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<VersionDisplayInfo> getVersionsInDateRange(
+			String refObjectTypeURI, String refObjectId, Date from, Date to)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	public void setAtpService(AtpService atpService) {
 		this.atpService = atpService;
