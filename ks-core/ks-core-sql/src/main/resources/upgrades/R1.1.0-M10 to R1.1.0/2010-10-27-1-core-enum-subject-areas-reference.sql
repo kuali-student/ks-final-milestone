@@ -8,3 +8,11 @@ insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SOR
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL, OBJ_ID, VER_NBR ) values ('SUBJAREA68', 'PHYS', 'PHYS', to_date('2000-01-01', 'yyyy-mm-dd'), 'kuali.lu.subjectArea', null, 68, 'Physics', SYS_GUID(), 0)/
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL, OBJ_ID, VER_NBR ) values ('SUBJAREA69', 'STAT', 'STAT', to_date('2000-01-01', 'yyyy-mm-dd'), 'kuali.lu.subjectArea', null, 69, 'Statistics', SYS_GUID(), 0)/
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL, OBJ_ID, VER_NBR ) values ('SUBJAREA70', 'UNIV', 'UNIV', to_date('2000-01-01', 'yyyy-mm-dd'), 'kuali.lu.subjectArea', null, 70, 'UNIV', SYS_GUID(), 0)/
+
+
+CREATE
+    INDEX "KSEM_ENUM_VAL_I2" ON "KSEM_ENUM_VAL_T"
+    (
+        "CD" ASC
+    )
+    /
