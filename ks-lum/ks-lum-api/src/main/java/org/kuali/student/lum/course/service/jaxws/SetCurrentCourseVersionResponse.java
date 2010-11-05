@@ -13,20 +13,20 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2.9
  */
 
-@XmlRootElement(name = "getCourseFormatsResponse", namespace = "http://student.kuali.org/wsdl/course")
+@XmlRootElement(name = "setCurrentCourseVersionResponse", namespace = "http://student.kuali.org/wsdl/course")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getCourseFormatsResponse", namespace = "http://student.kuali.org/wsdl/course")
+@XmlType(name = "setCurrentCourseVersionResponse", namespace = "http://student.kuali.org/wsdl/course")
 
-public class GetCourseFormatsResponse {
+public class SetCurrentCourseVersionResponse {
 
     @XmlElement(name = "return")
-    private java.util.List<org.kuali.student.lum.course.dto.FormatInfo> _return;
+    private org.kuali.student.core.dto.StatusInfo _return;
 
-    public java.util.List<org.kuali.student.lum.course.dto.FormatInfo> getReturn() {
+    public org.kuali.student.core.dto.StatusInfo getReturn() {
         return this._return;
     }
 
-    public void setReturn(java.util.List<org.kuali.student.lum.course.dto.FormatInfo> new_return)  {
+    public void setReturn(org.kuali.student.core.dto.StatusInfo new_return)  {
         this._return = new_return;
     }
 

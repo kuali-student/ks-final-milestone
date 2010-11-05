@@ -13,14 +13,16 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2.9
  */
 
-@XmlRootElement(name = "getCourseFormats", namespace = "http://student.kuali.org/wsdl/course")
+@XmlRootElement(name = "createNewCourseVersion", namespace = "http://student.kuali.org/wsdl/course")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getCourseFormats", namespace = "http://student.kuali.org/wsdl/course")
+@XmlType(name = "createNewCourseVersion", namespace = "http://student.kuali.org/wsdl/course", propOrder = {"courseId", "versionComment"})
 
-public class GetCourseFormats {
+public class CreateNewCourseVersion {
 
     @XmlElement(name = "courseId")
     private java.lang.String courseId;
+    @XmlElement(name = "versionComment")
+    private java.lang.String versionComment;
 
     public java.lang.String getCourseId() {
         return this.courseId;
@@ -28,6 +30,14 @@ public class GetCourseFormats {
 
     public void setCourseId(java.lang.String newCourseId)  {
         this.courseId = newCourseId;
+    }
+
+    public java.lang.String getVersionComment() {
+        return this.versionComment;
+    }
+
+    public void setVersionComment(java.lang.String newVersionComment)  {
+        this.versionComment = newVersionComment;
     }
 
 }
