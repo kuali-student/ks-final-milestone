@@ -570,7 +570,7 @@
                 <phase>none</phase>
               </execution>
               <execution>
-                <id>drob-create-db</id>
+                <id>drop-create-db</id>
                 <phase>initialize</phase>
                 <goals>
                   <goal>drop</goal>
