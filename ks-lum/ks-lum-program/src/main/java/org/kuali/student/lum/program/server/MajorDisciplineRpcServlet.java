@@ -7,7 +7,7 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProgramRpcServlet extends DataGwtServlet implements ProgramRpcService {
+public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDisciplineRpcService {
 
     private static final long serialVersionUID = 1L;
     

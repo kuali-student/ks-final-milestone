@@ -5,6 +5,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * @author Igor
  */
-@RemoteServiceRelativePath("rpcservices/credPgmRpcService")
-public interface CredentialProgramRpcService extends ProgramRpcService {
+@RemoteServiceRelativePath("rpcservices/credentialProgramRpcService")
+public interface CredentialProgramRpcService extends MajorDisciplineRpcService {
 }

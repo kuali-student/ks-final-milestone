@@ -28,8 +28,8 @@ import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import java.util.HashMap;
@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public abstract class ProgramController extends MenuSectionController {
 
-    protected ProgramRpcServiceAsync programRemoteService;
+    protected MajorDisciplineRpcServiceAsync programRemoteService;
 
     protected boolean initialized = false;
 
@@ -75,8 +75,8 @@ public abstract class ProgramController extends MenuSectionController {
     /**
      * Create a ProgramRpcServiceAsync appropriate for this Controller
      */
-    protected ProgramRpcServiceAsync createProgramRemoteService() {
-        return GWT.create(ProgramRpcService.class);
+    protected MajorDisciplineRpcServiceAsync createProgramRemoteService() {
+        return GWT.create(MajorDisciplineRpcService.class);
     }
 
     @Override

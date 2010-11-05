@@ -27,8 +27,8 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcService;
-import org.kuali.student.lum.program.client.rpc.ProgramRpcServiceAsync;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
@@ -38,7 +38,7 @@ import com.google.gwt.user.client.Window;
 
 public class ProgramRequirementsDataModel {
 
-    private final ProgramRpcServiceAsync programRemoteService = GWT.create(ProgramRpcService.class);
+    private final MajorDisciplineRpcServiceAsync programRemoteService = GWT.create(MajorDisciplineRpcService.class);
     private StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
     private Controller parentController;
 

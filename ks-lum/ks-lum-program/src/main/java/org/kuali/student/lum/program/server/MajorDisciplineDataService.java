@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author Igor
  */
-public class ProgramDataService extends AbstractDataService {
+public class MajorDisciplineDataService extends AbstractDataService {
 
     private static final long serialVersionUID = 1L;
     

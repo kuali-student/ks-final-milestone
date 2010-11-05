@@ -1,5 +1,7 @@
 package org.kuali.student.lum.program.server.transform;
 
+import java.util.Map;
+
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
@@ -9,8 +11,6 @@ import org.kuali.student.core.assembly.transform.DefaultDataBeanMapper;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;
-
-import java.util.Map;
 
 /**
  * Add/remove the related CredentialProgram data & metadata
@@ -49,18 +49,16 @@ public class CredentialProgramFilter extends AbstractDataFilter {
 
         // Get CredentialProgram associated with this data
         String credentialProgramId = data.get(ProgramConstants.CREDENTIAL_PROGRAM_ID);
-        if (credentialProgramId != null) {
-            CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId);
-            // and convert to Data
-            Data credPgmData = mapper.convertFromBean(credPgm);
+        CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId);
+        // and convert to Data
+        Data credPgmData = mapper.convertFromBean(credPgm);
 
-            // Add the CredentialProgram to the data passed in
-            data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
+        // Add the CredentialProgram to the data passed in
+        data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
 
-            // Add the CredentialProgram metadata to metadata passed in
-            Map<String, Metadata> metaProps = metadata.getProperties();
-            metaProps.put(ProgramConstants.CREDENTIAL_PROGRAM, getCredProgramMetadata());
-        }
+        // Add the CredentialProgram metadata to metadata passed in
+        Map<String, Metadata> metaProps = metadata.getProperties();
+        metaProps.put(ProgramConstants.CREDENTIAL_PROGRAM, getCredProgramMetadata());
     }
 
     public void setMetadataService(MetadataServiceImpl metadataService) {
