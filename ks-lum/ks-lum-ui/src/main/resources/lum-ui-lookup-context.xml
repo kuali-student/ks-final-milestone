@@ -1714,7 +1714,7 @@
      <property name="caseSensitive" value="true"/>
      <property name="usage" value="CUSTOM"/>
     </bean>
-    <bean parent="param"><!-- limit search to only return approved clus -->
+    <bean parent="param"><!-- limit search to only return Approved clus -->
      <property name="key" value="lu.queryParam.luOptionalState" />
      <property name="name" value="CLU State" />
      <property name="desc" value="CLU State" />
@@ -1727,7 +1727,7 @@
        <value>Approved</value>
        <value>Active</value>
        <value>Retired</value>
-       <!--  need to add more states here (not draft or withdrawn) -->
+       <!--  need to add more states here (not Draft or withdrawn) -->
       </list>
      </property>
     </bean>
@@ -1864,7 +1864,7 @@
        parent="kuali.common.lookup.advanced.approvedCourses">
   <property name="id" value="kuali.lu.lookup.advanced.approvedCourses" />
   <property name="name" value="Approved Courses" />
-  <property name="desc" value="Search for approved courses" />
+  <property name="desc" value="Search for Approved courses" />
   <property name="title" value="Approved Courses" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
@@ -1919,7 +1919,7 @@
        parent="kuali.common.lookup.advanced.proposedCourses">
   <property name="id" value="kuali.lu.lookup.advanced.proposedCourses" />
   <property name="name" value="Approved Courses" />
-  <property name="desc" value="Search for approved courses" />
+  <property name="desc" value="Search for Approved courses" />
   <property name="title" value="Approved Courses" />
   <property name="widget" value="ADVANCED_LIGHTBOX" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
@@ -3240,7 +3240,7 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
-       <value>approved</value>
+       <value>Approved</value>
        <value>Active</value>
       </list>
      </property>
@@ -3266,7 +3266,7 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
-       <value>approved</value>
+       <value>Approved</value>
        <value>Active</value>
       </list>
      </property>
@@ -3287,7 +3287,7 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
-       <value>approved</value>
+       <value>Approved</value>
        <value>Active</value>
       </list>
      </property>
@@ -3315,8 +3315,8 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
-       <value>draft</value>
-       <value>submitted</value>
+       <value>Draft</value>
+       <value>Submitted</value>
       </list>
      </property>
      <property name="caseSensitive" value="true" />
@@ -3336,8 +3336,8 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
-       <value>draft</value>
-       <value>submitted</value>
+       <value>Draft</value>
+       <value>Submitted</value>
       </list>
      </property>
      <property name="caseSensitive" value="true" />
@@ -3358,8 +3358,8 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
-       <value>draft</value>
-       <value>submitted</value>
+       <value>Draft</value>
+       <value>Submitted</value>
       </list>
      </property>
      <property name="caseSensitive" value="true" />

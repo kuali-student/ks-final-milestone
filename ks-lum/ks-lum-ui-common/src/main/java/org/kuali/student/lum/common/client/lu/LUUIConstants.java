@@ -13,7 +13,9 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.lum.common.client.lo;
+package org.kuali.student.lum.common.client.lu;
+
+import org.kuali.student.lum.lu.LUConstants;
 
 
 /**
@@ -24,32 +26,7 @@ package org.kuali.student.lum.common.client.lo;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
-public class LUConstants {
-
-    //TODO These should probably be somewhere else as they are LUM wide constants - not just
-    //     UI specific
-
-    public final static String COURSE_GROUP_NAME = "course";
-    public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
-    public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
-    public final static String PROGRAM_GROUP_NAME = "program";    
-    public final static String PROPOSAL_TYPE_PROGRAM_CREATE = "kuali.proposal.type.program.create";
-    public final static String CLU_TYPE_CREDIT_PROGRAM = "kuali.lu.type.CreditProgram";    
-    
-	// found this in https://test.kuali.org/confluence/display/KULSTU/LuConfig.Types.LuLuRelationType
-    public final static String LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT = "luLuRelationType.hasCourseFormat";
-    public final static String LU_LU_RELATION_TYPE_CONTAINS = "luLuRelationType.contains";
-    public final static String LU_LU_RELATION_TYPE_CROSS_LISTED = "luLuRelationType.alias";
-    public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
-
-    // Valid states for Credit Course
-    public final static String LU_STATE_PROPOSED = "Proposed"; 
-    public final static String LU_STATE_SUBMITTED = "Submitted";
-    public final static String LU_STATE_WITHDRAWN = "Withdrawn";
-    public final static String LU_STATE_APPROVED = "Approved";
-    public final static String LU_STATE_NOT_APPROVED = "Not Approved";
-    public final static String LU_STATE_ACTIVE = "Active";
-    public final static String LU_STATE_RETIRED = "Retired";
+public class LUUIConstants extends LUConstants {
 
     //Section names
     public static final String COURSE_SECTIONS = "Course Sections";
@@ -88,11 +65,6 @@ public class LUConstants {
     public static final String STYLE_BOTTOM_DIVIDER = "KS-LUM-Bottom-Divider";
     public static final String STYLE_TOP_DIVIDER = "KS-LUM-Top-Divider";
     
-    // Dictionary definitions
-    public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
-    public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";
-    public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
-
     // Message keys for top-level section label lookup
     public static final String COURSE_INFORMATION_LABEL_KEY = "cluCourseInformation";
     public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
@@ -305,11 +277,6 @@ public class LUConstants {
     public static final String ORGANIZATION = "cluOrganization";
     public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
     public static final String PERCENTAGE = "cluPercentage";
-	public static final String REF_DOC_RELATION_PROPOSAL_TYPE = "kuali.org.RefObjectType.ProposalInfo";
-    public static final String ADD_A_OUTCOME = "cluAddAOutcome";
-    public static final String OUTCOME = "cluOutcome";		
-    public static final String ADD_A_CREDITVALUE = "cluAddACreditValue";
-    public static final String CREDITVALUE = "cluCreditValue";	
 
 
 

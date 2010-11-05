@@ -31,7 +31,7 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSect
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.lum.common.client.lo.LUConstants;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetEditorWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
@@ -349,9 +349,9 @@ public class ClusetView extends VerticalSectionView {
     
     private static VerticalSection initSection(SectionTitle title, boolean withDivider) {
         VerticalSection section = new VerticalSection(title);
-        section.addStyleName(LUConstants.STYLE_SECTION);
+        section.addStyleName(LUUIConstants.STYLE_SECTION);
         if (withDivider)
-            section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
+            section.addStyleName(LUUIConstants.STYLE_SECTION_DIVIDER);
         return section;
     }
     

@@ -575,7 +575,7 @@
 	<bean id="kuali.common.lookup.findCourse.suggest" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.findCourse.suggest" />
 		<property name="name" value="Course" />
-		<property name="searchTypeId" value="lu.search.generic" />
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
 		<property name="desc" value="Search for courses" />
 		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
 		<property name="params">
@@ -812,10 +812,10 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
-							<value>submitted</value>
-							<value>withdrawn</value>
-							<value>approved</value>
+							<value>Draft</value>
+							<value>Submitted</value>
+							<value>Withdrawn</value>
+							<value>Approved</value>
 							<value>Active</value>
 							<!-- do not show rejected or retired <value>rejected</value> -->
 						</list>
@@ -831,7 +831,7 @@
 		parent="commonLookup-parent">
 		<property name="id"
 			value="kuali.common.lookup.findCourse.advanced.coursesonly" />
-		<property name="searchTypeId" value="lu.search.generic" />
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
 		<property name="name" value="Courses Only" />
 		<property name="desc" value="Search for courses" />
 		<property name="params">
@@ -897,6 +897,7 @@
 					<property name="defaultValueList">
 						<list>
 							<value>Active</value>
+							<value>Approved</value>
 							<!-- do not show retired: <value>retired</value> -->
 						</list>
 					</property>
@@ -976,10 +977,10 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
-							<value>submitted</value>
-							<value>withdrawn</value>
-							<value>approved</value>
+							<value>Draft</value>
+							<value>Submitted</value>
+							<value>Withdrawn</value>
+							<value>Approved</value>
 							<!-- do not show rejected <value>rejected</value> -->
 						</list>
 					</property>
@@ -1092,7 +1093,7 @@
 	<bean id="kuali.common.lookup.basic.approvedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.basic.approvedCourses" />
 		<property name="name" value="Approved Courses" />
-		<property name="searchTypeId" value="lu.search.generic" />
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
 		<property name="desc" value="Search for courses" />
 		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
 		<property name="params">
@@ -1119,7 +1120,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>approved</value>
+							<value>Approved</value>
 							<value>Active</value>
 						</list>
 					</property>	
@@ -1132,7 +1133,7 @@
 	
 	<bean id="kuali.common.lookup.advanced.approvedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.advanced.approvedCourses" />
-		<property name="searchTypeId" value="lu.search.generic" />		
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />		
 		<property name="name" value="Approved Courses" />
 		<property name="desc" value="Search for approved courses" />	
 		<property name="params">
@@ -1192,7 +1193,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>approved</value>
+							<value>Approved</value>
 							<value>Active</value>
 						</list>
 					</property>
@@ -1205,7 +1206,7 @@
 	
 	<bean id="kuali.common.lookup.basic.proposedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.basic.proposedCourses" />
-		<property name="searchTypeId" value="lu.search.generic" />
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
 		<property name="name" value="Proposed Courses" />
 		<property name="desc" value="Search for proposed courses" />
 		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
@@ -1233,7 +1234,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 						</list>
 					</property>	
 					<property name="caseSensitive" value="true" />
@@ -1245,7 +1246,7 @@
 
 	<bean id="kuali.common.lookup.advanced.proposedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.advanced.proposedCourses" />
-		<property name="searchTypeId" value="lu.search.generic" />		
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />		
 		<property name="name" value="Proposed Courses" />
 		<property name="desc" value="Search for proposed courses" />
 		<property name="params">
@@ -1305,7 +1306,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />

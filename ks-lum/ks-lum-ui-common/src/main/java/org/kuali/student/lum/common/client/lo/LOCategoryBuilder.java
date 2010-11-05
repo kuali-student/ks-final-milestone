@@ -49,6 +49,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.lum.common.client.lo.rpc.LoRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoRpcServiceAsync;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 
@@ -190,8 +191,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         selectedPanel.add(categoryList);
         
         String fieldHTMLId = HTMLPanel.createUniqueId();
-        String title = getLabelText(LUConstants.LO_CATEGORY_KEY);
-        String helpText = getLabelText(LUConstants.LO_CATEGORY_KEY + FieldLayoutComponent.HELP_MESSAGE_KEY);
+        String title = getLabelText(LUUIConstants.LO_CATEGORY_KEY);
+        String helpText = getLabelText(LUUIConstants.LO_CATEGORY_KEY + FieldLayoutComponent.HELP_MESSAGE_KEY);
         LabelPanel fieldTitle = new LabelPanel(title, fieldHTMLId);
         
         if(helpText != null){

@@ -26,6 +26,7 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -101,7 +102,7 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 		// searchImage.addClickHandler(searchClickHandler);
 		// Image searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
 		// searchLinkPanel.add(searchImage);
-		instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS_KEY));
+		instructions = new KSLabel(getLabel(LUUIConstants.LO_INSTRUCTIONS_KEY));
 
 		loList = new LearningObjectiveList();
 		loPanel.add(loList);
