@@ -22,7 +22,14 @@ SET
     SEQ_NUM = 1,
     CURR_VER_START = TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' )
 WHERE
-    VER_IND_ID IS NULL AND LUTYPE_ID = 'kuali.lu.type.CreditCourse'
+    VER_IND_ID IS NULL AND LUTYPE_ID IN ('kuali.lu.type.CreditCourse',
+    'kuali.lu.type.credential.Baccalaureate','kuali.lu.type.credential.Masters',
+    'kuali.lu.type.credential.Professional','kuali.lu.type.credential.Doctoral',
+    'kuali.lu.type.credential.UndergraduateCertificate',
+    'kuali.lu.type.credential.GraduateCertificate' , 'kuali.lu.type.credential.ContinuingEd',
+    'kuali.lu.type.MajorDiscipline', 'kuali.lu.type.Variation', 'kuali.lu.type.MinorDiscipline',
+    'kuali.lu.type.CoreProgram', 'kuali.lu.type.Honors', 'kuali.lu.type.LivingLearning',
+    'kuali.lu.type.Requirement')
 /
 
 UPDATE
