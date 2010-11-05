@@ -318,6 +318,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
 //        addField(result, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
 //        addField(result, COURSE + "/" + JOINTS, null, new OfferedJointlyList(COURSE + "/" + JOINTS));
 //        addField(result, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
+        SpanPanel crslabelpan = new SpanPanel();
+        crslabelpan.setStyleName("ks-multiplicity-section-label");
+        crslabelpan.setHTML("Cross Listed Courses");
+        crslabelpan.setVisible(true);
+        result.addWidget(crslabelpan);
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + CROSS_LISTINGS,
                 LUConstants.ADD_CROSS_LISTED_LABEL_KEY,
                 LUConstants.CROSS_LISTED_ITEM_LABEL_KEY,
@@ -330,6 +335,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 LUConstants.COURSE_NUMBER_LABEL_KEY, null, null, true)),
                         null,
                         null);
+        SpanPanel jntlabelpan = new SpanPanel();
+        jntlabelpan.setStyleName("ks-multiplicity-section-label");
+        jntlabelpan.setHTML("Jointly Offered Courses");
+        jntlabelpan.setVisible(true);
+        result.addWidget(jntlabelpan);
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + JOINTS,
                 LUConstants.ADD_EXISTING_LABEL_KEY,
                 LUConstants.JOINT_OFFER_ITEM_LABEL_KEY,
@@ -339,6 +349,11 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
                                 LUConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null, true)),
                                 null,
                                 null);
+        SpanPanel vsnlabelpan = new SpanPanel();
+        vsnlabelpan.setStyleName("ks-multiplicity-section-label");
+        vsnlabelpan.setHTML("Version Codes");
+        vsnlabelpan.setVisible(true);
+        result.addWidget(vsnlabelpan);
         addMultiplicityFields(result, COURSE + QueryPath.getPathSeparator() + VERSIONS,
                 LUConstants.ADD_VERSION_CODE_LABEL_KEY,
                 LUConstants.VERSION_CODE_LABEL_KEY,
@@ -1040,7 +1055,7 @@ public class CourseConfigurer extends AbstractCourseConfigurer {
         setupRevenueSection(financialSection);
         SpanPanel expendpan = new SpanPanel();
         expendpan.setStyleName("ks-multiplicity-section-label");
-        expendpan.setHTML("Expenditures");
+        expendpan.setHTML("<br>Expenditures");
         expendpan.setVisible(true);
         financialSection.addWidget(expendpan);
         setupExpenditureSection(financialSection);
