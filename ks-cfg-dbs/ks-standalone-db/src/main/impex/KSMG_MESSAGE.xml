@@ -203,6 +203,18 @@
         MSG_ID="cluFinalExamRationale" MSG_VALUE="Final Exam Rationale"
         OBJ_ID="b130a6ac-ac9c-46d9-9610-e729dd7f0852" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="18DFA6DC-C32A-7E41-E410-1F6D67AA5367" LOCALE="en"
+        MSG_ID="courses" MSG_VALUE="Courses"
+        OBJ_ID="18DFA70B-F18D-4C57-81F4-E48321A944F7" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="18DFA6EB-F391-6989-FD89-CFC618D1CE2B" LOCALE="en"
+        MSG_ID="programs" MSG_VALUE="Programs"
+        OBJ_ID="18DFA71A-C1C7-06CD-30AD-63E4CEE4C50E" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="18DFA6FB-BA47-27A4-1C65-E487E79760F1" LOCALE="en"
+        MSG_ID="noRecent" MSG_VALUE="You have no recently viewed items."
+        OBJ_ID="18DFA72A-F4C5-9179-D146-2F09417E8F17" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="190a411b-a4e5-4798-8eaa-2bb2b4bd8684" LOCALE="en"
         MSG_ID="browseCatalog" MSG_VALUE="Browse Course Catalog"
         OBJ_ID="8e0bcc0d-01e7-41e2-b95d-c6302a20bfcb" VER_NBR="1"/>
@@ -942,7 +954,7 @@
         OBJ_ID="44dea116-dae0-4c2a-8285-1a7eeb2fcab3" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="74d19342-f5e0-41e2-8a34-697e3b5ac39a" LOCALE="en"
-        MSG_ID="create" MSG_VALUE="Create"
+        MSG_ID="create" MSG_VALUE="Create..."
         OBJ_ID="1f099a37-7a90-46a5-acbd-f832450ce565" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="75a6c7cb-bd01-4e96-ae87-d29305c3b7bc" LOCALE="es"
@@ -958,7 +970,7 @@
         OBJ_ID="562537d0-e1ab-4e45-b420-0604755a78f1" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="76f0c638-7441-451e-af57-1d99860ce868" LOCALE="en"
-        MSG_ID="createCourse" MSG_VALUE="Propose a Course"
+        MSG_ID="createCourse" MSG_VALUE="Create a Course"
         OBJ_ID="d90add57-04e3-484a-bfc8-2ffc4a98cece" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="7813b3ea-7f72-4f08-9981-3f97d32ed8a3" LOCALE="en"
@@ -1085,15 +1097,15 @@
         OBJ_ID="4b7569d8-d0d1-4dfe-bd66-faddfbae585f" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="86cac51e-ae83-4518-8ff5-6dc85abc4b2e" LOCALE="en"
-        MSG_ID="findCredentials" MSG_VALUE="Find Programs: Credentials"
+        MSG_ID="findCredentials" MSG_VALUE="Find Credential Programs"
         OBJ_ID="e2082755-149c-4545-918d-682682e6be9b" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="86cac51e-ae83-4518-8ff5-6dc85abc4e3e" LOCALE="en"
-        MSG_ID="findCores" MSG_VALUE="Find Programs: Core"
+        MSG_ID="findCores" MSG_VALUE="Find Core Programs"
         OBJ_ID="e2082755-149c-4545-918d-682682e6be9c" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="86cac51e-ae83-4518-8ff5-6dc85cae4e3e" LOCALE="en"
-        MSG_ID="findMajors" MSG_VALUE="Find Programs: Major Disciplines"
+        MSG_ID="findMajors" MSG_VALUE="Find Undergrad Programs"
         OBJ_ID="e2082755-149c-4545-918d-682682e6be9a" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="87ed480c-c4da-4e52-953d-321dd044cc84" LOCALE="en"
@@ -1541,7 +1553,7 @@
         OBJ_ID="9d929511-9ba8-4da0-a340-e7008cef222f" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="c41ff53a-6621-4d17-9e91-5a79db952cb1" LOCALE="en"
-        MSG_ID="viewModify" MSG_VALUE="Find Courses and Programs"
+        MSG_ID="viewModify" MSG_VALUE="Find..."
         OBJ_ID="b9c753fd-b28a-4a24-87c2-68eff90b3321" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="c545e78b-5e88-44f5-bd93-4713aabc01cc" LOCALE="en"
@@ -1582,7 +1594,7 @@
         OBJ_ID="0cc453f3-5943-49fe-a8ee-68d89f961341" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="cb38f1c2-9fc1-4d62-9650-35c6b83ca629" LOCALE="en"
-        MSG_ID="create" MSG_VALUE="Proposals"
+        MSG_ID="create" MSG_VALUE="Create..."
         OBJ_ID="7c83f8d5-296a-4a5d-a340-b8dde1a9649e" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="cb49d8b3-58f6-4b70-85e6-500eaab04170" LOCALE="en"
@@ -1632,7 +1644,7 @@
         OBJ_ID="ce91983c-f9f3-480b-a3df-a3f29b22e90d" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d009146a-d437-41c6-a599-653013038012" LOCALE="en"
-        MSG_ID="los" MSG_VALUE="Learning Objectives (coming soon)"
+        MSG_ID="los" MSG_VALUE="Learning Objectives"
         OBJ_ID="46135cbc-7bc3-4cd9-a254-e8ba55448d10" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d0474370-1623-4335-8695-9f3055cef7c7" LOCALE="es"
@@ -1676,8 +1688,7 @@
         OBJ_ID="cdc1c0d2-99ce-43d9-95ff-16bce9fde2a7" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d6c29a7e-44c8-4387-83e1-67d4cac85160" LOCALE="en"
-        MSG_ID="depAnalysis"
-        MSG_VALUE="Dependency Analysis (coming soon)"
+        MSG_ID="depAnalysis" MSG_VALUE="Dependency Analysis"
         OBJ_ID="2801b0e7-6e04-4a4e-a1b3-d8d346ffdd2c" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="org"
         ID="d6d085ed-08dc-4efe-a439-eb72dc7badd3" LOCALE="en"

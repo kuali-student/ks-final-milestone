@@ -773,6 +773,9 @@
         <foreign-key foreignTable="KSEM_ENUM_T" name="KSEM_ENUM_VAL_T_FK1">
             <reference foreign="ENUM_KEY" local="ENUM_KEY"/>
         </foreign-key>
+        <index name="KSEM_ENUM_VAL_I2">
+            <index-column name="CD"/>
+        </index>
         <index name="KSEM_ENUM_VAL_T_I1">
             <index-column name="ENUM_KEY"/>
         </index>
