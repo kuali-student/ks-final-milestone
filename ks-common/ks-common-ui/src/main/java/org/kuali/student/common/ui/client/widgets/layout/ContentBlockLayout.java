@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets.layout;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ContentBlockLayout extends VerticalFlowPanel{
@@ -12,6 +13,7 @@ public class ContentBlockLayout extends VerticalFlowPanel{
 	//private FlowPanel blockPanel = new FlowPanel();
 	private FlowPanel currentRow;
 	private int rowSize = 0;
+	private int titleWidgetCount = 0;
 	
 	public ContentBlockLayout(String title){
 		this.setContentTitle(title);
@@ -29,8 +31,19 @@ public class ContentBlockLayout extends VerticalFlowPanel{
 	}
 	
 	public void addContentTitleWidget(Widget widget){
-		titlePanel.add(widget);
+		
+		if(titleWidgetCount != 0){
+			Label separator = new Label(" | ");
+			separator.addStyleName("titleWidget-separator");
+			separator.addStyleName("blockLayout-title-widget");
+			titlePanel.add(separator);
+			titlePanel.add(widget);
+		}
+		else{
+			titlePanel.add(widget);
+		}
 		widget.addStyleName("blockLayout-title-widget");
+		titleWidgetCount++;
 	}
 	
 	public void addContentBlock(ContentBlock block){

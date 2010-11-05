@@ -353,3 +353,7 @@ position:relative;
     margin-bottom:4px;
     padding:15px 0 5px 14px;
 }
+
+.bold{
+	font-weight: bold;
+}

@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets.layout;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ContentBlock extends VerticalFlowPanel{
@@ -44,6 +45,14 @@ public class ContentBlock extends VerticalFlowPanel{
 	@Override
 	public void add(Widget w){
 		super.add(w);
+	}
+	
+	public void addBlock(ContentBlock block){
+		super.add(block);
+	}
+	
+	public Panel getTitlePanel(){
+		return titlePanel;
 	}
 
 }

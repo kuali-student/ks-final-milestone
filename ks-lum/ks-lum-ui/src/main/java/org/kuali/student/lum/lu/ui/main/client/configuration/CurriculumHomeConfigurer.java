@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
@@ -24,10 +25,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
+public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
 
     protected Metadata searchMetadata;
 
@@ -35,26 +37,39 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         this.searchMetadata = searchMeta;
         ContentBlockLayout layout = new ContentBlockLayout(getMessage(CURRICULUM_MANAGEMENT));
         layout.addContentTitleWidget(getHowToWidget());
+        layout.addContentTitleWidget(getActionListLink());
 
         //Create
         LinkContentBlock create = new LinkContentBlock(
                 getMessage(CREATE),
                 getMessage(CREATE_DESC));
         create.addNavLinkWidget(getMessage(CREATE_COURSE), AppLocations.Locations.COURSE_PROPOSAL.getLocation());
-        create.add(getFindProposalsWidget());
         create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
-        create.addNavLinkWidget(getMessage(ACTIONLIST), "/HOME");
+        
 
         //View + Modify
         LinkContentBlock viewModify = new LinkContentBlock(
                 getMessage(VIEW_MODIFY),
                 getMessage(VIEW_MODIFY_DESC));
+        SectionTitle courses = SectionTitle.generateH4Title(getMessage("courses"));
+        courses.addStyleName("bold");
+        viewModify.add(courses);
         viewModify.addNavLinkWidget(getMessage(BROWSE_CATALOG), AppLocations.Locations.BROWSE_CATALOG.getLocation());
         viewModify.add(getFindCoursesWidget());
+        viewModify.add(getFindProposalsWidget());
+        SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
+        programs.addStyleName("bold");
+        viewModify.add(programs);
         viewModify.add(getFindMajorsWidget());
         viewModify.add(getFindCoreProgramWidget());
         viewModify.add(getFindCredentialProgramWidget());
-
+        
+        //RecentlyViewed
+        RecentlyViewedBlock recent = new RecentlyViewedBlock(
+                getMessage(RECENTLY_VIEWED),
+                getMessage(RV_DESC));
+        recent.addStyleName("recentlyViewed-block");
+        
         //Tools
         LinkContentBlock tools = new LinkContentBlock(
                 getMessage(TOOLS),
@@ -64,20 +79,17 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         //Coming soon
         Label depAnalysis = new Label(getMessage(DEP_ANALYSIS));
         depAnalysis.setStyleName("contentBlock-navLink-disabled");
+        depAnalysis.setTitle("Coming Soon");
         tools.add(depAnalysis);
         Label learningObjectives = new Label(getMessage(LOS));
+        learningObjectives.setTitle("Coming Soon");
         learningObjectives.setStyleName("contentBlock-navLink-disabled");
         tools.add(learningObjectives);
-
-        //RecentlyViewed
-        RecentlyViewedBlock recent = new RecentlyViewedBlock(
-                getMessage(RECENTLY_VIEWED),
-                getMessage(RV_DESC));
 
         //Add all blocks
         layout.addContentBlock(create);
         layout.addContentBlock(viewModify);
-        layout.addContentBlock(tools);
+        recent.addBlock(tools);
         layout.addContentBlock(recent);
 
         return layout;
@@ -214,6 +226,12 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
                 pop.show();
             }
         });
+        widget.setStyleName("contentBlock-navLink");
+        return widget;
+    }
+    
+    protected Widget getActionListLink() {
+        Hyperlink widget = new Hyperlink(getMessage(ACTIONLIST), AppLocations.Locations.HOME.getLocation());
         widget.setStyleName("contentBlock-navLink");
         return widget;
     }
