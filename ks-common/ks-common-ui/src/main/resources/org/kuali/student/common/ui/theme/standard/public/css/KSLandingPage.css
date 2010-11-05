@@ -105,12 +105,13 @@ font-size:1.3em;
 }
 
 .recentlyViewed-block{
-	padding-bottom: 20px;
 	background-color: #e8e8e8;
 }
 
 .recentlyViewed-block .contentBlock-list{
 	padding-left: 20px;
+	margin-right: 20px;
+	padding-bottom: 20px;
 }
 
 .recentlyViewed-block .contentBlock-titlePanel{
