@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -23,10 +21,11 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CluSetDetailsWidget extends Composite {
@@ -140,9 +139,19 @@ public class CluSetDetailsWidget extends Composite {
                 int columnIndex = 0;
                 final String cluSetId = cluSet.getId();
                 HorizontalPanel cluSetNamePanel = new HorizontalPanel();
-                Hyperlink cluSetNameLabel = new Hyperlink(cluSet.getName(),
-                        "/HOME/CURRICULUM_HOME/CLU_SETS" + "/" +
-                        "VIEW" + "&docId=" + cluSetId);
+                Anchor cluSetNameLabel = new Anchor(cluSet.getName());
+                cluSetNameLabel.addClickHandler(new ClickHandler(){
+
+					@Override
+					public void onClick(ClickEvent event) {
+						String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
+							"?view=" + AppLocations.Locations.VIEW_CLU_SET + "&docId=" + cluSetId;
+						String features = "height=600,width=960,dependent=0,directories=1," +
+								"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
+						Window.open(url, HTMLPanel.createUniqueId(), features);
+						
+					}
+				});
                 KSLabel itemType = new KSLabel("Course Set");
                 itemType.getElement().getStyle().setProperty("color", "grey");
                 itemType.getElement().getStyle().setPaddingLeft(5, Style.Unit.PX);
@@ -253,10 +262,11 @@ public class CluSetDetailsWidget extends Composite {
         cluCodeLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                ViewContext viewContext = new ViewContext();
-                viewContext.setId(clu.getVerIndependentId());
-                viewContext.setIdType(IdType.OBJECT_ID);
-                Application.navigate("/HOME/CURRICULUM_HOME/VIEW_COURSE", viewContext);
+            	String url = "http://" + Window.Location.getHost() + Window.Location.getPath() +
+				"?view=" + AppLocations.Locations.VIEW_COURSE + "&idType=" + IdType.OBJECT_ID +"&docId=" + clu.getVerIndependentId();
+				String features = "height=600,width=960,dependent=0,directories=1," +
+						"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
+				Window.open(url, HTMLPanel.createUniqueId(), features);
             }
         });
         columnIndex++;

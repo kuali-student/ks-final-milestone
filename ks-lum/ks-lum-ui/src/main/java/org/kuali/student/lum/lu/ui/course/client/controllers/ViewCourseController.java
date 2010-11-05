@@ -209,12 +209,12 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                         stmtTypesOut.add(stmtType);
                     }
                 }
-
-                cfg.setStatementTypes(stmtTypesOut);
-                cfg.setModelDefinition(modelDefinition);
-                cfg.generateLayout(ViewCourseController.this);
-                initialized = true;
-
+                if(!initialized){
+                	initialized = true;
+	                cfg.setStatementTypes(stmtTypesOut);
+	                cfg.setModelDefinition(modelDefinition);
+	                cfg.generateLayout(ViewCourseController.this);
+                }
                 onReadyCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(initTask);
             }
