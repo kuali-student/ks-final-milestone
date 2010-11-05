@@ -1,5 +1,7 @@
 package org.kuali.student.lum.program.server;
 
+import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
+import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -19,10 +21,10 @@ import java.util.Map;
 public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDisciplineRpcService {
 
     private static final long serialVersionUID = 1L;
-    
+
     private ProgramService programService;
     private StatementService statementService;
-	
+
     public List<ProgramRequirementInfo> getProgramRequirements(List<String> programRequirementIds) throws Exception {
 
         List<ProgramRequirementInfo> programReqInfos = new ArrayList<ProgramRequirementInfo>();
@@ -61,7 +63,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
                     break;
             }
         }
-        return storedRules;        
+        return storedRules;
     }
 
     public ProgramRequirementInfo createProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
@@ -74,7 +76,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
         ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo);
         setProgReqNL(rule);
-        
+
         return rule;
     }
 
@@ -83,12 +85,12 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     }
 
     public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
-        programRequirementInfo.setState("Active");        
+        programRequirementInfo.setState("Active");
         ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
         ProgramRequirementInfo rule = programService.updateProgramRequirement(programRequirementInfo);
         setProgReqNL(rule);
         return rule;
-    }    
+    }
 
     private void setProgReqNL(ProgramRequirementInfo programRequirementInfo) throws Exception {
         setReqCompNL(programRequirementInfo.getStatement());
@@ -105,9 +107,12 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             }
         } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
             // retrieve all req. component LEAFS
-            for (ReqComponentInfo reqComponent : reqComponentInfos) {
-                reqComponent.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqComponent, "KUALI.RULE", "en"));
-            }
+        	for (int i = 0; i < reqComponentInfos.size(); i++) {
+        		ReqComponentInfoUi reqUi = RulesUtil.clone(reqComponentInfos.get(i));
+        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en"));
+        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en"));
+        		reqComponentInfos.set(i, reqUi);
+        	}
         }
     }
 
