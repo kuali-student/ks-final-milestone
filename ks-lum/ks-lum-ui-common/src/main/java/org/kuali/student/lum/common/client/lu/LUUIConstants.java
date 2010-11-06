@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.common.client.lu;
 
-import org.kuali.student.lum.lu.LUConstants;
 
 
 /**
@@ -26,8 +25,40 @@ import org.kuali.student.lum.lu.LUConstants;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
-public class LUUIConstants extends LUConstants {
+public class LUUIConstants {
 
+	// FIXME: Duplicated from lum-api LUConstants
+		    public final static String COURSE_GROUP_NAME = "course";
+		    public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
+		    public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
+		    public final static String PROGRAM_GROUP_NAME = "program";    
+		    public final static String PROPOSAL_TYPE_PROGRAM_CREATE = "kuali.proposal.type.program.create";
+		    public final static String CLU_TYPE_CREDIT_PROGRAM = "kuali.lu.type.CreditProgram";    
+		    
+			// found this in https://test.kuali.org/confluence/display/KULSTU/LuConfig.Types.LuLuRelationType
+		    public final static String LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT = "luLuRelationType.hasCourseFormat";
+		    public final static String LU_LU_RELATION_TYPE_CONTAINS = "luLuRelationType.contains";
+		    public final static String LU_LU_RELATION_TYPE_CROSS_LISTED = "luLuRelationType.alias";
+		    public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
+		
+		    // Valid states for Credit Course
+		    public final static String LU_STATE_DRAFT = "Draft"; 
+		    public final static String LU_STATE_SUBMITTED = "Submitted";
+		    public final static String LU_STATE_WITHDRAWN = "Withdrawn";
+		    public final static String LU_STATE_APPROVED = "Approved";
+		    public final static String LU_STATE_NOT_APPROVED = "Not Approved";
+		    public final static String LU_STATE_ACTIVE = "Active";
+		    public final static String LU_STATE_INACTIVE = "Inactive";
+		    public final static String LU_STATE_SUPERSEDED  = "Superseded";
+		    public final static String LU_STATE_RETIRED = "Retired";
+		    
+		    // Dictionary definitions
+		    public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
+		    public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";
+		    public static final String STRUCTURE_PROPOSAL_INFO = "org.kuali.student.lum.proposal.dto.ProposalInfo";
+		
+			public static final String REF_DOC_RELATION_PROPOSAL_TYPE = "kuali.org.RefObjectType.ProposalInfo";
+	
     //Section names
     public static final String COURSE_SECTIONS = "Course Sections";
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
