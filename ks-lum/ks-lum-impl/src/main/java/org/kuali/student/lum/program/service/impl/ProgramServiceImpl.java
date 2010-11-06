@@ -725,46 +725,74 @@ public class ProgramServiceImpl implements ProgramService {
         this.luService = luService;
     }
 
-    public void setDictionaryService(DictionaryService dictionaryService) {
+    public LuService getLuService() {
+		return luService;
+	}
+
+	public void setDictionaryService(DictionaryService dictionaryService) {
         this.dictionaryService = dictionaryService;
     }
+
+    public DictionaryService getDictionaryService() {
+		return dictionaryService;
+	}
 
     public void setSearchManager(SearchManager searchManager) {
         this.searchManager = searchManager;
     }
+    
+	public SearchManager getSearchManager() {
+		return searchManager;
+	}
 
-    public void setMajorDisciplineAssembler(MajorDisciplineAssembler majorDisciplineAssembler) {
+	public void setMajorDisciplineAssembler(MajorDisciplineAssembler majorDisciplineAssembler) {
         this.majorDisciplineAssembler = majorDisciplineAssembler;
     }
+
+	public MajorDisciplineAssembler getMajorDisciplineAssembler() {
+		return majorDisciplineAssembler;
+	}
 
 	public void setCredentialProgramAssembler(
 			CredentialProgramAssembler credentialProgramAssembler) {
 		this.credentialProgramAssembler = credentialProgramAssembler;
 	}
 
+	public CredentialProgramAssembler getCredentialProgramAssembler() {
+		return credentialProgramAssembler;
+	}
+
 	public void setProgramRequirementAssembler(ProgramRequirementAssembler programRequirementAssembler) {
         this.programRequirementAssembler = programRequirementAssembler;
     }
 
-    public void setProgramServiceMethodInvoker(BusinessServiceMethodInvoker serviceMethodInvoker) {
+    public ProgramRequirementAssembler getProgramRequirementAssembler() {
+		return programRequirementAssembler;
+	}
+
+	public void setProgramServiceMethodInvoker(BusinessServiceMethodInvoker serviceMethodInvoker) {
         this.programServiceMethodInvoker = serviceMethodInvoker;
     }
 
-    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+    public BusinessServiceMethodInvoker getProgramServiceMethodInvoker() {
+		return programServiceMethodInvoker;
+	}
+
+	public void setValidatorFactory(ValidatorFactory validatorFactory) {
         this.validatorFactory = validatorFactory;
     }
 
+	public ValidatorFactory getValidatorFactory() {
+		return validatorFactory;
+	}
+	
 	public void setCoreProgramAssembler(CoreProgramAssembler coreProgramAssembler) {
 		this.coreProgramAssembler = coreProgramAssembler;
 	}
 
-//	public StatementService getStatementService() {
-//		return statementService;
-//	}
-//
-//	public void setStatementService(StatementService statementService) {
-//		this.statementService = statementService;
-//	}
+	public CoreProgramAssembler getCoreProgramAssembler() {
+		return coreProgramAssembler;
+	}
 
 	private StatusInfo getStatus(){
         StatusInfo status = new StatusInfo();
@@ -931,7 +959,11 @@ public class ProgramServiceImpl implements ProgramService {
 	public void setAtpService(AtpService atpService) {
 		this.atpService = atpService;
 	}
-	
+
+	public AtpService getAtpService() {
+		return atpService;
+	}
+
 	private void validateMajorDisciplineAtps(MajorDisciplineInfo majorDisciplineInfo, List<ValidationResultInfo> validationResults) throws InvalidParameterException, MissingParameterException, OperationFailedException{
 		
 		String startTerm = majorDisciplineInfo.getStartTerm();
