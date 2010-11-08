@@ -66,7 +66,7 @@ CreditCourseLearningResultsConstants
     public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
 
     //FIXME: [KSCOR-225] Initialize type and state from selected cluId
-    private String type = "course";
+    private String type = "Course";
     private String state = "draft";
     private String groupName = LUUIConstants.COURSE_GROUP_NAME;
 
@@ -90,8 +90,9 @@ CreditCourseLearningResultsConstants
         this.generateLayout(layoutController, CLU_PROPOSAL_MODEL);
         layoutController.addContentWidget(layoutController.getStatusLabel());
         Widget dropdown = layoutController.generateActionDropDown();
-        dropdown.addStyleName("KS-Workflow-DropDown");
         layoutController.addContentWidget(dropdown);
+        
+        //this.modelDefinition.getMetadata(path)
         layoutController.addContentWidget(layoutController.getVersionHistoryWidget());
         layoutController.showPrint(true);
     }

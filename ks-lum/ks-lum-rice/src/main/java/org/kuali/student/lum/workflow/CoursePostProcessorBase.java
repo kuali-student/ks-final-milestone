@@ -14,8 +14,10 @@ import org.kuali.rice.kew.postprocessor.IDocumentEvent;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 
 /**
  * A base post processor class for Course document types in Workflow.
@@ -24,17 +26,14 @@ import org.kuali.student.lum.lu.service.LuService;
 public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoursePostProcessorBase.class);
 
-    protected static final String CLU_STATE_APPROVED = "Approved";
-    protected static final String CLU_STATE_DRAFT = "Draft";
-    protected static final String CLU_STATE_SUBMITTED = "Submitted";
-
+    
     private LuService luService;
 
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
-        LOG.info("Will set CLU state to '" + CLU_STATE_SUBMITTED + "'");
+        LOG.info("Will set CLU state to '" + LUConstants.LU_STATE_SUBMITTED + "'");
         CluInfo cluInfo = getLuService().getClu(getCluId(proposalInfo));
-        updateClu(actionTakenEvent, CLU_STATE_SUBMITTED, cluInfo);
+        updateClu(actionTakenEvent, LUConstants.LU_STATE_SUBMITTED, cluInfo);
     }
 
     @Override
@@ -70,18 +69,18 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      */
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode) {
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, CLU_STATE_DRAFT);
+            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, CLU_STATE_SUBMITTED);
+            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
         } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
             /* current requirements state that on a Withdraw (which is a KEW Disapproval) the 
              * CLU state should be submitted so no special handling required here
              */
-            return getCluStateFromNewState(currentCluState, CLU_STATE_SUBMITTED);
+            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, CLU_STATE_APPROVED);
+            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
-            return getCluStateFromNewState(currentCluState, CLU_STATE_SUBMITTED);
+            return getCluStateFromNewState(currentCluState, LUConstants.LU_STATE_SUBMITTED);
         } else {
             // no status to set
             return null;
@@ -116,10 +115,13 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         if (requiresSave) {
             getLuService().updateClu(cluInfo.getId(), cluInfo);
             
-            //For a newly approved clu (w/no prior versions), make the new clu the current version.
-            //We want to be able to modify approved clus and we can't modify without versioning it.
-            if (CLU_STATE_APPROVED.equals(cluState) && cluInfo.getVersionInfo().getCurrentVersionStart() == null){
-            	getLuService().setCurrentCluVersion(cluInfo.getId(), null);
+            //For a newly approved clu (w/no prior active versions), make the new clu the current version.
+            if (LUConstants.LU_STATE_APPROVED.equals(cluState) && cluInfo.getVersionInfo().getCurrentVersionStart() == null){
+
+            	// if current version's state is not active then we can set this course as the active course
+            	if (!LUConstants.LU_STATE_ACTIVE.equals(getLuService().getClu(getLuService().getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
+            		getLuService().setCurrentCluVersion(cluInfo.getId(), null);
+            	}
             }
         }
 

@@ -23,16 +23,21 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.DocumentLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
@@ -42,6 +47,8 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
@@ -49,6 +56,7 @@ import org.kuali.student.lum.lu.ui.course.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
+import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -72,7 +80,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     private String cluType = "kuali.lu.type.CreditCourse";
     private String courseId = null;
     
-    private static final String CLU_STATE = "Active";
+    private static final String CLU_STATE = LUUIConstants.LU_STATE_ACTIVE;
+    private static final String MSG_GROUP = "course";
     
     private final String REFERENCE_TYPE = "referenceType.clu";
     private boolean initialized = false;
@@ -81,6 +90,16 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	private BlockingTask loadDataTask = new BlockingTask("Retrieving Data....");
 	private BlockingTask initTask = new BlockingTask("Initializing....");
 	private KSLabel statusLabel = new KSLabel("");
+	
+	private KSMenuItemData modifyCourseActionItem;
+	private KSMenuItemData activateCourseActionItem;
+	private KSMenuItemData inactivateCourseActionItem;
+	private KSMenuItemData retireCourseActionItem;
+	
+	private List<KSMenuItemData> actionItems = new ArrayList<KSMenuItemData>();
+	
+	private List<StylishDropDown> actionDropDownWidgets = new ArrayList<StylishDropDown>();
+    
             
     public ViewCourseController(Enum<?> viewType){
     	super(CourseProposalController.class.getName());
@@ -129,13 +148,16 @@ public class ViewCourseController extends TabMenuController implements DocumentL
             }
             
         });
+        
+        initCourseActionItems();
+        
+        
 
     }
     
-    public Widget generateActionDropDown(){
-    	List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-    	StylishDropDown actions = new StylishDropDown("Course Actions");
-    	items.add(new KSMenuItemData("Propose Course Modification", new ClickHandler(){
+    private void initCourseActionItems() {
+    	// TODO: use messages
+    	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -147,8 +169,72 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 					HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", viewContext);
 				}
 			}
-		}));
-        actions.setItems(items);
+		});
+    	activateCourseActionItem = new KSMenuItemData(this.getMessage("cluActivateItem") + " (Not Yet Implemented)", new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+					// TODO: activate
+				}
+			}
+		});
+    	inactivateCourseActionItem = new KSMenuItemData(this.getMessage("cluInactivateItem") + " (Not Yet Implemented)", new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+					// TODO: Inactivate
+				}
+			}
+		});
+    	retireCourseActionItem = new KSMenuItemData(this.getMessage("cluRetireItem") + " (Not Yet Implemented)", new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+					// TODO: Retire
+				}
+			}
+		});
+    }
+    
+    private void updateCourseActionItems() {
+    	List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();       
+    	String cluState = cluModel.get("state").toString();
+    	
+    	if (cluState.equals(LUUIConstants.LU_STATE_APPROVED)) {
+    		items.add(modifyCourseActionItem);
+    		items.add(activateCourseActionItem);
+    		items.add(retireCourseActionItem);
+    	} else if (cluState.equals(LUUIConstants.LU_STATE_ACTIVE)) {
+    		items.add(modifyCourseActionItem);
+    		items.add(inactivateCourseActionItem);
+    		items.add(retireCourseActionItem);
+    	} else if (cluState.equals(LUUIConstants.LU_STATE_INACTIVE)) {
+    		items.add(activateCourseActionItem);
+    	}
+    	
+		for(StylishDropDown widget: actionDropDownWidgets){
+			
+			widget.setItems(items);
+			widget.setEnabled(true);
+			if(items.isEmpty()){
+				widget.setVisible(false);
+			}
+			else{
+				widget.setVisible(true);
+			}
+		}		
+    	
+    }
+    
+    public Widget generateActionDropDown(){
+    	StylishDropDown actions = new StylishDropDown(this.getMessage("cluActionsLabel"));
+         
+        actionDropDownWidgets.add(actions);
+        actions.setVisible(false);
+        actions.addStyleName("KS-Workflow-DropDown");
         return actions;
     }
    
@@ -273,6 +359,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                 cluModel.setRoot(result);
                 //getContainer().setTitle(getSectionTitle());
                 setHeaderTitle();
+                updateCourseActionItems();
                 callback.onModelReady(cluModel);
                 workCompleteCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);
@@ -285,7 +372,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     private void createNewCluModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         cluModel.setRoot(new LuData());
         callback.onModelReady(cluModel);
-        workCompleteCallback.exec(true);            
+        workCompleteCallback.exec(true);
     }
 
     public String getCourseId() {
@@ -369,6 +456,14 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 		return handler;
 	}
 
+    public String getMessage(String courseMessageKey) {
+    	String msg = Application.getApplicationContext().getMessage(MSG_GROUP, courseMessageKey);
+    	if (msg == null) {
+    		msg = courseMessageKey;
+    	}
+    	return msg;
+    }
+    
 	public Widget getStatusLabel() {
 		statusLabel.setStyleName("courseStatusLabel");
 		return statusLabel;
