@@ -514,7 +514,7 @@
         OBJ_ID="3c6b54a3-9047-4ff4-a00c-ab461bf2279b" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="412250b8-39ca-43d3-887d-1b8ebe26ab54" LOCALE="en"
-        MSG_ID="createProgram" MSG_VALUE="Create a Program"
+        MSG_ID="createProgram" MSG_VALUE="Create a Major Discipline"
         OBJ_ID="52d688ba-abc4-4a04-8400-d3a010a27760" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="42342179-5cf3-4247-a35d-f311e6e31f49" LOCALE="en"
