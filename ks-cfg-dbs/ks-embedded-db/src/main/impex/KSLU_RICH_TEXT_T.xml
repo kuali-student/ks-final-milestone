@@ -170,9 +170,9 @@
     <KSLU_RICH_TEXT_T ID="95679153-55aa-4979-8161-292e8f8c1019"
         OBJ_ID="2D016B20E6704ABFB2A4FF94B31F12CC"
         PLAIN="Builds on AMST601 and explores contemporary literature, theory, and intellectual issues in American Studies." VER_NBR="0"/>
-    <KSLU_RICH_TEXT_T FORMATTED="Baccalaureate"
-        ID="9623c41c-ae72-473a-a1ac-6874c433967d"
-        OBJ_ID="6513C3701F9A446FBDE5BBB218F0FB41" PLAIN="Baccalaureate" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="9623c41c-ae72-473a-a1ac-6874c433967d"
+        OBJ_ID="6513C3701F9A446FBDE5BBB218F0FB41"
+        PLAIN="Bachelor of Science" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="9909ad61-2cc1-4706-a08f-c66bcee9d0d8"
         OBJ_ID="3630C7391457428ABE2B1673EEA3CE58"
         PLAIN="Temporary description" VER_NBR="0"/>

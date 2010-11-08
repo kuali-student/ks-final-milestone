@@ -545,11 +545,6 @@
         MSG_ID="validation.mustBeBoolean"
         MSG_VALUE="Must be a boolean value"
         OBJ_ID="c0851845-3214-4d38-9a49-233365f44d6a" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="course"
-        ID="44044bfb-11c9-45de-8fe4-67eb1b08118c" LOCALE="en"
-        MSG_ID="cluStartTerm-instruct"
-        MSG_VALUE="Proposed term for modifications to take effect. "
-        OBJ_ID="1c4dc123-4900-4d26-a91f-85419e50a312" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="453a62d0-0602-41c2-84ee-f36cb9d4fb0f" LOCALE="en"
         MSG_ID="requiredOnSubmit" MSG_VALUE="Required on Submit"
@@ -1236,7 +1231,7 @@
     <KSMG_MESSAGE GRP_NAME="course"
         ID="977cc391-7b99-4907-ba10-f4781eb2ed35" LOCALE="en"
         MSG_ID="cluStartTerm-help"
-        MSG_VALUE="Any instances of the course offered on or after this term will reflect modifications. "
+        MSG_VALUE="New Courses: This course will not necessarily be activated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications. "
         OBJ_ID="60bec45e-c7c9-4e20-b3a0-2655ef31612a" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="98c71ea6-0ff8-4e61-beca-3c698a3919f5" LOCALE="en"
