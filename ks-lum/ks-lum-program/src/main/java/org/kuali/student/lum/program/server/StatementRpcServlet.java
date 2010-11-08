@@ -16,6 +16,7 @@
 package org.kuali.student.lum.program.server;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
@@ -32,9 +33,9 @@ import java.util.List;
 public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> implements StatementRpcService {
 
     final static Logger LOG = Logger.getLogger(StatementRpcServlet.class);
-    
+
     private StatementService statementService;
-    
+
     private static final long serialVersionUID = 822326113643828855L;
 
     public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
@@ -46,7 +47,7 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
                                                     "kuali.statement.type.course.academicReadiness.antireq"};
 
         String[] desiredSequenceCreditConstraints = {"kuali.statement.type.course.credit.restriction",
-                                                        "kuali.statement.type.course.credit.repeatable"};        
+                                                        "kuali.statement.type.course.credit.repeatable"};
 
         List<StatementTypeInfo> statementTypesSorted = new ArrayList<StatementTypeInfo>();
 
@@ -89,12 +90,12 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
                         }
                     }
                 }
-            }            
+            }
         }
-        
+
         return statementTypesSorted;
     }
-    
+
     @Override
     public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
         List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
@@ -104,17 +105,17 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
         }
         return statementTypes;
     }
-    
+
     public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey) throws Exception {
-                
+
         List<ReqComponentTypeInfo> reqComponentTypeInfoList = null;
-        try { 
+        try {
             reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
         } catch (Exception ex) {
             LOG.error(ex);
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
         }
-        
+
         return reqComponentTypeInfoList;
     }
 
@@ -126,6 +127,15 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
     @Override
     public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language) throws Exception {
         return statementService.translateReqComponentToNL(reqComponentInfo, nlUsageTypeKey, language);
+    }
+
+    @Override
+    public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language) throws Exception {
+    	List<String> nls = new ArrayList<String>(nlUsageTypeKeys.length);
+    	for (String typeKey : nlUsageTypeKeys) {
+    		nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language));
+    	}
+    	return nls;
     }
 
     public void setStatementService(StatementService statementService) {

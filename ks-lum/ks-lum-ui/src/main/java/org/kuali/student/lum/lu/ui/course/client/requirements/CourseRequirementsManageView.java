@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCanc
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
+import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
 import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -53,7 +54,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
     protected static final String TEMLATE_LANGUAGE = "en";
     protected static final String RULEEDIT_TEMLATE = "KUALI.RULE";
-    protected static final String COMPOSITION_TEMLATE = "KUALI.RULE.COMPOSITION";     
+    protected static final String RULEPREVIEW_TEMLATE = "KUALI.RULE.PREVIEW";
+    protected static final String COMPOSITION_TEMLATE = "KUALI.RULE.COMPOSITION";
 
     private CourseRequirementsViewController parentController;
 
@@ -72,7 +74,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     private static int tempStmtTreeViewInfoID = 9999;
     private Integer internalCourseReqID = null;
     private String originalReqCompNL;
-    private String originalLogicExpression;    
+    private String originalLogicExpression;
 
     //   private boolean isLocalDirty = false;
     private boolean userClickedSaveButton = false;
@@ -153,7 +155,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
             editReqCompWidget = new ReqCompEditWidget(CourseRequirementsSummaryView.NEW_REQ_COMP_ID);
             ruleManageWidget = new RuleManageWidget();
             ruleManageWidget.setReqCompEditButtonClickCallback(editReqCompCallback);
-            ruleManageWidget.setRuleChangedButtonClickCallback(ruleChangedCallback);            
+            ruleManageWidget.setRuleChangedButtonClickCallback(ruleChangedCallback);
         }
 
         this.internalCourseReqID = internalCourseReqID;
@@ -193,7 +195,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
             actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(!isEmpty);
         }
     };
-       
+
     protected void setEnabled(boolean enabled) {
         ruleManageWidget.setEanbled(enabled);
         actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(enabled);
@@ -222,7 +224,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     }
 
     private String getAllReqCompNLs() {
-        StringBuffer NL = new StringBuffer();
+        StringBuilder NL = new StringBuilder();
         for (StatementTreeViewInfo tree : rule.getStatements()) {
             for (ReqComponentInfo reqComp : tree.getReqComponents()) {
                 NL.append(reqComp.getNaturalLanguageTranslation());
@@ -232,8 +234,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     }
 
     //called when user clicks 'Add Rule' or 'Update Rule' when editing a req. component
-    protected Callback<ReqComponentInfo> actionButtonClickedReqCompCallback = new Callback<ReqComponentInfo>(){
-        public void exec(final ReqComponentInfo reqComp) {
+    protected Callback<ReqComponentInfoUi> actionButtonClickedReqCompCallback = new Callback<ReqComponentInfoUi>(){
+        public void exec(final ReqComponentInfoUi reqComp) {
 
             editReqCompWidget.setupNewReqComp();
             setEnabled(true);
@@ -246,16 +248,17 @@ public class CourseRequirementsManageView extends VerticalSectionView {
             KSBlockingProgressIndicator.addTask(creatingRuleTask);
 
             //1. update NL for the req. component
-            statementRpcServiceAsync.translateReqComponentToNL(reqComp, RULEEDIT_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+            statementRpcServiceAsync.translateReqComponentToNLs(reqComp, new String[]{RULEEDIT_TEMLATE, RULEPREVIEW_TEMLATE}, TEMLATE_LANGUAGE, new KSAsyncCallback<List<String>>() {
                 public void handleFailure(Throwable caught) {
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                     Window.alert(caught.getMessage());
                     GWT.log("translateReqComponentToNL failed", caught);
                }
 
-                public void onSuccess(final String reqCompNL) {
+                public void onSuccess(final List<String> reqCompNL) {
 
-                    reqComp.setNaturalLanguageTranslation(reqCompNL);
+                    reqComp.setNaturalLanguageTranslation(reqCompNL.get(0));
+                    reqComp.setPreviewNaturalLanguageTranslation(reqCompNL.get(1));
 
                     //2. add / update req. component
                     rule = ruleManageWidget.getStatementTreeViewInfo();  //TODO ?
@@ -280,14 +283,14 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                         editedReqCompInfo.setType(reqComp.getType());
                         editedReqCompInfo = null;  //de-reference from existing req. component
                     }
-                    
+
                     ruleManageWidget.redraw(rule);
-                    KSBlockingProgressIndicator.removeTask(creatingRuleTask);                     
+                    KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                 }
             });
         }
     };
-        
+
     //called when user selects a rule type in the editor
     protected Callback<ReqComponentInfo> newReqCompSelectedCallbackCallback = new Callback<ReqComponentInfo>(){
         public void exec(final ReqComponentInfo reqComp) {
@@ -324,7 +327,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 }
 
                 public void onSuccess(final String compositionTemplate) {
-                    editReqCompWidget.displayFieldsStart(compositionTemplate);    
+                    editReqCompWidget.displayFieldsStart(compositionTemplate);
                 }
             });
         }
@@ -352,14 +355,14 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 if (fieldType.toLowerCase().indexOf("program") > 0) {
                     clusetType = "kuali.cluSet.type.Program";
                 }
-                editReqCompWidget.displayCustomWidget(fieldType, 
+                editReqCompWidget.displayCustomWidget(fieldType,
                         new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType, false));
             } else if (RulesUtil.isCluWidget(fieldType)) {
                 String clusetType = "kuali.cluSet.type.Course";
                 if (fieldType.toLowerCase().indexOf("program") > 0) {
                     clusetType = "kuali.cluSet.type.Program";
                 }
-                editReqCompWidget.displayCustomWidget(fieldType, 
+                editReqCompWidget.displayCustomWidget(fieldType,
                         new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType, true));
             }
         }
