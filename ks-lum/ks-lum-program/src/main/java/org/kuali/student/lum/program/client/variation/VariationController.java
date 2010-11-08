@@ -60,7 +60,7 @@ public abstract class VariationController extends ProgramController {
         anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext());
+                navigateToParent();
             }
         });
         Label parentProgram = new Label(ProgramProperties.get().variation_parentProgram());
@@ -69,6 +69,8 @@ public abstract class VariationController extends ProgramController {
         anchorPanel.add(anchor);
         return anchorPanel;
     }
+
+    protected abstract void navigateToParent();
 
     @Override
     public String getProgramName() {
