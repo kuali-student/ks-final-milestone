@@ -20,6 +20,9 @@
         MSG_ID="search" MSG_VALUE="Search"
         OBJ_ID="c48ec3d0-62c7-45c0-8bbf-038def1946a7" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
+        ID="0282bba0-e111-11df-85ca-0800200c9a66" LOCALE="en"
+        MSG_ID="cluActionsLabel" MSG_VALUE="Course Actions" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
         ID="03287fa3-6c4f-41d8-a3d6-ef50b7ec4d26" LOCALE="es"
         MSG_ID="cluCurriculumOversight"
         MSG_VALUE="Descuido del plan de estudios"
@@ -70,6 +73,9 @@
         ID="06cc5169-b71f-43a7-84d7-601bf7e4c301" LOCALE="en"
         MSG_ID="orgPositionTablePositionName" MSG_VALUE="Position Name"
         OBJ_ID="f0b6b6e3-d637-4331-b65c-d93b88e3c888" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="073eb280-e110-11df-85ca-0800200c9a66" LOCALE="en"
+        MSG_ID="cluModifyItem" MSG_VALUE="Propose Course Modification" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="075adf49-5105-4d9d-a5cd-dd2877b6e21d" LOCALE="es"
         MSG_ID="cluDescription" MSG_VALUE="Descripci?n de curso"
@@ -861,6 +867,9 @@
         ID="6a9ab87f-c5d8-4c17-a415-376ba93cab7f" LOCALE="en"
         MSG_ID="cluLOSearchAgain" MSG_VALUE="Search again?"
         OBJ_ID="426f6905-0282-4715-a232-897d3797e6f1" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="6ad56320-e110-11df-85ca-0800200c9a66" LOCALE="en"
+        MSG_ID="cluInactivateItem" MSG_VALUE="Inactivate" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="6b262d0a-6672-45fb-800e-f6a96cd418bd" LOCALE="es"
         MSG_ID="errorDialogTitle"
@@ -960,6 +969,9 @@
         ID="75a6c7cb-bd01-4e96-ae87-d29305c3b7bc" LOCALE="es"
         MSG_ID="cluFullView" MSG_VALUE="Detalles de la oferta"
         OBJ_ID="3e64eaa3-f050-4824-8143-8259f1d653d1" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="75fc6b00-e10f-11df-85ca-0800200c9a66" LOCALE="en"
+        MSG_ID="cluActivateItem" MSG_VALUE="Activate" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="76a6478f-869a-439c-bb00-bd791439608a" LOCALE="en"
         MSG_ID="toolDocuments" MSG_VALUE="Supporting Documents"
@@ -1111,6 +1123,9 @@
         ID="87ed480c-c4da-4e52-953d-321dd044cc84" LOCALE="en"
         MSG_ID="searchPanelCriteria" MSG_VALUE="Search Criteria:"
         OBJ_ID="247eec21-2da0-4d83-ba4f-fd2330e681d1" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="course"
+        ID="88676cd0-e110-11df-85ca-0800200c9a66" LOCALE="en"
+        MSG_ID="cluRetireItem" MSG_VALUE="Retire" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="891b4749-fcd1-48aa-b814-4ea6253faf24" LOCALE="en"
         MSG_ID="cluAdministrativeFee" MSG_VALUE="Administrative Fee"
