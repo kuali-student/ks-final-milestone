@@ -102,8 +102,7 @@ public class HistoryManager {
     				navigate(path, context);
     				navigateSuccess = true;
     			}
-    		}
-    		if(view != null && docId != null){
+    		}else if(view != null && docId != null){
     			String path = locations.getLocation(view);
     			if(path != null){
     				ViewContext context = new ViewContext();
