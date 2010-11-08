@@ -84,6 +84,8 @@
                        value-ref="majorDisciplineRpcServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/credentialProgramRpcService"
                        value-ref="credentialProgramRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/coreProgramRpcService"
+                       value-ref="coreProgramRpcServletController"/>
             </map>
         </property>
     </bean>
@@ -116,6 +118,12 @@
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="CredentialProgramRpcServlet"/>
         <property name="servletInstance" ref="credentialProgramRpcServlet"/>
+    </bean>
+
+    <bean id="coreProgramRpcServletController"
+          class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="CoreProgramRpcServlet"/>
+        <property name="servletInstance" ref="coreProgramRpcServlet"/>
     </bean>
 
     <bean id="ServerPropertiesServletController"
@@ -302,6 +310,12 @@
         <property name="statementService" ref="statementServiceClient"/>        
     </bean>
 
+    <bean id="coreProgramRpcServlet" class="org.kuali.student.lum.program.server.CoreProgramRpcServlet">
+		<property name="dataService" ref="coreProgramDataService"/>
+		<property name="programService" ref="programClient"/>
+        <property name="statementService" ref="statementServiceClient"/>        
+    </bean>
+
     <bean id="majorDisciplineDataService" class="org.kuali.student.lum.program.server.MajorDisciplineDataService">
         <property name="transformationManager" ref="majorDisciplineTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
@@ -309,7 +323,14 @@
     </bean>
 
     <bean id="credentialProgramDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">
-        <property name="transformationManager" ref="credentialProgramTransformationManager"/>
+        <property name="transformationManager" ref="credAndCoreProgramTransformationManager"/>
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
+    </bean>
+
+    <bean id="coreProgramDataService" class="org.kuali.student.lum.program.server.CoreProgramDataService">
+        <property name="transformationManager" ref="credAndCoreProgramTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
@@ -353,7 +374,7 @@
         </property>
     </bean>
     
-    <bean id="credentialProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="credAndCoreProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
         <property name="metadataService" ref="metadataServiceImplPOC"/>
         <property name="filters">
             <list>

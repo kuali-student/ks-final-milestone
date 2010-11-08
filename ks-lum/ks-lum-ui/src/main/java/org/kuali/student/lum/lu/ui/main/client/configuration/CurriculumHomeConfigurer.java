@@ -17,7 +17,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
-import org.kuali.student.lum.program.client.CredentialProgramConstants;
+import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -101,7 +101,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants{
             @Override
             public void onClick(ClickEvent event) {
                 ViewContext baccViewContext = new ViewContext();
-                baccViewContext.setId(CredentialProgramConstants.CREDENTIAL_BACCALAUREATE_PROGRAM);
+                baccViewContext.setId(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM);
                 Application.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation(), baccViewContext);
             }
         });

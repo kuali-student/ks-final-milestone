@@ -687,9 +687,14 @@ public class ProgramAssemblerUtils {
             }
             if (clu.getNextReviewPeriod() != null) {
                 parms = new Class[]{String.class};
-                method = o.getClass().getMethod("setNextReviewPeriod", parms);
-                value = new Object[]{clu.getNextReviewPeriod()};
-                method.invoke(o, value);
+                try {
+	                method = o.getClass().getMethod("setNextReviewPeriod", parms);
+	                value = new Object[]{clu.getNextReviewPeriod()};
+	                method.invoke(o, value);
+                } catch (NoSuchMethodException nsme) {
+                    // CoreProgramInfo, CredentialProgramInfo and ProgramVariationInfo
+                    // don't have a nextReviewPeriod field
+                }
             }
         }
         catch (IllegalAccessException   e){
@@ -732,6 +737,15 @@ public class ProgramAssemblerUtils {
             method = o.getClass().getMethod("getEndProgramEntryTerm", null);
             value = (String)method.invoke(o, null);
             clu.setLastAdmitAtp(value);
+
+            try {
+	            method = o.getClass().getMethod("getNextReviewPeriod", null);
+	            value = (String)method.invoke(o, null);
+	            clu.setNextReviewPeriod(value);
+            } catch (NoSuchMethodException nsme) {
+                // CoreProgramInfo, CredentialProgramInfo and ProgramVariationInfo
+                // don't have a nextReviewPeriod field
+            }
 
         }
         catch (IllegalAccessException   e){          }

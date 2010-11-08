@@ -22,7 +22,7 @@ import java.util.TreeSet;
 /**
  * Constants needed for retrieval of different program types
  */
-public class CredentialProgramConstants {
+public class ProgramClientConstants {
 
     public static final String CREDENTIAL_PROGRAM_ID_TYPE = "credentialProgramIdType";
 
@@ -40,6 +40,7 @@ public class CredentialProgramConstants {
     // used for testing credentialProgramType
     public static final Set<String> CREDENTIAL_PROGRAM_TYPES = new TreeSet<String>(Arrays.asList(CREDENTIAL_PROGRAM));
 
+    public static final String CORE_PROGRAM = "kuali.lu.type.CoreProgram";
 
-    public static final String CREDENTIAL_STATE_ACTIVE = "Active";
+    public static final String STATE_ACTIVE = "Active";
 }

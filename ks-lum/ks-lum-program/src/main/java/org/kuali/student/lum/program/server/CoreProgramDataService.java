@@ -8,13 +8,13 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
- * @author Igor
+ * @author Jim
  */
-public class CredentialProgramDataService extends AbstractDataService {
+public class CoreProgramDataService extends AbstractDataService {
 
     private static final long serialVersionUID = 1L;
     
@@ -33,37 +33,31 @@ public class CredentialProgramDataService extends AbstractDataService {
 
     @Override
     protected Object get(String id) throws Exception {
-        if (null == id || id.length() == 0 || ! ProgramClientConstants.CREDENTIAL_PROGRAM_TYPES.contains(id)) {
-            throw new InvalidParameterException("No valid id for retrieving CredentialProgram");
-        } else {
-            List<String> credIds = luService.getCluIdsByLuType(id, ProgramClientConstants.STATE_ACTIVE);
-            if (null == credIds || credIds.size() != 1) {
-                throw new OperationFailedException("A single credential program of type " + id + " is required; database contains " +
-                                                    (null == credIds ? "0" : credIds.size() +
-                                                    "."));
-            }
-            return programService.getCredentialProgram(credIds.get(0));
+        List<String> coreIds = luService.getCluIdsByLuType(ProgramClientConstants.CORE_PROGRAM, ProgramClientConstants.STATE_ACTIVE);
+        if (null == coreIds || coreIds.size() != 1) {
+            throw new OperationFailedException("A single core program is required; database contains " + (null == coreIds ? "0" : coreIds.size() + "."));
         }
+        return programService.getCoreProgram(coreIds.get(0));
     }
 
     @Override
     protected Object save(Object dto, Map<String, Object> properties) throws Exception {
-        if (dto instanceof CredentialProgramInfo) {
-            CredentialProgramInfo cpInfo = (CredentialProgramInfo) dto;
+        if (dto instanceof CoreProgramInfo) {
+            CoreProgramInfo cpInfo = (CoreProgramInfo) dto;
             if (cpInfo.getId() == null) {
-                cpInfo = programService.createCredentialProgram(cpInfo);
+                cpInfo = programService.createCoreProgram(cpInfo);
             } else {
-                cpInfo = programService.updateCredentialProgram(cpInfo);
+                cpInfo = programService.updateCoreProgram(cpInfo);
             }
             return cpInfo;
         } else {
-            throw new InvalidParameterException("Only persistence of CredentialProgram is supported by this DataService implementation.");
+            throw new InvalidParameterException("Only persistence of CoreProgram is supported by this DataService implementation.");
         }
     }
 
     @Override
     protected Class<?> getDtoClass() {
-        return CredentialProgramInfo.class;
+        return CoreProgramInfo.class;
     }
 
     public void setProgramService(ProgramService programService) {

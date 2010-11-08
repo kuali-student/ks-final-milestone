@@ -1,13 +1,12 @@
 package org.kuali.student.lum.program.client.widgets;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.*;
+import java.util.Date;
+
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramUtils;
@@ -16,26 +15,35 @@ import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
-import java.util.Date;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
  */
 public class ProgramSideBar extends Composite {
 
-    private VerticalPanel content = new VerticalPanel();
+    private final VerticalPanel content = new VerticalPanel();
 
     private State state = State.VIEW;
 
-    private HandlerManager eventBus;
+    private final HandlerManager eventBus;
 
-    private String version = "1";
-    private Label historyLabel = new Label(ProgramProperties.get().sideBar_history());
-    private Label lastUpdatedDate = new Label();
-    private SimplePanel scheduledReviewDate = new SimplePanel();
-    private Label lastReviewDate = new Label();
+    private final String version = "1";
+    private final Label historyLabel = new Label(ProgramProperties.get().sideBar_history());
+    private final Label lastUpdatedDate = new Label();
+    private final SimplePanel scheduledReviewDate = new SimplePanel();
+    private final Label lastReviewDate = new Label();
 
-    private SideBarDialogManager dialogManager;
+    private final SideBarDialogManager dialogManager;
 
     public ProgramSideBar(HandlerManager eventBus) {
         this.eventBus = eventBus;
@@ -84,6 +92,12 @@ public class ProgramSideBar extends Composite {
     }
 
     private void setWidget(String path, SimplePanel container, DataModel model) {
+        Metadata mData = model.getMetadata(QueryPath.parse(path));
+
+        // CoreProgram and CredentialProgram don't have SCHEDULED_REVIEW_DATE
+        if (null == mData && ProgramConstants.SCHEDULED_REVIEW_DATE.equals(path)) {
+            return;
+        }
         Widget widget = DefaultWidgetFactory.getInstance().getReadOnlyWidget(model.getMetadata(QueryPath.parse(path)));
         HasDataValueBinding.INSTANCE.setWidgetValue((HasDataValue) widget, model, path);
         container.setWidget(widget);
