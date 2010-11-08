@@ -81,6 +81,10 @@ public class MajorViewController extends MajorController {
                     final Data variationData = p.getValue();
                     if (variationData != null) {
                         if (variationData.get(ProgramConstants.ID).equals(variationId)) {
+                            //FIXME: Find a better way to do this.
+                            // We shouldn't be maintaining two separate datamodels for progs and variations
+                            Data credData = programModel.get(ProgramConstants.CREDENTIAL_PROGRAM);
+                            variationData.set(ProgramConstants.CREDENTIAL_PROGRAM, credData );
                             ProgramRegistry.setData(variationData);
                             ProgramRegistry.setRow(row);
                         }
