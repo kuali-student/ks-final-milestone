@@ -1,8 +1,4 @@
-UPDATE KSLU_RICH_TEXT_T
-    SET PLAIN = 'Baccalaureate'
-    WHERE ID = '9623c41c-ae72-473a-a1ac-6874c433967d'
+delete from KSMG_MESSAGE where MSG_ID='cluStartTerm-instruct'
 /
-UPDATE KSLU_RICH_TEXT_T
-    SET FORMATTED = 'Baccalaureate'
-    WHERE ID = '9623c41c-ae72-473a-a1ac-6874c433967d'
+update KSMG_MESSAGE set MSG_VALUE='New Courses: This course will not necessarily be activated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications. ' where MSG_ID='cluStartTerm-help'
 /
