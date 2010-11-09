@@ -12,8 +12,8 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.service.AtpService;
@@ -22,13 +22,17 @@ import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularReferenceException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
@@ -36,12 +40,19 @@ import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchManager;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.HonorsProgramInfo;
@@ -50,10 +61,12 @@ import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.lum.program.service.ProgramServiceConstants;
 import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
+import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -156,23 +169,158 @@ public class ProgramServiceImpl implements ProgramService {
     
     @Override
 	public MajorDisciplineInfo createNewMajorDisciplineVersion(
-			String majorDisciplineId, String versionComment)
+			String majorDisciplineVerIndId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, VersionMismatchException {
-		// TODO Auto-generated method stub
-    	return null;
+			PermissionDeniedException, VersionMismatchException, DataValidationErrorException {
+		//step one, get the original
+		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, majorDisciplineVerIndId);
+		MajorDisciplineInfo originalMajorDicipline = getMajorDiscipline(currentVersion.getId());
+
+		//Version the Clu
+		CluInfo newVersionClu = luService.createNewCluVersion(majorDisciplineVerIndId, versionComment);
+
+		try {
+	        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results;
+
+	        //Integrate changes into the original. (should this just be just the id?)
+			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDicipline, true);
+
+			//Clear Ids from the original so it will make a copy
+			resetIds(originalMajorDicipline);
+
+			//Disassemble the new
+			results = majorDisciplineAssembler.disassemble(originalMajorDicipline, NodeOperation.UPDATE);
+
+			// Use the results to make the appropriate service calls here
+			programServiceMethodInvoker.invokeServiceCalls(results);
+
+			return results.getBusinessDTORef();
+		} catch(AssemblyException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (AlreadyExistsException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (DependentObjectsExistException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (CircularRelationshipException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (UnsupportedActionException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		} catch (CircularReferenceException e) {
+			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
+		}
 	}
     
     
-    @Override
+	/**
+	 * Recurses through the statement tree and clears out ids so the tree can be copied.
+	 * Also creates copies of clusets since they are single use
+	 * 
+	 * @param statementTreeView
+	 * @throws OperationFailedException
+	 */
+	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
+		statementTreeView.setId(null);
+		for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
+			reqComp.setId(null);
+			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
+				field.setId(null);
+				//copy any clusets that are adhoc'd and set the field value to the new cluset
+				if(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.equals(field.getType())){
+					try {
+						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
+						cluSet.setId(null);
+						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
+						field.setValue(cluSet.getId());
+					} catch (Exception e) {
+						throw new OperationFailedException("Error copying clusets.", e);
+					}
+				}
+				
+			}
+		}
+		//Recurse through the children
+		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
+			clearStatementTreeViewIdsRecursively(child);
+		}
+	}
+
+	/**
+     * Clears out any ids so that a subsequent call to create will copy complex structures
+     * @param majorDicipline
+	 * @throws PermissionDeniedException 
+	 * @throws OperationFailedException 
+	 * @throws MissingParameterException 
+	 * @throws InvalidParameterException 
+	 * @throws DoesNotExistException 
+	 * @throws DataValidationErrorException 
+	 * @throws AlreadyExistsException 
+     */
+    private void resetIds(MajorDisciplineInfo majorDicipline) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+    	//Clear accrediting agency relation id
+    	for(AccreditationInfo agency : majorDicipline.getAccreditingAgencies()){
+			agency.setId(null);
+		}
+		//Clear Los
+		for(LoDisplayInfo lo:majorDicipline.getLearningObjectives()){
+			resetLoRecursively(lo);
+		}
+		//Clear OrgCoreProgram
+		majorDicipline.getOrgCoreProgram().setId(null);
+		for(LoDisplayInfo lo:majorDicipline.getOrgCoreProgram().getLearningObjectives()){
+			resetLoRecursively(lo);
+		}
+		//Clear Variations
+		for(ProgramVariationInfo variation:majorDicipline.getVariations()){
+			variation.setId(null);
+			//Clear Los
+			for(LoDisplayInfo lo:variation.getLearningObjectives()){
+				resetLoRecursively(lo);
+			}
+		}
+		
+		//Copy requirements (these exist external to the majorDicipline save process and are referenced by id)
+		
+		//Pull out the current requirement ids to be replaced by the ids of the new copies 
+		List<String> programRequirementIds = majorDicipline.getProgramRequirements();
+		majorDicipline.setProgramRequirements(new ArrayList<String>(programRequirementIds.size()));
+		
+		for(String programRequirementId:programRequirementIds){
+			//Grab the original 
+			ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, null, null);
+			//Clear the id
+			programRequirementInfo.setId(null);
+			//Clear statement tree ids
+			clearStatementTreeViewIdsRecursively(programRequirementInfo.getStatement());
+			//Clear learning objectives
+			for(LoDisplayInfo lo:programRequirementInfo.getLearningObjectives()){
+				resetLoRecursively(lo);
+			}
+			//Create the new copy
+			ProgramRequirementInfo createdProgramRequirement = createProgramRequirement(programRequirementInfo);
+			//add the copy's id back to the majorDicipline's list of requirements
+			majorDicipline.getProgramRequirements().add(createdProgramRequirement.getId());
+		}
+	}
+    
+	/**
+	 * Recursively clears out the ids in a Lo and in its child Los
+	 * @param lo
+	 */
+	private void resetLoRecursively(LoDisplayInfo lo){
+		lo.getLoInfo().setId(null);
+		for(LoDisplayInfo nestedLo:lo.getLoDisplayInfoList()){
+			resetLoRecursively(nestedLo);
+		}
+	}
+
+	@Override
 	public StatusInfo setCurrentMajorDisciplineVersion(
 			String majorDisciplineId, Date currentVersionStart)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, IllegalVersionSequencingException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return luService.setCurrentCluVersion(majorDisciplineId, currentVersionStart);
 	}
 
 	@Override
@@ -905,8 +1053,10 @@ public class ProgramServiceImpl implements ProgramService {
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
+			return luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	@Override
@@ -914,8 +1064,10 @@ public class ProgramServiceImpl implements ProgramService {
 			String refObjectId, Date date) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
+			return luService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	@Override
@@ -923,8 +1075,11 @@ public class ProgramServiceImpl implements ProgramService {
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
+			return luService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
+
 	}
 
 	@Override
@@ -933,8 +1088,10 @@ public class ProgramServiceImpl implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
+			return luService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	@Override
@@ -942,8 +1099,10 @@ public class ProgramServiceImpl implements ProgramService {
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
+			return luService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	@Override
@@ -952,8 +1111,10 @@ public class ProgramServiceImpl implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
+			return luService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
 	public void setAtpService(AtpService atpService) {

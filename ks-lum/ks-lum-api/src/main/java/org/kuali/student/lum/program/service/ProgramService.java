@@ -53,7 +53,7 @@ import org.kuali.student.lum.program.dto.ProgramVariationInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Program+Service">ProgramService</>
  *
  */
-@WebService(name = "ProgramService", targetNamespace = "http://student.kuali.org/wsdl/program") // TODO CHECK THESE VALUES
+@WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE) // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface ProgramService extends DictionaryService, SearchService, VersionManagementService{ 
     /** 
@@ -305,8 +305,9 @@ public interface ProgramService extends DictionaryService, SearchService, Versio
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException The action was attempted on an out of date version
+     * @throws DataValidationErrorException 
      */    
-    public MajorDisciplineInfo createNewMajorDisciplineVersion(@WebParam(name="majorDisciplineId")String majorDisciplineId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException; 
+    public MajorDisciplineInfo createNewMajorDisciplineVersion(@WebParam(name="majorDisciplineId")String majorDisciplineId, @WebParam(name="versionComment")String versionComment) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException; 
 
     /**
 	 * Sets a specific version of the Major as current. The sequence number must be greater than the existing current Major version. This will truncate the current version's end date to the currentVersionStart param. If a Major exists which is set to become current in the future, that Major's currentVersionStart and CurrentVersionEnd will be nullified. The currentVersionStart must be in the future to prevent changing historic data. 
