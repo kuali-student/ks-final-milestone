@@ -32,7 +32,7 @@ public class ProgramClientConstants {
     public static final String CREDENTIAL_DOCTORAL_PROGRAM = "kuali.lu.type.credential.Doctoral";
     public static final String CREDENTIAL_UNDERGRADUATE_CERTIFICATE = "kuali.lu.type.credential.UndergraduateCertificate";
     public static final String CREDENTIAL_GRADUATE_CERTIFICATE = "kuali.lu.type.credential.GraduateCertificate";
-    
+
     public static final String[] CREDENTIAL_PROGRAM = { CREDENTIAL_BACCALAUREATE_PROGRAM, CREDENTIAL_MASTERS_PROGRAM,
                                                         CREDENTIAL_PROFESSIONAL_PROGRAM, CREDENTIAL_DOCTORAL_PROGRAM,
 												        CREDENTIAL_UNDERGRADUATE_CERTIFICATE, CREDENTIAL_GRADUATE_CERTIFICATE };
@@ -41,6 +41,8 @@ public class ProgramClientConstants {
     public static final Set<String> CREDENTIAL_PROGRAM_TYPES = new TreeSet<String>(Arrays.asList(CREDENTIAL_PROGRAM));
 
     public static final String CORE_PROGRAM = "kuali.lu.type.CoreProgram";
+    public static final String MAJOR_PROGRAM = "kuali.lu.type.MajorDiscipline";
 
     public static final String STATE_ACTIVE = "Active";
+    public static final String STATE_DRAFT = "draft";
 }

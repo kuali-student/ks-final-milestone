@@ -320,6 +320,7 @@
         <property name="transformationManager" ref="majorDisciplineTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
     </bean>
 
     <bean id="credentialProgramDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">

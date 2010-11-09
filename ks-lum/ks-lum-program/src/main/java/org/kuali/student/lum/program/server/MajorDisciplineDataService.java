@@ -2,9 +2,13 @@ package org.kuali.student.lum.program.server;
 
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +19,8 @@ public class MajorDisciplineDataService extends AbstractDataService {
     private static final long serialVersionUID = 1L;
     
     private ProgramService programService;
-    
+    private LuService luService;
+
     @Override
     protected String getDefaultWorkflowDocumentType() {
         return null;
@@ -32,13 +37,9 @@ public class MajorDisciplineDataService extends AbstractDataService {
         MajorDisciplineInfo returnDTO;
         if (null == id || id.length() == 0) {
             returnDTO = new MajorDisciplineInfo();
-            // TODO: need to move these from ProgramAssemblerConstants to
-            // a location that ks-lum-program can depend on
-            returnDTO.setType("kuali.lu.type.MajorDiscipline");
-            returnDTO.setState("draft");
-            // TODO: hard-coded to a Baccalaureate right now, but we need to figure out
-            // how to find the correct ID (https://jira.kuali.org/browse/KSLUM-393)
-            returnDTO.setCredentialProgramId("d02dbbd3-20e2-410d-ab52-1bd6d362748b");
+            returnDTO.setType(ProgramClientConstants.MAJOR_PROGRAM);
+            returnDTO.setState(ProgramClientConstants.STATE_DRAFT);
+            returnDTO.setCredentialProgramId(getCredentialId());
         } else {
             returnDTO = programService.getMajorDiscipline(id);
         }
@@ -68,7 +69,23 @@ public class MajorDisciplineDataService extends AbstractDataService {
         return MajorDisciplineInfo.class;
     }
 
+    private String getCredentialId() throws Exception {
+
+            List<String> credIds = luService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, ProgramClientConstants.STATE_ACTIVE);
+            if (null == credIds || credIds.size() != 1) {
+                throw new OperationFailedException("A single credential program of type " + ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM + " is required; database contains " +
+                                                    (null == credIds ? "0" : credIds.size() +
+                                                    "."));
+            }
+            return credIds.get(0);
+    }
+
     public void setProgramService(ProgramService programService) {
         this.programService = programService;
     }
+
+    public void setLuService(LuService luService) {
+        this.luService = luService;
+    }
+
 }
