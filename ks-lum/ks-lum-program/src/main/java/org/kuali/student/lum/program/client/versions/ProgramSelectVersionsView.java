@@ -90,7 +90,6 @@ public class ProgramSelectVersionsView extends ViewComposite{
         param.setKey("lu.queryParam.cluVersionIndId");
         String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
         versionIndId = (versionIndId == null ? "":versionIndId);
-        versionIndId = programModel.get(ProgramConstants.ID);
         param.setValue(versionIndId);
         params.add(param);
         sr.setSortDirection(SortDirection.DESC);
