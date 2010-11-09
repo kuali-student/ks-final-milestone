@@ -1,10 +1,8 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -18,17 +16,17 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.events.ChangeViewEvent;
-import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
-import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
-import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
+import org.kuali.student.lum.program.client.events.*;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
@@ -97,6 +95,48 @@ public class VariationEditController extends VariationController {
             @Override
             public void onEvent(SpecializationCreatedEvent event) {
                 programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
+            }
+        });
+               
+        eventBus.addHandler(StoreSpecRequirementIDsEvent.TYPE, new StoreSpecRequirementIDsEvent.Handler() {
+            @Override
+            public void onEvent(StoreSpecRequirementIDsEvent event) {
+                final String programId = event.getProgramId();
+                final List<String> ids = event.getProgramRequirementIds();
+
+                requestModel(new ModelRequestCallback<DataModel>() {
+                    @Override
+                    public void onModelReady(final DataModel model) {
+                        Data programRequirements = null;
+
+                        // find the specialization that we need to update
+                        //for (Data.Property property : model.getRoot()) {
+                            Data variationData = model.getRoot();
+                            if (variationData.get(ProgramConstants.ID).equals(programId)) {
+                                variationData.set(ProgramConstants.PROGRAM_REQUIREMENTS, new Data());
+                                programRequirements = variationData.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                               // break;
+                            }
+                       // }
+
+                        if (programRequirements == null) {
+                            Window.alert("Cannot find program requirements in data model.");
+                            GWT.log("Cannot find program requirements in data model", null);
+                            return;
+                        }
+
+                        for (String id : ids) {
+                            programRequirements.add(id);
+                        }
+                        doSave();                        
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        GWT.log("Unable to retrieve model for validation and save", cause);
+                    }
+
+                });
             }
         });
     }
