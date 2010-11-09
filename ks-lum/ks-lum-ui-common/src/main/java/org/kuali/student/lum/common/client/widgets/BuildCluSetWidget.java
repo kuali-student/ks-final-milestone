@@ -19,14 +19,8 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.rules.AccessWidgetValue;
@@ -39,7 +33,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue {
+public class BuildCluSetWidget extends FlowPanel implements AccessWidgetValue {
 
     private CluSetRetriever cluSetRetriever;
     private CluSetEditorWidget cluSetEditorWidgetView;
@@ -53,7 +47,7 @@ public class BuildCourseSetWidget extends FlowPanel implements AccessWidgetValue
     private String itemLabel;
     private boolean singularCluOnly;
 
-    public BuildCourseSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType,
+    public BuildCluSetWidget(final CluSetRetriever cluSetRetriever, String cluSetType,
             boolean singularCluOnly) {
         super();
 

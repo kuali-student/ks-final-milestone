@@ -37,7 +37,7 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.common.client.widgets.BuildCourseSetWidget;
+import org.kuali.student.lum.common.client.widgets.BuildCluSetWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
@@ -113,14 +113,14 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
         //STEP 1
         SectionTitle title = SectionTitle.generateH3Title("Step 1: Build and Add Rules");
-        title.setStyleName("KS-Course-Requisites-Manage-Step-header1");  //make the header orange
+        title.setStyleName("KS-Course-Requisites-Manage-Step-header1");
         layout.add(title);
 
         layout.add(editReqCompWidget);
 
         //STEP 2
         title = SectionTitle.generateH3Title("Step 2: Combine Rules with Logic");
-        title.setStyleName("KS-Course-Requisites-Manage-Step-header2");  //make the header orange
+        title.setStyleName("KS-Course-Requisites-Manage-Step-header2");
         layout.add(title);
 
         layout.add(ruleManageWidget);
@@ -168,7 +168,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         //update screen elements
         editReqCompWidget.setupNewReqComp();
         ruleManageWidget.redraw(rule);
-        originalLogicExpression = ruleManageWidget.getLogicExpression();
+       // originalLogicExpression = ruleManageWidget.getLogicExpression();
     }
 
     //retrieve the latest version from rule table widget and update the local copy
@@ -197,7 +197,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     };
 
     protected void setEnabled(boolean enabled) {
-        ruleManageWidget.setEanbled(enabled);
+        ruleManageWidget.setEnabled(enabled);
         actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(enabled);
     }
 
@@ -356,14 +356,14 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     clusetType = "kuali.cluSet.type.Program";
                 }
                 editReqCompWidget.displayCustomWidget(fieldType,
-                        new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType, false));
+                        new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, false));
             } else if (RulesUtil.isCluWidget(fieldType)) {
                 String clusetType = "kuali.cluSet.type.Course";
                 if (fieldType.toLowerCase().indexOf("program") > 0) {
                     clusetType = "kuali.cluSet.type.Program";
                 }
                 editReqCompWidget.displayCustomWidget(fieldType,
-                        new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType, true));
+                        new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, true));
             }
         }
     };

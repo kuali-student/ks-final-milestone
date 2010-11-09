@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.tools.server.gwt;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
@@ -33,12 +32,13 @@ import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.lum.lu.dto.*;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
+
+import org.apache.log4j.Logger;
 
 public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
@@ -166,34 +166,49 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                 	VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
                     CluInfo cluInfo = luService.getClu(versionInfo.getId());
                     if (cluInfo != null) {
+
+                        //retrieve credits
+                        String credits = "";
+                        List<CluResultInfo> cluResultInfos = luService.getCluResultByClu(versionInfo.getId());
+                        if (cluResultInfos != null) {
+                            for (CluResultInfo cluResultInfo : cluResultInfos) {
+                                String cluType = cluResultInfo.getType();
+                                if (cluType == null) {
+                                    continue;
+                                }
+
+                                List<String> resultValues = getResultValues(cluResultInfo.getResultOptions());
+                                if (resultValues == null) {
+                                    continue;
+                                }
+
+                                if (!credits.isEmpty()) {
+                                    credits = credits + "; ";
+                                }
+
+                                if (cluType.equals("kuali.resultComponentType.credit.degree.fixed")) {
+                                    credits = credits + resultValues.get(0);
+                                } else if (cluType.equals("kuali.resultComponentType.credit.degree.multiple")) {
+                                    for (String resultValue : resultValues) {
+                                        credits = credits + ", " + resultValue;   
+                                    }
+                                } else if (cluType.equals("kuali.resultComponentType.credit.degree.range")) {
+                                    for (String resultValue : resultValues) {
+                                        if (credits.isEmpty()) {
+                                            credits = credits + resultValue;
+                                        } else {
+                                            credits = credits + "-" + resultValue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         CluInformation cluInformation = new CluInformation();
-                        // TODO credits
-//                        List<CluResultInfo> cluResultInfos = luService.getCluResultByClu(cluId);
-//                        String credits = null;
-//                        if (cluResultInfos != null) {
-//                            for (CluResultInfo cluResultInfo : cluResultInfos) {
-//                                if (cluResultInfo.getType() != null &&
-//                                        cluResultInfo.getType().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ||
-//                                        cluResultInfo.getType().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ||
-//                                        cluResultInfo.getType().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
-//                                    List<ResultOptionInfo> resultOptions = cluResultInfo.getResultOptions();
-//                                    if (resultOptions != null) {
-//                                        for (ResultOptionInfo resultOption : resultOptions) {
-//                                            if (resultOption.getResultComponentId() != null) {
-//                                                ResultComponentInfo resultComponentInfo = 
-//                                                    lrcService.getResultComponent(resultOption.getResultComponentId());
-////                                                resultComponentInfo.get
-//                                            }
-//                                            
-//                                        }
-//                                    }
-//                                    break;
-//                                }
-//                            }
-//                        }
                         if (cluInfo.getOfficialIdentifier() != null) {
                             cluInformation.setCode(cluInfo.getOfficialIdentifier().getCode());
                             cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
+                            cluInformation.setCredits(credits);
                         }
                         cluInformation.setVerIndependentId(cluInfo.getVersionInfo().getVersionIndId());
                         result.add(cluInformation);
@@ -204,6 +219,20 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             }
         }
         return result;
+    }
+
+    private List<String> getResultValues(List<ResultOptionInfo> resultOptions) throws Exception {
+        List<String> resultValues = null;
+        if (resultOptions != null) {
+            for (ResultOptionInfo resultOption : resultOptions) {
+                if (resultOption.getResultComponentId() != null) {
+                    ResultComponentInfo resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId());
+                    resultValues = resultComponentInfo.getResultValues();
+                    break;
+                }
+            }
+        }
+        return resultValues;
     }
 
     @Override
