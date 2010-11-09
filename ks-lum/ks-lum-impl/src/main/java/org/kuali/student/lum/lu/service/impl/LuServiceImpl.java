@@ -1428,7 +1428,7 @@ public class LuServiceImpl implements LuService {
 		// list
 		Map<String, CluAccreditation> oldAccreditationMap = new HashMap<String, CluAccreditation>();
 		for (CluAccreditation cluAccreditation : clu.getAccreditations()) {
-			oldAccreditationMap.put(cluAccreditation.getOrgId(),
+			oldAccreditationMap.put(cluAccreditation.getId(),
 					cluAccreditation);
 		}
 		clu.getAccreditations().clear();
@@ -1437,8 +1437,11 @@ public class LuServiceImpl implements LuService {
 		// remove from the list
 		// otherwise create a new entry
 		for (AccreditationInfo accreditationInfo : cluInfo.getAccreditations()) {
-			CluAccreditation cluAccreditation = oldAccreditationMap
-					.remove(accreditationInfo.getOrgId());
+			CluAccreditation cluAccreditation = null;
+			if(accreditationInfo.getId()!=null){
+				cluAccreditation = oldAccreditationMap.remove(accreditationInfo.getId());
+			}
+					
 			if (cluAccreditation == null) {
 				cluAccreditation = new CluAccreditation();
 			}
@@ -1461,8 +1464,11 @@ public class LuServiceImpl implements LuService {
 		// Update the List of alternate admin orgs
 		// Get a map of Id->object of all the currently persisted objects in the
 		// list
-	    for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
-			luDao.delete(cluOrg);
+		Map<String, CluAdminOrg> oldAdminOrgsMap = new HashMap<String, CluAdminOrg>();
+		if(clu.getAdminOrgs()!=null){
+			for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
+				oldAdminOrgsMap.put(cluOrg.getId(), cluOrg);
+			}
 		}
 		clu.setAdminOrgs(new ArrayList<CluAdminOrg>());
 
@@ -1470,8 +1476,15 @@ public class LuServiceImpl implements LuService {
 		// remove from the list
 		// otherwise create a new entry
 		for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
-			CluAdminOrg cluOrg = new CluAdminOrg();
-
+			CluAdminOrg cluOrg = null;
+			if(orgInfo.getId() != null){
+				cluOrg = oldAdminOrgsMap.remove(orgInfo.getId());
+			}
+			
+			if (cluOrg == null) {
+				cluOrg = new CluAdminOrg();
+			}
+			
 			// Do Copy
 			BeanUtils.copyProperties(orgInfo, cluOrg,
 					new String[] { "attributes","id" });
@@ -1482,10 +1495,9 @@ public class LuServiceImpl implements LuService {
 			clu.getAdminOrgs().add(cluOrg);
 		}
 
-		// Now delete anything left over
-//		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
-//			luDao.delete(entry.getValue());
-//		}
+		for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
+			luDao.delete(entry.getValue());
+		}
 
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",

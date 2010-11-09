@@ -37,14 +37,11 @@ import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.course.service.impl.CourseDataGenerator;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -612,29 +609,23 @@ public class TestProgramServiceImpl {
     public void testMajorDisciplineVersioning() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, IllegalVersionSequencingException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo mdInfo = mdGenerator.getMajorDisciplineInfoTestData();
+        mdInfo.getProgramRequirements().clear();
         MajorDisciplineInfo createdMajor = programService.createMajorDiscipline(mdInfo);
 
-        /*
-        try {
-            programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
-            assertTrue(false);
-        } catch (Exception e) {
-            assertTrue(true);
-        }
-
+        MajorDisciplineInfo newMajorDiscipline = programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
+        
         // Make the created the current version
-        programService.setCurrentCourseVersion(createdCourse.getId(), null);
+        programService.setCurrentMajorDisciplineVersion(newMajorDiscipline.getId(), null);
 
-		MajorDisciplineInfo	 newMajor = null;
+		MajorDisciplineInfo	newMajor = null;
         try {
-            newMajor = programServiceService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
+            newMajor = programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version");
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
         }
 
         assertNotNull(newMajor);
-        */
 
     }
 

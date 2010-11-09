@@ -220,28 +220,30 @@ public class ProgramServiceImpl implements ProgramService {
 	 * @throws OperationFailedException
 	 */
 	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
-		statementTreeView.setId(null);
-		for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
-			reqComp.setId(null);
-			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
-				field.setId(null);
-				//copy any clusets that are adhoc'd and set the field value to the new cluset
-				if(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.equals(field.getType())){
-					try {
-						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
-						cluSet.setId(null);
-						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
-						field.setValue(cluSet.getId());
-					} catch (Exception e) {
-						throw new OperationFailedException("Error copying clusets.", e);
+		if(statementTreeView!=null){
+			statementTreeView.setId(null);
+			for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
+				reqComp.setId(null);
+				for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
+					field.setId(null);
+					//copy any clusets that are adhoc'd and set the field value to the new cluset
+					if(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.equals(field.getType())){
+						try {
+							CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
+							cluSet.setId(null);
+							cluSet = luService.createCluSet(cluSet.getType(), cluSet);
+							field.setValue(cluSet.getId());
+						} catch (Exception e) {
+							throw new OperationFailedException("Error copying clusets.", e);
+						}
 					}
+					
 				}
-				
 			}
-		}
-		//Recurse through the children
-		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
-			clearStatementTreeViewIdsRecursively(child);
+			//Recurse through the children
+			for(StatementTreeViewInfo child: statementTreeView.getStatements()){
+				clearStatementTreeViewIdsRecursively(child);
+			}
 		}
 	}
 
@@ -257,18 +259,19 @@ public class ProgramServiceImpl implements ProgramService {
 	 * @throws AlreadyExistsException 
      */
     private void resetIds(MajorDisciplineInfo majorDicipline) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
-    	//Clear accrediting agency relation id
-    	for(AccreditationInfo agency : majorDicipline.getAccreditingAgencies()){
-			agency.setId(null);
-		}
 		//Clear Los
 		for(LoDisplayInfo lo:majorDicipline.getLearningObjectives()){
 			resetLoRecursively(lo);
 		}
 		//Clear OrgCoreProgram
-		majorDicipline.getOrgCoreProgram().setId(null);
-		for(LoDisplayInfo lo:majorDicipline.getOrgCoreProgram().getLearningObjectives()){
-			resetLoRecursively(lo);
+		if(majorDicipline.getOrgCoreProgram()!=null){
+			majorDicipline.getOrgCoreProgram().setId(null);
+		
+			if(majorDicipline.getOrgCoreProgram().getLearningObjectives()!=null){
+				for(LoDisplayInfo lo:majorDicipline.getOrgCoreProgram().getLearningObjectives()){
+					resetLoRecursively(lo);
+				}
+			}
 		}
 		//Clear Variations
 		for(ProgramVariationInfo variation:majorDicipline.getVariations()){
