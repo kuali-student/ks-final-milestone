@@ -18,7 +18,10 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.events.*;
+import org.kuali.student.lum.program.client.events.ChangeViewEvent;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
+import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
@@ -143,7 +146,7 @@ public class VariationEditController extends VariationController {
             addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
         }
-    }  
+    }
 
     @Override
     protected void resetModel() {
@@ -162,17 +165,15 @@ public class VariationEditController extends VariationController {
 
     private void saveData(DataModel model) {
         currentId = model.get("id");
-//        if (currentId == null) {
-            eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
-//        } else {
-//            eventBus.fireEvent(new SpecializationUpdateEvent());
-//        }
+        eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
+        setContentTitle(getProgramName());
+        setName(getProgramName());
         resetFieldInteractionFlag();
     }
 
-     @Override
+    @Override
     protected void navigateToParent() {
         HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
     }
-    
+
 }
