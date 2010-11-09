@@ -58,6 +58,4 @@ public class BaccViewController extends CredentialController {
         addContentWidget(actionBox);
         initialized = true;
     }
-
-
 }

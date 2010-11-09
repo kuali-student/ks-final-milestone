@@ -4,8 +4,6 @@ import com.google.gwt.event.shared.HandlerManager;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.ProgramRegistry;
-import org.kuali.student.lum.program.client.core.edit.CoreEditController;
-import org.kuali.student.lum.program.client.core.view.CoreViewController;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.view.MajorViewController;
@@ -24,10 +22,6 @@ public class MajorManager {
     private VariationViewController variationViewController;
 
     private VariationEditController variationEditController;
-
-    private CoreViewController coreViewController;
-
-    private CoreEditController coreEditController;
 
     protected DataModel programModel;
 
@@ -84,21 +78,5 @@ public class MajorManager {
             majorViewController = new MajorViewController(programModel, viewContext, eventBus);
         }
         return majorViewController;
-    }
-
-    public CoreViewController getCoreViewController() {
-        programModel.resetRoot();
-        if (coreViewController == null) {
-            coreViewController = new CoreViewController(programModel, viewContext, eventBus);
-        }
-        return coreViewController;
-    }
-
-    public CoreEditController getCoreEditController() {
-        programModel.resetRoot();
-        if (coreEditController == null) {
-            coreEditController = new CoreEditController(programModel, viewContext, eventBus);
-        }
-        return coreEditController;
     }
 }
