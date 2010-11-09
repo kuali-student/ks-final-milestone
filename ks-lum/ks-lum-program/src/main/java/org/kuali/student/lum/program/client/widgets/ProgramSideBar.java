@@ -103,7 +103,7 @@ public class ProgramSideBar extends Composite {
     
     private void setVersion(Long version, Label versionaLabel){
     	if (version != null){    		
-       		viewVersion.setVisible(version > 1);
+       		viewVersion.setVisible(version >= 1);
     		versionLabel.setText(ProgramProperties.get().sideBar_version(String.valueOf(version)));
     	} else {
     		versionLabel.setText(ProgramProperties.get().sideBar_version(""));
