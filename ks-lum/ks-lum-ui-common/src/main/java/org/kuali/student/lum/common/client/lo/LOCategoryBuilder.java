@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonGroup;
@@ -69,6 +70,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasValue;
@@ -261,6 +263,19 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         final KSDropDown typesDropDown = new KSDropDown();
         createCategoryWindow = new KSLightBox();
 
+        FlexTable layoutTable = new FlexTable();
+        final KSTextBox nameTextBox = new KSTextBox();
+        nameTextBox.setText(picker.getText());//+ enteredWord);
+        
+        layoutTable.setWidget(0, 0, new KSLabel("Category"));
+        layoutTable.setWidget(0, 1, new KSLabel("Type"));
+        layoutTable.setWidget(1, 0, nameTextBox);
+        layoutTable.setWidget(1, 1, typesDropDown);
+
+        KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category");
+        main.add(titleBar);
+        main.add(layoutTable);
+        
         loRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
 
             @Override
@@ -275,10 +290,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 if (categoryTypeMap == null) {
                     loadCategoryTypes(result);                    
                 }
-                KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category " + picker.getText());//+ enteredWord);
-                main.add(titleBar);
-                main.add(new KSLabel("Select a Type"));
-                main.add(typesDropDown);
+
                 CreateLoCancelGroup buttonPanel = new CreateLoCancelGroup(new Callback<LoCancelEnum>(){
 
                     @Override
@@ -286,7 +298,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                         switch(result){
                             case CREATE:
                                 final LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
-                                loCategoryInfo.setName(picker.getText());
+                                loCategoryInfo.setName(nameTextBox.getText());
                                 loCategoryInfo.setState("active");
                                 loCategoryInfo.setLoRepository(repoKey);
                                 loCategoryInfo.setType(typesDropDown.getSelectedItem());
@@ -318,7 +330,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 });
 
                 main.add(buttonPanel);
-                main.addStyleName("KS-LOWindow");
+                main.setPixelSize(300, 300);
                 createCategoryWindow.setWidget(main);
                 createCategoryWindow.show();
             }
