@@ -8,6 +8,7 @@ import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 /**
  * @author Igor
@@ -20,6 +21,7 @@ public class CredentialController extends ProgramController{
      */
     public CredentialController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super("Bacc", programModel, viewContext, eventBus);
+        sideBar = new ProgramSideBar(eventBus, ProgramSideBar.Type.CREDENTIAL);
     }
 
     /**

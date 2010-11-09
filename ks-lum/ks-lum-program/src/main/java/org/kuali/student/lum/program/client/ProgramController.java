@@ -66,7 +66,6 @@ public abstract class ProgramController extends MenuSectionController {
         programRemoteService = createProgramRemoteService();
         this.eventBus = eventBus;
         this.programModel = programModel;
-        sideBar = new ProgramSideBar(eventBus);
         setViewContext(viewContext);
         initializeModel();
     }

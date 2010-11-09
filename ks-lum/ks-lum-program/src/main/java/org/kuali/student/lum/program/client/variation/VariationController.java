@@ -19,6 +19,7 @@ import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
+import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public abstract class VariationController extends ProgramController {
         this.parentName = majorController.getName();
         this.majorController = majorController;
         setName(getProgramName());
+        sideBar = new ProgramSideBar(eventBus, ProgramSideBar.Type.MAJOR);
         sideBar.initialize(majorController);
     }
 

@@ -1,7 +1,9 @@
 package org.kuali.student.lum.program.client.widgets;
 
-import java.util.Date;
-
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -15,16 +17,7 @@ import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.Date;
 
 /**
  * @author Igor
@@ -34,6 +27,8 @@ public class ProgramSideBar extends Composite {
     private final VerticalPanel content = new VerticalPanel();
 
     private State state = State.VIEW;
+
+    private Type type;
 
     private final HandlerManager eventBus;
 
@@ -45,8 +40,9 @@ public class ProgramSideBar extends Composite {
 
     private final SideBarDialogManager dialogManager;
 
-    public ProgramSideBar(HandlerManager eventBus) {
+    public ProgramSideBar(HandlerManager eventBus, Type type) {
         this.eventBus = eventBus;
+        this.type = type;
         dialogManager = new SideBarDialogManager(eventBus);
         initWidget(content);
         setStyles();
@@ -109,8 +105,10 @@ public class ProgramSideBar extends Composite {
         content.add(historyLabel);
         content.add(new Label(ProgramProperties.get().sideBar_version(version)));
         content.add(createDatePanel(ProgramProperties.get().sideBar_programLastUpdated(), lastUpdatedDate, false));
-        content.add(createDatePanel(ProgramProperties.get().sideBar_scheduledReviewDate(), scheduledReviewDate, true));
-        content.add(createDatePanel(ProgramProperties.get().sideBar_lastReviewDate(), lastReviewDate, true));
+        if (type == Type.MAJOR) {
+            content.add(createDatePanel(ProgramProperties.get().sideBar_scheduledReviewDate(), scheduledReviewDate, true));
+            content.add(createDatePanel(ProgramProperties.get().sideBar_lastReviewDate(), lastReviewDate, true));
+        }
     }
 
     private Widget createDatePanel(String title, Widget widget, boolean showEdit) {
@@ -147,5 +145,11 @@ public class ProgramSideBar extends Composite {
     public static enum State {
         EDIT,
         VIEW
+    }
+
+    public static enum Type {
+        CREDENTIAL,
+        CORE,
+        MAJOR
     }
 }
