@@ -6,10 +6,8 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -31,11 +29,11 @@ import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
@@ -49,7 +47,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     private MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
-    private static CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();    
+    private static CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();
+    private static ProgramRequirementsDataModel instance = new ProgramRequirementsDataModel();
 
     //view's widgets
     private FlowPanel layout = new FlowPanel();
@@ -60,7 +59,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     //view's data
     private ProgramRequirementsViewController parentController;
-    private ProgramRequirementsDataModel rules;
+    private ProgramRequirementsDataModel rules = new ProgramRequirementsDataModel();
     private boolean isReadOnly;
     public static int tempStmtTreeID = 9999;
     public static final String NEW_PROG_REQ_ID = "NEWPROGREQ";
@@ -79,7 +78,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                                                             String modelId, boolean isReadOnly) {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
-        resetRules();
         this.isReadOnly = isReadOnly;
 
         if (!isReadOnly) {        
@@ -92,35 +90,16 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         return rules.isDirty();
     }
 
+    protected ProgramRequirementsDataModel getRules() {
+        return rules;
+    }
+
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
-        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
-
-            @Override
-            public void onRequestFail(Throwable cause) {
-                GWT.log("Unable to retrieve program model for program summary view", cause);
-                onReadyCallback.exec(false);
-            }
-
-            @Override
-            public void onModelReady(Model model) {
-
-                //if program does not have id it means user is trying to create a new one
-                String programId = ((DataModel)model).getRoot().get(ProgramConstants.ID);                
-                if (programId == null) {
-                    resetRules();
-                }
-                showRules(onReadyCallback);
-            }
-        });
-    }
-
-    private void showRules(final Callback<Boolean> onReadyCallback) {
-
-        //only when user wants to see rules then load requirements from database if they haven't been loaded yet
+        //load requirements from database if they haven't been loaded yet
         if (!rules.isInitialized() || isReadOnly) {
-            rules.retrieveProgramRequirements(new Callback<Boolean>() {
+            rules.retrieveProgramRequirements(parentController, new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
                     if (result) {
@@ -131,30 +110,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             });
             return;
         }
-
-        //see if we need to update a rule if user is returning from rule manage screen
-        parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>(){
-			@Override
-			public void exec(View result) {
-				ProgramRequirementsManageView manageView = (ProgramRequirementsManageView) result;
-                
-				//return if user did not added or updated a rule
-                if (!manageView.isDirty() || !manageView.isUserClickedSaveButton()) {
-                    onReadyCallback.exec(true);
-                    return;
-                }
-
-                //update the rule because user added or edited the rule
-                ((SectionView)parentController.getCurrentView()).setIsDirty(false);
-                manageView.setUserClickedSaveButton(false);
-
-                //if rule storage updated successfully, update the display as well
-                ProgramRequirementInfo affectedRule = rules.updateRules(manageView.getRuleTree(), manageView.getInternalProgReqID(), manageView.isNewRule());
-                updateRequirementWidgets(affectedRule);
-                
-		        onReadyCallback.exec(true);
-			}
-		});        
+        onReadyCallback.exec(true);        
     }
 
     public void storeRules(final Callback<Boolean> callback) {
@@ -169,17 +125,12 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
     }
 
-    public void resetRules() {
-        rules = new ProgramRequirementsDataModel(parentController);
-        rules.setInitialized(false);
-    }
-
     public void revertRuleChanges() {
         rules.revertRuleChanges();
         displayRules();
     }
 
-    private void updateRequirementWidgets(ProgramRequirementInfo programReqInfo) {
+    protected void updateRequirementWidgets(ProgramRequirementInfo programReqInfo) {
         if (programReqInfo != null) {
             StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(programReqInfo.getStatement().getType());
             SpanPanel reqPanel = perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId());
@@ -640,7 +591,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 if (result == ButtonEnumerations.SaveCancelEnum.SAVE) {
                     storeRules(Controller.NO_OP_CALLBACK);
                 } else {
-                    HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), parentController.getViewContext());
+                    //does not work any more: HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), parentController.getViewContext());
+                    parentController.getParentController().showView(ProgramSections.SUMMARY);
                 }
             }
         });

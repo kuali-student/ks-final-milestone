@@ -25,8 +25,9 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
+import org.kuali.student.lum.program.client.events.StoreSpecRequirementIDsEvent;
+import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
@@ -40,7 +41,7 @@ public class ProgramRequirementsDataModel {
 
     private final MajorDisciplineRpcServiceAsync programRemoteService = GWT.create(MajorDisciplineRpcService.class);
     private StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
-    private Controller parentController;
+    private Model model = null;
 
     //keeping track of rules and rule state
     public enum requirementState {STORED, ADDED, EDITED, DELETED;}
@@ -52,32 +53,48 @@ public class ProgramRequirementsDataModel {
     private boolean isInitialized = false;
     private static Integer progReqIDs = 111111;   
 
-    public ProgramRequirementsDataModel(Controller parentController) {
-        this.parentController = parentController;
-    }  
-
-    //retrieve rules based on IDs stored in this program
-    public void retrieveProgramRequirements(final Callback<Boolean> onReadyCallback) {
-        //initialize data
-        progReqInfos = new LinkedHashMap<Integer, ProgramRequirementInfo>();
-        origProgReqInfos = new LinkedHashMap<Integer, ProgramRequirementInfo>();
-        progReqState = new HashMap<Integer, requirementState>();
-        origProgReqState = new HashMap<Integer, requirementState>();
-        stmtTypes = new ArrayList<StatementTypeInfo>();        
-        isInitialized = false;
-
+    //find out whether we need to reset rules based on whether we have a new program ID or not
+    public void setupRules(Controller parentController, final Callback<Boolean> onReadyCallback) {
         parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
 
             @Override
             public void onRequestFail(Throwable cause) {
-                Window.alert(cause.getMessage());
-                GWT.log("Unable to retrieve model for program requirements view", cause);
+                GWT.log("Unable to retrieve program model for program summary view", cause);
                 onReadyCallback.exec(false);
             }
 
             @Override
-            public void onModelReady(Model model) {
+            public void onModelReady(Model modelIn) {
+                //TODO how can we reliably know that we need to reload rules (or not)
+                //String programId = (model == null ? null : (String)((DataModel)model).getRoot().get("id"));
+                //String modelProgramId = ((DataModel)modelIn).getRoot().get(ProgramConstants.ID);
+                //if ((modelProgramId == null) || (!modelProgramId.equals(programId))) {
+                    resetRules();
+                //}
+                model = modelIn;
+                onReadyCallback.exec(true);
+            }
+        });
+    }
+
+    private void resetRules() {
+        progReqInfos = new LinkedHashMap<Integer, ProgramRequirementInfo>();
+        origProgReqInfos = new LinkedHashMap<Integer, ProgramRequirementInfo>();
+        progReqState = new HashMap<Integer, requirementState>();
+        origProgReqState = new HashMap<Integer, requirementState>();
+        stmtTypes = new ArrayList<StatementTypeInfo>();
+        model = null;
+        isInitialized = false;
+    }
+
+    //retrieve rules based on IDs stored in this program
+    public void retrieveProgramRequirements(Controller parentController, final Callback<Boolean> onReadyCallback) {
+        
+        setupRules(parentController, new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
                 Data program = ((DataModel)model).getRoot().get(ProgramConstants.PROGRAM_REQUIREMENTS);
+
                 Iterator<Data.Property> realPropertyIterator = program.realPropertyIterator();
                 ArrayList<String> programRequirementIds = new ArrayList<String>();
                 while(realPropertyIterator.hasNext()) {
@@ -85,7 +102,7 @@ public class ProgramRequirementsDataModel {
                 }
                 retrieveStatementTypes(programRequirementIds, onReadyCallback);
             }
-        });
+        });               
     }
 
     private void retrieveStatementTypes(final List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
@@ -254,23 +271,17 @@ public class ProgramRequirementsDataModel {
     }
 
     private void saveRequirementIds(final List<String> referencedProgReqIds, final Map<Integer, ProgramRequirementInfo> storedRules, final Callback<List<ProgramRequirementInfo>> callback) {
-        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
+        String programId = ((DataModel)model).getRoot().get("id");
+        String programType = ((DataModel)model).getRoot().get("type");
 
-            @Override
-            public void onRequestFail(Throwable cause) {
-                GWT.log("Unable to retrieve model for program requirements view", cause);
-                callback.exec(new ArrayList(storedRules.values()));
-            }
+        //specializations will be handled differently from Major
+        if (programType.equals(ProgramConstants.VARIATION_TYPE_KEY)) {
+            MajorManager.getEventBus().fireEvent(new StoreSpecRequirementIDsEvent(programId, programType, referencedProgReqIds));
+        } else {
+            MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(programId, programType, referencedProgReqIds));
+        }
 
-            @Override
-            public void onModelReady(Model model) {
-                String programId = ((DataModel)model).getRoot().get("id");
-                String programType = ((DataModel)model).getRoot().get("type");
-
-                MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(programId, programType, referencedProgReqIds));
-                callback.exec(new ArrayList(storedRules.values()));  //update display widgets
-            }
-        });
+        callback.exec(new ArrayList(storedRules.values()));  //update display widgets
     }
 
     public static void stripStatementIds(StatementTreeViewInfo tree) {
@@ -455,5 +466,5 @@ public class ProgramRequirementsDataModel {
             //TODO clonedProgReqInfo.setMetaInfo();
         }
         return clonedProgReqInfo;
-    }
+    }  
 }

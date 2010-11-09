@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
@@ -37,11 +38,12 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.common.client.widgets.BuildCourseSetWidget;
+import org.kuali.student.lum.common.client.widgets.BuildCluSetWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
+import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -77,7 +79,6 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     private String originalLogicExpression;
 
     //   private boolean isLocalDirty = false;
-    private boolean userClickedSaveButton = false;
 	private BlockingTask creatingRuleTask = new BlockingTask("Creating Rule");
 
     public ProgramRequirementsManageView(ProgramRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId) {
@@ -141,10 +142,20 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         actionCancelButtons.addStyleName("KS-Program-Requirements-Save-Button");
         actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
              @Override
-            public void exec(ButtonEnumerations.ButtonEnum result) {
-                userClickedSaveButton = (result == ButtonEnumerations.SaveCancelEnum.SAVE);
-                parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW);
-            }
+            public void exec(final ButtonEnumerations.ButtonEnum result) {
+                parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW, new Callback<View>(){
+                    @Override
+                    public void exec(View preview) {
+                        //update rules data model and summary view
+                        if ((result == ButtonEnumerations.SaveCancelEnum.SAVE) && isDirty()) {
+                            ProgramRequirementInfo affectedRule = ((ProgramRequirementsSummaryView) preview).getRules().updateRules(getRuleTree(), internalProgReqID, isNewRule());
+                            ((ProgramRequirementsSummaryView) preview).updateRequirementWidgets(affectedRule);                            
+                        }
+                        isDirty = false;
+                        parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW);
+                    }
+                });
+             }
         });
         addWidget(actionCancelButtons);
     }
@@ -161,7 +172,6 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
         this.internalProgReqID = internalProgReqID;
         editedReqCompInfo = null;
-        userClickedSaveButton = false;
         rule = RulesUtil.clone(stmtTreeInfo);
         isNewRule = newRuleFlag;
         originalReqCompNL = getAllReqCompNLs();
@@ -169,7 +179,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         //update screen elements
         editReqCompWidget.setupNewReqComp();
         ruleManageWidget.redraw(rule);
-        originalLogicExpression = ruleManageWidget.getLogicExpression();
+       // originalLogicExpression = ruleManageWidget.getLogicExpression();
     }
 
     //retrieve the latest version from rule table widget and update the local copy
@@ -198,7 +208,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     };
 
     protected void setEnabled(boolean enabled) {
-        ruleManageWidget.setEanbled(enabled);
+        ruleManageWidget.setEnabled(enabled);
         actionCancelButtons.getButton(ButtonEnumerations.SaveCancelEnum.SAVE).setEnabled(enabled);
     }
 
@@ -358,25 +368,17 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                 }
                 //TODO add condition to check if a singular program is the rule type
                 editReqCompWidget.displayCustomWidget(fieldType,
-                        new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType, false));
+                        new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, false));
             } else if (RulesUtil.isCluWidget(fieldType)) {
                 String clusetType = "kuali.cluSet.type.Course";
                 if (fieldType.toLowerCase().indexOf("program") > 0) {
                     clusetType = "kuali.cluSet.type.Program";
                 }
                 editReqCompWidget.displayCustomWidget(fieldType,
-                        new BuildCourseSetWidget(new CluSetRetrieverImpl(), clusetType, true));
+                        new BuildCluSetWidget(new CluSetRetrieverImpl(), clusetType, true));
             }
         }
     };
-
-    public boolean isUserClickedSaveButton() {
-        return userClickedSaveButton;
-    }
-
-    public void setUserClickedSaveButton(boolean userClickedSaveButton) {
-        this.userClickedSaveButton = userClickedSaveButton;
-    }
 
     public Integer getInternalProgReqID() {
         return internalProgReqID;
