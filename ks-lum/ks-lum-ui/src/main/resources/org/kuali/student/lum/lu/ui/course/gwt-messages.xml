@@ -49,15 +49,15 @@
 	 <bean parent="enCourse" p:messageId="viewModifyDesc" p:value="Search for proposals, courses and programs to view, modify or retire." />
 	 <bean parent="enCourse" p:messageId="tools" p:value="Management Tools" />
 	 <bean parent="enCourse" p:messageId="toolsDesc" p:value="Support tools for courses and programs." />
-	 <bean parent="enCourse" p:messageId="createCourse" p:value="Propose a Course" />
-	 <bean parent="enCourse" p:messageId="createProgram" p:value="Create a Program" />
+	 <bean parent="enCourse" p:messageId="createCourse" p:value="Create a Course" />
+	 <bean parent="enCourse" p:messageId="createProgram" p:value="Create a Major Discipline" />
 	 <bean parent="enCourse" p:messageId="findProposals" p:value="Find Course Proposals" />
 	 <bean parent="enCourse" p:messageId="actionList" p:value="My Actionlist" />
 	 <bean parent="enCourse" p:messageId="actionListDesc" p:value="" />
 	 <bean parent="enCourse" p:messageId="browseCatalog" p:value="Browse Course Catalog" />
 	 <bean parent="enCourse" p:messageId="findCourses" p:value="Find Courses" />
-	 <bean parent="enCourse" p:messageId="findCredentials" p:value="Find Programs: Credentials" />
-	 <bean parent="enCourse" p:messageId="findCores" p:value="Find Programs: Core" />
+	 <bean parent="enCourse" p:messageId="findCredentials" p:value="Find Credential Programs" />
+	 <bean parent="enCourse" p:messageId="findCores" p:value="Find Core Programs" />
 	 <bean parent="enCourse" p:messageId="courseSets" p:value="Course Set Management" />
 	 <bean parent="enCourse" p:messageId="loCategories" p:value="Learning Objective Categories" />
 	 <bean parent="enCourse" p:messageId="depAnalysis" p:value="Dependency Analysis (coming soon)" />
